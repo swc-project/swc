@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 382,
+    "start": 1,
+    "end": 383,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 15,
-          "end": 24,
+          "start": 16,
+          "end": 25,
           "ctxt": 0
         },
         "value": "BaseClass",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 0,
-        "end": 52,
+        "start": 1,
+        "end": 53,
         "ctxt": 0
       },
       "decorators": [],
@@ -29,15 +29,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 29,
-            "end": 50,
+            "start": 30,
+            "end": 51,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 38,
-              "end": 41,
+              "start": 39,
+              "end": 42,
               "ctxt": 0
             },
             "value": "bar",
@@ -47,15 +47,15 @@
           "typeAnnotation": {
             "type": "TsTypeAnnotation",
             "span": {
-              "start": 41,
-              "end": 49,
+              "start": 42,
+              "end": 50,
               "ctxt": 0
             },
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
-                "start": 43,
-                "end": 49,
+                "start": 44,
+                "end": 50,
                 "ctxt": 0
               },
               "kind": "number"
@@ -83,8 +83,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 60,
-          "end": 66,
+          "start": 61,
+          "end": 67,
           "ctxt": 0
         },
         "value": "Broken",
@@ -92,8 +92,8 @@
       },
       "declare": false,
       "span": {
-        "start": 54,
-        "end": 87,
+        "start": 55,
+        "end": 88,
         "ctxt": 0
       },
       "decorators": [],
@@ -101,8 +101,8 @@
       "superClass": {
         "type": "Identifier",
         "span": {
-          "start": 75,
-          "end": 84,
+          "start": 76,
+          "end": 85,
           "ctxt": 0
         },
         "value": "BaseClass",
@@ -116,15 +116,15 @@
     {
       "type": "TsInterfaceDeclaration",
       "span": {
-        "start": 140,
-        "end": 177,
+        "start": 141,
+        "end": 178,
         "ctxt": 0
       },
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 150,
-          "end": 158,
+          "start": 151,
+          "end": 159,
           "ctxt": 0
         },
         "value": "IGetters",
@@ -136,24 +136,24 @@
       "body": {
         "type": "TsInterfaceBody",
         "span": {
-          "start": 159,
-          "end": 177,
+          "start": 160,
+          "end": 178,
           "ctxt": 0
         },
         "body": [
           {
             "type": "TsPropertySignature",
             "span": {
-              "start": 163,
-              "end": 175,
+              "start": 164,
+              "end": 176,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 163,
-                "end": 166,
+                "start": 164,
+                "end": 167,
                 "ctxt": 0
               },
               "value": "bar",
@@ -166,15 +166,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 166,
-                "end": 174,
+                "start": 167,
+                "end": 175,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 168,
-                  "end": 174,
+                  "start": 169,
+                  "end": 175,
                   "ctxt": 0
                 },
                 "kind": "number"
@@ -188,15 +188,15 @@
     {
       "type": "TsInterfaceDeclaration",
       "span": {
-        "start": 178,
-        "end": 214,
+        "start": 179,
+        "end": 215,
         "ctxt": 0
       },
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 188,
-          "end": 194,
+          "start": 189,
+          "end": 195,
           "ctxt": 0
         },
         "value": "Broken",
@@ -208,15 +208,15 @@
         {
           "type": "TsExpressionWithTypeArguments",
           "span": {
-            "start": 203,
-            "end": 211,
+            "start": 204,
+            "end": 212,
             "ctxt": 0
           },
           "expression": {
             "type": "Identifier",
             "span": {
-              "start": 203,
-              "end": 211,
+              "start": 204,
+              "end": 212,
               "ctxt": 0
             },
             "value": "IGetters",
@@ -228,8 +228,8 @@
       "body": {
         "type": "TsInterfaceBody",
         "span": {
-          "start": 212,
-          "end": 214,
+          "start": 213,
+          "end": 215,
           "ctxt": 0
         },
         "body": []
@@ -238,29 +238,29 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 216,
-        "end": 232,
+        "start": 217,
+        "end": 233,
         "ctxt": 0
       },
       "expression": {
         "type": "MemberExpression",
         "span": {
-          "start": 216,
-          "end": 232,
+          "start": 217,
+          "end": 233,
           "ctxt": 0
         },
         "object": {
           "type": "NewExpression",
           "span": {
-            "start": 216,
-            "end": 228,
+            "start": 217,
+            "end": 229,
             "ctxt": 0
           },
           "callee": {
             "type": "Identifier",
             "span": {
-              "start": 220,
-              "end": 226,
+              "start": 221,
+              "end": 227,
               "ctxt": 0
             },
             "value": "Broken",
@@ -272,8 +272,8 @@
         "property": {
           "type": "Identifier",
           "span": {
-            "start": 229,
-            "end": 232,
+            "start": 230,
+            "end": 233,
             "ctxt": 0
           },
           "value": "bar",
@@ -286,8 +286,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 240,
-          "end": 258,
+          "start": 241,
+          "end": 259,
           "ctxt": 0
         },
         "value": "IncorrectlyExtends",
@@ -295,8 +295,8 @@
       },
       "declare": false,
       "span": {
-        "start": 234,
-        "end": 279,
+        "start": 235,
+        "end": 280,
         "ctxt": 0
       },
       "decorators": [],
@@ -304,8 +304,8 @@
       "superClass": {
         "type": "Identifier",
         "span": {
-          "start": 267,
-          "end": 276,
+          "start": 268,
+          "end": 277,
           "ctxt": 0
         },
         "value": "BaseClass",
@@ -319,15 +319,15 @@
     {
       "type": "TsInterfaceDeclaration",
       "span": {
-        "start": 280,
-        "end": 325,
+        "start": 281,
+        "end": 326,
         "ctxt": 0
       },
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 290,
-          "end": 306,
+          "start": 291,
+          "end": 307,
           "ctxt": 0
         },
         "value": "IncorrectGetters",
@@ -339,24 +339,24 @@
       "body": {
         "type": "TsInterfaceBody",
         "span": {
-          "start": 307,
-          "end": 325,
+          "start": 308,
+          "end": 326,
           "ctxt": 0
         },
         "body": [
           {
             "type": "TsPropertySignature",
             "span": {
-              "start": 311,
-              "end": 323,
+              "start": 312,
+              "end": 324,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 311,
-                "end": 314,
+                "start": 312,
+                "end": 315,
                 "ctxt": 0
               },
               "value": "bar",
@@ -369,15 +369,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 314,
-                "end": 322,
+                "start": 315,
+                "end": 323,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 316,
-                  "end": 322,
+                  "start": 317,
+                  "end": 323,
                   "ctxt": 0
                 },
                 "kind": "string"
@@ -391,15 +391,15 @@
     {
       "type": "TsInterfaceDeclaration",
       "span": {
-        "start": 326,
-        "end": 382,
+        "start": 327,
+        "end": 383,
         "ctxt": 0
       },
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 336,
-          "end": 354,
+          "start": 337,
+          "end": 355,
           "ctxt": 0
         },
         "value": "IncorrectlyExtends",
@@ -411,15 +411,15 @@
         {
           "type": "TsExpressionWithTypeArguments",
           "span": {
-            "start": 363,
-            "end": 379,
+            "start": 364,
+            "end": 380,
             "ctxt": 0
           },
           "expression": {
             "type": "Identifier",
             "span": {
-              "start": 363,
-              "end": 379,
+              "start": 364,
+              "end": 380,
               "ctxt": 0
             },
             "value": "IncorrectGetters",
@@ -431,8 +431,8 @@
       "body": {
         "type": "TsInterfaceBody",
         "span": {
-          "start": 380,
-          "end": 382,
+          "start": 381,
+          "end": 383,
           "ctxt": 0
         },
         "body": []

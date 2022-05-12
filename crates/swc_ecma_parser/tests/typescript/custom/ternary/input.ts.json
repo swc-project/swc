@@ -1,30 +1,30 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 11,
+    "start": 1,
+    "end": 12,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 0,
-        "end": 11,
+        "start": 1,
+        "end": 12,
         "ctxt": 0
       },
       "expression": {
         "type": "ConditionalExpression",
         "span": {
-          "start": 0,
-          "end": 11,
+          "start": 1,
+          "end": 12,
           "ctxt": 0
         },
         "test": {
           "type": "Identifier",
           "span": {
-            "start": 0,
-            "end": 3,
+            "start": 1,
+            "end": 4,
             "ctxt": 0
           },
           "value": "foo",
@@ -33,8 +33,8 @@
         "consequent": {
           "type": "NumericLiteral",
           "span": {
-            "start": 6,
-            "end": 7,
+            "start": 7,
+            "end": 8,
             "ctxt": 0
           },
           "value": 1.0,
@@ -43,8 +43,8 @@
         "alternate": {
           "type": "NumericLiteral",
           "span": {
-            "start": 10,
-            "end": 11,
+            "start": 11,
+            "end": 12,
             "ctxt": 0
           },
           "value": 2.0,

@@ -1,23 +1,23 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 0,
-    "end": 98,
+    "start": 1,
+    "end": 99,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
-        "start": 0,
-        "end": 97,
+        "start": 1,
+        "end": 98,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 1,
-          "end": 9,
+          "start": 2,
+          "end": 10,
           "ctxt": 0
         },
         "value": "supports",
@@ -26,23 +26,23 @@
       "prelude": {
         "type": "SupportsCondition",
         "span": {
-          "start": 68,
-          "end": 94,
+          "start": 69,
+          "end": 95,
           "ctxt": 0
         },
         "conditions": [
           {
             "type": "Declaration",
             "span": {
-              "start": 69,
-              "end": 93,
+              "start": 70,
+              "end": 94,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 69,
-                "end": 78,
+                "start": 70,
+                "end": 79,
                 "ctxt": 0
               },
               "value": "transform",
@@ -52,15 +52,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 80,
-                  "end": 93,
+                  "start": 81,
+                  "end": 94,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 80,
-                    "end": 86,
+                    "start": 81,
+                    "end": 87,
                     "ctxt": 0
                   },
                   "value": "rotate",
@@ -70,15 +70,15 @@
                   {
                     "type": "Angle",
                     "span": {
-                      "start": 87,
-                      "end": 92,
+                      "start": 88,
+                      "end": 93,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 87,
-                        "end": 89,
+                        "start": 88,
+                        "end": 90,
                         "ctxt": 0
                       },
                       "value": 10.0,
@@ -87,8 +87,8 @@
                     "unit": {
                       "type": "Ident",
                       "span": {
-                        "start": 89,
-                        "end": 92,
+                        "start": 90,
+                        "end": 93,
                         "ctxt": 0
                       },
                       "value": "deg",
@@ -105,8 +105,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 95,
-          "end": 97,
+          "start": 96,
+          "end": 98,
           "ctxt": 0
         },
         "name": "{",

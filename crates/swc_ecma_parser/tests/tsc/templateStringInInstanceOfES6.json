@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 16,
-    "end": 57,
+    "start": 17,
+    "end": 58,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 16,
-        "end": 57,
+        "start": 17,
+        "end": 58,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 20,
-            "end": 56,
+            "start": 21,
+            "end": 57,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 20,
-              "end": 21,
+              "start": 21,
+              "end": 22,
               "ctxt": 0
             },
             "value": "x",
@@ -37,24 +37,24 @@
           "init": {
             "type": "BinaryExpression",
             "span": {
-              "start": 24,
-              "end": 56,
+              "start": 25,
+              "end": 57,
               "ctxt": 0
             },
             "operator": "instanceof",
             "left": {
               "type": "TemplateLiteral",
               "span": {
-                "start": 24,
-                "end": 38,
+                "start": 25,
+                "end": 39,
                 "ctxt": 0
               },
               "expressions": [
                 {
                   "type": "NumericLiteral",
                   "span": {
-                    "start": 31,
-                    "end": 32,
+                    "start": 32,
+                    "end": 33,
                     "ctxt": 0
                   },
                   "value": 0.0,
@@ -65,8 +65,8 @@
                 {
                   "type": "TemplateElement",
                   "span": {
-                    "start": 25,
-                    "end": 28,
+                    "start": 26,
+                    "end": 29,
                     "ctxt": 0
                   },
                   "tail": false,
@@ -76,8 +76,8 @@
                 {
                   "type": "TemplateElement",
                   "span": {
-                    "start": 34,
-                    "end": 37,
+                    "start": 35,
+                    "end": 38,
                     "ctxt": 0
                   },
                   "tail": true,
@@ -89,8 +89,8 @@
             "right": {
               "type": "Identifier",
               "span": {
-                "start": 50,
-                "end": 56,
+                "start": 51,
+                "end": 57,
                 "ctxt": 0
               },
               "value": "String",

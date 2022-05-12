@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 135,
-    "end": 160,
+    "start": 136,
+    "end": 161,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 135,
-        "end": 160,
+        "start": 136,
+        "end": 161,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 139,
-            "end": 160,
+            "start": 140,
+            "end": 161,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 139,
-              "end": 140,
+              "start": 140,
+              "end": 141,
               "ctxt": 0
             },
             "value": "x",
@@ -37,16 +37,16 @@
           "init": {
             "type": "ArrowFunctionExpression",
             "span": {
-              "start": 143,
-              "end": 160,
+              "start": 144,
+              "end": 161,
               "ctxt": 0
             },
             "params": [
               {
                 "type": "Identifier",
                 "span": {
-                  "start": 143,
-                  "end": 144,
+                  "start": 144,
+                  "end": 145,
                   "ctxt": 0
                 },
                 "value": "s",
@@ -57,22 +57,22 @@
             "body": {
               "type": "CallExpression",
               "span": {
-                "start": 148,
-                "end": 160,
+                "start": 149,
+                "end": 161,
                 "ctxt": 0
               },
               "callee": {
                 "type": "MemberExpression",
                 "span": {
-                  "start": 148,
-                  "end": 158,
+                  "start": 149,
+                  "end": 159,
                   "ctxt": 0
                 },
                 "object": {
                   "type": "Identifier",
                   "span": {
-                    "start": 148,
-                    "end": 149,
+                    "start": 149,
+                    "end": 150,
                     "ctxt": 0
                   },
                   "value": "s",
@@ -81,8 +81,8 @@
                 "property": {
                   "type": "Identifier",
                   "span": {
-                    "start": 150,
-                    "end": 158,
+                    "start": 151,
+                    "end": 159,
                     "ctxt": 0
                   },
                   "value": "toString",

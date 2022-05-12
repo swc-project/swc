@@ -1,24 +1,24 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 79,
+    "start": 1,
+    "end": 80,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ForOfStatement",
       "span": {
-        "start": 0,
-        "end": 36,
+        "start": 1,
+        "end": 37,
         "ctxt": 0
       },
       "await": null,
       "left": {
         "type": "VariableDeclaration",
         "span": {
-          "start": 5,
-          "end": 10,
+          "start": 6,
+          "end": 11,
           "ctxt": 0
         },
         "kind": "var",
@@ -27,15 +27,15 @@
           {
             "type": "VariableDeclarator",
             "span": {
-              "start": 9,
-              "end": 10,
+              "start": 10,
+              "end": 11,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 9,
-                "end": 10,
+                "start": 10,
+                "end": 11,
                 "ctxt": 0
               },
               "value": "w",
@@ -50,8 +50,8 @@
       "right": {
         "type": "ArrayExpression",
         "span": {
-          "start": 14,
-          "end": 16,
+          "start": 15,
+          "end": 17,
           "ctxt": 0
         },
         "elements": []
@@ -59,16 +59,16 @@
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 18,
-          "end": 36,
+          "start": 19,
+          "end": 37,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "VariableDeclaration",
             "span": {
-              "start": 24,
-              "end": 34,
+              "start": 25,
+              "end": 35,
               "ctxt": 0
             },
             "kind": "var",
@@ -77,15 +77,15 @@
               {
                 "type": "VariableDeclarator",
                 "span": {
-                  "start": 28,
-                  "end": 33,
+                  "start": 29,
+                  "end": 34,
                   "ctxt": 0
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
-                    "start": 28,
-                    "end": 29,
+                    "start": 29,
+                    "end": 30,
                     "ctxt": 0
                   },
                   "value": "x",
@@ -95,8 +95,8 @@
                 "init": {
                   "type": "Identifier",
                   "span": {
-                    "start": 32,
-                    "end": 33,
+                    "start": 33,
+                    "end": 34,
                     "ctxt": 0
                   },
                   "value": "w",
@@ -112,16 +112,16 @@
     {
       "type": "ForOfStatement",
       "span": {
-        "start": 38,
-        "end": 79,
+        "start": 39,
+        "end": 80,
         "ctxt": 0
       },
       "await": null,
       "left": {
         "type": "VariableDeclaration",
         "span": {
-          "start": 43,
-          "end": 48,
+          "start": 44,
+          "end": 49,
           "ctxt": 0
         },
         "kind": "var",
@@ -130,15 +130,15 @@
           {
             "type": "VariableDeclarator",
             "span": {
-              "start": 47,
-              "end": 48,
+              "start": 48,
+              "end": 49,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 47,
-                "end": 48,
+                "start": 48,
+                "end": 49,
                 "ctxt": 0
               },
               "value": "v",
@@ -153,8 +153,8 @@
       "right": {
         "type": "ArrayExpression",
         "span": {
-          "start": 52,
-          "end": 54,
+          "start": 53,
+          "end": 55,
           "ctxt": 0
         },
         "elements": []
@@ -162,16 +162,16 @@
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 56,
-          "end": 79,
+          "start": 57,
+          "end": 80,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "VariableDeclaration",
             "span": {
-              "start": 62,
-              "end": 77,
+              "start": 63,
+              "end": 78,
               "ctxt": 0
             },
             "kind": "var",
@@ -180,15 +180,15 @@
               {
                 "type": "VariableDeclarator",
                 "span": {
-                  "start": 66,
-                  "end": 76,
+                  "start": 67,
+                  "end": 77,
                   "ctxt": 0
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
-                    "start": 66,
-                    "end": 67,
+                    "start": 67,
+                    "end": 68,
                     "ctxt": 0
                   },
                   "value": "x",
@@ -198,8 +198,8 @@
                 "init": {
                   "type": "ArrayExpression",
                   "span": {
-                    "start": 70,
-                    "end": 76,
+                    "start": 71,
+                    "end": 77,
                     "ctxt": 0
                   },
                   "elements": [
@@ -208,8 +208,8 @@
                       "expression": {
                         "type": "Identifier",
                         "span": {
-                          "start": 71,
-                          "end": 72,
+                          "start": 72,
+                          "end": 73,
                           "ctxt": 0
                         },
                         "value": "w",
@@ -221,8 +221,8 @@
                       "expression": {
                         "type": "Identifier",
                         "span": {
-                          "start": 74,
-                          "end": 75,
+                          "start": 75,
+                          "end": 76,
                           "ctxt": 0
                         },
                         "value": "v",

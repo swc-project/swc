@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 40,
-    "end": 81,
+    "start": 41,
+    "end": 82,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 55,
-          "end": 60,
+          "start": 56,
+          "end": 61,
           "ctxt": 0
         },
         "value": "await",
@@ -22,15 +22,15 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 40,
-        "end": 81,
+        "start": 41,
+        "end": 82,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 78,
-          "end": 81,
+          "start": 79,
+          "end": 82,
           "ctxt": 0
         },
         "stmts": []
@@ -41,22 +41,22 @@
       "returnType": {
         "type": "TsTypeAnnotation",
         "span": {
-          "start": 62,
-          "end": 77,
+          "start": 63,
+          "end": 78,
           "ctxt": 0
         },
         "typeAnnotation": {
           "type": "TsTypeReference",
           "span": {
-            "start": 64,
-            "end": 77,
+            "start": 65,
+            "end": 78,
             "ctxt": 0
           },
           "typeName": {
             "type": "Identifier",
             "span": {
-              "start": 64,
-              "end": 71,
+              "start": 65,
+              "end": 72,
               "ctxt": 0
             },
             "value": "Promise",
@@ -65,16 +65,16 @@
           "typeParams": {
             "type": "TsTypeParameterInstantiation",
             "span": {
-              "start": 71,
-              "end": 77,
+              "start": 72,
+              "end": 78,
               "ctxt": 0
             },
             "params": [
               {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 72,
-                  "end": 76,
+                  "start": 73,
+                  "end": 77,
                   "ctxt": 0
                 },
                 "kind": "void"

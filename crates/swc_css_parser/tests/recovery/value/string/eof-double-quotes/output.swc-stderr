@@ -1,6 +1,6 @@
 
   x Unexpected end of file
-   ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:1:1]
- 1 | div {
-   : ^
+   ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:2:3]
+ 2 | prop: "string
+   :              ^
    `----

@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 0,
-    "end": 91,
+    "start": 1,
+    "end": 92,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -10,8 +10,8 @@
     {
       "type": "DocumentType",
       "span": {
-        "start": 0,
-        "end": 15,
+        "start": 1,
+        "end": 16,
         "ctxt": 0
       },
       "name": "html",
@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 85,
+        "end": 86,
         "ctxt": 0
       },
       "tagName": "html",
@@ -33,7 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 48,
+            "end": 49,
             "ctxt": 0
           },
           "tagName": "head",
@@ -45,8 +45,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 15,
-            "end": 85,
+            "start": 16,
+            "end": 86,
             "ctxt": 0
           },
           "tagName": "body",
@@ -81,8 +81,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 48,
-                "end": 85,
+                "start": 49,
+                "end": 86,
                 "ctxt": 0
               },
               "tagName": "svg",
@@ -92,8 +92,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 53,
-                    "end": 85,
+                    "start": 54,
+                    "end": 86,
                     "ctxt": 0
                   },
                   "tagName": "g",

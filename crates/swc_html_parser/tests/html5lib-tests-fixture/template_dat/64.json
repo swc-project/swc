@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 0,
-    "end": 77,
+    "start": 1,
+    "end": 78,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 46,
+        "end": 47,
         "ctxt": 0
       },
       "tagName": "html",
@@ -22,7 +22,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 10,
+            "end": 11,
             "ctxt": 0
           },
           "tagName": "head",
@@ -34,8 +34,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 0,
-            "end": 46,
+            "start": 1,
+            "end": 47,
             "ctxt": 0
           },
           "tagName": "body",
@@ -58,8 +58,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 10,
-                "end": 46,
+                "start": 11,
+                "end": 47,
                 "ctxt": 0
               },
               "tagName": "template",
@@ -69,8 +69,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 20,
-                    "end": 25,
+                    "start": 21,
+                    "end": 26,
                     "ctxt": 0
                   },
                   "tagName": "div",
@@ -82,8 +82,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 41,
-                    "end": 46,
+                    "start": 42,
+                    "end": 47,
                     "ctxt": 0
                   },
                   "tagName": "div",

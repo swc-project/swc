@@ -2,20 +2,20 @@
     JsDoc {
         span: Span {
             lo: BytePos(
-                0,
+                1,
             ),
             hi: BytePos(
-                0,
+                1,
             ),
             ctxt: #0,
         },
         description: Text {
             span: Span {
                 lo: BytePos(
-                    0,
+                    1,
                 ),
                 hi: BytePos(
-                    11,
+                    12,
                 ),
                 ctxt: #0,
             },
@@ -26,20 +26,20 @@
     JsDoc {
         span: Span {
             lo: BytePos(
-                56,
+                57,
             ),
             hi: BytePos(
-                56,
+                57,
             ),
             ctxt: #0,
         },
         description: Text {
             span: Span {
                 lo: BytePos(
-                    56,
+                    57,
                 ),
                 hi: BytePos(
-                    67,
+                    68,
                 ),
                 ctxt: #0,
             },

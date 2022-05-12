@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 38,
+    "start": 1,
+    "end": 39,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsModuleDeclaration",
       "span": {
-        "start": 0,
-        "end": 38,
+        "start": 1,
+        "end": 39,
         "ctxt": 0
       },
       "declare": true,
@@ -18,8 +18,8 @@
       "id": {
         "type": "StringLiteral",
         "span": {
-          "start": 15,
-          "end": 18,
+          "start": 16,
+          "end": 19,
           "ctxt": 0
         },
         "value": "M",
@@ -28,23 +28,23 @@
       "body": {
         "type": "TsModuleBlock",
         "span": {
-          "start": 19,
-          "end": 38,
+          "start": 20,
+          "end": 39,
           "ctxt": 0
         },
         "body": [
           {
             "type": "TsExportAssignment",
             "span": {
-              "start": 25,
-              "end": 36,
+              "start": 26,
+              "end": 37,
               "ctxt": 0
             },
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 34,
-                "end": 35,
+                "start": 35,
+                "end": 36,
                 "ctxt": 0
               },
               "value": "A",

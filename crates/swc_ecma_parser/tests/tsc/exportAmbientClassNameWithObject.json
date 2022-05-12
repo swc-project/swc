@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 16,
-    "end": 46,
+    "start": 17,
+    "end": 47,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 16,
-        "end": 46,
+        "start": 17,
+        "end": 47,
         "ctxt": 0
       },
       "declaration": {
@@ -18,8 +18,8 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 37,
-            "end": 43,
+            "start": 38,
+            "end": 44,
             "ctxt": 0
           },
           "value": "Object",
@@ -27,8 +27,8 @@
         },
         "declare": true,
         "span": {
-          "start": 23,
-          "end": 46,
+          "start": 24,
+          "end": 47,
           "ctxt": 0
         },
         "decorators": [],

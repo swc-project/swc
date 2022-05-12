@@ -1,23 +1,23 @@
 {
   "type": "Module",
   "span": {
-    "start": 0,
-    "end": 35,
+    "start": 1,
+    "end": 36,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 0,
-        "end": 35,
+        "start": 1,
+        "end": 36,
         "ctxt": 0
       },
       "expression": {
         "type": "JSXElement",
         "span": {
-          "start": 0,
-          "end": 35,
+          "start": 1,
+          "end": 36,
           "ctxt": 0
         },
         "opening": {
@@ -25,31 +25,31 @@
           "name": {
             "type": "Identifier",
             "span": {
-              "start": 1,
-              "end": 4,
+              "start": 2,
+              "end": 5,
               "ctxt": 0
             },
             "value": "div",
             "optional": false
           },
           "span": {
-            "start": 0,
-            "end": 35,
+            "start": 1,
+            "end": 36,
             "ctxt": 0
           },
           "attributes": [
             {
               "type": "SpreadElement",
               "spread": {
-                "start": 6,
-                "end": 9,
+                "start": 7,
+                "end": 10,
                 "ctxt": 0
               },
               "arguments": {
                 "type": "Identifier",
                 "span": {
-                  "start": 9,
-                  "end": 14,
+                  "start": 10,
+                  "end": 15,
                   "ctxt": 0
                 },
                 "value": "props",
@@ -59,15 +59,15 @@
             {
               "type": "JSXAttribute",
               "span": {
-                "start": 16,
-                "end": 32,
+                "start": 17,
+                "end": 33,
                 "ctxt": 0
               },
               "name": {
                 "type": "Identifier",
                 "span": {
-                  "start": 16,
-                  "end": 20,
+                  "start": 17,
+                  "end": 21,
                   "ctxt": 0
                 },
                 "value": "post",
@@ -76,8 +76,8 @@
               "value": {
                 "type": "StringLiteral",
                 "span": {
-                  "start": 21,
-                  "end": 32,
+                  "start": 22,
+                  "end": 33,
                   "ctxt": 0
                 },
                 "value": "attribute",

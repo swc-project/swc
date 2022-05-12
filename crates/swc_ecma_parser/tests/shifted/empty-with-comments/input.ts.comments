@@ -2,16 +2,16 @@ SingleThreadedComments {
     leading: RefCell {
         value: {
             BytePos(
-                1,
+                2,
             ): [
                 Comment {
                     kind: Line,
                     span: Span {
                         lo: BytePos(
-                            1,
+                            2,
                         ),
                         hi: BytePos(
-                            8,
+                            9,
                         ),
                         ctxt: #0,
                     },

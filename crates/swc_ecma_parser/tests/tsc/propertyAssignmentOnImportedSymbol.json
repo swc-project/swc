@@ -1,23 +1,23 @@
 {
   "type": "Module",
   "span": {
-    "start": 75,
-    "end": 168,
+    "start": 76,
+    "end": 169,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 75,
-        "end": 95,
+        "start": 76,
+        "end": 96,
         "ctxt": 0
       },
       "declaration": {
         "type": "VariableDeclaration",
         "span": {
-          "start": 82,
-          "end": 95,
+          "start": 83,
+          "end": 96,
           "ctxt": 0
         },
         "kind": "var",
@@ -26,15 +26,15 @@
           {
             "type": "VariableDeclarator",
             "span": {
-              "start": 86,
-              "end": 95,
+              "start": 87,
+              "end": 96,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 86,
-                "end": 90,
+                "start": 87,
+                "end": 91,
                 "ctxt": 0
               },
               "value": "hurk",
@@ -44,8 +44,8 @@
             "init": {
               "type": "ObjectExpression",
               "span": {
-                "start": 93,
-                "end": 95,
+                "start": 94,
+                "end": 96,
                 "ctxt": 0
               },
               "properties": []
@@ -58,23 +58,23 @@
     {
       "type": "ImportDeclaration",
       "span": {
-        "start": 122,
-        "end": 151,
+        "start": 123,
+        "end": 152,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ImportSpecifier",
           "span": {
-            "start": 131,
-            "end": 135,
+            "start": 132,
+            "end": 136,
             "ctxt": 0
           },
           "local": {
             "type": "Identifier",
             "span": {
-              "start": 131,
-              "end": 135,
+              "start": 132,
+              "end": 136,
               "ctxt": 0
             },
             "value": "hurk",
@@ -87,8 +87,8 @@
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 143,
-          "end": 151,
+          "start": 144,
+          "end": 152,
           "ctxt": 0
         },
         "value": "./mod1",
@@ -100,30 +100,30 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 152,
-        "end": 168,
+        "start": 153,
+        "end": 169,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 152,
-          "end": 168,
+          "start": 153,
+          "end": 169,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
-            "start": 152,
-            "end": 164,
+            "start": 153,
+            "end": 165,
             "ctxt": 0
           },
           "object": {
             "type": "Identifier",
             "span": {
-              "start": 152,
-              "end": 156,
+              "start": 153,
+              "end": 157,
               "ctxt": 0
             },
             "value": "hurk",
@@ -132,8 +132,8 @@
           "property": {
             "type": "Identifier",
             "span": {
-              "start": 157,
-              "end": 164,
+              "start": 158,
+              "end": 165,
               "ctxt": 0
             },
             "value": "expando",
@@ -143,8 +143,8 @@
         "right": {
           "type": "NumericLiteral",
           "span": {
-            "start": 167,
-            "end": 168,
+            "start": 168,
+            "end": 169,
             "ctxt": 0
           },
           "value": 4.0,

@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 0,
-    "end": 50,
+    "start": 1,
+    "end": 51,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 47,
+        "end": 48,
         "ctxt": 0
       },
       "tagName": "html",
@@ -22,7 +22,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 5,
+            "end": 6,
             "ctxt": 0
           },
           "tagName": "head",
@@ -35,7 +35,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 47,
+            "end": 48,
             "ctxt": 0
           },
           "tagName": "body",
@@ -45,8 +45,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 0,
-                "end": 47,
+                "start": 1,
+                "end": 48,
                 "ctxt": 0
               },
               "tagName": "div",
@@ -56,8 +56,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 12,
-                    "end": 40,
+                    "start": 13,
+                    "end": 41,
                     "ctxt": 0
                   },
                   "tagName": "svg",
@@ -67,8 +67,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 17,
-                        "end": 40,
+                        "start": 18,
+                        "end": 41,
                         "ctxt": 0
                       },
                       "tagName": "foreignObject",
@@ -78,8 +78,8 @@
                         {
                           "type": "Element",
                           "span": {
-                            "start": 32,
-                            "end": 40,
+                            "start": 33,
+                            "end": 41,
                             "ctxt": 0
                           },
                           "tagName": "select",
@@ -97,8 +97,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 5,
-                    "end": 12,
+                    "start": 6,
+                    "end": 13,
                     "ctxt": 0
                   },
                   "tagName": "table",
@@ -110,8 +110,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 47,
-                    "end": 50,
+                    "start": 48,
+                    "end": 51,
                     "ctxt": 0
                   },
                   "tagName": "s",
@@ -123,8 +123,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 40,
-                    "end": 47,
+                    "start": 41,
+                    "end": 48,
                     "ctxt": 0
                   },
                   "tagName": "table",

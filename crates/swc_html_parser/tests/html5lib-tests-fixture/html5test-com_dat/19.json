@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 0,
-    "end": 65,
+    "start": 1,
+    "end": 66,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 32,
+        "end": 33,
         "ctxt": 0
       },
       "tagName": "html",
@@ -22,7 +22,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 7,
+            "end": 8,
             "ctxt": 0
           },
           "tagName": "head",
@@ -35,7 +35,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 32,
+            "end": 33,
             "ctxt": 0
           },
           "tagName": "body",
@@ -45,8 +45,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 32,
-                "end": 39,
+                "start": 33,
+                "end": 40,
                 "ctxt": 0
               },
               "tagName": "input",
@@ -58,8 +58,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 46,
-                "end": 51,
+                "start": 47,
+                "end": 52,
                 "ctxt": 0
               },
               "tagName": "div",
@@ -71,8 +71,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 0,
-                "end": 32,
+                "start": 1,
+                "end": 33,
                 "ctxt": 0
               },
               "tagName": "table",
@@ -82,8 +82,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 7,
-                    "end": 13,
+                    "start": 8,
+                    "end": 14,
                     "ctxt": 0
                   },
                   "tagName": "form",
@@ -95,8 +95,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 13,
-                    "end": 32,
+                    "start": 14,
+                    "end": 33,
                     "ctxt": 0
                   },
                   "tagName": "input",

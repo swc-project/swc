@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 15,
-    "end": 51,
+    "start": 16,
+    "end": 52,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 21,
-          "end": 22,
+          "start": 22,
+          "end": 23,
           "ctxt": 0
         },
         "value": "C",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 15,
-        "end": 51,
+        "start": 16,
+        "end": 52,
         "ctxt": 0
       },
       "decorators": [],
@@ -32,8 +32,8 @@
             {
               "type": "Identifier",
               "span": {
-                "start": 30,
-                "end": 39,
+                "start": 31,
+                "end": 40,
                 "ctxt": 0
               },
               "value": "s",
@@ -41,15 +41,15 @@
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
-                  "start": 31,
-                  "end": 39,
+                  "start": 32,
+                  "end": 40,
                   "ctxt": 0
                 },
                 "typeAnnotation": {
                   "type": "TsKeywordType",
                   "span": {
-                    "start": 33,
-                    "end": 39,
+                    "start": 34,
+                    "end": 40,
                     "ctxt": 0
                   },
                   "kind": "symbol"
@@ -60,15 +60,15 @@
           "typeAnnotation": {
             "type": "TsTypeAnnotation",
             "span": {
-              "start": 40,
-              "end": 48,
+              "start": 41,
+              "end": 49,
               "ctxt": 0
             },
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
-                "start": 42,
-                "end": 48,
+                "start": 43,
+                "end": 49,
                 "ctxt": 0
               },
               "kind": "string"
@@ -77,8 +77,8 @@
           "readonly": false,
           "static": false,
           "span": {
-            "start": 29,
-            "end": 49,
+            "start": 30,
+            "end": 50,
             "ctxt": 0
           }
         }

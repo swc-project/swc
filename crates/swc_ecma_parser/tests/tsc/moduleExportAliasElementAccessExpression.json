@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 115,
-    "end": 274,
+    "start": 116,
+    "end": 275,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 124,
-          "end": 125,
+          "start": 125,
+          "end": 126,
           "ctxt": 0
         },
         "value": "D",
@@ -22,15 +22,15 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 115,
-        "end": 132,
+        "start": 116,
+        "end": 133,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 129,
-          "end": 132,
+          "start": 130,
+          "end": 133,
           "ctxt": 0
         },
         "stmts": []
@@ -43,30 +43,30 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 133,
-        "end": 150,
+        "start": 134,
+        "end": 151,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 133,
-          "end": 149,
+          "start": 134,
+          "end": 150,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
-            "start": 133,
-            "end": 145,
+            "start": 134,
+            "end": 146,
             "ctxt": 0
           },
           "object": {
             "type": "Identifier",
             "span": {
-              "start": 133,
-              "end": 140,
+              "start": 134,
+              "end": 141,
               "ctxt": 0
             },
             "value": "exports",
@@ -75,15 +75,15 @@
           "property": {
             "type": "Computed",
             "span": {
-              "start": 140,
-              "end": 145,
+              "start": 141,
+              "end": 146,
               "ctxt": 0
             },
             "expression": {
               "type": "StringLiteral",
               "span": {
-                "start": 141,
-                "end": 144,
+                "start": 142,
+                "end": 145,
                 "ctxt": 0
               },
               "value": "D",
@@ -94,8 +94,8 @@
         "right": {
           "type": "Identifier",
           "span": {
-            "start": 148,
-            "end": 149,
+            "start": 149,
+            "end": 150,
             "ctxt": 0
           },
           "value": "D",
@@ -106,30 +106,30 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 241,
-        "end": 274,
+        "start": 242,
+        "end": 275,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 241,
-          "end": 273,
+          "start": 242,
+          "end": 274,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
-            "start": 241,
-            "end": 269,
+            "start": 242,
+            "end": 270,
             "ctxt": 0
           },
           "object": {
             "type": "Identifier",
             "span": {
-              "start": 241,
-              "end": 248,
+              "start": 242,
+              "end": 249,
               "ctxt": 0
             },
             "value": "exports",
@@ -138,15 +138,15 @@
           "property": {
             "type": "Computed",
             "span": {
-              "start": 248,
-              "end": 269,
+              "start": 249,
+              "end": 270,
               "ctxt": 0
             },
             "expression": {
               "type": "StringLiteral",
               "span": {
-                "start": 249,
-                "end": 268,
+                "start": 250,
+                "end": 269,
                 "ctxt": 0
               },
               "value": "Does not work yet",
@@ -157,8 +157,8 @@
         "right": {
           "type": "Identifier",
           "span": {
-            "start": 272,
-            "end": 273,
+            "start": 273,
+            "end": 274,
             "ctxt": 0
           },
           "value": "D",

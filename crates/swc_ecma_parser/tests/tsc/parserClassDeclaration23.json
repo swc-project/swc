@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 17,
+    "start": 1,
+    "end": 18,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 6,
-          "end": 13,
+          "start": 7,
+          "end": 14,
           "ctxt": 0
         },
         "value": "C2",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 0,
-        "end": 17,
+        "start": 1,
+        "end": 18,
         "ctxt": 0
       },
       "decorators": [],

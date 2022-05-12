@@ -16,8 +16,10 @@ use crate::{
 
 fn sp(r: Range<usize>) -> Span {
     Span {
-        lo: BytePos(r.start as u32),
-        hi: BytePos(r.end as u32),
+        // +1 as bytepos starts at 1
+        lo: BytePos((r.start + 1) as u32),
+        // +1 as bytepos starts at 1
+        hi: BytePos((r.end + 1) as u32),
         ctxt: Default::default(),
     }
 }
@@ -38,8 +40,11 @@ trait SpanRange: Sized {
 impl SpanRange for usize {
     fn into_span(self) -> Span {
         Span::new(
-            BytePos(self as _),
-            BytePos((self + 1usize) as _),
+            // +1 as bytepos starts at 1
+            BytePos((self + 1) as _),
+            // +1 as bytepos starts at 1
+            // +1 as hi is exclusive
+            BytePos((self + 1 + 1) as _),
             Default::default(),
         )
     }
@@ -52,8 +57,10 @@ impl SpanRange for Span {
 impl SpanRange for Range<usize> {
     fn into_span(self) -> Span {
         Span::new(
-            BytePos(self.start as _),
-            BytePos(self.end as _),
+            // +1 as bytepos starts at 1
+            BytePos((self.start + 1) as _),
+            // +1 as bytepos starts at 1
+            BytePos((self.end + 1) as _),
             Default::default(),
         )
     }
@@ -168,8 +175,8 @@ fn test262_lexer_error_0001() {
                 },
                 had_line_break: true,
                 span: Span {
-                    lo: BytePos(0),
-                    hi: BytePos(4),
+                    lo: BytePos(1),
+                    hi: BytePos(5),
                     ctxt: Default::default(),
                 }
             },
@@ -276,8 +283,8 @@ fn tpl_invalid_unicode_escape() {
             Token::Template {
                 cooked: Err(Error::new(
                     Span {
-                        lo: BytePos(1),
-                        hi: BytePos(3),
+                        lo: BytePos(2),
+                        hi: BytePos(4),
                         ctxt: SyntaxContext::empty(),
                     },
                     SyntaxError::BadCharacterEscapeSequence {
@@ -296,8 +303,8 @@ fn tpl_invalid_unicode_escape() {
             Token::Template {
                 cooked: Err(Error::new(
                     Span {
-                        lo: BytePos(1),
-                        hi: BytePos(4),
+                        lo: BytePos(2),
+                        hi: BytePos(5),
                         ctxt: SyntaxContext::empty(),
                     },
                     SyntaxError::BadCharacterEscapeSequence {
@@ -316,8 +323,8 @@ fn tpl_invalid_unicode_escape() {
             Token::Template {
                 cooked: Err(Error::new(
                     Span {
-                        lo: BytePos(1),
-                        hi: BytePos(3),
+                        lo: BytePos(2),
+                        hi: BytePos(4),
                         ctxt: SyntaxContext::empty(),
                     },
                     SyntaxError::BadCharacterEscapeSequence {

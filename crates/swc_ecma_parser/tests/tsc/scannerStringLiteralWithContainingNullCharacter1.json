@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 6,
+    "start": 1,
+    "end": 7,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 0,
-        "end": 6,
+        "start": 1,
+        "end": 7,
         "ctxt": 0
       },
       "expression": {
         "type": "StringLiteral",
         "span": {
-          "start": 0,
-          "end": 5,
+          "start": 1,
+          "end": 6,
           "ctxt": 0
         },
         "value": " \u0000 ",

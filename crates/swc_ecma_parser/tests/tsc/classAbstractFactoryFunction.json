@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 191,
+    "start": 2,
+    "end": 192,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 7,
-          "end": 8,
+          "start": 8,
+          "end": 9,
           "ctxt": 0
         },
         "value": "A",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 1,
-        "end": 11,
+        "start": 2,
+        "end": 12,
         "ctxt": 0
       },
       "decorators": [],
@@ -37,8 +37,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 27,
-          "end": 28,
+          "start": 28,
+          "end": 29,
           "ctxt": 0
         },
         "value": "B",
@@ -46,8 +46,8 @@
       },
       "declare": false,
       "span": {
-        "start": 12,
-        "end": 41,
+        "start": 13,
+        "end": 42,
         "ctxt": 0
       },
       "decorators": [],
@@ -55,8 +55,8 @@
       "superClass": {
         "type": "Identifier",
         "span": {
-          "start": 37,
-          "end": 38,
+          "start": 38,
+          "end": 39,
           "ctxt": 0
         },
         "value": "A",
@@ -72,8 +72,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 52,
-          "end": 56,
+          "start": 53,
+          "end": 57,
           "ctxt": 0
         },
         "value": "NewA",
@@ -84,16 +84,16 @@
         {
           "type": "Parameter",
           "span": {
-            "start": 57,
-            "end": 74,
+            "start": 58,
+            "end": 75,
             "ctxt": 0
           },
           "decorators": [],
           "pat": {
             "type": "Identifier",
             "span": {
-              "start": 57,
-              "end": 74,
+              "start": 58,
+              "end": 75,
               "ctxt": 0
             },
             "value": "Factory",
@@ -101,22 +101,22 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 64,
-                "end": 74,
+                "start": 65,
+                "end": 75,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsTypeQuery",
                 "span": {
-                  "start": 66,
-                  "end": 74,
+                  "start": 67,
+                  "end": 75,
                   "ctxt": 0
                 },
                 "exprName": {
                   "type": "Identifier",
                   "span": {
-                    "start": 73,
-                    "end": 74,
+                    "start": 74,
+                    "end": 75,
                     "ctxt": 0
                   },
                   "value": "A",
@@ -130,37 +130,37 @@
       ],
       "decorators": [],
       "span": {
-        "start": 43,
-        "end": 97,
+        "start": 44,
+        "end": 98,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 76,
-          "end": 97,
+          "start": 77,
+          "end": 98,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ReturnStatement",
             "span": {
-              "start": 82,
-              "end": 95,
+              "start": 83,
+              "end": 96,
               "ctxt": 0
             },
             "argument": {
               "type": "NewExpression",
               "span": {
-                "start": 89,
-                "end": 94,
+                "start": 90,
+                "end": 95,
                 "ctxt": 0
               },
               "callee": {
                 "type": "Identifier",
                 "span": {
-                  "start": 93,
-                  "end": 94,
+                  "start": 94,
+                  "end": 95,
                   "ctxt": 0
                 },
                 "value": "A",
@@ -182,8 +182,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 108,
-          "end": 112,
+          "start": 109,
+          "end": 113,
           "ctxt": 0
         },
         "value": "NewB",
@@ -194,16 +194,16 @@
         {
           "type": "Parameter",
           "span": {
-            "start": 113,
-            "end": 130,
+            "start": 114,
+            "end": 131,
             "ctxt": 0
           },
           "decorators": [],
           "pat": {
             "type": "Identifier",
             "span": {
-              "start": 113,
-              "end": 130,
+              "start": 114,
+              "end": 131,
               "ctxt": 0
             },
             "value": "Factory",
@@ -211,22 +211,22 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 120,
-                "end": 130,
+                "start": 121,
+                "end": 131,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsTypeQuery",
                 "span": {
-                  "start": 122,
-                  "end": 130,
+                  "start": 123,
+                  "end": 131,
                   "ctxt": 0
                 },
                 "exprName": {
                   "type": "Identifier",
                   "span": {
-                    "start": 129,
-                    "end": 130,
+                    "start": 130,
+                    "end": 131,
                     "ctxt": 0
                   },
                   "value": "B",
@@ -240,37 +240,37 @@
       ],
       "decorators": [],
       "span": {
-        "start": 99,
-        "end": 153,
+        "start": 100,
+        "end": 154,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 132,
-          "end": 153,
+          "start": 133,
+          "end": 154,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ReturnStatement",
             "span": {
-              "start": 138,
-              "end": 151,
+              "start": 139,
+              "end": 152,
               "ctxt": 0
             },
             "argument": {
               "type": "NewExpression",
               "span": {
-                "start": 145,
-                "end": 150,
+                "start": 146,
+                "end": 151,
                 "ctxt": 0
               },
               "callee": {
                 "type": "Identifier",
                 "span": {
-                  "start": 149,
-                  "end": 150,
+                  "start": 150,
+                  "end": 151,
                   "ctxt": 0
                 },
                 "value": "B",
@@ -290,22 +290,22 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 155,
-        "end": 163,
+        "start": 156,
+        "end": 164,
         "ctxt": 0
       },
       "expression": {
         "type": "CallExpression",
         "span": {
-          "start": 155,
-          "end": 162,
+          "start": 156,
+          "end": 163,
           "ctxt": 0
         },
         "callee": {
           "type": "Identifier",
           "span": {
-            "start": 155,
-            "end": 159,
+            "start": 156,
+            "end": 160,
             "ctxt": 0
           },
           "value": "NewA",
@@ -317,8 +317,8 @@
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 160,
-                "end": 161,
+                "start": 161,
+                "end": 162,
                 "ctxt": 0
               },
               "value": "A",
@@ -332,22 +332,22 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 164,
-        "end": 172,
+        "start": 165,
+        "end": 173,
         "ctxt": 0
       },
       "expression": {
         "type": "CallExpression",
         "span": {
-          "start": 164,
-          "end": 171,
+          "start": 165,
+          "end": 172,
           "ctxt": 0
         },
         "callee": {
           "type": "Identifier",
           "span": {
-            "start": 164,
-            "end": 168,
+            "start": 165,
+            "end": 169,
             "ctxt": 0
           },
           "value": "NewA",
@@ -359,8 +359,8 @@
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 169,
-                "end": 170,
+                "start": 170,
+                "end": 171,
                 "ctxt": 0
               },
               "value": "B",
@@ -374,22 +374,22 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 174,
-        "end": 182,
+        "start": 175,
+        "end": 183,
         "ctxt": 0
       },
       "expression": {
         "type": "CallExpression",
         "span": {
-          "start": 174,
-          "end": 181,
+          "start": 175,
+          "end": 182,
           "ctxt": 0
         },
         "callee": {
           "type": "Identifier",
           "span": {
-            "start": 174,
-            "end": 178,
+            "start": 175,
+            "end": 179,
             "ctxt": 0
           },
           "value": "NewB",
@@ -401,8 +401,8 @@
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 179,
-                "end": 180,
+                "start": 180,
+                "end": 181,
                 "ctxt": 0
               },
               "value": "A",
@@ -416,22 +416,22 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 183,
-        "end": 191,
+        "start": 184,
+        "end": 192,
         "ctxt": 0
       },
       "expression": {
         "type": "CallExpression",
         "span": {
-          "start": 183,
-          "end": 190,
+          "start": 184,
+          "end": 191,
           "ctxt": 0
         },
         "callee": {
           "type": "Identifier",
           "span": {
-            "start": 183,
-            "end": 187,
+            "start": 184,
+            "end": 188,
             "ctxt": 0
           },
           "value": "NewB",
@@ -443,8 +443,8 @@
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 188,
-                "end": 189,
+                "start": 189,
+                "end": 190,
                 "ctxt": 0
               },
               "value": "B",

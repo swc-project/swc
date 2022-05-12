@@ -1,45 +1,45 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 14,
+    "start": 1,
+    "end": 15,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 0,
-        "end": 14,
+        "start": 1,
+        "end": 15,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 0,
-          "end": 13,
+          "start": 1,
+          "end": 14,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "ParenthesisExpression",
           "span": {
-            "start": 0,
-            "end": 7,
+            "start": 1,
+            "end": 8,
             "ctxt": 0
           },
           "expression": {
             "type": "CallExpression",
             "span": {
-              "start": 1,
-              "end": 6,
+              "start": 2,
+              "end": 7,
               "ctxt": 0
             },
             "callee": {
               "type": "Identifier",
               "span": {
-                "start": 1,
-                "end": 4,
+                "start": 2,
+                "end": 5,
                 "ctxt": 0
               },
               "value": "foo",
@@ -52,8 +52,8 @@
         "right": {
           "type": "Identifier",
           "span": {
-            "start": 10,
-            "end": 13,
+            "start": 11,
+            "end": 14,
             "ctxt": 0
           },
           "value": "bar",
