@@ -35,6 +35,7 @@ use testing::assert_eq;
     "tests/terser/compress/**/input.js",
     exclude(
         "expansions/avoid_spread_getset_object/",
+        "expansions/avoid_spread_hole/",
         "functions/avoid_generating_duplicate_functions_compared_together_3/",
         // We don't care about ie8
         "ie8",
