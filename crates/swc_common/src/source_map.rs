@@ -1166,7 +1166,7 @@ impl SourceMap {
 
         let mut ch_start = 0;
         let mut line_ch_start = 0;
-        let mut prev_dst_line = 0;
+        let mut prev_dst_line = u32::MAX;
 
         for (pos, lc) in mappings.iter() {
             let pos = *pos;
