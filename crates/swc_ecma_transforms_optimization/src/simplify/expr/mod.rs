@@ -1354,7 +1354,12 @@ impl VisitMut for SimplifyExpr {
                         }) if expr.is_array() => {
                             self.changed = true;
 
-                            e.extend(expr.array().unwrap().elems)
+                            e.extend(expr.array().unwrap().elems.into_iter().map(|elem| {
+                                Some(elem.unwrap_or_else(|| ExprOrSpread {
+                                    spread: None,
+                                    expr: undefined(DUMMY_SP),
+                                }))
+                            }));
                         }
 
                         _ => e.push(elem),
