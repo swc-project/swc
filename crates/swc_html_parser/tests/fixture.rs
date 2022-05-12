@@ -1144,7 +1144,6 @@ fn html5lib_test_tree_construction(input: PathBuf) {
         return;
     }
 
-    // TODO improve errors tests
     // TODO improve test for parsing `<template>`
     testing::run_test2(false, |cm, handler| {
         // Type annotation
@@ -1206,7 +1205,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
             DocumentOrDocumentFragment::Document(parser.parse_document())
         };
 
-        // TODO fix me
+        // TODO finish me
         // let errors = parser.take_errors();
         // let errors_path = input.parent().unwrap().join(file_stem.clone() +
         // ".errors"); let contents =
@@ -1227,7 +1226,6 @@ fn html5lib_test_tree_construction(input: PathBuf) {
 
                 actual_json.compare_to_file(&json_path).unwrap();
 
-                    let mut dom_buf = String::new();
                 if parent_name.contains("scripted") || parent_name.contains("search") {
                     return Ok(());
                 }
