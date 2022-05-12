@@ -174,7 +174,6 @@ static SPACE_SEPARATED_ATTRIBUTES: &[&str] = &[
 
 struct Minifier {
     current_element_namespace: Option<Namespace>,
-struct Minifier {
     is_script_json_ld: bool,
 }
 
@@ -318,16 +317,9 @@ impl Minifier {
 impl VisitMut for Minifier {
     fn visit_mut_element(&mut self, n: &mut Element) {
         let old_current_element_namespace = self.current_element_namespace.take();
-
-        self.current_element_namespace = Some(n.namespace);
-
-        n.visit_mut_children_with(self);
-
-        self.current_element_namespace = old_current_element_namespace;
-
-        n.children.retain(|child| !matches!(child, Child::Comment(comment) if !self.is_conditional_comment(&comment.data)));
         let old_value_is_script_json_ld = self.is_script_json_ld;
 
+        self.current_element_namespace = Some(n.namespace);
         self.is_script_json_ld = n.namespace == Namespace::HTML
             && &*n.tag_name == "script"
             && n.attributes.iter().any(|attribute| match &*attribute.name {
@@ -342,7 +334,10 @@ impl VisitMut for Minifier {
 
         n.visit_mut_children_with(self);
 
+        self.current_element_namespace = old_current_element_namespace;
         self.is_script_json_ld = old_value_is_script_json_ld;
+
+        n.children.retain(|child| !matches!(child, Child::Comment(comment) if !self.is_conditional_comment(&comment.data)));
 
         let mut already_seen: AHashSet<JsWord> = Default::default();
 
@@ -375,8 +370,6 @@ impl VisitMut for Minifier {
 
             true
         });
-
-        n.children.retain(|child| !matches!(child, Child::Comment(comment) if !self.is_conditional_comment(&comment.data)));
     }
 
     fn visit_mut_attribute(&mut self, n: &mut Attribute) {
