@@ -4829,15 +4829,7 @@ where
                             && !is_last_semicolon
                             && is_next_equals_sign_or_ascii_alphanumeric
                         {
-                            if let Some(mut temporary_buffer) = self.temporary_buffer.take() {
-                                for c in temporary_buffer.drain(..) {
-                                    self.flush_code_point_consumed_as_character_reference(
-                                        c,
-                                        &c.to_string(),
-                                    );
-                                }
-                            }
-
+                            self.flush_code_points_consumed_as_character_reference();
                             self.state = self.return_state.clone();
                         }
                         // Otherwise:
