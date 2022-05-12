@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 23,
-    "end": 54,
+    "start": 24,
+    "end": 55,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 23,
-        "end": 54,
+        "start": 24,
+        "end": 55,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,23 +19,23 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 27,
-            "end": 53,
+            "start": 28,
+            "end": 54,
             "ctxt": 0
           },
           "id": {
             "type": "ArrayPattern",
             "span": {
-              "start": 27,
-              "end": 33,
+              "start": 28,
+              "end": 34,
               "ctxt": 0
             },
             "elements": [
               {
                 "type": "Identifier",
                 "span": {
-                  "start": 28,
-                  "end": 29,
+                  "start": 29,
+                  "end": 30,
                   "ctxt": 0
                 },
                 "value": "a",
@@ -45,8 +45,8 @@
               {
                 "type": "Identifier",
                 "span": {
-                  "start": 31,
-                  "end": 32,
+                  "start": 32,
+                  "end": 33,
                   "ctxt": 0
                 },
                 "value": "b",
@@ -60,8 +60,8 @@
           "init": {
             "type": "ArrayExpression",
             "span": {
-              "start": 36,
-              "end": 53,
+              "start": 37,
+              "end": 54,
               "ctxt": 0
             },
             "elements": [
@@ -70,8 +70,8 @@
                 "expression": {
                   "type": "Identifier",
                   "span": {
-                    "start": 37,
-                    "end": 46,
+                    "start": 38,
+                    "end": 47,
                     "ctxt": 0
                   },
                   "value": "undefined",
@@ -83,8 +83,8 @@
                 "expression": {
                   "type": "NullLiteral",
                   "span": {
-                    "start": 48,
-                    "end": 52,
+                    "start": 49,
+                    "end": 53,
                     "ctxt": 0
                   }
                 }

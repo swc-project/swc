@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 74,
-    "end": 128,
+    "start": 75,
+    "end": 129,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 80,
-          "end": 81,
+          "start": 81,
+          "end": 82,
           "ctxt": 0
         },
         "value": "A",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 74,
-        "end": 84,
+        "start": 75,
+        "end": 85,
         "ctxt": 0
       },
       "decorators": [],
@@ -37,8 +37,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 110,
-          "end": 111,
+          "start": 111,
+          "end": 112,
           "ctxt": 0
         },
         "value": "B",
@@ -46,8 +46,8 @@
       },
       "declare": false,
       "span": {
-        "start": 104,
-        "end": 128,
+        "start": 105,
+        "end": 129,
         "ctxt": 0
       },
       "decorators": [],
@@ -55,15 +55,15 @@
       "superClass": {
         "type": "CallExpression",
         "span": {
-          "start": 120,
-          "end": 125,
+          "start": 121,
+          "end": 126,
           "ctxt": 0
         },
         "callee": {
           "type": "Identifier",
           "span": {
-            "start": 120,
-            "end": 123,
+            "start": 121,
+            "end": 124,
             "ctxt": 0
           },
           "value": "err",

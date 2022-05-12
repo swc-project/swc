@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 23,
-    "end": 201,
+    "start": 24,
+    "end": 202,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsInterfaceDeclaration",
       "span": {
-        "start": 23,
-        "end": 75,
+        "start": 24,
+        "end": 76,
         "ctxt": 0
       },
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 33,
-          "end": 41,
+          "start": 34,
+          "end": 42,
           "ctxt": 0
         },
         "value": "BoxOfFoo",
@@ -27,23 +27,23 @@
       "typeParams": {
         "type": "TsTypeParameterDeclaration",
         "span": {
-          "start": 41,
-          "end": 59,
+          "start": 42,
+          "end": 60,
           "ctxt": 0
         },
         "parameters": [
           {
             "type": "TsTypeParameter",
             "span": {
-              "start": 42,
-              "end": 58,
+              "start": 43,
+              "end": 59,
               "ctxt": 0
             },
             "name": {
               "type": "Identifier",
               "span": {
-                "start": 42,
-                "end": 43,
+                "start": 43,
+                "end": 44,
                 "ctxt": 0
               },
               "value": "T",
@@ -54,15 +54,15 @@
             "constraint": {
               "type": "TsTypeReference",
               "span": {
-                "start": 52,
-                "end": 58,
+                "start": 53,
+                "end": 59,
                 "ctxt": 0
               },
               "typeName": {
                 "type": "Identifier",
                 "span": {
-                  "start": 52,
-                  "end": 55,
+                  "start": 53,
+                  "end": 56,
                   "ctxt": 0
                 },
                 "value": "Foo",
@@ -71,23 +71,23 @@
               "typeParams": {
                 "type": "TsTypeParameterInstantiation",
                 "span": {
-                  "start": 55,
-                  "end": 58,
+                  "start": 56,
+                  "end": 59,
                   "ctxt": 0
                 },
                 "params": [
                   {
                     "type": "TsTypeReference",
                     "span": {
-                      "start": 56,
-                      "end": 57,
+                      "start": 57,
+                      "end": 58,
                       "ctxt": 0
                     },
                     "typeName": {
                       "type": "Identifier",
                       "span": {
-                        "start": 56,
-                        "end": 57,
+                        "start": 57,
+                        "end": 58,
                         "ctxt": 0
                       },
                       "value": "T",
@@ -106,24 +106,24 @@
       "body": {
         "type": "TsInterfaceBody",
         "span": {
-          "start": 60,
-          "end": 75,
+          "start": 61,
+          "end": 76,
           "ctxt": 0
         },
         "body": [
           {
             "type": "TsPropertySignature",
             "span": {
-              "start": 66,
-              "end": 73,
+              "start": 67,
+              "end": 74,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 66,
-                "end": 70,
+                "start": 67,
+                "end": 71,
                 "ctxt": 0
               },
               "value": "item",
@@ -136,22 +136,22 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 70,
-                "end": 73,
+                "start": 71,
+                "end": 74,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
-                  "start": 72,
-                  "end": 73,
+                  "start": 73,
+                  "end": 74,
                   "ctxt": 0
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
-                    "start": 72,
-                    "end": 73,
+                    "start": 73,
+                    "end": 74,
                     "ctxt": 0
                   },
                   "value": "T",
@@ -168,15 +168,15 @@
     {
       "type": "TsInterfaceDeclaration",
       "span": {
-        "start": 77,
-        "end": 125,
+        "start": 78,
+        "end": 126,
         "ctxt": 0
       },
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 87,
-          "end": 90,
+          "start": 88,
+          "end": 91,
           "ctxt": 0
         },
         "value": "Foo",
@@ -186,23 +186,23 @@
       "typeParams": {
         "type": "TsTypeParameterDeclaration",
         "span": {
-          "start": 90,
-          "end": 108,
+          "start": 91,
+          "end": 109,
           "ctxt": 0
         },
         "parameters": [
           {
             "type": "TsTypeParameter",
             "span": {
-              "start": 91,
-              "end": 107,
+              "start": 92,
+              "end": 108,
               "ctxt": 0
             },
             "name": {
               "type": "Identifier",
               "span": {
-                "start": 91,
-                "end": 92,
+                "start": 92,
+                "end": 93,
                 "ctxt": 0
               },
               "value": "T",
@@ -213,15 +213,15 @@
             "constraint": {
               "type": "TsTypeReference",
               "span": {
-                "start": 101,
-                "end": 107,
+                "start": 102,
+                "end": 108,
                 "ctxt": 0
               },
               "typeName": {
                 "type": "Identifier",
                 "span": {
-                  "start": 101,
-                  "end": 104,
+                  "start": 102,
+                  "end": 105,
                   "ctxt": 0
                 },
                 "value": "Foo",
@@ -230,23 +230,23 @@
               "typeParams": {
                 "type": "TsTypeParameterInstantiation",
                 "span": {
-                  "start": 104,
-                  "end": 107,
+                  "start": 105,
+                  "end": 108,
                   "ctxt": 0
                 },
                 "params": [
                   {
                     "type": "TsTypeReference",
                     "span": {
-                      "start": 105,
-                      "end": 106,
+                      "start": 106,
+                      "end": 107,
                       "ctxt": 0
                     },
                     "typeName": {
                       "type": "Identifier",
                       "span": {
-                        "start": 105,
-                        "end": 106,
+                        "start": 106,
+                        "end": 107,
                         "ctxt": 0
                       },
                       "value": "T",
@@ -265,24 +265,24 @@
       "body": {
         "type": "TsInterfaceBody",
         "span": {
-          "start": 109,
-          "end": 125,
+          "start": 110,
+          "end": 126,
           "ctxt": 0
         },
         "body": [
           {
             "type": "TsPropertySignature",
             "span": {
-              "start": 115,
-              "end": 123,
+              "start": 116,
+              "end": 124,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 115,
-                "end": 119,
+                "start": 116,
+                "end": 120,
                 "ctxt": 0
               },
               "value": "self",
@@ -295,22 +295,22 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 119,
-                "end": 122,
+                "start": 120,
+                "end": 123,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
-                  "start": 121,
-                  "end": 122,
+                  "start": 122,
+                  "end": 123,
                   "ctxt": 0
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
-                    "start": 121,
-                    "end": 122,
+                    "start": 122,
+                    "end": 123,
                     "ctxt": 0
                   },
                   "value": "T",
@@ -327,15 +327,15 @@
     {
       "type": "TsInterfaceDeclaration",
       "span": {
-        "start": 127,
-        "end": 201,
+        "start": 128,
+        "end": 202,
         "ctxt": 0
       },
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 137,
-          "end": 140,
+          "start": 138,
+          "end": 141,
           "ctxt": 0
         },
         "value": "Bar",
@@ -345,23 +345,23 @@
       "typeParams": {
         "type": "TsTypeParameterDeclaration",
         "span": {
-          "start": 140,
-          "end": 158,
+          "start": 141,
+          "end": 159,
           "ctxt": 0
         },
         "parameters": [
           {
             "type": "TsTypeParameter",
             "span": {
-              "start": 141,
-              "end": 157,
+              "start": 142,
+              "end": 158,
               "ctxt": 0
             },
             "name": {
               "type": "Identifier",
               "span": {
-                "start": 141,
-                "end": 142,
+                "start": 142,
+                "end": 143,
                 "ctxt": 0
               },
               "value": "T",
@@ -372,15 +372,15 @@
             "constraint": {
               "type": "TsTypeReference",
               "span": {
-                "start": 151,
-                "end": 157,
+                "start": 152,
+                "end": 158,
                 "ctxt": 0
               },
               "typeName": {
                 "type": "Identifier",
                 "span": {
-                  "start": 151,
-                  "end": 154,
+                  "start": 152,
+                  "end": 155,
                   "ctxt": 0
                 },
                 "value": "Bar",
@@ -389,23 +389,23 @@
               "typeParams": {
                 "type": "TsTypeParameterInstantiation",
                 "span": {
-                  "start": 154,
-                  "end": 157,
+                  "start": 155,
+                  "end": 158,
                   "ctxt": 0
                 },
                 "params": [
                   {
                     "type": "TsTypeReference",
                     "span": {
-                      "start": 155,
-                      "end": 156,
+                      "start": 156,
+                      "end": 157,
                       "ctxt": 0
                     },
                     "typeName": {
                       "type": "Identifier",
                       "span": {
-                        "start": 155,
-                        "end": 156,
+                        "start": 156,
+                        "end": 157,
                         "ctxt": 0
                       },
                       "value": "T",
@@ -424,15 +424,15 @@
         {
           "type": "TsExpressionWithTypeArguments",
           "span": {
-            "start": 167,
-            "end": 173,
+            "start": 168,
+            "end": 174,
             "ctxt": 0
           },
           "expression": {
             "type": "Identifier",
             "span": {
-              "start": 167,
-              "end": 170,
+              "start": 168,
+              "end": 171,
               "ctxt": 0
             },
             "value": "Foo",
@@ -441,23 +441,23 @@
           "typeArguments": {
             "type": "TsTypeParameterInstantiation",
             "span": {
-              "start": 170,
-              "end": 173,
+              "start": 171,
+              "end": 174,
               "ctxt": 0
             },
             "params": [
               {
                 "type": "TsTypeReference",
                 "span": {
-                  "start": 171,
-                  "end": 172,
+                  "start": 172,
+                  "end": 173,
                   "ctxt": 0
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
-                    "start": 171,
-                    "end": 172,
+                    "start": 172,
+                    "end": 173,
                     "ctxt": 0
                   },
                   "value": "T",
@@ -472,24 +472,24 @@
       "body": {
         "type": "TsInterfaceBody",
         "span": {
-          "start": 174,
-          "end": 201,
+          "start": 175,
+          "end": 202,
           "ctxt": 0
         },
         "body": [
           {
             "type": "TsPropertySignature",
             "span": {
-              "start": 180,
-              "end": 199,
+              "start": 181,
+              "end": 200,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 180,
-                "end": 185,
+                "start": 181,
+                "end": 186,
                 "ctxt": 0
               },
               "value": "other",
@@ -502,22 +502,22 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 185,
-                "end": 198,
+                "start": 186,
+                "end": 199,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
-                  "start": 187,
-                  "end": 198,
+                  "start": 188,
+                  "end": 199,
                   "ctxt": 0
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
-                    "start": 187,
-                    "end": 195,
+                    "start": 188,
+                    "end": 196,
                     "ctxt": 0
                   },
                   "value": "BoxOfFoo",
@@ -526,23 +526,23 @@
                 "typeParams": {
                   "type": "TsTypeParameterInstantiation",
                   "span": {
-                    "start": 195,
-                    "end": 198,
+                    "start": 196,
+                    "end": 199,
                     "ctxt": 0
                   },
                   "params": [
                     {
                       "type": "TsTypeReference",
                       "span": {
-                        "start": 196,
-                        "end": 197,
+                        "start": 197,
+                        "end": 198,
                         "ctxt": 0
                       },
                       "typeName": {
                         "type": "Identifier",
                         "span": {
-                          "start": 196,
-                          "end": 197,
+                          "start": 197,
+                          "end": 198,
                           "ctxt": 0
                         },
                         "value": "T",

@@ -1,31 +1,31 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 0,
-    "end": 6,
+    "start": 1,
+    "end": 7,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
-        "start": 0,
-        "end": 5,
+        "start": 1,
+        "end": 6,
         "ctxt": 0
       },
       "prelude": {
         "type": "Tokens",
         "span": {
-          "start": 0,
-          "end": 2,
+          "start": 1,
+          "end": 3,
           "ctxt": 0
         },
         "tokens": [
           {
             "type": "PreservedToken",
             "span": {
-              "start": 0,
-              "end": 1,
+              "start": 1,
+              "end": 2,
               "ctxt": 0
             },
             "token": "Comma"
@@ -33,8 +33,8 @@
           {
             "type": "PreservedToken",
             "span": {
-              "start": 1,
-              "end": 2,
+              "start": 2,
+              "end": 3,
               "ctxt": 0
             },
             "token": {
@@ -48,8 +48,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 2,
-          "end": 5,
+          "start": 3,
+          "end": 6,
           "ctxt": 0
         },
         "name": "{",

@@ -1,23 +1,23 @@
 {
   "type": "Module",
   "span": {
-    "start": 59,
-    "end": 373,
+    "start": 60,
+    "end": 374,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 59,
-        "end": 92,
+        "start": 60,
+        "end": 93,
         "ctxt": 0
       },
       "declaration": {
         "type": "TsEnumDeclaration",
         "span": {
-          "start": 66,
-          "end": 92,
+          "start": 67,
+          "end": 93,
           "ctxt": 0
         },
         "declare": false,
@@ -25,8 +25,8 @@
         "id": {
           "type": "Identifier",
           "span": {
-            "start": 71,
-            "end": 74,
+            "start": 72,
+            "end": 75,
             "ctxt": 0
           },
           "value": "Foo",
@@ -36,15 +36,15 @@
           {
             "type": "TsEnumMember",
             "span": {
-              "start": 81,
-              "end": 82,
+              "start": 82,
+              "end": 83,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 81,
-                "end": 82,
+                "start": 82,
+                "end": 83,
                 "ctxt": 0
               },
               "value": "A",
@@ -55,15 +55,15 @@
           {
             "type": "TsEnumMember",
             "span": {
-              "start": 88,
-              "end": 89,
+              "start": 89,
+              "end": 90,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 88,
-                "end": 89,
+                "start": 89,
+                "end": 90,
                 "ctxt": 0
               },
               "value": "B",
@@ -77,23 +77,23 @@
     {
       "type": "ImportDeclaration",
       "span": {
-        "start": 116,
-        "end": 143,
+        "start": 117,
+        "end": 144,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ImportSpecifier",
           "span": {
-            "start": 124,
-            "end": 127,
+            "start": 125,
+            "end": 128,
             "ctxt": 0
           },
           "local": {
             "type": "Identifier",
             "span": {
-              "start": 124,
-              "end": 127,
+              "start": 125,
+              "end": 128,
               "ctxt": 0
             },
             "value": "Foo",
@@ -106,8 +106,8 @@
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 134,
-          "end": 142,
+          "start": 135,
+          "end": 143,
           "ctxt": 0
         },
         "value": "./enum",
@@ -119,8 +119,8 @@
     {
       "type": "TsEnumDeclaration",
       "span": {
-        "start": 145,
-        "end": 171,
+        "start": 146,
+        "end": 172,
         "ctxt": 0
       },
       "declare": false,
@@ -128,8 +128,8 @@
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 150,
-          "end": 153,
+          "start": 151,
+          "end": 154,
           "ctxt": 0
         },
         "value": "Bar",
@@ -139,15 +139,15 @@
         {
           "type": "TsEnumMember",
           "span": {
-            "start": 160,
-            "end": 161,
+            "start": 161,
+            "end": 162,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 160,
-              "end": 161,
+              "start": 161,
+              "end": 162,
               "ctxt": 0
             },
             "value": "A",
@@ -158,15 +158,15 @@
         {
           "type": "TsEnumMember",
           "span": {
-            "start": 167,
-            "end": 168,
+            "start": 168,
+            "end": 169,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 167,
-              "end": 168,
+              "start": 168,
+              "end": 169,
               "ctxt": 0
             },
             "value": "B",
@@ -179,8 +179,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 172,
-        "end": 197,
+        "start": 173,
+        "end": 198,
         "ctxt": 0
       },
       "kind": "let",
@@ -189,15 +189,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 176,
-            "end": 196,
+            "start": 177,
+            "end": 197,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 176,
-              "end": 179,
+              "start": 177,
+              "end": 180,
               "ctxt": 0
             },
             "value": "foo",
@@ -207,22 +207,22 @@
           "init": {
             "type": "TsConstAssertion",
             "span": {
-              "start": 182,
-              "end": 196,
+              "start": 183,
+              "end": 197,
               "ctxt": 0
             },
             "expression": {
               "type": "MemberExpression",
               "span": {
-                "start": 182,
-                "end": 187,
+                "start": 183,
+                "end": 188,
                 "ctxt": 0
               },
               "object": {
                 "type": "Identifier",
                 "span": {
-                  "start": 182,
-                  "end": 185,
+                  "start": 183,
+                  "end": 186,
                   "ctxt": 0
                 },
                 "value": "Foo",
@@ -231,8 +231,8 @@
               "property": {
                 "type": "Identifier",
                 "span": {
-                  "start": 186,
-                  "end": 187,
+                  "start": 187,
+                  "end": 188,
                   "ctxt": 0
                 },
                 "value": "A",
@@ -247,8 +247,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 198,
-        "end": 223,
+        "start": 199,
+        "end": 224,
         "ctxt": 0
       },
       "kind": "let",
@@ -257,15 +257,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 202,
-            "end": 222,
+            "start": 203,
+            "end": 223,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 202,
-              "end": 205,
+              "start": 203,
+              "end": 206,
               "ctxt": 0
             },
             "value": "bar",
@@ -275,22 +275,22 @@
           "init": {
             "type": "TsConstAssertion",
             "span": {
-              "start": 208,
-              "end": 222,
+              "start": 209,
+              "end": 223,
               "ctxt": 0
             },
             "expression": {
               "type": "MemberExpression",
               "span": {
-                "start": 208,
-                "end": 213,
+                "start": 209,
+                "end": 214,
                 "ctxt": 0
               },
               "object": {
                 "type": "Identifier",
                 "span": {
-                  "start": 208,
-                  "end": 211,
+                  "start": 209,
+                  "end": 212,
                   "ctxt": 0
                 },
                 "value": "Bar",
@@ -299,8 +299,8 @@
               "property": {
                 "type": "Identifier",
                 "span": {
-                  "start": 212,
-                  "end": 213,
+                  "start": 213,
+                  "end": 214,
                   "ctxt": 0
                 },
                 "value": "A",
@@ -315,8 +315,8 @@
     {
       "type": "TsModuleDeclaration",
       "span": {
-        "start": 245,
-        "end": 310,
+        "start": 246,
+        "end": 311,
         "ctxt": 0
       },
       "declare": false,
@@ -324,8 +324,8 @@
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 255,
-          "end": 257,
+          "start": 256,
+          "end": 258,
           "ctxt": 0
         },
         "value": "ns",
@@ -334,23 +334,23 @@
       "body": {
         "type": "TsModuleBlock",
         "span": {
-          "start": 258,
-          "end": 310,
+          "start": 259,
+          "end": 311,
           "ctxt": 0
         },
         "body": [
           {
             "type": "ExportDeclaration",
             "span": {
-              "start": 264,
-              "end": 285,
+              "start": 265,
+              "end": 286,
               "ctxt": 0
             },
             "declaration": {
               "type": "TsEnumDeclaration",
               "span": {
-                "start": 271,
-                "end": 285,
+                "start": 272,
+                "end": 286,
                 "ctxt": 0
               },
               "declare": false,
@@ -358,8 +358,8 @@
               "id": {
                 "type": "Identifier",
                 "span": {
-                  "start": 276,
-                  "end": 279,
+                  "start": 277,
+                  "end": 280,
                   "ctxt": 0
                 },
                 "value": "Foo",
@@ -369,15 +369,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 282,
-                    "end": 283,
+                    "start": 283,
+                    "end": 284,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 282,
-                      "end": 283,
+                      "start": 283,
+                      "end": 284,
                       "ctxt": 0
                     },
                     "value": "X",
@@ -391,36 +391,36 @@
           {
             "type": "ExpressionStatement",
             "span": {
-              "start": 290,
-              "end": 308,
+              "start": 291,
+              "end": 309,
               "ctxt": 0
             },
             "expression": {
               "type": "TsConstAssertion",
               "span": {
-                "start": 290,
-                "end": 307,
+                "start": 291,
+                "end": 308,
                 "ctxt": 0
               },
               "expression": {
                 "type": "MemberExpression",
                 "span": {
-                  "start": 290,
-                  "end": 298,
+                  "start": 291,
+                  "end": 299,
                   "ctxt": 0
                 },
                 "object": {
                   "type": "MemberExpression",
                   "span": {
-                    "start": 290,
-                    "end": 296,
+                    "start": 291,
+                    "end": 297,
                     "ctxt": 0
                   },
                   "object": {
                     "type": "Identifier",
                     "span": {
-                      "start": 290,
-                      "end": 292,
+                      "start": 291,
+                      "end": 293,
                       "ctxt": 0
                     },
                     "value": "ns",
@@ -429,8 +429,8 @@
                   "property": {
                     "type": "Identifier",
                     "span": {
-                      "start": 293,
-                      "end": 296,
+                      "start": 294,
+                      "end": 297,
                       "ctxt": 0
                     },
                     "value": "Foo",
@@ -440,8 +440,8 @@
                 "property": {
                   "type": "Identifier",
                   "span": {
-                    "start": 297,
-                    "end": 298,
+                    "start": 298,
+                    "end": 299,
                     "ctxt": 0
                   },
                   "value": "X",
@@ -456,15 +456,15 @@
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 334,
-        "end": 355,
+        "start": 335,
+        "end": 356,
         "ctxt": 0
       },
       "declaration": {
         "type": "TsEnumDeclaration",
         "span": {
-          "start": 341,
-          "end": 355,
+          "start": 342,
+          "end": 356,
           "ctxt": 0
         },
         "declare": false,
@@ -472,8 +472,8 @@
         "id": {
           "type": "Identifier",
           "span": {
-            "start": 346,
-            "end": 349,
+            "start": 347,
+            "end": 350,
             "ctxt": 0
           },
           "value": "Foo",
@@ -483,15 +483,15 @@
           {
             "type": "TsEnumMember",
             "span": {
-              "start": 352,
-              "end": 353,
+              "start": 353,
+              "end": 354,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 352,
-                "end": 353,
+                "start": 353,
+                "end": 354,
                 "ctxt": 0
               },
               "value": "X",
@@ -505,36 +505,36 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 356,
-        "end": 373,
+        "start": 357,
+        "end": 374,
         "ctxt": 0
       },
       "expression": {
         "type": "TsConstAssertion",
         "span": {
-          "start": 356,
-          "end": 372,
+          "start": 357,
+          "end": 373,
           "ctxt": 0
         },
         "expression": {
           "type": "MemberExpression",
           "span": {
-            "start": 356,
-            "end": 363,
+            "start": 357,
+            "end": 364,
             "ctxt": 0
           },
           "object": {
             "type": "ParenthesisExpression",
             "span": {
-              "start": 356,
-              "end": 361,
+              "start": 357,
+              "end": 362,
               "ctxt": 0
             },
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 357,
-                "end": 360,
+                "start": 358,
+                "end": 361,
                 "ctxt": 0
               },
               "value": "Foo",
@@ -544,8 +544,8 @@
           "property": {
             "type": "Identifier",
             "span": {
-              "start": 362,
-              "end": 363,
+              "start": 363,
+              "end": 364,
               "ctxt": 0
             },
             "value": "X",

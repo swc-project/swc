@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 57,
+    "start": 1,
+    "end": 58,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 6,
-          "end": 14,
+          "start": 7,
+          "end": 15,
           "ctxt": 0
         },
         "value": "abstract",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 0,
-        "end": 42,
+        "start": 1,
+        "end": 43,
         "ctxt": 0
       },
       "decorators": [],
@@ -29,15 +29,15 @@
         {
           "type": "ClassMethod",
           "span": {
-            "start": 21,
-            "end": 40,
+            "start": 22,
+            "end": 41,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 21,
-              "end": 24,
+              "start": 22,
+              "end": 25,
               "ctxt": 0
             },
             "value": "foo",
@@ -47,30 +47,30 @@
             "params": [],
             "decorators": [],
             "span": {
-              "start": 21,
-              "end": 40,
+              "start": 22,
+              "end": 41,
               "ctxt": 0
             },
             "body": {
               "type": "BlockStatement",
               "span": {
-                "start": 27,
-                "end": 40,
+                "start": 28,
+                "end": 41,
                 "ctxt": 0
               },
               "stmts": [
                 {
                   "type": "ReturnStatement",
                   "span": {
-                    "start": 29,
-                    "end": 38,
+                    "start": 30,
+                    "end": 39,
                     "ctxt": 0
                   },
                   "argument": {
                     "type": "NumericLiteral",
                     "span": {
-                      "start": 36,
-                      "end": 37,
+                      "start": 37,
+                      "end": 38,
                       "ctxt": 0
                     },
                     "value": 1.0,
@@ -101,22 +101,22 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 44,
-        "end": 57,
+        "start": 45,
+        "end": 58,
         "ctxt": 0
       },
       "expression": {
         "type": "NewExpression",
         "span": {
-          "start": 44,
-          "end": 56,
+          "start": 45,
+          "end": 57,
           "ctxt": 0
         },
         "callee": {
           "type": "Identifier",
           "span": {
-            "start": 48,
-            "end": 56,
+            "start": 49,
+            "end": 57,
             "ctxt": 0
           },
           "value": "abstract",

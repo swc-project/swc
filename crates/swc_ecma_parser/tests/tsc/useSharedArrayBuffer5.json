@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 50,
-    "end": 167,
+    "start": 51,
+    "end": 168,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 50,
-        "end": 89,
+        "start": 51,
+        "end": 90,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 54,
-            "end": 88,
+            "start": 55,
+            "end": 89,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 54,
-              "end": 58,
+              "start": 55,
+              "end": 59,
               "ctxt": 0
             },
             "value": "foge",
@@ -37,15 +37,15 @@
           "init": {
             "type": "NewExpression",
             "span": {
-              "start": 61,
-              "end": 88,
+              "start": 62,
+              "end": 89,
               "ctxt": 0
             },
             "callee": {
               "type": "Identifier",
               "span": {
-                "start": 65,
-                "end": 82,
+                "start": 66,
+                "end": 83,
                 "ctxt": 0
               },
               "value": "SharedArrayBuffer",
@@ -57,8 +57,8 @@
                 "expression": {
                   "type": "NumericLiteral",
                   "span": {
-                    "start": 83,
-                    "end": 87,
+                    "start": 84,
+                    "end": 88,
                     "ctxt": 0
                   },
                   "value": 1024.0,
@@ -75,8 +75,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 90,
-        "end": 125,
+        "start": 91,
+        "end": 126,
         "ctxt": 0
       },
       "kind": "var",
@@ -85,15 +85,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 94,
-            "end": 124,
+            "start": 95,
+            "end": 125,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 94,
-              "end": 101,
+              "start": 95,
+              "end": 102,
               "ctxt": 0
             },
             "value": "species",
@@ -103,15 +103,15 @@
           "init": {
             "type": "MemberExpression",
             "span": {
-              "start": 104,
-              "end": 124,
+              "start": 105,
+              "end": 125,
               "ctxt": 0
             },
             "object": {
               "type": "Identifier",
               "span": {
-                "start": 104,
-                "end": 108,
+                "start": 105,
+                "end": 109,
                 "ctxt": 0
               },
               "value": "foge",
@@ -120,22 +120,22 @@
             "property": {
               "type": "Computed",
               "span": {
-                "start": 108,
-                "end": 124,
+                "start": 109,
+                "end": 125,
                 "ctxt": 0
               },
               "expression": {
                 "type": "MemberExpression",
                 "span": {
-                  "start": 109,
-                  "end": 123,
+                  "start": 110,
+                  "end": 124,
                   "ctxt": 0
                 },
                 "object": {
                   "type": "Identifier",
                   "span": {
-                    "start": 109,
-                    "end": 115,
+                    "start": 110,
+                    "end": 116,
                     "ctxt": 0
                   },
                   "value": "Symbol",
@@ -144,8 +144,8 @@
                 "property": {
                   "type": "Identifier",
                   "span": {
-                    "start": 116,
-                    "end": 123,
+                    "start": 117,
+                    "end": 124,
                     "ctxt": 0
                   },
                   "value": "species",
@@ -161,8 +161,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 126,
-        "end": 167,
+        "start": 127,
+        "end": 168,
         "ctxt": 0
       },
       "kind": "var",
@@ -171,15 +171,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 130,
-            "end": 166,
+            "start": 131,
+            "end": 167,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 130,
-              "end": 139,
+              "start": 131,
+              "end": 140,
               "ctxt": 0
             },
             "value": "stringTag",
@@ -189,15 +189,15 @@
           "init": {
             "type": "MemberExpression",
             "span": {
-              "start": 142,
-              "end": 166,
+              "start": 143,
+              "end": 167,
               "ctxt": 0
             },
             "object": {
               "type": "Identifier",
               "span": {
-                "start": 142,
-                "end": 146,
+                "start": 143,
+                "end": 147,
                 "ctxt": 0
               },
               "value": "foge",
@@ -206,22 +206,22 @@
             "property": {
               "type": "Computed",
               "span": {
-                "start": 146,
-                "end": 166,
+                "start": 147,
+                "end": 167,
                 "ctxt": 0
               },
               "expression": {
                 "type": "MemberExpression",
                 "span": {
-                  "start": 147,
-                  "end": 165,
+                  "start": 148,
+                  "end": 166,
                   "ctxt": 0
                 },
                 "object": {
                   "type": "Identifier",
                   "span": {
-                    "start": 147,
-                    "end": 153,
+                    "start": 148,
+                    "end": 154,
                     "ctxt": 0
                   },
                   "value": "Symbol",
@@ -230,8 +230,8 @@
                 "property": {
                   "type": "Identifier",
                   "span": {
-                    "start": 154,
-                    "end": 165,
+                    "start": 155,
+                    "end": 166,
                     "ctxt": 0
                   },
                   "value": "toStringTag",

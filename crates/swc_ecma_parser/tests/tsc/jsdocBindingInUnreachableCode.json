@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 79,
-    "end": 170,
+    "start": 80,
+    "end": 171,
     "ctxt": 0
   },
   "body": [
     {
       "type": "IfStatement",
       "span": {
-        "start": 79,
-        "end": 170,
+        "start": 80,
+        "end": 171,
         "ctxt": 0
       },
       "test": {
         "type": "BooleanLiteral",
         "span": {
-          "start": 83,
-          "end": 88,
+          "start": 84,
+          "end": 89,
           "ctxt": 0
         },
         "value": false
@@ -25,16 +25,16 @@
       "consequent": {
         "type": "BlockStatement",
         "span": {
-          "start": 90,
-          "end": 170,
+          "start": 91,
+          "end": 171,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "VariableDeclaration",
             "span": {
-              "start": 137,
-              "end": 168,
+              "start": 138,
+              "end": 169,
               "ctxt": 0
             },
             "kind": "const",
@@ -43,15 +43,15 @@
               {
                 "type": "VariableDeclarator",
                 "span": {
-                  "start": 143,
-                  "end": 167,
+                  "start": 144,
+                  "end": 168,
                   "ctxt": 0
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
-                    "start": 143,
-                    "end": 144,
+                    "start": 144,
+                    "end": 145,
                     "ctxt": 0
                   },
                   "value": "x",
@@ -65,16 +65,16 @@
                     {
                       "type": "Parameter",
                       "span": {
-                        "start": 157,
-                        "end": 158,
+                        "start": 158,
+                        "end": 159,
                         "ctxt": 0
                       },
                       "decorators": [],
                       "pat": {
                         "type": "Identifier",
                         "span": {
-                          "start": 157,
-                          "end": 158,
+                          "start": 158,
+                          "end": 159,
                           "ctxt": 0
                         },
                         "value": "s",
@@ -85,15 +85,15 @@
                   ],
                   "decorators": [],
                   "span": {
-                    "start": 147,
-                    "end": 167,
+                    "start": 148,
+                    "end": 168,
                     "ctxt": 0
                   },
                   "body": {
                     "type": "BlockStatement",
                     "span": {
-                      "start": 160,
-                      "end": 167,
+                      "start": 161,
+                      "end": 168,
                       "ctxt": 0
                     },
                     "stmts": []

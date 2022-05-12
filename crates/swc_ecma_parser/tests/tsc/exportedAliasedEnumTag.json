@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 75,
-    "end": 172,
+    "start": 76,
+    "end": 173,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 75,
-        "end": 114,
+        "start": 76,
+        "end": 115,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 79,
-            "end": 113,
+            "start": 80,
+            "end": 114,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 79,
-              "end": 91,
+              "start": 80,
+              "end": 92,
               "ctxt": 0
             },
             "value": "middlewarify",
@@ -37,23 +37,23 @@
           "init": {
             "type": "AssignmentExpression",
             "span": {
-              "start": 94,
-              "end": 113,
+              "start": 95,
+              "end": 114,
               "ctxt": 0
             },
             "operator": "=",
             "left": {
               "type": "MemberExpression",
               "span": {
-                "start": 94,
-                "end": 108,
+                "start": 95,
+                "end": 109,
                 "ctxt": 0
               },
               "object": {
                 "type": "Identifier",
                 "span": {
-                  "start": 94,
-                  "end": 100,
+                  "start": 95,
+                  "end": 101,
                   "ctxt": 0
                 },
                 "value": "module",
@@ -62,8 +62,8 @@
               "property": {
                 "type": "Identifier",
                 "span": {
-                  "start": 101,
-                  "end": 108,
+                  "start": 102,
+                  "end": 109,
                   "ctxt": 0
                 },
                 "value": "exports",
@@ -73,8 +73,8 @@
             "right": {
               "type": "ObjectExpression",
               "span": {
-                "start": 111,
-                "end": 113,
+                "start": 112,
+                "end": 114,
                 "ctxt": 0
               },
               "properties": []
@@ -87,30 +87,30 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 129,
-        "end": 172,
+        "start": 130,
+        "end": 173,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 129,
-          "end": 171,
+          "start": 130,
+          "end": 172,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
-            "start": 129,
-            "end": 146,
+            "start": 130,
+            "end": 147,
             "ctxt": 0
           },
           "object": {
             "type": "Identifier",
             "span": {
-              "start": 129,
-              "end": 141,
+              "start": 130,
+              "end": 142,
               "ctxt": 0
             },
             "value": "middlewarify",
@@ -119,8 +119,8 @@
           "property": {
             "type": "Identifier",
             "span": {
-              "start": 142,
-              "end": 146,
+              "start": 143,
+              "end": 147,
               "ctxt": 0
             },
             "value": "Type",
@@ -130,8 +130,8 @@
         "right": {
           "type": "ObjectExpression",
           "span": {
-            "start": 149,
-            "end": 171,
+            "start": 150,
+            "end": 172,
             "ctxt": 0
           },
           "properties": [
@@ -140,8 +140,8 @@
               "key": {
                 "type": "Identifier",
                 "span": {
-                  "start": 153,
-                  "end": 159,
+                  "start": 154,
+                  "end": 160,
                   "ctxt": 0
                 },
                 "value": "BEFORE",
@@ -150,8 +150,8 @@
               "value": {
                 "type": "StringLiteral",
                 "span": {
-                  "start": 161,
-                  "end": 169,
+                  "start": 162,
+                  "end": 170,
                   "ctxt": 0
                 },
                 "value": "before",

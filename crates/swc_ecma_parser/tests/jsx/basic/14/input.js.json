@@ -1,23 +1,23 @@
 {
   "type": "Module",
   "span": {
-    "start": 0,
-    "end": 11,
+    "start": 1,
+    "end": 12,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 0,
-        "end": 11,
+        "start": 1,
+        "end": 12,
         "ctxt": 0
       },
       "expression": {
         "type": "JSXElement",
         "span": {
-          "start": 0,
-          "end": 11,
+          "start": 1,
+          "end": 12,
           "ctxt": 0
         },
         "opening": {
@@ -27,8 +27,8 @@
             "object": {
               "type": "Identifier",
               "span": {
-                "start": 1,
-                "end": 2,
+                "start": 2,
+                "end": 3,
                 "ctxt": 0
               },
               "value": "a",
@@ -37,8 +37,8 @@
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 3,
-                "end": 4,
+                "start": 4,
+                "end": 5,
                 "ctxt": 0
               },
               "value": "b",
@@ -46,8 +46,8 @@
             }
           },
           "span": {
-            "start": 0,
-            "end": 5,
+            "start": 1,
+            "end": 6,
             "ctxt": 0
           },
           "attributes": [],
@@ -58,8 +58,8 @@
         "closing": {
           "type": "JSXClosingElement",
           "span": {
-            "start": 5,
-            "end": 11,
+            "start": 6,
+            "end": 12,
             "ctxt": 0
           },
           "name": {
@@ -67,8 +67,8 @@
             "object": {
               "type": "Identifier",
               "span": {
-                "start": 7,
-                "end": 8,
+                "start": 8,
+                "end": 9,
                 "ctxt": 0
               },
               "value": "a",
@@ -77,8 +77,8 @@
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 9,
-                "end": 10,
+                "start": 10,
+                "end": 11,
                 "ctxt": 0
               },
               "value": "b",

@@ -1,23 +1,23 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 0,
-    "end": 19,
+    "start": 1,
+    "end": 20,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
-        "start": 0,
-        "end": 19,
+        "start": 1,
+        "end": 20,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 1,
-          "end": 7,
+          "start": 2,
+          "end": 8,
           "ctxt": 0
         },
         "value": "import",
@@ -26,15 +26,15 @@
       "prelude": {
         "type": "ImportPrelude",
         "span": {
-          "start": 8,
-          "end": 18,
+          "start": 9,
+          "end": 19,
           "ctxt": 0
         },
         "href": {
           "type": "String",
           "span": {
-            "start": 8,
-            "end": 17,
+            "start": 9,
+            "end": 18,
             "ctxt": 0
           },
           "value": "foo.css",

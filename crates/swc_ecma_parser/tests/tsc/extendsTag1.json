@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 201,
-    "end": 224,
+    "start": 202,
+    "end": 225,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 207,
-          "end": 209,
+          "start": 208,
+          "end": 210,
           "ctxt": 0
         },
         "value": "My",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 201,
-        "end": 224,
+        "start": 202,
+        "end": 225,
         "ctxt": 0
       },
       "decorators": [],
@@ -29,8 +29,8 @@
       "superClass": {
         "type": "Identifier",
         "span": {
-          "start": 218,
-          "end": 221,
+          "start": 219,
+          "end": 222,
           "ctxt": 0
         },
         "value": "Set",

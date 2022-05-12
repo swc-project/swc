@@ -1,30 +1,30 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 19,
+    "start": 1,
+    "end": 20,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 0,
-        "end": 19,
+        "start": 1,
+        "end": 20,
         "ctxt": 0
       },
       "expression": {
         "type": "CallExpression",
         "span": {
-          "start": 0,
-          "end": 18,
+          "start": 1,
+          "end": 19,
           "ctxt": 0
         },
         "callee": {
           "type": "Identifier",
           "span": {
-            "start": 0,
-            "end": 1,
+            "start": 1,
+            "end": 2,
             "ctxt": 0
           },
           "value": "f",
@@ -36,16 +36,16 @@
             "expression": {
               "type": "BinaryExpression",
               "span": {
-                "start": 2,
-                "end": 7,
+                "start": 3,
+                "end": 8,
                 "ctxt": 0
               },
               "operator": "<",
               "left": {
                 "type": "Identifier",
                 "span": {
-                  "start": 2,
-                  "end": 3,
+                  "start": 3,
+                  "end": 4,
                   "ctxt": 0
                 },
                 "value": "g",
@@ -54,8 +54,8 @@
               "right": {
                 "type": "Identifier",
                 "span": {
-                  "start": 6,
-                  "end": 7,
+                  "start": 7,
+                  "end": 8,
                   "ctxt": 0
                 },
                 "value": "A",
@@ -68,16 +68,16 @@
             "expression": {
               "type": "BinaryExpression",
               "span": {
-                "start": 9,
-                "end": 17,
+                "start": 10,
+                "end": 18,
                 "ctxt": 0
               },
               "operator": ">",
               "left": {
                 "type": "Identifier",
                 "span": {
-                  "start": 9,
-                  "end": 10,
+                  "start": 10,
+                  "end": 11,
                   "ctxt": 0
                 },
                 "value": "B",
@@ -86,23 +86,23 @@
               "right": {
                 "type": "UnaryExpression",
                 "span": {
-                  "start": 13,
-                  "end": 17,
+                  "start": 14,
+                  "end": 18,
                   "ctxt": 0
                 },
                 "operator": "+",
                 "argument": {
                   "type": "ParenthesisExpression",
                   "span": {
-                    "start": 14,
-                    "end": 17,
+                    "start": 15,
+                    "end": 18,
                     "ctxt": 0
                   },
                   "expression": {
                     "type": "NumericLiteral",
                     "span": {
-                      "start": 15,
-                      "end": 16,
+                      "start": 16,
+                      "end": 17,
                       "ctxt": 0
                     },
                     "value": 7.0,

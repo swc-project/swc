@@ -1,0 +1,44 @@
+| <!DOCTYPE html>
+| <html>
+|   lang="en"
+|   <head>
+|     "
+    "
+|     <title>
+|       "Document"
+|     "
+"
+|   "
+"
+|   <body>
+|     "
+"
+|     <marquee>
+|       "This text will scroll from right to left"
+|     "
+
+"
+|     <marquee>
+|       direction="up"
+|       "This text will scroll from bottom to top"
+|     "
+
+"
+|     <marquee>
+|       behavior="alternate"
+|       direction="down"
+|       height="200"
+|       style="border:solid"
+|       width="250"
+|       "
+    "
+|       <marquee>
+|         behavior="alternate"
+|         "
+        This text will bounce
+    "
+|       "
+"
+|     "
+
+"

@@ -106,6 +106,10 @@ impl<'a, W: Write> JsWriter<'a, W> {
     }
 
     fn srcmap(&mut self, byte_pos: BytePos) {
+        if byte_pos.is_dummy() {
+            return;
+        }
+
         if let Some(ref mut srcmap) = self.srcmap {
             if self
                 .srcmap_done

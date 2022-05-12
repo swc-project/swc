@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 318,
-    "end": 366,
+    "start": 319,
+    "end": 367,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 328,
-          "end": 329,
+          "start": 329,
+          "end": 330,
           "ctxt": 0
         },
         "value": "f",
@@ -22,23 +22,23 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 318,
-        "end": 366,
+        "start": 319,
+        "end": 367,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 332,
-          "end": 366,
+          "start": 333,
+          "end": 367,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "VariableDeclaration",
             "span": {
-              "start": 338,
-              "end": 364,
+              "start": 339,
+              "end": 365,
               "ctxt": 0
             },
             "kind": "const",
@@ -47,15 +47,15 @@
               {
                 "type": "VariableDeclarator",
                 "span": {
-                  "start": 344,
-                  "end": 363,
+                  "start": 345,
+                  "end": 364,
                   "ctxt": 0
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
-                    "start": 344,
-                    "end": 345,
+                    "start": 345,
+                    "end": 346,
                     "ctxt": 0
                   },
                   "value": "x",
@@ -63,15 +63,15 @@
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
-                      "start": 345,
-                      "end": 353,
+                      "start": 346,
+                      "end": 354,
                       "ctxt": 0
                     },
                     "typeAnnotation": {
                       "type": "TsKeywordType",
                       "span": {
-                        "start": 347,
-                        "end": 353,
+                        "start": 348,
+                        "end": 354,
                         "ctxt": 0
                       },
                       "kind": "string"
@@ -81,15 +81,15 @@
                 "init": {
                   "type": "YieldExpression",
                   "span": {
-                    "start": 356,
-                    "end": 363,
+                    "start": 357,
+                    "end": 364,
                     "ctxt": 0
                   },
                   "argument": {
                     "type": "NumericLiteral",
                     "span": {
-                      "start": 362,
-                      "end": 363,
+                      "start": 363,
+                      "end": 364,
                       "ctxt": 0
                     },
                     "value": 1.0,

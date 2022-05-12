@@ -6,16 +6,12 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/a/input.html:1:1]
- 1 | <a><p></a></p>
-   : ^^^^^^^^^^
-   `----
 
   x Element
-   ,-[$DIR/tests/recovery/element/a/input.html:1:1]
- 1 | <a><p></a></p>
-   : ^^^^^^^^^^
-   `----
+
+  x Child
+
+  x Element
 
   x Child
    ,-[$DIR/tests/recovery/element/a/input.html:1:1]
@@ -39,4 +35,16 @@
    ,-[$DIR/tests/recovery/element/a/input.html:1:1]
  1 | <a><p></a></p>
    :    ^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/a/input.html:1:1]
+ 1 | <a><p></a></p>
+   : ^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/a/input.html:1:1]
+ 1 | <a><p></a></p>
+   : ^^^^^^^^^^
    `----

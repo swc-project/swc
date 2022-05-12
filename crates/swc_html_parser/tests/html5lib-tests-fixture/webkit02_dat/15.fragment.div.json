@@ -1,16 +1,16 @@
 {
   "type": "DocumentFragment",
   "span": {
-    "start": 0,
-    "end": 73,
+    "start": 1,
+    "end": 74,
     "ctxt": 0
   },
   "children": [
     {
       "type": "Element",
       "span": {
-        "start": 0,
-        "end": 57,
+        "start": 1,
+        "end": 58,
         "ctxt": 0
       },
       "tagName": "b",
@@ -20,8 +20,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 3,
-            "end": 57,
+            "start": 4,
+            "end": 58,
             "ctxt": 0
           },
           "tagName": "em",
@@ -31,8 +31,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 7,
-                "end": 57,
+                "start": 8,
+                "end": 58,
                 "ctxt": 0
               },
               "tagName": "foo",
@@ -42,8 +42,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 12,
-                    "end": 57,
+                    "start": 13,
+                    "end": 58,
                     "ctxt": 0
                   },
                   "tagName": "foo",
@@ -53,8 +53,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 17,
-                        "end": 57,
+                        "start": 18,
+                        "end": 58,
                         "ctxt": 0
                       },
                       "tagName": "foo",
@@ -64,8 +64,8 @@
                         {
                           "type": "Element",
                           "span": {
-                            "start": 22,
-                            "end": 57,
+                            "start": 23,
+                            "end": 58,
                             "ctxt": 0
                           },
                           "tagName": "foo",
@@ -75,8 +75,8 @@
                             {
                               "type": "Element",
                               "span": {
-                                "start": 27,
-                                "end": 57,
+                                "start": 28,
+                                "end": 58,
                                 "ctxt": 0
                               },
                               "tagName": "foo",
@@ -86,8 +86,8 @@
                                 {
                                   "type": "Element",
                                   "span": {
-                                    "start": 32,
-                                    "end": 57,
+                                    "start": 33,
+                                    "end": 58,
                                     "ctxt": 0
                                   },
                                   "tagName": "foo",
@@ -97,8 +97,8 @@
                                     {
                                       "type": "Element",
                                       "span": {
-                                        "start": 37,
-                                        "end": 57,
+                                        "start": 38,
+                                        "end": 58,
                                         "ctxt": 0
                                       },
                                       "tagName": "foo",
@@ -108,8 +108,8 @@
                                         {
                                           "type": "Element",
                                           "span": {
-                                            "start": 42,
-                                            "end": 57,
+                                            "start": 43,
+                                            "end": 58,
                                             "ctxt": 0
                                           },
                                           "tagName": "foo",
@@ -119,8 +119,8 @@
                                             {
                                               "type": "Element",
                                               "span": {
-                                                "start": 47,
-                                                "end": 57,
+                                                "start": 48,
+                                                "end": 58,
                                                 "ctxt": 0
                                               },
                                               "tagName": "foo",
@@ -130,8 +130,8 @@
                                                 {
                                                   "type": "Element",
                                                   "span": {
-                                                    "start": 52,
-                                                    "end": 57,
+                                                    "start": 53,
+                                                    "end": 58,
                                                     "ctxt": 0
                                                   },
                                                   "tagName": "foo",
@@ -176,8 +176,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 57,
-        "end": 68,
+        "start": 58,
+        "end": 69,
         "ctxt": 0
       },
       "tagName": "aside",
@@ -187,8 +187,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 0,
-            "end": 68,
+            "start": 1,
+            "end": 69,
             "ctxt": 0
           },
           "tagName": "b",

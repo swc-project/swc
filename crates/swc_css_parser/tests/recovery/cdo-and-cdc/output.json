@@ -1,31 +1,31 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 0,
-    "end": 54,
+    "start": 1,
+    "end": 55,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
-        "start": 5,
-        "end": 53,
+        "start": 6,
+        "end": 54,
         "ctxt": 0
       },
       "prelude": {
         "type": "Tokens",
         "span": {
-          "start": 5,
-          "end": 18,
+          "start": 6,
+          "end": 19,
           "ctxt": 0
         },
         "tokens": [
           {
             "type": "PreservedToken",
             "span": {
-              "start": 5,
-              "end": 8,
+              "start": 6,
+              "end": 9,
               "ctxt": 0
             },
             "token": {
@@ -39,8 +39,8 @@
           {
             "type": "PreservedToken",
             "span": {
-              "start": 8,
-              "end": 9,
+              "start": 9,
+              "end": 10,
               "ctxt": 0
             },
             "token": {
@@ -52,8 +52,8 @@
           {
             "type": "PreservedToken",
             "span": {
-              "start": 9,
-              "end": 12,
+              "start": 10,
+              "end": 13,
               "ctxt": 0
             },
             "token": "CDC"
@@ -61,8 +61,8 @@
           {
             "type": "PreservedToken",
             "span": {
-              "start": 12,
-              "end": 14,
+              "start": 13,
+              "end": 15,
               "ctxt": 0
             },
             "token": {
@@ -74,8 +74,8 @@
           {
             "type": "PreservedToken",
             "span": {
-              "start": 14,
-              "end": 17,
+              "start": 15,
+              "end": 18,
               "ctxt": 0
             },
             "token": {
@@ -88,8 +88,8 @@
           {
             "type": "PreservedToken",
             "span": {
-              "start": 17,
-              "end": 18,
+              "start": 18,
+              "end": 19,
               "ctxt": 0
             },
             "token": {
@@ -103,8 +103,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 18,
-          "end": 53,
+          "start": 19,
+          "end": 54,
           "ctxt": 0
         },
         "name": "{",
@@ -112,15 +112,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 24,
-              "end": 34,
+              "start": 25,
+              "end": 35,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 24,
-                "end": 29,
+                "start": 25,
+                "end": 30,
                 "ctxt": 0
               },
               "value": "color",
@@ -130,8 +130,8 @@
               {
                 "type": "Ident",
                 "span": {
-                  "start": 31,
-                  "end": 34,
+                  "start": 32,
+                  "end": 35,
                   "ctxt": 0
                 },
                 "value": "red",
@@ -143,16 +143,16 @@
           {
             "type": "Tokens",
             "span": {
-              "start": 36,
-              "end": 52,
+              "start": 37,
+              "end": 53,
               "ctxt": 0
             },
             "tokens": [
               {
                 "type": "PreservedToken",
                 "span": {
-                  "start": 36,
-                  "end": 40,
+                  "start": 37,
+                  "end": 41,
                   "ctxt": 0
                 },
                 "token": "CDO"
@@ -160,8 +160,8 @@
               {
                 "type": "PreservedToken",
                 "span": {
-                  "start": 40,
-                  "end": 42,
+                  "start": 41,
+                  "end": 43,
                   "ctxt": 0
                 },
                 "token": {
@@ -173,8 +173,8 @@
               {
                 "type": "PreservedToken",
                 "span": {
-                  "start": 42,
-                  "end": 46,
+                  "start": 43,
+                  "end": 47,
                   "ctxt": 0
                 },
                 "token": {
@@ -187,8 +187,8 @@
               {
                 "type": "PreservedToken",
                 "span": {
-                  "start": 46,
-                  "end": 48,
+                  "start": 47,
+                  "end": 49,
                   "ctxt": 0
                 },
                 "token": {
@@ -200,8 +200,8 @@
               {
                 "type": "PreservedToken",
                 "span": {
-                  "start": 48,
-                  "end": 51,
+                  "start": 49,
+                  "end": 52,
                   "ctxt": 0
                 },
                 "token": "CDC"
@@ -209,8 +209,8 @@
               {
                 "type": "PreservedToken",
                 "span": {
-                  "start": 51,
-                  "end": 52,
+                  "start": 52,
+                  "end": 53,
                   "ctxt": 0
                 },
                 "token": {

@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 17,
-    "end": 41,
+    "start": 18,
+    "end": 42,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 17,
-        "end": 41,
+        "start": 18,
+        "end": 42,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 21,
-            "end": 40,
+            "start": 22,
+            "end": 41,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 21,
-              "end": 22,
+              "start": 22,
+              "end": 23,
               "ctxt": 0
             },
             "value": "x",
@@ -37,8 +37,8 @@
           "init": {
             "type": "RegExpLiteral",
             "span": {
-              "start": 25,
-              "end": 40,
+              "start": 26,
+              "end": 41,
               "ctxt": 0
             },
             "pattern": "\\u{00000000}",

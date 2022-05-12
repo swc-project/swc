@@ -1,6 +1,15 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(common)** Reserve `BytePos(0)` for dummy spans (#4616) ([67942d5](https://github.com/swc-project/swc/commit/67942d57319454a0304632d5d9e504e26a2c8068))
+
+
+- **(html/parser)** Add a method to get error message (#4623) ([cac4f6e](https://github.com/swc-project/swc/commit/cac4f6e265ed419245e8b323dd4f18d60a16beac))
+
 ### Refactor
 
 
@@ -12,6 +21,9 @@
 
 
 - **(es)** Add a test for merging configurations (#4617) ([53ff81c](https://github.com/swc-project/swc/commit/53ff81ccd65509dd6fff0bef5aa21003d3c81409))
+
+
+- **(html/parser)** Add dom visualizer for regular tests (#4622) ([4e577d7](https://github.com/swc-project/swc/commit/4e577d7f452a096391e174f478834bcc5c0fd884))
 
 ## [1.2.182] - 2022-05-11
 

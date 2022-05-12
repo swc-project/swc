@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 119,
-    "end": 175,
+    "start": 120,
+    "end": 176,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportNamedDeclaration",
       "span": {
-        "start": 119,
-        "end": 128,
+        "start": 120,
+        "end": 129,
         "ctxt": 0
       },
       "specifiers": [],
@@ -21,23 +21,23 @@
     {
       "type": "ExportNamedDeclaration",
       "span": {
-        "start": 149,
-        "end": 175,
+        "start": 150,
+        "end": 176,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ExportNamespaceSpecifier",
           "span": {
-            "start": 156,
-            "end": 163,
+            "start": 157,
+            "end": 164,
             "ctxt": 0
           },
           "name": {
             "type": "Identifier",
             "span": {
-              "start": 161,
-              "end": 163,
+              "start": 162,
+              "end": 164,
               "ctxt": 0
             },
             "value": "ns",
@@ -48,8 +48,8 @@
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 169,
-          "end": 174,
+          "start": 170,
+          "end": 175,
           "ctxt": 0
         },
         "value": "./a",

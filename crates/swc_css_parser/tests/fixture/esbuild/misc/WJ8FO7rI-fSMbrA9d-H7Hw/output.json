@@ -1,23 +1,23 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 0,
-    "end": 17,
+    "start": 1,
+    "end": 18,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
-        "start": 0,
-        "end": 17,
+        "start": 1,
+        "end": 18,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 1,
-          "end": 8,
+          "start": 2,
+          "end": 9,
           "ctxt": 0
         },
         "value": "charset",
@@ -26,8 +26,8 @@
       "prelude": {
         "type": "String",
         "span": {
-          "start": 9,
-          "end": 16,
+          "start": 10,
+          "end": 17,
           "ctxt": 0
         },
         "value": "UTF-8",

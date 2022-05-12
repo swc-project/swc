@@ -1,24 +1,24 @@
 {
   "type": "Script",
   "span": {
-    "start": 15,
-    "end": 40,
+    "start": 16,
+    "end": 41,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ForOfStatement",
       "span": {
-        "start": 15,
-        "end": 40,
+        "start": 16,
+        "end": 41,
         "ctxt": 0
       },
       "await": null,
       "left": {
         "type": "VariableDeclaration",
         "span": {
-          "start": 20,
-          "end": 30,
+          "start": 21,
+          "end": 31,
           "ctxt": 0
         },
         "kind": "var",
@@ -27,23 +27,23 @@
           {
             "type": "VariableDeclarator",
             "span": {
-              "start": 24,
-              "end": 30,
+              "start": 25,
+              "end": 31,
               "ctxt": 0
             },
             "id": {
               "type": "ArrayPattern",
               "span": {
-                "start": 24,
-                "end": 30,
+                "start": 25,
+                "end": 31,
                 "ctxt": 0
               },
               "elements": [
                 {
                   "type": "Identifier",
                   "span": {
-                    "start": 25,
-                    "end": 26,
+                    "start": 26,
+                    "end": 27,
                     "ctxt": 0
                   },
                   "value": "a",
@@ -53,8 +53,8 @@
                 {
                   "type": "Identifier",
                   "span": {
-                    "start": 28,
-                    "end": 29,
+                    "start": 29,
+                    "end": 30,
                     "ctxt": 0
                   },
                   "value": "b",
@@ -73,8 +73,8 @@
       "right": {
         "type": "Identifier",
         "span": {
-          "start": 34,
-          "end": 35,
+          "start": 35,
+          "end": 36,
           "ctxt": 0
         },
         "value": "X",
@@ -83,8 +83,8 @@
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 37,
-          "end": 40,
+          "start": 38,
+          "end": 41,
           "ctxt": 0
         },
         "stmts": []

@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 0,
-    "end": 36,
+    "start": 1,
+    "end": 37,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 0,
-        "end": 36,
+        "start": 1,
+        "end": 37,
         "ctxt": 0
       },
       "declaration": {
@@ -18,8 +18,8 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 13,
-            "end": 19,
+            "start": 14,
+            "end": 20,
             "ctxt": 0
           },
           "value": "Logger",
@@ -27,8 +27,8 @@
         },
         "declare": false,
         "span": {
-          "start": 7,
-          "end": 36,
+          "start": 8,
+          "end": 37,
           "ctxt": 0
         },
         "decorators": [],
@@ -36,15 +36,15 @@
           {
             "type": "ClassProperty",
             "span": {
-              "start": 28,
-              "end": 34,
+              "start": 29,
+              "end": 35,
               "ctxt": 0
             },
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 28,
-                "end": 34,
+                "start": 29,
+                "end": 35,
                 "ctxt": 0
               },
               "value": "public",

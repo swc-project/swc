@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 75,
-    "end": 137,
+    "start": 76,
+    "end": 138,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 75,
-        "end": 93,
+        "start": 76,
+        "end": 94,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 79,
-            "end": 92,
+            "start": 80,
+            "end": 93,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 79,
-              "end": 84,
+              "start": 80,
+              "end": 85,
               "ctxt": 0
             },
             "value": "loop1",
@@ -37,8 +37,8 @@
           "init": {
             "type": "Identifier",
             "span": {
-              "start": 87,
-              "end": 92,
+              "start": 88,
+              "end": 93,
               "ctxt": 0
             },
             "value": "loop2",
@@ -51,8 +51,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 94,
-        "end": 112,
+        "start": 95,
+        "end": 113,
         "ctxt": 0
       },
       "kind": "var",
@@ -61,15 +61,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 98,
-            "end": 111,
+            "start": 99,
+            "end": 112,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 98,
-              "end": 103,
+              "start": 99,
+              "end": 104,
               "ctxt": 0
             },
             "value": "loop2",
@@ -79,8 +79,8 @@
           "init": {
             "type": "Identifier",
             "span": {
-              "start": 106,
-              "end": 111,
+              "start": 107,
+              "end": 112,
               "ctxt": 0
             },
             "value": "loop1",
@@ -93,30 +93,30 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 114,
-        "end": 137,
+        "start": 115,
+        "end": 138,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 114,
-          "end": 136,
+          "start": 115,
+          "end": 137,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
-            "start": 114,
-            "end": 128,
+            "start": 115,
+            "end": 129,
             "ctxt": 0
           },
           "object": {
             "type": "Identifier",
             "span": {
-              "start": 114,
-              "end": 120,
+              "start": 115,
+              "end": 121,
               "ctxt": 0
             },
             "value": "module",
@@ -125,8 +125,8 @@
           "property": {
             "type": "Identifier",
             "span": {
-              "start": 121,
-              "end": 128,
+              "start": 122,
+              "end": 129,
               "ctxt": 0
             },
             "value": "exports",
@@ -136,8 +136,8 @@
         "right": {
           "type": "Identifier",
           "span": {
-            "start": 131,
-            "end": 136,
+            "start": 132,
+            "end": 137,
             "ctxt": 0
           },
           "value": "loop2",

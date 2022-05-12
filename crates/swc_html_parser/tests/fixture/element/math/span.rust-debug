@@ -1587,10 +1587,6 @@
     `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/element/math/input.html:1:1]
- 1 | <!DOCTYPE html>
-   : ^
-   `----
 
   x Child
     ,-[$DIR/tests/fixture/element/math/input.html:29:1]

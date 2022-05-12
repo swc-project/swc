@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 33,
+    "start": 1,
+    "end": 34,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 0,
-        "end": 33,
+        "start": 1,
+        "end": 34,
         "ctxt": 0
       },
       "kind": "const",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 6,
-            "end": 32,
+            "start": 7,
+            "end": 33,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 6,
-              "end": 7,
+              "start": 7,
+              "end": 8,
               "ctxt": 0
             },
             "value": "a",
@@ -35,30 +35,30 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 7,
-                "end": 26,
+                "start": 8,
+                "end": 27,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsTypeOperator",
                 "span": {
-                  "start": 9,
-                  "end": 26,
+                  "start": 10,
+                  "end": 27,
                   "ctxt": 0
                 },
                 "op": "readonly",
                 "typeAnnotation": {
                   "type": "TsArrayType",
                   "span": {
-                    "start": 18,
-                    "end": 26,
+                    "start": 19,
+                    "end": 27,
                     "ctxt": 0
                   },
                   "elemType": {
                     "type": "TsKeywordType",
                     "span": {
-                      "start": 18,
-                      "end": 24,
+                      "start": 19,
+                      "end": 25,
                       "ctxt": 0
                     },
                     "kind": "number"
@@ -70,8 +70,8 @@
           "init": {
             "type": "ArrayExpression",
             "span": {
-              "start": 29,
-              "end": 32,
+              "start": 30,
+              "end": 33,
               "ctxt": 0
             },
             "elements": [
@@ -80,8 +80,8 @@
                 "expression": {
                   "type": "NumericLiteral",
                   "span": {
-                    "start": 30,
-                    "end": 31,
+                    "start": 31,
+                    "end": 32,
                     "ctxt": 0
                   },
                   "value": 1.0,

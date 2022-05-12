@@ -1,31 +1,31 @@
 {
   "type": "Module",
   "span": {
-    "start": 38,
-    "end": 118,
+    "start": 39,
+    "end": 119,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportNamedDeclaration",
       "span": {
-        "start": 38,
-        "end": 67,
+        "start": 39,
+        "end": 68,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ExportSpecifier",
           "span": {
-            "start": 52,
-            "end": 53,
+            "start": 53,
+            "end": 54,
             "ctxt": 0
           },
           "orig": {
             "type": "Identifier",
             "span": {
-              "start": 52,
-              "end": 53,
+              "start": 53,
+              "end": 54,
               "ctxt": 0
             },
             "value": "A",
@@ -38,8 +38,8 @@
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 61,
-          "end": 66,
+          "start": 62,
+          "end": 67,
           "ctxt": 0
         },
         "value": "./b",
@@ -51,23 +51,23 @@
     {
       "type": "ExportNamedDeclaration",
       "span": {
-        "start": 89,
-        "end": 118,
+        "start": 90,
+        "end": 119,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ExportSpecifier",
           "span": {
-            "start": 103,
-            "end": 104,
+            "start": 104,
+            "end": 105,
             "ctxt": 0
           },
           "orig": {
             "type": "Identifier",
             "span": {
-              "start": 103,
-              "end": 104,
+              "start": 104,
+              "end": 105,
               "ctxt": 0
             },
             "value": "A",
@@ -80,8 +80,8 @@
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 112,
-          "end": 117,
+          "start": 113,
+          "end": 118,
           "ctxt": 0
         },
         "value": "./a",

@@ -1,31 +1,31 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 18,
+    "start": 1,
+    "end": 19,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 0,
-        "end": 18,
+        "start": 1,
+        "end": 19,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 0,
-          "end": 18,
+          "start": 1,
+          "end": 19,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "Identifier",
           "span": {
-            "start": 0,
-            "end": 1,
+            "start": 1,
+            "end": 2,
             "ctxt": 0
           },
           "value": "a",
@@ -35,31 +35,31 @@
         "right": {
           "type": "ParenthesisExpression",
           "span": {
-            "start": 4,
-            "end": 18,
+            "start": 5,
+            "end": 19,
             "ctxt": 0
           },
           "expression": {
             "type": "SequenceExpression",
             "span": {
-              "start": 5,
-              "end": 17,
+              "start": 6,
+              "end": 18,
               "ctxt": 0
             },
             "expressions": [
               {
                 "type": "ArrowFunctionExpression",
                 "span": {
-                  "start": 5,
-                  "end": 14,
+                  "start": 6,
+                  "end": 15,
                   "ctxt": 0
                 },
                 "params": [],
                 "body": {
                   "type": "BlockStatement",
                   "span": {
-                    "start": 11,
-                    "end": 14,
+                    "start": 12,
+                    "end": 15,
                     "ctxt": 0
                   },
                   "stmts": []
@@ -72,8 +72,8 @@
               {
                 "type": "Identifier",
                 "span": {
-                  "start": 16,
-                  "end": 17,
+                  "start": 17,
+                  "end": 18,
                   "ctxt": 0
                 },
                 "value": "a",

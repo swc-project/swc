@@ -1,30 +1,30 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 11,
+    "start": 1,
+    "end": 12,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 0,
-        "end": 11,
+        "start": 1,
+        "end": 12,
         "ctxt": 0
       },
       "expression": {
         "type": "TsTypeAssertion",
         "span": {
-          "start": 0,
-          "end": 10,
+          "start": 1,
+          "end": 11,
           "ctxt": 0
         },
         "expression": {
           "type": "NumericLiteral",
           "span": {
-            "start": 9,
-            "end": 10,
+            "start": 10,
+            "end": 11,
             "ctxt": 0
           },
           "value": 1.0,
@@ -33,8 +33,8 @@
         "typeAnnotation": {
           "type": "TsKeywordType",
           "span": {
-            "start": 1,
-            "end": 7,
+            "start": 2,
+            "end": 8,
             "ctxt": 0
           },
           "kind": "number"
