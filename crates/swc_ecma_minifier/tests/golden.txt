@@ -488,6 +488,7 @@ evaluate/unsafe_object_accessor/input.js
 evaluate/unsafe_string/input.js
 evaluate/unsafe_string_bad_index/input.js
 expansions/avoid_spread_getset_object/input.js
+expansions/avoid_spread_hole/input.js
 expansions/avoid_spread_holes_call/input.js
 expansions/avoid_spread_in_ternary/input.js
 expansions/expand_arguments/input.js
