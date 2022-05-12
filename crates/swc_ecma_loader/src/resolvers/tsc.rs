@@ -3,13 +3,15 @@ use std::path::{Component, PathBuf};
 use anyhow::{bail, Context, Error};
 use swc_cached::regex::CachedRegex;
 use swc_common::FileName;
-use tracing::{debug, info, Level};
+use tracing::{debug, info, trace, Level};
 
 use crate::resolve::Resolve;
 
 #[derive(Debug)]
 enum Pattern {
-    Regex(CachedRegex),
+    Wildcard {
+        prefix: String,
+    },
     /// No wildcard.
     Exact(String),
 }
@@ -65,14 +67,15 @@ where
                     from,
                 );
 
+                let pos = from.as_bytes().iter().position(|&c| c == b'*');
                 let pat = if from.contains('*') {
-                    if from.as_bytes().iter().rposition(|&c| c == b'*')
-                        != from.as_bytes().iter().position(|&c| c == b'*')
-                    {
+                    if from.as_bytes().iter().rposition(|&c| c == b'*') != pos {
                         panic!("`paths.{}` should have only one wildcard", from)
                     }
 
-                    Pattern::Regex(compile_regex(from))
+                    Pattern::Wildcard {
+                        prefix: from[..pos.unwrap()].to_string(),
+                    }
                 } else {
                     assert_eq!(
                         to.len(),
@@ -143,53 +146,26 @@ where
         // https://www.typescriptlang.org/docs/handbook/module-resolution.html#path-mapping
         for (from, to) in &self.paths {
             match from {
-                Pattern::Regex(from) => {
-                    let captures = from.captures(src);
-                    let captures = match captures {
+                Pattern::Wildcard { prefix } => {
+                    let extra = src.strip_prefix(prefix);
+                    let extra = match extra {
                         Some(v) => v,
-                        None => continue,
+                        None => {
+                            if cfg!(debug_assertions) {
+                                trace!("skip because src doesn't start with prefix");
+                            }
+                            continue;
+                        }
                     };
 
-                    let mut iter = captures.iter();
-                    let _ = iter.next();
-
-                    let capture = iter.next().flatten().expect(
-                        "capture group should be created by initializer of TsConfigResolver",
-                    );
-                    let mut errors = vec![];
-                    for target in to {
-                        let mut replaced = target.replace('*', capture.as_str());
-                        let rel = format!("./{}", replaced);
-
-                        let res = self.inner.resolve(base, &rel).with_context(|| {
-                            format!(
-                                "failed to resolve `{}`, which is expanded from `{}`",
-                                replaced, src
-                            )
-                        });
-
-                        errors.push(match res {
-                            Ok(v) => return Ok(v),
-                            Err(err) => err,
-                        });
-
-                        if cfg!(target_os = "windows") {
-                            if replaced.starts_with("./") {
-                                replaced = replaced[2..].to_string();
-                            }
-                            replaced = replaced.replace('/', "\\");
-                        }
-
-                        if to.len() == 1 {
-                            return Ok(FileName::Real(self.base_url.join(replaced)));
-                        }
+                    if cfg!(debug_assertions) {
+                        trace!("extra = {}", extra);
                     }
 
                     bail!(
-                        "`{}` matched `{}` (from tsconfig.paths) but failed to resolve:\n{:?}",
+                        "`{}` matched `{}` (from tsconfig.paths) but failed to resolve",
                         src,
-                        from.as_str(),
-                        errors
+                        prefix,
                     )
                 }
                 Pattern::Exact(from) => {
@@ -216,8 +192,4 @@ where
 
         self.inner.resolve(base, src)
     }
-}
-
-fn compile_regex(src: String) -> CachedRegex {
-    CachedRegex::new(&src.replace('*', "(.*)")).unwrap()
 }
