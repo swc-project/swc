@@ -1,0 +1,75 @@
+| <html>
+|   <head>
+|   <body>
+|     <popup-info>
+|       data-text="Your card validation code (CVC)
+  is an extra security feature — it is the last 3 or 4 numbers on the
+  back of your card."
+|       img="img/alt.png"
+|     "
+
+"
+|     <custom-square>
+|       c="red"
+|       l="100"
+|     "
+
+"
+|     <app-drawer>
+|       disabled=""
+|       open=""
+|     "
+
+"
+|     <share-buttons>
+|       "
+    "
+|       <social-button>
+|         type="twitter"
+|         <a>
+|           href="..."
+|           "Twitter"
+|       "
+    "
+|       <social-button>
+|         type="fb"
+|         <a>
+|           href="..."
+|           "Facebook"
+|       "
+    "
+|       <social-button>
+|         type="plus"
+|         <a>
+|           href="..."
+|           "G+"
+|       "
+"
+|     "
+
+"
+|     <x-foo-with-markup>
+|       "
+    "
+|       <b>
+|         "I'm an x-foo-with-markup!"
+|       "
+"
+|     "
+
+"
+|     <template>
+|       content
+|         id="x-foo-from-template"
+|         "
+    "
+|         <style>
+|           "
+        p { color: green; }
+    "
+|         "
+    "
+|         <p>
+|           "I'm in Shadow DOM. My markup was stamped from a <template>."
+|         "
+"
