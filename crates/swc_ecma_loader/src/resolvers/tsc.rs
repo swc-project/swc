@@ -1,7 +1,6 @@
 use std::path::{Component, PathBuf};
 
 use anyhow::{bail, Context, Error};
-use swc_cached::regex::CachedRegex;
 use swc_common::FileName;
 use tracing::{debug, info, trace, Level};
 
