@@ -555,10 +555,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
 
             eprintln!("==== ==== Output ==== ====\n{}\n", output);
 
-            // TODO keep `\r` in raw when we implement them in AST or implement an option
-            let lexer_input = input.replace("\r\n", "\n").replace('\r', "\n");
-            let lexer_str_input =
-                StringInput::new(&lexer_input, BytePos(0), BytePos(input.len() as u32));
+            let lexer_str_input = StringInput::new(&input, BytePos(0), BytePos(input.len() as u32));
             let mut lexer = Lexer::new(
                 lexer_str_input,
                 ParserConfig {
@@ -1242,16 +1239,6 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                     // Skip scripted test, because we don't support ECMA execution
                     // Skip `search` due https://github.com/whatwg/html/pull/7320, we should uncomment and fix logic it after it was merged
                     if parent_name.contains("scripted") || parent_name.contains("search") {
-                        return Ok(());
-                    }
-
-                    let path = input.to_string_lossy();
-
-                    // TODO remove me when we will implement `raw` and keep original newlines in
-                    // `raw`
-                    if (path.contains("domjs-unsafe_dat") && path.contains("1.html"))
-                        || (path.contains("plain-text-unsafe_dat") && path.contains("24.html"))
-                    {
                         return Ok(());
                     }
 
