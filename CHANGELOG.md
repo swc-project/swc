@@ -26,6 +26,9 @@
 - **(html/minifier)** Improve minification of attributes (#4625) ([5679b69](https://github.com/swc-project/swc/commit/5679b69600768f81a69e7a7bac335a183fe875c6))
 
 
+- **(html/minifier)** Compress `application/ld+json` (#4628) ([c41aca6](https://github.com/swc-project/swc/commit/c41aca6b24a0dbe222b450b7805e4e9eb2732e01))
+
+
 - **(html/parser)** Add a method to get error message (#4623) ([cac4f6e](https://github.com/swc-project/swc/commit/cac4f6e265ed419245e8b323dd4f18d60a16beac))
 
 ### Refactor
