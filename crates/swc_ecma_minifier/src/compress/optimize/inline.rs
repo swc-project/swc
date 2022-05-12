@@ -633,7 +633,7 @@ where
                 }
 
                 self.changed = true;
-                report_change!("inline: Replacing a variable with cheap expression");
+                report_change!("inline: Replacing a variable `{}` with cheap expression", i);
 
                 *e = *value;
                 return;

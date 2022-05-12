@@ -194,6 +194,8 @@ evaluate/unsafe_object/input.js
 evaluate/unsafe_object_complex/input.js
 evaluate/unsafe_object_nested/input.js
 evaluate/unsafe_object_repeated/input.js
+expansions/avoid_spread_getset_object/input.js
+expansions/avoid_spread_hole/input.js
 export/export_default_named_async_function/input.js
 export/export_default_named_generator/input.js
 export/issue_2126/input.js
@@ -210,6 +212,7 @@ export/name_cache_import_star_as_name_from_module/input.js
 export/name_cache_mangle_export_default_class/input.js
 export/name_cache_mangle_export_default_function/input.js
 export/name_cache_mangle_local_import_and_export_aliases/input.js
+functions/avoid_generating_duplicate_functions_compared_together_3/input.js
 functions/duplicate_arg_var/input.js
 functions/empty_body/input.js
 functions/hoist_funs/input.js
@@ -366,6 +369,8 @@ issue_1431/level_one/input.js
 issue_1431/level_three/input.js
 issue_1431/level_two/input.js
 issue_1431/level_zero/input.js
+issue_1443/keep_fnames/input.js
+issue_1443/unsafe_undefined/input.js
 issue_1446/typeof_eq_undefined_ie8/input.js
 issue_1446/undefined_redefined_mangle/input.js
 issue_1447/conditional_false_stray_else_in_loop/input.js
@@ -410,6 +415,8 @@ issue_2719/warn/input.js
 issue_281/collapse_vars_constants/input.js
 issue_281/issue_1758/input.js
 issue_2871/comparison_with_undefined/input.js
+issue_417/test_unexpected_crash/input.js
+issue_417/test_unexpected_crash_2/input.js
 issue_44/issue_44_valid_ast_1/input.js
 issue_44/issue_44_valid_ast_2/input.js
 issue_597/issue_1724/input.js
