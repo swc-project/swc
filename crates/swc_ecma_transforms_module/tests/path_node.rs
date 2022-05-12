@@ -2,7 +2,12 @@ use std::path::{Path, PathBuf};
 
 use swc_common::FileName;
 use swc_ecma_loader::resolvers::{node::NodeModulesResolver, tsc::TsConfigResolver};
-use swc_ecma_transforms_module::path::{ImportResolver, NodeImportResolver};
+use swc_ecma_parser::Syntax;
+use swc_ecma_transforms_module::{
+    path::{ImportResolver, NodeImportResolver},
+    rewriter::import_rewriter,
+};
+use swc_ecma_transforms_testing::test_fixture;
 use testing::run_test2;
 
 type TestProvider = NodeImportResolver<NodeModulesResolver>;
@@ -40,20 +45,22 @@ fn paths_resolver(
 
 #[testing::fixture("tests/paths/**/input")]
 fn fixture(input_dir: PathBuf) {
-    let provider = paths_resolver("tests/paths/issue-4619/1/", vec![]);
+    let output_dir = input_dir.parent().unwrap().join("output");
 
-    run_test2(false, |cm, _| {
-        let fm = cm
-            .load_file(Path::new("tests/paths/issue-4619/1/index.ts"))
-            .unwrap();
+    let index_path = input_dir.join("index.js");
 
-        let resolved = provider
-            .resolve_import(&fm.name, "./rel.decorator.js")
-            .expect("should success");
+    test_fixture(
+        Syntax::default(),
+        &|_| {
+            let paths_json_path = input_dir.join("paths.json");
+            let paths_json = std::fs::read_to_string(&paths_json_path).unwrap();
+            let paths = serde_json::from_str::<Vec<(String, Vec<String>)>>(&paths_json).unwrap();
 
-        assert_eq!(&*resolved, "./rel.decorator.js");
+            let resolver = paths_resolver(&input_dir, paths);
 
-        Ok(())
-    })
-    .unwrap();
+            import_rewriter(FileName::Real(input_dir.clone()), resolver)
+        },
+        &index_path,
+        &output_dir.join("index.js"),
+    );
 }
