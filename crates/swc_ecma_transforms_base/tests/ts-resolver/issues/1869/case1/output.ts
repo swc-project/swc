@@ -19,5 +19,5 @@ const ZQLExport__1: IZQL = class ZQL__3 {
             "keyword"
         ]
     };
-    private static zqlQueryTemplate: (...values__4: any[]) => string = ZQL__3.zqlTemplateParser`query ${"fnName"}${"fnName?.("}${"tableName"}${"fields?.."}${"fields"}${"fnName?.)"} ${"condition?.where"} ${"condition"} ${"restrictBy"} ${"returnWith"} ${"groupBy"} ${"orderBy"} ${"orderDirection"} ${"limit"} ${"offset"} ${"namedAs"}`;
+    private static zqlQueryTemplate: (...values: any[]) => string = ZQL__3.zqlTemplateParser`query ${"fnName"}${"fnName?.("}${"tableName"}${"fields?.."}${"fields"}${"fnName?.)"} ${"condition?.where"} ${"condition"} ${"restrictBy"} ${"returnWith"} ${"groupBy"} ${"orderBy"} ${"orderDirection"} ${"limit"} ${"offset"} ${"namedAs"}`;
 };

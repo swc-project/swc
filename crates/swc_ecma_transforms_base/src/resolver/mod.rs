@@ -440,7 +440,9 @@ macro_rules! typed_ref {
     ($name:ident, $T:ty) => {
         fn $name(&mut self, node: &mut $T) {
             if self.config.handle_types {
+                let ident_type = self.ident_type;
                 node.visit_mut_children_with(self);
+                self.ident_type = ident_type;
             }
         }
     };
@@ -451,9 +453,11 @@ macro_rules! typed_ref_init {
         fn $name(&mut self, node: &mut $T) {
             if self.config.handle_types {
                 let in_type = self.in_type;
+                let ident_type = self.ident_type;
                 self.ident_type = IdentType::Ref;
                 self.in_type = true;
                 node.visit_mut_children_with(self);
+                self.ident_type = ident_type;
                 self.in_type = in_type;
             }
         }
@@ -1070,7 +1074,6 @@ impl<'a> VisitMut for Resolver<'a> {
         // visit the type first so that it doesn't resolve any
         // identifiers from the arg
         node.type_ann.visit_mut_with(self);
-        self.ident_type = IdentType::Binding;
         node.arg.visit_mut_with(self);
     }
 
