@@ -194,7 +194,6 @@ evaluate/unsafe_object/input.js
 evaluate/unsafe_object_complex/input.js
 evaluate/unsafe_object_nested/input.js
 evaluate/unsafe_object_repeated/input.js
-expansions/avoid_spread_getset_object/input.js
 expansions/avoid_spread_hole/input.js
 export/export_default_named_async_function/input.js
 export/export_default_named_generator/input.js
