@@ -12,7 +12,7 @@ use swc_common::{FileName, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_loader::resolve::Resolve;
 use swc_ecma_utils::{quote_ident, ExprFactory};
-use tracing::{debug, warn, Level};
+use tracing::{debug, trace, warn, Level};
 
 pub(crate) enum Resolver {
     Real {
@@ -107,11 +107,21 @@ where
         ) -> JsWord {
             let mut p = PathBuf::from(target_path);
 
+            if cfg!(debug_assertions) {
+                trace!("to_specifier: orig_ext={:?}", orig_ext);
+            }
+
             match orig_ext {
                 Some(orig_ext) => {
-                    if let Some(v) = p.extension() {
-                        if v == "ts" || v == "tsx" || v == "js" || v == "jsx" {
+                    if let Some(..) = p.extension() {
+                        if orig_ext == "ts"
+                            || orig_ext == "tsx"
+                            || orig_ext == "js"
+                            || orig_ext == "jsx"
+                        {
                             p.set_extension(orig_ext);
+                        } else {
+                            p.set_extension("");
                         }
                     }
                 }

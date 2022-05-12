@@ -59,7 +59,7 @@ fn fixture(input_dir: PathBuf) {
 
             let rules = paths.into_iter().collect();
 
-            let resolver = paths_resolver(&index_path, rules);
+            let resolver = paths_resolver(&input_dir, rules);
 
             import_rewriter(FileName::Real(index_path.clone()), resolver)
         },
