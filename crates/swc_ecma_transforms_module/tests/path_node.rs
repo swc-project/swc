@@ -1,4 +1,4 @@
-use std::path::Path;
+use std::path::{Path, PathBuf};
 
 use swc_common::FileName;
 use swc_ecma_loader::resolvers::{node::NodeModulesResolver, tsc::TsConfigResolver};
@@ -37,6 +37,9 @@ fn paths_resolver(
         rules,
     ))
 }
+
+#[testing::fixture("tests/paths/**/input")]
+fn fixture(input_dir: PathBuf) {}
 
 /// Test for relative paths
 #[test]
