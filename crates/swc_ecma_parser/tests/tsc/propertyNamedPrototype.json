@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 74,
+    "start": 1,
+    "end": 75,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 6,
-          "end": 7,
+          "start": 7,
+          "end": 8,
           "ctxt": 0
         },
         "value": "C",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 0,
-        "end": 74,
+        "start": 1,
+        "end": 75,
         "ctxt": 0
       },
       "decorators": [],
@@ -29,15 +29,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 14,
-            "end": 32,
+            "start": 15,
+            "end": 33,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 14,
-              "end": 23,
+              "start": 15,
+              "end": 24,
               "ctxt": 0
             },
             "value": "prototype",
@@ -47,15 +47,15 @@
           "typeAnnotation": {
             "type": "TsTypeAnnotation",
             "span": {
-              "start": 23,
-              "end": 31,
+              "start": 24,
+              "end": 32,
               "ctxt": 0
             },
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
-                "start": 25,
-                "end": 31,
+                "start": 26,
+                "end": 32,
                 "ctxt": 0
               },
               "kind": "number"
@@ -74,15 +74,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 43,
-            "end": 63,
+            "start": 44,
+            "end": 64,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 50,
-              "end": 59,
+              "start": 51,
+              "end": 60,
               "ctxt": 0
             },
             "value": "prototype",
@@ -92,22 +92,22 @@
           "typeAnnotation": {
             "type": "TsTypeAnnotation",
             "span": {
-              "start": 59,
-              "end": 62,
+              "start": 60,
+              "end": 63,
               "ctxt": 0
             },
             "typeAnnotation": {
               "type": "TsTypeReference",
               "span": {
-                "start": 61,
-                "end": 62,
+                "start": 62,
+                "end": 63,
                 "ctxt": 0
               },
               "typeName": {
                 "type": "Identifier",
                 "span": {
-                  "start": 61,
-                  "end": 62,
+                  "start": 62,
+                  "end": 63,
                   "ctxt": 0
                 },
                 "value": "C",

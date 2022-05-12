@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 0,
-    "end": 51,
+    "start": 1,
+    "end": 52,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 33,
+        "end": 34,
         "ctxt": 0
       },
       "tagName": "html",
@@ -22,7 +22,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 7,
+            "end": 8,
             "ctxt": 0
           },
           "tagName": "head",
@@ -35,7 +35,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 33,
+            "end": 34,
             "ctxt": 0
           },
           "tagName": "body",
@@ -45,8 +45,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 7,
-                "end": 24,
+                "start": 8,
+                "end": 25,
                 "ctxt": 0
               },
               "tagName": "select",
@@ -56,8 +56,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 15,
-                    "end": 24,
+                    "start": 16,
+                    "end": 25,
                     "ctxt": 0
                   },
                   "tagName": "option",
@@ -67,8 +67,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 23,
-                        "end": 24,
+                        "start": 24,
+                        "end": 25,
                         "ctxt": 0
                       },
                       "value": "A"
@@ -82,8 +82,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 0,
-                "end": 33,
+                "start": 1,
+                "end": 34,
                 "ctxt": 0
               },
               "tagName": "table",
@@ -94,7 +94,7 @@
                   "type": "Element",
                   "span": {
                     "start": 0,
-                    "end": 33,
+                    "end": 34,
                     "ctxt": 0
                   },
                   "tagName": "tbody",
@@ -104,8 +104,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 24,
-                        "end": 33,
+                        "start": 25,
+                        "end": 34,
                         "ctxt": 0
                       },
                       "tagName": "tr",
@@ -115,8 +115,8 @@
                         {
                           "type": "Element",
                           "span": {
-                            "start": 28,
-                            "end": 33,
+                            "start": 29,
+                            "end": 34,
                             "ctxt": 0
                           },
                           "tagName": "td",
@@ -126,8 +126,8 @@
                             {
                               "type": "Text",
                               "span": {
-                                "start": 32,
-                                "end": 33,
+                                "start": 33,
+                                "end": 34,
                                 "ctxt": 0
                               },
                               "value": "B"

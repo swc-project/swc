@@ -971,6 +971,9 @@ pub trait Pos {
 ///
 /// # Reserved
 ///
+///  - 0 is reserved for dummy spans. It means `BytePos(0)` means the `BytePos`
+///    is synthesized by the compiler.
+///
 ///  - Values larger than `u32::MAX - 2^16` are reserved for the comments.
 ///
 /// `u32::MAX` is special value used to generate source map entries.
@@ -988,6 +991,12 @@ impl BytePos {
 
     pub const fn is_reserved_for_comments(self) -> bool {
         self.0 >= Self::MIN_RESERVED.0 && self.0 != u32::MAX
+    }
+
+    /// Returns true if this is synthesized and has no relevant input source
+    /// code.
+    pub const fn is_dummy(self) -> bool {
+        self.0 == 0
     }
 }
 
@@ -1167,6 +1176,7 @@ pub enum SpanLinesError {
 
 #[derive(Clone, PartialEq, Eq, Debug)]
 pub enum SpanSnippetError {
+    DummyBytePos,
     IllFormedSpan(Span),
     DistinctSources(DistinctSources),
     MalformedForSourcemap(MalformedSourceMapPositions),

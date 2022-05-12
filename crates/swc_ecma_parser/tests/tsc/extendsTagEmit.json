@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 94,
-    "end": 212,
+    "start": 95,
+    "end": 213,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 94,
-        "end": 112,
+        "start": 95,
+        "end": 113,
         "ctxt": 0
       },
       "declaration": {
@@ -18,8 +18,8 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 107,
-            "end": 108,
+            "start": 108,
+            "end": 109,
             "ctxt": 0
           },
           "value": "B",
@@ -27,8 +27,8 @@
         },
         "declare": false,
         "span": {
-          "start": 101,
-          "end": 112,
+          "start": 102,
+          "end": 113,
           "ctxt": 0
         },
         "decorators": [],
@@ -43,23 +43,23 @@
     {
       "type": "ImportDeclaration",
       "span": {
-        "start": 136,
-        "end": 163,
+        "start": 137,
+        "end": 164,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ImportSpecifier",
           "span": {
-            "start": 145,
-            "end": 146,
+            "start": 146,
+            "end": 147,
             "ctxt": 0
           },
           "local": {
             "type": "Identifier",
             "span": {
-              "start": 145,
-              "end": 146,
+              "start": 146,
+              "end": 147,
               "ctxt": 0
             },
             "value": "B",
@@ -72,8 +72,8 @@
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 154,
-          "end": 163,
+          "start": 155,
+          "end": 164,
           "ctxt": 0
         },
         "value": "./super",
@@ -87,8 +87,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 197,
-          "end": 198,
+          "start": 198,
+          "end": 199,
           "ctxt": 0
         },
         "value": "C",
@@ -96,8 +96,8 @@
       },
       "declare": false,
       "span": {
-        "start": 191,
-        "end": 212,
+        "start": 192,
+        "end": 213,
         "ctxt": 0
       },
       "decorators": [],
@@ -105,8 +105,8 @@
       "superClass": {
         "type": "Identifier",
         "span": {
-          "start": 207,
-          "end": 208,
+          "start": 208,
+          "end": 209,
           "ctxt": 0
         },
         "value": "B",

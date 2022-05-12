@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 16,
-    "end": 42,
+    "start": 17,
+    "end": 43,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 16,
-        "end": 42,
+        "start": 17,
+        "end": 43,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 20,
-            "end": 42,
+            "start": 21,
+            "end": 43,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 20,
-              "end": 21,
+              "start": 21,
+              "end": 22,
               "ctxt": 0
             },
             "value": "v",
@@ -37,8 +37,8 @@
           "init": {
             "type": "ObjectExpression",
             "span": {
-              "start": 24,
-              "end": 42,
+              "start": 25,
+              "end": 43,
               "ctxt": 0
             },
             "properties": [
@@ -47,22 +47,22 @@
                 "key": {
                   "type": "Computed",
                   "span": {
-                    "start": 27,
-                    "end": 34,
+                    "start": 28,
+                    "end": 35,
                     "ctxt": 0
                   },
                   "expression": {
                     "type": "CallExpression",
                     "span": {
-                      "start": 28,
-                      "end": 33,
+                      "start": 29,
+                      "end": 34,
                       "ctxt": 0
                     },
                     "callee": {
                       "type": "Identifier",
                       "span": {
-                        "start": 28,
-                        "end": 31,
+                        "start": 29,
+                        "end": 32,
                         "ctxt": 0
                       },
                       "value": "foo",
@@ -75,15 +75,15 @@
                 "params": [],
                 "decorators": [],
                 "span": {
-                  "start": 26,
-                  "end": 40,
+                  "start": 27,
+                  "end": 41,
                   "ctxt": 0
                 },
                 "body": {
                   "type": "BlockStatement",
                   "span": {
-                    "start": 37,
-                    "end": 40,
+                    "start": 38,
+                    "end": 41,
                     "ctxt": 0
                   },
                   "stmts": []

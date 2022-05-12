@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 10,
-    "end": 266,
+    "start": 11,
+    "end": 267,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsInterfaceDeclaration",
       "span": {
-        "start": 10,
-        "end": 60,
+        "start": 11,
+        "end": 61,
         "ctxt": 0
       },
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 20,
-          "end": 26,
+          "start": 21,
+          "end": 27,
           "ctxt": 0
         },
         "value": "Person",
@@ -29,24 +29,24 @@
       "body": {
         "type": "TsInterfaceBody",
         "span": {
-          "start": 27,
-          "end": 60,
+          "start": 28,
+          "end": 61,
           "ctxt": 0
         },
         "body": [
           {
             "type": "TsPropertySignature",
             "span": {
-              "start": 31,
-              "end": 44,
+              "start": 32,
+              "end": 45,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 31,
-                "end": 35,
+                "start": 32,
+                "end": 36,
                 "ctxt": 0
               },
               "value": "naam",
@@ -59,15 +59,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 35,
-                "end": 43,
+                "start": 36,
+                "end": 44,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 37,
-                  "end": 43,
+                  "start": 38,
+                  "end": 44,
                   "ctxt": 0
                 },
                 "kind": "string"
@@ -78,16 +78,16 @@
           {
             "type": "TsPropertySignature",
             "span": {
-              "start": 47,
-              "end": 58,
+              "start": 48,
+              "end": 59,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 47,
-                "end": 50,
+                "start": 48,
+                "end": 51,
                 "ctxt": 0
               },
               "value": "age",
@@ -100,15 +100,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 50,
-                "end": 58,
+                "start": 51,
+                "end": 59,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 52,
-                  "end": 58,
+                  "start": 53,
+                  "end": 59,
                   "ctxt": 0
                 },
                 "kind": "number"
@@ -122,8 +122,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 62,
-        "end": 87,
+        "start": 63,
+        "end": 88,
         "ctxt": 0
       },
       "kind": "const",
@@ -132,15 +132,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 76,
-            "end": 87,
+            "start": 77,
+            "end": 88,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 76,
-              "end": 79,
+              "start": 77,
+              "end": 80,
               "ctxt": 0
             },
             "value": "bob",
@@ -148,22 +148,22 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 79,
-                "end": 87,
+                "start": 80,
+                "end": 88,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
-                  "start": 81,
-                  "end": 87,
+                  "start": 82,
+                  "end": 88,
                   "ctxt": 0
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
-                    "start": 81,
-                    "end": 87,
+                    "start": 82,
+                    "end": 88,
                     "ctxt": 0
                   },
                   "value": "Person",
@@ -181,8 +181,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 88,
-        "end": 115,
+        "start": 89,
+        "end": 116,
         "ctxt": 0
       },
       "kind": "const",
@@ -191,15 +191,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 102,
-            "end": 115,
+            "start": 103,
+            "end": 116,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 102,
-              "end": 107,
+              "start": 103,
+              "end": 108,
               "ctxt": 0
             },
             "value": "alice",
@@ -207,22 +207,22 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 107,
-                "end": 115,
+                "start": 108,
+                "end": 116,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
-                  "start": 109,
-                  "end": 115,
+                  "start": 110,
+                  "end": 116,
                   "ctxt": 0
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
-                    "start": 109,
-                    "end": 115,
+                    "start": 110,
+                    "end": 116,
                     "ctxt": 0
                   },
                   "value": "Person",
@@ -240,8 +240,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 226,
-        "end": 266,
+        "start": 227,
+        "end": 267,
         "ctxt": 0
       },
       "kind": "const",
@@ -250,30 +250,30 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 232,
-            "end": 266,
+            "start": 233,
+            "end": 267,
             "ctxt": 0
           },
           "id": {
             "type": "ObjectPattern",
             "span": {
-              "start": 232,
-              "end": 245,
+              "start": 233,
+              "end": 246,
               "ctxt": 0
             },
             "properties": [
               {
                 "type": "AssignmentPatternProperty",
                 "span": {
-                  "start": 234,
-                  "end": 238,
+                  "start": 235,
+                  "end": 239,
                   "ctxt": 0
                 },
                 "key": {
                   "type": "Identifier",
                   "span": {
-                    "start": 234,
-                    "end": 238,
+                    "start": 235,
+                    "end": 239,
                     "ctxt": 0
                   },
                   "value": "naam",
@@ -284,15 +284,15 @@
               {
                 "type": "AssignmentPatternProperty",
                 "span": {
-                  "start": 240,
-                  "end": 243,
+                  "start": 241,
+                  "end": 244,
                   "ctxt": 0
                 },
                 "key": {
                   "type": "Identifier",
                   "span": {
-                    "start": 240,
-                    "end": 243,
+                    "start": 241,
+                    "end": 244,
                     "ctxt": 0
                   },
                   "value": "age",
@@ -307,23 +307,23 @@
           "init": {
             "type": "ObjectExpression",
             "span": {
-              "start": 248,
-              "end": 266,
+              "start": 249,
+              "end": 267,
               "ctxt": 0
             },
             "properties": [
               {
                 "type": "SpreadElement",
                 "spread": {
-                  "start": 249,
-                  "end": 252,
+                  "start": 250,
+                  "end": 253,
                   "ctxt": 0
                 },
                 "arguments": {
                   "type": "Identifier",
                   "span": {
-                    "start": 252,
-                    "end": 255,
+                    "start": 253,
+                    "end": 256,
                     "ctxt": 0
                   },
                   "value": "bob",
@@ -333,15 +333,15 @@
               {
                 "type": "SpreadElement",
                 "spread": {
-                  "start": 257,
-                  "end": 260,
+                  "start": 258,
+                  "end": 261,
                   "ctxt": 0
                 },
                 "arguments": {
                   "type": "Identifier",
                   "span": {
-                    "start": 260,
-                    "end": 265,
+                    "start": 261,
+                    "end": 266,
                     "ctxt": 0
                   },
                   "value": "alice",

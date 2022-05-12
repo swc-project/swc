@@ -1,23 +1,23 @@
 {
   "type": "Module",
   "span": {
-    "start": 0,
-    "end": 55,
+    "start": 1,
+    "end": 56,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportAllDeclaration",
       "span": {
-        "start": 0,
-        "end": 55,
+        "start": 1,
+        "end": 56,
         "ctxt": 0
       },
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 14,
-          "end": 24,
+          "start": 15,
+          "end": 25,
           "ctxt": 0
         },
         "value": "./foo.js",
@@ -26,8 +26,8 @@
       "asserts": {
         "type": "ObjectExpression",
         "span": {
-          "start": 32,
-          "end": 54,
+          "start": 33,
+          "end": 55,
           "ctxt": 0
         },
         "properties": [
@@ -36,8 +36,8 @@
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 34,
-                "end": 38,
+                "start": 35,
+                "end": 39,
                 "ctxt": 0
               },
               "value": "type",
@@ -46,8 +46,8 @@
             "value": {
               "type": "StringLiteral",
               "span": {
-                "start": 40,
-                "end": 52,
+                "start": 41,
+                "end": 53,
                 "ctxt": 0
               },
               "value": "javascript",

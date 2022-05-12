@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 28,
+    "start": 1,
+    "end": 29,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 0,
-        "end": 28,
+        "start": 1,
+        "end": 29,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,23 +19,23 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 4,
-            "end": 27,
+            "start": 5,
+            "end": 28,
             "ctxt": 0
           },
           "id": {
             "type": "ArrayPattern",
             "span": {
-              "start": 4,
-              "end": 10,
+              "start": 5,
+              "end": 11,
               "ctxt": 0
             },
             "elements": [
               {
                 "type": "Identifier",
                 "span": {
-                  "start": 5,
-                  "end": 6,
+                  "start": 6,
+                  "end": 7,
                   "ctxt": 0
                 },
                 "value": "a",
@@ -45,8 +45,8 @@
               {
                 "type": "Identifier",
                 "span": {
-                  "start": 8,
-                  "end": 9,
+                  "start": 9,
+                  "end": 10,
                   "ctxt": 0
                 },
                 "value": "b",
@@ -60,8 +60,8 @@
           "init": {
             "type": "ArrayExpression",
             "span": {
-              "start": 13,
-              "end": 27,
+              "start": 14,
+              "end": 28,
               "ctxt": 0
             },
             "elements": [
@@ -70,8 +70,8 @@
                 "expression": {
                   "type": "NumericLiteral",
                   "span": {
-                    "start": 14,
-                    "end": 15,
+                    "start": 15,
+                    "end": 16,
                     "ctxt": 0
                   },
                   "value": 0.0,
@@ -83,8 +83,8 @@
                 "expression": {
                   "type": "Identifier",
                   "span": {
-                    "start": 17,
-                    "end": 26,
+                    "start": 18,
+                    "end": 27,
                     "ctxt": 0
                   },
                   "value": "undefined",

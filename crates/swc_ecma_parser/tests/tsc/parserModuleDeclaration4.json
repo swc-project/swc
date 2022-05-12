@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 60,
+    "start": 1,
+    "end": 61,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsModuleDeclaration",
       "span": {
-        "start": 0,
-        "end": 60,
+        "start": 1,
+        "end": 61,
         "ctxt": 0
       },
       "declare": false,
@@ -18,8 +18,8 @@
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 7,
-          "end": 8,
+          "start": 8,
+          "end": 9,
           "ctxt": 0
         },
         "value": "M",
@@ -28,16 +28,16 @@
       "body": {
         "type": "TsModuleBlock",
         "span": {
-          "start": 9,
-          "end": 60,
+          "start": 10,
+          "end": 61,
           "ctxt": 0
         },
         "body": [
           {
             "type": "TsModuleDeclaration",
             "span": {
-              "start": 13,
-              "end": 58,
+              "start": 14,
+              "end": 59,
               "ctxt": 0
             },
             "declare": true,
@@ -45,8 +45,8 @@
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 28,
-                "end": 30,
+                "start": 29,
+                "end": 31,
                 "ctxt": 0
               },
               "value": "M1",
@@ -55,16 +55,16 @@
             "body": {
               "type": "TsModuleBlock",
               "span": {
-                "start": 31,
-                "end": 58,
+                "start": 32,
+                "end": 59,
                 "ctxt": 0
               },
               "body": [
                 {
                   "type": "TsModuleDeclaration",
                   "span": {
-                    "start": 37,
-                    "end": 54,
+                    "start": 38,
+                    "end": 55,
                     "ctxt": 0
                   },
                   "declare": false,
@@ -72,8 +72,8 @@
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 44,
-                      "end": 46,
+                      "start": 45,
+                      "end": 47,
                       "ctxt": 0
                     },
                     "value": "M2",
@@ -82,8 +82,8 @@
                   "body": {
                     "type": "TsModuleBlock",
                     "span": {
-                      "start": 47,
-                      "end": 54,
+                      "start": 48,
+                      "end": 55,
                       "ctxt": 0
                     },
                     "body": []

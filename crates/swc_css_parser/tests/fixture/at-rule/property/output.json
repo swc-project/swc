@@ -1,23 +1,23 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 0,
-    "end": 97,
+    "start": 1,
+    "end": 98,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
-        "start": 0,
-        "end": 96,
+        "start": 1,
+        "end": 97,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 1,
-          "end": 9,
+          "start": 2,
+          "end": 10,
           "ctxt": 0
         },
         "value": "property",
@@ -26,8 +26,8 @@
       "prelude": {
         "type": "CustomPropertyName",
         "span": {
-          "start": 10,
-          "end": 20,
+          "start": 11,
+          "end": 21,
           "ctxt": 0
         },
         "value": "--my-color",
@@ -36,8 +36,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 21,
-          "end": 96,
+          "start": 22,
+          "end": 97,
           "ctxt": 0
         },
         "name": "{",
@@ -45,15 +45,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 27,
-              "end": 44,
+              "start": 28,
+              "end": 45,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 27,
-                "end": 33,
+                "start": 28,
+                "end": 34,
                 "ctxt": 0
               },
               "value": "syntax",
@@ -63,8 +63,8 @@
               {
                 "type": "String",
                 "span": {
-                  "start": 35,
-                  "end": 44,
+                  "start": 36,
+                  "end": 45,
                   "ctxt": 0
                 },
                 "value": "<color>",
@@ -76,15 +76,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 50,
-              "end": 65,
+              "start": 51,
+              "end": 66,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 50,
-                "end": 58,
+                "start": 51,
+                "end": 59,
                 "ctxt": 0
               },
               "value": "inherits",
@@ -94,8 +94,8 @@
               {
                 "type": "Ident",
                 "span": {
-                  "start": 60,
-                  "end": 65,
+                  "start": 61,
+                  "end": 66,
                   "ctxt": 0
                 },
                 "value": "false",
@@ -107,15 +107,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 71,
-              "end": 93,
+              "start": 72,
+              "end": 94,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 71,
-                "end": 84,
+                "start": 72,
+                "end": 85,
                 "ctxt": 0
               },
               "value": "initial-value",
@@ -125,8 +125,8 @@
               {
                 "type": "HexColor",
                 "span": {
-                  "start": 86,
-                  "end": 93,
+                  "start": 87,
+                  "end": 94,
                   "ctxt": 0
                 },
                 "value": "c0ffee",

@@ -28,60 +28,12 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:1:1]
-  1 | ,-> <popup-info img="img/alt.png" data-text="Your card validation code (CVC)
-  2 | |     is an extra security feature — it is the last 3 or 4 numbers on the
-  3 | |     back of your card."></popup-info>
-  4 | |   
-  5 | |   <custom-square l="100" c="red"></custom-square>
-  6 | |   
-  7 | |   <app-drawer open disabled></app-drawer>
-  8 | |   
-  9 | |   <share-buttons>
- 10 | |       <social-button type="twitter"><a href="...">Twitter</a></social-button>
- 11 | |       <social-button type="fb"><a href="...">Facebook</a></social-button>
- 12 | |       <social-button type="plus"><a href="...">G+</a></social-button>
- 13 | |   </share-buttons>
- 14 | |   
- 15 | |   <x-foo-with-markup>
- 16 | |       <b>I'm an x-foo-with-markup!</b>
- 17 | |   </x-foo-with-markup>
- 18 | |   
- 19 | |   <template id="x-foo-from-template">
- 20 | |       <style>
- 21 | |           p { color: green; }
- 22 | |       </style>
- 23 | `->     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
- 24 |     </template>
-    `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:1:1]
-  1 | ,-> <popup-info img="img/alt.png" data-text="Your card validation code (CVC)
-  2 | |     is an extra security feature — it is the last 3 or 4 numbers on the
-  3 | |     back of your card."></popup-info>
-  4 | |   
-  5 | |   <custom-square l="100" c="red"></custom-square>
-  6 | |   
-  7 | |   <app-drawer open disabled></app-drawer>
-  8 | |   
-  9 | |   <share-buttons>
- 10 | |       <social-button type="twitter"><a href="...">Twitter</a></social-button>
- 11 | |       <social-button type="fb"><a href="...">Facebook</a></social-button>
- 12 | |       <social-button type="plus"><a href="...">G+</a></social-button>
- 13 | |   </share-buttons>
- 14 | |   
- 15 | |   <x-foo-with-markup>
- 16 | |       <b>I'm an x-foo-with-markup!</b>
- 17 | |   </x-foo-with-markup>
- 18 | |   
- 19 | |   <template id="x-foo-from-template">
- 20 | |       <style>
- 21 | |           p { color: green; }
- 22 | |       </style>
- 23 | `->     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
- 24 |     </template>
-    `----
+
+  x Child
+
+  x Element
 
   x Child
    ,-[$DIR/tests/fixture/element/custom-element/input.html:1:1]
@@ -98,10 +50,6 @@
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/element/custom-element/input.html:1:1]
- 1 | <popup-info img="img/alt.png" data-text="Your card validation code (CVC)
-   : ^
-   `----
 
   x Child
    ,-[$DIR/tests/fixture/element/custom-element/input.html:3:3]

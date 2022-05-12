@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 86,
-    "end": 208,
+    "start": 87,
+    "end": 209,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 86,
-        "end": 103,
+        "start": 87,
+        "end": 104,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 90,
-            "end": 102,
+            "start": 91,
+            "end": 103,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 90,
-              "end": 97,
+              "start": 91,
+              "end": 98,
               "ctxt": 0
             },
             "value": "exports",
@@ -37,8 +37,8 @@
           "init": {
             "type": "ObjectExpression",
             "span": {
-              "start": 100,
-              "end": 102,
+              "start": 101,
+              "end": 103,
               "ctxt": 0
             },
             "properties": []
@@ -50,22 +50,22 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 134,
-        "end": 151,
+        "start": 135,
+        "end": 152,
         "ctxt": 0
       },
       "expression": {
         "type": "MemberExpression",
         "span": {
-          "start": 134,
-          "end": 150,
+          "start": 135,
+          "end": 151,
           "ctxt": 0
         },
         "object": {
           "type": "Identifier",
           "span": {
-            "start": 134,
-            "end": 141,
+            "start": 135,
+            "end": 142,
             "ctxt": 0
           },
           "value": "exports",
@@ -74,8 +74,8 @@
         "property": {
           "type": "Identifier",
           "span": {
-            "start": 142,
-            "end": 150,
+            "start": 143,
+            "end": 151,
             "ctxt": 0
           },
           "value": "SomeName",
@@ -86,8 +86,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 185,
-        "end": 208,
+        "start": 186,
+        "end": 209,
         "ctxt": 0
       },
       "kind": "const",
@@ -96,15 +96,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 191,
-            "end": 207,
+            "start": 192,
+            "end": 208,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 191,
-              "end": 199,
+              "start": 192,
+              "end": 200,
               "ctxt": 0
             },
             "value": "myString",
@@ -114,8 +114,8 @@
           "init": {
             "type": "StringLiteral",
             "span": {
-              "start": 202,
-              "end": 207,
+              "start": 203,
+              "end": 208,
               "ctxt": 0
             },
             "value": "str",

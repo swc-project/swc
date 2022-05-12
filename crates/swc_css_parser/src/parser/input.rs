@@ -54,7 +54,11 @@ where
             self.bump_inner()?;
         }
 
-        Ok(self.cur.as_ref().map(|cur| cur.span).unwrap_or_default())
+        Ok(self
+            .cur
+            .as_ref()
+            .map(|cur| cur.span)
+            .unwrap_or_else(|| Span::new(self.last_pos, self.last_pos, Default::default())))
     }
 
     pub fn cur(&mut self) -> PResult<Option<&Token>> {

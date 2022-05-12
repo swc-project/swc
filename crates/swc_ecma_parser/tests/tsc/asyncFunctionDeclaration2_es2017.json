@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 43,
-    "end": 64,
+    "start": 44,
+    "end": 65,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 52,
-          "end": 53,
+          "start": 53,
+          "end": 54,
           "ctxt": 0
         },
         "value": "f",
@@ -23,16 +23,16 @@
         {
           "type": "Parameter",
           "span": {
-            "start": 54,
-            "end": 59,
+            "start": 55,
+            "end": 60,
             "ctxt": 0
           },
           "decorators": [],
           "pat": {
             "type": "Identifier",
             "span": {
-              "start": 54,
-              "end": 59,
+              "start": 55,
+              "end": 60,
               "ctxt": 0
             },
             "value": "await",
@@ -43,15 +43,15 @@
       ],
       "decorators": [],
       "span": {
-        "start": 43,
-        "end": 64,
+        "start": 44,
+        "end": 65,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 61,
-          "end": 64,
+          "start": 62,
+          "end": 65,
           "ctxt": 0
         },
         "stmts": []

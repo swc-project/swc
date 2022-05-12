@@ -1,16 +1,16 @@
 {
   "type": "DocumentFragment",
   "span": {
-    "start": 0,
-    "end": 17,
+    "start": 1,
+    "end": 18,
     "ctxt": 0
   },
   "children": [
     {
       "type": "Text",
       "span": {
-        "start": 16,
-        "end": 17,
+        "start": 17,
+        "end": 18,
         "ctxt": 0
       },
       "value": "X"

@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 15,
-    "end": 37,
+    "start": 16,
+    "end": 38,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ForInStatement",
       "span": {
-        "start": 15,
-        "end": 37,
+        "start": 16,
+        "end": 38,
         "ctxt": 0
       },
       "left": {
         "type": "VariableDeclaration",
         "span": {
-          "start": 20,
-          "end": 26,
+          "start": 21,
+          "end": 27,
           "ctxt": 0
         },
         "kind": "var",
@@ -26,15 +26,15 @@
           {
             "type": "VariableDeclarator",
             "span": {
-              "start": 24,
-              "end": 26,
+              "start": 25,
+              "end": 27,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 24,
-                "end": 26,
+                "start": 25,
+                "end": 27,
                 "ctxt": 0
               },
               "value": "of",
@@ -49,8 +49,8 @@
       "right": {
         "type": "Identifier",
         "span": {
-          "start": 30,
-          "end": 32,
+          "start": 31,
+          "end": 33,
           "ctxt": 0
         },
         "value": "of",
@@ -59,8 +59,8 @@
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 34,
-          "end": 37,
+          "start": 35,
+          "end": 38,
           "ctxt": 0
         },
         "stmts": []

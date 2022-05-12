@@ -1,39 +1,39 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 0,
-    "end": 77,
+    "start": 1,
+    "end": 78,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
-        "start": 0,
-        "end": 77,
+        "start": 1,
+        "end": 78,
         "ctxt": 0
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
-          "start": 0,
-          "end": 2,
+          "start": 1,
+          "end": 3,
           "ctxt": 0
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
-              "start": 0,
-              "end": 2,
+              "start": 1,
+              "end": 3,
               "ctxt": 0
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
-                  "start": 0,
-                  "end": 2,
+                  "start": 1,
+                  "end": 3,
                   "ctxt": 0
                 },
                 "nestingSelector": null,
@@ -42,15 +42,15 @@
                   {
                     "type": "ClassSelector",
                     "span": {
-                      "start": 0,
-                      "end": 2,
+                      "start": 1,
+                      "end": 3,
                       "ctxt": 0
                     },
                     "text": {
                       "type": "Ident",
                       "span": {
-                        "start": 1,
-                        "end": 2,
+                        "start": 2,
+                        "end": 3,
                         "ctxt": 0
                       },
                       "value": "a",
@@ -66,8 +66,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 3,
-          "end": 77,
+          "start": 4,
+          "end": 78,
           "ctxt": 0
         },
         "name": "{",
@@ -75,15 +75,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 9,
-              "end": 74,
+              "start": 10,
+              "end": 75,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 9,
-                "end": 27,
+                "start": 10,
+                "end": 28,
                 "ctxt": 0
               },
               "value": "-webkit-mask-image",
@@ -93,15 +93,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 29,
-                  "end": 74,
+                  "start": 30,
+                  "end": 75,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 29,
-                    "end": 52,
+                    "start": 30,
+                    "end": 53,
                     "ctxt": 0
                   },
                   "value": "-webkit-radial-gradient",
@@ -111,8 +111,8 @@
                   {
                     "type": "Ident",
                     "span": {
-                      "start": 53,
-                      "end": 59,
+                      "start": 54,
+                      "end": 60,
                       "ctxt": 0
                     },
                     "value": "circle",
@@ -121,8 +121,8 @@
                   {
                     "type": "Delimiter",
                     "span": {
-                      "start": 59,
-                      "end": 60,
+                      "start": 60,
+                      "end": 61,
                       "ctxt": 0
                     },
                     "value": ","
@@ -130,8 +130,8 @@
                   {
                     "type": "Ident",
                     "span": {
-                      "start": 61,
-                      "end": 66,
+                      "start": 62,
+                      "end": 67,
                       "ctxt": 0
                     },
                     "value": "white",
@@ -140,8 +140,8 @@
                   {
                     "type": "Delimiter",
                     "span": {
-                      "start": 66,
-                      "end": 67,
+                      "start": 67,
+                      "end": 68,
                       "ctxt": 0
                     },
                     "value": ","
@@ -149,8 +149,8 @@
                   {
                     "type": "Ident",
                     "span": {
-                      "start": 68,
-                      "end": 73,
+                      "start": 69,
+                      "end": 74,
                       "ctxt": 0
                     },
                     "value": "black",

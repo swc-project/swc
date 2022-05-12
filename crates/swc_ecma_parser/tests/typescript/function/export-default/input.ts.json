@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 0,
-    "end": 42,
+    "start": 1,
+    "end": 43,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDefaultDeclaration",
       "span": {
-        "start": 0,
-        "end": 42,
+        "start": 1,
+        "end": 43,
         "ctxt": 0
       },
       "decl": {
@@ -20,16 +20,16 @@
           {
             "type": "Parameter",
             "span": {
-              "start": 24,
-              "end": 34,
+              "start": 25,
+              "end": 35,
               "ctxt": 0
             },
             "decorators": [],
             "pat": {
               "type": "Identifier",
               "span": {
-                "start": 24,
-                "end": 34,
+                "start": 25,
+                "end": 35,
                 "ctxt": 0
               },
               "value": "x",
@@ -37,15 +37,15 @@
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
-                  "start": 26,
-                  "end": 34,
+                  "start": 27,
+                  "end": 35,
                   "ctxt": 0
                 },
                 "typeAnnotation": {
                   "type": "TsKeywordType",
                   "span": {
-                    "start": 28,
-                    "end": 34,
+                    "start": 29,
+                    "end": 35,
                     "ctxt": 0
                   },
                   "kind": "number"
@@ -56,8 +56,8 @@
         ],
         "decorators": [],
         "span": {
-          "start": 15,
-          "end": 42,
+          "start": 16,
+          "end": 43,
           "ctxt": 0
         },
         "body": null,
@@ -67,15 +67,15 @@
         "returnType": {
           "type": "TsTypeAnnotation",
           "span": {
-            "start": 35,
-            "end": 41,
+            "start": 36,
+            "end": 42,
             "ctxt": 0
           },
           "typeAnnotation": {
             "type": "TsKeywordType",
             "span": {
-              "start": 37,
-              "end": 41,
+              "start": 38,
+              "end": 42,
               "ctxt": 0
             },
             "kind": "void"

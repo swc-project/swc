@@ -1,23 +1,23 @@
 {
   "type": "Module",
   "span": {
-    "start": 16,
-    "end": 125,
+    "start": 17,
+    "end": 126,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 16,
-        "end": 48,
+        "start": 17,
+        "end": 49,
         "ctxt": 0
       },
       "declaration": {
         "type": "TsEnumDeclaration",
         "span": {
-          "start": 23,
-          "end": 48,
+          "start": 24,
+          "end": 49,
           "ctxt": 0
         },
         "declare": false,
@@ -25,8 +25,8 @@
         "id": {
           "type": "Identifier",
           "span": {
-            "start": 28,
-            "end": 35,
+            "start": 29,
+            "end": 36,
             "ctxt": 0
           },
           "value": "Animals",
@@ -36,15 +36,15 @@
           {
             "type": "TsEnumMember",
             "span": {
-              "start": 39,
-              "end": 46,
+              "start": 40,
+              "end": 47,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 39,
-                "end": 42,
+                "start": 40,
+                "end": 43,
                 "ctxt": 0
               },
               "value": "Cat",
@@ -53,8 +53,8 @@
             "init": {
               "type": "NumericLiteral",
               "span": {
-                "start": 45,
-                "end": 46,
+                "start": 46,
+                "end": 47,
                 "ctxt": 0
               },
               "value": 1.0,
@@ -67,15 +67,15 @@
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 49,
-        "end": 81,
+        "start": 50,
+        "end": 82,
         "ctxt": 0
       },
       "declaration": {
         "type": "TsEnumDeclaration",
         "span": {
-          "start": 56,
-          "end": 81,
+          "start": 57,
+          "end": 82,
           "ctxt": 0
         },
         "declare": false,
@@ -83,8 +83,8 @@
         "id": {
           "type": "Identifier",
           "span": {
-            "start": 61,
-            "end": 68,
+            "start": 62,
+            "end": 69,
             "ctxt": 0
           },
           "value": "Animals",
@@ -94,15 +94,15 @@
           {
             "type": "TsEnumMember",
             "span": {
-              "start": 72,
-              "end": 79,
+              "start": 73,
+              "end": 80,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 72,
-                "end": 75,
+                "start": 73,
+                "end": 76,
                 "ctxt": 0
               },
               "value": "Dog",
@@ -111,8 +111,8 @@
             "init": {
               "type": "NumericLiteral",
               "span": {
-                "start": 78,
-                "end": 79,
+                "start": 79,
+                "end": 80,
                 "ctxt": 0
               },
               "value": 2.0,
@@ -125,15 +125,15 @@
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 82,
-        "end": 125,
+        "start": 83,
+        "end": 126,
         "ctxt": 0
       },
       "declaration": {
         "type": "TsEnumDeclaration",
         "span": {
-          "start": 89,
-          "end": 125,
+          "start": 90,
+          "end": 126,
           "ctxt": 0
         },
         "declare": false,
@@ -141,8 +141,8 @@
         "id": {
           "type": "Identifier",
           "span": {
-            "start": 94,
-            "end": 101,
+            "start": 95,
+            "end": 102,
             "ctxt": 0
           },
           "value": "Animals",
@@ -152,15 +152,15 @@
           {
             "type": "TsEnumMember",
             "span": {
-              "start": 105,
-              "end": 123,
+              "start": 106,
+              "end": 124,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 105,
-                "end": 111,
+                "start": 106,
+                "end": 112,
                 "ctxt": 0
               },
               "value": "CatDog",
@@ -169,16 +169,16 @@
             "init": {
               "type": "BinaryExpression",
               "span": {
-                "start": 114,
-                "end": 123,
+                "start": 115,
+                "end": 124,
                 "ctxt": 0
               },
               "operator": "|",
               "left": {
                 "type": "Identifier",
                 "span": {
-                  "start": 114,
-                  "end": 117,
+                  "start": 115,
+                  "end": 118,
                   "ctxt": 0
                 },
                 "value": "Cat",
@@ -187,8 +187,8 @@
               "right": {
                 "type": "Identifier",
                 "span": {
-                  "start": 120,
-                  "end": 123,
+                  "start": 121,
+                  "end": 124,
                   "ctxt": 0
                 },
                 "value": "Dog",
