@@ -3165,7 +3165,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.101.1"
+version = "0.101.2"
 dependencies = [
  "bitflags",
  "lexical",
@@ -3582,7 +3582,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.123.0"
+version = "0.123.1"
 dependencies = [
  "ahash",
  "dashmap",
@@ -3875,8 +3875,9 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.4.0"
+version = "0.4.1"
 dependencies = [
+ "serde_json",
  "swc_atoms",
  "swc_common",
  "swc_html_ast",
@@ -3888,7 +3889,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.7.1"
+version = "0.7.2"
 dependencies = [
  "bitflags",
  "lexical",

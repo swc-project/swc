@@ -439,6 +439,7 @@ fn parser_verify(input: PathBuf) {
     exclude(
         "document_type/bogus/input.html",
         "document_type/wrong-name/input.html",
+        "text/cr-charref-novalid/input.html",
     )
 )]
 fn parser_recovery_verify(input: PathBuf) {
@@ -450,7 +451,7 @@ fn parser_recovery_verify(input: PathBuf) {
     "../swc_html_parser/tests/html5lib-tests-fixture/**/*.html",
     exclude(
         "tests16_dat/131.html",
-        "plain-text-unsafe_dat/24.html",
+        "plain-text-unsafe_dat/0.html",
         "template_dat/107.html",
         "template_dat/80.html",
         "tests16_dat/130.html",
