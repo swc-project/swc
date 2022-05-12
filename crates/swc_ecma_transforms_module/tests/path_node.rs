@@ -73,7 +73,7 @@ fn jsc_paths_issue_4585_1() {
             .resolve_import(&fm.name, "./rel.decorator.js")
             .expect("should success");
 
-        assert_eq!(&*resolved, "./rel.js");
+        assert_eq!(&*resolved, "./rel.decorator.js");
 
         Ok(())
     })
@@ -94,7 +94,7 @@ fn jsc_paths_issue_4585_2() {
             .resolve_import(&fm.name, "./rel.decorator")
             .expect("should success");
 
-        assert_eq!(&*resolved, "./rel.js");
+        assert_eq!(&*resolved, "./rel.decorator");
 
         Ok(())
     })
