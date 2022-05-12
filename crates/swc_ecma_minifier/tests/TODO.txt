@@ -11,9 +11,6 @@ drop_unused/keep_assign/input.js
 drop_unused/reassign_const/input.js
 drop_unused/var_catch_toplevel/input.js
 evaluate/issue_2535_1/input.js
-expansions/avoid_spread_getset_object/input.js
-expansions/avoid_spread_hole/input.js
-functions/avoid_generating_duplicate_functions_compared_together_3/input.js
 harmony/array_literal_with_spread_4a/input.js
 harmony/default_assign/input.js
 if_return/if_var_return/input.js
