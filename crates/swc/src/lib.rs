@@ -428,6 +428,7 @@ impl Compiler {
         orig: Option<&sourcemap::SourceMap>,
         minify: bool,
         comments: Option<&dyn Comments>,
+        emit_source_map_columns: bool,
     ) -> Result<TransformOutput, Error>
     where
         T: Node + VisitWith<IdentCollector>,
@@ -493,6 +494,7 @@ impl Compiler {
                                     output_path: output_path.as_deref(),
                                     names: source_map_names,
                                     inline_sources_content,
+                                    emit_columns: emit_source_map_columns,
                                 },
                             )
                             .to_writer(&mut buf)
@@ -517,6 +519,7 @@ impl Compiler {
                                 output_path: output_path.as_deref(),
                                 names: source_map_names,
                                 inline_sources_content,
+                                emit_columns: emit_source_map_columns,
                             },
                         )
                         .to_writer(&mut buf)
@@ -546,6 +549,8 @@ struct SwcSourceMapConfig<'a> {
     names: &'a AHashMap<BytePos, JsWord>,
 
     inline_sources_content: bool,
+
+    emit_columns: bool,
 }
 
 impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
@@ -583,6 +588,10 @@ impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
 
     fn inline_sources_content(&self, _: &FileName) -> bool {
         self.inline_sources_content
+    }
+
+    fn emit_columns(&self, _f: &FileName) -> bool {
+        self.emit_columns
     }
 }
 
@@ -869,6 +878,7 @@ impl Compiler {
                 preserve_comments: config.preserve_comments,
                 inline_sources_content: config.inline_sources_content,
                 comments: config.comments,
+                emit_source_map_columns: config.emit_source_map_columns,
             };
 
             let orig = if config.source_maps.enabled() {
@@ -1040,6 +1050,7 @@ impl Compiler {
                 orig.as_ref(),
                 true,
                 Some(&comments),
+                opts.emit_source_map_columns,
             )
         })
     }
@@ -1111,6 +1122,7 @@ impl Compiler {
                 orig,
                 config.minify,
                 config.comments.as_ref().map(|v| v as _),
+                config.emit_source_map_columns,
             )
         })
     }
