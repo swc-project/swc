@@ -11,7 +11,6 @@ use self::input::{Buffer, ParserInput};
 use crate::{
     error::{Error, ErrorKind},
     lexer::State,
-    Parse,
 };
 
 #[macro_use]
@@ -37,14 +36,6 @@ enum Bookmark<RcNode> {
 enum AdjustAttributes {
     MathML,
     Svg,
-}
-
-// TODO should not be public
-#[derive(Debug, Clone)]
-pub struct TokenAndInfo {
-    pub span: Span,
-    pub acknowledged: bool,
-    pub token: Token,
 }
 
 #[derive(Debug, Clone)]
@@ -7505,12 +7496,12 @@ where
         &mut self,
         override_target: Option<RcNode>,
     ) -> PResult<InsertionPosition> {
-        // TODO avoid `unreachable` and return `Option` and improve error reporting
         // 1.
         let target = override_target.unwrap_or_else(|| {
             if let Some(last) = self.open_elements_stack.items.last() {
                 last.clone()
             } else {
+                // Unreachable, because we always have `html` element on top
                 unreachable!();
             }
         });
@@ -7894,7 +7885,8 @@ where
             {
                 Some((i, _)) => i,
                 None => {
-                    // TODO error - have parent but couldn't find in parent's children
+                    // Unreachable, otherwise node has a parent but couldn't found in parent's
+                    // children
                     unreachable!();
                 }
             };
@@ -8044,13 +8036,4 @@ fn is_html_integration_point(node: Option<&RcNode>) -> bool {
     }
 
     false
-}
-
-impl<I> Parse<Document> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<Document> {
-        self.parse_document()
-    }
 }

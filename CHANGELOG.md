@@ -1,17 +1,35 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/modules)** Fix `jsc.paths` (#4620) ([20692cd](https://github.com/swc-project/swc/commit/20692cdff1df4491382820cb38dae6fdeda12223))
+
 ### Features
 
 
 
 - **(common)** Reserve `BytePos(0)` for dummy spans (#4616) ([67942d5](https://github.com/swc-project/swc/commit/67942d57319454a0304632d5d9e504e26a2c8068))
 
+
+- **(html/minifier)** Improve minification of attributes (#4625) ([5679b69](https://github.com/swc-project/swc/commit/5679b69600768f81a69e7a7bac335a183fe875c6))
+
+
+- **(html/parser)** Add a method to get error message (#4623) ([cac4f6e](https://github.com/swc-project/swc/commit/cac4f6e265ed419245e8b323dd4f18d60a16beac))
+
 ### Refactor
 
 
 
 - **(html/parser)** Remove unused code (#4613) ([a378e1e](https://github.com/swc-project/swc/commit/a378e1e041a60e0a80f5a2e97c534b96b49888e4))
+
+
+- **(html/parser)** Improve public API (#4626) ([b8fa3bc](https://github.com/swc-project/swc/commit/b8fa3bc4569429046494488cdab9c14b26135f6b))
+
+
+- **(html/parser)** Improve parser a bit (#4627) ([5f899a0](https://github.com/swc-project/swc/commit/5f899a03489de62cbff9aede15ea561ec601a911))
 
 ### Testing
 
