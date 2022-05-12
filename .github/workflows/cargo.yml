@@ -391,7 +391,7 @@ jobs:
       - name: Key
         shell: bash
         run: |
-          echo $SCCACHE_GCS_KEY >> ~/gcs_key.json 
+          echo $SCCACHE_GCS_KEY > ~/gcs_key.json 
         env:
           SCCACHE_GCS_KEY: ${{ secrets.SCCACHE_GCS_KEY }}
 
