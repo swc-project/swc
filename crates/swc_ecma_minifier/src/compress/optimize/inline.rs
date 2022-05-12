@@ -142,6 +142,11 @@ where
                             && !usage.reassigned()
                             && !usage.has_property_mutation))
                     && match &**init {
+                        Expr::Ident(Ident {
+                            sym: js_word!("eval"),
+                            ..
+                        }) => false,
+
                         Expr::Lit(lit) => match lit {
                             Lit::Str(s) => usage.ref_count == 1 || s.value.len() <= 3,
                             Lit::Bool(_) | Lit::Null(_) | Lit::Num(_) | Lit::BigInt(_) => true,
