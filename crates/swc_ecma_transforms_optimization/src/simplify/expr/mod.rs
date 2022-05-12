@@ -1354,7 +1354,12 @@ impl VisitMut for SimplifyExpr {
                         }) if expr.is_array() => {
                             self.changed = true;
 
-                            e.extend(expr.array().unwrap().elems)
+                            e.extend(expr.array().unwrap().elems.into_iter().map(|elem| {
+                                Some(elem.unwrap_or_else(|| ExprOrSpread {
+                                    spread: None,
+                                    expr: undefined(DUMMY_SP),
+                                }))
+                            }));
                         }
 
                         _ => e.push(elem),
@@ -1375,7 +1380,24 @@ impl VisitMut for SimplifyExpr {
 
                 for p in props.take() {
                     match p {
-                        PropOrSpread::Spread(SpreadElement { expr, .. }) if expr.is_object() => {
+                        PropOrSpread::Spread(SpreadElement {
+                            dot3_token, expr, ..
+                        }) if expr.is_object() => {
+                            if let Expr::Object(obj) = &*expr {
+                                if obj.props.iter().any(|p| match p {
+                                    PropOrSpread::Spread(..) => true,
+                                    PropOrSpread::Prop(p) => !matches!(
+                                        &**p,
+                                        Prop::Shorthand(_) | Prop::KeyValue(_) | Prop::Method(_)
+                                    ),
+                                }) {
+                                    ps.push(PropOrSpread::Spread(SpreadElement {
+                                        dot3_token,
+                                        expr,
+                                    }));
+                                    continue;
+                                }
+                            }
                             let props = expr.object().unwrap().props;
                             ps.extend(props);
                             self.changed = true;
