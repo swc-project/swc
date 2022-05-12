@@ -5,7 +5,7 @@
 
 
 
-- **(es/minifier)** Don't create direct `eval` (#4634) ([4f32070](https://github.com/swc-project/swc/commit/4f32070c0cc89c6e076319d180afbfd2b02f87bb))
+- **(es/minifier)** Don't create direct `eval` (#4634) ([56a227a](https://github.com/swc-project/swc/commit/56a227ad9dc5b9b706fe8b0d35bf086e986dda07))
 
 
 - **(es/modules)** Fix `jsc.paths` (#4620) ([20692cd](https://github.com/swc-project/swc/commit/20692cdff1df4491382820cb38dae6fdeda12223))
@@ -39,6 +39,9 @@
 
 
 - **(es)** Add a test for merging configurations (#4617) ([53ff81c](https://github.com/swc-project/swc/commit/53ff81ccd65509dd6fff0bef5aa21003d3c81409))
+
+
+- **(es/minifier)** Execute more tests (#4636) ([79f87e0](https://github.com/swc-project/swc/commit/79f87e03db1063c645fba36c1ba6ba673127bad4))
 
 
 - **(html/parser)** Add dom visualizer for regular tests (#4622) ([4e577d7](https://github.com/swc-project/swc/commit/4e577d7f452a096391e174f478834bcc5c0fd884))
