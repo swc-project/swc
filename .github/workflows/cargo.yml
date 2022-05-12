@@ -390,7 +390,7 @@ jobs:
       - name: Key
         shell: bash
         run: |
-          echo $SCCACHE_GCS_KEY | base64 --decode > ~/gcs_key.json 
+          echo $SCCACHE_GCS_KEY | base64 --decode > ./gcs_key.json 
         env:
           SCCACHE_GCS_KEY: ${{ secrets.SCCACHE_GCS_KEY }}
 
@@ -400,7 +400,7 @@ jobs:
         env:
           SCCACHE_LOG: 'debug'
           SCCACHE_GCS_BUCKET: 'swc-sccache'
-          SCCACHE_GCS_KEY_PATH: '~/gcs_key.json'
+          SCCACHE_GCS_KEY_PATH: './gcs_key.json'
           SCCACHE_GCS_RW_MODE: 'READ_WRITE'
           SCCACHE_GCS_KEY_PREFIX: ${{ runner.os }}
 
@@ -411,7 +411,7 @@ jobs:
         env:
           SCCACHE_LOG: 'debug'
           SCCACHE_GCS_BUCKET: 'swc-sccache'
-          SCCACHE_GCS_KEY_PATH: '~/gcs_key.json'
+          SCCACHE_GCS_KEY_PATH: './gcs_key.json'
           SCCACHE_GCS_RW_MODE: 'READ_WRITE'
           SCCACHE_GCS_KEY_PREFIX: ${{ runner.os }}
 
