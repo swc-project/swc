@@ -59,6 +59,54 @@ fn jsc_paths_issue_4532() {
     .unwrap();
 }
 
+/// Multi-dot
+#[test]
+fn jsc_paths_issue_4605_1() {
+    let provider = paths_resolver(
+        "tests/paths/issue-4605/1/",
+        vec![("@src/*".into(), vec!["src".into()])],
+    );
+
+    run_test2(false, |cm, _| {
+        let fm = cm
+            .load_file(Path::new("tests/paths/issue-4605/1/index.ts"))
+            .unwrap();
+
+        let resolved = provider
+            .resolve_import(&fm.name, "@src/rel.decorator.js")
+            .expect("should success");
+
+        assert_eq!(&*resolved, "./rel.decorator.js");
+
+        Ok(())
+    })
+    .unwrap();
+}
+
+/// Multi-dot
+#[test]
+fn jsc_paths_issue_4605_2() {
+    let provider = paths_resolver(
+        "tests/paths/issue-4605/1/",
+        vec![("@src/*".into(), vec!["src".into()])],
+    );
+
+    run_test2(false, |cm, _| {
+        let fm = cm
+            .load_file(Path::new("tests/paths/issue-4605/1/index.ts"))
+            .unwrap();
+
+        let resolved = provider
+            .resolve_import(&fm.name, "@src/rel.decorator")
+            .expect("should success");
+
+        assert_eq!(&*resolved, "./rel.decorator.js");
+
+        Ok(())
+    })
+    .unwrap();
+}
+
 /// Test for preserving user-specified extension
 #[test]
 fn jsc_paths_issue_4619_1() {
