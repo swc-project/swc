@@ -1,0 +1,45 @@
+{
+    "jsc": {
+        "externalHelpers": false,
+        "baseUrl": "./src",
+        "target": "es2020",
+        "parser": {
+            "syntax": "typescript",
+            "decorators": true,
+            "dynamicImport": true
+        },
+        "paths": {
+            "#arguments/*": [
+                "arguments/*"
+            ],
+            "#commands/*": [
+                "commands/*"
+            ],
+            "#listeners/*": [
+                "listeners/*"
+            ],
+            "#preconditions/*": [
+                "preconditions/*"
+            ],
+            "#decorators": [
+                "lib/decorators/index.ts"
+            ],
+            "#api/*": [
+                "lib/api/*"
+            ],
+            "#lib/*": [
+                "lib/*"
+            ],
+            "#root/*": [
+                "*"
+            ]
+        },
+        "transform": {
+            "legacyDecorator": true,
+            "decoratorMetadata": true
+        }
+    },
+    "module": {
+        "type": "es6"
+    }
+}
