@@ -5,6 +5,9 @@
 
 
 
+- **(css/parser)** Remove a wrong assertion (#4641) ([84e4ca6](https://github.com/swc-project/swc/commit/84e4ca6c27034e8b965bb229115847afcfb0b5e8))
+
+
 - **(es/minifier)** Don't create direct `eval` (#4634) ([56a227a](https://github.com/swc-project/swc/commit/56a227ad9dc5b9b706fe8b0d35bf086e986dda07))
 
 
