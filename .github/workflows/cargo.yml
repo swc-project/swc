@@ -402,6 +402,7 @@ jobs:
           SCCACHE_GCS_BUCKET: 'swc-sccache'
           SCCACHE_GCS_KEY_PATH: '~/gcs_key.json'
           SCCACHE_GCS_RW_MODE: 'READ_WRITE'
+          SCCACHE_GCS_KEY_PREFIX: ${{ runner.os }}
 
       - name: Run cargo test (all features)
         if: matrix.settings.crate == 'swc_ecma_parser' || matrix.settings.crate == 'swc_ecma_loader' || matrix.settings.crate == 'swc_ecma_transforms'
@@ -412,6 +413,7 @@ jobs:
           SCCACHE_GCS_BUCKET: 'swc-sccache'
           SCCACHE_GCS_KEY_PATH: '~/gcs_key.json'
           SCCACHE_GCS_RW_MODE: 'READ_WRITE'
+          SCCACHE_GCS_KEY_PREFIX: ${{ runner.os }}
 
       - name: Cache stats
         run: |
