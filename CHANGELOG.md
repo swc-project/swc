@@ -25,6 +25,9 @@
 
 - **(html/parser)** Remove unused code (#4613) ([a378e1e](https://github.com/swc-project/swc/commit/a378e1e041a60e0a80f5a2e97c534b96b49888e4))
 
+
+- **(html/parser)** Improve public API (#4626) ([b8fa3bc](https://github.com/swc-project/swc/commit/b8fa3bc4569429046494488cdab9c14b26135f6b))
+
 ### Testing
 
 
