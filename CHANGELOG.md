@@ -5,6 +5,9 @@
 
 
 
+- **(es/minifier)** Don't create direct `eval` (#4634) ([4f32070](https://github.com/swc-project/swc/commit/4f32070c0cc89c6e076319d180afbfd2b02f87bb))
+
+
 - **(es/modules)** Fix `jsc.paths` (#4620) ([20692cd](https://github.com/swc-project/swc/commit/20692cdff1df4491382820cb38dae6fdeda12223))
 
 ### Features
