@@ -353,10 +353,8 @@ jobs:
           version: "0.3.0"
 
       - name: Configure scache
-        shell: bash
         run: |
-            which sccache
-            echo "RUSTC_WRAPPER=$(which sccache)" >> $GITHUB_ENV
+            echo "RUSTC_WRAPPER=sccache" >> $GITHUB_ENV
 
 
       - uses: denoland/setup-deno@v1
