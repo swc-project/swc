@@ -1202,36 +1202,55 @@ impl VisitMut for SimplifyExpr {
         self.in_callee = true;
         match &mut n.callee {
             Callee::Super(..) | Callee::Import(..) => {}
-            Callee::Expr(e) => match &mut **e {
-                Expr::Seq(seq) => {
-                    if seq.exprs.len() == 1 {
-                        let mut expr = seq.exprs.take().into_iter().next().unwrap();
-                        expr.visit_mut_with(self);
-                        *e = expr;
-                    } else if let Some(
-                        Expr::Member(..)
-                        | Expr::Ident(Ident {
-                            sym: js_word!("eval"),
-                            ..
-                        }),
-                    ) = seq.exprs.last().map(|v| &**v)
-                    {
-                        match seq.exprs.get(0).map(|v| &**v) {
-                            Some(Expr::Lit(..) | Expr::Ident(..)) => {}
-                            _ => {
-                                tracing::debug!("Injecting `0` to preserve `this = undefined`");
-                                seq.exprs.insert(0, 0.0.into());
-                            }
-                        }
+            Callee::Expr(e) => {
+                let may_inject_zero = !need_zero_for_this(e);
 
-                        seq.visit_mut_with(self);
+                match &mut **e {
+                    Expr::Seq(seq) => {
+                        if seq.exprs.len() == 1 {
+                            let mut expr = seq.exprs.take().into_iter().next().unwrap();
+                            expr.visit_mut_with(self);
+                            *e = expr;
+                        } else if let Some(
+                            Expr::Member(..)
+                            | Expr::Ident(Ident {
+                                sym: js_word!("eval"),
+                                ..
+                            }),
+                        ) = seq.exprs.last().map(|v| &**v)
+                        {
+                            match seq.exprs.get(0).map(|v| &**v) {
+                                Some(Expr::Lit(..) | Expr::Ident(..)) => {}
+                                _ => {
+                                    tracing::debug!("Injecting `0` to preserve `this = undefined`");
+                                    seq.exprs.insert(0, 0.0.into());
+                                }
+                            }
+
+                            seq.visit_mut_with(self);
+                        }
+                    }
+
+                    _ => {
+                        e.visit_mut_with(self);
                     }
                 }
 
-                _ => {
-                    e.visit_mut_with(self);
+                if may_inject_zero && need_zero_for_this(e) {
+                    match &mut **e {
+                        Expr::Seq(seq) => {
+                            seq.exprs.insert(0, 0.into());
+                        }
+                        _ => {
+                            let seq = SeqExpr {
+                                span: DUMMY_SP,
+                                exprs: vec![0.0.into(), e.take()],
+                            };
+                            **e = Expr::Seq(seq);
+                        }
+                    }
                 }
-            },
+            }
         }
 
         self.in_callee = false;
@@ -1610,4 +1629,15 @@ fn nth_char(s: &str, mut idx: usize) -> Cow<str> {
     }
 
     unreachable!("string is too short")
+}
+
+fn need_zero_for_this(e: &Expr) -> bool {
+    matches!(
+        e,
+        Expr::Ident(Ident {
+            sym: js_word!("eval"),
+            ..
+        }) | Expr::Member(..)
+            | Expr::Seq(..)
+    )
 }
