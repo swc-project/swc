@@ -341,11 +341,22 @@ jobs:
           cache: "yarn"
 
       # We explicitly do this to cache properly.
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
+      - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
           target: wasm32-wasi
+      
+      - name: Install scache
+        uses: baptiste0928/cargo-install@v1.1.0
+        with:
+          crate: sccache
+          version: "0.3.0"
+
+      - name: Configure scache
+        shell: bash
+        run: |
+            echo "RUSTC_WRAPPER=sccache" >> $GITHUB_ENV
+
 
       - uses: denoland/setup-deno@v1
         if: matrix.settings.crate == 'swc_bundler'
