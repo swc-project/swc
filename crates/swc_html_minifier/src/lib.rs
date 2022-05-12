@@ -1,5 +1,6 @@
 #![deny(clippy::all)]
 
+use serde_json::Value;
 use swc_atoms::JsWord;
 use swc_common::collections::AHashSet;
 use swc_html_ast::*;
@@ -173,6 +174,7 @@ static SPACE_SEPARATED_ATTRIBUTES: &[&str] = &[
 
 struct Minifier {
     current_element_namespace: Option<Namespace>,
+    is_script_json_ld: bool,
 }
 
 impl Minifier {
@@ -315,12 +317,25 @@ impl Minifier {
 impl VisitMut for Minifier {
     fn visit_mut_element(&mut self, n: &mut Element) {
         let old_current_element_namespace = self.current_element_namespace.take();
+        let old_value_is_script_json_ld = self.is_script_json_ld;
 
         self.current_element_namespace = Some(n.namespace);
+        self.is_script_json_ld = n.namespace == Namespace::HTML
+            && &*n.tag_name == "script"
+            && n.attributes.iter().any(|attribute| match &*attribute.name {
+                "type"
+                    if attribute.value.is_some()
+                        && (&*attribute.value.as_ref().unwrap()) == "application/ld+json" =>
+                {
+                    true
+                }
+                _ => false,
+            });
 
         n.visit_mut_children_with(self);
 
         self.current_element_namespace = old_current_element_namespace;
+        self.is_script_json_ld = old_value_is_script_json_ld;
 
         n.children.retain(|child| !matches!(child, Child::Comment(comment) if !self.is_conditional_comment(&comment.data)));
 
@@ -421,10 +436,28 @@ impl VisitMut for Minifier {
 
         n.value = Some(value.into());
     }
+
+    fn visit_mut_text(&mut self, n: &mut Text) {
+        n.visit_mut_children_with(self);
+
+        if self.is_script_json_ld {
+            let json = match serde_json::from_str::<Value>(&*n.value) {
+                Ok(json) => json,
+                _ => return,
+            };
+            let minified_json = match serde_json::to_string(&json) {
+                Ok(minified_json) => minified_json,
+                _ => return,
+            };
+
+            n.value = minified_json.into()
+        }
+    }
 }
 
 pub fn minify(document: &mut Document) {
     document.visit_mut_with(&mut Minifier {
         current_element_namespace: None,
+        is_script_json_ld: false,
     });
 }
