@@ -2,34 +2,68 @@
 | <html>
 |   <head>
 |   <body>
-|     "Text"
+|     "Text
+"
 |     <div>
 |       "Text"
-|     ""
+|     "
+"
 |     <div>
-|       "    Text"
-|     ""
+|       "
+    Text
+"
+|     "
+"
 |     <div>
-|       "    Text    Text"
-|     ""
+|       "
+    Text
+
+
+    Text
+"
+|     "
+"
 |     <div>
-|       "Text    Text"
-|     ""
+|       "Text
+
+
+    Text"
+|     "
+"
 |     <div>
 |       test="test"
-|       ""
-|     ""
+|       "
+
+"
+|     "
+"
 |     <div>
 |       data-q="test"
-|       ""
-|     ""
+|       "
+
+"
+|     "
+"
 |     <div>
 |       data-q="test"
-|       ""
-|     ""
+|       "
+
+"
+|     "
+"
 |     <div>
 |       data-q="test"
-|       ""
-|     ""
+|       "
+
+"
+|     "
+"
 |     <style>
-|       ".color {    color: red;    <!-- Test -->}"
+|       "
+
+.color {
+    color: red;
+    <!-- Test -->
+}
+
+"
