@@ -113,15 +113,17 @@ where
 
             match orig_ext {
                 Some(orig_ext) => {
-                    if let Some(..) = p.extension() {
-                        if orig_ext == "ts"
-                            || orig_ext == "tsx"
-                            || orig_ext == "js"
-                            || orig_ext == "jsx"
-                        {
-                            p.set_extension(orig_ext);
-                        } else {
-                            p.set_extension("");
+                    if is_file.unwrap_or_else(|| p.is_file()) {
+                        if let Some(..) = p.extension() {
+                            if orig_ext == "ts"
+                                || orig_ext == "tsx"
+                                || orig_ext == "js"
+                                || orig_ext == "jsx"
+                            {
+                                p.set_extension(orig_ext);
+                            } else {
+                                p.set_extension("");
+                            }
                         }
                     }
                 }
