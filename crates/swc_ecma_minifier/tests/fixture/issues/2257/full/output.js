@@ -2285,11 +2285,11 @@
                     function(data, headers) {
                         return (normalizeHeaderName(headers, "Accept"), normalizeHeaderName(headers, "Content-Type"), utils.isFormData(data) || utils.isArrayBuffer(data) || utils.isBuffer(data) || utils.isStream(data) || utils.isFile(data) || utils.isBlob(data)) ? data : utils.isArrayBufferView(data) ? data.buffer : utils.isURLSearchParams(data) ? (setContentTypeIfUnset(headers, "application/x-www-form-urlencoded;charset=utf-8"), data.toString()) : utils.isObject(data) || headers && "application/json" === headers["Content-Type"] ? (setContentTypeIfUnset(headers, "application/json"), function(rawValue, parser, encoder) {
                             if (utils.isString(rawValue)) try {
-                                return JSON.parse(rawValue), utils.trim(rawValue);
+                                return (0, JSON.parse)(rawValue), utils.trim(rawValue);
                             } catch (e) {
                                 if ("SyntaxError" !== e.name) throw e;
                             }
-                            return JSON.stringify(rawValue);
+                            return (0, JSON.stringify)(rawValue);
                         }(data)) : data;
                     }, 
                 ],
