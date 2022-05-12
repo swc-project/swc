@@ -28,6 +28,9 @@
 
 - **(html/parser)** Improve public API (#4626) ([b8fa3bc](https://github.com/swc-project/swc/commit/b8fa3bc4569429046494488cdab9c14b26135f6b))
 
+
+- **(html/parser)** Improve parser a bit (#4627) ([5f899a0](https://github.com/swc-project/swc/commit/5f899a03489de62cbff9aede15ea561ec601a911))
+
 ### Testing
 
 
