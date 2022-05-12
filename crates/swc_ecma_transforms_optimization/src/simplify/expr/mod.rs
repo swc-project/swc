@@ -1380,7 +1380,24 @@ impl VisitMut for SimplifyExpr {
 
                 for p in props.take() {
                     match p {
-                        PropOrSpread::Spread(SpreadElement { expr, .. }) if expr.is_object() => {
+                        PropOrSpread::Spread(SpreadElement {
+                            dot3_token, expr, ..
+                        }) if expr.is_object() => {
+                            if let Expr::Object(obj) = &*expr {
+                                if obj.props.iter().any(|p| match p {
+                                    PropOrSpread::Spread(..) => true,
+                                    PropOrSpread::Prop(p) => !matches!(
+                                        &**p,
+                                        Prop::Shorthand(_) | Prop::KeyValue(_) | Prop::Method(_)
+                                    ),
+                                }) {
+                                    ps.push(PropOrSpread::Spread(SpreadElement {
+                                        dot3_token,
+                                        expr,
+                                    }));
+                                    continue;
+                                }
+                            }
                             let props = expr.object().unwrap().props;
                             ps.extend(props);
                             self.changed = true;
