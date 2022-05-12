@@ -41,7 +41,10 @@ fn paths_resolver(
 /// Test for relative paths
 #[test]
 fn jsc_paths_issue_4532() {
-    let provider = paths_resolver("tests/paths/issue-4532/", vec![]);
+    let provider = paths_resolver(
+        "tests/paths/issue-4532/",
+        vec![("@src/*".into(), vec!["./*".into()])],
+    );
 
     run_test2(false, |cm, _| {
         let fm = cm
@@ -49,7 +52,7 @@ fn jsc_paths_issue_4532() {
             .unwrap();
 
         let resolved = provider
-            .resolve_import(&fm.name, "./rel.js")
+            .resolve_import(&fm.name, "@src/rel")
             .expect("should success");
 
         assert_eq!(&*resolved, "./rel.js");
