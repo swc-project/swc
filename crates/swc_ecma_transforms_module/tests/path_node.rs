@@ -61,12 +61,12 @@ fn jsc_paths_issue_4532() {
 
 /// Test for preserving user-specified extension
 #[test]
-fn jsc_paths_issue_4585_1() {
-    let provider = paths_resolver("tests/paths/issue-4585/1/", vec![]);
+fn jsc_paths_issue_4619_1() {
+    let provider = paths_resolver("tests/paths/issue-4619/1/", vec![]);
 
     run_test2(false, |cm, _| {
         let fm = cm
-            .load_file(Path::new("tests/paths/issue-4585/1/index.ts"))
+            .load_file(Path::new("tests/paths/issue-4619/1/index.ts"))
             .unwrap();
 
         let resolved = provider
@@ -82,12 +82,12 @@ fn jsc_paths_issue_4585_1() {
 
 /// Test for preserving user-specified extension
 #[test]
-fn jsc_paths_issue_4585_2() {
-    let provider = paths_resolver("tests/paths/issue-4585/2/", vec![]);
+fn jsc_paths_issue_4619_2() {
+    let provider = paths_resolver("tests/paths/issue-4619/2/", vec![]);
 
     run_test2(false, |cm, _| {
         let fm = cm
-            .load_file(Path::new("tests/paths/issue-4585/2/index.ts"))
+            .load_file(Path::new("tests/paths/issue-4619/2/index.ts"))
             .unwrap();
 
         let resolved = provider
