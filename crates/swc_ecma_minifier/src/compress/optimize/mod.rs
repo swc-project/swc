@@ -535,11 +535,7 @@ where
             ..
         }) = e
         {
-            if span.ctxt == self.expr_ctx.unresolved_ctxt {
-                self.changed = true;
-                report_change!("undefined => void 0");
-                *e = *undefined(*span);
-            }
+            *e = *undefined(*span);
         }
     }
 

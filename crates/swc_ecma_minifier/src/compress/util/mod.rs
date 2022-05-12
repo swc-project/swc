@@ -385,10 +385,9 @@ pub(crate) fn negate_cost(
 pub(crate) fn is_pure_undefined(expr_ctx: &ExprCtx, e: &Expr) -> bool {
     match e {
         Expr::Ident(Ident {
-            span,
             sym: js_word!("undefined"),
             ..
-        }) => span.ctxt == expr_ctx.unresolved_ctxt,
+        }) => true,
 
         Expr::Unary(UnaryExpr {
             op: UnaryOp::Void,
