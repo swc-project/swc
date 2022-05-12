@@ -399,6 +399,7 @@ jobs:
         run: |
           cargo test --color always -p ${{ matrix.settings.crate }}
         env:
+          SCCACHE_LOG: 'debug'
           SCCACHE_GCS_BUCKET: ${{ secrets.SCCACHE_GCS_BUCKET }}
           SCCACHE_GCS_KEY_PATH: '~/gcs_key.json'
           SCCACHE_GCS_RW_MODE: 'READ_WRITE'
@@ -408,6 +409,7 @@ jobs:
         run: |
           cargo test --color always -p ${{ matrix.settings.crate }} --all-features
         env:
+          SCCACHE_LOG: 'debug'
           SCCACHE_GCS_BUCKET: ${{ secrets.SCCACHE_GCS_BUCKET }}
           SCCACHE_GCS_KEY_PATH: '~/gcs_key.json'
           SCCACHE_GCS_RW_MODE: 'READ_WRITE'
