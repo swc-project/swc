@@ -1058,6 +1058,22 @@ impl<'a> VisitMut for Resolver<'a> {
         p.visit_mut_children_with(self);
     }
 
+    fn visit_mut_assign_pat(&mut self, node: &mut AssignPat) {
+        // visit the type first so that it doesn't resolve any
+        // identifiers from the others
+        node.type_ann.visit_mut_with(self);
+        node.left.visit_mut_with(self);
+        node.right.visit_mut_with(self);
+    }
+
+    fn visit_mut_rest_pat(&mut self, node: &mut RestPat) {
+        // visit the type first so that it doesn't resolve any
+        // identifiers from the arg
+        node.type_ann.visit_mut_with(self);
+        self.ident_type = IdentType::Binding;
+        node.arg.visit_mut_with(self);
+    }
+
     fn visit_mut_private_method(&mut self, m: &mut PrivateMethod) {
         m.key.visit_mut_with(self);
 

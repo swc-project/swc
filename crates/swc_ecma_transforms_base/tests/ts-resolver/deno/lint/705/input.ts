@@ -1,6 +1,9 @@
 import type { Foo } from "./foo.ts";
-//            ^^^ <---- (a)
+
 function _bar(...Foo: Foo) {
-    //                    ^^^ <---- (b)
     console.log(Foo);
+}
+
+function _bar2(Foo: Foo, other = Foo) {
+    Foo;
 }
