@@ -1,0 +1,19 @@
+| <html>
+|   <head>
+|   <body>
+|     <select>
+|       "
+    "
+|       <option>
+|         value="test"
+|         "
+        1
+        "
+|       <option>
+|         value="test-2"
+|         "
+            2
+        "
+|       "
+    
+"
