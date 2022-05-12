@@ -19,6 +19,9 @@
 
 - **(es)** Add a test for merging configurations (#4617) ([53ff81c](https://github.com/swc-project/swc/commit/53ff81ccd65509dd6fff0bef5aa21003d3c81409))
 
+
+- **(html/parser)** Add dom visualizer for regular tests (#4622) ([4e577d7](https://github.com/swc-project/swc/commit/4e577d7f452a096391e174f478834bcc5c0fd884))
+
 ## [1.2.182] - 2022-05-11
 
 ### Bug Fixes
