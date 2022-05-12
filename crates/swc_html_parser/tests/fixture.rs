@@ -1232,14 +1232,6 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                     return Ok(());
                 }
 
-                let path = input.to_string_lossy();
-
-                if (path.contains("domjs-unsafe_dat") && path.contains("1.html"))
-                    || (path.contains("plain-text-unsafe_dat") && path.contains("24.html"))
-                {
-                    return Ok(());
-                }
-
                 let mut dom_buf = String::new();
 
                 document.visit_mut_with(&mut DomVisualizer {
