@@ -47,7 +47,7 @@ fn paths_resolver(
 fn fixture(input_dir: PathBuf) {
     let output_dir = input_dir.parent().unwrap().join("output");
 
-    let index_path = input_dir.join("index.js");
+    let index_path = input_dir.join("index.ts");
 
     test_fixture(
         Syntax::default(),
@@ -61,6 +61,6 @@ fn fixture(input_dir: PathBuf) {
             import_rewriter(FileName::Real(input_dir.clone()), resolver)
         },
         &index_path,
-        &output_dir.join("index.js"),
+        &output_dir.join("index.ts"),
     );
 }
