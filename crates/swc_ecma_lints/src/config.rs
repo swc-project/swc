@@ -191,4 +191,8 @@ pub struct LintConfig {
     #[cfg(feature = "non_critical_lints")]
     #[serde(default, alias = "preferConst")]
     pub prefer_const: RuleConfig<()>,
+
+    #[cfg(feature = "non_critical_lints")]
+    #[serde(default, alias = "noCompareNegZero")]
+    pub no_compare_neg_zero: RuleConfig<()>,
 }
