@@ -112,9 +112,11 @@ where
                 sym: js_word!("undefined"),
                 ..
             }) => {
-                report_change!("evaluate: `undefined` -> `void 0`");
-                self.changed = true;
-                *e = *undefined(*span);
+                if span.ctxt == self.expr_ctx.unresolved_ctxt {
+                    report_change!("evaluate: `undefined` -> `void 0`");
+                    self.changed = true;
+                    *e = *undefined(*span);
+                }
             }
 
             Expr::Ident(Ident {
