@@ -66,7 +66,7 @@ fn jsc_paths_issue_4585_1() {
 
     run_test2(false, |cm, _| {
         let fm = cm
-            .load_file(Path::new("tests/paths/issue-4532/1/index.ts"))
+            .load_file(Path::new("tests/paths/issue-4585/1/index.ts"))
             .unwrap();
 
         let resolved = provider
@@ -87,7 +87,7 @@ fn jsc_paths_issue_4585_2() {
 
     run_test2(false, |cm, _| {
         let fm = cm
-            .load_file(Path::new("tests/paths/issue-4532/2/index.ts"))
+            .load_file(Path::new("tests/paths/issue-4585/2/index.ts"))
             .unwrap();
 
         let resolved = provider
