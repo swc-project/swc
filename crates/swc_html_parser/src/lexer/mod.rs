@@ -418,6 +418,29 @@ where
         }
     }
 
+    fn append_character_to_token_comment(&mut self, c: char, _raw_c: Option<char>) {
+        if let Some(Token::Comment { data, .. }) = &mut self.cur_token {
+            let mut new_data = String::new();
+
+            new_data.push_str(data);
+
+            let mut normalized_c = c;
+            let is_cr = c == '\r';
+
+            if is_cr {
+                normalized_c = '\n';
+
+                if self.input.cur() == Some('\n') {
+                    self.input.bump();
+                }
+            }
+
+            new_data.push(normalized_c);
+
+            *data = new_data.into();
+        }
+    }
+
     fn emit_character_token(&mut self, c: char, raw_c: Option<char>) {
         let mut raw = if raw_c.is_some() {
             String::with_capacity(1)
@@ -2807,29 +2830,14 @@ where
                     // U+0000 NULL
                     // This is an unexpected-null-character parse error. Append a U+FFFD
                     // REPLACEMENT CHARACTER character to the comment token's data.
-                    Some('\x00') => {
+                    Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-
-                        if let Some(Token::Comment { data, .. }) = &mut self.cur_token {
-                            let mut new_data = String::new();
-
-                            new_data.push_str(data);
-                            new_data.push(REPLACEMENT_CHARACTER);
-
-                            *data = new_data.into();
-                        }
+                        self.append_character_to_token_comment(REPLACEMENT_CHARACTER, Some(c));
                     }
                     // Anything else
                     // Append the current input character to the comment token's data.
                     Some(c) => {
-                        if let Some(Token::Comment { data, .. }) = &mut self.cur_token {
-                            let mut new_data = String::new();
-
-                            new_data.push_str(data);
-                            new_data.push(c);
-
-                            *data = new_data.into();
-                        }
+                        self.append_character_to_token_comment(c, Some(c));
                     }
                 }
             }
@@ -3031,15 +3039,7 @@ where
                     // Append a U+002D HYPHEN-MINUS character (-) to the comment token's data.
                     // Reconsume in the comment state.
                     _ => {
-                        if let Some(Token::Comment { data, .. }) = &mut self.cur_token {
-                            let mut new_data = String::new();
-
-                            new_data.push_str(data);
-                            new_data.push('-');
-
-                            *data = new_data.into();
-                        }
-
+                        self.append_character_to_token_comment('-', None);
                         self.reconsume_in_state(State::Comment);
                     }
                 }
@@ -3051,16 +3051,8 @@ where
                     // U+003C LESS-THAN SIGN (<)
                     // Append the current input character to the comment token's data. Switch to
                     // the comment less-than sign state.
-                    Some('<') => {
-                        if let Some(Token::Comment { data, .. }) = &mut self.cur_token {
-                            let mut new_data = String::new();
-
-                            new_data.push_str(data);
-                            new_data.push('<');
-
-                            *data = new_data.into();
-                        }
-
+                    Some(c @ '<') => {
+                        self.append_character_to_token_comment(c, Some(c));
                         self.state = State::CommentLessThanSign;
                     }
                     // U+002D HYPHEN-MINUS (-)
@@ -3071,17 +3063,9 @@ where
                     // U+0000 NULL
                     // This is an unexpected-null-character parse error. Append a U+FFFD
                     // REPLACEMENT CHARACTER character to the comment token's data.
-                    Some('\x00') => {
+                    Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-
-                        if let Some(Token::Comment { data, .. }) = &mut self.cur_token {
-                            let mut new_data = String::new();
-
-                            new_data.push_str(data);
-                            new_data.push(REPLACEMENT_CHARACTER);
-
-                            *data = new_data.into();
-                        }
+                        self.append_character_to_token_comment(REPLACEMENT_CHARACTER, Some(c));
                     }
                     // EOF
                     // This is an eof-in-comment parse error. Emit the current comment token.
@@ -3096,14 +3080,7 @@ where
                     // Anything else
                     // Append the current input character to the comment token's data.
                     Some(c) => {
-                        if let Some(Token::Comment { data, .. }) = &mut self.cur_token {
-                            let mut new_data = String::new();
-
-                            new_data.push_str(data);
-                            new_data.push(c);
-
-                            *data = new_data.into();
-                        }
+                        self.append_character_to_token_comment(c, Some(c));
                     }
                 }
             }
@@ -3115,28 +3092,13 @@ where
                     // Append the current input character to the comment token's data. Switch to
                     // the comment less-than sign bang state.
                     Some(c @ '!') => {
-                        if let Some(Token::Comment { data, .. }) = &mut self.cur_token {
-                            let mut new_data = String::new();
-
-                            new_data.push_str(data);
-                            new_data.push(c);
-
-                            *data = new_data.into();
-                        }
-
+                        self.append_character_to_token_comment(c, Some(c));
                         self.state = State::CommentLessThanSignBang;
                     }
                     // U+003C LESS-THAN SIGN (<)
                     // Append the current input character to the comment token's data.
                     Some(c @ '<') => {
-                        if let Some(Token::Comment { data, .. }) = &mut self.cur_token {
-                            let mut new_data = String::new();
-
-                            new_data.push_str(data);
-                            new_data.push(c);
-
-                            *data = new_data.into();
-                        }
+                        self.append_character_to_token_comment(c, Some(c));
                     }
                     // Anything else
                     // Reconsume in the comment state.
@@ -3218,15 +3180,7 @@ where
                     // Append a U+002D HYPHEN-MINUS character (-) to the comment token's data.
                     // Reconsume in the comment state.
                     _ => {
-                        if let Some(Token::Comment { data, .. }) = &mut self.cur_token {
-                            let mut new_data = String::new();
-
-                            new_data.push_str(data);
-                            new_data.push('-');
-
-                            *data = new_data.into();
-                        }
-
+                        self.append_character_to_token_comment('-', None);
                         self.reconsume_in_state(State::Comment);
                     }
                 }
@@ -3248,15 +3202,8 @@ where
                     }
                     // U+002D HYPHEN-MINUS (-)
                     // Append a U+002D HYPHEN-MINUS character (-) to the comment token's data.
-                    Some('-') => {
-                        if let Some(Token::Comment { data, .. }) = &mut self.cur_token {
-                            let mut new_data = String::new();
-
-                            new_data.push_str(data);
-                            new_data.push('-');
-
-                            *data = new_data.into();
-                        }
+                    Some(c @ '-') => {
+                        self.append_character_to_token_comment(c, Some(c));
                     }
                     // EOF
                     // This is an eof-in-comment parse error. Emit the current comment token.
@@ -3272,16 +3219,8 @@ where
                     // Append two U+002D HYPHEN-MINUS characters (-) to the comment token's
                     // data. Reconsume in the comment state.
                     _ => {
-                        if let Some(Token::Comment { data, .. }) = &mut self.cur_token {
-                            let mut new_data = String::new();
-
-                            new_data.push_str(data);
-                            new_data.push('-');
-                            new_data.push('-');
-
-                            *data = new_data.into();
-                        }
-
+                        self.append_character_to_token_comment('-', None);
+                        self.append_character_to_token_comment('-', None);
                         self.reconsume_in_state(State::Comment);
                     }
                 }
@@ -3294,18 +3233,10 @@ where
                     // Append two U+002D HYPHEN-MINUS characters (-) and a U+0021 EXCLAMATION
                     // MARK character (!) to the comment token's data. Switch to the comment end
                     // dash state.
-                    Some('-') => {
-                        if let Some(Token::Comment { data, .. }) = &mut self.cur_token {
-                            let mut new_data = String::new();
-
-                            new_data.push_str(data);
-                            new_data.push('-');
-                            new_data.push('-');
-                            new_data.push('!');
-
-                            *data = new_data.into();
-                        }
-
+                    Some(c @ '-') => {
+                        self.append_character_to_token_comment(c, Some(c));
+                        self.append_character_to_token_comment('-', None);
+                        self.append_character_to_token_comment('!', None);
                         self.state = State::CommentEndDash;
                     }
                     // U+003E GREATER-THAN SIGN (>)
@@ -3331,17 +3262,9 @@ where
                     // MARK character (!) to the comment token's data. Reconsume in the comment
                     // state.
                     _ => {
-                        if let Some(Token::Comment { data, .. }) = &mut self.cur_token {
-                            let mut new_data = String::new();
-
-                            new_data.push_str(data);
-                            new_data.push('-');
-                            new_data.push('-');
-                            new_data.push('!');
-
-                            *data = new_data.into();
-                        }
-
+                        self.append_character_to_token_comment('-', None);
+                        self.append_character_to_token_comment('-', None);
+                        self.append_character_to_token_comment('!', None);
                         self.reconsume_in_state(State::Comment);
                     }
                 }
