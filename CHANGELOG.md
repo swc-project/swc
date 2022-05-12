@@ -26,6 +26,9 @@
 - **(common)** Reserve `BytePos(0)` for dummy spans (#4616) ([67942d5](https://github.com/swc-project/swc/commit/67942d57319454a0304632d5d9e504e26a2c8068))
 
 
+- **(es/lints)** Implement `no-compare-neg-zero` rule (#4643) ([f45dd72](https://github.com/swc-project/swc/commit/f45dd72033fe14dd0974d6698f6d8d4ec6a76185))
+
+
 - **(html/minifier)** Improve minification of attributes (#4625) ([5679b69](https://github.com/swc-project/swc/commit/5679b69600768f81a69e7a7bac335a183fe875c6))
 
 
