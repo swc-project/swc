@@ -297,6 +297,23 @@ pub(crate) struct ExprReplacer {
     to: Option<Box<Expr>>,
 }
 
+impl ExprReplacer {
+    fn take(&mut self) -> Option<Box<Expr>> {
+        let e = self.to.take()?;
+
+        match &*e {
+            Expr::Ident(Ident {
+                sym: js_word!("eval"),
+                ..
+            }) => Some(Box::new(Expr::Seq(SeqExpr {
+                span: DUMMY_SP,
+                exprs: vec![0.into(), e],
+            }))),
+            _ => Some(e),
+        }
+    }
+}
+
 impl VisitMut for ExprReplacer {
     noop_visit_mut_type!();
 
@@ -305,7 +322,7 @@ impl VisitMut for ExprReplacer {
 
         if let Expr::Ident(i) = e {
             if self.from.0 == i.sym && self.from.1 == i.span.ctxt {
-                if let Some(new) = self.to.take() {
+                if let Some(new) = self.take() {
                     *e = *new;
                 } else {
                     unreachable!("`{}` is already taken", i)
@@ -319,7 +336,7 @@ impl VisitMut for ExprReplacer {
 
         if let Prop::Shorthand(i) = p {
             if self.from.0 == i.sym && self.from.1 == i.span.ctxt {
-                let value = if let Some(new) = self.to.take() {
+                let value = if let Some(new) = self.take() {
                     new
                 } else {
                     unreachable!("`{}` is already taken", i)
