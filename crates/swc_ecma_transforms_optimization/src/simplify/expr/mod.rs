@@ -1203,7 +1203,7 @@ impl VisitMut for SimplifyExpr {
         match &mut n.callee {
             Callee::Super(..) | Callee::Import(..) => {}
             Callee::Expr(e) => {
-                let this_undefined = is_this_undefined_for_callee(e);
+                let may_inject_zero = !need_zero_for_this(e);
 
                 match &mut **e {
                     Expr::Seq(seq) => {
@@ -1236,7 +1236,7 @@ impl VisitMut for SimplifyExpr {
                     }
                 }
 
-                if this_undefined && !is_this_undefined_for_callee(e) {
+                if may_inject_zero && need_zero_for_this(e) {
                     match &mut **e {
                         Expr::Seq(seq) => {
                             seq.exprs.insert(0, 0.into());
@@ -1631,6 +1631,6 @@ fn nth_char(s: &str, mut idx: usize) -> Cow<str> {
     unreachable!("string is too short")
 }
 
-fn is_this_undefined_for_callee(e: &Expr) -> bool {
+fn need_zero_for_this(e: &Expr) -> bool {
     matches!(e, Expr::Member(..) | Expr::Seq(..))
 }
