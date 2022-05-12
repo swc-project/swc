@@ -1,0 +1,372 @@
+| <html>
+|   xmlns="http://www.w3.org/1999/xhtml"
+|   <head>
+|     "
+    "
+|     <title>
+|       "XTech SVG Demo"
+|     "
+    "
+|     <style>
+|       "
+        stop.begin { stop-color:yellow; }
+        stop.end { stop-color:green; }
+        body.invalid stop.end { stop-color:red; }
+        #err { display:none; }
+        body.invalid #err { display:inline; }
+    "
+|     "
+    "
+|     <script>
+|       "
+        function signalError() {
+            document.getElementById('body').setAttribute("class", "invalid");
+        }
+    "
+|     "
+"
+|   "
+"
+|   <body>
+|     id="body"
+|     style="position:absolute; z-index:0; border:1px solid black; left:5%; top:5%; width:90%; height:90%;"
+|     "
+"
+|     <form>
+|       "
+    "
+|       <fieldset>
+|         "
+        "
+|         <legend>
+|           "HTML Form"
+|         "
+        "
+|         <p>
+|           <label>
+|             "Введите что-нибудь:"
+|           "
+            "
+|           <input>
+|             type="text"
+|           "
+            "
+|           <span>
+|             id="err"
+|             "Incorrect value!"
+|         "
+        "
+|         <p>
+|           <input>
+|             onclick="signalError();"
+|             type="button"
+|             value="Activate!"
+|         "
+    "
+|       "
+"
+|     "
+
+"
+|     <svg svg>
+|       baseProfile="test"
+|       preserveAspectRatio="xMidYMid slice"
+|       style="width:100%; height:100%; position:absolute; top:0; left:0; z-index:-1;"
+|       version="1.1"
+|       viewBox="0 0 100 100"
+|       xmlns="http://www.w3.org/2000/svg"
+|       "
+    "
+|       <svg linearGradient>
+|         id="gradient"
+|         "
+        "
+|         <svg stop>
+|           class="begin"
+|           offset="0%"
+|         "
+        "
+|         <svg stop>
+|           class="end"
+|           offset="100%"
+|         "
+    "
+|       "
+    "
+|       <svg rect>
+|         height="100"
+|         style="fill:url(#gradient)"
+|         width="100"
+|         x="0"
+|         y="0"
+|       "
+    "
+|       <svg circle>
+|         cx="50"
+|         cy="50"
+|         r="30"
+|         style="fill:url(#gradient)"
+|       "
+"
+|     "
+
+"
+|     <svg svg>
+|       viewBox="0 0 420 200"
+|       xmlns="http://www.w3.org/2000/svg"
+|       "
+    "
+|       <svg filter>
+|         height="100%"
+|         id="noise1"
+|         width="100%"
+|         x="0"
+|         y="0"
+|         "
+        "
+|         <svg feTurbulence>
+|           baseFrequency="0.025"
+|         "
+    "
+|       "
+    "
+|       <svg filter>
+|         height="100%"
+|         id="noise2"
+|         width="100%"
+|         x="0"
+|         y="0"
+|         "
+        "
+|         <svg feTurbulence>
+|           baseFrequency="0.05"
+|         "
+    "
+|       "
+
+    "
+|       <svg rect>
+|         height="200"
+|         style="filter: url(#noise1);"
+|         width="200"
+|         x="0"
+|         y="0"
+|       "
+    "
+|       <svg rect>
+|         height="200"
+|         style="filter: url(#noise2); transform: translateX(220px);"
+|         width="200"
+|         x="0"
+|         y="0"
+|       "
+"
+|     "
+
+"
+|     <svg svg>
+|       viewBox="0 0 200 100"
+|       xmlns="http://www.w3.org/2000/svg"
+|       "
+    "
+|       <svg text>
+|         xml lang="en-US"
+|         "This is some English text"
+|       "
+"
+|     "
+
+"
+|     <svg svg>
+|       height="200"
+|       version="1.1"
+|       width="200"
+|       xmlns xlink="http://www.w3.org/1999/xlink"
+|       xmlns="http://www.w3.org/2000/svg"
+|       "
+    "
+|       <svg image>
+|         height="146"
+|         xlink href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/image/mdn_logo_only_color.png"
+|         transform="rotate(45)"
+|         width="128"
+|         x="90"
+|         y="-65"
+|       "
+"
+|     "
+
+"
+|     <svg svg>
+|       viewBox="0 0 140 50"
+|       xmlns="http://www.w3.org/2000/svg"
+|       "
+    "
+|       <svg text>
+|         xml space="default"
+|         y="20"
+|         "Default   spacing"
+|       "
+    "
+|       <svg text>
+|         xml space="preserve"
+|         y="40"
+|         "Preserved   spacing"
+|       "
+"
+|     "
+
+"
+|     <svg svg>
+|       viewBox="0 0 200 100"
+|       xmlns="http://www.w3.org/2000/svg"
+|       "
+    "
+|       <svg text>
+|         xml lang="en-US"
+|         "This is some English text"
+|       "
+    "
+|       <svg a>
+|         xlink href="http://example.com/link/"
+|         xlink title="The link leads to an example page that is of little interest"
+|         "
+        "
+|         <svg text>
+|           x="10"
+|           y="25"
+|           "An example link."
+|         "
+    "
+|       "
+"
+|     "
+
+"
+|     <svg svg>
+|       viewBox="0 0 200 200"
+|       xmlns="http://www.w3.org/2000/svg"
+|       "
+    "
+|       <svg style>
+|         "
+        div {
+            color: white;
+            font: 18px serif;
+            height: 100%;
+            overflow: auto;
+        }
+    "
+|       "
+
+    "
+|       <svg polygon>
+|         points="5,5 195,10 185,185 10,195"
+|       "
+
+    "
+|       <!--  Common use case: embed HTML text into SVG  -->
+|       "
+    "
+|       <svg foreignObject>
+|         height="160"
+|         width="160"
+|         x="20"
+|         y="20"
+|         "
+        "
+|         <!-- 
+          In the context of SVG embedded in an HTML document, the XHTML
+          namespace could be omitted, but it is mandatory in the
+          context of an SVG document
+         -->
+|         "
+        "
+|         <div>
+|           xmlns="http://www.w3.org/1999/xhtml"
+|           "
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Sed mollis mollis mi ut ultricies. Nullam magna ipsum,
+            porta vel dui convallis, rutrum imperdiet eros. Aliquam
+            erat volutpat.
+        "
+|         "
+    "
+|       "
+"
+|     "
+
+"
+|     <svg svg>
+|       height="220px"
+|       style="font-size: 20px"
+|       viewBox="0 0 200 110"
+|       width="400px"
+|       "
+    "
+|       <svg g>
+|         transform="translate(10,80)"
+|         "
+        "
+|         <svg path>
+|           d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
+             M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
+|           fill="none"
+|           stroke="black"
+|         "
+        "
+|         <svg text>
+|           transform="translate(10,20)"
+|           "1"
+|         "
+        "
+|         <svg switch>
+|           transform="translate(35,-40)"
+|           "
+            "
+|           <svg foreignObject>
+|             height="50"
+|             requiredExtensions="http://www.w3.org/1998/Math/MathML"
+|             width="200"
+|             "
+                "
+|             <math math>
+|               "
+                    "
+|               <math msqrt>
+|                 "
+                        "
+|                 <math mn>
+|                   "2"
+|                 "
+                        "
+|                 <math mi>
+|                   "r"
+|                 "
+                        "
+|                 <math mo>
+|                   "−"
+|                 "
+                        "
+|                 <math mn>
+|                   "1"
+|                 "
+                    "
+|               "
+                "
+|             "
+            "
+|           "
+            "
+|           <svg text>
+|             "\sqrt{2r - 1}"
+|           "
+        "
+|         "
+    "
+|       "
+"
+|     "
+
+
+"

@@ -1,0 +1,24 @@
+| <!DOCTYPE html>
+| <html>
+|   <head>
+|   <body>
+|     "
+
+"
+|     <p>
+|       "This is a paragraph."
+|     "
+"
+|     <!-- 
+<p>Look at this cool image:</p>
+<img border="0" src="pic_trulli.jpg" alt="Trulli">
+ -->
+|     "
+"
+|     <p>
+|       "This is a paragraph too."
+|     "
+
+
+
+"
