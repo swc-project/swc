@@ -2218,7 +2218,7 @@ where
             // Write a trailing comma, if requested.
             let has_trailing_comma = format.contains(ListFormat::AllowTrailingComma) && {
                 if parent_node.is_dummy() {
-                    false
+                    !children.is_empty()
                 } else {
                     match self.cm.span_to_snippet(parent_node) {
                         Ok(snippet) => {
