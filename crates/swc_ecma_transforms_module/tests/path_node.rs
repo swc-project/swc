@@ -61,7 +61,7 @@ fn fixture(input_dir: PathBuf) {
 
             let resolver = paths_resolver(&index_path, rules);
 
-            import_rewriter(FileName::Real(input_dir.clone()), resolver)
+            import_rewriter(FileName::Real(index_path.clone()), resolver)
         },
         &index_path,
         &output_dir.join("index.ts"),
