@@ -30,7 +30,7 @@ where
     pub last_start_tag_token: Option<Token>,
     pending_tokens: Vec<TokenAndSpan>,
     cur_token: Option<Token>,
-    character_reference_code: Option<Vec<(u8, u32)>>,
+    character_reference_code: Option<Vec<(u8, u32, Option<char>)>>,
     temporary_buffer: Option<String>,
     is_adjusted_current_node_is_element_in_html_namespace: Option<bool>,
     doctype_keyword: Option<String>,
@@ -365,43 +365,6 @@ where
         false
     }
 
-    fn flush_code_point_consumed_as_character_reference(&mut self, c: char, raw: &str) {
-        if self.is_consumed_as_part_of_an_attribute() {
-            if let Some(ref mut token) = self.cur_token {
-                match token {
-                    Token::StartTag { attributes, .. } | Token::EndTag { attributes, .. } => {
-                        if let Some(attribute) = attributes.last_mut() {
-                            let mut new_value = String::new();
-
-                            if let Some(value) = &attribute.value {
-                                new_value.push_str(value);
-                            }
-
-                            new_value.push(c);
-
-                            let mut raw_new_value = String::new();
-
-                            if let Some(raw_value) = &attribute.raw_value {
-                                raw_new_value.push_str(raw_value);
-                            }
-
-                            raw_new_value.push(c);
-
-                            attribute.value = Some(new_value.into());
-                            attribute.raw_value = Some(raw_new_value.into());
-                        }
-                    }
-                    _ => {}
-                }
-            }
-        } else {
-            self.emit_token(Token::Character {
-                value: c,
-                raw: Some(raw.into()),
-            });
-        }
-    }
-
     fn emit_temporary_buffer_as_character_tokens(&mut self) {
         if let Some(temporary_buffer) = self.temporary_buffer.take() {
             for c in temporary_buffer.chars() {
@@ -410,10 +373,43 @@ where
         }
     }
 
-    fn flush_code_points_consumed_as_character_reference(&mut self) {
-        if let Some(mut temporary_buffer) = self.temporary_buffer.take() {
+    fn flush_code_points_consumed_as_character_reference(&mut self, _raw: Option<String>) {
+        if self.is_consumed_as_part_of_an_attribute() {
+            if let Some(ref mut token) = self.cur_token {
+                match token {
+                    Token::StartTag { attributes, .. } | Token::EndTag { attributes, .. } => {
+                        if let Some(attribute) = attributes.last_mut() {
+                            let mut new_value = String::new();
+                            let mut raw_new_value = String::new();
+
+                            if let Some(value) = &attribute.value {
+                                new_value.push_str(value);
+                            }
+
+                            if let Some(raw_value) = &attribute.raw_value {
+                                raw_new_value.push_str(raw_value);
+                            }
+
+                            if let Some(mut temporary_buffer) = self.temporary_buffer.take() {
+                                for c in temporary_buffer.drain(..) {
+                                    new_value.push(c);
+                                    raw_new_value.push(c);
+                                }
+                            }
+
+                            attribute.value = Some(new_value.into());
+                            attribute.raw_value = Some(raw_new_value.into());
+                        }
+                    }
+                    _ => {}
+                }
+            }
+        } else if let Some(mut temporary_buffer) = self.temporary_buffer.take() {
             for c in temporary_buffer.drain(..) {
-                self.flush_code_point_consumed_as_character_reference(c, &c.to_string());
+                self.emit_token(Token::Character {
+                    value: c,
+                    raw: Some(c.to_string().into()),
+                });
             }
         }
     }
@@ -4678,7 +4674,7 @@ where
                     // Flush code points consumed as a character reference. Reconsume in the
                     // return state.
                     _ => {
-                        self.flush_code_points_consumed_as_character_reference();
+                        self.flush_code_points_consumed_as_character_reference(None);
                         self.reconsume_in_state(self.return_state.clone());
                     }
                 }
@@ -4752,7 +4748,7 @@ where
                             && !is_last_semicolon
                             && is_next_equals_sign_or_ascii_alphanumeric
                         {
-                            self.flush_code_points_consumed_as_character_reference();
+                            self.flush_code_points_consumed_as_character_reference(None);
                             self.state = self.return_state.clone();
                         }
                         // Otherwise:
@@ -4779,7 +4775,9 @@ where
                                 temporary_buffer.push_str(&entity.characters);
                             }
 
-                            self.flush_code_points_consumed_as_character_reference();
+                            self.flush_code_points_consumed_as_character_reference(
+                                self.temporary_buffer.clone(),
+                            );
                             self.state = self.return_state.clone();
                         }
                     }
@@ -4787,7 +4785,7 @@ where
                     // Flush code points consumed as a character reference. Switch to the
                     // ambiguous ampersand state.
                     _ => {
-                        self.flush_code_points_consumed_as_character_reference();
+                        self.flush_code_points_consumed_as_character_reference(None);
                         self.state = State::AmbiguousAmpersand;
                     }
                 }
@@ -4850,7 +4848,7 @@ where
             }
             // https://html.spec.whatwg.org/multipage/parsing.html#numeric-character-reference-state
             State::NumericCharacterReference => {
-                self.character_reference_code = Some(vec![(0, 0)]);
+                self.character_reference_code = Some(vec![(0, 0, None)]);
 
                 // Consume the next input character:
                 match self.consume_next_char() {
@@ -4887,7 +4885,7 @@ where
                     // return state.
                     _ => {
                         self.emit_error(ErrorKind::AbsenceOfDigitsInNumericCharacterReference);
-                        self.flush_code_points_consumed_as_character_reference();
+                        self.flush_code_points_consumed_as_character_reference(None);
                         self.reconsume_in_state(self.return_state.clone());
                     }
                 }
@@ -4907,7 +4905,7 @@ where
                     // return state.
                     _ => {
                         self.emit_error(ErrorKind::AbsenceOfDigitsInNumericCharacterReference);
-                        self.flush_code_points_consumed_as_character_reference();
+                        self.flush_code_points_consumed_as_character_reference(None);
                         self.reconsume_in_state(self.return_state.clone());
                     }
                 }
@@ -4922,7 +4920,7 @@ where
                     // to the character reference code.
                     Some(c) if c.is_ascii_digit() => match &mut self.character_reference_code {
                         Some(character_reference_code) => {
-                            character_reference_code.push((16, c as u32 - 0x30));
+                            character_reference_code.push((16, c as u32 - 0x30, Some(c)));
                         }
                         _ => {
                             unreachable!();
@@ -4934,7 +4932,7 @@ where
                     // character's code point) to the character reference code.
                     Some(c) if is_upper_hex_digit(c) => match &mut self.character_reference_code {
                         Some(character_reference_code) => {
-                            character_reference_code.push((16, c as u32 - 0x37));
+                            character_reference_code.push((16, c as u32 - 0x37, Some(c)));
                         }
                         _ => {
                             unreachable!();
@@ -4946,7 +4944,7 @@ where
                     // character's code point) to the character reference code.
                     Some(c) if is_lower_hex_digit(c) => match &mut self.character_reference_code {
                         Some(character_reference_code) => {
-                            character_reference_code.push((16, c as u32 - 0x57));
+                            character_reference_code.push((16, c as u32 - 0x57, Some(c)));
                         }
                         _ => {
                             unreachable!();
@@ -4976,7 +4974,7 @@ where
                     // to the character reference code.
                     Some(c) if c.is_ascii_digit() => match &mut self.character_reference_code {
                         Some(character_reference_code) => {
-                            character_reference_code.push((10, c as u32 - 0x30));
+                            character_reference_code.push((10, c as u32 - 0x30, Some(c)));
                         }
                         _ => {
                             unreachable!();
@@ -4996,28 +4994,36 @@ where
             }
             // https://html.spec.whatwg.org/multipage/parsing.html#numeric-character-reference-end-state
             State::NumericCharacterReferenceEnd => {
-                let value = if let Some(chars) = self.character_reference_code.take() {
+                let (value, raw) = if let Some(chars) = self.character_reference_code.take() {
+                    let mut raw = String::with_capacity(1);
                     let mut i: u32 = 0;
+                    let mut overflowed = false;
 
-                    for (base, value) in chars.iter() {
-                        if let Some(result) = i.checked_mul(*base as u32) {
-                            i = result;
+                    for (base, value, c) in chars.iter() {
+                        if let Some(c) = c {
+                            raw.push(*c);
+                        }
 
-                            if let Some(result) = i.checked_add(*value) {
+                        if !overflowed {
+                            if let Some(result) = i.checked_mul(*base as u32) {
                                 i = result;
+
+                                if let Some(result) = i.checked_add(*value) {
+                                    i = result;
+                                } else {
+                                    i = 0x110000;
+
+                                    overflowed = true;
+                                }
                             } else {
                                 i = 0x110000;
 
-                                break;
+                                overflowed = true;
                             }
-                        } else {
-                            i = 0x110000;
-
-                            break;
                         }
                     }
 
-                    i
+                    (i, raw)
                 } else {
                     unreachable!();
                 };
@@ -5146,7 +5152,7 @@ where
                     temporary_buffer.push(c);
                 }
 
-                self.flush_code_points_consumed_as_character_reference();
+                self.flush_code_points_consumed_as_character_reference(Some(raw));
                 self.state = self.return_state.clone();
             }
         }

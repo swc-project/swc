@@ -1134,7 +1134,6 @@ fn html5lib_test_tree_construction(input: PathBuf) {
     }
 
     // TODO improve errors tests
-    // TODO improve test for parsing `<template>`
     testing::run_test2(false, |cm, handler| {
         // Type annotation
         if false {
