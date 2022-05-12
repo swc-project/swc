@@ -1,2 +1,8 @@
 
+  x Expected doctype
+   ,-[$DIR/tests/recovery/element/isindex/input.html:1:1]
+ 1 | <isindex>
+   : ^^^^^^^^^
+   `----
+
   x Unexpected token

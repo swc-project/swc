@@ -1302,10 +1302,13 @@ where
                     // In any case, switch the insertion mode to "before html", then reprocess the
                     // token.
                     _ => {
-                        // TODO ERROR about missing doctype and handle iframe
+                        // TODO handle iframe
                         let is_iframe = false;
 
                         if !is_iframe {
+                            self.errors
+                                .push(Error::new(token_and_info.span, ErrorKind::ExpectedDoctype));
+
                             self.document_mode = DocumentMode::Quirks;
                         }
 

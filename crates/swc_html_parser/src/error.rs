@@ -137,6 +137,7 @@ impl Error {
             ErrorKind::EofInElementThatCanContainOnlyText => {
                 "Eof in element that can contain only text".into()
             }
+            ErrorKind::ExpectedDoctype => "Expected doctype".into(),
             ErrorKind::UnexpectedToken => "Unexpected token".into(),
         }
     }
@@ -213,5 +214,6 @@ pub enum ErrorKind {
     EofInElementThatCanContainOnlyText,
 
     // Parser errors
+    ExpectedDoctype,
     UnexpectedToken,
 }

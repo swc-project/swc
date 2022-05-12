@@ -1,4 +1,10 @@
 
+  x Expected doctype
+   ,-[$DIR/tests/recovery/element/a-4/input.html:1:1]
+ 1 | <table><a>1<p>2</a>3</p>
+   : ^^^^^^^
+   `----
+
   x Unexpected token
    ,-[$DIR/tests/recovery/element/a-4/input.html:1:1]
  1 | <table><a>1<p>2</a>3</p>

@@ -1,4 +1,6 @@
 
+  x Expected doctype
+
   x Eof in tag
    ,-[$DIR/tests/recovery/attribute/bogus/input.html:1:1]
  1 | <div test="test'></div>

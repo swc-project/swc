@@ -1,4 +1,10 @@
 
+  x Expected doctype
+   ,-[$DIR/tests/recovery/comment/inside-textarea/input.html:1:1]
+ 1 | <textarea><!--</textarea>--></textarea>
+   : ^^^^^^^^^^
+   `----
+
   x Unexpected token
    ,-[$DIR/tests/recovery/comment/inside-textarea/input.html:1:1]
  1 | <textarea><!--</textarea>--></textarea>

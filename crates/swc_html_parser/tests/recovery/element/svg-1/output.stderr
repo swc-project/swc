@@ -1,2 +1,8 @@
 
+  x Expected doctype
+   ,-[$DIR/tests/recovery/element/svg-1/input.html:1:1]
+ 1 | <svg><![CDATA[foo
+   : ^^^^^
+   `----
+
   x Unexpected token

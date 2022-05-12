@@ -5,6 +5,12 @@
    : ^^^^^^^^^
    `----
 
+  x Expected doctype
+   ,-[$DIR/tests/recovery/comment/cdata-1/input.html:9:1]
+ 9 | <div>test</div>
+   : ^^^^^
+   `----
+
   x Cdata in html content
     ,-[$DIR/tests/recovery/comment/cdata-1/input.html:10:1]
  10 | <![cdata[
