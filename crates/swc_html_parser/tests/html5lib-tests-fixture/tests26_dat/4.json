@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 0,
-    "end": 67,
+    "start": 1,
+    "end": 68,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -10,8 +10,8 @@
     {
       "type": "DocumentType",
       "span": {
-        "start": 0,
-        "end": 15,
+        "start": 1,
+        "end": 16,
         "ctxt": 0
       },
       "name": "html",
@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 67,
+        "end": 68,
         "ctxt": 0
       },
       "tagName": "html",
@@ -33,7 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 21,
+            "end": 22,
             "ctxt": 0
           },
           "tagName": "head",
@@ -45,8 +45,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 15,
-            "end": 67,
+            "start": 16,
+            "end": 68,
             "ctxt": 0
           },
           "tagName": "body",
@@ -56,8 +56,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 21,
-                "end": 31,
+                "start": 22,
+                "end": 32,
                 "ctxt": 0
               },
               "tagName": "b",
@@ -67,8 +67,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 24,
-                    "end": 31,
+                    "start": 25,
+                    "end": 32,
                     "ctxt": 0
                   },
                   "tagName": "nobr",
@@ -78,8 +78,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 30,
-                        "end": 31,
+                        "start": 31,
+                        "end": 32,
                         "ctxt": 0
                       },
                       "value": "1"
@@ -93,8 +93,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 31,
-                "end": 67,
+                "start": 32,
+                "end": 68,
                 "ctxt": 0
               },
               "tagName": "div",
@@ -104,8 +104,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 21,
-                    "end": 42,
+                    "start": 22,
+                    "end": 43,
                     "ctxt": 0
                   },
                   "tagName": "b",
@@ -115,8 +115,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 24,
-                        "end": 42,
+                        "start": 25,
+                        "end": 43,
                         "ctxt": 0
                       },
                       "tagName": "nobr",
@@ -128,8 +128,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 36,
-                        "end": 42,
+                        "start": 37,
+                        "end": 43,
                         "ctxt": 0
                       },
                       "tagName": "nobr",
@@ -144,8 +144,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 36,
-                    "end": 49,
+                    "start": 37,
+                    "end": 50,
                     "ctxt": 0
                   },
                   "tagName": "nobr",
@@ -155,8 +155,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 46,
-                        "end": 49,
+                        "start": 47,
+                        "end": 50,
                         "ctxt": 0
                       },
                       "tagName": "i",
@@ -171,8 +171,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 46,
-                    "end": 62,
+                    "start": 47,
+                    "end": 63,
                     "ctxt": 0
                   },
                   "tagName": "i",
@@ -182,8 +182,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 49,
-                        "end": 56,
+                        "start": 50,
+                        "end": 57,
                         "ctxt": 0
                       },
                       "tagName": "nobr",
@@ -193,8 +193,8 @@
                         {
                           "type": "Text",
                           "span": {
-                            "start": 55,
-                            "end": 56,
+                            "start": 56,
+                            "end": 57,
                             "ctxt": 0
                           },
                           "value": "2"
@@ -205,8 +205,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 56,
-                        "end": 62,
+                        "start": 57,
+                        "end": 63,
                         "ctxt": 0
                       },
                       "tagName": "nobr",
@@ -221,8 +221,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 56,
-                    "end": 67,
+                    "start": 57,
+                    "end": 68,
                     "ctxt": 0
                   },
                   "tagName": "nobr",
@@ -232,8 +232,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 66,
-                        "end": 67,
+                        "start": 67,
+                        "end": 68,
                         "ctxt": 0
                       },
                       "value": "3"

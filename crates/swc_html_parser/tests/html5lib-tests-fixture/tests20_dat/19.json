@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 0,
-    "end": 31,
+    "start": 1,
+    "end": 32,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -10,8 +10,8 @@
     {
       "type": "DocumentType",
       "span": {
-        "start": 0,
-        "end": 15,
+        "start": 1,
+        "end": 16,
         "ctxt": 0
       },
       "name": "html",
@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 31,
+        "end": 32,
         "ctxt": 0
       },
       "tagName": "html",
@@ -33,7 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 18,
+            "end": 19,
             "ctxt": 0
           },
           "tagName": "head",
@@ -46,7 +46,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 31,
+            "end": 32,
             "ctxt": 0
           },
           "tagName": "body",
@@ -56,8 +56,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 15,
-                "end": 31,
+                "start": 16,
+                "end": 32,
                 "ctxt": 0
               },
               "tagName": "p",
@@ -67,8 +67,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 18,
-                    "end": 31,
+                    "start": 19,
+                    "end": 32,
                     "ctxt": 0
                   },
                   "tagName": "button",
@@ -78,8 +78,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 26,
-                        "end": 31,
+                        "start": 27,
+                        "end": 32,
                         "ctxt": 0
                       },
                       "tagName": "nav",

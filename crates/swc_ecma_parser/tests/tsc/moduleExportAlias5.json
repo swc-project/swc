@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 89,
-    "end": 220,
+    "start": 90,
+    "end": 221,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 89,
-        "end": 119,
+        "start": 90,
+        "end": 120,
         "ctxt": 0
       },
       "kind": "const",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 95,
-            "end": 119,
+            "start": 96,
+            "end": 120,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 95,
-              "end": 102,
+              "start": 96,
+              "end": 103,
               "ctxt": 0
             },
             "value": "webpack",
@@ -40,15 +40,15 @@
             "params": [],
             "decorators": [],
             "span": {
-              "start": 105,
-              "end": 119,
+              "start": 106,
+              "end": 120,
               "ctxt": 0
             },
             "body": {
               "type": "BlockStatement",
               "span": {
-                "start": 116,
-                "end": 119,
+                "start": 117,
+                "end": 120,
                 "ctxt": 0
               },
               "stmts": []
@@ -65,23 +65,23 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 120,
-        "end": 155,
+        "start": 121,
+        "end": 156,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 120,
-          "end": 154,
+          "start": 121,
+          "end": 155,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "Identifier",
           "span": {
-            "start": 120,
-            "end": 127,
+            "start": 121,
+            "end": 128,
             "ctxt": 0
           },
           "value": "exports",
@@ -91,23 +91,23 @@
         "right": {
           "type": "AssignmentExpression",
           "span": {
-            "start": 130,
-            "end": 154,
+            "start": 131,
+            "end": 155,
             "ctxt": 0
           },
           "operator": "=",
           "left": {
             "type": "MemberExpression",
             "span": {
-              "start": 130,
-              "end": 144,
+              "start": 131,
+              "end": 145,
               "ctxt": 0
             },
             "object": {
               "type": "Identifier",
               "span": {
-                "start": 130,
-                "end": 136,
+                "start": 131,
+                "end": 137,
                 "ctxt": 0
               },
               "value": "module",
@@ -116,8 +116,8 @@
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 137,
-                "end": 144,
+                "start": 138,
+                "end": 145,
                 "ctxt": 0
               },
               "value": "exports",
@@ -127,8 +127,8 @@
           "right": {
             "type": "Identifier",
             "span": {
-              "start": 147,
-              "end": 154,
+              "start": 148,
+              "end": 155,
               "ctxt": 0
             },
             "value": "webpack",
@@ -140,30 +140,30 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 156,
-        "end": 179,
+        "start": 157,
+        "end": 180,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 156,
-          "end": 178,
+          "start": 157,
+          "end": 179,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
-            "start": 156,
-            "end": 171,
+            "start": 157,
+            "end": 172,
             "ctxt": 0
           },
           "object": {
             "type": "Identifier",
             "span": {
-              "start": 156,
-              "end": 163,
+              "start": 157,
+              "end": 164,
               "ctxt": 0
             },
             "value": "exports",
@@ -172,8 +172,8 @@
           "property": {
             "type": "Identifier",
             "span": {
-              "start": 164,
-              "end": 171,
+              "start": 165,
+              "end": 172,
               "ctxt": 0
             },
             "value": "version",
@@ -183,8 +183,8 @@
         "right": {
           "type": "NumericLiteral",
           "span": {
-            "start": 174,
-            "end": 178,
+            "start": 175,
+            "end": 179,
             "ctxt": 0
           },
           "value": 1001.0,
@@ -195,30 +195,30 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 181,
-        "end": 220,
+        "start": 182,
+        "end": 221,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 181,
-          "end": 219,
+          "start": 182,
+          "end": 220,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
-            "start": 181,
-            "end": 212,
+            "start": 182,
+            "end": 213,
             "ctxt": 0
           },
           "object": {
             "type": "Identifier",
             "span": {
-              "start": 181,
-              "end": 188,
+              "start": 182,
+              "end": 189,
               "ctxt": 0
             },
             "value": "webpack",
@@ -227,8 +227,8 @@
           "property": {
             "type": "Identifier",
             "span": {
-              "start": 189,
-              "end": 212,
+              "start": 190,
+              "end": 213,
               "ctxt": 0
             },
             "value": "WebpackOptionsDefaulter",
@@ -238,8 +238,8 @@
         "right": {
           "type": "NumericLiteral",
           "span": {
-            "start": 215,
-            "end": 219,
+            "start": 216,
+            "end": 220,
             "ctxt": 0
           },
           "value": 1111.0,

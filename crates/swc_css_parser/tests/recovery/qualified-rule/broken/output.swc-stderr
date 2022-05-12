@@ -1,6 +1,6 @@
 
   x Unexpected end of file
-   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:1:1]
- 1 | foo
+   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:4:17]
+ 4 |  
    : ^
    `----

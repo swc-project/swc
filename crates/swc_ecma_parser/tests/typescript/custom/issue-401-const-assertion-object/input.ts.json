@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 35,
+    "start": 1,
+    "end": 36,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 0,
-        "end": 35,
+        "start": 1,
+        "end": 36,
         "ctxt": 0
       },
       "kind": "let",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 4,
-            "end": 34,
+            "start": 5,
+            "end": 35,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 4,
-              "end": 5,
+              "start": 5,
+              "end": 6,
               "ctxt": 0
             },
             "value": "z",
@@ -37,15 +37,15 @@
           "init": {
             "type": "TsConstAssertion",
             "span": {
-              "start": 8,
-              "end": 34,
+              "start": 9,
+              "end": 35,
               "ctxt": 0
             },
             "expression": {
               "type": "ObjectExpression",
               "span": {
-                "start": 8,
-                "end": 25,
+                "start": 9,
+                "end": 26,
                 "ctxt": 0
               },
               "properties": [
@@ -54,8 +54,8 @@
                   "key": {
                     "type": "Identifier",
                     "span": {
-                      "start": 10,
-                      "end": 14,
+                      "start": 11,
+                      "end": 15,
                       "ctxt": 0
                     },
                     "value": "text",
@@ -64,8 +64,8 @@
                   "value": {
                     "type": "StringLiteral",
                     "span": {
-                      "start": 16,
-                      "end": 23,
+                      "start": 17,
+                      "end": 24,
                       "ctxt": 0
                     },
                     "value": "hello",

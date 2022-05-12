@@ -1,45 +1,45 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 17,
+    "start": 1,
+    "end": 18,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 0,
-        "end": 17,
+        "start": 1,
+        "end": 18,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 0,
-          "end": 17,
+          "start": 1,
+          "end": 18,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
-            "start": 0,
-            "end": 13,
+            "start": 1,
+            "end": 14,
             "ctxt": 0
           },
           "object": {
             "type": "MemberExpression",
             "span": {
-              "start": 0,
-              "end": 6,
+              "start": 1,
+              "end": 7,
               "ctxt": 0
             },
             "object": {
               "type": "Identifier",
               "span": {
-                "start": 0,
-                "end": 3,
+                "start": 1,
+                "end": 4,
                 "ctxt": 0
               },
               "value": "obj",
@@ -48,15 +48,15 @@
             "property": {
               "type": "Computed",
               "span": {
-                "start": 3,
-                "end": 6,
+                "start": 4,
+                "end": 7,
                 "ctxt": 0
               },
               "expression": {
                 "type": "NumericLiteral",
                 "span": {
-                  "start": 4,
-                  "end": 5,
+                  "start": 5,
+                  "end": 6,
                   "ctxt": 0
                 },
                 "value": 0.0,
@@ -67,15 +67,15 @@
           "property": {
             "type": "Computed",
             "span": {
-              "start": 6,
-              "end": 13,
+              "start": 7,
+              "end": 14,
               "ctxt": 0
             },
             "expression": {
               "type": "StringLiteral",
               "span": {
-                "start": 7,
-                "end": 12,
+                "start": 8,
+                "end": 13,
                 "ctxt": 0
               },
               "value": "foo",
@@ -86,8 +86,8 @@
         "right": {
           "type": "NumericLiteral",
           "span": {
-            "start": 16,
-            "end": 17,
+            "start": 17,
+            "end": 18,
             "ctxt": 0
           },
           "value": 1.0,

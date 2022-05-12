@@ -7,7 +7,7 @@ include = ["Cargo.toml", "src/**/*.rs"]
 license = "Apache-2.0"
 name = "swc_css_parser"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.100.3"
+version = "0.101.1"
 
 [lib]
 bench = false
@@ -19,11 +19,11 @@ debug = []
 bitflags = "1.2.1"
 lexical = "6.1.0"
 swc_atoms = { version = "0.2.7", path = "../swc_atoms" }
-swc_common = { version = "0.17.23", path = "../swc_common" }
-swc_css_ast = { version = "0.92.0", path = "../swc_css_ast" }
+swc_common = { version = "0.18.0", path = "../swc_common" }
+swc_css_ast = { version = "0.93.0", path = "../swc_css_ast" }
 
 [dev-dependencies]
 serde = "1.0.127"
 serde_json = "1.0.66"
-swc_css_visit = { version = "0.91.0", path = "../swc_css_visit" }
-testing = { version = "0.19.0", path = "../testing" }
+swc_css_visit = { version = "0.92.0", path = "../swc_css_visit" }
+testing = { version = "0.20.0", path = "../testing" }

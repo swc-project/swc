@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 78,
-    "end": 152,
+    "start": 79,
+    "end": 153,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 84,
-          "end": 92,
+          "start": 85,
+          "end": 93,
           "ctxt": 0
         },
         "value": "ErrClass",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 78,
-        "end": 152,
+        "start": 79,
+        "end": 153,
         "ctxt": 0
       },
       "decorators": [],
@@ -29,15 +29,15 @@
         {
           "type": "Constructor",
           "span": {
-            "start": 125,
-            "end": 150,
+            "start": 126,
+            "end": 151,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 125,
-              "end": 136,
+              "start": 126,
+              "end": 137,
               "ctxt": 0
             },
             "value": "constructor",
@@ -47,23 +47,23 @@
             {
               "type": "Parameter",
               "span": {
-                "start": 137,
-                "end": 145,
+                "start": 138,
+                "end": 146,
                 "ctxt": 0
               },
               "decorators": [],
               "pat": {
                 "type": "AssignmentPattern",
                 "span": {
-                  "start": 137,
-                  "end": 145,
+                  "start": 138,
+                  "end": 146,
                   "ctxt": 0
                 },
                 "left": {
                   "type": "Identifier",
                   "span": {
-                    "start": 137,
-                    "end": 138,
+                    "start": 138,
+                    "end": 139,
                     "ctxt": 0
                   },
                   "value": "f",
@@ -73,8 +73,8 @@
                 "right": {
                   "type": "ThisExpression",
                   "span": {
-                    "start": 141,
-                    "end": 145,
+                    "start": 142,
+                    "end": 146,
                     "ctxt": 0
                   }
                 },
@@ -85,8 +85,8 @@
           "body": {
             "type": "BlockStatement",
             "span": {
-              "start": 147,
-              "end": 150,
+              "start": 148,
+              "end": 151,
               "ctxt": 0
             },
             "stmts": []

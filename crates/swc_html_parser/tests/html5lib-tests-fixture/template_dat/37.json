@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 0,
-    "end": 66,
+    "start": 1,
+    "end": 67,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 50,
+        "end": 51,
         "ctxt": 0
       },
       "tagName": "html",
@@ -22,7 +22,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 6,
+            "end": 7,
             "ctxt": 0
           },
           "tagName": "head",
@@ -34,8 +34,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 0,
-            "end": 50,
+            "start": 1,
+            "end": 51,
             "ctxt": 0
           },
           "tagName": "body",
@@ -45,8 +45,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 6,
-                "end": 50,
+                "start": 7,
+                "end": 51,
                 "ctxt": 0
               },
               "tagName": "template",
@@ -56,8 +56,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 16,
-                    "end": 30,
+                    "start": 17,
+                    "end": 31,
                     "ctxt": 0
                   },
                   "tagName": "template",
@@ -67,8 +67,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 26,
-                        "end": 30,
+                        "start": 27,
+                        "end": 31,
                         "ctxt": 0
                       },
                       "tagName": "tr",
@@ -83,8 +83,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 46,
-                    "end": 50,
+                    "start": 47,
+                    "end": 51,
                     "ctxt": 0
                   },
                   "tagName": "td",

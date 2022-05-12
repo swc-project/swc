@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 132,
-    "end": 201,
+    "start": 133,
+    "end": 202,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportNamedDeclaration",
       "span": {
-        "start": 132,
-        "end": 142,
+        "start": 133,
+        "end": 143,
         "ctxt": 0
       },
       "specifiers": [],
@@ -21,8 +21,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 143,
-        "end": 168,
+        "start": 144,
+        "end": 169,
         "ctxt": 0
       },
       "kind": "const",
@@ -31,15 +31,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 157,
-            "end": 167,
+            "start": 158,
+            "end": 168,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 157,
-              "end": 162,
+              "start": 158,
+              "end": 163,
               "ctxt": 0
             },
             "value": "await",
@@ -47,15 +47,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 162,
-                "end": 167,
+                "start": 163,
+                "end": 168,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 164,
-                  "end": 167,
+                  "start": 165,
+                  "end": 168,
                   "ctxt": 0
                 },
                 "kind": "any"
@@ -72,8 +72,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 183,
-          "end": 184,
+          "start": 184,
+          "end": 185,
           "ctxt": 0
         },
         "value": "C",
@@ -81,8 +81,8 @@
       },
       "declare": true,
       "span": {
-        "start": 169,
-        "end": 201,
+        "start": 170,
+        "end": 202,
         "ctxt": 0
       },
       "decorators": [],
@@ -90,8 +90,8 @@
       "superClass": {
         "type": "Identifier",
         "span": {
-          "start": 193,
-          "end": 198,
+          "start": 194,
+          "end": 199,
           "ctxt": 0
         },
         "value": "await",

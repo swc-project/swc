@@ -6,7 +6,7 @@
    `----
 
   x Unexpected end of file
-   ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:1:1]
- 1 | a {
-   : ^
+   ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:3:1]
+ 3 | }
+   :  ^
    `----

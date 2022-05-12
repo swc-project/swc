@@ -22,12 +22,15 @@ impl Error {
     }
 
     pub fn new(span: Span, kind: ErrorKind) -> Self {
+        if cfg!(debug_assertions) && span.is_dummy() {
+            panic!("parser should not create an error with dummy span")
+        }
         Error {
             inner: Box::new((span, kind)),
         }
     }
 
-    pub fn message(&self) -> Cow<str> {
+    pub fn message(&self) -> Cow<'static, str> {
         match &self.inner.1 {
             ErrorKind::Eof => "Unexpected end of file".into(),
             ErrorKind::Ignore => "Not an error".into(),

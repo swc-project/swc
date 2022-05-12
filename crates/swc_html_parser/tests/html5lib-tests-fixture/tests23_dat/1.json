@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 0,
-    "end": 59,
+    "start": 1,
+    "end": 60,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 59,
+        "end": 60,
         "ctxt": 0
       },
       "tagName": "html",
@@ -22,7 +22,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 3,
+            "end": 4,
             "ctxt": 0
           },
           "tagName": "head",
@@ -35,7 +35,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 59,
+            "end": 60,
             "ctxt": 0
           },
           "tagName": "body",
@@ -45,8 +45,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 0,
-                "end": 55,
+                "start": 1,
+                "end": 56,
                 "ctxt": 0
               },
               "tagName": "p",
@@ -56,8 +56,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 3,
-                    "end": 55,
+                    "start": 4,
+                    "end": 56,
                     "ctxt": 0
                   },
                   "tagName": "font",
@@ -80,8 +80,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 16,
-                        "end": 55,
+                        "start": 17,
+                        "end": 56,
                         "ctxt": 0
                       },
                       "tagName": "font",
@@ -104,8 +104,8 @@
                         {
                           "type": "Element",
                           "span": {
-                            "start": 29,
-                            "end": 55,
+                            "start": 30,
+                            "end": 56,
                             "ctxt": 0
                           },
                           "tagName": "font",
@@ -128,8 +128,8 @@
                             {
                               "type": "Element",
                               "span": {
-                                "start": 42,
-                                "end": 55,
+                                "start": 43,
+                                "end": 56,
                                 "ctxt": 0
                               },
                               "tagName": "font",
@@ -166,8 +166,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 55,
-                "end": 59,
+                "start": 56,
+                "end": 60,
                 "ctxt": 0
               },
               "tagName": "p",
@@ -177,8 +177,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 16,
-                    "end": 59,
+                    "start": 17,
+                    "end": 60,
                     "ctxt": 0
                   },
                   "tagName": "font",
@@ -201,8 +201,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 29,
-                        "end": 59,
+                        "start": 30,
+                        "end": 60,
                         "ctxt": 0
                       },
                       "tagName": "font",
@@ -225,8 +225,8 @@
                         {
                           "type": "Element",
                           "span": {
-                            "start": 42,
-                            "end": 59,
+                            "start": 43,
+                            "end": 60,
                             "ctxt": 0
                           },
                           "tagName": "font",
@@ -249,8 +249,8 @@
                             {
                               "type": "Text",
                               "span": {
-                                "start": 58,
-                                "end": 59,
+                                "start": 59,
+                                "end": 60,
                                 "ctxt": 0
                               },
                               "value": "X"

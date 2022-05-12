@@ -1,23 +1,23 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 0,
-    "end": 316,
+    "start": 1,
+    "end": 317,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
-        "start": 0,
-        "end": 20,
+        "start": 1,
+        "end": 21,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 1,
-          "end": 10,
+          "start": 2,
+          "end": 11,
           "ctxt": 0
         },
         "value": "namespace",
@@ -26,15 +26,15 @@
       "prelude": {
         "type": "NamespacePrelude",
         "span": {
-          "start": 11,
-          "end": 19,
+          "start": 12,
+          "end": 20,
           "ctxt": 0
         },
         "prefix": {
           "type": "Ident",
           "span": {
-            "start": 11,
-            "end": 16,
+            "start": 12,
+            "end": 17,
             "ctxt": 0
           },
           "value": "empty",
@@ -43,8 +43,8 @@
         "uri": {
           "type": "String",
           "span": {
-            "start": 17,
-            "end": 19,
+            "start": 18,
+            "end": 20,
             "ctxt": 0
           },
           "value": "",
@@ -56,15 +56,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 21,
-        "end": 35,
+        "start": 22,
+        "end": 36,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 22,
-          "end": 31,
+          "start": 23,
+          "end": 32,
           "ctxt": 0
         },
         "value": "namespace",
@@ -73,16 +73,16 @@
       "prelude": {
         "type": "NamespacePrelude",
         "span": {
-          "start": 32,
-          "end": 34,
+          "start": 33,
+          "end": 35,
           "ctxt": 0
         },
         "prefix": null,
         "uri": {
           "type": "String",
           "span": {
-            "start": 32,
-            "end": 34,
+            "start": 33,
+            "end": 35,
             "ctxt": 0
           },
           "value": "",
@@ -94,15 +94,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 36,
-        "end": 81,
+        "start": 37,
+        "end": 82,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 37,
-          "end": 46,
+          "start": 38,
+          "end": 47,
           "ctxt": 0
         },
         "value": "namespace",
@@ -111,23 +111,23 @@
       "prelude": {
         "type": "NamespacePrelude",
         "span": {
-          "start": 47,
-          "end": 80,
+          "start": 48,
+          "end": 81,
           "ctxt": 0
         },
         "prefix": null,
         "uri": {
           "type": "Url",
           "span": {
-            "start": 47,
-            "end": 80,
+            "start": 48,
+            "end": 81,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 47,
-              "end": 50,
+              "start": 48,
+              "end": 51,
               "ctxt": 0
             },
             "value": "url",
@@ -136,8 +136,8 @@
           "value": {
             "type": "UrlValueRaw",
             "span": {
-              "start": 51,
-              "end": 79,
+              "start": 52,
+              "end": 80,
               "ctxt": 0
             },
             "before": "",
@@ -153,15 +153,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 82,
-        "end": 129,
+        "start": 83,
+        "end": 130,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 83,
-          "end": 92,
+          "start": 84,
+          "end": 93,
           "ctxt": 0
         },
         "value": "namespace",
@@ -170,23 +170,23 @@
       "prelude": {
         "type": "NamespacePrelude",
         "span": {
-          "start": 93,
-          "end": 128,
+          "start": 94,
+          "end": 129,
           "ctxt": 0
         },
         "prefix": null,
         "uri": {
           "type": "Url",
           "span": {
-            "start": 93,
-            "end": 128,
+            "start": 94,
+            "end": 129,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 93,
-              "end": 96,
+              "start": 94,
+              "end": 97,
               "ctxt": 0
             },
             "value": "url",
@@ -195,8 +195,8 @@
           "value": {
             "type": "String",
             "span": {
-              "start": 97,
-              "end": 127,
+              "start": 98,
+              "end": 128,
               "ctxt": 0
             },
             "value": "http://www.w3.org/1999/xhtml",
@@ -210,15 +210,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 130,
-        "end": 177,
+        "start": 131,
+        "end": 178,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 131,
-          "end": 140,
+          "start": 132,
+          "end": 141,
           "ctxt": 0
         },
         "value": "namespace",
@@ -227,15 +227,15 @@
       "prelude": {
         "type": "NamespacePrelude",
         "span": {
-          "start": 141,
-          "end": 176,
+          "start": 142,
+          "end": 177,
           "ctxt": 0
         },
         "prefix": {
           "type": "Ident",
           "span": {
-            "start": 141,
-            "end": 144,
+            "start": 142,
+            "end": 145,
             "ctxt": 0
           },
           "value": "svg",
@@ -244,15 +244,15 @@
         "uri": {
           "type": "Url",
           "span": {
-            "start": 145,
-            "end": 176,
+            "start": 146,
+            "end": 177,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 145,
-              "end": 148,
+              "start": 146,
+              "end": 149,
               "ctxt": 0
             },
             "value": "url",
@@ -261,8 +261,8 @@
           "value": {
             "type": "UrlValueRaw",
             "span": {
-              "start": 149,
-              "end": 175,
+              "start": 150,
+              "end": 176,
               "ctxt": 0
             },
             "before": "",
@@ -278,15 +278,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 178,
-        "end": 227,
+        "start": 179,
+        "end": 228,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 179,
-          "end": 188,
+          "start": 180,
+          "end": 189,
           "ctxt": 0
         },
         "value": "namespace",
@@ -295,15 +295,15 @@
       "prelude": {
         "type": "NamespacePrelude",
         "span": {
-          "start": 189,
-          "end": 226,
+          "start": 190,
+          "end": 227,
           "ctxt": 0
         },
         "prefix": {
           "type": "Ident",
           "span": {
-            "start": 189,
-            "end": 192,
+            "start": 190,
+            "end": 193,
             "ctxt": 0
           },
           "value": "svg",
@@ -312,15 +312,15 @@
         "uri": {
           "type": "Url",
           "span": {
-            "start": 193,
-            "end": 226,
+            "start": 194,
+            "end": 227,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 193,
-              "end": 196,
+              "start": 194,
+              "end": 197,
               "ctxt": 0
             },
             "value": "url",
@@ -329,8 +329,8 @@
           "value": {
             "type": "String",
             "span": {
-              "start": 197,
-              "end": 225,
+              "start": 198,
+              "end": 226,
               "ctxt": 0
             },
             "value": "http://www.w3.org/2000/svg",
@@ -344,15 +344,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 228,
-        "end": 270,
+        "start": 229,
+        "end": 271,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 229,
-          "end": 238,
+          "start": 230,
+          "end": 239,
           "ctxt": 0
         },
         "value": "namespace",
@@ -361,16 +361,16 @@
       "prelude": {
         "type": "NamespacePrelude",
         "span": {
-          "start": 239,
-          "end": 269,
+          "start": 240,
+          "end": 270,
           "ctxt": 0
         },
         "prefix": null,
         "uri": {
           "type": "String",
           "span": {
-            "start": 239,
-            "end": 269,
+            "start": 240,
+            "end": 270,
             "ctxt": 0
           },
           "value": "http://www.w3.org/1999/xhtml",
@@ -382,15 +382,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 271,
-        "end": 315,
+        "start": 272,
+        "end": 316,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 272,
-          "end": 281,
+          "start": 273,
+          "end": 282,
           "ctxt": 0
         },
         "value": "namespace",
@@ -399,15 +399,15 @@
       "prelude": {
         "type": "NamespacePrelude",
         "span": {
-          "start": 282,
-          "end": 314,
+          "start": 283,
+          "end": 315,
           "ctxt": 0
         },
         "prefix": {
           "type": "Ident",
           "span": {
-            "start": 282,
-            "end": 285,
+            "start": 283,
+            "end": 286,
             "ctxt": 0
           },
           "value": "svg",
@@ -416,8 +416,8 @@
         "uri": {
           "type": "String",
           "span": {
-            "start": 286,
-            "end": 314,
+            "start": 287,
+            "end": 315,
             "ctxt": 0
           },
           "value": "http://www.w3.org/2000/svg",

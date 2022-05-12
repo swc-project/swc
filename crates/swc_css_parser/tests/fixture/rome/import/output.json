@@ -1,23 +1,23 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 0,
-    "end": 55,
+    "start": 1,
+    "end": 56,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
-        "start": 0,
-        "end": 24,
+        "start": 1,
+        "end": 25,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 1,
-          "end": 7,
+          "start": 2,
+          "end": 8,
           "ctxt": 0
         },
         "value": "import",
@@ -26,15 +26,15 @@
       "prelude": {
         "type": "ImportPrelude",
         "span": {
-          "start": 8,
-          "end": 23,
+          "start": 9,
+          "end": 24,
           "ctxt": 0
         },
         "href": {
           "type": "String",
           "span": {
-            "start": 8,
-            "end": 23,
+            "start": 9,
+            "end": 24,
             "ctxt": 0
           },
           "value": "something.css",
@@ -49,15 +49,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 25,
-        "end": 54,
+        "start": 26,
+        "end": 55,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 26,
-          "end": 32,
+          "start": 27,
+          "end": 33,
           "ctxt": 0
         },
         "value": "import",
@@ -66,22 +66,22 @@
       "prelude": {
         "type": "ImportPrelude",
         "span": {
-          "start": 33,
-          "end": 53,
+          "start": 34,
+          "end": 54,
           "ctxt": 0
         },
         "href": {
           "type": "Url",
           "span": {
-            "start": 33,
-            "end": 53,
+            "start": 34,
+            "end": 54,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 33,
-              "end": 36,
+              "start": 34,
+              "end": 37,
               "ctxt": 0
             },
             "value": "url",
@@ -90,8 +90,8 @@
           "value": {
             "type": "String",
             "span": {
-              "start": 37,
-              "end": 52,
+              "start": 38,
+              "end": 53,
               "ctxt": 0
             },
             "value": "something.css",

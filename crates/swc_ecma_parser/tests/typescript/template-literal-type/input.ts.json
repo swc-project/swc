@@ -1,24 +1,24 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 186,
+    "start": 1,
+    "end": 187,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsTypeAliasDeclaration",
       "span": {
-        "start": 0,
-        "end": 28,
+        "start": 1,
+        "end": 29,
         "ctxt": 0
       },
       "declare": false,
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 5,
-          "end": 12,
+          "start": 6,
+          "end": 13,
           "ctxt": 0
         },
         "value": "MyAlias",
@@ -28,15 +28,15 @@
       "typeAnnotation": {
         "type": "TsLiteralType",
         "span": {
-          "start": 15,
-          "end": 27,
+          "start": 16,
+          "end": 28,
           "ctxt": 0
         },
         "literal": {
           "type": "TemplateLiteral",
           "span": {
-            "start": 15,
-            "end": 27,
+            "start": 16,
+            "end": 28,
             "ctxt": 0
           },
           "types": [],
@@ -44,8 +44,8 @@
             {
               "type": "TemplateElement",
               "span": {
-                "start": 16,
-                "end": 26,
+                "start": 17,
+                "end": 27,
                 "ctxt": 0
               },
               "tail": true,
@@ -59,16 +59,16 @@
     {
       "type": "TsTypeAliasDeclaration",
       "span": {
-        "start": 29,
-        "end": 73,
+        "start": 30,
+        "end": 74,
         "ctxt": 0
       },
       "declare": false,
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 34,
-          "end": 44,
+          "start": 35,
+          "end": 45,
           "ctxt": 0
         },
         "value": "OtherAlias",
@@ -78,23 +78,23 @@
       "typeAnnotation": {
         "type": "TsUnionType",
         "span": {
-          "start": 51,
-          "end": 72,
+          "start": 52,
+          "end": 73,
           "ctxt": 0
         },
         "types": [
           {
             "type": "TsLiteralType",
             "span": {
-              "start": 53,
-              "end": 59,
+              "start": 54,
+              "end": 60,
               "ctxt": 0
             },
             "literal": {
               "type": "TemplateLiteral",
               "span": {
-                "start": 53,
-                "end": 59,
+                "start": 54,
+                "end": 60,
                 "ctxt": 0
               },
               "types": [],
@@ -102,8 +102,8 @@
                 {
                   "type": "TemplateElement",
                   "span": {
-                    "start": 54,
-                    "end": 58,
+                    "start": 55,
+                    "end": 59,
                     "ctxt": 0
                   },
                   "tail": true,
@@ -116,15 +116,15 @@
           {
             "type": "TsLiteralType",
             "span": {
-              "start": 66,
-              "end": 72,
+              "start": 67,
+              "end": 73,
               "ctxt": 0
             },
             "literal": {
               "type": "TemplateLiteral",
               "span": {
-                "start": 66,
-                "end": 72,
+                "start": 67,
+                "end": 73,
                 "ctxt": 0
               },
               "types": [],
@@ -132,8 +132,8 @@
                 {
                   "type": "TemplateElement",
                   "span": {
-                    "start": 67,
-                    "end": 71,
+                    "start": 68,
+                    "end": 72,
                     "ctxt": 0
                   },
                   "tail": true,
@@ -149,16 +149,16 @@
     {
       "type": "TsTypeAliasDeclaration",
       "span": {
-        "start": 74,
-        "end": 106,
+        "start": 75,
+        "end": 107,
         "ctxt": 0
       },
       "declare": false,
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 79,
-          "end": 88,
+          "start": 80,
+          "end": 89,
           "ctxt": 0
         },
         "value": "MultiLine",
@@ -168,15 +168,15 @@
       "typeAnnotation": {
         "type": "TsLiteralType",
         "span": {
-          "start": 91,
-          "end": 105,
+          "start": 92,
+          "end": 106,
           "ctxt": 0
         },
         "literal": {
           "type": "TemplateLiteral",
           "span": {
-            "start": 91,
-            "end": 105,
+            "start": 92,
+            "end": 106,
             "ctxt": 0
           },
           "types": [],
@@ -184,8 +184,8 @@
             {
               "type": "TemplateElement",
               "span": {
-                "start": 92,
-                "end": 104,
+                "start": 93,
+                "end": 105,
                 "ctxt": 0
               },
               "tail": true,
@@ -199,16 +199,16 @@
     {
       "type": "TsTypeAliasDeclaration",
       "span": {
-        "start": 107,
-        "end": 143,
+        "start": 108,
+        "end": 144,
         "ctxt": 0
       },
       "declare": false,
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 112,
-          "end": 121,
+          "start": 113,
+          "end": 122,
           "ctxt": 0
         },
         "value": "WithTypes",
@@ -218,23 +218,23 @@
       "typeAnnotation": {
         "type": "TsLiteralType",
         "span": {
-          "start": 124,
-          "end": 142,
+          "start": 125,
+          "end": 143,
           "ctxt": 0
         },
         "literal": {
           "type": "TemplateLiteral",
           "span": {
-            "start": 124,
-            "end": 142,
+            "start": 125,
+            "end": 143,
             "ctxt": 0
           },
           "types": [
             {
               "type": "TsKeywordType",
               "span": {
-                "start": 134,
-                "end": 140,
+                "start": 135,
+                "end": 141,
                 "ctxt": 0
               },
               "kind": "string"
@@ -244,8 +244,8 @@
             {
               "type": "TemplateElement",
               "span": {
-                "start": 125,
-                "end": 132,
+                "start": 126,
+                "end": 133,
                 "ctxt": 0
               },
               "tail": false,
@@ -255,8 +255,8 @@
             {
               "type": "TemplateElement",
               "span": {
-                "start": 141,
-                "end": 141,
+                "start": 142,
+                "end": 142,
                 "ctxt": 0
               },
               "tail": true,
@@ -270,16 +270,16 @@
     {
       "type": "TsTypeAliasDeclaration",
       "span": {
-        "start": 144,
-        "end": 186,
+        "start": 145,
+        "end": 187,
         "ctxt": 0
       },
       "declare": false,
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 149,
-          "end": 159,
+          "start": 150,
+          "end": 160,
           "ctxt": 0
         },
         "value": "WithTypes2",
@@ -289,30 +289,30 @@
       "typeAnnotation": {
         "type": "TsLiteralType",
         "span": {
-          "start": 162,
-          "end": 185,
+          "start": 163,
+          "end": 186,
           "ctxt": 0
         },
         "literal": {
           "type": "TemplateLiteral",
           "span": {
-            "start": 162,
-            "end": 185,
+            "start": 163,
+            "end": 186,
             "ctxt": 0
           },
           "types": [
             {
               "type": "TsTypeReference",
               "span": {
-                "start": 172,
-                "end": 179,
+                "start": 173,
+                "end": 180,
                 "ctxt": 0
               },
               "typeName": {
                 "type": "Identifier",
                 "span": {
-                  "start": 172,
-                  "end": 179,
+                  "start": 173,
+                  "end": 180,
                   "ctxt": 0
                 },
                 "value": "MyAlias",
@@ -325,8 +325,8 @@
             {
               "type": "TemplateElement",
               "span": {
-                "start": 163,
-                "end": 170,
+                "start": 164,
+                "end": 171,
                 "ctxt": 0
               },
               "tail": false,
@@ -336,8 +336,8 @@
             {
               "type": "TemplateElement",
               "span": {
-                "start": 180,
-                "end": 184,
+                "start": 181,
+                "end": 185,
                 "ctxt": 0
               },
               "tail": true,

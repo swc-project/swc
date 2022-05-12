@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 17,
+    "start": 1,
+    "end": 18,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 0,
-        "end": 17,
+        "start": 1,
+        "end": 18,
         "ctxt": 0
       },
       "expression": {
         "type": "UpdateExpression",
         "span": {
-          "start": 0,
-          "end": 17,
+          "start": 1,
+          "end": 18,
           "ctxt": 0
         },
         "operator": "++",
@@ -29,16 +29,16 @@
             {
               "type": "Parameter",
               "span": {
-                "start": 11,
-                "end": 12,
+                "start": 12,
+                "end": 13,
                 "ctxt": 0
               },
               "decorators": [],
               "pat": {
                 "type": "Identifier",
                 "span": {
-                  "start": 11,
-                  "end": 12,
+                  "start": 12,
+                  "end": 13,
                   "ctxt": 0
                 },
                 "value": "e",
@@ -49,15 +49,15 @@
           ],
           "decorators": [],
           "span": {
-            "start": 2,
-            "end": 17,
+            "start": 3,
+            "end": 18,
             "ctxt": 0
           },
           "body": {
             "type": "BlockStatement",
             "span": {
-              "start": 14,
-              "end": 17,
+              "start": 15,
+              "end": 18,
               "ctxt": 0
             },
             "stmts": []

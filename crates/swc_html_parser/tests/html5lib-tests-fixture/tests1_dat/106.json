@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 0,
-    "end": 77,
+    "start": 1,
+    "end": 78,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 55,
+        "end": 56,
         "ctxt": 0
       },
       "tagName": "html",
@@ -22,7 +22,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 10,
+            "end": 11,
             "ctxt": 0
           },
           "tagName": "head",
@@ -34,8 +34,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 0,
-            "end": 55,
+            "start": 1,
+            "end": 56,
             "ctxt": 0
           },
           "tagName": "frameset",
@@ -45,8 +45,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 10,
-                "end": 17,
+                "start": 11,
+                "end": 18,
                 "ctxt": 0
               },
               "tagName": "frame",
@@ -58,8 +58,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 17,
-                "end": 34,
+                "start": 18,
+                "end": 35,
                 "ctxt": 0
               },
               "tagName": "frameset",
@@ -69,8 +69,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 27,
-                    "end": 34,
+                    "start": 28,
+                    "end": 35,
                     "ctxt": 0
                   },
                   "tagName": "frame",
@@ -85,8 +85,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 45,
-                "end": 55,
+                "start": 46,
+                "end": 56,
                 "ctxt": 0
               },
               "tagName": "noframes",

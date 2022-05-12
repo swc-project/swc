@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 15,
-    "end": 43,
+    "start": 16,
+    "end": 44,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 15,
-        "end": 29,
+        "start": 16,
+        "end": 30,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 19,
-            "end": 28,
+            "start": 20,
+            "end": 29,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 19,
-              "end": 20,
+              "start": 20,
+              "end": 21,
               "ctxt": 0
             },
             "value": "s",
@@ -35,15 +35,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 20,
-                "end": 28,
+                "start": 21,
+                "end": 29,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 22,
-                  "end": 28,
+                  "start": 23,
+                  "end": 29,
                   "ctxt": 0
                 },
                 "kind": "symbol"
@@ -58,29 +58,29 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 30,
-        "end": 43,
+        "start": 31,
+        "end": 44,
         "ctxt": 0
       },
       "expression": {
         "type": "CallExpression",
         "span": {
-          "start": 30,
-          "end": 42,
+          "start": 31,
+          "end": 43,
           "ctxt": 0
         },
         "callee": {
           "type": "MemberExpression",
           "span": {
-            "start": 30,
-            "end": 40,
+            "start": 31,
+            "end": 41,
             "ctxt": 0
           },
           "object": {
             "type": "Identifier",
             "span": {
-              "start": 30,
-              "end": 31,
+              "start": 31,
+              "end": 32,
               "ctxt": 0
             },
             "value": "s",
@@ -89,8 +89,8 @@
           "property": {
             "type": "Identifier",
             "span": {
-              "start": 32,
-              "end": 40,
+              "start": 33,
+              "end": 41,
               "ctxt": 0
             },
             "value": "toString",

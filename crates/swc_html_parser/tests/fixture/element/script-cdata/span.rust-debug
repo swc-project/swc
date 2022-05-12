@@ -14,60 +14,12 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/script-cdata/input.html:1:1]
-  1 | ,-> <script type="text/javascript">
-  2 | |   //<![CDATA[
-  3 | |   document.write("<");
-  4 | |   //]]>
-  5 | |   </script>
-  6 | |   <script>
-  7 | |       let foo = "<!--<script>-->";
-  8 | |   
-  9 | |       console.log(foo);
- 10 | `-> </script>
-    `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/script-cdata/input.html:1:1]
-  1 | ,-> <script type="text/javascript">
-  2 | |   //<![CDATA[
-  3 | |   document.write("<");
-  4 | |   //]]>
-  5 | |   </script>
-  6 | |   <script>
-  7 | |       let foo = "<!--<script>-->";
-  8 | |   
-  9 | |       console.log(foo);
- 10 | `-> </script>
-    `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/script-cdata/input.html:1:1]
-  1 | ,-> <script type="text/javascript">
-  2 | |   //<![CDATA[
-  3 | |   document.write("<");
-  4 | |   //]]>
-  5 | |   </script>
-  6 | |   <script>
-  7 | |       let foo = "<!--<script>-->";
-  8 | |   
-  9 | `->     console.log(foo);
- 10 |     </script>
-    `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/script-cdata/input.html:1:1]
-  1 | ,-> <script type="text/javascript">
-  2 | |   //<![CDATA[
-  3 | |   document.write("<");
-  4 | |   //]]>
-  5 | |   </script>
-  6 | |   <script>
-  7 | |       let foo = "<!--<script>-->";
-  8 | |   
-  9 | `->     console.log(foo);
- 10 |     </script>
-    `----
 
   x Child
    ,-[$DIR/tests/fixture/element/script-cdata/input.html:1:1]
@@ -88,10 +40,6 @@
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/element/script-cdata/input.html:1:1]
- 1 | <script type="text/javascript">
-   : ^
-   `----
 
   x Child
    ,-[$DIR/tests/fixture/element/script-cdata/input.html:1:1]

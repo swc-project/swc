@@ -11,7 +11,6 @@ use self::input::{Buffer, ParserInput};
 use crate::{
     error::{Error, ErrorKind},
     lexer::State,
-    Parse,
 };
 
 #[macro_use]
@@ -8037,13 +8036,4 @@ fn is_html_integration_point(node: Option<&RcNode>) -> bool {
     }
 
     false
-}
-
-impl<I> Parse<Document> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<Document> {
-        self.parse_document()
-    }
 }

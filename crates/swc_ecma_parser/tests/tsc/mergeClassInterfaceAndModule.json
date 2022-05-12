@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 261,
+    "start": 2,
+    "end": 262,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsInterfaceDeclaration",
       "span": {
-        "start": 1,
-        "end": 16,
+        "start": 2,
+        "end": 17,
         "ctxt": 0
       },
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 11,
-          "end": 13,
+          "start": 12,
+          "end": 14,
           "ctxt": 0
         },
         "value": "C1",
@@ -29,8 +29,8 @@
       "body": {
         "type": "TsInterfaceBody",
         "span": {
-          "start": 14,
-          "end": 16,
+          "start": 15,
+          "end": 17,
           "ctxt": 0
         },
         "body": []
@@ -41,8 +41,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 31,
-          "end": 33,
+          "start": 32,
+          "end": 34,
           "ctxt": 0
         },
         "value": "C1",
@@ -50,8 +50,8 @@
       },
       "declare": true,
       "span": {
-        "start": 17,
-        "end": 36,
+        "start": 18,
+        "end": 37,
         "ctxt": 0
       },
       "decorators": [],
@@ -65,8 +65,8 @@
     {
       "type": "TsModuleDeclaration",
       "span": {
-        "start": 37,
-        "end": 49,
+        "start": 38,
+        "end": 50,
         "ctxt": 0
       },
       "declare": false,
@@ -74,8 +74,8 @@
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 44,
-          "end": 46,
+          "start": 45,
+          "end": 47,
           "ctxt": 0
         },
         "value": "C1",
@@ -84,8 +84,8 @@
       "body": {
         "type": "TsModuleBlock",
         "span": {
-          "start": 47,
-          "end": 49,
+          "start": 48,
+          "end": 50,
           "ctxt": 0
         },
         "body": []
@@ -96,8 +96,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 65,
-          "end": 67,
+          "start": 66,
+          "end": 68,
           "ctxt": 0
         },
         "value": "C2",
@@ -105,8 +105,8 @@
       },
       "declare": true,
       "span": {
-        "start": 51,
-        "end": 70,
+        "start": 52,
+        "end": 71,
         "ctxt": 0
       },
       "decorators": [],
@@ -120,15 +120,15 @@
     {
       "type": "TsInterfaceDeclaration",
       "span": {
-        "start": 71,
-        "end": 86,
+        "start": 72,
+        "end": 87,
         "ctxt": 0
       },
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 81,
-          "end": 83,
+          "start": 82,
+          "end": 84,
           "ctxt": 0
         },
         "value": "C2",
@@ -140,8 +140,8 @@
       "body": {
         "type": "TsInterfaceBody",
         "span": {
-          "start": 84,
-          "end": 86,
+          "start": 85,
+          "end": 87,
           "ctxt": 0
         },
         "body": []
@@ -150,8 +150,8 @@
     {
       "type": "TsModuleDeclaration",
       "span": {
-        "start": 87,
-        "end": 99,
+        "start": 88,
+        "end": 100,
         "ctxt": 0
       },
       "declare": false,
@@ -159,8 +159,8 @@
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 94,
-          "end": 96,
+          "start": 95,
+          "end": 97,
           "ctxt": 0
         },
         "value": "C2",
@@ -169,8 +169,8 @@
       "body": {
         "type": "TsModuleBlock",
         "span": {
-          "start": 97,
-          "end": 99,
+          "start": 98,
+          "end": 100,
           "ctxt": 0
         },
         "body": []
@@ -181,8 +181,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 115,
-          "end": 117,
+          "start": 116,
+          "end": 118,
           "ctxt": 0
         },
         "value": "C3",
@@ -190,8 +190,8 @@
       },
       "declare": true,
       "span": {
-        "start": 101,
-        "end": 120,
+        "start": 102,
+        "end": 121,
         "ctxt": 0
       },
       "decorators": [],
@@ -205,8 +205,8 @@
     {
       "type": "TsModuleDeclaration",
       "span": {
-        "start": 121,
-        "end": 133,
+        "start": 122,
+        "end": 134,
         "ctxt": 0
       },
       "declare": false,
@@ -214,8 +214,8 @@
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 128,
-          "end": 130,
+          "start": 129,
+          "end": 131,
           "ctxt": 0
         },
         "value": "C3",
@@ -224,8 +224,8 @@
       "body": {
         "type": "TsModuleBlock",
         "span": {
-          "start": 131,
-          "end": 133,
+          "start": 132,
+          "end": 134,
           "ctxt": 0
         },
         "body": []
@@ -234,15 +234,15 @@
     {
       "type": "TsInterfaceDeclaration",
       "span": {
-        "start": 134,
-        "end": 149,
+        "start": 135,
+        "end": 150,
         "ctxt": 0
       },
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 144,
-          "end": 146,
+          "start": 145,
+          "end": 147,
           "ctxt": 0
         },
         "value": "C3",
@@ -254,8 +254,8 @@
       "body": {
         "type": "TsInterfaceBody",
         "span": {
-          "start": 147,
-          "end": 149,
+          "start": 148,
+          "end": 150,
           "ctxt": 0
         },
         "body": []
@@ -264,8 +264,8 @@
     {
       "type": "TsModuleDeclaration",
       "span": {
-        "start": 151,
-        "end": 163,
+        "start": 152,
+        "end": 164,
         "ctxt": 0
       },
       "declare": false,
@@ -273,8 +273,8 @@
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 158,
-          "end": 160,
+          "start": 159,
+          "end": 161,
           "ctxt": 0
         },
         "value": "C4",
@@ -283,8 +283,8 @@
       "body": {
         "type": "TsModuleBlock",
         "span": {
-          "start": 161,
-          "end": 163,
+          "start": 162,
+          "end": 164,
           "ctxt": 0
         },
         "body": []
@@ -295,8 +295,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 178,
-          "end": 180,
+          "start": 179,
+          "end": 181,
           "ctxt": 0
         },
         "value": "C4",
@@ -304,8 +304,8 @@
       },
       "declare": true,
       "span": {
-        "start": 164,
-        "end": 183,
+        "start": 165,
+        "end": 184,
         "ctxt": 0
       },
       "decorators": [],
@@ -319,15 +319,15 @@
     {
       "type": "TsInterfaceDeclaration",
       "span": {
-        "start": 246,
-        "end": 261,
+        "start": 247,
+        "end": 262,
         "ctxt": 0
       },
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 256,
-          "end": 258,
+          "start": 257,
+          "end": 259,
           "ctxt": 0
         },
         "value": "C4",
@@ -339,8 +339,8 @@
       "body": {
         "type": "TsInterfaceBody",
         "span": {
-          "start": 259,
-          "end": 261,
+          "start": 260,
+          "end": 262,
           "ctxt": 0
         },
         "body": []

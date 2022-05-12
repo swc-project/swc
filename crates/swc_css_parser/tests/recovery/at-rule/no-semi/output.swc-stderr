@@ -1,6 +1,6 @@
 
   x Unexpected end of file
-   ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:1:1]
- 1 | @media screen {@content}
+   ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:3:18]
+ 3 |  
    : ^
    `----

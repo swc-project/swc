@@ -1,0 +1,69 @@
+| <!DOCTYPE html "-//W3C//DTD HTML 4.01//EN" "">
+| <html>
+|   <head>
+|   <body>
+|     "Text
+"
+|     <div>
+|       "Text"
+|     "
+"
+|     <div>
+|       "
+    Text
+"
+|     "
+"
+|     <div>
+|       "
+    Text
+
+
+    Text
+"
+|     "
+"
+|     <div>
+|       "Text
+
+
+    Text"
+|     "
+"
+|     <div>
+|       test="test"
+|       "
+
+"
+|     "
+"
+|     <div>
+|       data-q="test"
+|       "
+
+"
+|     "
+"
+|     <div>
+|       data-q="test"
+|       "
+
+"
+|     "
+"
+|     <div>
+|       data-q="test"
+|       "
+
+"
+|     "
+"
+|     <style>
+|       "
+
+.color {
+    color: red;
+    <!-- Test -->
+}
+
+"
