@@ -97,7 +97,7 @@ jobs:
       - name: Cache target dir
         uses: actions/cache@v3
         with:
-          path: target
+          path: target/bins
           key: ${{ runner.os }}-cargo-test-${{ hashFiles('**/Cargo.toml') }}-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: |
             ${{ runner.os }}-cargo-test-${{ hashFiles('**/Cargo.toml') }}
@@ -108,21 +108,19 @@ jobs:
 
       - name: Create target directory
         shell: bash
-        run: mkdir -p target || true
+        run: mkdir -p target/bins || true
 
       - name: Gather Cargo metadata
         shell: bash
-        run: cargo metadata --format-version=1 --all-features > target/cargo-metadata.json
+        run: cargo metadata --format-version=1 --all-features > target/bins/cargo-metadata.json
 
       - name: Build tests and save binaries metadata
         shell: bash
-        run: |
-          cargo nextest list --list-type binaries-only \
-            --message-format json > target/binaries-metadata.json
+        run: scripts/github/build-binaries.sh
 
       - name: Archive target directory
         shell: bash
-        run: tar -czf test-bins.tar.gz target
+        run: tar -czf test-bins.tar.gz target/bins
 
       - name: Upload archive to workflow
         uses: actions/upload-artifact@v3
