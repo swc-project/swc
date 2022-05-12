@@ -1632,5 +1632,12 @@ fn nth_char(s: &str, mut idx: usize) -> Cow<str> {
 }
 
 fn need_zero_for_this(e: &Expr) -> bool {
-    matches!(e, Expr::Member(..) | Expr::Seq(..))
+    matches!(
+        e,
+        Expr::Ident(Ident {
+            sym: js_word!("eval"),
+            ..
+        }) | Expr::Member(..)
+            | Expr::Seq(..)
+    )
 }
