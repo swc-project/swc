@@ -39,11 +39,7 @@ fn paths_resolver(
 }
 
 #[testing::fixture("tests/paths/**/input")]
-fn fixture(input_dir: PathBuf) {}
-
-/// Test for preserving user-specified extension
-#[test]
-fn jsc_paths_issue_4619_1() {
+fn fixture(input_dir: PathBuf) {
     let provider = paths_resolver("tests/paths/issue-4619/1/", vec![]);
 
     run_test2(false, |cm, _| {
@@ -56,45 +52,6 @@ fn jsc_paths_issue_4619_1() {
             .expect("should success");
 
         assert_eq!(&*resolved, "./rel.decorator.js");
-
-        Ok(())
-    })
-    .unwrap();
-}
-
-/// Test for preserving user-specified extension
-#[test]
-fn jsc_paths_issue_4619_2() {
-    let provider = paths_resolver("tests/paths/issue-4619/2/", vec![]);
-
-    run_test2(false, |cm, _| {
-        let fm = cm
-            .load_file(Path::new("tests/paths/issue-4619/2/index.ts"))
-            .unwrap();
-
-        let resolved = provider
-            .resolve_import(&fm.name, "./rel.decorator")
-            .expect("should success");
-
-        assert_eq!(&*resolved, "./rel.decorator");
-
-        Ok(())
-    })
-    .unwrap();
-}
-
-#[test]
-fn jsc_paths_1() {
-    let provider = paths_resolver("paths/1/", vec![("@/src/*".into(), vec!["./src".into()])]);
-
-    run_test2(false, |cm, _| {
-        let fm = cm.new_source_file(FileName::Real("src/foo".into()), "".into());
-
-        let resolved = provider
-            .resolve_import(&fm.name, "@/src/bar.js")
-            .expect("should success");
-
-        assert_eq!(&*resolved, "core-js");
 
         Ok(())
     })
