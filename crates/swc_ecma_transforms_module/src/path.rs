@@ -111,6 +111,12 @@ where
                 trace!("to_specifier: orig_ext={:?}", orig_ext);
             }
 
+            let dot_count = p
+                .file_name()
+                .map(|s| s.to_string_lossy())
+                .map(|v| v.as_bytes().iter().filter(|&&c| c == b'.').count())
+                .unwrap_or(0);
+
             match orig_ext {
                 Some(orig_ext) => {
                     if is_file.unwrap_or_else(|| p.is_file()) {
@@ -119,6 +125,7 @@ where
                                 || orig_ext == "tsx"
                                 || orig_ext == "js"
                                 || orig_ext == "jsx"
+                                || dot_count == 1
                             {
                                 p.set_extension(orig_ext);
                             } else {
@@ -159,10 +166,13 @@ where
             debug!("invoking resolver");
         }
 
-        let orig_ext = module_specifier
-            .split('/')
-            .last()
-            .and_then(|s| s.split('.').last());
+        let orig_ext = module_specifier.split('/').last().and_then(|s| {
+            if s.contains('.') {
+                s.split('.').last()
+            } else {
+                None
+            }
+        });
 
         let target = self.resolver.resolve(base, module_specifier);
         let target = match target {
