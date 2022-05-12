@@ -38,11 +38,14 @@ collapse_vars/collapse_vars_arguments/input.js
 collapse_vars/collapse_vars_assignment/input.js
 collapse_vars/collapse_vars_constants/input.js
 collapse_vars/collapse_vars_do_while_drop_assign/input.js
+collapse_vars/collapse_vars_if/input.js
 collapse_vars/collapse_vars_object/input.js
 collapse_vars/collapse_vars_repeated/input.js
 collapse_vars/collapse_vars_self_reference/input.js
 collapse_vars/collapse_vars_short_circuit/input.js
 collapse_vars/collapse_vars_side_effects_1/input.js
+collapse_vars/collapse_vars_switch/input.js
+collapse_vars/collapse_vars_unary/input.js
 collapse_vars/cond_branch_1/input.js
 collapse_vars/cond_branch_2/input.js
 collapse_vars/double_def_1/input.js
@@ -59,6 +62,7 @@ collapse_vars/issue_2319_1/input.js
 collapse_vars/issue_2319_3/input.js
 collapse_vars/issue_2436_1/input.js
 collapse_vars/issue_2436_10/input.js
+collapse_vars/issue_2436_11/input.js
 collapse_vars/issue_2436_13/input.js
 collapse_vars/issue_2436_14/input.js
 collapse_vars/issue_2436_4/input.js
@@ -79,6 +83,9 @@ collapse_vars/recursive_function_replacement/input.js
 collapse_vars/reduce_vars_assign/input.js
 collapse_vars/ref_scope/input.js
 collapse_vars/replace_all_var_scope/input.js
+collapse_vars/switch_case_1/input.js
+collapse_vars/toplevel_single_reference/input.js
+collapse_vars/undeclared/input.js
 collapse_vars/unused_orig/input.js
 collapse_vars/var_defs/input.js
 collapse_vars/var_side_effects_2/input.js
@@ -87,6 +94,7 @@ conditionals/hoist_decl/input.js
 conditionals/ifs_6/input.js
 conditionals/ifs_same_consequent/input.js
 conditionals/issue_1154/input.js
+conditionals/issue_2535_1/input.js
 conditionals/issue_2994/input.js
 dead_code/dead_code_2_should_warn/input.js
 dead_code/dead_code_2_should_warn_strict/input.js
@@ -100,6 +108,7 @@ dead_code/return_assignment/input.js
 dead_code/unsafe_builtin/input.js
 destructuring/anon_func_with_destructuring_args/input.js
 destructuring/arrow_func_with_destructuring_args/input.js
+destructuring/destructuring_dont_evaluate_with_undefined_as_default_assignment/input.js
 destructuring/export_unreferenced_declarations_2/input.js
 destructuring/issue_3205_2/input.js
 destructuring/issue_3205_3/input.js
@@ -269,6 +278,7 @@ harmony/array_literal_with_spread_4b/input.js
 harmony/array_spread_of_sequence/input.js
 harmony/class_name_can_be_mangled/input.js
 harmony/class_name_can_be_preserved_with_reserved/input.js
+harmony/classes_extending_classes_out_of_pure_iifes/input.js
 harmony/expansion/input.js
 harmony/fat_arrow_as_param/input.js
 harmony/import_statement_mangling/input.js
@@ -323,10 +333,12 @@ ie8/issue_2120_1/input.js
 ie8/issue_2254_1/input.js
 ie8/issue_2254_2/input.js
 ie8/reduce_vars/input.js
+if_return/if_return_same_value/input.js
 if_return/issue_2747/input.js
 if_return/issue_512/input.js
 inline/do_not_repeat_when_variable_larger_than_inlined_node/input.js
 inline/inline_annotation/input.js
+inline/inline_within_extends_1/input.js
 inline/inline_within_extends_2/input.js
 issue_1034/non_hoisted_function_after_return/input.js
 issue_1034/non_hoisted_function_after_return_2a_strict/input.js
@@ -395,8 +407,11 @@ issue_269/issue_269_1/input.js
 issue_269/regexp/input.js
 issue_269/strings_concat/input.js
 issue_2719/warn/input.js
+issue_281/collapse_vars_constants/input.js
 issue_281/issue_1758/input.js
 issue_2871/comparison_with_undefined/input.js
+issue_44/issue_44_valid_ast_1/input.js
+issue_44/issue_44_valid_ast_2/input.js
 issue_597/issue_1724/input.js
 issue_637/wrongly_optimized/input.js
 issue_640/cond_5/input.js
@@ -500,11 +515,13 @@ properties/mangle_debug/input.js
 properties/mangle_debug_suffix/input.js
 properties/mangle_debug_suffix_keep_quoted/input.js
 properties/mangle_debug_true/input.js
+properties/mangle_undeclared_properties/input.js
 properties/mangle_unquoted_properties/input.js
 properties/native_prototype/input.js
 properties/new_this/input.js
 properties/prop_side_effects_1/input.js
 properties/prop_side_effects_2/input.js
+properties/skip_undeclared_properties_by_default/input.js
 properties/sub_properties/input.js
 properties/unsafe_methods_regex/input.js
 pure_funcs/arithmetic/input.js
