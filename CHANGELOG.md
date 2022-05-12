@@ -8,6 +8,9 @@
 - **(es/minifier)** Don't create direct `eval` (#4634) ([56a227a](https://github.com/swc-project/swc/commit/56a227ad9dc5b9b706fe8b0d35bf086e986dda07))
 
 
+- **(es/minifier)** Fix optimization of spread (#4639) ([9c190f0](https://github.com/swc-project/swc/commit/9c190f0a8ec64e9d7c39e28f5370cc0a1e61f34c))
+
+
 - **(es/modules)** Fix `jsc.paths` (#4620) ([20692cd](https://github.com/swc-project/swc/commit/20692cdff1df4491382820cb38dae6fdeda12223))
 
 ### Features
