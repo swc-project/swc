@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/modules)** Fix `jsc.paths` (#4620) ([20692cd](https://github.com/swc-project/swc/commit/20692cdff1df4491382820cb38dae6fdeda12223))
+
 ### Features
 
 

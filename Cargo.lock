@@ -3313,7 +3313,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_loader"
-version = "0.30.0"
+version = "0.30.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3564,6 +3564,7 @@ dependencies = [
  "indexmap",
  "pathdiff",
  "serde",
+ "serde_json",
  "swc_atoms",
  "swc_cached",
  "swc_common",
