@@ -118,6 +118,12 @@ jobs:
         shell: bash
         run: scripts/github/build-binaries.sh
 
+      - name: Make cache efficient
+        shell: bash
+        run: |
+          cargo install cargo-cache --no-default-features --features ci-autoclean cargo-cache
+          cargo-cache # no further arguments required
+
       - name: Archive target directory
         shell: bash
         run: tar -czf test-bins.tar.gz target/bins
