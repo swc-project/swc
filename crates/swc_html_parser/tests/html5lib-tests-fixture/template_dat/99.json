@@ -39,36 +39,44 @@
               "tagName": "template",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
-              "children": [
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 11,
-                    "end": 26,
-                    "ctxt": 0
-                  },
-                  "tagName": "svg",
-                  "namespace": "http://www.w3.org/2000/svg",
-                  "attributes": [],
-                  "children": [
-                    {
-                      "type": "Element",
-                      "span": {
-                        "start": 16,
-                        "end": 26,
-                        "ctxt": 0
-                      },
-                      "tagName": "template",
-                      "namespace": "http://www.w3.org/2000/svg",
-                      "attributes": [],
-                      "children": [],
-                      "content": null
-                    }
-                  ],
-                  "content": null
-                }
-              ],
-              "content": null
+              "children": [],
+              "content": {
+                "type": "DocumentFragment",
+                "span": {
+                  "start": 1,
+                  "end": 26,
+                  "ctxt": 0
+                },
+                "children": [
+                  {
+                    "type": "Element",
+                    "span": {
+                      "start": 11,
+                      "end": 26,
+                      "ctxt": 0
+                    },
+                    "tagName": "svg",
+                    "namespace": "http://www.w3.org/2000/svg",
+                    "attributes": [],
+                    "children": [
+                      {
+                        "type": "Element",
+                        "span": {
+                          "start": 16,
+                          "end": 26,
+                          "ctxt": 0
+                        },
+                        "tagName": "template",
+                        "namespace": "http://www.w3.org/2000/svg",
+                        "attributes": [],
+                        "children": [],
+                        "content": null
+                      }
+                    ],
+                    "content": null
+                  }
+                ]
+              }
             }
           ],
           "content": null

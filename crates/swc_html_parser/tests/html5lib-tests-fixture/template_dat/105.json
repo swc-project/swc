@@ -39,18 +39,26 @@
               "tagName": "template",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
-              "children": [
-                {
-                  "type": "Text",
-                  "span": {
-                    "start": 24,
-                    "end": 27,
-                    "ctxt": 0
-                  },
-                  "value": "Foo"
-                }
-              ],
-              "content": null
+              "children": [],
+              "content": {
+                "type": "DocumentFragment",
+                "span": {
+                  "start": 14,
+                  "end": 27,
+                  "ctxt": 0
+                },
+                "children": [
+                  {
+                    "type": "Text",
+                    "span": {
+                      "start": 24,
+                      "end": 27,
+                      "ctxt": 0
+                    },
+                    "value": "Foo"
+                  }
+                ]
+              }
             }
           ],
           "content": null

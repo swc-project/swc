@@ -182,7 +182,9 @@ where
 
         self.is_plaintext = matches!(&*n.tag_name, "plaintext");
 
-        if !n.children.is_empty() {
+        if let Some(content) = &n.content {
+            emit!(self, content);
+        } else if !n.children.is_empty() {
             let skip_escape_text = match &*n.tag_name {
                 "style" | "script" | "xmp" | "iframe" | "noembed" | "noframes" => true,
                 "noscript" => self.config.scripting_enabled,
