@@ -105,6 +105,12 @@ fn main() -> Result<()> {
                             return Ok(());
                         }
 
+                        println!(
+                            "swc size = {}, esbuild size = {}",
+                            swc_output.len(),
+                            esbuild_output.len()
+                        );
+
                         bail!("We don't care about this file")
                     })
                 })

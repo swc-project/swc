@@ -91,7 +91,7 @@ impl EnsureSize {
             };
 
             let swc_no_mangle = {
-                let mut minified_mangled = {
+                let mut minified_no_mangled = {
                     let m = i.module.clone();
 
                     swc_ecma_minifier::optimize(
@@ -111,9 +111,9 @@ impl EnsureSize {
                     )
                 };
 
-                minified_mangled.visit_mut_with(&mut fixer(None));
+                minified_no_mangled.visit_mut_with(&mut fixer(None));
 
-                print_js(cm, &minified_mangled, true).context("failed to convert ast to code")?
+                print_js(cm, &minified_no_mangled, true).context("failed to convert ast to code")?
             };
 
             // eprintln!("The output size of swc minifier: {}", code_mangled.len());
