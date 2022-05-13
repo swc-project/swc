@@ -12,6 +12,7 @@ use swc_ecma_minifier::option::MinifyOptions;
 use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_visit::VisitMutWith;
 use swc_timer::timer;
+use tracing::info;
 
 use crate::util::{all_js_files, parse_js, print_js, wrap_task};
 
@@ -70,6 +71,8 @@ impl EnsureSize {
 
     fn check_file(&self, cm: Arc<SourceMap>, js_file: &Path) -> Result<Option<SizeIssue>> {
         wrap_task(|| {
+            info!("Checking {}", js_file.display());
+
             let fm = cm.load_file(js_file).context("failed to load file")?;
             let i = parse_js(fm.clone())?;
 
