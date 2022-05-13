@@ -1,4 +1,4 @@
-use std::{path::PathBuf, sync::Arc};
+use std::{path::PathBuf, process::Command, sync::Arc};
 
 use anyhow::{Context, Result};
 use clap::Args;
@@ -52,6 +52,14 @@ impl CompareCommand {
             .context("failed to write swc.output.js")?;
         std::fs::write("esbuild.output.js", esbuild_mangled.as_bytes())
             .context("failed to write swc.output.js")?;
+
+        {
+            let mut c = Command::new("code");
+            c.arg("--diff");
+            c.arg("swc.output.js");
+            c.arg("esbuild.output.js");
+            c.output().context("failed to run vscode")?;
+        }
 
         Ok(())
     }
