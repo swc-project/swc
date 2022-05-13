@@ -20,18 +20,14 @@ use walkdir::WalkDir;
 
 fn main() {
     let dirs = env::args().skip(1).collect::<Vec<_>>();
-    let files = {
-        let _timer = timer!("expand dir");
-
-        expand_dirs(dirs)
-    };
-
-    let _timer = timer!("minify all");
+    let files = expand_dirs(dirs);
 
     testing::run_test2(false, |cm, handler| {
+        let _timer = timer!("minify all");
+
         GLOBALS.with(|globals| {
             let _ = files
-                .into_iter()
+                .into_par_iter()
                 .map(|path| -> Result<_> {
                     GLOBALS.set(globals, || {
                         let fm = cm.load_file(&path).expect("failed to load file");
