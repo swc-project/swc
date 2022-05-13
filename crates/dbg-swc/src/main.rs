@@ -51,6 +51,7 @@ fn init() -> Result<()> {
         .with_target(false)
         .with_ansi(true)
         .with_env_filter(EnvFilter::from_str(&log_env).unwrap())
+        .with_writer(std::io::stderr)
         .pretty()
         .finish();
 
