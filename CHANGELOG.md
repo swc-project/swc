@@ -17,6 +17,12 @@
 - **(es/modules)** Fix `jsc.paths` (#4620) ([20692cd](https://github.com/swc-project/swc/commit/20692cdff1df4491382820cb38dae6fdeda12223))
 
 
+- **(html)** Fix parsing of template (#4647) ([af9c8c6](https://github.com/swc-project/swc/commit/af9c8c6b4ce1eff729d9de0efc84f62792efda86))
+
+
+- **(html/codegen)** Fix codegen (#4629) ([fa4a60a](https://github.com/swc-project/swc/commit/fa4a60a3185c048291bbc549f77281b95fbaf730))
+
+
 - **(html/parser)** Fix newlines (#4633) ([a19db29](https://github.com/swc-project/swc/commit/a19db2992b5abb51629f95670c7cbd2c66a319bf))
 
 ### Features

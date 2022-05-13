@@ -358,7 +358,7 @@ where
         }))
     }
 
-    // TODO optimize me
+    // TODO optimize me and fix ending span
     fn node_to_child(&mut self, node: RcNode) -> Child {
         match node.data.clone() {
             Data::DocumentType(document_type) => {
@@ -398,13 +398,29 @@ where
                     _ => element.span.hi,
                 };
 
-                Child::Element(Element {
-                    span: Span::new(first, last, Default::default()),
-                    children: new_children,
-                    content: None,
-                    attributes,
-                    ..element
-                })
+                match &*element.tag_name {
+                    "template" if element.namespace == Namespace::HTML => {
+                        let span = Span::new(first, last, Default::default());
+
+                        Child::Element(Element {
+                            span,
+                            children: vec![],
+                            content: Some(DocumentFragment {
+                                span,
+                                children: new_children,
+                            }),
+                            attributes,
+                            ..element
+                        })
+                    }
+                    _ => Child::Element(Element {
+                        span: Span::new(first, last, Default::default()),
+                        children: new_children,
+                        content: None,
+                        attributes,
+                        ..element
+                    }),
+                }
             }
             Data::Text(text) => Child::Text(Text { ..text }),
             Data::Comment(comment) => Child::Comment(Comment { ..comment }),
@@ -7490,7 +7506,7 @@ where
         });
 
         // 2.
-        let adjusted_insertion_location = if self.foster_parenting_enabled
+        let mut adjusted_insertion_location = if self.foster_parenting_enabled
             && match &target.data {
                 Data::Element(element)
                     if matches!(
@@ -7542,7 +7558,6 @@ where
                 && last_template.is_some()
             {
                 let last_template = if let Some(last_template) = last_template {
-                    // TODO use template `content`
                     last_template.clone()
                 } else {
                     unreachable!();
@@ -7599,17 +7614,16 @@ where
         };
 
         // 3.
-        // TODO use template `content`
-        // adjusted_insertion_location = match &adjusted_insertion_location {
-        //     InsertionPosition::LastChild(node) |
-        // InsertionPosition::BeforeSibling(node) => {         match &node.data
-        // {             Data::Element(element) if &*element.tag_name ==
-        // "template" => {                 adjusted_insertion_location
-        //             },
-        //             _ => adjusted_insertion_location
-        //         }
-        //     }
-        // };
+        adjusted_insertion_location = match &adjusted_insertion_location {
+            InsertionPosition::LastChild(node) | InsertionPosition::BeforeSibling(node) => {
+                match &node.data {
+                    Data::Element(element) if &*element.tag_name == "template" => {
+                        adjusted_insertion_location
+                    }
+                    _ => adjusted_insertion_location,
+                }
+            }
+        };
 
         // 4.
         Ok(adjusted_insertion_location)

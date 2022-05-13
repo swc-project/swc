@@ -63,22 +63,30 @@
                   "tagName": "template",
                   "namespace": "http://www.w3.org/1999/xhtml",
                   "attributes": [],
-                  "children": [
-                    {
-                      "type": "Element",
-                      "span": {
-                        "start": 19,
-                        "end": 27,
-                        "ctxt": 0
-                      },
-                      "tagName": "option",
-                      "namespace": "http://www.w3.org/1999/xhtml",
-                      "attributes": [],
-                      "children": [],
-                      "content": null
-                    }
-                  ],
-                  "content": null
+                  "children": [],
+                  "content": {
+                    "type": "DocumentFragment",
+                    "span": {
+                      "start": 9,
+                      "end": 27,
+                      "ctxt": 0
+                    },
+                    "children": [
+                      {
+                        "type": "Element",
+                        "span": {
+                          "start": 19,
+                          "end": 27,
+                          "ctxt": 0
+                        },
+                        "tagName": "option",
+                        "namespace": "http://www.w3.org/1999/xhtml",
+                        "attributes": [],
+                        "children": [],
+                        "content": null
+                      }
+                    ]
+                  }
                 }
               ],
               "content": null
