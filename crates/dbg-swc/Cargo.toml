@@ -14,7 +14,7 @@ name = "dbg-swc"
 [[bin]]
 bench = false
 name = "cmp-size"
-path = "src/bin/cmp-size.rs"
+path = "src/cmp-size.rs"
 
 [dependencies]
 anyhow = "1.0.57"

@@ -12,9 +12,10 @@ use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_visit::VisitMutWith;
 use tracing::info;
 
-use crate::{
-    minify::{get_esbuild_output, get_terser_output},
-    util::{all_js_files, parse_js, print_js, wrap_task},
+use crate::util::{
+    all_js_files,
+    minifier::{get_esbuild_output, get_terser_output},
+    parse_js, print_js, wrap_task,
 };
 
 /// Ensure that we are performing better than other minification tools.
