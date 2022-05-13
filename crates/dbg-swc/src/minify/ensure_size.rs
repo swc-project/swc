@@ -26,6 +26,9 @@ pub struct EnsureSize {
     #[clap(long)]
     pub no_esbuild: bool,
 
+    #[clap(long)]
+    pub reduce: bool,
+
     /// This can be a directyory or a file.
     ///
     /// If this is a directory, all `.js` files in it will be verified.
@@ -36,7 +39,7 @@ impl EnsureSize {
     pub fn run(self, cm: Arc<SourceMap>) -> Result<()> {
         let all_files = all_js_files(&self.path)?;
 
-        dbg!(&all_files);
+        info!("Using {} files", all_files.len());
 
         let results = GLOBALS.with(|globals| {
             all_files
