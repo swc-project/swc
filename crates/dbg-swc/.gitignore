@@ -3,3 +3,5 @@ input.js
 *.orig
 
 *.txt
+
+.data/
