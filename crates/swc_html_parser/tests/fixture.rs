@@ -415,6 +415,17 @@ fn pass(input: PathBuf) {
     )
 }
 
+#[testing::fixture("tests/iframe_srcdoc/**/*.html")]
+fn pass_iframe_srcdoc(input: PathBuf) {
+    document_test(
+        input,
+        ParserConfig {
+            iframe_srcdoc: true,
+            ..Default::default()
+        },
+    )
+}
+
 #[testing::fixture("tests/recovery/**/*.html")]
 fn recovery(input: PathBuf) {
     document_recovery_test(
@@ -427,6 +438,7 @@ fn recovery(input: PathBuf) {
 
 #[testing::fixture("tests/fixture/**/*.html")]
 #[testing::fixture("tests/recovery/**/*.html")]
+#[testing::fixture("tests/iframe_srcdoc/**/*.html")]
 fn span_visualizer(input: PathBuf) {
     document_span_visualizer(
         input,
@@ -438,6 +450,7 @@ fn span_visualizer(input: PathBuf) {
 
 #[testing::fixture("tests/fixture/**/*.html")]
 #[testing::fixture("tests/recovery/**/*.html")]
+#[testing::fixture("tests/iframe_srcdoc/**/*.html")]
 fn dom_visualizer(input: PathBuf) {
     document_dom_visualizer(
         input,
@@ -1158,7 +1171,10 @@ fn html5lib_test_tree_construction(input: PathBuf) {
         let fm = cm.load_file(&input).unwrap();
 
         let lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default());
-        let config = ParserConfig { scripting_enabled };
+        let config = ParserConfig {
+            scripting_enabled,
+            iframe_srcdoc: false,
+        };
         let mut parser = Parser::new(lexer, config);
         let document_or_document_fragment = if file_stem.contains("fragment") {
             let mut context_element_namespace = Namespace::HTML;
