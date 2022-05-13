@@ -1,24 +1,24 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 38,
+    "start": 0,
+    "end": 37,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsTypeAliasDeclaration",
       "span": {
-        "start": 1,
-        "end": 38,
+        "start": 0,
+        "end": 37,
         "ctxt": 0
       },
       "declare": false,
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 6,
-          "end": 12,
+          "start": 5,
+          "end": 11,
           "ctxt": 0
         },
         "value": "MyType",
@@ -28,31 +28,31 @@
       "typeAnnotation": {
         "type": "TsFunctionType",
         "span": {
-          "start": 15,
-          "end": 38,
+          "start": 14,
+          "end": 37,
           "ctxt": 0
         },
         "params": [
           {
             "type": "ObjectPattern",
             "span": {
-              "start": 16,
-              "end": 30,
+              "start": 15,
+              "end": 29,
               "ctxt": 0
             },
             "properties": [
               {
                 "type": "AssignmentPatternProperty",
                 "span": {
-                  "start": 18,
-                  "end": 23,
+                  "start": 17,
+                  "end": 22,
                   "ctxt": 0
                 },
                 "key": {
                   "type": "Identifier",
                   "span": {
-                    "start": 18,
-                    "end": 23,
+                    "start": 17,
+                    "end": 22,
                     "ctxt": 0
                   },
                   "value": "theme",
@@ -65,15 +65,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 25,
-                "end": 30,
+                "start": 24,
+                "end": 29,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 27,
-                  "end": 30,
+                  "start": 26,
+                  "end": 29,
                   "ctxt": 0
                 },
                 "kind": "any"
@@ -85,15 +85,15 @@
         "typeAnnotation": {
           "type": "TsTypeAnnotation",
           "span": {
-            "start": 32,
-            "end": 38,
+            "start": 31,
+            "end": 37,
             "ctxt": 0
           },
           "typeAnnotation": {
             "type": "TsKeywordType",
             "span": {
-              "start": 35,
-              "end": 38,
+              "start": 34,
+              "end": 37,
               "ctxt": 0
             },
             "kind": "any"

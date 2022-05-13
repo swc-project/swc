@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 1,
-    "end": 128,
+    "start": 0,
+    "end": 127,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 128,
+        "end": 127,
         "ctxt": 0
       },
       "tagName": "html",
@@ -22,7 +22,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 9,
+            "end": 8,
             "ctxt": 0
           },
           "tagName": "head",
@@ -35,7 +35,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 128,
+            "end": 127,
             "ctxt": 0
           },
           "tagName": "body",
@@ -45,8 +45,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 1,
-                "end": 40,
+                "start": 0,
+                "end": 39,
                 "ctxt": 0
               },
               "tagName": "select",
@@ -56,8 +56,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 9,
-                    "end": 20,
+                    "start": 8,
+                    "end": 19,
                     "ctxt": 0
                   },
                   "tagName": "option",
@@ -67,8 +67,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 17,
-                        "end": 20,
+                        "start": 16,
+                        "end": 19,
                         "ctxt": 0
                       },
                       "value": "foo"
@@ -79,8 +79,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 29,
-                    "end": 40,
+                    "start": 28,
+                    "end": 39,
                     "ctxt": 0
                   },
                   "tagName": "option",
@@ -90,8 +90,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 37,
-                        "end": 40,
+                        "start": 36,
+                        "end": 39,
                         "ctxt": 0
                       },
                       "value": "bar"
@@ -104,18 +104,18 @@
             },
             {
               "type": "Text",
+              "span": {
+                "start": 57,
+                "end": 58,
+                "ctxt": 0
+              },
+              "value": "\n"
+            },
+            {
+              "type": "Element",
               "span": {
                 "start": 58,
-                "end": 59,
-                "ctxt": 0
-              },
-              "value": "\n"
-            },
-            {
-              "type": "Element",
-              "span": {
-                "start": 59,
-                "end": 89,
+                "end": 88,
                 "ctxt": 0
               },
               "tagName": "select",
@@ -125,8 +125,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 67,
-                    "end": 78,
+                    "start": 66,
+                    "end": 77,
                     "ctxt": 0
                   },
                   "tagName": "option",
@@ -136,8 +136,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 75,
-                        "end": 78,
+                        "start": 74,
+                        "end": 77,
                         "ctxt": 0
                       },
                       "value": "foo"
@@ -148,8 +148,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 78,
-                    "end": 89,
+                    "start": 77,
+                    "end": 88,
                     "ctxt": 0
                   },
                   "tagName": "option",
@@ -159,8 +159,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 86,
-                        "end": 89,
+                        "start": 85,
+                        "end": 88,
                         "ctxt": 0
                       },
                       "value": "bar"
@@ -174,8 +174,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 98,
-                "end": 99,
+                "start": 97,
+                "end": 98,
                 "ctxt": 0
               },
               "value": "\n"
@@ -183,8 +183,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 99,
-                "end": 118,
+                "start": 98,
+                "end": 117,
                 "ctxt": 0
               },
               "tagName": "select",
@@ -194,8 +194,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 107,
-                    "end": 118,
+                    "start": 106,
+                    "end": 117,
                     "ctxt": 0
                   },
                   "tagName": "option",
@@ -205,8 +205,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 115,
-                        "end": 118,
+                        "start": 114,
+                        "end": 117,
                         "ctxt": 0
                       },
                       "value": "foo"
@@ -220,8 +220,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 127,
-                "end": 128,
+                "start": 126,
+                "end": 127,
                 "ctxt": 0
               },
               "value": "\n"

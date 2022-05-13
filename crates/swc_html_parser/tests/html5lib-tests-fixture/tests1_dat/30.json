@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 1,
-    "end": 65,
+    "start": 0,
+    "end": 64,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 65,
+        "end": 64,
         "ctxt": 0
       },
       "tagName": "html",
@@ -22,7 +22,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 4,
+            "end": 3,
             "ctxt": 0
           },
           "tagName": "head",
@@ -35,7 +35,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 65,
+            "end": 64,
             "ctxt": 0
           },
           "tagName": "body",
@@ -45,8 +45,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 1,
-                "end": 36,
+                "start": 0,
+                "end": 35,
                 "ctxt": 0
               },
               "tagName": "a",
@@ -56,8 +56,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 41,
-                    "end": 44,
+                    "start": 40,
+                    "end": 43,
                     "ctxt": 0
                   },
                   "tagName": "a",
@@ -69,8 +69,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 4,
-                    "end": 36,
+                    "start": 3,
+                    "end": 35,
                     "ctxt": 0
                   },
                   "tagName": "table",
@@ -81,7 +81,7 @@
                       "type": "Element",
                       "span": {
                         "start": 0,
-                        "end": 36,
+                        "end": 35,
                         "ctxt": 0
                       },
                       "tagName": "tbody",
@@ -92,7 +92,7 @@
                           "type": "Element",
                           "span": {
                             "start": 0,
-                            "end": 36,
+                            "end": 35,
                             "ctxt": 0
                           },
                           "tagName": "tr",
@@ -102,8 +102,8 @@
                             {
                               "type": "Element",
                               "span": {
-                                "start": 11,
-                                "end": 36,
+                                "start": 10,
+                                "end": 35,
                                 "ctxt": 0
                               },
                               "tagName": "td",
@@ -113,8 +113,8 @@
                                 {
                                   "type": "Element",
                                   "span": {
-                                    "start": 15,
-                                    "end": 25,
+                                    "start": 14,
+                                    "end": 24,
                                     "ctxt": 0
                                   },
                                   "tagName": "a",
@@ -124,8 +124,8 @@
                                     {
                                       "type": "Element",
                                       "span": {
-                                        "start": 18,
-                                        "end": 25,
+                                        "start": 17,
+                                        "end": 24,
                                         "ctxt": 0
                                       },
                                       "tagName": "table",
@@ -140,8 +140,8 @@
                                 {
                                   "type": "Element",
                                   "span": {
-                                    "start": 33,
-                                    "end": 36,
+                                    "start": 32,
+                                    "end": 35,
                                     "ctxt": 0
                                   },
                                   "tagName": "a",
@@ -168,8 +168,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 41,
-                "end": 61,
+                "start": 40,
+                "end": 60,
                 "ctxt": 0
               },
               "tagName": "a",
@@ -179,8 +179,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 52,
-                    "end": 56,
+                    "start": 51,
+                    "end": 55,
                     "ctxt": 0
                   },
                   "tagName": "b",
@@ -190,8 +190,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 55,
-                        "end": 56,
+                        "start": 54,
+                        "end": 55,
                         "ctxt": 0
                       },
                       "value": "X"
@@ -202,8 +202,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 60,
-                    "end": 61,
+                    "start": 59,
+                    "end": 60,
                     "ctxt": 0
                   },
                   "value": "C"
@@ -214,8 +214,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 61,
-                "end": 65,
+                "start": 60,
+                "end": 64,
                 "ctxt": 0
               },
               "tagName": "a",
@@ -225,8 +225,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 64,
-                    "end": 65,
+                    "start": 63,
+                    "end": 64,
                     "ctxt": 0
                   },
                   "value": "Y"

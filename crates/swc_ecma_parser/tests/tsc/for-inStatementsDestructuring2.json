@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 26,
+    "start": 0,
+    "end": 25,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ForInStatement",
       "span": {
-        "start": 1,
-        "end": 26,
+        "start": 0,
+        "end": 25,
         "ctxt": 0
       },
       "left": {
         "type": "VariableDeclaration",
         "span": {
-          "start": 6,
-          "end": 16,
+          "start": 5,
+          "end": 15,
           "ctxt": 0
         },
         "kind": "var",
@@ -26,30 +26,30 @@
           {
             "type": "VariableDeclarator",
             "span": {
-              "start": 10,
-              "end": 16,
+              "start": 9,
+              "end": 15,
               "ctxt": 0
             },
             "id": {
               "type": "ObjectPattern",
               "span": {
-                "start": 10,
-                "end": 16,
+                "start": 9,
+                "end": 15,
                 "ctxt": 0
               },
               "properties": [
                 {
                   "type": "AssignmentPatternProperty",
                   "span": {
-                    "start": 11,
-                    "end": 12,
+                    "start": 10,
+                    "end": 11,
                     "ctxt": 0
                   },
                   "key": {
                     "type": "Identifier",
                     "span": {
-                      "start": 11,
-                      "end": 12,
+                      "start": 10,
+                      "end": 11,
                       "ctxt": 0
                     },
                     "value": "a",
@@ -60,15 +60,15 @@
                 {
                   "type": "AssignmentPatternProperty",
                   "span": {
-                    "start": 14,
-                    "end": 15,
+                    "start": 13,
+                    "end": 14,
                     "ctxt": 0
                   },
                   "key": {
                     "type": "Identifier",
                     "span": {
-                      "start": 14,
-                      "end": 15,
+                      "start": 13,
+                      "end": 14,
                       "ctxt": 0
                     },
                     "value": "b",
@@ -88,8 +88,8 @@
       "right": {
         "type": "ArrayExpression",
         "span": {
-          "start": 20,
-          "end": 22,
+          "start": 19,
+          "end": 21,
           "ctxt": 0
         },
         "elements": []
@@ -97,8 +97,8 @@
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 24,
-          "end": 26,
+          "start": 23,
+          "end": 25,
           "ctxt": 0
         },
         "stmts": []

@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 1,
-    "end": 32,
+    "start": 0,
+    "end": 31,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -10,8 +10,8 @@
     {
       "type": "DocumentType",
       "span": {
-        "start": 1,
-        "end": 16,
+        "start": 0,
+        "end": 15,
         "ctxt": 0
       },
       "name": "html",
@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 22,
+        "end": 21,
         "ctxt": 0
       },
       "tagName": "html",
@@ -33,7 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 22,
+            "end": 21,
             "ctxt": 0
           },
           "tagName": "head",
@@ -46,7 +46,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 22,
+            "end": 21,
             "ctxt": 0
           },
           "tagName": "body",
@@ -56,8 +56,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 16,
-                "end": 22,
+                "start": 15,
+                "end": 21,
                 "ctxt": 0
               },
               "tagName": "area",

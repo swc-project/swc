@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 106,
-    "end": 159,
+    "start": 105,
+    "end": 158,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 106,
-        "end": 120,
+        "start": 105,
+        "end": 119,
         "ctxt": 0
       },
       "kind": "const",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 112,
-            "end": 119,
+            "start": 111,
+            "end": 118,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 112,
-              "end": 114,
+              "start": 111,
+              "end": 113,
               "ctxt": 0
             },
             "value": "ns",
@@ -37,8 +37,8 @@
           "init": {
             "type": "ObjectExpression",
             "span": {
-              "start": 117,
-              "end": 119,
+              "start": 116,
+              "end": 118,
               "ctxt": 0
             },
             "properties": []
@@ -50,30 +50,30 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 121,
-        "end": 138,
+        "start": 120,
+        "end": 137,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 121,
-          "end": 138,
+          "start": 120,
+          "end": 137,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
-            "start": 121,
-            "end": 127,
+            "start": 120,
+            "end": 126,
             "ctxt": 0
           },
           "object": {
             "type": "Identifier",
             "span": {
-              "start": 121,
-              "end": 123,
+              "start": 120,
+              "end": 122,
               "ctxt": 0
             },
             "value": "ns",
@@ -82,8 +82,8 @@
           "property": {
             "type": "Identifier",
             "span": {
-              "start": 124,
-              "end": 127,
+              "start": 123,
+              "end": 126,
               "ctxt": 0
             },
             "value": "Foo",
@@ -94,8 +94,8 @@
           "type": "ClassExpression",
           "identifier": null,
           "span": {
-            "start": 130,
-            "end": 138,
+            "start": 129,
+            "end": 137,
             "ctxt": 0
           },
           "decorators": [],
@@ -111,30 +111,30 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 139,
-        "end": 159,
+        "start": 138,
+        "end": 158,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 139,
-          "end": 158,
+          "start": 138,
+          "end": 157,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
-            "start": 139,
-            "end": 153,
+            "start": 138,
+            "end": 152,
             "ctxt": 0
           },
           "object": {
             "type": "Identifier",
             "span": {
-              "start": 139,
-              "end": 145,
+              "start": 138,
+              "end": 144,
               "ctxt": 0
             },
             "value": "module",
@@ -143,8 +143,8 @@
           "property": {
             "type": "Identifier",
             "span": {
-              "start": 146,
-              "end": 153,
+              "start": 145,
+              "end": 152,
               "ctxt": 0
             },
             "value": "exports",
@@ -154,8 +154,8 @@
         "right": {
           "type": "Identifier",
           "span": {
-            "start": 156,
-            "end": 158,
+            "start": 155,
+            "end": 157,
             "ctxt": 0
           },
           "value": "ns",

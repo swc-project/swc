@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 135,
-    "end": 252,
+    "start": 134,
+    "end": 251,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 144,
-          "end": 145,
+          "start": 143,
+          "end": 144,
           "ctxt": 0
         },
         "value": "f",
@@ -23,28 +23,28 @@
         {
           "type": "Parameter",
           "span": {
-            "start": 146,
-            "end": 153,
+            "start": 145,
+            "end": 152,
             "ctxt": 0
           },
           "decorators": [],
           "pat": {
             "type": "RestElement",
             "span": {
-              "start": 146,
-              "end": 153,
+              "start": 145,
+              "end": 152,
               "ctxt": 0
             },
             "rest": {
-              "start": 146,
-              "end": 149,
+              "start": 145,
+              "end": 148,
               "ctxt": 0
             },
             "argument": {
               "type": "Identifier",
               "span": {
-                "start": 149,
-                "end": 153,
+                "start": 148,
+                "end": 152,
                 "ctxt": 0
               },
               "value": "args",
@@ -57,30 +57,30 @@
       ],
       "decorators": [],
       "span": {
-        "start": 135,
-        "end": 174,
+        "start": 134,
+        "end": 173,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 155,
-          "end": 174,
+          "start": 154,
+          "end": 173,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ReturnStatement",
             "span": {
-              "start": 161,
-              "end": 172,
+              "start": 160,
+              "end": 171,
               "ctxt": 0
             },
             "argument": {
               "type": "NullLiteral",
               "span": {
-                "start": 168,
-                "end": 172,
+                "start": 167,
+                "end": 171,
                 "ctxt": 0
               }
             }
@@ -95,8 +95,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 192,
-        "end": 198,
+        "start": 191,
+        "end": 197,
         "ctxt": 0
       },
       "kind": "var",
@@ -105,15 +105,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 196,
-            "end": 197,
+            "start": 195,
+            "end": 196,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 196,
-              "end": 197,
+              "start": 195,
+              "end": 196,
               "ctxt": 0
             },
             "value": "x",
@@ -130,8 +130,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 242,
-          "end": 245,
+          "start": 241,
+          "end": 244,
           "ctxt": 0
         },
         "value": "cbf",
@@ -142,16 +142,16 @@
         {
           "type": "Parameter",
           "span": {
-            "start": 246,
-            "end": 247,
+            "start": 245,
+            "end": 246,
             "ctxt": 0
           },
           "decorators": [],
           "pat": {
             "type": "Identifier",
             "span": {
-              "start": 246,
-              "end": 247,
+              "start": 245,
+              "end": 246,
               "ctxt": 0
             },
             "value": "f",
@@ -162,15 +162,15 @@
       ],
       "decorators": [],
       "span": {
-        "start": 233,
-        "end": 252,
+        "start": 232,
+        "end": 251,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 249,
-          "end": 252,
+          "start": 248,
+          "end": 251,
           "ctxt": 0
         },
         "stmts": []

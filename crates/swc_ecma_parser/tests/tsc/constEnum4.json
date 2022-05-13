@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 87,
+    "start": 0,
+    "end": 86,
     "ctxt": 0
   },
   "body": [
     {
       "type": "IfStatement",
       "span": {
-        "start": 1,
-        "end": 87,
+        "start": 0,
+        "end": 86,
         "ctxt": 0
       },
       "test": {
         "type": "NumericLiteral",
         "span": {
-          "start": 5,
-          "end": 6,
+          "start": 4,
+          "end": 5,
           "ctxt": 0
         },
         "value": 1.0,
@@ -26,8 +26,8 @@
       "consequent": {
         "type": "TsEnumDeclaration",
         "span": {
-          "start": 12,
-          "end": 28,
+          "start": 11,
+          "end": 27,
           "ctxt": 0
         },
         "declare": false,
@@ -35,8 +35,8 @@
         "id": {
           "type": "Identifier",
           "span": {
-            "start": 23,
-            "end": 24,
+            "start": 22,
+            "end": 23,
             "ctxt": 0
           },
           "value": "A",
@@ -47,15 +47,15 @@
       "alternate": {
         "type": "IfStatement",
         "span": {
-          "start": 34,
-          "end": 87,
+          "start": 33,
+          "end": 86,
           "ctxt": 0
         },
         "test": {
           "type": "NumericLiteral",
           "span": {
-            "start": 38,
-            "end": 39,
+            "start": 37,
+            "end": 38,
             "ctxt": 0
           },
           "value": 2.0,
@@ -64,8 +64,8 @@
         "consequent": {
           "type": "TsEnumDeclaration",
           "span": {
-            "start": 45,
-            "end": 61,
+            "start": 44,
+            "end": 60,
             "ctxt": 0
           },
           "declare": false,
@@ -73,8 +73,8 @@
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 56,
-              "end": 57,
+              "start": 55,
+              "end": 56,
               "ctxt": 0
             },
             "value": "B",
@@ -85,8 +85,8 @@
         "alternate": {
           "type": "TsEnumDeclaration",
           "span": {
-            "start": 71,
-            "end": 87,
+            "start": 70,
+            "end": 86,
             "ctxt": 0
           },
           "declare": false,
@@ -94,8 +94,8 @@
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 82,
-              "end": 83,
+              "start": 81,
+              "end": 82,
               "ctxt": 0
             },
             "value": "C",

@@ -1,42 +1,42 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 38,
+    "start": 0,
+    "end": 37,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 1,
-        "end": 9,
+        "start": 0,
+        "end": 8,
         "ctxt": 0
       },
       "expression": {
         "type": "OptionalChainingExpression",
         "span": {
-          "start": 1,
-          "end": 9,
+          "start": 0,
+          "end": 8,
           "ctxt": 0
         },
         "questionDotToken": {
-          "start": 4,
-          "end": 5,
+          "start": 3,
+          "end": 4,
           "ctxt": 0
         },
         "base": {
           "type": "MemberExpression",
           "span": {
-            "start": 1,
-            "end": 9,
+            "start": 0,
+            "end": 8,
             "ctxt": 0
           },
           "object": {
             "type": "Identifier",
             "span": {
-              "start": 1,
-              "end": 4,
+              "start": 0,
+              "end": 3,
               "ctxt": 0
             },
             "value": "foo",
@@ -45,8 +45,8 @@
           "property": {
             "type": "Identifier",
             "span": {
-              "start": 6,
-              "end": 9,
+              "start": 5,
+              "end": 8,
               "ctxt": 0
             },
             "value": "bar",
@@ -58,53 +58,53 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 11,
-        "end": 24,
+        "start": 10,
+        "end": 23,
         "ctxt": 0
       },
       "expression": {
         "type": "OptionalChainingExpression",
         "span": {
-          "start": 11,
-          "end": 24,
+          "start": 10,
+          "end": 23,
           "ctxt": 0
         },
         "questionDotToken": {
-          "start": 19,
-          "end": 20,
+          "start": 18,
+          "end": 19,
           "ctxt": 0
         },
         "base": {
           "type": "MemberExpression",
           "span": {
-            "start": 11,
-            "end": 24,
+            "start": 10,
+            "end": 23,
             "ctxt": 0
           },
           "object": {
             "type": "OptionalChainingExpression",
             "span": {
-              "start": 11,
-              "end": 19,
+              "start": 10,
+              "end": 18,
               "ctxt": 0
             },
             "questionDotToken": {
-              "start": 14,
-              "end": 15,
+              "start": 13,
+              "end": 14,
               "ctxt": 0
             },
             "base": {
               "type": "MemberExpression",
               "span": {
-                "start": 11,
-                "end": 19,
+                "start": 10,
+                "end": 18,
                 "ctxt": 0
               },
               "object": {
                 "type": "Identifier",
                 "span": {
-                  "start": 11,
-                  "end": 14,
+                  "start": 10,
+                  "end": 13,
                   "ctxt": 0
                 },
                 "value": "foo",
@@ -113,8 +113,8 @@
               "property": {
                 "type": "Identifier",
                 "span": {
-                  "start": 16,
-                  "end": 19,
+                  "start": 15,
+                  "end": 18,
                   "ctxt": 0
                 },
                 "value": "bar",
@@ -125,8 +125,8 @@
           "property": {
             "type": "Identifier",
             "span": {
-              "start": 21,
-              "end": 24,
+              "start": 20,
+              "end": 23,
               "ctxt": 0
             },
             "value": "baz",
@@ -138,41 +138,41 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 26,
-        "end": 38,
+        "start": 25,
+        "end": 37,
         "ctxt": 0
       },
       "expression": {
         "type": "OptionalChainingExpression",
         "span": {
-          "start": 26,
-          "end": 38,
+          "start": 25,
+          "end": 37,
           "ctxt": 0
         },
         "questionDotToken": {
-          "start": 33,
-          "end": 34,
+          "start": 32,
+          "end": 33,
           "ctxt": 0
         },
         "base": {
           "type": "MemberExpression",
           "span": {
-            "start": 26,
-            "end": 38,
+            "start": 25,
+            "end": 37,
             "ctxt": 0
           },
           "object": {
             "type": "MemberExpression",
             "span": {
-              "start": 26,
-              "end": 33,
+              "start": 25,
+              "end": 32,
               "ctxt": 0
             },
             "object": {
               "type": "Identifier",
               "span": {
-                "start": 26,
-                "end": 29,
+                "start": 25,
+                "end": 28,
                 "ctxt": 0
               },
               "value": "foo",
@@ -181,8 +181,8 @@
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 30,
-                "end": 33,
+                "start": 29,
+                "end": 32,
                 "ctxt": 0
               },
               "value": "bar",
@@ -192,8 +192,8 @@
           "property": {
             "type": "Identifier",
             "span": {
-              "start": 35,
-              "end": 38,
+              "start": 34,
+              "end": 37,
               "ctxt": 0
             },
             "value": "baz",

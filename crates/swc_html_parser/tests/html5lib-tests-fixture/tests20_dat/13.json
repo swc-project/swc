@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 1,
-    "end": 35,
+    "start": 0,
+    "end": 34,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -10,8 +10,8 @@
     {
       "type": "DocumentType",
       "span": {
-        "start": 1,
-        "end": 16,
+        "start": 0,
+        "end": 15,
         "ctxt": 0
       },
       "name": "html",
@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 35,
+        "end": 34,
         "ctxt": 0
       },
       "tagName": "html",
@@ -33,7 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 19,
+            "end": 18,
             "ctxt": 0
           },
           "tagName": "head",
@@ -46,7 +46,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 35,
+            "end": 34,
             "ctxt": 0
           },
           "tagName": "body",
@@ -56,8 +56,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 16,
-                "end": 35,
+                "start": 15,
+                "end": 34,
                 "ctxt": 0
               },
               "tagName": "p",
@@ -67,8 +67,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 19,
-                    "end": 35,
+                    "start": 18,
+                    "end": 34,
                     "ctxt": 0
                   },
                   "tagName": "button",
@@ -78,8 +78,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 27,
-                        "end": 35,
+                        "start": 26,
+                        "end": 34,
                         "ctxt": 0
                       },
                       "tagName": "figure",

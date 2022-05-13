@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 42,
+    "start": 0,
+    "end": 41,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 1,
-        "end": 9,
+        "start": 0,
+        "end": 8,
         "ctxt": 0
       },
       "expression": {
         "type": "NumericLiteral",
         "span": {
-          "start": 1,
-          "end": 8,
+          "start": 0,
+          "end": 7,
           "ctxt": 0
         },
         "value": 17.0,
@@ -27,15 +27,15 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 10,
-        "end": 16,
+        "start": 9,
+        "end": 15,
         "ctxt": 0
       },
       "expression": {
         "type": "NumericLiteral",
         "span": {
-          "start": 10,
-          "end": 15,
+          "start": 9,
+          "end": 14,
           "ctxt": 0
         },
         "value": 1.0,
@@ -45,15 +45,15 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 17,
-        "end": 29,
+        "start": 16,
+        "end": 28,
         "ctxt": 0
       },
       "expression": {
         "type": "NumericLiteral",
         "span": {
-          "start": 17,
-          "end": 28,
+          "start": 16,
+          "end": 27,
           "ctxt": 0
         },
         "value": 285212689.0,
@@ -63,15 +63,15 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 30,
-        "end": 42,
+        "start": 29,
+        "end": 41,
         "ctxt": 0
       },
       "expression": {
         "type": "NumericLiteral",
         "span": {
-          "start": 30,
-          "end": 41,
+          "start": 29,
+          "end": 40,
           "ctxt": 0
         },
         "value": 1114369.0,

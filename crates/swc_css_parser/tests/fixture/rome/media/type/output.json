@@ -1,23 +1,23 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 1,
-    "end": 158,
+    "start": 0,
+    "end": 157,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
-        "start": 1,
-        "end": 17,
+        "start": 0,
+        "end": 16,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 2,
-          "end": 7,
+          "start": 1,
+          "end": 6,
           "ctxt": 0
         },
         "value": "media",
@@ -26,24 +26,24 @@
       "prelude": {
         "type": "MediaQueryList",
         "span": {
-          "start": 8,
-          "end": 14,
+          "start": 7,
+          "end": 13,
           "ctxt": 0
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
-              "start": 8,
-              "end": 14,
+              "start": 7,
+              "end": 13,
               "ctxt": 0
             },
             "modifier": null,
             "mediaType": {
               "type": "Ident",
               "span": {
-                "start": 8,
-                "end": 14,
+                "start": 7,
+                "end": 13,
                 "ctxt": 0
               },
               "value": "screen",
@@ -57,8 +57,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 15,
-          "end": 17,
+          "start": 14,
+          "end": 16,
           "ctxt": 0
         },
         "name": "{",
@@ -68,15 +68,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 18,
-        "end": 38,
+        "start": 17,
+        "end": 37,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 19,
-          "end": 24,
+          "start": 18,
+          "end": 23,
           "ctxt": 0
         },
         "value": "media",
@@ -85,23 +85,23 @@
       "prelude": {
         "type": "MediaQueryList",
         "span": {
-          "start": 25,
-          "end": 35,
+          "start": 24,
+          "end": 34,
           "ctxt": 0
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
-              "start": 25,
-              "end": 35,
+              "start": 24,
+              "end": 34,
               "ctxt": 0
             },
             "modifier": {
               "type": "Ident",
               "span": {
-                "start": 25,
-                "end": 28,
+                "start": 24,
+                "end": 27,
                 "ctxt": 0
               },
               "value": "not",
@@ -110,8 +110,8 @@
             "mediaType": {
               "type": "Ident",
               "span": {
-                "start": 29,
-                "end": 35,
+                "start": 28,
+                "end": 34,
                 "ctxt": 0
               },
               "value": "screen",
@@ -125,8 +125,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 36,
-          "end": 38,
+          "start": 35,
+          "end": 37,
           "ctxt": 0
         },
         "name": "{",
@@ -136,15 +136,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 39,
-        "end": 60,
+        "start": 38,
+        "end": 59,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 40,
-          "end": 45,
+          "start": 39,
+          "end": 44,
           "ctxt": 0
         },
         "value": "media",
@@ -153,23 +153,23 @@
       "prelude": {
         "type": "MediaQueryList",
         "span": {
-          "start": 46,
-          "end": 57,
+          "start": 45,
+          "end": 56,
           "ctxt": 0
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
-              "start": 46,
-              "end": 57,
+              "start": 45,
+              "end": 56,
               "ctxt": 0
             },
             "modifier": {
               "type": "Ident",
               "span": {
-                "start": 46,
-                "end": 50,
+                "start": 45,
+                "end": 49,
                 "ctxt": 0
               },
               "value": "only",
@@ -178,8 +178,8 @@
             "mediaType": {
               "type": "Ident",
               "span": {
-                "start": 51,
-                "end": 57,
+                "start": 50,
+                "end": 56,
                 "ctxt": 0
               },
               "value": "screen",
@@ -193,8 +193,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 58,
-          "end": 60,
+          "start": 57,
+          "end": 59,
           "ctxt": 0
         },
         "name": "{",
@@ -204,15 +204,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 61,
-        "end": 84,
+        "start": 60,
+        "end": 83,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 62,
-          "end": 67,
+          "start": 61,
+          "end": 66,
           "ctxt": 0
         },
         "value": "media",
@@ -221,24 +221,24 @@
       "prelude": {
         "type": "MediaQueryList",
         "span": {
-          "start": 68,
-          "end": 81,
+          "start": 67,
+          "end": 80,
           "ctxt": 0
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
-              "start": 68,
-              "end": 73,
+              "start": 67,
+              "end": 72,
               "ctxt": 0
             },
             "modifier": null,
             "mediaType": {
               "type": "Ident",
               "span": {
-                "start": 68,
-                "end": 73,
+                "start": 67,
+                "end": 72,
                 "ctxt": 0
               },
               "value": "print",
@@ -250,16 +250,16 @@
           {
             "type": "MediaQuery",
             "span": {
-              "start": 75,
-              "end": 81,
+              "start": 74,
+              "end": 80,
               "ctxt": 0
             },
             "modifier": null,
             "mediaType": {
               "type": "Ident",
               "span": {
-                "start": 75,
-                "end": 81,
+                "start": 74,
+                "end": 80,
                 "ctxt": 0
               },
               "value": "screen",
@@ -273,8 +273,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 82,
-          "end": 84,
+          "start": 81,
+          "end": 83,
           "ctxt": 0
         },
         "name": "{",
@@ -284,15 +284,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 85,
-        "end": 113,
+        "start": 84,
+        "end": 112,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 86,
-          "end": 91,
+          "start": 85,
+          "end": 90,
           "ctxt": 0
         },
         "value": "media",
@@ -301,24 +301,24 @@
       "prelude": {
         "type": "MediaQueryList",
         "span": {
-          "start": 92,
-          "end": 110,
+          "start": 91,
+          "end": 109,
           "ctxt": 0
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
-              "start": 92,
-              "end": 98,
+              "start": 91,
+              "end": 97,
               "ctxt": 0
             },
             "modifier": null,
             "mediaType": {
               "type": "Ident",
               "span": {
-                "start": 92,
-                "end": 98,
+                "start": 91,
+                "end": 97,
                 "ctxt": 0
               },
               "value": "screen",
@@ -330,16 +330,16 @@
           {
             "type": "MediaQuery",
             "span": {
-              "start": 100,
-              "end": 103,
+              "start": 99,
+              "end": 102,
               "ctxt": 0
             },
             "modifier": null,
             "mediaType": {
               "type": "Ident",
               "span": {
-                "start": 100,
-                "end": 103,
+                "start": 99,
+                "end": 102,
                 "ctxt": 0
               },
               "value": "all",
@@ -351,16 +351,16 @@
           {
             "type": "MediaQuery",
             "span": {
-              "start": 105,
-              "end": 110,
+              "start": 104,
+              "end": 109,
               "ctxt": 0
             },
             "modifier": null,
             "mediaType": {
               "type": "Ident",
               "span": {
-                "start": 105,
-                "end": 110,
+                "start": 104,
+                "end": 109,
                 "ctxt": 0
               },
               "value": "print",
@@ -374,8 +374,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 111,
-          "end": 113,
+          "start": 110,
+          "end": 112,
           "ctxt": 0
         },
         "name": "{",
@@ -385,15 +385,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 114,
-        "end": 156,
+        "start": 113,
+        "end": 155,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 115,
-          "end": 120,
+          "start": 114,
+          "end": 119,
           "ctxt": 0
         },
         "value": "media",
@@ -402,23 +402,23 @@
       "prelude": {
         "type": "MediaQueryList",
         "span": {
-          "start": 121,
-          "end": 153,
+          "start": 120,
+          "end": 152,
           "ctxt": 0
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
-              "start": 121,
-              "end": 132,
+              "start": 120,
+              "end": 131,
               "ctxt": 0
             },
             "modifier": {
               "type": "Ident",
               "span": {
-                "start": 121,
-                "end": 125,
+                "start": 120,
+                "end": 124,
                 "ctxt": 0
               },
               "value": "only",
@@ -427,8 +427,8 @@
             "mediaType": {
               "type": "Ident",
               "span": {
-                "start": 126,
-                "end": 132,
+                "start": 125,
+                "end": 131,
                 "ctxt": 0
               },
               "value": "screen",
@@ -440,15 +440,15 @@
           {
             "type": "MediaQuery",
             "span": {
-              "start": 134,
-              "end": 141,
+              "start": 133,
+              "end": 140,
               "ctxt": 0
             },
             "modifier": {
               "type": "Ident",
               "span": {
-                "start": 134,
-                "end": 137,
+                "start": 133,
+                "end": 136,
                 "ctxt": 0
               },
               "value": "not",
@@ -457,8 +457,8 @@
             "mediaType": {
               "type": "Ident",
               "span": {
-                "start": 138,
-                "end": 141,
+                "start": 137,
+                "end": 140,
                 "ctxt": 0
               },
               "value": "all",
@@ -470,15 +470,15 @@
           {
             "type": "MediaQuery",
             "span": {
-              "start": 143,
-              "end": 153,
+              "start": 142,
+              "end": 152,
               "ctxt": 0
             },
             "modifier": {
               "type": "Ident",
               "span": {
-                "start": 143,
-                "end": 147,
+                "start": 142,
+                "end": 146,
                 "ctxt": 0
               },
               "value": "only",
@@ -487,8 +487,8 @@
             "mediaType": {
               "type": "Ident",
               "span": {
-                "start": 148,
-                "end": 153,
+                "start": 147,
+                "end": 152,
                 "ctxt": 0
               },
               "value": "print",
@@ -502,8 +502,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 154,
-          "end": 156,
+          "start": 153,
+          "end": 155,
           "ctxt": 0
         },
         "name": "{",

@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 57,
-    "end": 214,
+    "start": 56,
+    "end": 213,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 57,
-        "end": 67,
+        "start": 56,
+        "end": 66,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 61,
-            "end": 67,
+            "start": 60,
+            "end": 66,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 61,
-              "end": 62,
+              "start": 60,
+              "end": 61,
               "ctxt": 0
             },
             "value": "R",
@@ -35,15 +35,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 62,
-                "end": 67,
+                "start": 61,
+                "end": 66,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 64,
-                  "end": 67,
+                  "start": 63,
+                  "end": 66,
                   "ctxt": 0
                 },
                 "kind": "any"
@@ -58,23 +58,23 @@
     {
       "type": "ExportDefaultExpression",
       "span": {
-        "start": 68,
-        "end": 134,
+        "start": 67,
+        "end": 133,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 83,
-          "end": 134,
+          "start": 82,
+          "end": 133,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "Identifier",
           "span": {
-            "start": 83,
-            "end": 84,
+            "start": 82,
+            "end": 83,
             "ctxt": 0
           },
           "value": "R",
@@ -84,8 +84,8 @@
         "right": {
           "type": "ObjectExpression",
           "span": {
-            "start": 87,
-            "end": 134,
+            "start": 86,
+            "end": 133,
             "ctxt": 0
           },
           "properties": [
@@ -94,8 +94,8 @@
               "key": {
                 "type": "StringLiteral",
                 "span": {
-                  "start": 93,
-                  "end": 105,
+                  "start": 92,
+                  "end": 104,
                   "ctxt": 0
                 },
                 "value": "__esmodule",
@@ -104,8 +104,8 @@
               "value": {
                 "type": "BooleanLiteral",
                 "span": {
-                  "start": 107,
-                  "end": 111,
+                  "start": 106,
+                  "end": 110,
                   "ctxt": 0
                 },
                 "value": true
@@ -116,8 +116,8 @@
               "key": {
                 "type": "StringLiteral",
                 "span": {
-                  "start": 117,
-                  "end": 128,
+                  "start": 116,
+                  "end": 127,
                   "ctxt": 0
                 },
                 "value": "__proto__",
@@ -126,8 +126,8 @@
               "value": {
                 "type": "ObjectExpression",
                 "span": {
-                  "start": 130,
-                  "end": 132,
+                  "start": 129,
+                  "end": 131,
                   "ctxt": 0
                 },
                 "properties": []
@@ -140,23 +140,23 @@
     {
       "type": "ImportDeclaration",
       "span": {
-        "start": 156,
-        "end": 177,
+        "start": 155,
+        "end": 176,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ImportDefaultSpecifier",
           "span": {
-            "start": 163,
-            "end": 164,
+            "start": 162,
+            "end": 163,
             "ctxt": 0
           },
           "local": {
             "type": "Identifier",
             "span": {
-              "start": 163,
-              "end": 164,
+              "start": 162,
+              "end": 163,
               "ctxt": 0
             },
             "value": "R",
@@ -167,8 +167,8 @@
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 170,
-          "end": 176,
+          "start": 169,
+          "end": 175,
           "ctxt": 0
         },
         "value": "./m1",
@@ -180,8 +180,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 178,
-        "end": 214,
+        "start": 177,
+        "end": 213,
         "ctxt": 0
       },
       "kind": "const",
@@ -190,30 +190,30 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 184,
-            "end": 213,
+            "start": 183,
+            "end": 212,
             "ctxt": 0
           },
           "id": {
             "type": "ObjectPattern",
             "span": {
-              "start": 184,
-              "end": 209,
+              "start": 183,
+              "end": 208,
               "ctxt": 0
             },
             "properties": [
               {
                 "type": "AssignmentPatternProperty",
                 "span": {
-                  "start": 186,
-                  "end": 196,
+                  "start": 185,
+                  "end": 195,
                   "ctxt": 0
                 },
                 "key": {
                   "type": "Identifier",
                   "span": {
-                    "start": 186,
-                    "end": 196,
+                    "start": 185,
+                    "end": 195,
                     "ctxt": 0
                   },
                   "value": "__esmodule",
@@ -224,15 +224,15 @@
               {
                 "type": "AssignmentPatternProperty",
                 "span": {
-                  "start": 198,
-                  "end": 207,
+                  "start": 197,
+                  "end": 206,
                   "ctxt": 0
                 },
                 "key": {
                   "type": "Identifier",
                   "span": {
-                    "start": 198,
-                    "end": 207,
+                    "start": 197,
+                    "end": 206,
                     "ctxt": 0
                   },
                   "value": "__proto__",
@@ -247,8 +247,8 @@
           "init": {
             "type": "Identifier",
             "span": {
-              "start": 212,
-              "end": 213,
+              "start": 211,
+              "end": 212,
               "ctxt": 0
             },
             "value": "R",

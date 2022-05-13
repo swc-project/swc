@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 106,
-    "end": 150,
+    "start": 105,
+    "end": 149,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 112,
-          "end": 115,
+          "start": 111,
+          "end": 114,
           "ctxt": 0
         },
         "value": "Bar",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 106,
-        "end": 119,
+        "start": 105,
+        "end": 118,
         "ctxt": 0
       },
       "decorators": [],
@@ -35,30 +35,30 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 120,
-        "end": 150,
+        "start": 119,
+        "end": 149,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 120,
-          "end": 149,
+          "start": 119,
+          "end": 148,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
-            "start": 120,
-            "end": 134,
+            "start": 119,
+            "end": 133,
             "ctxt": 0
           },
           "object": {
             "type": "Identifier",
             "span": {
-              "start": 120,
-              "end": 126,
+              "start": 119,
+              "end": 125,
               "ctxt": 0
             },
             "value": "module",
@@ -67,8 +67,8 @@
           "property": {
             "type": "Identifier",
             "span": {
-              "start": 127,
-              "end": 134,
+              "start": 126,
+              "end": 133,
               "ctxt": 0
             },
             "value": "exports",
@@ -78,8 +78,8 @@
         "right": {
           "type": "ObjectExpression",
           "span": {
-            "start": 137,
-            "end": 149,
+            "start": 136,
+            "end": 148,
             "ctxt": 0
           },
           "properties": [
@@ -88,8 +88,8 @@
               "key": {
                 "type": "Identifier",
                 "span": {
-                  "start": 139,
-                  "end": 142,
+                  "start": 138,
+                  "end": 141,
                   "ctxt": 0
                 },
                 "value": "Foo",
@@ -98,8 +98,8 @@
               "value": {
                 "type": "Identifier",
                 "span": {
-                  "start": 144,
-                  "end": 147,
+                  "start": 143,
+                  "end": 146,
                   "ctxt": 0
                 },
                 "value": "Bar",

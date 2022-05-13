@@ -1,23 +1,23 @@
 {
   "type": "Module",
   "span": {
-    "start": 1,
-    "end": 16,
+    "start": 0,
+    "end": 15,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 1,
-        "end": 16,
+        "start": 0,
+        "end": 15,
         "ctxt": 0
       },
       "expression": {
         "type": "JSXElement",
         "span": {
-          "start": 1,
-          "end": 16,
+          "start": 0,
+          "end": 15,
           "ctxt": 0
         },
         "opening": {
@@ -29,8 +29,8 @@
               "object": {
                 "type": "Identifier",
                 "span": {
-                  "start": 2,
-                  "end": 3,
+                  "start": 1,
+                  "end": 2,
                   "ctxt": 0
                 },
                 "value": "a",
@@ -39,8 +39,8 @@
               "property": {
                 "type": "Identifier",
                 "span": {
-                  "start": 4,
-                  "end": 5,
+                  "start": 3,
+                  "end": 4,
                   "ctxt": 0
                 },
                 "value": "b",
@@ -50,8 +50,8 @@
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 6,
-                "end": 7,
+                "start": 5,
+                "end": 6,
                 "ctxt": 0
               },
               "value": "c",
@@ -59,8 +59,8 @@
             }
           },
           "span": {
-            "start": 1,
-            "end": 8,
+            "start": 0,
+            "end": 7,
             "ctxt": 0
           },
           "attributes": [],
@@ -71,8 +71,8 @@
         "closing": {
           "type": "JSXClosingElement",
           "span": {
-            "start": 8,
-            "end": 16,
+            "start": 7,
+            "end": 15,
             "ctxt": 0
           },
           "name": {
@@ -82,8 +82,8 @@
               "object": {
                 "type": "Identifier",
                 "span": {
-                  "start": 10,
-                  "end": 11,
+                  "start": 9,
+                  "end": 10,
                   "ctxt": 0
                 },
                 "value": "a",
@@ -92,8 +92,8 @@
               "property": {
                 "type": "Identifier",
                 "span": {
-                  "start": 12,
-                  "end": 13,
+                  "start": 11,
+                  "end": 12,
                   "ctxt": 0
                 },
                 "value": "b",
@@ -103,8 +103,8 @@
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 14,
-                "end": 15,
+                "start": 13,
+                "end": 14,
                 "ctxt": 0
               },
               "value": "c",

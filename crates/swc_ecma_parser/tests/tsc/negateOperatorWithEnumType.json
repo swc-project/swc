@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 29,
-    "end": 284,
+    "start": 28,
+    "end": 283,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsEnumDeclaration",
       "span": {
-        "start": 29,
-        "end": 42,
+        "start": 28,
+        "end": 41,
         "ctxt": 0
       },
       "declare": false,
@@ -18,8 +18,8 @@
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 34,
-          "end": 38,
+          "start": 33,
+          "end": 37,
           "ctxt": 0
         },
         "value": "ENUM",
@@ -30,16 +30,16 @@
     {
       "type": "EmptyStatement",
       "span": {
-        "start": 42,
-        "end": 43,
+        "start": 41,
+        "end": 42,
         "ctxt": 0
       }
     },
     {
       "type": "TsEnumDeclaration",
       "span": {
-        "start": 44,
-        "end": 67,
+        "start": 43,
+        "end": 66,
         "ctxt": 0
       },
       "declare": false,
@@ -47,8 +47,8 @@
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 49,
-          "end": 54,
+          "start": 48,
+          "end": 53,
           "ctxt": 0
         },
         "value": "ENUM1",
@@ -58,15 +58,15 @@
         {
           "type": "TsEnumMember",
           "span": {
-            "start": 57,
-            "end": 58,
+            "start": 56,
+            "end": 57,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 57,
-              "end": 58,
+              "start": 56,
+              "end": 57,
               "ctxt": 0
             },
             "value": "A",
@@ -77,15 +77,15 @@
         {
           "type": "TsEnumMember",
           "span": {
-            "start": 60,
-            "end": 61,
+            "start": 59,
+            "end": 60,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 60,
-              "end": 61,
+              "start": 59,
+              "end": 60,
               "ctxt": 0
             },
             "value": "B",
@@ -96,15 +96,15 @@
         {
           "type": "TsEnumMember",
           "span": {
-            "start": 63,
-            "end": 65,
+            "start": 62,
+            "end": 64,
             "ctxt": 0
           },
           "id": {
             "type": "StringLiteral",
             "span": {
-              "start": 63,
-              "end": 65,
+              "start": 62,
+              "end": 64,
               "ctxt": 0
             },
             "value": "",
@@ -117,16 +117,16 @@
     {
       "type": "EmptyStatement",
       "span": {
-        "start": 67,
-        "end": 68,
+        "start": 66,
+        "end": 67,
         "ctxt": 0
       }
     },
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 87,
-        "end": 115,
+        "start": 86,
+        "end": 114,
         "ctxt": 0
       },
       "kind": "var",
@@ -135,15 +135,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 91,
-            "end": 114,
+            "start": 90,
+            "end": 113,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 91,
-              "end": 106,
+              "start": 90,
+              "end": 105,
               "ctxt": 0
             },
             "value": "ResultIsNumber1",
@@ -153,16 +153,16 @@
           "init": {
             "type": "UnaryExpression",
             "span": {
-              "start": 109,
-              "end": 114,
+              "start": 108,
+              "end": 113,
               "ctxt": 0
             },
             "operator": "-",
             "argument": {
               "type": "Identifier",
               "span": {
-                "start": 110,
-                "end": 114,
+                "start": 109,
+                "end": 113,
                 "ctxt": 0
               },
               "value": "ENUM",
@@ -176,8 +176,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 132,
-        "end": 166,
+        "start": 131,
+        "end": 165,
         "ctxt": 0
       },
       "kind": "var",
@@ -186,15 +186,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 136,
-            "end": 165,
+            "start": 135,
+            "end": 164,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 136,
-              "end": 151,
+              "start": 135,
+              "end": 150,
               "ctxt": 0
             },
             "value": "ResultIsNumber2",
@@ -204,23 +204,23 @@
           "init": {
             "type": "UnaryExpression",
             "span": {
-              "start": 154,
-              "end": 165,
+              "start": 153,
+              "end": 164,
               "ctxt": 0
             },
             "operator": "-",
             "argument": {
               "type": "MemberExpression",
               "span": {
-                "start": 155,
-                "end": 165,
+                "start": 154,
+                "end": 164,
                 "ctxt": 0
               },
               "object": {
                 "type": "Identifier",
                 "span": {
-                  "start": 155,
-                  "end": 160,
+                  "start": 154,
+                  "end": 159,
                   "ctxt": 0
                 },
                 "value": "ENUM1",
@@ -229,15 +229,15 @@
               "property": {
                 "type": "Computed",
                 "span": {
-                  "start": 160,
-                  "end": 165,
+                  "start": 159,
+                  "end": 164,
                   "ctxt": 0
                 },
                 "expression": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 161,
-                    "end": 164,
+                    "start": 160,
+                    "end": 163,
                     "ctxt": 0
                   },
                   "value": "B",
@@ -253,8 +253,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 167,
-        "end": 212,
+        "start": 166,
+        "end": 211,
         "ctxt": 0
       },
       "kind": "var",
@@ -263,15 +263,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 171,
-            "end": 211,
+            "start": 170,
+            "end": 210,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 171,
-              "end": 186,
+              "start": 170,
+              "end": 185,
               "ctxt": 0
             },
             "value": "ResultIsNumber3",
@@ -281,38 +281,38 @@
           "init": {
             "type": "UnaryExpression",
             "span": {
-              "start": 189,
-              "end": 211,
+              "start": 188,
+              "end": 210,
               "ctxt": 0
             },
             "operator": "-",
             "argument": {
               "type": "ParenthesisExpression",
               "span": {
-                "start": 190,
-                "end": 211,
+                "start": 189,
+                "end": 210,
                 "ctxt": 0
               },
               "expression": {
                 "type": "BinaryExpression",
                 "span": {
-                  "start": 191,
-                  "end": 210,
+                  "start": 190,
+                  "end": 209,
                   "ctxt": 0
                 },
                 "operator": "+",
                 "left": {
                   "type": "MemberExpression",
                   "span": {
-                    "start": 191,
-                    "end": 198,
+                    "start": 190,
+                    "end": 197,
                     "ctxt": 0
                   },
                   "object": {
                     "type": "Identifier",
                     "span": {
-                      "start": 191,
-                      "end": 196,
+                      "start": 190,
+                      "end": 195,
                       "ctxt": 0
                     },
                     "value": "ENUM1",
@@ -321,8 +321,8 @@
                   "property": {
                     "type": "Identifier",
                     "span": {
-                      "start": 197,
-                      "end": 198,
+                      "start": 196,
+                      "end": 197,
                       "ctxt": 0
                     },
                     "value": "B",
@@ -332,15 +332,15 @@
                 "right": {
                   "type": "MemberExpression",
                   "span": {
-                    "start": 201,
-                    "end": 210,
+                    "start": 200,
+                    "end": 209,
                     "ctxt": 0
                   },
                   "object": {
                     "type": "Identifier",
                     "span": {
-                      "start": 201,
-                      "end": 206,
+                      "start": 200,
+                      "end": 205,
                       "ctxt": 0
                     },
                     "value": "ENUM1",
@@ -349,15 +349,15 @@
                   "property": {
                     "type": "Computed",
                     "span": {
-                      "start": 206,
-                      "end": 210,
+                      "start": 205,
+                      "end": 209,
                       "ctxt": 0
                     },
                     "expression": {
                       "type": "StringLiteral",
                       "span": {
-                        "start": 207,
-                        "end": 209,
+                        "start": 206,
+                        "end": 208,
                         "ctxt": 0
                       },
                       "value": "",
@@ -375,23 +375,23 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 243,
-        "end": 249,
+        "start": 242,
+        "end": 248,
         "ctxt": 0
       },
       "expression": {
         "type": "UnaryExpression",
         "span": {
-          "start": 243,
-          "end": 248,
+          "start": 242,
+          "end": 247,
           "ctxt": 0
         },
         "operator": "-",
         "argument": {
           "type": "Identifier",
           "span": {
-            "start": 244,
-            "end": 248,
+            "start": 243,
+            "end": 247,
             "ctxt": 0
           },
           "value": "ENUM",
@@ -402,23 +402,23 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 250,
-        "end": 257,
+        "start": 249,
+        "end": 256,
         "ctxt": 0
       },
       "expression": {
         "type": "UnaryExpression",
         "span": {
-          "start": 250,
-          "end": 256,
+          "start": 249,
+          "end": 255,
           "ctxt": 0
         },
         "operator": "-",
         "argument": {
           "type": "Identifier",
           "span": {
-            "start": 251,
-            "end": 256,
+            "start": 250,
+            "end": 255,
             "ctxt": 0
           },
           "value": "ENUM1",
@@ -429,30 +429,30 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 258,
-        "end": 270,
+        "start": 257,
+        "end": 269,
         "ctxt": 0
       },
       "expression": {
         "type": "UnaryExpression",
         "span": {
-          "start": 258,
-          "end": 269,
+          "start": 257,
+          "end": 268,
           "ctxt": 0
         },
         "operator": "-",
         "argument": {
           "type": "MemberExpression",
           "span": {
-            "start": 259,
-            "end": 269,
+            "start": 258,
+            "end": 268,
             "ctxt": 0
           },
           "object": {
             "type": "Identifier",
             "span": {
-              "start": 259,
-              "end": 264,
+              "start": 258,
+              "end": 263,
               "ctxt": 0
             },
             "value": "ENUM1",
@@ -461,15 +461,15 @@
           "property": {
             "type": "Computed",
             "span": {
-              "start": 264,
-              "end": 269,
+              "start": 263,
+              "end": 268,
               "ctxt": 0
             },
             "expression": {
               "type": "StringLiteral",
               "span": {
-                "start": 265,
-                "end": 268,
+                "start": 264,
+                "end": 267,
                 "ctxt": 0
               },
               "value": "B",
@@ -482,31 +482,31 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 271,
-        "end": 284,
+        "start": 270,
+        "end": 283,
         "ctxt": 0
       },
       "expression": {
         "type": "SequenceExpression",
         "span": {
-          "start": 271,
-          "end": 283,
+          "start": 270,
+          "end": 282,
           "ctxt": 0
         },
         "expressions": [
           {
             "type": "UnaryExpression",
             "span": {
-              "start": 271,
-              "end": 276,
+              "start": 270,
+              "end": 275,
               "ctxt": 0
             },
             "operator": "-",
             "argument": {
               "type": "Identifier",
               "span": {
-                "start": 272,
-                "end": 276,
+                "start": 271,
+                "end": 275,
                 "ctxt": 0
               },
               "value": "ENUM",
@@ -516,8 +516,8 @@
           {
             "type": "Identifier",
             "span": {
-              "start": 278,
-              "end": 283,
+              "start": 277,
+              "end": 282,
               "ctxt": 0
             },
             "value": "ENUM1",

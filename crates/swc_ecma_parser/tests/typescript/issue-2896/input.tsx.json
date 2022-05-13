@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 35,
+    "start": 0,
+    "end": 34,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 1,
-        "end": 21,
+        "start": 0,
+        "end": 20,
         "ctxt": 0
       },
       "expression": {
         "type": "JSXElement",
         "span": {
-          "start": 1,
-          "end": 20,
+          "start": 0,
+          "end": 19,
           "ctxt": 0
         },
         "opening": {
@@ -25,16 +25,16 @@
           "name": {
             "type": "Identifier",
             "span": {
-              "start": 2,
-              "end": 5,
+              "start": 1,
+              "end": 4,
               "ctxt": 0
             },
             "value": "div",
             "optional": false
           },
           "span": {
-            "start": 1,
-            "end": 6,
+            "start": 0,
+            "end": 5,
             "ctxt": 0
           },
           "attributes": [],
@@ -45,8 +45,8 @@
           {
             "type": "JSXText",
             "span": {
-              "start": 6,
-              "end": 14,
+              "start": 5,
+              "end": 13,
               "ctxt": 0
             },
             "value": "children",
@@ -56,15 +56,15 @@
         "closing": {
           "type": "JSXClosingElement",
           "span": {
-            "start": 14,
-            "end": 20,
+            "start": 13,
+            "end": 19,
             "ctxt": 0
           },
           "name": {
             "type": "Identifier",
             "span": {
-              "start": 16,
-              "end": 19,
+              "start": 15,
+              "end": 18,
               "ctxt": 0
             },
             "value": "div",
@@ -76,15 +76,15 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 22,
-        "end": 35,
+        "start": 21,
+        "end": 34,
         "ctxt": 0
       },
       "expression": {
         "type": "StringLiteral",
         "span": {
-          "start": 22,
-          "end": 34,
+          "start": 21,
+          "end": 33,
           "ctxt": 0
         },
         "value": "<>hello</>",

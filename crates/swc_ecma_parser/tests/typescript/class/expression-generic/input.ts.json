@@ -1,31 +1,31 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 32,
+    "start": 0,
+    "end": 31,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 1,
-        "end": 15,
+        "start": 0,
+        "end": 14,
         "ctxt": 0
       },
       "expression": {
         "type": "ParenthesisExpression",
         "span": {
-          "start": 1,
-          "end": 14,
+          "start": 0,
+          "end": 13,
           "ctxt": 0
         },
         "expression": {
           "type": "ClassExpression",
           "identifier": null,
           "span": {
-            "start": 2,
-            "end": 13,
+            "start": 1,
+            "end": 12,
             "ctxt": 0
           },
           "decorators": [],
@@ -35,23 +35,23 @@
           "typeParams": {
             "type": "TsTypeParameterDeclaration",
             "span": {
-              "start": 7,
-              "end": 10,
+              "start": 6,
+              "end": 9,
               "ctxt": 0
             },
             "parameters": [
               {
                 "type": "TsTypeParameter",
                 "span": {
-                  "start": 8,
-                  "end": 9,
+                  "start": 7,
+                  "end": 8,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Identifier",
                   "span": {
-                    "start": 8,
-                    "end": 9,
+                    "start": 7,
+                    "end": 8,
                     "ctxt": 0
                   },
                   "value": "T",
@@ -72,15 +72,15 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 16,
-        "end": 32,
+        "start": 15,
+        "end": 31,
         "ctxt": 0
       },
       "expression": {
         "type": "ParenthesisExpression",
         "span": {
-          "start": 16,
-          "end": 31,
+          "start": 15,
+          "end": 30,
           "ctxt": 0
         },
         "expression": {
@@ -88,16 +88,16 @@
           "identifier": {
             "type": "Identifier",
             "span": {
-              "start": 23,
-              "end": 24,
+              "start": 22,
+              "end": 23,
               "ctxt": 0
             },
             "value": "C",
             "optional": false
           },
           "span": {
-            "start": 17,
-            "end": 30,
+            "start": 16,
+            "end": 29,
             "ctxt": 0
           },
           "decorators": [],
@@ -107,23 +107,23 @@
           "typeParams": {
             "type": "TsTypeParameterDeclaration",
             "span": {
-              "start": 24,
-              "end": 27,
+              "start": 23,
+              "end": 26,
               "ctxt": 0
             },
             "parameters": [
               {
                 "type": "TsTypeParameter",
                 "span": {
-                  "start": 25,
-                  "end": 26,
+                  "start": 24,
+                  "end": 25,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Identifier",
                   "span": {
-                    "start": 25,
-                    "end": 26,
+                    "start": 24,
+                    "end": 25,
                     "ctxt": 0
                   },
                   "value": "T",

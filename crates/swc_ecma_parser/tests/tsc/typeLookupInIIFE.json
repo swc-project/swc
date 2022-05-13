@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 107,
-    "end": 172,
+    "start": 106,
+    "end": 171,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 107,
-        "end": 134,
+        "start": 106,
+        "end": 133,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 111,
-            "end": 133,
+            "start": 110,
+            "end": 132,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 111,
-              "end": 113,
+              "start": 110,
+              "end": 112,
               "ctxt": 0
             },
             "value": "ns",
@@ -37,15 +37,15 @@
           "init": {
             "type": "CallExpression",
             "span": {
-              "start": 116,
-              "end": 133,
+              "start": 115,
+              "end": 132,
               "ctxt": 0
             },
             "callee": {
               "type": "ParenthesisExpression",
               "span": {
-                "start": 116,
-                "end": 131,
+                "start": 115,
+                "end": 130,
                 "ctxt": 0
               },
               "expression": {
@@ -54,15 +54,15 @@
                 "params": [],
                 "decorators": [],
                 "span": {
-                  "start": 117,
-                  "end": 130,
+                  "start": 116,
+                  "end": 129,
                   "ctxt": 0
                 },
                 "body": {
                   "type": "BlockStatement",
                   "span": {
-                    "start": 128,
-                    "end": 130,
+                    "start": 127,
+                    "end": 129,
                     "ctxt": 0
                   },
                   "stmts": []
@@ -83,8 +83,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 162,
-        "end": 172,
+        "start": 161,
+        "end": 171,
         "ctxt": 0
       },
       "kind": "var",
@@ -93,15 +93,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 166,
-            "end": 171,
+            "start": 165,
+            "end": 170,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 166,
-              "end": 171,
+              "start": 165,
+              "end": 170,
               "ctxt": 0
             },
             "value": "crash",

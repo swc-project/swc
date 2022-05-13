@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 65,
+    "start": 0,
+    "end": 64,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsModuleDeclaration",
       "span": {
-        "start": 1,
-        "end": 65,
+        "start": 0,
+        "end": 64,
         "ctxt": 0
       },
       "declare": true,
@@ -18,8 +18,8 @@
       "id": {
         "type": "StringLiteral",
         "span": {
-          "start": 16,
-          "end": 19,
+          "start": 15,
+          "end": 18,
           "ctxt": 0
         },
         "value": "m",
@@ -28,16 +28,16 @@
       "body": {
         "type": "TsModuleBlock",
         "span": {
-          "start": 20,
-          "end": 65,
+          "start": 19,
+          "end": 64,
           "ctxt": 0
         },
         "body": [
           {
             "type": "TsModuleDeclaration",
             "span": {
-              "start": 26,
-              "end": 63,
+              "start": 25,
+              "end": 62,
               "ctxt": 0
             },
             "declare": false,
@@ -45,8 +45,8 @@
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 26,
-                "end": 32,
+                "start": 25,
+                "end": 31,
                 "ctxt": 0
               },
               "value": "global",
@@ -55,16 +55,16 @@
             "body": {
               "type": "TsModuleBlock",
               "span": {
-                "start": 33,
-                "end": 63,
+                "start": 32,
+                "end": 62,
                 "ctxt": 0
               },
               "body": [
                 {
                   "type": "VariableDeclaration",
                   "span": {
-                    "start": 43,
-                    "end": 57,
+                    "start": 42,
+                    "end": 56,
                     "ctxt": 0
                   },
                   "kind": "var",
@@ -73,15 +73,15 @@
                     {
                       "type": "VariableDeclarator",
                       "span": {
-                        "start": 47,
-                        "end": 56,
+                        "start": 46,
+                        "end": 55,
                         "ctxt": 0
                       },
                       "id": {
                         "type": "Identifier",
                         "span": {
-                          "start": 47,
-                          "end": 48,
+                          "start": 46,
+                          "end": 47,
                           "ctxt": 0
                         },
                         "value": "x",
@@ -89,15 +89,15 @@
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
-                            "start": 48,
-                            "end": 56,
+                            "start": 47,
+                            "end": 55,
                             "ctxt": 0
                           },
                           "typeAnnotation": {
                             "type": "TsKeywordType",
                             "span": {
-                              "start": 50,
-                              "end": 56,
+                              "start": 49,
+                              "end": 55,
                               "ctxt": 0
                             },
                             "kind": "number"

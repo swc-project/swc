@@ -1,46 +1,46 @@
 {
   "type": "Script",
   "span": {
-    "start": 75,
-    "end": 129,
+    "start": 74,
+    "end": 128,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 75,
-        "end": 87,
+        "start": 74,
+        "end": 86,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 75,
-          "end": 86,
+          "start": 74,
+          "end": 85,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
-            "start": 75,
-            "end": 81,
+            "start": 74,
+            "end": 80,
             "ctxt": 0
           },
           "object": {
             "type": "ThisExpression",
             "span": {
-              "start": 75,
-              "end": 79,
+              "start": 74,
+              "end": 78,
               "ctxt": 0
             }
           },
           "property": {
             "type": "Identifier",
             "span": {
-              "start": 80,
-              "end": 81,
+              "start": 79,
+              "end": 80,
               "ctxt": 0
             },
             "value": "a",
@@ -50,8 +50,8 @@
         "right": {
           "type": "NumericLiteral",
           "span": {
-            "start": 84,
-            "end": 86,
+            "start": 83,
+            "end": 85,
             "ctxt": 0
           },
           "value": 10.0,
@@ -62,30 +62,30 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 88,
-        "end": 95,
+        "start": 87,
+        "end": 94,
         "ctxt": 0
       },
       "expression": {
         "type": "MemberExpression",
         "span": {
-          "start": 88,
-          "end": 94,
+          "start": 87,
+          "end": 93,
           "ctxt": 0
         },
         "object": {
           "type": "ThisExpression",
           "span": {
-            "start": 88,
-            "end": 92,
+            "start": 87,
+            "end": 91,
             "ctxt": 0
           }
         },
         "property": {
           "type": "Identifier",
           "span": {
-            "start": 93,
-            "end": 94,
+            "start": 92,
+            "end": 93,
             "ctxt": 0
           },
           "value": "a",
@@ -96,15 +96,15 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 96,
-        "end": 98,
+        "start": 95,
+        "end": 97,
         "ctxt": 0
       },
       "expression": {
         "type": "Identifier",
         "span": {
-          "start": 96,
-          "end": 97,
+          "start": 95,
+          "end": 96,
           "ctxt": 0
         },
         "value": "a",
@@ -114,30 +114,30 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 119,
-        "end": 126,
+        "start": 118,
+        "end": 125,
         "ctxt": 0
       },
       "expression": {
         "type": "MemberExpression",
         "span": {
-          "start": 119,
-          "end": 125,
+          "start": 118,
+          "end": 124,
           "ctxt": 0
         },
         "object": {
           "type": "ThisExpression",
           "span": {
-            "start": 119,
-            "end": 123,
+            "start": 118,
+            "end": 122,
             "ctxt": 0
           }
         },
         "property": {
           "type": "Identifier",
           "span": {
-            "start": 124,
-            "end": 125,
+            "start": 123,
+            "end": 124,
             "ctxt": 0
           },
           "value": "a",
@@ -148,15 +148,15 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 127,
-        "end": 129,
+        "start": 126,
+        "end": 128,
         "ctxt": 0
       },
       "expression": {
         "type": "Identifier",
         "span": {
-          "start": 127,
-          "end": 128,
+          "start": 126,
+          "end": 127,
           "ctxt": 0
         },
         "value": "a",

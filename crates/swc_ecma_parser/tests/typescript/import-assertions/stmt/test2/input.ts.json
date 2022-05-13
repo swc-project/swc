@@ -1,24 +1,24 @@
 {
   "type": "Module",
   "span": {
-    "start": 1,
-    "end": 45,
+    "start": 0,
+    "end": 44,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ImportDeclaration",
       "span": {
-        "start": 1,
-        "end": 45,
+        "start": 0,
+        "end": 44,
         "ctxt": 0
       },
       "specifiers": [],
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 8,
-          "end": 20,
+          "start": 7,
+          "end": 19,
           "ctxt": 0
         },
         "value": "./foo.json",
@@ -28,8 +28,8 @@
       "asserts": {
         "type": "ObjectExpression",
         "span": {
-          "start": 28,
-          "end": 44,
+          "start": 27,
+          "end": 43,
           "ctxt": 0
         },
         "properties": [
@@ -38,8 +38,8 @@
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 30,
-                "end": 34,
+                "start": 29,
+                "end": 33,
                 "ctxt": 0
               },
               "value": "type",
@@ -48,8 +48,8 @@
             "value": {
               "type": "StringLiteral",
               "span": {
-                "start": 36,
-                "end": 42,
+                "start": 35,
+                "end": 41,
                 "ctxt": 0
               },
               "value": "json",

@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 38,
+    "start": 0,
+    "end": 37,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 1,
-        "end": 38,
+        "start": 0,
+        "end": 37,
         "ctxt": 0
       },
       "kind": "const",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 7,
-            "end": 38,
+            "start": 6,
+            "end": 37,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 7,
-              "end": 10,
+              "start": 6,
+              "end": 9,
               "ctxt": 0
             },
             "value": "bar",
@@ -37,15 +37,15 @@
           "init": {
             "type": "TsAsExpression",
             "span": {
-              "start": 13,
-              "end": 38,
+              "start": 12,
+              "end": 37,
               "ctxt": 0
             },
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 13,
-                "end": 16,
+                "start": 12,
+                "end": 15,
                 "ctxt": 0
               },
               "value": "bas",
@@ -54,8 +54,8 @@
             "typeAnnotation": {
               "type": "TsTypeQuery",
               "span": {
-                "start": 20,
-                "end": 38,
+                "start": 19,
+                "end": 37,
                 "ctxt": 0
               },
               "exprName": {
@@ -63,8 +63,8 @@
                 "left": {
                   "type": "Identifier",
                   "span": {
-                    "start": 27,
-                    "end": 31,
+                    "start": 26,
+                    "end": 30,
                     "ctxt": 0
                   },
                   "value": "beep",
@@ -73,8 +73,8 @@
                 "right": {
                   "type": "Identifier",
                   "span": {
-                    "start": 32,
-                    "end": 38,
+                    "start": 31,
+                    "end": 37,
                     "ctxt": 0
                   },
                   "value": "delete",

@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 91,
-    "end": 106,
+    "start": 90,
+    "end": 105,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 91,
-        "end": 106,
+        "start": 90,
+        "end": 105,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 95,
-            "end": 105,
+            "start": 94,
+            "end": 104,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 95,
-              "end": 105,
+              "start": 94,
+              "end": 104,
               "ctxt": 0
             },
             "value": "globalThis",

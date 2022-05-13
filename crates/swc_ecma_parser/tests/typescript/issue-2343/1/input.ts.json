@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 1,
-    "end": 54,
+    "start": 0,
+    "end": 53,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 1,
-        "end": 54,
+        "start": 0,
+        "end": 53,
         "ctxt": 0
       },
       "declaration": {
@@ -18,8 +18,8 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 25,
-            "end": 31,
+            "start": 24,
+            "end": 30,
             "ctxt": 0
           },
           "value": "someFn",
@@ -30,16 +30,16 @@
           {
             "type": "Parameter",
             "span": {
-              "start": 32,
-              "end": 44,
+              "start": 31,
+              "end": 43,
               "ctxt": 0
             },
             "decorators": [],
             "pat": {
               "type": "Identifier",
               "span": {
-                "start": 32,
-                "end": 44,
+                "start": 31,
+                "end": 43,
                 "ctxt": 0
               },
               "value": "some",
@@ -47,15 +47,15 @@
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
-                  "start": 36,
-                  "end": 44,
+                  "start": 35,
+                  "end": 43,
                   "ctxt": 0
                 },
                 "typeAnnotation": {
                   "type": "TsKeywordType",
                   "span": {
-                    "start": 38,
-                    "end": 44,
+                    "start": 37,
+                    "end": 43,
                     "ctxt": 0
                   },
                   "kind": "string"
@@ -66,8 +66,8 @@
         ],
         "decorators": [],
         "span": {
-          "start": 8,
-          "end": 54,
+          "start": 7,
+          "end": 53,
           "ctxt": 0
         },
         "body": null,
@@ -77,15 +77,15 @@
         "returnType": {
           "type": "TsTypeAnnotation",
           "span": {
-            "start": 45,
-            "end": 53,
+            "start": 44,
+            "end": 52,
             "ctxt": 0
           },
           "typeAnnotation": {
             "type": "TsKeywordType",
             "span": {
-              "start": 47,
-              "end": 53,
+              "start": 46,
+              "end": 52,
               "ctxt": 0
             },
             "kind": "string"

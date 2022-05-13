@@ -1,39 +1,39 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 1,
-    "end": 75,
+    "start": 0,
+    "end": 74,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
-        "start": 1,
-        "end": 74,
+        "start": 0,
+        "end": 73,
         "ctxt": 0
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
-          "start": 1,
-          "end": 7,
+          "start": 0,
+          "end": 6,
           "ctxt": 0
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
-              "start": 1,
-              "end": 7,
+              "start": 0,
+              "end": 6,
               "ctxt": 0
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
-                  "start": 1,
-                  "end": 7,
+                  "start": 0,
+                  "end": 6,
                   "ctxt": 0
                 },
                 "nestingSelector": null,
@@ -42,15 +42,15 @@
                   {
                     "type": "ClassSelector",
                     "span": {
-                      "start": 1,
-                      "end": 7,
+                      "start": 0,
+                      "end": 6,
                       "ctxt": 0
                     },
                     "text": {
                       "type": "Ident",
                       "span": {
-                        "start": 2,
-                        "end": 7,
+                        "start": 1,
+                        "end": 6,
                         "ctxt": 0
                       },
                       "value": "style",
@@ -66,8 +66,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 8,
-          "end": 74,
+          "start": 7,
+          "end": 73,
           "ctxt": 0
         },
         "name": "{",
@@ -75,15 +75,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 11,
-              "end": 71,
+              "start": 10,
+              "end": 70,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 11,
-                "end": 32,
+                "start": 10,
+                "end": 31,
                 "ctxt": 0
               },
               "value": "grid-template-columns",
@@ -93,15 +93,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 34,
-                  "end": 71,
+                  "start": 33,
+                  "end": 70,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 34,
-                    "end": 40,
+                    "start": 33,
+                    "end": 39,
                     "ctxt": 0
                   },
                   "value": "repeat",
@@ -111,8 +111,8 @@
                   {
                     "type": "Integer",
                     "span": {
-                      "start": 41,
-                      "end": 42,
+                      "start": 40,
+                      "end": 41,
                       "ctxt": 0
                     },
                     "value": 4,
@@ -121,8 +121,8 @@
                   {
                     "type": "Delimiter",
                     "span": {
-                      "start": 42,
-                      "end": 43,
+                      "start": 41,
+                      "end": 42,
                       "ctxt": 0
                     },
                     "value": ","
@@ -130,15 +130,15 @@
                   {
                     "type": "Function",
                     "span": {
-                      "start": 44,
-                      "end": 70,
+                      "start": 43,
+                      "end": 69,
                       "ctxt": 0
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
-                        "start": 44,
-                        "end": 50,
+                        "start": 43,
+                        "end": 49,
                         "ctxt": 0
                       },
                       "value": "minmax",
@@ -148,8 +148,8 @@
                       {
                         "type": "Ident",
                         "span": {
-                          "start": 51,
-                          "end": 62,
+                          "start": 50,
+                          "end": 61,
                           "ctxt": 0
                         },
                         "value": "min-content",
@@ -158,8 +158,8 @@
                       {
                         "type": "Delimiter",
                         "span": {
-                          "start": 62,
-                          "end": 63,
+                          "start": 61,
+                          "end": 62,
                           "ctxt": 0
                         },
                         "value": ","
@@ -167,15 +167,15 @@
                       {
                         "type": "Length",
                         "span": {
-                          "start": 64,
-                          "end": 69,
+                          "start": 63,
+                          "end": 68,
                           "ctxt": 0
                         },
                         "value": {
                           "type": "Number",
                           "span": {
-                            "start": 64,
-                            "end": 67,
+                            "start": 63,
+                            "end": 66,
                             "ctxt": 0
                           },
                           "value": 300.0,
@@ -184,8 +184,8 @@
                         "unit": {
                           "type": "Ident",
                           "span": {
-                            "start": 67,
-                            "end": 69,
+                            "start": 66,
+                            "end": 68,
                             "ctxt": 0
                           },
                           "value": "px",

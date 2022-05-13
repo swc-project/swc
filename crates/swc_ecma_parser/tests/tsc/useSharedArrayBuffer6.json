@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 51,
-    "end": 159,
+    "start": 50,
+    "end": 158,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 51,
-        "end": 90,
+        "start": 50,
+        "end": 89,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 55,
-            "end": 89,
+            "start": 54,
+            "end": 88,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 55,
-              "end": 59,
+              "start": 54,
+              "end": 58,
               "ctxt": 0
             },
             "value": "foge",
@@ -37,15 +37,15 @@
           "init": {
             "type": "NewExpression",
             "span": {
-              "start": 62,
-              "end": 89,
+              "start": 61,
+              "end": 88,
               "ctxt": 0
             },
             "callee": {
               "type": "Identifier",
               "span": {
-                "start": 66,
-                "end": 83,
+                "start": 65,
+                "end": 82,
                 "ctxt": 0
               },
               "value": "SharedArrayBuffer",
@@ -57,8 +57,8 @@
                 "expression": {
                   "type": "NumericLiteral",
                   "span": {
-                    "start": 84,
-                    "end": 88,
+                    "start": 83,
+                    "end": 87,
                     "ctxt": 0
                   },
                   "value": 1024.0,
@@ -75,22 +75,22 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 91,
-        "end": 103,
+        "start": 90,
+        "end": 102,
         "ctxt": 0
       },
       "expression": {
         "type": "MemberExpression",
         "span": {
-          "start": 91,
-          "end": 102,
+          "start": 90,
+          "end": 101,
           "ctxt": 0
         },
         "object": {
           "type": "Identifier",
           "span": {
-            "start": 91,
-            "end": 95,
+            "start": 90,
+            "end": 94,
             "ctxt": 0
           },
           "value": "foge",
@@ -99,8 +99,8 @@
         "property": {
           "type": "Identifier",
           "span": {
-            "start": 96,
-            "end": 102,
+            "start": 95,
+            "end": 101,
             "ctxt": 0
           },
           "value": "length",
@@ -111,8 +111,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 121,
-        "end": 159,
+        "start": 120,
+        "end": 158,
         "ctxt": 0
       },
       "kind": "var",
@@ -121,15 +121,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 125,
-            "end": 158,
+            "start": 124,
+            "end": 157,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 125,
-              "end": 131,
+              "start": 124,
+              "end": 130,
               "ctxt": 0
             },
             "value": "length",
@@ -139,15 +139,15 @@
           "init": {
             "type": "MemberExpression",
             "span": {
-              "start": 134,
-              "end": 158,
+              "start": 133,
+              "end": 157,
               "ctxt": 0
             },
             "object": {
               "type": "Identifier",
               "span": {
-                "start": 134,
-                "end": 151,
+                "start": 133,
+                "end": 150,
                 "ctxt": 0
               },
               "value": "SharedArrayBuffer",
@@ -156,8 +156,8 @@
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 152,
-                "end": 158,
+                "start": 151,
+                "end": 157,
                 "ctxt": 0
               },
               "value": "length",

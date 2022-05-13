@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 37,
-    "end": 103,
+    "start": 36,
+    "end": 102,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsImportEqualsDeclaration",
       "span": {
-        "start": 37,
-        "end": 63,
+        "start": 36,
+        "end": 62,
         "ctxt": 0
       },
       "declare": false,
@@ -19,8 +19,8 @@
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 44,
-          "end": 45,
+          "start": 43,
+          "end": 44,
           "ctxt": 0
         },
         "value": "i",
@@ -29,15 +29,15 @@
       "moduleRef": {
         "type": "TsExternalModuleReference",
         "span": {
-          "start": 48,
-          "end": 62,
+          "start": 47,
+          "end": 61,
           "ctxt": 0
         },
         "expression": {
           "type": "StringLiteral",
           "span": {
-            "start": 56,
-            "end": 61,
+            "start": 55,
+            "end": 60,
             "ctxt": 0
           },
           "value": "mod",
@@ -48,8 +48,8 @@
     {
       "type": "TsModuleDeclaration",
       "span": {
-        "start": 76,
-        "end": 91,
+        "start": 75,
+        "end": 90,
         "ctxt": 0
       },
       "declare": false,
@@ -57,8 +57,8 @@
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 86,
-          "end": 87,
+          "start": 85,
+          "end": 86,
           "ctxt": 0
         },
         "value": "N",
@@ -67,8 +67,8 @@
       "body": {
         "type": "TsModuleBlock",
         "span": {
-          "start": 88,
-          "end": 91,
+          "start": 87,
+          "end": 90,
           "ctxt": 0
         },
         "body": []
@@ -77,15 +77,15 @@
     {
       "type": "TsExportAssignment",
       "span": {
-        "start": 92,
-        "end": 103,
+        "start": 91,
+        "end": 102,
         "ctxt": 0
       },
       "expression": {
         "type": "Identifier",
         "span": {
-          "start": 101,
-          "end": 102,
+          "start": 100,
+          "end": 101,
           "ctxt": 0
         },
         "value": "N",

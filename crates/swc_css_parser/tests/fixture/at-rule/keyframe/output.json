@@ -1,23 +1,23 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 1,
-    "end": 785,
+    "start": 0,
+    "end": 784,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
-        "start": 1,
-        "end": 29,
+        "start": 0,
+        "end": 28,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 2,
-          "end": 11,
+          "start": 1,
+          "end": 10,
           "ctxt": 0
         },
         "value": "keyframes",
@@ -26,8 +26,8 @@
       "prelude": {
         "type": "CustomIdent",
         "span": {
-          "start": 12,
-          "end": 15,
+          "start": 11,
+          "end": 14,
           "ctxt": 0
         },
         "value": "foo",
@@ -36,8 +36,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 16,
-          "end": 29,
+          "start": 15,
+          "end": 28,
           "ctxt": 0
         },
         "name": "{",
@@ -47,15 +47,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 30,
-        "end": 60,
+        "start": 29,
+        "end": 59,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 31,
-          "end": 40,
+          "start": 30,
+          "end": 39,
           "ctxt": 0
         },
         "value": "keyframes",
@@ -64,8 +64,8 @@
       "prelude": {
         "type": "String",
         "span": {
-          "start": 41,
-          "end": 46,
+          "start": 40,
+          "end": 45,
           "ctxt": 0
         },
         "value": "foo",
@@ -74,8 +74,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 47,
-          "end": 60,
+          "start": 46,
+          "end": 59,
           "ctxt": 0
         },
         "name": "{",
@@ -85,15 +85,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 61,
-        "end": 95,
+        "start": 60,
+        "end": 94,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 62,
-          "end": 71,
+          "start": 61,
+          "end": 70,
           "ctxt": 0
         },
         "value": "keyframes",
@@ -102,8 +102,8 @@
       "prelude": {
         "type": "CustomIdent",
         "span": {
-          "start": 75,
-          "end": 78,
+          "start": 74,
+          "end": 77,
           "ctxt": 0
         },
         "value": "foo",
@@ -112,8 +112,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 82,
-          "end": 95,
+          "start": 81,
+          "end": 94,
           "ctxt": 0
         },
         "name": "{",
@@ -123,15 +123,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 97,
-        "end": 224,
+        "start": 96,
+        "end": 223,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 98,
-          "end": 107,
+          "start": 97,
+          "end": 106,
           "ctxt": 0
         },
         "value": "keyframes",
@@ -140,8 +140,8 @@
       "prelude": {
         "type": "CustomIdent",
         "span": {
-          "start": 108,
-          "end": 115,
+          "start": 107,
+          "end": 114,
           "ctxt": 0
         },
         "value": "slidein",
@@ -150,8 +150,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 116,
-          "end": 224,
+          "start": 115,
+          "end": 223,
           "ctxt": 0
         },
         "name": "{",
@@ -159,16 +159,16 @@
           {
             "type": "KeyframeBlock",
             "span": {
-              "start": 122,
-              "end": 169,
+              "start": 121,
+              "end": 168,
               "ctxt": 0
             },
             "prelude": [
               {
                 "type": "Ident",
                 "span": {
-                  "start": 122,
-                  "end": 126,
+                  "start": 121,
+                  "end": 125,
                   "ctxt": 0
                 },
                 "value": "from",
@@ -178,8 +178,8 @@
             "block": {
               "type": "SimpleBlock",
               "span": {
-                "start": 127,
-                "end": 169,
+                "start": 126,
+                "end": 168,
                 "ctxt": 0
               },
               "name": "{",
@@ -187,15 +187,15 @@
                 {
                   "type": "Declaration",
                   "span": {
-                    "start": 137,
-                    "end": 162,
+                    "start": 136,
+                    "end": 161,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
-                      "start": 137,
-                      "end": 146,
+                      "start": 136,
+                      "end": 145,
                       "ctxt": 0
                     },
                     "value": "transform",
@@ -205,15 +205,15 @@
                     {
                       "type": "Function",
                       "span": {
-                        "start": 148,
-                        "end": 162,
+                        "start": 147,
+                        "end": 161,
                         "ctxt": 0
                       },
                       "name": {
                         "type": "Ident",
                         "span": {
-                          "start": 148,
-                          "end": 158,
+                          "start": 147,
+                          "end": 157,
                           "ctxt": 0
                         },
                         "value": "translateX",
@@ -223,15 +223,15 @@
                         {
                           "type": "Percentage",
                           "span": {
-                            "start": 159,
-                            "end": 161,
+                            "start": 158,
+                            "end": 160,
                             "ctxt": 0
                           },
                           "value": {
                             "type": "Number",
                             "span": {
-                              "start": 159,
-                              "end": 160,
+                              "start": 158,
+                              "end": 159,
                               "ctxt": 0
                             },
                             "value": 0.0,
@@ -249,16 +249,16 @@
           {
             "type": "KeyframeBlock",
             "span": {
-              "start": 175,
-              "end": 222,
+              "start": 174,
+              "end": 221,
               "ctxt": 0
             },
             "prelude": [
               {
                 "type": "Ident",
                 "span": {
-                  "start": 175,
-                  "end": 177,
+                  "start": 174,
+                  "end": 176,
                   "ctxt": 0
                 },
                 "value": "to",
@@ -268,8 +268,8 @@
             "block": {
               "type": "SimpleBlock",
               "span": {
-                "start": 178,
-                "end": 222,
+                "start": 177,
+                "end": 221,
                 "ctxt": 0
               },
               "name": "{",
@@ -277,15 +277,15 @@
                 {
                   "type": "Declaration",
                   "span": {
-                    "start": 188,
-                    "end": 215,
+                    "start": 187,
+                    "end": 214,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
-                      "start": 188,
-                      "end": 197,
+                      "start": 187,
+                      "end": 196,
                       "ctxt": 0
                     },
                     "value": "transform",
@@ -295,15 +295,15 @@
                     {
                       "type": "Function",
                       "span": {
-                        "start": 199,
-                        "end": 215,
+                        "start": 198,
+                        "end": 214,
                         "ctxt": 0
                       },
                       "name": {
                         "type": "Ident",
                         "span": {
-                          "start": 199,
-                          "end": 209,
+                          "start": 198,
+                          "end": 208,
                           "ctxt": 0
                         },
                         "value": "translateX",
@@ -313,15 +313,15 @@
                         {
                           "type": "Percentage",
                           "span": {
-                            "start": 210,
-                            "end": 214,
+                            "start": 209,
+                            "end": 213,
                             "ctxt": 0
                           },
                           "value": {
                             "type": "Number",
                             "span": {
-                              "start": 210,
-                              "end": 213,
+                              "start": 209,
+                              "end": 212,
                               "ctxt": 0
                             },
                             "value": 100.0,
@@ -342,15 +342,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 226,
-        "end": 368,
+        "start": 225,
+        "end": 367,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 227,
-          "end": 236,
+          "start": 226,
+          "end": 235,
           "ctxt": 0
         },
         "value": "keyframes",
@@ -359,8 +359,8 @@
       "prelude": {
         "type": "CustomIdent",
         "span": {
-          "start": 237,
-          "end": 247,
+          "start": 236,
+          "end": 246,
           "ctxt": 0
         },
         "value": "identifier",
@@ -369,8 +369,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 248,
-          "end": 368,
+          "start": 247,
+          "end": 367,
           "ctxt": 0
         },
         "name": "{",
@@ -378,23 +378,23 @@
           {
             "type": "KeyframeBlock",
             "span": {
-              "start": 254,
-              "end": 277,
+              "start": 253,
+              "end": 276,
               "ctxt": 0
             },
             "prelude": [
               {
                 "type": "Percentage",
                 "span": {
-                  "start": 254,
-                  "end": 256,
+                  "start": 253,
+                  "end": 255,
                   "ctxt": 0
                 },
                 "value": {
                   "type": "Number",
                   "span": {
-                    "start": 254,
-                    "end": 255,
+                    "start": 253,
+                    "end": 254,
                     "ctxt": 0
                   },
                   "value": 0.0,
@@ -405,8 +405,8 @@
             "block": {
               "type": "SimpleBlock",
               "span": {
-                "start": 257,
-                "end": 277,
+                "start": 256,
+                "end": 276,
                 "ctxt": 0
               },
               "name": "{",
@@ -414,15 +414,15 @@
                 {
                   "type": "Declaration",
                   "span": {
-                    "start": 259,
-                    "end": 265,
+                    "start": 258,
+                    "end": 264,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
-                      "start": 259,
-                      "end": 262,
+                      "start": 258,
+                      "end": 261,
                       "ctxt": 0
                     },
                     "value": "top",
@@ -432,8 +432,8 @@
                     {
                       "type": "Integer",
                       "span": {
-                        "start": 264,
-                        "end": 265,
+                        "start": 263,
+                        "end": 264,
                         "ctxt": 0
                       },
                       "value": 0,
@@ -445,15 +445,15 @@
                 {
                   "type": "Declaration",
                   "span": {
-                    "start": 267,
-                    "end": 274,
+                    "start": 266,
+                    "end": 273,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
-                      "start": 267,
-                      "end": 271,
+                      "start": 266,
+                      "end": 270,
                       "ctxt": 0
                     },
                     "value": "left",
@@ -463,8 +463,8 @@
                     {
                       "type": "Integer",
                       "span": {
-                        "start": 273,
-                        "end": 274,
+                        "start": 272,
+                        "end": 273,
                         "ctxt": 0
                       },
                       "value": 0,
@@ -479,23 +479,23 @@
           {
             "type": "KeyframeBlock",
             "span": {
-              "start": 282,
-              "end": 300,
+              "start": 281,
+              "end": 299,
               "ctxt": 0
             },
             "prelude": [
               {
                 "type": "Percentage",
                 "span": {
-                  "start": 282,
-                  "end": 285,
+                  "start": 281,
+                  "end": 284,
                   "ctxt": 0
                 },
                 "value": {
                   "type": "Number",
                   "span": {
-                    "start": 282,
-                    "end": 284,
+                    "start": 281,
+                    "end": 283,
                     "ctxt": 0
                   },
                   "value": 30.0,
@@ -506,8 +506,8 @@
             "block": {
               "type": "SimpleBlock",
               "span": {
-                "start": 286,
-                "end": 300,
+                "start": 285,
+                "end": 299,
                 "ctxt": 0
               },
               "name": "{",
@@ -515,15 +515,15 @@
                 {
                   "type": "Declaration",
                   "span": {
-                    "start": 288,
-                    "end": 297,
+                    "start": 287,
+                    "end": 296,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
-                      "start": 288,
-                      "end": 291,
+                      "start": 287,
+                      "end": 290,
                       "ctxt": 0
                     },
                     "value": "top",
@@ -533,15 +533,15 @@
                     {
                       "type": "Length",
                       "span": {
-                        "start": 293,
-                        "end": 297,
+                        "start": 292,
+                        "end": 296,
                         "ctxt": 0
                       },
                       "value": {
                         "type": "Number",
                         "span": {
-                          "start": 293,
-                          "end": 295,
+                          "start": 292,
+                          "end": 294,
                           "ctxt": 0
                         },
                         "value": 50.0,
@@ -550,8 +550,8 @@
                       "unit": {
                         "type": "Ident",
                         "span": {
-                          "start": 295,
-                          "end": 297,
+                          "start": 294,
+                          "end": 296,
                           "ctxt": 0
                         },
                         "value": "px",
@@ -567,23 +567,23 @@
           {
             "type": "KeyframeBlock",
             "span": {
-              "start": 305,
-              "end": 329,
+              "start": 304,
+              "end": 328,
               "ctxt": 0
             },
             "prelude": [
               {
                 "type": "Percentage",
                 "span": {
-                  "start": 305,
-                  "end": 308,
+                  "start": 304,
+                  "end": 307,
                   "ctxt": 0
                 },
                 "value": {
                   "type": "Number",
                   "span": {
-                    "start": 305,
-                    "end": 307,
+                    "start": 304,
+                    "end": 306,
                     "ctxt": 0
                   },
                   "value": 68.0,
@@ -593,15 +593,15 @@
               {
                 "type": "Percentage",
                 "span": {
-                  "start": 310,
-                  "end": 313,
+                  "start": 309,
+                  "end": 312,
                   "ctxt": 0
                 },
                 "value": {
                   "type": "Number",
                   "span": {
-                    "start": 310,
-                    "end": 312,
+                    "start": 309,
+                    "end": 311,
                     "ctxt": 0
                   },
                   "value": 72.0,
@@ -612,8 +612,8 @@
             "block": {
               "type": "SimpleBlock",
               "span": {
-                "start": 314,
-                "end": 329,
+                "start": 313,
+                "end": 328,
                 "ctxt": 0
               },
               "name": "{",
@@ -621,15 +621,15 @@
                 {
                   "type": "Declaration",
                   "span": {
-                    "start": 316,
-                    "end": 326,
+                    "start": 315,
+                    "end": 325,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
-                      "start": 316,
-                      "end": 320,
+                      "start": 315,
+                      "end": 319,
                       "ctxt": 0
                     },
                     "value": "left",
@@ -639,15 +639,15 @@
                     {
                       "type": "Length",
                       "span": {
-                        "start": 322,
-                        "end": 326,
+                        "start": 321,
+                        "end": 325,
                         "ctxt": 0
                       },
                       "value": {
                         "type": "Number",
                         "span": {
-                          "start": 322,
-                          "end": 324,
+                          "start": 321,
+                          "end": 323,
                           "ctxt": 0
                         },
                         "value": 50.0,
@@ -656,8 +656,8 @@
                       "unit": {
                         "type": "Ident",
                         "span": {
-                          "start": 324,
-                          "end": 326,
+                          "start": 323,
+                          "end": 325,
                           "ctxt": 0
                         },
                         "value": "px",
@@ -673,23 +673,23 @@
           {
             "type": "KeyframeBlock",
             "span": {
-              "start": 334,
-              "end": 366,
+              "start": 333,
+              "end": 365,
               "ctxt": 0
             },
             "prelude": [
               {
                 "type": "Percentage",
                 "span": {
-                  "start": 334,
-                  "end": 338,
+                  "start": 333,
+                  "end": 337,
                   "ctxt": 0
                 },
                 "value": {
                   "type": "Number",
                   "span": {
-                    "start": 334,
-                    "end": 337,
+                    "start": 333,
+                    "end": 336,
                     "ctxt": 0
                   },
                   "value": 100.0,
@@ -700,8 +700,8 @@
             "block": {
               "type": "SimpleBlock",
               "span": {
-                "start": 339,
-                "end": 366,
+                "start": 338,
+                "end": 365,
                 "ctxt": 0
               },
               "name": "{",
@@ -709,15 +709,15 @@
                 {
                   "type": "Declaration",
                   "span": {
-                    "start": 341,
-                    "end": 351,
+                    "start": 340,
+                    "end": 350,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
-                      "start": 341,
-                      "end": 344,
+                      "start": 340,
+                      "end": 343,
                       "ctxt": 0
                     },
                     "value": "top",
@@ -727,15 +727,15 @@
                     {
                       "type": "Length",
                       "span": {
-                        "start": 346,
-                        "end": 351,
+                        "start": 345,
+                        "end": 350,
                         "ctxt": 0
                       },
                       "value": {
                         "type": "Number",
                         "span": {
-                          "start": 346,
-                          "end": 349,
+                          "start": 345,
+                          "end": 348,
                           "ctxt": 0
                         },
                         "value": 100.0,
@@ -744,8 +744,8 @@
                       "unit": {
                         "type": "Ident",
                         "span": {
-                          "start": 349,
-                          "end": 351,
+                          "start": 348,
+                          "end": 350,
                           "ctxt": 0
                         },
                         "value": "px",
@@ -758,15 +758,15 @@
                 {
                   "type": "Declaration",
                   "span": {
-                    "start": 353,
-                    "end": 363,
+                    "start": 352,
+                    "end": 362,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
-                      "start": 353,
-                      "end": 357,
+                      "start": 352,
+                      "end": 356,
                       "ctxt": 0
                     },
                     "value": "left",
@@ -776,15 +776,15 @@
                     {
                       "type": "Percentage",
                       "span": {
-                        "start": 359,
-                        "end": 363,
+                        "start": 358,
+                        "end": 362,
                         "ctxt": 0
                       },
                       "value": {
                         "type": "Number",
                         "span": {
-                          "start": 359,
-                          "end": 362,
+                          "start": 358,
+                          "end": 361,
                           "ctxt": 0
                         },
                         "value": 100.0,
@@ -803,15 +803,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 370,
-        "end": 387,
+        "start": 369,
+        "end": 386,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 371,
-          "end": 380,
+          "start": 370,
+          "end": 379,
           "ctxt": 0
         },
         "value": "keyframes",
@@ -820,8 +820,8 @@
       "prelude": {
         "type": "CustomIdent",
         "span": {
-          "start": 381,
-          "end": 384,
+          "start": 380,
+          "end": 383,
           "ctxt": 0
         },
         "value": "FOO",
@@ -830,8 +830,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 385,
-          "end": 387,
+          "start": 384,
+          "end": 386,
           "ctxt": 0
         },
         "name": "{",
@@ -841,15 +841,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 388,
-        "end": 411,
+        "start": 387,
+        "end": 410,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 389,
-          "end": 398,
+          "start": 388,
+          "end": 397,
           "ctxt": 0
         },
         "value": "keyframes",
@@ -858,8 +858,8 @@
       "prelude": {
         "type": "String",
         "span": {
-          "start": 399,
-          "end": 408,
+          "start": 398,
+          "end": 407,
           "ctxt": 0
         },
         "value": "initial",
@@ -868,8 +868,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 409,
-          "end": 411,
+          "start": 408,
+          "end": 410,
           "ctxt": 0
         },
         "name": "{",
@@ -879,15 +879,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 412,
-        "end": 432,
+        "start": 411,
+        "end": 431,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 413,
-          "end": 422,
+          "start": 412,
+          "end": 421,
           "ctxt": 0
         },
         "value": "keyframes",
@@ -896,8 +896,8 @@
       "prelude": {
         "type": "String",
         "span": {
-          "start": 423,
-          "end": 429,
+          "start": 422,
+          "end": 428,
           "ctxt": 0
         },
         "value": "None",
@@ -906,8 +906,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 430,
-          "end": 432,
+          "start": 429,
+          "end": 431,
           "ctxt": 0
         },
         "name": "{",
@@ -917,15 +917,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 433,
-        "end": 652,
+        "start": 432,
+        "end": 651,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 434,
-          "end": 443,
+          "start": 433,
+          "end": 442,
           "ctxt": 0
         },
         "value": "keyframes",
@@ -934,8 +934,8 @@
       "prelude": {
         "type": "CustomIdent",
         "span": {
-          "start": 444,
-          "end": 455,
+          "start": 443,
+          "end": 454,
           "ctxt": 0
         },
         "value": "slide-right",
@@ -944,8 +944,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 456,
-          "end": 652,
+          "start": 455,
+          "end": 651,
           "ctxt": 0
         },
         "name": "{",
@@ -953,16 +953,16 @@
           {
             "type": "KeyframeBlock",
             "span": {
-              "start": 463,
-              "end": 501,
+              "start": 462,
+              "end": 500,
               "ctxt": 0
             },
             "prelude": [
               {
                 "type": "Ident",
                 "span": {
-                  "start": 463,
-                  "end": 467,
+                  "start": 462,
+                  "end": 466,
                   "ctxt": 0
                 },
                 "value": "from",
@@ -972,8 +972,8 @@
             "block": {
               "type": "SimpleBlock",
               "span": {
-                "start": 468,
-                "end": 501,
+                "start": 467,
+                "end": 500,
                 "ctxt": 0
               },
               "name": "{",
@@ -981,15 +981,15 @@
                 {
                   "type": "Declaration",
                   "span": {
-                    "start": 478,
-                    "end": 494,
+                    "start": 477,
+                    "end": 493,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
-                      "start": 478,
-                      "end": 489,
+                      "start": 477,
+                      "end": 488,
                       "ctxt": 0
                     },
                     "value": "margin-left",
@@ -999,15 +999,15 @@
                     {
                       "type": "Length",
                       "span": {
-                        "start": 491,
-                        "end": 494,
+                        "start": 490,
+                        "end": 493,
                         "ctxt": 0
                       },
                       "value": {
                         "type": "Number",
                         "span": {
-                          "start": 491,
-                          "end": 492,
+                          "start": 490,
+                          "end": 491,
                           "ctxt": 0
                         },
                         "value": 0.0,
@@ -1016,8 +1016,8 @@
                       "unit": {
                         "type": "Ident",
                         "span": {
-                          "start": 492,
-                          "end": 494,
+                          "start": 491,
+                          "end": 493,
                           "ctxt": 0
                         },
                         "value": "px",
@@ -1033,23 +1033,23 @@
           {
             "type": "KeyframeBlock",
             "span": {
-              "start": 507,
-              "end": 566,
+              "start": 506,
+              "end": 565,
               "ctxt": 0
             },
             "prelude": [
               {
                 "type": "Percentage",
                 "span": {
-                  "start": 507,
-                  "end": 510,
+                  "start": 506,
+                  "end": 509,
                   "ctxt": 0
                 },
                 "value": {
                   "type": "Number",
                   "span": {
-                    "start": 507,
-                    "end": 509,
+                    "start": 506,
+                    "end": 508,
                     "ctxt": 0
                   },
                   "value": 50.0,
@@ -1060,8 +1060,8 @@
             "block": {
               "type": "SimpleBlock",
               "span": {
-                "start": 511,
-                "end": 566,
+                "start": 510,
+                "end": 565,
                 "ctxt": 0
               },
               "name": "{",
@@ -1069,15 +1069,15 @@
                 {
                   "type": "Declaration",
                   "span": {
-                    "start": 521,
-                    "end": 539,
+                    "start": 520,
+                    "end": 538,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
-                      "start": 521,
-                      "end": 532,
+                      "start": 520,
+                      "end": 531,
                       "ctxt": 0
                     },
                     "value": "margin-left",
@@ -1087,15 +1087,15 @@
                     {
                       "type": "Length",
                       "span": {
-                        "start": 534,
-                        "end": 539,
+                        "start": 533,
+                        "end": 538,
                         "ctxt": 0
                       },
                       "value": {
                         "type": "Number",
                         "span": {
-                          "start": 534,
-                          "end": 537,
+                          "start": 533,
+                          "end": 536,
                           "ctxt": 0
                         },
                         "value": 110.0,
@@ -1104,8 +1104,8 @@
                       "unit": {
                         "type": "Ident",
                         "span": {
-                          "start": 537,
-                          "end": 539,
+                          "start": 536,
+                          "end": 538,
                           "ctxt": 0
                         },
                         "value": "px",
@@ -1118,15 +1118,15 @@
                 {
                   "type": "Declaration",
                   "span": {
-                    "start": 549,
-                    "end": 559,
+                    "start": 548,
+                    "end": 558,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
-                      "start": 549,
-                      "end": 556,
+                      "start": 548,
+                      "end": 555,
                       "ctxt": 0
                     },
                     "value": "opacity",
@@ -1136,8 +1136,8 @@
                     {
                       "type": "Integer",
                       "span": {
-                        "start": 558,
-                        "end": 559,
+                        "start": 557,
+                        "end": 558,
                         "ctxt": 0
                       },
                       "value": 1,
@@ -1152,23 +1152,23 @@
           {
             "type": "KeyframeBlock",
             "span": {
-              "start": 572,
-              "end": 605,
+              "start": 571,
+              "end": 604,
               "ctxt": 0
             },
             "prelude": [
               {
                 "type": "Percentage",
                 "span": {
-                  "start": 572,
-                  "end": 575,
+                  "start": 571,
+                  "end": 574,
                   "ctxt": 0
                 },
                 "value": {
                   "type": "Number",
                   "span": {
-                    "start": 572,
-                    "end": 574,
+                    "start": 571,
+                    "end": 573,
                     "ctxt": 0
                   },
                   "value": 50.0,
@@ -1179,8 +1179,8 @@
             "block": {
               "type": "SimpleBlock",
               "span": {
-                "start": 576,
-                "end": 605,
+                "start": 575,
+                "end": 604,
                 "ctxt": 0
               },
               "name": "{",
@@ -1188,15 +1188,15 @@
                 {
                   "type": "Declaration",
                   "span": {
-                    "start": 586,
-                    "end": 598,
+                    "start": 585,
+                    "end": 597,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
-                      "start": 586,
-                      "end": 593,
+                      "start": 585,
+                      "end": 592,
                       "ctxt": 0
                     },
                     "value": "opacity",
@@ -1206,8 +1206,8 @@
                     {
                       "type": "Number",
                       "span": {
-                        "start": 595,
-                        "end": 598,
+                        "start": 594,
+                        "end": 597,
                         "ctxt": 0
                       },
                       "value": 0.9,
@@ -1222,16 +1222,16 @@
           {
             "type": "KeyframeBlock",
             "span": {
-              "start": 611,
-              "end": 649,
+              "start": 610,
+              "end": 648,
               "ctxt": 0
             },
             "prelude": [
               {
                 "type": "Ident",
                 "span": {
-                  "start": 611,
-                  "end": 613,
+                  "start": 610,
+                  "end": 612,
                   "ctxt": 0
                 },
                 "value": "to",
@@ -1241,8 +1241,8 @@
             "block": {
               "type": "SimpleBlock",
               "span": {
-                "start": 614,
-                "end": 649,
+                "start": 613,
+                "end": 648,
                 "ctxt": 0
               },
               "name": "{",
@@ -1250,15 +1250,15 @@
                 {
                   "type": "Declaration",
                   "span": {
-                    "start": 624,
-                    "end": 642,
+                    "start": 623,
+                    "end": 641,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
-                      "start": 624,
-                      "end": 635,
+                      "start": 623,
+                      "end": 634,
                       "ctxt": 0
                     },
                     "value": "margin-left",
@@ -1268,15 +1268,15 @@
                     {
                       "type": "Length",
                       "span": {
-                        "start": 637,
-                        "end": 642,
+                        "start": 636,
+                        "end": 641,
                         "ctxt": 0
                       },
                       "value": {
                         "type": "Number",
                         "span": {
-                          "start": 637,
-                          "end": 640,
+                          "start": 636,
+                          "end": 639,
                           "ctxt": 0
                         },
                         "value": 200.0,
@@ -1285,8 +1285,8 @@
                       "unit": {
                         "type": "Ident",
                         "span": {
-                          "start": 640,
-                          "end": 642,
+                          "start": 639,
+                          "end": 641,
                           "ctxt": 0
                         },
                         "value": "px",
@@ -1305,15 +1305,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 654,
-        "end": 784,
+        "start": 653,
+        "end": 783,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 655,
-          "end": 664,
+          "start": 654,
+          "end": 663,
           "ctxt": 0
         },
         "value": "keyframes",
@@ -1322,8 +1322,8 @@
       "prelude": {
         "type": "CustomIdent",
         "span": {
-          "start": 665,
-          "end": 675,
+          "start": 664,
+          "end": 674,
           "ctxt": 0
         },
         "value": "slidein-up",
@@ -1332,8 +1332,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 676,
-          "end": 784,
+          "start": 675,
+          "end": 783,
           "ctxt": 0
         },
         "name": "{",
@@ -1341,16 +1341,16 @@
           {
             "type": "KeyframeBlock",
             "span": {
-              "start": 682,
-              "end": 729,
+              "start": 681,
+              "end": 728,
               "ctxt": 0
             },
             "prelude": [
               {
                 "type": "Ident",
                 "span": {
-                  "start": 682,
-                  "end": 686,
+                  "start": 681,
+                  "end": 685,
                   "ctxt": 0
                 },
                 "value": "fRoM",
@@ -1360,8 +1360,8 @@
             "block": {
               "type": "SimpleBlock",
               "span": {
-                "start": 687,
-                "end": 729,
+                "start": 686,
+                "end": 728,
                 "ctxt": 0
               },
               "name": "{",
@@ -1369,15 +1369,15 @@
                 {
                   "type": "Declaration",
                   "span": {
-                    "start": 697,
-                    "end": 722,
+                    "start": 696,
+                    "end": 721,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
-                      "start": 697,
-                      "end": 706,
+                      "start": 696,
+                      "end": 705,
                       "ctxt": 0
                     },
                     "value": "transform",
@@ -1387,15 +1387,15 @@
                     {
                       "type": "Function",
                       "span": {
-                        "start": 708,
-                        "end": 722,
+                        "start": 707,
+                        "end": 721,
                         "ctxt": 0
                       },
                       "name": {
                         "type": "Ident",
                         "span": {
-                          "start": 708,
-                          "end": 718,
+                          "start": 707,
+                          "end": 717,
                           "ctxt": 0
                         },
                         "value": "translateX",
@@ -1405,15 +1405,15 @@
                         {
                           "type": "Percentage",
                           "span": {
-                            "start": 719,
-                            "end": 721,
+                            "start": 718,
+                            "end": 720,
                             "ctxt": 0
                           },
                           "value": {
                             "type": "Number",
                             "span": {
-                              "start": 719,
-                              "end": 720,
+                              "start": 718,
+                              "end": 719,
                               "ctxt": 0
                             },
                             "value": 0.0,
@@ -1431,16 +1431,16 @@
           {
             "type": "KeyframeBlock",
             "span": {
-              "start": 735,
-              "end": 782,
+              "start": 734,
+              "end": 781,
               "ctxt": 0
             },
             "prelude": [
               {
                 "type": "Ident",
                 "span": {
-                  "start": 735,
-                  "end": 737,
+                  "start": 734,
+                  "end": 736,
                   "ctxt": 0
                 },
                 "value": "tO",
@@ -1450,8 +1450,8 @@
             "block": {
               "type": "SimpleBlock",
               "span": {
-                "start": 738,
-                "end": 782,
+                "start": 737,
+                "end": 781,
                 "ctxt": 0
               },
               "name": "{",
@@ -1459,15 +1459,15 @@
                 {
                   "type": "Declaration",
                   "span": {
-                    "start": 748,
-                    "end": 775,
+                    "start": 747,
+                    "end": 774,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
-                      "start": 748,
-                      "end": 757,
+                      "start": 747,
+                      "end": 756,
                       "ctxt": 0
                     },
                     "value": "transform",
@@ -1477,15 +1477,15 @@
                     {
                       "type": "Function",
                       "span": {
-                        "start": 759,
-                        "end": 775,
+                        "start": 758,
+                        "end": 774,
                         "ctxt": 0
                       },
                       "name": {
                         "type": "Ident",
                         "span": {
-                          "start": 759,
-                          "end": 769,
+                          "start": 758,
+                          "end": 768,
                           "ctxt": 0
                         },
                         "value": "translateX",
@@ -1495,15 +1495,15 @@
                         {
                           "type": "Percentage",
                           "span": {
-                            "start": 770,
-                            "end": 774,
+                            "start": 769,
+                            "end": 773,
                             "ctxt": 0
                           },
                           "value": {
                             "type": "Number",
                             "span": {
-                              "start": 770,
-                              "end": 773,
+                              "start": 769,
+                              "end": 772,
                               "ctxt": 0
                             },
                             "value": 100.0,

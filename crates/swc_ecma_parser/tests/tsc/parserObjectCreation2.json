@@ -1,37 +1,37 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 16,
+    "start": 0,
+    "end": 15,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 1,
-        "end": 16,
+        "start": 0,
+        "end": 15,
         "ctxt": 0
       },
       "expression": {
         "type": "NewExpression",
         "span": {
-          "start": 1,
-          "end": 16,
+          "start": 0,
+          "end": 15,
           "ctxt": 0
         },
         "callee": {
           "type": "NewExpression",
           "span": {
-            "start": 5,
-            "end": 14,
+            "start": 4,
+            "end": 13,
             "ctxt": 0
           },
           "callee": {
             "type": "Identifier",
             "span": {
-              "start": 9,
-              "end": 12,
+              "start": 8,
+              "end": 11,
               "ctxt": 0
             },
             "value": "Foo",

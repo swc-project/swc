@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 37,
-    "end": 95,
+    "start": 36,
+    "end": 94,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsInterfaceDeclaration",
       "span": {
-        "start": 37,
-        "end": 95,
+        "start": 36,
+        "end": 94,
         "ctxt": 0
       },
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 47,
-          "end": 48,
+          "start": 46,
+          "end": 47,
           "ctxt": 0
         },
         "value": "I",
@@ -29,31 +29,31 @@
       "body": {
         "type": "TsInterfaceBody",
         "span": {
-          "start": 49,
-          "end": 95,
+          "start": 48,
+          "end": 94,
           "ctxt": 0
         },
         "body": [
           {
             "type": "TsMethodSignature",
             "span": {
-              "start": 55,
-              "end": 93,
+              "start": 54,
+              "end": 92,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "MemberExpression",
               "span": {
-                "start": 56,
-                "end": 81,
+                "start": 55,
+                "end": 80,
                 "ctxt": 0
               },
               "object": {
                 "type": "Identifier",
                 "span": {
-                  "start": 56,
-                  "end": 62,
+                  "start": 55,
+                  "end": 61,
                   "ctxt": 0
                 },
                 "value": "Symbol",
@@ -62,8 +62,8 @@
               "property": {
                 "type": "Identifier",
                 "span": {
-                  "start": 63,
-                  "end": 81,
+                  "start": 62,
+                  "end": 80,
                   "ctxt": 0
                 },
                 "value": "isConcatSpreadable",
@@ -76,15 +76,15 @@
             "typeAnn": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 84,
-                "end": 92,
+                "start": 83,
+                "end": 91,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 86,
-                  "end": 92,
+                  "start": 85,
+                  "end": 91,
                   "ctxt": 0
                 },
                 "kind": "string"

@@ -1,16 +1,16 @@
 {
   "type": "DocumentFragment",
   "span": {
-    "start": 1,
-    "end": 83,
+    "start": 0,
+    "end": 82,
     "ctxt": 0
   },
   "children": [
     {
       "type": "Element",
       "span": {
-        "start": 1,
-        "end": 67,
+        "start": 0,
+        "end": 66,
         "ctxt": 0
       },
       "tagName": "b",
@@ -20,8 +20,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 4,
-            "end": 67,
+            "start": 3,
+            "end": 66,
             "ctxt": 0
           },
           "tagName": "em",
@@ -31,8 +31,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 8,
-                "end": 67,
+                "start": 7,
+                "end": 66,
                 "ctxt": 0
               },
               "tagName": "foo",
@@ -42,8 +42,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 13,
-                    "end": 67,
+                    "start": 12,
+                    "end": 66,
                     "ctxt": 0
                   },
                   "tagName": "foob",
@@ -53,8 +53,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 19,
-                        "end": 67,
+                        "start": 18,
+                        "end": 66,
                         "ctxt": 0
                       },
                       "tagName": "foob",
@@ -64,8 +64,8 @@
                         {
                           "type": "Element",
                           "span": {
-                            "start": 25,
-                            "end": 67,
+                            "start": 24,
+                            "end": 66,
                             "ctxt": 0
                           },
                           "tagName": "foob",
@@ -75,8 +75,8 @@
                             {
                               "type": "Element",
                               "span": {
-                                "start": 31,
-                                "end": 67,
+                                "start": 30,
+                                "end": 66,
                                 "ctxt": 0
                               },
                               "tagName": "foob",
@@ -86,8 +86,8 @@
                                 {
                                   "type": "Element",
                                   "span": {
-                                    "start": 37,
-                                    "end": 67,
+                                    "start": 36,
+                                    "end": 66,
                                     "ctxt": 0
                                   },
                                   "tagName": "fooc",
@@ -97,8 +97,8 @@
                                     {
                                       "type": "Element",
                                       "span": {
-                                        "start": 43,
-                                        "end": 67,
+                                        "start": 42,
+                                        "end": 66,
                                         "ctxt": 0
                                       },
                                       "tagName": "fooc",
@@ -108,8 +108,8 @@
                                         {
                                           "type": "Element",
                                           "span": {
-                                            "start": 49,
-                                            "end": 67,
+                                            "start": 48,
+                                            "end": 66,
                                             "ctxt": 0
                                           },
                                           "tagName": "fooc",
@@ -119,8 +119,8 @@
                                             {
                                               "type": "Element",
                                               "span": {
-                                                "start": 55,
-                                                "end": 67,
+                                                "start": 54,
+                                                "end": 66,
                                                 "ctxt": 0
                                               },
                                               "tagName": "fooc",
@@ -130,8 +130,8 @@
                                                 {
                                                   "type": "Element",
                                                   "span": {
-                                                    "start": 61,
-                                                    "end": 67,
+                                                    "start": 60,
+                                                    "end": 66,
                                                     "ctxt": 0
                                                   },
                                                   "tagName": "food",
@@ -176,8 +176,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 67,
-        "end": 78,
+        "start": 66,
+        "end": 77,
         "ctxt": 0
       },
       "tagName": "aside",
@@ -187,8 +187,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 1,
-            "end": 78,
+            "start": 0,
+            "end": 77,
             "ctxt": 0
           },
           "tagName": "b",

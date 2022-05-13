@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 36,
-    "end": 93,
+    "start": 35,
+    "end": 92,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 51,
-          "end": 52,
+          "start": 50,
+          "end": 51,
           "ctxt": 0
         },
         "value": "f",
@@ -22,15 +22,15 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 36,
-        "end": 57,
+        "start": 35,
+        "end": 56,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 55,
-          "end": 57,
+          "start": 54,
+          "end": 56,
           "ctxt": 0
         },
         "stmts": []
@@ -45,8 +45,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 86,
-          "end": 87,
+          "start": 85,
+          "end": 86,
           "ctxt": 0
         },
         "value": "g",
@@ -56,15 +56,15 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 77,
-        "end": 93,
+        "start": 76,
+        "end": 92,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 90,
-          "end": 93,
+          "start": 89,
+          "end": 92,
           "ctxt": 0
         },
         "stmts": []

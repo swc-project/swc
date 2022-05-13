@@ -1,23 +1,23 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 1,
-    "end": 73,
+    "start": 0,
+    "end": 72,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
-        "start": 1,
-        "end": 72,
+        "start": 0,
+        "end": 71,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 2,
-          "end": 6,
+          "start": 1,
+          "end": 5,
           "ctxt": 0
         },
         "value": "page",
@@ -26,30 +26,30 @@
       "prelude": {
         "type": "PageSelectorList",
         "span": {
-          "start": 13,
-          "end": 18,
+          "start": 12,
+          "end": 17,
           "ctxt": 0
         },
         "selectors": [
           {
             "type": "PageSelector",
             "span": {
-              "start": 13,
-              "end": 18,
+              "start": 12,
+              "end": 17,
               "ctxt": 0
             },
             "pageType": {
               "type": "PageSelectorType",
               "span": {
-                "start": 13,
-                "end": 18,
+                "start": 12,
+                "end": 17,
                 "ctxt": 0
               },
               "value": {
                 "type": "Ident",
                 "span": {
-                  "start": 13,
-                  "end": 18,
+                  "start": 12,
+                  "end": 17,
                   "ctxt": 0
                 },
                 "value": "blank",
@@ -63,8 +63,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 19,
-          "end": 72,
+          "start": 18,
+          "end": 71,
           "ctxt": 0
         },
         "name": "{",
@@ -72,15 +72,15 @@
           {
             "type": "AtRule",
             "span": {
-              "start": 22,
-              "end": 51,
+              "start": 21,
+              "end": 50,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 23,
-                "end": 33,
+                "start": 22,
+                "end": 32,
                 "ctxt": 0
               },
               "value": "top-center",
@@ -90,8 +90,8 @@
             "block": {
               "type": "SimpleBlock",
               "span": {
-                "start": 34,
-                "end": 51,
+                "start": 33,
+                "end": 50,
                 "ctxt": 0
               },
               "name": "{",
@@ -99,15 +99,15 @@
                 {
                   "type": "Declaration",
                   "span": {
-                    "start": 36,
-                    "end": 49,
+                    "start": 35,
+                    "end": 48,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
-                      "start": 36,
-                      "end": 43,
+                      "start": 35,
+                      "end": 42,
                       "ctxt": 0
                     },
                     "value": "content",
@@ -117,8 +117,8 @@
                     {
                       "type": "Ident",
                       "span": {
-                        "start": 45,
-                        "end": 49,
+                        "start": 44,
+                        "end": 48,
                         "ctxt": 0
                       },
                       "value": "none",
@@ -133,15 +133,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 53,
-              "end": 69,
+              "start": 52,
+              "end": 68,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 53,
-                "end": 64,
+                "start": 52,
+                "end": 63,
                 "ctxt": 0
               },
               "value": "margin-left",
@@ -151,15 +151,15 @@
               {
                 "type": "Length",
                 "span": {
-                  "start": 66,
-                  "end": 69,
+                  "start": 65,
+                  "end": 68,
                   "ctxt": 0
                 },
                 "value": {
                   "type": "Number",
                   "span": {
-                    "start": 66,
-                    "end": 67,
+                    "start": 65,
+                    "end": 66,
                     "ctxt": 0
                   },
                   "value": 4.0,
@@ -168,8 +168,8 @@
                 "unit": {
                   "type": "Ident",
                   "span": {
-                    "start": 67,
-                    "end": 69,
+                    "start": 66,
+                    "end": 68,
                     "ctxt": 0
                   },
                   "value": "cm",

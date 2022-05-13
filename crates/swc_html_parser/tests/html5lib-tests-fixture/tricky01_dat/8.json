@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 1,
-    "end": 242,
+    "start": 0,
+    "end": 241,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -10,8 +10,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 1,
-        "end": 235,
+        "start": 0,
+        "end": 234,
         "ctxt": 0
       },
       "tagName": "html",
@@ -22,7 +22,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 14,
+            "end": 13,
             "ctxt": 0
           },
           "tagName": "head",
@@ -34,8 +34,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 8,
-            "end": 235,
+            "start": 7,
+            "end": 234,
             "ctxt": 0
           },
           "tagName": "body",
@@ -45,8 +45,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 14,
-                "end": 15,
+                "start": 13,
+                "end": 14,
                 "ctxt": 0
               },
               "value": "\n"
@@ -54,8 +54,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 15,
-                "end": 24,
+                "start": 14,
+                "end": 23,
                 "ctxt": 0
               },
               "tagName": "b",
@@ -65,8 +65,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 18,
-                    "end": 24,
+                    "start": 17,
+                    "end": 23,
                     "ctxt": 0
                   },
                   "tagName": "nobr",
@@ -81,8 +81,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 24,
-                "end": 235,
+                "start": 23,
+                "end": 234,
                 "ctxt": 0
               },
               "tagName": "div",
@@ -92,8 +92,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 15,
-                    "end": 177,
+                    "start": 14,
+                    "end": 176,
                     "ctxt": 0
                   },
                   "tagName": "b",
@@ -103,8 +103,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 18,
-                        "end": 64,
+                        "start": 17,
+                        "end": 63,
                         "ctxt": 0
                       },
                       "tagName": "nobr",
@@ -114,8 +114,8 @@
                         {
                           "type": "Text",
                           "span": {
-                            "start": 29,
-                            "end": 64,
+                            "start": 28,
+                            "end": 63,
                             "ctxt": 0
                           },
                           "value": "This text is in a div inside a nobr"
@@ -126,8 +126,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 71,
-                        "end": 177,
+                        "start": 70,
+                        "end": 176,
                         "ctxt": 0
                       },
                       "value": "More text that should not be in the nobr, i.e., the\nnobr should have closed the div inside it implicitly. "
@@ -138,8 +138,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 181,
-                    "end": 220,
+                    "start": 180,
+                    "end": 219,
                     "ctxt": 0
                   },
                   "tagName": "pre",
@@ -149,8 +149,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 186,
-                        "end": 220,
+                        "start": 185,
+                        "end": 219,
                         "ctxt": 0
                       },
                       "value": "A pre tag outside everything else."
@@ -161,8 +161,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 226,
-                    "end": 235,
+                    "start": 225,
+                    "end": 234,
                     "ctxt": 0
                   },
                   "value": "\n\n"

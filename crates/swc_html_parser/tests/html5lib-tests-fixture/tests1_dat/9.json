@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 1,
-    "end": 33,
+    "start": 0,
+    "end": 32,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -10,8 +10,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 1,
-        "end": 26,
+        "start": 0,
+        "end": 25,
         "ctxt": 0
       },
       "tagName": "html",
@@ -21,8 +21,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 7,
-            "end": 13,
+            "start": 6,
+            "end": 12,
             "ctxt": 0
           },
           "tagName": "head",
@@ -34,8 +34,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 20,
-            "end": 26,
+            "start": 19,
+            "end": 25,
             "ctxt": 0
           },
           "tagName": "body",

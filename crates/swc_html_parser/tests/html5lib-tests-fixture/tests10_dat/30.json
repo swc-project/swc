@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 1,
-    "end": 45,
+    "start": 0,
+    "end": 44,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 45,
+        "end": 44,
         "ctxt": 0
       },
       "tagName": "html",
@@ -22,7 +22,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 6,
+            "end": 5,
             "ctxt": 0
           },
           "tagName": "head",
@@ -35,7 +35,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 45,
+            "end": 44,
             "ctxt": 0
           },
           "tagName": "body",
@@ -45,8 +45,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 1,
-                "end": 45,
+                "start": 0,
+                "end": 44,
                 "ctxt": 0
               },
               "tagName": "div",
@@ -56,8 +56,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 6,
-                    "end": 45,
+                    "start": 5,
+                    "end": 44,
                     "ctxt": 0
                   },
                   "tagName": "svg",
@@ -67,8 +67,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 11,
-                        "end": 45,
+                        "start": 10,
+                        "end": 44,
                         "ctxt": 0
                       },
                       "tagName": "path",
@@ -78,8 +78,8 @@
                         {
                           "type": "Element",
                           "span": {
-                            "start": 17,
-                            "end": 45,
+                            "start": 16,
+                            "end": 44,
                             "ctxt": 0
                           },
                           "tagName": "foreignObject",
@@ -89,8 +89,8 @@
                             {
                               "type": "Element",
                               "span": {
-                                "start": 32,
-                                "end": 45,
+                                "start": 31,
+                                "end": 44,
                                 "ctxt": 0
                               },
                               "tagName": "math",
@@ -100,8 +100,8 @@
                                 {
                                   "type": "Text",
                                   "span": {
-                                    "start": 44,
-                                    "end": 45,
+                                    "start": 43,
+                                    "end": 44,
                                     "ctxt": 0
                                   },
                                   "value": "a"

@@ -1,62 +1,62 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 1,
-    "end": 252,
+    "start": 0,
+    "end": 251,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
-        "start": 1,
-        "end": 206,
+        "start": 0,
+        "end": 205,
         "ctxt": 0
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
-          "start": 1,
-          "end": 4,
+          "start": 0,
+          "end": 3,
           "ctxt": 0
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
-              "start": 1,
-              "end": 4,
+              "start": 0,
+              "end": 3,
               "ctxt": 0
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
-                  "start": 1,
-                  "end": 4,
+                  "start": 0,
+                  "end": 3,
                   "ctxt": 0
                 },
                 "nestingSelector": null,
                 "typeSelector": {
                   "type": "TagNameSelector",
                   "span": {
-                    "start": 1,
-                    "end": 4,
+                    "start": 0,
+                    "end": 3,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "WqName",
                     "span": {
-                      "start": 1,
-                      "end": 4,
+                      "start": 0,
+                      "end": 3,
                       "ctxt": 0
                     },
                     "prefix": null,
                     "value": {
                       "type": "Ident",
                       "span": {
-                        "start": 1,
-                        "end": 4,
+                        "start": 0,
+                        "end": 3,
                         "ctxt": 0
                       },
                       "value": "div",
@@ -73,8 +73,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 5,
-          "end": 206,
+          "start": 4,
+          "end": 205,
           "ctxt": 0
         },
         "name": "{",
@@ -82,15 +82,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 11,
-              "end": 20,
+              "start": 10,
+              "end": 19,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 11,
-                "end": 16,
+                "start": 10,
+                "end": 15,
                 "ctxt": 0
               },
               "value": "width",
@@ -100,15 +100,15 @@
               {
                 "type": "Percentage",
                 "span": {
-                  "start": 18,
-                  "end": 20,
+                  "start": 17,
+                  "end": 19,
                   "ctxt": 0
                 },
                 "value": {
                   "type": "Number",
                   "span": {
-                    "start": 18,
-                    "end": 19,
+                    "start": 17,
+                    "end": 18,
                     "ctxt": 0
                   },
                   "value": 0.0,
@@ -121,15 +121,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 26,
-              "end": 37,
+              "start": 25,
+              "end": 36,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 26,
-                "end": 31,
+                "start": 25,
+                "end": 30,
                 "ctxt": 0
               },
               "value": "width",
@@ -139,15 +139,15 @@
               {
                 "type": "Percentage",
                 "span": {
-                  "start": 33,
-                  "end": 37,
+                  "start": 32,
+                  "end": 36,
                   "ctxt": 0
                 },
                 "value": {
                   "type": "Number",
                   "span": {
-                    "start": 33,
-                    "end": 36,
+                    "start": 32,
+                    "end": 35,
                     "ctxt": 0
                   },
                   "value": 0.1,
@@ -160,15 +160,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 43,
-              "end": 54,
+              "start": 42,
+              "end": 53,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 43,
-                "end": 48,
+                "start": 42,
+                "end": 47,
                 "ctxt": 0
               },
               "value": "width",
@@ -178,15 +178,15 @@
               {
                 "type": "Percentage",
                 "span": {
-                  "start": 50,
-                  "end": 54,
+                  "start": 49,
+                  "end": 53,
                   "ctxt": 0
                 },
                 "value": {
                   "type": "Number",
                   "span": {
-                    "start": 50,
-                    "end": 53,
+                    "start": 49,
+                    "end": 52,
                     "ctxt": 0
                   },
                   "value": 100.0,
@@ -199,15 +199,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 60,
-              "end": 73,
+              "start": 59,
+              "end": 72,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 60,
-                "end": 65,
+                "start": 59,
+                "end": 64,
                 "ctxt": 0
               },
               "value": "width",
@@ -217,15 +217,15 @@
               {
                 "type": "Percentage",
                 "span": {
-                  "start": 67,
-                  "end": 73,
+                  "start": 66,
+                  "end": 72,
                   "ctxt": 0
                 },
                 "value": {
                   "type": "Number",
                   "span": {
-                    "start": 67,
-                    "end": 72,
+                    "start": 66,
+                    "end": 71,
                     "ctxt": 0
                   },
                   "value": 100.5,
@@ -238,15 +238,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 79,
-              "end": 95,
+              "start": 78,
+              "end": 94,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 79,
-                "end": 84,
+                "start": 78,
+                "end": 83,
                 "ctxt": 0
               },
               "value": "width",
@@ -256,15 +256,15 @@
               {
                 "type": "Percentage",
                 "span": {
-                  "start": 86,
-                  "end": 95,
+                  "start": 85,
+                  "end": 94,
                   "ctxt": 0
                 },
                 "value": {
                   "type": "Number",
                   "span": {
-                    "start": 86,
-                    "end": 94,
+                    "start": 85,
+                    "end": 93,
                     "ctxt": 0
                   },
                   "value": 100.1,
@@ -277,15 +277,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 101,
-              "end": 112,
+              "start": 100,
+              "end": 111,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 101,
-                "end": 106,
+                "start": 100,
+                "end": 105,
                 "ctxt": 0
               },
               "value": "width",
@@ -295,15 +295,15 @@
               {
                 "type": "Percentage",
                 "span": {
-                  "start": 108,
-                  "end": 112,
+                  "start": 107,
+                  "end": 111,
                   "ctxt": 0
                 },
                 "value": {
                   "type": "Number",
                   "span": {
-                    "start": 108,
-                    "end": 111,
+                    "start": 107,
+                    "end": 110,
                     "ctxt": 0
                   },
                   "value": 1.0,
@@ -316,15 +316,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 118,
-              "end": 129,
+              "start": 117,
+              "end": 128,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 118,
-                "end": 123,
+                "start": 117,
+                "end": 122,
                 "ctxt": 0
               },
               "value": "width",
@@ -334,15 +334,15 @@
               {
                 "type": "Percentage",
                 "span": {
-                  "start": 125,
-                  "end": 129,
+                  "start": 124,
+                  "end": 128,
                   "ctxt": 0
                 },
                 "value": {
                   "type": "Number",
                   "span": {
-                    "start": 125,
-                    "end": 128,
+                    "start": 124,
+                    "end": 127,
                     "ctxt": 0
                   },
                   "value": 10.0,
@@ -355,15 +355,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 135,
-              "end": 146,
+              "start": 134,
+              "end": 145,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 135,
-                "end": 140,
+                "start": 134,
+                "end": 139,
                 "ctxt": 0
               },
               "value": "width",
@@ -373,15 +373,15 @@
               {
                 "type": "Percentage",
                 "span": {
-                  "start": 142,
-                  "end": 146,
+                  "start": 141,
+                  "end": 145,
                   "ctxt": 0
                 },
                 "value": {
                   "type": "Number",
                   "span": {
-                    "start": 142,
-                    "end": 145,
+                    "start": 141,
+                    "end": 144,
                     "ctxt": 0
                   },
                   "value": 100.0,
@@ -394,15 +394,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 152,
-              "end": 165,
+              "start": 151,
+              "end": 164,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 152,
-                "end": 157,
+                "start": 151,
+                "end": 156,
                 "ctxt": 0
               },
               "value": "width",
@@ -412,15 +412,15 @@
               {
                 "type": "Percentage",
                 "span": {
-                  "start": 159,
-                  "end": 165,
+                  "start": 158,
+                  "end": 164,
                   "ctxt": 0
                 },
                 "value": {
                   "type": "Number",
                   "span": {
-                    "start": 159,
-                    "end": 164,
+                    "start": 158,
+                    "end": 163,
                     "ctxt": 0
                   },
                   "value": 1.0,
@@ -433,15 +433,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 171,
-              "end": 184,
+              "start": 170,
+              "end": 183,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 171,
-                "end": 176,
+                "start": 170,
+                "end": 175,
                 "ctxt": 0
               },
               "value": "width",
@@ -451,15 +451,15 @@
               {
                 "type": "Percentage",
                 "span": {
-                  "start": 178,
-                  "end": 184,
+                  "start": 177,
+                  "end": 183,
                   "ctxt": 0
                 },
                 "value": {
                   "type": "Number",
                   "span": {
-                    "start": 178,
-                    "end": 183,
+                    "start": 177,
+                    "end": 182,
                     "ctxt": 0
                   },
                   "value": 0.0001,
@@ -472,15 +472,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 190,
-              "end": 203,
+              "start": 189,
+              "end": 202,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 190,
-                "end": 195,
+                "start": 189,
+                "end": 194,
                 "ctxt": 0
               },
               "value": "width",
@@ -490,15 +490,15 @@
               {
                 "type": "Percentage",
                 "span": {
-                  "start": 197,
-                  "end": 203,
+                  "start": 196,
+                  "end": 202,
                   "ctxt": 0
                 },
                 "value": {
                   "type": "Number",
                   "span": {
-                    "start": 197,
-                    "end": 202,
+                    "start": 196,
+                    "end": 201,
                     "ctxt": 0
                   },
                   "value": 1000.0,
@@ -514,54 +514,54 @@
     {
       "type": "QualifiedRule",
       "span": {
-        "start": 208,
-        "end": 251,
+        "start": 207,
+        "end": 250,
         "ctxt": 0
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
-          "start": 208,
-          "end": 211,
+          "start": 207,
+          "end": 210,
           "ctxt": 0
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
-              "start": 208,
-              "end": 211,
+              "start": 207,
+              "end": 210,
               "ctxt": 0
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
-                  "start": 208,
-                  "end": 211,
+                  "start": 207,
+                  "end": 210,
                   "ctxt": 0
                 },
                 "nestingSelector": null,
                 "typeSelector": {
                   "type": "TagNameSelector",
                   "span": {
-                    "start": 208,
-                    "end": 211,
+                    "start": 207,
+                    "end": 210,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "WqName",
                     "span": {
-                      "start": 208,
-                      "end": 211,
+                      "start": 207,
+                      "end": 210,
                       "ctxt": 0
                     },
                     "prefix": null,
                     "value": {
                       "type": "Ident",
                       "span": {
-                        "start": 208,
-                        "end": 211,
+                        "start": 207,
+                        "end": 210,
                         "ctxt": 0
                       },
                       "value": "div",
@@ -578,8 +578,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 212,
-          "end": 251,
+          "start": 211,
+          "end": 250,
           "ctxt": 0
         },
         "name": "{",
@@ -587,15 +587,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 218,
-              "end": 229,
+              "start": 217,
+              "end": 228,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 218,
-                "end": 224,
+                "start": 217,
+                "end": 223,
                 "ctxt": 0
               },
               "value": "margin",
@@ -605,15 +605,15 @@
               {
                 "type": "Percentage",
                 "span": {
-                  "start": 226,
-                  "end": 229,
+                  "start": 225,
+                  "end": 228,
                   "ctxt": 0
                 },
                 "value": {
                   "type": "Number",
                   "span": {
-                    "start": 226,
-                    "end": 228,
+                    "start": 225,
+                    "end": 227,
                     "ctxt": 0
                   },
                   "value": -5.0,
@@ -626,15 +626,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 235,
-              "end": 248,
+              "start": 234,
+              "end": 247,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 235,
-                "end": 241,
+                "start": 234,
+                "end": 240,
                 "ctxt": 0
               },
               "value": "margin",
@@ -644,15 +644,15 @@
               {
                 "type": "Percentage",
                 "span": {
-                  "start": 243,
-                  "end": 248,
+                  "start": 242,
+                  "end": 247,
                   "ctxt": 0
                 },
                 "value": {
                   "type": "Number",
                   "span": {
-                    "start": 243,
-                    "end": 247,
+                    "start": 242,
+                    "end": 246,
                     "ctxt": 0
                   },
                   "value": -5.5,

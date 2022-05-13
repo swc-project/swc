@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 126,
+    "start": 0,
+    "end": 125,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsInterfaceDeclaration",
       "span": {
-        "start": 1,
-        "end": 126,
+        "start": 0,
+        "end": 125,
         "ctxt": 0
       },
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 11,
-          "end": 29,
+          "start": 10,
+          "end": 28,
           "ctxt": 0
         },
         "value": "IConnectedAppProps",
@@ -29,15 +29,15 @@
         {
           "type": "TsExpressionWithTypeArguments",
           "span": {
-            "start": 42,
-            "end": 76,
+            "start": 41,
+            "end": 75,
             "ctxt": 0
           },
           "expression": {
             "type": "Identifier",
             "span": {
-              "start": 42,
-              "end": 52,
+              "start": 41,
+              "end": 51,
               "ctxt": 0
             },
             "value": "ReturnType",
@@ -46,23 +46,23 @@
           "typeArguments": {
             "type": "TsTypeParameterInstantiation",
             "span": {
-              "start": 52,
-              "end": 76,
+              "start": 51,
+              "end": 75,
               "ctxt": 0
             },
             "params": [
               {
                 "type": "TsTypeQuery",
                 "span": {
-                  "start": 53,
-                  "end": 75,
+                  "start": 52,
+                  "end": 74,
                   "ctxt": 0
                 },
                 "exprName": {
                   "type": "Identifier",
                   "span": {
-                    "start": 60,
-                    "end": 75,
+                    "start": 59,
+                    "end": 74,
                     "ctxt": 0
                   },
                   "value": "mapStateToProps",
@@ -76,15 +76,15 @@
         {
           "type": "TsExpressionWithTypeArguments",
           "span": {
-            "start": 86,
-            "end": 123,
+            "start": 85,
+            "end": 122,
             "ctxt": 0
           },
           "expression": {
             "type": "Identifier",
             "span": {
-              "start": 86,
-              "end": 96,
+              "start": 85,
+              "end": 95,
               "ctxt": 0
             },
             "value": "ReturnType",
@@ -93,23 +93,23 @@
           "typeArguments": {
             "type": "TsTypeParameterInstantiation",
             "span": {
-              "start": 96,
-              "end": 123,
+              "start": 95,
+              "end": 122,
               "ctxt": 0
             },
             "params": [
               {
                 "type": "TsTypeQuery",
                 "span": {
-                  "start": 97,
-                  "end": 122,
+                  "start": 96,
+                  "end": 121,
                   "ctxt": 0
                 },
                 "exprName": {
                   "type": "Identifier",
                   "span": {
-                    "start": 104,
-                    "end": 122,
+                    "start": 103,
+                    "end": 121,
                     "ctxt": 0
                   },
                   "value": "mapDispatchToProps",
@@ -124,8 +124,8 @@
       "body": {
         "type": "TsInterfaceBody",
         "span": {
-          "start": 124,
-          "end": 126,
+          "start": 123,
+          "end": 125,
           "ctxt": 0
         },
         "body": []

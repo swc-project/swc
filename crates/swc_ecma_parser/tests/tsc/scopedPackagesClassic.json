@@ -1,23 +1,23 @@
 {
   "type": "Module",
   "span": {
-    "start": 165,
-    "end": 235,
+    "start": 164,
+    "end": 234,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 165,
-        "end": 184,
+        "start": 164,
+        "end": 183,
         "ctxt": 0
       },
       "declaration": {
         "type": "VariableDeclaration",
         "span": {
-          "start": 172,
-          "end": 184,
+          "start": 171,
+          "end": 183,
           "ctxt": 0
         },
         "kind": "const",
@@ -26,15 +26,15 @@
           {
             "type": "VariableDeclarator",
             "span": {
-              "start": 178,
-              "end": 183,
+              "start": 177,
+              "end": 182,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 178,
-                "end": 179,
+                "start": 177,
+                "end": 178,
                 "ctxt": 0
               },
               "value": "x",
@@ -44,8 +44,8 @@
             "init": {
               "type": "NumericLiteral",
               "span": {
-                "start": 182,
-                "end": 183,
+                "start": 181,
+                "end": 182,
                 "ctxt": 0
               },
               "value": 0.0,
@@ -59,23 +59,23 @@
     {
       "type": "ImportDeclaration",
       "span": {
-        "start": 206,
-        "end": 235,
+        "start": 205,
+        "end": 234,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ImportSpecifier",
           "span": {
-            "start": 215,
-            "end": 216,
+            "start": 214,
+            "end": 215,
             "ctxt": 0
           },
           "local": {
             "type": "Identifier",
             "span": {
-              "start": 215,
-              "end": 216,
+              "start": 214,
+              "end": 215,
               "ctxt": 0
             },
             "value": "x",
@@ -88,8 +88,8 @@
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 224,
-          "end": 234,
+          "start": 223,
+          "end": 233,
           "ctxt": 0
         },
         "value": "@see/saw",

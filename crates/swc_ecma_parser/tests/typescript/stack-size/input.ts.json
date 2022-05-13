@@ -1,38 +1,38 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 840,
+    "start": 0,
+    "end": 839,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 1,
-        "end": 840,
+        "start": 0,
+        "end": 839,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 1,
-          "end": 840,
+          "start": 0,
+          "end": 839,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
-            "start": 1,
-            "end": 15,
+            "start": 0,
+            "end": 14,
             "ctxt": 0
           },
           "object": {
             "type": "Identifier",
             "span": {
-              "start": 1,
-              "end": 7,
+              "start": 0,
+              "end": 6,
               "ctxt": 0
             },
             "value": "module",
@@ -41,8 +41,8 @@
           "property": {
             "type": "Identifier",
             "span": {
-              "start": 8,
-              "end": 15,
+              "start": 7,
+              "end": 14,
               "ctxt": 0
             },
             "value": "exports",
@@ -54,8 +54,8 @@
           "identifier": {
             "type": "Identifier",
             "span": {
-              "start": 27,
-              "end": 31,
+              "start": 26,
+              "end": 30,
               "ctxt": 0
             },
             "value": "test",
@@ -64,30 +64,30 @@
           "params": [],
           "decorators": [],
           "span": {
-            "start": 18,
-            "end": 840,
+            "start": 17,
+            "end": 839,
             "ctxt": 0
           },
           "body": {
             "type": "BlockStatement",
             "span": {
-              "start": 34,
-              "end": 840,
+              "start": 33,
+              "end": 839,
               "ctxt": 0
             },
             "stmts": [
               {
                 "type": "IfStatement",
                 "span": {
-                  "start": 40,
-                  "end": 838,
+                  "start": 39,
+                  "end": 837,
                   "ctxt": 0
                 },
                 "test": {
                   "type": "BooleanLiteral",
                   "span": {
-                    "start": 44,
-                    "end": 48,
+                    "start": 43,
+                    "end": 47,
                     "ctxt": 0
                   },
                   "value": true
@@ -95,23 +95,23 @@
                 "consequent": {
                   "type": "BlockStatement",
                   "span": {
-                    "start": 50,
-                    "end": 838,
+                    "start": 49,
+                    "end": 837,
                     "ctxt": 0
                   },
                   "stmts": [
                     {
                       "type": "IfStatement",
                       "span": {
-                        "start": 60,
-                        "end": 832,
+                        "start": 59,
+                        "end": 831,
                         "ctxt": 0
                       },
                       "test": {
                         "type": "BooleanLiteral",
                         "span": {
-                          "start": 64,
-                          "end": 68,
+                          "start": 63,
+                          "end": 67,
                           "ctxt": 0
                         },
                         "value": true
@@ -119,23 +119,23 @@
                       "consequent": {
                         "type": "BlockStatement",
                         "span": {
-                          "start": 70,
-                          "end": 832,
+                          "start": 69,
+                          "end": 831,
                           "ctxt": 0
                         },
                         "stmts": [
                           {
                             "type": "WhileStatement",
                             "span": {
-                              "start": 84,
-                              "end": 822,
+                              "start": 83,
+                              "end": 821,
                               "ctxt": 0
                             },
                             "test": {
                               "type": "Identifier",
                               "span": {
-                                "start": 91,
-                                "end": 95,
+                                "start": 90,
+                                "end": 94,
                                 "ctxt": 0
                               },
                               "value": "test",
@@ -144,23 +144,23 @@
                             "body": {
                               "type": "BlockStatement",
                               "span": {
-                                "start": 97,
-                                "end": 822,
+                                "start": 96,
+                                "end": 821,
                                 "ctxt": 0
                               },
                               "stmts": [
                                 {
                                   "type": "IfStatement",
                                   "span": {
-                                    "start": 115,
-                                    "end": 808,
+                                    "start": 114,
+                                    "end": 807,
                                     "ctxt": 0
                                   },
                                   "test": {
                                     "type": "Identifier",
                                     "span": {
-                                      "start": 119,
-                                      "end": 123,
+                                      "start": 118,
+                                      "end": 122,
                                       "ctxt": 0
                                     },
                                     "value": "test",
@@ -169,23 +169,23 @@
                                   "consequent": {
                                     "type": "BlockStatement",
                                     "span": {
-                                      "start": 125,
-                                      "end": 808,
+                                      "start": 124,
+                                      "end": 807,
                                       "ctxt": 0
                                     },
                                     "stmts": [
                                       {
                                         "type": "IfStatement",
                                         "span": {
-                                          "start": 147,
-                                          "end": 790,
+                                          "start": 146,
+                                          "end": 789,
                                           "ctxt": 0
                                         },
                                         "test": {
                                           "type": "Identifier",
                                           "span": {
-                                            "start": 151,
-                                            "end": 155,
+                                            "start": 150,
+                                            "end": 154,
                                             "ctxt": 0
                                           },
                                           "value": "test",
@@ -194,23 +194,23 @@
                                         "consequent": {
                                           "type": "BlockStatement",
                                           "span": {
-                                            "start": 157,
-                                            "end": 790,
+                                            "start": 156,
+                                            "end": 789,
                                             "ctxt": 0
                                           },
                                           "stmts": [
                                             {
                                               "type": "IfStatement",
                                               "span": {
-                                                "start": 183,
-                                                "end": 768,
+                                                "start": 182,
+                                                "end": 767,
                                                 "ctxt": 0
                                               },
                                               "test": {
                                                 "type": "Identifier",
                                                 "span": {
-                                                  "start": 187,
-                                                  "end": 191,
+                                                  "start": 186,
+                                                  "end": 190,
                                                   "ctxt": 0
                                                 },
                                                 "value": "test",
@@ -219,23 +219,23 @@
                                               "consequent": {
                                                 "type": "BlockStatement",
                                                 "span": {
-                                                  "start": 193,
-                                                  "end": 768,
+                                                  "start": 192,
+                                                  "end": 767,
                                                   "ctxt": 0
                                                 },
                                                 "stmts": [
                                                   {
                                                     "type": "IfStatement",
                                                     "span": {
-                                                      "start": 223,
-                                                      "end": 742,
+                                                      "start": 222,
+                                                      "end": 741,
                                                       "ctxt": 0
                                                     },
                                                     "test": {
                                                       "type": "Identifier",
                                                       "span": {
-                                                        "start": 227,
-                                                        "end": 231,
+                                                        "start": 226,
+                                                        "end": 230,
                                                         "ctxt": 0
                                                       },
                                                       "value": "test",
@@ -244,23 +244,23 @@
                                                     "consequent": {
                                                       "type": "BlockStatement",
                                                       "span": {
-                                                        "start": 233,
-                                                        "end": 742,
+                                                        "start": 232,
+                                                        "end": 741,
                                                         "ctxt": 0
                                                       },
                                                       "stmts": [
                                                         {
                                                           "type": "WhileStatement",
                                                           "span": {
-                                                            "start": 267,
-                                                            "end": 712,
+                                                            "start": 266,
+                                                            "end": 711,
                                                             "ctxt": 0
                                                           },
                                                           "test": {
                                                             "type": "Identifier",
                                                             "span": {
-                                                              "start": 274,
-                                                              "end": 278,
+                                                              "start": 273,
+                                                              "end": 277,
                                                               "ctxt": 0
                                                             },
                                                             "value": "test",
@@ -269,23 +269,23 @@
                                                           "body": {
                                                             "type": "BlockStatement",
                                                             "span": {
-                                                              "start": 280,
-                                                              "end": 712,
+                                                              "start": 279,
+                                                              "end": 711,
                                                               "ctxt": 0
                                                             },
                                                             "stmts": [
                                                               {
                                                                 "type": "IfStatement",
                                                                 "span": {
-                                                                  "start": 318,
-                                                                  "end": 678,
+                                                                  "start": 317,
+                                                                  "end": 677,
                                                                   "ctxt": 0
                                                                 },
                                                                 "test": {
                                                                   "type": "Identifier",
                                                                   "span": {
-                                                                    "start": 322,
-                                                                    "end": 326,
+                                                                    "start": 321,
+                                                                    "end": 325,
                                                                     "ctxt": 0
                                                                   },
                                                                   "value": "test",
@@ -294,23 +294,23 @@
                                                                 "consequent": {
                                                                   "type": "BlockStatement",
                                                                   "span": {
-                                                                    "start": 328,
-                                                                    "end": 678,
+                                                                    "start": 327,
+                                                                    "end": 677,
                                                                     "ctxt": 0
                                                                   },
                                                                   "stmts": [
                                                                     {
                                                                       "type": "IfStatement",
                                                                       "span": {
-                                                                        "start": 370,
-                                                                        "end": 640,
+                                                                        "start": 369,
+                                                                        "end": 639,
                                                                         "ctxt": 0
                                                                       },
                                                                       "test": {
                                                                         "type": "Identifier",
                                                                         "span": {
-                                                                          "start": 374,
-                                                                          "end": 378,
+                                                                          "start": 373,
+                                                                          "end": 377,
                                                                           "ctxt": 0
                                                                         },
                                                                         "value": "asdf",
@@ -319,23 +319,23 @@
                                                                       "consequent": {
                                                                         "type": "BlockStatement",
                                                                         "span": {
-                                                                          "start": 380,
-                                                                          "end": 640,
+                                                                          "start": 379,
+                                                                          "end": 639,
                                                                           "ctxt": 0
                                                                         },
                                                                         "stmts": [
                                                                           {
                                                                             "type": "IfStatement",
                                                                             "span": {
-                                                                              "start": 426,
-                                                                              "end": 598,
+                                                                              "start": 425,
+                                                                              "end": 597,
                                                                               "ctxt": 0
                                                                             },
                                                                             "test": {
                                                                               "type": "Identifier",
                                                                               "span": {
-                                                                                "start": 430,
-                                                                                "end": 434,
+                                                                                "start": 429,
+                                                                                "end": 433,
                                                                                 "ctxt": 0
                                                                               },
                                                                               "value": "asdf",
@@ -344,31 +344,31 @@
                                                                             "consequent": {
                                                                               "type": "BlockStatement",
                                                                               "span": {
-                                                                                "start": 436,
-                                                                                "end": 598,
+                                                                                "start": 435,
+                                                                                "end": 597,
                                                                                 "ctxt": 0
                                                                               },
                                                                               "stmts": [
                                                                                 {
                                                                                   "type": "ExpressionStatement",
                                                                                   "span": {
-                                                                                    "start": 486,
-                                                                                    "end": 552,
+                                                                                    "start": 485,
+                                                                                    "end": 551,
                                                                                     "ctxt": 0
                                                                                   },
                                                                                   "expression": {
                                                                                     "type": "AssignmentExpression",
                                                                                     "span": {
-                                                                                      "start": 486,
-                                                                                      "end": 551,
+                                                                                      "start": 485,
+                                                                                      "end": 550,
                                                                                       "ctxt": 0
                                                                                     },
                                                                                     "operator": "+=",
                                                                                     "left": {
                                                                                       "type": "Identifier",
                                                                                       "span": {
-                                                                                        "start": 486,
-                                                                                        "end": 490,
+                                                                                        "start": 485,
+                                                                                        "end": 489,
                                                                                         "ctxt": 0
                                                                                       },
                                                                                       "value": "test",
@@ -378,40 +378,40 @@
                                                                                     "right": {
                                                                                       "type": "BinaryExpression",
                                                                                       "span": {
-                                                                                        "start": 494,
-                                                                                        "end": 551,
+                                                                                        "start": 493,
+                                                                                        "end": 550,
                                                                                         "ctxt": 0
                                                                                       },
                                                                                       "operator": "+",
                                                                                       "left": {
                                                                                         "type": "BinaryExpression",
                                                                                         "span": {
-                                                                                          "start": 494,
-                                                                                          "end": 536,
+                                                                                          "start": 493,
+                                                                                          "end": 535,
                                                                                           "ctxt": 0
                                                                                         },
                                                                                         "operator": "+",
                                                                                         "left": {
                                                                                           "type": "BinaryExpression",
                                                                                           "span": {
-                                                                                            "start": 494,
-                                                                                            "end": 527,
+                                                                                            "start": 493,
+                                                                                            "end": 526,
                                                                                             "ctxt": 0
                                                                                           },
                                                                                           "operator": "+",
                                                                                           "left": {
                                                                                             "type": "BinaryExpression",
                                                                                             "span": {
-                                                                                              "start": 494,
-                                                                                              "end": 509,
+                                                                                              "start": 493,
+                                                                                              "end": 508,
                                                                                               "ctxt": 0
                                                                                             },
                                                                                             "operator": "+",
                                                                                             "left": {
                                                                                               "type": "StringLiteral",
                                                                                               "span": {
-                                                                                                "start": 494,
-                                                                                                "end": 500,
+                                                                                                "start": 493,
+                                                                                                "end": 499,
                                                                                                 "ctxt": 0
                                                                                               },
                                                                                               "value": " || ",
@@ -420,15 +420,15 @@
                                                                                             "right": {
                                                                                               "type": "ParenthesisExpression",
                                                                                               "span": {
-                                                                                                "start": 503,
-                                                                                                "end": 509,
+                                                                                                "start": 502,
+                                                                                                "end": 508,
                                                                                                 "ctxt": 0
                                                                                               },
                                                                                               "expression": {
                                                                                                 "type": "Identifier",
                                                                                                 "span": {
-                                                                                                  "start": 504,
-                                                                                                  "end": 508,
+                                                                                                  "start": 503,
+                                                                                                  "end": 507,
                                                                                                   "ctxt": 0
                                                                                                 },
                                                                                                 "value": "test",
@@ -439,8 +439,8 @@
                                                                                           "right": {
                                                                                             "type": "StringLiteral",
                                                                                             "span": {
-                                                                                              "start": 512,
-                                                                                              "end": 527,
+                                                                                              "start": 511,
+                                                                                              "end": 526,
                                                                                               "ctxt": 0
                                                                                             },
                                                                                             "value": " === null || ",
@@ -450,15 +450,15 @@
                                                                                         "right": {
                                                                                           "type": "ParenthesisExpression",
                                                                                           "span": {
-                                                                                            "start": 530,
-                                                                                            "end": 536,
+                                                                                            "start": 529,
+                                                                                            "end": 535,
                                                                                             "ctxt": 0
                                                                                           },
                                                                                           "expression": {
                                                                                             "type": "Identifier",
                                                                                             "span": {
-                                                                                              "start": 531,
-                                                                                              "end": 535,
+                                                                                              "start": 530,
+                                                                                              "end": 534,
                                                                                               "ctxt": 0
                                                                                             },
                                                                                             "value": "test",
@@ -469,8 +469,8 @@
                                                                                       "right": {
                                                                                         "type": "StringLiteral",
                                                                                         "span": {
-                                                                                          "start": 539,
-                                                                                          "end": 551,
+                                                                                          "start": 538,
+                                                                                          "end": 550,
                                                                                           "ctxt": 0
                                                                                         },
                                                                                         "value": " === '' ",

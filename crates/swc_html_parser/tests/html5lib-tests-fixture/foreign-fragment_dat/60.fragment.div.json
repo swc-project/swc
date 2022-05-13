@@ -1,16 +1,16 @@
 {
   "type": "DocumentFragment",
   "span": {
-    "start": 1,
-    "end": 15,
+    "start": 0,
+    "end": 14,
     "ctxt": 0
   },
   "children": [
     {
       "type": "Element",
       "span": {
-        "start": 1,
-        "end": 6,
+        "start": 0,
+        "end": 5,
         "ctxt": 0
       },
       "tagName": "svg",
@@ -23,7 +23,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 10,
+        "end": 9,
         "ctxt": 0
       },
       "tagName": "p",
@@ -35,8 +35,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 10,
-        "end": 15,
+        "start": 9,
+        "end": 14,
         "ctxt": 0
       },
       "tagName": "foo",

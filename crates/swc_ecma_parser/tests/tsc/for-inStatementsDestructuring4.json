@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 33,
+    "start": 0,
+    "end": 32,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 1,
-        "end": 10,
+        "start": 0,
+        "end": 9,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 5,
-            "end": 6,
+            "start": 4,
+            "end": 5,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 5,
-              "end": 6,
+              "start": 4,
+              "end": 5,
               "ctxt": 0
             },
             "value": "a",
@@ -40,15 +40,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 8,
-            "end": 9,
+            "start": 7,
+            "end": 8,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 8,
-              "end": 9,
+              "start": 7,
+              "end": 8,
               "ctxt": 0
             },
             "value": "b",
@@ -63,30 +63,30 @@
     {
       "type": "ForInStatement",
       "span": {
-        "start": 11,
-        "end": 33,
+        "start": 10,
+        "end": 32,
         "ctxt": 0
       },
       "left": {
         "type": "ObjectPattern",
         "span": {
-          "start": 16,
-          "end": 22,
+          "start": 15,
+          "end": 21,
           "ctxt": 0
         },
         "properties": [
           {
             "type": "AssignmentPatternProperty",
             "span": {
-              "start": 17,
-              "end": 18,
+              "start": 16,
+              "end": 17,
               "ctxt": 0
             },
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 17,
-                "end": 18,
+                "start": 16,
+                "end": 17,
                 "ctxt": 0
               },
               "value": "a",
@@ -97,15 +97,15 @@
           {
             "type": "AssignmentPatternProperty",
             "span": {
-              "start": 20,
-              "end": 21,
+              "start": 19,
+              "end": 20,
               "ctxt": 0
             },
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 20,
-                "end": 21,
+                "start": 19,
+                "end": 20,
                 "ctxt": 0
               },
               "value": "b",
@@ -120,8 +120,8 @@
       "right": {
         "type": "ArrayExpression",
         "span": {
-          "start": 26,
-          "end": 28,
+          "start": 25,
+          "end": 27,
           "ctxt": 0
         },
         "elements": []
@@ -129,8 +129,8 @@
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 30,
-          "end": 33,
+          "start": 29,
+          "end": 32,
           "ctxt": 0
         },
         "stmts": []

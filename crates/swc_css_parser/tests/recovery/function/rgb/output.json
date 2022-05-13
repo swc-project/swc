@@ -1,39 +1,39 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 1,
-    "end": 315,
+    "start": 0,
+    "end": 314,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
-        "start": 1,
-        "end": 314,
+        "start": 0,
+        "end": 313,
         "ctxt": 0
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
-          "start": 1,
-          "end": 5,
+          "start": 0,
+          "end": 4,
           "ctxt": 0
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
-              "start": 1,
-              "end": 5,
+              "start": 0,
+              "end": 4,
               "ctxt": 0
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
-                  "start": 1,
-                  "end": 5,
+                  "start": 0,
+                  "end": 4,
                   "ctxt": 0
                 },
                 "nestingSelector": null,
@@ -42,15 +42,15 @@
                   {
                     "type": "ClassSelector",
                     "span": {
-                      "start": 1,
-                      "end": 5,
+                      "start": 0,
+                      "end": 4,
                       "ctxt": 0
                     },
                     "text": {
                       "type": "Ident",
                       "span": {
-                        "start": 2,
-                        "end": 5,
+                        "start": 1,
+                        "end": 4,
                         "ctxt": 0
                       },
                       "value": "div",
@@ -66,8 +66,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 6,
-          "end": 314,
+          "start": 5,
+          "end": 313,
           "ctxt": 0
         },
         "name": "{",
@@ -75,15 +75,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 12,
-              "end": 30,
+              "start": 11,
+              "end": 29,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 12,
-                "end": 17,
+                "start": 11,
+                "end": 16,
                 "ctxt": 0
               },
               "value": "color",
@@ -93,15 +93,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 19,
-                  "end": 30,
+                  "start": 18,
+                  "end": 29,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 19,
-                    "end": 22,
+                    "start": 18,
+                    "end": 21,
                     "ctxt": 0
                   },
                   "value": "rgb",
@@ -111,8 +111,8 @@
                   {
                     "type": "String",
                     "span": {
-                      "start": 23,
-                      "end": 29,
+                      "start": 22,
+                      "end": 28,
                       "ctxt": 0
                     },
                     "value": "test",
@@ -126,15 +126,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 37,
-              "end": 65,
+              "start": 36,
+              "end": 64,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 37,
-                "end": 42,
+                "start": 36,
+                "end": 41,
                 "ctxt": 0
               },
               "value": "color",
@@ -144,15 +144,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 44,
-                  "end": 65,
+                  "start": 43,
+                  "end": 64,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 44,
-                    "end": 47,
+                    "start": 43,
+                    "end": 46,
                     "ctxt": 0
                   },
                   "value": "rgb",
@@ -162,46 +162,46 @@
                   {
                     "type": "String",
                     "span": {
-                      "start": 48,
+                      "start": 47,
+                      "end": 53,
+                      "ctxt": 0
+                    },
+                    "value": "test",
+                    "raw": "\"test\""
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 53,
                       "end": 54,
                       "ctxt": 0
                     },
-                    "value": "test",
-                    "raw": "\"test\""
-                  },
-                  {
-                    "type": "Delimiter",
-                    "span": {
-                      "start": 54,
-                      "end": 55,
-                      "ctxt": 0
-                    },
                     "value": ","
                   },
                   {
                     "type": "Integer",
                     "span": {
-                      "start": 56,
+                      "start": 55,
+                      "end": 58,
+                      "ctxt": 0
+                    },
+                    "value": 100,
+                    "raw": "100"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 58,
                       "end": 59,
                       "ctxt": 0
                     },
-                    "value": 100,
-                    "raw": "100"
-                  },
-                  {
-                    "type": "Delimiter",
-                    "span": {
-                      "start": 59,
-                      "end": 60,
-                      "ctxt": 0
-                    },
                     "value": ","
                   },
                   {
                     "type": "Integer",
                     "span": {
-                      "start": 61,
-                      "end": 64,
+                      "start": 60,
+                      "end": 63,
                       "ctxt": 0
                     },
                     "value": 100,
@@ -215,15 +215,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 71,
-              "end": 99,
+              "start": 70,
+              "end": 98,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 71,
-                "end": 76,
+                "start": 70,
+                "end": 75,
                 "ctxt": 0
               },
               "value": "color",
@@ -233,15 +233,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 78,
-                  "end": 99,
+                  "start": 77,
+                  "end": 98,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 78,
-                    "end": 81,
+                    "start": 77,
+                    "end": 80,
                     "ctxt": 0
                   },
                   "value": "rgb",
@@ -251,46 +251,46 @@
                   {
                     "type": "Integer",
                     "span": {
-                      "start": 82,
+                      "start": 81,
+                      "end": 84,
+                      "ctxt": 0
+                    },
+                    "value": 100,
+                    "raw": "100"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 84,
                       "end": 85,
                       "ctxt": 0
                     },
-                    "value": 100,
-                    "raw": "100"
-                  },
-                  {
-                    "type": "Delimiter",
-                    "span": {
-                      "start": 85,
-                      "end": 86,
-                      "ctxt": 0
-                    },
                     "value": ","
                   },
                   {
                     "type": "String",
                     "span": {
-                      "start": 87,
+                      "start": 86,
+                      "end": 92,
+                      "ctxt": 0
+                    },
+                    "value": "test",
+                    "raw": "\"test\""
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 92,
                       "end": 93,
                       "ctxt": 0
                     },
-                    "value": "test",
-                    "raw": "\"test\""
-                  },
-                  {
-                    "type": "Delimiter",
-                    "span": {
-                      "start": 93,
-                      "end": 94,
-                      "ctxt": 0
-                    },
                     "value": ","
                   },
                   {
                     "type": "Integer",
                     "span": {
-                      "start": 95,
-                      "end": 98,
+                      "start": 94,
+                      "end": 97,
                       "ctxt": 0
                     },
                     "value": 100,
@@ -304,15 +304,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 105,
-              "end": 133,
+              "start": 104,
+              "end": 132,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 105,
-                "end": 110,
+                "start": 104,
+                "end": 109,
                 "ctxt": 0
               },
               "value": "color",
@@ -322,15 +322,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 112,
-                  "end": 133,
+                  "start": 111,
+                  "end": 132,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 112,
-                    "end": 115,
+                    "start": 111,
+                    "end": 114,
                     "ctxt": 0
                   },
                   "value": "rgb",
@@ -340,46 +340,46 @@
                   {
                     "type": "Integer",
                     "span": {
-                      "start": 116,
+                      "start": 115,
+                      "end": 118,
+                      "ctxt": 0
+                    },
+                    "value": 100,
+                    "raw": "100"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 118,
                       "end": 119,
                       "ctxt": 0
                     },
+                    "value": ","
+                  },
+                  {
+                    "type": "Integer",
+                    "span": {
+                      "start": 120,
+                      "end": 123,
+                      "ctxt": 0
+                    },
                     "value": 100,
                     "raw": "100"
                   },
                   {
                     "type": "Delimiter",
                     "span": {
-                      "start": 119,
-                      "end": 120,
-                      "ctxt": 0
-                    },
-                    "value": ","
-                  },
-                  {
-                    "type": "Integer",
-                    "span": {
-                      "start": 121,
+                      "start": 123,
                       "end": 124,
                       "ctxt": 0
                     },
-                    "value": 100,
-                    "raw": "100"
-                  },
-                  {
-                    "type": "Delimiter",
-                    "span": {
-                      "start": 124,
-                      "end": 125,
-                      "ctxt": 0
-                    },
                     "value": ","
                   },
                   {
                     "type": "String",
                     "span": {
-                      "start": 126,
-                      "end": 132,
+                      "start": 125,
+                      "end": 131,
                       "ctxt": 0
                     },
                     "value": "test",
@@ -393,15 +393,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 139,
-              "end": 172,
+              "start": 138,
+              "end": 171,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 139,
-                "end": 144,
+                "start": 138,
+                "end": 143,
                 "ctxt": 0
               },
               "value": "color",
@@ -411,15 +411,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 146,
-                  "end": 172,
+                  "start": 145,
+                  "end": 171,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 146,
-                    "end": 149,
+                    "start": 145,
+                    "end": 148,
                     "ctxt": 0
                   },
                   "value": "rgb",
@@ -429,65 +429,65 @@
                   {
                     "type": "Integer",
                     "span": {
-                      "start": 150,
+                      "start": 149,
+                      "end": 152,
+                      "ctxt": 0
+                    },
+                    "value": 100,
+                    "raw": "100"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 152,
                       "end": 153,
                       "ctxt": 0
                     },
+                    "value": ","
+                  },
+                  {
+                    "type": "Integer",
+                    "span": {
+                      "start": 154,
+                      "end": 157,
+                      "ctxt": 0
+                    },
                     "value": 100,
                     "raw": "100"
                   },
                   {
                     "type": "Delimiter",
                     "span": {
-                      "start": 153,
-                      "end": 154,
-                      "ctxt": 0
-                    },
-                    "value": ","
-                  },
-                  {
-                    "type": "Integer",
-                    "span": {
-                      "start": 155,
+                      "start": 157,
                       "end": 158,
                       "ctxt": 0
                     },
+                    "value": ","
+                  },
+                  {
+                    "type": "Integer",
+                    "span": {
+                      "start": 159,
+                      "end": 162,
+                      "ctxt": 0
+                    },
                     "value": 100,
                     "raw": "100"
                   },
                   {
                     "type": "Delimiter",
                     "span": {
-                      "start": 158,
-                      "end": 159,
-                      "ctxt": 0
-                    },
-                    "value": ","
-                  },
-                  {
-                    "type": "Integer",
-                    "span": {
-                      "start": 160,
+                      "start": 162,
                       "end": 163,
                       "ctxt": 0
                     },
-                    "value": 100,
-                    "raw": "100"
-                  },
-                  {
-                    "type": "Delimiter",
-                    "span": {
-                      "start": 163,
-                      "end": 164,
-                      "ctxt": 0
-                    },
                     "value": ","
                   },
                   {
                     "type": "String",
                     "span": {
-                      "start": 165,
-                      "end": 171,
+                      "start": 164,
+                      "end": 170,
                       "ctxt": 0
                     },
                     "value": "test",
@@ -501,15 +501,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 183,
-              "end": 209,
+              "start": 182,
+              "end": 208,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 183,
-                "end": 188,
+                "start": 182,
+                "end": 187,
                 "ctxt": 0
               },
               "value": "color",
@@ -519,15 +519,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 190,
-                  "end": 209,
+                  "start": 189,
+                  "end": 208,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 190,
-                    "end": 193,
+                    "start": 189,
+                    "end": 192,
                     "ctxt": 0
                   },
                   "value": "rgb",
@@ -537,8 +537,8 @@
                   {
                     "type": "String",
                     "span": {
-                      "start": 194,
-                      "end": 200,
+                      "start": 193,
+                      "end": 199,
                       "ctxt": 0
                     },
                     "value": "test",
@@ -547,8 +547,8 @@
                   {
                     "type": "Integer",
                     "span": {
-                      "start": 201,
-                      "end": 204,
+                      "start": 200,
+                      "end": 203,
                       "ctxt": 0
                     },
                     "value": 100,
@@ -557,8 +557,8 @@
                   {
                     "type": "Integer",
                     "span": {
-                      "start": 205,
-                      "end": 208,
+                      "start": 204,
+                      "end": 207,
                       "ctxt": 0
                     },
                     "value": 100,
@@ -572,15 +572,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 215,
-              "end": 241,
+              "start": 214,
+              "end": 240,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 215,
-                "end": 220,
+                "start": 214,
+                "end": 219,
                 "ctxt": 0
               },
               "value": "color",
@@ -590,15 +590,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 222,
-                  "end": 241,
+                  "start": 221,
+                  "end": 240,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 222,
-                    "end": 225,
+                    "start": 221,
+                    "end": 224,
                     "ctxt": 0
                   },
                   "value": "rgb",
@@ -608,8 +608,8 @@
                   {
                     "type": "Integer",
                     "span": {
-                      "start": 226,
-                      "end": 229,
+                      "start": 225,
+                      "end": 228,
                       "ctxt": 0
                     },
                     "value": 100,
@@ -618,8 +618,8 @@
                   {
                     "type": "String",
                     "span": {
-                      "start": 230,
-                      "end": 236,
+                      "start": 229,
+                      "end": 235,
                       "ctxt": 0
                     },
                     "value": "test",
@@ -628,8 +628,8 @@
                   {
                     "type": "Integer",
                     "span": {
-                      "start": 237,
-                      "end": 240,
+                      "start": 236,
+                      "end": 239,
                       "ctxt": 0
                     },
                     "value": 100,
@@ -643,15 +643,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 247,
-              "end": 273,
+              "start": 246,
+              "end": 272,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 247,
-                "end": 252,
+                "start": 246,
+                "end": 251,
                 "ctxt": 0
               },
               "value": "color",
@@ -661,15 +661,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 254,
-                  "end": 273,
+                  "start": 253,
+                  "end": 272,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 254,
-                    "end": 257,
+                    "start": 253,
+                    "end": 256,
                     "ctxt": 0
                   },
                   "value": "rgb",
@@ -679,8 +679,8 @@
                   {
                     "type": "Integer",
                     "span": {
-                      "start": 258,
-                      "end": 261,
+                      "start": 257,
+                      "end": 260,
                       "ctxt": 0
                     },
                     "value": 100,
@@ -689,8 +689,8 @@
                   {
                     "type": "Integer",
                     "span": {
-                      "start": 262,
-                      "end": 265,
+                      "start": 261,
+                      "end": 264,
                       "ctxt": 0
                     },
                     "value": 100,
@@ -699,8 +699,8 @@
                   {
                     "type": "String",
                     "span": {
-                      "start": 266,
-                      "end": 272,
+                      "start": 265,
+                      "end": 271,
                       "ctxt": 0
                     },
                     "value": "test",
@@ -714,15 +714,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 279,
-              "end": 311,
+              "start": 278,
+              "end": 310,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 279,
-                "end": 284,
+                "start": 278,
+                "end": 283,
                 "ctxt": 0
               },
               "value": "color",
@@ -732,15 +732,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 286,
-                  "end": 311,
+                  "start": 285,
+                  "end": 310,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 286,
-                    "end": 289,
+                    "start": 285,
+                    "end": 288,
                     "ctxt": 0
                   },
                   "value": "rgb",
@@ -750,8 +750,8 @@
                   {
                     "type": "Integer",
                     "span": {
-                      "start": 290,
-                      "end": 293,
+                      "start": 289,
+                      "end": 292,
                       "ctxt": 0
                     },
                     "value": 100,
@@ -760,8 +760,8 @@
                   {
                     "type": "Integer",
                     "span": {
-                      "start": 294,
-                      "end": 297,
+                      "start": 293,
+                      "end": 296,
                       "ctxt": 0
                     },
                     "value": 100,
@@ -770,8 +770,8 @@
                   {
                     "type": "Integer",
                     "span": {
-                      "start": 298,
-                      "end": 301,
+                      "start": 297,
+                      "end": 300,
                       "ctxt": 0
                     },
                     "value": 100,
@@ -780,8 +780,8 @@
                   {
                     "type": "Delimiter",
                     "span": {
-                      "start": 302,
-                      "end": 303,
+                      "start": 301,
+                      "end": 302,
                       "ctxt": 0
                     },
                     "value": "/"
@@ -789,8 +789,8 @@
                   {
                     "type": "String",
                     "span": {
-                      "start": 304,
-                      "end": 310,
+                      "start": 303,
+                      "end": 309,
                       "ctxt": 0
                     },
                     "value": "test",

@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 503,
-    "end": 597,
+    "start": 502,
+    "end": 596,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 503,
-        "end": 597,
+        "start": 502,
+        "end": 596,
         "ctxt": 0
       },
       "declaration": {
@@ -18,8 +18,8 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 519,
-            "end": 520,
+            "start": 518,
+            "end": 519,
             "ctxt": 0
           },
           "value": "f",
@@ -30,16 +30,16 @@
           {
             "type": "Parameter",
             "span": {
-              "start": 521,
-              "end": 522,
+              "start": 520,
+              "end": 521,
               "ctxt": 0
             },
             "decorators": [],
             "pat": {
               "type": "Identifier",
               "span": {
-                "start": 521,
-                "end": 522,
+                "start": 520,
+                "end": 521,
                 "ctxt": 0
               },
               "value": "x",
@@ -50,16 +50,16 @@
           {
             "type": "Parameter",
             "span": {
-              "start": 524,
-              "end": 525,
+              "start": 523,
+              "end": 524,
               "ctxt": 0
             },
             "decorators": [],
             "pat": {
               "type": "Identifier",
               "span": {
-                "start": 524,
-                "end": 525,
+                "start": 523,
+                "end": 524,
                 "ctxt": 0
               },
               "value": "y",
@@ -70,16 +70,16 @@
           {
             "type": "Parameter",
             "span": {
-              "start": 527,
-              "end": 528,
+              "start": 526,
+              "end": 527,
               "ctxt": 0
             },
             "decorators": [],
             "pat": {
               "type": "Identifier",
               "span": {
-                "start": 527,
-                "end": 528,
+                "start": 526,
+                "end": 527,
                 "ctxt": 0
               },
               "value": "z",
@@ -90,16 +90,16 @@
           {
             "type": "Parameter",
             "span": {
-              "start": 530,
-              "end": 535,
+              "start": 529,
+              "end": 534,
               "ctxt": 0
             },
             "decorators": [],
             "pat": {
               "type": "Identifier",
               "span": {
-                "start": 530,
-                "end": 535,
+                "start": 529,
+                "end": 534,
                 "ctxt": 0
               },
               "value": "alpha",
@@ -110,16 +110,16 @@
           {
             "type": "Parameter",
             "span": {
-              "start": 537,
-              "end": 541,
+              "start": 536,
+              "end": 540,
               "ctxt": 0
             },
             "decorators": [],
             "pat": {
               "type": "Identifier",
               "span": {
-                "start": 537,
-                "end": 541,
+                "start": 536,
+                "end": 540,
                 "ctxt": 0
               },
               "value": "beta",
@@ -130,16 +130,16 @@
           {
             "type": "Parameter",
             "span": {
-              "start": 543,
-              "end": 548,
+              "start": 542,
+              "end": 547,
               "ctxt": 0
             },
             "decorators": [],
             "pat": {
               "type": "Identifier",
               "span": {
-                "start": 543,
-                "end": 548,
+                "start": 542,
+                "end": 547,
                 "ctxt": 0
               },
               "value": "gamma",
@@ -150,70 +150,70 @@
         ],
         "decorators": [],
         "span": {
-          "start": 510,
-          "end": 597,
+          "start": 509,
+          "end": 596,
           "ctxt": 0
         },
         "body": {
           "type": "BlockStatement",
           "span": {
-            "start": 550,
-            "end": 597,
+            "start": 549,
+            "end": 596,
             "ctxt": 0
           },
           "stmts": [
             {
               "type": "ReturnStatement",
               "span": {
-                "start": 556,
-                "end": 595,
+                "start": 555,
+                "end": 594,
                 "ctxt": 0
               },
               "argument": {
                 "type": "BinaryExpression",
                 "span": {
-                  "start": 563,
-                  "end": 595,
+                  "start": 562,
+                  "end": 594,
                   "ctxt": 0
                 },
                 "operator": "+",
                 "left": {
                   "type": "BinaryExpression",
                   "span": {
-                    "start": 563,
-                    "end": 587,
+                    "start": 562,
+                    "end": 586,
                     "ctxt": 0
                   },
                   "operator": "+",
                   "left": {
                     "type": "BinaryExpression",
                     "span": {
-                      "start": 563,
-                      "end": 580,
+                      "start": 562,
+                      "end": 579,
                       "ctxt": 0
                     },
                     "operator": "+",
                     "left": {
                       "type": "BinaryExpression",
                       "span": {
-                        "start": 563,
-                        "end": 572,
+                        "start": 562,
+                        "end": 571,
                         "ctxt": 0
                       },
                       "operator": "+",
                       "left": {
                         "type": "BinaryExpression",
                         "span": {
-                          "start": 563,
-                          "end": 568,
+                          "start": 562,
+                          "end": 567,
                           "ctxt": 0
                         },
                         "operator": "+",
                         "left": {
                           "type": "Identifier",
                           "span": {
-                            "start": 563,
-                            "end": 564,
+                            "start": 562,
+                            "end": 563,
                             "ctxt": 0
                           },
                           "value": "x",
@@ -222,8 +222,8 @@
                         "right": {
                           "type": "Identifier",
                           "span": {
-                            "start": 567,
-                            "end": 568,
+                            "start": 566,
+                            "end": 567,
                             "ctxt": 0
                           },
                           "value": "y",
@@ -233,8 +233,8 @@
                       "right": {
                         "type": "Identifier",
                         "span": {
-                          "start": 571,
-                          "end": 572,
+                          "start": 570,
+                          "end": 571,
                           "ctxt": 0
                         },
                         "value": "z",
@@ -244,8 +244,8 @@
                     "right": {
                       "type": "Identifier",
                       "span": {
-                        "start": 575,
-                        "end": 580,
+                        "start": 574,
+                        "end": 579,
                         "ctxt": 0
                       },
                       "value": "alpha",
@@ -255,8 +255,8 @@
                   "right": {
                     "type": "Identifier",
                     "span": {
-                      "start": 583,
-                      "end": 587,
+                      "start": 582,
+                      "end": 586,
                       "ctxt": 0
                     },
                     "value": "beta",
@@ -266,8 +266,8 @@
                 "right": {
                   "type": "Identifier",
                   "span": {
-                    "start": 590,
-                    "end": 595,
+                    "start": 589,
+                    "end": 594,
                     "ctxt": 0
                   },
                   "value": "gamma",

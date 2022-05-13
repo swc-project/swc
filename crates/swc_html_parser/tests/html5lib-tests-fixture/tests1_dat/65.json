@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 1,
-    "end": 18,
+    "start": 0,
+    "end": 17,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 18,
+        "end": 17,
         "ctxt": 0
       },
       "tagName": "html",
@@ -22,7 +22,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 6,
+            "end": 5,
             "ctxt": 0
           },
           "tagName": "head",
@@ -35,7 +35,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 18,
+            "end": 17,
             "ctxt": 0
           },
           "tagName": "body",
@@ -45,8 +45,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 1,
-                "end": 18,
+                "start": 0,
+                "end": 17,
                 "ctxt": 0
               },
               "tagName": "div",
@@ -56,8 +56,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 6,
-                    "end": 11,
+                    "start": 5,
+                    "end": 10,
                     "ctxt": 0
                   },
                   "value": " abc "
@@ -65,8 +65,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 11,
-                    "end": 18,
+                    "start": 10,
+                    "end": 17,
                     "ctxt": 0
                   },
                   "tagName": "b",
@@ -76,8 +76,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 14,
-                        "end": 18,
+                        "start": 13,
+                        "end": 17,
                         "ctxt": 0
                       },
                       "value": " def"

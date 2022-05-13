@@ -1,23 +1,23 @@
 {
   "type": "Module",
   "span": {
-    "start": 7,
-    "end": 41,
+    "start": 6,
+    "end": 40,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 7,
-        "end": 41,
+        "start": 6,
+        "end": 40,
         "ctxt": 0
       },
       "declaration": {
         "type": "TsEnumDeclaration",
         "span": {
-          "start": 14,
-          "end": 41,
+          "start": 13,
+          "end": 40,
           "ctxt": 0
         },
         "declare": false,
@@ -25,8 +25,8 @@
         "id": {
           "type": "Identifier",
           "span": {
-            "start": 19,
-            "end": 33,
+            "start": 18,
+            "end": 32,
             "ctxt": 0
           },
           "value": "SignatureFlags",

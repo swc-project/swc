@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 2,
-    "end": 292,
+    "start": 1,
+    "end": 291,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 2,
-        "end": 22,
+        "start": 1,
+        "end": 21,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 6,
-            "end": 21,
+            "start": 5,
+            "end": 20,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 6,
-              "end": 13,
+              "start": 5,
+              "end": 12,
               "ctxt": 0
             },
             "value": "declare",
@@ -35,15 +35,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 13,
-                "end": 21,
+                "start": 12,
+                "end": 20,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 15,
-                  "end": 21,
+                  "start": 14,
+                  "end": 20,
                   "ctxt": 0
                 },
                 "kind": "number"
@@ -58,8 +58,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 23,
-        "end": 42,
+        "start": 22,
+        "end": 41,
         "ctxt": 0
       },
       "kind": "var",
@@ -68,15 +68,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 27,
-            "end": 41,
+            "start": 26,
+            "end": 40,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 27,
-              "end": 33,
+              "start": 26,
+              "end": 32,
               "ctxt": 0
             },
             "value": "module",
@@ -84,15 +84,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 33,
-                "end": 41,
+                "start": 32,
+                "end": 40,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 35,
-                  "end": 41,
+                  "start": 34,
+                  "end": 40,
                   "ctxt": 0
                 },
                 "kind": "string"
@@ -107,8 +107,8 @@
     {
       "type": "TsModuleDeclaration",
       "span": {
-        "start": 44,
-        "end": 292,
+        "start": 43,
+        "end": 291,
         "ctxt": 0
       },
       "declare": false,
@@ -116,8 +116,8 @@
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 51,
-          "end": 60,
+          "start": 50,
+          "end": 59,
           "ctxt": 0
         },
         "value": "container",
@@ -126,16 +126,16 @@
       "body": {
         "type": "TsModuleBlock",
         "span": {
-          "start": 61,
-          "end": 292,
+          "start": 60,
+          "end": 291,
           "ctxt": 0
         },
         "body": [
           {
             "type": "TsModuleDeclaration",
             "span": {
-              "start": 67,
-              "end": 247,
+              "start": 66,
+              "end": 246,
               "ctxt": 0
             },
             "declare": true,
@@ -143,8 +143,8 @@
             "id": {
               "type": "StringLiteral",
               "span": {
-                "start": 192,
-                "end": 212,
+                "start": 191,
+                "end": 211,
                 "ctxt": 0
               },
               "value": "my external module",
@@ -153,8 +153,8 @@
             "body": {
               "type": "TsModuleBlock",
               "span": {
-                "start": 244,
-                "end": 247,
+                "start": 243,
+                "end": 246,
                 "ctxt": 0
               },
               "body": []

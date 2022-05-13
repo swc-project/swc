@@ -1,31 +1,31 @@
 {
   "type": "Module",
   "span": {
-    "start": 1,
-    "end": 253,
+    "start": 0,
+    "end": 252,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ImportDeclaration",
       "span": {
-        "start": 1,
-        "end": 27,
+        "start": 0,
+        "end": 26,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ImportDefaultSpecifier",
           "span": {
-            "start": 8,
-            "end": 13,
+            "start": 7,
+            "end": 12,
             "ctxt": 0
           },
           "local": {
             "type": "Identifier",
             "span": {
-              "start": 8,
-              "end": 13,
+              "start": 7,
+              "end": 12,
               "ctxt": 0
             },
             "value": "React",
@@ -36,8 +36,8 @@
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 19,
-          "end": 26,
+          "start": 18,
+          "end": 25,
           "ctxt": 0
         },
         "value": "react",
@@ -51,8 +51,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 38,
-          "end": 41,
+          "start": 37,
+          "end": 40,
           "ctxt": 0
         },
         "value": "App",
@@ -62,23 +62,23 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 29,
-        "end": 232,
+        "start": 28,
+        "end": 231,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 44,
-          "end": 232,
+          "start": 43,
+          "end": 231,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "VariableDeclaration",
             "span": {
-              "start": 48,
-              "end": 71,
+              "start": 47,
+              "end": 70,
               "ctxt": 0
             },
             "kind": "const",
@@ -87,15 +87,15 @@
               {
                 "type": "VariableDeclarator",
                 "span": {
-                  "start": 54,
-                  "end": 70,
+                  "start": 53,
+                  "end": 69,
                   "ctxt": 0
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
-                    "start": 54,
-                    "end": 63,
+                    "start": 53,
+                    "end": 62,
                     "ctxt": 0
                   },
                   "value": "isLoading",
@@ -105,8 +105,8 @@
                 "init": {
                   "type": "BooleanLiteral",
                   "span": {
-                    "start": 66,
-                    "end": 70,
+                    "start": 65,
+                    "end": 69,
                     "ctxt": 0
                   },
                   "value": true
@@ -118,22 +118,22 @@
           {
             "type": "ReturnStatement",
             "span": {
-              "start": 74,
-              "end": 230,
+              "start": 73,
+              "end": 229,
               "ctxt": 0
             },
             "argument": {
               "type": "ParenthesisExpression",
               "span": {
-                "start": 81,
-                "end": 229,
+                "start": 80,
+                "end": 228,
                 "ctxt": 0
               },
               "expression": {
                 "type": "JSXElement",
                 "span": {
-                  "start": 87,
-                  "end": 225,
+                  "start": 86,
+                  "end": 224,
                   "ctxt": 0
                 },
                 "opening": {
@@ -141,16 +141,16 @@
                   "name": {
                     "type": "Identifier",
                     "span": {
-                      "start": 88,
-                      "end": 91,
+                      "start": 87,
+                      "end": 90,
                       "ctxt": 0
                     },
                     "value": "div",
                     "optional": false
                   },
                   "span": {
-                    "start": 87,
-                    "end": 92,
+                    "start": 86,
+                    "end": 91,
                     "ctxt": 0
                   },
                   "attributes": [],
@@ -161,8 +161,8 @@
                   {
                     "type": "JSXText",
                     "span": {
-                      "start": 92,
-                      "end": 99,
+                      "start": 91,
+                      "end": 98,
                       "ctxt": 0
                     },
                     "value": "\n\n      ",
@@ -171,8 +171,8 @@
                   {
                     "type": "JSXElement",
                     "span": {
-                      "start": 99,
-                      "end": 114,
+                      "start": 98,
+                      "end": 113,
                       "ctxt": 0
                     },
                     "opening": {
@@ -180,16 +180,16 @@
                       "name": {
                         "type": "Identifier",
                         "span": {
-                          "start": 100,
-                          "end": 102,
+                          "start": 99,
+                          "end": 101,
                           "ctxt": 0
                         },
                         "value": "h1",
                         "optional": false
                       },
                       "span": {
-                        "start": 99,
-                        "end": 103,
+                        "start": 98,
+                        "end": 102,
                         "ctxt": 0
                       },
                       "attributes": [],
@@ -200,8 +200,8 @@
                       {
                         "type": "JSXText",
                         "span": {
-                          "start": 103,
-                          "end": 109,
+                          "start": 102,
+                          "end": 108,
                           "ctxt": 0
                         },
                         "value": "works ",
@@ -211,15 +211,15 @@
                     "closing": {
                       "type": "JSXClosingElement",
                       "span": {
-                        "start": 109,
-                        "end": 114,
+                        "start": 108,
+                        "end": 113,
                         "ctxt": 0
                       },
                       "name": {
                         "type": "Identifier",
                         "span": {
-                          "start": 111,
-                          "end": 113,
+                          "start": 110,
+                          "end": 112,
                           "ctxt": 0
                         },
                         "value": "h1",
@@ -230,8 +230,8 @@
                   {
                     "type": "JSXText",
                     "span": {
-                      "start": 114,
-                      "end": 121,
+                      "start": 113,
+                      "end": 120,
                       "ctxt": 0
                     },
                     "value": "\n\n      ",
@@ -240,22 +240,22 @@
                   {
                     "type": "JSXExpressionContainer",
                     "span": {
-                      "start": 121,
-                      "end": 214,
+                      "start": 120,
+                      "end": 213,
                       "ctxt": 0
                     },
                     "expression": {
                       "type": "ConditionalExpression",
                       "span": {
-                        "start": 131,
-                        "end": 206,
+                        "start": 130,
+                        "end": 205,
                         "ctxt": 0
                       },
                       "test": {
                         "type": "Identifier",
                         "span": {
-                          "start": 131,
-                          "end": 140,
+                          "start": 130,
+                          "end": 139,
                           "ctxt": 0
                         },
                         "value": "isLoading",
@@ -264,8 +264,8 @@
                       "consequent": {
                         "type": "JSXElement",
                         "span": {
-                          "start": 143,
-                          "end": 162,
+                          "start": 142,
+                          "end": 161,
                           "ctxt": 0
                         },
                         "opening": {
@@ -273,16 +273,16 @@
                           "name": {
                             "type": "Identifier",
                             "span": {
-                              "start": 144,
-                              "end": 147,
+                              "start": 143,
+                              "end": 146,
                               "ctxt": 0
                             },
                             "value": "div",
                             "optional": false
                           },
                           "span": {
-                            "start": 143,
-                            "end": 148,
+                            "start": 142,
+                            "end": 147,
                             "ctxt": 0
                           },
                           "attributes": [],
@@ -293,8 +293,8 @@
                           {
                             "type": "JSXText",
                             "span": {
-                              "start": 148,
-                              "end": 156,
+                              "start": 147,
+                              "end": 155,
                               "ctxt": 0
                             },
                             "value": "loading ",
@@ -304,15 +304,15 @@
                         "closing": {
                           "type": "JSXClosingElement",
                           "span": {
-                            "start": 156,
-                            "end": 162,
+                            "start": 155,
+                            "end": 161,
                             "ctxt": 0
                           },
                           "name": {
                             "type": "Identifier",
                             "span": {
-                              "start": 158,
-                              "end": 161,
+                              "start": 157,
+                              "end": 160,
                               "ctxt": 0
                             },
                             "value": "div",
@@ -323,8 +323,8 @@
                       "alternate": {
                         "type": "JSXElement",
                         "span": {
-                          "start": 165,
-                          "end": 206,
+                          "start": 164,
+                          "end": 205,
                           "ctxt": 0
                         },
                         "opening": {
@@ -332,16 +332,16 @@
                           "name": {
                             "type": "Identifier",
                             "span": {
-                              "start": 166,
-                              "end": 169,
+                              "start": 165,
+                              "end": 168,
                               "ctxt": 0
                             },
                             "value": "div",
                             "optional": false
                           },
                           "span": {
-                            "start": 165,
-                            "end": 170,
+                            "start": 164,
+                            "end": 169,
                             "ctxt": 0
                           },
                           "attributes": [],
@@ -352,8 +352,8 @@
                           {
                             "type": "JSXText",
                             "span": {
-                              "start": 170,
-                              "end": 200,
+                              "start": 169,
+                              "end": 199,
                               "ctxt": 0
                             },
                             "value": "naaaaaaaaaaaaffffffffffffffff ",
@@ -363,15 +363,15 @@
                         "closing": {
                           "type": "JSXClosingElement",
                           "span": {
-                            "start": 200,
-                            "end": 206,
+                            "start": 199,
+                            "end": 205,
                             "ctxt": 0
                           },
                           "name": {
                             "type": "Identifier",
                             "span": {
-                              "start": 202,
-                              "end": 205,
+                              "start": 201,
+                              "end": 204,
                               "ctxt": 0
                             },
                             "value": "div",
@@ -384,8 +384,8 @@
                   {
                     "type": "JSXText",
                     "span": {
-                      "start": 214,
-                      "end": 219,
+                      "start": 213,
+                      "end": 218,
                       "ctxt": 0
                     },
                     "value": "\n\n    ",
@@ -395,15 +395,15 @@
                 "closing": {
                   "type": "JSXClosingElement",
                   "span": {
-                    "start": 219,
-                    "end": 225,
+                    "start": 218,
+                    "end": 224,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Identifier",
                     "span": {
-                      "start": 221,
-                      "end": 224,
+                      "start": 220,
+                      "end": 223,
                       "ctxt": 0
                     },
                     "value": "div",
@@ -423,15 +423,15 @@
     {
       "type": "ExportDefaultExpression",
       "span": {
-        "start": 234,
-        "end": 253,
+        "start": 233,
+        "end": 252,
         "ctxt": 0
       },
       "expression": {
         "type": "Identifier",
         "span": {
-          "start": 249,
-          "end": 252,
+          "start": 248,
+          "end": 251,
           "ctxt": 0
         },
         "value": "App",

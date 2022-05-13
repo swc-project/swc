@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 35,
+    "start": 0,
+    "end": 34,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 11,
-          "end": 14,
+          "start": 10,
+          "end": 13,
           "ctxt": 0
         },
         "value": "gen",
@@ -22,37 +22,37 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 1,
-        "end": 35,
+        "start": 0,
+        "end": 34,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 17,
-          "end": 35,
+          "start": 16,
+          "end": 34,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
-              "start": 23,
-              "end": 33,
+              "start": 22,
+              "end": 32,
               "ctxt": 0
             },
             "expression": {
               "type": "YieldExpression",
               "span": {
-                "start": 23,
-                "end": 32,
+                "start": 22,
+                "end": 31,
                 "ctxt": 0
               },
               "argument": {
                 "type": "ObjectExpression",
                 "span": {
-                  "start": 29,
-                  "end": 32,
+                  "start": 28,
+                  "end": 31,
                   "ctxt": 0
                 },
                 "properties": []

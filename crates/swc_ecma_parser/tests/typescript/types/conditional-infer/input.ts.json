@@ -1,24 +1,24 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 49,
+    "start": 0,
+    "end": 48,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsTypeAliasDeclaration",
       "span": {
-        "start": 1,
-        "end": 49,
+        "start": 0,
+        "end": 48,
         "ctxt": 0
       },
       "declare": false,
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 6,
-          "end": 13,
+          "start": 5,
+          "end": 12,
           "ctxt": 0
         },
         "value": "Element",
@@ -27,23 +27,23 @@
       "typeParams": {
         "type": "TsTypeParameterDeclaration",
         "span": {
-          "start": 13,
-          "end": 16,
+          "start": 12,
+          "end": 15,
           "ctxt": 0
         },
         "parameters": [
           {
             "type": "TsTypeParameter",
             "span": {
-              "start": 14,
-              "end": 15,
+              "start": 13,
+              "end": 14,
               "ctxt": 0
             },
             "name": {
               "type": "Identifier",
               "span": {
-                "start": 14,
-                "end": 15,
+                "start": 13,
+                "end": 14,
                 "ctxt": 0
               },
               "value": "T",
@@ -59,22 +59,22 @@
       "typeAnnotation": {
         "type": "TsConditionalType",
         "span": {
-          "start": 19,
-          "end": 48,
+          "start": 18,
+          "end": 47,
           "ctxt": 0
         },
         "checkType": {
           "type": "TsTypeReference",
           "span": {
-            "start": 19,
-            "end": 20,
+            "start": 18,
+            "end": 19,
             "ctxt": 0
           },
           "typeName": {
             "type": "Identifier",
             "span": {
-              "start": 19,
-              "end": 20,
+              "start": 18,
+              "end": 19,
               "ctxt": 0
             },
             "value": "T",
@@ -85,36 +85,36 @@
         "extendsType": {
           "type": "TsArrayType",
           "span": {
-            "start": 29,
-            "end": 40,
+            "start": 28,
+            "end": 39,
             "ctxt": 0
           },
           "elemType": {
             "type": "TsParenthesizedType",
             "span": {
-              "start": 29,
-              "end": 38,
+              "start": 28,
+              "end": 37,
               "ctxt": 0
             },
             "typeAnnotation": {
               "type": "TsInferType",
               "span": {
-                "start": 30,
-                "end": 37,
+                "start": 29,
+                "end": 36,
                 "ctxt": 0
               },
               "typeParam": {
                 "type": "TsTypeParameter",
                 "span": {
-                  "start": 36,
-                  "end": 37,
+                  "start": 35,
+                  "end": 36,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Identifier",
                   "span": {
-                    "start": 36,
-                    "end": 37,
+                    "start": 35,
+                    "end": 36,
                     "ctxt": 0
                   },
                   "value": "U",
@@ -131,15 +131,15 @@
         "trueType": {
           "type": "TsTypeReference",
           "span": {
-            "start": 43,
-            "end": 44,
+            "start": 42,
+            "end": 43,
             "ctxt": 0
           },
           "typeName": {
             "type": "Identifier",
             "span": {
-              "start": 43,
-              "end": 44,
+              "start": 42,
+              "end": 43,
               "ctxt": 0
             },
             "value": "U",
@@ -150,15 +150,15 @@
         "falseType": {
           "type": "TsTypeReference",
           "span": {
-            "start": 47,
-            "end": 48,
+            "start": 46,
+            "end": 47,
             "ctxt": 0
           },
           "typeName": {
             "type": "Identifier",
             "span": {
-              "start": 47,
-              "end": 48,
+              "start": 46,
+              "end": 47,
               "ctxt": 0
             },
             "value": "T",

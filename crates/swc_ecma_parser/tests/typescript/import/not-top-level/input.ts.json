@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 51,
+    "start": 0,
+    "end": 50,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsModuleDeclaration",
       "span": {
-        "start": 1,
-        "end": 51,
+        "start": 0,
+        "end": 50,
         "ctxt": 0
       },
       "declare": true,
@@ -18,8 +18,8 @@
       "id": {
         "type": "StringLiteral",
         "span": {
-          "start": 16,
-          "end": 19,
+          "start": 15,
+          "end": 18,
           "ctxt": 0
         },
         "value": "m",
@@ -28,31 +28,31 @@
       "body": {
         "type": "TsModuleBlock",
         "span": {
-          "start": 20,
-          "end": 51,
+          "start": 19,
+          "end": 50,
           "ctxt": 0
         },
         "body": [
           {
             "type": "ImportDeclaration",
             "span": {
-              "start": 26,
-              "end": 49,
+              "start": 25,
+              "end": 48,
               "ctxt": 0
             },
             "specifiers": [
               {
                 "type": "ImportNamespaceSpecifier",
                 "span": {
-                  "start": 33,
-                  "end": 39,
+                  "start": 32,
+                  "end": 38,
                   "ctxt": 0
                 },
                 "local": {
                   "type": "Identifier",
                   "span": {
-                    "start": 38,
-                    "end": 39,
+                    "start": 37,
+                    "end": 38,
                     "ctxt": 0
                   },
                   "value": "a",
@@ -63,8 +63,8 @@
             "source": {
               "type": "StringLiteral",
               "span": {
-                "start": 45,
-                "end": 48,
+                "start": 44,
+                "end": 47,
                 "ctxt": 0
               },
               "value": "a",

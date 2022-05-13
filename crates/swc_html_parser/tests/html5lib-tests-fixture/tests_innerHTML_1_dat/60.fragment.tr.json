@@ -1,16 +1,16 @@
 {
   "type": "DocumentFragment",
   "span": {
-    "start": 1,
-    "end": 24,
+    "start": 0,
+    "end": 23,
     "ctxt": 0
   },
   "children": [
     {
       "type": "Element",
       "span": {
-        "start": 1,
-        "end": 12,
+        "start": 0,
+        "end": 11,
         "ctxt": 0
       },
       "tagName": "td",
@@ -20,8 +20,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 5,
-            "end": 12,
+            "start": 4,
+            "end": 11,
             "ctxt": 0
           },
           "tagName": "table",
@@ -36,8 +36,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 20,
-        "end": 24,
+        "start": 19,
+        "end": 23,
         "ctxt": 0
       },
       "tagName": "td",

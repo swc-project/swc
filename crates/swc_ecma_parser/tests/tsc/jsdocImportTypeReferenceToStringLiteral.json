@@ -1,23 +1,23 @@
 {
   "type": "Module",
   "span": {
-    "start": 73,
-    "end": 158,
+    "start": 72,
+    "end": 157,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 73,
-        "end": 98,
+        "start": 72,
+        "end": 97,
         "ctxt": 0
       },
       "declaration": {
         "type": "VariableDeclaration",
         "span": {
-          "start": 80,
-          "end": 98,
+          "start": 79,
+          "end": 97,
           "ctxt": 0
         },
         "kind": "const",
@@ -26,15 +26,15 @@
           {
             "type": "VariableDeclarator",
             "span": {
-              "start": 86,
-              "end": 97,
+              "start": 85,
+              "end": 96,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 86,
-                "end": 89,
+                "start": 85,
+                "end": 88,
                 "ctxt": 0
               },
               "value": "FOO",
@@ -44,8 +44,8 @@
             "init": {
               "type": "StringLiteral",
               "span": {
-                "start": 92,
-                "end": 97,
+                "start": 91,
+                "end": 96,
                 "ctxt": 0
               },
               "value": "foo",
@@ -59,8 +59,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 152,
-        "end": 158,
+        "start": 151,
+        "end": 157,
         "ctxt": 0
       },
       "kind": "let",
@@ -69,15 +69,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 156,
-            "end": 157,
+            "start": 155,
+            "end": 156,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 156,
-              "end": 157,
+              "start": 155,
+              "end": 156,
               "ctxt": 0
             },
             "value": "x",

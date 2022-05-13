@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 60,
+    "start": 0,
+    "end": 59,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 7,
-          "end": 8,
+          "start": 6,
+          "end": 7,
           "ctxt": 0
         },
         "value": "C",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 1,
-        "end": 60,
+        "start": 0,
+        "end": 59,
         "ctxt": 0
       },
       "decorators": [],
@@ -29,15 +29,15 @@
         {
           "type": "Constructor",
           "span": {
-            "start": 14,
-            "end": 33,
+            "start": 13,
+            "end": 32,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 14,
-              "end": 25,
+              "start": 13,
+              "end": 24,
               "ctxt": 0
             },
             "value": "constructor",
@@ -47,23 +47,23 @@
             {
               "type": "Parameter",
               "span": {
-                "start": 26,
-                "end": 31,
+                "start": 25,
+                "end": 30,
                 "ctxt": 0
               },
               "decorators": [],
               "pat": {
                 "type": "AssignmentPattern",
                 "span": {
-                  "start": 26,
-                  "end": 31,
+                  "start": 25,
+                  "end": 30,
                   "ctxt": 0
                 },
                 "left": {
                   "type": "Identifier",
                   "span": {
-                    "start": 26,
-                    "end": 27,
+                    "start": 25,
+                    "end": 26,
                     "ctxt": 0
                   },
                   "value": "a",
@@ -73,8 +73,8 @@
                 "right": {
                   "type": "NumericLiteral",
                   "span": {
-                    "start": 30,
-                    "end": 31,
+                    "start": 29,
+                    "end": 30,
                     "ctxt": 0
                   },
                   "value": 4.0,
@@ -91,15 +91,15 @@
         {
           "type": "Constructor",
           "span": {
-            "start": 37,
-            "end": 58,
+            "start": 36,
+            "end": 57,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 37,
-              "end": 48,
+              "start": 36,
+              "end": 47,
               "ctxt": 0
             },
             "value": "constructor",
@@ -109,16 +109,16 @@
             {
               "type": "Parameter",
               "span": {
-                "start": 49,
-                "end": 50,
+                "start": 48,
+                "end": 49,
                 "ctxt": 0
               },
               "decorators": [],
               "pat": {
                 "type": "Identifier",
                 "span": {
-                  "start": 49,
-                  "end": 50,
+                  "start": 48,
+                  "end": 49,
                   "ctxt": 0
                 },
                 "value": "a",
@@ -129,16 +129,16 @@
             {
               "type": "Parameter",
               "span": {
-                "start": 52,
-                "end": 53,
+                "start": 51,
+                "end": 52,
                 "ctxt": 0
               },
               "decorators": [],
               "pat": {
                 "type": "Identifier",
                 "span": {
-                  "start": 52,
-                  "end": 53,
+                  "start": 51,
+                  "end": 52,
                   "ctxt": 0
                 },
                 "value": "b",
@@ -150,8 +150,8 @@
           "body": {
             "type": "BlockStatement",
             "span": {
-              "start": 55,
-              "end": 58,
+              "start": 54,
+              "end": 57,
               "ctxt": 0
             },
             "stmts": []

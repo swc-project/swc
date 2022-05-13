@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 16,
-    "end": 100,
+    "start": 15,
+    "end": 99,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsInterfaceDeclaration",
       "span": {
-        "start": 16,
-        "end": 63,
+        "start": 15,
+        "end": 62,
         "ctxt": 0
       },
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 26,
-          "end": 32,
+          "start": 25,
+          "end": 31,
           "ctxt": 0
         },
         "value": "Symbol",
@@ -29,24 +29,24 @@
       "body": {
         "type": "TsInterfaceBody",
         "span": {
-          "start": 33,
-          "end": 63,
+          "start": 32,
+          "end": 62,
           "ctxt": 0
         },
         "body": [
           {
             "type": "TsPropertySignature",
             "span": {
-              "start": 39,
-              "end": 61,
+              "start": 38,
+              "end": 60,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 39,
-                "end": 52,
+                "start": 38,
+                "end": 51,
                 "ctxt": 0
               },
               "value": "newSymbolProp",
@@ -59,15 +59,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 52,
-                "end": 60,
+                "start": 51,
+                "end": 59,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 54,
-                  "end": 60,
+                  "start": 53,
+                  "end": 59,
                   "ctxt": 0
                 },
                 "kind": "number"
@@ -81,8 +81,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 65,
-        "end": 81,
+        "start": 64,
+        "end": 80,
         "ctxt": 0
       },
       "kind": "var",
@@ -91,15 +91,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 69,
-            "end": 80,
+            "start": 68,
+            "end": 79,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 69,
-              "end": 72,
+              "start": 68,
+              "end": 71,
               "ctxt": 0
             },
             "value": "sym",
@@ -107,15 +107,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 72,
-                "end": 80,
+                "start": 71,
+                "end": 79,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 74,
-                  "end": 80,
+                  "start": 73,
+                  "end": 79,
                   "ctxt": 0
                 },
                 "kind": "symbol"
@@ -130,22 +130,22 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 82,
-        "end": 100,
+        "start": 81,
+        "end": 99,
         "ctxt": 0
       },
       "expression": {
         "type": "MemberExpression",
         "span": {
-          "start": 82,
-          "end": 99,
+          "start": 81,
+          "end": 98,
           "ctxt": 0
         },
         "object": {
           "type": "Identifier",
           "span": {
-            "start": 82,
-            "end": 85,
+            "start": 81,
+            "end": 84,
             "ctxt": 0
           },
           "value": "sym",
@@ -154,8 +154,8 @@
         "property": {
           "type": "Identifier",
           "span": {
-            "start": 86,
-            "end": 99,
+            "start": 85,
+            "end": 98,
             "ctxt": 0
           },
           "value": "newSymbolProp",

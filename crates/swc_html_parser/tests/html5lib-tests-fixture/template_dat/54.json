@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 1,
-    "end": 77,
+    "start": 0,
+    "end": 76,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 58,
+        "end": 57,
         "ctxt": 0
       },
       "tagName": "html",
@@ -22,7 +22,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 7,
+            "end": 6,
             "ctxt": 0
           },
           "tagName": "head",
@@ -34,8 +34,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 1,
-            "end": 58,
+            "start": 0,
+            "end": 57,
             "ctxt": 0
           },
           "tagName": "body",
@@ -45,8 +45,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 7,
-                "end": 58,
+                "start": 6,
+                "end": 57,
                 "ctxt": 0
               },
               "tagName": "template",
@@ -86,6 +86,39 @@
                     "attributes": [],
                     "children": [],
                     "content": null
+              "children": [
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 16,
+                    "end": 23,
+                    "ctxt": 0
+                  },
+                  "tagName": "thead",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 31,
+                    "end": 40,
+                    "ctxt": 0
+                  },
+                  "tagName": "caption",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 50,
+                    "end": 57,
+                    "ctxt": 0
                   },
                   {
                     "type": "Element",

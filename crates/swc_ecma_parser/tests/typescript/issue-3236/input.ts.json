@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 40,
+    "start": 0,
+    "end": 39,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 10,
-          "end": 11,
+          "start": 9,
+          "end": 10,
           "ctxt": 0
         },
         "value": "f",
@@ -23,23 +23,23 @@
         {
           "type": "Parameter",
           "span": {
-            "start": 12,
-            "end": 17,
+            "start": 11,
+            "end": 16,
             "ctxt": 0
           },
           "decorators": [],
           "pat": {
             "type": "AssignmentPattern",
             "span": {
-              "start": 12,
-              "end": 17,
+              "start": 11,
+              "end": 16,
               "ctxt": 0
             },
             "left": {
               "type": "Identifier",
               "span": {
-                "start": 12,
-                "end": 13,
+                "start": 11,
+                "end": 12,
                 "ctxt": 0
               },
               "value": "a",
@@ -49,8 +49,8 @@
             "right": {
               "type": "NumericLiteral",
               "span": {
-                "start": 16,
-                "end": 17,
+                "start": 15,
+                "end": 16,
                 "ctxt": 0
               },
               "value": 0.0,
@@ -62,30 +62,30 @@
       ],
       "decorators": [],
       "span": {
-        "start": 1,
-        "end": 40,
+        "start": 0,
+        "end": 39,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 19,
-          "end": 40,
+          "start": 18,
+          "end": 39,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
-              "start": 25,
-              "end": 38,
+              "start": 24,
+              "end": 37,
               "ctxt": 0
             },
             "expression": {
               "type": "StringLiteral",
               "span": {
-                "start": 25,
-                "end": 37,
+                "start": 24,
+                "end": 36,
                 "ctxt": 0
               },
               "value": "use strict",

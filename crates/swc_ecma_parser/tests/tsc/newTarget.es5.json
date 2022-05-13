@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 17,
-    "end": 566,
+    "start": 16,
+    "end": 565,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 23,
-          "end": 24,
+          "start": 22,
+          "end": 23,
           "ctxt": 0
         },
         "value": "A",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 17,
-        "end": 213,
+        "start": 16,
+        "end": 212,
         "ctxt": 0
       },
       "decorators": [],
@@ -29,15 +29,15 @@
         {
           "type": "Constructor",
           "span": {
-            "start": 31,
-            "end": 118,
+            "start": 30,
+            "end": 117,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 31,
-              "end": 42,
+              "start": 30,
+              "end": 41,
               "ctxt": 0
             },
             "value": "constructor",
@@ -47,16 +47,16 @@
           "body": {
             "type": "BlockStatement",
             "span": {
-              "start": 45,
-              "end": 118,
+              "start": 44,
+              "end": 117,
               "ctxt": 0
             },
             "stmts": [
               {
                 "type": "VariableDeclaration",
                 "span": {
-                  "start": 55,
-                  "end": 76,
+                  "start": 54,
+                  "end": 75,
                   "ctxt": 0
                 },
                 "kind": "const",
@@ -65,15 +65,15 @@
                   {
                     "type": "VariableDeclarator",
                     "span": {
-                      "start": 61,
-                      "end": 75,
+                      "start": 60,
+                      "end": 74,
                       "ctxt": 0
                     },
                     "id": {
                       "type": "Identifier",
                       "span": {
-                        "start": 61,
-                        "end": 62,
+                        "start": 60,
+                        "end": 61,
                         "ctxt": 0
                       },
                       "value": "a",
@@ -83,8 +83,8 @@
                     "init": {
                       "type": "MetaProperty",
                       "span": {
-                        "start": 65,
-                        "end": 75,
+                        "start": 64,
+                        "end": 74,
                         "ctxt": 0
                       },
                       "kind": "new.target"
@@ -96,8 +96,8 @@
               {
                 "type": "VariableDeclaration",
                 "span": {
-                  "start": 85,
-                  "end": 112,
+                  "start": 84,
+                  "end": 111,
                   "ctxt": 0
                 },
                 "kind": "const",
@@ -106,15 +106,15 @@
                   {
                     "type": "VariableDeclarator",
                     "span": {
-                      "start": 91,
-                      "end": 111,
+                      "start": 90,
+                      "end": 110,
                       "ctxt": 0
                     },
                     "id": {
                       "type": "Identifier",
                       "span": {
-                        "start": 91,
-                        "end": 92,
+                        "start": 90,
+                        "end": 91,
                         "ctxt": 0
                       },
                       "value": "b",
@@ -124,16 +124,16 @@
                     "init": {
                       "type": "ArrowFunctionExpression",
                       "span": {
-                        "start": 95,
-                        "end": 111,
+                        "start": 94,
+                        "end": 110,
                         "ctxt": 0
                       },
                       "params": [],
                       "body": {
                         "type": "MetaProperty",
                         "span": {
-                          "start": 101,
-                          "end": 111,
+                          "start": 100,
+                          "end": 110,
                           "ctxt": 0
                         },
                         "kind": "new.target"
@@ -155,15 +155,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 123,
-            "end": 168,
+            "start": 122,
+            "end": 167,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 130,
-              "end": 131,
+              "start": 129,
+              "end": 130,
               "ctxt": 0
             },
             "value": "c",
@@ -175,30 +175,30 @@
             "params": [],
             "decorators": [],
             "span": {
-              "start": 134,
-              "end": 168,
+              "start": 133,
+              "end": 167,
               "ctxt": 0
             },
             "body": {
               "type": "BlockStatement",
               "span": {
-                "start": 146,
-                "end": 168,
+                "start": 145,
+                "end": 167,
                 "ctxt": 0
               },
               "stmts": [
                 {
                   "type": "ReturnStatement",
                   "span": {
-                    "start": 148,
-                    "end": 166,
+                    "start": 147,
+                    "end": 165,
                     "ctxt": 0
                   },
                   "argument": {
                     "type": "MetaProperty",
                     "span": {
-                      "start": 155,
-                      "end": 165,
+                      "start": 154,
+                      "end": 164,
                       "ctxt": 0
                     },
                     "kind": "new.target"
@@ -225,15 +225,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 173,
-            "end": 211,
+            "start": 172,
+            "end": 210,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 173,
-              "end": 174,
+              "start": 172,
+              "end": 173,
               "ctxt": 0
             },
             "value": "d",
@@ -245,30 +245,30 @@
             "params": [],
             "decorators": [],
             "span": {
-              "start": 177,
-              "end": 211,
+              "start": 176,
+              "end": 210,
               "ctxt": 0
             },
             "body": {
               "type": "BlockStatement",
               "span": {
-                "start": 189,
-                "end": 211,
+                "start": 188,
+                "end": 210,
                 "ctxt": 0
               },
               "stmts": [
                 {
                   "type": "ReturnStatement",
                   "span": {
-                    "start": 191,
-                    "end": 209,
+                    "start": 190,
+                    "end": 208,
                     "ctxt": 0
                   },
                   "argument": {
                     "type": "MetaProperty",
                     "span": {
-                      "start": 198,
-                      "end": 208,
+                      "start": 197,
+                      "end": 207,
                       "ctxt": 0
                     },
                     "kind": "new.target"
@@ -304,8 +304,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 221,
-          "end": 222,
+          "start": 220,
+          "end": 221,
           "ctxt": 0
         },
         "value": "B",
@@ -313,8 +313,8 @@
       },
       "declare": false,
       "span": {
-        "start": 215,
-        "end": 345,
+        "start": 214,
+        "end": 344,
         "ctxt": 0
       },
       "decorators": [],
@@ -322,15 +322,15 @@
         {
           "type": "Constructor",
           "span": {
-            "start": 239,
-            "end": 343,
+            "start": 238,
+            "end": 342,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 239,
-              "end": 250,
+              "start": 238,
+              "end": 249,
               "ctxt": 0
             },
             "value": "constructor",
@@ -340,30 +340,30 @@
           "body": {
             "type": "BlockStatement",
             "span": {
-              "start": 253,
-              "end": 343,
+              "start": 252,
+              "end": 342,
               "ctxt": 0
             },
             "stmts": [
               {
                 "type": "ExpressionStatement",
                 "span": {
-                  "start": 263,
-                  "end": 271,
+                  "start": 262,
+                  "end": 270,
                   "ctxt": 0
                 },
                 "expression": {
                   "type": "CallExpression",
                   "span": {
-                    "start": 263,
-                    "end": 270,
+                    "start": 262,
+                    "end": 269,
                     "ctxt": 0
                   },
                   "callee": {
                     "type": "Super",
                     "span": {
-                      "start": 263,
-                      "end": 268,
+                      "start": 262,
+                      "end": 267,
                       "ctxt": 0
                     }
                   },
@@ -374,8 +374,8 @@
               {
                 "type": "VariableDeclaration",
                 "span": {
-                  "start": 280,
-                  "end": 301,
+                  "start": 279,
+                  "end": 300,
                   "ctxt": 0
                 },
                 "kind": "const",
@@ -384,15 +384,15 @@
                   {
                     "type": "VariableDeclarator",
                     "span": {
-                      "start": 286,
-                      "end": 300,
+                      "start": 285,
+                      "end": 299,
                       "ctxt": 0
                     },
                     "id": {
                       "type": "Identifier",
                       "span": {
-                        "start": 286,
-                        "end": 287,
+                        "start": 285,
+                        "end": 286,
                         "ctxt": 0
                       },
                       "value": "e",
@@ -402,8 +402,8 @@
                     "init": {
                       "type": "MetaProperty",
                       "span": {
-                        "start": 290,
-                        "end": 300,
+                        "start": 289,
+                        "end": 299,
                         "ctxt": 0
                       },
                       "kind": "new.target"
@@ -415,8 +415,8 @@
               {
                 "type": "VariableDeclaration",
                 "span": {
-                  "start": 310,
-                  "end": 337,
+                  "start": 309,
+                  "end": 336,
                   "ctxt": 0
                 },
                 "kind": "const",
@@ -425,15 +425,15 @@
                   {
                     "type": "VariableDeclarator",
                     "span": {
-                      "start": 316,
-                      "end": 336,
+                      "start": 315,
+                      "end": 335,
                       "ctxt": 0
                     },
                     "id": {
                       "type": "Identifier",
                       "span": {
-                        "start": 316,
-                        "end": 317,
+                        "start": 315,
+                        "end": 316,
                         "ctxt": 0
                       },
                       "value": "f",
@@ -443,16 +443,16 @@
                     "init": {
                       "type": "ArrowFunctionExpression",
                       "span": {
-                        "start": 320,
-                        "end": 336,
+                        "start": 319,
+                        "end": 335,
                         "ctxt": 0
                       },
                       "params": [],
                       "body": {
                         "type": "MetaProperty",
                         "span": {
-                          "start": 326,
-                          "end": 336,
+                          "start": 325,
+                          "end": 335,
                           "ctxt": 0
                         },
                         "kind": "new.target"
@@ -475,8 +475,8 @@
       "superClass": {
         "type": "Identifier",
         "span": {
-          "start": 231,
-          "end": 232,
+          "start": 230,
+          "end": 231,
           "ctxt": 0
         },
         "value": "A",
@@ -492,8 +492,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 356,
-          "end": 358,
+          "start": 355,
+          "end": 357,
           "ctxt": 0
         },
         "value": "f1",
@@ -503,23 +503,23 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 347,
-        "end": 422,
+        "start": 346,
+        "end": 421,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 361,
-          "end": 422,
+          "start": 360,
+          "end": 421,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "VariableDeclaration",
             "span": {
-              "start": 367,
-              "end": 388,
+              "start": 366,
+              "end": 387,
               "ctxt": 0
             },
             "kind": "const",
@@ -528,15 +528,15 @@
               {
                 "type": "VariableDeclarator",
                 "span": {
-                  "start": 373,
-                  "end": 387,
+                  "start": 372,
+                  "end": 386,
                   "ctxt": 0
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
-                    "start": 373,
-                    "end": 374,
+                    "start": 372,
+                    "end": 373,
                     "ctxt": 0
                   },
                   "value": "g",
@@ -546,8 +546,8 @@
                 "init": {
                   "type": "MetaProperty",
                   "span": {
-                    "start": 377,
-                    "end": 387,
+                    "start": 376,
+                    "end": 386,
                     "ctxt": 0
                   },
                   "kind": "new.target"
@@ -559,8 +559,8 @@
           {
             "type": "VariableDeclaration",
             "span": {
-              "start": 393,
-              "end": 420,
+              "start": 392,
+              "end": 419,
               "ctxt": 0
             },
             "kind": "const",
@@ -569,15 +569,15 @@
               {
                 "type": "VariableDeclarator",
                 "span": {
-                  "start": 399,
-                  "end": 419,
+                  "start": 398,
+                  "end": 418,
                   "ctxt": 0
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
-                    "start": 399,
-                    "end": 400,
+                    "start": 398,
+                    "end": 399,
                     "ctxt": 0
                   },
                   "value": "h",
@@ -587,16 +587,16 @@
                 "init": {
                   "type": "ArrowFunctionExpression",
                   "span": {
-                    "start": 403,
-                    "end": 419,
+                    "start": 402,
+                    "end": 418,
                     "ctxt": 0
                   },
                   "params": [],
                   "body": {
                     "type": "MetaProperty",
                     "span": {
-                      "start": 409,
-                      "end": 419,
+                      "start": 408,
+                      "end": 418,
                       "ctxt": 0
                     },
                     "kind": "new.target"
@@ -620,8 +620,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 424,
-        "end": 508,
+        "start": 423,
+        "end": 507,
         "ctxt": 0
       },
       "kind": "const",
@@ -630,15 +630,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 430,
-            "end": 508,
+            "start": 429,
+            "end": 507,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 430,
-              "end": 432,
+              "start": 429,
+              "end": 431,
               "ctxt": 0
             },
             "value": "f2",
@@ -651,23 +651,23 @@
             "params": [],
             "decorators": [],
             "span": {
-              "start": 435,
-              "end": 508,
+              "start": 434,
+              "end": 507,
               "ctxt": 0
             },
             "body": {
               "type": "BlockStatement",
               "span": {
-                "start": 447,
-                "end": 508,
+                "start": 446,
+                "end": 507,
                 "ctxt": 0
               },
               "stmts": [
                 {
                   "type": "VariableDeclaration",
                   "span": {
-                    "start": 453,
-                    "end": 474,
+                    "start": 452,
+                    "end": 473,
                     "ctxt": 0
                   },
                   "kind": "const",
@@ -676,15 +676,15 @@
                     {
                       "type": "VariableDeclarator",
                       "span": {
-                        "start": 459,
-                        "end": 473,
+                        "start": 458,
+                        "end": 472,
                         "ctxt": 0
                       },
                       "id": {
                         "type": "Identifier",
                         "span": {
-                          "start": 459,
-                          "end": 460,
+                          "start": 458,
+                          "end": 459,
                           "ctxt": 0
                         },
                         "value": "i",
@@ -694,8 +694,8 @@
                       "init": {
                         "type": "MetaProperty",
                         "span": {
-                          "start": 463,
-                          "end": 473,
+                          "start": 462,
+                          "end": 472,
                           "ctxt": 0
                         },
                         "kind": "new.target"
@@ -707,8 +707,8 @@
                 {
                   "type": "VariableDeclaration",
                   "span": {
-                    "start": 479,
-                    "end": 506,
+                    "start": 478,
+                    "end": 505,
                     "ctxt": 0
                   },
                   "kind": "const",
@@ -717,15 +717,15 @@
                     {
                       "type": "VariableDeclarator",
                       "span": {
-                        "start": 485,
-                        "end": 505,
+                        "start": 484,
+                        "end": 504,
                         "ctxt": 0
                       },
                       "id": {
                         "type": "Identifier",
                         "span": {
-                          "start": 485,
-                          "end": 486,
+                          "start": 484,
+                          "end": 485,
                           "ctxt": 0
                         },
                         "value": "j",
@@ -735,16 +735,16 @@
                       "init": {
                         "type": "ArrowFunctionExpression",
                         "span": {
-                          "start": 489,
-                          "end": 505,
+                          "start": 488,
+                          "end": 504,
                           "ctxt": 0
                         },
                         "params": [],
                         "body": {
                           "type": "MetaProperty",
                           "span": {
-                            "start": 495,
-                            "end": 505,
+                            "start": 494,
+                            "end": 504,
                             "ctxt": 0
                           },
                           "kind": "new.target"
@@ -772,8 +772,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 510,
-        "end": 566,
+        "start": 509,
+        "end": 565,
         "ctxt": 0
       },
       "kind": "const",
@@ -782,15 +782,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 516,
-            "end": 565,
+            "start": 515,
+            "end": 564,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 516,
-              "end": 517,
+              "start": 515,
+              "end": 516,
               "ctxt": 0
             },
             "value": "O",
@@ -800,8 +800,8 @@
           "init": {
             "type": "ObjectExpression",
             "span": {
-              "start": 520,
-              "end": 565,
+              "start": 519,
+              "end": 564,
               "ctxt": 0
             },
             "properties": [
@@ -810,8 +810,8 @@
                 "key": {
                   "type": "Identifier",
                   "span": {
-                    "start": 526,
-                    "end": 527,
+                    "start": 525,
+                    "end": 526,
                     "ctxt": 0
                   },
                   "value": "k",
@@ -823,30 +823,30 @@
                   "params": [],
                   "decorators": [],
                   "span": {
-                    "start": 529,
-                    "end": 563,
+                    "start": 528,
+                    "end": 562,
                     "ctxt": 0
                   },
                   "body": {
                     "type": "BlockStatement",
                     "span": {
-                      "start": 541,
-                      "end": 563,
+                      "start": 540,
+                      "end": 562,
                       "ctxt": 0
                     },
                     "stmts": [
                       {
                         "type": "ReturnStatement",
                         "span": {
-                          "start": 543,
-                          "end": 561,
+                          "start": 542,
+                          "end": 560,
                           "ctxt": 0
                         },
                         "argument": {
                           "type": "MetaProperty",
                           "span": {
-                            "start": 550,
-                            "end": 560,
+                            "start": 549,
+                            "end": 559,
                             "ctxt": 0
                           },
                           "kind": "new.target"

@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 73,
-    "end": 201,
+    "start": 72,
+    "end": 200,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 73,
-        "end": 103,
+        "start": 72,
+        "end": 102,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 77,
-            "end": 103,
+            "start": 76,
+            "end": 102,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 77,
-              "end": 85,
+              "start": 76,
+              "end": 84,
               "ctxt": 0
             },
             "value": "GLOBSTAR",
@@ -37,23 +37,23 @@
           "init": {
             "type": "AssignmentExpression",
             "span": {
-              "start": 88,
-              "end": 103,
+              "start": 87,
+              "end": 102,
               "ctxt": 0
             },
             "operator": "=",
             "left": {
               "type": "MemberExpression",
               "span": {
-                "start": 88,
-                "end": 98,
+                "start": 87,
+                "end": 97,
                 "ctxt": 0
               },
               "object": {
                 "type": "Identifier",
                 "span": {
-                  "start": 88,
-                  "end": 89,
+                  "start": 87,
+                  "end": 88,
                   "ctxt": 0
                 },
                 "value": "m",
@@ -62,8 +62,8 @@
               "property": {
                 "type": "Identifier",
                 "span": {
-                  "start": 90,
-                  "end": 98,
+                  "start": 89,
+                  "end": 97,
                   "ctxt": 0
                 },
                 "value": "GLOBSTAR",
@@ -73,8 +73,8 @@
             "right": {
               "type": "ObjectExpression",
               "span": {
-                "start": 101,
-                "end": 103,
+                "start": 100,
+                "end": 102,
                 "ctxt": 0
               },
               "properties": []
@@ -89,8 +89,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 113,
-          "end": 114,
+          "start": 112,
+          "end": 113,
           "ctxt": 0
         },
         "value": "m",
@@ -100,15 +100,15 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 104,
-        "end": 120,
+        "start": 103,
+        "end": 119,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 117,
-          "end": 120,
+          "start": 116,
+          "end": 119,
           "ctxt": 0
         },
         "stmts": []
@@ -121,30 +121,30 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 121,
-        "end": 135,
+        "start": 120,
+        "end": 134,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 121,
-          "end": 135,
+          "start": 120,
+          "end": 134,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
-            "start": 121,
-            "end": 131,
+            "start": 120,
+            "end": 130,
             "ctxt": 0
           },
           "object": {
             "type": "Identifier",
             "span": {
-              "start": 121,
-              "end": 129,
+              "start": 120,
+              "end": 128,
               "ctxt": 0
             },
             "value": "GLOBSTAR",
@@ -153,8 +153,8 @@
           "property": {
             "type": "Identifier",
             "span": {
-              "start": 130,
-              "end": 131,
+              "start": 129,
+              "end": 130,
               "ctxt": 0
             },
             "value": "p",
@@ -164,8 +164,8 @@
         "right": {
           "type": "NumericLiteral",
           "span": {
-            "start": 134,
-            "end": 135,
+            "start": 133,
+            "end": 134,
             "ctxt": 0
           },
           "value": 1.0,
@@ -176,37 +176,37 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 136,
-        "end": 152,
+        "start": 135,
+        "end": 151,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 136,
-          "end": 152,
+          "start": 135,
+          "end": 151,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
-            "start": 136,
-            "end": 148,
+            "start": 135,
+            "end": 147,
             "ctxt": 0
           },
           "object": {
             "type": "MemberExpression",
             "span": {
-              "start": 136,
-              "end": 146,
+              "start": 135,
+              "end": 145,
               "ctxt": 0
             },
             "object": {
               "type": "Identifier",
               "span": {
-                "start": 136,
-                "end": 137,
+                "start": 135,
+                "end": 136,
                 "ctxt": 0
               },
               "value": "m",
@@ -215,8 +215,8 @@
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 138,
-                "end": 146,
+                "start": 137,
+                "end": 145,
                 "ctxt": 0
               },
               "value": "GLOBSTAR",
@@ -226,8 +226,8 @@
           "property": {
             "type": "Identifier",
             "span": {
-              "start": 147,
-              "end": 148,
+              "start": 146,
+              "end": 147,
               "ctxt": 0
             },
             "value": "q",
@@ -237,8 +237,8 @@
         "right": {
           "type": "NumericLiteral",
           "span": {
-            "start": 151,
-            "end": 152,
+            "start": 150,
+            "end": 151,
             "ctxt": 0
           },
           "value": 2.0,
@@ -249,22 +249,22 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 154,
-        "end": 164,
+        "start": 153,
+        "end": 163,
         "ctxt": 0
       },
       "expression": {
         "type": "MemberExpression",
         "span": {
-          "start": 154,
-          "end": 164,
+          "start": 153,
+          "end": 163,
           "ctxt": 0
         },
         "object": {
           "type": "Identifier",
           "span": {
-            "start": 154,
-            "end": 162,
+            "start": 153,
+            "end": 161,
             "ctxt": 0
           },
           "value": "GLOBSTAR",
@@ -273,8 +273,8 @@
         "property": {
           "type": "Identifier",
           "span": {
-            "start": 163,
-            "end": 164,
+            "start": 162,
+            "end": 163,
             "ctxt": 0
           },
           "value": "p",
@@ -285,22 +285,22 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 165,
-        "end": 175,
+        "start": 164,
+        "end": 174,
         "ctxt": 0
       },
       "expression": {
         "type": "MemberExpression",
         "span": {
-          "start": 165,
-          "end": 175,
+          "start": 164,
+          "end": 174,
           "ctxt": 0
         },
         "object": {
           "type": "Identifier",
           "span": {
-            "start": 165,
-            "end": 173,
+            "start": 164,
+            "end": 172,
             "ctxt": 0
           },
           "value": "GLOBSTAR",
@@ -309,8 +309,8 @@
         "property": {
           "type": "Identifier",
           "span": {
-            "start": 174,
-            "end": 175,
+            "start": 173,
+            "end": 174,
             "ctxt": 0
           },
           "value": "q",
@@ -321,29 +321,29 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 176,
-        "end": 188,
+        "start": 175,
+        "end": 187,
         "ctxt": 0
       },
       "expression": {
         "type": "MemberExpression",
         "span": {
-          "start": 176,
-          "end": 188,
+          "start": 175,
+          "end": 187,
           "ctxt": 0
         },
         "object": {
           "type": "MemberExpression",
           "span": {
-            "start": 176,
-            "end": 186,
+            "start": 175,
+            "end": 185,
             "ctxt": 0
           },
           "object": {
             "type": "Identifier",
             "span": {
-              "start": 176,
-              "end": 177,
+              "start": 175,
+              "end": 176,
               "ctxt": 0
             },
             "value": "m",
@@ -352,8 +352,8 @@
           "property": {
             "type": "Identifier",
             "span": {
-              "start": 178,
-              "end": 186,
+              "start": 177,
+              "end": 185,
               "ctxt": 0
             },
             "value": "GLOBSTAR",
@@ -363,8 +363,8 @@
         "property": {
           "type": "Identifier",
           "span": {
-            "start": 187,
-            "end": 188,
+            "start": 186,
+            "end": 187,
             "ctxt": 0
           },
           "value": "p",
@@ -375,29 +375,29 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 189,
-        "end": 201,
+        "start": 188,
+        "end": 200,
         "ctxt": 0
       },
       "expression": {
         "type": "MemberExpression",
         "span": {
-          "start": 189,
-          "end": 201,
+          "start": 188,
+          "end": 200,
           "ctxt": 0
         },
         "object": {
           "type": "MemberExpression",
           "span": {
-            "start": 189,
-            "end": 199,
+            "start": 188,
+            "end": 198,
             "ctxt": 0
           },
           "object": {
             "type": "Identifier",
             "span": {
-              "start": 189,
-              "end": 190,
+              "start": 188,
+              "end": 189,
               "ctxt": 0
             },
             "value": "m",
@@ -406,8 +406,8 @@
           "property": {
             "type": "Identifier",
             "span": {
-              "start": 191,
-              "end": 199,
+              "start": 190,
+              "end": 198,
               "ctxt": 0
             },
             "value": "GLOBSTAR",
@@ -417,8 +417,8 @@
         "property": {
           "type": "Identifier",
           "span": {
-            "start": 200,
-            "end": 201,
+            "start": 199,
+            "end": 200,
             "ctxt": 0
           },
           "value": "q",

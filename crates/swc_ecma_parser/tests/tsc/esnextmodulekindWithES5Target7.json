@@ -1,23 +1,23 @@
 {
   "type": "Module",
   "span": {
-    "start": 37,
-    "end": 126,
+    "start": 36,
+    "end": 125,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 37,
-        "end": 74,
+        "start": 36,
+        "end": 73,
         "ctxt": 0
       },
       "declaration": {
         "type": "TsModuleDeclaration",
         "span": {
-          "start": 44,
-          "end": 74,
+          "start": 43,
+          "end": 73,
           "ctxt": 0
         },
         "declare": false,
@@ -25,8 +25,8 @@
         "id": {
           "type": "Identifier",
           "span": {
-            "start": 54,
-            "end": 55,
+            "start": 53,
+            "end": 54,
             "ctxt": 0
           },
           "value": "N",
@@ -35,16 +35,16 @@
         "body": {
           "type": "TsModuleBlock",
           "span": {
-            "start": 56,
-            "end": 74,
+            "start": 55,
+            "end": 73,
             "ctxt": 0
           },
           "body": [
             {
               "type": "VariableDeclaration",
               "span": {
-                "start": 62,
-                "end": 72,
+                "start": 61,
+                "end": 71,
                 "ctxt": 0
               },
               "kind": "var",
@@ -53,15 +53,15 @@
                 {
                   "type": "VariableDeclarator",
                   "span": {
-                    "start": 66,
-                    "end": 71,
+                    "start": 65,
+                    "end": 70,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 66,
-                      "end": 67,
+                      "start": 65,
+                      "end": 66,
                       "ctxt": 0
                     },
                     "value": "x",
@@ -71,8 +71,8 @@
                   "init": {
                     "type": "NumericLiteral",
                     "span": {
-                      "start": 70,
-                      "end": 71,
+                      "start": 69,
+                      "end": 70,
                       "ctxt": 0
                     },
                     "value": 0.0,
@@ -89,15 +89,15 @@
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 76,
-        "end": 126,
+        "start": 75,
+        "end": 125,
         "ctxt": 0
       },
       "declaration": {
         "type": "TsModuleDeclaration",
         "span": {
-          "start": 83,
-          "end": 126,
+          "start": 82,
+          "end": 125,
           "ctxt": 0
         },
         "declare": false,
@@ -105,8 +105,8 @@
         "id": {
           "type": "Identifier",
           "span": {
-            "start": 93,
-            "end": 95,
+            "start": 92,
+            "end": 94,
             "ctxt": 0
           },
           "value": "N2",
@@ -115,30 +115,30 @@
         "body": {
           "type": "TsModuleBlock",
           "span": {
-            "start": 96,
-            "end": 126,
+            "start": 95,
+            "end": 125,
             "ctxt": 0
           },
           "body": [
             {
               "type": "ExportDeclaration",
               "span": {
-                "start": 102,
-                "end": 124,
+                "start": 101,
+                "end": 123,
                 "ctxt": 0
               },
               "declaration": {
                 "type": "TsInterfaceDeclaration",
                 "span": {
-                  "start": 109,
-                  "end": 124,
+                  "start": 108,
+                  "end": 123,
                   "ctxt": 0
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
-                    "start": 119,
-                    "end": 120,
+                    "start": 118,
+                    "end": 119,
                     "ctxt": 0
                   },
                   "value": "I",
@@ -150,8 +150,8 @@
                 "body": {
                   "type": "TsInterfaceBody",
                   "span": {
-                    "start": 121,
-                    "end": 124,
+                    "start": 120,
+                    "end": 123,
                     "ctxt": 0
                   },
                   "body": []

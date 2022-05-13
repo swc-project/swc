@@ -1,62 +1,62 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 1,
-    "end": 80,
+    "start": 0,
+    "end": 79,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
-        "start": 1,
-        "end": 79,
+        "start": 0,
+        "end": 78,
         "ctxt": 0
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
-          "start": 1,
-          "end": 4,
+          "start": 0,
+          "end": 3,
           "ctxt": 0
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
-              "start": 1,
-              "end": 4,
+              "start": 0,
+              "end": 3,
               "ctxt": 0
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
-                  "start": 1,
-                  "end": 4,
+                  "start": 0,
+                  "end": 3,
                   "ctxt": 0
                 },
                 "nestingSelector": null,
                 "typeSelector": {
                   "type": "TagNameSelector",
                   "span": {
-                    "start": 1,
-                    "end": 4,
+                    "start": 0,
+                    "end": 3,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "WqName",
                     "span": {
-                      "start": 1,
-                      "end": 4,
+                      "start": 0,
+                      "end": 3,
                       "ctxt": 0
                     },
                     "prefix": null,
                     "value": {
                       "type": "Ident",
                       "span": {
-                        "start": 1,
-                        "end": 4,
+                        "start": 0,
+                        "end": 3,
                         "ctxt": 0
                       },
                       "value": "div",
@@ -73,8 +73,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 5,
-          "end": 79,
+          "start": 4,
+          "end": 78,
           "ctxt": 0
         },
         "name": "{",
@@ -82,15 +82,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 11,
-              "end": 26,
+              "start": 10,
+              "end": 25,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 11,
-                "end": 15,
+                "start": 10,
+                "end": 14,
                 "ctxt": 0
               },
               "value": "prod",
@@ -100,15 +100,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 17,
-                  "end": 26,
+                  "start": 16,
+                  "end": 25,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 17,
-                    "end": 19,
+                    "start": 16,
+                    "end": 18,
                     "ctxt": 0
                   },
                   "value": "fn",
@@ -118,15 +118,15 @@
                   {
                     "type": "Length",
                     "span": {
-                      "start": 20,
-                      "end": 25,
+                      "start": 19,
+                      "end": 24,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 20,
-                        "end": 23,
+                        "start": 19,
+                        "end": 22,
                         "ctxt": 0
                       },
                       "value": 100.0,
@@ -135,8 +135,8 @@
                     "unit": {
                       "type": "Ident",
                       "span": {
-                        "start": 23,
-                        "end": 25,
+                        "start": 22,
+                        "end": 24,
                         "ctxt": 0
                       },
                       "value": "px",
@@ -151,15 +151,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 32,
-              "end": 49,
+              "start": 31,
+              "end": 48,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 32,
-                "end": 36,
+                "start": 31,
+                "end": 35,
                 "ctxt": 0
               },
               "value": "prod",
@@ -169,15 +169,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 38,
-                  "end": 49,
+                  "start": 37,
+                  "end": 48,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 38,
-                    "end": 42,
+                    "start": 37,
+                    "end": 41,
                     "ctxt": 0
                   },
                   "value": "--fn",
@@ -187,15 +187,15 @@
                   {
                     "type": "Length",
                     "span": {
-                      "start": 43,
-                      "end": 48,
+                      "start": 42,
+                      "end": 47,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 43,
-                        "end": 46,
+                        "start": 42,
+                        "end": 45,
                         "ctxt": 0
                       },
                       "value": 100.0,
@@ -204,8 +204,8 @@
                     "unit": {
                       "type": "Ident",
                       "span": {
-                        "start": 46,
-                        "end": 48,
+                        "start": 45,
+                        "end": 47,
                         "ctxt": 0
                       },
                       "value": "px",
@@ -220,15 +220,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 55,
-              "end": 76,
+              "start": 54,
+              "end": 75,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 55,
-                "end": 59,
+                "start": 54,
+                "end": 58,
                 "ctxt": 0
               },
               "value": "prod",
@@ -238,15 +238,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 61,
-                  "end": 76,
+                  "start": 60,
+                  "end": 75,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 61,
-                    "end": 69,
+                    "start": 60,
+                    "end": 68,
                     "ctxt": 0
                   },
                   "value": "--fn--fn",
@@ -256,15 +256,15 @@
                   {
                     "type": "Length",
                     "span": {
-                      "start": 70,
-                      "end": 75,
+                      "start": 69,
+                      "end": 74,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 70,
-                        "end": 73,
+                        "start": 69,
+                        "end": 72,
                         "ctxt": 0
                       },
                       "value": 100.0,
@@ -273,8 +273,8 @@
                     "unit": {
                       "type": "Ident",
                       "span": {
-                        "start": 73,
-                        "end": 75,
+                        "start": 72,
+                        "end": 74,
                         "ctxt": 0
                       },
                       "value": "px",

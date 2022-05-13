@@ -1,16 +1,16 @@
 {
   "type": "DocumentFragment",
   "span": {
-    "start": 1,
-    "end": 19,
+    "start": 0,
+    "end": 18,
     "ctxt": 0
   },
   "children": [
     {
       "type": "Element",
       "span": {
-        "start": 1,
-        "end": 4,
+        "start": 0,
+        "end": 3,
         "ctxt": 0
       },
       "tagName": "a",
@@ -22,8 +22,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 4,
-        "end": 19,
+        "start": 3,
+        "end": 18,
         "ctxt": 0
       },
       "tagName": "colgroup",
@@ -33,8 +33,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 14,
-            "end": 19,
+            "start": 13,
+            "end": 18,
             "ctxt": 0
           },
           "tagName": "col",

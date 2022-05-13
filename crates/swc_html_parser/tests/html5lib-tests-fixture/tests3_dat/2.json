@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 1,
-    "end": 62,
+    "start": 0,
+    "end": 61,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 62,
+        "end": 61,
         "ctxt": 0
       },
       "tagName": "html",
@@ -21,8 +21,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 1,
-            "end": 53,
+            "start": 0,
+            "end": 52,
             "ctxt": 0
           },
           "tagName": "head",
@@ -32,8 +32,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 22,
-                "end": 29,
+                "start": 21,
+                "end": 28,
                 "ctxt": 0
               },
               "tagName": "style",
@@ -45,8 +45,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 45,
-                "end": 53,
+                "start": 44,
+                "end": 52,
                 "ctxt": 0
               },
               "tagName": "script",
@@ -61,8 +61,8 @@
         {
           "type": "Comment",
           "span": {
-            "start": 14,
-            "end": 22,
+            "start": 13,
+            "end": 21,
             "ctxt": 0
           },
           "data": " "
@@ -70,8 +70,8 @@
         {
           "type": "Comment",
           "span": {
-            "start": 37,
-            "end": 45,
+            "start": 36,
+            "end": 44,
             "ctxt": 0
           },
           "data": " "
@@ -80,7 +80,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 62,
+            "end": 61,
             "ctxt": 0
           },
           "tagName": "body",

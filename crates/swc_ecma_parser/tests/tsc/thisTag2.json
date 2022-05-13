@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 132,
-    "end": 193,
+    "start": 131,
+    "end": 192,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 132,
-        "end": 155,
+        "start": 131,
+        "end": 154,
         "ctxt": 0
       },
       "declaration": {
@@ -18,8 +18,8 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 148,
-            "end": 150,
+            "start": 147,
+            "end": 149,
             "ctxt": 0
           },
           "value": "f1",
@@ -29,15 +29,15 @@
         "params": [],
         "decorators": [],
         "span": {
-          "start": 139,
-          "end": 155,
+          "start": 138,
+          "end": 154,
           "ctxt": 0
         },
         "body": {
           "type": "BlockStatement",
           "span": {
-            "start": 153,
-            "end": 155,
+            "start": 152,
+            "end": 154,
             "ctxt": 0
           },
           "stmts": []
@@ -51,8 +51,8 @@
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 170,
-        "end": 193,
+        "start": 169,
+        "end": 192,
         "ctxt": 0
       },
       "declaration": {
@@ -60,8 +60,8 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 186,
-            "end": 188,
+            "start": 185,
+            "end": 187,
             "ctxt": 0
           },
           "value": "f2",
@@ -71,15 +71,15 @@
         "params": [],
         "decorators": [],
         "span": {
-          "start": 177,
-          "end": 193,
+          "start": 176,
+          "end": 192,
           "ctxt": 0
         },
         "body": {
           "type": "BlockStatement",
           "span": {
-            "start": 191,
-            "end": 193,
+            "start": 190,
+            "end": 192,
             "ctxt": 0
           },
           "stmts": []

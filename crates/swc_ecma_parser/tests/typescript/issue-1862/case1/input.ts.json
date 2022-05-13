@@ -1,24 +1,24 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 28,
+    "start": 0,
+    "end": 27,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsTypeAliasDeclaration",
       "span": {
-        "start": 1,
-        "end": 14,
+        "start": 0,
+        "end": 13,
         "ctxt": 0
       },
       "declare": false,
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 6,
-          "end": 7,
+          "start": 5,
+          "end": 6,
           "ctxt": 0
         },
         "value": "A",
@@ -28,15 +28,15 @@
       "typeAnnotation": {
         "type": "TsLiteralType",
         "span": {
-          "start": 10,
-          "end": 13,
+          "start": 9,
+          "end": 12,
           "ctxt": 0
         },
         "literal": {
           "type": "TemplateLiteral",
           "span": {
-            "start": 10,
-            "end": 13,
+            "start": 9,
+            "end": 12,
             "ctxt": 0
           },
           "types": [],
@@ -44,8 +44,8 @@
             {
               "type": "TemplateElement",
               "span": {
-                "start": 11,
-                "end": 12,
+                "start": 10,
+                "end": 11,
                 "ctxt": 0
               },
               "tail": true,
@@ -59,16 +59,16 @@
     {
       "type": "TsTypeAliasDeclaration",
       "span": {
-        "start": 15,
-        "end": 28,
+        "start": 14,
+        "end": 27,
         "ctxt": 0
       },
       "declare": false,
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 20,
-          "end": 21,
+          "start": 19,
+          "end": 20,
           "ctxt": 0
         },
         "value": "B",
@@ -78,15 +78,15 @@
       "typeAnnotation": {
         "type": "TsLiteralType",
         "span": {
-          "start": 24,
-          "end": 27,
+          "start": 23,
+          "end": 26,
           "ctxt": 0
         },
         "literal": {
           "type": "TemplateLiteral",
           "span": {
-            "start": 24,
-            "end": 27,
+            "start": 23,
+            "end": 26,
             "ctxt": 0
           },
           "types": [],
@@ -94,8 +94,8 @@
             {
               "type": "TemplateElement",
               "span": {
-                "start": 25,
-                "end": 26,
+                "start": 24,
+                "end": 25,
                 "ctxt": 0
               },
               "tail": true,

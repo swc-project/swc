@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 52,
+    "start": 0,
+    "end": 51,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 1,
-        "end": 52,
+        "start": 0,
+        "end": 51,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,23 +19,23 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 5,
-            "end": 51,
+            "start": 4,
+            "end": 50,
             "ctxt": 0
           },
           "id": {
             "type": "ArrayPattern",
             "span": {
-              "start": 5,
-              "end": 11,
+              "start": 4,
+              "end": 10,
               "ctxt": 0
             },
             "elements": [
               {
                 "type": "Identifier",
                 "span": {
-                  "start": 6,
-                  "end": 7,
+                  "start": 5,
+                  "end": 6,
                   "ctxt": 0
                 },
                 "value": "a",
@@ -45,8 +45,8 @@
               {
                 "type": "Identifier",
                 "span": {
-                  "start": 9,
-                  "end": 10,
+                  "start": 8,
+                  "end": 9,
                   "ctxt": 0
                 },
                 "value": "b",
@@ -58,31 +58,31 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 11,
-                "end": 26,
+                "start": 10,
+                "end": 25,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsTupleType",
                 "span": {
-                  "start": 13,
-                  "end": 26,
+                  "start": 12,
+                  "end": 25,
                   "ctxt": 0
                 },
                 "elemTypes": [
                   {
                     "type": "TsTupleElement",
                     "span": {
-                      "start": 14,
-                      "end": 20,
+                      "start": 13,
+                      "end": 19,
                       "ctxt": 0
                     },
                     "label": null,
                     "ty": {
                       "type": "TsKeywordType",
                       "span": {
-                        "start": 14,
-                        "end": 20,
+                        "start": 13,
+                        "end": 19,
                         "ctxt": 0
                       },
                       "kind": "number"
@@ -91,16 +91,16 @@
                   {
                     "type": "TsTupleElement",
                     "span": {
-                      "start": 22,
-                      "end": 25,
+                      "start": 21,
+                      "end": 24,
                       "ctxt": 0
                     },
                     "label": null,
                     "ty": {
                       "type": "TsKeywordType",
                       "span": {
-                        "start": 22,
-                        "end": 25,
+                        "start": 21,
+                        "end": 24,
                         "ctxt": 0
                       },
                       "kind": "any"
@@ -113,8 +113,8 @@
           "init": {
             "type": "ArrayExpression",
             "span": {
-              "start": 29,
-              "end": 51,
+              "start": 28,
+              "end": 50,
               "ctxt": 0
             },
             "elements": [
@@ -123,8 +123,8 @@
                 "expression": {
                   "type": "Identifier",
                   "span": {
-                    "start": 30,
-                    "end": 39,
+                    "start": 29,
+                    "end": 38,
                     "ctxt": 0
                   },
                   "value": "undefined",
@@ -136,8 +136,8 @@
                 "expression": {
                   "type": "Identifier",
                   "span": {
-                    "start": 41,
-                    "end": 50,
+                    "start": 40,
+                    "end": 49,
                     "ctxt": 0
                   },
                   "value": "undefined",

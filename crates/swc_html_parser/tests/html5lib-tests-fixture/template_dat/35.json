@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 1,
-    "end": 33,
+    "start": 0,
+    "end": 32,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 22,
+        "end": 21,
         "ctxt": 0
       },
       "tagName": "html",
@@ -22,7 +22,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 8,
+            "end": 7,
             "ctxt": 0
           },
           "tagName": "head",
@@ -35,7 +35,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 22,
+            "end": 21,
             "ctxt": 0
           },
           "tagName": "body",
@@ -45,8 +45,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 1,
-                "end": 22,
+                "start": 0,
+                "end": 21,
                 "ctxt": 0
               },
               "tagName": "table",
@@ -56,8 +56,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 8,
-                    "end": 22,
+                    "start": 7,
+                    "end": 21,
                     "ctxt": 0
                   },
                   "tagName": "template",
@@ -87,6 +87,22 @@
                       }
                     ]
                   }
+                  "children": [
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 17,
+                        "end": 21,
+                        "ctxt": 0
+                      },
+                      "tagName": "td",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [],
+                      "children": [],
+                      "content": null
+                    }
+                  ],
+                  "content": null
                 }
               ],
               "content": null

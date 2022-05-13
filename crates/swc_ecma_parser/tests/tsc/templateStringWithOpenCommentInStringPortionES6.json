@@ -1,31 +1,31 @@
 {
   "type": "Script",
   "span": {
-    "start": 17,
-    "end": 76,
+    "start": 16,
+    "end": 75,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 17,
-        "end": 76,
+        "start": 16,
+        "end": 75,
         "ctxt": 0
       },
       "expression": {
         "type": "TemplateLiteral",
         "span": {
-          "start": 17,
-          "end": 76,
+          "start": 16,
+          "end": 75,
           "ctxt": 0
         },
         "expressions": [
           {
             "type": "NumericLiteral",
             "span": {
-              "start": 31,
-              "end": 33,
+              "start": 30,
+              "end": 32,
               "ctxt": 0
             },
             "value": 10.0,
@@ -34,8 +34,8 @@
           {
             "type": "NumericLiteral",
             "span": {
-              "start": 56,
-              "end": 58,
+              "start": 55,
+              "end": 57,
               "ctxt": 0
             },
             "value": 20.0,
@@ -46,8 +46,8 @@
           {
             "type": "TemplateElement",
             "span": {
-              "start": 18,
-              "end": 28,
+              "start": 17,
+              "end": 27,
               "ctxt": 0
             },
             "tail": false,
@@ -57,8 +57,8 @@
           {
             "type": "TemplateElement",
             "span": {
-              "start": 35,
-              "end": 53,
+              "start": 34,
+              "end": 52,
               "ctxt": 0
             },
             "tail": false,
@@ -68,8 +68,8 @@
           {
             "type": "TemplateElement",
             "span": {
-              "start": 60,
-              "end": 75,
+              "start": 59,
+              "end": 74,
               "ctxt": 0
             },
             "tail": true,

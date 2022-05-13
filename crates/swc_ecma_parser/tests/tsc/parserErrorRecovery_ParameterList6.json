@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 47,
+    "start": 0,
+    "end": 46,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 7,
-          "end": 10,
+          "start": 6,
+          "end": 9,
           "ctxt": 0
         },
         "value": "Foo",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 1,
-        "end": 47,
+        "start": 0,
+        "end": 46,
         "ctxt": 0
       },
       "decorators": [],
@@ -29,15 +29,15 @@
         {
           "type": "ClassMethod",
           "span": {
-            "start": 17,
-            "end": 45,
+            "start": 16,
+            "end": 44,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 24,
-              "end": 30,
+              "start": 23,
+              "end": 29,
               "ctxt": 0
             },
             "value": "banana",
@@ -48,16 +48,16 @@
               {
                 "type": "Parameter",
                 "span": {
-                  "start": 32,
-                  "end": 40,
+                  "start": 31,
+                  "end": 39,
                   "ctxt": 0
                 },
                 "decorators": [],
                 "pat": {
                   "type": "Identifier",
                   "span": {
-                    "start": 32,
-                    "end": 40,
+                    "start": 31,
+                    "end": 39,
                     "ctxt": 0
                   },
                   "value": "x",
@@ -65,22 +65,22 @@
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
-                      "start": 33,
-                      "end": 40,
+                      "start": 32,
+                      "end": 39,
                       "ctxt": 0
                     },
                     "typeAnnotation": {
                       "type": "TsTypeReference",
                       "span": {
-                        "start": 35,
-                        "end": 40,
+                        "start": 34,
+                        "end": 39,
                         "ctxt": 0
                       },
                       "typeName": {
                         "type": "Identifier",
                         "span": {
-                          "start": 35,
-                          "end": 40,
+                          "start": 34,
+                          "end": 39,
                           "ctxt": 0
                         },
                         "value": "break",
@@ -94,15 +94,15 @@
             ],
             "decorators": [],
             "span": {
-              "start": 17,
-              "end": 45,
+              "start": 16,
+              "end": 44,
               "ctxt": 0
             },
             "body": {
               "type": "BlockStatement",
               "span": {
-                "start": 42,
-                "end": 45,
+                "start": 41,
+                "end": 44,
                 "ctxt": 0
               },
               "stmts": []

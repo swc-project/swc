@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 20,
-    "end": 171,
+    "start": 19,
+    "end": 170,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 20,
-        "end": 116,
+        "start": 19,
+        "end": 115,
         "ctxt": 0
       },
       "declaration": {
@@ -18,8 +18,8 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 36,
-            "end": 47,
+            "start": 35,
+            "end": 46,
             "ctxt": 0
           },
           "value": "assertNever",
@@ -30,16 +30,16 @@
           {
             "type": "Parameter",
             "span": {
-              "start": 48,
-              "end": 56,
+              "start": 47,
+              "end": 55,
               "ctxt": 0
             },
             "decorators": [],
             "pat": {
               "type": "Identifier",
               "span": {
-                "start": 48,
-                "end": 56,
+                "start": 47,
+                "end": 55,
                 "ctxt": 0
               },
               "value": "x",
@@ -47,15 +47,15 @@
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
-                  "start": 49,
-                  "end": 56,
+                  "start": 48,
+                  "end": 55,
                   "ctxt": 0
                 },
                 "typeAnnotation": {
                   "type": "TsKeywordType",
                   "span": {
-                    "start": 51,
-                    "end": 56,
+                    "start": 50,
+                    "end": 55,
                     "ctxt": 0
                   },
                   "kind": "never"
@@ -66,16 +66,16 @@
           {
             "type": "Parameter",
             "span": {
-              "start": 58,
-              "end": 69,
+              "start": 57,
+              "end": 68,
               "ctxt": 0
             },
             "decorators": [],
             "pat": {
               "type": "Identifier",
               "span": {
-                "start": 58,
-                "end": 69,
+                "start": 57,
+                "end": 68,
                 "ctxt": 0
               },
               "value": "msg",
@@ -83,15 +83,15 @@
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
-                  "start": 61,
-                  "end": 69,
+                  "start": 60,
+                  "end": 68,
                   "ctxt": 0
                 },
                 "typeAnnotation": {
                   "type": "TsKeywordType",
                   "span": {
-                    "start": 63,
-                    "end": 69,
+                    "start": 62,
+                    "end": 68,
                     "ctxt": 0
                   },
                   "kind": "string"
@@ -102,37 +102,37 @@
         ],
         "decorators": [],
         "span": {
-          "start": 27,
-          "end": 116,
+          "start": 26,
+          "end": 115,
           "ctxt": 0
         },
         "body": {
           "type": "BlockStatement",
           "span": {
-            "start": 71,
-            "end": 116,
+            "start": 70,
+            "end": 115,
             "ctxt": 0
           },
           "stmts": [
             {
               "type": "ThrowStatement",
               "span": {
-                "start": 77,
-                "end": 114,
+                "start": 76,
+                "end": 113,
                 "ctxt": 0
               },
               "argument": {
                 "type": "NewExpression",
                 "span": {
-                  "start": 83,
-                  "end": 113,
+                  "start": 82,
+                  "end": 112,
                   "ctxt": 0
                 },
                 "callee": {
                   "type": "Identifier",
                   "span": {
-                    "start": 87,
-                    "end": 92,
+                    "start": 86,
+                    "end": 91,
                     "ctxt": 0
                   },
                   "value": "Error",
@@ -144,16 +144,16 @@
                     "expression": {
                       "type": "BinaryExpression",
                       "span": {
-                        "start": 93,
-                        "end": 112,
+                        "start": 92,
+                        "end": 111,
                         "ctxt": 0
                       },
                       "operator": "+",
                       "left": {
                         "type": "StringLiteral",
                         "span": {
-                          "start": 93,
-                          "end": 106,
+                          "start": 92,
+                          "end": 105,
                           "ctxt": 0
                         },
                         "value": "Unexpected ",
@@ -162,8 +162,8 @@
                       "right": {
                         "type": "Identifier",
                         "span": {
-                          "start": 109,
-                          "end": 112,
+                          "start": 108,
+                          "end": 111,
                           "ctxt": 0
                         },
                         "value": "msg",
@@ -186,23 +186,23 @@
     {
       "type": "ImportDeclaration",
       "span": {
-        "start": 137,
-        "end": 171,
+        "start": 136,
+        "end": 170,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ImportSpecifier",
           "span": {
-            "start": 146,
-            "end": 157,
+            "start": 145,
+            "end": 156,
             "ctxt": 0
           },
           "local": {
             "type": "Identifier",
             "span": {
-              "start": 146,
-              "end": 157,
+              "start": 145,
+              "end": 156,
               "ctxt": 0
             },
             "value": "assertNevar",
@@ -215,8 +215,8 @@
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 165,
-          "end": 170,
+          "start": 164,
+          "end": 169,
           "ctxt": 0
         },
         "value": "./a",

@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 1,
-    "end": 67,
+    "start": 0,
+    "end": 66,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 47,
+        "end": 46,
         "ctxt": 0
       },
       "tagName": "html",
@@ -22,7 +22,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 7,
+            "end": 6,
             "ctxt": 0
           },
           "tagName": "head",
@@ -34,8 +34,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 1,
-            "end": 47,
+            "start": 0,
+            "end": 46,
             "ctxt": 0
           },
           "tagName": "body",
@@ -45,8 +45,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 7,
-                "end": 47,
+                "start": 6,
+                "end": 46,
                 "ctxt": 0
               },
               "tagName": "template",
@@ -83,6 +83,13 @@
                       }
                     ],
                     "content": null
+              "children": [
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 22,
+                    "end": 30,
+                    "ctxt": 0
                   },
                   {
                     "type": "Element",
@@ -100,6 +107,8 @@
                       "span": {
                         "start": 37,
                         "end": 47,
+                        "start": 27,
+                        "end": 30,
                         "ctxt": 0
                       },
                       "children": []
@@ -107,6 +116,24 @@
                   }
                 ]
               }
+                  ],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 36,
+                    "end": 46,
+                    "ctxt": 0
+                  },
+                  "tagName": "template",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                }
+              ],
+              "content": null
             }
           ],
           "content": null

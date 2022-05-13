@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 44,
-    "end": 65,
+    "start": 43,
+    "end": 64,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 44,
-        "end": 65,
+        "start": 43,
+        "end": 64,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 48,
-            "end": 65,
+            "start": 47,
+            "end": 64,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 48,
-              "end": 53,
+              "start": 47,
+              "end": 52,
               "ctxt": 0
             },
             "value": "await",
@@ -37,16 +37,16 @@
           "init": {
             "type": "ArrowFunctionExpression",
             "span": {
-              "start": 56,
-              "end": 65,
+              "start": 55,
+              "end": 64,
               "ctxt": 0
             },
             "params": [],
             "body": {
               "type": "BlockStatement",
               "span": {
-                "start": 62,
-                "end": 65,
+                "start": 61,
+                "end": 64,
                 "ctxt": 0
               },
               "stmts": []

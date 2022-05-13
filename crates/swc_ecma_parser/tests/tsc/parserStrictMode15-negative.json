@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 27,
+    "start": 0,
+    "end": 26,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 1,
-        "end": 14,
+        "start": 0,
+        "end": 13,
         "ctxt": 0
       },
       "expression": {
         "type": "StringLiteral",
         "span": {
-          "start": 1,
-          "end": 13,
+          "start": 0,
+          "end": 12,
           "ctxt": 0
         },
         "value": "use strict",
@@ -27,30 +27,30 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 15,
-        "end": 27,
+        "start": 14,
+        "end": 26,
         "ctxt": 0
       },
       "expression": {
         "type": "UnaryExpression",
         "span": {
-          "start": 15,
-          "end": 26,
+          "start": 14,
+          "end": 25,
           "ctxt": 0
         },
         "operator": "delete",
         "argument": {
           "type": "MemberExpression",
           "span": {
-            "start": 22,
-            "end": 26,
+            "start": 21,
+            "end": 25,
             "ctxt": 0
           },
           "object": {
             "type": "Identifier",
             "span": {
-              "start": 22,
-              "end": 23,
+              "start": 21,
+              "end": 22,
               "ctxt": 0
             },
             "value": "a",
@@ -59,15 +59,15 @@
           "property": {
             "type": "Computed",
             "span": {
-              "start": 23,
-              "end": 26,
+              "start": 22,
+              "end": 25,
               "ctxt": 0
             },
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 24,
-                "end": 25,
+                "start": 23,
+                "end": 24,
                 "ctxt": 0
               },
               "value": "b",

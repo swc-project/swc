@@ -1,24 +1,24 @@
 {
   "type": "Script",
   "span": {
-    "start": 16,
-    "end": 41,
+    "start": 15,
+    "end": 40,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ForOfStatement",
       "span": {
-        "start": 16,
-        "end": 41,
+        "start": 15,
+        "end": 40,
         "ctxt": 0
       },
       "await": null,
       "left": {
         "type": "VariableDeclaration",
         "span": {
-          "start": 21,
-          "end": 31,
+          "start": 20,
+          "end": 30,
           "ctxt": 0
         },
         "kind": "let",
@@ -27,30 +27,30 @@
           {
             "type": "VariableDeclarator",
             "span": {
-              "start": 25,
-              "end": 31,
+              "start": 24,
+              "end": 30,
               "ctxt": 0
             },
             "id": {
               "type": "ObjectPattern",
               "span": {
-                "start": 25,
-                "end": 31,
+                "start": 24,
+                "end": 30,
                 "ctxt": 0
               },
               "properties": [
                 {
                   "type": "AssignmentPatternProperty",
                   "span": {
-                    "start": 26,
-                    "end": 27,
+                    "start": 25,
+                    "end": 26,
                     "ctxt": 0
                   },
                   "key": {
                     "type": "Identifier",
                     "span": {
-                      "start": 26,
-                      "end": 27,
+                      "start": 25,
+                      "end": 26,
                       "ctxt": 0
                     },
                     "value": "a",
@@ -61,15 +61,15 @@
                 {
                   "type": "AssignmentPatternProperty",
                   "span": {
-                    "start": 29,
-                    "end": 30,
+                    "start": 28,
+                    "end": 29,
                     "ctxt": 0
                   },
                   "key": {
                     "type": "Identifier",
                     "span": {
-                      "start": 29,
-                      "end": 30,
+                      "start": 28,
+                      "end": 29,
                       "ctxt": 0
                     },
                     "value": "b",
@@ -89,8 +89,8 @@
       "right": {
         "type": "Identifier",
         "span": {
-          "start": 35,
-          "end": 36,
+          "start": 34,
+          "end": 35,
           "ctxt": 0
         },
         "value": "X",
@@ -99,8 +99,8 @@
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 38,
-          "end": 41,
+          "start": 37,
+          "end": 40,
           "ctxt": 0
         },
         "stmts": []

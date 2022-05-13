@@ -1,30 +1,30 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 27,
+    "start": 0,
+    "end": 26,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 1,
-        "end": 12,
+        "start": 0,
+        "end": 11,
         "ctxt": 0
       },
       "expression": {
         "type": "NewExpression",
         "span": {
-          "start": 1,
-          "end": 11,
+          "start": 0,
+          "end": 10,
           "ctxt": 0
         },
         "callee": {
           "type": "Identifier",
           "span": {
-            "start": 5,
-            "end": 6,
+            "start": 4,
+            "end": 5,
             "ctxt": 0
           },
           "value": "C",
@@ -34,23 +34,23 @@
         "typeArguments": {
           "type": "TsTypeParameterInstantiation",
           "span": {
-            "start": 6,
-            "end": 9,
+            "start": 5,
+            "end": 8,
             "ctxt": 0
           },
           "params": [
             {
               "type": "TsTypeReference",
               "span": {
-                "start": 7,
-                "end": 8,
+                "start": 6,
+                "end": 7,
                 "ctxt": 0
               },
               "typeName": {
                 "type": "Identifier",
                 "span": {
-                  "start": 7,
-                  "end": 8,
+                  "start": 6,
+                  "end": 7,
                   "ctxt": 0
                 },
                 "value": "T",
@@ -65,22 +65,22 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 13,
-        "end": 27,
+        "start": 12,
+        "end": 26,
         "ctxt": 0
       },
       "expression": {
         "type": "NewExpression",
         "span": {
-          "start": 13,
-          "end": 26,
+          "start": 12,
+          "end": 25,
           "ctxt": 0
         },
         "callee": {
           "type": "Identifier",
           "span": {
-            "start": 17,
-            "end": 18,
+            "start": 16,
+            "end": 17,
             "ctxt": 0
           },
           "value": "C",
@@ -90,23 +90,23 @@
         "typeArguments": {
           "type": "TsTypeParameterInstantiation",
           "span": {
-            "start": 18,
-            "end": 24,
+            "start": 17,
+            "end": 23,
             "ctxt": 0
           },
           "params": [
             {
               "type": "TsTypeReference",
               "span": {
-                "start": 19,
-                "end": 20,
+                "start": 18,
+                "end": 19,
                 "ctxt": 0
               },
               "typeName": {
                 "type": "Identifier",
                 "span": {
-                  "start": 19,
-                  "end": 20,
+                  "start": 18,
+                  "end": 19,
                   "ctxt": 0
                 },
                 "value": "T",
@@ -117,15 +117,15 @@
             {
               "type": "TsTypeReference",
               "span": {
-                "start": 22,
-                "end": 23,
+                "start": 21,
+                "end": 22,
                 "ctxt": 0
               },
               "typeName": {
                 "type": "Identifier",
                 "span": {
-                  "start": 22,
-                  "end": 23,
+                  "start": 21,
+                  "end": 22,
                   "ctxt": 0
                 },
                 "value": "U",

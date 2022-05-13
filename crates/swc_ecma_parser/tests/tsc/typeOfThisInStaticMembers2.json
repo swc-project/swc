@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 87,
+    "start": 0,
+    "end": 86,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 7,
-          "end": 8,
+          "start": 6,
+          "end": 7,
           "ctxt": 0
         },
         "value": "C",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 1,
-        "end": 41,
+        "start": 0,
+        "end": 40,
         "ctxt": 0
       },
       "decorators": [],
@@ -29,15 +29,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 15,
-            "end": 33,
+            "start": 14,
+            "end": 32,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 22,
-              "end": 25,
+              "start": 21,
+              "end": 24,
               "ctxt": 0
             },
             "value": "foo",
@@ -46,8 +46,8 @@
           "value": {
             "type": "ThisExpression",
             "span": {
-              "start": 28,
-              "end": 32,
+              "start": 27,
+              "end": 31,
               "ctxt": 0
             }
           },
@@ -74,8 +74,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 49,
-          "end": 51,
+          "start": 48,
+          "end": 50,
           "ctxt": 0
         },
         "value": "C2",
@@ -83,8 +83,8 @@
       },
       "declare": false,
       "span": {
-        "start": 43,
-        "end": 87,
+        "start": 42,
+        "end": 86,
         "ctxt": 0
       },
       "decorators": [],
@@ -92,15 +92,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 61,
-            "end": 79,
+            "start": 60,
+            "end": 78,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 68,
-              "end": 71,
+              "start": 67,
+              "end": 70,
               "ctxt": 0
             },
             "value": "foo",
@@ -109,8 +109,8 @@
           "value": {
             "type": "ThisExpression",
             "span": {
-              "start": 74,
-              "end": 78,
+              "start": 73,
+              "end": 77,
               "ctxt": 0
             }
           },
@@ -131,23 +131,23 @@
       "typeParams": {
         "type": "TsTypeParameterDeclaration",
         "span": {
-          "start": 51,
-          "end": 54,
+          "start": 50,
+          "end": 53,
           "ctxt": 0
         },
         "parameters": [
           {
             "type": "TsTypeParameter",
             "span": {
-              "start": 52,
-              "end": 53,
+              "start": 51,
+              "end": 52,
               "ctxt": 0
             },
             "name": {
               "type": "Identifier",
               "span": {
-                "start": 52,
-                "end": 53,
+                "start": 51,
+                "end": 52,
                 "ctxt": 0
               },
               "value": "T",

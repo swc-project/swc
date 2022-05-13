@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 37,
-    "end": 146,
+    "start": 36,
+    "end": 145,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 37,
-        "end": 146,
+        "start": 36,
+        "end": 145,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 41,
-            "end": 146,
+            "start": 40,
+            "end": 145,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 41,
-              "end": 44,
+              "start": 40,
+              "end": 43,
               "ctxt": 0
             },
             "value": "obj",
@@ -37,37 +37,37 @@
           "init": {
             "type": "ObjectExpression",
             "span": {
-              "start": 47,
-              "end": 146,
+              "start": 46,
+              "end": 145,
               "ctxt": 0
             },
             "properties": [
               {
                 "type": "GetterProperty",
                 "span": {
-                  "start": 53,
-                  "end": 100,
+                  "start": 52,
+                  "end": 99,
                   "ctxt": 0
                 },
                 "key": {
                   "type": "Computed",
                   "span": {
-                    "start": 57,
-                    "end": 84,
+                    "start": 56,
+                    "end": 83,
                     "ctxt": 0
                   },
                   "expression": {
                     "type": "MemberExpression",
                     "span": {
-                      "start": 58,
-                      "end": 83,
+                      "start": 57,
+                      "end": 82,
                       "ctxt": 0
                     },
                     "object": {
                       "type": "Identifier",
                       "span": {
-                        "start": 58,
-                        "end": 64,
+                        "start": 57,
+                        "end": 63,
                         "ctxt": 0
                       },
                       "value": "Symbol",
@@ -76,8 +76,8 @@
                     "property": {
                       "type": "Identifier",
                       "span": {
-                        "start": 65,
-                        "end": 83,
+                        "start": 64,
+                        "end": 82,
                         "ctxt": 0
                       },
                       "value": "isConcatSpreadable",
@@ -89,23 +89,23 @@
                 "body": {
                   "type": "BlockStatement",
                   "span": {
-                    "start": 87,
-                    "end": 100,
+                    "start": 86,
+                    "end": 99,
                     "ctxt": 0
                   },
                   "stmts": [
                     {
                       "type": "ReturnStatement",
                       "span": {
-                        "start": 89,
-                        "end": 98,
+                        "start": 88,
+                        "end": 97,
                         "ctxt": 0
                       },
                       "argument": {
                         "type": "StringLiteral",
                         "span": {
-                          "start": 96,
-                          "end": 98,
+                          "start": 95,
+                          "end": 97,
                           "ctxt": 0
                         },
                         "value": "",
@@ -118,29 +118,29 @@
               {
                 "type": "SetterProperty",
                 "span": {
-                  "start": 106,
-                  "end": 144,
+                  "start": 105,
+                  "end": 143,
                   "ctxt": 0
                 },
                 "key": {
                   "type": "Computed",
                   "span": {
-                    "start": 110,
-                    "end": 137,
+                    "start": 109,
+                    "end": 136,
                     "ctxt": 0
                   },
                   "expression": {
                     "type": "MemberExpression",
                     "span": {
-                      "start": 111,
-                      "end": 136,
+                      "start": 110,
+                      "end": 135,
                       "ctxt": 0
                     },
                     "object": {
                       "type": "Identifier",
                       "span": {
-                        "start": 111,
-                        "end": 117,
+                        "start": 110,
+                        "end": 116,
                         "ctxt": 0
                       },
                       "value": "Symbol",
@@ -149,8 +149,8 @@
                     "property": {
                       "type": "Identifier",
                       "span": {
-                        "start": 118,
-                        "end": 136,
+                        "start": 117,
+                        "end": 135,
                         "ctxt": 0
                       },
                       "value": "isConcatSpreadable",
@@ -161,8 +161,8 @@
                 "param": {
                   "type": "Identifier",
                   "span": {
-                    "start": 138,
-                    "end": 139,
+                    "start": 137,
+                    "end": 138,
                     "ctxt": 0
                   },
                   "value": "x",
@@ -172,8 +172,8 @@
                 "body": {
                   "type": "BlockStatement",
                   "span": {
-                    "start": 141,
-                    "end": 144,
+                    "start": 140,
+                    "end": 143,
                     "ctxt": 0
                   },
                   "stmts": []

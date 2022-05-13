@@ -1,56 +1,56 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 29,
+    "start": 0,
+    "end": 28,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 1,
-        "end": 14,
+        "start": 0,
+        "end": 13,
         "ctxt": 0
       },
       "expression": {
         "type": "CallExpression",
         "span": {
-          "start": 1,
-          "end": 13,
+          "start": 0,
+          "end": 12,
           "ctxt": 0
         },
         "callee": {
           "type": "OptionalChainingExpression",
           "span": {
-            "start": 1,
-            "end": 11,
+            "start": 0,
+            "end": 10,
             "ctxt": 0
           },
           "questionDotToken": {
-            "start": 8,
-            "end": 9,
+            "start": 7,
+            "end": 8,
             "ctxt": 0
           },
           "base": {
             "type": "MemberExpression",
             "span": {
-              "start": 1,
-              "end": 11,
+              "start": 0,
+              "end": 10,
               "ctxt": 0
             },
             "object": {
               "type": "NewExpression",
               "span": {
-                "start": 1,
-                "end": 8,
+                "start": 0,
+                "end": 7,
                 "ctxt": 0
               },
               "callee": {
                 "type": "Identifier",
                 "span": {
-                  "start": 5,
-                  "end": 6,
+                  "start": 4,
+                  "end": 5,
                   "ctxt": 0
                 },
                 "value": "A",
@@ -62,8 +62,8 @@
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 10,
-                "end": 11,
+                "start": 9,
+                "end": 10,
                 "ctxt": 0
               },
               "value": "b",
@@ -78,55 +78,55 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 16,
-        "end": 29,
+        "start": 15,
+        "end": 28,
         "ctxt": 0
       },
       "expression": {
         "type": "CallExpression",
         "span": {
-          "start": 16,
-          "end": 28,
+          "start": 15,
+          "end": 27,
           "ctxt": 0
         },
         "callee": {
           "type": "OptionalChainingExpression",
           "span": {
-            "start": 16,
-            "end": 26,
+            "start": 15,
+            "end": 25,
             "ctxt": 0
           },
           "questionDotToken": {
-            "start": 23,
-            "end": 24,
+            "start": 22,
+            "end": 23,
             "ctxt": 0
           },
           "base": {
             "type": "MemberExpression",
             "span": {
-              "start": 16,
-              "end": 26,
+              "start": 15,
+              "end": 25,
               "ctxt": 0
             },
             "object": {
               "type": "ParenthesisExpression",
               "span": {
-                "start": 16,
-                "end": 23,
+                "start": 15,
+                "end": 22,
                 "ctxt": 0
               },
               "expression": {
                 "type": "NewExpression",
                 "span": {
-                  "start": 17,
-                  "end": 22,
+                  "start": 16,
+                  "end": 21,
                   "ctxt": 0
                 },
                 "callee": {
                   "type": "Identifier",
                   "span": {
-                    "start": 21,
-                    "end": 22,
+                    "start": 20,
+                    "end": 21,
                     "ctxt": 0
                   },
                   "value": "A",
@@ -139,8 +139,8 @@
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 25,
-                "end": 26,
+                "start": 24,
+                "end": 25,
                 "ctxt": 0
               },
               "value": "b",

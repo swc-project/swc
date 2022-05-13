@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 16,
-    "end": 41,
+    "start": 15,
+    "end": 40,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 16,
-        "end": 18,
+        "start": 15,
+        "end": 17,
         "ctxt": 0
       },
       "expression": {
         "type": "Identifier",
         "span": {
-          "start": 16,
-          "end": 17,
+          "start": 15,
+          "end": 16,
           "ctxt": 0
         },
         "value": "v",
@@ -27,16 +27,16 @@
     {
       "type": "ForOfStatement",
       "span": {
-        "start": 19,
-        "end": 41,
+        "start": 18,
+        "end": 40,
         "ctxt": 0
       },
       "await": null,
       "left": {
         "type": "VariableDeclaration",
         "span": {
-          "start": 24,
-          "end": 29,
+          "start": 23,
+          "end": 28,
           "ctxt": 0
         },
         "kind": "let",
@@ -45,15 +45,15 @@
           {
             "type": "VariableDeclarator",
             "span": {
-              "start": 28,
-              "end": 29,
+              "start": 27,
+              "end": 28,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 28,
-                "end": 29,
+                "start": 27,
+                "end": 28,
                 "ctxt": 0
               },
               "value": "v",
@@ -68,8 +68,8 @@
       "right": {
         "type": "ArrayExpression",
         "span": {
-          "start": 33,
-          "end": 36,
+          "start": 32,
+          "end": 35,
           "ctxt": 0
         },
         "elements": [
@@ -78,8 +78,8 @@
             "expression": {
               "type": "NumericLiteral",
               "span": {
-                "start": 34,
-                "end": 35,
+                "start": 33,
+                "end": 34,
                 "ctxt": 0
               },
               "value": 0.0,
@@ -91,8 +91,8 @@
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 38,
-          "end": 41,
+          "start": 37,
+          "end": 40,
           "ctxt": 0
         },
         "stmts": []

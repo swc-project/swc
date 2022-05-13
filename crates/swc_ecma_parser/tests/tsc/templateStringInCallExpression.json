@@ -1,38 +1,38 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 51,
+    "start": 0,
+    "end": 50,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 1,
-        "end": 51,
+        "start": 0,
+        "end": 50,
         "ctxt": 0
       },
       "expression": {
         "type": "CallExpression",
         "span": {
-          "start": 1,
-          "end": 50,
+          "start": 0,
+          "end": 49,
           "ctxt": 0
         },
         "callee": {
           "type": "TemplateLiteral",
           "span": {
-            "start": 1,
-            "end": 13,
+            "start": 0,
+            "end": 12,
             "ctxt": 0
           },
           "expressions": [
             {
               "type": "NumericLiteral",
               "span": {
-                "start": 7,
-                "end": 8,
+                "start": 6,
+                "end": 7,
                 "ctxt": 0
               },
               "value": 0.0,
@@ -43,8 +43,8 @@
             {
               "type": "TemplateElement",
               "span": {
-                "start": 2,
-                "end": 5,
+                "start": 1,
+                "end": 4,
                 "ctxt": 0
               },
               "tail": false,
@@ -54,8 +54,8 @@
             {
               "type": "TemplateElement",
               "span": {
-                "start": 9,
-                "end": 12,
+                "start": 8,
+                "end": 11,
                 "ctxt": 0
               },
               "tail": true,
@@ -70,16 +70,16 @@
             "expression": {
               "type": "TemplateLiteral",
               "span": {
-                "start": 14,
-                "end": 32,
+                "start": 13,
+                "end": 31,
                 "ctxt": 0
               },
               "expressions": [
                 {
                   "type": "NumericLiteral",
                   "span": {
-                    "start": 23,
-                    "end": 24,
+                    "start": 22,
+                    "end": 23,
                     "ctxt": 0
                   },
                   "value": 0.0,
@@ -90,8 +90,8 @@
                 {
                   "type": "TemplateElement",
                   "span": {
-                    "start": 15,
-                    "end": 21,
+                    "start": 14,
+                    "end": 20,
                     "ctxt": 0
                   },
                   "tail": false,
@@ -101,8 +101,8 @@
                 {
                   "type": "TemplateElement",
                   "span": {
-                    "start": 25,
-                    "end": 31,
+                    "start": 24,
+                    "end": 30,
                     "ctxt": 0
                   },
                   "tail": true,
@@ -117,8 +117,8 @@
             "expression": {
               "type": "TemplateLiteral",
               "span": {
-                "start": 34,
-                "end": 39,
+                "start": 33,
+                "end": 38,
                 "ctxt": 0
               },
               "expressions": [],
@@ -126,8 +126,8 @@
                 {
                   "type": "TemplateElement",
                   "span": {
-                    "start": 35,
-                    "end": 38,
+                    "start": 34,
+                    "end": 37,
                     "ctxt": 0
                   },
                   "tail": true,
@@ -142,16 +142,16 @@
             "expression": {
               "type": "TemplateLiteral",
               "span": {
-                "start": 41,
-                "end": 49,
+                "start": 40,
+                "end": 48,
                 "ctxt": 0
               },
               "expressions": [
                 {
                   "type": "NumericLiteral",
                   "span": {
-                    "start": 45,
-                    "end": 46,
+                    "start": 44,
+                    "end": 45,
                     "ctxt": 0
                   },
                   "value": 2.0,
@@ -162,8 +162,8 @@
                 {
                   "type": "TemplateElement",
                   "span": {
-                    "start": 42,
-                    "end": 43,
+                    "start": 41,
+                    "end": 42,
                     "ctxt": 0
                   },
                   "tail": false,
@@ -173,8 +173,8 @@
                 {
                   "type": "TemplateElement",
                   "span": {
-                    "start": 47,
-                    "end": 48,
+                    "start": 46,
+                    "end": 47,
                     "ctxt": 0
                   },
                   "tail": true,

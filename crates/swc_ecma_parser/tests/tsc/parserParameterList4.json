@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 25,
+    "start": 0,
+    "end": 24,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 10,
-          "end": 11,
+          "start": 9,
+          "end": 10,
           "ctxt": 0
         },
         "value": "F",
@@ -23,16 +23,16 @@
         {
           "type": "Parameter",
           "span": {
-            "start": 12,
-            "end": 20,
+            "start": 11,
+            "end": 19,
             "ctxt": 0
           },
           "decorators": [],
           "pat": {
             "type": "Identifier",
             "span": {
-              "start": 19,
-              "end": 20,
+              "start": 18,
+              "end": 19,
               "ctxt": 0
             },
             "value": "A",
@@ -43,15 +43,15 @@
       ],
       "decorators": [],
       "span": {
-        "start": 1,
-        "end": 25,
+        "start": 0,
+        "end": 24,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 22,
-          "end": 25,
+          "start": 21,
+          "end": 24,
           "ctxt": 0
         },
         "stmts": []

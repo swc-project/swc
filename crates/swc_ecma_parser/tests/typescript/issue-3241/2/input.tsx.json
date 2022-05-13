@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 38,
+    "start": 0,
+    "end": 37,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 1,
-        "end": 38,
+        "start": 0,
+        "end": 37,
         "ctxt": 0
       },
       "expression": {
         "type": "JSXElement",
         "span": {
-          "start": 1,
-          "end": 37,
+          "start": 0,
+          "end": 36,
           "ctxt": 0
         },
         "opening": {
@@ -25,31 +25,31 @@
           "name": {
             "type": "Identifier",
             "span": {
-              "start": 2,
-              "end": 6,
+              "start": 1,
+              "end": 5,
               "ctxt": 0
             },
             "value": "Blah",
             "optional": false
           },
           "span": {
-            "start": 1,
-            "end": 37,
+            "start": 0,
+            "end": 36,
             "ctxt": 0
           },
           "attributes": [
             {
               "type": "JSXAttribute",
               "span": {
-                "start": 7,
-                "end": 34,
+                "start": 6,
+                "end": 33,
                 "ctxt": 0
               },
               "name": {
                 "type": "Identifier",
                 "span": {
-                  "start": 7,
-                  "end": 11,
+                  "start": 6,
+                  "end": 10,
                   "ctxt": 0
                 },
                 "value": "blah",
@@ -58,8 +58,8 @@
               "value": {
                 "type": "JSXExpressionContainer",
                 "span": {
-                  "start": 12,
-                  "end": 34,
+                  "start": 11,
+                  "end": 33,
                   "ctxt": 0
                 },
                 "expression": {
@@ -68,15 +68,15 @@
                   "params": [],
                   "decorators": [],
                   "span": {
-                    "start": 13,
-                    "end": 33,
+                    "start": 12,
+                    "end": 32,
                     "ctxt": 0
                   },
                   "body": {
                     "type": "BlockStatement",
                     "span": {
-                      "start": 31,
-                      "end": 33,
+                      "start": 30,
+                      "end": 32,
                       "ctxt": 0
                     },
                     "stmts": []
@@ -87,15 +87,15 @@
                   "returnType": {
                     "type": "TsTypeAnnotation",
                     "span": {
-                      "start": 24,
-                      "end": 30,
+                      "start": 23,
+                      "end": 29,
                       "ctxt": 0
                     },
                     "typeAnnotation": {
                       "type": "TsKeywordType",
                       "span": {
-                        "start": 26,
-                        "end": 30,
+                        "start": 25,
+                        "end": 29,
                         "ctxt": 0
                       },
                       "kind": "void"

@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 217,
-    "end": 1075,
+    "start": 216,
+    "end": 1074,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 217,
-        "end": 260,
+        "start": 216,
+        "end": 259,
         "ctxt": 0
       },
       "kind": "const",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 223,
-            "end": 259,
+            "start": 222,
+            "end": 258,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 223,
-              "end": 230,
+              "start": 222,
+              "end": 229,
               "ctxt": 0
             },
             "value": "myTypes",
@@ -37,8 +37,8 @@
           "init": {
             "type": "ObjectExpression",
             "span": {
-              "start": 233,
-              "end": 259,
+              "start": 232,
+              "end": 258,
               "ctxt": 0
             },
             "properties": []
@@ -50,23 +50,23 @@
     {
       "type": "ExportNamedDeclaration",
       "span": {
-        "start": 517,
-        "end": 534,
+        "start": 516,
+        "end": 533,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ExportSpecifier",
           "span": {
-            "start": 525,
-            "end": 532,
+            "start": 524,
+            "end": 531,
             "ctxt": 0
           },
           "orig": {
             "type": "Identifier",
             "span": {
-              "start": 525,
-              "end": 532,
+              "start": 524,
+              "end": 531,
               "ctxt": 0
             },
             "value": "myTypes",
@@ -83,23 +83,23 @@
     {
       "type": "ImportDeclaration",
       "span": {
-        "start": 558,
-        "end": 592,
+        "start": 557,
+        "end": 591,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ImportSpecifier",
           "span": {
-            "start": 566,
-            "end": 573,
+            "start": 565,
+            "end": 572,
             "ctxt": 0
           },
           "local": {
             "type": "Identifier",
             "span": {
-              "start": 566,
-              "end": 573,
+              "start": 565,
+              "end": 572,
               "ctxt": 0
             },
             "value": "myTypes",
@@ -112,8 +112,8 @@
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 580,
-          "end": 591,
+          "start": 579,
+          "end": 590,
           "ctxt": 0
         },
         "value": "./file.js",
@@ -125,8 +125,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 667,
-        "end": 714,
+        "start": 666,
+        "end": 713,
         "ctxt": 0
       },
       "kind": "const",
@@ -135,15 +135,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 673,
-            "end": 713,
+            "start": 672,
+            "end": 712,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 673,
-              "end": 684,
+              "start": 672,
+              "end": 683,
               "ctxt": 0
             },
             "value": "testFnTypes",
@@ -153,8 +153,8 @@
           "init": {
             "type": "ObjectExpression",
             "span": {
-              "start": 687,
-              "end": 713,
+              "start": 686,
+              "end": 712,
               "ctxt": 0
             },
             "properties": []
@@ -168,8 +168,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 924,
-          "end": 930,
+          "start": 923,
+          "end": 929,
           "ctxt": 0
         },
         "value": "testFn",
@@ -180,16 +180,16 @@
         {
           "type": "Parameter",
           "span": {
-            "start": 931,
-            "end": 936,
+            "start": 930,
+            "end": 935,
             "ctxt": 0
           },
           "decorators": [],
           "pat": {
             "type": "Identifier",
             "span": {
-              "start": 931,
-              "end": 936,
+              "start": 930,
+              "end": 935,
               "ctxt": 0
             },
             "value": "input",
@@ -200,46 +200,46 @@
       ],
       "decorators": [],
       "span": {
-        "start": 915,
-        "end": 1044,
+        "start": 914,
+        "end": 1043,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 938,
-          "end": 1044,
+          "start": 937,
+          "end": 1043,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "IfStatement",
             "span": {
-              "start": 944,
-              "end": 1042,
+              "start": 943,
+              "end": 1041,
               "ctxt": 0
             },
             "test": {
               "type": "BinaryExpression",
               "span": {
-                "start": 948,
-                "end": 973,
+                "start": 947,
+                "end": 972,
                 "ctxt": 0
               },
               "operator": "===",
               "left": {
                 "type": "UnaryExpression",
                 "span": {
-                  "start": 948,
-                  "end": 960,
+                  "start": 947,
+                  "end": 959,
                   "ctxt": 0
                 },
                 "operator": "typeof",
                 "argument": {
                   "type": "Identifier",
                   "span": {
-                    "start": 955,
-                    "end": 960,
+                    "start": 954,
+                    "end": 959,
                     "ctxt": 0
                   },
                   "value": "input",
@@ -249,8 +249,8 @@
               "right": {
                 "type": "StringLiteral",
                 "span": {
-                  "start": 965,
-                  "end": 973,
+                  "start": 964,
+                  "end": 972,
                   "ctxt": 0
                 },
                 "value": "number",
@@ -260,31 +260,31 @@
             "consequent": {
               "type": "BlockStatement",
               "span": {
-                "start": 975,
-                "end": 1008,
+                "start": 974,
+                "end": 1007,
                 "ctxt": 0
               },
               "stmts": [
                 {
                   "type": "ReturnStatement",
                   "span": {
-                    "start": 985,
-                    "end": 1002,
+                    "start": 984,
+                    "end": 1001,
                     "ctxt": 0
                   },
                   "argument": {
                     "type": "BinaryExpression",
                     "span": {
-                      "start": 992,
-                      "end": 1001,
+                      "start": 991,
+                      "end": 1000,
                       "ctxt": 0
                     },
                     "operator": "*",
                     "left": {
                       "type": "NumericLiteral",
                       "span": {
-                        "start": 992,
-                        "end": 993,
+                        "start": 991,
+                        "end": 992,
                         "ctxt": 0
                       },
                       "value": 2.0,
@@ -293,8 +293,8 @@
                     "right": {
                       "type": "Identifier",
                       "span": {
-                        "start": 996,
-                        "end": 1001,
+                        "start": 995,
+                        "end": 1000,
                         "ctxt": 0
                       },
                       "value": "input",
@@ -307,23 +307,23 @@
             "alternate": {
               "type": "BlockStatement",
               "span": {
-                "start": 1014,
-                "end": 1042,
+                "start": 1013,
+                "end": 1041,
                 "ctxt": 0
               },
               "stmts": [
                 {
                   "type": "ReturnStatement",
                   "span": {
-                    "start": 1024,
-                    "end": 1036,
+                    "start": 1023,
+                    "end": 1035,
                     "ctxt": 0
                   },
                   "argument": {
                     "type": "NullLiteral",
                     "span": {
-                      "start": 1031,
-                      "end": 1035,
+                      "start": 1030,
+                      "end": 1034,
                       "ctxt": 0
                     }
                   }
@@ -341,23 +341,23 @@
     {
       "type": "ExportNamedDeclaration",
       "span": {
-        "start": 1046,
-        "end": 1075,
+        "start": 1045,
+        "end": 1074,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ExportSpecifier",
           "span": {
-            "start": 1054,
-            "end": 1060,
+            "start": 1053,
+            "end": 1059,
             "ctxt": 0
           },
           "orig": {
             "type": "Identifier",
             "span": {
-              "start": 1054,
-              "end": 1060,
+              "start": 1053,
+              "end": 1059,
               "ctxt": 0
             },
             "value": "testFn",
@@ -369,15 +369,15 @@
         {
           "type": "ExportSpecifier",
           "span": {
-            "start": 1062,
-            "end": 1073,
+            "start": 1061,
+            "end": 1072,
             "ctxt": 0
           },
           "orig": {
             "type": "Identifier",
             "span": {
-              "start": 1062,
-              "end": 1073,
+              "start": 1061,
+              "end": 1072,
               "ctxt": 0
             },
             "value": "testFnTypes",

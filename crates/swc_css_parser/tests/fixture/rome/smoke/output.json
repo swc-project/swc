@@ -1,62 +1,62 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 22,
-    "end": 221,
+    "start": 21,
+    "end": 220,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
-        "start": 23,
-        "end": 79,
+        "start": 22,
+        "end": 78,
         "ctxt": 0
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
-          "start": 23,
-          "end": 27,
+          "start": 22,
+          "end": 26,
           "ctxt": 0
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
-              "start": 23,
-              "end": 27,
+              "start": 22,
+              "end": 26,
               "ctxt": 0
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
-                  "start": 23,
-                  "end": 27,
+                  "start": 22,
+                  "end": 26,
                   "ctxt": 0
                 },
                 "nestingSelector": null,
                 "typeSelector": {
                   "type": "TagNameSelector",
                   "span": {
-                    "start": 23,
-                    "end": 27,
+                    "start": 22,
+                    "end": 26,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "WqName",
                     "span": {
-                      "start": 23,
-                      "end": 27,
+                      "start": 22,
+                      "end": 26,
                       "ctxt": 0
                     },
                     "prefix": null,
                     "value": {
                       "type": "Ident",
                       "span": {
-                        "start": 23,
-                        "end": 27,
+                        "start": 22,
+                        "end": 26,
                         "ctxt": 0
                       },
                       "value": "body",
@@ -73,8 +73,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 28,
-          "end": 79,
+          "start": 27,
+          "end": 78,
           "ctxt": 0
         },
         "name": "{",
@@ -82,15 +82,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 34,
-              "end": 49,
+              "start": 33,
+              "end": 48,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 34,
-                "end": 44,
+                "start": 33,
+                "end": 43,
                 "ctxt": 0
               },
               "value": "background",
@@ -100,8 +100,8 @@
               {
                 "type": "Ident",
                 "span": {
-                  "start": 46,
-                  "end": 49,
+                  "start": 45,
+                  "end": 48,
                   "ctxt": 0
                 },
                 "value": "red",
@@ -113,15 +113,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 55,
-              "end": 76,
+              "start": 54,
+              "end": 75,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 55,
-                "end": 60,
+                "start": 54,
+                "end": 59,
                 "ctxt": 0
               },
               "value": "width",
@@ -131,15 +131,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 62,
-                  "end": 76,
+                  "start": 61,
+                  "end": 75,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 62,
-                    "end": 66,
+                    "start": 61,
+                    "end": 65,
                     "ctxt": 0
                   },
                   "value": "calc",
@@ -149,31 +149,31 @@
                   {
                     "type": "CalcSum",
                     "span": {
-                      "start": 67,
-                      "end": 75,
+                      "start": 66,
+                      "end": 74,
                       "ctxt": 0
                     },
                     "expressions": [
                       {
                         "type": "CalcProduct",
                         "span": {
-                          "start": 67,
-                          "end": 70,
+                          "start": 66,
+                          "end": 69,
                           "ctxt": 0
                         },
                         "expressions": [
                           {
                             "type": "Length",
                             "span": {
-                              "start": 67,
-                              "end": 70,
+                              "start": 66,
+                              "end": 69,
                               "ctxt": 0
                             },
                             "value": {
                               "type": "Number",
                               "span": {
-                                "start": 67,
-                                "end": 68,
+                                "start": 66,
+                                "end": 67,
                                 "ctxt": 0
                               },
                               "value": 1.0,
@@ -182,8 +182,8 @@
                             "unit": {
                               "type": "Ident",
                               "span": {
-                                "start": 68,
-                                "end": 70,
+                                "start": 67,
+                                "end": 69,
                                 "ctxt": 0
                               },
                               "value": "px",
@@ -195,8 +195,8 @@
                       {
                         "type": "CalcOperator",
                         "span": {
-                          "start": 71,
-                          "end": 72,
+                          "start": 70,
+                          "end": 71,
                           "ctxt": 0
                         },
                         "value": "+"
@@ -204,23 +204,23 @@
                       {
                         "type": "CalcProduct",
                         "span": {
-                          "start": 73,
-                          "end": 75,
+                          "start": 72,
+                          "end": 74,
                           "ctxt": 0
                         },
                         "expressions": [
                           {
                             "type": "Percentage",
                             "span": {
-                              "start": 73,
-                              "end": 75,
+                              "start": 72,
+                              "end": 74,
                               "ctxt": 0
                             },
                             "value": {
                               "type": "Number",
                               "span": {
-                                "start": 73,
-                                "end": 74,
+                                "start": 72,
+                                "end": 73,
                                 "ctxt": 0
                               },
                               "value": 2.0,

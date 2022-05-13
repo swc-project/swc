@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 1,
-    "end": 145,
+    "start": 0,
+    "end": 144,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 1,
-        "end": 145,
+        "start": 0,
+        "end": 144,
         "ctxt": 0
       },
       "declaration": {
@@ -18,8 +18,8 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 23,
-            "end": 54,
+            "start": 22,
+            "end": 53,
             "ctxt": 0
           },
           "value": "AbstractProviderDeliveryService",
@@ -27,8 +27,8 @@
         },
         "declare": false,
         "span": {
-          "start": 8,
-          "end": 145,
+          "start": 7,
+          "end": 144,
           "ctxt": 0
         },
         "decorators": [],
@@ -36,15 +36,15 @@
           {
             "type": "ClassMethod",
             "span": {
-              "start": 103,
-              "end": 143,
+              "start": 102,
+              "end": 142,
               "ctxt": 0
             },
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 109,
-                "end": 126,
+                "start": 108,
+                "end": 125,
                 "ctxt": 0
               },
               "value": "prepareGetRequest",
@@ -54,8 +54,8 @@
               "params": [],
               "decorators": [],
               "span": {
-                "start": 103,
-                "end": 143,
+                "start": 102,
+                "end": 142,
                 "ctxt": 0
               },
               "body": null,
@@ -65,22 +65,22 @@
               "returnType": {
                 "type": "TsTypeAnnotation",
                 "span": {
-                  "start": 128,
-                  "end": 142,
+                  "start": 127,
+                  "end": 141,
                   "ctxt": 0
                 },
                 "typeAnnotation": {
                   "type": "TsTypeReference",
                   "span": {
-                    "start": 130,
-                    "end": 142,
+                    "start": 129,
+                    "end": 141,
                     "ctxt": 0
                   },
                   "typeName": {
                     "type": "Identifier",
                     "span": {
-                      "start": 130,
-                      "end": 137,
+                      "start": 129,
+                      "end": 136,
                       "ctxt": 0
                     },
                     "value": "Promise",
@@ -89,16 +89,16 @@
                   "typeParams": {
                     "type": "TsTypeParameterInstantiation",
                     "span": {
-                      "start": 137,
-                      "end": 142,
+                      "start": 136,
+                      "end": 141,
                       "ctxt": 0
                     },
                     "params": [
                       {
                         "type": "TsKeywordType",
                         "span": {
-                          "start": 138,
-                          "end": 141,
+                          "start": 137,
+                          "end": 140,
                           "ctxt": 0
                         },
                         "kind": "any"

@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 141,
-    "end": 198,
+    "start": 140,
+    "end": 197,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 141,
-        "end": 198,
+        "start": 140,
+        "end": 197,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 167,
-            "end": 168,
+            "start": 166,
+            "end": 167,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 167,
-              "end": 168,
+              "start": 166,
+              "end": 167,
               "ctxt": 0
             },
             "value": "x",
@@ -40,15 +40,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 196,
-            "end": 197,
+            "start": 195,
+            "end": 196,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 196,
-              "end": 197,
+              "start": 195,
+              "end": 196,
               "ctxt": 0
             },
             "value": "y",

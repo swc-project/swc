@@ -1,24 +1,24 @@
 {
   "type": "Script",
   "span": {
-    "start": 16,
-    "end": 45,
+    "start": 15,
+    "end": 44,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ForOfStatement",
       "span": {
-        "start": 16,
-        "end": 45,
+        "start": 15,
+        "end": 44,
         "ctxt": 0
       },
       "await": null,
       "left": {
         "type": "VariableDeclaration",
         "span": {
-          "start": 21,
-          "end": 26,
+          "start": 20,
+          "end": 25,
           "ctxt": 0
         },
         "kind": "var",
@@ -27,15 +27,15 @@
           {
             "type": "VariableDeclarator",
             "span": {
-              "start": 25,
-              "end": 26,
+              "start": 24,
+              "end": 25,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 25,
-                "end": 26,
+                "start": 24,
+                "end": 25,
                 "ctxt": 0
               },
               "value": "v",
@@ -50,8 +50,8 @@
       "right": {
         "type": "ArrayExpression",
         "span": {
-          "start": 30,
-          "end": 33,
+          "start": 29,
+          "end": 32,
           "ctxt": 0
         },
         "elements": [
@@ -60,8 +60,8 @@
             "expression": {
               "type": "NumericLiteral",
               "span": {
-                "start": 31,
-                "end": 32,
+                "start": 30,
+                "end": 31,
                 "ctxt": 0
               },
               "value": 0.0,
@@ -73,23 +73,23 @@
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 35,
-          "end": 45,
+          "start": 34,
+          "end": 44,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
-              "start": 41,
-              "end": 43,
+              "start": 40,
+              "end": 42,
               "ctxt": 0
             },
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 41,
-                "end": 42,
+                "start": 40,
+                "end": 41,
                 "ctxt": 0
               },
               "value": "v",

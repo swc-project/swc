@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 34,
+    "start": 0,
+    "end": 33,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 1,
-        "end": 16,
+        "start": 0,
+        "end": 15,
         "ctxt": 0
       },
       "kind": "const",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 7,
-            "end": 15,
+            "start": 6,
+            "end": 14,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 7,
-              "end": 11,
+              "start": 6,
+              "end": 10,
               "ctxt": 0
             },
             "value": "𝒫",
@@ -37,8 +37,8 @@
           "init": {
             "type": "NumericLiteral",
             "span": {
-              "start": 14,
-              "end": 15,
+              "start": 13,
+              "end": 14,
               "ctxt": 0
             },
             "value": 2.0,
@@ -51,29 +51,29 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 17,
-        "end": 34,
+        "start": 16,
+        "end": 33,
         "ctxt": 0
       },
       "expression": {
         "type": "CallExpression",
         "span": {
-          "start": 17,
-          "end": 34,
+          "start": 16,
+          "end": 33,
           "ctxt": 0
         },
         "callee": {
           "type": "MemberExpression",
           "span": {
-            "start": 17,
-            "end": 28,
+            "start": 16,
+            "end": 27,
             "ctxt": 0
           },
           "object": {
             "type": "Identifier",
             "span": {
-              "start": 17,
-              "end": 24,
+              "start": 16,
+              "end": 23,
               "ctxt": 0
             },
             "value": "console",
@@ -82,8 +82,8 @@
           "property": {
             "type": "Identifier",
             "span": {
-              "start": 25,
-              "end": 28,
+              "start": 24,
+              "end": 27,
               "ctxt": 0
             },
             "value": "log",
@@ -96,8 +96,8 @@
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 29,
-                "end": 33,
+                "start": 28,
+                "end": 32,
                 "ctxt": 0
               },
               "value": "𝒫",

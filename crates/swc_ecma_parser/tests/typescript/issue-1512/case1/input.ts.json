@@ -1,31 +1,31 @@
 {
   "type": "Module",
   "span": {
-    "start": 1,
-    "end": 96,
+    "start": 0,
+    "end": 95,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ImportDeclaration",
       "span": {
-        "start": 1,
-        "end": 29,
+        "start": 0,
+        "end": 28,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ImportDefaultSpecifier",
           "span": {
-            "start": 8,
-            "end": 14,
+            "start": 7,
+            "end": 13,
             "ctxt": 0
           },
           "local": {
             "type": "Identifier",
             "span": {
-              "start": 8,
-              "end": 14,
+              "start": 7,
+              "end": 13,
               "ctxt": 0
             },
             "value": "assert",
@@ -36,8 +36,8 @@
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 20,
-          "end": 29,
+          "start": 19,
+          "end": 28,
           "ctxt": 0
         },
         "value": "./index",
@@ -49,22 +49,22 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 31,
-        "end": 47,
+        "start": 30,
+        "end": 46,
         "ctxt": 0
       },
       "expression": {
         "type": "CallExpression",
         "span": {
-          "start": 31,
-          "end": 47,
+          "start": 30,
+          "end": 46,
           "ctxt": 0
         },
         "callee": {
           "type": "Identifier",
           "span": {
-            "start": 31,
-            "end": 37,
+            "start": 30,
+            "end": 36,
             "ctxt": 0
           },
           "value": "assert",
@@ -76,8 +76,8 @@
             "expression": {
               "type": "NumericLiteral",
               "span": {
-                "start": 43,
-                "end": 46,
+                "start": 42,
+                "end": 45,
                 "ctxt": 0
               },
               "value": 123.0,
@@ -88,23 +88,23 @@
         "typeArguments": {
           "type": "TsTypeParameterInstantiation",
           "span": {
-            "start": 37,
-            "end": 42,
+            "start": 36,
+            "end": 41,
             "ctxt": 0
           },
           "params": [
             {
               "type": "TsLiteralType",
               "span": {
-                "start": 38,
-                "end": 41,
+                "start": 37,
+                "end": 40,
                 "ctxt": 0
               },
               "literal": {
                 "type": "NumericLiteral",
                 "span": {
-                  "start": 38,
-                  "end": 41,
+                  "start": 37,
+                  "end": 40,
                   "ctxt": 0
                 },
                 "value": 123.0,
@@ -118,22 +118,22 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 48,
-        "end": 69,
+        "start": 47,
+        "end": 68,
         "ctxt": 0
       },
       "expression": {
         "type": "CallExpression",
         "span": {
-          "start": 48,
-          "end": 69,
+          "start": 47,
+          "end": 68,
           "ctxt": 0
         },
         "callee": {
           "type": "Identifier",
           "span": {
-            "start": 48,
-            "end": 54,
+            "start": 47,
+            "end": 53,
             "ctxt": 0
           },
           "value": "assert",
@@ -145,8 +145,8 @@
             "expression": {
               "type": "NumericLiteral",
               "span": {
-                "start": 60,
-                "end": 63,
+                "start": 59,
+                "end": 62,
                 "ctxt": 0
               },
               "value": 123.0,
@@ -158,8 +158,8 @@
             "expression": {
               "type": "NumericLiteral",
               "span": {
-                "start": 65,
-                "end": 68,
+                "start": 64,
+                "end": 67,
                 "ctxt": 0
               },
               "value": 123.0,
@@ -170,23 +170,23 @@
         "typeArguments": {
           "type": "TsTypeParameterInstantiation",
           "span": {
-            "start": 54,
-            "end": 59,
+            "start": 53,
+            "end": 58,
             "ctxt": 0
           },
           "params": [
             {
               "type": "TsLiteralType",
               "span": {
-                "start": 55,
-                "end": 58,
+                "start": 54,
+                "end": 57,
                 "ctxt": 0
               },
               "literal": {
                 "type": "NumericLiteral",
                 "span": {
-                  "start": 55,
-                  "end": 58,
+                  "start": 54,
+                  "end": 57,
                   "ctxt": 0
                 },
                 "value": 123.0,
@@ -200,22 +200,22 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 70,
-        "end": 96,
+        "start": 69,
+        "end": 95,
         "ctxt": 0
       },
       "expression": {
         "type": "CallExpression",
         "span": {
-          "start": 70,
-          "end": 96,
+          "start": 69,
+          "end": 95,
           "ctxt": 0
         },
         "callee": {
           "type": "Identifier",
           "span": {
-            "start": 70,
-            "end": 76,
+            "start": 69,
+            "end": 75,
             "ctxt": 0
           },
           "value": "assert",
@@ -227,8 +227,8 @@
             "expression": {
               "type": "NumericLiteral",
               "span": {
-                "start": 82,
-                "end": 85,
+                "start": 81,
+                "end": 84,
                 "ctxt": 0
               },
               "value": 123.0,
@@ -240,8 +240,8 @@
             "expression": {
               "type": "NumericLiteral",
               "span": {
-                "start": 87,
-                "end": 90,
+                "start": 86,
+                "end": 89,
                 "ctxt": 0
               },
               "value": 123.0,
@@ -253,8 +253,8 @@
             "expression": {
               "type": "NumericLiteral",
               "span": {
-                "start": 92,
-                "end": 95,
+                "start": 91,
+                "end": 94,
                 "ctxt": 0
               },
               "value": 123.0,
@@ -265,23 +265,23 @@
         "typeArguments": {
           "type": "TsTypeParameterInstantiation",
           "span": {
-            "start": 76,
-            "end": 81,
+            "start": 75,
+            "end": 80,
             "ctxt": 0
           },
           "params": [
             {
               "type": "TsLiteralType",
               "span": {
-                "start": 77,
-                "end": 80,
+                "start": 76,
+                "end": 79,
                 "ctxt": 0
               },
               "literal": {
                 "type": "NumericLiteral",
                 "span": {
-                  "start": 77,
-                  "end": 80,
+                  "start": 76,
+                  "end": 79,
                   "ctxt": 0
                 },
                 "value": 123.0,

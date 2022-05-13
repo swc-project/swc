@@ -1,31 +1,31 @@
 {
   "type": "Module",
   "span": {
-    "start": 49,
-    "end": 85,
+    "start": 48,
+    "end": 84,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportNamedDeclaration",
       "span": {
-        "start": 49,
-        "end": 85,
+        "start": 48,
+        "end": 84,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ExportNamespaceSpecifier",
           "span": {
-            "start": 56,
-            "end": 63,
+            "start": 55,
+            "end": 62,
             "ctxt": 0
           },
           "name": {
             "type": "Identifier",
             "span": {
-              "start": 61,
-              "end": 63,
+              "start": 60,
+              "end": 62,
               "ctxt": 0
             },
             "value": "ns",
@@ -36,8 +36,8 @@
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 69,
-          "end": 84,
+          "start": 68,
+          "end": 83,
           "ctxt": 0
         },
         "value": "./nonexistent",

@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 48,
-    "end": 90,
+    "start": 47,
+    "end": 89,
     "ctxt": 0
   },
   "body": [
     {
       "type": "SwitchStatement",
       "span": {
-        "start": 48,
-        "end": 90,
+        "start": 47,
+        "end": 89,
         "ctxt": 0
       },
       "discriminant": {
         "type": "NumericLiteral",
         "span": {
-          "start": 56,
-          "end": 58,
+          "start": 55,
+          "end": 57,
           "ctxt": 0
         },
         "value": 12.0,
@@ -27,15 +27,15 @@
         {
           "type": "SwitchCase",
           "span": {
-            "start": 66,
-            "end": 88,
+            "start": 65,
+            "end": 87,
             "ctxt": 0
           },
           "test": {
             "type": "NumericLiteral",
             "span": {
-              "start": 71,
-              "end": 72,
+              "start": 70,
+              "end": 71,
               "ctxt": 0
             },
             "value": 5.0,
@@ -45,8 +45,8 @@
             {
               "type": "BreakStatement",
               "span": {
-                "start": 82,
-                "end": 88,
+                "start": 81,
+                "end": 87,
                 "ctxt": 0
               },
               "label": null

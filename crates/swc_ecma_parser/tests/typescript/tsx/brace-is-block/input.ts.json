@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 100,
-    "end": 128,
+    "start": 99,
+    "end": 127,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 106,
-          "end": 107,
+          "start": 105,
+          "end": 106,
           "ctxt": 0
         },
         "value": "C",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 100,
-        "end": 123,
+        "start": 99,
+        "end": 122,
         "ctxt": 0
       },
       "decorators": [],
@@ -29,8 +29,8 @@
       "superClass": {
         "type": "Identifier",
         "span": {
-          "start": 116,
-          "end": 117,
+          "start": 115,
+          "end": 116,
           "ctxt": 0
         },
         "value": "D",
@@ -41,23 +41,23 @@
       "superTypeParams": {
         "type": "TsTypeParameterInstantiation",
         "span": {
-          "start": 117,
-          "end": 120,
+          "start": 116,
+          "end": 119,
           "ctxt": 0
         },
         "params": [
           {
             "type": "TsTypeReference",
             "span": {
-              "start": 118,
-              "end": 119,
+              "start": 117,
+              "end": 118,
               "ctxt": 0
             },
             "typeName": {
               "type": "Identifier",
               "span": {
-                "start": 118,
-                "end": 119,
+                "start": 117,
+                "end": 118,
                 "ctxt": 0
               },
               "value": "T",
@@ -72,15 +72,15 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 124,
-        "end": 128,
+        "start": 123,
+        "end": 127,
         "ctxt": 0
       },
       "expression": {
         "type": "JSXElement",
         "span": {
-          "start": 124,
-          "end": 128,
+          "start": 123,
+          "end": 127,
           "ctxt": 0
         },
         "opening": {
@@ -88,16 +88,16 @@
           "name": {
             "type": "Identifier",
             "span": {
-              "start": 125,
-              "end": 126,
+              "start": 124,
+              "end": 125,
               "ctxt": 0
             },
             "value": "C",
             "optional": false
           },
           "span": {
-            "start": 124,
-            "end": 128,
+            "start": 123,
+            "end": 127,
             "ctxt": 0
           },
           "attributes": [],

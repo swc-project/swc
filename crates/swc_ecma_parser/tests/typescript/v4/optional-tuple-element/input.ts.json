@@ -1,24 +1,24 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 61,
+    "start": 0,
+    "end": 60,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsTypeAliasDeclaration",
       "span": {
-        "start": 1,
-        "end": 61,
+        "start": 0,
+        "end": 60,
         "ctxt": 0
       },
       "declare": false,
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 6,
-          "end": 9,
+          "start": 5,
+          "end": 8,
           "ctxt": 0
         },
         "value": "Foo",
@@ -28,23 +28,23 @@
       "typeAnnotation": {
         "type": "TsTupleType",
         "span": {
-          "start": 12,
-          "end": 60,
+          "start": 11,
+          "end": 59,
           "ctxt": 0
         },
         "elemTypes": [
           {
             "type": "TsTupleElement",
             "span": {
-              "start": 13,
-              "end": 26,
+              "start": 12,
+              "end": 25,
               "ctxt": 0
             },
             "label": {
               "type": "Identifier",
               "span": {
-                "start": 13,
-                "end": 18,
+                "start": 12,
+                "end": 17,
                 "ctxt": 0
               },
               "value": "first",
@@ -54,8 +54,8 @@
             "ty": {
               "type": "TsKeywordType",
               "span": {
-                "start": 20,
-                "end": 26,
+                "start": 19,
+                "end": 25,
                 "ctxt": 0
               },
               "kind": "number"
@@ -64,15 +64,15 @@
           {
             "type": "TsTupleElement",
             "span": {
-              "start": 28,
-              "end": 43,
+              "start": 27,
+              "end": 42,
               "ctxt": 0
             },
             "label": {
               "type": "Identifier",
               "span": {
-                "start": 28,
-                "end": 35,
+                "start": 27,
+                "end": 34,
                 "ctxt": 0
               },
               "value": "second",
@@ -82,8 +82,8 @@
             "ty": {
               "type": "TsKeywordType",
               "span": {
-                "start": 37,
-                "end": 43,
+                "start": 36,
+                "end": 42,
                 "ctxt": 0
               },
               "kind": "string"
@@ -92,27 +92,27 @@
           {
             "type": "TsTupleElement",
             "span": {
-              "start": 45,
-              "end": 59,
+              "start": 44,
+              "end": 58,
               "ctxt": 0
             },
             "label": {
               "type": "RestElement",
               "span": {
-                "start": 45,
-                "end": 53,
+                "start": 44,
+                "end": 52,
                 "ctxt": 0
               },
               "rest": {
-                "start": 45,
-                "end": 48,
+                "start": 44,
+                "end": 47,
                 "ctxt": 0
               },
               "argument": {
                 "type": "Identifier",
                 "span": {
-                  "start": 48,
-                  "end": 52,
+                  "start": 47,
+                  "end": 51,
                   "ctxt": 0
                 },
                 "value": "rest",
@@ -124,15 +124,15 @@
             "ty": {
               "type": "TsArrayType",
               "span": {
-                "start": 54,
-                "end": 59,
+                "start": 53,
+                "end": 58,
                 "ctxt": 0
               },
               "elemType": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 54,
-                  "end": 57,
+                  "start": 53,
+                  "end": 56,
                   "ctxt": 0
                 },
                 "kind": "any"

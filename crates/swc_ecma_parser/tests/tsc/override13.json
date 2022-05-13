@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 50,
-    "end": 501,
+    "start": 49,
+    "end": 500,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 56,
-          "end": 59,
+          "start": 55,
+          "end": 58,
           "ctxt": 0
         },
         "value": "Foo",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 50,
-        "end": 110,
+        "start": 49,
+        "end": 109,
         "ctxt": 0
       },
       "decorators": [],
@@ -29,15 +29,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 66,
-            "end": 78,
+            "start": 65,
+            "end": 77,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 66,
-              "end": 74,
+              "start": 65,
+              "end": 73,
               "ctxt": 0
             },
             "value": "property",
@@ -46,8 +46,8 @@
           "value": {
             "type": "NumericLiteral",
             "span": {
-              "start": 77,
-              "end": 78,
+              "start": 76,
+              "end": 77,
               "ctxt": 0
             },
             "value": 1.0,
@@ -67,15 +67,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 83,
-            "end": 108,
+            "start": 82,
+            "end": 107,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 90,
-              "end": 104,
+              "start": 89,
+              "end": 103,
               "ctxt": 0
             },
             "value": "staticProperty",
@@ -84,8 +84,8 @@
           "value": {
             "type": "NumericLiteral",
             "span": {
-              "start": 107,
-              "end": 108,
+              "start": 106,
+              "end": 107,
               "ctxt": 0
             },
             "value": 2.0,
@@ -114,8 +114,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 118,
-          "end": 124,
+          "start": 117,
+          "end": 123,
           "ctxt": 0
         },
         "value": "SubFoo",
@@ -123,8 +123,8 @@
       },
       "declare": false,
       "span": {
-        "start": 112,
-        "end": 184,
+        "start": 111,
+        "end": 183,
         "ctxt": 0
       },
       "decorators": [],
@@ -132,15 +132,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 143,
-            "end": 157,
+            "start": 142,
+            "end": 156,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 143,
-              "end": 151,
+              "start": 142,
+              "end": 150,
               "ctxt": 0
             },
             "value": "property",
@@ -149,8 +149,8 @@
           "value": {
             "type": "NumericLiteral",
             "span": {
-              "start": 154,
-              "end": 156,
+              "start": 153,
+              "end": 155,
               "ctxt": 0
             },
             "value": 42.0,
@@ -170,15 +170,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 162,
-            "end": 182,
+            "start": 161,
+            "end": 181,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 162,
-              "end": 176,
+              "start": 161,
+              "end": 175,
               "ctxt": 0
             },
             "value": "staticProperty",
@@ -187,8 +187,8 @@
           "value": {
             "type": "NumericLiteral",
             "span": {
-              "start": 179,
-              "end": 181,
+              "start": 178,
+              "end": 180,
               "ctxt": 0
             },
             "value": 42.0,
@@ -209,8 +209,8 @@
       "superClass": {
         "type": "Identifier",
         "span": {
-          "start": 133,
-          "end": 136,
+          "start": 132,
+          "end": 135,
           "ctxt": 0
         },
         "value": "Foo",
@@ -226,8 +226,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 192,
-          "end": 204,
+          "start": 191,
+          "end": 203,
           "ctxt": 0
         },
         "value": "StaticSubFoo",
@@ -235,8 +235,8 @@
       },
       "declare": false,
       "span": {
-        "start": 186,
-        "end": 278,
+        "start": 185,
+        "end": 277,
         "ctxt": 0
       },
       "decorators": [],
@@ -244,15 +244,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 223,
-            "end": 244,
+            "start": 222,
+            "end": 243,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 230,
-              "end": 238,
+              "start": 229,
+              "end": 237,
               "ctxt": 0
             },
             "value": "property",
@@ -261,8 +261,8 @@
           "value": {
             "type": "NumericLiteral",
             "span": {
-              "start": 241,
-              "end": 243,
+              "start": 240,
+              "end": 242,
               "ctxt": 0
             },
             "value": 42.0,
@@ -282,15 +282,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 249,
-            "end": 276,
+            "start": 248,
+            "end": 275,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 256,
-              "end": 270,
+              "start": 255,
+              "end": 269,
               "ctxt": 0
             },
             "value": "staticProperty",
@@ -299,8 +299,8 @@
           "value": {
             "type": "NumericLiteral",
             "span": {
-              "start": 273,
-              "end": 275,
+              "start": 272,
+              "end": 274,
               "ctxt": 0
             },
             "value": 42.0,
@@ -321,8 +321,8 @@
       "superClass": {
         "type": "Identifier",
         "span": {
-          "start": 213,
-          "end": 216,
+          "start": 212,
+          "end": 215,
           "ctxt": 0
         },
         "value": "Foo",
@@ -338,8 +338,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 286,
-          "end": 298,
+          "start": 285,
+          "end": 297,
           "ctxt": 0
         },
         "value": "Intermediate",
@@ -347,8 +347,8 @@
       },
       "declare": false,
       "span": {
-        "start": 280,
-        "end": 313,
+        "start": 279,
+        "end": 312,
         "ctxt": 0
       },
       "decorators": [],
@@ -356,8 +356,8 @@
       "superClass": {
         "type": "Identifier",
         "span": {
-          "start": 307,
-          "end": 310,
+          "start": 306,
+          "end": 309,
           "ctxt": 0
         },
         "value": "Foo",
@@ -373,8 +373,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 321,
-          "end": 328,
+          "start": 320,
+          "end": 327,
           "ctxt": 0
         },
         "value": "Derived",
@@ -382,8 +382,8 @@
       },
       "declare": false,
       "span": {
-        "start": 315,
-        "end": 397,
+        "start": 314,
+        "end": 396,
         "ctxt": 0
       },
       "decorators": [],
@@ -391,15 +391,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 356,
-            "end": 370,
+            "start": 355,
+            "end": 369,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 356,
-              "end": 364,
+              "start": 355,
+              "end": 363,
               "ctxt": 0
             },
             "value": "property",
@@ -408,8 +408,8 @@
           "value": {
             "type": "NumericLiteral",
             "span": {
-              "start": 367,
-              "end": 369,
+              "start": 366,
+              "end": 368,
               "ctxt": 0
             },
             "value": 42.0,
@@ -429,15 +429,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 375,
-            "end": 395,
+            "start": 374,
+            "end": 394,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 375,
-              "end": 389,
+              "start": 374,
+              "end": 388,
               "ctxt": 0
             },
             "value": "staticProperty",
@@ -446,8 +446,8 @@
           "value": {
             "type": "NumericLiteral",
             "span": {
-              "start": 392,
-              "end": 394,
+              "start": 391,
+              "end": 393,
               "ctxt": 0
             },
             "value": 42.0,
@@ -468,8 +468,8 @@
       "superClass": {
         "type": "Identifier",
         "span": {
-          "start": 337,
-          "end": 349,
+          "start": 336,
+          "end": 348,
           "ctxt": 0
         },
         "value": "Intermediate",
@@ -485,8 +485,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 405,
-          "end": 418,
+          "start": 404,
+          "end": 417,
           "ctxt": 0
         },
         "value": "StaticDerived",
@@ -494,8 +494,8 @@
       },
       "declare": false,
       "span": {
-        "start": 399,
-        "end": 501,
+        "start": 398,
+        "end": 500,
         "ctxt": 0
       },
       "decorators": [],
@@ -503,15 +503,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 446,
-            "end": 467,
+            "start": 445,
+            "end": 466,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 453,
-              "end": 461,
+              "start": 452,
+              "end": 460,
               "ctxt": 0
             },
             "value": "property",
@@ -520,8 +520,8 @@
           "value": {
             "type": "NumericLiteral",
             "span": {
-              "start": 464,
-              "end": 466,
+              "start": 463,
+              "end": 465,
               "ctxt": 0
             },
             "value": 42.0,
@@ -541,15 +541,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 472,
-            "end": 499,
+            "start": 471,
+            "end": 498,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 479,
-              "end": 493,
+              "start": 478,
+              "end": 492,
               "ctxt": 0
             },
             "value": "staticProperty",
@@ -558,8 +558,8 @@
           "value": {
             "type": "NumericLiteral",
             "span": {
-              "start": 496,
-              "end": 498,
+              "start": 495,
+              "end": 497,
               "ctxt": 0
             },
             "value": 42.0,
@@ -580,8 +580,8 @@
       "superClass": {
         "type": "Identifier",
         "span": {
-          "start": 427,
-          "end": 439,
+          "start": 426,
+          "end": 438,
           "ctxt": 0
         },
         "value": "Intermediate",

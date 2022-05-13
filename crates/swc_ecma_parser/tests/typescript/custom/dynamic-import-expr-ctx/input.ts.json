@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 82,
+    "start": 0,
+    "end": 81,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 1,
-        "end": 35,
+        "start": 0,
+        "end": 34,
         "ctxt": 0
       },
       "kind": "const",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 7,
-            "end": 34,
+            "start": 6,
+            "end": 33,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 7,
-              "end": 11,
+              "start": 6,
+              "end": 10,
               "ctxt": 0
             },
             "value": "test",
@@ -37,29 +37,29 @@
           "init": {
             "type": "CallExpression",
             "span": {
-              "start": 14,
-              "end": 34,
+              "start": 13,
+              "end": 33,
               "ctxt": 0
             },
             "callee": {
               "type": "MemberExpression",
               "span": {
-                "start": 14,
-                "end": 32,
+                "start": 13,
+                "end": 31,
                 "ctxt": 0
               },
               "object": {
                 "type": "CallExpression",
                 "span": {
-                  "start": 14,
-                  "end": 27,
+                  "start": 13,
+                  "end": 26,
                   "ctxt": 0
                 },
                 "callee": {
                   "type": "Import",
                   "span": {
-                    "start": 14,
-                    "end": 20,
+                    "start": 13,
+                    "end": 19,
                     "ctxt": 0
                   }
                 },
@@ -69,8 +69,8 @@
                     "expression": {
                       "type": "StringLiteral",
                       "span": {
-                        "start": 21,
-                        "end": 26,
+                        "start": 20,
+                        "end": 25,
                         "ctxt": 0
                       },
                       "value": "foo",
@@ -83,8 +83,8 @@
               "property": {
                 "type": "Identifier",
                 "span": {
-                  "start": 28,
-                  "end": 32,
+                  "start": 27,
+                  "end": 31,
                   "ctxt": 0
                 },
                 "value": "from",
@@ -103,8 +103,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 46,
-          "end": 50,
+          "start": 45,
+          "end": 49,
           "ctxt": 0
         },
         "value": "func",
@@ -114,51 +114,51 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 37,
-        "end": 82,
+        "start": 36,
+        "end": 81,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 53,
-          "end": 82,
+          "start": 52,
+          "end": 81,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
-              "start": 59,
-              "end": 80,
+              "start": 58,
+              "end": 79,
               "ctxt": 0
             },
             "expression": {
               "type": "CallExpression",
               "span": {
-                "start": 59,
-                "end": 79,
+                "start": 58,
+                "end": 78,
                 "ctxt": 0
               },
               "callee": {
                 "type": "MemberExpression",
                 "span": {
-                  "start": 59,
-                  "end": 77,
+                  "start": 58,
+                  "end": 76,
                   "ctxt": 0
                 },
                 "object": {
                   "type": "CallExpression",
                   "span": {
-                    "start": 59,
-                    "end": 72,
+                    "start": 58,
+                    "end": 71,
                     "ctxt": 0
                   },
                   "callee": {
                     "type": "Import",
                     "span": {
-                      "start": 59,
-                      "end": 65,
+                      "start": 58,
+                      "end": 64,
                       "ctxt": 0
                     }
                   },
@@ -168,8 +168,8 @@
                       "expression": {
                         "type": "StringLiteral",
                         "span": {
-                          "start": 66,
-                          "end": 71,
+                          "start": 65,
+                          "end": 70,
                           "ctxt": 0
                         },
                         "value": "foo",
@@ -182,8 +182,8 @@
                 "property": {
                   "type": "Identifier",
                   "span": {
-                    "start": 73,
-                    "end": 77,
+                    "start": 72,
+                    "end": 76,
                     "ctxt": 0
                   },
                   "value": "from",

@@ -1,24 +1,24 @@
 {
   "type": "Module",
   "span": {
-    "start": 16,
-    "end": 70,
+    "start": 15,
+    "end": 69,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDefaultDeclaration",
       "span": {
-        "start": 16,
-        "end": 70,
+        "start": 15,
+        "end": 69,
         "ctxt": 0
       },
       "decl": {
         "type": "ClassExpression",
         "identifier": null,
         "span": {
-          "start": 31,
-          "end": 70,
+          "start": 30,
+          "end": 69,
           "ctxt": 0
         },
         "decorators": [],
@@ -26,15 +26,15 @@
           {
             "type": "ClassProperty",
             "span": {
-              "start": 43,
-              "end": 68,
+              "start": 42,
+              "end": 67,
               "ctxt": 0
             },
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 50,
-                "end": 51,
+                "start": 49,
+                "end": 50,
                 "ctxt": 0
               },
               "value": "z",
@@ -43,8 +43,8 @@
             "value": {
               "type": "StringLiteral",
               "span": {
-                "start": 62,
-                "end": 67,
+                "start": 61,
+                "end": 66,
                 "ctxt": 0
               },
               "value": "Foo",
@@ -53,15 +53,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 51,
-                "end": 59,
+                "start": 50,
+                "end": 58,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 53,
-                  "end": 59,
+                  "start": 52,
+                  "end": 58,
                   "ctxt": 0
                 },
                 "kind": "string"

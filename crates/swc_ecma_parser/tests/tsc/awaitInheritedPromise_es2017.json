@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 47,
-    "end": 139,
+    "start": 46,
+    "end": 138,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsInterfaceDeclaration",
       "span": {
-        "start": 47,
-        "end": 85,
+        "start": 46,
+        "end": 84,
         "ctxt": 0
       },
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 57,
-          "end": 58,
+          "start": 56,
+          "end": 57,
           "ctxt": 0
         },
         "value": "A",
@@ -29,15 +29,15 @@
         {
           "type": "TsExpressionWithTypeArguments",
           "span": {
-            "start": 67,
-            "end": 82,
+            "start": 66,
+            "end": 81,
             "ctxt": 0
           },
           "expression": {
             "type": "Identifier",
             "span": {
-              "start": 67,
-              "end": 74,
+              "start": 66,
+              "end": 73,
               "ctxt": 0
             },
             "value": "Promise",
@@ -46,16 +46,16 @@
           "typeArguments": {
             "type": "TsTypeParameterInstantiation",
             "span": {
-              "start": 74,
-              "end": 82,
+              "start": 73,
+              "end": 81,
               "ctxt": 0
             },
             "params": [
               {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 75,
-                  "end": 81,
+                  "start": 74,
+                  "end": 80,
                   "ctxt": 0
                 },
                 "kind": "string"
@@ -67,8 +67,8 @@
       "body": {
         "type": "TsInterfaceBody",
         "span": {
-          "start": 83,
-          "end": 85,
+          "start": 82,
+          "end": 84,
           "ctxt": 0
         },
         "body": []
@@ -77,8 +77,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 86,
-        "end": 103,
+        "start": 85,
+        "end": 102,
         "ctxt": 0
       },
       "kind": "var",
@@ -87,15 +87,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 98,
-            "end": 102,
+            "start": 97,
+            "end": 101,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 98,
-              "end": 99,
+              "start": 97,
+              "end": 98,
               "ctxt": 0
             },
             "value": "a",
@@ -103,22 +103,22 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 99,
-                "end": 102,
+                "start": 98,
+                "end": 101,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
-                  "start": 101,
-                  "end": 102,
+                  "start": 100,
+                  "end": 101,
                   "ctxt": 0
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
-                    "start": 101,
-                    "end": 102,
+                    "start": 100,
+                    "end": 101,
                     "ctxt": 0
                   },
                   "value": "A",
@@ -138,8 +138,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 119,
-          "end": 120,
+          "start": 118,
+          "end": 119,
           "ctxt": 0
         },
         "value": "f",
@@ -149,37 +149,37 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 104,
-        "end": 139,
+        "start": 103,
+        "end": 138,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 123,
-          "end": 139,
+          "start": 122,
+          "end": 138,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
-              "start": 129,
-              "end": 137,
+              "start": 128,
+              "end": 136,
               "ctxt": 0
             },
             "expression": {
               "type": "AwaitExpression",
               "span": {
-                "start": 129,
-                "end": 136,
+                "start": 128,
+                "end": 135,
                 "ctxt": 0
               },
               "argument": {
                 "type": "Identifier",
                 "span": {
-                  "start": 135,
-                  "end": 136,
+                  "start": 134,
+                  "end": 135,
                   "ctxt": 0
                 },
                 "value": "a",

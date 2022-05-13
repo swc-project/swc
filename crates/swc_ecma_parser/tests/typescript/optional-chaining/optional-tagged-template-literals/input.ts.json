@@ -1,49 +1,49 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 10,
+    "start": 0,
+    "end": 9,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 1,
-        "end": 10,
+        "start": 0,
+        "end": 9,
         "ctxt": 0
       },
       "expression": {
         "type": "TaggedTemplateExpression",
         "span": {
-          "start": 1,
-          "end": 10,
+          "start": 0,
+          "end": 9,
           "ctxt": 0
         },
         "tag": {
           "type": "OptionalChainingExpression",
           "span": {
-            "start": 1,
-            "end": 5,
+            "start": 0,
+            "end": 4,
             "ctxt": 0
           },
           "questionDotToken": {
-            "start": 2,
-            "end": 3,
+            "start": 1,
+            "end": 2,
             "ctxt": 0
           },
           "base": {
             "type": "MemberExpression",
             "span": {
-              "start": 1,
-              "end": 5,
+              "start": 0,
+              "end": 4,
               "ctxt": 0
             },
             "object": {
               "type": "Identifier",
               "span": {
-                "start": 1,
-                "end": 2,
+                "start": 0,
+                "end": 1,
                 "ctxt": 0
               },
               "value": "a",
@@ -52,8 +52,8 @@
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 4,
-                "end": 5,
+                "start": 3,
+                "end": 4,
                 "ctxt": 0
               },
               "value": "b",
@@ -65,8 +65,8 @@
         "template": {
           "type": "TemplateLiteral",
           "span": {
-            "start": 5,
-            "end": 10,
+            "start": 4,
+            "end": 9,
             "ctxt": 0
           },
           "expressions": [],
@@ -74,8 +74,8 @@
             {
               "type": "TemplateElement",
               "span": {
-                "start": 6,
-                "end": 9,
+                "start": 5,
+                "end": 8,
                 "ctxt": 0
               },
               "tail": true,

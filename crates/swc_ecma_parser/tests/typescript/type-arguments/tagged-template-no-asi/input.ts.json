@@ -1,37 +1,37 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 12,
+    "start": 0,
+    "end": 11,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 1,
-        "end": 12,
+        "start": 0,
+        "end": 11,
         "ctxt": 0
       },
       "expression": {
         "type": "NewExpression",
         "span": {
-          "start": 1,
-          "end": 12,
+          "start": 0,
+          "end": 11,
           "ctxt": 0
         },
         "callee": {
           "type": "TaggedTemplateExpression",
           "span": {
-            "start": 5,
-            "end": 12,
+            "start": 4,
+            "end": 11,
             "ctxt": 0
           },
           "tag": {
             "type": "Identifier",
             "span": {
-              "start": 5,
-              "end": 6,
+              "start": 4,
+              "end": 5,
               "ctxt": 0
             },
             "value": "C",
@@ -40,23 +40,23 @@
           "typeParameters": {
             "type": "TsTypeParameterInstantiation",
             "span": {
-              "start": 6,
-              "end": 9,
+              "start": 5,
+              "end": 8,
               "ctxt": 0
             },
             "params": [
               {
                 "type": "TsTypeReference",
                 "span": {
-                  "start": 7,
-                  "end": 8,
+                  "start": 6,
+                  "end": 7,
                   "ctxt": 0
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
-                    "start": 7,
-                    "end": 8,
+                    "start": 6,
+                    "end": 7,
                     "ctxt": 0
                   },
                   "value": "T",
@@ -69,8 +69,8 @@
           "template": {
             "type": "TemplateLiteral",
             "span": {
-              "start": 10,
-              "end": 12,
+              "start": 9,
+              "end": 11,
               "ctxt": 0
             },
             "expressions": [],
@@ -78,8 +78,8 @@
               {
                 "type": "TemplateElement",
                 "span": {
-                  "start": 11,
-                  "end": 11,
+                  "start": 10,
+                  "end": 10,
                   "ctxt": 0
                 },
                 "tail": true,

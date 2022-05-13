@@ -1,31 +1,31 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 62,
+    "start": 0,
+    "end": 61,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 1,
-        "end": 30,
+        "start": 0,
+        "end": 29,
         "ctxt": 0
       },
       "expression": {
         "type": "ParenthesisExpression",
         "span": {
-          "start": 1,
-          "end": 29,
+          "start": 0,
+          "end": 28,
           "ctxt": 0
         },
         "expression": {
           "type": "ClassExpression",
           "identifier": null,
           "span": {
-            "start": 2,
-            "end": 28,
+            "start": 1,
+            "end": 27,
             "ctxt": 0
           },
           "decorators": [],
@@ -38,22 +38,22 @@
             {
               "type": "TsExpressionWithTypeArguments",
               "span": {
-                "start": 19,
-                "end": 25,
+                "start": 18,
+                "end": 24,
                 "ctxt": 0
               },
               "expression": {
                 "type": "MemberExpression",
                 "span": {
-                  "start": 19,
-                  "end": 22,
+                  "start": 18,
+                  "end": 21,
                   "ctxt": 0
                 },
                 "object": {
                   "type": "Identifier",
                   "span": {
-                    "start": 19,
-                    "end": 20,
+                    "start": 18,
+                    "end": 19,
                     "ctxt": 0
                   },
                   "value": "X",
@@ -62,8 +62,8 @@
                 "property": {
                   "type": "Identifier",
                   "span": {
-                    "start": 21,
-                    "end": 22,
+                    "start": 20,
+                    "end": 21,
                     "ctxt": 0
                   },
                   "value": "Y",
@@ -73,23 +73,23 @@
               "typeArguments": {
                 "type": "TsTypeParameterInstantiation",
                 "span": {
-                  "start": 22,
-                  "end": 25,
+                  "start": 21,
+                  "end": 24,
                   "ctxt": 0
                 },
                 "params": [
                   {
                     "type": "TsTypeReference",
                     "span": {
-                      "start": 23,
-                      "end": 24,
+                      "start": 22,
+                      "end": 23,
                       "ctxt": 0
                     },
                     "typeName": {
                       "type": "Identifier",
                       "span": {
-                        "start": 23,
-                        "end": 24,
+                        "start": 22,
+                        "end": 23,
                         "ctxt": 0
                       },
                       "value": "T",
@@ -107,15 +107,15 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 31,
-        "end": 62,
+        "start": 30,
+        "end": 61,
         "ctxt": 0
       },
       "expression": {
         "type": "ParenthesisExpression",
         "span": {
-          "start": 31,
-          "end": 61,
+          "start": 30,
+          "end": 60,
           "ctxt": 0
         },
         "expression": {
@@ -123,16 +123,16 @@
           "identifier": {
             "type": "Identifier",
             "span": {
-              "start": 38,
-              "end": 39,
+              "start": 37,
+              "end": 38,
               "ctxt": 0
             },
             "value": "C",
             "optional": false
           },
           "span": {
-            "start": 32,
-            "end": 60,
+            "start": 31,
+            "end": 59,
             "ctxt": 0
           },
           "decorators": [],
@@ -145,22 +145,22 @@
             {
               "type": "TsExpressionWithTypeArguments",
               "span": {
-                "start": 51,
-                "end": 57,
+                "start": 50,
+                "end": 56,
                 "ctxt": 0
               },
               "expression": {
                 "type": "MemberExpression",
                 "span": {
-                  "start": 51,
-                  "end": 54,
+                  "start": 50,
+                  "end": 53,
                   "ctxt": 0
                 },
                 "object": {
                   "type": "Identifier",
                   "span": {
-                    "start": 51,
-                    "end": 52,
+                    "start": 50,
+                    "end": 51,
                     "ctxt": 0
                   },
                   "value": "X",
@@ -169,8 +169,8 @@
                 "property": {
                   "type": "Identifier",
                   "span": {
-                    "start": 53,
-                    "end": 54,
+                    "start": 52,
+                    "end": 53,
                     "ctxt": 0
                   },
                   "value": "Y",
@@ -180,23 +180,23 @@
               "typeArguments": {
                 "type": "TsTypeParameterInstantiation",
                 "span": {
-                  "start": 54,
-                  "end": 57,
+                  "start": 53,
+                  "end": 56,
                   "ctxt": 0
                 },
                 "params": [
                   {
                     "type": "TsTypeReference",
                     "span": {
-                      "start": 55,
-                      "end": 56,
+                      "start": 54,
+                      "end": 55,
                       "ctxt": 0
                     },
                     "typeName": {
                       "type": "Identifier",
                       "span": {
-                        "start": 55,
-                        "end": 56,
+                        "start": 54,
+                        "end": 55,
                         "ctxt": 0
                       },
                       "value": "T",

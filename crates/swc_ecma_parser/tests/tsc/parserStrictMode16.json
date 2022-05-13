@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 62,
+    "start": 0,
+    "end": 61,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 1,
-        "end": 14,
+        "start": 0,
+        "end": 13,
         "ctxt": 0
       },
       "expression": {
         "type": "StringLiteral",
         "span": {
-          "start": 1,
-          "end": 13,
+          "start": 0,
+          "end": 12,
           "ctxt": 0
         },
         "value": "use strict",
@@ -27,23 +27,23 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 15,
-        "end": 27,
+        "start": 14,
+        "end": 26,
         "ctxt": 0
       },
       "expression": {
         "type": "UnaryExpression",
         "span": {
-          "start": 15,
-          "end": 26,
+          "start": 14,
+          "end": 25,
           "ctxt": 0
         },
         "operator": "delete",
         "argument": {
           "type": "ThisExpression",
           "span": {
-            "start": 22,
-            "end": 26,
+            "start": 21,
+            "end": 25,
             "ctxt": 0
           }
         }
@@ -52,23 +52,23 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 28,
-        "end": 37,
+        "start": 27,
+        "end": 36,
         "ctxt": 0
       },
       "expression": {
         "type": "UnaryExpression",
         "span": {
-          "start": 28,
-          "end": 36,
+          "start": 27,
+          "end": 35,
           "ctxt": 0
         },
         "operator": "delete",
         "argument": {
           "type": "NumericLiteral",
           "span": {
-            "start": 35,
-            "end": 36,
+            "start": 34,
+            "end": 35,
             "ctxt": 0
           },
           "value": 1.0,
@@ -79,23 +79,23 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 38,
-        "end": 50,
+        "start": 37,
+        "end": 49,
         "ctxt": 0
       },
       "expression": {
         "type": "UnaryExpression",
         "span": {
-          "start": 38,
-          "end": 49,
+          "start": 37,
+          "end": 48,
           "ctxt": 0
         },
         "operator": "delete",
         "argument": {
           "type": "NullLiteral",
           "span": {
-            "start": 45,
-            "end": 49,
+            "start": 44,
+            "end": 48,
             "ctxt": 0
           }
         }
@@ -104,23 +104,23 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 51,
-        "end": 62,
+        "start": 50,
+        "end": 61,
         "ctxt": 0
       },
       "expression": {
         "type": "UnaryExpression",
         "span": {
-          "start": 51,
-          "end": 61,
+          "start": 50,
+          "end": 60,
           "ctxt": 0
         },
         "operator": "delete",
         "argument": {
           "type": "StringLiteral",
           "span": {
-            "start": 58,
-            "end": 61,
+            "start": 57,
+            "end": 60,
             "ctxt": 0
           },
           "value": "a",

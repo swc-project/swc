@@ -1,42 +1,42 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 16,
+    "start": 0,
+    "end": 15,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 1,
-        "end": 16,
+        "start": 0,
+        "end": 15,
         "ctxt": 0
       },
       "expression": {
         "type": "OptionalChainingExpression",
         "span": {
-          "start": 1,
-          "end": 15,
+          "start": 0,
+          "end": 14,
           "ctxt": 0
         },
         "questionDotToken": {
-          "start": 3,
-          "end": 4,
+          "start": 2,
+          "end": 3,
           "ctxt": 0
         },
         "base": {
           "type": "CallExpression",
           "span": {
-            "start": 1,
-            "end": 15,
+            "start": 0,
+            "end": 14,
             "ctxt": 0
           },
           "callee": {
             "type": "Identifier",
             "span": {
-              "start": 1,
-              "end": 3,
+              "start": 0,
+              "end": 2,
               "ctxt": 0
             },
             "value": "fn",
@@ -46,16 +46,16 @@
           "typeArguments": {
             "type": "TsTypeParameterInstantiation",
             "span": {
-              "start": 5,
-              "end": 13,
+              "start": 4,
+              "end": 12,
               "ctxt": 0
             },
             "params": [
               {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 6,
-                  "end": 12,
+                  "start": 5,
+                  "end": 11,
                   "ctxt": 0
                 },
                 "kind": "number"

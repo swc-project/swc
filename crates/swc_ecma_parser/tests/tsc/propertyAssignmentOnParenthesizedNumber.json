@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 81,
-    "end": 175,
+    "start": 80,
+    "end": 174,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 81,
-        "end": 92,
+        "start": 80,
+        "end": 91,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 85,
-            "end": 91,
+            "start": 84,
+            "end": 90,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 85,
-              "end": 86,
+              "start": 84,
+              "end": 85,
               "ctxt": 0
             },
             "value": "x",
@@ -37,8 +37,8 @@
           "init": {
             "type": "ObjectExpression",
             "span": {
-              "start": 89,
-              "end": 91,
+              "start": 88,
+              "end": 90,
               "ctxt": 0
             },
             "properties": []
@@ -50,30 +50,30 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 164,
-        "end": 175,
+        "start": 163,
+        "end": 174,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 164,
-          "end": 174,
+          "start": 163,
+          "end": 173,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
-            "start": 164,
-            "end": 170,
+            "start": 163,
+            "end": 169,
             "ctxt": 0
           },
           "object": {
             "type": "Identifier",
             "span": {
-              "start": 164,
-              "end": 165,
+              "start": 163,
+              "end": 164,
               "ctxt": 0
             },
             "value": "x",
@@ -82,22 +82,22 @@
           "property": {
             "type": "Computed",
             "span": {
-              "start": 165,
-              "end": 170,
+              "start": 164,
+              "end": 169,
               "ctxt": 0
             },
             "expression": {
               "type": "ParenthesisExpression",
               "span": {
-                "start": 166,
-                "end": 169,
+                "start": 165,
+                "end": 168,
                 "ctxt": 0
               },
               "expression": {
                 "type": "NumericLiteral",
                 "span": {
-                  "start": 167,
-                  "end": 168,
+                  "start": 166,
+                  "end": 167,
                   "ctxt": 0
                 },
                 "value": 0.0,
@@ -109,8 +109,8 @@
         "right": {
           "type": "NumericLiteral",
           "span": {
-            "start": 173,
-            "end": 174,
+            "start": 172,
+            "end": 173,
             "ctxt": 0
           },
           "value": 1.0,

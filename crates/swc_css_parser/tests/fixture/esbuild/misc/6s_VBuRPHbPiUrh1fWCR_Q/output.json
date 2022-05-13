@@ -1,39 +1,39 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 1,
-    "end": 19,
+    "start": 0,
+    "end": 18,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
-        "start": 1,
-        "end": 19,
+        "start": 0,
+        "end": 18,
         "ctxt": 0
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
-          "start": 1,
-          "end": 16,
+          "start": 0,
+          "end": 15,
           "ctxt": 0
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
-              "start": 1,
-              "end": 16,
+              "start": 0,
+              "end": 15,
               "ctxt": 0
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
-                  "start": 1,
-                  "end": 16,
+                  "start": 0,
+                  "end": 15,
                   "ctxt": 0
                 },
                 "nestingSelector": null,
@@ -42,15 +42,15 @@
                   {
                     "type": "PseudoClassSelector",
                     "span": {
-                      "start": 1,
-                      "end": 16,
+                      "start": 0,
+                      "end": 15,
                       "ctxt": 0
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
-                        "start": 2,
-                        "end": 8,
+                        "start": 1,
+                        "end": 7,
                         "ctxt": 0
                       },
                       "value": "pseudo",
@@ -60,8 +60,8 @@
                       {
                         "type": "PreservedToken",
                         "span": {
-                          "start": 9,
-                          "end": 15,
+                          "start": 8,
+                          "end": 14,
                           "ctxt": 0
                         },
                         "token": {
@@ -82,8 +82,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 17,
-          "end": 19,
+          "start": 16,
+          "end": 18,
           "ctxt": 0
         },
         "name": "{",

@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 29,
+    "start": 0,
+    "end": 28,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 7,
-          "end": 8,
+          "start": 6,
+          "end": 7,
           "ctxt": 0
         },
         "value": "C",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 1,
-        "end": 29,
+        "start": 0,
+        "end": 28,
         "ctxt": 0
       },
       "decorators": [],
@@ -34,22 +34,22 @@
         {
           "type": "TsExpressionWithTypeArguments",
           "span": {
-            "start": 20,
-            "end": 26,
+            "start": 19,
+            "end": 25,
             "ctxt": 0
           },
           "expression": {
             "type": "MemberExpression",
             "span": {
-              "start": 20,
-              "end": 23,
+              "start": 19,
+              "end": 22,
               "ctxt": 0
             },
             "object": {
               "type": "Identifier",
               "span": {
-                "start": 20,
-                "end": 21,
+                "start": 19,
+                "end": 20,
                 "ctxt": 0
               },
               "value": "X",
@@ -58,8 +58,8 @@
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 22,
-                "end": 23,
+                "start": 21,
+                "end": 22,
                 "ctxt": 0
               },
               "value": "Y",
@@ -69,23 +69,23 @@
           "typeArguments": {
             "type": "TsTypeParameterInstantiation",
             "span": {
-              "start": 23,
-              "end": 26,
+              "start": 22,
+              "end": 25,
               "ctxt": 0
             },
             "params": [
               {
                 "type": "TsTypeReference",
                 "span": {
-                  "start": 24,
-                  "end": 25,
+                  "start": 23,
+                  "end": 24,
                   "ctxt": 0
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
-                    "start": 24,
-                    "end": 25,
+                    "start": 23,
+                    "end": 24,
                     "ctxt": 0
                   },
                   "value": "T",

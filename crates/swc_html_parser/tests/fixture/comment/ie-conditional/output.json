@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 1,
-    "end": 264,
+    "start": 0,
+    "end": 263,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -10,8 +10,8 @@
     {
       "type": "DocumentType",
       "span": {
-        "start": 1,
-        "end": 16,
+        "start": 0,
+        "end": 15,
         "ctxt": 0
       },
       "name": "html",
@@ -21,8 +21,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 17,
-        "end": 264,
+        "start": 16,
+        "end": 263,
         "ctxt": 0
       },
       "tagName": "html",
@@ -33,7 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 30,
+            "end": 29,
             "ctxt": 0
           },
           "tagName": "head",
@@ -45,8 +45,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 24,
-            "end": 264,
+            "start": 23,
+            "end": 263,
             "ctxt": 0
           },
           "tagName": "body",
@@ -56,8 +56,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 30,
-                "end": 32,
+                "start": 29,
+                "end": 31,
                 "ctxt": 0
               },
               "value": "\n\n"
@@ -65,8 +65,8 @@
             {
               "type": "Comment",
               "span": {
-                "start": 32,
-                "end": 74,
+                "start": 31,
+                "end": 73,
                 "ctxt": 0
               },
               "data": "[if IE 5]>This is IE 5<br><![endif]"
@@ -74,8 +74,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 74,
-                "end": 75,
+                "start": 73,
+                "end": 74,
                 "ctxt": 0
               },
               "value": "\n"
@@ -83,8 +83,8 @@
             {
               "type": "Comment",
               "span": {
-                "start": 75,
-                "end": 117,
+                "start": 74,
+                "end": 116,
                 "ctxt": 0
               },
               "data": "[if IE 6]>This is IE 6<br><![endif]"
@@ -92,8 +92,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 117,
-                "end": 118,
+                "start": 116,
+                "end": 117,
                 "ctxt": 0
               },
               "value": "\n"
@@ -101,8 +101,8 @@
             {
               "type": "Comment",
               "span": {
-                "start": 118,
-                "end": 160,
+                "start": 117,
+                "end": 159,
                 "ctxt": 0
               },
               "data": "[if IE 7]>This is IE 7<br><![endif]"
@@ -110,8 +110,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 160,
-                "end": 161,
+                "start": 159,
+                "end": 160,
                 "ctxt": 0
               },
               "value": "\n"
@@ -119,8 +119,8 @@
             {
               "type": "Comment",
               "span": {
-                "start": 161,
-                "end": 203,
+                "start": 160,
+                "end": 202,
                 "ctxt": 0
               },
               "data": "[if IE 8]>This is IE 8<br><![endif]"
@@ -128,8 +128,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 203,
-                "end": 204,
+                "start": 202,
+                "end": 203,
                 "ctxt": 0
               },
               "value": "\n"
@@ -137,8 +137,8 @@
             {
               "type": "Comment",
               "span": {
-                "start": 204,
-                "end": 246,
+                "start": 203,
+                "end": 245,
                 "ctxt": 0
               },
               "data": "[if IE 9]>This is IE 9<br><![endif]"
@@ -146,8 +146,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 246,
-                "end": 264,
+                "start": 245,
+                "end": 263,
                 "ctxt": 0
               },
               "value": "\n\n\n\n"

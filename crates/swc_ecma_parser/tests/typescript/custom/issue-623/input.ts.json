@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 73,
+    "start": 0,
+    "end": 72,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsModuleDeclaration",
       "span": {
-        "start": 1,
-        "end": 73,
+        "start": 0,
+        "end": 72,
         "ctxt": 0
       },
       "declare": true,
@@ -18,8 +18,8 @@
       "id": {
         "type": "StringLiteral",
         "span": {
-          "start": 16,
-          "end": 35,
+          "start": 15,
+          "end": 34,
           "ctxt": 0
         },
         "value": "@dsherret/package",
@@ -28,16 +28,16 @@
       "body": {
         "type": "TsModuleBlock",
         "span": {
-          "start": 36,
-          "end": 73,
+          "start": 35,
+          "end": 72,
           "ctxt": 0
         },
         "body": [
           {
             "type": "TsModuleDeclaration",
             "span": {
-              "start": 42,
-              "end": 71,
+              "start": 41,
+              "end": 70,
               "ctxt": 0
             },
             "declare": false,
@@ -45,8 +45,8 @@
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 52,
-                "end": 63,
+                "start": 51,
+                "end": 62,
                 "ctxt": 0
               },
               "value": "packageName",
@@ -55,8 +55,8 @@
             "body": {
               "type": "TsModuleBlock",
               "span": {
-                "start": 64,
-                "end": 71,
+                "start": 63,
+                "end": 70,
                 "ctxt": 0
               },
               "body": []

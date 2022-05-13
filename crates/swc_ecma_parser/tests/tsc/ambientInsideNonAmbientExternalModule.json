@@ -1,23 +1,23 @@
 {
   "type": "Module",
   "span": {
-    "start": 17,
-    "end": 148,
+    "start": 16,
+    "end": 147,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 17,
-        "end": 38,
+        "start": 16,
+        "end": 37,
         "ctxt": 0
       },
       "declaration": {
         "type": "VariableDeclaration",
         "span": {
-          "start": 24,
-          "end": 38,
+          "start": 23,
+          "end": 37,
           "ctxt": 0
         },
         "kind": "var",
@@ -26,15 +26,15 @@
           {
             "type": "VariableDeclarator",
             "span": {
-              "start": 36,
-              "end": 37,
+              "start": 35,
+              "end": 36,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 36,
-                "end": 37,
+                "start": 35,
+                "end": 36,
                 "ctxt": 0
               },
               "value": "x",
@@ -50,8 +50,8 @@
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 39,
-        "end": 67,
+        "start": 38,
+        "end": 66,
         "ctxt": 0
       },
       "declaration": {
@@ -59,8 +59,8 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 63,
-            "end": 64,
+            "start": 62,
+            "end": 63,
             "ctxt": 0
           },
           "value": "f",
@@ -70,8 +70,8 @@
         "params": [],
         "decorators": [],
         "span": {
-          "start": 46,
-          "end": 67,
+          "start": 45,
+          "end": 66,
           "ctxt": 0
         },
         "body": null,
@@ -84,8 +84,8 @@
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 68,
-        "end": 94,
+        "start": 67,
+        "end": 93,
         "ctxt": 0
       },
       "declaration": {
@@ -93,8 +93,8 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 89,
-            "end": 90,
+            "start": 88,
+            "end": 89,
             "ctxt": 0
           },
           "value": "C",
@@ -102,8 +102,8 @@
         },
         "declare": true,
         "span": {
-          "start": 75,
-          "end": 94,
+          "start": 74,
+          "end": 93,
           "ctxt": 0
         },
         "decorators": [],
@@ -118,15 +118,15 @@
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 95,
-        "end": 120,
+        "start": 94,
+        "end": 119,
         "ctxt": 0
       },
       "declaration": {
         "type": "TsEnumDeclaration",
         "span": {
-          "start": 102,
-          "end": 120,
+          "start": 101,
+          "end": 119,
           "ctxt": 0
         },
         "declare": true,
@@ -134,8 +134,8 @@
         "id": {
           "type": "Identifier",
           "span": {
-            "start": 115,
-            "end": 116,
+            "start": 114,
+            "end": 115,
             "ctxt": 0
           },
           "value": "E",
@@ -147,15 +147,15 @@
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 121,
-        "end": 148,
+        "start": 120,
+        "end": 147,
         "ctxt": 0
       },
       "declaration": {
         "type": "TsModuleDeclaration",
         "span": {
-          "start": 128,
-          "end": 148,
+          "start": 127,
+          "end": 147,
           "ctxt": 0
         },
         "declare": true,
@@ -163,8 +163,8 @@
         "id": {
           "type": "Identifier",
           "span": {
-            "start": 143,
-            "end": 144,
+            "start": 142,
+            "end": 143,
             "ctxt": 0
           },
           "value": "M",
@@ -173,8 +173,8 @@
         "body": {
           "type": "TsModuleBlock",
           "span": {
-            "start": 145,
-            "end": 148,
+            "start": 144,
+            "end": 147,
             "ctxt": 0
           },
           "body": []

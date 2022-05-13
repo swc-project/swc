@@ -1,23 +1,23 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 1,
-    "end": 30,
+    "start": 0,
+    "end": 29,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
-        "start": 1,
-        "end": 30,
+        "start": 0,
+        "end": 29,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 2,
-          "end": 11,
+          "start": 1,
+          "end": 10,
           "ctxt": 0
         },
         "value": "keyframes",
@@ -26,8 +26,8 @@
       "prelude": {
         "type": "CustomIdent",
         "span": {
-          "start": 12,
-          "end": 16,
+          "start": 11,
+          "end": 15,
           "ctxt": 0
         },
         "value": "a,c",
@@ -36,8 +36,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 17,
-          "end": 30,
+          "start": 16,
+          "end": 29,
           "ctxt": 0
         },
         "name": "{",
@@ -45,16 +45,16 @@
           {
             "type": "KeyframeBlock",
             "span": {
-              "start": 19,
-              "end": 28,
+              "start": 18,
+              "end": 27,
               "ctxt": 0
             },
             "prelude": [
               {
                 "type": "Ident",
                 "span": {
-                  "start": 19,
-                  "end": 25,
+                  "start": 18,
+                  "end": 24,
                   "ctxt": 0
                 },
                 "value": "from",
@@ -64,8 +64,8 @@
             "block": {
               "type": "SimpleBlock",
               "span": {
-                "start": 26,
-                "end": 28,
+                "start": 25,
+                "end": 27,
                 "ctxt": 0
               },
               "name": "{",

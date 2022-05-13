@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 31,
+    "start": 0,
+    "end": 30,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TryStatement",
       "span": {
-        "start": 1,
-        "end": 31,
+        "start": 0,
+        "end": 30,
         "ctxt": 0
       },
       "block": {
         "type": "BlockStatement",
         "span": {
-          "start": 5,
-          "end": 8,
+          "start": 4,
+          "end": 7,
           "ctxt": 0
         },
         "stmts": []
@@ -25,15 +25,15 @@
       "handler": {
         "type": "CatchClause",
         "span": {
-          "start": 9,
-          "end": 31,
+          "start": 8,
+          "end": 30,
           "ctxt": 0
         },
         "param": {
           "type": "Identifier",
           "span": {
-            "start": 16,
-            "end": 17,
+            "start": 15,
+            "end": 16,
             "ctxt": 0
           },
           "value": "e",
@@ -41,15 +41,15 @@
           "typeAnnotation": {
             "type": "TsTypeAnnotation",
             "span": {
-              "start": 17,
-              "end": 26,
+              "start": 16,
+              "end": 25,
               "ctxt": 0
             },
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
-                "start": 19,
-                "end": 26,
+                "start": 18,
+                "end": 25,
                 "ctxt": 0
               },
               "kind": "unknown"
@@ -59,8 +59,8 @@
         "body": {
           "type": "BlockStatement",
           "span": {
-            "start": 28,
-            "end": 31,
+            "start": 27,
+            "end": 30,
             "ctxt": 0
           },
           "stmts": []

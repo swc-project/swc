@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 17,
-    "end": 105,
+    "start": 16,
+    "end": 104,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 26,
-          "end": 29,
+          "start": 25,
+          "end": 28,
           "ctxt": 0
         },
         "value": "foo",
@@ -22,15 +22,15 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 17,
-        "end": 105,
+        "start": 16,
+        "end": 104,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 32,
-          "end": 105,
+          "start": 31,
+          "end": 104,
           "ctxt": 0
         },
         "stmts": [
@@ -39,8 +39,8 @@
             "identifier": {
               "type": "Identifier",
               "span": {
-                "start": 45,
-                "end": 48,
+                "start": 44,
+                "end": 47,
                 "ctxt": 0
               },
               "value": "bar",
@@ -50,15 +50,15 @@
             "params": [],
             "decorators": [],
             "span": {
-              "start": 36,
-              "end": 103,
+              "start": 35,
+              "end": 102,
               "ctxt": 0
             },
             "body": {
               "type": "BlockStatement",
               "span": {
-                "start": 51,
-                "end": 103,
+                "start": 50,
+                "end": 102,
                 "ctxt": 0
               },
               "stmts": [
@@ -67,8 +67,8 @@
                   "identifier": {
                     "type": "Identifier",
                     "span": {
-                      "start": 67,
-                      "end": 71,
+                      "start": 66,
+                      "end": 70,
                       "ctxt": 0
                     },
                     "value": "quux",
@@ -78,44 +78,44 @@
                   "params": [],
                   "decorators": [],
                   "span": {
-                    "start": 57,
-                    "end": 99,
+                    "start": 56,
+                    "end": 98,
                     "ctxt": 0
                   },
                   "body": {
                     "type": "BlockStatement",
                     "span": {
-                      "start": 74,
-                      "end": 99,
+                      "start": 73,
+                      "end": 98,
                       "ctxt": 0
                     },
                     "stmts": [
                       {
                         "type": "ExpressionStatement",
                         "span": {
-                          "start": 82,
-                          "end": 93,
+                          "start": 81,
+                          "end": 92,
                           "ctxt": 0
                         },
                         "expression": {
                           "type": "YieldExpression",
                           "span": {
-                            "start": 82,
-                            "end": 92,
+                            "start": 81,
+                            "end": 91,
                             "ctxt": 0
                           },
                           "argument": {
                             "type": "ParenthesisExpression",
                             "span": {
-                              "start": 87,
-                              "end": 92,
+                              "start": 86,
+                              "end": 91,
                               "ctxt": 0
                             },
                             "expression": {
                               "type": "Identifier",
                               "span": {
-                                "start": 88,
-                                "end": 91,
+                                "start": 87,
+                                "end": 90,
                                 "ctxt": 0
                               },
                               "value": "foo",

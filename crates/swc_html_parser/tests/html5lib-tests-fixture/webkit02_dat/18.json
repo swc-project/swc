@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 1,
-    "end": 82,
+    "start": 0,
+    "end": 81,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 82,
+        "end": 81,
         "ctxt": 0
       },
       "tagName": "html",
@@ -22,7 +22,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 6,
+            "end": 5,
             "ctxt": 0
           },
           "tagName": "head",
@@ -35,7 +35,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 82,
+            "end": 81,
             "ctxt": 0
           },
           "tagName": "body",
@@ -45,8 +45,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 1,
-                "end": 82,
+                "start": 0,
+                "end": 81,
                 "ctxt": 0
               },
               "tagName": "svg",
@@ -56,8 +56,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 6,
-                    "end": 82,
+                    "start": 5,
+                    "end": 81,
                     "ctxt": 0
                   },
                   "tagName": "foreignObject",
@@ -67,8 +67,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 21,
-                        "end": 29,
+                        "start": 20,
+                        "end": 28,
                         "ctxt": 0
                       },
                       "tagName": "div",
@@ -78,8 +78,8 @@
                         {
                           "type": "Text",
                           "span": {
-                            "start": 26,
-                            "end": 29,
+                            "start": 25,
+                            "end": 28,
                             "ctxt": 0
                           },
                           "value": "foo"
@@ -90,8 +90,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 35,
-                        "end": 82,
+                        "start": 34,
+                        "end": 81,
                         "ctxt": 0
                       },
                       "tagName": "plaintext",
@@ -101,8 +101,8 @@
                         {
                           "type": "Text",
                           "span": {
-                            "start": 46,
-                            "end": 82,
+                            "start": 45,
+                            "end": 81,
                             "ctxt": 0
                           },
                           "value": "</foreignObject></svg><div>bar</div>"

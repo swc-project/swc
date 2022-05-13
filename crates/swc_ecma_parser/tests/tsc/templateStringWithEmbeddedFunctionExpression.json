@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 49,
+    "start": 0,
+    "end": 48,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 1,
-        "end": 49,
+        "start": 0,
+        "end": 48,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 5,
-            "end": 48,
+            "start": 4,
+            "end": 47,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 5,
-              "end": 6,
+              "start": 4,
+              "end": 5,
               "ctxt": 0
             },
             "value": "x",
@@ -37,8 +37,8 @@
           "init": {
             "type": "TemplateLiteral",
             "span": {
-              "start": 9,
-              "end": 48,
+              "start": 8,
+              "end": 47,
               "ctxt": 0
             },
             "expressions": [
@@ -47,8 +47,8 @@
                 "identifier": {
                   "type": "Identifier",
                   "span": {
-                    "start": 25,
-                    "end": 26,
+                    "start": 24,
+                    "end": 25,
                     "ctxt": 0
                   },
                   "value": "y",
@@ -57,30 +57,30 @@
                 "params": [],
                 "decorators": [],
                 "span": {
-                  "start": 16,
-                  "end": 42,
+                  "start": 15,
+                  "end": 41,
                   "ctxt": 0
                 },
                 "body": {
                   "type": "BlockStatement",
                   "span": {
-                    "start": 29,
-                    "end": 42,
+                    "start": 28,
+                    "end": 41,
                     "ctxt": 0
                   },
                   "stmts": [
                     {
                       "type": "ReturnStatement",
                       "span": {
-                        "start": 31,
-                        "end": 40,
+                        "start": 30,
+                        "end": 39,
                         "ctxt": 0
                       },
                       "argument": {
                         "type": "Identifier",
                         "span": {
-                          "start": 38,
-                          "end": 39,
+                          "start": 37,
+                          "end": 38,
                           "ctxt": 0
                         },
                         "value": "y",
@@ -99,8 +99,8 @@
               {
                 "type": "TemplateElement",
                 "span": {
-                  "start": 10,
-                  "end": 13,
+                  "start": 9,
+                  "end": 12,
                   "ctxt": 0
                 },
                 "tail": false,
@@ -110,8 +110,8 @@
               {
                 "type": "TemplateElement",
                 "span": {
-                  "start": 44,
-                  "end": 47,
+                  "start": 43,
+                  "end": 46,
                   "ctxt": 0
                 },
                 "tail": true,

@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 1,
-    "end": 201,
+    "start": 0,
+    "end": 200,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -10,8 +10,8 @@
     {
       "type": "DocumentType",
       "span": {
-        "start": 1,
-        "end": 16,
+        "start": 0,
+        "end": 15,
         "ctxt": 0
       },
       "name": "html",
@@ -21,8 +21,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 17,
-        "end": 201,
+        "start": 16,
+        "end": 200,
         "ctxt": 0
       },
       "tagName": "html",
@@ -33,7 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 30,
+            "end": 29,
             "ctxt": 0
           },
           "tagName": "head",
@@ -45,8 +45,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 24,
-            "end": 201,
+            "start": 23,
+            "end": 200,
             "ctxt": 0
           },
           "tagName": "body",
@@ -56,8 +56,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 30,
-                "end": 32,
+                "start": 29,
+                "end": 31,
                 "ctxt": 0
               },
               "value": "\n\n"
@@ -65,8 +65,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 32,
-                "end": 76,
+                "start": 31,
+                "end": 75,
                 "ctxt": 0
               },
               "tagName": "h2",
@@ -89,8 +89,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 57,
-                    "end": 76,
+                    "start": 56,
+                    "end": 75,
                     "ctxt": 0
                   },
                   "value": "The title Attribute"
@@ -101,8 +101,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 81,
-                "end": 83,
+                "start": 80,
+                "end": 82,
                 "ctxt": 0
               },
               "value": "\n\n"
@@ -110,8 +110,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 83,
-                "end": 179,
+                "start": 82,
+                "end": 178,
                 "ctxt": 0
               },
               "tagName": "p",
@@ -134,8 +134,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 108,
-                    "end": 179,
+                    "start": 107,
+                    "end": 178,
                     "ctxt": 0
                   },
                   "value": "Mouse over this paragraph, to display the title attribute as a tooltip."
@@ -146,8 +146,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 183,
-                "end": 201,
+                "start": 182,
+                "end": 200,
                 "ctxt": 0
               },
               "value": "\n\n\n\n"

@@ -1,44 +1,44 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 29,
+    "start": 0,
+    "end": 28,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 1,
-        "end": 11,
+        "start": 0,
+        "end": 10,
         "ctxt": 0
       },
       "expression": {
         "type": "MemberExpression",
         "span": {
-          "start": 1,
-          "end": 10,
+          "start": 0,
+          "end": 9,
           "ctxt": 0
         },
         "object": {
           "type": "ParenthesisExpression",
           "span": {
-            "start": 1,
-            "end": 8,
+            "start": 0,
+            "end": 7,
             "ctxt": 0
           },
           "expression": {
             "type": "TsTypeAssertion",
             "span": {
-              "start": 2,
-              "end": 7,
+              "start": 1,
+              "end": 6,
               "ctxt": 0
             },
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 6,
-                "end": 7,
+                "start": 5,
+                "end": 6,
                 "ctxt": 0
               },
               "value": "x",
@@ -47,15 +47,15 @@
             "typeAnnotation": {
               "type": "TsTypeReference",
               "span": {
-                "start": 3,
-                "end": 4,
+                "start": 2,
+                "end": 3,
                 "ctxt": 0
               },
               "typeName": {
                 "type": "Identifier",
                 "span": {
-                  "start": 3,
-                  "end": 4,
+                  "start": 2,
+                  "end": 3,
                   "ctxt": 0
                 },
                 "value": "T",
@@ -68,8 +68,8 @@
         "property": {
           "type": "Identifier",
           "span": {
-            "start": 9,
-            "end": 10,
+            "start": 8,
+            "end": 9,
             "ctxt": 0
           },
           "value": "y",
@@ -80,36 +80,36 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 12,
-        "end": 23,
+        "start": 11,
+        "end": 22,
         "ctxt": 0
       },
       "expression": {
         "type": "MemberExpression",
         "span": {
-          "start": 12,
-          "end": 22,
+          "start": 11,
+          "end": 21,
           "ctxt": 0
         },
         "object": {
           "type": "ParenthesisExpression",
           "span": {
-            "start": 12,
-            "end": 20,
+            "start": 11,
+            "end": 19,
             "ctxt": 0
           },
           "expression": {
             "type": "TsAsExpression",
             "span": {
-              "start": 13,
-              "end": 19,
+              "start": 12,
+              "end": 18,
               "ctxt": 0
             },
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 13,
-                "end": 14,
+                "start": 12,
+                "end": 13,
                 "ctxt": 0
               },
               "value": "x",
@@ -118,15 +118,15 @@
             "typeAnnotation": {
               "type": "TsTypeReference",
               "span": {
-                "start": 18,
-                "end": 19,
+                "start": 17,
+                "end": 18,
                 "ctxt": 0
               },
               "typeName": {
                 "type": "Identifier",
                 "span": {
-                  "start": 18,
-                  "end": 19,
+                  "start": 17,
+                  "end": 18,
                   "ctxt": 0
                 },
                 "value": "T",
@@ -139,8 +139,8 @@
         "property": {
           "type": "Identifier",
           "span": {
-            "start": 21,
-            "end": 22,
+            "start": 20,
+            "end": 21,
             "ctxt": 0
           },
           "value": "y",
@@ -151,29 +151,29 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 24,
-        "end": 29,
+        "start": 23,
+        "end": 28,
         "ctxt": 0
       },
       "expression": {
         "type": "MemberExpression",
         "span": {
-          "start": 24,
-          "end": 28,
+          "start": 23,
+          "end": 27,
           "ctxt": 0
         },
         "object": {
           "type": "TsNonNullExpression",
           "span": {
-            "start": 24,
-            "end": 26,
+            "start": 23,
+            "end": 25,
             "ctxt": 0
           },
           "expression": {
             "type": "Identifier",
             "span": {
-              "start": 24,
-              "end": 25,
+              "start": 23,
+              "end": 24,
               "ctxt": 0
             },
             "value": "x",
@@ -183,8 +183,8 @@
         "property": {
           "type": "Identifier",
           "span": {
-            "start": 27,
-            "end": 28,
+            "start": 26,
+            "end": 27,
             "ctxt": 0
           },
           "value": "y",

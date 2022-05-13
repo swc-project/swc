@@ -1,31 +1,31 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 15,
+    "start": 0,
+    "end": 14,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 1,
-        "end": 15,
+        "start": 0,
+        "end": 14,
         "ctxt": 0
       },
       "expression": {
         "type": "BinaryExpression",
         "span": {
-          "start": 1,
-          "end": 14,
+          "start": 0,
+          "end": 13,
           "ctxt": 0
         },
         "operator": "??",
         "left": {
           "type": "Identifier",
           "span": {
-            "start": 1,
-            "end": 2,
+            "start": 0,
+            "end": 1,
             "ctxt": 0
           },
           "value": "a",
@@ -34,23 +34,23 @@
         "right": {
           "type": "ParenthesisExpression",
           "span": {
-            "start": 6,
-            "end": 14,
+            "start": 5,
+            "end": 13,
             "ctxt": 0
           },
           "expression": {
             "type": "BinaryExpression",
             "span": {
-              "start": 7,
-              "end": 13,
+              "start": 6,
+              "end": 12,
               "ctxt": 0
             },
             "operator": "&&",
             "left": {
               "type": "Identifier",
               "span": {
-                "start": 7,
-                "end": 8,
+                "start": 6,
+                "end": 7,
                 "ctxt": 0
               },
               "value": "b",
@@ -59,8 +59,8 @@
             "right": {
               "type": "Identifier",
               "span": {
-                "start": 12,
-                "end": 13,
+                "start": 11,
+                "end": 12,
                 "ctxt": 0
               },
               "value": "c",

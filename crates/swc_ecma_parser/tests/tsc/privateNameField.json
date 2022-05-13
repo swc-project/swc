@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 35,
-    "end": 130,
+    "start": 34,
+    "end": 129,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 41,
-          "end": 42,
+          "start": 40,
+          "end": 41,
           "ctxt": 0
         },
         "value": "A",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 35,
-        "end": 130,
+        "start": 34,
+        "end": 129,
         "ctxt": 0
       },
       "decorators": [],
@@ -29,22 +29,22 @@
         {
           "type": "PrivateProperty",
           "span": {
-            "start": 49,
-            "end": 63,
+            "start": 48,
+            "end": 62,
             "ctxt": 0
           },
           "key": {
             "type": "PrivateName",
             "span": {
-              "start": 49,
-              "end": 54,
+              "start": 48,
+              "end": 53,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 50,
-                "end": 54,
+                "start": 49,
+                "end": 53,
                 "ctxt": 0
               },
               "value": "name",
@@ -55,15 +55,15 @@
           "typeAnnotation": {
             "type": "TsTypeAnnotation",
             "span": {
-              "start": 54,
-              "end": 62,
+              "start": 53,
+              "end": 61,
               "ctxt": 0
             },
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
-                "start": 56,
-                "end": 62,
+                "start": 55,
+                "end": 61,
                 "ctxt": 0
               },
               "kind": "string"
@@ -80,15 +80,15 @@
         {
           "type": "Constructor",
           "span": {
-            "start": 68,
-            "end": 128,
+            "start": 67,
+            "end": 127,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 68,
-              "end": 79,
+              "start": 67,
+              "end": 78,
               "ctxt": 0
             },
             "value": "constructor",
@@ -98,16 +98,16 @@
             {
               "type": "Parameter",
               "span": {
-                "start": 80,
-                "end": 92,
+                "start": 79,
+                "end": 91,
                 "ctxt": 0
               },
               "decorators": [],
               "pat": {
                 "type": "Identifier",
                 "span": {
-                  "start": 80,
-                  "end": 92,
+                  "start": 79,
+                  "end": 91,
                   "ctxt": 0
                 },
                 "value": "name",
@@ -115,15 +115,15 @@
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
-                    "start": 84,
-                    "end": 92,
+                    "start": 83,
+                    "end": 91,
                     "ctxt": 0
                   },
                   "typeAnnotation": {
                     "type": "TsKeywordType",
                     "span": {
-                      "start": 86,
-                      "end": 92,
+                      "start": 85,
+                      "end": 91,
                       "ctxt": 0
                     },
                     "kind": "string"
@@ -135,53 +135,53 @@
           "body": {
             "type": "BlockStatement",
             "span": {
-              "start": 94,
-              "end": 128,
+              "start": 93,
+              "end": 127,
               "ctxt": 0
             },
             "stmts": [
               {
                 "type": "ExpressionStatement",
                 "span": {
-                  "start": 104,
-                  "end": 122,
+                  "start": 103,
+                  "end": 121,
                   "ctxt": 0
                 },
                 "expression": {
                   "type": "AssignmentExpression",
                   "span": {
-                    "start": 104,
-                    "end": 121,
+                    "start": 103,
+                    "end": 120,
                     "ctxt": 0
                   },
                   "operator": "=",
                   "left": {
                     "type": "MemberExpression",
                     "span": {
-                      "start": 104,
-                      "end": 114,
+                      "start": 103,
+                      "end": 113,
                       "ctxt": 0
                     },
                     "object": {
                       "type": "ThisExpression",
                       "span": {
-                        "start": 104,
-                        "end": 108,
+                        "start": 103,
+                        "end": 107,
                         "ctxt": 0
                       }
                     },
                     "property": {
                       "type": "PrivateName",
                       "span": {
-                        "start": 109,
-                        "end": 114,
+                        "start": 108,
+                        "end": 113,
                         "ctxt": 0
                       },
                       "id": {
                         "type": "Identifier",
                         "span": {
-                          "start": 110,
-                          "end": 114,
+                          "start": 109,
+                          "end": 113,
                           "ctxt": 0
                         },
                         "value": "name",
@@ -192,8 +192,8 @@
                   "right": {
                     "type": "Identifier",
                     "span": {
-                      "start": 117,
-                      "end": 121,
+                      "start": 116,
+                      "end": 120,
                       "ctxt": 0
                     },
                     "value": "name",

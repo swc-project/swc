@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 1,
-    "end": 67,
+    "start": 0,
+    "end": 66,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 51,
+        "end": 50,
         "ctxt": 0
       },
       "tagName": "html",
@@ -22,7 +22,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 7,
+            "end": 6,
             "ctxt": 0
           },
           "tagName": "head",
@@ -34,8 +34,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 1,
-            "end": 51,
+            "start": 0,
+            "end": 50,
             "ctxt": 0
           },
           "tagName": "body",
@@ -45,8 +45,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 7,
-                "end": 51,
+                "start": 6,
+                "end": 50,
                 "ctxt": 0
               },
               "tagName": "template",
@@ -77,6 +77,23 @@
                       "span": {
                         "start": 17,
                         "end": 31,
+              "children": [
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 16,
+                    "end": 30,
+                    "ctxt": 0
+                  },
+                  "tagName": "template",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 26,
+                        "end": 30,
                         "ctxt": 0
                       },
                       "children": [
@@ -95,6 +112,15 @@
                         }
                       ]
                     }
+                  ],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 46,
+                    "end": 50,
+                    "ctxt": 0
                   },
                   {
                     "type": "Element",

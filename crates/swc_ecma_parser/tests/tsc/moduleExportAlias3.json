@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 90,
-    "end": 129,
+    "start": 89,
+    "end": 128,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 96,
-          "end": 97,
+          "start": 95,
+          "end": 96,
           "ctxt": 0
         },
         "value": "C",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 90,
-        "end": 101,
+        "start": 89,
+        "end": 100,
         "ctxt": 0
       },
       "decorators": [],
@@ -35,30 +35,30 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 102,
-        "end": 129,
+        "start": 101,
+        "end": 128,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 102,
-          "end": 128,
+          "start": 101,
+          "end": 127,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
-            "start": 102,
-            "end": 116,
+            "start": 101,
+            "end": 115,
             "ctxt": 0
           },
           "object": {
             "type": "Identifier",
             "span": {
-              "start": 102,
-              "end": 108,
+              "start": 101,
+              "end": 107,
               "ctxt": 0
             },
             "value": "module",
@@ -67,8 +67,8 @@
           "property": {
             "type": "Identifier",
             "span": {
-              "start": 109,
-              "end": 116,
+              "start": 108,
+              "end": 115,
               "ctxt": 0
             },
             "value": "exports",
@@ -78,16 +78,16 @@
         "right": {
           "type": "ObjectExpression",
           "span": {
-            "start": 119,
-            "end": 128,
+            "start": 118,
+            "end": 127,
             "ctxt": 0
           },
           "properties": [
             {
               "type": "Identifier",
               "span": {
-                "start": 125,
-                "end": 126,
+                "start": 124,
+                "end": 125,
                 "ctxt": 0
               },
               "value": "C",

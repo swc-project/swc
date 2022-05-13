@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 45,
+    "start": 0,
+    "end": 44,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 7,
-          "end": 8,
+          "start": 6,
+          "end": 7,
           "ctxt": 0
         },
         "value": "C",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 1,
-        "end": 45,
+        "start": 0,
+        "end": 44,
         "ctxt": 0
       },
       "decorators": [],
@@ -31,23 +31,23 @@
       "typeParams": {
         "type": "TsTypeParameterDeclaration",
         "span": {
-          "start": 8,
-          "end": 42,
+          "start": 7,
+          "end": 41,
           "ctxt": 0
         },
         "parameters": [
           {
             "type": "TsTypeParameter",
             "span": {
-              "start": 9,
-              "end": 41,
+              "start": 8,
+              "end": 40,
               "ctxt": 0
             },
             "name": {
               "type": "Identifier",
               "span": {
-                "start": 9,
-                "end": 10,
+                "start": 8,
+                "end": 9,
                 "ctxt": 0
               },
               "value": "T",
@@ -58,8 +58,8 @@
             "constraint": {
               "type": "TsKeywordType",
               "span": {
-                "start": 19,
-                "end": 25,
+                "start": 18,
+                "end": 24,
                 "ctxt": 0
               },
               "kind": "object"
@@ -67,24 +67,24 @@
             "default": {
               "type": "TsTypeLiteral",
               "span": {
-                "start": 28,
-                "end": 41,
+                "start": 27,
+                "end": 40,
                 "ctxt": 0
               },
               "members": [
                 {
                   "type": "TsPropertySignature",
                   "span": {
-                    "start": 30,
-                    "end": 39,
+                    "start": 29,
+                    "end": 38,
                     "ctxt": 0
                   },
                   "readonly": false,
                   "key": {
                     "type": "Identifier",
                     "span": {
-                      "start": 30,
-                      "end": 31,
+                      "start": 29,
+                      "end": 30,
                       "ctxt": 0
                     },
                     "value": "x",
@@ -97,15 +97,15 @@
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
-                      "start": 31,
-                      "end": 39,
+                      "start": 30,
+                      "end": 38,
                       "ctxt": 0
                     },
                     "typeAnnotation": {
                       "type": "TsKeywordType",
                       "span": {
-                        "start": 33,
-                        "end": 39,
+                        "start": 32,
+                        "end": 38,
                         "ctxt": 0
                       },
                       "kind": "number"

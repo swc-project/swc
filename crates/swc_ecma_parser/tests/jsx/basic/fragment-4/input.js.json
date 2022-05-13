@@ -1,30 +1,30 @@
 {
   "type": "Module",
   "span": {
-    "start": 1,
-    "end": 50,
+    "start": 0,
+    "end": 49,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 1,
-        "end": 50,
+        "start": 0,
+        "end": 49,
         "ctxt": 0
       },
       "expression": {
         "type": "JSXFragment",
         "span": {
-          "start": 1,
-          "end": 50,
+          "start": 0,
+          "end": 49,
           "ctxt": 0
         },
         "opening": {
           "type": "JSXOpeningFragment",
           "span": {
-            "start": 1,
-            "end": 3,
+            "start": 0,
+            "end": 2,
             "ctxt": 0
           }
         },
@@ -32,8 +32,8 @@
           {
             "type": "JSXText",
             "span": {
-              "start": 3,
-              "end": 6,
+              "start": 2,
+              "end": 5,
               "ctxt": 0
             },
             "value": "\n\n  ",
@@ -42,15 +42,15 @@
           {
             "type": "JSXFragment",
             "span": {
-              "start": 6,
-              "end": 46,
+              "start": 5,
+              "end": 45,
               "ctxt": 0
             },
             "opening": {
               "type": "JSXOpeningFragment",
               "span": {
-                "start": 6,
-                "end": 8,
+                "start": 5,
+                "end": 7,
                 "ctxt": 0
               }
             },
@@ -58,8 +58,8 @@
               {
                 "type": "JSXText",
                 "span": {
-                  "start": 8,
-                  "end": 13,
+                  "start": 7,
+                  "end": 12,
                   "ctxt": 0
                 },
                 "value": "\n\n    ",
@@ -68,15 +68,15 @@
               {
                 "type": "JSXFragment",
                 "span": {
-                  "start": 13,
-                  "end": 40,
+                  "start": 12,
+                  "end": 39,
                   "ctxt": 0
                 },
                 "opening": {
                   "type": "JSXOpeningFragment",
                   "span": {
-                    "start": 13,
-                    "end": 15,
+                    "start": 12,
+                    "end": 14,
                     "ctxt": 0
                   }
                 },
@@ -84,8 +84,8 @@
                   {
                     "type": "JSXText",
                     "span": {
-                      "start": 15,
-                      "end": 37,
+                      "start": 14,
+                      "end": 36,
                       "ctxt": 0
                     },
                     "value": "\n\n      super deep\n\n    ",
@@ -95,8 +95,8 @@
                 "closing": {
                   "type": "JSXClosingFragment",
                   "span": {
-                    "start": 37,
-                    "end": 40,
+                    "start": 36,
+                    "end": 39,
                     "ctxt": 0
                   }
                 }
@@ -104,8 +104,8 @@
               {
                 "type": "JSXText",
                 "span": {
-                  "start": 40,
-                  "end": 43,
+                  "start": 39,
+                  "end": 42,
                   "ctxt": 0
                 },
                 "value": "\n\n  ",
@@ -115,8 +115,8 @@
             "closing": {
               "type": "JSXClosingFragment",
               "span": {
-                "start": 43,
-                "end": 46,
+                "start": 42,
+                "end": 45,
                 "ctxt": 0
               }
             }
@@ -124,8 +124,8 @@
           {
             "type": "JSXText",
             "span": {
-              "start": 46,
-              "end": 47,
+              "start": 45,
+              "end": 46,
               "ctxt": 0
             },
             "value": "\n\n",
@@ -135,8 +135,8 @@
         "closing": {
           "type": "JSXClosingFragment",
           "span": {
-            "start": 47,
-            "end": 50,
+            "start": 46,
+            "end": 49,
             "ctxt": 0
           }
         }

@@ -1,30 +1,30 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 15,
+    "start": 0,
+    "end": 14,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 1,
-        "end": 15,
+        "start": 0,
+        "end": 14,
         "ctxt": 0
       },
       "expression": {
         "type": "CallExpression",
         "span": {
-          "start": 1,
-          "end": 14,
+          "start": 0,
+          "end": 13,
           "ctxt": 0
         },
         "callee": {
           "type": "Identifier",
           "span": {
-            "start": 1,
-            "end": 2,
+            "start": 0,
+            "end": 1,
             "ctxt": 0
           },
           "value": "f",
@@ -36,16 +36,16 @@
             "expression": {
               "type": "BinaryExpression",
               "span": {
-                "start": 3,
-                "end": 8,
+                "start": 2,
+                "end": 7,
                 "ctxt": 0
               },
               "operator": "<",
               "left": {
                 "type": "Identifier",
                 "span": {
-                  "start": 3,
-                  "end": 4,
+                  "start": 2,
+                  "end": 3,
                   "ctxt": 0
                 },
                 "value": "x",
@@ -54,8 +54,8 @@
               "right": {
                 "type": "NumericLiteral",
                 "span": {
-                  "start": 7,
-                  "end": 8,
+                  "start": 6,
+                  "end": 7,
                   "ctxt": 0
                 },
                 "value": 0.0,
@@ -68,8 +68,8 @@
             "expression": {
               "type": "RegExpLiteral",
               "span": {
-                "start": 10,
-                "end": 13,
+                "start": 9,
+                "end": 12,
                 "ctxt": 0
               },
               "pattern": "a",

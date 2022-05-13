@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 1,
-    "end": 63,
+    "start": 0,
+    "end": 62,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 54,
+        "end": 53,
         "ctxt": 0
       },
       "tagName": "html",
@@ -21,8 +21,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 1,
-            "end": 7,
+            "start": 0,
+            "end": 6,
             "ctxt": 0
           },
           "tagName": "head",
@@ -34,8 +34,8 @@
         {
           "type": "Comment",
           "span": {
-            "start": 14,
-            "end": 22,
+            "start": 13,
+            "end": 21,
             "ctxt": 0
           },
           "data": " "
@@ -44,7 +44,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 54,
+            "end": 53,
             "ctxt": 0
           },
           "tagName": "body",
@@ -54,8 +54,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 22,
-                "end": 23,
+                "start": 21,
+                "end": 22,
                 "ctxt": 0
               },
               "value": "x"
@@ -63,8 +63,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 23,
-                "end": 30,
+                "start": 22,
+                "end": 29,
                 "ctxt": 0
               },
               "tagName": "style",
@@ -76,8 +76,8 @@
             {
               "type": "Comment",
               "span": {
-                "start": 38,
-                "end": 46,
+                "start": 37,
+                "end": 45,
                 "ctxt": 0
               },
               "data": " "
@@ -85,8 +85,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 46,
-                "end": 54,
+                "start": 45,
+                "end": 53,
                 "ctxt": 0
               },
               "tagName": "script",

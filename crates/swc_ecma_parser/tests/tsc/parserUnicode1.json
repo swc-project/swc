@@ -1,31 +1,31 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 196,
+    "start": 0,
+    "end": 195,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TryStatement",
       "span": {
-        "start": 1,
-        "end": 196,
+        "start": 0,
+        "end": 195,
         "ctxt": 0
       },
       "block": {
         "type": "BlockStatement",
         "span": {
-          "start": 5,
-          "end": 116,
+          "start": 4,
+          "end": 115,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "VariableDeclaration",
             "span": {
-              "start": 9,
-              "end": 25,
+              "start": 8,
+              "end": 24,
               "ctxt": 0
             },
             "kind": "var",
@@ -34,15 +34,15 @@
               {
                 "type": "VariableDeclarator",
                 "span": {
-                  "start": 13,
-                  "end": 24,
+                  "start": 12,
+                  "end": 23,
                   "ctxt": 0
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
-                    "start": 13,
-                    "end": 20,
+                    "start": 12,
+                    "end": 19,
                     "ctxt": 0
                   },
                   "value": "xx",
@@ -52,8 +52,8 @@
                 "init": {
                   "type": "NumericLiteral",
                   "span": {
-                    "start": 23,
-                    "end": 24,
+                    "start": 22,
+                    "end": 23,
                     "ctxt": 0
                   },
                   "value": 6.0,
@@ -66,23 +66,23 @@
           {
             "type": "IfStatement",
             "span": {
-              "start": 29,
-              "end": 114,
+              "start": 28,
+              "end": 113,
               "ctxt": 0
             },
             "test": {
               "type": "BinaryExpression",
               "span": {
-                "start": 33,
-                "end": 41,
+                "start": 32,
+                "end": 40,
                 "ctxt": 0
               },
               "operator": "!==",
               "left": {
                 "type": "Identifier",
                 "span": {
-                  "start": 33,
-                  "end": 35,
+                  "start": 32,
+                  "end": 34,
                   "ctxt": 0
                 },
                 "value": "xx",
@@ -91,8 +91,8 @@
               "right": {
                 "type": "NumericLiteral",
                 "span": {
-                  "start": 40,
-                  "end": 41,
+                  "start": 39,
+                  "end": 40,
                   "ctxt": 0
                 },
                 "value": 6.0,
@@ -102,30 +102,30 @@
             "consequent": {
               "type": "BlockStatement",
               "span": {
-                "start": 43,
-                "end": 114,
+                "start": 42,
+                "end": 113,
                 "ctxt": 0
               },
               "stmts": [
                 {
                   "type": "ExpressionStatement",
                   "span": {
-                    "start": 50,
-                    "end": 110,
+                    "start": 49,
+                    "end": 109,
                     "ctxt": 0
                   },
                   "expression": {
                     "type": "CallExpression",
                     "span": {
-                      "start": 50,
-                      "end": 109,
+                      "start": 49,
+                      "end": 108,
                       "ctxt": 0
                     },
                     "callee": {
                       "type": "Identifier",
                       "span": {
-                        "start": 50,
-                        "end": 56,
+                        "start": 49,
+                        "end": 55,
                         "ctxt": 0
                       },
                       "value": "$ERROR",
@@ -137,16 +137,16 @@
                         "expression": {
                           "type": "BinaryExpression",
                           "span": {
-                            "start": 57,
-                            "end": 108,
+                            "start": 56,
+                            "end": 107,
                             "ctxt": 0
                           },
                           "operator": "+",
                           "left": {
                             "type": "StringLiteral",
                             "span": {
-                              "start": 57,
-                              "end": 101,
+                              "start": 56,
+                              "end": 100,
                               "ctxt": 0
                             },
                             "value": "#6.1: var \\u0078x = 1; xx === 6. Actual: ",
@@ -155,15 +155,15 @@
                           "right": {
                             "type": "ParenthesisExpression",
                             "span": {
-                              "start": 104,
-                              "end": 108,
+                              "start": 103,
+                              "end": 107,
                               "ctxt": 0
                             },
                             "expression": {
                               "type": "Identifier",
                               "span": {
-                                "start": 105,
-                                "end": 107,
+                                "start": 104,
+                                "end": 106,
                                 "ctxt": 0
                               },
                               "value": "xx",
@@ -185,15 +185,15 @@
       "handler": {
         "type": "CatchClause",
         "span": {
-          "start": 117,
-          "end": 196,
+          "start": 116,
+          "end": 195,
           "ctxt": 0
         },
         "param": {
           "type": "Identifier",
           "span": {
-            "start": 124,
-            "end": 125,
+            "start": 123,
+            "end": 124,
             "ctxt": 0
           },
           "value": "e",
@@ -203,30 +203,30 @@
         "body": {
           "type": "BlockStatement",
           "span": {
-            "start": 127,
-            "end": 196,
+            "start": 126,
+            "end": 195,
             "ctxt": 0
           },
           "stmts": [
             {
               "type": "ExpressionStatement",
               "span": {
-                "start": 133,
-                "end": 193,
+                "start": 132,
+                "end": 192,
                 "ctxt": 0
               },
               "expression": {
                 "type": "CallExpression",
                 "span": {
-                  "start": 133,
-                  "end": 192,
+                  "start": 132,
+                  "end": 191,
                   "ctxt": 0
                 },
                 "callee": {
                   "type": "Identifier",
                   "span": {
-                    "start": 133,
-                    "end": 139,
+                    "start": 132,
+                    "end": 138,
                     "ctxt": 0
                   },
                   "value": "$ERROR",
@@ -238,16 +238,16 @@
                     "expression": {
                       "type": "BinaryExpression",
                       "span": {
-                        "start": 140,
-                        "end": 191,
+                        "start": 139,
+                        "end": 190,
                         "ctxt": 0
                       },
                       "operator": "+",
                       "left": {
                         "type": "StringLiteral",
                         "span": {
-                          "start": 140,
-                          "end": 184,
+                          "start": 139,
+                          "end": 183,
                           "ctxt": 0
                         },
                         "value": "#6.2: var \\u0078x = 1; xx === 6. Actual: ",
@@ -256,15 +256,15 @@
                       "right": {
                         "type": "ParenthesisExpression",
                         "span": {
-                          "start": 187,
-                          "end": 191,
+                          "start": 186,
+                          "end": 190,
                           "ctxt": 0
                         },
                         "expression": {
                           "type": "Identifier",
                           "span": {
-                            "start": 188,
-                            "end": 190,
+                            "start": 187,
+                            "end": 189,
                             "ctxt": 0
                           },
                           "value": "xx",

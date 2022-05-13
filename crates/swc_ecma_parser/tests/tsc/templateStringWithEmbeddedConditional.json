@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 41,
+    "start": 0,
+    "end": 40,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 1,
-        "end": 41,
+        "start": 0,
+        "end": 40,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 5,
-            "end": 40,
+            "start": 4,
+            "end": 39,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 5,
-              "end": 6,
+              "start": 4,
+              "end": 5,
               "ctxt": 0
             },
             "value": "x",
@@ -37,23 +37,23 @@
           "init": {
             "type": "TemplateLiteral",
             "span": {
-              "start": 9,
-              "end": 40,
+              "start": 8,
+              "end": 39,
               "ctxt": 0
             },
             "expressions": [
               {
                 "type": "ConditionalExpression",
                 "span": {
-                  "start": 16,
-                  "end": 34,
+                  "start": 15,
+                  "end": 33,
                   "ctxt": 0
                 },
                 "test": {
                   "type": "BooleanLiteral",
                   "span": {
-                    "start": 16,
-                    "end": 20,
+                    "start": 15,
+                    "end": 19,
                     "ctxt": 0
                   },
                   "value": true
@@ -61,8 +61,8 @@
                 "consequent": {
                   "type": "BooleanLiteral",
                   "span": {
-                    "start": 23,
-                    "end": 28,
+                    "start": 22,
+                    "end": 27,
                     "ctxt": 0
                   },
                   "value": false
@@ -70,8 +70,8 @@
                 "alternate": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 31,
-                    "end": 34,
+                    "start": 30,
+                    "end": 33,
                     "ctxt": 0
                   },
                   "value": " ",
@@ -83,8 +83,8 @@
               {
                 "type": "TemplateElement",
                 "span": {
-                  "start": 10,
-                  "end": 13,
+                  "start": 9,
+                  "end": 12,
                   "ctxt": 0
                 },
                 "tail": false,
@@ -94,8 +94,8 @@
               {
                 "type": "TemplateElement",
                 "span": {
-                  "start": 36,
-                  "end": 39,
+                  "start": 35,
+                  "end": 38,
                   "ctxt": 0
                 },
                 "tail": true,

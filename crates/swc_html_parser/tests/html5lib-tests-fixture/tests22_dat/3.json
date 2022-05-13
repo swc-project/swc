@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 1,
-    "end": 113,
+    "start": 0,
+    "end": 112,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 109,
+        "end": 108,
         "ctxt": 0
       },
       "tagName": "html",
@@ -22,7 +22,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 4,
+            "end": 3,
             "ctxt": 0
           },
           "tagName": "head",
@@ -35,7 +35,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 109,
+            "end": 108,
             "ctxt": 0
           },
           "tagName": "body",
@@ -45,8 +45,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 1,
-                "end": 7,
+                "start": 0,
+                "end": 6,
                 "ctxt": 0
               },
               "tagName": "a",
@@ -56,8 +56,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 4,
-                    "end": 7,
+                    "start": 3,
+                    "end": 6,
                     "ctxt": 0
                   },
                   "tagName": "b",
@@ -72,8 +72,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 4,
-                "end": 109,
+                "start": 3,
+                "end": 108,
                 "ctxt": 0
               },
               "tagName": "b",
@@ -83,8 +83,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 7,
-                    "end": 109,
+                    "start": 6,
+                    "end": 108,
                     "ctxt": 0
                   },
                   "tagName": "div",
@@ -107,8 +107,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 1,
-                        "end": 113,
+                        "start": 0,
+                        "end": 112,
                         "ctxt": 0
                       },
                       "tagName": "a",
@@ -120,8 +120,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 17,
-                        "end": 109,
+                        "start": 16,
+                        "end": 108,
                         "ctxt": 0
                       },
                       "tagName": "div",
@@ -144,8 +144,8 @@
                         {
                           "type": "Element",
                           "span": {
-                            "start": 1,
-                            "end": 113,
+                            "start": 0,
+                            "end": 112,
                             "ctxt": 0
                           },
                           "tagName": "a",
@@ -157,8 +157,8 @@
                         {
                           "type": "Element",
                           "span": {
-                            "start": 27,
-                            "end": 109,
+                            "start": 26,
+                            "end": 108,
                             "ctxt": 0
                           },
                           "tagName": "div",
@@ -181,8 +181,8 @@
                             {
                               "type": "Element",
                               "span": {
-                                "start": 1,
-                                "end": 113,
+                                "start": 0,
+                                "end": 112,
                                 "ctxt": 0
                               },
                               "tagName": "a",
@@ -194,8 +194,8 @@
                             {
                               "type": "Element",
                               "span": {
-                                "start": 37,
-                                "end": 109,
+                                "start": 36,
+                                "end": 108,
                                 "ctxt": 0
                               },
                               "tagName": "div",
@@ -218,8 +218,8 @@
                                 {
                                   "type": "Element",
                                   "span": {
-                                    "start": 1,
-                                    "end": 113,
+                                    "start": 0,
+                                    "end": 112,
                                     "ctxt": 0
                                   },
                                   "tagName": "a",
@@ -231,8 +231,8 @@
                                 {
                                   "type": "Element",
                                   "span": {
-                                    "start": 47,
-                                    "end": 109,
+                                    "start": 46,
+                                    "end": 108,
                                     "ctxt": 0
                                   },
                                   "tagName": "div",
@@ -255,8 +255,8 @@
                                     {
                                       "type": "Element",
                                       "span": {
-                                        "start": 1,
-                                        "end": 113,
+                                        "start": 0,
+                                        "end": 112,
                                         "ctxt": 0
                                       },
                                       "tagName": "a",
@@ -268,8 +268,8 @@
                                     {
                                       "type": "Element",
                                       "span": {
-                                        "start": 57,
-                                        "end": 109,
+                                        "start": 56,
+                                        "end": 108,
                                         "ctxt": 0
                                       },
                                       "tagName": "div",
@@ -292,8 +292,8 @@
                                         {
                                           "type": "Element",
                                           "span": {
-                                            "start": 1,
-                                            "end": 113,
+                                            "start": 0,
+                                            "end": 112,
                                             "ctxt": 0
                                           },
                                           "tagName": "a",
@@ -305,8 +305,8 @@
                                         {
                                           "type": "Element",
                                           "span": {
-                                            "start": 67,
-                                            "end": 109,
+                                            "start": 66,
+                                            "end": 108,
                                             "ctxt": 0
                                           },
                                           "tagName": "div",
@@ -329,8 +329,8 @@
                                             {
                                               "type": "Element",
                                               "span": {
-                                                "start": 1,
-                                                "end": 113,
+                                                "start": 0,
+                                                "end": 112,
                                                 "ctxt": 0
                                               },
                                               "tagName": "a",
@@ -342,8 +342,8 @@
                                             {
                                               "type": "Element",
                                               "span": {
-                                                "start": 77,
-                                                "end": 109,
+                                                "start": 76,
+                                                "end": 108,
                                                 "ctxt": 0
                                               },
                                               "tagName": "div",
@@ -366,8 +366,8 @@
                                                 {
                                                   "type": "Element",
                                                   "span": {
-                                                    "start": 1,
-                                                    "end": 109,
+                                                    "start": 0,
+                                                    "end": 108,
                                                     "ctxt": 0
                                                   },
                                                   "tagName": "a",
@@ -377,8 +377,8 @@
                                                     {
                                                       "type": "Element",
                                                       "span": {
-                                                        "start": 87,
-                                                        "end": 109,
+                                                        "start": 86,
+                                                        "end": 108,
                                                         "ctxt": 0
                                                       },
                                                       "tagName": "div",
@@ -401,8 +401,8 @@
                                                         {
                                                           "type": "Element",
                                                           "span": {
-                                                            "start": 97,
-                                                            "end": 109,
+                                                            "start": 96,
+                                                            "end": 108,
                                                             "ctxt": 0
                                                           },
                                                           "tagName": "div",
@@ -425,8 +425,8 @@
                                                             {
                                                               "type": "Text",
                                                               "span": {
-                                                                "start": 108,
-                                                                "end": 109,
+                                                                "start": 107,
+                                                                "end": 108,
                                                                 "ctxt": 0
                                                               },
                                                               "value": "A"

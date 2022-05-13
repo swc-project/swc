@@ -1,39 +1,39 @@
 {
   "type": "Script",
   "span": {
-    "start": 17,
-    "end": 37,
+    "start": 16,
+    "end": 36,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 17,
-        "end": 37,
+        "start": 16,
+        "end": 36,
         "ctxt": 0
       },
       "expression": {
         "type": "UnaryExpression",
         "span": {
-          "start": 17,
-          "end": 36,
+          "start": 16,
+          "end": 35,
           "ctxt": 0
         },
         "operator": "delete",
         "argument": {
           "type": "TemplateLiteral",
           "span": {
-            "start": 24,
-            "end": 36,
+            "start": 23,
+            "end": 35,
             "ctxt": 0
           },
           "expressions": [
             {
               "type": "NumericLiteral",
               "span": {
-                "start": 30,
-                "end": 31,
+                "start": 29,
+                "end": 30,
                 "ctxt": 0
               },
               "value": 0.0,
@@ -44,8 +44,8 @@
             {
               "type": "TemplateElement",
               "span": {
-                "start": 25,
-                "end": 28,
+                "start": 24,
+                "end": 27,
                 "ctxt": 0
               },
               "tail": false,
@@ -55,8 +55,8 @@
             {
               "type": "TemplateElement",
               "span": {
-                "start": 32,
-                "end": 35,
+                "start": 31,
+                "end": 34,
                 "ctxt": 0
               },
               "tail": true,

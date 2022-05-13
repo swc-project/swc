@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 1,
-    "end": 97,
+    "start": 0,
+    "end": 96,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 78,
+        "end": 77,
         "ctxt": 0
       },
       "tagName": "html",
@@ -22,7 +22,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 7,
+            "end": 6,
             "ctxt": 0
           },
           "tagName": "head",
@@ -34,8 +34,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 1,
-            "end": 78,
+            "start": 0,
+            "end": 77,
             "ctxt": 0
           },
           "tagName": "body",
@@ -45,8 +45,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 7,
-                "end": 78,
+                "start": 6,
+                "end": 77,
                 "ctxt": 0
               },
               "tagName": "template",
@@ -73,6 +73,26 @@
                     "attributes": [],
                     "children": [],
                     "content": null
+              "children": [
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 16,
+                    "end": 23,
+                    "ctxt": 0
+                  },
+                  "tagName": "thead",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 31,
+                    "end": 45,
+                    "ctxt": 0
                   },
                   {
                     "type": "Element",
@@ -90,6 +110,8 @@
                       "span": {
                         "start": 32,
                         "end": 46,
+                        "start": 41,
+                        "end": 45,
                         "ctxt": 0
                       },
                       "children": [
@@ -135,6 +157,42 @@
                       }
                     ],
                     "content": null
+                  ],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 0,
+                    "end": 65,
+                    "ctxt": 0
+                  },
+                  "tagName": "tbody",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 61,
+                        "end": 65,
+                        "ctxt": 0
+                      },
+                      "tagName": "tr",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [],
+                      "children": [],
+                      "content": null
+                    }
+                  ],
+                  "content": null
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 70,
+                    "end": 77,
+                    "ctxt": 0
                   },
                   {
                     "type": "Element",

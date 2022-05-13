@@ -1,39 +1,39 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 1,
-    "end": 12,
+    "start": 0,
+    "end": 11,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
-        "start": 1,
-        "end": 12,
+        "start": 0,
+        "end": 11,
         "ctxt": 0
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
-          "start": 1,
-          "end": 9,
+          "start": 0,
+          "end": 8,
           "ctxt": 0
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
-              "start": 1,
-              "end": 9,
+              "start": 0,
+              "end": 8,
               "ctxt": 0
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
-                  "start": 1,
-                  "end": 9,
+                  "start": 0,
+                  "end": 8,
                   "ctxt": 0
                 },
                 "nestingSelector": null,
@@ -42,15 +42,15 @@
                   {
                     "type": "IdSelector",
                     "span": {
-                      "start": 1,
-                      "end": 9,
+                      "start": 0,
+                      "end": 8,
                       "ctxt": 0
                     },
                     "text": {
                       "type": "Ident",
                       "span": {
-                        "start": 1,
-                        "end": 9,
+                        "start": 0,
+                        "end": 8,
                         "ctxt": 0
                       },
                       "value": "-123",
@@ -66,8 +66,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 10,
-          "end": 12,
+          "start": 9,
+          "end": 11,
           "ctxt": 0
         },
         "name": "{",

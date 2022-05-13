@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 16,
-    "end": 65,
+    "start": 15,
+    "end": 64,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 26,
-          "end": 27,
+          "start": 25,
+          "end": 26,
           "ctxt": 0
         },
         "value": "g",
@@ -22,15 +22,15 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 16,
-        "end": 65,
+        "start": 15,
+        "end": 64,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 30,
-          "end": 65,
+          "start": 29,
+          "end": 64,
           "ctxt": 0
         },
         "stmts": [
@@ -39,8 +39,8 @@
             "identifier": {
               "type": "Identifier",
               "span": {
-                "start": 42,
-                "end": 43,
+                "start": 41,
+                "end": 42,
                 "ctxt": 0
               },
               "value": "C",
@@ -48,8 +48,8 @@
             },
             "declare": false,
             "span": {
-              "start": 36,
-              "end": 62,
+              "start": 35,
+              "end": 61,
               "ctxt": 0
             },
             "decorators": [],
@@ -57,15 +57,15 @@
             "superClass": {
               "type": "ParenthesisExpression",
               "span": {
-                "start": 52,
-                "end": 59,
+                "start": 51,
+                "end": 58,
                 "ctxt": 0
               },
               "expression": {
                 "type": "YieldExpression",
                 "span": {
-                  "start": 53,
-                  "end": 58,
+                  "start": 52,
+                  "end": 57,
                   "ctxt": 0
                 },
                 "argument": null,
@@ -80,8 +80,8 @@
           {
             "type": "EmptyStatement",
             "span": {
-              "start": 62,
-              "end": 63,
+              "start": 61,
+              "end": 62,
               "ctxt": 0
             }
           }

@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 129,
-    "end": 241,
+    "start": 128,
+    "end": 240,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 135,
-          "end": 136,
+          "start": 134,
+          "end": 135,
           "ctxt": 0
         },
         "value": "A",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 129,
-        "end": 241,
+        "start": 128,
+        "end": 240,
         "ctxt": 0
       },
       "decorators": [],
@@ -29,22 +29,22 @@
         {
           "type": "PrivateProperty",
           "span": {
-            "start": 188,
-            "end": 196,
+            "start": 187,
+            "end": 195,
             "ctxt": 0
           },
           "key": {
             "type": "PrivateName",
             "span": {
-              "start": 188,
-              "end": 192,
+              "start": 187,
+              "end": 191,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 189,
-                "end": 192,
+                "start": 188,
+                "end": 191,
                 "ctxt": 0
               },
               "value": "foo",
@@ -54,8 +54,8 @@
           "value": {
             "type": "NumericLiteral",
             "span": {
-              "start": 195,
-              "end": 196,
+              "start": 194,
+              "end": 195,
               "ctxt": 0
             },
             "value": 3.0,

@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 78,
+    "start": 0,
+    "end": 77,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 1,
-        "end": 78,
+        "start": 0,
+        "end": 77,
         "ctxt": 0
       },
       "kind": "const",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 7,
-            "end": 77,
+            "start": 6,
+            "end": 76,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 7,
-              "end": 11,
+              "start": 6,
+              "end": 10,
               "ctxt": 0
             },
             "value": "test",
@@ -37,8 +37,8 @@
           "init": {
             "type": "ObjectExpression",
             "span": {
-              "start": 14,
-              "end": 77,
+              "start": 13,
+              "end": 76,
               "ctxt": 0
             },
             "properties": [
@@ -47,8 +47,8 @@
                 "key": {
                   "type": "Identifier",
                   "span": {
-                    "start": 20,
-                    "end": 23,
+                    "start": 19,
+                    "end": 22,
                     "ctxt": 0
                   },
                   "value": "อ",
@@ -57,8 +57,8 @@
                 "value": {
                   "type": "NumericLiteral",
                   "span": {
-                    "start": 25,
-                    "end": 26,
+                    "start": 24,
+                    "end": 25,
                     "ctxt": 0
                   },
                   "value": 9.0,
@@ -70,8 +70,8 @@
                 "key": {
                   "type": "Identifier",
                   "span": {
-                    "start": 32,
-                    "end": 35,
+                    "start": 31,
+                    "end": 34,
                     "ctxt": 0
                   },
                   "value": "ฮ",
@@ -80,8 +80,8 @@
                 "value": {
                   "type": "NumericLiteral",
                   "span": {
-                    "start": 37,
-                    "end": 38,
+                    "start": 36,
+                    "end": 37,
                     "ctxt": 0
                   },
                   "value": 9.0,
@@ -93,8 +93,8 @@
                 "key": {
                   "type": "Identifier",
                   "span": {
-                    "start": 44,
-                    "end": 47,
+                    "start": 43,
+                    "end": 46,
                     "ctxt": 0
                   },
                   "value": "ะ",
@@ -103,8 +103,8 @@
                 "value": {
                   "type": "NumericLiteral",
                   "span": {
-                    "start": 49,
-                    "end": 50,
+                    "start": 48,
+                    "end": 49,
                     "ctxt": 0
                   },
                   "value": 9.0,
@@ -116,8 +116,8 @@
                 "key": {
                   "type": "Identifier",
                   "span": {
-                    "start": 56,
-                    "end": 59,
+                    "start": 55,
+                    "end": 58,
                     "ctxt": 0
                   },
                   "value": "า",
@@ -126,8 +126,8 @@
                 "value": {
                   "type": "NumericLiteral",
                   "span": {
-                    "start": 61,
-                    "end": 62,
+                    "start": 60,
+                    "end": 61,
                     "ctxt": 0
                   },
                   "value": 9.0,
@@ -139,8 +139,8 @@
                 "key": {
                   "type": "Identifier",
                   "span": {
-                    "start": 68,
-                    "end": 71,
+                    "start": 67,
+                    "end": 70,
                     "ctxt": 0
                   },
                   "value": "ำ",
@@ -149,8 +149,8 @@
                 "value": {
                   "type": "NumericLiteral",
                   "span": {
-                    "start": 73,
-                    "end": 74,
+                    "start": 72,
+                    "end": 73,
                     "ctxt": 0
                   },
                   "value": 9.0,

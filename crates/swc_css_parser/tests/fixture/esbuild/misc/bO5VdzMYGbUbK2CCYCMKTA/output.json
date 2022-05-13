@@ -1,39 +1,39 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 1,
-    "end": 15,
+    "start": 0,
+    "end": 14,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
-        "start": 1,
-        "end": 15,
+        "start": 0,
+        "end": 14,
         "ctxt": 0
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
-          "start": 1,
-          "end": 6,
+          "start": 0,
+          "end": 5,
           "ctxt": 0
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
-              "start": 1,
-              "end": 6,
+              "start": 0,
+              "end": 5,
               "ctxt": 0
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
-                  "start": 1,
-                  "end": 6,
+                  "start": 0,
+                  "end": 5,
                   "ctxt": 0
                 },
                 "nestingSelector": null,
@@ -42,15 +42,15 @@
                   {
                     "type": "ClassSelector",
                     "span": {
-                      "start": 1,
-                      "end": 6,
+                      "start": 0,
+                      "end": 5,
                       "ctxt": 0
                     },
                     "text": {
                       "type": "Ident",
                       "span": {
-                        "start": 2,
-                        "end": 6,
+                        "start": 1,
+                        "end": 5,
                         "ctxt": 0
                       },
                       "value": "decl",
@@ -66,8 +66,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 7,
-          "end": 15,
+          "start": 6,
+          "end": 14,
           "ctxt": 0
         },
         "name": "{",
@@ -75,15 +75,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 9,
-              "end": 13,
+              "start": 8,
+              "end": 12,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 9,
-                "end": 10,
+                "start": 8,
+                "end": 9,
                 "ctxt": 0
               },
               "value": "a",
@@ -93,8 +93,8 @@
               {
                 "type": "Ident",
                 "span": {
-                  "start": 12,
-                  "end": 13,
+                  "start": 11,
+                  "end": 12,
                   "ctxt": 0
                 },
                 "value": "b",

@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 1,
-    "end": 58,
+    "start": 0,
+    "end": 57,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 1,
-        "end": 58,
+        "start": 0,
+        "end": 57,
         "ctxt": 0
       },
       "declaration": {
@@ -18,8 +18,8 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 23,
-            "end": 54,
+            "start": 22,
+            "end": 53,
             "ctxt": 0
           },
           "value": "AbstractProviderDeliveryService",
@@ -27,8 +27,8 @@
         },
         "declare": false,
         "span": {
-          "start": 8,
-          "end": 58,
+          "start": 7,
+          "end": 57,
           "ctxt": 0
         },
         "decorators": [],

@@ -1,30 +1,30 @@
 {
   "type": "Module",
   "span": {
-    "start": 1,
-    "end": 23,
+    "start": 0,
+    "end": 22,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 1,
-        "end": 23,
+        "start": 0,
+        "end": 22,
         "ctxt": 0
       },
       "expression": {
         "type": "JSXFragment",
         "span": {
-          "start": 1,
-          "end": 23,
+          "start": 0,
+          "end": 22,
           "ctxt": 0
         },
         "opening": {
           "type": "JSXOpeningFragment",
           "span": {
-            "start": 1,
-            "end": 3,
+            "start": 0,
+            "end": 2,
             "ctxt": 0
           }
         },
@@ -32,8 +32,8 @@
           {
             "type": "JSXText",
             "span": {
-              "start": 3,
-              "end": 20,
+              "start": 2,
+              "end": 19,
               "ctxt": 0
             },
             "value": "Hi, I'm a string!",
@@ -43,8 +43,8 @@
         "closing": {
           "type": "JSXClosingFragment",
           "span": {
-            "start": 20,
-            "end": 23,
+            "start": 19,
+            "end": 22,
             "ctxt": 0
           }
         }

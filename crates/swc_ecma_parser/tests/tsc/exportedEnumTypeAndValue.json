@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 98,
-    "end": 248,
+    "start": 97,
+    "end": 247,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 98,
-        "end": 132,
+        "start": 97,
+        "end": 131,
         "ctxt": 0
       },
       "kind": "const",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 104,
-            "end": 131,
+            "start": 103,
+            "end": 130,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 104,
-              "end": 110,
+              "start": 103,
+              "end": 109,
               "ctxt": 0
             },
             "value": "MyEnum",
@@ -37,8 +37,8 @@
           "init": {
             "type": "ObjectExpression",
             "span": {
-              "start": 113,
-              "end": 131,
+              "start": 112,
+              "end": 130,
               "ctxt": 0
             },
             "properties": [
@@ -47,8 +47,8 @@
                 "key": {
                   "type": "Identifier",
                   "span": {
-                    "start": 117,
-                    "end": 118,
+                    "start": 116,
+                    "end": 117,
                     "ctxt": 0
                   },
                   "value": "a",
@@ -57,8 +57,8 @@
                 "value": {
                   "type": "NumericLiteral",
                   "span": {
-                    "start": 120,
-                    "end": 121,
+                    "start": 119,
+                    "end": 120,
                     "ctxt": 0
                   },
                   "value": 1.0,
@@ -70,8 +70,8 @@
                 "key": {
                   "type": "Identifier",
                   "span": {
-                    "start": 125,
-                    "end": 126,
+                    "start": 124,
+                    "end": 125,
                     "ctxt": 0
                   },
                   "value": "b",
@@ -80,8 +80,8 @@
                 "value": {
                   "type": "NumericLiteral",
                   "span": {
-                    "start": 128,
-                    "end": 129,
+                    "start": 127,
+                    "end": 128,
                     "ctxt": 0
                   },
                   "value": 2.0,
@@ -97,15 +97,15 @@
     {
       "type": "ExportDefaultExpression",
       "span": {
-        "start": 133,
-        "end": 155,
+        "start": 132,
+        "end": 154,
         "ctxt": 0
       },
       "expression": {
         "type": "Identifier",
         "span": {
-          "start": 148,
-          "end": 154,
+          "start": 147,
+          "end": 153,
           "ctxt": 0
         },
         "value": "MyEnum",
@@ -115,23 +115,23 @@
     {
       "type": "ImportDeclaration",
       "span": {
-        "start": 178,
-        "end": 205,
+        "start": 177,
+        "end": 204,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ImportDefaultSpecifier",
           "span": {
-            "start": 185,
-            "end": 191,
+            "start": 184,
+            "end": 190,
             "ctxt": 0
           },
           "local": {
             "type": "Identifier",
             "span": {
-              "start": 185,
-              "end": 191,
+              "start": 184,
+              "end": 190,
               "ctxt": 0
             },
             "value": "MyEnum",
@@ -142,8 +142,8 @@
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 197,
-          "end": 204,
+          "start": 196,
+          "end": 203,
           "ctxt": 0
         },
         "value": "./def",
@@ -155,8 +155,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 229,
-        "end": 248,
+        "start": 228,
+        "end": 247,
         "ctxt": 0
       },
       "kind": "const",
@@ -165,15 +165,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 235,
-            "end": 247,
+            "start": 234,
+            "end": 246,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 235,
-              "end": 236,
+              "start": 234,
+              "end": 235,
               "ctxt": 0
             },
             "value": "v",
@@ -183,15 +183,15 @@
           "init": {
             "type": "MemberExpression",
             "span": {
-              "start": 239,
-              "end": 247,
+              "start": 238,
+              "end": 246,
               "ctxt": 0
             },
             "object": {
               "type": "Identifier",
               "span": {
-                "start": 239,
-                "end": 245,
+                "start": 238,
+                "end": 244,
                 "ctxt": 0
               },
               "value": "MyEnum",
@@ -200,8 +200,8 @@
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 246,
-                "end": 247,
+                "start": 245,
+                "end": 246,
                 "ctxt": 0
               },
               "value": "b",

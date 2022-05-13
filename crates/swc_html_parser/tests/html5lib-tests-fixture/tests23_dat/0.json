@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 1,
-    "end": 118,
+    "start": 0,
+    "end": 117,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 118,
+        "end": 117,
         "ctxt": 0
       },
       "tagName": "html",
@@ -22,7 +22,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 4,
+            "end": 3,
             "ctxt": 0
           },
           "tagName": "head",
@@ -35,7 +35,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 118,
+            "end": 117,
             "ctxt": 0
           },
           "tagName": "body",
@@ -45,8 +45,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 1,
-                "end": 114,
+                "start": 0,
+                "end": 113,
                 "ctxt": 0
               },
               "tagName": "p",
@@ -56,8 +56,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 4,
-                    "end": 114,
+                    "start": 3,
+                    "end": 113,
                     "ctxt": 0
                   },
                   "tagName": "font",
@@ -80,8 +80,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 17,
-                        "end": 114,
+                        "start": 16,
+                        "end": 113,
                         "ctxt": 0
                       },
                       "tagName": "font",
@@ -104,8 +104,8 @@
                         {
                           "type": "Element",
                           "span": {
-                            "start": 33,
-                            "end": 114,
+                            "start": 32,
+                            "end": 113,
                             "ctxt": 0
                           },
                           "tagName": "font",
@@ -128,8 +128,8 @@
                             {
                               "type": "Element",
                               "span": {
-                                "start": 46,
-                                "end": 114,
+                                "start": 45,
+                                "end": 113,
                                 "ctxt": 0
                               },
                               "tagName": "font",
@@ -152,8 +152,8 @@
                                 {
                                   "type": "Element",
                                   "span": {
-                                    "start": 59,
-                                    "end": 114,
+                                    "start": 58,
+                                    "end": 113,
                                     "ctxt": 0
                                   },
                                   "tagName": "font",
@@ -176,8 +176,8 @@
                                     {
                                       "type": "Element",
                                       "span": {
-                                        "start": 72,
-                                        "end": 114,
+                                        "start": 71,
+                                        "end": 113,
                                         "ctxt": 0
                                       },
                                       "tagName": "font",
@@ -200,8 +200,8 @@
                                         {
                                           "type": "Element",
                                           "span": {
-                                            "start": 85,
-                                            "end": 114,
+                                            "start": 84,
+                                            "end": 113,
                                             "ctxt": 0
                                           },
                                           "tagName": "font",
@@ -224,8 +224,8 @@
                                             {
                                               "type": "Element",
                                               "span": {
-                                                "start": 98,
-                                                "end": 114,
+                                                "start": 97,
+                                                "end": 113,
                                                 "ctxt": 0
                                               },
                                               "tagName": "font",
@@ -274,8 +274,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 114,
-                "end": 118,
+                "start": 113,
+                "end": 117,
                 "ctxt": 0
               },
               "tagName": "p",
@@ -285,8 +285,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 17,
-                    "end": 118,
+                    "start": 16,
+                    "end": 117,
                     "ctxt": 0
                   },
                   "tagName": "font",
@@ -309,8 +309,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 59,
-                        "end": 118,
+                        "start": 58,
+                        "end": 117,
                         "ctxt": 0
                       },
                       "tagName": "font",
@@ -333,8 +333,8 @@
                         {
                           "type": "Element",
                           "span": {
-                            "start": 72,
-                            "end": 118,
+                            "start": 71,
+                            "end": 117,
                             "ctxt": 0
                           },
                           "tagName": "font",
@@ -357,8 +357,8 @@
                             {
                               "type": "Element",
                               "span": {
-                                "start": 85,
-                                "end": 118,
+                                "start": 84,
+                                "end": 117,
                                 "ctxt": 0
                               },
                               "tagName": "font",
@@ -381,8 +381,8 @@
                                 {
                                   "type": "Element",
                                   "span": {
-                                    "start": 98,
-                                    "end": 118,
+                                    "start": 97,
+                                    "end": 117,
                                     "ctxt": 0
                                   },
                                   "tagName": "font",
@@ -405,8 +405,8 @@
                                     {
                                       "type": "Text",
                                       "span": {
-                                        "start": 117,
-                                        "end": 118,
+                                        "start": 116,
+                                        "end": 117,
                                         "ctxt": 0
                                       },
                                       "value": "X"

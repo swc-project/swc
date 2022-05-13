@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 104,
-    "end": 346,
+    "start": 103,
+    "end": 345,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 104,
-        "end": 134,
+        "start": 103,
+        "end": 133,
         "ctxt": 0
       },
       "declaration": {
@@ -18,8 +18,8 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 120,
-            "end": 129,
+            "start": 119,
+            "end": 128,
             "ctxt": 0
           },
           "value": "Component",
@@ -29,15 +29,15 @@
         "params": [],
         "decorators": [],
         "span": {
-          "start": 111,
-          "end": 134,
+          "start": 110,
+          "end": 133,
           "ctxt": 0
         },
         "body": {
           "type": "BlockStatement",
           "span": {
-            "start": 132,
-            "end": 134,
+            "start": 131,
+            "end": 133,
             "ctxt": 0
           },
           "stmts": []
@@ -51,22 +51,22 @@
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 135,
-        "end": 169,
+        "start": 134,
+        "end": 168,
         "ctxt": 0
       },
       "declaration": {
         "type": "TsInterfaceDeclaration",
         "span": {
-          "start": 142,
-          "end": 169,
+          "start": 141,
+          "end": 168,
           "ctxt": 0
         },
         "id": {
           "type": "Identifier",
           "span": {
-            "start": 152,
-            "end": 166,
+            "start": 151,
+            "end": 165,
             "ctxt": 0
           },
           "value": "ComponentProps",
@@ -78,8 +78,8 @@
         "body": {
           "type": "TsInterfaceBody",
           "span": {
-            "start": 167,
-            "end": 169,
+            "start": 166,
+            "end": 168,
             "ctxt": 0
           },
           "body": []
@@ -89,23 +89,23 @@
     {
       "type": "ImportDeclaration",
       "span": {
-        "start": 195,
-        "end": 252,
+        "start": 194,
+        "end": 251,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ImportSpecifier",
           "span": {
-            "start": 204,
-            "end": 213,
+            "start": 203,
+            "end": 212,
             "ctxt": 0
           },
           "local": {
             "type": "Identifier",
             "span": {
-              "start": 204,
-              "end": 213,
+              "start": 203,
+              "end": 212,
               "ctxt": 0
             },
             "value": "Component",
@@ -117,15 +117,15 @@
         {
           "type": "ImportSpecifier",
           "span": {
-            "start": 215,
-            "end": 229,
+            "start": 214,
+            "end": 228,
             "ctxt": 0
           },
           "local": {
             "type": "Identifier",
             "span": {
-              "start": 215,
-              "end": 229,
+              "start": 214,
+              "end": 228,
               "ctxt": 0
             },
             "value": "ComponentProps",
@@ -138,8 +138,8 @@
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 237,
-          "end": 251,
+          "start": 236,
+          "end": 250,
           "ctxt": 0
         },
         "value": "./exports.js",
@@ -151,23 +151,23 @@
     {
       "type": "ImportDeclaration",
       "span": {
-        "start": 284,
-        "end": 346,
+        "start": 283,
+        "end": 345,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ImportSpecifier",
           "span": {
-            "start": 293,
-            "end": 302,
+            "start": 292,
+            "end": 301,
             "ctxt": 0
           },
           "local": {
             "type": "Identifier",
             "span": {
-              "start": 293,
-              "end": 302,
+              "start": 292,
+              "end": 301,
               "ctxt": 0
             },
             "value": "Component",
@@ -179,15 +179,15 @@
         {
           "type": "ImportSpecifier",
           "span": {
-            "start": 304,
-            "end": 323,
+            "start": 303,
+            "end": 322,
             "ctxt": 0
           },
           "local": {
             "type": "Identifier",
             "span": {
-              "start": 309,
-              "end": 323,
+              "start": 308,
+              "end": 322,
               "ctxt": 0
             },
             "value": "ComponentProps",
@@ -200,8 +200,8 @@
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 331,
-          "end": 345,
+          "start": 330,
+          "end": 344,
           "ctxt": 0
         },
         "value": "./exports.js",

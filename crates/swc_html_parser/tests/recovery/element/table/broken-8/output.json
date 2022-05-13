@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 1,
-    "end": 60,
+    "start": 0,
+    "end": 59,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 52,
+        "end": 51,
         "ctxt": 0
       },
       "tagName": "html",
@@ -22,7 +22,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 7,
+            "end": 6,
             "ctxt": 0
           },
           "tagName": "head",
@@ -34,8 +34,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 1,
-            "end": 52,
+            "start": 0,
+            "end": 51,
             "ctxt": 0
           },
           "tagName": "body",
@@ -45,8 +45,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 57,
-                "end": 60,
+                "start": 56,
+                "end": 59,
                 "ctxt": 0
               },
               "value": "Foo"
@@ -54,8 +54,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 7,
-                "end": 52,
+                "start": 6,
+                "end": 51,
                 "ctxt": 0
               },
               "tagName": "table",
@@ -66,7 +66,7 @@
                   "type": "Element",
                   "span": {
                     "start": 0,
-                    "end": 52,
+                    "end": 51,
                     "ctxt": 0
                   },
                   "tagName": "tbody",
@@ -76,8 +76,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 14,
-                        "end": 52,
+                        "start": 13,
+                        "end": 51,
                         "ctxt": 0
                       },
                       "tagName": "tr",
@@ -87,8 +87,8 @@
                         {
                           "type": "Element",
                           "span": {
-                            "start": 18,
-                            "end": 52,
+                            "start": 17,
+                            "end": 51,
                             "ctxt": 0
                           },
                           "tagName": "td",
@@ -98,8 +98,8 @@
                             {
                               "type": "Element",
                               "span": {
-                                "start": 22,
-                                "end": 52,
+                                "start": 21,
+                                "end": 51,
                                 "ctxt": 0
                               },
                               "tagName": "svg",
@@ -109,8 +109,8 @@
                                 {
                                   "type": "Element",
                                   "span": {
-                                    "start": 27,
-                                    "end": 52,
+                                    "start": 26,
+                                    "end": 51,
                                     "ctxt": 0
                                   },
                                   "tagName": "td",
@@ -120,8 +120,8 @@
                                     {
                                       "type": "Element",
                                       "span": {
-                                        "start": 31,
-                                        "end": 52,
+                                        "start": 30,
+                                        "end": 51,
                                         "ctxt": 0
                                       },
                                       "tagName": "foreignObject",
@@ -131,8 +131,8 @@
                                         {
                                           "type": "Element",
                                           "span": {
-                                            "start": 46,
-                                            "end": 52,
+                                            "start": 45,
+                                            "end": 51,
                                             "ctxt": 0
                                           },
                                           "tagName": "span",

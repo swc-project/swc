@@ -1,16 +1,16 @@
 {
   "type": "DocumentFragment",
   "span": {
-    "start": 1,
-    "end": 9,
+    "start": 0,
+    "end": 8,
     "ctxt": 0
   },
   "children": [
     {
       "type": "Element",
       "span": {
-        "start": 1,
-        "end": 9,
+        "start": 0,
+        "end": 8,
         "ctxt": 0
       },
       "tagName": "p",
@@ -20,8 +20,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 4,
-            "end": 9,
+            "start": 3,
+            "end": 8,
             "ctxt": 0
           },
           "tagName": "foo",

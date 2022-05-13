@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 1,
-    "end": 4694,
+    "start": 0,
+    "end": 4693,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -10,8 +10,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 1,
-        "end": 4687,
+        "start": 0,
+        "end": 4686,
         "ctxt": 0
       },
       "tagName": "html",
@@ -34,8 +34,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 45,
-            "end": 467,
+            "start": 44,
+            "end": 466,
             "ctxt": 0
           },
           "tagName": "head",
@@ -45,8 +45,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 51,
-                "end": 56,
+                "start": 50,
+                "end": 55,
                 "ctxt": 0
               },
               "value": "\n    "
@@ -54,8 +54,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 56,
-                "end": 77,
+                "start": 55,
+                "end": 76,
                 "ctxt": 0
               },
               "tagName": "title",
@@ -65,8 +65,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 63,
-                    "end": 77,
+                    "start": 62,
+                    "end": 76,
                     "ctxt": 0
                   },
                   "value": "XTech SVG Demo"
@@ -77,8 +77,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 85,
-                "end": 90,
+                "start": 84,
+                "end": 89,
                 "ctxt": 0
               },
               "value": "\n    "
@@ -86,8 +86,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 90,
-                "end": 310,
+                "start": 89,
+                "end": 309,
                 "ctxt": 0
               },
               "tagName": "style",
@@ -97,8 +97,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 97,
-                    "end": 310,
+                    "start": 96,
+                    "end": 309,
                     "ctxt": 0
                   },
                   "value": "\n        stop.begin { stop-color:yellow; }\n        stop.end { stop-color:green; }\n        body.invalid stop.end { stop-color:red; }\n        #err { display:none; }\n        body.invalid #err { display:inline; }\n    "
@@ -109,8 +109,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 318,
-                "end": 323,
+                "start": 317,
+                "end": 322,
                 "ctxt": 0
               },
               "value": "\n    "
@@ -118,8 +118,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 323,
-                "end": 457,
+                "start": 322,
+                "end": 456,
                 "ctxt": 0
               },
               "tagName": "script",
@@ -129,8 +129,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 331,
-                    "end": 457,
+                    "start": 330,
+                    "end": 456,
                     "ctxt": 0
                   },
                   "value": "\n        function signalError() {\n            document.getElementById('body').setAttribute(\"class\", \"invalid\");\n        }\n    "
@@ -141,8 +141,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 466,
-                "end": 467,
+                "start": 465,
+                "end": 466,
                 "ctxt": 0
               },
               "value": "\n"
@@ -153,8 +153,8 @@
         {
           "type": "Text",
           "span": {
-            "start": 474,
-            "end": 475,
+            "start": 473,
+            "end": 474,
             "ctxt": 0
           },
           "value": "\n"
@@ -162,8 +162,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 475,
-            "end": 4687,
+            "start": 474,
+            "end": 4686,
             "ctxt": 0
           },
           "tagName": "body",
@@ -198,8 +198,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 599,
-                "end": 600,
+                "start": 598,
+                "end": 599,
                 "ctxt": 0
               },
               "value": "\n"
@@ -207,8 +207,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 600,
-                "end": 905,
+                "start": 599,
+                "end": 904,
                 "ctxt": 0
               },
               "tagName": "form",
@@ -218,8 +218,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 606,
-                    "end": 611,
+                    "start": 605,
+                    "end": 610,
                     "ctxt": 0
                   },
                   "value": "\n    "
@@ -227,8 +227,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 611,
-                    "end": 893,
+                    "start": 610,
+                    "end": 892,
                     "ctxt": 0
                   },
                   "tagName": "fieldset",
@@ -238,8 +238,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 621,
-                        "end": 630,
+                        "start": 620,
+                        "end": 629,
                         "ctxt": 0
                       },
                       "value": "\n        "
@@ -247,8 +247,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 630,
-                        "end": 647,
+                        "start": 629,
+                        "end": 646,
                         "ctxt": 0
                       },
                       "tagName": "legend",
@@ -258,8 +258,8 @@
                         {
                           "type": "Text",
                           "span": {
-                            "start": 638,
-                            "end": 647,
+                            "start": 637,
+                            "end": 646,
                             "ctxt": 0
                           },
                           "value": "HTML Form"
@@ -270,8 +270,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 656,
-                        "end": 665,
+                        "start": 655,
+                        "end": 664,
                         "ctxt": 0
                       },
                       "value": "\n        "
@@ -279,8 +279,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 665,
-                        "end": 795,
+                        "start": 664,
+                        "end": 794,
                         "ctxt": 0
                       },
                       "tagName": "p",
@@ -290,8 +290,8 @@
                         {
                           "type": "Element",
                           "span": {
-                            "start": 668,
-                            "end": 710,
+                            "start": 667,
+                            "end": 709,
                             "ctxt": 0
                           },
                           "tagName": "label",
@@ -301,8 +301,8 @@
                             {
                               "type": "Text",
                               "span": {
-                                "start": 675,
-                                "end": 710,
+                                "start": 674,
+                                "end": 709,
                                 "ctxt": 0
                               },
                               "value": "Введите что-нибудь:"
@@ -313,8 +313,8 @@
                         {
                           "type": "Text",
                           "span": {
-                            "start": 718,
-                            "end": 731,
+                            "start": 717,
+                            "end": 730,
                             "ctxt": 0
                           },
                           "value": "\n            "
@@ -322,8 +322,8 @@
                         {
                           "type": "Element",
                           "span": {
-                            "start": 731,
-                            "end": 751,
+                            "start": 730,
+                            "end": 750,
                             "ctxt": 0
                           },
                           "tagName": "input",
@@ -348,8 +348,8 @@
                         {
                           "type": "Text",
                           "span": {
-                            "start": 751,
-                            "end": 764,
+                            "start": 750,
+                            "end": 763,
                             "ctxt": 0
                           },
                           "value": "\n            "
@@ -357,8 +357,8 @@
                         {
                           "type": "Element",
                           "span": {
-                            "start": 764,
-                            "end": 795,
+                            "start": 763,
+                            "end": 794,
                             "ctxt": 0
                           },
                           "tagName": "span",
@@ -381,8 +381,8 @@
                             {
                               "type": "Text",
                               "span": {
-                                "start": 779,
-                                "end": 795,
+                                "start": 778,
+                                "end": 794,
                                 "ctxt": 0
                               },
                               "value": "Incorrect value!"
@@ -396,8 +396,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 806,
-                        "end": 815,
+                        "start": 805,
+                        "end": 814,
                         "ctxt": 0
                       },
                       "value": "\n        "
@@ -405,8 +405,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 815,
-                        "end": 884,
+                        "start": 814,
+                        "end": 883,
                         "ctxt": 0
                       },
                       "tagName": "p",
@@ -416,8 +416,8 @@
                         {
                           "type": "Element",
                           "span": {
-                            "start": 818,
-                            "end": 884,
+                            "start": 817,
+                            "end": 883,
                             "ctxt": 0
                           },
                           "tagName": "input",
@@ -469,8 +469,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 888,
-                        "end": 893,
+                        "start": 887,
+                        "end": 892,
                         "ctxt": 0
                       },
                       "value": "\n    "
@@ -481,8 +481,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 904,
-                    "end": 905,
+                    "start": 903,
+                    "end": 904,
                     "ctxt": 0
                   },
                   "value": "\n"
@@ -493,8 +493,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 912,
-                "end": 914,
+                "start": 911,
+                "end": 913,
                 "ctxt": 0
               },
               "value": "\n\n"
@@ -502,8 +502,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 914,
-                "end": 1421,
+                "start": 913,
+                "end": 1420,
                 "ctxt": 0
               },
               "tagName": "svg",
@@ -586,8 +586,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 1135,
-                    "end": 1140,
+                    "start": 1134,
+                    "end": 1139,
                     "ctxt": 0
                   },
                   "value": "\n    "
@@ -595,8 +595,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 1140,
-                    "end": 1259,
+                    "start": 1139,
+                    "end": 1258,
                     "ctxt": 0
                   },
                   "tagName": "linearGradient",
@@ -619,8 +619,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 1170,
-                        "end": 1179,
+                        "start": 1169,
+                        "end": 1178,
                         "ctxt": 0
                       },
                       "value": "\n        "
@@ -628,8 +628,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 1179,
-                        "end": 1212,
+                        "start": 1178,
+                        "end": 1211,
                         "ctxt": 0
                       },
                       "tagName": "stop",
@@ -666,8 +666,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 1212,
-                        "end": 1221,
+                        "start": 1211,
+                        "end": 1220,
                         "ctxt": 0
                       },
                       "value": "\n        "
@@ -675,8 +675,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 1221,
-                        "end": 1254,
+                        "start": 1220,
+                        "end": 1253,
                         "ctxt": 0
                       },
                       "tagName": "stop",
@@ -713,8 +713,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 1254,
-                        "end": 1259,
+                        "start": 1253,
+                        "end": 1258,
                         "ctxt": 0
                       },
                       "value": "\n    "
@@ -725,8 +725,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 1276,
-                    "end": 1281,
+                    "start": 1275,
+                    "end": 1280,
                     "ctxt": 0
                   },
                   "value": "\n    "
@@ -734,8 +734,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 1281,
-                    "end": 1354,
+                    "start": 1280,
+                    "end": 1353,
                     "ctxt": 0
                   },
                   "tagName": "rect",
@@ -808,8 +808,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 1354,
-                    "end": 1359,
+                    "start": 1353,
+                    "end": 1358,
                     "ctxt": 0
                   },
                   "value": "\n    "
@@ -817,8 +817,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 1359,
-                    "end": 1420,
+                    "start": 1358,
+                    "end": 1419,
                     "ctxt": 0
                   },
                   "tagName": "circle",
@@ -879,8 +879,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 1420,
-                    "end": 1421,
+                    "start": 1419,
+                    "end": 1420,
                     "ctxt": 0
                   },
                   "value": "\n"
@@ -891,8 +891,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 1427,
-                "end": 1429,
+                "start": 1426,
+                "end": 1428,
                 "ctxt": 0
               },
               "value": "\n\n"
@@ -900,8 +900,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 1429,
-                "end": 1932,
+                "start": 1428,
+                "end": 1931,
                 "ctxt": 0
               },
               "tagName": "svg",
@@ -936,8 +936,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 1491,
-                    "end": 1496,
+                    "start": 1490,
+                    "end": 1495,
                     "ctxt": 0
                   },
                   "value": "\n    "
@@ -945,8 +945,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 1496,
-                    "end": 1607,
+                    "start": 1495,
+                    "end": 1606,
                     "ctxt": 0
                   },
                   "tagName": "filter",
@@ -1017,8 +1017,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 1555,
-                        "end": 1564,
+                        "start": 1554,
+                        "end": 1563,
                         "ctxt": 0
                       },
                       "value": "\n        "
@@ -1026,8 +1026,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 1564,
-                        "end": 1602,
+                        "start": 1563,
+                        "end": 1601,
                         "ctxt": 0
                       },
                       "tagName": "feTurbulence",
@@ -1052,8 +1052,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 1602,
-                        "end": 1607,
+                        "start": 1601,
+                        "end": 1606,
                         "ctxt": 0
                       },
                       "value": "\n    "
@@ -1064,8 +1064,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 1616,
-                    "end": 1621,
+                    "start": 1615,
+                    "end": 1620,
                     "ctxt": 0
                   },
                   "value": "\n    "
@@ -1073,8 +1073,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 1621,
-                    "end": 1731,
+                    "start": 1620,
+                    "end": 1730,
                     "ctxt": 0
                   },
                   "tagName": "filter",
@@ -1145,8 +1145,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 1680,
-                        "end": 1689,
+                        "start": 1679,
+                        "end": 1688,
                         "ctxt": 0
                       },
                       "value": "\n        "
@@ -1154,8 +1154,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 1689,
-                        "end": 1726,
+                        "start": 1688,
+                        "end": 1725,
                         "ctxt": 0
                       },
                       "tagName": "feTurbulence",
@@ -1180,8 +1180,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 1726,
-                        "end": 1731,
+                        "start": 1725,
+                        "end": 1730,
                         "ctxt": 0
                       },
                       "value": "\n    "
@@ -1192,8 +1192,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 1740,
-                    "end": 1746,
+                    "start": 1739,
+                    "end": 1745,
                     "ctxt": 0
                   },
                   "value": "\n\n    "
@@ -1201,8 +1201,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 1746,
-                    "end": 1821,
+                    "start": 1745,
+                    "end": 1820,
                     "ctxt": 0
                   },
                   "tagName": "rect",
@@ -1275,8 +1275,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 1821,
-                    "end": 1826,
+                    "start": 1820,
+                    "end": 1825,
                     "ctxt": 0
                   },
                   "value": "\n    "
@@ -1284,8 +1284,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 1826,
-                    "end": 1931,
+                    "start": 1825,
+                    "end": 1930,
                     "ctxt": 0
                   },
                   "tagName": "rect",
@@ -1358,8 +1358,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 1931,
-                    "end": 1932,
+                    "start": 1930,
+                    "end": 1931,
                     "ctxt": 0
                   },
                   "value": "\n"
@@ -1370,8 +1370,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 1938,
-                "end": 1940,
+                "start": 1937,
+                "end": 1939,
                 "ctxt": 0
               },
               "value": "\n\n"
@@ -1379,8 +1379,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 1940,
-                "end": 2063,
+                "start": 1939,
+                "end": 2062,
                 "ctxt": 0
               },
               "tagName": "svg",
@@ -1415,8 +1415,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 2002,
-                    "end": 2007,
+                    "start": 2001,
+                    "end": 2006,
                     "ctxt": 0
                   },
                   "value": "\n    "
@@ -1424,8 +1424,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 2007,
-                    "end": 2055,
+                    "start": 2006,
+                    "end": 2054,
                     "ctxt": 0
                   },
                   "tagName": "text",
@@ -1448,8 +1448,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 2030,
-                        "end": 2055,
+                        "start": 2029,
+                        "end": 2054,
                         "ctxt": 0
                       },
                       "value": "This is some English text"
@@ -1460,8 +1460,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 2062,
-                    "end": 2063,
+                    "start": 2061,
+                    "end": 2062,
                     "ctxt": 0
                   },
                   "value": "\n"
@@ -1472,8 +1472,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 2069,
-                "end": 2071,
+                "start": 2068,
+                "end": 2070,
                 "ctxt": 0
               },
               "value": "\n\n"
@@ -1481,8 +1481,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 2071,
-                "end": 2391,
+                "start": 2070,
+                "end": 2390,
                 "ctxt": 0
               },
               "tagName": "svg",
@@ -1553,8 +1553,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 2203,
-                    "end": 2208,
+                    "start": 2202,
+                    "end": 2207,
                     "ctxt": 0
                   },
                   "value": "\n    "
@@ -1562,8 +1562,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 2208,
-                    "end": 2390,
+                    "start": 2207,
+                    "end": 2389,
                     "ctxt": 0
                   },
                   "tagName": "image",
@@ -1648,8 +1648,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 2390,
-                    "end": 2391,
+                    "start": 2389,
+                    "end": 2390,
                     "ctxt": 0
                   },
                   "value": "\n"
@@ -1660,8 +1660,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 2397,
-                "end": 2399,
+                "start": 2396,
+                "end": 2398,
                 "ctxt": 0
               },
               "value": "\n\n"
@@ -1669,8 +1669,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 2399,
-                "end": 2588,
+                "start": 2398,
+                "end": 2587,
                 "ctxt": 0
               },
               "tagName": "svg",
@@ -1705,8 +1705,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 2460,
-                    "end": 2465,
+                    "start": 2459,
+                    "end": 2464,
                     "ctxt": 0
                   },
                   "value": "\n    "
@@ -1714,8 +1714,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 2465,
-                    "end": 2515,
+                    "start": 2464,
+                    "end": 2514,
                     "ctxt": 0
                   },
                   "tagName": "text",
@@ -1750,8 +1750,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 2498,
-                        "end": 2515,
+                        "start": 2497,
+                        "end": 2514,
                         "ctxt": 0
                       },
                       "value": "Default   spacing"
@@ -1762,8 +1762,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 2522,
-                    "end": 2527,
+                    "start": 2521,
+                    "end": 2526,
                     "ctxt": 0
                   },
                   "value": "\n    "
@@ -1771,8 +1771,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 2527,
-                    "end": 2580,
+                    "start": 2526,
+                    "end": 2579,
                     "ctxt": 0
                   },
                   "tagName": "text",
@@ -1807,8 +1807,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 2561,
-                        "end": 2580,
+                        "start": 2560,
+                        "end": 2579,
                         "ctxt": 0
                       },
                       "value": "Preserved   spacing"
@@ -1819,8 +1819,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 2587,
-                    "end": 2588,
+                    "start": 2586,
+                    "end": 2587,
                     "ctxt": 0
                   },
                   "value": "\n"
@@ -1831,8 +1831,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 2594,
-                "end": 2596,
+                "start": 2593,
+                "end": 2595,
                 "ctxt": 0
               },
               "value": "\n\n"
@@ -1840,8 +1840,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 2596,
-                "end": 2903,
+                "start": 2595,
+                "end": 2902,
                 "ctxt": 0
               },
               "tagName": "svg",
@@ -1876,8 +1876,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 2658,
-                    "end": 2663,
+                    "start": 2657,
+                    "end": 2662,
                     "ctxt": 0
                   },
                   "value": "\n    "
@@ -1885,8 +1885,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 2663,
-                    "end": 2711,
+                    "start": 2662,
+                    "end": 2710,
                     "ctxt": 0
                   },
                   "tagName": "text",
@@ -1909,8 +1909,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 2686,
-                        "end": 2711,
+                        "start": 2685,
+                        "end": 2710,
                         "ctxt": 0
                       },
                       "value": "This is some English text"
@@ -1921,8 +1921,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 2718,
-                    "end": 2723,
+                    "start": 2717,
+                    "end": 2722,
                     "ctxt": 0
                   },
                   "value": "\n    "
@@ -1930,8 +1930,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 2723,
-                    "end": 2898,
+                    "start": 2722,
+                    "end": 2897,
                     "ctxt": 0
                   },
                   "tagName": "a",
@@ -1966,8 +1966,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 2840,
-                        "end": 2849,
+                        "start": 2839,
+                        "end": 2848,
                         "ctxt": 0
                       },
                       "value": "\n        "
@@ -1975,8 +1975,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 2849,
-                        "end": 2886,
+                        "start": 2848,
+                        "end": 2885,
                         "ctxt": 0
                       },
                       "tagName": "text",
@@ -2011,8 +2011,8 @@
                         {
                           "type": "Text",
                           "span": {
-                            "start": 2870,
-                            "end": 2886,
+                            "start": 2869,
+                            "end": 2885,
                             "ctxt": 0
                           },
                           "value": "An example link."
@@ -2023,8 +2023,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 2893,
-                        "end": 2898,
+                        "start": 2892,
+                        "end": 2897,
                         "ctxt": 0
                       },
                       "value": "\n    "
@@ -2035,8 +2035,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 2902,
-                    "end": 2903,
+                    "start": 2901,
+                    "end": 2902,
                     "ctxt": 0
                   },
                   "value": "\n"
@@ -2047,8 +2047,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 2909,
-                "end": 2911,
+                "start": 2908,
+                "end": 2910,
                 "ctxt": 0
               },
               "value": "\n\n"
@@ -2056,8 +2056,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 2911,
-                "end": 3817,
+                "start": 2910,
+                "end": 3816,
                 "ctxt": 0
               },
               "tagName": "svg",
@@ -2092,8 +2092,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 2973,
-                    "end": 2978,
+                    "start": 2972,
+                    "end": 2977,
                     "ctxt": 0
                   },
                   "value": "\n    "
@@ -2101,8 +2101,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 2978,
-                    "end": 3124,
+                    "start": 2977,
+                    "end": 3123,
                     "ctxt": 0
                   },
                   "tagName": "style",
@@ -2112,8 +2112,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 2985,
-                        "end": 3124,
+                        "start": 2984,
+                        "end": 3123,
                         "ctxt": 0
                       },
                       "value": "\n        div {\n            color: white;\n            font: 18px serif;\n            height: 100%;\n            overflow: auto;\n        }\n    "
@@ -2124,8 +2124,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 3132,
-                    "end": 3138,
+                    "start": 3131,
+                    "end": 3137,
                     "ctxt": 0
                   },
                   "value": "\n\n    "
@@ -2133,8 +2133,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 3138,
-                    "end": 3184,
+                    "start": 3137,
+                    "end": 3183,
                     "ctxt": 0
                   },
                   "tagName": "polygon",
@@ -2159,8 +2159,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 3184,
-                    "end": 3190,
+                    "start": 3183,
+                    "end": 3189,
                     "ctxt": 0
                   },
                   "value": "\n\n    "
@@ -2168,8 +2168,8 @@
                 {
                   "type": "Comment",
                   "span": {
-                    "start": 3190,
-                    "end": 3240,
+                    "start": 3189,
+                    "end": 3239,
                     "ctxt": 0
                   },
                   "data": " Common use case: embed HTML text into SVG "
@@ -2177,8 +2177,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 3240,
-                    "end": 3245,
+                    "start": 3239,
+                    "end": 3244,
                     "ctxt": 0
                   },
                   "value": "\n    "
@@ -2186,8 +2186,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 3245,
-                    "end": 3800,
+                    "start": 3244,
+                    "end": 3799,
                     "ctxt": 0
                   },
                   "tagName": "foreignObject",
@@ -2246,8 +2246,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 3299,
-                        "end": 3308,
+                        "start": 3298,
+                        "end": 3307,
                         "ctxt": 0
                       },
                       "value": "\n        "
@@ -2255,8 +2255,8 @@
                     {
                       "type": "Comment",
                       "span": {
-                        "start": 3308,
-                        "end": 3498,
+                        "start": 3307,
+                        "end": 3497,
                         "ctxt": 0
                       },
                       "data": "\n          In the context of SVG embedded in an HTML document, the XHTML\n          namespace could be omitted, but it is mandatory in the\n          context of an SVG document\n        "
@@ -2264,8 +2264,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 3498,
-                        "end": 3507,
+                        "start": 3497,
+                        "end": 3506,
                         "ctxt": 0
                       },
                       "value": "\n        "
@@ -2273,8 +2273,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 3507,
-                        "end": 3789,
+                        "start": 3506,
+                        "end": 3788,
                         "ctxt": 0
                       },
                       "tagName": "div",
@@ -2297,8 +2297,8 @@
                         {
                           "type": "Text",
                           "span": {
-                            "start": 3549,
-                            "end": 3789,
+                            "start": 3548,
+                            "end": 3788,
                             "ctxt": 0
                           },
                           "value": "\n            Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n            Sed mollis mollis mi ut ultricies. Nullam magna ipsum,\n            porta vel dui convallis, rutrum imperdiet eros. Aliquam\n            erat volutpat.\n        "
@@ -2309,8 +2309,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 3795,
-                        "end": 3800,
+                        "start": 3794,
+                        "end": 3799,
                         "ctxt": 0
                       },
                       "value": "\n    "
@@ -2321,8 +2321,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 3816,
-                    "end": 3817,
+                    "start": 3815,
+                    "end": 3816,
                     "ctxt": 0
                   },
                   "value": "\n"
@@ -2333,8 +2333,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 3823,
-                "end": 3825,
+                "start": 3822,
+                "end": 3824,
                 "ctxt": 0
               },
               "value": "\n\n"
@@ -2342,8 +2342,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 3825,
-                "end": 4671,
+                "start": 3824,
+                "end": 4670,
                 "ctxt": 0
               },
               "tagName": "svg",
@@ -2402,8 +2402,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 3905,
-                    "end": 3910,
+                    "start": 3904,
+                    "end": 3909,
                     "ctxt": 0
                   },
                   "value": "\n    "
@@ -2411,8 +2411,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 3910,
-                    "end": 4666,
+                    "start": 3909,
+                    "end": 4665,
                     "ctxt": 0
                   },
                   "tagName": "g",
@@ -2435,8 +2435,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 3942,
-                        "end": 3951,
+                        "start": 3941,
+                        "end": 3950,
                         "ctxt": 0
                       },
                       "value": "\n        "
@@ -2444,8 +2444,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 3951,
-                        "end": 4088,
+                        "start": 3950,
+                        "end": 4087,
                         "ctxt": 0
                       },
                       "tagName": "path",
@@ -2494,8 +2494,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 4095,
-                        "end": 4104,
+                        "start": 4094,
+                        "end": 4103,
                         "ctxt": 0
                       },
                       "value": "\n        "
@@ -2503,8 +2503,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 4104,
-                        "end": 4140,
+                        "start": 4103,
+                        "end": 4139,
                         "ctxt": 0
                       },
                       "tagName": "text",
@@ -2527,8 +2527,8 @@
                         {
                           "type": "Text",
                           "span": {
-                            "start": 4139,
-                            "end": 4140,
+                            "start": 4138,
+                            "end": 4139,
                             "ctxt": 0
                           },
                           "value": "1"
@@ -2539,8 +2539,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 4147,
-                        "end": 4156,
+                        "start": 4146,
+                        "end": 4155,
                         "ctxt": 0
                       },
                       "value": "\n        "
@@ -2548,8 +2548,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 4156,
-                        "end": 4652,
+                        "start": 4155,
+                        "end": 4651,
                         "ctxt": 0
                       },
                       "tagName": "switch",
@@ -2572,8 +2572,8 @@
                         {
                           "type": "Text",
                           "span": {
-                            "start": 4194,
-                            "end": 4207,
+                            "start": 4193,
+                            "end": 4206,
                             "ctxt": 0
                           },
                           "value": "\n            "
@@ -2581,8 +2581,8 @@
                         {
                           "type": "Element",
                           "span": {
-                            "start": 4207,
-                            "end": 4588,
+                            "start": 4206,
+                            "end": 4587,
                             "ctxt": 0
                           },
                           "tagName": "foreignObject",
@@ -2629,8 +2629,8 @@
                             {
                               "type": "Text",
                               "span": {
-                                "start": 4329,
-                                "end": 4346,
+                                "start": 4328,
+                                "end": 4345,
                                 "ctxt": 0
                               },
                               "value": "\n                "
@@ -2638,8 +2638,8 @@
                             {
                               "type": "Element",
                               "span": {
-                                "start": 4346,
-                                "end": 4568,
+                                "start": 4345,
+                                "end": 4567,
                                 "ctxt": 0
                               },
                               "tagName": "math",
@@ -2649,8 +2649,8 @@
                                 {
                                   "type": "Text",
                                   "span": {
-                                    "start": 4352,
-                                    "end": 4373,
+                                    "start": 4351,
+                                    "end": 4372,
                                     "ctxt": 0
                                   },
                                   "value": "\n                    "
@@ -2658,8 +2658,8 @@
                                 {
                                   "type": "Element",
                                   "span": {
-                                    "start": 4373,
-                                    "end": 4543,
+                                    "start": 4372,
+                                    "end": 4542,
                                     "ctxt": 0
                                   },
                                   "tagName": "msqrt",
@@ -2669,8 +2669,8 @@
                                     {
                                       "type": "Text",
                                       "span": {
-                                        "start": 4380,
-                                        "end": 4405,
+                                        "start": 4379,
+                                        "end": 4404,
                                         "ctxt": 0
                                       },
                                       "value": "\n                        "
@@ -2678,8 +2678,8 @@
                                     {
                                       "type": "Element",
                                       "span": {
-                                        "start": 4405,
-                                        "end": 4410,
+                                        "start": 4404,
+                                        "end": 4409,
                                         "ctxt": 0
                                       },
                                       "tagName": "mn",
@@ -2689,8 +2689,8 @@
                                         {
                                           "type": "Text",
                                           "span": {
-                                            "start": 4409,
-                                            "end": 4410,
+                                            "start": 4408,
+                                            "end": 4409,
                                             "ctxt": 0
                                           },
                                           "value": "2"
@@ -2701,8 +2701,8 @@
                                     {
                                       "type": "Text",
                                       "span": {
-                                        "start": 4415,
-                                        "end": 4440,
+                                        "start": 4414,
+                                        "end": 4439,
                                         "ctxt": 0
                                       },
                                       "value": "\n                        "
@@ -2710,8 +2710,8 @@
                                     {
                                       "type": "Element",
                                       "span": {
-                                        "start": 4440,
-                                        "end": 4445,
+                                        "start": 4439,
+                                        "end": 4444,
                                         "ctxt": 0
                                       },
                                       "tagName": "mi",
@@ -2721,8 +2721,8 @@
                                         {
                                           "type": "Text",
                                           "span": {
-                                            "start": 4444,
-                                            "end": 4445,
+                                            "start": 4443,
+                                            "end": 4444,
                                             "ctxt": 0
                                           },
                                           "value": "r"
@@ -2733,8 +2733,8 @@
                                     {
                                       "type": "Text",
                                       "span": {
-                                        "start": 4450,
-                                        "end": 4475,
+                                        "start": 4449,
+                                        "end": 4474,
                                         "ctxt": 0
                                       },
                                       "value": "\n                        "
@@ -2742,8 +2742,8 @@
                                     {
                                       "type": "Element",
                                       "span": {
-                                        "start": 4475,
-                                        "end": 4482,
+                                        "start": 4474,
+                                        "end": 4481,
                                         "ctxt": 0
                                       },
                                       "tagName": "mo",
@@ -2753,8 +2753,8 @@
                                         {
                                           "type": "Text",
                                           "span": {
-                                            "start": 4479,
-                                            "end": 4482,
+                                            "start": 4478,
+                                            "end": 4481,
                                             "ctxt": 0
                                           },
                                           "value": "−"
@@ -2765,8 +2765,8 @@
                                     {
                                       "type": "Text",
                                       "span": {
-                                        "start": 4487,
-                                        "end": 4512,
+                                        "start": 4486,
+                                        "end": 4511,
                                         "ctxt": 0
                                       },
                                       "value": "\n                        "
@@ -2774,8 +2774,8 @@
                                     {
                                       "type": "Element",
                                       "span": {
-                                        "start": 4512,
-                                        "end": 4517,
+                                        "start": 4511,
+                                        "end": 4516,
                                         "ctxt": 0
                                       },
                                       "tagName": "mn",
@@ -2785,8 +2785,8 @@
                                         {
                                           "type": "Text",
                                           "span": {
-                                            "start": 4516,
-                                            "end": 4517,
+                                            "start": 4515,
+                                            "end": 4516,
                                             "ctxt": 0
                                           },
                                           "value": "1"
@@ -2797,8 +2797,8 @@
                                     {
                                       "type": "Text",
                                       "span": {
-                                        "start": 4522,
-                                        "end": 4543,
+                                        "start": 4521,
+                                        "end": 4542,
                                         "ctxt": 0
                                       },
                                       "value": "\n                    "
@@ -2809,8 +2809,8 @@
                                 {
                                   "type": "Text",
                                   "span": {
-                                    "start": 4551,
-                                    "end": 4568,
+                                    "start": 4550,
+                                    "end": 4567,
                                     "ctxt": 0
                                   },
                                   "value": "\n                "
@@ -2821,8 +2821,8 @@
                             {
                               "type": "Text",
                               "span": {
-                                "start": 4575,
-                                "end": 4588,
+                                "start": 4574,
+                                "end": 4587,
                                 "ctxt": 0
                               },
                               "value": "\n            "
@@ -2833,8 +2833,8 @@
                         {
                           "type": "Text",
                           "span": {
-                            "start": 4604,
-                            "end": 4617,
+                            "start": 4603,
+                            "end": 4616,
                             "ctxt": 0
                           },
                           "value": "\n            "
@@ -2842,8 +2842,8 @@
                         {
                           "type": "Element",
                           "span": {
-                            "start": 4617,
-                            "end": 4636,
+                            "start": 4616,
+                            "end": 4635,
                             "ctxt": 0
                           },
                           "tagName": "text",
@@ -2853,8 +2853,8 @@
                             {
                               "type": "Text",
                               "span": {
-                                "start": 4623,
-                                "end": 4636,
+                                "start": 4622,
+                                "end": 4635,
                                 "ctxt": 0
                               },
                               "value": "\\sqrt{2r - 1}"
@@ -2865,8 +2865,8 @@
                         {
                           "type": "Text",
                           "span": {
-                            "start": 4643,
-                            "end": 4652,
+                            "start": 4642,
+                            "end": 4651,
                             "ctxt": 0
                           },
                           "value": "\n        "
@@ -2877,8 +2877,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 4661,
-                        "end": 4666,
+                        "start": 4660,
+                        "end": 4665,
                         "ctxt": 0
                       },
                       "value": "\n    "
@@ -2889,8 +2889,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 4670,
-                    "end": 4671,
+                    "start": 4669,
+                    "end": 4670,
                     "ctxt": 0
                   },
                   "value": "\n"
@@ -2901,8 +2901,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 4677,
-                "end": 4687,
+                "start": 4676,
+                "end": 4686,
                 "ctxt": 0
               },
               "value": "\n\n\n"

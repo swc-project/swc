@@ -1,8 +1,8 @@
 {
   "type": "Module",
   "span": {
-    "start": 103,
-    "end": 292,
+    "start": 102,
+    "end": 291,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 117,
-          "end": 129,
+          "start": 116,
+          "end": 128,
           "ctxt": 0
         },
         "value": "SpecialError",
@@ -20,8 +20,8 @@
       },
       "declare": true,
       "span": {
-        "start": 103,
-        "end": 146,
+        "start": 102,
+        "end": 145,
         "ctxt": 0
       },
       "decorators": [],
@@ -29,8 +29,8 @@
       "superClass": {
         "type": "Identifier",
         "span": {
-          "start": 138,
-          "end": 143,
+          "start": 137,
+          "end": 142,
           "ctxt": 0
         },
         "value": "Error",
@@ -44,15 +44,15 @@
     {
       "type": "TsExportAssignment",
       "span": {
-        "start": 147,
-        "end": 169,
+        "start": 146,
+        "end": 168,
         "ctxt": 0
       },
       "expression": {
         "type": "Identifier",
         "span": {
-          "start": 156,
-          "end": 168,
+          "start": 155,
+          "end": 167,
           "ctxt": 0
         },
         "value": "SpecialError",
@@ -62,8 +62,8 @@
     {
       "type": "TsImportEqualsDeclaration",
       "span": {
-        "start": 203,
-        "end": 249,
+        "start": 202,
+        "end": 248,
         "ctxt": 0
       },
       "declare": false,
@@ -72,8 +72,8 @@
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 215,
-          "end": 227,
+          "start": 214,
+          "end": 226,
           "ctxt": 0
         },
         "value": "SpecialError",
@@ -82,15 +82,15 @@
       "moduleRef": {
         "type": "TsExternalModuleReference",
         "span": {
-          "start": 230,
-          "end": 248,
+          "start": 229,
+          "end": 247,
           "ctxt": 0
         },
         "expression": {
           "type": "StringLiteral",
           "span": {
-            "start": 238,
-            "end": 247,
+            "start": 237,
+            "end": 246,
             "ctxt": 0
           },
           "value": "cjs-dep",
@@ -103,8 +103,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 259,
-          "end": 270,
+          "start": 258,
+          "end": 269,
           "ctxt": 0
         },
         "value": "handleError",
@@ -115,16 +115,16 @@
         {
           "type": "Parameter",
           "span": {
-            "start": 271,
-            "end": 288,
+            "start": 270,
+            "end": 287,
             "ctxt": 0
           },
           "decorators": [],
           "pat": {
             "type": "Identifier",
             "span": {
-              "start": 271,
-              "end": 288,
+              "start": 270,
+              "end": 287,
               "ctxt": 0
             },
             "value": "err",
@@ -132,22 +132,22 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 274,
-                "end": 288,
+                "start": 273,
+                "end": 287,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
-                  "start": 276,
-                  "end": 288,
+                  "start": 275,
+                  "end": 287,
                   "ctxt": 0
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
-                    "start": 276,
-                    "end": 288,
+                    "start": 275,
+                    "end": 287,
                     "ctxt": 0
                   },
                   "value": "SpecialError",
@@ -161,15 +161,15 @@
       ],
       "decorators": [],
       "span": {
-        "start": 250,
-        "end": 292,
+        "start": 249,
+        "end": 291,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 290,
-          "end": 292,
+          "start": 289,
+          "end": 291,
           "ctxt": 0
         },
         "stmts": []

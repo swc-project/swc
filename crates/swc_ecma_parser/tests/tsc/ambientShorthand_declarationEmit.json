@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 23,
-    "end": 44,
+    "start": 22,
+    "end": 43,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsModuleDeclaration",
       "span": {
-        "start": 23,
-        "end": 44,
+        "start": 22,
+        "end": 43,
         "ctxt": 0
       },
       "declare": true,
@@ -18,8 +18,8 @@
       "id": {
         "type": "StringLiteral",
         "span": {
-          "start": 38,
-          "end": 43,
+          "start": 37,
+          "end": 42,
           "ctxt": 0
         },
         "value": "foo",

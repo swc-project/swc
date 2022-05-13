@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 39,
-    "end": 124,
+    "start": 38,
+    "end": 123,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDefaultDeclaration",
       "span": {
-        "start": 39,
-        "end": 66,
+        "start": 38,
+        "end": 65,
         "ctxt": 0
       },
       "decl": {
@@ -18,16 +18,16 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 60,
-            "end": 63,
+            "start": 59,
+            "end": 62,
             "ctxt": 0
           },
           "value": "AA1",
           "optional": false
         },
         "span": {
-          "start": 54,
-          "end": 66,
+          "start": 53,
+          "end": 65,
           "ctxt": 0
         },
         "decorators": [],
@@ -42,8 +42,8 @@
     {
       "type": "ExportDefaultDeclaration",
       "span": {
-        "start": 68,
-        "end": 95,
+        "start": 67,
+        "end": 94,
         "ctxt": 0
       },
       "decl": {
@@ -51,16 +51,16 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 89,
-            "end": 92,
+            "start": 88,
+            "end": 91,
             "ctxt": 0
           },
           "value": "BB1",
           "optional": false
         },
         "span": {
-          "start": 83,
-          "end": 95,
+          "start": 82,
+          "end": 94,
           "ctxt": 0
         },
         "decorators": [],
@@ -75,8 +75,8 @@
     {
       "type": "ExportDefaultDeclaration",
       "span": {
-        "start": 97,
-        "end": 124,
+        "start": 96,
+        "end": 123,
         "ctxt": 0
       },
       "decl": {
@@ -84,16 +84,16 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 118,
-            "end": 121,
+            "start": 117,
+            "end": 120,
             "ctxt": 0
           },
           "value": "CC1",
           "optional": false
         },
         "span": {
-          "start": 112,
-          "end": 124,
+          "start": 111,
+          "end": 123,
           "ctxt": 0
         },
         "decorators": [],

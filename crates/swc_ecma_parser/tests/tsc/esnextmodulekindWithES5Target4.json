@@ -1,8 +1,8 @@
 {
   "type": "Module",
   "span": {
-    "start": 37,
-    "end": 66,
+    "start": 36,
+    "end": 65,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 43,
-          "end": 44,
+          "start": 42,
+          "end": 43,
           "ctxt": 0
         },
         "value": "E",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 37,
-        "end": 48,
+        "start": 36,
+        "end": 47,
         "ctxt": 0
       },
       "decorators": [],
@@ -35,15 +35,15 @@
     {
       "type": "ExportDefaultExpression",
       "span": {
-        "start": 49,
-        "end": 66,
+        "start": 48,
+        "end": 65,
         "ctxt": 0
       },
       "expression": {
         "type": "Identifier",
         "span": {
-          "start": 64,
-          "end": 65,
+          "start": 63,
+          "end": 64,
           "ctxt": 0
         },
         "value": "E",

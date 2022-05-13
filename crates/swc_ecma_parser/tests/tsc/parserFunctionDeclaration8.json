@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 40,
+    "start": 0,
+    "end": 39,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsModuleDeclaration",
       "span": {
-        "start": 1,
-        "end": 40,
+        "start": 0,
+        "end": 39,
         "ctxt": 0
       },
       "declare": true,
@@ -18,8 +18,8 @@
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 16,
-          "end": 17,
+          "start": 15,
+          "end": 16,
           "ctxt": 0
         },
         "value": "M",
@@ -28,8 +28,8 @@
       "body": {
         "type": "TsModuleBlock",
         "span": {
-          "start": 18,
-          "end": 40,
+          "start": 17,
+          "end": 39,
           "ctxt": 0
         },
         "body": [
@@ -38,8 +38,8 @@
             "identifier": {
               "type": "Identifier",
               "span": {
-                "start": 32,
-                "end": 35,
+                "start": 31,
+                "end": 34,
                 "ctxt": 0
               },
               "value": "foo",
@@ -49,8 +49,8 @@
             "params": [],
             "decorators": [],
             "span": {
-              "start": 23,
-              "end": 38,
+              "start": 22,
+              "end": 37,
               "ctxt": 0
             },
             "body": null,

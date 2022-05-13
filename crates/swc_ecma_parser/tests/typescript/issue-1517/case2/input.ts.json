@@ -1,24 +1,24 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 65,
+    "start": 0,
+    "end": 64,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsTypeAliasDeclaration",
       "span": {
-        "start": 1,
-        "end": 65,
+        "start": 0,
+        "end": 64,
         "ctxt": 0
       },
       "declare": false,
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 6,
-          "end": 7,
+          "start": 5,
+          "end": 6,
           "ctxt": 0
         },
         "value": "Y",
@@ -28,24 +28,24 @@
       "typeAnnotation": {
         "type": "TsTypeLiteral",
         "span": {
-          "start": 10,
-          "end": 65,
+          "start": 9,
+          "end": 64,
           "ctxt": 0
         },
         "members": [
           {
             "type": "TsGetterSignature",
             "span": {
-              "start": 16,
-              "end": 34,
+              "start": 15,
+              "end": 33,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 20,
-                "end": 23,
+                "start": 19,
+                "end": 22,
                 "ctxt": 0
               },
               "value": "bar",
@@ -56,15 +56,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 25,
-                "end": 33,
+                "start": 24,
+                "end": 32,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 27,
-                  "end": 33,
+                  "start": 26,
+                  "end": 32,
                   "ctxt": 0
                 },
                 "kind": "string"
@@ -74,16 +74,16 @@
           {
             "type": "TsSetterSignature",
             "span": {
-              "start": 35,
-              "end": 63,
+              "start": 34,
+              "end": 62,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 39,
-                "end": 42,
+                "start": 38,
+                "end": 41,
                 "ctxt": 0
               },
               "value": "bar",
@@ -94,8 +94,8 @@
             "param": {
               "type": "Identifier",
               "span": {
-                "start": 43,
-                "end": 61,
+                "start": 42,
+                "end": 60,
                 "ctxt": 0
               },
               "value": "v",
@@ -103,23 +103,23 @@
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
-                  "start": 44,
-                  "end": 61,
+                  "start": 43,
+                  "end": 60,
                   "ctxt": 0
                 },
                 "typeAnnotation": {
                   "type": "TsUnionType",
                   "span": {
-                    "start": 46,
-                    "end": 61,
+                    "start": 45,
+                    "end": 60,
                     "ctxt": 0
                   },
                   "types": [
                     {
                       "type": "TsKeywordType",
                       "span": {
-                        "start": 46,
-                        "end": 52,
+                        "start": 45,
+                        "end": 51,
                         "ctxt": 0
                       },
                       "kind": "string"
@@ -127,8 +127,8 @@
                     {
                       "type": "TsKeywordType",
                       "span": {
-                        "start": 55,
-                        "end": 61,
+                        "start": 54,
+                        "end": 60,
                         "ctxt": 0
                       },
                       "kind": "number"

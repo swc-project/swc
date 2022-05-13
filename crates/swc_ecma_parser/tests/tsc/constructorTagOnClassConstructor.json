@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 80,
-    "end": 204,
+    "start": 79,
+    "end": 203,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 80,
-        "end": 102,
+        "start": 79,
+        "end": 101,
         "ctxt": 0
       },
       "declaration": {
@@ -18,8 +18,8 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 93,
-            "end": 98,
+            "start": 92,
+            "end": 97,
             "ctxt": 0
           },
           "value": "Alpha",
@@ -27,8 +27,8 @@
         },
         "declare": false,
         "span": {
-          "start": 87,
-          "end": 102,
+          "start": 86,
+          "end": 101,
           "ctxt": 0
         },
         "decorators": [],
@@ -43,8 +43,8 @@
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 103,
-        "end": 176,
+        "start": 102,
+        "end": 175,
         "ctxt": 0
       },
       "declaration": {
@@ -52,8 +52,8 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 116,
-            "end": 120,
+            "start": 115,
+            "end": 119,
             "ctxt": 0
           },
           "value": "Beta",
@@ -61,8 +61,8 @@
         },
         "declare": false,
         "span": {
-          "start": 110,
-          "end": 176,
+          "start": 109,
+          "end": 175,
           "ctxt": 0
         },
         "decorators": [],
@@ -70,15 +70,15 @@
           {
             "type": "Constructor",
             "span": {
-              "start": 155,
-              "end": 174,
+              "start": 154,
+              "end": 173,
               "ctxt": 0
             },
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 155,
-                "end": 166,
+                "start": 154,
+                "end": 165,
                 "ctxt": 0
               },
               "value": "constructor",
@@ -88,8 +88,8 @@
             "body": {
               "type": "BlockStatement",
               "span": {
-                "start": 169,
-                "end": 174,
+                "start": 168,
+                "end": 173,
                 "ctxt": 0
               },
               "stmts": []
@@ -108,8 +108,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 178,
-        "end": 204,
+        "start": 177,
+        "end": 203,
         "ctxt": 0
       },
       "kind": "const",
@@ -118,15 +118,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 184,
-            "end": 203,
+            "start": 183,
+            "end": 202,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 184,
-              "end": 187,
+              "start": 183,
+              "end": 186,
               "ctxt": 0
             },
             "value": "arr",
@@ -136,8 +136,8 @@
           "init": {
             "type": "ArrayExpression",
             "span": {
-              "start": 190,
-              "end": 203,
+              "start": 189,
+              "end": 202,
               "ctxt": 0
             },
             "elements": [
@@ -146,8 +146,8 @@
                 "expression": {
                   "type": "Identifier",
                   "span": {
-                    "start": 191,
-                    "end": 196,
+                    "start": 190,
+                    "end": 195,
                     "ctxt": 0
                   },
                   "value": "Alpha",
@@ -159,8 +159,8 @@
                 "expression": {
                   "type": "Identifier",
                   "span": {
-                    "start": 198,
-                    "end": 202,
+                    "start": 197,
+                    "end": 201,
                     "ctxt": 0
                   },
                   "value": "Beta",

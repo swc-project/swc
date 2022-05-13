@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 16,
-    "end": 88,
+    "start": 15,
+    "end": 87,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 16,
-        "end": 63,
+        "start": 15,
+        "end": 62,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 20,
-            "end": 62,
+            "start": 19,
+            "end": 61,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 20,
-              "end": 25,
+              "start": 19,
+              "end": 24,
               "ctxt": 0
             },
             "value": "union",
@@ -35,23 +35,23 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 25,
-                "end": 62,
+                "start": 24,
+                "end": 61,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsUnionType",
                 "span": {
-                  "start": 27,
-                  "end": 62,
+                  "start": 26,
+                  "end": 61,
                   "ctxt": 0
                 },
                 "types": [
                   {
                     "type": "TsKeywordType",
                     "span": {
-                      "start": 27,
-                      "end": 33,
+                      "start": 26,
+                      "end": 32,
                       "ctxt": 0
                     },
                     "kind": "string"
@@ -59,15 +59,15 @@
                   {
                     "type": "TsArrayType",
                     "span": {
-                      "start": 36,
-                      "end": 44,
+                      "start": 35,
+                      "end": 43,
                       "ctxt": 0
                     },
                     "elemType": {
                       "type": "TsKeywordType",
                       "span": {
-                        "start": 36,
-                        "end": 42,
+                        "start": 35,
+                        "end": 41,
                         "ctxt": 0
                       },
                       "kind": "string"
@@ -76,8 +76,8 @@
                   {
                     "type": "TsKeywordType",
                     "span": {
-                      "start": 47,
-                      "end": 53,
+                      "start": 46,
+                      "end": 52,
                       "ctxt": 0
                     },
                     "kind": "number"
@@ -85,8 +85,8 @@
                   {
                     "type": "TsKeywordType",
                     "span": {
-                      "start": 56,
-                      "end": 62,
+                      "start": 55,
+                      "end": 61,
                       "ctxt": 0
                     },
                     "kind": "symbol"
@@ -103,16 +103,16 @@
     {
       "type": "ForOfStatement",
       "span": {
-        "start": 64,
-        "end": 88,
+        "start": 63,
+        "end": 87,
         "ctxt": 0
       },
       "await": null,
       "left": {
         "type": "VariableDeclaration",
         "span": {
-          "start": 69,
-          "end": 74,
+          "start": 68,
+          "end": 73,
           "ctxt": 0
         },
         "kind": "let",
@@ -121,15 +121,15 @@
           {
             "type": "VariableDeclarator",
             "span": {
-              "start": 73,
-              "end": 74,
+              "start": 72,
+              "end": 73,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 73,
-                "end": 74,
+                "start": 72,
+                "end": 73,
                 "ctxt": 0
               },
               "value": "v",
@@ -144,8 +144,8 @@
       "right": {
         "type": "Identifier",
         "span": {
-          "start": 78,
-          "end": 83,
+          "start": 77,
+          "end": 82,
           "ctxt": 0
         },
         "value": "union",
@@ -154,8 +154,8 @@
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 85,
-          "end": 88,
+          "start": 84,
+          "end": 87,
           "ctxt": 0
         },
         "stmts": []

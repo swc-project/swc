@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 172,
-    "end": 206,
+    "start": 171,
+    "end": 205,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 172,
-        "end": 178,
+        "start": 171,
+        "end": 177,
         "ctxt": 0
       },
       "kind": "let",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 176,
-            "end": 177,
+            "start": 175,
+            "end": 176,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 176,
-              "end": 177,
+              "start": 175,
+              "end": 176,
               "ctxt": 0
             },
             "value": "A",
@@ -42,23 +42,23 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 179,
-        "end": 186,
+        "start": 178,
+        "end": 185,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 179,
-          "end": 185,
+          "start": 178,
+          "end": 184,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "Identifier",
           "span": {
-            "start": 179,
-            "end": 180,
+            "start": 178,
+            "end": 179,
             "ctxt": 0
           },
           "value": "A",
@@ -68,8 +68,8 @@
         "right": {
           "type": "ObjectExpression",
           "span": {
-            "start": 183,
-            "end": 185,
+            "start": 182,
+            "end": 184,
             "ctxt": 0
           },
           "properties": []
@@ -79,37 +79,37 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 187,
-        "end": 206,
+        "start": 186,
+        "end": 205,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 187,
-          "end": 205,
+          "start": 186,
+          "end": 204,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
-            "start": 187,
-            "end": 200,
+            "start": 186,
+            "end": 199,
             "ctxt": 0
           },
           "object": {
             "type": "MemberExpression",
             "span": {
-              "start": 187,
-              "end": 198,
+              "start": 186,
+              "end": 197,
               "ctxt": 0
             },
             "object": {
               "type": "Identifier",
               "span": {
-                "start": 187,
-                "end": 188,
+                "start": 186,
+                "end": 187,
                 "ctxt": 0
               },
               "value": "A",
@@ -118,8 +118,8 @@
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 189,
-                "end": 198,
+                "start": 188,
+                "end": 197,
                 "ctxt": 0
               },
               "value": "prototype",
@@ -129,8 +129,8 @@
           "property": {
             "type": "Identifier",
             "span": {
-              "start": 199,
-              "end": 200,
+              "start": 198,
+              "end": 199,
               "ctxt": 0
             },
             "value": "b",
@@ -140,8 +140,8 @@
         "right": {
           "type": "ObjectExpression",
           "span": {
-            "start": 203,
-            "end": 205,
+            "start": 202,
+            "end": 204,
             "ctxt": 0
           },
           "properties": []

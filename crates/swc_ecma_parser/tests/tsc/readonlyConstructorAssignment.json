@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 86,
-    "end": 759,
+    "start": 85,
+    "end": 758,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 92,
-          "end": 93,
+          "start": 91,
+          "end": 92,
           "ctxt": 0
         },
         "value": "A",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 86,
-        "end": 161,
+        "start": 85,
+        "end": 160,
         "ctxt": 0
       },
       "decorators": [],
@@ -29,15 +29,15 @@
         {
           "type": "Constructor",
           "span": {
-            "start": 100,
-            "end": 159,
+            "start": 99,
+            "end": 158,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 100,
-              "end": 111,
+              "start": 99,
+              "end": 110,
               "ctxt": 0
             },
             "value": "constructor",
@@ -47,8 +47,8 @@
             {
               "type": "TsParameterProperty",
               "span": {
-                "start": 112,
-                "end": 130,
+                "start": 111,
+                "end": 129,
                 "ctxt": 0
               },
               "decorators": [],
@@ -58,8 +58,8 @@
               "param": {
                 "type": "Identifier",
                 "span": {
-                  "start": 121,
-                  "end": 130,
+                  "start": 120,
+                  "end": 129,
                   "ctxt": 0
                 },
                 "value": "x",
@@ -67,15 +67,15 @@
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
-                    "start": 122,
-                    "end": 130,
+                    "start": 121,
+                    "end": 129,
                     "ctxt": 0
                   },
                   "typeAnnotation": {
                     "type": "TsKeywordType",
                     "span": {
-                      "start": 124,
-                      "end": 130,
+                      "start": 123,
+                      "end": 129,
                       "ctxt": 0
                     },
                     "kind": "number"
@@ -87,46 +87,46 @@
           "body": {
             "type": "BlockStatement",
             "span": {
-              "start": 132,
-              "end": 159,
+              "start": 131,
+              "end": 158,
               "ctxt": 0
             },
             "stmts": [
               {
                 "type": "ExpressionStatement",
                 "span": {
-                  "start": 142,
-                  "end": 153,
+                  "start": 141,
+                  "end": 152,
                   "ctxt": 0
                 },
                 "expression": {
                   "type": "AssignmentExpression",
                   "span": {
-                    "start": 142,
-                    "end": 152,
+                    "start": 141,
+                    "end": 151,
                     "ctxt": 0
                   },
                   "operator": "=",
                   "left": {
                     "type": "MemberExpression",
                     "span": {
-                      "start": 142,
-                      "end": 148,
+                      "start": 141,
+                      "end": 147,
                       "ctxt": 0
                     },
                     "object": {
                       "type": "ThisExpression",
                       "span": {
-                        "start": 142,
-                        "end": 146,
+                        "start": 141,
+                        "end": 145,
                         "ctxt": 0
                       }
                     },
                     "property": {
                       "type": "Identifier",
                       "span": {
-                        "start": 147,
-                        "end": 148,
+                        "start": 146,
+                        "end": 147,
                         "ctxt": 0
                       },
                       "value": "x",
@@ -136,8 +136,8 @@
                   "right": {
                     "type": "NumericLiteral",
                     "span": {
-                      "start": 151,
-                      "end": 152,
+                      "start": 150,
+                      "end": 151,
                       "ctxt": 0
                     },
                     "value": 0.0,
@@ -162,8 +162,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 169,
-          "end": 170,
+          "start": 168,
+          "end": 169,
           "ctxt": 0
         },
         "value": "B",
@@ -171,8 +171,8 @@
       },
       "declare": false,
       "span": {
-        "start": 163,
-        "end": 289,
+        "start": 162,
+        "end": 288,
         "ctxt": 0
       },
       "decorators": [],
@@ -180,15 +180,15 @@
         {
           "type": "Constructor",
           "span": {
-            "start": 187,
-            "end": 287,
+            "start": 186,
+            "end": 286,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 187,
-              "end": 198,
+              "start": 186,
+              "end": 197,
               "ctxt": 0
             },
             "value": "constructor",
@@ -198,16 +198,16 @@
             {
               "type": "Parameter",
               "span": {
-                "start": 199,
-                "end": 208,
+                "start": 198,
+                "end": 207,
                 "ctxt": 0
               },
               "decorators": [],
               "pat": {
                 "type": "Identifier",
                 "span": {
-                  "start": 199,
-                  "end": 208,
+                  "start": 198,
+                  "end": 207,
                   "ctxt": 0
                 },
                 "value": "x",
@@ -215,15 +215,15 @@
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
-                    "start": 200,
-                    "end": 208,
+                    "start": 199,
+                    "end": 207,
                     "ctxt": 0
                   },
                   "typeAnnotation": {
                     "type": "TsKeywordType",
                     "span": {
-                      "start": 202,
-                      "end": 208,
+                      "start": 201,
+                      "end": 207,
                       "ctxt": 0
                     },
                     "kind": "number"
@@ -235,30 +235,30 @@
           "body": {
             "type": "BlockStatement",
             "span": {
-              "start": 210,
-              "end": 287,
+              "start": 209,
+              "end": 286,
               "ctxt": 0
             },
             "stmts": [
               {
                 "type": "ExpressionStatement",
                 "span": {
-                  "start": 220,
-                  "end": 229,
+                  "start": 219,
+                  "end": 228,
                   "ctxt": 0
                 },
                 "expression": {
                   "type": "CallExpression",
                   "span": {
-                    "start": 220,
-                    "end": 228,
+                    "start": 219,
+                    "end": 227,
                     "ctxt": 0
                   },
                   "callee": {
                     "type": "Super",
                     "span": {
-                      "start": 220,
-                      "end": 225,
+                      "start": 219,
+                      "end": 224,
                       "ctxt": 0
                     }
                   },
@@ -268,8 +268,8 @@
                       "expression": {
                         "type": "Identifier",
                         "span": {
-                          "start": 226,
-                          "end": 227,
+                          "start": 225,
+                          "end": 226,
                           "ctxt": 0
                         },
                         "value": "x",
@@ -283,38 +283,38 @@
               {
                 "type": "ExpressionStatement",
                 "span": {
-                  "start": 270,
-                  "end": 281,
+                  "start": 269,
+                  "end": 280,
                   "ctxt": 0
                 },
                 "expression": {
                   "type": "AssignmentExpression",
                   "span": {
-                    "start": 270,
-                    "end": 280,
+                    "start": 269,
+                    "end": 279,
                     "ctxt": 0
                   },
                   "operator": "=",
                   "left": {
                     "type": "MemberExpression",
                     "span": {
-                      "start": 270,
-                      "end": 276,
+                      "start": 269,
+                      "end": 275,
                       "ctxt": 0
                     },
                     "object": {
                       "type": "ThisExpression",
                       "span": {
-                        "start": 270,
-                        "end": 274,
+                        "start": 269,
+                        "end": 273,
                         "ctxt": 0
                       }
                     },
                     "property": {
                       "type": "Identifier",
                       "span": {
-                        "start": 275,
-                        "end": 276,
+                        "start": 274,
+                        "end": 275,
                         "ctxt": 0
                       },
                       "value": "x",
@@ -324,8 +324,8 @@
                   "right": {
                     "type": "NumericLiteral",
                     "span": {
-                      "start": 279,
-                      "end": 280,
+                      "start": 278,
+                      "end": 279,
                       "ctxt": 0
                     },
                     "value": 1.0,
@@ -342,8 +342,8 @@
       "superClass": {
         "type": "Identifier",
         "span": {
-          "start": 179,
-          "end": 180,
+          "start": 178,
+          "end": 179,
           "ctxt": 0
         },
         "value": "A",
@@ -359,8 +359,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 297,
-          "end": 298,
+          "start": 296,
+          "end": 297,
           "ctxt": 0
         },
         "value": "C",
@@ -368,8 +368,8 @@
       },
       "declare": false,
       "span": {
-        "start": 291,
-        "end": 525,
+        "start": 290,
+        "end": 524,
         "ctxt": 0
       },
       "decorators": [],
@@ -377,15 +377,15 @@
         {
           "type": "Constructor",
           "span": {
-            "start": 446,
-            "end": 523,
+            "start": 445,
+            "end": 522,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 446,
-              "end": 457,
+              "start": 445,
+              "end": 456,
               "ctxt": 0
             },
             "value": "constructor",
@@ -395,8 +395,8 @@
             {
               "type": "TsParameterProperty",
               "span": {
-                "start": 458,
-                "end": 476,
+                "start": 457,
+                "end": 475,
                 "ctxt": 0
               },
               "decorators": [],
@@ -406,8 +406,8 @@
               "param": {
                 "type": "Identifier",
                 "span": {
-                  "start": 467,
-                  "end": 476,
+                  "start": 466,
+                  "end": 475,
                   "ctxt": 0
                 },
                 "value": "x",
@@ -415,15 +415,15 @@
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
-                    "start": 468,
-                    "end": 476,
+                    "start": 467,
+                    "end": 475,
                     "ctxt": 0
                   },
                   "typeAnnotation": {
                     "type": "TsKeywordType",
                     "span": {
-                      "start": 470,
-                      "end": 476,
+                      "start": 469,
+                      "end": 475,
                       "ctxt": 0
                     },
                     "kind": "number"
@@ -435,30 +435,30 @@
           "body": {
             "type": "BlockStatement",
             "span": {
-              "start": 478,
-              "end": 523,
+              "start": 477,
+              "end": 522,
               "ctxt": 0
             },
             "stmts": [
               {
                 "type": "ExpressionStatement",
                 "span": {
-                  "start": 488,
-                  "end": 497,
+                  "start": 487,
+                  "end": 496,
                   "ctxt": 0
                 },
                 "expression": {
                   "type": "CallExpression",
                   "span": {
-                    "start": 488,
-                    "end": 496,
+                    "start": 487,
+                    "end": 495,
                     "ctxt": 0
                   },
                   "callee": {
                     "type": "Super",
                     "span": {
-                      "start": 488,
-                      "end": 493,
+                      "start": 487,
+                      "end": 492,
                       "ctxt": 0
                     }
                   },
@@ -468,8 +468,8 @@
                       "expression": {
                         "type": "Identifier",
                         "span": {
-                          "start": 494,
-                          "end": 495,
+                          "start": 493,
+                          "end": 494,
                           "ctxt": 0
                         },
                         "value": "x",
@@ -483,38 +483,38 @@
               {
                 "type": "ExpressionStatement",
                 "span": {
-                  "start": 506,
-                  "end": 517,
+                  "start": 505,
+                  "end": 516,
                   "ctxt": 0
                 },
                 "expression": {
                   "type": "AssignmentExpression",
                   "span": {
-                    "start": 506,
-                    "end": 516,
+                    "start": 505,
+                    "end": 515,
                     "ctxt": 0
                   },
                   "operator": "=",
                   "left": {
                     "type": "MemberExpression",
                     "span": {
-                      "start": 506,
-                      "end": 512,
+                      "start": 505,
+                      "end": 511,
                       "ctxt": 0
                     },
                     "object": {
                       "type": "ThisExpression",
                       "span": {
-                        "start": 506,
-                        "end": 510,
+                        "start": 505,
+                        "end": 509,
                         "ctxt": 0
                       }
                     },
                     "property": {
                       "type": "Identifier",
                       "span": {
-                        "start": 511,
-                        "end": 512,
+                        "start": 510,
+                        "end": 511,
                         "ctxt": 0
                       },
                       "value": "x",
@@ -524,8 +524,8 @@
                   "right": {
                     "type": "NumericLiteral",
                     "span": {
-                      "start": 515,
-                      "end": 516,
+                      "start": 514,
+                      "end": 515,
                       "ctxt": 0
                     },
                     "value": 1.0,
@@ -542,8 +542,8 @@
       "superClass": {
         "type": "Identifier",
         "span": {
-          "start": 307,
-          "end": 308,
+          "start": 306,
+          "end": 307,
           "ctxt": 0
         },
         "value": "A",
@@ -559,8 +559,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 533,
-          "end": 534,
+          "start": 532,
+          "end": 533,
           "ctxt": 0
         },
         "value": "D",
@@ -568,8 +568,8 @@
       },
       "declare": false,
       "span": {
-        "start": 527,
-        "end": 610,
+        "start": 526,
+        "end": 609,
         "ctxt": 0
       },
       "decorators": [],
@@ -577,15 +577,15 @@
         {
           "type": "Constructor",
           "span": {
-            "start": 541,
-            "end": 608,
+            "start": 540,
+            "end": 607,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 541,
-              "end": 552,
+              "start": 540,
+              "end": 551,
               "ctxt": 0
             },
             "value": "constructor",
@@ -595,8 +595,8 @@
             {
               "type": "TsParameterProperty",
               "span": {
-                "start": 553,
-                "end": 579,
+                "start": 552,
+                "end": 578,
                 "ctxt": 0
               },
               "decorators": [],
@@ -606,8 +606,8 @@
               "param": {
                 "type": "Identifier",
                 "span": {
-                  "start": 570,
-                  "end": 579,
+                  "start": 569,
+                  "end": 578,
                   "ctxt": 0
                 },
                 "value": "x",
@@ -615,15 +615,15 @@
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
-                    "start": 571,
-                    "end": 579,
+                    "start": 570,
+                    "end": 578,
                     "ctxt": 0
                   },
                   "typeAnnotation": {
                     "type": "TsKeywordType",
                     "span": {
-                      "start": 573,
-                      "end": 579,
+                      "start": 572,
+                      "end": 578,
                       "ctxt": 0
                     },
                     "kind": "number"
@@ -635,46 +635,46 @@
           "body": {
             "type": "BlockStatement",
             "span": {
-              "start": 581,
-              "end": 608,
+              "start": 580,
+              "end": 607,
               "ctxt": 0
             },
             "stmts": [
               {
                 "type": "ExpressionStatement",
                 "span": {
-                  "start": 591,
-                  "end": 602,
+                  "start": 590,
+                  "end": 601,
                   "ctxt": 0
                 },
                 "expression": {
                   "type": "AssignmentExpression",
                   "span": {
-                    "start": 591,
-                    "end": 601,
+                    "start": 590,
+                    "end": 600,
                     "ctxt": 0
                   },
                   "operator": "=",
                   "left": {
                     "type": "MemberExpression",
                     "span": {
-                      "start": 591,
-                      "end": 597,
+                      "start": 590,
+                      "end": 596,
                       "ctxt": 0
                     },
                     "object": {
                       "type": "ThisExpression",
                       "span": {
-                        "start": 591,
-                        "end": 595,
+                        "start": 590,
+                        "end": 594,
                         "ctxt": 0
                       }
                     },
                     "property": {
                       "type": "Identifier",
                       "span": {
-                        "start": 596,
-                        "end": 597,
+                        "start": 595,
+                        "end": 596,
                         "ctxt": 0
                       },
                       "value": "x",
@@ -684,8 +684,8 @@
                   "right": {
                     "type": "NumericLiteral",
                     "span": {
-                      "start": 600,
-                      "end": 601,
+                      "start": 599,
+                      "end": 600,
                       "ctxt": 0
                     },
                     "value": 0.0,
@@ -710,8 +710,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 662,
-          "end": 663,
+          "start": 661,
+          "end": 662,
           "ctxt": 0
         },
         "value": "E",
@@ -719,8 +719,8 @@
       },
       "declare": false,
       "span": {
-        "start": 656,
-        "end": 759,
+        "start": 655,
+        "end": 758,
         "ctxt": 0
       },
       "decorators": [],
@@ -728,15 +728,15 @@
         {
           "type": "Constructor",
           "span": {
-            "start": 680,
-            "end": 757,
+            "start": 679,
+            "end": 756,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 680,
-              "end": 691,
+              "start": 679,
+              "end": 690,
               "ctxt": 0
             },
             "value": "constructor",
@@ -746,8 +746,8 @@
             {
               "type": "TsParameterProperty",
               "span": {
-                "start": 692,
-                "end": 710,
+                "start": 691,
+                "end": 709,
                 "ctxt": 0
               },
               "decorators": [],
@@ -757,8 +757,8 @@
               "param": {
                 "type": "Identifier",
                 "span": {
-                  "start": 701,
-                  "end": 710,
+                  "start": 700,
+                  "end": 709,
                   "ctxt": 0
                 },
                 "value": "x",
@@ -766,15 +766,15 @@
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
-                    "start": 702,
-                    "end": 710,
+                    "start": 701,
+                    "end": 709,
                     "ctxt": 0
                   },
                   "typeAnnotation": {
                     "type": "TsKeywordType",
                     "span": {
-                      "start": 704,
-                      "end": 710,
+                      "start": 703,
+                      "end": 709,
                       "ctxt": 0
                     },
                     "kind": "number"
@@ -786,30 +786,30 @@
           "body": {
             "type": "BlockStatement",
             "span": {
-              "start": 712,
-              "end": 757,
+              "start": 711,
+              "end": 756,
               "ctxt": 0
             },
             "stmts": [
               {
                 "type": "ExpressionStatement",
                 "span": {
-                  "start": 722,
-                  "end": 731,
+                  "start": 721,
+                  "end": 730,
                   "ctxt": 0
                 },
                 "expression": {
                   "type": "CallExpression",
                   "span": {
-                    "start": 722,
-                    "end": 730,
+                    "start": 721,
+                    "end": 729,
                     "ctxt": 0
                   },
                   "callee": {
                     "type": "Super",
                     "span": {
-                      "start": 722,
-                      "end": 727,
+                      "start": 721,
+                      "end": 726,
                       "ctxt": 0
                     }
                   },
@@ -819,8 +819,8 @@
                       "expression": {
                         "type": "Identifier",
                         "span": {
-                          "start": 728,
-                          "end": 729,
+                          "start": 727,
+                          "end": 728,
                           "ctxt": 0
                         },
                         "value": "x",
@@ -834,38 +834,38 @@
               {
                 "type": "ExpressionStatement",
                 "span": {
-                  "start": 740,
-                  "end": 751,
+                  "start": 739,
+                  "end": 750,
                   "ctxt": 0
                 },
                 "expression": {
                   "type": "AssignmentExpression",
                   "span": {
-                    "start": 740,
-                    "end": 750,
+                    "start": 739,
+                    "end": 749,
                     "ctxt": 0
                   },
                   "operator": "=",
                   "left": {
                     "type": "MemberExpression",
                     "span": {
-                      "start": 740,
-                      "end": 746,
+                      "start": 739,
+                      "end": 745,
                       "ctxt": 0
                     },
                     "object": {
                       "type": "ThisExpression",
                       "span": {
-                        "start": 740,
-                        "end": 744,
+                        "start": 739,
+                        "end": 743,
                         "ctxt": 0
                       }
                     },
                     "property": {
                       "type": "Identifier",
                       "span": {
-                        "start": 745,
-                        "end": 746,
+                        "start": 744,
+                        "end": 745,
                         "ctxt": 0
                       },
                       "value": "x",
@@ -875,8 +875,8 @@
                   "right": {
                     "type": "NumericLiteral",
                     "span": {
-                      "start": 749,
-                      "end": 750,
+                      "start": 748,
+                      "end": 749,
                       "ctxt": 0
                     },
                     "value": 1.0,
@@ -893,8 +893,8 @@
       "superClass": {
         "type": "Identifier",
         "span": {
-          "start": 672,
-          "end": 673,
+          "start": 671,
+          "end": 672,
           "ctxt": 0
         },
         "value": "D",

@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 1,
-    "end": 56,
+    "start": 0,
+    "end": 55,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -10,8 +10,8 @@
     {
       "type": "DocumentType",
       "span": {
-        "start": 1,
-        "end": 16,
+        "start": 0,
+        "end": 15,
         "ctxt": 0
       },
       "name": "html",
@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 56,
+        "end": 55,
         "ctxt": 0
       },
       "tagName": "html",
@@ -33,7 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 17,
+            "end": 16,
             "ctxt": 0
           },
           "tagName": "head",
@@ -46,7 +46,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 56,
+            "end": 55,
             "ctxt": 0
           },
           "tagName": "body",
@@ -56,8 +56,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 16,
-                "end": 17,
+                "start": 15,
+                "end": 16,
                 "ctxt": 0
               },
               "value": "A"
@@ -65,8 +65,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 17,
-                "end": 26,
+                "start": 16,
+                "end": 25,
                 "ctxt": 0
               },
               "tagName": "option",
@@ -76,8 +76,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 25,
-                    "end": 26,
+                    "start": 24,
+                    "end": 25,
                     "ctxt": 0
                   },
                   "value": "B"
@@ -88,8 +88,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 26,
-                "end": 56,
+                "start": 25,
+                "end": 55,
                 "ctxt": 0
               },
               "tagName": "optgroup",
@@ -99,8 +99,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 36,
-                    "end": 37,
+                    "start": 35,
+                    "end": 36,
                     "ctxt": 0
                   },
                   "value": "C"
@@ -108,8 +108,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 37,
-                    "end": 56,
+                    "start": 36,
+                    "end": 55,
                     "ctxt": 0
                   },
                   "tagName": "select",
@@ -119,8 +119,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 45,
-                        "end": 56,
+                        "start": 44,
+                        "end": 55,
                         "ctxt": 0
                       },
                       "value": "DE"

@@ -1,16 +1,16 @@
 {
   "type": "DocumentFragment",
   "span": {
-    "start": 1,
-    "end": 23,
+    "start": 0,
+    "end": 22,
     "ctxt": 0
   },
   "children": [
     {
       "type": "Element",
       "span": {
-        "start": 1,
-        "end": 19,
+        "start": 0,
+        "end": 18,
         "ctxt": 0
       },
       "tagName": "math",
@@ -20,8 +20,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 7,
-            "end": 19,
+            "start": 6,
+            "end": 18,
             "ctxt": 0
           },
           "tagName": "tr",
@@ -31,8 +31,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 11,
-                "end": 19,
+                "start": 10,
+                "end": 18,
                 "ctxt": 0
               },
               "tagName": "td",
@@ -42,8 +42,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 15,
-                    "end": 19,
+                    "start": 14,
+                    "end": 18,
                     "ctxt": 0
                   },
                   "tagName": "mo",

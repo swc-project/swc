@@ -1,23 +1,23 @@
 {
   "type": "Module",
   "span": {
-    "start": 1,
-    "end": 28,
+    "start": 0,
+    "end": 27,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 1,
-        "end": 28,
+        "start": 0,
+        "end": 27,
         "ctxt": 0
       },
       "expression": {
         "type": "JSXElement",
         "span": {
-          "start": 1,
-          "end": 28,
+          "start": 0,
+          "end": 27,
           "ctxt": 0
         },
         "opening": {
@@ -25,31 +25,31 @@
           "name": {
             "type": "Identifier",
             "span": {
-              "start": 2,
-              "end": 3,
+              "start": 1,
+              "end": 2,
               "ctxt": 0
             },
             "value": "a",
             "optional": false
           },
           "span": {
-            "start": 1,
-            "end": 28,
+            "start": 0,
+            "end": 27,
             "ctxt": 0
           },
           "attributes": [
             {
               "type": "JSXAttribute",
               "span": {
-                "start": 4,
-                "end": 25,
+                "start": 3,
+                "end": 24,
                 "ctxt": 0
               },
               "name": {
                 "type": "Identifier",
                 "span": {
-                  "start": 4,
-                  "end": 5,
+                  "start": 3,
+                  "end": 4,
                   "ctxt": 0
                 },
                 "value": "b",
@@ -58,22 +58,22 @@
               "value": {
                 "type": "JSXExpressionContainer",
                 "span": {
-                  "start": 6,
-                  "end": 25,
+                  "start": 5,
+                  "end": 24,
                   "ctxt": 0
                 },
                 "expression": {
                   "type": "ConditionalExpression",
                   "span": {
-                    "start": 7,
-                    "end": 24,
+                    "start": 6,
+                    "end": 23,
                     "ctxt": 0
                   },
                   "test": {
                     "type": "Identifier",
                     "span": {
-                      "start": 7,
-                      "end": 8,
+                      "start": 6,
+                      "end": 7,
                       "ctxt": 0
                     },
                     "value": "x",
@@ -82,8 +82,8 @@
                   "consequent": {
                     "type": "JSXElement",
                     "span": {
-                      "start": 11,
-                      "end": 16,
+                      "start": 10,
+                      "end": 15,
                       "ctxt": 0
                     },
                     "opening": {
@@ -91,16 +91,16 @@
                       "name": {
                         "type": "Identifier",
                         "span": {
-                          "start": 12,
-                          "end": 13,
+                          "start": 11,
+                          "end": 12,
                           "ctxt": 0
                         },
                         "value": "c",
                         "optional": false
                       },
                       "span": {
-                        "start": 11,
-                        "end": 16,
+                        "start": 10,
+                        "end": 15,
                         "ctxt": 0
                       },
                       "attributes": [],
@@ -113,8 +113,8 @@
                   "alternate": {
                     "type": "JSXElement",
                     "span": {
-                      "start": 19,
-                      "end": 24,
+                      "start": 18,
+                      "end": 23,
                       "ctxt": 0
                     },
                     "opening": {
@@ -122,16 +122,16 @@
                       "name": {
                         "type": "Identifier",
                         "span": {
-                          "start": 20,
-                          "end": 21,
+                          "start": 19,
+                          "end": 20,
                           "ctxt": 0
                         },
                         "value": "d",
                         "optional": false
                       },
                       "span": {
-                        "start": 19,
-                        "end": 24,
+                        "start": 18,
+                        "end": 23,
                         "ctxt": 0
                       },
                       "attributes": [],

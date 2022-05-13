@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 1,
-    "end": 48,
+    "start": 0,
+    "end": 47,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 48,
+        "end": 47,
         "ctxt": 0
       },
       "tagName": "html",
@@ -22,7 +22,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 11,
+            "end": 10,
             "ctxt": 0
           },
           "tagName": "head",
@@ -35,7 +35,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 48,
+            "end": 47,
             "ctxt": 0
           },
           "tagName": "body",
@@ -45,8 +45,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 1,
-                "end": 48,
+                "start": 0,
+                "end": 47,
                 "ctxt": 0
               },
               "tagName": "a",
@@ -69,8 +69,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 11,
-                    "end": 13,
+                    "start": 10,
+                    "end": 12,
                     "ctxt": 0
                   },
                   "value": "aa"
@@ -78,8 +78,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 13,
-                    "end": 36,
+                    "start": 12,
+                    "end": 35,
                     "ctxt": 0
                   },
                   "tagName": "marquee",
@@ -89,8 +89,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 22,
-                        "end": 24,
+                        "start": 21,
+                        "end": 23,
                         "ctxt": 0
                       },
                       "value": "aa"
@@ -98,8 +98,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 24,
-                        "end": 36,
+                        "start": 23,
+                        "end": 35,
                         "ctxt": 0
                       },
                       "tagName": "a",
@@ -122,8 +122,8 @@
                         {
                           "type": "Text",
                           "span": {
-                            "start": 34,
-                            "end": 36,
+                            "start": 33,
+                            "end": 35,
                             "ctxt": 0
                           },
                           "value": "bb"
@@ -137,8 +137,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 46,
-                    "end": 48,
+                    "start": 45,
+                    "end": 47,
                     "ctxt": 0
                   },
                   "value": "aa"

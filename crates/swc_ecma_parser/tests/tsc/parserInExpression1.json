@@ -1,37 +1,37 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 35,
+    "start": 0,
+    "end": 34,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 1,
-        "end": 35,
+        "start": 0,
+        "end": 34,
         "ctxt": 0
       },
       "expression": {
         "type": "CallExpression",
         "span": {
-          "start": 1,
-          "end": 34,
+          "start": 0,
+          "end": 33,
           "ctxt": 0
         },
         "callee": {
           "type": "MemberExpression",
           "span": {
-            "start": 1,
-            "end": 12,
+            "start": 0,
+            "end": 11,
             "ctxt": 0
           },
           "object": {
             "type": "Identifier",
             "span": {
-              "start": 1,
-              "end": 8,
+              "start": 0,
+              "end": 7,
               "ctxt": 0
             },
             "value": "console",
@@ -40,8 +40,8 @@
           "property": {
             "type": "Identifier",
             "span": {
-              "start": 9,
-              "end": 12,
+              "start": 8,
+              "end": 11,
               "ctxt": 0
             },
             "value": "log",
@@ -54,16 +54,16 @@
             "expression": {
               "type": "BinaryExpression",
               "span": {
-                "start": 13,
-                "end": 33,
+                "start": 12,
+                "end": 32,
                 "ctxt": 0
               },
               "operator": "in",
               "left": {
                 "type": "StringLiteral",
                 "span": {
-                  "start": 13,
-                  "end": 16,
+                  "start": 12,
+                  "end": 15,
                   "ctxt": 0
                 },
                 "value": "a",
@@ -72,8 +72,8 @@
               "right": {
                 "type": "ObjectExpression",
                 "span": {
-                  "start": 20,
-                  "end": 33,
+                  "start": 19,
+                  "end": 32,
                   "ctxt": 0
                 },
                 "properties": [
@@ -82,8 +82,8 @@
                     "key": {
                       "type": "StringLiteral",
                       "span": {
-                        "start": 22,
-                        "end": 25,
+                        "start": 21,
+                        "end": 24,
                         "ctxt": 0
                       },
                       "value": "a",
@@ -92,8 +92,8 @@
                     "value": {
                       "type": "BooleanLiteral",
                       "span": {
-                        "start": 27,
-                        "end": 31,
+                        "start": 26,
+                        "end": 30,
                         "ctxt": 0
                       },
                       "value": true

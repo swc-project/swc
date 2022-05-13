@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 26,
-    "end": 217,
+    "start": 25,
+    "end": 216,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 40,
-          "end": 42,
+          "start": 39,
+          "end": 41,
           "ctxt": 0
         },
         "value": "C1",
@@ -20,8 +20,8 @@
       },
       "declare": true,
       "span": {
-        "start": 26,
-        "end": 45,
+        "start": 25,
+        "end": 44,
         "ctxt": 0
       },
       "decorators": [],
@@ -37,8 +37,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 61,
-          "end": 63,
+          "start": 60,
+          "end": 62,
           "ctxt": 0
         },
         "value": "C1",
@@ -46,8 +46,8 @@
       },
       "declare": true,
       "span": {
-        "start": 47,
-        "end": 66,
+        "start": 46,
+        "end": 65,
         "ctxt": 0
       },
       "decorators": [],
@@ -63,8 +63,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 82,
-          "end": 84,
+          "start": 81,
+          "end": 83,
           "ctxt": 0
         },
         "value": "C2",
@@ -72,8 +72,8 @@
       },
       "declare": true,
       "span": {
-        "start": 68,
-        "end": 87,
+        "start": 67,
+        "end": 86,
         "ctxt": 0
       },
       "decorators": [],
@@ -87,15 +87,15 @@
     {
       "type": "TsInterfaceDeclaration",
       "span": {
-        "start": 89,
-        "end": 104,
+        "start": 88,
+        "end": 103,
         "ctxt": 0
       },
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 99,
-          "end": 101,
+          "start": 98,
+          "end": 100,
           "ctxt": 0
         },
         "value": "C2",
@@ -107,8 +107,8 @@
       "body": {
         "type": "TsInterfaceBody",
         "span": {
-          "start": 102,
-          "end": 104,
+          "start": 101,
+          "end": 103,
           "ctxt": 0
         },
         "body": []
@@ -119,8 +119,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 120,
-          "end": 122,
+          "start": 119,
+          "end": 121,
           "ctxt": 0
         },
         "value": "C2",
@@ -128,8 +128,8 @@
       },
       "declare": true,
       "span": {
-        "start": 106,
-        "end": 125,
+        "start": 105,
+        "end": 124,
         "ctxt": 0
       },
       "decorators": [],
@@ -145,8 +145,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 165,
-          "end": 167,
+          "start": 164,
+          "end": 166,
           "ctxt": 0
         },
         "value": "C3",
@@ -154,8 +154,8 @@
       },
       "declare": true,
       "span": {
-        "start": 151,
-        "end": 171,
+        "start": 150,
+        "end": 170,
         "ctxt": 0
       },
       "decorators": [],
@@ -171,8 +171,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 211,
-          "end": 213,
+          "start": 210,
+          "end": 212,
           "ctxt": 0
         },
         "value": "C3",
@@ -180,8 +180,8 @@
       },
       "declare": true,
       "span": {
-        "start": 197,
-        "end": 217,
+        "start": 196,
+        "end": 216,
         "ctxt": 0
       },
       "decorators": [],

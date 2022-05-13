@@ -1,39 +1,39 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 1,
-    "end": 63,
+    "start": 0,
+    "end": 62,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
-        "start": 1,
-        "end": 63,
+        "start": 0,
+        "end": 62,
         "ctxt": 0
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
-          "start": 1,
-          "end": 7,
+          "start": 0,
+          "end": 6,
           "ctxt": 0
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
-              "start": 1,
-              "end": 7,
+              "start": 0,
+              "end": 6,
               "ctxt": 0
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
-                  "start": 1,
-                  "end": 7,
+                  "start": 0,
+                  "end": 6,
                   "ctxt": 0
                 },
                 "nestingSelector": null,
@@ -42,15 +42,15 @@
                   {
                     "type": "ClassSelector",
                     "span": {
-                      "start": 1,
-                      "end": 7,
+                      "start": 0,
+                      "end": 6,
                       "ctxt": 0
                     },
                     "text": {
                       "type": "Ident",
                       "span": {
-                        "start": 2,
-                        "end": 7,
+                        "start": 1,
+                        "end": 6,
                         "ctxt": 0
                       },
                       "value": "style",
@@ -66,8 +66,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 8,
-          "end": 63,
+          "start": 7,
+          "end": 62,
           "ctxt": 0
         },
         "name": "{",
@@ -75,15 +75,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 11,
-              "end": 63,
+              "start": 10,
+              "end": 62,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 11,
-                "end": 32,
+                "start": 10,
+                "end": 31,
                 "ctxt": 0
               },
               "value": "grid-template-columns",
@@ -93,15 +93,15 @@
               {
                 "type": "Function",
                 "span": {
-                  "start": 34,
-                  "end": 63,
+                  "start": 33,
+                  "end": 62,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 34,
-                    "end": 40,
+                    "start": 33,
+                    "end": 39,
                     "ctxt": 0
                   },
                   "value": "repeat",
@@ -111,8 +111,8 @@
                   {
                     "type": "PreservedToken",
                     "span": {
-                      "start": 41,
-                      "end": 42,
+                      "start": 40,
+                      "end": 41,
                       "ctxt": 0
                     },
                     "token": {
@@ -126,8 +126,8 @@
                   {
                     "type": "PreservedToken",
                     "span": {
-                      "start": 42,
-                      "end": 43,
+                      "start": 41,
+                      "end": 42,
                       "ctxt": 0
                     },
                     "token": "Comma"
@@ -135,8 +135,8 @@
                   {
                     "type": "PreservedToken",
                     "span": {
-                      "start": 43,
-                      "end": 44,
+                      "start": 42,
+                      "end": 43,
                       "ctxt": 0
                     },
                     "token": {
@@ -148,8 +148,8 @@
                   {
                     "type": "SimpleBlock",
                     "span": {
-                      "start": 44,
-                      "end": 55,
+                      "start": 43,
+                      "end": 54,
                       "ctxt": 0
                     },
                     "name": "[",
@@ -157,8 +157,8 @@
                       {
                         "type": "PreservedToken",
                         "span": {
-                          "start": 45,
-                          "end": 54,
+                          "start": 44,
+                          "end": 53,
                           "ctxt": 0
                         },
                         "token": {
@@ -173,8 +173,8 @@
                   {
                     "type": "PreservedToken",
                     "span": {
-                      "start": 55,
-                      "end": 56,
+                      "start": 54,
+                      "end": 55,
                       "ctxt": 0
                     },
                     "token": {
@@ -186,8 +186,8 @@
                   {
                     "type": "PreservedToken",
                     "span": {
-                      "start": 56,
-                      "end": 60,
+                      "start": 55,
+                      "end": 59,
                       "ctxt": 0
                     },
                     "token": {
@@ -203,8 +203,8 @@
                   {
                     "type": "PreservedToken",
                     "span": {
-                      "start": 60,
-                      "end": 61,
+                      "start": 59,
+                      "end": 60,
                       "ctxt": 0
                     },
                     "token": {
@@ -216,8 +216,8 @@
                   {
                     "type": "PreservedToken",
                     "span": {
-                      "start": 61,
-                      "end": 62,
+                      "start": 60,
+                      "end": 61,
                       "ctxt": 0
                     },
                     "token": "RBrace"
@@ -225,8 +225,8 @@
                   {
                     "type": "PreservedToken",
                     "span": {
-                      "start": 62,
-                      "end": 63,
+                      "start": 61,
+                      "end": 62,
                       "ctxt": 0
                     },
                     "token": {

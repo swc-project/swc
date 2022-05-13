@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 107,
-    "end": 153,
+    "start": 106,
+    "end": 152,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 116,
-          "end": 123,
+          "start": 115,
+          "end": 122,
           "ctxt": 0
         },
         "value": "MyClass",
@@ -22,15 +22,15 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 107,
-        "end": 129,
+        "start": 106,
+        "end": 128,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 126,
-          "end": 129,
+          "start": 125,
+          "end": 128,
           "ctxt": 0
         },
         "stmts": []
@@ -43,30 +43,30 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 130,
-        "end": 153,
+        "start": 129,
+        "end": 152,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 130,
-          "end": 152,
+          "start": 129,
+          "end": 151,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
-            "start": 130,
-            "end": 147,
+            "start": 129,
+            "end": 146,
             "ctxt": 0
           },
           "object": {
             "type": "Identifier",
             "span": {
-              "start": 130,
-              "end": 137,
+              "start": 129,
+              "end": 136,
               "ctxt": 0
             },
             "value": "MyClass",
@@ -75,8 +75,8 @@
           "property": {
             "type": "Identifier",
             "span": {
-              "start": 138,
-              "end": 147,
+              "start": 137,
+              "end": 146,
               "ctxt": 0
             },
             "value": "prototype",
@@ -86,8 +86,8 @@
         "right": {
           "type": "ObjectExpression",
           "span": {
-            "start": 150,
-            "end": 152,
+            "start": 149,
+            "end": 151,
             "ctxt": 0
           },
           "properties": []

@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 1,
-    "end": 583,
+    "start": 0,
+    "end": 582,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -10,8 +10,8 @@
     {
       "type": "DocumentType",
       "span": {
-        "start": 1,
-        "end": 16,
+        "start": 0,
+        "end": 15,
         "ctxt": 0
       },
       "name": "html",
@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 576,
+        "end": 575,
         "ctxt": 0
       },
       "tagName": "html",
@@ -33,7 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 22,
+            "end": 21,
             "ctxt": 0
           },
           "tagName": "head",
@@ -45,8 +45,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 16,
-            "end": 576,
+            "start": 15,
+            "end": 575,
             "ctxt": 0
           },
           "tagName": "body",
@@ -56,8 +56,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 22,
-                "end": 576,
+                "start": 21,
+                "end": 575,
                 "ctxt": 0
               },
               "tagName": "math",
@@ -67,8 +67,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 28,
-                    "end": 40,
+                    "start": 27,
+                    "end": 39,
                     "ctxt": 0
                   },
                   "tagName": "altglyph",
@@ -80,8 +80,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 40,
-                    "end": 55,
+                    "start": 39,
+                    "end": 54,
                     "ctxt": 0
                   },
                   "tagName": "altglyphdef",
@@ -93,8 +93,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 55,
-                    "end": 71,
+                    "start": 54,
+                    "end": 70,
                     "ctxt": 0
                   },
                   "tagName": "altglyphitem",
@@ -106,8 +106,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 71,
-                    "end": 87,
+                    "start": 70,
+                    "end": 86,
                     "ctxt": 0
                   },
                   "tagName": "animatecolor",
@@ -119,8 +119,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 87,
-                    "end": 104,
+                    "start": 86,
+                    "end": 103,
                     "ctxt": 0
                   },
                   "tagName": "animatemotion",
@@ -132,8 +132,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 104,
-                    "end": 124,
+                    "start": 103,
+                    "end": 123,
                     "ctxt": 0
                   },
                   "tagName": "animatetransform",
@@ -145,8 +145,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 124,
-                    "end": 136,
+                    "start": 123,
+                    "end": 135,
                     "ctxt": 0
                   },
                   "tagName": "clippath",
@@ -158,8 +158,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 136,
-                    "end": 147,
+                    "start": 135,
+                    "end": 146,
                     "ctxt": 0
                   },
                   "tagName": "feblend",
@@ -171,8 +171,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 147,
-                    "end": 164,
+                    "start": 146,
+                    "end": 163,
                     "ctxt": 0
                   },
                   "tagName": "fecolormatrix",
@@ -184,8 +184,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 164,
-                    "end": 187,
+                    "start": 163,
+                    "end": 186,
                     "ctxt": 0
                   },
                   "tagName": "fecomponenttransfer",
@@ -197,8 +197,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 187,
-                    "end": 202,
+                    "start": 186,
+                    "end": 201,
                     "ctxt": 0
                   },
                   "tagName": "fecomposite",
@@ -210,8 +210,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 202,
-                    "end": 222,
+                    "start": 201,
+                    "end": 221,
                     "ctxt": 0
                   },
                   "tagName": "feconvolvematrix",
@@ -223,8 +223,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 222,
-                    "end": 243,
+                    "start": 221,
+                    "end": 242,
                     "ctxt": 0
                   },
                   "tagName": "fediffuselighting",
@@ -236,8 +236,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 243,
-                    "end": 264,
+                    "start": 242,
+                    "end": 263,
                     "ctxt": 0
                   },
                   "tagName": "fedisplacementmap",
@@ -249,8 +249,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 264,
-                    "end": 282,
+                    "start": 263,
+                    "end": 281,
                     "ctxt": 0
                   },
                   "tagName": "fedistantlight",
@@ -262,8 +262,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 282,
-                    "end": 293,
+                    "start": 281,
+                    "end": 292,
                     "ctxt": 0
                   },
                   "tagName": "feflood",
@@ -275,8 +275,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 293,
-                    "end": 304,
+                    "start": 292,
+                    "end": 303,
                     "ctxt": 0
                   },
                   "tagName": "fefunca",
@@ -288,8 +288,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 304,
-                    "end": 315,
+                    "start": 303,
+                    "end": 314,
                     "ctxt": 0
                   },
                   "tagName": "fefuncb",
@@ -301,8 +301,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 315,
-                    "end": 326,
+                    "start": 314,
+                    "end": 325,
                     "ctxt": 0
                   },
                   "tagName": "fefuncg",
@@ -314,8 +314,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 326,
-                    "end": 337,
+                    "start": 325,
+                    "end": 336,
                     "ctxt": 0
                   },
                   "tagName": "fefuncr",
@@ -327,8 +327,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 337,
-                    "end": 355,
+                    "start": 336,
+                    "end": 354,
                     "ctxt": 0
                   },
                   "tagName": "fegaussianblur",
@@ -340,8 +340,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 355,
-                    "end": 366,
+                    "start": 354,
+                    "end": 365,
                     "ctxt": 0
                   },
                   "tagName": "feimage",
@@ -353,8 +353,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 366,
-                    "end": 377,
+                    "start": 365,
+                    "end": 376,
                     "ctxt": 0
                   },
                   "tagName": "femerge",
@@ -366,8 +366,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 377,
-                    "end": 392,
+                    "start": 376,
+                    "end": 391,
                     "ctxt": 0
                   },
                   "tagName": "femergenode",
@@ -379,8 +379,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 392,
-                    "end": 408,
+                    "start": 391,
+                    "end": 407,
                     "ctxt": 0
                   },
                   "tagName": "femorphology",
@@ -392,8 +392,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 408,
-                    "end": 420,
+                    "start": 407,
+                    "end": 419,
                     "ctxt": 0
                   },
                   "tagName": "feoffset",
@@ -405,8 +405,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 420,
-                    "end": 436,
+                    "start": 419,
+                    "end": 435,
                     "ctxt": 0
                   },
                   "tagName": "fepointlight",
@@ -418,8 +418,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 436,
-                    "end": 458,
+                    "start": 435,
+                    "end": 457,
                     "ctxt": 0
                   },
                   "tagName": "fespecularlighting",
@@ -431,8 +431,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 458,
-                    "end": 473,
+                    "start": 457,
+                    "end": 472,
                     "ctxt": 0
                   },
                   "tagName": "fespotlight",
@@ -444,8 +444,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 473,
-                    "end": 483,
+                    "start": 472,
+                    "end": 482,
                     "ctxt": 0
                   },
                   "tagName": "fetile",
@@ -457,8 +457,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 483,
-                    "end": 499,
+                    "start": 482,
+                    "end": 498,
                     "ctxt": 0
                   },
                   "tagName": "feturbulence",
@@ -470,8 +470,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 499,
-                    "end": 516,
+                    "start": 498,
+                    "end": 515,
                     "ctxt": 0
                   },
                   "tagName": "foreignobject",
@@ -483,8 +483,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 516,
-                    "end": 528,
+                    "start": 515,
+                    "end": 527,
                     "ctxt": 0
                   },
                   "tagName": "glyphref",
@@ -496,8 +496,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 528,
-                    "end": 546,
+                    "start": 527,
+                    "end": 545,
                     "ctxt": 0
                   },
                   "tagName": "lineargradient",
@@ -509,8 +509,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 546,
-                    "end": 564,
+                    "start": 545,
+                    "end": 563,
                     "ctxt": 0
                   },
                   "tagName": "radialgradient",
@@ -522,8 +522,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 564,
-                    "end": 576,
+                    "start": 563,
+                    "end": 575,
                     "ctxt": 0
                   },
                   "tagName": "textpath",

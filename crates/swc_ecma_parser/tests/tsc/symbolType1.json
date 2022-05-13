@@ -1,38 +1,38 @@
 {
   "type": "Script",
   "span": {
-    "start": 16,
-    "end": 212,
+    "start": 15,
+    "end": 211,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 16,
-        "end": 43,
+        "start": 15,
+        "end": 42,
         "ctxt": 0
       },
       "expression": {
         "type": "BinaryExpression",
         "span": {
-          "start": 16,
-          "end": 42,
+          "start": 15,
+          "end": 41,
           "ctxt": 0
         },
         "operator": "instanceof",
         "left": {
           "type": "CallExpression",
           "span": {
-            "start": 16,
-            "end": 24,
+            "start": 15,
+            "end": 23,
             "ctxt": 0
           },
           "callee": {
             "type": "Identifier",
             "span": {
-              "start": 16,
-              "end": 22,
+              "start": 15,
+              "end": 21,
               "ctxt": 0
             },
             "value": "Symbol",
@@ -44,8 +44,8 @@
         "right": {
           "type": "Identifier",
           "span": {
-            "start": 36,
-            "end": 42,
+            "start": 35,
+            "end": 41,
             "ctxt": 0
           },
           "value": "Symbol",
@@ -56,23 +56,23 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 44,
-        "end": 71,
+        "start": 43,
+        "end": 70,
         "ctxt": 0
       },
       "expression": {
         "type": "BinaryExpression",
         "span": {
-          "start": 44,
-          "end": 70,
+          "start": 43,
+          "end": 69,
           "ctxt": 0
         },
         "operator": "instanceof",
         "left": {
           "type": "Identifier",
           "span": {
-            "start": 44,
-            "end": 50,
+            "start": 43,
+            "end": 49,
             "ctxt": 0
           },
           "value": "Symbol",
@@ -81,15 +81,15 @@
         "right": {
           "type": "CallExpression",
           "span": {
-            "start": 62,
-            "end": 70,
+            "start": 61,
+            "end": 69,
             "ctxt": 0
           },
           "callee": {
             "type": "Identifier",
             "span": {
-              "start": 62,
-              "end": 68,
+              "start": 61,
+              "end": 67,
               "ctxt": 0
             },
             "value": "Symbol",
@@ -103,45 +103,45 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 72,
-        "end": 107,
+        "start": 71,
+        "end": 106,
         "ctxt": 0
       },
       "expression": {
         "type": "BinaryExpression",
         "span": {
-          "start": 72,
-          "end": 106,
+          "start": 71,
+          "end": 105,
           "ctxt": 0
         },
         "operator": "instanceof",
         "left": {
           "type": "ParenthesisExpression",
           "span": {
-            "start": 72,
-            "end": 88,
+            "start": 71,
+            "end": 87,
             "ctxt": 0
           },
           "expression": {
             "type": "BinaryExpression",
             "span": {
-              "start": 73,
-              "end": 87,
+              "start": 72,
+              "end": 86,
               "ctxt": 0
             },
             "operator": "||",
             "left": {
               "type": "CallExpression",
               "span": {
-                "start": 73,
-                "end": 81,
+                "start": 72,
+                "end": 80,
                 "ctxt": 0
               },
               "callee": {
                 "type": "Identifier",
                 "span": {
-                  "start": 73,
-                  "end": 79,
+                  "start": 72,
+                  "end": 78,
                   "ctxt": 0
                 },
                 "value": "Symbol",
@@ -153,8 +153,8 @@
             "right": {
               "type": "ObjectExpression",
               "span": {
-                "start": 85,
-                "end": 87,
+                "start": 84,
+                "end": 86,
                 "ctxt": 0
               },
               "properties": []
@@ -164,8 +164,8 @@
         "right": {
           "type": "Identifier",
           "span": {
-            "start": 100,
-            "end": 106,
+            "start": 99,
+            "end": 105,
             "ctxt": 0
           },
           "value": "Object",
@@ -176,23 +176,23 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 177,
-        "end": 212,
+        "start": 176,
+        "end": 211,
         "ctxt": 0
       },
       "expression": {
         "type": "BinaryExpression",
         "span": {
-          "start": 177,
-          "end": 211,
+          "start": 176,
+          "end": 210,
           "ctxt": 0
         },
         "operator": "instanceof",
         "left": {
           "type": "Identifier",
           "span": {
-            "start": 177,
-            "end": 183,
+            "start": 176,
+            "end": 182,
             "ctxt": 0
           },
           "value": "Symbol",
@@ -201,30 +201,30 @@
         "right": {
           "type": "ParenthesisExpression",
           "span": {
-            "start": 195,
-            "end": 211,
+            "start": 194,
+            "end": 210,
             "ctxt": 0
           },
           "expression": {
             "type": "BinaryExpression",
             "span": {
-              "start": 196,
-              "end": 210,
+              "start": 195,
+              "end": 209,
               "ctxt": 0
             },
             "operator": "||",
             "left": {
               "type": "CallExpression",
               "span": {
-                "start": 196,
-                "end": 204,
+                "start": 195,
+                "end": 203,
                 "ctxt": 0
               },
               "callee": {
                 "type": "Identifier",
                 "span": {
-                  "start": 196,
-                  "end": 202,
+                  "start": 195,
+                  "end": 201,
                   "ctxt": 0
                 },
                 "value": "Symbol",
@@ -236,8 +236,8 @@
             "right": {
               "type": "ObjectExpression",
               "span": {
-                "start": 208,
-                "end": 210,
+                "start": 207,
+                "end": 209,
                 "ctxt": 0
               },
               "properties": []

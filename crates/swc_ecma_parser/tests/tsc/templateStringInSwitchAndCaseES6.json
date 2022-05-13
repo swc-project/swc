@@ -1,31 +1,31 @@
 {
   "type": "Script",
   "span": {
-    "start": 17,
-    "end": 119,
+    "start": 16,
+    "end": 118,
     "ctxt": 0
   },
   "body": [
     {
       "type": "SwitchStatement",
       "span": {
-        "start": 17,
-        "end": 119,
+        "start": 16,
+        "end": 118,
         "ctxt": 0
       },
       "discriminant": {
         "type": "TemplateLiteral",
         "span": {
-          "start": 25,
-          "end": 37,
+          "start": 24,
+          "end": 36,
           "ctxt": 0
         },
         "expressions": [
           {
             "type": "NumericLiteral",
             "span": {
-              "start": 31,
-              "end": 32,
+              "start": 30,
+              "end": 31,
               "ctxt": 0
             },
             "value": 0.0,
@@ -36,8 +36,8 @@
           {
             "type": "TemplateElement",
             "span": {
-              "start": 26,
-              "end": 29,
+              "start": 25,
+              "end": 28,
               "ctxt": 0
             },
             "tail": false,
@@ -47,8 +47,8 @@
           {
             "type": "TemplateElement",
             "span": {
-              "start": 33,
-              "end": 36,
+              "start": 32,
+              "end": 35,
               "ctxt": 0
             },
             "tail": true,
@@ -61,15 +61,15 @@
         {
           "type": "SwitchCase",
           "span": {
-            "start": 45,
-            "end": 56,
+            "start": 44,
+            "end": 55,
             "ctxt": 0
           },
           "test": {
             "type": "TemplateLiteral",
             "span": {
-              "start": 50,
-              "end": 55,
+              "start": 49,
+              "end": 54,
               "ctxt": 0
             },
             "expressions": [],
@@ -77,8 +77,8 @@
               {
                 "type": "TemplateElement",
                 "span": {
-                  "start": 51,
-                  "end": 54,
+                  "start": 50,
+                  "end": 53,
                   "ctxt": 0
                 },
                 "tail": true,
@@ -92,15 +92,15 @@
         {
           "type": "SwitchCase",
           "span": {
-            "start": 61,
-            "end": 72,
+            "start": 60,
+            "end": 71,
             "ctxt": 0
           },
           "test": {
             "type": "TemplateLiteral",
             "span": {
-              "start": 66,
-              "end": 71,
+              "start": 65,
+              "end": 70,
               "ctxt": 0
             },
             "expressions": [],
@@ -108,8 +108,8 @@
               {
                 "type": "TemplateElement",
                 "span": {
-                  "start": 67,
-                  "end": 70,
+                  "start": 66,
+                  "end": 69,
                   "ctxt": 0
                 },
                 "tail": true,
@@ -123,23 +123,23 @@
         {
           "type": "SwitchCase",
           "span": {
-            "start": 77,
-            "end": 117,
+            "start": 76,
+            "end": 116,
             "ctxt": 0
           },
           "test": {
             "type": "TemplateLiteral",
             "span": {
-              "start": 82,
-              "end": 94,
+              "start": 81,
+              "end": 93,
               "ctxt": 0
             },
             "expressions": [
               {
                 "type": "NumericLiteral",
                 "span": {
-                  "start": 88,
-                  "end": 89,
+                  "start": 87,
+                  "end": 88,
                   "ctxt": 0
                 },
                 "value": 0.0,
@@ -150,8 +150,8 @@
               {
                 "type": "TemplateElement",
                 "span": {
-                  "start": 83,
-                  "end": 86,
+                  "start": 82,
+                  "end": 85,
                   "ctxt": 0
                 },
                 "tail": false,
@@ -161,8 +161,8 @@
               {
                 "type": "TemplateElement",
                 "span": {
-                  "start": 90,
-                  "end": 93,
+                  "start": 89,
+                  "end": 92,
                   "ctxt": 0
                 },
                 "tail": true,
@@ -175,23 +175,23 @@
             {
               "type": "ExpressionStatement",
               "span": {
-                "start": 104,
-                "end": 117,
+                "start": 103,
+                "end": 116,
                 "ctxt": 0
               },
               "expression": {
                 "type": "TemplateLiteral",
                 "span": {
-                  "start": 104,
-                  "end": 116,
+                  "start": 103,
+                  "end": 115,
                   "ctxt": 0
                 },
                 "expressions": [
                   {
                     "type": "NumericLiteral",
                     "span": {
-                      "start": 110,
-                      "end": 111,
+                      "start": 109,
+                      "end": 110,
                       "ctxt": 0
                     },
                     "value": 1.0,
@@ -202,8 +202,8 @@
                   {
                     "type": "TemplateElement",
                     "span": {
-                      "start": 105,
-                      "end": 108,
+                      "start": 104,
+                      "end": 107,
                       "ctxt": 0
                     },
                     "tail": false,
@@ -213,8 +213,8 @@
                   {
                     "type": "TemplateElement",
                     "span": {
-                      "start": 112,
-                      "end": 115,
+                      "start": 111,
+                      "end": 114,
                       "ctxt": 0
                     },
                     "tail": true,

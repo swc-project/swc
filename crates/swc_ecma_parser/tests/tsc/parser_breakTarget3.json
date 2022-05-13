@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 30,
-    "end": 81,
+    "start": 29,
+    "end": 80,
     "ctxt": 0
   },
   "body": [
     {
       "type": "LabeledStatement",
       "span": {
-        "start": 30,
-        "end": 81,
+        "start": 29,
+        "end": 80,
         "ctxt": 0
       },
       "label": {
         "type": "Identifier",
         "span": {
-          "start": 30,
-          "end": 37,
+          "start": 29,
+          "end": 36,
           "ctxt": 0
         },
         "value": "target1",
@@ -26,15 +26,15 @@
       "body": {
         "type": "LabeledStatement",
         "span": {
-          "start": 39,
-          "end": 81,
+          "start": 38,
+          "end": 80,
           "ctxt": 0
         },
         "label": {
           "type": "Identifier",
           "span": {
-            "start": 39,
-            "end": 46,
+            "start": 38,
+            "end": 45,
             "ctxt": 0
           },
           "value": "target2",
@@ -43,15 +43,15 @@
         "body": {
           "type": "WhileStatement",
           "span": {
-            "start": 48,
-            "end": 81,
+            "start": 47,
+            "end": 80,
             "ctxt": 0
           },
           "test": {
             "type": "BooleanLiteral",
             "span": {
-              "start": 55,
-              "end": 59,
+              "start": 54,
+              "end": 58,
               "ctxt": 0
             },
             "value": true
@@ -59,23 +59,23 @@
           "body": {
             "type": "BlockStatement",
             "span": {
-              "start": 61,
-              "end": 81,
+              "start": 60,
+              "end": 80,
               "ctxt": 0
             },
             "stmts": [
               {
                 "type": "BreakStatement",
                 "span": {
-                  "start": 65,
-                  "end": 79,
+                  "start": 64,
+                  "end": 78,
                   "ctxt": 0
                 },
                 "label": {
                   "type": "Identifier",
                   "span": {
-                    "start": 71,
-                    "end": 78,
+                    "start": 70,
+                    "end": 77,
                     "ctxt": 0
                   },
                   "value": "target1",

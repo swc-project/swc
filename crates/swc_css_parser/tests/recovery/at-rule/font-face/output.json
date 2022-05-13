@@ -1,23 +1,23 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 1,
-    "end": 156,
+    "start": 0,
+    "end": 155,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
-        "start": 1,
-        "end": 27,
+        "start": 0,
+        "end": 26,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 2,
-          "end": 11,
+          "start": 1,
+          "end": 10,
           "ctxt": 0
         },
         "value": "font-face",
@@ -27,8 +27,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 12,
-          "end": 27,
+          "start": 11,
+          "end": 26,
           "ctxt": 0
         },
         "name": "{",
@@ -36,33 +36,33 @@
           {
             "type": "Tokens",
             "span": {
-              "start": 18,
-              "end": 26,
+              "start": 17,
+              "end": 25,
               "ctxt": 0
             },
             "tokens": [
               {
                 "type": "PreservedToken",
                 "span": {
-                  "start": 18,
+                  "start": 17,
+                  "end": 24,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "invalid",
+                    "raw": "invalid"
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 24,
                   "end": 25,
                   "ctxt": 0
                 },
                 "token": {
-                  "Ident": {
-                    "value": "invalid",
-                    "raw": "invalid"
-                  }
-                }
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 25,
-                  "end": 26,
-                  "ctxt": 0
-                },
-                "token": {
                   "WhiteSpace": {
                     "value": "\n"
                   }
@@ -76,15 +76,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 29,
-        "end": 56,
+        "start": 28,
+        "end": 55,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 30,
-          "end": 39,
+          "start": 29,
+          "end": 38,
           "ctxt": 0
         },
         "value": "font-face",
@@ -94,8 +94,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 40,
-          "end": 56,
+          "start": 39,
+          "end": 55,
           "ctxt": 0
         },
         "name": "{",
@@ -103,16 +103,16 @@
           {
             "type": "Tokens",
             "span": {
-              "start": 46,
-              "end": 54,
+              "start": 45,
+              "end": 53,
               "ctxt": 0
             },
             "tokens": [
               {
                 "type": "PreservedToken",
                 "span": {
-                  "start": 46,
-                  "end": 53,
+                  "start": 45,
+                  "end": 52,
                   "ctxt": 0
                 },
                 "token": {
@@ -125,8 +125,8 @@
               {
                 "type": "PreservedToken",
                 "span": {
-                  "start": 53,
-                  "end": 54,
+                  "start": 52,
+                  "end": 53,
                   "ctxt": 0
                 },
                 "token": "Semi"
@@ -139,15 +139,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 58,
-        "end": 80,
+        "start": 57,
+        "end": 79,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 59,
-          "end": 68,
+          "start": 58,
+          "end": 67,
           "ctxt": 0
         },
         "value": "font-face",
@@ -157,8 +157,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 69,
-          "end": 80,
+          "start": 68,
+          "end": 79,
           "ctxt": 0
         },
         "name": "{",
@@ -166,34 +166,34 @@
           {
             "type": "Tokens",
             "span": {
-              "start": 75,
-              "end": 79,
+              "start": 74,
+              "end": 78,
               "ctxt": 0
             },
             "tokens": [
               {
                 "type": "PreservedToken",
                 "span": {
-                  "start": 75,
+                  "start": 74,
+                  "end": 77,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Number": {
+                    "value": 123.0,
+                    "raw": "123",
+                    "type": "integer"
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 77,
                   "end": 78,
                   "ctxt": 0
                 },
                 "token": {
-                  "Number": {
-                    "value": 123.0,
-                    "raw": "123",
-                    "type": "integer"
-                  }
-                }
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 78,
-                  "end": 79,
-                  "ctxt": 0
-                },
-                "token": {
                   "WhiteSpace": {
                     "value": "\n"
                   }
@@ -207,15 +207,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 82,
-        "end": 105,
+        "start": 81,
+        "end": 104,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 83,
-          "end": 92,
+          "start": 82,
+          "end": 91,
           "ctxt": 0
         },
         "value": "font-face",
@@ -225,8 +225,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 93,
-          "end": 105,
+          "start": 92,
+          "end": 104,
           "ctxt": 0
         },
         "name": "{",
@@ -234,16 +234,16 @@
           {
             "type": "Tokens",
             "span": {
-              "start": 99,
-              "end": 103,
+              "start": 98,
+              "end": 102,
               "ctxt": 0
             },
             "tokens": [
               {
                 "type": "PreservedToken",
                 "span": {
-                  "start": 99,
-                  "end": 102,
+                  "start": 98,
+                  "end": 101,
                   "ctxt": 0
                 },
                 "token": {
@@ -257,8 +257,8 @@
               {
                 "type": "PreservedToken",
                 "span": {
-                  "start": 102,
-                  "end": 103,
+                  "start": 101,
+                  "end": 102,
                   "ctxt": 0
                 },
                 "token": "Semi"
@@ -271,15 +271,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 107,
-        "end": 124,
+        "start": 106,
+        "end": 123,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 108,
-          "end": 117,
+          "start": 107,
+          "end": 116,
           "ctxt": 0
         },
         "value": "font-face",
@@ -288,16 +288,16 @@
       "prelude": {
         "type": "ListOfComponentValues",
         "span": {
-          "start": 117,
-          "end": 121,
+          "start": 116,
+          "end": 120,
           "ctxt": 0
         },
         "children": [
           {
             "type": "PreservedToken",
             "span": {
-              "start": 117,
-              "end": 118,
+              "start": 116,
+              "end": 117,
               "ctxt": 0
             },
             "token": {
@@ -309,8 +309,8 @@
           {
             "type": "PreservedToken",
             "span": {
-              "start": 118,
-              "end": 121,
+              "start": 117,
+              "end": 120,
               "ctxt": 0
             },
             "token": {
@@ -325,8 +325,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 122,
-          "end": 124,
+          "start": 121,
+          "end": 123,
           "ctxt": 0
         },
         "name": "{",
@@ -336,15 +336,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 126,
-        "end": 141,
+        "start": 125,
+        "end": 140,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 127,
-          "end": 136,
+          "start": 126,
+          "end": 135,
           "ctxt": 0
         },
         "value": "font-face",
@@ -353,16 +353,16 @@
       "prelude": {
         "type": "ListOfComponentValues",
         "span": {
-          "start": 136,
-          "end": 140,
+          "start": 135,
+          "end": 139,
           "ctxt": 0
         },
         "children": [
           {
             "type": "PreservedToken",
             "span": {
-              "start": 136,
-              "end": 137,
+              "start": 135,
+              "end": 136,
               "ctxt": 0
             },
             "token": {
@@ -374,8 +374,8 @@
           {
             "type": "PreservedToken",
             "span": {
-              "start": 137,
-              "end": 140,
+              "start": 136,
+              "end": 139,
               "ctxt": 0
             },
             "token": {
@@ -392,15 +392,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 143,
-        "end": 155,
+        "start": 142,
+        "end": 154,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 144,
-          "end": 153,
+          "start": 143,
+          "end": 152,
           "ctxt": 0
         },
         "value": "font-face",
@@ -409,16 +409,16 @@
       "prelude": {
         "type": "ListOfComponentValues",
         "span": {
-          "start": 153,
-          "end": 154,
+          "start": 152,
+          "end": 153,
           "ctxt": 0
         },
         "children": [
           {
             "type": "PreservedToken",
             "span": {
-              "start": 153,
-              "end": 154,
+              "start": 152,
+              "end": 153,
               "ctxt": 0
             },
             "token": {

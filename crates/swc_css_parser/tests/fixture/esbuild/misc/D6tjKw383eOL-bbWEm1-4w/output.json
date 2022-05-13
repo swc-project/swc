@@ -1,23 +1,23 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 1,
-    "end": 24,
+    "start": 0,
+    "end": 23,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
-        "start": 1,
-        "end": 24,
+        "start": 0,
+        "end": 23,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 2,
-          "end": 16,
+          "start": 1,
+          "end": 15,
           "ctxt": 0
         },
         "value": "-moz-keyframes",
@@ -26,8 +26,8 @@
       "prelude": {
         "type": "CustomIdent",
         "span": {
-          "start": 17,
-          "end": 21,
+          "start": 16,
+          "end": 20,
           "ctxt": 0
         },
         "value": "name",
@@ -36,8 +36,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 22,
-          "end": 24,
+          "start": 21,
+          "end": 23,
           "ctxt": 0
         },
         "name": "{",

@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 1,
-    "end": 194,
+    "start": 0,
+    "end": 193,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -10,8 +10,8 @@
     {
       "type": "Comment",
       "span": {
-        "start": 1,
-        "end": 14,
+        "start": 0,
+        "end": 13,
         "ctxt": 0
       },
       "data": " test "
@@ -19,8 +19,8 @@
     {
       "type": "Comment",
       "span": {
-        "start": 16,
-        "end": 28,
+        "start": 15,
+        "end": 27,
         "ctxt": 0
       },
       "data": " foo "
@@ -29,7 +29,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 185,
+        "end": 184,
         "ctxt": 0
       },
       "tagName": "html",
@@ -40,7 +40,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 33,
+            "end": 32,
             "ctxt": 0
           },
           "tagName": "head",
@@ -53,7 +53,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 185,
+            "end": 184,
             "ctxt": 0
           },
           "tagName": "body",
@@ -63,8 +63,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 28,
-                "end": 36,
+                "start": 27,
+                "end": 35,
                 "ctxt": 0
               },
               "tagName": "div",
@@ -74,8 +74,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 33,
-                    "end": 36,
+                    "start": 32,
+                    "end": 35,
                     "ctxt": 0
                   },
                   "value": "baz"
@@ -86,8 +86,8 @@
             {
               "type": "Comment",
               "span": {
-                "start": 42,
-                "end": 59,
+                "start": 41,
+                "end": 58,
                 "ctxt": 0
               },
               "data": " bar\n\nmoo "
@@ -95,8 +95,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 59,
-                "end": 60,
+                "start": 58,
+                "end": 59,
                 "ctxt": 0
               },
               "value": "\n"
@@ -104,8 +104,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 60,
-                "end": 85,
+                "start": 59,
+                "end": 84,
                 "ctxt": 0
               },
               "tagName": "script",
@@ -115,8 +115,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 68,
-                    "end": 85,
+                    "start": 67,
+                    "end": 84,
                     "ctxt": 0
                   },
                   "value": "<!-- alert(1) -->"
@@ -127,8 +127,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 94,
-                "end": 95,
+                "start": 93,
+                "end": 94,
                 "ctxt": 0
               },
               "value": "\n"
@@ -136,8 +136,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 95,
-                "end": 116,
+                "start": 94,
+                "end": 115,
                 "ctxt": 0
               },
               "tagName": "script",
@@ -147,8 +147,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 103,
-                    "end": 116,
+                    "start": 102,
+                    "end": 115,
                     "ctxt": 0
                   },
                   "value": "alert('<!--')"
@@ -159,8 +159,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 125,
-                "end": 126,
+                "start": 124,
+                "end": 125,
                 "ctxt": 0
               },
               "value": "\n"
@@ -168,8 +168,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 126,
-                "end": 155,
+                "start": 125,
+                "end": 154,
                 "ctxt": 0
               },
               "tagName": "script",
@@ -179,8 +179,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 134,
-                    "end": 155,
+                    "start": 133,
+                    "end": 154,
                     "ctxt": 0
                   },
                   "value": "alert('<!-- foo -->')"
@@ -191,8 +191,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 164,
-                "end": 165,
+                "start": 163,
+                "end": 164,
                 "ctxt": 0
               },
               "value": "\n"
@@ -200,8 +200,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 165,
-                "end": 185,
+                "start": 164,
+                "end": 184,
                 "ctxt": 0
               },
               "tagName": "script",
@@ -211,8 +211,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 173,
-                    "end": 185,
+                    "start": 172,
+                    "end": 184,
                     "ctxt": 0
                   },
                   "value": "alert('-->')"

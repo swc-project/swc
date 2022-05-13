@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 1,
-    "end": 84,
+    "start": 0,
+    "end": 83,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -10,8 +10,8 @@
     {
       "type": "DocumentType",
       "span": {
-        "start": 1,
-        "end": 16,
+        "start": 0,
+        "end": 15,
         "ctxt": 0
       },
       "name": "html",
@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 84,
+        "end": 83,
         "ctxt": 0
       },
       "tagName": "html",
@@ -33,7 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 22,
+            "end": 21,
             "ctxt": 0
           },
           "tagName": "head",
@@ -45,8 +45,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 16,
-            "end": 84,
+            "start": 15,
+            "end": 83,
             "ctxt": 0
           },
           "tagName": "body",
@@ -56,8 +56,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 22,
-                "end": 69,
+                "start": 21,
+                "end": 68,
                 "ctxt": 0
               },
               "tagName": "table",
@@ -67,8 +67,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 29,
-                    "end": 69,
+                    "start": 28,
+                    "end": 68,
                     "ctxt": 0
                   },
                   "tagName": "caption",
@@ -78,8 +78,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 38,
-                        "end": 59,
+                        "start": 37,
+                        "end": 58,
                         "ctxt": 0
                       },
                       "tagName": "svg",
@@ -89,8 +89,8 @@
                         {
                           "type": "Element",
                           "span": {
-                            "start": 43,
-                            "end": 49,
+                            "start": 42,
+                            "end": 48,
                             "ctxt": 0
                           },
                           "tagName": "g",
@@ -100,8 +100,8 @@
                             {
                               "type": "Text",
                               "span": {
-                                "start": 46,
-                                "end": 49,
+                                "start": 45,
+                                "end": 48,
                                 "ctxt": 0
                               },
                               "value": "foo"
@@ -112,8 +112,8 @@
                         {
                           "type": "Element",
                           "span": {
-                            "start": 53,
-                            "end": 59,
+                            "start": 52,
+                            "end": 58,
                             "ctxt": 0
                           },
                           "tagName": "g",
@@ -123,8 +123,8 @@
                             {
                               "type": "Text",
                               "span": {
-                                "start": 56,
-                                "end": 59,
+                                "start": 55,
+                                "end": 58,
                                 "ctxt": 0
                               },
                               "value": "bar"
@@ -138,8 +138,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 63,
-                        "end": 69,
+                        "start": 62,
+                        "end": 68,
                         "ctxt": 0
                       },
                       "tagName": "p",
@@ -149,8 +149,8 @@
                         {
                           "type": "Text",
                           "span": {
-                            "start": 66,
-                            "end": 69,
+                            "start": 65,
+                            "end": 68,
                             "ctxt": 0
                           },
                           "value": "baz"
@@ -167,8 +167,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 77,
-                "end": 84,
+                "start": 76,
+                "end": 83,
                 "ctxt": 0
               },
               "tagName": "p",
@@ -178,8 +178,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 80,
-                    "end": 84,
+                    "start": 79,
+                    "end": 83,
                     "ctxt": 0
                   },
                   "value": "quux"

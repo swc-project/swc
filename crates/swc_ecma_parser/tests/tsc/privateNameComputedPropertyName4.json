@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 154,
-    "end": 330,
+    "start": 153,
+    "end": 329,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 160,
-          "end": 162,
+          "start": 159,
+          "end": 161,
           "ctxt": 0
         },
         "value": "C1",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 154,
-        "end": 206,
+        "start": 153,
+        "end": 205,
         "ctxt": 0
       },
       "decorators": [],
@@ -29,22 +29,22 @@
         {
           "type": "PrivateProperty",
           "span": {
-            "start": 169,
-            "end": 186,
+            "start": 168,
+            "end": 185,
             "ctxt": 0
           },
           "key": {
             "type": "PrivateName",
             "span": {
-              "start": 176,
-              "end": 180,
+              "start": 175,
+              "end": 179,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 177,
-                "end": 180,
+                "start": 176,
+                "end": 179,
                 "ctxt": 0
               },
               "value": "qux",
@@ -54,8 +54,8 @@
           "value": {
             "type": "NumericLiteral",
             "span": {
-              "start": 183,
-              "end": 185,
+              "start": 182,
+              "end": 184,
               "ctxt": 0
             },
             "value": 42.0,
@@ -73,22 +73,22 @@
         {
           "type": "ClassMethod",
           "span": {
-            "start": 191,
-            "end": 204,
+            "start": 190,
+            "end": 203,
             "ctxt": 0
           },
           "key": {
             "type": "Computed",
             "span": {
-              "start": 191,
-              "end": 198,
+              "start": 190,
+              "end": 197,
               "ctxt": 0
             },
             "expression": {
               "type": "StringLiteral",
               "span": {
-                "start": 192,
-                "end": 197,
+                "start": 191,
+                "end": 196,
                 "ctxt": 0
               },
               "value": "bar",
@@ -99,15 +99,15 @@
             "params": [],
             "decorators": [],
             "span": {
-              "start": 191,
-              "end": 204,
+              "start": 190,
+              "end": 203,
               "ctxt": 0
             },
             "body": {
               "type": "BlockStatement",
               "span": {
-                "start": 202,
-                "end": 204,
+                "start": 201,
+                "end": 203,
                 "ctxt": 0
               },
               "stmts": []
@@ -136,8 +136,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 213,
-          "end": 215,
+          "start": 212,
+          "end": 214,
           "ctxt": 0
         },
         "value": "C2",
@@ -145,8 +145,8 @@
       },
       "declare": false,
       "span": {
-        "start": 207,
-        "end": 266,
+        "start": 206,
+        "end": 265,
         "ctxt": 0
       },
       "decorators": [],
@@ -154,22 +154,22 @@
         {
           "type": "PrivateProperty",
           "span": {
-            "start": 222,
-            "end": 239,
+            "start": 221,
+            "end": 238,
             "ctxt": 0
           },
           "key": {
             "type": "PrivateName",
             "span": {
-              "start": 229,
-              "end": 233,
+              "start": 228,
+              "end": 232,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 230,
-                "end": 233,
+                "start": 229,
+                "end": 232,
                 "ctxt": 0
               },
               "value": "qux",
@@ -179,8 +179,8 @@
           "value": {
             "type": "NumericLiteral",
             "span": {
-              "start": 236,
-              "end": 238,
+              "start": 235,
+              "end": 237,
               "ctxt": 0
             },
             "value": 42.0,
@@ -198,22 +198,22 @@
         {
           "type": "ClassMethod",
           "span": {
-            "start": 244,
-            "end": 264,
+            "start": 243,
+            "end": 263,
             "ctxt": 0
           },
           "key": {
             "type": "Computed",
             "span": {
-              "start": 251,
-              "end": 258,
+              "start": 250,
+              "end": 257,
               "ctxt": 0
             },
             "expression": {
               "type": "StringLiteral",
               "span": {
-                "start": 252,
-                "end": 257,
+                "start": 251,
+                "end": 256,
                 "ctxt": 0
               },
               "value": "bar",
@@ -224,15 +224,15 @@
             "params": [],
             "decorators": [],
             "span": {
-              "start": 244,
-              "end": 264,
+              "start": 243,
+              "end": 263,
               "ctxt": 0
             },
             "body": {
               "type": "BlockStatement",
               "span": {
-                "start": 262,
-                "end": 264,
+                "start": 261,
+                "end": 263,
                 "ctxt": 0
               },
               "stmts": []
@@ -261,8 +261,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 273,
-          "end": 275,
+          "start": 272,
+          "end": 274,
           "ctxt": 0
         },
         "value": "C3",
@@ -270,8 +270,8 @@
       },
       "declare": false,
       "span": {
-        "start": 267,
-        "end": 330,
+        "start": 266,
+        "end": 329,
         "ctxt": 0
       },
       "decorators": [],
@@ -279,22 +279,22 @@
         {
           "type": "PrivateProperty",
           "span": {
-            "start": 282,
-            "end": 299,
+            "start": 281,
+            "end": 298,
             "ctxt": 0
           },
           "key": {
             "type": "PrivateName",
             "span": {
-              "start": 289,
-              "end": 293,
+              "start": 288,
+              "end": 292,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 290,
-                "end": 293,
+                "start": 289,
+                "end": 292,
                 "ctxt": 0
               },
               "value": "qux",
@@ -304,8 +304,8 @@
           "value": {
             "type": "NumericLiteral",
             "span": {
-              "start": 296,
-              "end": 298,
+              "start": 295,
+              "end": 297,
               "ctxt": 0
             },
             "value": 42.0,
@@ -323,22 +323,22 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 304,
-            "end": 328,
+            "start": 303,
+            "end": 327,
             "ctxt": 0
           },
           "key": {
             "type": "Computed",
             "span": {
-              "start": 311,
-              "end": 318,
+              "start": 310,
+              "end": 317,
               "ctxt": 0
             },
             "expression": {
               "type": "StringLiteral",
               "span": {
-                "start": 312,
-                "end": 317,
+                "start": 311,
+                "end": 316,
                 "ctxt": 0
               },
               "value": "bar",
@@ -348,8 +348,8 @@
           "value": {
             "type": "StringLiteral",
             "span": {
-              "start": 321,
-              "end": 327,
+              "start": 320,
+              "end": 326,
               "ctxt": 0
             },
             "value": "test",

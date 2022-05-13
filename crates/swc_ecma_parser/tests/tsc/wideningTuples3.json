@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 24,
-    "end": 69,
+    "start": 23,
+    "end": 68,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 24,
-        "end": 37,
+        "start": 23,
+        "end": 36,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 28,
-            "end": 36,
+            "start": 27,
+            "end": 35,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 28,
-              "end": 29,
+              "start": 27,
+              "end": 28,
               "ctxt": 0
             },
             "value": "a",
@@ -35,31 +35,31 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 29,
-                "end": 36,
+                "start": 28,
+                "end": 35,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsTupleType",
                 "span": {
-                  "start": 31,
-                  "end": 36,
+                  "start": 30,
+                  "end": 35,
                   "ctxt": 0
                 },
                 "elemTypes": [
                   {
                     "type": "TsTupleElement",
                     "span": {
-                      "start": 32,
-                      "end": 35,
+                      "start": 31,
+                      "end": 34,
                       "ctxt": 0
                     },
                     "label": null,
                     "ty": {
                       "type": "TsKeywordType",
                       "span": {
-                        "start": 32,
-                        "end": 35,
+                        "start": 31,
+                        "end": 34,
                         "ctxt": 0
                       },
                       "kind": "any"
@@ -77,8 +77,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 39,
-        "end": 69,
+        "start": 38,
+        "end": 68,
         "ctxt": 0
       },
       "kind": "var",
@@ -87,15 +87,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 43,
-            "end": 68,
+            "start": 42,
+            "end": 67,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 43,
-              "end": 44,
+              "start": 42,
+              "end": 43,
               "ctxt": 0
             },
             "value": "b",
@@ -105,16 +105,16 @@
           "init": {
             "type": "AssignmentExpression",
             "span": {
-              "start": 47,
-              "end": 68,
+              "start": 46,
+              "end": 67,
               "ctxt": 0
             },
             "operator": "=",
             "left": {
               "type": "Identifier",
               "span": {
-                "start": 47,
-                "end": 48,
+                "start": 46,
+                "end": 47,
                 "ctxt": 0
               },
               "value": "a",
@@ -124,8 +124,8 @@
             "right": {
               "type": "ArrayExpression",
               "span": {
-                "start": 51,
-                "end": 68,
+                "start": 50,
+                "end": 67,
                 "ctxt": 0
               },
               "elements": [
@@ -134,8 +134,8 @@
                   "expression": {
                     "type": "Identifier",
                     "span": {
-                      "start": 52,
-                      "end": 61,
+                      "start": 51,
+                      "end": 60,
                       "ctxt": 0
                     },
                     "value": "undefined",
@@ -147,8 +147,8 @@
                   "expression": {
                     "type": "NullLiteral",
                     "span": {
-                      "start": 63,
-                      "end": 67,
+                      "start": 62,
+                      "end": 66,
                       "ctxt": 0
                     }
                   }

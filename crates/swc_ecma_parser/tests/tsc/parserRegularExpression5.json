@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 46,
+    "start": 0,
+    "end": 45,
     "ctxt": 0
   },
   "body": [
     {
       "type": "IfStatement",
       "span": {
-        "start": 1,
-        "end": 46,
+        "start": 0,
+        "end": 45,
         "ctxt": 0
       },
       "test": {
         "type": "Identifier",
         "span": {
-          "start": 5,
-          "end": 6,
+          "start": 4,
+          "end": 5,
           "ctxt": 0
         },
         "value": "a",
@@ -26,29 +26,29 @@
       "consequent": {
         "type": "ExpressionStatement",
         "span": {
-          "start": 8,
-          "end": 46,
+          "start": 7,
+          "end": 45,
           "ctxt": 0
         },
         "expression": {
           "type": "CallExpression",
           "span": {
-            "start": 8,
-            "end": 45,
+            "start": 7,
+            "end": 44,
             "ctxt": 0
           },
           "callee": {
             "type": "MemberExpression",
             "span": {
-              "start": 8,
-              "end": 37,
+              "start": 7,
+              "end": 36,
               "ctxt": 0
             },
             "object": {
               "type": "RegExpLiteral",
               "span": {
-                "start": 8,
-                "end": 31,
+                "start": 7,
+                "end": 30,
                 "ctxt": 0
               },
               "pattern": " (\\\\ ? | & ) rct = j ",
@@ -57,8 +57,8 @@
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 33,
-                "end": 37,
+                "start": 32,
+                "end": 36,
                 "ctxt": 0
               },
               "value": "test",
@@ -71,15 +71,15 @@
               "expression": {
                 "type": "MemberExpression",
                 "span": {
-                  "start": 38,
-                  "end": 44,
+                  "start": 37,
+                  "end": 43,
                   "ctxt": 0
                 },
                 "object": {
                   "type": "Identifier",
                   "span": {
-                    "start": 38,
-                    "end": 39,
+                    "start": 37,
+                    "end": 38,
                     "ctxt": 0
                   },
                   "value": "c",
@@ -88,8 +88,8 @@
                 "property": {
                   "type": "Identifier",
                   "span": {
-                    "start": 40,
-                    "end": 44,
+                    "start": 39,
+                    "end": 43,
                     "ctxt": 0
                   },
                   "value": "href",

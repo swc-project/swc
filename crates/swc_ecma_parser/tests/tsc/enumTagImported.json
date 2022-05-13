@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 141,
-    "end": 442,
+    "start": 140,
+    "end": 441,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 141,
-        "end": 159,
+        "start": 140,
+        "end": 158,
         "ctxt": 0
       },
       "kind": "const",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 147,
-            "end": 159,
+            "start": 146,
+            "end": 158,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 147,
-              "end": 151,
+              "start": 146,
+              "end": 150,
               "ctxt": 0
             },
             "value": "test",
@@ -37,8 +37,8 @@
           "init": {
             "type": "StringLiteral",
             "span": {
-              "start": 154,
-              "end": 159,
+              "start": 153,
+              "end": 158,
               "ctxt": 0
             },
             "value": "add",
@@ -51,8 +51,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 201,
-        "end": 222,
+        "start": 200,
+        "end": 221,
         "ctxt": 0
       },
       "kind": "const",
@@ -61,15 +61,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 207,
-            "end": 222,
+            "start": 206,
+            "end": 221,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 207,
-              "end": 211,
+              "start": 206,
+              "end": 210,
               "ctxt": 0
             },
             "value": "tost",
@@ -79,8 +79,8 @@
           "init": {
             "type": "StringLiteral",
             "span": {
-              "start": 214,
-              "end": 222,
+              "start": 213,
+              "end": 221,
               "ctxt": 0
             },
             "value": "remove",
@@ -93,23 +93,23 @@
     {
       "type": "ImportDeclaration",
       "span": {
-        "start": 247,
-        "end": 280,
+        "start": 246,
+        "end": 279,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ImportSpecifier",
           "span": {
-            "start": 256,
-            "end": 264,
+            "start": 255,
+            "end": 263,
             "ctxt": 0
           },
           "local": {
             "type": "Identifier",
             "span": {
-              "start": 256,
-              "end": 264,
+              "start": 255,
+              "end": 263,
               "ctxt": 0
             },
             "value": "TestEnum",
@@ -122,8 +122,8 @@
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 272,
-          "end": 280,
+          "start": 271,
+          "end": 279,
           "ctxt": 0
         },
         "value": "./mod1",
@@ -135,8 +135,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 305,
-        "end": 330,
+        "start": 304,
+        "end": 329,
         "ctxt": 0
       },
       "kind": "const",
@@ -145,15 +145,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 311,
-            "end": 330,
+            "start": 310,
+            "end": 329,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 311,
-              "end": 315,
+              "start": 310,
+              "end": 314,
               "ctxt": 0
             },
             "value": "tist",
@@ -163,15 +163,15 @@
           "init": {
             "type": "MemberExpression",
             "span": {
-              "start": 318,
-              "end": 330,
+              "start": 317,
+              "end": 329,
               "ctxt": 0
             },
             "object": {
               "type": "Identifier",
               "span": {
-                "start": 318,
-                "end": 326,
+                "start": 317,
+                "end": 325,
                 "ctxt": 0
               },
               "value": "TestEnum",
@@ -180,8 +180,8 @@
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 327,
-                "end": 330,
+                "start": 326,
+                "end": 329,
                 "ctxt": 0
               },
               "value": "ADD",
@@ -195,15 +195,15 @@
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 378,
-        "end": 442,
+        "start": 377,
+        "end": 441,
         "ctxt": 0
       },
       "declaration": {
         "type": "VariableDeclaration",
         "span": {
-          "start": 385,
-          "end": 442,
+          "start": 384,
+          "end": 441,
           "ctxt": 0
         },
         "kind": "const",
@@ -212,15 +212,15 @@
           {
             "type": "VariableDeclarator",
             "span": {
-              "start": 391,
-              "end": 442,
+              "start": 390,
+              "end": 441,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 391,
-                "end": 399,
+                "start": 390,
+                "end": 398,
                 "ctxt": 0
               },
               "value": "TestEnum",
@@ -230,8 +230,8 @@
             "init": {
               "type": "ObjectExpression",
               "span": {
-                "start": 402,
-                "end": 442,
+                "start": 401,
+                "end": 441,
                 "ctxt": 0
               },
               "properties": [
@@ -240,8 +240,8 @@
                   "key": {
                     "type": "Identifier",
                     "span": {
-                      "start": 408,
-                      "end": 411,
+                      "start": 407,
+                      "end": 410,
                       "ctxt": 0
                     },
                     "value": "ADD",
@@ -250,8 +250,8 @@
                   "value": {
                     "type": "StringLiteral",
                     "span": {
-                      "start": 413,
-                      "end": 418,
+                      "start": 412,
+                      "end": 417,
                       "ctxt": 0
                     },
                     "value": "add",
@@ -263,8 +263,8 @@
                   "key": {
                     "type": "Identifier",
                     "span": {
-                      "start": 424,
-                      "end": 430,
+                      "start": 423,
+                      "end": 429,
                       "ctxt": 0
                     },
                     "value": "REMOVE",
@@ -273,8 +273,8 @@
                   "value": {
                     "type": "StringLiteral",
                     "span": {
-                      "start": 432,
-                      "end": 440,
+                      "start": 431,
+                      "end": 439,
                       "ctxt": 0
                     },
                     "value": "remove",

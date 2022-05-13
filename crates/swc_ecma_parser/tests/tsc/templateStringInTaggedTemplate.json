@@ -1,46 +1,46 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 76,
+    "start": 0,
+    "end": 75,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 1,
-        "end": 76,
+        "start": 0,
+        "end": 75,
         "ctxt": 0
       },
       "expression": {
         "type": "TaggedTemplateExpression",
         "span": {
-          "start": 1,
-          "end": 76,
+          "start": 0,
+          "end": 75,
           "ctxt": 0
         },
         "tag": {
           "type": "TemplateLiteral",
           "span": {
-            "start": 1,
-            "end": 38,
+            "start": 0,
+            "end": 37,
             "ctxt": 0
           },
           "expressions": [
             {
               "type": "TemplateLiteral",
               "span": {
-                "start": 14,
-                "end": 27,
+                "start": 13,
+                "end": 26,
                 "ctxt": 0
               },
               "expressions": [
                 {
                   "type": "TemplateLiteral",
                   "span": {
-                    "start": 18,
-                    "end": 23,
+                    "start": 17,
+                    "end": 22,
                     "ctxt": 0
                   },
                   "expressions": [],
@@ -48,8 +48,8 @@
                     {
                       "type": "TemplateElement",
                       "span": {
-                        "start": 19,
-                        "end": 22,
+                        "start": 18,
+                        "end": 21,
                         "ctxt": 0
                       },
                       "tail": true,
@@ -63,8 +63,8 @@
                 {
                   "type": "TemplateElement",
                   "span": {
-                    "start": 15,
-                    "end": 15,
+                    "start": 14,
+                    "end": 14,
                     "ctxt": 0
                   },
                   "tail": false,
@@ -74,8 +74,8 @@
                 {
                   "type": "TemplateElement",
                   "span": {
-                    "start": 25,
-                    "end": 26,
+                    "start": 24,
+                    "end": 25,
                     "ctxt": 0
                   },
                   "tail": true,
@@ -89,8 +89,8 @@
             {
               "type": "TemplateElement",
               "span": {
-                "start": 2,
-                "end": 11,
+                "start": 1,
+                "end": 10,
                 "ctxt": 0
               },
               "tail": false,
@@ -100,8 +100,8 @@
             {
               "type": "TemplateElement",
               "span": {
-                "start": 29,
-                "end": 37,
+                "start": 28,
+                "end": 36,
                 "ctxt": 0
               },
               "tail": true,
@@ -114,16 +114,16 @@
         "template": {
           "type": "TemplateLiteral",
           "span": {
-            "start": 42,
-            "end": 76,
+            "start": 41,
+            "end": 75,
             "ctxt": 0
           },
           "expressions": [
             {
               "type": "StringLiteral",
               "span": {
-                "start": 48,
-                "end": 52,
+                "start": 47,
+                "end": 51,
                 "ctxt": 0
               },
               "value": "AM",
@@ -134,8 +134,8 @@
             {
               "type": "TemplateElement",
               "span": {
-                "start": 43,
-                "end": 45,
+                "start": 42,
+                "end": 44,
                 "ctxt": 0
               },
               "tail": false,
@@ -145,8 +145,8 @@
             {
               "type": "TemplateElement",
               "span": {
-                "start": 54,
-                "end": 75,
+                "start": 53,
+                "end": 74,
                 "ctxt": 0
               },
               "tail": true,

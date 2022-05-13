@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 79,
-    "end": 257,
+    "start": 78,
+    "end": 256,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 96,
-          "end": 103,
+          "start": 95,
+          "end": 102,
           "ctxt": 0
         },
         "value": "factory",
@@ -23,16 +23,16 @@
         {
           "type": "Parameter",
           "span": {
-            "start": 104,
-            "end": 116,
+            "start": 103,
+            "end": 115,
             "ctxt": 0
           },
           "decorators": [],
           "pat": {
             "type": "Identifier",
             "span": {
-              "start": 104,
-              "end": 116,
+              "start": 103,
+              "end": 115,
               "ctxt": 0
             },
             "value": "type",
@@ -40,15 +40,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 108,
-                "end": 116,
+                "start": 107,
+                "end": 115,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 110,
-                  "end": 116,
+                  "start": 109,
+                  "end": 115,
                   "ctxt": 0
                 },
                 "kind": "string"
@@ -59,8 +59,8 @@
       ],
       "decorators": [],
       "span": {
-        "start": 79,
-        "end": 122,
+        "start": 78,
+        "end": 121,
         "ctxt": 0
       },
       "body": null,
@@ -70,15 +70,15 @@
       "returnType": {
         "type": "TsTypeAnnotation",
         "span": {
-          "start": 117,
-          "end": 121,
+          "start": 116,
+          "end": 120,
           "ctxt": 0
         },
         "typeAnnotation": {
           "type": "TsTypeLiteral",
           "span": {
-            "start": 119,
-            "end": 121,
+            "start": 118,
+            "end": 120,
             "ctxt": 0
           },
           "members": []
@@ -88,30 +88,30 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 219,
-        "end": 257,
+        "start": 218,
+        "end": 256,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 219,
-          "end": 257,
+          "start": 218,
+          "end": 256,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
-            "start": 219,
-            "end": 235,
+            "start": 218,
+            "end": 234,
             "ctxt": 0
           },
           "object": {
             "type": "Identifier",
             "span": {
-              "start": 219,
-              "end": 226,
+              "start": 218,
+              "end": 225,
               "ctxt": 0
             },
             "value": "exports",
@@ -120,8 +120,8 @@
           "property": {
             "type": "Identifier",
             "span": {
-              "start": 227,
-              "end": 235,
+              "start": 226,
+              "end": 234,
               "ctxt": 0
             },
             "value": "inherits",
@@ -131,15 +131,15 @@
         "right": {
           "type": "CallExpression",
           "span": {
-            "start": 238,
-            "end": 257,
+            "start": 237,
+            "end": 256,
             "ctxt": 0
           },
           "callee": {
             "type": "Identifier",
             "span": {
-              "start": 238,
-              "end": 245,
+              "start": 237,
+              "end": 244,
               "ctxt": 0
             },
             "value": "factory",
@@ -151,8 +151,8 @@
               "expression": {
                 "type": "StringLiteral",
                 "span": {
-                  "start": 246,
-                  "end": 256,
+                  "start": 245,
+                  "end": 255,
                   "ctxt": 0
                 },
                 "value": "inherits",

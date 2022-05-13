@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 18,
-    "end": 157,
+    "start": 17,
+    "end": 156,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 27,
-          "end": 28,
+          "start": 26,
+          "end": 27,
           "ctxt": 0
         },
         "value": "f",
@@ -22,23 +22,23 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 18,
-        "end": 157,
+        "start": 17,
+        "end": 156,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 31,
-          "end": 157,
+          "start": 30,
+          "end": 156,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "VariableDeclaration",
             "span": {
-              "start": 37,
-              "end": 61,
+              "start": 36,
+              "end": 60,
               "ctxt": 0
             },
             "kind": "var",
@@ -47,15 +47,15 @@
               {
                 "type": "VariableDeclarator",
                 "span": {
-                  "start": 41,
-                  "end": 60,
+                  "start": 40,
+                  "end": 59,
                   "ctxt": 0
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
-                    "start": 41,
-                    "end": 50,
+                    "start": 40,
+                    "end": 49,
                     "ctxt": 0
                   },
                   "value": "arguments",
@@ -65,8 +65,8 @@
                 "init": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 53,
-                    "end": 60,
+                    "start": 52,
+                    "end": 59,
                     "ctxt": 0
                   },
                   "value": "hello",
@@ -79,29 +79,29 @@
           {
             "type": "IfStatement",
             "span": {
-              "start": 66,
-              "end": 155,
+              "start": 65,
+              "end": 154,
               "ctxt": 0
             },
             "test": {
               "type": "CallExpression",
               "span": {
-                "start": 70,
-                "end": 83,
+                "start": 69,
+                "end": 82,
                 "ctxt": 0
               },
               "callee": {
                 "type": "MemberExpression",
                 "span": {
-                  "start": 70,
-                  "end": 81,
+                  "start": 69,
+                  "end": 80,
                   "ctxt": 0
                 },
                 "object": {
                   "type": "Identifier",
                   "span": {
-                    "start": 70,
-                    "end": 74,
+                    "start": 69,
+                    "end": 73,
                     "ctxt": 0
                   },
                   "value": "Math",
@@ -110,8 +110,8 @@
                 "property": {
                   "type": "Identifier",
                   "span": {
-                    "start": 75,
-                    "end": 81,
+                    "start": 74,
+                    "end": 80,
                     "ctxt": 0
                   },
                   "value": "random",
@@ -124,16 +124,16 @@
             "consequent": {
               "type": "BlockStatement",
               "span": {
-                "start": 85,
-                "end": 155,
+                "start": 84,
+                "end": 154,
                 "ctxt": 0
               },
               "stmts": [
                 {
                   "type": "VariableDeclaration",
                   "span": {
-                    "start": 95,
-                    "end": 117,
+                    "start": 94,
+                    "end": 116,
                     "ctxt": 0
                   },
                   "kind": "const",
@@ -142,15 +142,15 @@
                     {
                       "type": "VariableDeclarator",
                       "span": {
-                        "start": 101,
-                        "end": 116,
+                        "start": 100,
+                        "end": 115,
                         "ctxt": 0
                       },
                       "id": {
                         "type": "Identifier",
                         "span": {
-                          "start": 101,
-                          "end": 110,
+                          "start": 100,
+                          "end": 109,
                           "ctxt": 0
                         },
                         "value": "arguments",
@@ -160,8 +160,8 @@
                       "init": {
                         "type": "NumericLiteral",
                         "span": {
-                          "start": 113,
-                          "end": 116,
+                          "start": 112,
+                          "end": 115,
                           "ctxt": 0
                         },
                         "value": 100.0,
@@ -174,23 +174,23 @@
                 {
                   "type": "ReturnStatement",
                   "span": {
-                    "start": 126,
-                    "end": 149,
+                    "start": 125,
+                    "end": 148,
                     "ctxt": 0
                   },
                   "argument": {
                     "type": "ArrowFunctionExpression",
                     "span": {
-                      "start": 133,
-                      "end": 148,
+                      "start": 132,
+                      "end": 147,
                       "ctxt": 0
                     },
                     "params": [],
                     "body": {
                       "type": "Identifier",
                       "span": {
-                        "start": 139,
-                        "end": 148,
+                        "start": 138,
+                        "end": 147,
                         "ctxt": 0
                       },
                       "value": "arguments",

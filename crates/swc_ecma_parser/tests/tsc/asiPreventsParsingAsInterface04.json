@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 2,
-    "end": 218,
+    "start": 1,
+    "end": 217,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 2,
-        "end": 53,
+        "start": 1,
+        "end": 52,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 6,
-            "end": 22,
+            "start": 5,
+            "end": 21,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 6,
-              "end": 13,
+              "start": 5,
+              "end": 12,
               "ctxt": 0
             },
             "value": "declare",
@@ -35,15 +35,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 13,
-                "end": 22,
+                "start": 12,
+                "end": 21,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 15,
-                  "end": 22,
+                  "start": 14,
+                  "end": 21,
                   "ctxt": 0
                 },
                 "kind": "boolean"
@@ -56,15 +56,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 24,
-            "end": 41,
+            "start": 23,
+            "end": 40,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 24,
-              "end": 33,
+              "start": 23,
+              "end": 32,
               "ctxt": 0
             },
             "value": "interface",
@@ -72,15 +72,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 33,
-                "end": 41,
+                "start": 32,
+                "end": 40,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 35,
-                  "end": 41,
+                  "start": 34,
+                  "end": 40,
                   "ctxt": 0
                 },
                 "kind": "number"
@@ -93,15 +93,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 43,
-            "end": 52,
+            "start": 42,
+            "end": 51,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 43,
-              "end": 44,
+              "start": 42,
+              "end": 43,
               "ctxt": 0
             },
             "value": "I",
@@ -109,15 +109,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 44,
-                "end": 52,
+                "start": 43,
+                "end": 51,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 46,
-                  "end": 52,
+                  "start": 45,
+                  "end": 51,
                   "ctxt": 0
                 },
                 "kind": "string"
@@ -132,15 +132,15 @@
     {
       "type": "TsInterfaceDeclaration",
       "span": {
-        "start": 55,
-        "end": 218,
+        "start": 54,
+        "end": 217,
         "ctxt": 0
       },
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 167,
-          "end": 168,
+          "start": 166,
+          "end": 167,
           "ctxt": 0
         },
         "value": "I",
@@ -152,8 +152,8 @@
       "body": {
         "type": "TsInterfaceBody",
         "span": {
-          "start": 216,
-          "end": 218,
+          "start": 215,
+          "end": 217,
           "ctxt": 0
         },
         "body": []

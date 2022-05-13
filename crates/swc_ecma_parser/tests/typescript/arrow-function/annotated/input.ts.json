@@ -1,31 +1,31 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 26,
+    "start": 0,
+    "end": 25,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 1,
-        "end": 26,
+        "start": 0,
+        "end": 25,
         "ctxt": 0
       },
       "expression": {
         "type": "ArrowFunctionExpression",
         "span": {
-          "start": 1,
-          "end": 25,
+          "start": 0,
+          "end": 24,
           "ctxt": 0
         },
         "params": [
           {
             "type": "Identifier",
             "span": {
-              "start": 2,
-              "end": 11,
+              "start": 1,
+              "end": 10,
               "ctxt": 0
             },
             "value": "x",
@@ -33,15 +33,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 3,
-                "end": 11,
+                "start": 2,
+                "end": 10,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 5,
-                  "end": 11,
+                  "start": 4,
+                  "end": 10,
                   "ctxt": 0
                 },
                 "kind": "number"
@@ -52,8 +52,8 @@
         "body": {
           "type": "Identifier",
           "span": {
-            "start": 24,
-            "end": 25,
+            "start": 23,
+            "end": 24,
             "ctxt": 0
           },
           "value": "x",
@@ -65,15 +65,15 @@
         "returnType": {
           "type": "TsTypeAnnotation",
           "span": {
-            "start": 12,
-            "end": 20,
+            "start": 11,
+            "end": 19,
             "ctxt": 0
           },
           "typeAnnotation": {
             "type": "TsKeywordType",
             "span": {
-              "start": 14,
-              "end": 20,
+              "start": 13,
+              "end": 19,
               "ctxt": 0
             },
             "kind": "number"

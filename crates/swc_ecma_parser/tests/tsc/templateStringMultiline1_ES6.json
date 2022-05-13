@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 42,
-    "end": 47,
+    "start": 41,
+    "end": 46,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 42,
-        "end": 47,
+        "start": 41,
+        "end": 46,
         "ctxt": 0
       },
       "expression": {
         "type": "TemplateLiteral",
         "span": {
-          "start": 42,
-          "end": 47,
+          "start": 41,
+          "end": 46,
           "ctxt": 0
         },
         "expressions": [],
@@ -25,8 +25,8 @@
           {
             "type": "TemplateElement",
             "span": {
-              "start": 43,
-              "end": 46,
+              "start": 42,
+              "end": 45,
               "ctxt": 0
             },
             "tail": true,

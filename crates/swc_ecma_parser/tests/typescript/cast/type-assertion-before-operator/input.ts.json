@@ -1,38 +1,38 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 16,
+    "start": 0,
+    "end": 15,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 1,
-        "end": 16,
+        "start": 0,
+        "end": 15,
         "ctxt": 0
       },
       "expression": {
         "type": "BinaryExpression",
         "span": {
-          "start": 1,
-          "end": 15,
+          "start": 0,
+          "end": 14,
           "ctxt": 0
         },
         "operator": "+",
         "left": {
           "type": "TsTypeAssertion",
           "span": {
-            "start": 1,
-            "end": 11,
+            "start": 0,
+            "end": 10,
             "ctxt": 0
           },
           "expression": {
             "type": "NumericLiteral",
             "span": {
-              "start": 10,
-              "end": 11,
+              "start": 9,
+              "end": 10,
               "ctxt": 0
             },
             "value": 1.0,
@@ -41,8 +41,8 @@
           "typeAnnotation": {
             "type": "TsKeywordType",
             "span": {
-              "start": 2,
-              "end": 8,
+              "start": 1,
+              "end": 7,
               "ctxt": 0
             },
             "kind": "number"
@@ -51,8 +51,8 @@
         "right": {
           "type": "NumericLiteral",
           "span": {
-            "start": 14,
-            "end": 15,
+            "start": 13,
+            "end": 14,
             "ctxt": 0
           },
           "value": 1.0,

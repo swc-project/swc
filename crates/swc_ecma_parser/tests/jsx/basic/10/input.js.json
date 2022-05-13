@@ -1,23 +1,23 @@
 {
   "type": "Module",
   "span": {
-    "start": 1,
-    "end": 33,
+    "start": 0,
+    "end": 32,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 1,
-        "end": 33,
+        "start": 0,
+        "end": 32,
         "ctxt": 0
       },
       "expression": {
         "type": "JSXElement",
         "span": {
-          "start": 1,
-          "end": 33,
+          "start": 0,
+          "end": 32,
           "ctxt": 0
         },
         "opening": {
@@ -25,16 +25,16 @@
           "name": {
             "type": "Identifier",
             "span": {
-              "start": 2,
-              "end": 3,
+              "start": 1,
+              "end": 2,
               "ctxt": 0
             },
             "value": "a",
             "optional": false
           },
           "span": {
-            "start": 1,
-            "end": 4,
+            "start": 0,
+            "end": 3,
             "ctxt": 0
           },
           "attributes": [],
@@ -45,15 +45,15 @@
           {
             "type": "JSXExpressionContainer",
             "span": {
-              "start": 4,
-              "end": 29,
+              "start": 3,
+              "end": 28,
               "ctxt": 0
             },
             "expression": {
               "type": "JSXEmptyExpression",
               "span": {
-                "start": 28,
-                "end": 28,
+                "start": 27,
+                "end": 27,
                 "ctxt": 0
               }
             }
@@ -62,15 +62,15 @@
         "closing": {
           "type": "JSXClosingElement",
           "span": {
-            "start": 29,
-            "end": 33,
+            "start": 28,
+            "end": 32,
             "ctxt": 0
           },
           "name": {
             "type": "Identifier",
             "span": {
-              "start": 31,
-              "end": 32,
+              "start": 30,
+              "end": 31,
               "ctxt": 0
             },
             "value": "a",

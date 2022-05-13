@@ -1,16 +1,16 @@
 {
   "type": "DocumentFragment",
   "span": {
-    "start": 1,
-    "end": 15,
+    "start": 0,
+    "end": 14,
     "ctxt": 0
   },
   "children": [
     {
       "type": "Element",
       "span": {
-        "start": 1,
-        "end": 4,
+        "start": 0,
+        "end": 3,
         "ctxt": 0
       },
       "tagName": "a",
@@ -22,8 +22,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 4,
-        "end": 15,
+        "start": 3,
+        "end": 14,
         "ctxt": 0
       },
       "tagName": "tfoot",
@@ -33,8 +33,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 11,
-            "end": 15,
+            "start": 10,
+            "end": 14,
             "ctxt": 0
           },
           "tagName": "tr",
