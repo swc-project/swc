@@ -11,7 +11,6 @@ use swc_common::{SourceFile, SourceMap, GLOBALS};
 use swc_ecma_minifier::option::MinifyOptions;
 use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_visit::VisitMutWith;
-use swc_timer::timer;
 use tracing::info;
 
 use crate::util::{all_js_files, parse_js, print_js, wrap_task};
@@ -79,7 +78,6 @@ impl EnsureSize {
             let code_mangled = {
                 let mut minified_mangled = {
                     let m = i.module.clone();
-                    let _timer = timer!("minify");
                     swc_ecma_minifier::optimize(
                         m,
                         cm.clone(),
@@ -107,7 +105,6 @@ impl EnsureSize {
                 let mut minified_mangled = {
                     let m = i.module.clone();
 
-                    let _timer = timer!("minify.no-mangle");
                     swc_ecma_minifier::optimize(
                         m,
                         cm.clone(),

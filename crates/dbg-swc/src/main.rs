@@ -35,7 +35,8 @@ enum Cmd {
 }
 
 fn main() -> Result<()> {
-    let log_env = env::var("RUST_LOG").unwrap_or_else(|_| "info".into());
+    let log_env =
+        env::var("RUST_LOG").unwrap_or_else(|_| "info,swc_ecma_minifier=warn,swc_timer=off".into());
 
     let logger = tracing_subscriber::FmtSubscriber::builder()
         .without_time()
