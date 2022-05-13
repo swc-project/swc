@@ -39,49 +39,65 @@
               "tagName": "template",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
-              "children": [
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 11,
-                    "end": 36,
-                    "ctxt": 0
-                  },
-                  "tagName": "template",
-                  "namespace": "http://www.w3.org/1999/xhtml",
-                  "attributes": [],
-                  "children": [
-                    {
-                      "type": "Element",
-                      "span": {
-                        "start": 21,
-                        "end": 28,
-                        "ctxt": 0
-                      },
-                      "tagName": "tbody",
-                      "namespace": "http://www.w3.org/1999/xhtml",
-                      "attributes": [],
-                      "children": [],
-                      "content": null
+              "children": [],
+              "content": {
+                "type": "DocumentFragment",
+                "span": {
+                  "start": 1,
+                  "end": 36,
+                  "ctxt": 0
+                },
+                "children": [
+                  {
+                    "type": "Element",
+                    "span": {
+                      "start": 11,
+                      "end": 36,
+                      "ctxt": 0
                     },
-                    {
-                      "type": "Element",
+                    "tagName": "template",
+                    "namespace": "http://www.w3.org/1999/xhtml",
+                    "attributes": [],
+                    "children": [],
+                    "content": {
+                      "type": "DocumentFragment",
                       "span": {
-                        "start": 28,
+                        "start": 11,
                         "end": 36,
                         "ctxt": 0
                       },
-                      "tagName": "select",
-                      "namespace": "http://www.w3.org/1999/xhtml",
-                      "attributes": [],
-                      "children": [],
-                      "content": null
+                      "children": [
+                        {
+                          "type": "Element",
+                          "span": {
+                            "start": 21,
+                            "end": 28,
+                            "ctxt": 0
+                          },
+                          "tagName": "tbody",
+                          "namespace": "http://www.w3.org/1999/xhtml",
+                          "attributes": [],
+                          "children": [],
+                          "content": null
+                        },
+                        {
+                          "type": "Element",
+                          "span": {
+                            "start": 28,
+                            "end": 36,
+                            "ctxt": 0
+                          },
+                          "tagName": "select",
+                          "namespace": "http://www.w3.org/1999/xhtml",
+                          "attributes": [],
+                          "children": [],
+                          "content": null
+                        }
+                      ]
                     }
-                  ],
-                  "content": null
-                }
-              ],
-              "content": null
+                  }
+                ]
+              }
             }
           ],
           "content": null

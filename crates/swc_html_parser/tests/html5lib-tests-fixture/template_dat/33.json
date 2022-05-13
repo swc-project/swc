@@ -63,50 +63,66 @@
                   "tagName": "template",
                   "namespace": "http://www.w3.org/1999/xhtml",
                   "attributes": [],
-                  "children": [
-                    {
-                      "type": "Element",
-                      "span": {
-                        "start": 18,
-                        "end": 36,
-                        "ctxt": 0
-                      },
-                      "tagName": "tr",
-                      "namespace": "http://www.w3.org/1999/xhtml",
-                      "attributes": [],
-                      "children": [
-                        {
-                          "type": "Element",
-                          "span": {
-                            "start": 22,
-                            "end": 36,
-                            "ctxt": 0
-                          },
-                          "tagName": "template",
-                          "namespace": "http://www.w3.org/1999/xhtml",
-                          "attributes": [],
-                          "children": [
-                            {
-                              "type": "Element",
+                  "children": [],
+                  "content": {
+                    "type": "DocumentFragment",
+                    "span": {
+                      "start": 8,
+                      "end": 36,
+                      "ctxt": 0
+                    },
+                    "children": [
+                      {
+                        "type": "Element",
+                        "span": {
+                          "start": 18,
+                          "end": 36,
+                          "ctxt": 0
+                        },
+                        "tagName": "tr",
+                        "namespace": "http://www.w3.org/1999/xhtml",
+                        "attributes": [],
+                        "children": [
+                          {
+                            "type": "Element",
+                            "span": {
+                              "start": 22,
+                              "end": 36,
+                              "ctxt": 0
+                            },
+                            "tagName": "template",
+                            "namespace": "http://www.w3.org/1999/xhtml",
+                            "attributes": [],
+                            "children": [],
+                            "content": {
+                              "type": "DocumentFragment",
                               "span": {
-                                "start": 32,
+                                "start": 22,
                                 "end": 36,
                                 "ctxt": 0
                               },
-                              "tagName": "td",
-                              "namespace": "http://www.w3.org/1999/xhtml",
-                              "attributes": [],
-                              "children": [],
-                              "content": null
+                              "children": [
+                                {
+                                  "type": "Element",
+                                  "span": {
+                                    "start": 32,
+                                    "end": 36,
+                                    "ctxt": 0
+                                  },
+                                  "tagName": "td",
+                                  "namespace": "http://www.w3.org/1999/xhtml",
+                                  "attributes": [],
+                                  "children": [],
+                                  "content": null
+                                }
+                              ]
                             }
-                          ],
-                          "content": null
-                        }
-                      ],
-                      "content": null
-                    }
-                  ],
-                  "content": null
+                          }
+                        ],
+                        "content": null
+                      }
+                    ]
+                  }
                 }
               ],
               "content": null
