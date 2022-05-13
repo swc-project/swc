@@ -60,8 +60,8 @@ impl<'a> arbitrary::Arbitrary<'a> for Span {
 /// Dummy span, both position and length are zero, syntax context is zero as
 /// well.
 pub const DUMMY_SP: Span = Span {
-    lo: BytePos(0),
-    hi: BytePos(0),
+    lo: BytePos::DUMMY,
+    hi: BytePos::DUMMY,
     ctxt: SyntaxContext::empty(),
 };
 
@@ -971,8 +971,8 @@ pub trait Pos {
 ///
 /// # Reserved
 ///
-///  - 0 is reserved for dummy spans. It means `BytePos(0)` means the `BytePos`
-///    is synthesized by the compiler.
+///  - [u32::MAX] is reserved for dummy spans. It means `BytePos(0)` means the
+///    `BytePos` is synthesized by the compiler.
 ///
 ///  - Values larger than `u32::MAX - 2^16` are reserved for the comments.
 ///
@@ -987,6 +987,7 @@ pub trait Pos {
 pub struct BytePos(#[cfg_attr(feature = "rkyv", omit_bounds)] pub u32);
 
 impl BytePos {
+    pub const DUMMY: Self = BytePos(u32::MAX);
     const MIN_RESERVED: Self = BytePos(DUMMY_RESERVE);
 
     pub const fn is_reserved_for_comments(self) -> bool {
@@ -996,7 +997,7 @@ impl BytePos {
     /// Returns true if this is synthesized and has no relevant input source
     /// code.
     pub const fn is_dummy(self) -> bool {
-        self.0 == 0
+        self.0 == u32::MAX
     }
 }
 
