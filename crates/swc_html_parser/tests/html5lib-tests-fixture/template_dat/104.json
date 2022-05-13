@@ -10,8 +10,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 0,
-        "end": 23,
+        "start": 4294967295,
+        "end": 4294967295,
         "ctxt": 0
       },
       "tagName": "html",
@@ -43,8 +43,8 @@
               "content": {
                 "type": "DocumentFragment",
                 "span": {
-                  "start": 14,
-                  "end": 24,
+                  "start": 13,
+                  "end": 23,
                   "ctxt": 0
                 },
                 "children": []
@@ -56,8 +56,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 0,
-            "end": 23,
+            "start": 23,
+            "end": 4294967295,
             "ctxt": 0
           },
           "tagName": "body",

@@ -10,8 +10,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 0,
-        "end": 68,
+        "start": 4294967295,
+        "end": 4294967295,
         "ctxt": 0
       },
       "tagName": "html",
@@ -21,7 +21,7 @@
         {
           "type": "Element",
           "span": {
-            "start": 0,
+            "start": 10,
             "end": 50,
             "ctxt": 0
           },
@@ -43,16 +43,16 @@
               "content": {
                 "type": "DocumentFragment",
                 "span": {
-                  "start": 1,
-                  "end": 51,
+                  "start": 0,
+                  "end": 50,
                   "ctxt": 0
                 },
                 "children": [
                   {
                     "type": "Element",
                     "span": {
-                      "start": 11,
-                      "end": 32,
+                      "start": 10,
+                      "end": 31,
                       "ctxt": 0
                     },
                     "tagName": "div",
@@ -62,8 +62,8 @@
                       {
                         "type": "Element",
                         "span": {
-                          "start": 26,
-                          "end": 32,
+                          "start": 25,
+                          "end": 31,
                           "ctxt": 0
                         },
                         "tagName": "span",
@@ -74,46 +74,12 @@
                       }
                     ],
                     "content": null
-              "children": [
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 10,
-                    "end": 31,
-                    "ctxt": 0
-                  },
-                  "tagName": "div",
-                  "namespace": "http://www.w3.org/1999/xhtml",
-                  "attributes": [],
-                  "children": [
-                    {
-                      "type": "Element",
-                      "span": {
-                        "start": 25,
-                        "end": 31,
-                        "ctxt": 0
-                      },
-                      "tagName": "span",
-                      "namespace": "http://www.w3.org/1999/xhtml",
-                      "attributes": [],
-                      "children": [],
-                      "content": null
-                    }
-                  ],
-                  "content": null
-                },
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 44,
-                    "end": 50,
-                    "ctxt": 0
                   },
                   {
                     "type": "Element",
                     "span": {
-                      "start": 45,
-                      "end": 51,
+                      "start": 44,
+                      "end": 50,
                       "ctxt": 0
                     },
                     "tagName": "span",
@@ -131,8 +97,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 0,
-            "end": 68,
+            "start": 68,
+            "end": 4294967295,
             "ctxt": 0
           },
           "tagName": "body",

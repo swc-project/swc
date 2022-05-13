@@ -21,8 +21,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 0,
-        "end": 54,
+        "start": 4294967295,
+        "end": 4294967295,
         "ctxt": 0
       },
       "tagName": "html",
@@ -32,7 +32,7 @@
         {
           "type": "Element",
           "span": {
-            "start": 0,
+            "start": 45,
             "end": 54,
             "ctxt": 0
           },
@@ -53,8 +53,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 4294967295,
+                    "end": 4294967295,
                     "ctxt": 0
                   },
                   "namespace": null,
@@ -82,8 +82,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 0,
-            "end": 54,
+            "start": 54,
+            "end": 4294967295,
             "ctxt": 0
           },
           "tagName": "body",

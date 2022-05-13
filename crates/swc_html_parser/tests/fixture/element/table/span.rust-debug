@@ -313,10 +313,6 @@
     `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/element/table/input.html:1:1]
- 1 | <!doctype html>
-   : ^
-   `----
 
   x Child
    ,-[$DIR/tests/fixture/element/table/input.html:3:1]
@@ -767,19 +763,8 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/table/input.html:1:1]
-  1 | ,-> <!doctype html>
-  2 | |   <html lang="en">
-  3 | |   <head>
-  4 | |       <meta charset="UTF-8">
-  5 | |       <meta name="viewport"
-  6 | |             content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  7 | |       <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  8 | |       <title>Document</title>
-  9 | |   </head>
- 10 | |   <body>
- 11 | |       <table>
- 12 | |           <tr>
+    ,-[$DIR/tests/fixture/element/table/input.html:12:9]
+ 12 | ,-> <tr>
  13 | |               <td>&nbsp;</td>
  14 | |               <td>Knocky</td>
  15 | |               <td>Flor</td>
@@ -818,19 +803,8 @@
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/table/input.html:1:1]
-  1 | ,-> <!doctype html>
-  2 | |   <html lang="en">
-  3 | |   <head>
-  4 | |       <meta charset="UTF-8">
-  5 | |       <meta name="viewport"
-  6 | |             content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  7 | |       <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  8 | |       <title>Document</title>
-  9 | |   </head>
- 10 | |   <body>
- 11 | |       <table>
- 12 | |           <tr>
+    ,-[$DIR/tests/fixture/element/table/input.html:12:9]
+ 12 | ,-> <tr>
  13 | |               <td>&nbsp;</td>
  14 | |               <td>Knocky</td>
  15 | |               <td>Flor</td>

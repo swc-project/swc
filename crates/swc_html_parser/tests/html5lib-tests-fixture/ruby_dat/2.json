@@ -21,8 +21,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 0,
-            "end": 12,
+            "start": 12,
+            "end": 4294967295,
             "ctxt": 0
           },
           "tagName": "head",
@@ -34,7 +34,7 @@
         {
           "type": "Element",
           "span": {
-            "start": 0,
+            "start": 12,
             "end": 23,
             "ctxt": 0
           },

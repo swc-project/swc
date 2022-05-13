@@ -19,54 +19,50 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/text/basic/input.html:1:1]
-  1 | ,-> Text
-  2 | |   <div>Text</div>
-  3 | |   <div>
-  4 | |       Text
-  5 | |   </div>
-  6 | |   <div>
-  7 | |   Text
-  8 | |   
-  9 | |   
- 10 | |   Text
- 11 | |   </div>
- 12 | |   <div>Text
- 13 | |   
- 14 | |   
- 15 | `-> Text</div>
-    `----
 
   x Element
-    ,-[$DIR/tests/fixture/text/basic/input.html:1:1]
-  1 | ,-> Text
-  2 | |   <div>Text</div>
-  3 | |   <div>
-  4 | |       Text
-  5 | |   </div>
-  6 | |   <div>
-  7 | |   Text
-  8 | |   
-  9 | |   
- 10 | |   Text
- 11 | |   </div>
- 12 | |   <div>Text
- 13 | |   
- 14 | |   
- 15 | `-> Text</div>
-    `----
 
   x Child
-   ,-[$DIR/tests/fixture/text/basic/input.html:1:1]
- 1 | Text
-   : ^
-   `----
 
   x Element
-   ,-[$DIR/tests/fixture/text/basic/input.html:1:1]
- 1 | Text
-   : ^
-   `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/basic/input.html:1:1]
+  1 | ,-> Text
+  2 | |   <div>Text</div>
+  3 | |   <div>
+  4 | |       Text
+  5 | |   </div>
+  6 | |   <div>
+  7 | |   Text
+  8 | |   
+  9 | |   
+ 10 | |   Text
+ 11 | |   </div>
+ 12 | |   <div>Text
+ 13 | |   
+ 14 | |   
+ 15 | `-> Text</div>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/basic/input.html:1:1]
+  1 | ,-> Text
+  2 | |   <div>Text</div>
+  3 | |   <div>
+  4 | |       Text
+  5 | |   </div>
+  6 | |   <div>
+  7 | |   Text
+  8 | |   
+  9 | |   
+ 10 | |   Text
+ 11 | |   </div>
+ 12 | |   <div>Text
+ 13 | |   
+ 14 | |   
+ 15 | `-> Text</div>
+    `----
 
   x Child
    ,-[$DIR/tests/fixture/text/basic/input.html:1:1]

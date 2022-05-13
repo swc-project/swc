@@ -6,27 +6,23 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/textarea/input.html:1:1]
- 1 | <textarea><!--</textarea>--></textarea>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
 
   x Element
-   ,-[$DIR/tests/recovery/element/textarea/input.html:1:1]
- 1 | <textarea><!--</textarea>--></textarea>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
+
+  x Child
+
+  x Element
 
   x Child
    ,-[$DIR/tests/recovery/element/textarea/input.html:1:1]
  1 | <textarea><!--</textarea>--></textarea>
-   : ^^^^^^^^^^
+   :           ^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/textarea/input.html:1:1]
  1 | <textarea><!--</textarea>--></textarea>
-   : ^^^^^^^^^^
+   :           ^^^^^^^^^^^^^^^^^^
    `----
 
   x Child

@@ -21,8 +21,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 0,
-        "end": 115,
+        "start": 115,
+        "end": 4294967295,
         "ctxt": 0
       },
       "tagName": "html",
@@ -32,8 +32,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 0,
-            "end": 21,
+            "start": 21,
+            "end": 4294967295,
             "ctxt": 0
           },
           "tagName": "head",
@@ -66,8 +66,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 4294967295,
+                    "end": 4294967295,
                     "ctxt": 0
                   },
                   "namespace": null,
@@ -153,8 +153,8 @@
                     {
                       "type": "Attribute",
                       "span": {
-                        "start": 0,
-                        "end": 0,
+                        "start": 4294967295,
+                        "end": 4294967295,
                         "ctxt": 0
                       },
                       "namespace": null,
@@ -182,8 +182,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 4294967295,
+                    "end": 4294967295,
                     "ctxt": 0
                   },
                   "namespace": null,
@@ -269,8 +269,8 @@
                     {
                       "type": "Attribute",
                       "span": {
-                        "start": 0,
-                        "end": 0,
+                        "start": 4294967295,
+                        "end": 4294967295,
                         "ctxt": 0
                       },
                       "namespace": null,
@@ -298,8 +298,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 4294967295,
+                    "end": 4294967295,
                     "ctxt": 0
                   },
                   "namespace": null,

@@ -10,8 +10,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 0,
-        "end": 35,
+        "start": 35,
+        "end": 4294967295,
         "ctxt": 0
       },
       "tagName": "html",
@@ -21,8 +21,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 0,
-            "end": 6,
+            "start": 6,
+            "end": 4294967295,
             "ctxt": 0
           },
           "tagName": "head",
@@ -56,16 +56,16 @@
               "content": {
                 "type": "DocumentFragment",
                 "span": {
-                  "start": 7,
-                  "end": 36,
+                  "start": 6,
+                  "end": 35,
                   "ctxt": 0
                 },
                 "children": [
                   {
                     "type": "Element",
                     "span": {
-                      "start": 17,
-                      "end": 24,
+                      "start": 16,
+                      "end": 23,
                       "ctxt": 0
                     },
                     "tagName": "style",
@@ -73,32 +73,12 @@
                     "attributes": [],
                     "children": [],
                     "content": null
-              "children": [
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 16,
-                    "end": 23,
-                    "ctxt": 0
-                  },
-                  "tagName": "style",
-                  "namespace": "http://www.w3.org/1999/xhtml",
-                  "attributes": [],
-                  "children": [],
-                  "content": null
-                },
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 31,
-                    "end": 35,
-                    "ctxt": 0
                   },
                   {
                     "type": "Element",
                     "span": {
-                      "start": 32,
-                      "end": 36,
+                      "start": 31,
+                      "end": 35,
                       "ctxt": 0
                     },
                     "tagName": "td",

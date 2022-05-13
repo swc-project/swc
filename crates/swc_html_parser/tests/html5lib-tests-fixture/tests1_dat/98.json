@@ -10,8 +10,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 0,
-        "end": 24,
+        "start": 4294967295,
+        "end": 4294967295,
         "ctxt": 0
       },
       "tagName": "html",
@@ -21,8 +21,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 0,
-            "end": 3,
+            "start": 3,
+            "end": 4294967295,
             "ctxt": 0
           },
           "tagName": "head",
@@ -34,8 +34,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 0,
-            "end": 24,
+            "start": 3,
+            "end": 4294967295,
             "ctxt": 0
           },
           "tagName": "body",
@@ -73,7 +73,7 @@
               "type": "Element",
               "span": {
                 "start": 6,
-                "end": 24,
+                "end": 4294967295,
                 "ctxt": 0
               },
               "tagName": "div",
@@ -84,7 +84,7 @@
                   "type": "Element",
                   "span": {
                     "start": 3,
-                    "end": 24,
+                    "end": 4294967295,
                     "ctxt": 0
                   },
                   "tagName": "b",
@@ -95,7 +95,7 @@
                       "type": "Element",
                       "span": {
                         "start": 11,
-                        "end": 24,
+                        "end": 4294967295,
                         "ctxt": 0
                       },
                       "tagName": "marquee",
@@ -105,8 +105,8 @@
                         {
                           "type": "Element",
                           "span": {
-                            "start": 0,
-                            "end": 24,
+                            "start": 24,
+                            "end": 4294967295,
                             "ctxt": 0
                           },
                           "tagName": "p",

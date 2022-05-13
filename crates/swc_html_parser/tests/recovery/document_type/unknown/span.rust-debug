@@ -18,27 +18,23 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/document_type/unknown/input.html:1:1]
- 1 | <!DOCTYPE >Hello
-   : ^^^^^^^^^^^^^^^^
-   `----
 
   x Element
-   ,-[$DIR/tests/recovery/document_type/unknown/input.html:1:1]
- 1 | <!DOCTYPE >Hello
-   : ^^^^^^^^^^^^^^^^
-   `----
+
+  x Child
+
+  x Element
 
   x Child
    ,-[$DIR/tests/recovery/document_type/unknown/input.html:1:1]
  1 | <!DOCTYPE >Hello
-   : ^^^^^^^^^^^^
+   :             ^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/document_type/unknown/input.html:1:1]
  1 | <!DOCTYPE >Hello
-   : ^^^^^^^^^^^^
+   :             ^^^^
    `----
 
   x Child

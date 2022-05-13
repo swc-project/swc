@@ -31,6 +31,14 @@
     `----
 
   x Child
+
+  x Element
+
+  x Child
+
+  x Element
+
+  x Child
     ,-[$DIR/tests/fixture/element/basic/input.html:1:1]
   1 | ,-> <div></div>
   2 | |   <div><div></div></div>
@@ -285,10 +293,6 @@
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/element/basic/input.html:1:1]
- 1 | <div></div>
-   : ^
-   `----
 
   x Child
    ,-[$DIR/tests/fixture/element/basic/input.html:7:1]

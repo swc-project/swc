@@ -6,6 +6,14 @@
    `----
 
   x Child
+
+  x Element
+
+  x Child
+
+  x Element
+
+  x Child
    ,-[$DIR/tests/recovery/element/svg-1/input.html:1:1]
  1 | ,-> <svg><![CDATA[foo
  2 | `-> bar]]>
@@ -19,17 +27,11 @@
 
   x Child
    ,-[$DIR/tests/recovery/element/svg-1/input.html:1:1]
- 1 | <svg><![CDATA[foo
-   : ^^^^^
+ 1 | ,-> <svg><![CDATA[foo
+ 2 | `-> bar]]>
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/element/svg-1/input.html:1:1]
- 1 | <svg><![CDATA[foo
-   : ^^^^^
-   `----
-
-  x Child
    ,-[$DIR/tests/recovery/element/svg-1/input.html:1:1]
  1 | ,-> <svg><![CDATA[foo
  2 | `-> bar]]>

@@ -7,29 +7,25 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/select/input.html:1:1]
- 1 | ,-> <select><option>foo</option><option>bar</option></select>
- 2 | |   <select><option>foo<option>bar</select>
- 3 | `-> <select><option>foo</select>
-   `----
 
   x Element
-   ,-[$DIR/tests/fixture/element/select/input.html:1:1]
- 1 | ,-> <select><option>foo</option><option>bar</option></select>
- 2 | |   <select><option>foo<option>bar</select>
- 3 | `-> <select><option>foo</select>
-   `----
+
+  x Child
+
+  x Element
 
   x Child
    ,-[$DIR/tests/fixture/element/select/input.html:1:1]
- 1 | <select><option>foo</option><option>bar</option></select>
-   : ^^^^^^^^
+ 1 | ,-> <select><option>foo</option><option>bar</option></select>
+ 2 | |   <select><option>foo<option>bar</select>
+ 3 | `-> <select><option>foo</select>
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/select/input.html:1:1]
- 1 | <select><option>foo</option><option>bar</option></select>
-   : ^^^^^^^^
+ 1 | ,-> <select><option>foo</option><option>bar</option></select>
+ 2 | |   <select><option>foo<option>bar</select>
+ 3 | `-> <select><option>foo</select>
    `----
 
   x Child

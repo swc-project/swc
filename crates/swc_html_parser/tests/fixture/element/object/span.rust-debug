@@ -64,10 +64,6 @@
     `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/element/object/input.html:1:1]
- 1 | <!doctype html>
-   : ^
-   `----
 
   x Child
    ,-[$DIR/tests/fixture/element/object/input.html:3:1]

@@ -32,8 +32,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 0,
-            "end": 29,
+            "start": 29,
+            "end": 4294967295,
             "ctxt": 0
           },
           "tagName": "head",
@@ -75,8 +75,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 4294967295,
+                    "end": 4294967295,
                     "ctxt": 0
                   },
                   "namespace": null,

@@ -10,8 +10,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 0,
-        "end": 77,
+        "start": 77,
+        "end": 4294967295,
         "ctxt": 0
       },
       "tagName": "html",
@@ -21,8 +21,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 0,
-            "end": 6,
+            "start": 6,
+            "end": 4294967295,
             "ctxt": 0
           },
           "tagName": "head",
@@ -56,16 +56,16 @@
               "content": {
                 "type": "DocumentFragment",
                 "span": {
-                  "start": 7,
-                  "end": 78,
+                  "start": 6,
+                  "end": 77,
                   "ctxt": 0
                 },
                 "children": [
                   {
                     "type": "Element",
                     "span": {
-                      "start": 17,
-                      "end": 24,
+                      "start": 16,
+                      "end": 23,
                       "ctxt": 0
                     },
                     "tagName": "thead",
@@ -73,32 +73,12 @@
                     "attributes": [],
                     "children": [],
                     "content": null
-              "children": [
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 16,
-                    "end": 23,
-                    "ctxt": 0
-                  },
-                  "tagName": "thead",
-                  "namespace": "http://www.w3.org/1999/xhtml",
-                  "attributes": [],
-                  "children": [],
-                  "content": null
-                },
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 31,
-                    "end": 45,
-                    "ctxt": 0
                   },
                   {
                     "type": "Element",
                     "span": {
-                      "start": 32,
-                      "end": 46,
+                      "start": 31,
+                      "end": 45,
                       "ctxt": 0
                     },
                     "tagName": "template",
@@ -108,9 +88,7 @@
                     "content": {
                       "type": "DocumentFragment",
                       "span": {
-                        "start": 32,
-                        "end": 46,
-                        "start": 41,
+                        "start": 31,
                         "end": 45,
                         "ctxt": 0
                       },
@@ -118,8 +96,8 @@
                         {
                           "type": "Element",
                           "span": {
-                            "start": 42,
-                            "end": 46,
+                            "start": 41,
+                            "end": 45,
                             "ctxt": 0
                           },
                           "tagName": "tr",
@@ -134,8 +112,8 @@
                   {
                     "type": "Element",
                     "span": {
-                      "start": 0,
-                      "end": 66,
+                      "start": 65,
+                      "end": 65,
                       "ctxt": 0
                     },
                     "tagName": "tbody",
@@ -145,8 +123,8 @@
                       {
                         "type": "Element",
                         "span": {
-                          "start": 62,
-                          "end": 66,
+                          "start": 61,
+                          "end": 65,
                           "ctxt": 0
                         },
                         "tagName": "tr",
@@ -157,48 +135,12 @@
                       }
                     ],
                     "content": null
-                  ],
-                  "content": null
-                },
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 0,
-                    "end": 65,
-                    "ctxt": 0
-                  },
-                  "tagName": "tbody",
-                  "namespace": "http://www.w3.org/1999/xhtml",
-                  "attributes": [],
-                  "children": [
-                    {
-                      "type": "Element",
-                      "span": {
-                        "start": 61,
-                        "end": 65,
-                        "ctxt": 0
-                      },
-                      "tagName": "tr",
-                      "namespace": "http://www.w3.org/1999/xhtml",
-                      "attributes": [],
-                      "children": [],
-                      "content": null
-                    }
-                  ],
-                  "content": null
-                },
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 70,
-                    "end": 77,
-                    "ctxt": 0
                   },
                   {
                     "type": "Element",
                     "span": {
-                      "start": 71,
-                      "end": 78,
+                      "start": 70,
+                      "end": 77,
                       "ctxt": 0
                     },
                     "tagName": "tfoot",

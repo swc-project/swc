@@ -10,8 +10,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 0,
-        "end": 46,
+        "start": 46,
+        "end": 4294967295,
         "ctxt": 0
       },
       "tagName": "html",
@@ -21,8 +21,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 0,
-            "end": 10,
+            "start": 10,
+            "end": 4294967295,
             "ctxt": 0
           },
           "tagName": "head",
@@ -44,8 +44,8 @@
             {
               "type": "Attribute",
               "span": {
-                "start": 0,
-                "end": 0,
+                "start": 4294967295,
+                "end": 4294967295,
                 "ctxt": 0
               },
               "namespace": null,
@@ -69,16 +69,16 @@
               "content": {
                 "type": "DocumentFragment",
                 "span": {
-                  "start": 11,
-                  "end": 47,
+                  "start": 10,
+                  "end": 46,
                   "ctxt": 0
                 },
                 "children": [
                   {
                     "type": "Element",
                     "span": {
-                      "start": 21,
-                      "end": 26,
+                      "start": 20,
+                      "end": 25,
                       "ctxt": 0
                     },
                     "tagName": "div",
@@ -86,32 +86,12 @@
                     "attributes": [],
                     "children": [],
                     "content": null
-              "children": [
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 20,
-                    "end": 25,
-                    "ctxt": 0
-                  },
-                  "tagName": "div",
-                  "namespace": "http://www.w3.org/1999/xhtml",
-                  "attributes": [],
-                  "children": [],
-                  "content": null
-                },
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 41,
-                    "end": 46,
-                    "ctxt": 0
                   },
                   {
                     "type": "Element",
                     "span": {
-                      "start": 42,
-                      "end": 47,
+                      "start": 41,
+                      "end": 46,
                       "ctxt": 0
                     },
                     "tagName": "div",

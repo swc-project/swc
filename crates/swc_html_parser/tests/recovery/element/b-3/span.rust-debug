@@ -6,27 +6,35 @@
    `----
 
   x Child
+
+  x Element
+
+  x Child
+
+  x Element
+
+  x Child
    ,-[$DIR/tests/recovery/element/b-3/input.html:1:1]
  1 | <b><a><b><p></a>
-   : ^^^^^^^^^^^^^^^^
+   :    ^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/b-3/input.html:1:1]
  1 | <b><a><b><p></a>
-   : ^^^^^^^^^^^^^^^^
+   :    ^^^^^^^^^^^^^
    `----
 
   x Child
    ,-[$DIR/tests/recovery/element/b-3/input.html:1:1]
  1 | <b><a><b><p></a>
-   : ^^^
+   : ^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/b-3/input.html:1:1]
  1 | <b><a><b><p></a>
-   : ^^^
+   : ^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -75,16 +83,4 @@
    ,-[$DIR/tests/recovery/element/b-3/input.html:1:1]
  1 | <b><a><b><p></a>
    :          ^^^^^^^
-   `----
-
-  x Child
-   ,-[$DIR/tests/recovery/element/b-3/input.html:1:1]
- 1 | <b><a><b><p></a>
-   :    ^^^^^^^^^^^^^
-   `----
-
-  x Element
-   ,-[$DIR/tests/recovery/element/b-3/input.html:1:1]
- 1 | <b><a><b><p></a>
-   :    ^^^^^^^^^^^^^
    `----

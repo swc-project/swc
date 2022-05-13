@@ -10,8 +10,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 0,
-        "end": 38,
+        "start": 38,
+        "end": 4294967295,
         "ctxt": 0
       },
       "tagName": "html",
@@ -21,8 +21,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 0,
-            "end": 6,
+            "start": 6,
+            "end": 4294967295,
             "ctxt": 0
           },
           "tagName": "head",
@@ -67,16 +67,16 @@
                   "content": {
                     "type": "DocumentFragment",
                     "span": {
-                      "start": 12,
-                      "end": 39,
+                      "start": 11,
+                      "end": 38,
                       "ctxt": 0
                     },
                     "children": [
                       {
                         "type": "Element",
                         "span": {
-                          "start": 28,
-                          "end": 39,
+                          "start": 27,
+                          "end": 38,
                           "ctxt": 0
                         },
                         "tagName": "tr",
@@ -86,8 +86,8 @@
                           {
                             "type": "Element",
                             "span": {
-                              "start": 32,
-                              "end": 39,
+                              "start": 31,
+                              "end": 38,
                               "ctxt": 0
                             },
                             "tagName": "td",
@@ -97,8 +97,8 @@
                               {
                                 "type": "Text",
                                 "span": {
-                                  "start": 36,
-                                  "end": 39,
+                                  "start": 35,
+                                  "end": 38,
                                   "ctxt": 0
                                 },
                                 "value": "Foo"
@@ -111,46 +111,6 @@
                       }
                     ]
                   }
-                  "children": [
-                    {
-                      "type": "Element",
-                      "span": {
-                        "start": 27,
-                        "end": 38,
-                        "ctxt": 0
-                      },
-                      "tagName": "tr",
-                      "namespace": "http://www.w3.org/1999/xhtml",
-                      "attributes": [],
-                      "children": [
-                        {
-                          "type": "Element",
-                          "span": {
-                            "start": 31,
-                            "end": 38,
-                            "ctxt": 0
-                          },
-                          "tagName": "td",
-                          "namespace": "http://www.w3.org/1999/xhtml",
-                          "attributes": [],
-                          "children": [
-                            {
-                              "type": "Text",
-                              "span": {
-                                "start": 35,
-                                "end": 38,
-                                "ctxt": 0
-                              },
-                              "value": "Foo"
-                            }
-                          ],
-                          "content": null
-                        }
-                      ],
-                      "content": null
-                    }
-                  ],
-                  "content": null
                 }
               ],
               "content": null

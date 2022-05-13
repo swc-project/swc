@@ -10,8 +10,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 0,
-        "end": 767,
+        "start": 767,
+        "end": 4294967295,
         "ctxt": 0
       },
       "tagName": "html",
@@ -21,8 +21,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 0,
-            "end": 167,
+            "start": 167,
+            "end": 4294967295,
             "ctxt": 0
           },
           "tagName": "head",
@@ -34,7 +34,7 @@
         {
           "type": "Element",
           "span": {
-            "start": 0,
+            "start": 167,
             "end": 767,
             "ctxt": 0
           },
@@ -55,8 +55,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 4294967295,
+                    "end": 4294967295,
                     "ctxt": 0
                   },
                   "namespace": null,
@@ -67,8 +67,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 4294967295,
+                    "end": 4294967295,
                     "ctxt": 0
                   },
                   "namespace": null,
@@ -102,8 +102,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 4294967295,
+                    "end": 4294967295,
                     "ctxt": 0
                   },
                   "namespace": null,
@@ -114,8 +114,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 4294967295,
+                    "end": 4294967295,
                     "ctxt": 0
                   },
                   "namespace": null,
@@ -149,8 +149,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 4294967295,
+                    "end": 4294967295,
                     "ctxt": 0
                   },
                   "namespace": null,
@@ -161,8 +161,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 4294967295,
+                    "end": 4294967295,
                     "ctxt": 0
                   },
                   "namespace": null,
@@ -216,8 +216,8 @@
                     {
                       "type": "Attribute",
                       "span": {
-                        "start": 0,
-                        "end": 0,
+                        "start": 4294967295,
+                        "end": 4294967295,
                         "ctxt": 0
                       },
                       "namespace": null,
@@ -240,8 +240,8 @@
                         {
                           "type": "Attribute",
                           "span": {
-                            "start": 0,
-                            "end": 0,
+                            "start": 4294967295,
+                            "end": 4294967295,
                             "ctxt": 0
                           },
                           "namespace": null,
@@ -288,8 +288,8 @@
                     {
                       "type": "Attribute",
                       "span": {
-                        "start": 0,
-                        "end": 0,
+                        "start": 4294967295,
+                        "end": 4294967295,
                         "ctxt": 0
                       },
                       "namespace": null,
@@ -312,8 +312,8 @@
                         {
                           "type": "Attribute",
                           "span": {
-                            "start": 0,
-                            "end": 0,
+                            "start": 4294967295,
+                            "end": 4294967295,
                             "ctxt": 0
                           },
                           "namespace": null,
@@ -360,8 +360,8 @@
                     {
                       "type": "Attribute",
                       "span": {
-                        "start": 0,
-                        "end": 0,
+                        "start": 4294967295,
+                        "end": 4294967295,
                         "ctxt": 0
                       },
                       "namespace": null,
@@ -384,8 +384,8 @@
                         {
                           "type": "Attribute",
                           "span": {
-                            "start": 0,
-                            "end": 0,
+                            "start": 4294967295,
+                            "end": 4294967295,
                             "ctxt": 0
                           },
                           "namespace": null,
@@ -508,8 +508,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 4294967295,
+                    "end": 4294967295,
                     "ctxt": 0
                   },
                   "namespace": null,
@@ -522,16 +522,16 @@
               "content": {
                 "type": "DocumentFragment",
                 "span": {
-                  "start": 602,
-                  "end": 768,
+                  "start": 601,
+                  "end": 767,
                   "ctxt": 0
                 },
                 "children": [
                   {
                     "type": "Text",
                     "span": {
-                      "start": 637,
-                      "end": 642,
+                      "start": 636,
+                      "end": 641,
                       "ctxt": 0
                     },
                     "value": "\n    "
@@ -539,8 +539,8 @@
                   {
                     "type": "Element",
                     "span": {
-                      "start": 642,
-                      "end": 682,
+                      "start": 641,
+                      "end": 681,
                       "ctxt": 0
                     },
                     "tagName": "style",
@@ -550,8 +550,8 @@
                       {
                         "type": "Text",
                         "span": {
-                          "start": 649,
-                          "end": 682,
+                          "start": 648,
+                          "end": 681,
                           "ctxt": 0
                         },
                         "value": "\n        p { color: green; }\n    "
@@ -562,8 +562,8 @@
                   {
                     "type": "Text",
                     "span": {
-                      "start": 690,
-                      "end": 695,
+                      "start": 689,
+                      "end": 694,
                       "ctxt": 0
                     },
                     "value": "\n    "
@@ -571,8 +571,8 @@
                   {
                     "type": "Element",
                     "span": {
-                      "start": 695,
-                      "end": 763,
+                      "start": 694,
+                      "end": 762,
                       "ctxt": 0
                     },
                     "tagName": "p",
@@ -582,91 +582,20 @@
                       {
                         "type": "Text",
                         "span": {
-                          "start": 698,
-                          "end": 763,
+                          "start": 697,
+                          "end": 762,
                           "ctxt": 0
                         },
                         "value": "I'm in Shadow DOM. My markup was stamped from a <template>."
                       }
                     ],
                     "content": null
-              "children": [
-                {
-                  "type": "Text",
-                  "span": {
-                    "start": 636,
-                    "end": 641,
-                    "ctxt": 0
-                  },
-                  "value": "\n    "
-                },
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 641,
-                    "end": 681,
-                    "ctxt": 0
-                  },
-                  "tagName": "style",
-                  "namespace": "http://www.w3.org/1999/xhtml",
-                  "attributes": [],
-                  "children": [
-                    {
-                      "type": "Text",
-                      "span": {
-                        "start": 648,
-                        "end": 681,
-                        "ctxt": 0
-                      },
-                      "value": "\n        p { color: green; }\n    "
-                    }
-                  ],
-                  "content": null
-                },
-                {
-                  "type": "Text",
-                  "span": {
-                    "start": 689,
-                    "end": 694,
-                    "ctxt": 0
-                  },
-                  "value": "\n    "
-                },
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 694,
-                    "end": 762,
-                    "ctxt": 0
-                  },
-                  "tagName": "p",
-                  "namespace": "http://www.w3.org/1999/xhtml",
-                  "attributes": [],
-                  "children": [
-                    {
-                      "type": "Text",
-                      "span": {
-                        "start": 697,
-                        "end": 762,
-                        "ctxt": 0
-                      },
-                      "value": "I'm in Shadow DOM. My markup was stamped from a <template>."
-                    }
-                  ],
-                  "content": null
-                },
-                {
-                  "type": "Text",
-                  "span": {
-                    "start": 766,
-                    "end": 767,
-                    "ctxt": 0
                   },
                   {
                     "type": "Text",
                     "span": {
-                      "start": 767,
-                      "end": 768,
+                      "start": 766,
+                      "end": 767,
                       "ctxt": 0
                     },
                     "value": "\n"

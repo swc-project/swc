@@ -10,8 +10,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 0,
-        "end": 57,
+        "start": 57,
+        "end": 4294967295,
         "ctxt": 0
       },
       "tagName": "html",
@@ -21,8 +21,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 0,
-            "end": 6,
+            "start": 6,
+            "end": 4294967295,
             "ctxt": 0
           },
           "tagName": "head",
@@ -56,16 +56,16 @@
               "content": {
                 "type": "DocumentFragment",
                 "span": {
-                  "start": 7,
-                  "end": 58,
+                  "start": 6,
+                  "end": 57,
                   "ctxt": 0
                 },
                 "children": [
                   {
                     "type": "Element",
                     "span": {
-                      "start": 17,
-                      "end": 24,
+                      "start": 16,
+                      "end": 23,
                       "ctxt": 0
                     },
                     "tagName": "thead",
@@ -77,8 +77,8 @@
                   {
                     "type": "Element",
                     "span": {
-                      "start": 32,
-                      "end": 41,
+                      "start": 31,
+                      "end": 40,
                       "ctxt": 0
                     },
                     "tagName": "caption",
@@ -86,45 +86,12 @@
                     "attributes": [],
                     "children": [],
                     "content": null
-              "children": [
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 16,
-                    "end": 23,
-                    "ctxt": 0
-                  },
-                  "tagName": "thead",
-                  "namespace": "http://www.w3.org/1999/xhtml",
-                  "attributes": [],
-                  "children": [],
-                  "content": null
-                },
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 31,
-                    "end": 40,
-                    "ctxt": 0
-                  },
-                  "tagName": "caption",
-                  "namespace": "http://www.w3.org/1999/xhtml",
-                  "attributes": [],
-                  "children": [],
-                  "content": null
-                },
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 50,
-                    "end": 57,
-                    "ctxt": 0
                   },
                   {
                     "type": "Element",
                     "span": {
-                      "start": 51,
-                      "end": 58,
+                      "start": 50,
+                      "end": 57,
                       "ctxt": 0
                     },
                     "tagName": "tbody",

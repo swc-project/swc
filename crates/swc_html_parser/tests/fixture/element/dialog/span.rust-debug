@@ -7,6 +7,14 @@
    `----
 
   x Child
+
+  x Element
+
+  x Child
+
+  x Element
+
+  x Child
    ,-[$DIR/tests/fixture/element/dialog/input.html:1:1]
  1 | ,-> <dialog open>
  2 | `->     <p>Greetings, one and all!</p>
@@ -22,21 +30,19 @@
 
   x Child
    ,-[$DIR/tests/fixture/element/dialog/input.html:1:1]
- 1 | <dialog open>
-   : ^^^^^^^^^^^^^
+ 1 | ,-> <dialog open>
+ 2 | `->     <p>Greetings, one and all!</p>
+ 3 |     </dialog>
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/dialog/input.html:1:1]
- 1 | <dialog open>
-   : ^^^^^^^^^^^^^
+ 1 | ,-> <dialog open>
+ 2 | `->     <p>Greetings, one and all!</p>
+ 3 |     </dialog>
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/element/dialog/input.html:1:1]
- 1 | <dialog open>
-   : ^
-   `----
 
   x Child
    ,-[$DIR/tests/fixture/element/dialog/input.html:1:1]

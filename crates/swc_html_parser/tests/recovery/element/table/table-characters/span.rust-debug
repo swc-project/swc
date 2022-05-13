@@ -49,10 +49,6 @@
    `----
 
   x Attribute
-   ,-[$DIR/tests/recovery/element/table/table-characters/input.html:1:1]
- 1 | <!doctype html>
-   : ^
-   `----
 
   x Child
    ,-[$DIR/tests/recovery/element/table/table-characters/input.html:3:1]
@@ -173,25 +169,15 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/table/table-characters/input.html:1:1]
- 1 | ,-> <!doctype html>
- 2 | |   <html lang="en">
- 3 | |   <head>
- 4 | |       <title>Document</title>
- 5 | |   </head>
- 6 | |   <body>
- 7 | `->     A<table>B<tr>C</tr>D</table>
+   ,-[$DIR/tests/recovery/element/table/table-characters/input.html:7:5]
+ 7 | A<table>B<tr>C</tr>D</table>
+   :              ^
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/element/table/table-characters/input.html:1:1]
- 1 | ,-> <!doctype html>
- 2 | |   <html lang="en">
- 3 | |   <head>
- 4 | |       <title>Document</title>
- 5 | |   </head>
- 6 | |   <body>
- 7 | `->     A<table>B<tr>C</tr>D</table>
+   ,-[$DIR/tests/recovery/element/table/table-characters/input.html:7:5]
+ 7 | A<table>B<tr>C</tr>D</table>
+   :              ^
    `----
 
   x Child

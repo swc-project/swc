@@ -21,8 +21,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 0,
-        "end": 42,
+        "start": 4294967295,
+        "end": 4294967295,
         "ctxt": 0
       },
       "tagName": "html",
@@ -54,8 +54,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 0,
-            "end": 42,
+            "start": 42,
+            "end": 4294967295,
             "ctxt": 0
           },
           "tagName": "body",

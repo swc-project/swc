@@ -18,27 +18,19 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/text/range-charref-novalid/html/input.html:1:1]
- 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
 
   x Element
-   ,-[$DIR/tests/recovery/text/range-charref-novalid/html/input.html:1:1]
- 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
 
   x Child
-   ,-[$DIR/tests/recovery/text/range-charref-novalid/html/input.html:1:1]
+   ,-[$DIR/tests/recovery/text/range-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :                                    ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/text/range-charref-novalid/html/input.html:1:1]
+   ,-[$DIR/tests/recovery/text/range-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :                                    ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -54,22 +46,6 @@
    `----
 
   x Attribute
-   ,-[$DIR/tests/recovery/text/range-charref-novalid/html/input.html:1:1]
- 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
-   : ^
-   `----
-
-  x Child
-   ,-[$DIR/tests/recovery/text/range-charref-novalid/input.html:1:1]
- 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
-   :                                    ^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Element
-   ,-[$DIR/tests/recovery/text/range-charref-novalid/input.html:1:1]
- 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
-   :                                    ^^^^^^^^^^^^^^^^^^^^^
-   `----
 
   x Child
    ,-[$DIR/tests/recovery/text/range-charref-novalid/input.html:1:1]
@@ -86,6 +62,18 @@
   x Child
    ,-[$DIR/tests/recovery/text/range-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/text/range-charref-novalid/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
+   :                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/text/range-charref-novalid/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
    :                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
@@ -93,12 +81,6 @@
    ,-[$DIR/tests/recovery/text/range-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
    :                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Child
-   ,-[$DIR/tests/recovery/text/range-charref-novalid/input.html:1:1]
- 1 | <!doctype html><meta charset=utf-8><title>&amp;#x110000;</title><p>There should be an error.&#x110000;
-   :                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Text

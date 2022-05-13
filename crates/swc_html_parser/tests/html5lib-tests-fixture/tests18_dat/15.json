@@ -21,8 +21,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 0,
-        "end": 49,
+        "start": 4294967295,
+        "end": 4294967295,
         "ctxt": 0
       },
       "tagName": "html",
@@ -32,7 +32,7 @@
         {
           "type": "Element",
           "span": {
-            "start": 0,
+            "start": 25,
             "end": 49,
             "ctxt": 0
           },
@@ -54,16 +54,16 @@
               "content": {
                 "type": "DocumentFragment",
                 "span": {
-                  "start": 16,
-                  "end": 50,
+                  "start": 15,
+                  "end": 49,
                   "ctxt": 0
                 },
                 "children": [
                   {
                     "type": "Element",
                     "span": {
-                      "start": 26,
-                      "end": 50,
+                      "start": 25,
+                      "end": 49,
                       "ctxt": 0
                     },
                     "tagName": "plaintext",
@@ -73,8 +73,8 @@
                       {
                         "type": "Text",
                         "span": {
-                          "start": 37,
-                          "end": 50,
+                          "start": 36,
+                          "end": 49,
                           "ctxt": 0
                         },
                         "value": "a</template>b"
@@ -84,32 +84,6 @@
                   }
                 ]
               }
-              "children": [
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 25,
-                    "end": 49,
-                    "ctxt": 0
-                  },
-                  "tagName": "plaintext",
-                  "namespace": "http://www.w3.org/1999/xhtml",
-                  "attributes": [],
-                  "children": [
-                    {
-                      "type": "Text",
-                      "span": {
-                        "start": 36,
-                        "end": 49,
-                        "ctxt": 0
-                      },
-                      "value": "a</template>b"
-                    }
-                  ],
-                  "content": null
-                }
-              ],
-              "content": null
             }
           ],
           "content": null
@@ -117,8 +91,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 0,
-            "end": 49,
+            "start": 49,
+            "end": 4294967295,
             "ctxt": 0
           },
           "tagName": "body",

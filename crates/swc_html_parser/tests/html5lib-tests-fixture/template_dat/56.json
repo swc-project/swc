@@ -10,8 +10,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 0,
-        "end": 21,
+        "start": 21,
+        "end": 4294967295,
         "ctxt": 0
       },
       "tagName": "html",
@@ -21,8 +21,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 0,
-            "end": 6,
+            "start": 6,
+            "end": 4294967295,
             "ctxt": 0
           },
           "tagName": "head",
@@ -56,16 +56,16 @@
               "content": {
                 "type": "DocumentFragment",
                 "span": {
-                  "start": 7,
-                  "end": 22,
+                  "start": 6,
+                  "end": 21,
                   "ctxt": 0
                 },
                 "children": [
                   {
                     "type": "Element",
                     "span": {
-                      "start": 17,
-                      "end": 22,
+                      "start": 16,
+                      "end": 21,
                       "ctxt": 0
                     },
                     "tagName": "div",
@@ -76,22 +76,6 @@
                   }
                 ]
               }
-              "children": [
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 16,
-                    "end": 21,
-                    "ctxt": 0
-                  },
-                  "tagName": "div",
-                  "namespace": "http://www.w3.org/1999/xhtml",
-                  "attributes": [],
-                  "children": [],
-                  "content": null
-                }
-              ],
-              "content": null
             }
           ],
           "content": null

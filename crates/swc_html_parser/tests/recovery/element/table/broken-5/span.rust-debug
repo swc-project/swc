@@ -6,27 +6,23 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/table/broken-5/input.html:1:1]
- 1 | <table><thead><input type="text"></thead></table>
-   : ^^^^^^^^^^^^^^
-   `----
 
   x Element
-   ,-[$DIR/tests/recovery/element/table/broken-5/input.html:1:1]
- 1 | <table><thead><input type="text"></thead></table>
-   : ^^^^^^^^^^^^^^
-   `----
+
+  x Child
+
+  x Element
 
   x Child
    ,-[$DIR/tests/recovery/element/table/broken-5/input.html:1:1]
  1 | <table><thead><input type="text"></thead></table>
-   : ^^^^^^^
+   :        ^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/table/broken-5/input.html:1:1]
  1 | <table><thead><input type="text"></thead></table>
-   : ^^^^^^^
+   :        ^^^^^^^
    `----
 
   x Child
@@ -42,19 +38,15 @@
    `----
 
   x Attribute
-   ,-[$DIR/tests/recovery/element/table/broken-5/input.html:1:1]
- 1 | <table><thead><input type="text"></thead></table>
-   : ^
-   `----
 
   x Child
    ,-[$DIR/tests/recovery/element/table/broken-5/input.html:1:1]
  1 | <table><thead><input type="text"></thead></table>
-   :        ^^^^^^^
+   : ^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/table/broken-5/input.html:1:1]
  1 | <table><thead><input type="text"></thead></table>
-   :        ^^^^^^^
+   : ^^^^^^^^^^^^^^
    `----

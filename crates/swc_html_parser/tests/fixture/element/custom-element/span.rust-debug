@@ -28,10 +28,16 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:1:1]
-  1 | ,-> <popup-info img="img/alt.png" data-text="Your card validation code (CVC)
-  2 | |     is an extra security feature — it is the last 3 or 4 numbers on the
-  3 | |     back of your card."></popup-info>
+
+  x Element
+
+  x Child
+
+  x Element
+
+  x Child
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:3:3]
+  3 | ,-> back of your card."></popup-info>
   4 | |   
   5 | |   <custom-square l="100" c="red"></custom-square>
   6 | |   
@@ -56,10 +62,8 @@
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:1:1]
-  1 | ,-> <popup-info img="img/alt.png" data-text="Your card validation code (CVC)
-  2 | |     is an extra security feature — it is the last 3 or 4 numbers on the
-  3 | |     back of your card."></popup-info>
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:3:3]
+  3 | ,-> back of your card."></popup-info>
   4 | |   
   5 | |   <custom-square l="100" c="red"></custom-square>
   6 | |   
@@ -98,10 +102,6 @@
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/element/custom-element/input.html:1:1]
- 1 | <popup-info img="img/alt.png" data-text="Your card validation code (CVC)
-   : ^
-   `----
 
   x Child
    ,-[$DIR/tests/fixture/element/custom-element/input.html:3:3]

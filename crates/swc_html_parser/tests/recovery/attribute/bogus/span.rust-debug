@@ -1,18 +1,10 @@
 
   x Document
-   ,-[$DIR/tests/recovery/attribute/bogus/input.html:1:1]
- 1 | <div test="test'></div>
-   : ^
-   `----
 
   x Child
-   ,-[$DIR/tests/recovery/attribute/bogus/input.html:1:1]
- 1 | <div test="test'></div>
-   : ^
-   `----
 
   x Element
-   ,-[$DIR/tests/recovery/attribute/bogus/input.html:1:1]
- 1 | <div test="test'></div>
-   : ^
-   `----
+
+  x Child
+
+  x Element

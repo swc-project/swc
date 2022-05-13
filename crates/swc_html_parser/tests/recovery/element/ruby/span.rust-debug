@@ -18,15 +18,19 @@
    `----
 
   x Child
+
+  x Element
+
+  x Child
    ,-[$DIR/tests/recovery/element/ruby/input.html:1:1]
  1 | <html><ruby>a<rb>b<span></ruby></html>
-   : ^^^^^^^^^^^^
+   :             ^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/ruby/input.html:1:1]
  1 | <html><ruby>a<rb>b<span></ruby></html>
-   : ^^^^^^^^^^^^
+   :             ^^^^^^^^^^^^
    `----
 
   x Child

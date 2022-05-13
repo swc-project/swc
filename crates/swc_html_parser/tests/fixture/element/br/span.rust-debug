@@ -13,41 +13,37 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/br/input.html:1:1]
- 1 | ,-> <p> O'er all the hilltops<br>
- 2 | |       Is quiet now,<br>
- 3 | |       In all the treetops<br>
- 4 | |       Hearest thou<br>
- 5 | |       Hardly a breath;<br>
- 6 | |       The birds are asleep in the trees:<br>
- 7 | |       Wait, soon like these<br>
- 8 | |       Thou too shalt rest.
- 9 | `-> </p>
-   `----
 
   x Element
-   ,-[$DIR/tests/fixture/element/br/input.html:1:1]
- 1 | ,-> <p> O'er all the hilltops<br>
- 2 | |       Is quiet now,<br>
- 3 | |       In all the treetops<br>
- 4 | |       Hearest thou<br>
- 5 | |       Hardly a breath;<br>
- 6 | |       The birds are asleep in the trees:<br>
- 7 | |       Wait, soon like these<br>
- 8 | |       Thou too shalt rest.
- 9 | `-> </p>
-   `----
+
+  x Child
+
+  x Element
 
   x Child
    ,-[$DIR/tests/fixture/element/br/input.html:1:1]
- 1 | <p> O'er all the hilltops<br>
-   : ^^^
+ 1 | ,-> <p> O'er all the hilltops<br>
+ 2 | |       Is quiet now,<br>
+ 3 | |       In all the treetops<br>
+ 4 | |       Hearest thou<br>
+ 5 | |       Hardly a breath;<br>
+ 6 | |       The birds are asleep in the trees:<br>
+ 7 | |       Wait, soon like these<br>
+ 8 | |       Thou too shalt rest.
+ 9 | `-> </p>
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/br/input.html:1:1]
- 1 | <p> O'er all the hilltops<br>
-   : ^^^
+ 1 | ,-> <p> O'er all the hilltops<br>
+ 2 | |       Is quiet now,<br>
+ 3 | |       In all the treetops<br>
+ 4 | |       Hearest thou<br>
+ 5 | |       Hardly a breath;<br>
+ 6 | |       The birds are asleep in the trees:<br>
+ 7 | |       Wait, soon like these<br>
+ 8 | |       Thou too shalt rest.
+ 9 | `-> </p>
    `----
 
   x Child

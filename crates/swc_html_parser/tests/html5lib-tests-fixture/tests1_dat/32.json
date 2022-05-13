@@ -19,8 +19,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 0,
-        "end": 71,
+        "start": 71,
+        "end": 4294967295,
         "ctxt": 0
       },
       "tagName": "html",
@@ -30,8 +30,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 0,
-            "end": 14,
+            "start": 14,
+            "end": 4294967295,
             "ctxt": 0
           },
           "tagName": "head",
@@ -43,7 +43,7 @@
         {
           "type": "Element",
           "span": {
-            "start": 0,
+            "start": 14,
             "end": 71,
             "ctxt": 0
           },
@@ -119,7 +119,7 @@
                         {
                           "type": "Element",
                           "span": {
-                            "start": 0,
+                            "start": 48,
                             "end": 71,
                             "ctxt": 0
                           },
@@ -130,7 +130,7 @@
                             {
                               "type": "Element",
                               "span": {
-                                "start": 0,
+                                "start": 48,
                                 "end": 58,
                                 "ctxt": 0
                               },

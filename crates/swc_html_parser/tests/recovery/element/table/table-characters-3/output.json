@@ -31,8 +31,8 @@
         {
           "type": "Attribute",
           "span": {
-            "start": 0,
-            "end": 0,
+            "start": 4294967295,
+            "end": 4294967295,
             "ctxt": 0
           },
           "namespace": null,
@@ -140,7 +140,7 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 0,
+                    "start": 99,
                     "end": 112,
                     "ctxt": 0
                   },

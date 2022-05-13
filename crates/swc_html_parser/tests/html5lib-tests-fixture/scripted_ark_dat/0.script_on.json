@@ -10,8 +10,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 0,
-        "end": 143,
+        "start": 143,
+        "end": 4294967295,
         "ctxt": 0
       },
       "tagName": "html",
@@ -21,8 +21,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 0,
-            "end": 3,
+            "start": 3,
+            "end": 4294967295,
             "ctxt": 0
           },
           "tagName": "head",
@@ -34,7 +34,7 @@
         {
           "type": "Element",
           "span": {
-            "start": 0,
+            "start": 3,
             "end": 143,
             "ctxt": 0
           },
@@ -66,8 +66,8 @@
                     {
                       "type": "Attribute",
                       "span": {
-                        "start": 0,
-                        "end": 0,
+                        "start": 4294967295,
+                        "end": 4294967295,
                         "ctxt": 0
                       },
                       "namespace": null,
@@ -90,8 +90,8 @@
                         {
                           "type": "Attribute",
                           "span": {
-                            "start": 0,
-                            "end": 0,
+                            "start": 4294967295,
+                            "end": 4294967295,
                             "ctxt": 0
                           },
                           "namespace": null,
@@ -114,8 +114,8 @@
                             {
                               "type": "Attribute",
                               "span": {
-                                "start": 0,
-                                "end": 0,
+                                "start": 4294967295,
+                                "end": 4294967295,
                                 "ctxt": 0
                               },
                               "namespace": null,
@@ -161,8 +161,8 @@
                                 {
                                   "type": "Attribute",
                                   "span": {
-                                    "start": 0,
-                                    "end": 0,
+                                    "start": 4294967295,
+                                    "end": 4294967295,
                                     "ctxt": 0
                                   },
                                   "namespace": null,
@@ -210,8 +210,8 @@
                     {
                       "type": "Attribute",
                       "span": {
-                        "start": 0,
-                        "end": 0,
+                        "start": 4294967295,
+                        "end": 4294967295,
                         "ctxt": 0
                       },
                       "namespace": null,
@@ -234,8 +234,8 @@
                         {
                           "type": "Attribute",
                           "span": {
-                            "start": 0,
-                            "end": 0,
+                            "start": 4294967295,
+                            "end": 4294967295,
                             "ctxt": 0
                           },
                           "namespace": null,
@@ -258,8 +258,8 @@
                             {
                               "type": "Attribute",
                               "span": {
-                                "start": 0,
-                                "end": 0,
+                                "start": 4294967295,
+                                "end": 4294967295,
                                 "ctxt": 0
                               },
                               "namespace": null,

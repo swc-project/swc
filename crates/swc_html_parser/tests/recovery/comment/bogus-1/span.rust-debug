@@ -17,8 +17,10 @@
    : ^^^^^^^^^
    `----
 
+  x Child
+
   x Element
-   ,-[$DIR/tests/recovery/comment/bogus-1/input.html:1:1]
- 1 | <!-- test
-   : ^^^^^^^^^
-   `----
+
+  x Child
+
+  x Element
