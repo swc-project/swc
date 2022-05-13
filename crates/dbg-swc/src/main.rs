@@ -53,6 +53,55 @@ fn main() -> Result<()> {
 
     let cm = Arc::new(SourceMap::default());
 
+    if env::var("CREDUCE_COMPARE").unwrap_or_default() == "1" {
+        return try_with_handler(
+            cm.clone(),
+            HandlerOpts {
+                color: ColorConfig::Always,
+                skip_filename: false,
+            },
+            |handler| {
+                GLOBALS.set(&Globals::default(), || {
+                    HANDLER.set(handler, || {
+                        //
+
+                        let fm = cm.load_file("input.js".as_ref())?;
+
+                        let m = parse_js(fm)?;
+
+                        let minified_mangled = {
+                            swc_ecma_minifier::optimize(
+                                m.module,
+                                cm.clone(),
+                                None,
+                                None,
+                                &MinifyOptions {
+                                    compress: Some(Default::default()),
+                                    mangle: Some(Default::default()),
+                                    ..Default::default()
+                                },
+                                &swc_ecma_minifier::option::ExtraOptions {
+                                    unresolved_mark: m.unresolved_mark,
+                                    top_level_mark: m.top_level_mark,
+                                },
+                            )
+                        };
+                        let swc_output = print_js(cm.clone(), &minified_mangled, true)?;
+
+                        let esbuild_output =
+                            self::util::minifier::get_esbuild_output("input.js".as_ref(), true)?;
+
+                        if swc_output.len() > esbuild_output.len() {
+                            return Ok(());
+                        }
+
+                        bail!("We don't care about this file")
+                    })
+                })
+            },
+        );
+    }
+
     try_with_handler(
         cm.clone(),
         HandlerOpts {

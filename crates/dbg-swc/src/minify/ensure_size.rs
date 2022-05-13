@@ -27,9 +27,6 @@ pub struct EnsureSize {
     #[clap(long)]
     pub no_esbuild: bool,
 
-    #[clap(long)]
-    pub reduce: bool,
-
     /// This can be a directyory or a file.
     ///
     /// If this is a directory, all `.js` files in it will be verified.
