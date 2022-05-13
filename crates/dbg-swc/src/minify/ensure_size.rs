@@ -51,7 +51,7 @@ impl EnsureSize {
             return Ok(());
         }
         for report in &results {
-            dbg!(&report);
+            println!("{}", report.fm.name);
         }
 
         bail!("found some issues")
