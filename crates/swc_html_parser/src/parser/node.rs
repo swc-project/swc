@@ -23,6 +23,7 @@ pub enum Data {
     Comment(Comment),
 }
 
+// TODO `<template>` and reduce memory usage for `children` in token
 pub struct Node {
     pub parent: Cell<Option<WeakNode>>,
     pub children: RefCell<Vec<RcNode>>,

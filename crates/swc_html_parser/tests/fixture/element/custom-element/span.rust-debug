@@ -405,6 +405,16 @@
  24 |     </template>
     `----
 
+  x DocumentFragment
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:19:1]
+ 19 | ,-> <template id="x-foo-from-template">
+ 20 | |       <style>
+ 21 | |           p { color: green; }
+ 22 | |       </style>
+ 23 | `->     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
+ 24 |     </template>
+    `----
+
   x Child
     ,-[$DIR/tests/fixture/element/custom-element/input.html:19:1]
  19 | ,-> <template id="x-foo-from-template">

@@ -39,46 +39,62 @@
               "tagName": "template",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
-              "children": [
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 11,
-                    "end": 33,
-                    "ctxt": 0
-                  },
-                  "tagName": "template",
-                  "namespace": "http://www.w3.org/1999/xhtml",
-                  "attributes": [],
-                  "children": [
-                    {
-                      "type": "Element",
+              "children": [],
+              "content": {
+                "type": "DocumentFragment",
+                "span": {
+                  "start": 1,
+                  "end": 33,
+                  "ctxt": 0
+                },
+                "children": [
+                  {
+                    "type": "Element",
+                    "span": {
+                      "start": 11,
+                      "end": 33,
+                      "ctxt": 0
+                    },
+                    "tagName": "template",
+                    "namespace": "http://www.w3.org/1999/xhtml",
+                    "attributes": [],
+                    "children": [],
+                    "content": {
+                      "type": "DocumentFragment",
                       "span": {
-                        "start": 21,
+                        "start": 11,
                         "end": 33,
                         "ctxt": 0
                       },
-                      "tagName": "style",
-                      "namespace": "http://www.w3.org/1999/xhtml",
-                      "attributes": [],
                       "children": [
                         {
-                          "type": "Text",
+                          "type": "Element",
                           "span": {
-                            "start": 28,
+                            "start": 21,
                             "end": 33,
                             "ctxt": 0
                           },
-                          "value": "var i"
+                          "tagName": "style",
+                          "namespace": "http://www.w3.org/1999/xhtml",
+                          "attributes": [],
+                          "children": [
+                            {
+                              "type": "Text",
+                              "span": {
+                                "start": 28,
+                                "end": 33,
+                                "ctxt": 0
+                              },
+                              "value": "var i"
+                            }
+                          ],
+                          "content": null
                         }
-                      ],
-                      "content": null
+                      ]
                     }
-                  ],
-                  "content": null
-                }
-              ],
-              "content": null
+                  }
+                ]
+              }
             }
           ],
           "content": null

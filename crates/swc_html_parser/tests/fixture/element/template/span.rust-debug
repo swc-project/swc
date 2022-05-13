@@ -348,6 +348,37 @@
  33 | `->     </template>
     `----
 
+  x DocumentFragment
+    ,-[$DIR/tests/fixture/element/template/input.html:7:5]
+  7 | ,-> <template id="element-details-template">
+  8 | |           <style>
+  9 | |               details {font-family: "Open Sans Light", Helvetica, Arial, sans-serif }
+ 10 | |               .name {font-weight: bold; color: #217ac0; font-size: 120% }
+ 11 | |               h4 {
+ 12 | |                   margin: 10px 0 -8px 0;
+ 13 | |                   background: #217ac0;
+ 14 | |                   color: white;
+ 15 | |                   padding: 2px 6px;
+ 16 | |                   border: 1px solid #cee9f9;
+ 17 | |                   border-radius: 4px;
+ 18 | |               }
+ 19 | |               .attributes { margin-left: 22px; font-size: 90% }
+ 20 | |               .attributes p { margin-left: 16px; font-style: italic }
+ 21 | |           </style>
+ 22 | |           <details>
+ 23 | |               <summary>
+ 24 | |                   <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+ 25 | |                   <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
+ 26 | |               </summary>
+ 27 | |               <div class="attributes">
+ 28 | |                   <h4>Attributes</h4>
+ 29 | |                   <slot name="attributes"><p>None</p></slot>
+ 30 | |               </div>
+ 31 | |           </details>
+ 32 | |           <hr>
+ 33 | `->     </template>
+    `----
+
   x Child
    ,-[$DIR/tests/fixture/element/template/input.html:7:5]
  7 | ,-> <template id="element-details-template">

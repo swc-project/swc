@@ -22,6 +22,12 @@ macro_rules! write_str {
     }};
 }
 
+macro_rules! newline {
+    ($g:expr) => {{
+        $g.wr.write_newline()?;
+    }};
+}
+
 macro_rules! formatting_newline {
     ($g:expr) => {{
         if !$g.config.minify {

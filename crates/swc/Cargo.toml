@@ -9,7 +9,7 @@ include = ["Cargo.toml", "src/**/*.rs"]
 license = "Apache-2.0"
 name = "swc"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.178.0"
+version = "0.178.1"
 
 [lib]
 bench = false
@@ -47,7 +47,7 @@ swc_common = { version = "0.18.0", path = "../swc_common", features = [
   "concurrent",
   "parking_lot",
 ] }
-swc_config = { version = "0.1.0", path = "../swc_config" }
+swc_config = { version = "0.1.1", path = "../swc_config" }
 swc_ecma_ast = { version = "0.78.0", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "0.107.0", path = "../swc_ecma_codegen" }
 swc_ecma_ext_transforms = { version = "0.71.0", path = "../swc_ecma_ext_transforms" }
