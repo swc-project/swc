@@ -58,13 +58,16 @@ impl Pure<'_> {
                         return;
                     }
 
-                    if s.value.is_empty() || s.value.starts_with(|c: char| c.is_numeric()) {
-                        *p = PropName::Str(s.clone());
-                    } else {
+                    if s.value.is_reserved()
+                        || s.value.is_reserved_in_es3()
+                        || is_valid_identifier(&s.value, false)
+                    {
                         *p = PropName::Ident(Ident::new(
                             s.value.clone(),
                             s.span.with_ctxt(SyntaxContext::empty()),
                         ));
+                    } else {
+                        *p = PropName::Str(s.clone());
                     }
                 }
                 Expr::Lit(Lit::Num(n)) => {
