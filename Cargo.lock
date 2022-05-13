@@ -2900,7 +2900,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.178.1"
+version = "0.179.0"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3022,7 +3022,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.52.0"
+version = "0.53.0"
 dependencies = [
  "anyhow",
  "atty",
@@ -3800,7 +3800,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.98.0"
+version = "0.99.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -4088,7 +4088,7 @@ dependencies = [
 
 [[package]]
 name = "swc_webpack_ast"
-version = "0.96.0"
+version = "0.97.0"
 dependencies = [
  "anyhow",
  "rayon",
