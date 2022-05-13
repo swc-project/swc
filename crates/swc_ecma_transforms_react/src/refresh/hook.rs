@@ -44,7 +44,7 @@ pub struct HookRegister<'a> {
     pub options: &'a RefreshOptions,
     pub ident: Vec<Ident>,
     pub extra_stmt: Vec<Stmt>,
-    pub current_scope: SyntaxContext,
+    pub current_scope: Vec<SyntaxContext>,
     pub cm: &'a SourceMap,
     pub should_reset: bool,
 }
@@ -120,7 +120,6 @@ impl<'a> HookRegister<'a> {
         let mut should_reset = self.should_reset;
 
         let mut custom_hook_in_scope = Vec::new();
-        let current_mark = self.current_scope.outer();
 
         for hook in custom_hook {
             let ident = match &hook {
@@ -129,7 +128,7 @@ impl<'a> HookRegister<'a> {
                 _ => None,
             };
             if !ident
-                .map(|id| current_mark.is_descendant_of(id.span.ctxt().outer()))
+                .map(|id| self.current_scope.contains(&id.span.ctxt))
                 .unwrap_or(false)
             {
                 // We don't have anything to put in the array because Hook is out of scope.
@@ -211,16 +210,16 @@ impl<'a> VisitMut for HookRegister<'a> {
     fn visit_mut_block_stmt(&mut self, b: &mut BlockStmt) {
         let old_ident = self.ident.take();
         let old_stmts = self.extra_stmt.take();
-        let old_scope = self.current_scope;
 
-        self.current_scope = b
-            .stmts
-            .iter()
-            .find_map(|stmt| match stmt {
-                Stmt::Decl(decl) => find_pat_ids(decl).first().map(|id: &Ident| id.span.ctxt()),
-                _ => None,
-            })
-            .unwrap_or(old_scope);
+        self.current_scope.push(
+            b.stmts
+                .iter()
+                .find_map(|stmt| match stmt {
+                    Stmt::Decl(decl) => find_pat_ids(decl).first().map(|id: &Ident| id.span.ctxt()),
+                    _ => None,
+                })
+                .unwrap_or(SyntaxContext::empty()),
+        );
 
         let stmt_count = b.stmts.len();
         let stmts = mem::replace(&mut b.stmts, Vec::with_capacity(stmt_count));
@@ -236,7 +235,7 @@ impl<'a> VisitMut for HookRegister<'a> {
             b.stmts.insert(0, self.gen_hook_handle())
         }
 
-        self.current_scope = old_scope;
+        self.current_scope.pop();
         self.ident = old_ident;
         self.extra_stmt = old_stmts;
     }

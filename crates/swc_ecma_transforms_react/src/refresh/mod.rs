@@ -282,7 +282,7 @@ impl<C: Comments> VisitMut for Refresh<C> {
             options: &self.options,
             ident: Vec::new(),
             extra_stmt: Vec::new(),
-            current_scope: SyntaxContext::empty().apply_mark(self.global_mark),
+            current_scope: vec![SyntaxContext::empty().apply_mark(self.global_mark)],
             cm: &self.cm,
             should_reset: self.should_reset,
         };

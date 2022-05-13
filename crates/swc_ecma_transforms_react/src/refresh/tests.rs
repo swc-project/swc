@@ -1385,7 +1385,7 @@ test!(
                 }),
                 t.cm.clone(),
                 Some(t.comments.clone()),
-                unresolved_mark
+                top_level_mark
             )
         )
     },
