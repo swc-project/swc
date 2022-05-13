@@ -173,6 +173,7 @@ impl EnsureSize {
     }
 }
 
+#[allow(unused)]
 #[derive(Debug)]
 struct SizeIssue {
     fm: Arc<SourceFile>,
@@ -184,6 +185,7 @@ struct SizeIssue {
     esbuild: Option<MinifierOutput>,
 }
 
+#[allow(unused)]
 #[derive(Debug)]
 struct MinifierOutput {
     mangled_size: usize,
