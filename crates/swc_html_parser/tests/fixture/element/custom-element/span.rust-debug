@@ -407,16 +407,6 @@
     :                               ^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x DocumentFragment
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:19:1]
- 19 | ,-> <template id="x-foo-from-template">
- 20 | |       <style>
- 21 | |           p { color: green; }
- 22 | |       </style>
- 23 | `->     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
- 24 |     </template>
-    `----
-
   x Child
     ,-[$DIR/tests/fixture/element/custom-element/input.html:16:5]
  16 | <social-button type="twitter"><a href="...">Twitter</a></social-button>
@@ -642,6 +632,16 @@
     `----
 
   x Element
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:25:1]
+ 25 | ,-> <template id="x-foo-from-template">
+ 26 | |       <style>
+ 27 | |           p { color: green; }
+ 28 | |       </style>
+ 29 | `->     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
+ 30 |     </template>
+    `----
+
+  x DocumentFragment
     ,-[$DIR/tests/fixture/element/custom-element/input.html:25:1]
  25 | ,-> <template id="x-foo-from-template">
  26 | |       <style>
