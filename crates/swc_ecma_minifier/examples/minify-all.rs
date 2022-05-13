@@ -26,7 +26,7 @@ fn main() {
     testing::run_test2(false, |cm, handler| {
         GLOBALS.with(|globals| {
             let _ = files
-                .into_par_iter()
+                .into_iter()
                 .map(|path| -> Result<_> {
                     GLOBALS.set(globals, || {
                         let fm = cm.load_file(&path).expect("failed to load file");
