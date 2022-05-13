@@ -127,7 +127,7 @@ impl EnsureSize {
                 print_js(cm, &minified_mangled, true).context("failed to convert ast to code")?
             };
 
-            eprintln!("The output size of swc minifier: {}", code_mangled.len());
+            // eprintln!("The output size of swc minifier: {}", code_mangled.len());
 
             let mut size_issue = SizeIssue {
                 fm,
