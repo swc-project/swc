@@ -3500,7 +3500,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.84.0"
+version = "0.84.1"
 dependencies = [
  "better_scoped_tls",
  "criterion",

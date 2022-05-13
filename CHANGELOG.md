@@ -17,6 +17,9 @@
 - **(es/modules)** Fix `jsc.paths` (#4620) ([20692cd](https://github.com/swc-project/swc/commit/20692cdff1df4491382820cb38dae6fdeda12223))
 
 
+- **(es/resolver)** Ensure that a parameter type is resolved to parent (#4645) ([2745cb7](https://github.com/swc-project/swc/commit/2745cb79491436b1967231f905a834b06831e1b4))
+
+
 - **(html)** Fix parsing of template (#4647) ([af9c8c6](https://github.com/swc-project/swc/commit/af9c8c6b4ce1eff729d9de0efc84f62792efda86))
 
 
