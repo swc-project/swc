@@ -2879,7 +2879,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.178.0"
+version = "0.178.1"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3061,7 +3061,7 @@ dependencies = [
 
 [[package]]
 name = "swc_config"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "anyhow",
  "indexmap",
@@ -3849,7 +3849,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_codegen"
-version = "0.7.0"
+version = "0.7.1"
 dependencies = [
  "auto_impl",
  "bitflags",
