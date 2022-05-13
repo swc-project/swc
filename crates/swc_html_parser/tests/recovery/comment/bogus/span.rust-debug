@@ -17,6 +17,8 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x Child
-
   x Element
+   ,-[$DIR/tests/recovery/comment/bogus/input.html:1:1]
+ 1 | <!–– Failing New York Times Comment -->
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----

@@ -114,6 +114,10 @@
     `----
 
   x Attribute
+   ,-[$DIR/tests/recovery/comment/cdata/input.html:1:1]
+ 1 | <?xml version="1.0" encoding="UTF-8"?>
+   : ^
+   `----
 
   x Child
     ,-[$DIR/tests/recovery/comment/cdata/input.html:5:1]

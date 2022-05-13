@@ -61,6 +61,10 @@
     `----
 
   x Attribute
+   ,-[$DIR/tests/recovery/element/embed-closed/input.html:1:1]
+ 1 | <!doctype html>
+   : ^
+   `----
 
   x Child
    ,-[$DIR/tests/recovery/element/embed-closed/input.html:3:1]

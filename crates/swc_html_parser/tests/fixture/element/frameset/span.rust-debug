@@ -110,6 +110,10 @@
    `----
 
   x Attribute
+   ,-[$DIR/tests/fixture/element/frameset/input.html:1:1]
+ 1 | <!DOCTYPE HTML>
+   : ^
+   `----
 
   x Child
    ,-[$DIR/tests/fixture/element/frameset/input.html:4:5]

@@ -214,8 +214,18 @@
     `----
 
   x Child
+   ,-[$DIR/tests/fixture/text/entity/input.html:1:1]
+ 1 | ,-> <!DOCTYPE html>
+ 2 | |   <html>
+ 3 | `-> <body>
+   `----
 
   x Element
+   ,-[$DIR/tests/fixture/text/entity/input.html:1:1]
+ 1 | ,-> <!DOCTYPE html>
+ 2 | |   <html>
+ 3 | `-> <body>
+   `----
 
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:3:1]
@@ -1592,6 +1602,10 @@
     `----
 
   x Attribute
+   ,-[$DIR/tests/fixture/text/entity/input.html:1:1]
+ 1 | <!DOCTYPE html>
+   : ^
+   `----
 
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:44:1]

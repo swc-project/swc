@@ -19,12 +19,30 @@
    `----
 
   x Child
+   ,-[$DIR/tests/fixture/element/pre-1/input.html:1:1]
+ 1 | ,-> <!DOCTYPE html><pre>
+ 2 | |   
+ 3 | `-> A</pre>
+   `----
 
   x Element
+   ,-[$DIR/tests/fixture/element/pre-1/input.html:1:1]
+ 1 | ,-> <!DOCTYPE html><pre>
+ 2 | |   
+ 3 | `-> A</pre>
+   `----
 
   x Child
+   ,-[$DIR/tests/fixture/element/pre-1/input.html:1:1]
+ 1 | <!DOCTYPE html><pre>
+   : ^^^^^^^^^^^^^^^^^^^^
+   `----
 
   x Element
+   ,-[$DIR/tests/fixture/element/pre-1/input.html:1:1]
+ 1 | <!DOCTYPE html><pre>
+   : ^^^^^^^^^^^^^^^^^^^^
+   `----
 
   x Child
    ,-[$DIR/tests/fixture/element/pre-1/input.html:1:1]

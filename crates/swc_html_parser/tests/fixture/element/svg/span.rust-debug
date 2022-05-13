@@ -393,6 +393,10 @@
      `----
 
   x Attribute
+   ,-[$DIR/tests/fixture/element/svg/input.html:1:1]
+ 1 | <html xmlns="http://www.w3.org/1999/xhtml">
+   : ^
+   `----
 
   x Child
     ,-[$DIR/tests/fixture/element/svg/input.html:2:1]

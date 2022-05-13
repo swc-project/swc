@@ -31,12 +31,66 @@
     `----
 
   x Child
+    ,-[$DIR/tests/fixture/element/basic/input.html:1:1]
+  1 | ,-> <div></div>
+  2 | |   <div><div></div></div>
+  3 | |   <div></div><div></div>
+  4 | |   <br>
+  5 | |   <br />
+  6 | |   <h:ællæ></h:ællæ>
+  7 | |   <div ⚡></div>
+  8 | |   <some-tag-1></some-tag-1><some-tag-2></some-tag-2>
+  9 | |   <a href="test.html"><div>hey</div></a>
+ 10 | |   <CUSTOM-TAG></CUSTOM-TAG><div>Hello :)</div>
+ 11 | |   <div>
+ 12 | |   
+ 13 | |   test
+ 14 | |   
+ 15 | |   </div>
+ 16 | |   
+ 17 | |   <div data-test="a"></div>
+ 18 | |   <br data-test="a" />
+ 19 | |   <br data-test="a" >
+ 20 | |   <br data-test="a">
+ 21 | |   <div
+ 22 | |   >
+ 23 | |   Test
+ 24 | |   </div
+ 25 | |   >
+ 26 | |   
+ 27 | `-> <div>test</div>
+    `----
 
   x Element
-
-  x Child
-
-  x Element
+    ,-[$DIR/tests/fixture/element/basic/input.html:1:1]
+  1 | ,-> <div></div>
+  2 | |   <div><div></div></div>
+  3 | |   <div></div><div></div>
+  4 | |   <br>
+  5 | |   <br />
+  6 | |   <h:ællæ></h:ællæ>
+  7 | |   <div ⚡></div>
+  8 | |   <some-tag-1></some-tag-1><some-tag-2></some-tag-2>
+  9 | |   <a href="test.html"><div>hey</div></a>
+ 10 | |   <CUSTOM-TAG></CUSTOM-TAG><div>Hello :)</div>
+ 11 | |   <div>
+ 12 | |   
+ 13 | |   test
+ 14 | |   
+ 15 | |   </div>
+ 16 | |   
+ 17 | |   <div data-test="a"></div>
+ 18 | |   <br data-test="a" />
+ 19 | |   <br data-test="a" >
+ 20 | |   <br data-test="a">
+ 21 | |   <div
+ 22 | |   >
+ 23 | |   Test
+ 24 | |   </div
+ 25 | |   >
+ 26 | |   
+ 27 | `-> <div>test</div>
+    `----
 
   x Child
    ,-[$DIR/tests/fixture/element/basic/input.html:1:1]
@@ -231,6 +285,10 @@
    `----
 
   x Attribute
+   ,-[$DIR/tests/fixture/element/basic/input.html:1:1]
+ 1 | <div></div>
+   : ^
+   `----
 
   x Child
    ,-[$DIR/tests/fixture/element/basic/input.html:7:1]

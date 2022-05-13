@@ -159,6 +159,10 @@
    `----
 
   x Attribute
+   ,-[$DIR/tests/recovery/element/plaintext/input.html:1:1]
+ 1 | <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   : ^
+   `----
 
   x Child
    ,-[$DIR/tests/recovery/element/plaintext/input.html:5:5]

@@ -18,12 +18,16 @@
    `----
 
   x Child
+   ,-[$DIR/tests/fixture/element/ruby-2/input.html:1:1]
+ 1 | <html><ruby>a<rb>b<rtc></ruby></html>
+   : ^^^^^^^^^^^^
+   `----
 
   x Element
-
-  x Child
-
-  x Element
+   ,-[$DIR/tests/fixture/element/ruby-2/input.html:1:1]
+ 1 | <html><ruby>a<rb>b<rtc></ruby></html>
+   : ^^^^^^^^^^^^
+   `----
 
   x Child
    ,-[$DIR/tests/fixture/element/ruby-2/input.html:1:1]

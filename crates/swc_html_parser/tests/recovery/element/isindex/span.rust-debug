@@ -6,10 +6,6 @@
    `----
 
   x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/recovery/element/isindex/input.html:1:1]
  1 | <isindex>
    : ^^^^^^^^^

@@ -46,8 +46,18 @@
    `----
 
   x Child
+   ,-[$DIR/tests/recovery/document_type/missing-name/input.html:1:1]
+ 1 | ,-> <!DOCTYPE>
+ 2 | |   <html>
+ 3 | `-> <body>
+   `----
 
   x Element
+   ,-[$DIR/tests/recovery/document_type/missing-name/input.html:1:1]
+ 1 | ,-> <!DOCTYPE>
+ 2 | |   <html>
+ 3 | `-> <body>
+   `----
 
   x Child
    ,-[$DIR/tests/recovery/document_type/missing-name/input.html:3:1]
@@ -96,6 +106,10 @@
    `----
 
   x Attribute
+   ,-[$DIR/tests/recovery/document_type/missing-name/input.html:1:1]
+ 1 | <!DOCTYPE>
+   : ^
+   `----
 
   x Child
    ,-[$DIR/tests/recovery/document_type/missing-name/input.html:5:1]

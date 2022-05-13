@@ -18,12 +18,28 @@
    `----
 
   x Child
+   ,-[$DIR/tests/recovery/element/svg/input.html:1:1]
+ 1 | <!DOCTYPE html>xxx<svg><x><g><a><main><b>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
   x Element
+   ,-[$DIR/tests/recovery/element/svg/input.html:1:1]
+ 1 | <!DOCTYPE html>xxx<svg><x><g><a><main><b>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
   x Child
+   ,-[$DIR/tests/recovery/element/svg/input.html:1:1]
+ 1 | <!DOCTYPE html>xxx<svg><x><g><a><main><b>
+   : ^^^^^^^^^^^^^^^^
+   `----
 
   x Element
+   ,-[$DIR/tests/recovery/element/svg/input.html:1:1]
+ 1 | <!DOCTYPE html>xxx<svg><x><g><a><main><b>
+   : ^^^^^^^^^^^^^^^^
+   `----
 
   x Child
    ,-[$DIR/tests/recovery/element/svg/input.html:1:1]

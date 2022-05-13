@@ -55,6 +55,10 @@
     `----
 
   x Attribute
+   ,-[$DIR/tests/recovery/element/table/broken/input.html:1:1]
+ 1 | <!doctype html>
+   : ^
+   `----
 
   x Child
    ,-[$DIR/tests/recovery/element/table/broken/input.html:3:1]

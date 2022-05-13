@@ -6,12 +6,28 @@
    `----
 
   x Child
+   ,-[$DIR/tests/recovery/comment/inside-textarea/input.html:1:1]
+ 1 | <textarea><!--</textarea>--></textarea>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
   x Element
+   ,-[$DIR/tests/recovery/comment/inside-textarea/input.html:1:1]
+ 1 | <textarea><!--</textarea>--></textarea>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
   x Child
+   ,-[$DIR/tests/recovery/comment/inside-textarea/input.html:1:1]
+ 1 | <textarea><!--</textarea>--></textarea>
+   : ^^^^^^^^^^
+   `----
 
   x Element
+   ,-[$DIR/tests/recovery/comment/inside-textarea/input.html:1:1]
+ 1 | <textarea><!--</textarea>--></textarea>
+   : ^^^^^^^^^^
+   `----
 
   x Child
    ,-[$DIR/tests/recovery/comment/inside-textarea/input.html:1:1]

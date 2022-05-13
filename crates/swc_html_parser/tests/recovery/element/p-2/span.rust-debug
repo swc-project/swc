@@ -6,14 +6,6 @@
    `----
 
   x Child
-
-  x Element
-
-  x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/recovery/element/p-2/input.html:1:1]
  1 | <p><table>
    : ^^^^^^^^^^^
@@ -23,6 +15,18 @@
    ,-[$DIR/tests/recovery/element/p-2/input.html:1:1]
  1 | <p><table>
    : ^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/p-2/input.html:1:1]
+ 1 | <p><table>
+   : ^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/p-2/input.html:1:1]
+ 1 | <p><table>
+   : ^^^
    `----
 
   x Child

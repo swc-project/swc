@@ -6,14 +6,6 @@
    `----
 
   x Child
-
-  x Element
-
-  x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/recovery/element/nobr/input.html:1:1]
  1 | <nobr>X
    : ^^^^^^^
@@ -23,6 +15,18 @@
    ,-[$DIR/tests/recovery/element/nobr/input.html:1:1]
  1 | <nobr>X
    : ^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/nobr/input.html:1:1]
+ 1 | <nobr>X
+   : ^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/nobr/input.html:1:1]
+ 1 | <nobr>X
+   : ^^^^^^
    `----
 
   x Child

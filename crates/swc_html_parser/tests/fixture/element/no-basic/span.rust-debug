@@ -19,12 +19,32 @@
    `----
 
   x Child
+   ,-[$DIR/tests/fixture/element/no-basic/input.html:1:1]
+ 1 | ,-> <!DOCTYPE html>
+ 2 | |   <title>Saving money, saving bytes</title>
+ 3 | `-> <p>Qed.
+   `----
 
   x Element
+   ,-[$DIR/tests/fixture/element/no-basic/input.html:1:1]
+ 1 | ,-> <!DOCTYPE html>
+ 2 | |   <title>Saving money, saving bytes</title>
+ 3 | `-> <p>Qed.
+   `----
 
   x Child
+   ,-[$DIR/tests/fixture/element/no-basic/input.html:1:1]
+ 1 | ,-> <!DOCTYPE html>
+ 2 | `-> <title>Saving money, saving bytes</title>
+ 3 |     <p>Qed.
+   `----
 
   x Element
+   ,-[$DIR/tests/fixture/element/no-basic/input.html:1:1]
+ 1 | ,-> <!DOCTYPE html>
+ 2 | `-> <title>Saving money, saving bytes</title>
+ 3 |     <p>Qed.
+   `----
 
   x Child
    ,-[$DIR/tests/fixture/element/no-basic/input.html:2:1]
