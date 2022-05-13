@@ -2,20 +2,20 @@
     JsDoc {
         span: Span {
             lo: BytePos(
-                16,
+                15,
             ),
             hi: BytePos(
-                16,
+                15,
             ),
             ctxt: #0,
         },
         description: Text {
             span: Span {
                 lo: BytePos(
-                    16,
+                    15,
                 ),
                 hi: BytePos(
-                    50,
+                    49,
                 ),
                 ctxt: #0,
             },
@@ -26,20 +26,20 @@
     JsDoc {
         span: Span {
             lo: BytePos(
-                152,
+                151,
             ),
             hi: BytePos(
-                152,
+                151,
             ),
             ctxt: #0,
         },
         description: Text {
             span: Span {
                 lo: BytePos(
-                    152,
+                    151,
                 ),
                 hi: BytePos(
-                    186,
+                    185,
                 ),
                 ctxt: #0,
             },
@@ -50,20 +50,20 @@
     JsDoc {
         span: Span {
             lo: BytePos(
-                305,
+                304,
             ),
             hi: BytePos(
-                305,
+                304,
             ),
             ctxt: #0,
         },
         description: Text {
             span: Span {
                 lo: BytePos(
-                    305,
+                    304,
                 ),
                 hi: BytePos(
-                    321,
+                    320,
                 ),
                 ctxt: #0,
             },
@@ -74,20 +74,20 @@
     JsDoc {
         span: Span {
             lo: BytePos(
-                351,
+                350,
             ),
             hi: BytePos(
-                351,
+                350,
             ),
             ctxt: #0,
         },
         description: Text {
             span: Span {
                 lo: BytePos(
-                    351,
+                    350,
                 ),
                 hi: BytePos(
-                    385,
+                    384,
                 ),
                 ctxt: #0,
             },
