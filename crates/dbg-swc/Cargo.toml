@@ -15,6 +15,7 @@ name = "dbg-swc"
 anyhow = "1.0.57"
 clap = { version = "3", features = ["derive"] }
 rayon = "1.5.2"
+sha1 = "0.10.1"
 swc_atoms = { version = "0.2.11", path = "../swc_atoms" }
 swc_common = { version = "0.18.0", features = [
   "concurrent",

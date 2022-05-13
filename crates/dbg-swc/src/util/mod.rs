@@ -11,6 +11,8 @@ use swc_ecma_parser::{parse_file_as_module, Syntax};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_visit::VisitMutWith;
 
+pub mod minifier;
+
 /// Type annotation
 pub fn wrap_task<T, F>(op: F) -> Result<T>
 where
