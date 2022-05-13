@@ -78,8 +78,7 @@ impl TestMinifiedBundleCommand {
 
         minified.visit_mut_with(&mut fixer(None));
 
-        let code =
-            print_js(cm.clone(), &minified, true).context("failed to convert ast to code")?;
+        let code = print_js(cm, &minified, true).context("failed to convert ast to code")?;
 
         let path = Path::new("output.js").to_path_buf();
         fs::write(&path, code.as_bytes()).context("failed to write code as file")?;
@@ -97,14 +96,14 @@ pub struct Output {
 }
 
 pub enum JsRuntime {
-    Node,
+    // Node,
     Deno,
 }
 
 impl JsRuntime {
     pub fn execute(&self, path: &Path) -> Result<String> {
         match self {
-            JsRuntime::Node => todo!("node.execute"),
+            // JsRuntime::Node => todo!("node.execute"),
             JsRuntime::Deno => {
                 let mut cmd = Command::new("deno");
                 cmd.arg("run").arg("--no-check");
