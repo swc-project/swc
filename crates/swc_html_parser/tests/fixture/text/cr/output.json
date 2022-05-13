@@ -60,7 +60,7 @@
                 "end": 58,
                 "ctxt": 0
               },
-              "value": "Text\r"
+              "value": "Text\n"
             },
             {
               "type": "Element",
@@ -92,7 +92,7 @@
                 "end": 74,
                 "ctxt": 0
               },
-              "value": "\r"
+              "value": "\n"
             },
             {
               "type": "Element",
@@ -112,7 +112,7 @@
                     "end": 89,
                     "ctxt": 0
                   },
-                  "value": "\r    Text\r"
+                  "value": "\n    Text\n"
                 }
               ],
               "content": null
@@ -124,7 +124,7 @@
                 "end": 96,
                 "ctxt": 0
               },
-              "value": "\r"
+              "value": "\n"
             },
             {
               "type": "Element",
@@ -144,7 +144,7 @@
                     "end": 122,
                     "ctxt": 0
                   },
-                  "value": "\r    Text\r\r\r    Text\r"
+                  "value": "\n    Text\n\n\n    Text\n"
                 }
               ],
               "content": null
@@ -156,7 +156,7 @@
                 "end": 129,
                 "ctxt": 0
               },
-              "value": "\r"
+              "value": "\n"
             },
             {
               "type": "Element",
@@ -176,7 +176,7 @@
                     "end": 149,
                     "ctxt": 0
                   },
-                  "value": "Text\r\r\r    Text"
+                  "value": "Text\n\n\n    Text"
                 }
               ],
               "content": null
@@ -188,7 +188,7 @@
                 "end": 156,
                 "ctxt": 0
               },
-              "value": "\r"
+              "value": "\n"
             },
             {
               "type": "Element",
@@ -221,7 +221,7 @@
                     "end": 176,
                     "ctxt": 0
                   },
-                  "value": "\r\r"
+                  "value": "\n\n"
                 }
               ],
               "content": null
@@ -233,7 +233,7 @@
                 "end": 184,
                 "ctxt": 0
               },
-              "value": "\r"
+              "value": "\n"
             },
             {
               "type": "Element",
@@ -266,7 +266,7 @@
                     "end": 208,
                     "ctxt": 0
                   },
-                  "value": "\r\r"
+                  "value": "\n\n"
                 }
               ],
               "content": null
@@ -278,7 +278,7 @@
                 "end": 216,
                 "ctxt": 0
               },
-              "value": "\r"
+              "value": "\n"
             },
             {
               "type": "Element",
@@ -311,7 +311,7 @@
                     "end": 240,
                     "ctxt": 0
                   },
-                  "value": "\r\r"
+                  "value": "\n\n"
                 }
               ],
               "content": null
@@ -323,7 +323,7 @@
                 "end": 248,
                 "ctxt": 0
               },
-              "value": "\r"
+              "value": "\n"
             },
             {
               "type": "Element",
@@ -356,7 +356,7 @@
                     "end": 270,
                     "ctxt": 0
                   },
-                  "value": "\r\r"
+                  "value": "\n\n"
                 }
               ],
               "content": null
@@ -368,7 +368,7 @@
                 "end": 278,
                 "ctxt": 0
               },
-              "value": "\r"
+              "value": "\n"
             },
             {
               "type": "Element",
@@ -388,7 +388,7 @@
                     "end": 333,
                     "ctxt": 0
                   },
-                  "value": "\r\r.color {\r    color: red;\r    <!-- Test -->\r}\r\r"
+                  "value": "\n\n.color {\n    color: red;\n    <!-- Test -->\n}\n\n"
                 }
               ],
               "content": null

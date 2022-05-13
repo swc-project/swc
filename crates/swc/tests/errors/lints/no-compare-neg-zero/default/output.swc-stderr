@@ -1,0 +1,78 @@
+
+  x Do not use the '===' to compare against -0
+   ,----
+ 1 | x === -0;
+   : ^^^^^^^^
+   `----
+
+  x Do not use the '===' to compare against -0
+   ,----
+ 2 | -0 === x;
+   : ^^^^^^^^
+   `----
+
+  x Do not use the '==' to compare against -0
+   ,----
+ 3 | x == -0;
+   : ^^^^^^^
+   `----
+
+  x Do not use the '==' to compare against -0
+   ,----
+ 4 | -0 == x;
+   : ^^^^^^^
+   `----
+
+  x Do not use the '>' to compare against -0
+   ,----
+ 5 | x > -0;
+   : ^^^^^^
+   `----
+
+  x Do not use the '>' to compare against -0
+   ,----
+ 6 | -0 > x;
+   : ^^^^^^
+   `----
+
+  x Do not use the '>=' to compare against -0
+   ,----
+ 7 | x >= -0;
+   : ^^^^^^^
+   `----
+
+  x Do not use the '>=' to compare against -0
+   ,----
+ 8 | -0 >= x;
+   : ^^^^^^^
+   `----
+
+  x Do not use the '<' to compare against -0
+   ,----
+ 9 | x < -0;
+   : ^^^^^^
+   `----
+
+  x Do not use the '<' to compare against -0
+    ,----
+ 10 | -0 < x;
+    : ^^^^^^
+    `----
+
+  x Do not use the '<=' to compare against -0
+    ,----
+ 11 | x <= -0;
+    : ^^^^^^^
+    `----
+
+  x Do not use the '<=' to compare against -0
+    ,----
+ 12 | -0 <= x;
+    : ^^^^^^^
+    `----
+
+  x Do not use the '===' to compare against -0
+    ,----
+ 13 | -0 === -0
+    : ^^^^^^^^^
+    `----
