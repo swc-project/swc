@@ -9,7 +9,7 @@ include = ["Cargo.toml", "src/**/*.rs"]
 license = "Apache-2.0"
 name = "swc"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.179.0"
+version = "0.179.1"
 
 [lib]
 bench = false
@@ -42,7 +42,7 @@ serde_json = "1"
 sourcemap = "6"
 swc_atoms = { version = "0.2", path = "../swc_atoms" }
 swc_cached = { version = "0.1.0", path = "../swc_cached" }
-swc_common = { version = "0.18.0", path = "../swc_common", features = [
+swc_common = { version = "0.18.1", path = "../swc_common", features = [
   "sourcemap",
   "concurrent",
   "parking_lot",
