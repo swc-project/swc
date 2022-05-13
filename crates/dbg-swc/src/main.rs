@@ -48,7 +48,7 @@ fn main() -> Result<()> {
             GLOBALS.set(&Globals::default(), || {
                 HANDLER.set(handler, || match args.cmd {
                     Cmd::Bundle(_) => todo!(),
-                    Cmd::Minify(_) => todo!(),
+                    Cmd::Minify(cmd) => cmd.run(cm),
                     Cmd::Test(cmd) => cmd.run(cm),
                 })
             })
