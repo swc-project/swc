@@ -20,6 +20,7 @@ use walkdir::WalkDir;
 fn main() {
     let dirs = env::args().skip(1).collect::<Vec<_>>();
     let files = expand_dirs(dirs);
+    eprintln!("Using {} files", files.len());
 
     let start = Instant::now();
     testing::run_test2(false, |cm, handler| {
