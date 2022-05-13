@@ -109,13 +109,14 @@ impl EnsureSize {
             if !self.no_terser {
                 let terser_mangled = get_terser_output(js_file, true, true)?;
                 let terser_no_mangle = get_terser_output(js_file, true, false)?;
-                eprintln!("The output size of terser: {}", terser_mangled.len());
-                eprintln!(
-                    "The output size of terser without mangler: {}",
-                    terser_no_mangle.len()
-                );
 
                 if terser_mangled.len() < code_mangled.len() {
+                    eprintln!("The output size of terser: {}", terser_mangled.len());
+                    eprintln!(
+                        "The output size of terser without mangler: {}",
+                        terser_no_mangle.len()
+                    );
+
                     size_issue.terser = Some(MinifierOutput {
                         mangled_size: terser_mangled.len(),
                         no_mangle_size: terser_no_mangle.len(),
@@ -126,13 +127,14 @@ impl EnsureSize {
             if !self.no_esbuild {
                 let esbuild_mangled = get_esbuild_output(js_file, true)?;
                 let esbuild_no_mangle = get_esbuild_output(js_file, false)?;
-                eprintln!("The output size of esbuild: {}", esbuild_mangled.len());
-                eprintln!(
-                    "The output size of esbuild without mangler: {}",
-                    esbuild_no_mangle.len()
-                );
 
                 if esbuild_mangled.len() < code_mangled.len() {
+                    eprintln!("The output size of esbuild: {}", esbuild_mangled.len());
+                    eprintln!(
+                        "The output size of esbuild without mangler: {}",
+                        esbuild_no_mangle.len()
+                    );
+
                     size_issue.esbuild = Some(MinifierOutput {
                         mangled_size: esbuild_mangled.len(),
                         no_mangle_size: esbuild_no_mangle.len(),
