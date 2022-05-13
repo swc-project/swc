@@ -51,9 +51,8 @@ impl EnsureSize {
         dbg!(&all_files);
 
         let results = GLOBALS.with(|globals| {
-            // TODO: par_iter
             all_files
-                .iter()
+                .par_iter()
                 .map(|js_file| GLOBALS.set(globals, || self.check_file(cm.clone(), js_file)))
                 .filter_map(|v| v.transpose())
                 .collect::<Result<Vec<_>>>()
@@ -72,36 +71,70 @@ impl EnsureSize {
     fn check_file(&self, cm: Arc<SourceMap>, js_file: &Path) -> Result<Option<SizeIssue>> {
         wrap_task(|| {
             let fm = cm.load_file(js_file).context("failed to load file")?;
-            let module = parse_js(fm.clone())?;
+            let i = parse_js(fm.clone())?;
 
-            let mut minified_mangled = {
-                let _timer = timer!("minify");
-                swc_ecma_minifier::optimize(
-                    module.module,
-                    cm.clone(),
-                    None,
-                    None,
-                    &MinifyOptions {
-                        compress: Some(Default::default()),
-                        mangle: Some(Default::default()),
-                        ..Default::default()
-                    },
-                    &swc_ecma_minifier::option::ExtraOptions {
-                        unresolved_mark: module.unresolved_mark,
-                        top_level_mark: module.top_level_mark,
-                    },
-                )
+            let code_mangled = {
+                let mut minified_mangled = {
+                    let m = i.module.clone();
+                    let _timer = timer!("minify");
+                    swc_ecma_minifier::optimize(
+                        m,
+                        cm.clone(),
+                        None,
+                        None,
+                        &MinifyOptions {
+                            compress: Some(Default::default()),
+                            mangle: Some(Default::default()),
+                            ..Default::default()
+                        },
+                        &swc_ecma_minifier::option::ExtraOptions {
+                            unresolved_mark: i.unresolved_mark,
+                            top_level_mark: i.top_level_mark,
+                        },
+                    )
+                };
+
+                minified_mangled.visit_mut_with(&mut fixer(None));
+
+                print_js(cm.clone(), &minified_mangled, true)
+                    .context("failed to convert ast to code")?
             };
 
-            minified_mangled.visit_mut_with(&mut fixer(None));
+            let swc_no_mangle = {
+                let mut minified_mangled = {
+                    let m = i.module.clone();
 
-            let code_mangled =
-                print_js(cm, &minified_mangled, true).context("failed to convert ast to code")?;
+                    let _timer = timer!("minify.no-mangle");
+                    swc_ecma_minifier::optimize(
+                        m,
+                        cm.clone(),
+                        None,
+                        None,
+                        &MinifyOptions {
+                            compress: Some(Default::default()),
+                            mangle: None,
+                            ..Default::default()
+                        },
+                        &swc_ecma_minifier::option::ExtraOptions {
+                            unresolved_mark: i.unresolved_mark,
+                            top_level_mark: i.top_level_mark,
+                        },
+                    )
+                };
+
+                minified_mangled.visit_mut_with(&mut fixer(None));
+
+                print_js(cm, &minified_mangled, true).context("failed to convert ast to code")?
+            };
 
             eprintln!("The output size of swc minifier: {}", code_mangled.len());
 
             let mut size_issue = SizeIssue {
                 fm,
+                swc: MinifierOutput {
+                    mangled_size: code_mangled.len(),
+                    no_mangle_size: swc_no_mangle.len(),
+                },
                 terser: Default::default(),
                 esbuild: Default::default(),
             };
@@ -111,11 +144,11 @@ impl EnsureSize {
                 let terser_no_mangle = get_terser_output(js_file, true, false)?;
 
                 if terser_mangled.len() < code_mangled.len() {
-                    eprintln!("The output size of terser: {}", terser_mangled.len());
-                    eprintln!(
-                        "The output size of terser without mangler: {}",
-                        terser_no_mangle.len()
-                    );
+                    // eprintln!("The output size of terser: {}", terser_mangled.len());
+                    // eprintln!(
+                    //     "The output size of terser without mangler: {}",
+                    //     terser_no_mangle.len()
+                    // );
 
                     size_issue.terser = Some(MinifierOutput {
                         mangled_size: terser_mangled.len(),
@@ -129,11 +162,11 @@ impl EnsureSize {
                 let esbuild_no_mangle = get_esbuild_output(js_file, false)?;
 
                 if esbuild_mangled.len() < code_mangled.len() {
-                    eprintln!("The output size of esbuild: {}", esbuild_mangled.len());
-                    eprintln!(
-                        "The output size of esbuild without mangler: {}",
-                        esbuild_no_mangle.len()
-                    );
+                    // eprintln!("The output size of esbuild: {}", esbuild_mangled.len());
+                    // eprintln!(
+                    //     "The output size of esbuild without mangler: {}",
+                    //     esbuild_no_mangle.len()
+                    // );
 
                     size_issue.esbuild = Some(MinifierOutput {
                         mangled_size: esbuild_mangled.len(),
@@ -155,6 +188,8 @@ impl EnsureSize {
 #[derive(Debug)]
 struct SizeIssue {
     fm: Arc<SourceFile>,
+
+    swc: MinifierOutput,
 
     terser: Option<MinifierOutput>,
 
