@@ -7,6 +7,10 @@ name = "dbg-swc"
 repository = "https://github.com/kdy1/dbg-swc.git"
 version = "0.12.0"
 
+[[bin]]
+bench = false
+name = "dbg-swc"
+
 [dependencies]
 anyhow = "1.0.57"
 clap = { version = "3", features = ["derive"] }
