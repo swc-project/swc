@@ -2,16 +2,22 @@
 
 use std::{env, str::FromStr, sync::Arc};
 
-use anyhow::Result;
+use anyhow::{bail, Result};
 use clap::{StructOpt, Subcommand};
 use swc_common::{
     errors::{ColorConfig, HANDLER},
     Globals, SourceMap, GLOBALS,
 };
+use swc_ecma_minifier::option::MinifyOptions;
 use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
 use tracing_subscriber::EnvFilter;
 
-use self::{bundle::BundleCommand, minify::MinifyCommand, test::TestCommand};
+use self::{
+    bundle::BundleCommand,
+    minify::MinifyCommand,
+    test::TestCommand,
+    util::{parse_js, print_js},
+};
 
 mod bundle;
 mod minify;
