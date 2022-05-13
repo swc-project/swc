@@ -23,7 +23,11 @@ impl Pure<'_> {
         }
 
         match &*c.expr {
-            Expr::Lit(Lit::Str(s)) if is_valid_identifier(&s.value, true) => {
+            Expr::Lit(Lit::Str(s))
+                if s.value.is_reserved()
+                    || s.value.is_reserved_in_es3()
+                    || is_valid_identifier(&s.value, true) =>
+            {
                 self.changed = true;
                 report_change!(
                     "properties: Computed member => member expr with identifier as a prop"
