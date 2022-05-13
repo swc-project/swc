@@ -73,11 +73,10 @@ impl Pure<'_> {
 
     pub(super) fn optimize_prop_name(&mut self, name: &mut PropName) {
         if let PropName::Str(s) = name {
-            if s.value.is_reserved() || s.value.is_reserved_in_es3() {
-                return;
-            }
-
-            if is_valid_identifier(&s.value, false) {
+            if s.value.is_reserved()
+                || s.value.is_reserved_in_es3()
+                || is_valid_identifier(&s.value, false)
+            {
                 self.changed = true;
                 report_change!("misc: Optimizing string property name");
                 *name = PropName::Ident(Ident {
