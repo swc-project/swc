@@ -15,11 +15,18 @@ use swc_ecma_minifier::{
 use swc_ecma_parser::parse_file_as_module;
 use swc_ecma_transforms_base::{fixer::fixer, resolver};
 use swc_ecma_visit::FoldWith;
+use swc_timer::timer;
 use walkdir::WalkDir;
 
 fn main() {
     let dirs = env::args().skip(1).collect::<Vec<_>>();
-    let files = expand_dirs(dirs);
+    let files = {
+        let _timer = timer!("expand dir");
+
+        expand_dirs(dirs)
+    };
+
+    let _timer = timer!("minify all");
 
     testing::run_test2(false, |cm, handler| {
         GLOBALS.with(|globals| {
