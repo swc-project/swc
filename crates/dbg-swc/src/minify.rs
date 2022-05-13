@@ -7,7 +7,7 @@ use std::{
 use anyhow::{bail, Context, Result};
 use clap::{Args, Subcommand};
 use rayon::prelude::*;
-use swc_common::{SourceMap, GLOBALS};
+use swc_common::{SourceFile, SourceMap, GLOBALS};
 use swc_ecma_minifier::option::MinifyOptions;
 use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_visit::VisitMutWith;
@@ -51,11 +51,11 @@ impl EnsureSize {
         dbg!(&all_files);
 
         let results = GLOBALS.with(|globals| {
+            // TODO: par_iter
             all_files
-                .par_iter()
+                .iter()
                 .map(|js_file| GLOBALS.set(globals, || self.check_file(cm.clone(), js_file)))
-                .map(|v| v.transpose())
-                .flatten()
+                .filter_map(|v| v.transpose())
                 .collect::<Result<Vec<_>>>()
         })?;
 
@@ -72,7 +72,7 @@ impl EnsureSize {
     fn check_file(&self, cm: Arc<SourceMap>, js_file: &Path) -> Result<Option<SizeIssue>> {
         wrap_task(|| {
             let fm = cm.load_file(js_file).context("failed to load file")?;
-            let module = parse_js(fm)?;
+            let module = parse_js(fm.clone())?;
 
             let mut minified_mangled = {
                 let _timer = timer!("minify");
@@ -100,27 +100,51 @@ impl EnsureSize {
 
             eprintln!("The output size of swc minifier: {}", code_mangled.len());
 
+            let mut size_issue = SizeIssue {
+                fm,
+                terser: Default::default(),
+                esbuild: Default::default(),
+            };
+
             if !self.no_terser {
-                let terser_mangled = get_terser_output(&js_file, true, true)?;
-                let terser_no_mangle = get_terser_output(&js_file, true, false)?;
+                let terser_mangled = get_terser_output(js_file, true, true)?;
+                let terser_no_mangle = get_terser_output(js_file, true, false)?;
                 eprintln!("The output size of terser: {}", terser_mangled.len());
                 eprintln!(
                     "The output size of terser without mangler: {}",
                     terser_no_mangle.len()
                 );
+
+                if terser_mangled.len() < code_mangled.len() {
+                    size_issue.terser = Some(MinifierOutput {
+                        mangled_size: terser_mangled.len(),
+                        no_mangle_size: terser_no_mangle.len(),
+                    });
+                }
             }
 
             if !self.no_esbuild {
-                let esbuild_mangled = get_esbuild_output(&js_file, true)?;
-                let esbuild_no_mangle = get_esbuild_output(&js_file, false)?;
+                let esbuild_mangled = get_esbuild_output(js_file, true)?;
+                let esbuild_no_mangle = get_esbuild_output(js_file, false)?;
                 eprintln!("The output size of esbuild: {}", esbuild_mangled.len());
                 eprintln!(
                     "The output size of esbuild without mangler: {}",
                     esbuild_no_mangle.len()
                 );
+
+                if esbuild_mangled.len() < code_mangled.len() {
+                    size_issue.esbuild = Some(MinifierOutput {
+                        mangled_size: esbuild_mangled.len(),
+                        no_mangle_size: esbuild_no_mangle.len(),
+                    });
+                }
             }
 
-            Ok(None)
+            if size_issue.terser.is_none() && size_issue.esbuild.is_none() {
+                return Ok(None);
+            }
+
+            Ok(Some(size_issue))
         })
         .with_context(|| format!("failed to check file: {}", js_file.display()))
     }
@@ -128,10 +152,17 @@ impl EnsureSize {
 
 #[derive(Debug)]
 struct SizeIssue {
-    filename: PathBuf,
+    fm: Arc<SourceFile>,
 
-    /// `true` if the output is gathered with mangler enabled.
-    mangler_enabled: bool,
+    terser: Option<MinifierOutput>,
+
+    esbuild: Option<MinifierOutput>,
+}
+
+#[derive(Debug)]
+struct MinifierOutput {
+    mangled_size: usize,
+    no_mangle_size: usize,
 }
 
 fn get_terser_output(file: &Path, compress: bool, mangle: bool) -> Result<String> {
