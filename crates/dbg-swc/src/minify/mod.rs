@@ -17,7 +17,7 @@ mod ensure_size;
 /// Minify a javascript file.
 #[derive(Debug, Subcommand)]
 pub enum MinifyCommand {
-    Comapre(CompareCommand),
+    Compare(CompareCommand),
     EnsureSize(EnsureSize),
 }
 
@@ -25,7 +25,7 @@ impl MinifyCommand {
     pub fn run(self, cm: Arc<SourceMap>) -> Result<()> {
         match self {
             MinifyCommand::EnsureSize(cmd) => cmd.run(cm),
-            MinifyCommand::Comapre(cmd) => cmd.run(cm),
+            MinifyCommand::Compare(cmd) => cmd.run(cm),
         }
     }
 }
