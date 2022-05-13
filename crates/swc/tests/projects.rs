@@ -754,6 +754,7 @@ fn should_visit() {
                 preserve_comments: config.preserve_comments,
                 inline_sources_content: config.inline_sources_content,
                 comments: config.comments,
+                emit_source_map_columns: config.emit_source_map_columns,
             };
 
             if config.minify {
@@ -785,6 +786,7 @@ fn should_visit() {
                 // TODO: figure out sourcemaps
                 config.minify,
                 Some(&comments),
+                config.emit_source_map_columns,
             )
             .unwrap()
             .code)

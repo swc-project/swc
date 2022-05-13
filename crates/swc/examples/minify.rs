@@ -35,6 +35,7 @@ fn main() {
                     source_map: Default::default(),
                     output_path: Default::default(),
                     inline_sources_content: Default::default(),
+                    emit_source_map_columns: Default::default(),
                 },
             )
             .context("failed to minify")

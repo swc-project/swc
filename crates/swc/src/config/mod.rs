@@ -626,6 +626,7 @@ impl Options {
             source_file_name,
             comments: comments.cloned(),
             preserve_comments,
+            emit_source_map_columns: cfg.emit_source_map_columns.into_bool(),
         })
     }
 }
@@ -795,6 +796,9 @@ pub struct Config {
     pub inline_sources_content: BoolConfig<true>,
 
     #[serde(default)]
+    pub emit_source_map_columns: BoolConfig<true>,
+
+    #[serde(default)]
     pub error: ErrorConfig,
 
     #[serde(rename = "$schema")]
@@ -840,6 +844,9 @@ pub struct JsMinifyOptions {
 
     #[serde(default = "true_by_default")]
     pub inline_sources_content: bool,
+
+    #[serde(default = "true_by_default")]
+    pub emit_source_map_columns: bool,
 }
 
 fn true_by_default() -> bool {
@@ -1073,6 +1080,7 @@ pub struct BuiltInput<P: swc_ecma_visit::Fold> {
     pub preserve_comments: BoolOr<JsMinifyCommentOption>,
 
     pub inline_sources_content: bool,
+    pub emit_source_map_columns: bool,
 }
 
 /// `jsc` in  `.swcrc`.

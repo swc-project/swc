@@ -95,6 +95,7 @@ fn pass(input_dir: PathBuf) {
                         None,
                         false,
                         Some(&comments),
+                        false,
                     )
                     .expect("failed to print?")
                     .code;

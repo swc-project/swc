@@ -213,7 +213,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.2.182"
+version = "1.2.183"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -786,7 +786,7 @@ dependencies = [
 
 [[package]]
 name = "dbg-swc"
-version = "0.12.0"
+version = "0.12.1"
 dependencies = [
  "anyhow",
  "clap 3.1.0",
@@ -2900,7 +2900,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.178.1"
+version = "0.179.0"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3022,7 +3022,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.52.0"
+version = "0.53.0"
 dependencies = [
  "anyhow",
  "atty",
@@ -3500,7 +3500,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.84.0"
+version = "0.84.1"
 dependencies = [
  "better_scoped_tls",
  "criterion",
@@ -3800,7 +3800,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.98.0"
+version = "0.99.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -4088,7 +4088,7 @@ dependencies = [
 
 [[package]]
 name = "swc_webpack_ast"
-version = "0.96.0"
+version = "0.97.0"
 dependencies = [
  "anyhow",
  "rayon",

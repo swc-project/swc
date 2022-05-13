@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(es)** Add an option to omit columns from sourcemaps (#4646) ([b6f904b](https://github.com/swc-project/swc/commit/b6f904b8f0fbe8bffb25ab432006f8195d585bf7))
+
+## [1.2.183] - 2022-05-13
+
 ### Bug Fixes
 
 
@@ -17,6 +25,9 @@
 - **(es/modules)** Fix `jsc.paths` (#4620) ([20692cd](https://github.com/swc-project/swc/commit/20692cdff1df4491382820cb38dae6fdeda12223))
 
 
+- **(es/resolver)** Ensure that a parameter type is resolved to parent (#4645) ([2745cb7](https://github.com/swc-project/swc/commit/2745cb79491436b1967231f905a834b06831e1b4))
+
+
 - **(html)** Fix parsing of template (#4647) ([af9c8c6](https://github.com/swc-project/swc/commit/af9c8c6b4ce1eff729d9de0efc84f62792efda86))
 
 
@@ -30,6 +41,9 @@
 
 
 - **(common)** Reserve `BytePos(0)` for dummy spans (#4616) ([67942d5](https://github.com/swc-project/swc/commit/67942d57319454a0304632d5d9e504e26a2c8068))
+
+
+- **(debug)** Inline `dbg-swc` (#4651) ([b393773](https://github.com/swc-project/swc/commit/b393773373bb1ae170004fadb8688203cabeda2a))
 
 
 - **(es/lints)** Implement `no-compare-neg-zero` rule (#4643) ([f45dd72](https://github.com/swc-project/swc/commit/f45dd72033fe14dd0974d6698f6d8d4ec6a76185))
