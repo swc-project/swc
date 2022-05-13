@@ -7,7 +7,7 @@ use std::{
 use anyhow::{bail, Context, Result};
 use clap::{Args, Subcommand};
 use rayon::prelude::*;
-use swc_common::SourceMap;
+use swc_common::{SourceMap, GLOBALS};
 use swc_ecma_minifier::option::MinifyOptions;
 use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_visit::VisitMutWith;
@@ -50,12 +50,14 @@ impl EnsureSize {
 
         dbg!(&all_files);
 
-        let results = all_files
-            .par_iter()
-            .map(|js_file| self.check_file(cm.clone(), &js_file))
-            .map(|v| v.transpose())
-            .flatten()
-            .collect::<Result<Vec<_>>>()?;
+        let results = GLOBALS.with(|globals| {
+            all_files
+                .par_iter()
+                .map(|js_file| GLOBALS.set(globals, || self.check_file(cm.clone(), js_file)))
+                .map(|v| v.transpose())
+                .flatten()
+                .collect::<Result<Vec<_>>>()
+        })?;
 
         if results.is_empty() {
             return Ok(());
@@ -96,6 +98,15 @@ impl EnsureSize {
             let code = print_js(cm, &minified, true).context("failed to convert ast to code")?;
 
             eprintln!("The output size of swc minifier: {}", code.len());
+
+            let terser_mangled = get_terser_output(&js_file, true, true)?;
+            let terser_no_mangle = get_terser_output(&js_file, true, false)?;
+
+            eprintln!("The output size of terser: {}", terser_mangled.len());
+            eprintln!(
+                "The output size of terser without mangler: {}",
+                terser_no_mangle.len()
+            );
 
             Ok(None)
         })
