@@ -41,20 +41,6 @@ enum Cmd {
 }
 
 fn main() -> Result<()> {
-    let log_env =
-        env::var("RUST_LOG").unwrap_or_else(|_| "info,swc_ecma_minifier=warn,swc_timer=off".into());
-
-    let logger = tracing_subscriber::FmtSubscriber::builder()
-        .without_time()
-        .with_target(false)
-        .with_ansi(true)
-        .with_env_filter(EnvFilter::from_str(&log_env).unwrap())
-        .with_test_writer()
-        .pretty()
-        .finish();
-
-    tracing::subscriber::set_global_default(logger)?;
-
     let cm = Arc::new(SourceMap::default());
 
     if env::var("CREDUCE_COMPARE").unwrap_or_default() == "1" {
@@ -105,6 +91,20 @@ fn main() -> Result<()> {
             },
         );
     }
+
+    let log_env =
+        env::var("RUST_LOG").unwrap_or_else(|_| "info,swc_ecma_minifier=warn,swc_timer=off".into());
+
+    let logger = tracing_subscriber::FmtSubscriber::builder()
+        .without_time()
+        .with_target(false)
+        .with_ansi(true)
+        .with_env_filter(EnvFilter::from_str(&log_env).unwrap())
+        .with_test_writer()
+        .pretty()
+        .finish();
+
+    tracing::subscriber::set_global_default(logger)?;
 
     let args = AppArgs::parse();
 
