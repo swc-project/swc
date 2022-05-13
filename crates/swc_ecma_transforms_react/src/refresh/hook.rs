@@ -1,18 +1,16 @@
 use std::mem;
 
-use indexmap::IndexSet;
 use once_cell::sync::Lazy;
 use regex::Regex;
 use sha1::{Digest, Sha1};
-use swc_atoms::JsWord;
-use swc_common::{util::take::Take, SourceMap, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, SourceMap, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{private_ident, quote_ident, ExprFactory};
+use swc_ecma_utils::{find_pat_ids, private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 
-use super::util::{is_builtin_hook, make_call_expr, make_call_stmt, CollectIdent};
+use super::util::{is_builtin_hook, make_call_expr, make_call_stmt};
 use crate::RefreshOptions;
 
 // function that use hooks
@@ -46,7 +44,7 @@ pub struct HookRegister<'a> {
     pub options: &'a RefreshOptions,
     pub ident: Vec<Ident>,
     pub extra_stmt: Vec<Stmt>,
-    pub scope_binding: IndexSet<JsWord>,
+    pub current_scope: SyntaxContext,
     pub cm: &'a SourceMap,
     pub should_reset: bool,
 }
@@ -122,15 +120,17 @@ impl<'a> HookRegister<'a> {
         let mut should_reset = self.should_reset;
 
         let mut custom_hook_in_scope = Vec::new();
+        let current_mark = self.current_scope.outer();
+
         for hook in custom_hook {
             let ident = match &hook {
                 HookCall::Ident(ident) => Some(ident),
                 HookCall::Member(Expr::Ident(ident), _) => Some(ident),
                 _ => None,
             };
-            if ident
-                .and_then(|id| self.scope_binding.get(&id.sym))
-                .is_none()
+            if !ident
+                .map(|id| current_mark.is_descendant_of(id.span.ctxt().outer()))
+                .unwrap_or(false)
             {
                 // We don't have anything to put in the array because Hook is out of scope.
                 // Since it could potentially have been edited, remount the component.
@@ -209,25 +209,24 @@ impl<'a> VisitMut for HookRegister<'a> {
     noop_visit_mut_type!();
 
     fn visit_mut_block_stmt(&mut self, b: &mut BlockStmt) {
-        let mut current_scope = IndexSet::new();
-
-        // TODO: merge with collect_decls
-        for stmt in &b.stmts {
-            stmt.collect_ident(&mut current_scope);
-        }
-        let orig_binding = self.scope_binding.len();
-        self.scope_binding.extend(current_scope);
-        let current_binding = self.scope_binding.len();
-
         let old_ident = self.ident.take();
         let old_stmts = self.extra_stmt.take();
+        let old_scope = self.current_scope;
+
+        self.current_scope = b
+            .stmts
+            .iter()
+            .find_map(|stmt| match stmt {
+                Stmt::Decl(decl) => find_pat_ids(decl).first().map(|id: &Ident| id.span.ctxt()),
+                _ => None,
+            })
+            .unwrap_or(old_scope);
 
         let stmt_count = b.stmts.len();
         let stmts = mem::replace(&mut b.stmts, Vec::with_capacity(stmt_count));
 
         for mut stmt in stmts {
             stmt.visit_mut_children_with(self);
-            self.scope_binding.truncate(current_binding);
 
             b.stmts.push(stmt);
             b.stmts.append(&mut self.extra_stmt);
@@ -237,7 +236,7 @@ impl<'a> VisitMut for HookRegister<'a> {
             b.stmts.insert(0, self.gen_hook_handle())
         }
 
-        self.scope_binding.truncate(orig_binding);
+        self.current_scope = old_scope;
         self.ident = old_ident;
         self.extra_stmt = old_stmts;
     }
@@ -291,11 +290,13 @@ impl<'a> VisitMut for HookRegister<'a> {
                             },
                         ..
                     }) => {
+                        body.visit_mut_with(self);
                         if let Some(sig) = collect_hooks(&mut body.stmts, self.cm) {
                             self.gen_hook_register_stmt(id.clone(), sig);
                         }
                     }
                     Expr::Arrow(ArrowExpr { body, .. }) => {
+                        body.visit_mut_with(self);
                         if let Some(sig) = collect_hooks_arrow(body, self.cm) {
                             self.gen_hook_register_stmt(id.clone(), sig);
                         }
