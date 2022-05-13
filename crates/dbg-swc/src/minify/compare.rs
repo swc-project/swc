@@ -1,6 +1,10 @@
-use std::{path::PathBuf, process::Command, sync::Arc};
+use std::{
+    path::{Path, PathBuf},
+    process::{Command, Stdio},
+    sync::Arc,
+};
 
-use anyhow::{Context, Result};
+use anyhow::{bail, Context, Result};
 use clap::Args;
 use swc_common::SourceMap;
 use swc_ecma_minifier::option::MinifyOptions;
@@ -50,8 +54,13 @@ impl CompareCommand {
 
         std::fs::write("swc.output.js", code_mangled.as_bytes())
             .context("failed to write swc.output.js")?;
+
+        make_pretty("swc.output.js".as_ref())?;
+
         std::fs::write("esbuild.output.js", esbuild_mangled.as_bytes())
             .context("failed to write swc.output.js")?;
+
+        make_pretty("esbuild.output.js".as_ref())?;
 
         {
             let mut c = Command::new("code");
@@ -63,4 +72,18 @@ impl CompareCommand {
 
         Ok(())
     }
+}
+
+fn make_pretty(f: &Path) -> Result<()> {
+    let mut c = Command::new("npx");
+    c.stderr(Stdio::inherit());
+    c.arg("js-beautify").arg(f);
+
+    let output = c.output().context("failed to run prettier")?;
+
+    if !output.status.success() {
+        bail!("prettier failed");
+    }
+
+    Ok(())
 }
