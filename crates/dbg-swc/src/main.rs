@@ -9,6 +9,8 @@ use swc_common::{
     Globals, SourceMap, GLOBALS,
 };
 use swc_ecma_minifier::option::MinifyOptions;
+use swc_ecma_transforms_base::fixer::fixer;
+use swc_ecma_visit::VisitMutWith;
 use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
 use tracing_subscriber::EnvFilter;
 
@@ -79,7 +81,7 @@ fn main() -> Result<()> {
 
                         let m = parse_js(fm)?;
 
-                        let minified_mangled = {
+                        let mut m = {
                             swc_ecma_minifier::optimize(
                                 m.module,
                                 cm.clone(),
@@ -96,7 +98,10 @@ fn main() -> Result<()> {
                                 },
                             )
                         };
-                        let swc_output = print_js(cm.clone(), &minified_mangled, true)?;
+
+                        m.visit_mut_with(&mut fixer(None));
+
+                        let swc_output = print_js(cm.clone(), &m, true)?;
 
                         let esbuild_output =
                             self::util::minifier::get_esbuild_output("input.js".as_ref(), true)?;
