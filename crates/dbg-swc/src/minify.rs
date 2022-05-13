@@ -74,7 +74,7 @@ impl EnsureSize {
             let fm = cm.load_file(js_file).context("failed to load file")?;
             let module = parse_js(fm)?;
 
-            let mut minified = {
+            let mut minified_mangled = {
                 let _timer = timer!("minify");
                 swc_ecma_minifier::optimize(
                     module.module,
@@ -93,20 +93,32 @@ impl EnsureSize {
                 )
             };
 
-            minified.visit_mut_with(&mut fixer(None));
+            minified_mangled.visit_mut_with(&mut fixer(None));
 
-            let code = print_js(cm, &minified, true).context("failed to convert ast to code")?;
+            let code_mangled =
+                print_js(cm, &minified_mangled, true).context("failed to convert ast to code")?;
 
-            eprintln!("The output size of swc minifier: {}", code.len());
+            eprintln!("The output size of swc minifier: {}", code_mangled.len());
 
-            let terser_mangled = get_terser_output(&js_file, true, true)?;
-            let terser_no_mangle = get_terser_output(&js_file, true, false)?;
+            if !self.no_terser {
+                let terser_mangled = get_terser_output(&js_file, true, true)?;
+                let terser_no_mangle = get_terser_output(&js_file, true, false)?;
+                eprintln!("The output size of terser: {}", terser_mangled.len());
+                eprintln!(
+                    "The output size of terser without mangler: {}",
+                    terser_no_mangle.len()
+                );
+            }
 
-            eprintln!("The output size of terser: {}", terser_mangled.len());
-            eprintln!(
-                "The output size of terser without mangler: {}",
-                terser_no_mangle.len()
-            );
+            if !self.no_esbuild {
+                let esbuild_mangled = get_esbuild_output(&js_file, true)?;
+                let esbuild_no_mangle = get_esbuild_output(&js_file, false)?;
+                eprintln!("The output size of esbuild: {}", esbuild_mangled.len());
+                eprintln!(
+                    "The output size of esbuild without mangler: {}",
+                    esbuild_no_mangle.len()
+                );
+            }
 
             Ok(None)
         })
