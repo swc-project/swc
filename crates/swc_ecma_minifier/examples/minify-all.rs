@@ -2,7 +2,7 @@
 
 extern crate swc_node_base;
 
-use std::{env, fs, path::PathBuf};
+use std::{env, fs, path::PathBuf, time::Instant};
 
 use anyhow::Result;
 use rayon::prelude::*;
@@ -15,16 +15,14 @@ use swc_ecma_minifier::{
 use swc_ecma_parser::parse_file_as_module;
 use swc_ecma_transforms_base::{fixer::fixer, resolver};
 use swc_ecma_visit::FoldWith;
-use swc_timer::timer;
 use walkdir::WalkDir;
 
 fn main() {
     let dirs = env::args().skip(1).collect::<Vec<_>>();
     let files = expand_dirs(dirs);
 
+    let start = Instant::now();
     testing::run_test2(false, |cm, handler| {
-        let _timer = timer!("minify all");
-
         GLOBALS.with(|globals| {
             let _ = files
                 .into_par_iter()
@@ -84,6 +82,8 @@ fn main() {
         })
     })
     .unwrap();
+
+    eprintln!("Took {:?}", start.elapsed());
 }
 
 /// Return the whole input files as abolute path.
