@@ -1170,22 +1170,11 @@ impl SourceMap {
         for (pos, lc) in mappings.iter() {
             let pos = *pos;
 
-            if pos.is_reserved_for_comments() {
+            if pos.is_dummy() || pos.is_reserved_for_comments() {
                 continue;
             }
 
             let lc = *lc;
-
-            // If pos is same as a DUMMY_SP (eg BytePos(0)) and if line and col are 0;
-            // ignore the mapping.
-            if lc.line == 0 && lc.col == 0 && pos == BytePos(0) {
-                continue;
-            }
-
-            if pos == BytePos(u32::MAX) {
-                builder.add_raw(lc.line, lc.col, 0, 0, Some(src_id), None);
-                continue;
-            }
 
             let f;
             let f = match cur_file {
