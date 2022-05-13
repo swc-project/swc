@@ -77,7 +77,7 @@ impl CompareCommand {
 fn make_pretty(f: &Path) -> Result<()> {
     let mut c = Command::new("npx");
     c.stderr(Stdio::inherit());
-    c.arg("js-beautify").arg(f);
+    c.arg("js-beautify").arg("--replace").arg(f);
 
     let output = c.output().context("failed to run prettier")?;
 
