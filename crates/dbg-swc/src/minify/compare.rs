@@ -46,8 +46,7 @@ impl CompareCommand {
 
             minified_mangled.visit_mut_with(&mut fixer(None));
 
-            print_js(cm.clone(), &minified_mangled, true)
-                .context("failed to convert ast to code")?
+            print_js(cm, &minified_mangled, true).context("failed to convert ast to code")?
         };
 
         let esbuild_mangled = get_esbuild_output(&self.path, true)?;
