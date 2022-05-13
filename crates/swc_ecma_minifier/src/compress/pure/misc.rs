@@ -709,6 +709,7 @@ impl Pure<'_> {
                 if opts.drop_str_lit
                     || (s.value.starts_with("@swc/helpers")
                         || s.value.starts_with("@babel/helpers"))
+                    || (!s.value.starts_with("use "))
                 {
                     self.changed = true;
                     *e = Expr::Invalid(Invalid { span: DUMMY_SP });
