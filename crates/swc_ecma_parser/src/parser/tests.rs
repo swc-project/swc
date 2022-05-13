@@ -88,7 +88,7 @@ fn issue_1813() {
 fn parse_module_export_named_span() {
     let m = module("export function foo() {}");
     if let ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { span, .. })) = &m.body[0] {
-        assert_eq!(span.lo, BytePos(1));
+        assert_eq!(span.lo, BytePos(0));
     } else {
         panic!("expected ExportDecl");
     }
@@ -101,8 +101,8 @@ fn parse_module_export_default_fn_span() {
         span, ..
     })) = &m.body[0]
     {
-        assert_eq!(span.lo, BytePos(1));
-        assert_eq!(span.hi, BytePos(33));
+        assert_eq!(span.lo, BytePos(0));
+        assert_eq!(span.hi, BytePos(32));
     } else {
         panic!("expected ExportDefaultDecl");
     }
@@ -115,8 +115,8 @@ fn parse_module_export_default_async_fn_span() {
         span, ..
     })) = &m.body[0]
     {
-        assert_eq!(span.lo, BytePos(1));
-        assert_eq!(span.hi, BytePos(39));
+        assert_eq!(span.lo, BytePos(0));
+        assert_eq!(span.hi, BytePos(38));
     } else {
         panic!("expected ExportDefaultDecl");
     }
@@ -129,8 +129,8 @@ fn parse_module_export_default_class_span() {
         span, ..
     })) = &m.body[0]
     {
-        assert_eq!(span.lo, BytePos(1));
-        assert_eq!(span.hi, BytePos(28));
+        assert_eq!(span.lo, BytePos(0));
+        assert_eq!(span.hi, BytePos(27));
     } else {
         panic!("expected ExportDefaultDecl");
     }
@@ -157,7 +157,7 @@ fn issue_1878() {
         let (leading, trailing) = c.take_all();
         assert!(trailing.borrow().is_empty());
         assert_eq!(leading.borrow().len(), 1);
-        assert!(leading.borrow().get(&BytePos(1)).is_some());
+        assert!(leading.borrow().get(&BytePos(0)).is_some());
     }
 
     // file with shebang and comments should still work with the comments trailing
@@ -179,7 +179,7 @@ fn issue_1878() {
         let (leading, trailing) = c.take_all();
         assert!(leading.borrow().is_empty());
         assert_eq!(trailing.borrow().len(), 1);
-        assert!(trailing.borrow().get(&BytePos(11)).is_some());
+        assert!(trailing.borrow().get(&BytePos(10)).is_some());
     }
 }
 
@@ -248,8 +248,8 @@ fn issue_2264_3() {
     let (leading, trailing) = c.take_all();
     assert!(leading.borrow().is_empty());
     assert_eq!(trailing.borrow().len(), 2);
-    assert_eq!(trailing.borrow().get(&BytePos(26)).unwrap().len(), 1);
-    assert_eq!(trailing.borrow().get(&BytePos(37)).unwrap().len(), 1);
+    assert_eq!(trailing.borrow().get(&BytePos(25)).unwrap().len(), 1);
+    assert_eq!(trailing.borrow().get(&BytePos(36)).unwrap().len(), 1);
 }
 
 #[test]
@@ -274,7 +274,7 @@ fn issue_2339_1() {
 
     let (leading, trailing) = c.take_all();
     assert_eq!(leading.borrow().len(), 1);
-    assert_eq!(leading.borrow().get(&BytePos(80)).unwrap().len(), 2);
+    assert_eq!(leading.borrow().get(&BytePos(79)).unwrap().len(), 2);
     assert!(trailing.borrow().is_empty());
 }
 
@@ -316,8 +316,8 @@ fn illegal_language_mode_directive1() {
                 errors,
                 vec![Error::new(
                     Span {
-                        lo: BytePos(21),
-                        hi: BytePos(34),
+                        lo: BytePos(20),
+                        hi: BytePos(33),
                         ctxt: swc_common::SyntaxContext::empty()
                     },
                     crate::parser::SyntaxError::IllegalLanguageModeDirective
@@ -341,8 +341,8 @@ fn illegal_language_mode_directive2() {
                 errors,
                 vec![Error::new(
                     Span {
-                        lo: BytePos(22),
-                        hi: BytePos(35),
+                        lo: BytePos(21),
+                        hi: BytePos(34),
                         ctxt: swc_common::SyntaxContext::empty()
                     },
                     crate::parser::SyntaxError::IllegalLanguageModeDirective
