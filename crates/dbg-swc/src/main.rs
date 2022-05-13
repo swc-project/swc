@@ -55,8 +55,6 @@ fn main() -> Result<()> {
 
     tracing::subscriber::set_global_default(logger)?;
 
-    let args = AppArgs::parse();
-
     let cm = Arc::new(SourceMap::default());
 
     if env::var("CREDUCE_COMPARE").unwrap_or_default() == "1" {
@@ -107,6 +105,8 @@ fn main() -> Result<()> {
             },
         );
     }
+
+    let args = AppArgs::parse();
 
     try_with_handler(
         cm.clone(),
