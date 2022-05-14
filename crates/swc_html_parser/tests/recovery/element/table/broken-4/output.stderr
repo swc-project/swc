@@ -1,11 +1,11 @@
 
-  x Unexpected token
+  x Stray start tag "<tr>"
    ,-[$DIR/tests/recovery/element/table/broken-4/input.html:8:1]
  8 | <tr>
    : ^^^^
    `----
 
-  x Unexpected token
+  x Stray start tag "<td>"
    ,-[$DIR/tests/recovery/element/table/broken-4/input.html:9:5]
  9 | <td>
    : ^^^^
