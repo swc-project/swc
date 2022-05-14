@@ -295,7 +295,6 @@ fn find_config(dir: &Path) -> String {
     panic!("failed to find config file for {}", dir.display())
 }
 
-#[testing::fixture("tests/size/**/input.js")]
 #[testing::fixture("tests/fixture/**/input.js")]
 #[testing::fixture("tests/single-pass/**/input.js")]
 fn custom_fixture(input: PathBuf) {
