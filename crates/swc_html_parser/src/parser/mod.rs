@@ -5485,8 +5485,10 @@ where
                     // Reset the insertion mode appropriately.
                     Token::EndTag { tag_name, .. } if tag_name == "select" => {
                         if !self.open_elements_stack.has_in_select_scope("select") {
-                            self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::StrayEndTag(tag_name.clone()),
+                            ));
                         } else {
                             self.open_elements_stack
                                 .pop_until_tag_name_popped(&["select"]);
@@ -5539,8 +5541,10 @@ where
                     Token::StartTag { tag_name, .. }
                         if matches!(tag_name.as_ref(), "input" | "keygen" | "textarea") =>
                     {
-                        self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        self.errors.push(Error::new(
+                            token_and_info.span,
+                            ErrorKind::UnexpectedStartTagWithSelectOpen(tag_name.clone()),
+                        ));
 
                         if !self.open_elements_stack.has_in_select_scope("select") {
                             // Ignore
