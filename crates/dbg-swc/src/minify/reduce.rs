@@ -25,9 +25,11 @@ impl ReduceCommand {
         let exe = current_exe()?;
         c.arg(&exe);
         c.arg("input.js");
-        c.status().context("failed to run creduce")?;
+        let status = c.status().context("failed to run creduce")?;
 
-        move_to_data_dir("input.js".as_ref())?;
+        if status.success() {
+            move_to_data_dir("input.js".as_ref())?;
+        }
 
         Ok(())
     }
