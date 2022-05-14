@@ -337,7 +337,17 @@ impl VisitMut for Fixer<'_> {
         self.ctx = Context::Callee { is_new: false };
         node.callee.visit_mut_with(self);
         match &mut node.callee {
-            Callee::Expr(e) if e.is_cond() || e.is_bin() || e.is_lit() || e.is_unary() => {
+            Callee::Expr(e)
+                if match &**e {
+                    Expr::Lit(Lit::Num(..) | Lit::Str(..)) => false,
+                    Expr::Cond(..)
+                    | Expr::Bin(..)
+                    | Expr::Lit(..)
+                    | Expr::Unary(..)
+                    | Expr::Object(..) => true,
+                    _ => false,
+                } =>
+            {
                 self.wrap(&mut **e);
             }
             _ => {}

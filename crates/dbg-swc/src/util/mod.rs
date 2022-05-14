@@ -4,7 +4,7 @@ use std::{
 };
 
 use anyhow::{bail, Context, Result};
-use swc_common::{errors::HANDLER, Mark, SourceFile, SourceMap};
+use swc_common::{comments::SingleThreadedComments, errors::HANDLER, Mark, SourceFile, SourceMap};
 use swc_ecma_ast::{EsVersion, Module};
 use swc_ecma_codegen::text_writer::{omit_trailing_semi, JsWriter, WriteJs};
 use swc_ecma_parser::{parse_file_as_module, Syntax};
@@ -26,11 +26,12 @@ pub fn parse_js(fm: Arc<SourceFile>) -> Result<ModuleRecord> {
     let top_level_mark = Mark::new();
 
     let mut errors = vec![];
+    let comments = SingleThreadedComments::default();
     let res = parse_file_as_module(
         &fm,
         Syntax::Es(Default::default()),
         EsVersion::latest(),
-        None,
+        Some(&comments),
         &mut errors,
     )
     .map_err(|err| HANDLER.with(|handler| err.into_diagnostic(handler).emit()));
@@ -48,6 +49,7 @@ pub fn parse_js(fm: Arc<SourceFile>) -> Result<ModuleRecord> {
 
     Ok(ModuleRecord {
         module: m,
+        comments,
         top_level_mark,
         unresolved_mark,
     })
@@ -78,6 +80,7 @@ pub fn print_js(cm: Arc<SourceMap>, m: &Module, minify: bool) -> Result<String> 
 #[derive(Debug)]
 pub struct ModuleRecord {
     pub module: Module,
+    pub comments: SingleThreadedComments,
     pub top_level_mark: Mark,
     pub unresolved_mark: Mark,
 }

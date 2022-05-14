@@ -7,15 +7,12 @@ use anyhow::{bail, Context, Result};
 use clap::Args;
 use rayon::prelude::*;
 use swc_common::{SourceFile, SourceMap, GLOBALS};
-use swc_ecma_minifier::option::MinifyOptions;
-use swc_ecma_transforms_base::fixer::fixer;
-use swc_ecma_visit::VisitMutWith;
 use tracing::info;
 
 use crate::util::{
     all_js_files,
-    minifier::{get_esbuild_output, get_terser_output},
-    parse_js, print_js, wrap_task,
+    minifier::{get_esbuild_output, get_minified, get_terser_output},
+    print_js, wrap_task,
 };
 
 /// Ensure that we are performing better than other minification tools.
@@ -62,58 +59,19 @@ impl EnsureSize {
             info!("Checking {}", js_file.display());
 
             let fm = cm.load_file(js_file).context("failed to load file")?;
-            let i = parse_js(fm.clone())?;
 
             let code_mangled = {
-                let mut minified_mangled = {
-                    let m = i.module.clone();
-                    swc_ecma_minifier::optimize(
-                        m,
-                        cm.clone(),
-                        None,
-                        None,
-                        &MinifyOptions {
-                            compress: Some(Default::default()),
-                            mangle: Some(Default::default()),
-                            ..Default::default()
-                        },
-                        &swc_ecma_minifier::option::ExtraOptions {
-                            unresolved_mark: i.unresolved_mark,
-                            top_level_mark: i.top_level_mark,
-                        },
-                    )
-                };
+                let minified_mangled = get_minified(cm.clone(), js_file, true, true)?;
 
-                minified_mangled.visit_mut_with(&mut fixer(None));
-
-                print_js(cm.clone(), &minified_mangled, true)
+                print_js(cm.clone(), &minified_mangled.module, true)
                     .context("failed to convert ast to code")?
             };
 
             let swc_no_mangle = {
-                let mut minified_no_mangled = {
-                    let m = i.module.clone();
+                let minified_no_mangled = get_minified(cm.clone(), js_file, true, false)?;
 
-                    swc_ecma_minifier::optimize(
-                        m,
-                        cm.clone(),
-                        None,
-                        None,
-                        &MinifyOptions {
-                            compress: Some(Default::default()),
-                            mangle: None,
-                            ..Default::default()
-                        },
-                        &swc_ecma_minifier::option::ExtraOptions {
-                            unresolved_mark: i.unresolved_mark,
-                            top_level_mark: i.top_level_mark,
-                        },
-                    )
-                };
-
-                minified_no_mangled.visit_mut_with(&mut fixer(None));
-
-                print_js(cm, &minified_no_mangled, true).context("failed to convert ast to code")?
+                print_js(cm, &minified_no_mangled.module, true)
+                    .context("failed to convert ast to code")?
             };
 
             // eprintln!("The output size of swc minifier: {}", code_mangled.len());

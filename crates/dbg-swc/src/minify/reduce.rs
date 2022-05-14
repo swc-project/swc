@@ -25,9 +25,11 @@ impl ReduceCommand {
         let exe = current_exe()?;
         c.arg(&exe);
         c.arg("input.js");
-        c.status().context("failed to run creduce")?;
+        let status = c.status().context("failed to run creduce")?;
 
-        move_to_data_dir("input.js".as_ref())?;
+        if status.success() {
+            move_to_data_dir("input.js".as_ref())?;
+        }
 
         Ok(())
     }
@@ -47,9 +49,9 @@ fn move_to_data_dir(input_path: &Path) -> Result<PathBuf> {
     let result = hasher.finalize();
     let hash_str = format!("{:x}", result);
 
-    create_dir_all(".data").context("failed to create `.data`")?;
+    create_dir_all("data").context("failed to create `.data`")?;
 
-    let to = PathBuf::from(format!(".data/{}.js", hash_str));
+    let to = PathBuf::from(format!("data/{}.js", hash_str));
     fs::copy(input_path, &to).context("failed to copy")?;
 
     Ok(to)
