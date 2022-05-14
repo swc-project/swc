@@ -11,13 +11,13 @@
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Stray end tag "</body>"
     ,-[$DIR/tests/recovery/element/table/broken-6/input.html:14:1]
  14 | </body>
     : ^^^^^^^
     `----
 
-  x Unexpected token
+  x Stray end tag "</html>"
     ,-[$DIR/tests/recovery/element/table/broken-6/input.html:15:1]
  15 | </html>
     : ^^^^^^^

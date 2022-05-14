@@ -5228,8 +5228,10 @@ where
                     // Switch the insertion mode to "in row".
                     Token::EndTag { tag_name, .. } if matches!(tag_name.as_ref(), "td" | "th") => {
                         if !self.open_elements_stack.has_in_table_scope(tag_name) {
-                            self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::StrayEndTag(tag_name.clone()),
+                            ));
                         } else {
                             self.open_elements_stack.generate_implied_end_tags();
 
@@ -5237,7 +5239,7 @@ where
                                 Some(node) if get_tag_name!(node) != tag_name => {
                                     self.errors.push(Error::new(
                                         token_and_info.span,
-                                        ErrorKind::UnexpectedToken,
+                                        ErrorKind::UnclosedElements(tag_name.clone()),
                                     ));
                                 }
                                 _ => {}
@@ -5274,7 +5276,7 @@ where
                             && !self.open_elements_stack.has_in_table_scope("th")
                         {
                             self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                                .push(Error::new(token_and_info.span, ErrorKind::NoCellToClose));
                         } else {
                             self.close_the_cell();
                             self.process_token(token_and_info, None)?;
@@ -5290,8 +5292,10 @@ where
                             "body" | "caption" | "col" | "colgroup" | "html"
                         ) =>
                     {
-                        self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        self.errors.push(Error::new(
+                            token_and_info.span,
+                            ErrorKind::StrayEndTag(tag_name.clone()),
+                        ));
                     }
                     // An end tag whose tag name is one of: "table", "tbody", "tfoot", "thead", "tr"
                     //
@@ -5307,8 +5311,10 @@ where
                         ) =>
                     {
                         if !self.open_elements_stack.has_in_table_scope(tag_name) {
-                            self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken))
+                            self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::StrayEndTag(tag_name.clone()),
+                            ))
                         } else {
                             self.close_the_cell();
                             self.process_token(token_and_info, None)?;

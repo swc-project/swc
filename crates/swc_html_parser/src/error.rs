@@ -203,6 +203,7 @@ impl Error {
             ErrorKind::UnexpectedImageStartTag => {
                 "Unexpected \"<image>\" start tag, only \"<img>\" tag exists in HTML".into()
             }
+            ErrorKind::NoCellToClose => "No cell to close".into(),
             ErrorKind::UnexpectedEof => "Unexpected end of file".into(),
         }
     }
@@ -299,5 +300,6 @@ pub enum ErrorKind {
     UnclosedElementsOnStack,
     FormWhenFormOpen,
     UnexpectedImageStartTag,
+    NoCellToClose,
     UnexpectedEof,
 }
