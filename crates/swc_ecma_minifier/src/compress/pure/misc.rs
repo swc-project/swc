@@ -777,26 +777,47 @@ impl Pure<'_> {
                     }
                 }
 
-                Expr::Member(member) => {
-                    if let Expr::Array(obj_arr) = &mut *member.obj {
+                // terser compiles
+                //
+                //  [1,foo(),...bar()][{foo}]
+                //
+                // as
+                //
+                //  foo(),basr(),foo;
+                Expr::Member(MemberExpr {
+                    obj,
+                    prop: MemberProp::Computed(prop),
+                    ..
+                }) => {
+                    let mut exprs = vec![];
+
+                    if let Expr::Array(obj_arr) = &mut **obj {
                         //
 
-                        for elem in obj_arr.elems.iter_mut() {
-                            if let Some(ExprOrSpread { spread: None, expr }) = elem {
-                                self.ignore_return_value(
-                                    expr,
-                                    DropOpts {
-                                        drop_str_lit: true,
-                                        drop_zero: true,
-                                        drop_global_refs_if_unused: true,
-                                        ..opts
-                                    },
-                                );
-                                if expr.is_invalid() {
-                                    *elem = None;
-                                }
+                        for ExprOrSpread { mut expr, .. } in
+                            obj_arr.elems.take().into_iter().flatten()
+                        {
+                            self.ignore_return_value(
+                                &mut expr,
+                                DropOpts {
+                                    drop_str_lit: true,
+                                    drop_zero: true,
+                                    drop_global_refs_if_unused: true,
+                                    ..opts
+                                },
+                            );
+                            if !expr.is_invalid() {
+                                exprs.push(expr);
                             }
                         }
+
+                        exprs.push(prop.expr.take());
+
+                        *e = self
+                            .make_ignored_expr(exprs.into_iter())
+                            .unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
+                        self.changed = true;
+                        return;
                     }
                 }
                 _ => {}
