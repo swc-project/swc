@@ -4,3 +4,5 @@
  1 | <!–– Failing New York Times Comment -->
    : ^^^^^
    `----
+
+  x Missing doctype

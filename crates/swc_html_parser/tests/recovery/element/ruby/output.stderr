@@ -1,4 +1,10 @@
 
+  x Missing doctype
+   ,-[$DIR/tests/recovery/element/ruby/input.html:1:1]
+ 1 | <html><ruby>a<rb>b<span></ruby></html>
+   : ^^^^^^
+   `----
+
   x Unexpected token
    ,-[$DIR/tests/recovery/element/ruby/input.html:1:1]
  1 | <html><ruby>a<rb>b<span></ruby></html>

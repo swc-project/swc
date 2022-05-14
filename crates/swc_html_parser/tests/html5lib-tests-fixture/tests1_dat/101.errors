@@ -1,0 +1,5 @@
+(1,8): expected-doctype-but-got-start-tag
+(1,11): unexpected-start-tag-in-select
+(1,27): unexpected-select-in-select
+(1,39): unexpected-end-tag
+(1,48): unexpected-end-tag

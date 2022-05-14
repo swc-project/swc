@@ -1,0 +1,4 @@
+(1,7): expected-doctype-but-got-start-tag
+(1,11): unexpected-cell-in-table-body
+(1,20): foster-parenting-character
+(1,20): eof-in-table

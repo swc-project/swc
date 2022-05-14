@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(html/parser)** Fix error reporting (#4644) ([1f945b9](https://github.com/swc-project/swc/commit/1f945b9277e564e393505b0baeaf3526d8a34d64))
+
 ### Features
 
 
@@ -8,7 +14,13 @@
 - **(dbg-swc)** Add command to compare minifier (#4653) ([af1d195](https://github.com/swc-project/swc/commit/af1d19554f250201856fda0c5d356cb27df52791))
 
 
+- **(dbg-swc)** Add auto-reducer for the minifier (#4654) ([c8818b0](https://github.com/swc-project/swc/commit/c8818b049987e03c1ca974311bf82afde9a5227b))
+
+
 - **(es)** Add an option to omit columns from sourcemaps (#4646) ([b6f904b](https://github.com/swc-project/swc/commit/b6f904b8f0fbe8bffb25ab432006f8195d585bf7))
+
+
+- **(es/lints)** Implement `no-sparse-arrays` rule (#4652) ([9b226a7](https://github.com/swc-project/swc/commit/9b226a7026f06729904ef1fdc0e4a17aa631e5e4))
 
 ## [1.2.183] - 2022-05-13
 

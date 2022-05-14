@@ -1,0 +1,2 @@
+(1,33): end-tag-too-early-ignored
+(1,38): expected-closing-tag-but-got-eof

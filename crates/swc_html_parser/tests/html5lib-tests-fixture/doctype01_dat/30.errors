@@ -1,0 +1,2 @@
+(1,23): expected-space-or-right-bracket-in-doctype
+(2,30): unknown-doctype

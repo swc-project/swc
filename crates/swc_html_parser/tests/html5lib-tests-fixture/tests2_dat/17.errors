@@ -1,0 +1,4 @@
+(1,24): invalid-character-in-attribute-name
+(1,32): named-entity-without-semicolon
+(1,33): attributes-in-end-tag
+(1,33): unexpected-end-tag-before-html

@@ -1,4 +1,10 @@
 
+  x Missing doctype
+   ,-[$DIR/tests/recovery/comment/bogus-3/input.html:1:1]
+ 1 | FOO<!-->BAZ
+   : ^
+   `----
+
   x Abrupt closing of empty comment
    ,-[$DIR/tests/recovery/comment/bogus-3/input.html:1:1]
  1 | FOO<!-->BAZ
