@@ -1975,7 +1975,7 @@ where
                     // Parse error. Ignore the token.
                     Token::Doctype { .. } => {
                         self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            .push(Error::new(token_and_info.span, ErrorKind::StrayDoctype));
                     }
                     // A start tag whose tag name is "html"
                     //
@@ -2066,12 +2066,16 @@ where
                     //
                     // Parse error. Ignore the token.
                     Token::StartTag { tag_name, .. } if tag_name == "head" => {
-                        self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        self.errors.push(Error::new(
+                            token_and_info.span,
+                            ErrorKind::StrayStartTag(tag_name.clone()),
+                        ));
                     }
-                    Token::EndTag { .. } => {
-                        self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                    Token::EndTag { tag_name, .. } => {
+                        self.errors.push(Error::new(
+                            token_and_info.span,
+                            ErrorKind::StrayEndTag(tag_name.clone()),
+                        ));
                     }
                     // Anything else
                     //
@@ -5879,8 +5883,10 @@ where
                         };
 
                         if is_root_html_document {
-                            self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::StrayEndTag(tag_name.clone()),
+                            ));
                         } else {
                             self.open_elements_stack.pop();
 
@@ -6105,7 +6111,10 @@ where
                     // Anything else
                     //
                     // Parse error. Ignore the token.
-                    _ => {}
+                    _ => {
+                        self.errors
+                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                    }
                 }
             }
         }

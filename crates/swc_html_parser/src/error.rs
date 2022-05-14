@@ -159,6 +159,11 @@ impl Error {
                 tag_name
             )
             .into(),
+            ErrorKind::StrayDoctype => "Stray doctype".into(),
+            ErrorKind::StrayStartTag(tag_name) => {
+                format!("Stray start tag \"<{}>\"", tag_name).into()
+            }
+            ErrorKind::StrayEndTag(tag_name) => format!("Stray end tag \"</{}>\"", tag_name).into(),
             ErrorKind::UnexpectedEof => "Unexpected end of file".into(),
         }
     }
@@ -242,5 +247,8 @@ pub enum ErrorKind {
     UnexpectedHtmlStartTagInForeignContext(JsWord),
     UnexpectedHtmlEndTagInForeignContext(JsWord),
     UnexpectedStartTagBetweenHeadAndBody(JsWord),
+    StrayDoctype,
+    StrayStartTag(JsWord),
+    StrayEndTag(JsWord),
     UnexpectedEof,
 }
