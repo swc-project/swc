@@ -142,6 +142,7 @@ impl Error {
             ErrorKind::UnexpectedStartSelectWhereEndSelectExpected => {
                 "Unexpected \"<select>\" start tag where end tag expected".into()
             }
+            ErrorKind::NoTableRowToClose => "No table row to close".into(),
             ErrorKind::UnexpectedEof => "Unexpected end of file".into(),
         }
     }
@@ -221,5 +222,6 @@ pub enum ErrorKind {
     UnexpectedToken,
     NestedHeadingTags,
     UnexpectedStartSelectWhereEndSelectExpected,
+    NoTableRowToClose,
     UnexpectedEof,
 }
