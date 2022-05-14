@@ -13,15 +13,6 @@ pub type Symbol = Str;
 ///
 /// Ported from `EmitWriteJs`.
 pub trait WriteJs {
-    /// Returns javascript target which should be used while generating code.
-    ///
-    /// This defaults to [EsVersion::Es2020] because it preserves input as much
-    /// as possible.
-    ///
-    /// Implementor **should return same value** regardless how much time it is
-    /// called.
-    fn target(&self) -> EsVersion;
-
     fn increase_indent(&mut self) -> Result;
     fn decrease_indent(&mut self) -> Result;
 
