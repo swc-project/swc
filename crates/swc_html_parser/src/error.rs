@@ -172,6 +172,11 @@ impl Error {
             ErrorKind::UnexpectedEndTag(tag_name) => {
                 format!("Unexpected end tag \"</{}>\"", tag_name).into()
             }
+            ErrorKind::StartTagSeenWhenAlreadyOpen(tag_name) => format!(
+                "Start tag \"<{}>\" seen but an element of the same type was already open",
+                tag_name
+            )
+            .into(),
             ErrorKind::UnexpectedEof => "Unexpected end of file".into(),
         }
     }
@@ -260,5 +265,6 @@ pub enum ErrorKind {
     StrayEndTag(JsWord),
     UnclosedElementsImplied(JsWord),
     UnexpectedEndTag(JsWord),
+    StartTagSeenWhenAlreadyOpen(JsWord),
     UnexpectedEof,
 }
