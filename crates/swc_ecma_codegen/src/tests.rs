@@ -126,9 +126,12 @@ pub(crate) fn assert_min_target(from: &str, to: &str, target: EsVersion) {
 pub(crate) fn assert_min_typescript(from: &str, to: &str) {
     let out = parse_then_emit(
         from,
-        Config { minify: true },
+        Config {
+            minify: true,
+            target: EsVersion::latest(),
+            ..Default::default()
+        },
         Syntax::Typescript(Default::default()),
-        EsVersion::latest(),
     );
 
     assert_eq!(DebugUsingDisplay(out.trim()), DebugUsingDisplay(to),);
@@ -137,9 +140,12 @@ pub(crate) fn assert_min_typescript(from: &str, to: &str) {
 pub(crate) fn assert_pretty(from: &str, to: &str) {
     let out = parse_then_emit(
         from,
-        Config { minify: false },
+        Config {
+            minify: false,
+            target: EsVersion::latest(),
+            ..Default::default()
+        },
         Syntax::default(),
-        EsVersion::latest(),
     );
 
     println!("Expected: {:?}", to);
@@ -151,9 +157,11 @@ pub(crate) fn assert_pretty(from: &str, to: &str) {
 fn test_from_to(from: &str, expected: &str) {
     let out = parse_then_emit(
         from,
-        Default::default(),
+        Config {
+            target: EsVersion::latest(),
+            ..Default::default()
+        },
         Syntax::default(),
-        EsVersion::latest(),
     );
 
     dbg!(&out);

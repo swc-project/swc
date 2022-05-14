@@ -47,11 +47,6 @@ where
     W: ?Sized + WriteJs,
 {
     #[inline]
-    fn target(&self) -> EsVersion {
-        (**self).target()
-    }
-
-    #[inline]
     fn increase_indent(&mut self) -> Result {
         (**self).increase_indent()
     }

@@ -126,10 +126,6 @@ impl<'a, W: Write> JsWriter<'a, W> {
 }
 
 impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
-    fn target(&self) -> EsVersion {
-        self.target
-    }
-
     fn increase_indent(&mut self) -> Result {
         self.indent += 1;
         Ok(())
