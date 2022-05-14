@@ -169,6 +169,11 @@ impl Error {
                 tag_name
             )
             .into(),
+            ErrorKind::UnclosedElements(tag_name) => format!(
+                "End tag \"</{}>\" seen, but there were open elements",
+                tag_name
+            )
+            .into(),
             ErrorKind::UnexpectedEndTag(tag_name) => {
                 format!("Unexpected end tag \"</{}>\"", tag_name).into()
             }
@@ -185,7 +190,16 @@ impl Error {
                 tag_name
             )
             .into(),
+            ErrorKind::NoElementToCloseButEndTagSeen(tag_name) => format!(
+                "No \"{}\" element in scope but a \"</{}>\" end tag seen",
+                tag_name, tag_name
+            )
+            .into(),
             ErrorKind::UnclosedElementsOnStack => "Unclosed elements on stack".into(),
+            ErrorKind::FormWhenFormOpen => "Saw a \"<form>\" start tag, but there was already an \
+                                            active \"<form>\" element, nested forms are not \
+                                            allowed."
+                .into(),
             ErrorKind::UnexpectedEof => "Unexpected end of file".into(),
         }
     }
@@ -273,10 +287,13 @@ pub enum ErrorKind {
     StrayStartTag(JsWord),
     StrayEndTag(JsWord),
     UnclosedElementsImplied(JsWord),
+    UnclosedElements(JsWord),
     UnexpectedEndTag(JsWord),
     StartTagSeenWhenAlreadyOpen(JsWord),
     TableSeenWhileTableOpen,
     UnexpectedStartTagInTable(JsWord),
+    NoElementToCloseButEndTagSeen(JsWord),
     UnclosedElementsOnStack,
+    FormWhenFormOpen,
     UnexpectedEof,
 }

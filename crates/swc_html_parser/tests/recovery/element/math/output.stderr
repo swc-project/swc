@@ -1,5 +1,5 @@
 
-  x Unexpected token
+  x Stray start tag "<html>"
     ,-[$DIR/tests/recovery/element/math/input.html:36:13]
  36 | <html xmlns="http://www.w3.org/1999/xhtml">
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -17,7 +17,7 @@
     :                                      ^^^^^^^
     `----
 
-  x Unexpected token
+  x Start tag "<body>" seen but an element of the same type was already open
     ,-[$DIR/tests/recovery/element/math/input.html:38:13]
  38 | <body>
     : ^^^^^^
@@ -29,7 +29,19 @@
     : ^^^^^^^
     `----
 
+  x Stray end tag "</body>"
+    ,-[$DIR/tests/recovery/element/math/input.html:40:13]
+ 40 | </body>
+    : ^^^^^^^
+    `----
+
   x Unexpected token
+    ,-[$DIR/tests/recovery/element/math/input.html:41:13]
+ 41 | </html>
+    : ^^^^^^^
+    `----
+
+  x Stray end tag "</html>"
     ,-[$DIR/tests/recovery/element/math/input.html:41:13]
  41 | </html>
     : ^^^^^^^

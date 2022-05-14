@@ -2153,8 +2153,10 @@ where
                         attributes,
                         ..
                     } if tag_name == "html" => {
-                        self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        self.errors.push(Error::new(
+                            token_and_info.span,
+                            ErrorKind::StrayStartTag(tag_name.clone()),
+                        ));
 
                         if self.open_elements_stack.contains_template_element() {
                             // Ignore
@@ -2212,8 +2214,10 @@ where
                         attributes,
                         ..
                     } if tag_name == "body" => {
-                        self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        self.errors.push(Error::new(
+                            token_and_info.span,
+                            ErrorKind::StartTagSeenWhenAlreadyOpen(tag_name.clone()),
+                        ));
 
                         let is_second_body = matches!(self.open_elements_stack.items.get(1), Some(node) if get_tag_name!(node) == "body");
 
@@ -2374,8 +2378,10 @@ where
                     // Switch the insertion mode to "after body".
                     Token::EndTag { tag_name, .. } if tag_name == "body" => {
                         if !self.open_elements_stack.has_in_scope("body") {
-                            self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::StrayEndTag(tag_name.clone()),
+                            ));
 
                             return Ok(());
                         }
@@ -2442,8 +2448,10 @@ where
                     // Reprocess the token.
                     Token::EndTag { tag_name, .. } if tag_name == "html" => {
                         if !self.open_elements_stack.has_in_scope("body") {
-                            self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::StrayEndTag(tag_name.clone()),
+                            ));
 
                             return Ok(());
                         }
@@ -2622,17 +2630,19 @@ where
                             && !self.open_elements_stack.contains_template_element()
                         {
                             self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
-                        } else {
-                            if self.open_elements_stack.has_in_button_scope("p") {
-                                self.close_p_element();
-                            }
+                                .push(Error::new(token_and_info.span, ErrorKind::FormWhenFormOpen));
 
-                            let element = self.insert_html_element(token_and_info)?;
+                            return Ok(());
+                        }
 
-                            if !self.open_elements_stack.contains_template_element() {
-                                self.form_element_pointer = Some(element);
-                            }
+                        if self.open_elements_stack.has_in_button_scope("p") {
+                            self.close_p_element();
+                        }
+
+                        let element = self.insert_html_element(token_and_info)?;
+
+                        if !self.open_elements_stack.contains_template_element() {
+                            self.form_element_pointer = Some(element);
                         }
                     }
                     // A start tag whose tag name is "li"
@@ -2683,7 +2693,7 @@ where
                                         Some(node) if get_tag_name!(node) != "li" => {
                                             self.errors.push(Error::new(
                                                 token_and_info.span,
-                                                ErrorKind::UnexpectedToken,
+                                                ErrorKind::UnclosedElementsImplied("li".into()),
                                             ));
                                         }
                                         _ => {}
@@ -2781,13 +2791,13 @@ where
                                     self.open_elements_stack
                                         .generate_implied_end_tags_with_exclusion("dd");
 
-                                    // If the current node is not an li element, then this is a
+                                    // If the current node is not an dd element, then this is a
                                     // parse error.
                                     match self.open_elements_stack.items.last() {
                                         Some(node) if get_tag_name!(node) != "dd" => {
                                             self.errors.push(Error::new(
                                                 token_and_info.span,
-                                                ErrorKind::UnexpectedToken,
+                                                ErrorKind::UnclosedElementsImplied("dd".into()),
                                             ));
                                         }
                                         _ => {}
@@ -2805,13 +2815,13 @@ where
                                     self.open_elements_stack
                                         .generate_implied_end_tags_with_exclusion("dt");
 
-                                    // If the current node is not an li element, then this is a
+                                    // If the current node is not an dt element, then this is a
                                     // parse error.
                                     match self.open_elements_stack.items.last() {
                                         Some(node) if get_tag_name!(node) != "dt" => {
                                             self.errors.push(Error::new(
                                                 token_and_info.span,
-                                                ErrorKind::UnexpectedToken,
+                                                ErrorKind::UnclosedElementsImplied("dt".into()),
                                             ));
                                         }
                                         _ => {}
@@ -2889,8 +2899,10 @@ where
                     // 4. Set the frameset-ok flag to "not ok".
                     Token::StartTag { tag_name, .. } if tag_name == "button" => {
                         if self.open_elements_stack.has_in_scope("button") {
-                            self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::StartTagSeenWhenAlreadyOpen(tag_name.clone()),
+                            ));
                             self.open_elements_stack.generate_implied_end_tags();
                             self.open_elements_stack
                                 .pop_until_tag_name_popped(&["button"]);
@@ -2950,8 +2962,10 @@ where
                         ) =>
                     {
                         if !self.open_elements_stack.has_in_scope(tag_name) {
-                            self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::StrayEndTag(tag_name.clone()),
+                            ));
                         } else {
                             self.open_elements_stack.generate_implied_end_tags();
 
@@ -2959,7 +2973,7 @@ where
                                 Some(node) if get_tag_name!(node) != tag_name => {
                                     self.errors.push(Error::new(
                                         token_and_info.span,
-                                        ErrorKind::UnexpectedToken,
+                                        ErrorKind::UnclosedElements(tag_name.clone()),
                                     ));
                                 }
                                 _ => {}
@@ -3007,7 +3021,7 @@ where
                                 None => {
                                     self.errors.push(Error::new(
                                         token_and_info.span,
-                                        ErrorKind::UnexpectedToken,
+                                        ErrorKind::StrayEndTag(tag_name.clone()),
                                     ));
 
                                     return Ok(());
@@ -3024,7 +3038,7 @@ where
                             {
                                 self.errors.push(Error::new(
                                     token_and_info.span,
-                                    ErrorKind::UnexpectedToken,
+                                    ErrorKind::StrayEndTag(tag_name.clone()),
                                 ));
 
                                 return Ok(());
@@ -3039,7 +3053,7 @@ where
                             if !is_same_node(&node, current.unwrap()) {
                                 self.errors.push(Error::new(
                                     token_and_info.span,
-                                    ErrorKind::UnexpectedToken,
+                                    ErrorKind::UnclosedElements(tag_name.clone()),
                                 ));
                             }
 
@@ -3048,7 +3062,7 @@ where
                             if !self.open_elements_stack.has_in_scope("form") {
                                 self.errors.push(Error::new(
                                     token_and_info.span,
-                                    ErrorKind::UnexpectedToken,
+                                    ErrorKind::StrayEndTag(tag_name.clone()),
                                 ));
 
                                 return Ok(());
@@ -3060,7 +3074,7 @@ where
                                 Some(node) if get_tag_name!(node) != "form" => {
                                     self.errors.push(Error::new(
                                         token_and_info.span,
-                                        ErrorKind::UnexpectedToken,
+                                        ErrorKind::UnclosedElements(tag_name.clone()),
                                     ));
                                 }
                                 _ => {}
@@ -3079,8 +3093,10 @@ where
                     // Close a p element.
                     Token::EndTag { tag_name, .. } if tag_name == "p" => {
                         if !self.open_elements_stack.has_in_button_scope("p") {
-                            self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::NoElementToCloseButEndTagSeen(tag_name.clone()),
+                            ));
 
                             self.insert_html_element(&mut TokenAndInfo {
                                 span: Default::default(),
@@ -3111,8 +3127,10 @@ where
                     // popped from the stack.
                     Token::EndTag { tag_name, .. } if tag_name == "li" => {
                         if !self.open_elements_stack.has_in_list_item_scope("li") {
-                            self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::NoElementToCloseButEndTagSeen(tag_name.clone()),
+                            ));
                         } else {
                             self.open_elements_stack
                                 .generate_implied_end_tags_with_exclusion("li");
@@ -3121,7 +3139,7 @@ where
                                 Some(node) if get_tag_name!(node) != "li" => {
                                     self.errors.push(Error::new(
                                         token_and_info.span,
-                                        ErrorKind::UnexpectedToken,
+                                        ErrorKind::UnclosedElements(tag_name.clone()),
                                     ));
                                 }
                                 _ => {}
@@ -3148,8 +3166,10 @@ where
                     // same tag name as the token has been popped from the stack.
                     Token::EndTag { tag_name, .. } if matches!(tag_name.as_ref(), "dd" | "dt") => {
                         if !self.open_elements_stack.has_in_scope(tag_name) {
-                            self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::NoElementToCloseButEndTagSeen(tag_name.clone()),
+                            ));
                         } else {
                             self.open_elements_stack
                                 .generate_implied_end_tags_with_exclusion(tag_name);
@@ -3158,7 +3178,7 @@ where
                                 Some(node) if get_tag_name!(node) != tag_name => {
                                     self.errors.push(Error::new(
                                         token_and_info.span,
-                                        ErrorKind::UnexpectedToken,
+                                        ErrorKind::UnclosedElements(tag_name.clone()),
                                     ));
                                 }
                                 _ => {}
@@ -3194,8 +3214,10 @@ where
                             && !self.open_elements_stack.has_in_scope("h5")
                             && !self.open_elements_stack.has_in_scope("h6")
                         {
-                            self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::StrayEndTag(tag_name.clone()),
+                            ));
                         } else {
                             self.open_elements_stack.generate_implied_end_tags();
 
@@ -3203,7 +3225,7 @@ where
                                 Some(node) if get_tag_name!(node) != tag_name => {
                                     self.errors.push(Error::new(
                                         token_and_info.span,
-                                        ErrorKind::UnexpectedToken,
+                                        ErrorKind::UnclosedElements(tag_name.clone()),
                                     ));
                                 }
                                 _ => {}
@@ -3417,7 +3439,7 @@ where
                                 Some(node) if get_tag_name!(node) != tag_name => {
                                     self.errors.push(Error::new(
                                         token_and_info.span,
-                                        ErrorKind::UnclosedElementsImplied(tag_name.clone()),
+                                        ErrorKind::UnclosedElements(tag_name.clone()),
                                     ));
                                 }
                                 _ => {}
