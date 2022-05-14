@@ -154,6 +154,11 @@ impl Error {
                 tag_name
             )
             .into(),
+            ErrorKind::UnexpectedStartTagBetweenHeadAndBody(tag_name) => format!(
+                "Unexpected HTML start tag \"<{}>\" between \"</head>\" and \"<body>\"",
+                tag_name
+            )
+            .into(),
             ErrorKind::UnexpectedEof => "Unexpected end of file".into(),
         }
     }
@@ -236,5 +241,6 @@ pub enum ErrorKind {
     NoTableRowToClose,
     UnexpectedHtmlStartTagInForeignContext(JsWord),
     UnexpectedHtmlEndTagInForeignContext(JsWord),
+    UnexpectedStartTagBetweenHeadAndBody(JsWord),
     UnexpectedEof,
 }

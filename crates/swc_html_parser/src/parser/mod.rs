@@ -2031,8 +2031,10 @@ where
                                 | "title"
                         ) =>
                     {
-                        self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        self.errors.push(Error::new(
+                            token_and_info.span,
+                            ErrorKind::UnexpectedStartTagBetweenHeadAndBody(tag_name.clone()),
+                        ));
 
                         let head = self
                             .head_element_pointer
