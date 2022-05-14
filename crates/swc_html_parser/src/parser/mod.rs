@@ -6031,10 +6031,32 @@ where
                     // Anything else
                     //
                     // Parse error. Ignore the token.
-                    _ => {
-                        self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
-                    }
+                    _ => match token {
+                        // Doctype handled above
+                        // Comment handled above
+                        // EOF handled above
+                        Token::Character { .. } => {
+                            self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::NonSpaceCharactersInFrameset,
+                            ));
+                        }
+                        Token::StartTag { tag_name, .. } => {
+                            self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::StrayStartTag(tag_name.clone()),
+                            ));
+                        }
+                        Token::EndTag { tag_name, .. } => {
+                            self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::StrayEndTag(tag_name.clone()),
+                            ));
+                        }
+                        _ => {
+                            unreachable!()
+                        }
+                    },
                 }
             }
             // The "after frameset" insertion mode

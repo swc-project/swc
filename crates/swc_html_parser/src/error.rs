@@ -225,6 +225,7 @@ impl Error {
             )
             .into(),
             ErrorKind::UnexpectedEof => "Unexpected end of file".into(),
+            ErrorKind::NonSpaceCharactersInFrameset => "Non-space in \"<frameset>\"".into(),
         }
     }
 
@@ -326,4 +327,5 @@ pub enum ErrorKind {
     UnclosedElementsImplied(JsWord),
     UnclosedElements(JsWord),
     UnclosedElementsOnStack,
+    NonSpaceCharactersInFrameset,
 }
