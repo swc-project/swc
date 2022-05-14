@@ -178,7 +178,7 @@ fn test_identical(from: &str) {
 }
 
 fn test_from_to_custom_config(from: &str, to: &str, cfg: Config, syntax: Syntax) {
-    let out = parse_then_emit(from, cfg, syntax, EsVersion::latest());
+    let out = parse_then_emit(from, cfg, syntax);
 
     assert_eq!(DebugUsingDisplay(out.trim()), DebugUsingDisplay(to.trim()),);
 }
@@ -256,7 +256,10 @@ fn empty_named_export_min() {
     test_from_to_custom_config(
         "export { }",
         "export{}",
-        Config { minify: true },
+        Config {
+            minify: true,
+            ..Default::default()
+        },
         Default::default(),
     );
 }
@@ -271,7 +274,10 @@ fn empty_named_export_from_min() {
     test_from_to_custom_config(
         "export { } from 'foo';",
         "export{}from\"foo\"",
-        Config { minify: true },
+        Config {
+            minify: true,
+            ..Default::default()
+        },
         Default::default(),
     );
 }
@@ -286,7 +292,10 @@ fn named_export_from_min() {
     test_from_to_custom_config(
         "export { bar } from 'foo';",
         "export{bar}from\"foo\"",
-        Config { minify: true },
+        Config {
+            minify: true,
+            ..Default::default()
+        },
         Default::default(),
     );
 }
@@ -308,7 +317,10 @@ fn export_namespace_from_min() {
     test_from_to_custom_config(
         "export * as Foo from 'foo';",
         "export*as Foo from\"foo\"",
-        Config { minify: true },
+        Config {
+            minify: true,
+            ..Default::default()
+        },
         Syntax::Es(EsConfig {
             ..EsConfig::default()
         }),
@@ -332,7 +344,10 @@ fn named_and_namespace_export_from_min() {
     test_from_to_custom_config(
         "export * as Foo, { bar } from 'foo';",
         "export*as Foo,{bar}from\"foo\"",
-        Config { minify: true },
+        Config {
+            minify: true,
+            ..Default::default()
+        },
         Syntax::Es(EsConfig {
             ..EsConfig::default()
         }),
@@ -461,9 +476,11 @@ fn tpl_escape_6() {
 
     let out = parse_then_emit(
         from,
-        Default::default(),
+        Config {
+            target: EsVersion::latest(),
+            ..Default::default()
+        },
         Syntax::Typescript(Default::default()),
-        EsVersion::latest(),
     );
     assert_eq!(DebugUsingDisplay(out.trim()), DebugUsingDisplay(to.trim()),);
 }
@@ -651,9 +668,12 @@ fn issue_1619_3() {
 fn check_latest(src: &str, expected: &str) {
     let actual = parse_then_emit(
         src,
-        Config { minify: false },
+        Config {
+            minify: false,
+            target: EsVersion::latest(),
+            ..Default::default()
+        },
         Default::default(),
-        EsVersion::latest(),
     );
     assert_eq!(expected, actual.trim());
 }
@@ -698,7 +718,14 @@ fn issue3617() {
     let expected = r#"// a string of all valid unicode whitespaces
 module.exports = "	\n\v\f\r \xa0\u1680\u2000\u2001\u2002" + "\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF" + "\xa0";"#;
 
-    let out = parse_then_emit(from, Default::default(), Syntax::default(), EsVersion::Es5);
+    let out = parse_then_emit(
+        from,
+        Config {
+            target: EsVersion::Es5,
+            ..Default::default()
+        },
+        Syntax::default(),
+    );
 
     dbg!(&out);
     dbg!(&expected);

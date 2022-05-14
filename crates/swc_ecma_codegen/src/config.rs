@@ -1,6 +1,5 @@
 use swc_ecma_ast::EsVersion;
 
-#[non_exhaustive]
 #[derive(Debug, Clone, Copy)]
 pub struct Config {
     /// The target runtime environment.
