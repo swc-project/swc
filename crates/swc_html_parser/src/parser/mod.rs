@@ -7076,8 +7076,10 @@ where
         match self.open_elements_stack.items.last() {
             Some(node) if get_tag_name!(node) != "p" => match &node.data {
                 Data::Element(element) => {
-                    self.errors
-                        .push(Error::new(element.span, ErrorKind::UnexpectedToken));
+                    self.errors.push(Error::new(
+                        element.span,
+                        ErrorKind::UnclosedElementsImplied(element.tag_name.clone()),
+                    ));
                 }
                 _ => {
                     unreachable!();

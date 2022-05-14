@@ -164,6 +164,11 @@ impl Error {
                 format!("Stray start tag \"<{}>\"", tag_name).into()
             }
             ErrorKind::StrayEndTag(tag_name) => format!("Stray end tag \"</{}>\"", tag_name).into(),
+            ErrorKind::UnclosedElementsImplied(tag_name) => format!(
+                "End tag \"</{}>\" implied, but there were open elements",
+                tag_name
+            )
+            .into(),
             ErrorKind::UnexpectedEof => "Unexpected end of file".into(),
         }
     }
@@ -250,5 +255,6 @@ pub enum ErrorKind {
     StrayDoctype,
     StrayStartTag(JsWord),
     StrayEndTag(JsWord),
+    UnclosedElementsImplied(JsWord),
     UnexpectedEof,
 }
