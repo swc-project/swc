@@ -778,10 +778,28 @@ impl Pure<'_> {
                     }
                 }
 
-                Expr::Member(member) => match &mut *member.obj {
-                    Expr::Array(obj_arr) => {}
-                    _ => {}
-                },
+                Expr::Member(member) => {
+                    if let Expr::Array(obj_arr) = &mut *member.obj {
+                        //
+
+                        for elem in obj_arr.elems.iter_mut() {
+                            if let Some(ExprOrSpread { spread: None, expr }) = elem {
+                                self.ignore_return_value(
+                                    expr,
+                                    DropOpts {
+                                        drop_str_lit: true,
+                                        drop_zero: true,
+                                        drop_global_refs_if_unused: true,
+                                        ..opts
+                                    },
+                                );
+                                if expr.is_invalid() {
+                                    *elem = None;
+                                }
+                            }
+                        }
+                    }
+                }
                 _ => {}
             }
         }
