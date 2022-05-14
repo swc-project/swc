@@ -340,7 +340,11 @@ impl VisitMut for Fixer<'_> {
             Callee::Expr(e)
                 if match &**e {
                     Expr::Lit(Lit::Num(..) | Lit::Str(..)) => false,
-                    Expr::Cond(..) | Expr::Bin(..) | Expr::Lit(..) | Expr::Unary(..) => true,
+                    Expr::Cond(..)
+                    | Expr::Bin(..)
+                    | Expr::Lit(..)
+                    | Expr::Unary(..)
+                    | Expr::Object(..) => true,
                     _ => false,
                 } =>
             {
