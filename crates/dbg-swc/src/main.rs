@@ -8,18 +8,11 @@ use swc_common::{
     errors::{ColorConfig, HANDLER},
     Globals, SourceMap, GLOBALS,
 };
-use swc_ecma_minifier::option::MinifyOptions;
-use swc_ecma_transforms_base::fixer::fixer;
-use swc_ecma_visit::VisitMutWith;
 use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
 use tracing_subscriber::EnvFilter;
 
-use self::{
-    bundle::BundleCommand,
-    minify::MinifyCommand,
-    test::TestCommand,
-    util::{parse_js, print_js},
-};
+use self::{bundle::BundleCommand, minify::MinifyCommand, test::TestCommand, util::print_js};
+use crate::util::minifier::get_minified;
 
 mod bundle;
 mod minify;
@@ -77,31 +70,9 @@ fn main() -> Result<()> {
                     HANDLER.set(handler, || {
                         //
 
-                        let fm = cm.load_file("input.js".as_ref())?;
+                        let m = get_minified(cm.clone(), "input.js".as_ref(), true, true)?;
 
-                        let m = parse_js(fm)?;
-
-                        let mut m = {
-                            swc_ecma_minifier::optimize(
-                                m.module,
-                                cm.clone(),
-                                None,
-                                None,
-                                &MinifyOptions {
-                                    compress: Some(Default::default()),
-                                    mangle: Some(Default::default()),
-                                    ..Default::default()
-                                },
-                                &swc_ecma_minifier::option::ExtraOptions {
-                                    unresolved_mark: m.unresolved_mark,
-                                    top_level_mark: m.top_level_mark,
-                                },
-                            )
-                        };
-
-                        m.visit_mut_with(&mut fixer(None));
-
-                        let swc_output = print_js(cm.clone(), &m, true)?;
+                        let swc_output = print_js(cm.clone(), &m.module, true)?;
 
                         let esbuild_output =
                             self::util::minifier::get_esbuild_output("input.js".as_ref(), true)?;
