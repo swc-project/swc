@@ -1,0 +1,5 @@
+(1,7): unexpected-character-after-solidus-in-tag
+(1,8): unexpected-character-after-solidus-in-tag
+(1,16): unexpected-character-after-solidus-in-tag
+(1,24): expected-doctype-but-got-start-tag
+(1,24): expected-closing-tag-but-got-eof

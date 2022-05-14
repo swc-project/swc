@@ -1,0 +1,9 @@
+(1,7): expected-doctype-but-got-start-tag
+(1,15): foster-parenting-start-tag
+(1,16): foster-parenting-character
+(1,22): foster-parenting-start-tag
+(1,23): foster-parenting-character
+(1,32): foster-parenting-end-tag
+(1,32): end-tag-too-early
+(1,33): foster-parenting-character
+(1,38): foster-parenting-start-tag

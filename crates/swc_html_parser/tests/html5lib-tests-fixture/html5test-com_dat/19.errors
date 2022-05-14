@@ -1,0 +1,8 @@
+(1,7): expected-doctype-but-got-start-tag
+(1,13): unexpected-form-in-table
+(1,32): unexpected-hidden-input-in-table
+(1,39): unexpected-start-tag-implies-table-voodoo
+(1,46): unexpected-end-tag-implies-table-voodoo
+(1,46): unexpected-end-tag
+(1,51): unexpected-start-tag-implies-table-voodoo
+(1,57): unexpected-end-tag-implies-table-voodoo

@@ -980,6 +980,11 @@ enum TestState {
     NewErrors,
 }
 
+enum DocumentOrDocumentFragment {
+    Document(PResult<Document>),
+    DocumentFragment(PResult<DocumentFragment>),
+}
+
 #[testing::fixture("tests/html5lib-tests/tree-construction/**/*.dat")]
 #[testing::fixture("tests/html5lib-tests-fixture/**/*.html")]
 fn html5lib_test_tree_construction(input: PathBuf) {
@@ -1116,7 +1121,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
             fs::write(html_path, data.join("\n"))
                 .expect("Something went wrong when writing to the file");
 
-            let dom_snapshot_path = dir.join(file_stem + ".dom");
+            let dom_snapshot_path = dir.join(file_stem.clone() + ".dom");
 
             let mut dom = document.join("\n");
 
@@ -1125,7 +1130,13 @@ fn html5lib_test_tree_construction(input: PathBuf) {
             }
 
             fs::write(dom_snapshot_path, dom)
-                .expect("Something went wrong when writingto the file");
+                .expect("Something went wrong when writing to the file");
+
+            let errors = errors.join("\n");
+            let errors_snapshot_path = dir.join(file_stem + ".errors");
+
+            fs::write(errors_snapshot_path, errors)
+                .expect("Something went wrong when writing to the file");
 
             counter += 1;
         }
@@ -1133,7 +1144,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
         return;
     }
 
-    // TODO improve errors tests
+    // TODO improve test for parsing `<template>`
     testing::run_test2(false, |cm, handler| {
         // Type annotation
         if false {
@@ -1149,8 +1160,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
         let lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default());
         let config = ParserConfig { scripting_enabled };
         let mut parser = Parser::new(lexer, config);
-
-        if file_stem.contains("fragment") {
+        let document_or_document_fragment = if file_stem.contains("fragment") {
             let mut context_element_namespace = Namespace::HTML;
             let mut context_element_tag_name = "unknown";
 
@@ -1188,82 +1198,87 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                 content: None,
             };
 
-            let document_fragment = parser.parse_document_fragment(context_element);
-
-            match document_fragment {
-                Ok(mut document_fragment) => {
-                    let actual_json = serde_json::to_string_pretty(&document_fragment)
-                        .map(NormalizedOutput::from)
-                        .expect("failed to serialize document");
-
-                    actual_json.compare_to_file(&json_path).unwrap();
-
-                    let mut dom_buf = String::new();
-
-                    document_fragment.visit_mut_with(&mut DomVisualizer {
-                        dom_buf: &mut dom_buf,
-                        indent: 0,
-                    });
-
-                    let dir = input.parent().unwrap().to_path_buf();
-
-                    NormalizedOutput::from(dom_buf)
-                        .compare_to_file(&dir.join(file_stem + ".dom"))
-                        .unwrap();
-
-                    Ok(())
-                }
-                Err(err) => {
-                    let mut d = err.to_diagnostics(&handler);
-
-                    d.note(&format!("current token = {}", parser.dump_cur()));
-                    d.emit();
-
-                    panic!();
-                }
-            }
+            DocumentOrDocumentFragment::DocumentFragment(
+                parser.parse_document_fragment(context_element),
+            )
         } else {
-            let document = parser.parse_document();
+            DocumentOrDocumentFragment::Document(parser.parse_document())
+        };
 
-            match document {
-                Ok(mut document) => {
-                    let actual_json = serde_json::to_string_pretty(&document)
-                        .map(NormalizedOutput::from)
-                        .expect("failed to serialize document");
+        // TODO finish me
+        // let errors = parser.take_errors();
+        // let errors_path = input.parent().unwrap().join(file_stem.clone() +
+        // ".errors"); let contents =
+        //     fs::read_to_string(errors_path).expect("Something went wrong reading the
+        // file"); let actual_number_of_errors = errors.len();
+        // let expected_number_of_errors = contents.lines().count();
 
-                    actual_json.compare_to_file(&json_path).unwrap();
+        // println!("{:?}", errors);
+        // assert_eq!(actual_number_of_errors, expected_number_of_errors);
 
-                    let parent_name = input.parent().unwrap().to_string_lossy();
+        let parent_name = input.parent().unwrap().to_string_lossy();
 
-                    // Skip scripted test, because we don't support ECMA execution
-                    // Skip `search` due https://github.com/whatwg/html/pull/7320, we should uncomment and fix logic it after it was merged
-                    if parent_name.contains("scripted") || parent_name.contains("search") {
-                        return Ok(());
-                    }
+        match document_or_document_fragment {
+            DocumentOrDocumentFragment::Document(Ok(mut document)) => {
+                let actual_json = serde_json::to_string_pretty(&document)
+                    .map(NormalizedOutput::from)
+                    .expect("failed to serialize document");
 
-                    let mut dom_buf = String::new();
+                actual_json.compare_to_file(&json_path).unwrap();
 
-                    document.visit_mut_with(&mut DomVisualizer {
-                        dom_buf: &mut dom_buf,
-                        indent: 0,
-                    });
-
-                    let dir = input.parent().unwrap().to_path_buf();
-
-                    NormalizedOutput::from(dom_buf)
-                        .compare_to_file(&dir.join(file_stem + ".dom"))
-                        .unwrap();
-
-                    Ok(())
+                if parent_name.contains("scripted") || parent_name.contains("search") {
+                    return Ok(());
                 }
-                Err(err) => {
-                    let mut d = err.to_diagnostics(&handler);
 
-                    d.note(&format!("current token = {}", parser.dump_cur()));
-                    d.emit();
+                let mut dom_buf = String::new();
 
-                    panic!();
+                document.visit_mut_with(&mut DomVisualizer {
+                    dom_buf: &mut dom_buf,
+                    indent: 0,
+                });
+
+                let dir = input.parent().unwrap().to_path_buf();
+
+                NormalizedOutput::from(dom_buf)
+                    .compare_to_file(&dir.join(file_stem + ".dom"))
+                    .unwrap();
+
+                Ok(())
+            }
+            DocumentOrDocumentFragment::DocumentFragment(Ok(mut document_fragment)) => {
+                let actual_json = serde_json::to_string_pretty(&document_fragment)
+                    .map(NormalizedOutput::from)
+                    .expect("failed to serialize document");
+
+                actual_json.compare_to_file(&json_path).unwrap();
+
+                if parent_name.contains("scripted") || parent_name.contains("search") {
+                    return Ok(());
                 }
+
+                let mut dom_buf = String::new();
+
+                document_fragment.visit_mut_with(&mut DomVisualizer {
+                    dom_buf: &mut dom_buf,
+                    indent: 0,
+                });
+
+                let dir = input.parent().unwrap().to_path_buf();
+
+                NormalizedOutput::from(dom_buf)
+                    .compare_to_file(&dir.join(file_stem + ".dom"))
+                    .unwrap();
+
+                Ok(())
+            }
+            DocumentOrDocumentFragment::Document(Err(err))
+            | DocumentOrDocumentFragment::DocumentFragment(Err(err)) => {
+                let mut d = err.to_diagnostics(&handler);
+
+                d.note(&format!("current token = {}", parser.dump_cur()));
+                d.emit();
+
+                panic!();
             }
         }
     })
