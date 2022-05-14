@@ -57,7 +57,7 @@ impl Builder {
     }
 }
 
-fn parse_then_emit(from: &str, cfg: Config, syntax: Syntax, target: EsVersion) -> String {
+fn parse_then_emit(from: &str, cfg: Config, syntax: Syntax) -> String {
     ::testing::run_test(false, |cm, handler| {
         let src = cm.new_source_file(FileName::Real("custom.js".into()), from.to_string());
         println!(
@@ -95,18 +95,29 @@ fn parse_then_emit(from: &str, cfg: Config, syntax: Syntax, target: EsVersion) -
 pub(crate) fn assert_min(from: &str, to: &str) {
     let out = parse_then_emit(
         from,
-        Config { minify: true },
+        Config {
+            minify: true,
+            target: EsVersion::latest(),
+            ..Default::default()
+        },
         Syntax::Es(EsConfig {
             ..Default::default()
         }),
-        EsVersion::latest(),
     );
 
     assert_eq!(DebugUsingDisplay(out.trim()), DebugUsingDisplay(to),);
 }
 
 pub(crate) fn assert_min_target(from: &str, to: &str, target: EsVersion) {
-    let out = parse_then_emit(from, Config { minify: true }, Syntax::default(), target);
+    let out = parse_then_emit(
+        from,
+        Config {
+            minify: true,
+            target,
+            ..Default::default()
+        },
+        Syntax::default(),
+    );
 
     assert_eq!(DebugUsingDisplay(out.trim()), DebugUsingDisplay(to),);
 }
