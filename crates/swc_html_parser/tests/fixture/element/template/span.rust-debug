@@ -34,8 +34,16 @@
  31 | |           </details>
  32 | |           <hr>
  33 | |       </template>
- 34 | |   </body>
- 35 | `-> </html>
+ 34 | |   
+ 35 | |       <template id="tmpl1">
+ 36 | |           <div id="div1">This is div inside template</div>
+ 37 | |           <div id="div2">This is another div inside template</div>
+ 38 | |           <template id="tmpl2"><div id="div3">This is div inside nested template</div>
+ 39 | |               <div id="div4">This is another div inside nested template</div>
+ 40 | |           </template>
+ 41 | |       </template>
+ 42 | |   </body>
+ 43 | `-> </html>
     `----
 
   x Child
@@ -84,8 +92,16 @@
  31 | |           </details>
  32 | |           <hr>
  33 | |       </template>
- 34 | |   </body>
- 35 | `-> </html>
+ 34 | |   
+ 35 | |       <template id="tmpl1">
+ 36 | |           <div id="div1">This is div inside template</div>
+ 37 | |           <div id="div2">This is another div inside template</div>
+ 38 | |           <template id="tmpl2"><div id="div3">This is div inside nested template</div>
+ 39 | |               <div id="div4">This is another div inside nested template</div>
+ 40 | |           </template>
+ 41 | |       </template>
+ 42 | |   </body>
+ 43 | `-> </html>
     `----
 
   x Element
@@ -122,8 +138,16 @@
  31 | |           </details>
  32 | |           <hr>
  33 | |       </template>
- 34 | |   </body>
- 35 | `-> </html>
+ 34 | |   
+ 35 | |       <template id="tmpl1">
+ 36 | |           <div id="div1">This is div inside template</div>
+ 37 | |           <div id="div2">This is another div inside template</div>
+ 38 | |           <template id="tmpl2"><div id="div3">This is div inside nested template</div>
+ 39 | |               <div id="div4">This is another div inside nested template</div>
+ 40 | |           </template>
+ 41 | |       </template>
+ 42 | |   </body>
+ 43 | `-> </html>
     `----
 
   x Attribute
@@ -236,8 +260,16 @@
  31 | |           </details>
  32 | |           <hr>
  33 | |       </template>
- 34 | |   </body>
- 35 | `-> </html>
+ 34 | |   
+ 35 | |       <template id="tmpl1">
+ 36 | |           <div id="div1">This is div inside template</div>
+ 37 | |           <div id="div2">This is another div inside template</div>
+ 38 | |           <template id="tmpl2"><div id="div3">This is div inside nested template</div>
+ 39 | |               <div id="div4">This is another div inside nested template</div>
+ 40 | |           </template>
+ 41 | |       </template>
+ 42 | |   </body>
+ 43 | `-> </html>
     `----
 
   x Element
@@ -270,8 +302,16 @@
  31 | |           </details>
  32 | |           <hr>
  33 | |       </template>
- 34 | |   </body>
- 35 | `-> </html>
+ 34 | |   
+ 35 | |       <template id="tmpl1">
+ 36 | |           <div id="div1">This is div inside template</div>
+ 37 | |           <div id="div2">This is another div inside template</div>
+ 38 | |           <template id="tmpl2"><div id="div3">This is div inside nested template</div>
+ 39 | |               <div id="div4">This is another div inside nested template</div>
+ 40 | |           </template>
+ 41 | |       </template>
+ 42 | |   </body>
+ 43 | `-> </html>
     `----
 
   x Child
@@ -838,13 +878,249 @@
   x Child
     ,-[$DIR/tests/fixture/element/template/input.html:33:5]
  33 | ,-> </template>
- 34 | |   </body>
- 35 | `-> </html>
+ 34 | |   
+ 35 | `->     <template id="tmpl1">
     `----
 
   x Text
     ,-[$DIR/tests/fixture/element/template/input.html:33:5]
  33 | ,-> </template>
- 34 | |   </body>
- 35 | `-> </html>
+ 34 | |   
+ 35 | `->     <template id="tmpl1">
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/template/input.html:35:5]
+ 35 | ,-> <template id="tmpl1">
+ 36 | |           <div id="div1">This is div inside template</div>
+ 37 | |           <div id="div2">This is another div inside template</div>
+ 38 | |           <template id="tmpl2"><div id="div3">This is div inside nested template</div>
+ 39 | |               <div id="div4">This is another div inside nested template</div>
+ 40 | |           </template>
+ 41 | `->     </template>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/template/input.html:35:5]
+ 35 | ,-> <template id="tmpl1">
+ 36 | |           <div id="div1">This is div inside template</div>
+ 37 | |           <div id="div2">This is another div inside template</div>
+ 38 | |           <template id="tmpl2"><div id="div3">This is div inside nested template</div>
+ 39 | |               <div id="div4">This is another div inside nested template</div>
+ 40 | |           </template>
+ 41 | `->     </template>
+    `----
+
+  x DocumentFragment
+    ,-[$DIR/tests/fixture/element/template/input.html:35:5]
+ 35 | ,-> <template id="tmpl1">
+ 36 | |           <div id="div1">This is div inside template</div>
+ 37 | |           <div id="div2">This is another div inside template</div>
+ 38 | |           <template id="tmpl2"><div id="div3">This is div inside nested template</div>
+ 39 | |               <div id="div4">This is another div inside nested template</div>
+ 40 | |           </template>
+ 41 | `->     </template>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/template/input.html:35:5]
+ 35 | ,-> <template id="tmpl1">
+ 36 | `->         <div id="div1">This is div inside template</div>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/element/template/input.html:35:5]
+ 35 | ,-> <template id="tmpl1">
+ 36 | `->         <div id="div1">This is div inside template</div>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/template/input.html:36:9]
+ 36 | <div id="div1">This is div inside template</div>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/template/input.html:36:9]
+ 36 | <div id="div1">This is div inside template</div>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/template/input.html:36:9]
+ 36 | <div id="div1">This is div inside template</div>
+    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/element/template/input.html:36:9]
+ 36 | <div id="div1">This is div inside template</div>
+    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/template/input.html:36:9]
+ 36 | ,-> <div id="div1">This is div inside template</div>
+ 37 | `->         <div id="div2">This is another div inside template</div>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/element/template/input.html:36:9]
+ 36 | ,-> <div id="div1">This is div inside template</div>
+ 37 | `->         <div id="div2">This is another div inside template</div>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/template/input.html:37:9]
+ 37 | <div id="div2">This is another div inside template</div>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/template/input.html:37:9]
+ 37 | <div id="div2">This is another div inside template</div>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/template/input.html:37:9]
+ 37 | <div id="div2">This is another div inside template</div>
+    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/element/template/input.html:37:9]
+ 37 | <div id="div2">This is another div inside template</div>
+    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/template/input.html:37:9]
+ 37 | ,-> <div id="div2">This is another div inside template</div>
+ 38 | `->         <template id="tmpl2"><div id="div3">This is div inside nested template</div>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/element/template/input.html:37:9]
+ 37 | ,-> <div id="div2">This is another div inside template</div>
+ 38 | `->         <template id="tmpl2"><div id="div3">This is div inside nested template</div>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/template/input.html:38:9]
+ 38 | ,-> <template id="tmpl2"><div id="div3">This is div inside nested template</div>
+ 39 | |               <div id="div4">This is another div inside nested template</div>
+ 40 | `->         </template>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/template/input.html:38:9]
+ 38 | ,-> <template id="tmpl2"><div id="div3">This is div inside nested template</div>
+ 39 | |               <div id="div4">This is another div inside nested template</div>
+ 40 | `->         </template>
+    `----
+
+  x DocumentFragment
+    ,-[$DIR/tests/fixture/element/template/input.html:38:9]
+ 38 | ,-> <template id="tmpl2"><div id="div3">This is div inside nested template</div>
+ 39 | |               <div id="div4">This is another div inside nested template</div>
+ 40 | `->         </template>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/template/input.html:38:9]
+ 38 | <template id="tmpl2"><div id="div3">This is div inside nested template</div>
+    :                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/template/input.html:38:9]
+ 38 | <template id="tmpl2"><div id="div3">This is div inside nested template</div>
+    :                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/template/input.html:38:9]
+ 38 | <template id="tmpl2"><div id="div3">This is div inside nested template</div>
+    :                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/element/template/input.html:38:9]
+ 38 | <template id="tmpl2"><div id="div3">This is div inside nested template</div>
+    :                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/template/input.html:38:9]
+ 38 | ,-> <template id="tmpl2"><div id="div3">This is div inside nested template</div>
+ 39 | `->             <div id="div4">This is another div inside nested template</div>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/element/template/input.html:38:9]
+ 38 | ,-> <template id="tmpl2"><div id="div3">This is div inside nested template</div>
+ 39 | `->             <div id="div4">This is another div inside nested template</div>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/template/input.html:39:13]
+ 39 | <div id="div4">This is another div inside nested template</div>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/template/input.html:39:13]
+ 39 | <div id="div4">This is another div inside nested template</div>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/template/input.html:39:13]
+ 39 | <div id="div4">This is another div inside nested template</div>
+    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/element/template/input.html:39:13]
+ 39 | <div id="div4">This is another div inside nested template</div>
+    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/template/input.html:39:13]
+ 39 | ,-> <div id="div4">This is another div inside nested template</div>
+ 40 | `->         </template>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/element/template/input.html:39:13]
+ 39 | ,-> <div id="div4">This is another div inside nested template</div>
+ 40 | `->         </template>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/template/input.html:40:9]
+ 40 | ,-> </template>
+ 41 | `->     </template>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/element/template/input.html:40:9]
+ 40 | ,-> </template>
+ 41 | `->     </template>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/template/input.html:41:5]
+ 41 | ,-> </template>
+ 42 | |   </body>
+ 43 | `-> </html>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/element/template/input.html:41:5]
+ 41 | ,-> </template>
+ 42 | |   </body>
+ 43 | `-> </html>
     `----
