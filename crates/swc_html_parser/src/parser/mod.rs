@@ -3281,7 +3281,7 @@ where
                             if let Some(element) = node {
                                 self.errors.push(Error::new(
                                     token_and_info.span,
-                                    ErrorKind::UnexpectedToken,
+                                    ErrorKind::StartTagSeenWhenAlreadyOpen(tag_name.clone()),
                                 ));
 
                                 let remove = element.clone();
@@ -3642,6 +3642,11 @@ where
                     // Parse error. Change the token's tag name to "img" and reprocess it. (Don't
                     // ask.)
                     Token::StartTag { tag_name, .. } if tag_name == "image" => {
+                        self.errors.push(Error::new(
+                            token_and_info.span,
+                            ErrorKind::UnexpectedImageStartTag,
+                        ));
+
                         let mut new_token_and_info = token_and_info.clone();
 
                         match &mut new_token_and_info {

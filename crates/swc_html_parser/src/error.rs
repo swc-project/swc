@@ -200,6 +200,9 @@ impl Error {
                                             active \"<form>\" element, nested forms are not \
                                             allowed."
                 .into(),
+            ErrorKind::UnexpectedImageStartTag => {
+                "Unexpected \"<image>\" start tag, only \"<img>\" tag exists in HTML".into()
+            }
             ErrorKind::UnexpectedEof => "Unexpected end of file".into(),
         }
     }
@@ -295,5 +298,6 @@ pub enum ErrorKind {
     NoElementToCloseButEndTagSeen(JsWord),
     UnclosedElementsOnStack,
     FormWhenFormOpen,
+    UnexpectedImageStartTag,
     UnexpectedEof,
 }

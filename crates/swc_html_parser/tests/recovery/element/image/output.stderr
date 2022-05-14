@@ -1,0 +1,6 @@
+
+  x Unexpected "<image>" start tag, only "<img>" tag exists in HTML
+   ,-[$DIR/tests/recovery/element/image/input.html:7:1]
+ 7 | <image src="test.png">
+   : ^^^^^^^^^^^^^^^^^^^^^^
+   `----
