@@ -603,7 +603,7 @@ where
             // Parse error. Ignore the token.
             Token::Doctype { .. } => {
                 self.errors
-                    .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                    .push(Error::new(token_and_info.span, ErrorKind::StrayDoctype));
             }
             // A start tag whose tag name is one of: "b", "big", "blockquote", "body", "br",
             // "center", "code", "dd", "div", "dl", "dt", "em", "embed", "h1", "h2", "h3", "h4",
@@ -1350,7 +1350,7 @@ where
                     // Parse error. Ignore the token.
                     Token::Doctype { .. } => {
                         self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            .push(Error::new(token_and_info.span, ErrorKind::StrayDoctype));
                     }
                     // A comment token
                     //
@@ -1486,7 +1486,7 @@ where
                     // Parse error. Ignore the token.
                     Token::Doctype { .. } => {
                         self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            .push(Error::new(token_and_info.span, ErrorKind::StrayDoctype));
                     }
                     // A start tag whose tag name is "html"
                     //
@@ -1573,7 +1573,7 @@ where
                     // Parse error. Ignore the token.
                     Token::Doctype { .. } => {
                         self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            .push(Error::new(token_and_info.span, ErrorKind::StrayDoctype));
                     }
                     // A start tag whose tag name is "html"
                     //
@@ -1852,7 +1852,7 @@ where
                     // Parse error. Ignore the token.
                     Token::Doctype { .. } => {
                         self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            .push(Error::new(token_and_info.span, ErrorKind::StrayDoctype));
                     }
                     // A start tag whose tag name is "html"
                     //
@@ -2136,7 +2136,7 @@ where
                     // Parse error. Ignore the token.
                     Token::Doctype { .. } => {
                         self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            .push(Error::new(token_and_info.span, ErrorKind::StrayDoctype));
                     }
                     // A start tag whose tag name is "html"
                     //
@@ -4233,7 +4233,7 @@ where
                     // Parse error. Ignore the token.
                     Token::Doctype { .. } => {
                         self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            .push(Error::new(token_and_info.span, ErrorKind::StrayDoctype));
                     }
                     // A start tag whose tag name is "caption"
                     //
@@ -4763,7 +4763,7 @@ where
                     // Parse error. Ignore the token.
                     Token::Doctype { .. } => {
                         self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            .push(Error::new(token_and_info.span, ErrorKind::StrayDoctype));
                     }
                     // A start tag whose tag name is "html"
                     //
@@ -5303,7 +5303,7 @@ where
                     // Parse error. Ignore the token.
                     Token::Doctype { .. } => {
                         self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            .push(Error::new(token_and_info.span, ErrorKind::StrayDoctype));
                     }
                     // A start tag whose tag name is "html"
                     //
@@ -5781,7 +5781,7 @@ where
                     // Parse error. Ignore the token.
                     Token::Doctype { .. } => {
                         self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            .push(Error::new(token_and_info.span, ErrorKind::StrayDoctype));
                     }
                     // A start tag whose tag name is "html"
                     //
@@ -5797,8 +5797,10 @@ where
                     // Otherwise, switch the insertion mode to "after after body".
                     Token::EndTag { tag_name, .. } if tag_name == "html" => {
                         if self.is_fragment_case {
-                            self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::StrayEndTag(tag_name.clone()),
+                            ));
                         } else {
                             self.insertion_mode = InsertionMode::AfterAfterBody;
                         }
@@ -5847,7 +5849,7 @@ where
                     // Parse error. Ignore the token.
                     Token::Doctype { .. } => {
                         self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            .push(Error::new(token_and_info.span, ErrorKind::StrayDoctype));
                     }
                     // A start tag whose tag name is "html"
                     //
@@ -5982,7 +5984,7 @@ where
                     // Parse error. Ignore the token.
                     Token::Doctype { .. } => {
                         self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            .push(Error::new(token_and_info.span, ErrorKind::StrayDoctype));
                     }
                     // A start tag whose tag name is "html"
                     //
