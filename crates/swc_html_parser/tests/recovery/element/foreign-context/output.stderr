@@ -3322,7 +3322,7 @@
  99 | </body>
     `----
 
-  x Unexpected token
+  x Stray end tag "</body>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:99:1]
  99 | </body>
     : ^^^^^^^
@@ -3335,7 +3335,7 @@
  100 | </html>
      `----
 
-  x Unexpected token
+  x Stray end tag "</html>"
      ,-[$DIR/tests/recovery/element/foreign-context/input.html:100:1]
  100 | </html>
      : ^^^^^^^

@@ -180,6 +180,11 @@ impl Error {
             ErrorKind::TableSeenWhileTableOpen => {
                 "Start tag for \"<table>\" seen but the previous \"<table>\" is still open".into()
             }
+            ErrorKind::UnexpectedStartTagInTable(tag_name) => format!(
+                "Unexpected start tag \"<{}>\" seen in \"<table>\"",
+                tag_name
+            )
+            .into(),
             ErrorKind::UnexpectedEof => "Unexpected end of file".into(),
         }
     }
@@ -270,5 +275,6 @@ pub enum ErrorKind {
     UnexpectedEndTag(JsWord),
     StartTagSeenWhenAlreadyOpen(JsWord),
     TableSeenWhileTableOpen,
+    UnexpectedStartTagInTable(JsWord),
     UnexpectedEof,
 }

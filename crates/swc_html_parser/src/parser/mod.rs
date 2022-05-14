@@ -4404,8 +4404,10 @@ where
                                 | "tr"
                         ) =>
                     {
-                        self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        self.errors.push(Error::new(
+                            token_and_info.span,
+                            ErrorKind::StrayEndTag(tag_name.clone()),
+                        ));
                     }
                     // A start tag whose tag name is one of: "style", "script", "template"
                     //
@@ -4458,8 +4460,10 @@ where
                         if input_type.is_none() || !is_hidden {
                             anything_else(self, self.foster_parenting_enabled, token_and_info)?;
                         } else {
-                            self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::UnexpectedStartTagInTable(tag_name.clone()),
+                            ));
 
                             self.insert_html_element(token_and_info)?;
                             self.open_elements_stack.pop();
@@ -4483,8 +4487,10 @@ where
                     //
                     // Pop that form element off the stack of open elements.
                     Token::StartTag { tag_name, .. } if tag_name == "form" => {
-                        self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        self.errors.push(Error::new(
+                            token_and_info.span,
+                            ErrorKind::UnexpectedStartTagInTable(tag_name.clone()),
+                        ));
 
                         if self.open_elements_stack.contains_template_element()
                             || self.form_element_pointer.is_some()
