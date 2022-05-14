@@ -756,25 +756,33 @@ impl Pure<'_> {
         }
 
         if self.options.side_effects && self.options.pristine_globals {
-            if let Expr::New(NewExpr { callee, args, .. }) = e {
-                if let Expr::Ident(i) = &**callee {
-                    match &*i.sym {
-                        "Map" | "Set" | "Array" | "Object" | "Boolean" | "Number" => {
-                            if i.span.ctxt.outer() == self.marks.unresolved_mark {
-                                report_change!("Dropping a pure new expression");
+            match e {
+                Expr::New(NewExpr { callee, args, .. }) => {
+                    if let Expr::Ident(i) = &**callee {
+                        match &*i.sym {
+                            "Map" | "Set" | "Array" | "Object" | "Boolean" | "Number" => {
+                                if i.span.ctxt.outer() == self.marks.unresolved_mark {
+                                    report_change!("Dropping a pure new expression");
 
-                                self.changed = true;
-                                *e = self
-                                    .make_ignored_expr(
-                                        args.iter_mut().flatten().map(|arg| arg.expr.take()),
-                                    )
-                                    .unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
-                                return;
+                                    self.changed = true;
+                                    *e = self
+                                        .make_ignored_expr(
+                                            args.iter_mut().flatten().map(|arg| arg.expr.take()),
+                                        )
+                                        .unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
+                                    return;
+                                }
                             }
+                            _ => {}
                         }
-                        _ => {}
                     }
                 }
+
+                Expr::Member(member) => match &mut *member.obj {
+                    Expr::Array(obj_arr) => {}
+                    _ => {}
+                },
+                _ => {}
             }
         }
 
