@@ -27,6 +27,7 @@ impl CompareCommand {
 
         let esbuild_mangled = get_esbuild_output(&self.path, true)?;
 
+        eprintln!("swc: {} bytes", code_mangled.as_bytes().len());
         std::fs::write("swc.output.js", code_mangled.as_bytes())
             .context("failed to write swc.output.js")?;
 
@@ -35,6 +36,7 @@ impl CompareCommand {
         std::fs::write("esbuild.output.js", esbuild_mangled.as_bytes())
             .context("failed to write swc.output.js")?;
 
+        eprintln!("swc: {} bytes", esbuild_mangled.as_bytes().len());
         make_pretty("esbuild.output.js".as_ref())?;
 
         {
