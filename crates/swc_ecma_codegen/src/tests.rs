@@ -747,9 +747,11 @@ module.exports = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u
 
     let out = parse_then_emit(
         from,
-        Default::default(),
+        Config {
+            target: EsVersion::Es2022,
+            ..Default::default()
+        },
         Syntax::default(),
-        EsVersion::Es2022,
     );
 
     dbg!(&out);
