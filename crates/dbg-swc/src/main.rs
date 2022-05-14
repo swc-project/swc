@@ -77,6 +77,10 @@ fn main() -> Result<()> {
                         let esbuild_output =
                             self::util::minifier::get_esbuild_output("input.js".as_ref(), true)?;
 
+                        if swc_output.len() < 30 && swc_output.contains("\\n") {
+                            bail!("We target es5, so this input is useless")
+                        }
+
                         if swc_output.len() > esbuild_output.len() {
                             return Ok(());
                         }
