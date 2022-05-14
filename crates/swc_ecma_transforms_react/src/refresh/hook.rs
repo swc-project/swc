@@ -215,7 +215,9 @@ impl<'a> VisitMut for HookRegister<'a> {
             b.stmts
                 .iter()
                 .find_map(|stmt| match stmt {
-                    Stmt::Decl(decl) => find_pat_ids(decl).first().map(|id: &Ident| id.span.ctxt()),
+                    Stmt::Decl(decl) => find_pat_ids::<_, Ident>(decl)
+                        .into_iter()
+                        .find_map(|id| (!id.span.is_dummy()).then(|| id.span.ctxt())),
                     _ => None,
                 })
                 .unwrap_or(SyntaxContext::empty()),
