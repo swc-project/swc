@@ -3102,7 +3102,7 @@
     :            ^^^^^^^
     `----
 
-  x Unexpected token
+  x Start tag for "<table>" seen but the previous "<table>" is still open
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:94:1]
  94 | <div><math><table></math</div>
     :            ^^^^^^^

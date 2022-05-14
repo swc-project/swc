@@ -4345,8 +4345,10 @@ where
                     //
                     // Reprocess the token.
                     Token::StartTag { tag_name, .. } if tag_name == "table" => {
-                        self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        self.errors.push(Error::new(
+                            token_and_info.span,
+                            ErrorKind::TableSeenWhileTableOpen,
+                        ));
 
                         if !self.open_elements_stack.has_in_table_scope("table") {
                             // Ignore
@@ -4372,8 +4374,10 @@ where
                     // Reset the insertion mode appropriately.
                     Token::EndTag { tag_name, .. } if tag_name == "table" => {
                         if !self.open_elements_stack.has_in_table_scope("table") {
-                            self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::StrayEndTag(tag_name.clone()),
+                            ));
                         } else {
                             self.open_elements_stack
                                 .pop_until_tag_name_popped(&["table"]);
