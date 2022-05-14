@@ -4911,8 +4911,10 @@ where
                     Token::StartTag { tag_name, .. }
                         if matches!(tag_name.as_ref(), "th" | "td") =>
                     {
-                        self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        self.errors.push(Error::new(
+                            token_and_info.span,
+                            ErrorKind::UnexpectedStartTagInTable(tag_name.clone()),
+                        ));
                         self.open_elements_stack.clear_back_to_table_body_context();
                         self.insert_html_element(&mut TokenAndInfo {
                             span: Default::default(),
@@ -4943,8 +4945,10 @@ where
                         if matches!(tag_name.as_ref(), "tbody" | "tfoot" | "thead") =>
                     {
                         if !self.open_elements_stack.has_in_table_scope(tag_name) {
-                            self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::StrayEndTag(tag_name.clone()),
+                            ));
                         } else {
                             self.open_elements_stack.clear_back_to_table_body_context();
                             self.open_elements_stack.pop();
@@ -4977,8 +4981,10 @@ where
                             || self.open_elements_stack.has_in_table_scope("thead")
                             || self.open_elements_stack.has_in_table_scope("tfoot"))
                         {
-                            self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::StrayStartTag(tag_name.clone()),
+                            ));
                         } else {
                             self.open_elements_stack.clear_back_to_table_body_context();
                             self.open_elements_stack.pop();
@@ -4991,8 +4997,10 @@ where
                             || self.open_elements_stack.has_in_table_scope("thead")
                             || self.open_elements_stack.has_in_table_scope("tfoot"))
                         {
-                            self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::StrayEndTag(tag_name.clone()),
+                            ));
                         } else {
                             self.open_elements_stack.clear_back_to_table_body_context();
                             self.open_elements_stack.pop();
@@ -5010,8 +5018,10 @@ where
                             "body" | "caption" | "col" | "colgroup" | "html" | "td" | "th" | "tr"
                         ) =>
                     {
-                        self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        self.errors.push(Error::new(
+                            token_and_info.span,
+                            ErrorKind::StrayEndTag(tag_name.clone()),
+                        ));
                     }
                     // Anything else
                     //
