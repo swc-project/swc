@@ -169,6 +169,9 @@ impl Error {
                 tag_name
             )
             .into(),
+            ErrorKind::UnexpectedEndTag(tag_name) => {
+                format!("Unexpected end tag \"</{}>\"", tag_name).into()
+            }
             ErrorKind::UnexpectedEof => "Unexpected end of file".into(),
         }
     }
@@ -256,5 +259,6 @@ pub enum ErrorKind {
     StrayStartTag(JsWord),
     StrayEndTag(JsWord),
     UnclosedElementsImplied(JsWord),
+    UnexpectedEndTag(JsWord),
     UnexpectedEof,
 }

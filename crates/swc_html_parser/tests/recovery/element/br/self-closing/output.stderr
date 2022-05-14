@@ -1,11 +1,11 @@
 
-  x Unexpected token
+  x Unexpected end tag "</br>"
     ,-[$DIR/tests/recovery/element/br/self-closing/input.html:11:5]
  11 | test</br>test
     :     ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected end tag "</br>"
     ,-[$DIR/tests/recovery/element/br/self-closing/input.html:12:5]
  12 | test</br/>test
     :     ^^^^^^

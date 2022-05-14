@@ -3458,8 +3458,10 @@ where
                     } if tag_name == "br" => {
                         let is_self_closing = *self_closing;
 
-                        self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        self.errors.push(Error::new(
+                            token_and_info.span,
+                            ErrorKind::UnexpectedEndTag(tag_name.clone()),
+                        ));
 
                         self.reconstruct_active_formatting_elements()?;
                         self.insert_html_element(&mut TokenAndInfo {

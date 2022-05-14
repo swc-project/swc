@@ -35,7 +35,7 @@
     :           ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected end tag "</br>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:12:1]
  12 | <div><svg></br></svg</div>
     :           ^^^^^
@@ -1235,6 +1235,12 @@
     `----
 
   x Unexpected token
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:56:1]
+ 56 | <div><math></br></math</div>
+    :            ^^^^^
+    `----
+
+  x Unexpected end tag "</br>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:56:1]
  56 | <div><math></br></math</div>
     :            ^^^^^
