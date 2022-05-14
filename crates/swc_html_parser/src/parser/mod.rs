@@ -5424,8 +5424,10 @@ where
                     //
                     // Reset the insertion mode appropriately.
                     Token::StartTag { tag_name, .. } if tag_name == "select" => {
-                        self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        self.errors.push(Error::new(
+                            token_and_info.span,
+                            ErrorKind::UnexpectedStartSelectWhereEndSelectExpected,
+                        ));
 
                         if !self.open_elements_stack.has_in_select_scope("select") {
                             // Ignore

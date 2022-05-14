@@ -1,0 +1,209 @@
+
+  x Document
+    ,-[$DIR/tests/recovery/element/select-2/input.html:1:1]
+  1 | ,-> <!doctype html>
+  2 | |   <html lang="en">
+  3 | |   <head>
+  4 | |       <title>Document</title>
+  5 | |   </head>
+  6 | |   <body>
+  7 | |   <select name="test" id="test">
+  8 | |       <select name="test-1" id="test-1"></select>
+  9 | |   </select>
+ 10 | |   </body>
+ 11 | `-> </html>
+    `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/select-2/input.html:1:1]
+ 1 | <!doctype html>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x DocumentType
+   ,-[$DIR/tests/recovery/element/select-2/input.html:1:1]
+ 1 | <!doctype html>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+    ,-[$DIR/tests/recovery/element/select-2/input.html:2:1]
+  2 | ,-> <html lang="en">
+  3 | |   <head>
+  4 | |       <title>Document</title>
+  5 | |   </head>
+  6 | |   <body>
+  7 | |   <select name="test" id="test">
+  8 | |       <select name="test-1" id="test-1"></select>
+  9 | |   </select>
+ 10 | `-> </body>
+ 11 |     </html>
+    `----
+
+  x Element
+    ,-[$DIR/tests/recovery/element/select-2/input.html:2:1]
+  2 | ,-> <html lang="en">
+  3 | |   <head>
+  4 | |       <title>Document</title>
+  5 | |   </head>
+  6 | |   <body>
+  7 | |   <select name="test" id="test">
+  8 | |       <select name="test-1" id="test-1"></select>
+  9 | |   </select>
+ 10 | `-> </body>
+ 11 |     </html>
+    `----
+
+  x Attribute
+
+  x Child
+   ,-[$DIR/tests/recovery/element/select-2/input.html:3:1]
+ 3 | ,-> <head>
+ 4 | `->     <title>Document</title>
+ 5 |     </head>
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/select-2/input.html:3:1]
+ 3 | ,-> <head>
+ 4 | `->     <title>Document</title>
+ 5 |     </head>
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/select-2/input.html:3:1]
+ 3 | ,-> <head>
+ 4 | `->     <title>Document</title>
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/element/select-2/input.html:3:1]
+ 3 | ,-> <head>
+ 4 | `->     <title>Document</title>
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/select-2/input.html:4:5]
+ 4 | <title>Document</title>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/select-2/input.html:4:5]
+ 4 | <title>Document</title>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/select-2/input.html:4:5]
+ 4 | <title>Document</title>
+   :        ^^^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/element/select-2/input.html:4:5]
+ 4 | <title>Document</title>
+   :        ^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/select-2/input.html:4:5]
+ 4 | <title>Document</title>
+   :                        ^
+ 5 | </head>
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/element/select-2/input.html:4:5]
+ 4 | <title>Document</title>
+   :                        ^
+ 5 | </head>
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/select-2/input.html:5:1]
+ 5 | </head>
+   :        ^
+ 6 | <body>
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/element/select-2/input.html:5:1]
+ 5 | </head>
+   :        ^
+ 6 | <body>
+   `----
+
+  x Child
+    ,-[$DIR/tests/recovery/element/select-2/input.html:6:1]
+  6 | ,-> <body>
+  7 | |   <select name="test" id="test">
+  8 | |       <select name="test-1" id="test-1"></select>
+  9 | |   </select>
+ 10 | `-> </body>
+ 11 |     </html>
+    `----
+
+  x Element
+    ,-[$DIR/tests/recovery/element/select-2/input.html:6:1]
+  6 | ,-> <body>
+  7 | |   <select name="test" id="test">
+  8 | |       <select name="test-1" id="test-1"></select>
+  9 | |   </select>
+ 10 | `-> </body>
+ 11 |     </html>
+    `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/select-2/input.html:6:1]
+ 6 | <body>
+   :       ^
+ 7 | <select name="test" id="test">
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/element/select-2/input.html:6:1]
+ 6 | <body>
+   :       ^
+ 7 | <select name="test" id="test">
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/select-2/input.html:7:1]
+ 7 | ,-> <select name="test" id="test">
+ 8 | `->     <select name="test-1" id="test-1"></select>
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/select-2/input.html:7:1]
+ 7 | ,-> <select name="test" id="test">
+ 8 | `->     <select name="test-1" id="test-1"></select>
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/select-2/input.html:7:1]
+ 7 | ,-> <select name="test" id="test">
+ 8 | `->     <select name="test-1" id="test-1"></select>
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/element/select-2/input.html:7:1]
+ 7 | ,-> <select name="test" id="test">
+ 8 | `->     <select name="test-1" id="test-1"></select>
+   `----
+
+  x Child
+    ,-[$DIR/tests/recovery/element/select-2/input.html:8:5]
+  8 | ,-> <select name="test-1" id="test-1"></select>
+  9 | |   </select>
+ 10 | `-> </body>
+ 11 |     </html>
+    `----
+
+  x Text
+    ,-[$DIR/tests/recovery/element/select-2/input.html:8:5]
+  8 | ,-> <select name="test-1" id="test-1"></select>
+  9 | |   </select>
+ 10 | `-> </body>
+ 11 |     </html>
+    `----

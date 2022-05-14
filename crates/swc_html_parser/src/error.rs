@@ -139,6 +139,9 @@ impl Error {
             }
             ErrorKind::UnexpectedToken => "Unexpected token".into(),
             ErrorKind::NestedHeadingTags => "Heading cannot be a child of another heading".into(),
+            ErrorKind::UnexpectedStartSelectWhereEndSelectExpected => {
+                "Unexpected \"<select>\" start tag where end tag expected".into()
+            }
             ErrorKind::UnexpectedEof => "Unexpected end of file".into(),
         }
     }
@@ -217,5 +220,6 @@ pub enum ErrorKind {
     // Parser errors
     UnexpectedToken,
     NestedHeadingTags,
+    UnexpectedStartSelectWhereEndSelectExpected,
     UnexpectedEof,
 }
