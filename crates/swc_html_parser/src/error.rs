@@ -185,6 +185,7 @@ impl Error {
                 tag_name
             )
             .into(),
+            ErrorKind::UnclosedElementsOnStack => "Unclosed elements on stack".into(),
             ErrorKind::UnexpectedEof => "Unexpected end of file".into(),
         }
     }
@@ -276,5 +277,6 @@ pub enum ErrorKind {
     StartTagSeenWhenAlreadyOpen(JsWord),
     TableSeenWhileTableOpen,
     UnexpectedStartTagInTable(JsWord),
+    UnclosedElementsOnStack,
     UnexpectedEof,
 }
