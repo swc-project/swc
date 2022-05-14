@@ -2552,7 +2552,7 @@ where
                             {
                                 self.errors.push(Error::new(
                                     token_and_info.span,
-                                    ErrorKind::UnexpectedToken,
+                                    ErrorKind::NestedHeadingTags,
                                 ));
 
                                 self.open_elements_stack.pop();

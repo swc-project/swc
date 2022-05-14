@@ -138,6 +138,7 @@ impl Error {
                 "Eof in element that can contain only text".into()
             }
             ErrorKind::UnexpectedToken => "Unexpected token".into(),
+            ErrorKind::NestedHeadingTags => "Heading cannot be a child of another heading".into(),
             ErrorKind::UnexpectedEof => "Unexpected end of file".into(),
         }
     }
@@ -215,5 +216,6 @@ pub enum ErrorKind {
 
     // Parser errors
     UnexpectedToken,
+    NestedHeadingTags,
     UnexpectedEof,
 }
