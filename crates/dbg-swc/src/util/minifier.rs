@@ -118,7 +118,7 @@ impl VisitMut for Normalizer {
         if let Prop::KeyValue(kv) = p {
             if let PropName::Ident(k) = &kv.key {
                 match &*kv.value {
-                    Expr::Ident(value) if k.to_id() == value.to_id() => {
+                    Expr::Ident(value) if k.sym == value.sym => {
                         *p = Prop::Shorthand(k.clone());
                     }
                     _ => {}
