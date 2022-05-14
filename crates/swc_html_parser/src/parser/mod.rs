@@ -672,8 +672,10 @@ where
                         | "var"
                 ) =>
             {
-                self.errors
-                    .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                self.errors.push(Error::new(
+                    token_and_info.span,
+                    ErrorKind::UnexpectedHtmlStartTagInForeignContext(tag_name.clone()),
+                ));
                 self.open_elements_stack.pop_until_in_foreign();
                 self.process_token(token_and_info, None)?;
             }
@@ -686,14 +688,18 @@ where
                     .iter()
                     .any(|attribute| matches!(&*attribute.name, "color" | "face" | "size")) =>
             {
-                self.errors
-                    .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                self.errors.push(Error::new(
+                    token_and_info.span,
+                    ErrorKind::UnexpectedHtmlStartTagInForeignContext(tag_name.clone()),
+                ));
                 self.open_elements_stack.pop_until_in_foreign();
                 self.process_token(token_and_info, None)?;
             }
             Token::EndTag { tag_name, .. } if matches!(tag_name.as_ref(), "br" | "p") => {
-                self.errors
-                    .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                self.errors.push(Error::new(
+                    token_and_info.span,
+                    ErrorKind::UnexpectedHtmlEndTagInForeignContext(tag_name.clone()),
+                ));
                 self.open_elements_stack.pop_until_in_foreign();
                 self.process_token(token_and_info, None)?;
             }

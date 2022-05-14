@@ -1,5 +1,6 @@
 use std::borrow::Cow;
 
+use swc_atoms::JsWord;
 use swc_common::{
     errors::{DiagnosticBuilder, Handler},
     Span,
@@ -143,6 +144,16 @@ impl Error {
                 "Unexpected \"<select>\" start tag where end tag expected".into()
             }
             ErrorKind::NoTableRowToClose => "No table row to close".into(),
+            ErrorKind::UnexpectedHtmlStartTagInForeignContext(tag_name) => format!(
+                "Unexpected HTML start tag \"<{}>\" in a foreign namespace context",
+                tag_name
+            )
+            .into(),
+            ErrorKind::UnexpectedHtmlEndTagInForeignContext(tag_name) => format!(
+                "Unexpected HTML end tag \"</{}>\" in a foreign namespace context",
+                tag_name
+            )
+            .into(),
             ErrorKind::UnexpectedEof => "Unexpected end of file".into(),
         }
     }
@@ -223,5 +234,7 @@ pub enum ErrorKind {
     NestedHeadingTags,
     UnexpectedStartSelectWhereEndSelectExpected,
     NoTableRowToClose,
+    UnexpectedHtmlStartTagInForeignContext(JsWord),
+    UnexpectedHtmlEndTagInForeignContext(JsWord),
     UnexpectedEof,
 }
