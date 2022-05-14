@@ -533,7 +533,7 @@ where
             return Ok(());
         }
 
-        let target = self.wr.target();
+        let target = self.cfg.target;
 
         if self.cfg.minify {
             let value = get_quoted_utf16(&node.value, target);
@@ -3001,7 +3001,7 @@ where
         emit!(node.test);
         punct!(")");
 
-        if self.wr.target() <= EsVersion::Es5 {
+        if self.cfg.target <= EsVersion::Es5 {
             semi!();
         }
 
