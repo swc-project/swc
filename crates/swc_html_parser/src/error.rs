@@ -213,6 +213,11 @@ impl Error {
                 tag_name
             )
             .into(),
+            ErrorKind::UnexpectedStartTagInRuby(tag_name) => format!(
+                "Unexpected start tag \"<{}>\" with \"<ruby>\" open",
+                tag_name
+            )
+            .into(),
             ErrorKind::NoCellToClose => "No cell to close".into(),
             ErrorKind::UnexpectedEof => "Unexpected end of file".into(),
         }
@@ -312,6 +317,7 @@ pub enum ErrorKind {
     UnexpectedImageStartTag,
     UnexpectedStartTagWithSelectOpen(JsWord),
     UnexpectedEndTagWithSelectOpen(JsWord),
+    UnexpectedStartTagInRuby(JsWord),
     NoCellToClose,
     UnexpectedEof,
 }

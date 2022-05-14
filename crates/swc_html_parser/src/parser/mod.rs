@@ -3816,7 +3816,7 @@ where
                             Some(node) if get_tag_name!(node) != "ruby" => {
                                 self.errors.push(Error::new(
                                     token_and_info.span,
-                                    ErrorKind::UnexpectedToken,
+                                    ErrorKind::UnexpectedStartTagInRuby(tag_name.clone()),
                                 ));
                             }
                             _ => {}
@@ -3843,7 +3843,7 @@ where
                             Some(node) if !matches!(get_tag_name!(node), "rtc" | "ruby") => {
                                 self.errors.push(Error::new(
                                     token_and_info.span,
-                                    ErrorKind::UnexpectedToken,
+                                    ErrorKind::UnexpectedStartTagInRuby(tag_name.clone()),
                                 ));
                             }
                             _ => {}
