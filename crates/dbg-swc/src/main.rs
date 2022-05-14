@@ -11,8 +11,13 @@ use swc_common::{
 use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
 use tracing_subscriber::EnvFilter;
 
-use self::{bundle::BundleCommand, minify::MinifyCommand, test::TestCommand, util::print_js};
-use crate::util::minifier::get_minified;
+use self::{
+    bundle::BundleCommand,
+    minify::MinifyCommand,
+    test::TestCommand,
+    util::{minifier::get_esbuild_output, print_js},
+};
+use crate::util::minifier::{get_minified, get_terser_output};
 
 mod bundle;
 mod minify;
@@ -74,13 +79,17 @@ fn main() -> Result<()> {
 
                         let swc_output = print_js(cm.clone(), &m.module, true)?;
 
+                        let terser_output = get_terser_output("input.js".as_ref(), true, true)?;
+                        if swc_output.len() > terser_output.len() {
+                            return Ok(());
+                        }
+
                         // We only care about length, so we can replace it.
                         //
                         // We target es5, but esbuild does not support it
                         let swc_output = swc_output.replace("\\n", "_");
 
-                        let esbuild_output =
-                            self::util::minifier::get_esbuild_output("input.js".as_ref(), true)?;
+                        let esbuild_output = get_esbuild_output("input.js".as_ref(), true)?;
 
                         if swc_output.len() > esbuild_output.len() {
                             return Ok(());
