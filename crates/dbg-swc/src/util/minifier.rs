@@ -6,9 +6,10 @@ use std::{
 
 use anyhow::{bail, Context, Result};
 use swc_common::SourceMap;
+use swc_ecma_ast::*;
 use swc_ecma_minifier::option::MinifyOptions;
 use swc_ecma_transforms_base::fixer::fixer;
-use swc_ecma_visit::VisitMutWith;
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use super::{parse_js, wrap_task, ModuleRecord};
 
@@ -48,6 +49,7 @@ pub fn get_minified(
         )
     };
 
+    module.visit_mut_with(&mut Normalizer {});
     module.visit_mut_with(&mut fixer(None));
 
     Ok(ModuleRecord { module, ..m })
@@ -100,4 +102,28 @@ pub fn get_esbuild_output(file: &Path, mangle: bool) -> Result<String> {
         String::from_utf8(output.stdout).context("esbuild emitted non-utf8 string")
     })
     .with_context(|| format!("failed to get output of {} from esbuild", file.display()))
+}
+
+/// We target es5 while esbuild does not support it.
+///
+/// Due to the difference, reducer generates something useless
+struct Normalizer {}
+
+impl VisitMut for Normalizer {
+    noop_visit_mut_type!();
+
+    fn visit_mut_prop(&mut self, p: &mut Prop) {
+        p.visit_mut_children_with(self);
+
+        if let Prop::KeyValue(kv) = p {
+            if let PropName::Ident(k) = &kv.key {
+                match &*kv.value {
+                    Expr::Ident(value) if k.to_id() == value.to_id() => {
+                        *p = Prop::Shorthand(k.clone());
+                    }
+                    _ => {}
+                }
+            }
+        }
+    }
 }
