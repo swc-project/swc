@@ -2396,12 +2396,10 @@ where
                             return Ok(());
                         }
 
-                        let mut errored = false;
-
                         for node in &self.open_elements_stack.items {
-                            let is_required_element = match &node.data {
+                            match &node.data {
                                 Data::Element(Element { tag_name, .. })
-                                    if matches!(
+                                    if !matches!(
                                         &**tag_name,
                                         "dd" | "dt"
                                             | "li"
@@ -2422,21 +2420,17 @@ where
                                             | "html"
                                     ) =>
                                 {
-                                    true
+                                    self.errors.push(Error::new(
+                                        token_and_info.span,
+                                        ErrorKind::UnexpectedEndTagWithUnclosedElements(
+                                            "body".into(),
+                                        ),
+                                    ));
+
+                                    break;
                                 }
-                                _ => false,
+                                _ => {}
                             };
-
-                            if !is_required_element {
-                                errored = true;
-
-                                break;
-                            }
-                        }
-
-                        if errored {
-                            self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
                         }
 
                         self.insertion_mode = InsertionMode::AfterBody;
@@ -2466,12 +2460,10 @@ where
                             return Ok(());
                         }
 
-                        let mut errored = false;
-
                         for node in &self.open_elements_stack.items {
-                            let is_required_element = match &node.data {
+                            match &node.data {
                                 Data::Element(Element { tag_name, .. })
-                                    if matches!(
+                                    if !matches!(
                                         &**tag_name,
                                         "dd" | "dt"
                                             | "li"
@@ -2492,21 +2484,17 @@ where
                                             | "html"
                                     ) =>
                                 {
-                                    true
+                                    self.errors.push(Error::new(
+                                        token_and_info.span,
+                                        ErrorKind::UnexpectedEndTagWithUnclosedElements(
+                                            "html".into(),
+                                        ),
+                                    ));
+
+                                    break;
                                 }
-                                _ => false,
+                                _ => {}
                             };
-
-                            if !is_required_element {
-                                errored = true;
-
-                                break;
-                            }
-                        }
-
-                        if errored {
-                            self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
                         }
 
                         self.insertion_mode = InsertionMode::AfterBody;

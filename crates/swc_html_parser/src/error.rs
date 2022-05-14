@@ -219,6 +219,11 @@ impl Error {
             )
             .into(),
             ErrorKind::NoCellToClose => "No cell to close".into(),
+            ErrorKind::UnexpectedEndTagWithUnclosedElements(tag_name) => format!(
+                "Unexpected end tag for \"</{}>\", but there were unclosed elements",
+                tag_name
+            )
+            .into(),
             ErrorKind::UnexpectedEof => "Unexpected end of file".into(),
         }
     }
@@ -296,28 +301,29 @@ pub enum ErrorKind {
 
     // Parser errors
     UnexpectedToken,
-    NestedHeadingTags,
-    UnexpectedStartSelectWhereEndSelectExpected,
-    NoTableRowToClose,
-    UnexpectedHtmlStartTagInForeignContext(JsWord),
-    UnexpectedHtmlEndTagInForeignContext(JsWord),
-    UnexpectedStartTagBetweenHeadAndBody(JsWord),
     StrayDoctype,
     StrayStartTag(JsWord),
     StrayEndTag(JsWord),
-    UnclosedElementsImplied(JsWord),
-    UnclosedElements(JsWord),
-    UnexpectedEndTag(JsWord),
-    StartTagSeenWhenAlreadyOpen(JsWord),
-    TableSeenWhileTableOpen,
-    UnexpectedStartTagInTable(JsWord),
-    NoElementToCloseButEndTagSeen(JsWord),
-    UnclosedElementsOnStack,
+    NestedHeadingTags,
+    NoTableRowToClose,
+    NoCellToClose,
     FormWhenFormOpen,
+    TableSeenWhileTableOpen,
     UnexpectedImageStartTag,
+    StartTagSeenWhenAlreadyOpen(JsWord),
+    NoElementToCloseButEndTagSeen(JsWord),
+    UnexpectedStartSelectWhereEndSelectExpected,
+    UnexpectedHtmlStartTagInForeignContext(JsWord),
+    UnexpectedHtmlEndTagInForeignContext(JsWord),
+    UnexpectedStartTagBetweenHeadAndBody(JsWord),
+    UnexpectedEndTag(JsWord),
+    UnexpectedStartTagInTable(JsWord),
     UnexpectedStartTagWithSelectOpen(JsWord),
     UnexpectedEndTagWithSelectOpen(JsWord),
     UnexpectedStartTagInRuby(JsWord),
-    NoCellToClose,
+    UnexpectedEndTagWithUnclosedElements(JsWord),
     UnexpectedEof,
+    UnclosedElementsImplied(JsWord),
+    UnclosedElements(JsWord),
+    UnclosedElementsOnStack,
 }
