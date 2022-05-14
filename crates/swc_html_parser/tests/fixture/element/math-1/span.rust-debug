@@ -1,0 +1,757 @@
+
+  x Document
+    ,-[$DIR/tests/fixture/element/math-1/input.html:1:1]
+  1 | ,-> <!doctype html>
+  2 | |   <html lang="en">
+  3 | |   <head>
+  4 | |       <title>Document</title>
+  5 | |   </head>
+  6 | |   <body>
+  7 | |   <div style="display:none">
+  8 | |       <div><math id="m1"><mtext/></math></div>
+  9 | |       <div id="d1"><math><mrow/><mi/></math></div>
+ 10 | |       <div id="d2"><math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math></div>
+ 11 | |       <div id="d3">&lang;&rang;</div>
+ 12 | |       <div id="d4">&Kopf;</div>
+ 13 | |       <div id="d5"><math><semantics><mi>a</mi><annotation-xml><foo/><bar/></annotation-xml></semantics></math></div>
+ 14 | |       <div id="d6"><math><semantics><mi>a</mi><annotation-xml encoding="text/html"><div></div></annotation-xml></semantics><mn/></math></div>
+ 15 | |   </div>
+ 16 | |   </body>
+ 17 | `-> </html>
+    `----
+
+  x Child
+   ,-[$DIR/tests/fixture/element/math-1/input.html:1:1]
+ 1 | <!doctype html>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x DocumentType
+   ,-[$DIR/tests/fixture/element/math-1/input.html:1:1]
+ 1 | <!doctype html>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/math-1/input.html:2:1]
+  2 | ,-> <html lang="en">
+  3 | |   <head>
+  4 | |       <title>Document</title>
+  5 | |   </head>
+  6 | |   <body>
+  7 | |   <div style="display:none">
+  8 | |       <div><math id="m1"><mtext/></math></div>
+  9 | |       <div id="d1"><math><mrow/><mi/></math></div>
+ 10 | |       <div id="d2"><math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math></div>
+ 11 | |       <div id="d3">&lang;&rang;</div>
+ 12 | |       <div id="d4">&Kopf;</div>
+ 13 | |       <div id="d5"><math><semantics><mi>a</mi><annotation-xml><foo/><bar/></annotation-xml></semantics></math></div>
+ 14 | |       <div id="d6"><math><semantics><mi>a</mi><annotation-xml encoding="text/html"><div></div></annotation-xml></semantics><mn/></math></div>
+ 15 | |   </div>
+ 16 | `-> </body>
+ 17 |     </html>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/math-1/input.html:2:1]
+  2 | ,-> <html lang="en">
+  3 | |   <head>
+  4 | |       <title>Document</title>
+  5 | |   </head>
+  6 | |   <body>
+  7 | |   <div style="display:none">
+  8 | |       <div><math id="m1"><mtext/></math></div>
+  9 | |       <div id="d1"><math><mrow/><mi/></math></div>
+ 10 | |       <div id="d2"><math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math></div>
+ 11 | |       <div id="d3">&lang;&rang;</div>
+ 12 | |       <div id="d4">&Kopf;</div>
+ 13 | |       <div id="d5"><math><semantics><mi>a</mi><annotation-xml><foo/><bar/></annotation-xml></semantics></math></div>
+ 14 | |       <div id="d6"><math><semantics><mi>a</mi><annotation-xml encoding="text/html"><div></div></annotation-xml></semantics><mn/></math></div>
+ 15 | |   </div>
+ 16 | `-> </body>
+ 17 |     </html>
+    `----
+
+  x Attribute
+
+  x Child
+   ,-[$DIR/tests/fixture/element/math-1/input.html:3:1]
+ 3 | ,-> <head>
+ 4 | `->     <title>Document</title>
+ 5 |     </head>
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/element/math-1/input.html:3:1]
+ 3 | ,-> <head>
+ 4 | `->     <title>Document</title>
+ 5 |     </head>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/element/math-1/input.html:3:1]
+ 3 | ,-> <head>
+ 4 | `->     <title>Document</title>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/element/math-1/input.html:3:1]
+ 3 | ,-> <head>
+ 4 | `->     <title>Document</title>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/element/math-1/input.html:4:5]
+ 4 | <title>Document</title>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/element/math-1/input.html:4:5]
+ 4 | <title>Document</title>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/element/math-1/input.html:4:5]
+ 4 | <title>Document</title>
+   :        ^^^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/element/math-1/input.html:4:5]
+ 4 | <title>Document</title>
+   :        ^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/element/math-1/input.html:4:5]
+ 4 | <title>Document</title>
+   :                        ^
+ 5 | </head>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/element/math-1/input.html:4:5]
+ 4 | <title>Document</title>
+   :                        ^
+ 5 | </head>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/element/math-1/input.html:5:1]
+ 5 | </head>
+   :        ^
+ 6 | <body>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/element/math-1/input.html:5:1]
+ 5 | </head>
+   :        ^
+ 6 | <body>
+   `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/math-1/input.html:6:1]
+  6 | ,-> <body>
+  7 | |   <div style="display:none">
+  8 | |       <div><math id="m1"><mtext/></math></div>
+  9 | |       <div id="d1"><math><mrow/><mi/></math></div>
+ 10 | |       <div id="d2"><math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math></div>
+ 11 | |       <div id="d3">&lang;&rang;</div>
+ 12 | |       <div id="d4">&Kopf;</div>
+ 13 | |       <div id="d5"><math><semantics><mi>a</mi><annotation-xml><foo/><bar/></annotation-xml></semantics></math></div>
+ 14 | |       <div id="d6"><math><semantics><mi>a</mi><annotation-xml encoding="text/html"><div></div></annotation-xml></semantics><mn/></math></div>
+ 15 | |   </div>
+ 16 | `-> </body>
+ 17 |     </html>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/math-1/input.html:6:1]
+  6 | ,-> <body>
+  7 | |   <div style="display:none">
+  8 | |       <div><math id="m1"><mtext/></math></div>
+  9 | |       <div id="d1"><math><mrow/><mi/></math></div>
+ 10 | |       <div id="d2"><math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math></div>
+ 11 | |       <div id="d3">&lang;&rang;</div>
+ 12 | |       <div id="d4">&Kopf;</div>
+ 13 | |       <div id="d5"><math><semantics><mi>a</mi><annotation-xml><foo/><bar/></annotation-xml></semantics></math></div>
+ 14 | |       <div id="d6"><math><semantics><mi>a</mi><annotation-xml encoding="text/html"><div></div></annotation-xml></semantics><mn/></math></div>
+ 15 | |   </div>
+ 16 | `-> </body>
+ 17 |     </html>
+    `----
+
+  x Child
+   ,-[$DIR/tests/fixture/element/math-1/input.html:6:1]
+ 6 | <body>
+   :       ^
+ 7 | <div style="display:none">
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/element/math-1/input.html:6:1]
+ 6 | <body>
+   :       ^
+ 7 | <div style="display:none">
+   `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/math-1/input.html:7:1]
+  7 | ,-> <div style="display:none">
+  8 | |       <div><math id="m1"><mtext/></math></div>
+  9 | |       <div id="d1"><math><mrow/><mi/></math></div>
+ 10 | |       <div id="d2"><math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math></div>
+ 11 | |       <div id="d3">&lang;&rang;</div>
+ 12 | |       <div id="d4">&Kopf;</div>
+ 13 | |       <div id="d5"><math><semantics><mi>a</mi><annotation-xml><foo/><bar/></annotation-xml></semantics></math></div>
+ 14 | `->     <div id="d6"><math><semantics><mi>a</mi><annotation-xml encoding="text/html"><div></div></annotation-xml></semantics><mn/></math></div>
+ 15 |     </div>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/math-1/input.html:7:1]
+  7 | ,-> <div style="display:none">
+  8 | |       <div><math id="m1"><mtext/></math></div>
+  9 | |       <div id="d1"><math><mrow/><mi/></math></div>
+ 10 | |       <div id="d2"><math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math></div>
+ 11 | |       <div id="d3">&lang;&rang;</div>
+ 12 | |       <div id="d4">&Kopf;</div>
+ 13 | |       <div id="d5"><math><semantics><mi>a</mi><annotation-xml><foo/><bar/></annotation-xml></semantics></math></div>
+ 14 | `->     <div id="d6"><math><semantics><mi>a</mi><annotation-xml encoding="text/html"><div></div></annotation-xml></semantics><mn/></math></div>
+ 15 |     </div>
+    `----
+
+  x Child
+   ,-[$DIR/tests/fixture/element/math-1/input.html:7:1]
+ 7 | ,-> <div style="display:none">
+ 8 | `->     <div><math id="m1"><mtext/></math></div>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/element/math-1/input.html:7:1]
+ 7 | ,-> <div style="display:none">
+ 8 | `->     <div><math id="m1"><mtext/></math></div>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/element/math-1/input.html:8:5]
+ 8 | <div><math id="m1"><mtext/></math></div>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/element/math-1/input.html:8:5]
+ 8 | <div><math id="m1"><mtext/></math></div>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/element/math-1/input.html:8:5]
+ 8 | <div><math id="m1"><mtext/></math></div>
+   :      ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/element/math-1/input.html:8:5]
+ 8 | <div><math id="m1"><mtext/></math></div>
+   :      ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/element/math-1/input.html:8:5]
+ 8 | <div><math id="m1"><mtext/></math></div>
+   :                    ^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/element/math-1/input.html:8:5]
+ 8 | <div><math id="m1"><mtext/></math></div>
+   :                    ^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/element/math-1/input.html:8:5]
+ 8 | ,-> <div><math id="m1"><mtext/></math></div>
+ 9 | `->     <div id="d1"><math><mrow/><mi/></math></div>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/element/math-1/input.html:8:5]
+ 8 | ,-> <div><math id="m1"><mtext/></math></div>
+ 9 | `->     <div id="d1"><math><mrow/><mi/></math></div>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/element/math-1/input.html:9:5]
+ 9 | <div id="d1"><math><mrow/><mi/></math></div>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/element/math-1/input.html:9:5]
+ 9 | <div id="d1"><math><mrow/><mi/></math></div>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/element/math-1/input.html:9:5]
+ 9 | <div id="d1"><math><mrow/><mi/></math></div>
+   :              ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/element/math-1/input.html:9:5]
+ 9 | <div id="d1"><math><mrow/><mi/></math></div>
+   :              ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/element/math-1/input.html:9:5]
+ 9 | <div id="d1"><math><mrow/><mi/></math></div>
+   :                    ^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/element/math-1/input.html:9:5]
+ 9 | <div id="d1"><math><mrow/><mi/></math></div>
+   :                    ^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/element/math-1/input.html:9:5]
+ 9 | <div id="d1"><math><mrow/><mi/></math></div>
+   :                           ^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/element/math-1/input.html:9:5]
+ 9 | <div id="d1"><math><mrow/><mi/></math></div>
+   :                           ^^^^^
+   `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/math-1/input.html:9:5]
+  9 | ,-> <div id="d1"><math><mrow/><mi/></math></div>
+ 10 | `->     <div id="d2"><math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math></div>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/element/math-1/input.html:9:5]
+  9 | ,-> <div id="d1"><math><mrow/><mi/></math></div>
+ 10 | `->     <div id="d2"><math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math></div>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/math-1/input.html:10:5]
+ 10 | <div id="d2"><math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math></div>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/math-1/input.html:10:5]
+ 10 | <div id="d2"><math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math></div>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/math-1/input.html:10:5]
+ 10 | <div id="d2"><math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math></div>
+    :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/math-1/input.html:10:5]
+ 10 | <div id="d2"><math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math></div>
+    :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/math-1/input.html:10:5]
+ 10 | <div id="d2"><math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math></div>
+    :                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/math-1/input.html:10:5]
+ 10 | <div id="d2"><math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math></div>
+    :                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/math-1/input.html:10:5]
+ 10 | <div id="d2"><math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math></div>
+    :                          ^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/math-1/input.html:10:5]
+ 10 | <div id="d2"><math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math></div>
+    :                          ^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/math-1/input.html:10:5]
+ 10 | <div id="d2"><math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math></div>
+    :                                ^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/math-1/input.html:10:5]
+ 10 | <div id="d2"><math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math></div>
+    :                                ^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/math-1/input.html:10:5]
+ 10 | <div id="d2"><math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math></div>
+    :                                    ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/element/math-1/input.html:10:5]
+ 10 | <div id="d2"><math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math></div>
+    :                                    ^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/math-1/input.html:10:5]
+ 10 | <div id="d2"><math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math></div>
+    :                                                 ^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/math-1/input.html:10:5]
+ 10 | <div id="d2"><math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math></div>
+    :                                                 ^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/math-1/input.html:10:5]
+ 10 | <div id="d2"><math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math></div>
+    :                                                     ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/element/math-1/input.html:10:5]
+ 10 | <div id="d2"><math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math></div>
+    :                                                     ^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/math-1/input.html:10:5]
+ 10 | ,-> <div id="d2"><math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math></div>
+ 11 | `->     <div id="d3">&lang;&rang;</div>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/element/math-1/input.html:10:5]
+ 10 | ,-> <div id="d2"><math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math></div>
+ 11 | `->     <div id="d3">&lang;&rang;</div>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/math-1/input.html:11:5]
+ 11 | <div id="d3">&lang;&rang;</div>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/math-1/input.html:11:5]
+ 11 | <div id="d3">&lang;&rang;</div>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/math-1/input.html:11:5]
+ 11 | <div id="d3">&lang;&rang;</div>
+    :              ^^^^^^^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/element/math-1/input.html:11:5]
+ 11 | <div id="d3">&lang;&rang;</div>
+    :              ^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/math-1/input.html:11:5]
+ 11 | ,-> <div id="d3">&lang;&rang;</div>
+ 12 | `->     <div id="d4">&Kopf;</div>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/element/math-1/input.html:11:5]
+ 11 | ,-> <div id="d3">&lang;&rang;</div>
+ 12 | `->     <div id="d4">&Kopf;</div>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/math-1/input.html:12:5]
+ 12 | <div id="d4">&Kopf;</div>
+    : ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/math-1/input.html:12:5]
+ 12 | <div id="d4">&Kopf;</div>
+    : ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/math-1/input.html:12:5]
+ 12 | <div id="d4">&Kopf;</div>
+    :              ^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/element/math-1/input.html:12:5]
+ 12 | <div id="d4">&Kopf;</div>
+    :              ^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/math-1/input.html:12:5]
+ 12 | ,-> <div id="d4">&Kopf;</div>
+ 13 | `->     <div id="d5"><math><semantics><mi>a</mi><annotation-xml><foo/><bar/></annotation-xml></semantics></math></div>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/element/math-1/input.html:12:5]
+ 12 | ,-> <div id="d4">&Kopf;</div>
+ 13 | `->     <div id="d5"><math><semantics><mi>a</mi><annotation-xml><foo/><bar/></annotation-xml></semantics></math></div>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/math-1/input.html:13:5]
+ 13 | <div id="d5"><math><semantics><mi>a</mi><annotation-xml><foo/><bar/></annotation-xml></semantics></math></div>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/math-1/input.html:13:5]
+ 13 | <div id="d5"><math><semantics><mi>a</mi><annotation-xml><foo/><bar/></annotation-xml></semantics></math></div>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/math-1/input.html:13:5]
+ 13 | <div id="d5"><math><semantics><mi>a</mi><annotation-xml><foo/><bar/></annotation-xml></semantics></math></div>
+    :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/math-1/input.html:13:5]
+ 13 | <div id="d5"><math><semantics><mi>a</mi><annotation-xml><foo/><bar/></annotation-xml></semantics></math></div>
+    :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/math-1/input.html:13:5]
+ 13 | <div id="d5"><math><semantics><mi>a</mi><annotation-xml><foo/><bar/></annotation-xml></semantics></math></div>
+    :                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/math-1/input.html:13:5]
+ 13 | <div id="d5"><math><semantics><mi>a</mi><annotation-xml><foo/><bar/></annotation-xml></semantics></math></div>
+    :                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/math-1/input.html:13:5]
+ 13 | <div id="d5"><math><semantics><mi>a</mi><annotation-xml><foo/><bar/></annotation-xml></semantics></math></div>
+    :                               ^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/math-1/input.html:13:5]
+ 13 | <div id="d5"><math><semantics><mi>a</mi><annotation-xml><foo/><bar/></annotation-xml></semantics></math></div>
+    :                               ^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/math-1/input.html:13:5]
+ 13 | <div id="d5"><math><semantics><mi>a</mi><annotation-xml><foo/><bar/></annotation-xml></semantics></math></div>
+    :                                   ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/element/math-1/input.html:13:5]
+ 13 | <div id="d5"><math><semantics><mi>a</mi><annotation-xml><foo/><bar/></annotation-xml></semantics></math></div>
+    :                                   ^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/math-1/input.html:13:5]
+ 13 | <div id="d5"><math><semantics><mi>a</mi><annotation-xml><foo/><bar/></annotation-xml></semantics></math></div>
+    :                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/math-1/input.html:13:5]
+ 13 | <div id="d5"><math><semantics><mi>a</mi><annotation-xml><foo/><bar/></annotation-xml></semantics></math></div>
+    :                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/math-1/input.html:13:5]
+ 13 | <div id="d5"><math><semantics><mi>a</mi><annotation-xml><foo/><bar/></annotation-xml></semantics></math></div>
+    :                                                         ^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/math-1/input.html:13:5]
+ 13 | <div id="d5"><math><semantics><mi>a</mi><annotation-xml><foo/><bar/></annotation-xml></semantics></math></div>
+    :                                                         ^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/math-1/input.html:13:5]
+ 13 | <div id="d5"><math><semantics><mi>a</mi><annotation-xml><foo/><bar/></annotation-xml></semantics></math></div>
+    :                                                               ^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/math-1/input.html:13:5]
+ 13 | <div id="d5"><math><semantics><mi>a</mi><annotation-xml><foo/><bar/></annotation-xml></semantics></math></div>
+    :                                                               ^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/math-1/input.html:13:5]
+ 13 | ,-> <div id="d5"><math><semantics><mi>a</mi><annotation-xml><foo/><bar/></annotation-xml></semantics></math></div>
+ 14 | `->     <div id="d6"><math><semantics><mi>a</mi><annotation-xml encoding="text/html"><div></div></annotation-xml></semantics><mn/></math></div>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/element/math-1/input.html:13:5]
+ 13 | ,-> <div id="d5"><math><semantics><mi>a</mi><annotation-xml><foo/><bar/></annotation-xml></semantics></math></div>
+ 14 | `->     <div id="d6"><math><semantics><mi>a</mi><annotation-xml encoding="text/html"><div></div></annotation-xml></semantics><mn/></math></div>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/math-1/input.html:14:5]
+ 14 | <div id="d6"><math><semantics><mi>a</mi><annotation-xml encoding="text/html"><div></div></annotation-xml></semantics><mn/></math></div>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/math-1/input.html:14:5]
+ 14 | <div id="d6"><math><semantics><mi>a</mi><annotation-xml encoding="text/html"><div></div></annotation-xml></semantics><mn/></math></div>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/math-1/input.html:14:5]
+ 14 | <div id="d6"><math><semantics><mi>a</mi><annotation-xml encoding="text/html"><div></div></annotation-xml></semantics><mn/></math></div>
+    :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/math-1/input.html:14:5]
+ 14 | <div id="d6"><math><semantics><mi>a</mi><annotation-xml encoding="text/html"><div></div></annotation-xml></semantics><mn/></math></div>
+    :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/math-1/input.html:14:5]
+ 14 | <div id="d6"><math><semantics><mi>a</mi><annotation-xml encoding="text/html"><div></div></annotation-xml></semantics><mn/></math></div>
+    :                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/math-1/input.html:14:5]
+ 14 | <div id="d6"><math><semantics><mi>a</mi><annotation-xml encoding="text/html"><div></div></annotation-xml></semantics><mn/></math></div>
+    :                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/math-1/input.html:14:5]
+ 14 | <div id="d6"><math><semantics><mi>a</mi><annotation-xml encoding="text/html"><div></div></annotation-xml></semantics><mn/></math></div>
+    :                               ^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/math-1/input.html:14:5]
+ 14 | <div id="d6"><math><semantics><mi>a</mi><annotation-xml encoding="text/html"><div></div></annotation-xml></semantics><mn/></math></div>
+    :                               ^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/math-1/input.html:14:5]
+ 14 | <div id="d6"><math><semantics><mi>a</mi><annotation-xml encoding="text/html"><div></div></annotation-xml></semantics><mn/></math></div>
+    :                                   ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/element/math-1/input.html:14:5]
+ 14 | <div id="d6"><math><semantics><mi>a</mi><annotation-xml encoding="text/html"><div></div></annotation-xml></semantics><mn/></math></div>
+    :                                   ^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/math-1/input.html:14:5]
+ 14 | <div id="d6"><math><semantics><mi>a</mi><annotation-xml encoding="text/html"><div></div></annotation-xml></semantics><mn/></math></div>
+    :                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/math-1/input.html:14:5]
+ 14 | <div id="d6"><math><semantics><mi>a</mi><annotation-xml encoding="text/html"><div></div></annotation-xml></semantics><mn/></math></div>
+    :                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/math-1/input.html:14:5]
+ 14 | <div id="d6"><math><semantics><mi>a</mi><annotation-xml encoding="text/html"><div></div></annotation-xml></semantics><mn/></math></div>
+    :                                                                              ^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/math-1/input.html:14:5]
+ 14 | <div id="d6"><math><semantics><mi>a</mi><annotation-xml encoding="text/html"><div></div></annotation-xml></semantics><mn/></math></div>
+    :                                                                              ^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/math-1/input.html:14:5]
+ 14 | <div id="d6"><math><semantics><mi>a</mi><annotation-xml encoding="text/html"><div></div></annotation-xml></semantics><mn/></math></div>
+    :                                                                                                                      ^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/math-1/input.html:14:5]
+ 14 | <div id="d6"><math><semantics><mi>a</mi><annotation-xml encoding="text/html"><div></div></annotation-xml></semantics><mn/></math></div>
+    :                                                                                                                      ^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/math-1/input.html:14:5]
+ 14 | <div id="d6"><math><semantics><mi>a</mi><annotation-xml encoding="text/html"><div></div></annotation-xml></semantics><mn/></math></div>
+    :                                                                                                                                        ^
+ 15 | </div>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/element/math-1/input.html:14:5]
+ 14 | <div id="d6"><math><semantics><mi>a</mi><annotation-xml encoding="text/html"><div></div></annotation-xml></semantics><mn/></math></div>
+    :                                                                                                                                        ^
+ 15 | </div>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/math-1/input.html:15:1]
+ 15 | ,-> </div>
+ 16 | `-> </body>
+ 17 |     </html>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/element/math-1/input.html:15:1]
+ 15 | ,-> </div>
+ 16 | `-> </body>
+ 17 |     </html>
+    `----

@@ -1,0 +1,79 @@
+| <!DOCTYPE html>
+| <html>
+|   lang="en"
+|   <head>
+|     "
+    "
+|     <title>
+|       "Document"
+|     "
+"
+|   "
+"
+|   <body>
+|     "
+"
+|     <div>
+|       style="display:none"
+|       "
+    "
+|       <div>
+|         <math math>
+|           id="m1"
+|           <math mtext>
+|       "
+    "
+|       <div>
+|         id="d1"
+|         <math math>
+|           <math mrow>
+|           <math mi>
+|       "
+    "
+|       <div>
+|         id="d2"
+|         <math math>
+|           <math mrow>
+|             <math mrow>
+|               <math mn>
+|                 "1"
+|             <math mi>
+|               "a"
+|       "
+    "
+|       <div>
+|         id="d3"
+|         "⟨⟩"
+|       "
+    "
+|       <div>
+|         id="d4"
+|         "𝕂"
+|       "
+    "
+|       <div>
+|         id="d5"
+|         <math math>
+|           <math semantics>
+|             <math mi>
+|               "a"
+|             <math annotation-xml>
+|               <math foo>
+|               <math bar>
+|       "
+    "
+|       <div>
+|         id="d6"
+|         <math math>
+|           <math semantics>
+|             <math mi>
+|               "a"
+|             <math annotation-xml>
+|               encoding="text/html"
+|               <div>
+|           <math mn>
+|       "
+"
+|     "
+
+"
