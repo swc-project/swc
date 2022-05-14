@@ -231,6 +231,9 @@ impl Error {
             ErrorKind::NonSpaceCharacterAfterFrameset => {
                 "Non-space character after \"<frameset>\"".into()
             }
+            ErrorKind::UnclosedElementsCell => {
+                "A table cell was implicitly closed, but there were open elements".into()
+            }
         }
     }
 
@@ -315,9 +318,9 @@ pub enum ErrorKind {
     NoCellToClose,
     FormWhenFormOpen,
     TableSeenWhileTableOpen,
-    UnexpectedImageStartTag,
     StartTagSeenWhenAlreadyOpen(JsWord),
     NoElementToCloseButEndTagSeen(JsWord),
+    UnexpectedImageStartTag,
     UnexpectedStartSelectWhereEndSelectExpected,
     UnexpectedHtmlStartTagInForeignContext(JsWord),
     UnexpectedHtmlEndTagInForeignContext(JsWord),
@@ -332,6 +335,7 @@ pub enum ErrorKind {
     UnclosedElementsImplied(JsWord),
     UnclosedElements(JsWord),
     UnclosedElementsOnStack,
+    UnclosedElementsCell,
     NonSpaceCharacterInFrameset,
     NonSpaceCharacterAfterFrameset,
 }

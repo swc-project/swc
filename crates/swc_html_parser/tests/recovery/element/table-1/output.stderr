@@ -11,7 +11,7 @@
    :        ^^^^
    `----
 
-  x Unexpected token
+  x A table cell was implicitly closed, but there were open elements
    ,-[$DIR/tests/recovery/element/table-1/input.html:1:1]
  1 | <table><td></tbody>A
    :        ^^^^

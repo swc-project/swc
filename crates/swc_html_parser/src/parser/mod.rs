@@ -7225,7 +7225,7 @@ where
                 match &node.data {
                     Data::Element(element) => {
                         self.errors
-                            .push(Error::new(element.span, ErrorKind::UnexpectedToken));
+                            .push(Error::new(element.span, ErrorKind::UnclosedElementsCell));
                     }
                     _ => {
                         unreachable!();
