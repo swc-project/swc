@@ -77,3 +77,66 @@
 |     "
 
 "
+|     <div>
+|       "
+    "
+|       <div>
+|         <math math>
+|           id="m1"
+|           <math mtext>
+|       "
+    "
+|       <div>
+|         id="d1"
+|         <math math>
+|           <math mi>
+|             mathvariant="BOLD"
+|       "
+    "
+|       <div>
+|         id="d2"
+|         <math math>
+|           <math semantics>
+|             definitionURL="www.example.org/FOO"
+|             <math mi>
+|               "a"
+|             <math annotation-xml>
+|               <math foo>
+|               <math bar>
+|       "
+    "
+|       <div>
+|         <math math>
+|           id="m3span-mtext"
+|           <math mtext>
+|             <span>
+|               "x"
+|       "
+    "
+|       <div>
+|         <math math>
+|           id="m3span-mi"
+|           <math mi>
+|             <span>
+|               "x"
+|       "
+    "
+|       <div>
+|         <math math>
+|           id="m3p-mtext"
+|           <math mtext>
+|             <p>
+|               "x"
+|       "
+    "
+|       <div>
+|         <math math>
+|           id="m3p-mi"
+|           <math mi>
+|             <p>
+|               "x"
+|       "
+"
+|     "
+
+"

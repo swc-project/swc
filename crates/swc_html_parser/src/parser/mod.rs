@@ -672,6 +672,7 @@ where
                         | "var"
                 ) =>
             {
+                // HTML start tag p in a foreign namespace context.
                 self.errors
                     .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
                 self.open_elements_stack.pop_until_in_foreign();
