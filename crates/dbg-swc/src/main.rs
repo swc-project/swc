@@ -74,12 +74,13 @@ fn main() -> Result<()> {
 
                         let swc_output = print_js(cm.clone(), &m.module, true)?;
 
+                        // We only care about length, so we can replace it.
+                        //
+                        // We target es5, but esbuild does not support it
+                        let swc_output = swc_output.replace("\\n", "_");
+
                         let esbuild_output =
                             self::util::minifier::get_esbuild_output("input.js".as_ref(), true)?;
-
-                        if swc_output.len() < 30 && swc_output.contains("\\n") {
-                            bail!("We target es5, so this input is useless")
-                        }
 
                         if swc_output.len() > esbuild_output.len() {
                             return Ok(());
