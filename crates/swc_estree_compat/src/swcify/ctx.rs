@@ -17,7 +17,7 @@ impl Context {
         if let Some(&line_start) = self.fm.lines.get(loc.line) {
             line_start + BytePos(loc.column as _)
         } else {
-            BytePos(0)
+            BytePos::DUMMY
         }
     }
 
@@ -43,12 +43,12 @@ impl Context {
         let start = node
             .start
             .map(|offset| self.fm.start_pos + BytePos(offset as _))
-            .unwrap_or(BytePos(0));
+            .unwrap_or(BytePos::DUMMY);
 
         let end = node
             .end
             .map(|offset| self.fm.start_pos + BytePos(offset as _))
-            .unwrap_or(BytePos(0));
+            .unwrap_or(BytePos::DUMMY);
 
         Span::new(start, end, SyntaxContext::empty())
     }

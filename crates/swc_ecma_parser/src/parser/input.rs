@@ -20,7 +20,7 @@ pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
     fn target(&self) -> EsVersion;
 
     fn start_pos(&self) -> BytePos {
-        BytePos(0)
+        BytePos::DUMMY
     }
 
     fn set_expr_allowed(&mut self, allow: bool);
@@ -60,7 +60,7 @@ pub struct TokensInput {
 
 impl TokensInput {
     pub fn new(tokens: Vec<TokenAndSpan>, ctx: Context, syntax: Syntax, target: EsVersion) -> Self {
-        let start_pos = tokens.first().map(|t| t.span.lo).unwrap_or(BytePos(0));
+        let start_pos = tokens.first().map(|t| t.span.lo).unwrap_or(BytePos::DUMMY);
 
         TokensInput {
             iter: tokens.into_iter(),

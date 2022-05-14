@@ -354,8 +354,8 @@ impl State {
             prev_hi: start_pos,
             context,
             token_type: None,
-            start: BytePos(0),
-            line_start: BytePos(0),
+            start: BytePos::DUMMY,
+            line_start: BytePos::DUMMY,
             cur_line: 1,
             syntax,
         }

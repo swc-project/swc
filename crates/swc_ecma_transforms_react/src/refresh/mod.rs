@@ -246,7 +246,7 @@ where
 
         let mut should_refresh = self.should_reset;
         if let Some(comments) = &self.comments {
-            if n.hi != BytePos(0) {
+            if n.hi != BytePos(0) && !n.hi.is_dummy() {
                 comments.with_leading(n.hi - BytePos(1), |comments| {
                     if comments.iter().any(|c| c.text.contains("@refresh reset")) {
                         should_refresh = true
