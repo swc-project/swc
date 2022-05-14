@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(html/parser)** Fix error reporting (#4644) ([1f945b9](https://github.com/swc-project/swc/commit/1f945b9277e564e393505b0baeaf3526d8a34d64))
+
 ### Features
 
 
