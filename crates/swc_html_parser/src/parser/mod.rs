@@ -1781,8 +1781,10 @@ where
                     // Reset the insertion mode appropriately.
                     Token::EndTag { tag_name, .. } if tag_name == "template" => {
                         if !self.open_elements_stack.contains_template_element() {
-                            self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::StrayEndTag(tag_name.clone()),
+                            ));
                         } else {
                             self.open_elements_stack
                                 .generate_implied_end_tags_thoroughly();
@@ -1791,7 +1793,7 @@ where
                                 Some(node) if get_tag_name!(node) != "template" => {
                                     self.errors.push(Error::new(
                                         token_and_info.span,
-                                        ErrorKind::UnexpectedToken,
+                                        ErrorKind::UnclosedElements(tag_name.clone()),
                                     ));
                                 }
                                 _ => {}
@@ -1810,12 +1812,16 @@ where
                     //
                     // Parse error. Ignore the token.
                     Token::StartTag { tag_name, .. } if tag_name == "head" => {
-                        self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        self.errors.push(Error::new(
+                            token_and_info.span,
+                            ErrorKind::StartTagSeenWhenAlreadyOpen(tag_name.clone()),
+                        ));
                     }
-                    Token::EndTag { .. } => {
-                        self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                    Token::EndTag { tag_name, .. } => {
+                        self.errors.push(Error::new(
+                            token_and_info.span,
+                            ErrorKind::StrayEndTag(tag_name.clone()),
+                        ));
                     }
                     // Anything else
                     //
@@ -1910,12 +1916,16 @@ where
                     Token::StartTag { tag_name, .. }
                         if matches!(tag_name.as_ref(), "head" | "noscript") =>
                     {
-                        self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        self.errors.push(Error::new(
+                            token_and_info.span,
+                            ErrorKind::StartTagSeenWhenAlreadyOpen(tag_name.clone()),
+                        ));
                     }
-                    Token::EndTag { .. } => {
-                        self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                    Token::EndTag { tag_name, .. } => {
+                        self.errors.push(Error::new(
+                            token_and_info.span,
+                            ErrorKind::StrayEndTag(tag_name.clone()),
+                        ));
                     }
                     // Anything else
                     //
@@ -4647,8 +4657,10 @@ where
                     // Switch the insertion mode to "in table".
                     Token::EndTag { tag_name, .. } if tag_name == "caption" => {
                         if !self.open_elements_stack.has_in_table_scope("caption") {
-                            self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::StrayEndTag(tag_name.clone()),
+                            ));
                         } else {
                             self.open_elements_stack.generate_implied_end_tags();
 
@@ -4656,7 +4668,7 @@ where
                                 Some(node) if get_tag_name!(node) != "caption" => {
                                     self.errors.push(Error::new(
                                         token_and_info.span,
-                                        ErrorKind::UnexpectedToken,
+                                        ErrorKind::UnclosedElements(tag_name.clone()),
                                     ));
                                 }
                                 _ => {}
@@ -4854,7 +4866,7 @@ where
                             Some(node) if get_tag_name!(node) != "colgroup" => {
                                 self.errors.push(Error::new(
                                     token_and_info.span,
-                                    ErrorKind::UnexpectedToken,
+                                    ErrorKind::UnclosedElements(tag_name.clone()),
                                 ));
                             }
                             _ => {
@@ -4867,8 +4879,10 @@ where
                     //
                     // Parse error. Ignore the token.
                     Token::EndTag { tag_name, .. } if tag_name == "col" => {
-                        self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        self.errors.push(Error::new(
+                            token_and_info.span,
+                            ErrorKind::StrayEndTag(tag_name.clone()),
+                        ));
                     }
                     // A start tag whose tag name is "template"
                     //
