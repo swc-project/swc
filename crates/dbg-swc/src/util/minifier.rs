@@ -1,11 +1,57 @@
 use std::{
     path::Path,
     process::{Command, Stdio},
+    sync::Arc,
 };
 
 use anyhow::{bail, Context, Result};
+use swc_common::SourceMap;
+use swc_ecma_minifier::option::MinifyOptions;
+use swc_ecma_transforms_base::fixer::fixer;
+use swc_ecma_visit::VisitMutWith;
 
-use super::wrap_task;
+use super::{parse_js, wrap_task, ModuleRecord};
+
+pub fn get_minified(
+    cm: Arc<SourceMap>,
+    file: &Path,
+    compress: bool,
+    mangle: bool,
+) -> Result<ModuleRecord> {
+    let fm = cm.load_file(file)?;
+
+    let m = parse_js(fm)?;
+
+    let mut module = {
+        swc_ecma_minifier::optimize(
+            m.module,
+            cm,
+            None,
+            None,
+            &MinifyOptions {
+                compress: if compress {
+                    Some(Default::default())
+                } else {
+                    None
+                },
+                mangle: if mangle {
+                    Some(Default::default())
+                } else {
+                    None
+                },
+                ..Default::default()
+            },
+            &swc_ecma_minifier::option::ExtraOptions {
+                unresolved_mark: m.unresolved_mark,
+                top_level_mark: m.top_level_mark,
+            },
+        )
+    };
+
+    module.visit_mut_with(&mut fixer(None));
+
+    Ok(ModuleRecord { module, ..m })
+}
 
 pub fn get_terser_output(file: &Path, compress: bool, mangle: bool) -> Result<String> {
     wrap_task(|| {
