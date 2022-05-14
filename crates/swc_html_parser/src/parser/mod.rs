@@ -5602,8 +5602,10 @@ where
                             "caption" | "table" | "tbody" | "tfoot" | "thead" | "tr" | "td" | "th"
                         ) =>
                     {
-                        self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        self.errors.push(Error::new(
+                            token_and_info.span,
+                            ErrorKind::UnexpectedStartTagWithSelectOpen(tag_name.clone()),
+                        ));
                         self.open_elements_stack
                             .pop_until_tag_name_popped(&["select"]);
                         self.reset_insertion_mode();
@@ -5632,8 +5634,10 @@ where
                             "caption" | "table" | "tbody" | "tfoot" | "thead" | "tr" | "td" | "th"
                         ) =>
                     {
-                        self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        self.errors.push(Error::new(
+                            token_and_info.span,
+                            ErrorKind::UnexpectedEndTagWithSelectOpen(tag_name.clone()),
+                        ));
 
                         if !self.open_elements_stack.has_in_table_scope(tag_name) {
                             // Ignore

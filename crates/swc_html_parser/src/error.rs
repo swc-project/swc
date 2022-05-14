@@ -203,6 +203,16 @@ impl Error {
             ErrorKind::UnexpectedImageStartTag => {
                 "Unexpected \"<image>\" start tag, only \"<img>\" tag exists in HTML".into()
             }
+            ErrorKind::UnexpectedStartTagWithSelectOpen(tag_name) => format!(
+                "Unexpected start tag \"<{}>\" with \"<select>\" open",
+                tag_name
+            )
+            .into(),
+            ErrorKind::UnexpectedEndTagWithSelectOpen(tag_name) => format!(
+                "Unexpected end tag \"</{}>\" with \"<select>\" open",
+                tag_name
+            )
+            .into(),
             ErrorKind::NoCellToClose => "No cell to close".into(),
             ErrorKind::UnexpectedEof => "Unexpected end of file".into(),
         }
@@ -300,6 +310,8 @@ pub enum ErrorKind {
     UnclosedElementsOnStack,
     FormWhenFormOpen,
     UnexpectedImageStartTag,
+    UnexpectedStartTagWithSelectOpen(JsWord),
+    UnexpectedEndTagWithSelectOpen(JsWord),
     NoCellToClose,
     UnexpectedEof,
 }
