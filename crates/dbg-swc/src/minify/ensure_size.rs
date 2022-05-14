@@ -12,9 +12,10 @@ use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_visit::VisitMutWith;
 use tracing::info;
 
-use crate::{
-    minify::{get_esbuild_output, get_terser_output},
-    util::{all_js_files, parse_js, print_js, wrap_task},
+use crate::util::{
+    all_js_files,
+    minifier::{get_esbuild_output, get_terser_output},
+    parse_js, print_js, wrap_task,
 };
 
 /// Ensure that we are performing better than other minification tools.
@@ -36,7 +37,7 @@ impl EnsureSize {
     pub fn run(self, cm: Arc<SourceMap>) -> Result<()> {
         let all_files = all_js_files(&self.path)?;
 
-        dbg!(&all_files);
+        info!("Using {} files", all_files.len());
 
         let results = GLOBALS.with(|globals| {
             all_files
@@ -50,7 +51,7 @@ impl EnsureSize {
             return Ok(());
         }
         for report in &results {
-            dbg!(&report);
+            println!("{}", report.fm.name);
         }
 
         bail!("found some issues")
@@ -90,7 +91,7 @@ impl EnsureSize {
             };
 
             let swc_no_mangle = {
-                let mut minified_mangled = {
+                let mut minified_no_mangled = {
                     let m = i.module.clone();
 
                     swc_ecma_minifier::optimize(
@@ -110,9 +111,9 @@ impl EnsureSize {
                     )
                 };
 
-                minified_mangled.visit_mut_with(&mut fixer(None));
+                minified_no_mangled.visit_mut_with(&mut fixer(None));
 
-                print_js(cm, &minified_mangled, true).context("failed to convert ast to code")?
+                print_js(cm, &minified_no_mangled, true).context("failed to convert ast to code")?
             };
 
             // eprintln!("The output size of swc minifier: {}", code_mangled.len());

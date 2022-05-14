@@ -8,6 +8,9 @@
 - **(dbg-swc)** Add command to compare minifier (#4653) ([af1d195](https://github.com/swc-project/swc/commit/af1d19554f250201856fda0c5d356cb27df52791))
 
 
+- **(dbg-swc)** Add auto-reducer for the minifier (#4654) ([c8818b0](https://github.com/swc-project/swc/commit/c8818b049987e03c1ca974311bf82afde9a5227b))
+
+
 - **(es)** Add an option to omit columns from sourcemaps (#4646) ([b6f904b](https://github.com/swc-project/swc/commit/b6f904b8f0fbe8bffb25ab432006f8195d585bf7))
 
 ## [1.2.183] - 2022-05-13

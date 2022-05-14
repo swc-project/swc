@@ -1,1 +1,7 @@
 *.output.js
+input.js
+*.orig
+
+*.txt
+
+.data/

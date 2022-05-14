@@ -11,8 +11,7 @@ use swc_ecma_minifier::option::MinifyOptions;
 use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_visit::VisitMutWith;
 
-use super::get_esbuild_output;
-use crate::util::{parse_js, print_js};
+use crate::util::{minifier::get_esbuild_output, parse_js, print_js};
 
 /// Opens vscode for diffing output of swc minifier and terser/esbuild
 #[derive(Debug, Args)]

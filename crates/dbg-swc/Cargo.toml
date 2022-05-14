@@ -5,7 +5,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "dbg-swc"
 repository = "https://github.com/kdy1/dbg-swc.git"
-version = "0.12.2"
+version = "0.12.3"
 
 [[bin]]
 bench = false
@@ -15,6 +15,7 @@ name = "dbg-swc"
 anyhow = "1.0.57"
 clap = { version = "3", features = ["derive"] }
 rayon = "1.5.2"
+sha1 = "0.10.1"
 swc_atoms = { version = "0.2.11", path = "../swc_atoms" }
 swc_common = { version = "0.18.0", features = [
   "concurrent",
