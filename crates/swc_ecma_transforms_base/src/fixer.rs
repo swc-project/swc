@@ -339,7 +339,7 @@ impl VisitMut for Fixer<'_> {
         match &mut node.callee {
             Callee::Expr(e)
                 if match &**e {
-                    Expr::Lit(Lit::Num(..)) => false,
+                    Expr::Lit(Lit::Num(..) | Lit::Str(..)) => false,
                     Expr::Cond(..) | Expr::Bin(..) | Expr::Lit(..) | Expr::Unary(..) => true,
                     _ => false,
                 } =>
