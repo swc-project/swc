@@ -27,7 +27,7 @@ pub fn get_minified(
         swc_ecma_minifier::optimize(
             m.module,
             cm,
-            None,
+            Some(&m.comments),
             None,
             &MinifyOptions {
                 compress: if compress {
