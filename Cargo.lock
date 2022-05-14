@@ -786,11 +786,12 @@ dependencies = [
 
 [[package]]
 name = "dbg-swc"
-version = "0.12.1"
+version = "0.12.3"
 dependencies = [
  "anyhow",
  "clap 3.1.0",
  "rayon",
+ "sha1 0.10.1",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
@@ -2670,6 +2671,17 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2579985fda508104f7587689507983eadd6a6e84dd35d6d115361f530916fa0d"
 
 [[package]]
+name = "sha1"
+version = "0.10.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c77f4e7f65455545c2153c1253d25056825e77ee2533f0e41deb65a93a34852f"
+dependencies = [
+ "cfg-if 1.0.0",
+ "cpufeatures",
+ "digest",
+]
+
+[[package]]
 name = "sharded-slab"
 version = "0.1.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2810,7 +2822,7 @@ dependencies = [
  "serde",
  "serde_derive",
  "serde_json",
- "sha1",
+ "sha1 0.6.0",
  "syn",
 ]
 
@@ -2900,7 +2912,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.178.1"
+version = "0.179.1"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3022,7 +3034,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.52.0"
+version = "0.53.0"
 dependencies = [
  "anyhow",
  "atty",
@@ -3048,7 +3060,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.18.0"
+version = "0.18.1"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3800,7 +3812,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.98.0"
+version = "0.99.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3910,7 +3922,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.7.2"
+version = "0.7.3"
 dependencies = [
  "bitflags",
  "lexical",
@@ -4088,7 +4100,7 @@ dependencies = [
 
 [[package]]
 name = "swc_webpack_ast"
-version = "0.96.0"
+version = "0.97.0"
 dependencies = [
  "anyhow",
  "rayon",

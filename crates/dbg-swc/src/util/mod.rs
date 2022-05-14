@@ -1,4 +1,7 @@
-use std::sync::Arc;
+use std::{
+    path::{Path, PathBuf},
+    sync::Arc,
+};
 
 use anyhow::{bail, Context, Result};
 use swc_common::{errors::HANDLER, Mark, SourceFile, SourceMap};
@@ -7,6 +10,8 @@ use swc_ecma_codegen::text_writer::{omit_trailing_semi, JsWriter, WriteJs};
 use swc_ecma_parser::{parse_file_as_module, Syntax};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_visit::VisitMutWith;
+
+pub mod minifier;
 
 /// Type annotation
 pub fn wrap_task<T, F>(op: F) -> Result<T>
@@ -75,4 +80,23 @@ pub struct ModuleRecord {
     pub module: Module,
     pub top_level_mark: Mark,
     pub unresolved_mark: Mark,
+}
+
+pub fn all_js_files(path: &Path) -> Result<Vec<PathBuf>> {
+    wrap_task(|| {
+        if path.is_dir() {
+            let mut files = vec![];
+            for entry in path.read_dir().context("failed to read dir")? {
+                let entry = entry.context("read_dir returned an error")?;
+                let path = entry.path();
+                files.extend(all_js_files(&path)?);
+            }
+            Ok(files)
+        } else if path.extension() == Some("js".as_ref()) {
+            Ok(vec![path.to_path_buf()])
+        } else {
+            Ok(vec![])
+        }
+    })
+    .with_context(|| format!("failed to get list of `.js` files in {}", path.display()))
 }

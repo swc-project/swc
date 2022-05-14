@@ -138,6 +138,7 @@ impl Error {
                 "Eof in element that can contain only text".into()
             }
             ErrorKind::UnexpectedToken => "Unexpected token".into(),
+            ErrorKind::UnexpectedEof => "Unexpected end of file".into(),
         }
     }
 
@@ -214,4 +215,5 @@ pub enum ErrorKind {
 
     // Parser errors
     UnexpectedToken,
+    UnexpectedEof,
 }

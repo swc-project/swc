@@ -1,0 +1,3 @@
+10: HTML end tag “br” in a foreign namespace context.
+(1:6) Unexpected </br> from in body insertion mode
+(1:16) Unexpected EOF

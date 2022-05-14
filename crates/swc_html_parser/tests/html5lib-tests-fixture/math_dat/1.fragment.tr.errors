@@ -1,0 +1,3 @@
+(1,6): foster-parenting-start-tag
+(1,22): expected-tr-in-table-scope
+(1,23): expected-closing-tag-but-got-eof

@@ -23,7 +23,11 @@ impl Pure<'_> {
         }
 
         match &*c.expr {
-            Expr::Lit(Lit::Str(s)) if is_valid_identifier(&s.value, true) => {
+            Expr::Lit(Lit::Str(s))
+                if s.value.is_reserved()
+                    || s.value.is_reserved_in_es3()
+                    || is_valid_identifier(&s.value, true) =>
+            {
                 self.changed = true;
                 report_change!(
                     "properties: Computed member => member expr with identifier as a prop"
@@ -54,13 +58,16 @@ impl Pure<'_> {
                         return;
                     }
 
-                    if s.value.is_empty() || s.value.starts_with(|c: char| c.is_numeric()) {
-                        *p = PropName::Str(s.clone());
-                    } else {
+                    if s.value.is_reserved()
+                        || s.value.is_reserved_in_es3()
+                        || is_valid_identifier(&s.value, false)
+                    {
                         *p = PropName::Ident(Ident::new(
                             s.value.clone(),
                             s.span.with_ctxt(SyntaxContext::empty()),
                         ));
+                    } else {
+                        *p = PropName::Str(s.clone());
                     }
                 }
                 Expr::Lit(Lit::Num(n)) => {
@@ -73,11 +80,10 @@ impl Pure<'_> {
 
     pub(super) fn optimize_prop_name(&mut self, name: &mut PropName) {
         if let PropName::Str(s) = name {
-            if s.value.is_reserved() || s.value.is_reserved_in_es3() {
-                return;
-            }
-
-            if is_valid_identifier(&s.value, false) {
+            if s.value.is_reserved()
+                || s.value.is_reserved_in_es3()
+                || is_valid_identifier(&s.value, false)
+            {
                 self.changed = true;
                 report_change!("misc: Optimizing string property name");
                 *name = PropName::Ident(Ident {

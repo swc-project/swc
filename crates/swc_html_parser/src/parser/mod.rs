@@ -1302,10 +1302,13 @@ where
                     // In any case, switch the insertion mode to "before html", then reprocess the
                     // token.
                     _ => {
-                        // TODO ERROR about missing doctype and handle iframe
+                        // TODO handle iframe
                         let is_iframe = false;
 
                         if !is_iframe {
+                            self.errors
+                                .push(Error::new(token_and_info.span, ErrorKind::MissingDoctype));
+
                             self.document_mode = DocumentMode::Quirks;
                         }
 
@@ -1341,7 +1344,7 @@ where
                     // Parse error. Ignore the token.
                     Token::Doctype { .. } => {
                         self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::MisplacedDoctype));
+                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
                     }
                     // A comment token
                     //
@@ -1477,7 +1480,7 @@ where
                     // Parse error. Ignore the token.
                     Token::Doctype { .. } => {
                         self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::MisplacedDoctype));
+                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
                     }
                     // A start tag whose tag name is "html"
                     //
@@ -1564,7 +1567,7 @@ where
                     // Parse error. Ignore the token.
                     Token::Doctype { .. } => {
                         self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::MisplacedDoctype));
+                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
                     }
                     // A start tag whose tag name is "html"
                     //
@@ -1843,7 +1846,7 @@ where
                     // Parse error. Ignore the token.
                     Token::Doctype { .. } => {
                         self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::MisplacedDoctype));
+                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
                     }
                     // A start tag whose tag name is "html"
                     //
@@ -1966,7 +1969,7 @@ where
                     // Parse error. Ignore the token.
                     Token::Doctype { .. } => {
                         self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::MisplacedDoctype));
+                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
                     }
                     // A start tag whose tag name is "html"
                     //
@@ -2121,7 +2124,7 @@ where
                     // Parse error. Ignore the token.
                     Token::Doctype { .. } => {
                         self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::MisplacedDoctype));
+                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
                     }
                     // A start tag whose tag name is "html"
                     //
@@ -2339,7 +2342,7 @@ where
 
                         if errored {
                             self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedEof));
                         }
 
                         self.stopped = true;
@@ -4057,7 +4060,7 @@ where
                     // token.
                     Token::Eof => {
                         self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedEof));
                         self.open_elements_stack.pop();
                         self.insertion_mode = self.original_insertion_mode.clone();
                         self.process_token(token_and_info, None)?;
@@ -4218,7 +4221,7 @@ where
                     // Parse error. Ignore the token.
                     Token::Doctype { .. } => {
                         self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::MisplacedDoctype));
+                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
                     }
                     // A start tag whose tag name is "caption"
                     //
@@ -4748,7 +4751,7 @@ where
                     // Parse error. Ignore the token.
                     Token::Doctype { .. } => {
                         self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::MisplacedDoctype));
+                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
                     }
                     // A start tag whose tag name is "html"
                     //
@@ -5088,10 +5091,8 @@ where
                         if matches!(tag_name.as_ref(), "tbody" | "tfoot" | "thead") =>
                     {
                         if !self.open_elements_stack.has_in_table_scope(tag_name) {
-                            self.errors.push(Error::new(
-                                token_and_info.span,
-                                ErrorKind::EndTagWithoutMatchingOpenElement,
-                            ));
+                            self.errors
+                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
                         } else if !self.open_elements_stack.has_in_table_scope("tr") {
                             // Ignore
 
@@ -5286,7 +5287,7 @@ where
                     // Parse error. Ignore the token.
                     Token::Doctype { .. } => {
                         self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::MisplacedDoctype));
+                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
                     }
                     // A start tag whose tag name is "html"
                     //
@@ -5724,7 +5725,7 @@ where
                             self.stopped = true;
                         } else {
                             self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedEof));
                             self.open_elements_stack
                                 .pop_until_tag_name_popped(&["template"]);
                             self.active_formatting_elements.clear_to_last_marker();
@@ -5762,7 +5763,7 @@ where
                     // Parse error. Ignore the token.
                     Token::Doctype { .. } => {
                         self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::MisplacedDoctype));
+                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
                     }
                     // A start tag whose tag name is "html"
                     //
@@ -5828,7 +5829,7 @@ where
                     // Parse error. Ignore the token.
                     Token::Doctype { .. } => {
                         self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::MisplacedDoctype));
+                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
                     }
                     // A start tag whose tag name is "html"
                     //
@@ -5916,8 +5917,10 @@ where
                     Token::Eof => {
                         match self.open_elements_stack.items.last() {
                             Some(node) if get_tag_name!(node) != "html" => {
-                                self.errors
-                                    .push(Error::new(token_and_info.span, ErrorKind::Eof));
+                                self.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::UnexpectedEof,
+                                ));
                             }
                             _ => {}
                         }
@@ -5959,7 +5962,7 @@ where
                     // Parse error. Ignore the token.
                     Token::Doctype { .. } => {
                         self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::MisplacedDoctype));
+                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
                     }
                     // A start tag whose tag name is "html"
                     //

@@ -1166,6 +1166,7 @@ impl SourceMap {
 
         let mut ch_start = 0;
         let mut line_ch_start = 0;
+        let mut prev_dst_line = u32::MAX;
 
         for (pos, lc) in mappings.iter() {
             let pos = *pos;
@@ -1205,6 +1206,12 @@ impl SourceMap {
                 }
             };
 
+            let emit_columns = config.emit_columns(&f.name);
+
+            if !emit_columns && lc.line == prev_dst_line {
+                continue;
+            }
+
             let a = match f.lookup_line(pos) {
                 Some(line) => line as u32,
                 None => continue,
@@ -1242,6 +1249,7 @@ impl SourceMap {
             }
 
             builder.add_raw(lc.line, lc.col, line - 1, col, Some(src_id), name_idx);
+            prev_dst_line = lc.line;
         }
 
         builder.into_sourcemap()
@@ -1328,6 +1336,11 @@ pub trait SourceMapGenConfig {
             f,
             FileName::Real(..) | FileName::Custom(..) | FileName::Url(..)
         )
+    }
+
+    /// You can define whether to emit sourcemap with columns or not
+    fn emit_columns(&self, _f: &FileName) -> bool {
+        true
     }
 }
 

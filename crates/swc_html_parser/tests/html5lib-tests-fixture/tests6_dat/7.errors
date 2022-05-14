@@ -1,0 +1,4 @@
+(1,10): expected-doctype-but-got-start-tag
+(2,1): unexpected-char-after-frameset
+(2,2): unexpected-char-after-frameset
+(2,3): unexpected-char-after-frameset
