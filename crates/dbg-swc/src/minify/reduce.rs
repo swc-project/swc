@@ -15,7 +15,7 @@ use swc_common::SourceMap;
 pub struct ReduceCommand {
     pub path: PathBuf,
 
-    #[clap(arg_enum)]
+    #[clap(long, arg_enum)]
     pub mode: ReduceMode,
 }
 
@@ -30,7 +30,14 @@ impl ReduceCommand {
         fs::copy(&self.path, "input.js").context("failed to copy")?;
 
         let mut c = Command::new("creduce");
-        c.env("CREDUCE_COMPARE", "1");
+
+        c.env(
+            "CREDUCE_COMPARE",
+            match self.mode {
+                ReduceMode::Size => "SIZE",
+                ReduceMode::Semantics => "SEMANTICS",
+            },
+        );
         let exe = current_exe()?;
         c.arg(&exe);
         c.arg("input.js");
