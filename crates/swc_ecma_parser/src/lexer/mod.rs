@@ -321,6 +321,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         Ok(Some(Token::Hash))
     }
 
+    #[inline(never)]
     fn read_token_interpreter(&mut self) -> LexResult<bool> {
         if !self.input.is_at_start() {
             return Ok(false);
@@ -346,6 +347,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     /// Read a token given `.`.
     ///
     /// This is extracted as a method to reduce size of `read_token`.
+    #[inline(never)]
     fn read_token_dot(&mut self) -> LexResult<Token> {
         // Check for eof
         let next = match self.input.peek() {
@@ -383,6 +385,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     /// Read a token given `?`.
     ///
     /// This is extracted as a method to reduce size of `read_token`.
+    #[inline(never)]
     fn read_token_question_mark(&mut self) -> LexResult<Token> {
         match self.input.peek() {
             Some('?') => {
@@ -404,6 +407,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     /// Read a token given `:`.
     ///
     /// This is extracted as a method to reduce size of `read_token`.
+    #[inline(never)]
     fn read_token_colon(&mut self) -> LexResult<Token> {
         self.input.bump();
 
@@ -418,6 +422,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     /// Read a token given `0`.
     ///
     /// This is extracted as a method to reduce size of `read_token`.
+    #[inline(never)]
     fn read_token_zero(&mut self) -> LexResult<Token> {
         let next = self.input.peek();
 
@@ -460,6 +465,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     /// Read a token given `|` or `&`.
     ///
     /// This is extracted as a method to reduce size of `read_token`.
+    #[inline(never)]
     fn read_token_logical(&mut self, c: char) -> LexResult<Token> {
         self.input.bump();
         let token = if c == '&' { BitAnd } else { BitOr };
@@ -500,6 +506,7 @@ impl<'a, I: Input> Lexer<'a, I> {
     /// Read a token given `*` or `%`.
     ///
     /// This is extracted as a method to reduce size of `read_token`.
+    #[inline(never)]
     fn read_token_mul_mod(&mut self, c: char) -> LexResult<Token> {
         let is_mul = c == '*';
         self.input.bump();
@@ -673,6 +680,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 }
 
 impl<'a, I: Input> Lexer<'a, I> {
+    #[inline(never)]
     fn read_slash(&mut self) -> LexResult<Option<Token>> {
         debug_assert_eq!(self.cur(), Some('/'));
         // let start = self.cur_pos();
@@ -692,6 +700,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         }))
     }
 
+    #[inline(never)]
     fn read_token_lt_gt(&mut self) -> LexResult<Option<Token>> {
         debug_assert!(self.cur() == Some('<') || self.cur() == Some('>'));
 
