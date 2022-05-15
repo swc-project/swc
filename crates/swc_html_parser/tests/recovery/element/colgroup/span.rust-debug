@@ -1,0 +1,418 @@
+
+  x Document
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:1:1]
+  1 | ,-> <!doctype html>
+  2 | |   <html lang="en">
+  3 | |   <head>
+  4 | |       <title>Document</title>
+  5 | |   </head>
+  6 | |   <body>
+  7 | |   <table>
+  8 | |       <caption>Superheros and sidekicks</caption>
+  9 | |       <colgroup>
+ 10 | |           </div>
+ 11 | |           <col>
+ 12 | |           <col span="2" class="batman">
+ 13 | |           <col span="2" class="flash">
+ 14 | |       </colgroup>
+ 15 | |   </table>
+ 16 | |   
+ 17 | |   </body>
+ 18 | `-> </html>
+    `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/colgroup/input.html:1:1]
+ 1 | <!doctype html>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x DocumentType
+   ,-[$DIR/tests/recovery/element/colgroup/input.html:1:1]
+ 1 | <!doctype html>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:2:1]
+  2 | ,-> <html lang="en">
+  3 | |   <head>
+  4 | |       <title>Document</title>
+  5 | |   </head>
+  6 | |   <body>
+  7 | |   <table>
+  8 | |       <caption>Superheros and sidekicks</caption>
+  9 | |       <colgroup>
+ 10 | |           </div>
+ 11 | |           <col>
+ 12 | |           <col span="2" class="batman">
+ 13 | |           <col span="2" class="flash">
+ 14 | |       </colgroup>
+ 15 | |   </table>
+ 16 | |   
+ 17 | `-> </body>
+ 18 |     </html>
+    `----
+
+  x Element
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:2:1]
+  2 | ,-> <html lang="en">
+  3 | |   <head>
+  4 | |       <title>Document</title>
+  5 | |   </head>
+  6 | |   <body>
+  7 | |   <table>
+  8 | |       <caption>Superheros and sidekicks</caption>
+  9 | |       <colgroup>
+ 10 | |           </div>
+ 11 | |           <col>
+ 12 | |           <col span="2" class="batman">
+ 13 | |           <col span="2" class="flash">
+ 14 | |       </colgroup>
+ 15 | |   </table>
+ 16 | |   
+ 17 | `-> </body>
+ 18 |     </html>
+    `----
+
+  x Attribute
+
+  x Child
+   ,-[$DIR/tests/recovery/element/colgroup/input.html:3:1]
+ 3 | ,-> <head>
+ 4 | `->     <title>Document</title>
+ 5 |     </head>
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/colgroup/input.html:3:1]
+ 3 | ,-> <head>
+ 4 | `->     <title>Document</title>
+ 5 |     </head>
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/colgroup/input.html:3:1]
+ 3 | ,-> <head>
+ 4 | `->     <title>Document</title>
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/element/colgroup/input.html:3:1]
+ 3 | ,-> <head>
+ 4 | `->     <title>Document</title>
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/colgroup/input.html:4:5]
+ 4 | <title>Document</title>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/colgroup/input.html:4:5]
+ 4 | <title>Document</title>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/colgroup/input.html:4:5]
+ 4 | <title>Document</title>
+   :        ^^^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/element/colgroup/input.html:4:5]
+ 4 | <title>Document</title>
+   :        ^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/colgroup/input.html:4:5]
+ 4 | <title>Document</title>
+   :                        ^
+ 5 | </head>
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/element/colgroup/input.html:4:5]
+ 4 | <title>Document</title>
+   :                        ^
+ 5 | </head>
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/colgroup/input.html:5:1]
+ 5 | </head>
+   :        ^
+ 6 | <body>
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/element/colgroup/input.html:5:1]
+ 5 | </head>
+   :        ^
+ 6 | <body>
+   `----
+
+  x Child
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:6:1]
+  6 | ,-> <body>
+  7 | |   <table>
+  8 | |       <caption>Superheros and sidekicks</caption>
+  9 | |       <colgroup>
+ 10 | |           </div>
+ 11 | |           <col>
+ 12 | |           <col span="2" class="batman">
+ 13 | |           <col span="2" class="flash">
+ 14 | |       </colgroup>
+ 15 | |   </table>
+ 16 | |   
+ 17 | `-> </body>
+ 18 |     </html>
+    `----
+
+  x Element
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:6:1]
+  6 | ,-> <body>
+  7 | |   <table>
+  8 | |       <caption>Superheros and sidekicks</caption>
+  9 | |       <colgroup>
+ 10 | |           </div>
+ 11 | |           <col>
+ 12 | |           <col span="2" class="batman">
+ 13 | |           <col span="2" class="flash">
+ 14 | |       </colgroup>
+ 15 | |   </table>
+ 16 | |   
+ 17 | `-> </body>
+ 18 |     </html>
+    `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/colgroup/input.html:6:1]
+ 6 | <body>
+   :       ^
+ 7 | <table>
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/element/colgroup/input.html:6:1]
+ 6 | <body>
+   :       ^
+ 7 | <table>
+   `----
+
+  x Child
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:7:1]
+  7 | ,-> <table>
+  8 | |       <caption>Superheros and sidekicks</caption>
+  9 | |       <colgroup>
+ 10 | |           </div>
+ 11 | |           <col>
+ 12 | |           <col span="2" class="batman">
+ 13 | |           <col span="2" class="flash">
+ 14 | |       </colgroup>
+ 15 | `-> </table>
+    `----
+
+  x Element
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:7:1]
+  7 | ,-> <table>
+  8 | |       <caption>Superheros and sidekicks</caption>
+  9 | |       <colgroup>
+ 10 | |           </div>
+ 11 | |           <col>
+ 12 | |           <col span="2" class="batman">
+ 13 | |           <col span="2" class="flash">
+ 14 | |       </colgroup>
+ 15 | `-> </table>
+    `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/colgroup/input.html:7:1]
+ 7 | ,-> <table>
+ 8 | `->     <caption>Superheros and sidekicks</caption>
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/element/colgroup/input.html:7:1]
+ 7 | ,-> <table>
+ 8 | `->     <caption>Superheros and sidekicks</caption>
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/colgroup/input.html:8:5]
+ 8 | <caption>Superheros and sidekicks</caption>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/colgroup/input.html:8:5]
+ 8 | <caption>Superheros and sidekicks</caption>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/colgroup/input.html:8:5]
+ 8 | <caption>Superheros and sidekicks</caption>
+   :          ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/element/colgroup/input.html:8:5]
+ 8 | <caption>Superheros and sidekicks</caption>
+   :          ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/colgroup/input.html:8:5]
+ 8 | ,-> <caption>Superheros and sidekicks</caption>
+ 9 | `->     <colgroup>
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/element/colgroup/input.html:8:5]
+ 8 | ,-> <caption>Superheros and sidekicks</caption>
+ 9 | `->     <colgroup>
+   `----
+
+  x Child
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:9:5]
+  9 | ,-> <colgroup>
+ 10 | `->         </div>
+    `----
+
+  x Element
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:9:5]
+  9 | ,-> <colgroup>
+ 10 | `->         </div>
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:9:5]
+  9 | ,-> <colgroup>
+ 10 | `->         </div>
+    `----
+
+  x Text
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:9:5]
+  9 | ,-> <colgroup>
+ 10 | `->         </div>
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:10:9]
+ 10 | ,-> </div>
+ 11 | `->         <col>
+    `----
+
+  x Text
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:10:9]
+ 10 | ,-> </div>
+ 11 | `->         <col>
+    `----
+
+  x Child
+
+  x Element
+
+  x Child
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:11:9]
+ 11 | <col>
+    : ^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:11:9]
+ 11 | <col>
+    : ^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:11:9]
+ 11 | ,-> <col>
+ 12 | `->         <col span="2" class="batman">
+    `----
+
+  x Text
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:11:9]
+ 11 | ,-> <col>
+ 12 | `->         <col span="2" class="batman">
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:12:9]
+ 12 | <col span="2" class="batman">
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:12:9]
+ 12 | <col span="2" class="batman">
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:12:9]
+ 12 | ,-> <col span="2" class="batman">
+ 13 | `->         <col span="2" class="flash">
+    `----
+
+  x Text
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:12:9]
+ 12 | ,-> <col span="2" class="batman">
+ 13 | `->         <col span="2" class="flash">
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:13:9]
+ 13 | <col span="2" class="flash">
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:13:9]
+ 13 | <col span="2" class="flash">
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:13:9]
+ 13 | ,-> <col span="2" class="flash">
+ 14 | `->     </colgroup>
+    `----
+
+  x Text
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:13:9]
+ 13 | ,-> <col span="2" class="flash">
+ 14 | `->     </colgroup>
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:14:5]
+ 14 | ,-> </colgroup>
+ 15 | `-> </table>
+    `----
+
+  x Text
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:14:5]
+ 14 | ,-> </colgroup>
+ 15 | `-> </table>
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:15:1]
+ 15 | ,-> </table>
+ 16 | |   
+ 17 | `-> </body>
+ 18 |     </html>
+    `----
+
+  x Text
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:15:1]
+ 15 | ,-> </table>
+ 16 | |   
+ 17 | `-> </body>
+ 18 |     </html>
+    `----

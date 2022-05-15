@@ -5,7 +5,7 @@
    : ^^^
    `----
 
-  x Unexpected token
+  x End tag "</font>" implied, but there were open elements
    ,-[$DIR/tests/recovery/element/font/input.html:1:1]
  1 | <p><font size=4><font color=red><font color=red><p>X
    :                                 ^^^^^^^^^^^^^^^^

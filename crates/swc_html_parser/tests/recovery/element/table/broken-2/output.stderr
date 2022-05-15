@@ -1,17 +1,17 @@
 
-  x Unexpected token
+  x Stray start tag "<tbody>"
    ,-[$DIR/tests/recovery/element/table/broken-2/input.html:8:1]
  8 | <tbody align="right">
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x Unexpected token
+  x Stray start tag "<tr>"
    ,-[$DIR/tests/recovery/element/table/broken-2/input.html:9:1]
  9 | <tr>
    : ^^^^
    `----
 
-  x Unexpected token
+  x Stray start tag "<td>"
     ,-[$DIR/tests/recovery/element/table/broken-2/input.html:10:5]
  10 | <td>Cell 1</td>
     : ^^^^
@@ -23,7 +23,7 @@
     :           ^^^^^
     `----
 
-  x Unexpected token
+  x Stray start tag "<td>"
     ,-[$DIR/tests/recovery/element/table/broken-2/input.html:11:5]
  11 | <td>Cell 2</td>
     : ^^^^

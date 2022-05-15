@@ -440,6 +440,7 @@ fn parser_verify(input: PathBuf) {
         "document_type/bogus/input.html",
         "document_type/wrong-name/input.html",
         "text/cr-charref-novalid/input.html",
+        "element/foreign-context/input.html",
     )
 )]
 fn parser_recovery_verify(input: PathBuf) {
