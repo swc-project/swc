@@ -779,6 +779,49 @@ impl Pure<'_> {
                     }
                 }
 
+                Expr::Object(obj) => {
+                    if obj.props.iter().all(|p| match p {
+                        PropOrSpread::Spread(_) => false,
+                        PropOrSpread::Prop(p) => matches!(
+                            &**p,
+                            Prop::Shorthand(_) | Prop::KeyValue(_) | Prop::Method(..)
+                        ),
+                    }) {
+                        let mut exprs = vec![];
+
+                        for prop in obj.props.take() {
+                            if let PropOrSpread::Prop(p) = prop {
+                                match *p {
+                                    Prop::Shorthand(p) => {
+                                        exprs.push(Box::new(Expr::Ident(p)));
+                                    }
+                                    Prop::KeyValue(p) => {
+                                        if let PropName::Computed(e) = p.key {
+                                            exprs.push(e.expr);
+                                        }
+
+                                        exprs.push(p.value);
+                                    }
+                                    Prop::Method(p) => {
+                                        if let PropName::Computed(e) = p.key {
+                                            exprs.push(e.expr);
+                                        }
+                                    }
+
+                                    _ => unreachable!(),
+                                }
+                            }
+                        }
+
+                        report_change!("Igonring an object literal");
+                        *e = self
+                            .make_ignored_expr(exprs.into_iter())
+                            .unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
+                        self.changed = true;
+                        return;
+                    }
+                }
+
                 // terser compiles
                 //
                 //  [1,foo(),...bar()][{foo}]
@@ -795,6 +838,7 @@ impl Pure<'_> {
 
                     if let Expr::Array(obj_arr) = &mut **obj {
                         //
+                        report_change!("Igonring computed access to an array literal");
 
                         for ExprOrSpread { mut expr, .. } in
                             obj_arr.elems.take().into_iter().flatten()
