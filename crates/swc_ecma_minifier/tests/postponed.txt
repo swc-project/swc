@@ -215,7 +215,6 @@ export/name_cache_import_star_as_name_from_module/input.js
 export/name_cache_mangle_export_default_class/input.js
 export/name_cache_mangle_export_default_function/input.js
 export/name_cache_mangle_local_import_and_export_aliases/input.js
-functions/avoid_generating_duplicate_functions_compared_together_3/input.js
 functions/duplicate_arg_var/input.js
 functions/empty_body/input.js
 functions/hoist_funs/input.js

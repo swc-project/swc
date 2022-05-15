@@ -532,6 +532,7 @@ expression/pow_with_parentheses/input.js
 expression/pow_with_unary_between_brackets/input.js
 functions/avoid_generating_duplicate_functions_compared_together/input.js
 functions/avoid_generating_duplicate_functions_compared_together_2/input.js
+functions/avoid_generating_duplicate_functions_compared_together_3/input.js
 functions/avoid_generating_duplicate_functions_compared_together_4/input.js
 functions/deduplicate_parenthesis/input.js
 functions/drop_lone_use_strict/input.js
