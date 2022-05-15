@@ -112,6 +112,7 @@ where
         }
     }
 
+    #[allow(clippy::only_used_in_recursion)]
     fn merge_nested_if_returns(&mut self, s: &mut Stmt, can_work: bool) {
         let terminate = can_merge_as_if_return(&*s);
 

@@ -326,6 +326,7 @@ where
     }
 
     /// `parent_span` should be [Span] of [VarDeclarator] or [AssignExpr]
+    #[allow(clippy::only_used_in_recursion)]
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn take_pat_if_unused(
         &mut self,
