@@ -131,6 +131,7 @@ impl Task for BundleTask {
                             minify,
                             None,
                             true,
+                            false,
                         )?;
 
                         Ok((k, output))
