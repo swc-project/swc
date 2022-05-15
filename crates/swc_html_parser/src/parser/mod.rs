@@ -26,6 +26,7 @@ pub type PResult<T> = Result<T, Error>;
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct ParserConfig {
     pub scripting_enabled: bool,
+    pub iframe_srcdoc: bool,
 }
 
 enum Bookmark<RcNode> {
@@ -1213,7 +1214,6 @@ where
                         force_quirks,
                         ..
                     } => {
-                        let is_html = matches!(name, Some(name) if name.as_ref().eq_ignore_ascii_case("html"));
                         let is_valid_doctype = matches!(
                             (
                                 name.as_ref().map(|value| &**value),
@@ -1262,21 +1262,17 @@ where
 
                         self.append_node(self.document.as_ref().unwrap(), document_type);
 
-                        // TODO handle - an iframe srcdoc document option for next entries
-                        let is_iframe = false;
-
-                        if !is_iframe {
-                            if *force_quirks
-                                || !is_html
+                        if !self.config.iframe_srcdoc
+                            && (*force_quirks
+                                || !matches!(name, Some(name) if name.as_ref().eq_ignore_ascii_case("html"))
                                 || matches!(public_id, Some(public_id) if QUIRKY_PUBLIC_MATCHES
                                     .contains(&&*public_id.to_ascii_lowercase()) || QUIRKY_PUBLIC_PREFIXES.contains(&&*public_id.to_ascii_lowercase()))
                                 || matches!(system_id, Some(system_id) if QUIRKY_SYSTEM_MATCHES
                                 .contains(&&*system_id.to_ascii_lowercase()) || HTML4_PUBLIC_PREFIXES.contains(
                                     &&*system_id.to_ascii_lowercase()
-                                ))
-                            {
-                                self.document_mode = DocumentMode::Quirks;
-                            }
+                                )))
+                        {
+                            self.document_mode = DocumentMode::Quirks;
                         } else if let Some(public_id) = public_id {
                             if LIMITED_QUIRKY_PUBLIC_PREFIXES
                                 .contains(&&*public_id.as_ref().to_ascii_lowercase())
@@ -1302,10 +1298,7 @@ where
                     // In any case, switch the insertion mode to "before html", then reprocess the
                     // token.
                     _ => {
-                        // TODO handle iframe
-                        let is_iframe = false;
-
-                        if !is_iframe {
+                        if !self.config.iframe_srcdoc {
                             self.errors
                                 .push(Error::new(token_and_info.span, ErrorKind::MissingDoctype));
 
