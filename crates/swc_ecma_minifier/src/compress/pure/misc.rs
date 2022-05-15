@@ -859,7 +859,7 @@ impl Pure<'_> {
                 //  foo(),basr(),foo;
                 Expr::Member(MemberExpr {
                     obj,
-                    prop: MemberProp::Computed(prop),
+                    prop: MemberProp::Computed(..),
                     ..
                 }) => match &**obj {
                     Expr::Object(..) | Expr::Array(..) => {
