@@ -147,7 +147,7 @@ pub struct CompressOptions {
     #[serde(alias = "dead_code")]
     pub dead_code: bool,
 
-    #[serde(default)]
+    #[serde(default = "true_by_default")]
     #[serde(alias = "directives")]
     pub directives: bool,
 

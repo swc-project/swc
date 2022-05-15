@@ -263,8 +263,7 @@ impl TerserCompressorOptions {
             // TODO: Use self.defaults
             conditionals: self.conditionals.unwrap_or(false),
             dead_code: self.dead_code.unwrap_or(self.defaults),
-            // TODO: Use self.defaults
-            directives: self.directives.unwrap_or(false),
+            directives: self.directives.unwrap_or(self.defaults),
             drop_console: self.drop_console,
             drop_debugger: self.drop_debugger.unwrap_or(self.defaults),
             ecma: self.ecma.into(),
