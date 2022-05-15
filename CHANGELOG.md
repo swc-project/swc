@@ -20,6 +20,9 @@
 - **(es)** Add an option to omit columns from sourcemaps (#4646) ([b6f904b](https://github.com/swc-project/swc/commit/b6f904b8f0fbe8bffb25ab432006f8195d585bf7))
 
 
+- **(es/codegen)** Implement ascii-only (#4660) ([eb8508f](https://github.com/swc-project/swc/commit/eb8508f88cf532d883bb22446195281f009863c5))
+
+
 - **(es/lints)** Implement `no-sparse-arrays` rule (#4652) ([9b226a7](https://github.com/swc-project/swc/commit/9b226a7026f06729904ef1fdc0e4a17aa631e5e4))
 
 
