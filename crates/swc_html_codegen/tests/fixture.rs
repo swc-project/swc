@@ -327,12 +327,10 @@ impl VisitMut for NormalizeTest {
     fn visit_mut_document_fragment(&mut self, n: &mut DocumentFragment) {
         n.visit_mut_children_with(self);
 
-        if let Some(last) = n.children.last_mut() {
-            if let Child::Text(_) = last {
-                // Drop value from the last `Text` node because characters after `</body>`
-                // moved to body tag
-                n.children.remove(n.children.len() - 1);
-            }
+        if let Some(Child::Text(_)) = n.children.last_mut() {
+            // Drop value from the last `Text` node because characters after `</body>`
+            // moved to body tag
+            n.children.remove(n.children.len() - 1);
         }
     }
 
@@ -340,12 +338,10 @@ impl VisitMut for NormalizeTest {
         n.visit_mut_children_with(self);
 
         if &*n.tag_name == "body" {
-            if let Some(last) = n.children.last_mut() {
-                if let Child::Text(text) = last {
-                    // Drop value from the last `Text` node because characters after `</body>`
-                    // moved to body tag
-                    text.value = "".into();
-                }
+            if let Some(Child::Text(text)) = n.children.last_mut() {
+                // Drop value from the last `Text` node because characters after `</body>`
+                // moved to body tag
+                text.value = "".into();
             }
         }
     }
@@ -440,6 +436,7 @@ fn parser_verify(input: PathBuf) {
         "document_type/bogus/input.html",
         "document_type/wrong-name/input.html",
         "text/cr-charref-novalid/input.html",
+        "element/foreign-context/input.html",
     )
 )]
 fn parser_recovery_verify(input: PathBuf) {
@@ -499,7 +496,10 @@ fn parser_recovery_verify(input: PathBuf) {
 fn html5lib_tests_verify(input: PathBuf) {
     let file_stem = input.file_stem().unwrap().to_str().unwrap().to_owned();
     let scripting_enabled = file_stem.contains("script_on");
-    let parser_config = ParserConfig { scripting_enabled };
+    let parser_config = ParserConfig {
+        scripting_enabled,
+        iframe_srcdoc: false,
+    };
     let codegen_config = CodegenConfig {
         minify: false,
         scripting_enabled,

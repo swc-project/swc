@@ -46,6 +46,7 @@ impl Task for PrintTask {
                 options.config.minify.into_bool(),
                 None,
                 options.config.emit_source_map_columns.into_bool(),
+                false,
             )
             .convert_err()
     }
@@ -104,6 +105,7 @@ pub fn print_sync(program: String, options: Buffer) -> napi::Result<TransformOut
         options.config.minify.into_bool(),
         None,
         options.config.emit_source_map_columns.into_bool(),
+        false,
     )
     .convert_err()
 }

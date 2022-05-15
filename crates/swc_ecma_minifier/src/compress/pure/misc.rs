@@ -706,12 +706,14 @@ impl Pure<'_> {
 
         match e {
             Expr::Lit(Lit::Str(s)) => {
-                if opts.drop_str_lit
+                if (self.options.directives && !matches!(&*s.value, "use strict" | "use asm"))
+                    || opts.drop_str_lit
                     || (s.value.starts_with("@swc/helpers")
                         || s.value.starts_with("@babel/helpers"))
                 {
                     self.changed = true;
                     *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+
                     return;
                 }
             }

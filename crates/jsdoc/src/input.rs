@@ -17,7 +17,7 @@ pub struct Input<'i> {
     src: &'i str,
 }
 
-impl<'a, 'b> From<&'a Comment> for Input<'a> {
+impl<'a> From<&'a Comment> for Input<'a> {
     fn from(c: &'a Comment) -> Self {
         Self::new(c.span.lo, c.span.hi, &c.text)
     }

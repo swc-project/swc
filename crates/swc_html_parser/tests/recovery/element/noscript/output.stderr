@@ -5,7 +5,7 @@
    : ^^^^^^
    `----
 
-  x Unexpected token
+  x Stray doctype
    ,-[$DIR/tests/recovery/element/noscript/input.html:1:1]
  1 | <head><noscript><!doctype html><!--foo--></noscript>
    :                 ^^^^^^^^^^^^^^^

@@ -1,5 +1,6 @@
 use std::{iter::once, mem::take};
 
+#[allow(unused_imports)]
 use retain_mut::RetainMut;
 use rustc_hash::FxHashMap;
 use swc_atoms::{js_word, JsWord};

@@ -17,7 +17,7 @@
    :                 ^^^^^^
    `----
 
-  x Unexpected token
+  x Unexpected start tag "<keygen>" with "<select>" open
    ,-[$DIR/tests/recovery/element/select/input.html:2:1]
  2 | <select><keygen>
    :         ^^^^^^^^

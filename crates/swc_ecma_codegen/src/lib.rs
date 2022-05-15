@@ -533,7 +533,7 @@ where
             return Ok(());
         }
 
-        let target = self.wr.target();
+        let target = self.cfg.target;
 
         if self.cfg.minify {
             let value = get_quoted_utf16(&node.value, target);
@@ -543,7 +543,10 @@ where
             match &node.raw {
                 // TODO `es5_unicode` in `swc_ecma_transforms_compat` and avoid changing AST in
                 // codegen
-                Some(raw_value) if target > EsVersion::Es5 => {
+                Some(raw_value)
+                    if target > EsVersion::Es5
+                        && (!self.cfg.ascii_only || raw_value.is_ascii()) =>
+                {
                     self.wr.write_str_lit(DUMMY_SP, raw_value)?;
                 }
                 _ => {
@@ -1648,9 +1651,9 @@ where
     fn emit_quasi(&mut self, node: &TplElement) -> Result {
         srcmap!(node, true);
 
-        if self.cfg.minify {
-            self.wr
-                .write_str_lit(DUMMY_SP, &get_template_element_from_raw(&node.raw))?;
+        if self.cfg.minify || (self.cfg.ascii_only && !node.raw.is_ascii()) {
+            let v = get_template_element_from_raw(&node.raw, self.cfg.ascii_only);
+            self.wr.write_str_lit(DUMMY_SP, &v)?;
         } else {
             self.wr.write_str_lit(DUMMY_SP, &node.raw)?;
         }
@@ -3001,7 +3004,7 @@ where
         emit!(node.test);
         punct!(")");
 
-        if self.wr.target() <= EsVersion::Es5 {
+        if self.cfg.target <= EsVersion::Es5 {
             semi!();
         }
 
@@ -3216,7 +3219,7 @@ where
     }
 }
 
-fn get_template_element_from_raw(s: &str) -> String {
+fn get_template_element_from_raw(s: &str, ascii_only: bool) -> String {
     fn read_escaped(
         radix: u32,
         len: Option<usize>,
@@ -3366,9 +3369,19 @@ fn get_template_element_from_raw(s: &str) -> String {
             Some('\u{FEFF}') => {
                 buf.push_str("\\uFEFF");
             }
-            // TODO handle unicode characters and surrogate pairs
+            // TODO(kdy1): Surrogate pairs
             Some(c) => {
-                buf.push(c);
+                if !ascii_only || c.is_ascii() {
+                    buf.push(c);
+                } else {
+                    buf.extend(c.escape_unicode().map(|c| {
+                        if c == 'u' {
+                            c
+                        } else {
+                            c.to_ascii_uppercase()
+                        }
+                    }));
+                }
             }
             None => {}
         }

@@ -17,7 +17,13 @@
    :                                 ^^^^^^^^
    `----
 
-  x Unexpected token
+  x Unexpected start tag "<table>" with "<select>" open
+   ,-[$DIR/tests/recovery/element/s/input.html:1:1]
+ 1 | <div><table><svg><foreignObject><select><table><s>
+   :                                         ^^^^^^^
+   `----
+
+  x Start tag for "<table>" seen but the previous "<table>" is still open
    ,-[$DIR/tests/recovery/element/s/input.html:1:1]
  1 | <div><table><svg><foreignObject><select><table><s>
    :                                         ^^^^^^^

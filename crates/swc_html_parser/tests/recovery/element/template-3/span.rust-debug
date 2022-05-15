@@ -1,0 +1,327 @@
+
+  x Document
+   ,-[$DIR/tests/recovery/element/template-3/input.html:1:1]
+ 1 | ,-> <!doctype html>
+ 2 | |   <html lang="en">
+ 3 | |   <head>
+ 4 | |       <title>Document</title>
+ 5 | |   </head>
+ 6 | |   <body>
+ 7 | |   <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+ 8 | |   </body>
+ 9 | `-> </html>
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/template-3/input.html:1:1]
+ 1 | <!doctype html>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x DocumentType
+   ,-[$DIR/tests/recovery/element/template-3/input.html:1:1]
+ 1 | <!doctype html>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/template-3/input.html:2:1]
+ 2 | ,-> <html lang="en">
+ 3 | |   <head>
+ 4 | |       <title>Document</title>
+ 5 | |   </head>
+ 6 | |   <body>
+ 7 | |   <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+ 8 | `-> </body>
+ 9 |     </html>
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/template-3/input.html:2:1]
+ 2 | ,-> <html lang="en">
+ 3 | |   <head>
+ 4 | |       <title>Document</title>
+ 5 | |   </head>
+ 6 | |   <body>
+ 7 | |   <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+ 8 | `-> </body>
+ 9 |     </html>
+   `----
+
+  x Attribute
+
+  x Child
+   ,-[$DIR/tests/recovery/element/template-3/input.html:3:1]
+ 3 | ,-> <head>
+ 4 | `->     <title>Document</title>
+ 5 |     </head>
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/template-3/input.html:3:1]
+ 3 | ,-> <head>
+ 4 | `->     <title>Document</title>
+ 5 |     </head>
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/template-3/input.html:3:1]
+ 3 | ,-> <head>
+ 4 | `->     <title>Document</title>
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/element/template-3/input.html:3:1]
+ 3 | ,-> <head>
+ 4 | `->     <title>Document</title>
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/template-3/input.html:4:5]
+ 4 | <title>Document</title>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/template-3/input.html:4:5]
+ 4 | <title>Document</title>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/template-3/input.html:4:5]
+ 4 | <title>Document</title>
+   :        ^^^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/element/template-3/input.html:4:5]
+ 4 | <title>Document</title>
+   :        ^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/template-3/input.html:4:5]
+ 4 | <title>Document</title>
+   :                        ^
+ 5 | </head>
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/element/template-3/input.html:4:5]
+ 4 | <title>Document</title>
+   :                        ^
+ 5 | </head>
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/template-3/input.html:5:1]
+ 5 | </head>
+   :        ^
+ 6 | <body>
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/element/template-3/input.html:5:1]
+ 5 | </head>
+   :        ^
+ 6 | <body>
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/template-3/input.html:6:1]
+ 6 | ,-> <body>
+ 7 | |   <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+ 8 | `-> </body>
+ 9 |     </html>
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/template-3/input.html:6:1]
+ 6 | ,-> <body>
+ 7 | |   <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+ 8 | `-> </body>
+ 9 |     </html>
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/template-3/input.html:6:1]
+ 6 | <body>
+   :       ^
+ 7 | <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/element/template-3/input.html:6:1]
+ 6 | <body>
+   :       ^
+ 7 | <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/template-3/input.html:7:1]
+ 7 | <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/template-3/input.html:7:1]
+ 7 | <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/template-3/input.html:7:1]
+ 7 | <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+   :                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/template-3/input.html:7:1]
+ 7 | <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+   :                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DocumentFragment
+   ,-[$DIR/tests/recovery/element/template-3/input.html:7:1]
+ 7 | <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+   :                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/template-3/input.html:7:1]
+ 7 | <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+   :                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/template-3/input.html:7:1]
+ 7 | <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+   :                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/template-3/input.html:7:1]
+ 7 | <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+   :                                                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/template-3/input.html:7:1]
+ 7 | <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+   :                                                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/template-3/input.html:7:1]
+ 7 | <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+   :                                                                                                                              ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/element/template-3/input.html:7:1]
+ 7 | <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+   :                                                                                                                              ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/template-3/input.html:7:1]
+ 7 | <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+   :                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/template-3/input.html:7:1]
+ 7 | <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+   :                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+
+  x Element
+
+  x Child
+   ,-[$DIR/tests/recovery/element/template-3/input.html:7:1]
+ 7 | <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+   :                                                                                  ^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/template-3/input.html:7:1]
+ 7 | <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+   :                                                                                  ^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/template-3/input.html:7:1]
+ 7 | <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+   :                                                                                      ^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/template-3/input.html:7:1]
+ 7 | <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+   :                                                                                      ^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/template-3/input.html:7:1]
+ 7 | <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+   :                                                                                          ^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/element/template-3/input.html:7:1]
+ 7 | <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+   :                                                                                          ^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/template-3/input.html:7:1]
+ 7 | <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+   :                                                                                                                                                      ^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/template-3/input.html:7:1]
+ 7 | <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+   :                                                                                                                                                      ^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/template-3/input.html:7:1]
+ 7 | <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+   :                                                                                                                                                          ^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/template-3/input.html:7:1]
+ 7 | <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+   :                                                                                                                                                          ^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/template-3/input.html:7:1]
+ 7 | <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+   :                                                                                                                                                              ^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/element/template-3/input.html:7:1]
+ 7 | <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+   :                                                                                                                                                              ^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/template-3/input.html:7:1]
+ 7 | ,-> <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+ 8 | `-> </body>
+ 9 |     </html>
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/element/template-3/input.html:7:1]
+ 7 | ,-> <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+ 8 | `-> </body>
+ 9 |     </html>
+   `----

@@ -107,7 +107,6 @@
                 value: !0
             }), exports.default = void 0;
             var swcHelpers = __webpack_require__(547), _jsxRuntime = __webpack_require__(37712), _react = __webpack_require__(59301), _errorBoundaryFallback = swcHelpers.interopRequireDefault(__webpack_require__(6867)), ErrorBoundary1 = function(Component) {
-                "use strict";
                 function ErrorBoundary(props) {
                     var _this;
                     return swcHelpers.classCallCheck(this, ErrorBoundary), (_this = swcHelpers.possibleConstructorReturn(this, swcHelpers.getPrototypeOf(ErrorBoundary).call(this, props))).state = {

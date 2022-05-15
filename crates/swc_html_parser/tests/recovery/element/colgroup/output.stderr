@@ -1,0 +1,12 @@
+
+  x Unexpected token
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:10:9]
+ 10 | </div>
+    : ^^^^^^
+    `----
+
+  x Stray end tag "</div>"
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:10:9]
+ 10 | </div>
+    : ^^^^^^
+    `----

@@ -1,5 +1,6 @@
 use std::borrow::Cow;
 
+use swc_atoms::JsWord;
 use swc_common::{
     errors::{DiagnosticBuilder, Handler},
     Span,
@@ -138,7 +139,101 @@ impl Error {
                 "Eof in element that can contain only text".into()
             }
             ErrorKind::UnexpectedToken => "Unexpected token".into(),
+            ErrorKind::NestedHeadingTags => "Heading cannot be a child of another heading".into(),
+            ErrorKind::UnexpectedStartSelectWhereEndSelectExpected => {
+                "Unexpected \"<select>\" start tag where end tag expected".into()
+            }
+            ErrorKind::NoTableRowToClose => "No table row to close".into(),
+            ErrorKind::UnexpectedHtmlStartTagInForeignContext(tag_name) => format!(
+                "Unexpected HTML start tag \"<{}>\" in a foreign namespace context",
+                tag_name
+            )
+            .into(),
+            ErrorKind::UnexpectedHtmlEndTagInForeignContext(tag_name) => format!(
+                "Unexpected HTML end tag \"</{}>\" in a foreign namespace context",
+                tag_name
+            )
+            .into(),
+            ErrorKind::UnexpectedStartTagBetweenHeadAndBody(tag_name) => format!(
+                "Unexpected HTML start tag \"<{}>\" between \"</head>\" and \"<body>\"",
+                tag_name
+            )
+            .into(),
+            ErrorKind::StrayDoctype => "Stray doctype".into(),
+            ErrorKind::StrayStartTag(tag_name) => {
+                format!("Stray start tag \"<{}>\"", tag_name).into()
+            }
+            ErrorKind::StrayEndTag(tag_name) => format!("Stray end tag \"</{}>\"", tag_name).into(),
+            ErrorKind::UnclosedElementsImplied(tag_name) => format!(
+                "End tag \"</{}>\" implied, but there were open elements",
+                tag_name
+            )
+            .into(),
+            ErrorKind::UnclosedElements(tag_name) => format!(
+                "End tag \"</{}>\" seen, but there were open elements",
+                tag_name
+            )
+            .into(),
+            ErrorKind::UnexpectedEndTag(tag_name) => {
+                format!("Unexpected end tag \"</{}>\"", tag_name).into()
+            }
+            ErrorKind::StartTagSeenWhenAlreadyOpen(tag_name) => format!(
+                "Start tag \"<{}>\" seen but an element of the same type was already open",
+                tag_name
+            )
+            .into(),
+            ErrorKind::TableSeenWhileTableOpen => {
+                "Start tag for \"<table>\" seen but the previous \"<table>\" is still open".into()
+            }
+            ErrorKind::UnexpectedStartTagInTable(tag_name) => format!(
+                "Unexpected start tag \"<{}>\" seen in \"<table>\"",
+                tag_name
+            )
+            .into(),
+            ErrorKind::NoElementToCloseButEndTagSeen(tag_name) => format!(
+                "No \"{}\" element in scope but a \"</{}>\" end tag seen",
+                tag_name, tag_name
+            )
+            .into(),
+            ErrorKind::UnclosedElementsOnStack => "Unclosed elements on stack".into(),
+            ErrorKind::FormWhenFormOpen => "Saw a \"<form>\" start tag, but there was already an \
+                                            active \"<form>\" element, nested forms are not \
+                                            allowed."
+                .into(),
+            ErrorKind::UnexpectedImageStartTag => {
+                "Unexpected \"<image>\" start tag, only \"<img>\" tag exists in HTML".into()
+            }
+            ErrorKind::UnexpectedStartTagWithSelectOpen(tag_name) => format!(
+                "Unexpected start tag \"<{}>\" with \"<select>\" open",
+                tag_name
+            )
+            .into(),
+            ErrorKind::UnexpectedEndTagWithSelectOpen(tag_name) => format!(
+                "Unexpected end tag \"</{}>\" with \"<select>\" open",
+                tag_name
+            )
+            .into(),
+            ErrorKind::UnexpectedStartTagInRuby(tag_name) => format!(
+                "Unexpected start tag \"<{}>\" with \"<ruby>\" open",
+                tag_name
+            )
+            .into(),
+            ErrorKind::NoCellToClose => "No cell to close".into(),
+            ErrorKind::UnexpectedEndTagWithUnclosedElements(tag_name) => format!(
+                "Unexpected end tag for \"</{}>\", but there were unclosed elements",
+                tag_name
+            )
+            .into(),
             ErrorKind::UnexpectedEof => "Unexpected end of file".into(),
+            ErrorKind::NonSpaceCharacterInFrameset => {
+                "Non-space character in \"<frameset>\"".into()
+            }
+            ErrorKind::NonSpaceCharacterAfterFrameset => {
+                "Non-space character after \"<frameset>\"".into()
+            }
+            ErrorKind::UnclosedElementsCell => {
+                "A table cell was implicitly closed, but there were open elements".into()
+            }
         }
     }
 
@@ -215,5 +310,32 @@ pub enum ErrorKind {
 
     // Parser errors
     UnexpectedToken,
+    StrayDoctype,
+    StrayStartTag(JsWord),
+    StrayEndTag(JsWord),
+    NestedHeadingTags,
+    NoTableRowToClose,
+    NoCellToClose,
+    FormWhenFormOpen,
+    TableSeenWhileTableOpen,
+    StartTagSeenWhenAlreadyOpen(JsWord),
+    NoElementToCloseButEndTagSeen(JsWord),
+    UnexpectedImageStartTag,
+    UnexpectedStartSelectWhereEndSelectExpected,
+    UnexpectedHtmlStartTagInForeignContext(JsWord),
+    UnexpectedHtmlEndTagInForeignContext(JsWord),
+    UnexpectedStartTagBetweenHeadAndBody(JsWord),
+    UnexpectedEndTag(JsWord),
+    UnexpectedStartTagInTable(JsWord),
+    UnexpectedStartTagWithSelectOpen(JsWord),
+    UnexpectedEndTagWithSelectOpen(JsWord),
+    UnexpectedStartTagInRuby(JsWord),
+    UnexpectedEndTagWithUnclosedElements(JsWord),
     UnexpectedEof,
+    UnclosedElementsImplied(JsWord),
+    UnclosedElements(JsWord),
+    UnclosedElementsOnStack,
+    UnclosedElementsCell,
+    NonSpaceCharacterInFrameset,
+    NonSpaceCharacterAfterFrameset,
 }

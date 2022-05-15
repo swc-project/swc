@@ -201,7 +201,7 @@ impl Pure<'_> {
         match &*c.expr {
             Expr::Lit(Lit::Str(s)) => {
                 if s.value == js_word!("")
-                    || s.value.starts_with(|c: char| c.is_digit(10))
+                    || s.value.starts_with(|c: char| c.is_ascii_digit())
                     || s.value
                         .contains(|c: char| !matches!(c, '0'..='9' | 'a'..='z' | 'A'..='Z' | '$'))
                 {
