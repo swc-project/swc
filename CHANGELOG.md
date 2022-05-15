@@ -32,6 +32,9 @@
 - **(es/minifier)** Improve minifier (#4655) ([053f42b](https://github.com/swc-project/swc/commit/053f42b3aa80ac6334b720365b8f9b05d9b333ff))
 
 
+- **(es/minifier)** Implement `directives` (#4668) ([8a40b58](https://github.com/swc-project/swc/commit/8a40b583a56b1ffd815c9be35ae4b0351bc1e711))
+
+
 - **(html)** Support `iframe_srcdoc` (#4658) ([69ca949](https://github.com/swc-project/swc/commit/69ca9497d02cd50ad245e4415009a221b64914ee))
 
 
