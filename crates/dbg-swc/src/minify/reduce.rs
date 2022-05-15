@@ -7,13 +7,22 @@ use std::{
 };
 
 use anyhow::{Context, Result};
-use clap::Args;
+use clap::{ArgEnum, Args};
 use sha1::{Digest, Sha1};
 use swc_common::SourceMap;
 
 #[derive(Debug, Args)]
 pub struct ReduceCommand {
     pub path: PathBuf,
+
+    #[clap(arg_enum)]
+    pub mode: ReduceMode,
+}
+
+#[derive(Debug, Clone, Copy, ArgEnum)]
+pub enum ReduceMode {
+    Size,
+    Semantics,
 }
 
 impl ReduceCommand {
