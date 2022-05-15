@@ -163,7 +163,6 @@ impl<'a, I: Input> Lexer<'a, I> {
                 return Ok(None);
             }
         };
-        let start = self.cur_pos();
 
         let token = match c {
             '#' => return self.read_token_number_sign(),
@@ -233,6 +232,8 @@ impl<'a, I: Input> Lexer<'a, I> {
             }
 
             '+' | '-' => {
+                let start = self.cur_pos();
+
                 self.input.bump();
 
                 // '++', '--'
@@ -301,6 +302,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     return self.read_ident_or_keyword().map(Some);
                 }
 
+                let start = self.cur_pos();
                 self.input.bump();
                 self.error_span(pos_span(start), SyntaxError::UnexpectedChar { c })?
             }
