@@ -775,6 +775,7 @@ fn test_all(src: &str, expected: &str, expected_minified: &str, config: Config) 
         );
     }
     {
+        eprintln!("> minified");
         let out = parse_then_emit(
             src,
             Config {
