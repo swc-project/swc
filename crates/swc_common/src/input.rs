@@ -87,8 +87,7 @@ impl<'a> Input for StringInput<'a> {
         self.iter
             .clone()
             .next()
-            .map(|(p, _)| self.start_pos + BytePos(p as u32))
-            .unwrap_or(self.last_pos)
+            .map_or(self.last_pos, |(p, _)| self.start_pos + BytePos(p as u32))
     }
 
     #[inline]
