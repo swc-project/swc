@@ -1143,10 +1143,11 @@ var YUI = function() {
         name: "json-parse-shim",
         test: function(Y) {
             var _JSON = Y.config.global.JSON, Native = "[object JSON]" === Object.prototype.toString.call(_JSON) && _JSON, nativeSupport = !1 !== Y.config.useNativeJSONParse && !!Native;
+            function workingNative(k, v) {
+                return "ok" === k || v;
+            }
             if (nativeSupport) try {
-                nativeSupport = Native.parse('{"ok":false}', function(k, v) {
-                    return "ok" === k || v;
-                }).ok;
+                nativeSupport = Native.parse('{"ok":false}', workingNative).ok;
             } catch (e) {
                 nativeSupport = !1;
             }
@@ -3564,10 +3565,11 @@ var YUI = function() {
                 name: "json-parse-shim",
                 test: function(Y) {
                     var _JSON = Y.config.global.JSON, Native = "[object JSON]" === Object.prototype.toString.call(_JSON) && _JSON, nativeSupport = !1 !== Y.config.useNativeJSONParse && !!Native;
+                    function workingNative(k, v) {
+                        return "ok" === k || v;
+                    }
                     if (nativeSupport) try {
-                        nativeSupport = Native.parse('{"ok":false}', function(k, v) {
-                            return "ok" === k || v;
-                        }).ok;
+                        nativeSupport = Native.parse('{"ok":false}', workingNative).ok;
                     } catch (e) {
                         nativeSupport = !1;
                     }

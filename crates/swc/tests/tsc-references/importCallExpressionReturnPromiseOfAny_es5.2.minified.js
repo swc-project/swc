@@ -1,6 +1,13 @@
 import * as swcHelpers from "@swc/helpers";
 import regeneratorRuntime from "regenerator-runtime";
-var _marked = regeneratorRuntime.mark(function(directories) {
+var _marked = regeneratorRuntime.mark(loadModule);
+export var C = function() {
+    "use strict";
+    swcHelpers.classCallCheck(this, C);
+};
+import("".concat(directory, "\\").concat(moduleFile)), import(getSpecifier());
+var p1 = (import(ValidSomeCondition() ? "./0" : "externalModule"), import(getSpecifier()));
+function loadModule(directories) {
     var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, _$directory, path;
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
@@ -52,13 +59,7 @@ var _marked = regeneratorRuntime.mark(function(directories) {
             26
         ]
     ]);
-});
-export var C = function() {
-    "use strict";
-    swcHelpers.classCallCheck(this, C);
-};
-import("".concat(directory, "\\").concat(moduleFile)), import(getSpecifier());
-var p1 = (import(ValidSomeCondition() ? "./0" : "externalModule"), import(getSpecifier()));
+}
 import(getSpecifier()), import(whatToLoad ? getSpecifier() : "defaulPath"), p1.then(function(zero) {
     return zero.foo();
 }), import(getSpecifier());

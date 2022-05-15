@@ -14,9 +14,10 @@ export class A {
 var _used1 = new WeakSet(), _unused1 = new WeakSet();
 export class A2 {
     constructor(){
-        swcHelpers.classPrivateMethodInit(this, _used1), swcHelpers.classPrivateMethodInit(this, _unused1), console.log(swcHelpers.classPrivateMethodGet(this, _used1, function() {}).call(this));
+        swcHelpers.classPrivateMethodInit(this, _used1), swcHelpers.classPrivateMethodInit(this, _unused1), console.log(swcHelpers.classPrivateMethodGet(this, _used1, used).call(this));
     }
 }
+function used() {}
 var _used2 = new WeakMap(), _unused2 = new WeakMap();
 export class A3 {
     constructor(){

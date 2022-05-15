@@ -1,6 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 import regeneratorRuntime from "regenerator-runtime";
-var _marked = regeneratorRuntime.mark(function() {
+var _marked = regeneratorRuntime.mark(g);
+function g() {
     var C;
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
@@ -21,4 +22,4 @@ var _marked = regeneratorRuntime.mark(function() {
                 return _ctx.stop();
         }
     }, _marked);
-});
+}

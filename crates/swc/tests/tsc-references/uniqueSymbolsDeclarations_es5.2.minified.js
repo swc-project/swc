@@ -1,36 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 import regeneratorRuntime from "regenerator-runtime";
-var _obj, _marked = regeneratorRuntime.mark(function() {
-    return regeneratorRuntime.wrap(function(_ctx) {
-        for(;;)switch(_ctx.prev = _ctx.next){
-            case 0:
-                return _ctx.next = 2, constCall;
-            case 2:
-            case "end":
-                return _ctx.stop();
-        }
-    }, _marked);
-}), _marked1 = regeneratorRuntime.mark(function() {
-    return regeneratorRuntime.wrap(function(_ctx) {
-        for(;;)switch(_ctx.prev = _ctx.next){
-            case 0:
-                return _ctx.next = 2, varCall;
-            case 2:
-            case "end":
-                return _ctx.stop();
-        }
-    }, _marked1);
-}), _marked2 = regeneratorRuntime.mark(function() {
-    return regeneratorRuntime.wrap(function(_ctx) {
-        for(;;)switch(_ctx.prev = _ctx.next){
-            case 0:
-                return _ctx.next = 2, letCall;
-            case 2:
-            case "end":
-                return _ctx.stop();
-        }
-    }, _marked2);
-}), _marked3 = regeneratorRuntime.mark(function() {
+var _obj, _marked = regeneratorRuntime.mark(genFuncYieldConstCallWithTypeQuery), _marked1 = regeneratorRuntime.mark(genFuncYieldVarCall), _marked2 = regeneratorRuntime.mark(genFuncYieldLetCall), _marked3 = regeneratorRuntime.mark(genFuncYieldConstCall), constCall = Symbol(), letCall = Symbol(), varCall = Symbol();
+function genFuncYieldConstCall() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
@@ -40,7 +11,40 @@ var _obj, _marked = regeneratorRuntime.mark(function() {
                 return _ctx.stop();
         }
     }, _marked3);
-}), constCall = Symbol(), letCall = Symbol(), varCall = Symbol();
+}
+function genFuncYieldLetCall() {
+    return regeneratorRuntime.wrap(function(_ctx) {
+        for(;;)switch(_ctx.prev = _ctx.next){
+            case 0:
+                return _ctx.next = 2, letCall;
+            case 2:
+            case "end":
+                return _ctx.stop();
+        }
+    }, _marked2);
+}
+function genFuncYieldVarCall() {
+    return regeneratorRuntime.wrap(function(_ctx) {
+        for(;;)switch(_ctx.prev = _ctx.next){
+            case 0:
+                return _ctx.next = 2, varCall;
+            case 2:
+            case "end":
+                return _ctx.stop();
+        }
+    }, _marked1);
+}
+function genFuncYieldConstCallWithTypeQuery() {
+    return regeneratorRuntime.wrap(function(_ctx) {
+        for(;;)switch(_ctx.prev = _ctx.next){
+            case 0:
+                return _ctx.next = 2, constCall;
+            case 2:
+            case "end":
+                return _ctx.stop();
+        }
+    }, _marked);
+}
 Symbol();
 var C = function() {
     "use strict";

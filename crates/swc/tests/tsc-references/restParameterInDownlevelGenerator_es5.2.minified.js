@@ -1,5 +1,6 @@
 import regeneratorRuntime from "regenerator-runtime";
-var _marked = regeneratorRuntime.mark(function() {
+var _marked = regeneratorRuntime.mark(mergeStringLists);
+function mergeStringLists() {
     var _len, strings, _key, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, str, _args = arguments;
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
@@ -40,4 +41,4 @@ var _marked = regeneratorRuntime.mark(function() {
             17
         ]
     ]);
-});
+}

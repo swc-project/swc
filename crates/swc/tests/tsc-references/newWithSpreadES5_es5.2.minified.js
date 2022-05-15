@@ -2,6 +2,9 @@ import * as swcHelpers from "@swc/helpers";
 function f(x, y) {
     for(var _len = arguments.length, z = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)z[_key - 2] = arguments[_key];
 }
+function f2() {
+    for(var _len = arguments.length, x = new Array(_len), _key = 0; _key < _len; _key++)x[_key] = arguments[_key];
+}
 var a, b, c, d, e, g, h, i, B = function(x, y) {
     "use strict";
     for(var _len = arguments.length, z = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)z[_key - 2] = arguments[_key];
@@ -15,9 +18,7 @@ new f(1, 2, "string"), swcHelpers.construct(f, [
     2
 ].concat(swcHelpers.toConsumableArray(a), [
     "string"
-])), swcHelpers.construct(function() {
-    for(var _len = arguments.length, x = new Array(_len), _key = 0; _key < _len; _key++)x[_key] = arguments[_key];
-}, swcHelpers.toConsumableArray(a).concat(swcHelpers.toConsumableArray(a))), swcHelpers.construct(f, [
+])), swcHelpers.construct(f2, swcHelpers.toConsumableArray(a).concat(swcHelpers.toConsumableArray(a))), swcHelpers.construct(f, [
     1,
     2
 ].concat(swcHelpers.toConsumableArray(a), swcHelpers.toConsumableArray(a))), new f(1, 2, "string")(), swcHelpers.construct(f, [

@@ -1,18 +1,6 @@
 import * as swcHelpers from "@swc/helpers";
 import regeneratorRuntime from "regenerator-runtime";
-var _marked = regeneratorRuntime.mark(function() {
-    return regeneratorRuntime.wrap(function(_ctx) {
-        for(;;)switch(_ctx.prev = _ctx.next){
-            case 0:
-                return _ctx.delegateYield(g1, "t0", 1);
-            case 1:
-                return _ctx.delegateYield(g3, "t1", 2);
-            case 2:
-            case "end":
-                return _ctx.stop();
-        }
-    }, _marked);
-});
+var _marked = regeneratorRuntime.mark(f1);
 swcHelpers.toConsumableArray(g1), swcHelpers.toConsumableArray(g2), swcHelpers.slicedToArray(g1, 1)[0], swcHelpers.slicedToArray(g2, 1)[0], swcHelpers.toArray(g1).slice(0), swcHelpers.toArray(g2).slice(0), _ = swcHelpers.slicedToArray(g1, 1)[0], _ = swcHelpers.slicedToArray(g2, 1)[0], _ = swcHelpers.toArray(g1).slice(0), _ = swcHelpers.toArray(g2).slice(0);
 var _iteratorNormalCompletion = !0, _didIteratorError = !1, _iteratorError = void 0;
 try {
@@ -37,4 +25,17 @@ try {
     } finally{
         if (_didIteratorError1) throw _iteratorError1;
     }
+}
+function f1() {
+    return regeneratorRuntime.wrap(function(_ctx) {
+        for(;;)switch(_ctx.prev = _ctx.next){
+            case 0:
+                return _ctx.delegateYield(g1, "t0", 1);
+            case 1:
+                return _ctx.delegateYield(g3, "t1", 2);
+            case 2:
+            case "end":
+                return _ctx.stop();
+        }
+    }, _marked);
 }

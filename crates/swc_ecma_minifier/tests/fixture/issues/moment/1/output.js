@@ -440,6 +440,9 @@
     function hFormat() {
         return this.hours() % 12 || 12;
     }
+    function kFormat() {
+        return this.hours() || 24;
+    }
     function meridiem1(token, lowercase) {
         addFormatToken(token, 0, 0, function() {
             return this.localeData().meridiem(this.hours(), this.minutes(), lowercase);
@@ -457,9 +460,7 @@
     ], 0, hFormat), addFormatToken("k", [
         "kk",
         2
-    ], 0, function() {
-        return this.hours() || 24;
-    }), addFormatToken("hmm", 0, 0, function() {
+    ], 0, kFormat), addFormatToken("hmm", 0, 0, function() {
         return "" + hFormat.apply(this) + zeroFill(this.minutes(), 2);
     }), addFormatToken("hmmss", 0, 0, function() {
         return "" + hFormat.apply(this) + zeroFill(this.minutes(), 2) + zeroFill(this.seconds(), 2);
@@ -935,6 +936,18 @@
     function getDateOffset(m) {
         return -Math.round(m._d.getTimezoneOffset());
     }
+    function getSetZone(input, keepLocalTime) {
+        return null != input ? ("string" != typeof input && (input = -input), this.utcOffset(input, keepLocalTime), this) : -this.utcOffset();
+    }
+    function isDaylightSavingTimeShifted() {
+        if (!isUndefined(this._isDSTShifted)) return this._isDSTShifted;
+        var other, c = {};
+        return copyConfig(c, this), (c = prepareConfig(c))._a ? (other = c._isUTC ? createUTC(c._a) : createLocal(c._a), this._isDSTShifted = this.isValid() && function(array1, array2, dontConvert) {
+            var i, len = Math.min(array1.length, array2.length), lengthDiff = Math.abs(array1.length - array2.length), diffs = 0;
+            for(i = 0; i < len; i++)(dontConvert && array1[i] !== array2[i] || !dontConvert && toInt(array1[i]) !== toInt(array2[i])) && diffs++;
+            return diffs + lengthDiff;
+        }(c._a, other.toArray()) > 0) : this._isDSTShifted = !1, this._isDSTShifted;
+    }
     function isUtc() {
         return !!this.isValid() && this._isUTC && 0 === this._offset;
     }
@@ -1023,6 +1036,15 @@
     function matchEraAbbr(isStrict, locale) {
         return locale.erasAbbrRegex(isStrict);
     }
+    function matchEraName(isStrict, locale) {
+        return locale.erasNameRegex(isStrict);
+    }
+    function matchEraNarrow(isStrict, locale) {
+        return locale.erasNarrowRegex(isStrict);
+    }
+    function matchEraYearOrdinal(isStrict, locale) {
+        return locale._eraYearOrdinalRegex || matchUnsigned;
+    }
     function computeErasParse() {
         var i, l, abbrPieces = [], namePieces = [], narrowPieces = [], mixedPieces = [], eras = this.eras();
         for(i = 0, l = eras.length; i < l; ++i)namePieces.push(regexEscape(eras[i].name)), abbrPieces.push(regexEscape(eras[i].abbr)), narrowPieces.push(regexEscape(eras[i].narrow)), mixedPieces.push(regexEscape(eras[i].name)), mixedPieces.push(regexEscape(eras[i].abbr)), mixedPieces.push(regexEscape(eras[i].narrow));
@@ -1054,11 +1076,7 @@
     ], 0, "eraYear"), addFormatToken("y", [
         "yyyy",
         4
-    ], 0, "eraYear"), addRegexToken("N", matchEraAbbr), addRegexToken("NN", matchEraAbbr), addRegexToken("NNN", matchEraAbbr), addRegexToken("NNNN", function(isStrict, locale) {
-        return locale.erasNameRegex(isStrict);
-    }), addRegexToken("NNNNN", function(isStrict, locale) {
-        return locale.erasNarrowRegex(isStrict);
-    }), addParseToken([
+    ], 0, "eraYear"), addRegexToken("N", matchEraAbbr), addRegexToken("NN", matchEraAbbr), addRegexToken("NNN", matchEraAbbr), addRegexToken("NNNN", matchEraName), addRegexToken("NNNNN", matchEraNarrow), addParseToken([
         "N",
         "NN",
         "NNN",
@@ -1067,9 +1085,7 @@
     ], function(input, array, config, token) {
         var era = config._locale.erasParse(input, token, config._strict);
         era ? getParsingFlags(config).era = era : getParsingFlags(config).invalidEra = input;
-    }), addRegexToken("y", matchUnsigned), addRegexToken("yy", matchUnsigned), addRegexToken("yyy", matchUnsigned), addRegexToken("yyyy", matchUnsigned), addRegexToken("yo", function(isStrict, locale) {
-        return locale._eraYearOrdinalRegex || matchUnsigned;
-    }), addParseToken([
+    }), addRegexToken("y", matchUnsigned), addRegexToken("yy", matchUnsigned), addRegexToken("yyy", matchUnsigned), addRegexToken("yyyy", matchUnsigned), addRegexToken("yo", matchEraYearOrdinal), addParseToken([
         "y",
         "yy",
         "yyy",
@@ -1544,17 +1560,7 @@
         return this._isUTC ? "UTC" : "";
     }, proto.zoneName = function() {
         return this._isUTC ? "Coordinated Universal Time" : "";
-    }, proto.dates = deprecate("dates accessor is deprecated. Use date instead.", getSetDayOfMonth), proto.months = deprecate("months accessor is deprecated. Use month instead", getSetMonth), proto.years = deprecate("years accessor is deprecated. Use year instead", getSetYear), proto.zone = deprecate("moment().zone is deprecated, use moment().utcOffset instead. http://momentjs.com/guides/#/warnings/zone/", function(input, keepLocalTime) {
-        return null != input ? ("string" != typeof input && (input = -input), this.utcOffset(input, keepLocalTime), this) : -this.utcOffset();
-    }), proto.isDSTShifted = deprecate("isDSTShifted is deprecated. See http://momentjs.com/guides/#/warnings/dst-shifted/ for more information", function() {
-        if (!isUndefined(this._isDSTShifted)) return this._isDSTShifted;
-        var other, c = {};
-        return copyConfig(c, this), (c = prepareConfig(c))._a ? (other = c._isUTC ? createUTC(c._a) : createLocal(c._a), this._isDSTShifted = this.isValid() && function(array1, array2, dontConvert) {
-            var i, len = Math.min(array1.length, array2.length), lengthDiff = Math.abs(array1.length - array2.length), diffs = 0;
-            for(i = 0; i < len; i++)(dontConvert && array1[i] !== array2[i] || !dontConvert && toInt(array1[i]) !== toInt(array2[i])) && diffs++;
-            return diffs + lengthDiff;
-        }(c._a, other.toArray()) > 0) : this._isDSTShifted = !1, this._isDSTShifted;
-    });
+    }, proto.dates = deprecate("dates accessor is deprecated. Use date instead.", getSetDayOfMonth), proto.months = deprecate("months accessor is deprecated. Use month instead", getSetMonth), proto.years = deprecate("years accessor is deprecated. Use year instead", getSetYear), proto.zone = deprecate("moment().zone is deprecated, use moment().utcOffset instead. http://momentjs.com/guides/#/warnings/zone/", getSetZone), proto.isDSTShifted = deprecate("isDSTShifted is deprecated. See http://momentjs.com/guides/#/warnings/dst-shifted/ for more information", isDaylightSavingTimeShifted);
     var proto$1 = Locale.prototype;
     function get$1(format, index, field, setter) {
         var locale = getLocale(), utc = createUTC().set(setter, index);

@@ -928,6 +928,9 @@
                         ignoreFocusEvents = !0, text2.blur(), text2.focus(), ignoreFocusEvents = !1;
                     }
                     var syncComposition = lang.delayedCall(onCompositionUpdate, 50).schedule.bind(null, null);
+                    function onKeyup(e) {
+                        27 == e.keyCode && text2.value.length < text2.selectionStart && (inComposition || (lastValue = text2.value), lastSelectionStart = lastSelectionEnd = -1, resetSelection()), syncComposition();
+                    }
                     function onContextMenuClose() {
                         clearTimeout(closeTimeout), closeTimeout = setTimeout(function() {
                             tempStyle && (text2.style.cssText = tempStyle, tempStyle = ""), host.renderer.$isMousePressed = !1, host.renderer.$keepTextAreaAtCursor && host.renderer.$moveTextAreaToCursor();
@@ -939,9 +942,7 @@
                             var range = host.getSelectionRange();
                             range.end.row = range.start.row, range.end.column = range.start.column, inComposition.markerRange = range, inComposition.selectionStart = lastSelectionStart, host.onCompositionStart(inComposition), inComposition.useTextareaForIME ? (lastValue = text2.value = "", lastSelectionStart = 0, lastSelectionEnd = 0) : (text2.msGetInputContext && (inComposition.context = text2.msGetInputContext()), text2.getInputContext && (inComposition.context = text2.getInputContext()));
                         }
-                    }, host), event.addListener(text2, "compositionupdate", onCompositionUpdate, host), event.addListener(text2, "keyup", function(e) {
-                        27 == e.keyCode && text2.value.length < text2.selectionStart && (inComposition || (lastValue = text2.value), lastSelectionStart = lastSelectionEnd = -1, resetSelection()), syncComposition();
-                    }, host), event.addListener(text2, "keydown", syncComposition, host), event.addListener(text2, "compositionend", onCompositionEnd, host), this.getElement = function() {
+                    }, host), event.addListener(text2, "compositionupdate", onCompositionUpdate, host), event.addListener(text2, "keyup", onKeyup, host), event.addListener(text2, "keydown", syncComposition, host), event.addListener(text2, "compositionend", onCompositionEnd, host), this.getElement = function() {
                         return text2;
                     }, this.setCommandMode = function(value) {
                         commandMode = value, text2.readOnly = !1;

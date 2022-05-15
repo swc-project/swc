@@ -1,2 +1,3 @@
-as`Hello world`, as(class {
-});
+class Foo {
+}
+as`Hello world`, as(Foo);
