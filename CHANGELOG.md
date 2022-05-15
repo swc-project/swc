@@ -46,6 +46,12 @@
 
 - **(es/react)** Use proper ident scope for react refresh (#4649) ([1150e84](https://github.com/swc-project/swc/commit/1150e842ed4f6ea4216f6b54706abffc52449c9f))
 
+### Build
+
+
+
+- **(repo)** Update `rustc` (#4667) ([98e4845](https://github.com/swc-project/swc/commit/98e4845fcec8990482f2fd353ae7ae25ce7aeeca))
+
 ## [1.2.183] - 2022-05-13
 
 ### Bug Fixes
