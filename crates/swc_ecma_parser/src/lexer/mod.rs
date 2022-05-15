@@ -217,10 +217,10 @@ impl<'a, I: Input> Lexer<'a, I> {
 
             '/' => return self.read_slash(),
 
-            c @ ('%' | '*') => return self.read_token_mul_mod(c).map(Some),
+            '%' | '*' => return self.read_token_mul_mod(c).map(Some),
 
             // Logical operators
-            c @ '|' | c @ '&' => return self.read_token_logical(c).map(Some),
+            '|' | '&' => return self.read_token_logical(c).map(Some),
             '^' => {
                 // Bitwise xor
                 self.input.bump();
