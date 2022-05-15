@@ -129,7 +129,10 @@ fn identity(entry: PathBuf) {
 
         {
             let mut emitter = Emitter {
-                cfg: swc_ecma_codegen::Config { minify: false },
+                cfg: swc_ecma_codegen::Config {
+                    minify: false,
+                    ..Default::default()
+                },
                 cm: cm.clone(),
                 wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
                     cm.clone(),

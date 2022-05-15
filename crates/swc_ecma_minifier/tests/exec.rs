@@ -82,7 +82,10 @@ fn print<N: swc_ecma_codegen::Node>(
         }
 
         let mut emitter = Emitter {
-            cfg: swc_ecma_codegen::Config { minify },
+            cfg: swc_ecma_codegen::Config {
+                minify,
+                ..Default::default()
+            },
             cm,
             comments: None,
             wr,
