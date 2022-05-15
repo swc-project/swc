@@ -832,3 +832,16 @@ fn ascii_only_3() {
         },
     );
 }
+
+#[test]
+fn ascii_only_4() {
+    test_all(
+        "`😊`",
+        "`\\u{1F60A}`;\n",
+        "`\\u{1F60A}`;\n",
+        Config {
+            ascii_only: true,
+            ..Default::default()
+        },
+    );
+}
