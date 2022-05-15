@@ -34,11 +34,23 @@
 
 - **(html/parser)** Improve error reporting (#4663) ([a8467c6](https://github.com/swc-project/swc/commit/a8467c64e8c3810a2ed9f449ee1b12029eca154c))
 
+### Performance
+
+
+
+- **(es/parser)** Optimize for cpu code cache (#4666) ([11726cc](https://github.com/swc-project/swc/commit/11726cc0e1cf847bd9cd6648c5e55f61086ac970))
+
 ### Refactor
 
 
 
 - **(es/react)** Use proper ident scope for react refresh (#4649) ([1150e84](https://github.com/swc-project/swc/commit/1150e842ed4f6ea4216f6b54706abffc52449c9f))
+
+### Build
+
+
+
+- **(repo)** Update `rustc` (#4667) ([98e4845](https://github.com/swc-project/swc/commit/98e4845fcec8990482f2fd353ae7ae25ce7aeeca))
 
 ## [1.2.183] - 2022-05-13
 

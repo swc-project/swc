@@ -6,7 +6,7 @@ use super::*;
 #[cfg(test)]
 mod tests;
 
-impl<'a, I: Tokens> Parser<I> {
+impl<I: Tokens> Parser<I> {
     /// Parse next token as JSX identifier
     pub(super) fn parse_jsx_ident(&mut self) -> PResult<Ident> {
         debug_assert!(self.input.syntax().jsx());

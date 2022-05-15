@@ -125,7 +125,7 @@ impl Context {
     }
 }
 
-impl<'a, I: Tokens> Parser<I> {
+impl<I: Tokens> Parser<I> {
     /// Original context is restored when returned guard is dropped.
     pub(super) fn with_ctx(&mut self, ctx: Context) -> WithCtx<I> {
         let orig_ctx = self.ctx();
