@@ -977,12 +977,12 @@ impl Fold for CommonJs {
                             type_args: Default::default(),
                         };
 
-                        *obj = Box::new(Expr::Call(CallExpr {
+                        expr = Expr::Call(CallExpr {
                             span: *span,
                             callee: url_obj.make_member(quote_ident!("toString")).as_callee(),
                             args: Default::default(),
                             type_args: Default::default(),
-                        }));
+                        });
                     }
                 }
             }
