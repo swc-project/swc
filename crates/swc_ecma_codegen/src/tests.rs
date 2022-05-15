@@ -24,7 +24,7 @@ impl Builder {
         F: for<'aa> FnOnce(&mut Emitter<'aa, Box<(dyn WriteJs + 'aa)>>) -> Ret,
         Ret: 'static,
     {
-        let writer = text_writer::JsWriter::with_target(self.cm.clone(), "\n", s, None);
+        let writer = text_writer::JsWriter::new(self.cm.clone(), "\n", s, None);
         let writer: Box<dyn WriteJs> = if self.cfg.minify {
             Box::new(omit_trailing_semi(writer))
         } else {
@@ -77,13 +77,7 @@ fn parse_then_emit(from: &str, cfg: Config, syntax: Syntax) -> String {
             res?
         };
 
-        let out = Builder {
-            cfg,
-            cm,
-            comments,
-            target,
-        }
-        .text(from, |e| e.emit_module(&res).unwrap());
+        let out = Builder { cfg, cm, comments }.text(from, |e| e.emit_module(&res).unwrap());
         Ok(out)
     })
     .unwrap()

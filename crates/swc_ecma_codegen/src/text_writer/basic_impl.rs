@@ -2,7 +2,6 @@ use std::io::{self, Write};
 
 use rustc_hash::FxHashSet;
 use swc_common::{sync::Lrc, BytePos, LineCol, SourceMap, Span};
-use swc_ecma_ast::EsVersion;
 
 use super::{Result, WriteJs};
 
