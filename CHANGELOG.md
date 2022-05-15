@@ -34,6 +34,12 @@
 
 - **(html/parser)** Improve error reporting (#4663) ([a8467c6](https://github.com/swc-project/swc/commit/a8467c64e8c3810a2ed9f449ee1b12029eca154c))
 
+### Performance
+
+
+
+- **(es/parser)** Optimize for cpu code cache (#4666) ([11726cc](https://github.com/swc-project/swc/commit/11726cc0e1cf847bd9cd6648c5e55f61086ac970))
+
 ### Refactor
 
 
