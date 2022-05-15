@@ -5,6 +5,9 @@
 
 
 
+- **(es/minifier)** Don't inline a function if we need referential equality (#4665) ([96cec97](https://github.com/swc-project/swc/commit/96cec97b2c2192b4d5059dc05d1a3971e78f9cd5))
+
+
 - **(html/parser)** Fix error reporting (#4644) ([1f945b9](https://github.com/swc-project/swc/commit/1f945b9277e564e393505b0baeaf3526d8a34d64))
 
 ### Features
