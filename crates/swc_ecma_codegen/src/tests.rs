@@ -800,7 +800,7 @@ fn ascii_only_str_1() {
     test_all(
         "'😊❤️'",
         "'😊❤️';\n",
-        "\"\\u{1F60A}\"",
+        r#""\u{1F60A}\u2764\uFE0F""#,
         Config {
             ascii_only: false,
             ..Default::default()
@@ -812,8 +812,8 @@ fn ascii_only_str_1() {
 fn ascii_only_str_2() {
     test_all(
         "'😊❤️'",
-        "\"\\u{1F60A}\";",
-        "\"\\u{1F60A}\"",
+        r#""\u{1F60A}\u2764\uFE0F";"#,
+        r#""\u{1F60A}\u2764\uFE0F""#,
         Config {
             ascii_only: true,
             ..Default::default()
@@ -839,7 +839,7 @@ fn ascii_only_tpl_lit() {
     test_all(
         "`😊❤️`",
         r"`\u{1F60A}\u{2764}\u{FE0F}`;",
-        "`\\u{1F60A}`",
+        r"`\u{1F60A}\u{2764}\u{FE0F}`",
         Config {
             ascii_only: true,
             ..Default::default()
