@@ -63,7 +63,7 @@ fn main() -> Result<()> {
 
     let cm = Arc::new(SourceMap::default());
 
-    if env::var("CREDUCE_COMPARE").unwrap_or_default() == "1" {
+    if let Ok(mode) = env::var("CREDUCE_COMPARE") {
         return try_with_handler(
             cm.clone(),
             HandlerOpts {
@@ -75,33 +75,54 @@ fn main() -> Result<()> {
                     HANDLER.set(handler, || {
                         //
 
-                        let m = get_minified(cm.clone(), "input.js".as_ref(), true, true)?;
+                        if mode == "SIZE" {
+                            let m = get_minified(cm.clone(), "input.js".as_ref(), true, true)?;
 
-                        let swc_output = print_js(cm.clone(), &m.module, true)?;
+                            let swc_output = print_js(cm.clone(), &m.module, true)?;
 
-                        let terser_output = get_terser_output("input.js".as_ref(), true, true)?;
-                        if swc_output.len() > terser_output.len() {
-                            return Ok(());
+                            let terser_output = get_terser_output("input.js".as_ref(), true, true)?;
+                            if swc_output.len() > terser_output.len() {
+                                return Ok(());
+                            }
+
+                            // We only care about length, so we can replace it.
+                            //
+                            // We target es5, but esbuild does not support it
+                            let swc_output = swc_output.replace("\\n", "_");
+
+                            let esbuild_output = get_esbuild_output("input.js".as_ref(), true)?;
+
+                            if swc_output.len() > esbuild_output.len() {
+                                return Ok(());
+                            }
+
+                            println!(
+                                "swc size = {}, esbuild size = {}",
+                                swc_output.len(),
+                                esbuild_output.len()
+                            );
+
+                            bail!("We don't care about this file")
+                        } else if mode == "SEMANTICS" {
+                            let m = get_minified(cm.clone(), "input.js".as_ref(), true, false)?;
+
+                            let swc_output = print_js(cm.clone(), &m.module, true)?;
+
+                            let terser_output =
+                                get_terser_output("input.js".as_ref(), true, false)?;
+
+                            if swc_output.len() <= 1000 || terser_output.len() <= 1000 {
+                                bail!("We don't care about this file because it's too small")
+                            }
+
+                            if swc_output.trim() == terser_output.trim() {
+                                bail!("We don't care about this file")
+                            }
+
+                            Ok(())
+                        } else {
+                            unreachable!("Unknown mode `{}`", mode)
                         }
-
-                        // We only care about length, so we can replace it.
-                        //
-                        // We target es5, but esbuild does not support it
-                        let swc_output = swc_output.replace("\\n", "_");
-
-                        let esbuild_output = get_esbuild_output("input.js".as_ref(), true)?;
-
-                        if swc_output.len() > esbuild_output.len() {
-                            return Ok(());
-                        }
-
-                        println!(
-                            "swc size = {}, esbuild size = {}",
-                            swc_output.len(),
-                            esbuild_output.len()
-                        );
-
-                        bail!("We don't care about this file")
                     })
                 })
             },
