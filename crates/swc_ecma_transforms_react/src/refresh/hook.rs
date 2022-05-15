@@ -1,4 +1,4 @@
-use std::mem;
+use std::{fmt::Write, mem};
 
 use once_cell::sync::Lazy;
 use regex::Regex;
@@ -441,7 +441,6 @@ impl<'a> HookCollector<'a> {
             );
         } else if &name.sym == "useReducer" && expr.args.len() > 1 {
             // useReducer second argument is initial state.
-            key += &format!();
             let _ = write!(
                 key,
                 "({})",
