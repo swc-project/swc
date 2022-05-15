@@ -755,74 +755,80 @@ module.exports = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u
     );
 }
 
+fn test_all(src: &str, expected: &str, expected_minified: &str, config: Config) {
+    {
+        let out = parse_then_emit(
+            src,
+            Config {
+                minify: false,
+                ..config
+            },
+            Syntax::default(),
+        );
+
+        dbg!(&out);
+        dbg!(&expected);
+
+        assert_eq!(
+            DebugUsingDisplay(out.trim()),
+            DebugUsingDisplay(expected.trim()),
+        );
+    }
+    {
+        let out = parse_then_emit(
+            src,
+            Config {
+                minify: true,
+                ..config
+            },
+            Syntax::default(),
+        );
+
+        dbg!(&out);
+        dbg!(&expected_minified);
+
+        assert_eq!(
+            DebugUsingDisplay(out.trim()),
+            DebugUsingDisplay(expected_minified.trim()),
+        );
+    }
+}
+
 #[test]
 fn ascii_only_1() {
-    let from = "'😊'";
-    let expected = "'😊';\n";
-
-    let out = parse_then_emit(
-        from,
+    test_all(
+        "'😊'",
+        "'😊';\n",
+        "'😊';\n",
         Config {
-            target: EsVersion::Es2022,
             ascii_only: false,
             ..Default::default()
         },
-        Syntax::default(),
-    );
-
-    dbg!(&out);
-    dbg!(&expected);
-
-    assert_eq!(
-        DebugUsingDisplay(out.trim()),
-        DebugUsingDisplay(expected.trim()),
     );
 }
 
 #[test]
 fn ascii_only_2() {
-    let from = "'😊'";
-    let expected = "'\\u{1F60A}';\n";
-
-    let out = parse_then_emit(
-        from,
+    test_all(
+        "'😊'",
+        "'\\u{1F60A}';\n",
+        "'\\u{1F60A}';\n",
         Config {
-            target: EsVersion::Es2022,
             ascii_only: true,
             ..Default::default()
         },
-        Syntax::default(),
-    );
-
-    dbg!(&out);
-    dbg!(&expected);
-
-    assert_eq!(
-        DebugUsingDisplay(out.trim()),
-        DebugUsingDisplay(expected.trim()),
     );
 }
 
 #[test]
 fn ascii_only_3() {
-    let from = "'\\u{1F60A}'";
-    let expected = "'😊';\n";
-
-    let out = parse_then_emit(
-        from,
+    test_all(
+        "'\\u{1F60A}'",
+        "'😊';\n",
+        "'😊';\n",
         Config {
-            target: EsVersion::Es2022,
-            ascii_only: false,
+            ascii_only: true,
             ..Default::default()
         },
-        Syntax::default(),
-    );
-
-    dbg!(&out);
-    dbg!(&expected);
-
-    assert_eq!(
-        DebugUsingDisplay(out.trim()),
-        DebugUsingDisplay(expected.trim()),
     );
 }
