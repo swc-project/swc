@@ -859,11 +859,23 @@ impl Pure<'_> {
                 //  foo(),basr(),foo;
                 Expr::Member(MemberExpr {
                     obj,
-                    prop: MemberProp::Computed(..),
+                    prop: MemberProp::Computed(prop),
                     ..
                 }) => match &**obj {
                     Expr::Object(..) | Expr::Array(..) => {
                         self.ignore_return_value(obj, opts);
+
+                        match &**obj {
+                            Expr::Object(..) => {}
+                            _ => {
+                                *e = self
+                                    .make_ignored_expr(
+                                        vec![obj.take(), prop.expr.take()].into_iter(),
+                                    )
+                                    .unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
+                                return;
+                            }
+                        };
                     }
                     _ => {}
                 },
