@@ -545,7 +545,7 @@ where
                 // codegen
                 Some(raw_value)
                     if target > EsVersion::Es5
-                        && (!self.cfg.ascii_only || raw_value.chars().all(|c| c.is_ascii())) =>
+                        && (!self.cfg.ascii_only || raw_value.is_ascii()) =>
                 {
                     self.wr.write_str_lit(DUMMY_SP, raw_value)?;
                 }
