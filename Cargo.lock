@@ -3589,7 +3589,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.112.0"
+version = "0.112.1"
 dependencies = [
  "Inflector",
  "ahash",

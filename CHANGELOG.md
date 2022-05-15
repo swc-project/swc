@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/modules)** Fix handling of `import.meta.url` (#4670) ([49c40af](https://github.com/swc-project/swc/commit/49c40afb7e092655578ee4d991ddf1f3fd20ff6a))
+
 ### Features
 
 
