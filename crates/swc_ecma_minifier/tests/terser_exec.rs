@@ -34,7 +34,6 @@ use testing::assert_eq;
 #[testing::fixture(
     "tests/terser/compress/**/input.js",
     exclude(
-        "functions/avoid_generating_duplicate_functions_compared_together_3/",
         // We don't care about ie8
         "ie8",
         // tests with infinite loops
