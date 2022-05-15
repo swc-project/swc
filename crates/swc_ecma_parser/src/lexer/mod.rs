@@ -172,42 +172,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             c if c == '\\' || c.is_ident_start() => return self.read_ident_or_keyword().map(Some),
 
             //
-            '.' => {
-                // Check for eof
-                let next = match self.input.peek() {
-                    Some(next) => next,
-                    None => {
-                        self.input.bump();
-                        return Ok(Some(tok!('.')));
-                    }
-                };
-                if ('0'..='9').contains(&next) {
-                    return self
-                        .read_number(true)
-                        .map(|v| match v {
-                            Left((value, raw)) => Num {
-                                value,
-                                raw: raw.into(),
-                            },
-                            Right((value, raw)) => BigInt {
-                                value,
-                                raw: raw.into(),
-                            },
-                        })
-                        .map(Some);
-                }
-
-                self.input.bump(); // 1st `.`
-
-                if next == '.' && self.input.peek() == Some('.') {
-                    self.input.bump(); // 2nd `.`
-                    self.input.bump(); // 3rd `.`
-
-                    return Ok(Some(tok!("...")));
-                }
-
-                return Ok(Some(tok!('.')));
-            }
+            '.' => return self.read_token_dot().map(Some),
 
             '(' | ')' | ';' | ',' | '[' | ']' | '{' | '}' | '@' => {
                 // These tokens are emitted directly.
@@ -500,6 +465,40 @@ impl<'a, I: Input> Lexer<'a, I> {
             self.input.reset_to(start);
             Ok(false)
         }
+    }
+
+    fn read_token_dot(&mut self) -> LexResult<Token> {
+        // Check for eof
+        let next = match self.input.peek() {
+            Some(next) => next,
+            None => {
+                self.input.bump();
+                return Ok(tok!('.'));
+            }
+        };
+        if ('0'..='9').contains(&next) {
+            return self.read_number(true).map(|v| match v {
+                Left((value, raw)) => Num {
+                    value,
+                    raw: raw.into(),
+                },
+                Right((value, raw)) => BigInt {
+                    value,
+                    raw: raw.into(),
+                },
+            });
+        }
+
+        self.input.bump(); // 1st `.`
+
+        if next == '.' && self.input.peek() == Some('.') {
+            self.input.bump(); // 2nd `.`
+            self.input.bump(); // 3rd `.`
+
+            return Ok(tok!("..."));
+        }
+
+        return Ok(tok!('.'));
     }
 
     /// Read an escaped character for string literal.
