@@ -121,6 +121,7 @@
         "putc",
         "qself",
         "RAII",
+        "reconsume",
         "regs",
         "repr",
         "rfind",
@@ -156,5 +157,7 @@
         "variadic",
         "vercel"
     ],
-    "flagWords": ["actally"]
+    "flagWords": [
+        "actally"
+    ]
 }
