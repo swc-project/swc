@@ -111,7 +111,7 @@ fn main() -> Result<()> {
                             let terser_output =
                                 get_terser_output("input.js".as_ref(), true, false)?;
 
-                            if swc_output.len() <= 100 || terser_output.len() <= 100 {
+                            if swc_output.len() <= 1000 || terser_output.len() <= 1000 {
                                 bail!("We don't care about this file because it's too small")
                             }
 
