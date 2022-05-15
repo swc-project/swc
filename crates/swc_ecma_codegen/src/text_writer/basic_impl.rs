@@ -23,25 +23,14 @@ pub struct JsWriter<'a, W: Write> {
     /// Used to avoid including whitespaces created by indention.
     pending_srcmap: Option<BytePos>,
     wr: W,
-    target: EsVersion,
 }
 
 impl<'a, W: Write> JsWriter<'a, W> {
     pub fn new(
-        cm: Lrc<SourceMap>,
-        new_line: &'a str,
-        wr: W,
-        srcmap: Option<&'a mut Vec<(BytePos, LineCol)>>,
-    ) -> Self {
-        Self::with_target(cm, new_line, wr, srcmap, EsVersion::Es2020)
-    }
-
-    pub fn with_target(
         _: Lrc<SourceMap>,
         new_line: &'a str,
         wr: W,
         srcmap: Option<&'a mut Vec<(BytePos, LineCol)>>,
-        target: EsVersion,
     ) -> Self {
         JsWriter {
             indent: Default::default(),
@@ -51,7 +40,6 @@ impl<'a, W: Write> JsWriter<'a, W> {
             new_line,
             srcmap,
             wr,
-            target,
             pending_srcmap: Default::default(),
             srcmap_done: Default::default(),
         }

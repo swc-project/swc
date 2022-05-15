@@ -16,7 +16,6 @@ struct Builder {
     cfg: Config,
     cm: Lrc<SourceMap>,
     comments: SingleThreadedComments,
-    target: EsVersion,
 }
 
 impl Builder {
@@ -25,8 +24,7 @@ impl Builder {
         F: for<'aa> FnOnce(&mut Emitter<'aa, Box<(dyn WriteJs + 'aa)>>) -> Ret,
         Ret: 'static,
     {
-        let writer =
-            text_writer::JsWriter::with_target(self.cm.clone(), "\n", s, None, self.target);
+        let writer = text_writer::JsWriter::with_target(self.cm.clone(), "\n", s, None);
         let writer: Box<dyn WriteJs> = if self.cfg.minify {
             Box::new(omit_trailing_semi(writer))
         } else {
