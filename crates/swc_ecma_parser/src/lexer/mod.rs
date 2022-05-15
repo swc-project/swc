@@ -167,9 +167,6 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         let token = match c {
             '#' => return self.read_token_number_sign(),
-            // Identifier or keyword. '\uXXXX' sequences are allowed in
-            // identifiers, so '\' also dispatches to that.
-            c if c == '\\' || c.is_ident_start() => return self.read_ident_or_keyword().map(Some),
 
             //
             '.' => return self.read_token_dot().map(Some),
@@ -323,6 +320,12 @@ impl<'a, I: Input> Lexer<'a, I> {
 
             // unexpected character
             c => {
+                // Identifier or keyword. '\uXXXX' sequences are allowed in
+                // identifiers, so '\' also dispatches to that.
+                if c == '\\' || c.is_ident_start() {
+                    return self.read_ident_or_keyword().map(Some);
+                }
+
                 self.input.bump();
                 self.error_span(pos_span(start), SyntaxError::UnexpectedChar { c })?
             }
