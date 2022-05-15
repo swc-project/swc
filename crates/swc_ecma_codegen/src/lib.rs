@@ -3369,7 +3369,7 @@ fn get_template_element_from_raw(s: &str, ascii_only: bool) -> String {
             Some('\u{FEFF}') => {
                 buf.push_str("\\uFEFF");
             }
-            // TODO handle unicode characters and surrogate pairs
+            // TODO(kdy1): Surrogate pairs
             Some(c) => {
                 if !ascii_only || c.is_ascii() {
                     buf.push(c);

@@ -796,7 +796,7 @@ fn test_all(src: &str, expected: &str, expected_minified: &str, config: Config) 
 }
 
 #[test]
-fn ascii_only_1() {
+fn ascii_only_str_1() {
     test_all(
         "'😊'",
         "'😊';\n",
@@ -809,7 +809,7 @@ fn ascii_only_1() {
 }
 
 #[test]
-fn ascii_only_2() {
+fn ascii_only_str_2() {
     test_all(
         "'😊'",
         "\"\\u{1F60A}\";",
@@ -822,7 +822,7 @@ fn ascii_only_2() {
 }
 
 #[test]
-fn ascii_only_3() {
+fn ascii_only_str_3() {
     test_all(
         "'\\u{1F60A}'",
         "'\\u{1F60A}';\n",
@@ -835,11 +835,11 @@ fn ascii_only_3() {
 }
 
 #[test]
-fn ascii_only_4() {
+fn ascii_only_tpl_lit() {
     test_all(
         "`😊`",
-        "`\\u{1F60A}`;\n",
-        "`\\u{1F60A}`;\n",
+        "`\\u{1F60A}`;",
+        "`\\u{1F60A}`",
         Config {
             ascii_only: true,
             ..Default::default()
