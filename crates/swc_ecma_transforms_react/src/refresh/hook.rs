@@ -432,7 +432,8 @@ impl<'a> HookCollector<'a> {
         // Some built-in Hooks reset on edits to arguments.
         if &name.sym == "useState" && !expr.args.is_empty() {
             // useState first argument is initial state.
-            key += &format!(
+            let _ = write!(
+                key,
                 "({})",
                 self.cm
                     .span_to_snippet(expr.args[0].span())
@@ -440,7 +441,9 @@ impl<'a> HookCollector<'a> {
             );
         } else if &name.sym == "useReducer" && expr.args.len() > 1 {
             // useReducer second argument is initial state.
-            key += &format!(
+            key += &format!();
+            let _ = write!(
+                key,
                 "({})",
                 self.cm
                     .span_to_snippet(expr.args[1].span())
