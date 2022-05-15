@@ -217,29 +217,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
             '/' => return self.read_slash(),
 
-            c @ '%' | c @ '*' => {
-                let is_mul = c == '*';
-                self.input.bump();
-                let mut token = if is_mul { BinOp(Mul) } else { BinOp(Mod) };
-
-                // check for **
-                if is_mul && self.input.cur() == Some('*') {
-                    self.input.bump();
-                    token = BinOp(Exp)
-                }
-
-                if self.input.cur() == Some('=') {
-                    self.input.bump();
-                    token = match token {
-                        BinOp(Mul) => AssignOp(MulAssign),
-                        BinOp(Mod) => AssignOp(ModAssign),
-                        BinOp(Exp) => AssignOp(ExpAssign),
-                        _ => unreachable!(),
-                    }
-                }
-
-                token
-            }
+            c @ ('%' | '*') => return self.read_token_mul_mod(c).map(Some),
 
             // Logical operators
             c @ '|' | c @ '&' => return self.read_token_logical(c).map(Some),
@@ -399,7 +377,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             return Ok(tok!("..."));
         }
 
-        return Ok(tok!('.'));
+        Ok(tok!('.'))
     }
 
     /// Read a token given `?`.
@@ -517,6 +495,33 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
 
         Ok(BinOp(token))
+    }
+
+    /// Read a token given `*` or `%`.
+    ///
+    /// This is extracted as a method to reduce size of `read_token`.
+    fn read_token_mul_mod(&mut self, c: char) -> LexResult<Token> {
+        let is_mul = c == '*';
+        self.input.bump();
+        let mut token = if is_mul { BinOp(Mul) } else { BinOp(Mod) };
+
+        // check for **
+        if is_mul && self.input.cur() == Some('*') {
+            self.input.bump();
+            token = BinOp(Exp)
+        }
+
+        if self.input.cur() == Some('=') {
+            self.input.bump();
+            token = match token {
+                BinOp(Mul) => AssignOp(MulAssign),
+                BinOp(Mod) => AssignOp(ModAssign),
+                BinOp(Exp) => AssignOp(ExpAssign),
+                _ => unreachable!(),
+            }
+        }
+
+        Ok(token)
     }
 
     /// Read an escaped character for string literal.
