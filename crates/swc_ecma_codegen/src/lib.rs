@@ -3371,7 +3371,17 @@ fn get_template_element_from_raw(s: &str, ascii_only: bool) -> String {
             }
             // TODO handle unicode characters and surrogate pairs
             Some(c) => {
-                buf.push(c);
+                if !ascii_only || c.is_ascii() {
+                    buf.push(c);
+                } else {
+                    buf.extend(c.escape_unicode().map(|c| {
+                        if c == 'u' {
+                            c
+                        } else {
+                            c.to_ascii_uppercase()
+                        }
+                    }));
+                }
             }
             None => {}
         }
