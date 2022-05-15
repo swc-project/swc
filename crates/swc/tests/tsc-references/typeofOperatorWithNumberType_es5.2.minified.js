@@ -28,7 +28,7 @@ void 0 === NUMBER || swcHelpers.typeOf(NUMBER), swcHelpers.typeOf(NUMBER1), swcH
     y: function(n) {
         return n;
     }
-}), swcHelpers.typeOf(objA.a), swcHelpers.typeOf(M.n), swcHelpers.typeOf(NUMBER1[0]), swcHelpers.typeOf(1), swcHelpers.typeOf(A.foo()), swcHelpers.typeOf(NUMBER + NUMBER), swcHelpers.typeOf(void 0 === NUMBER ? "undefined" : swcHelpers.typeOf(NUMBER)), swcHelpers.typeOf(swcHelpers.typeOf(swcHelpers.typeOf(NUMBER + NUMBER))), swcHelpers.typeOf(1), void 0 === NUMBER || swcHelpers.typeOf(NUMBER), swcHelpers.typeOf(NUMBER1), swcHelpers.typeOf(1), swcHelpers.typeOf(objA.a), swcHelpers.typeOf(M.n), swcHelpers.typeOf(objA.a), M.n;
+}), swcHelpers.typeOf(objA.a), swcHelpers.typeOf(M.n), swcHelpers.typeOf(NUMBER1[0]), swcHelpers.typeOf(foo()), swcHelpers.typeOf(A.foo()), swcHelpers.typeOf(NUMBER + NUMBER), swcHelpers.typeOf(void 0 === NUMBER ? "undefined" : swcHelpers.typeOf(NUMBER)), swcHelpers.typeOf(swcHelpers.typeOf(swcHelpers.typeOf(NUMBER + NUMBER))), swcHelpers.typeOf(1), void 0 === NUMBER || swcHelpers.typeOf(NUMBER), swcHelpers.typeOf(NUMBER1), swcHelpers.typeOf(foo()), swcHelpers.typeOf(objA.a), swcHelpers.typeOf(M.n), swcHelpers.typeOf(objA.a), M.n;
 z: void 0 === NUMBER || swcHelpers.typeOf(NUMBER);
 x: swcHelpers.typeOf(NUMBER1);
 r: swcHelpers.typeOf(foo);
