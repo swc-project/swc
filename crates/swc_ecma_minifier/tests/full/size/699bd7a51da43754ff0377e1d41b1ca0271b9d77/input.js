@@ -1,0 +1,5 @@
+[]({
+    a() {
+        "use strictuse strict";
+    },
+});
