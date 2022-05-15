@@ -158,7 +158,8 @@ where
                         }) => arg.is_lit(),
                         Expr::This(..) => usage.is_fn_local,
                         Expr::Arrow(arr) => {
-                            !usage.used_as_arg && is_arrow_simple_enough_for_copy(arr)
+                            !(usage.used_as_arg && usage.ref_count > 1)
+                                && is_arrow_simple_enough_for_copy(arr)
                         }
                         _ => false,
                     }
@@ -472,7 +473,7 @@ where
                 return;
             }
 
-            if usage.used_as_arg {
+            if usage.used_as_arg && usage.ref_count > 1 {
                 log_abort!("inline: Used as an arugment");
                 return;
             }
