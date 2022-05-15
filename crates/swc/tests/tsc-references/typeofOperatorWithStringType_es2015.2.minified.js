@@ -9,7 +9,6 @@ class A {
 }(M || (M = {}));
 var STRING, M, objA = new A();
 objA.a, M.n, A.foo(), STRING.charAt(0), objA.a, M.n;
-z: "";
 z: objA.a;
 z: A.foo;
 z: M.n;
