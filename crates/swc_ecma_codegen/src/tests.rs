@@ -838,7 +838,7 @@ fn ascii_only_str_3() {
 fn ascii_only_tpl_lit() {
     test_all(
         "`😊❤️`",
-        "`\\u{1F60A}`;",
+        r"`\u{1F60A}\u{2764}\u{FE0F}`;",
         "`\\u{1F60A}`",
         Config {
             ascii_only: true,
