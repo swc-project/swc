@@ -195,16 +195,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
             '?' => return self.read_token_question_mark().map(Some),
 
-            ':' => {
-                self.input.bump();
-
-                if self.syntax.fn_bind() && self.input.cur() == Some(':') {
-                    self.input.bump();
-                    return Ok(Some(tok!("::")));
-                }
-
-                return Ok(Some(tok!(':')));
-            }
+            ':' => return self.read_token_colon().map(Some),
 
             '0' => {
                 let next = self.input.peek();
@@ -450,6 +441,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
     }
 
+    /// This is extracted as a method to reduce size of `read_token`.
     fn read_token_dot(&mut self) -> LexResult<Token> {
         // Check for eof
         let next = match self.input.peek() {
@@ -484,6 +476,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         return Ok(tok!('.'));
     }
 
+    /// This is extracted as a method to reduce size of `read_token`.
     fn read_token_question_mark(&mut self) -> LexResult<Token> {
         match self.input.peek() {
             Some('?') => {
@@ -500,6 +493,18 @@ impl<'a, I: Input> Lexer<'a, I> {
                 Ok(tok!('?'))
             }
         }
+    }
+
+    /// This is extracted as a method to reduce size of `read_token`.
+    fn read_token_colon(&mut self) -> LexResult<Token> {
+        self.input.bump();
+
+        if self.syntax.fn_bind() && self.input.cur() == Some(':') {
+            self.input.bump();
+            return Ok(tok!("::"));
+        }
+
+        Ok(tok!(':'))
     }
 
     /// Read an escaped character for string literal.
