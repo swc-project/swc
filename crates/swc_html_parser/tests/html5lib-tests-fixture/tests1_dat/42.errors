@@ -1,0 +1,2 @@
+(1,2): expected-dashes-or-doctype
+(1,3): expected-doctype-but-got-eof

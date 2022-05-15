@@ -1,6 +1,18 @@
+| <!DOCTYPE html>
 | <html>
+|   lang="en"
 |   <head>
+|     "
+    "
+|     <title>
+|       "Document"
+|     "
+"
+|   "
+"
 |   <body>
+|     "
+"
 |     <popup-info>
 |       data-text="Your card validation code (CVC)
   is an extra security feature — it is the last 3 or 4 numbers on the
@@ -72,4 +84,7 @@
 |         <p>
 |           "I'm in Shadow DOM. My markup was stamped from a <template>."
 |         "
+"
+|     "
+
 "

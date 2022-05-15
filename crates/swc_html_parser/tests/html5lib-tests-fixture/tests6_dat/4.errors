@@ -1,0 +1,2 @@
+(1,10): expected-doctype-name-but-got-right-bracket
+(1,10): unknown-doctype

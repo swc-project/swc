@@ -1,4 +1,10 @@
 
+  x Missing doctype
+   ,-[$DIR/tests/recovery/element/p/input.html:1:1]
+ 1 | <p>a<p>b</p></p>
+   : ^^^
+   `----
+
   x Unexpected token
    ,-[$DIR/tests/recovery/element/p/input.html:1:1]
  1 | <p>a<p>b</p></p>
