@@ -1,7 +1,7 @@
 use std::{
     borrow::Cow,
     fmt,
-    fmt::{Debug, Display, Formatter},
+    fmt::{Debug, Display, Formatter, Write},
     thread,
     time::Instant,
 };
@@ -248,7 +248,7 @@ where
                 let mut msg = String::new();
 
                 for (i, code) in self.dump_for_infinite_loop.iter().enumerate() {
-                    msg.push_str(&format!("Code {:>4}:\n\n\n\n\n\n\n\n\n\n{}\n", i, code));
+                    let _ = write!(msg, "Code {:>4}:\n\n\n\n\n\n\n\n\n\n{}\n", i, code);
 
                     // std::fs::write(&format!("pass_{}.js", i), code).unwrap();
                 }

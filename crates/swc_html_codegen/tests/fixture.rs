@@ -327,12 +327,10 @@ impl VisitMut for NormalizeTest {
     fn visit_mut_document_fragment(&mut self, n: &mut DocumentFragment) {
         n.visit_mut_children_with(self);
 
-        if let Some(last) = n.children.last_mut() {
-            if let Child::Text(_) = last {
-                // Drop value from the last `Text` node because characters after `</body>`
-                // moved to body tag
-                n.children.remove(n.children.len() - 1);
-            }
+        if let Some(Child::Text(_)) = n.children.last_mut() {
+            // Drop value from the last `Text` node because characters after `</body>`
+            // moved to body tag
+            n.children.remove(n.children.len() - 1);
         }
     }
 
@@ -340,12 +338,10 @@ impl VisitMut for NormalizeTest {
         n.visit_mut_children_with(self);
 
         if &*n.tag_name == "body" {
-            if let Some(last) = n.children.last_mut() {
-                if let Child::Text(text) = last {
-                    // Drop value from the last `Text` node because characters after `</body>`
-                    // moved to body tag
-                    text.value = "".into();
-                }
+            if let Some(Child::Text(text)) = n.children.last_mut() {
+                // Drop value from the last `Text` node because characters after `</body>`
+                // moved to body tag
+                text.value = "".into();
             }
         }
     }

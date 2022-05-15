@@ -1,5 +1,6 @@
 use std::mem::take;
 
+#[allow(unused_imports)]
 use retain_mut::RetainMut;
 use swc_common::{collections::AHashMap, SourceMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;

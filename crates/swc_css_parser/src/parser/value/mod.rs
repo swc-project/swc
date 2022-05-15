@@ -2583,7 +2583,7 @@ where
 
         loop {
             match next {
-                Some(c) if c.is_digit(10) => {
+                Some(c) if c.is_ascii_digit() => {
                     start.push(c);
 
                     next = chars.next();
@@ -2684,7 +2684,7 @@ where
 
         loop {
             match next {
-                Some(c) if c.is_digit(10) => {
+                Some(c) if c.is_ascii_digit() => {
                     end.push(c);
                     next = chars.next();
                 }
