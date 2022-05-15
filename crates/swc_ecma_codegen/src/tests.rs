@@ -758,7 +758,7 @@ module.exports = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u
 #[test]
 fn ascii_only_1() {
     let from = r"'😊'";
-    let expected = r#"'😊'"#;
+    let expected = "'😊';\n";
 
     let out = parse_then_emit(
         from,
@@ -782,7 +782,7 @@ fn ascii_only_1() {
 #[test]
 fn ascii_only_2() {
     let from = r"'😊'";
-    let expected = r#"'😊'"#;
+    let expected = "'\\u{1F60A}';\n";
 
     let out = parse_then_emit(
         from,
