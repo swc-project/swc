@@ -197,48 +197,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
             ':' => return self.read_token_colon().map(Some),
 
-            '0' => {
-                let next = self.input.peek();
-
-                let bigint = match next {
-                    Some('x') | Some('X') => self
-                        .read_radix_number::<16, { lexical::NumberFormatBuilder::hexadecimal() }>(),
-                    Some('o') | Some('O') => {
-                        self.read_radix_number::<8, { lexical::NumberFormatBuilder::octal() }>()
-                    }
-                    Some('b') | Some('B') => {
-                        self.read_radix_number::<2, { lexical::NumberFormatBuilder::binary() }>()
-                    }
-                    _ => {
-                        return self
-                            .read_number(false)
-                            .map(|v| match v {
-                                Left((value, raw)) => Num {
-                                    value,
-                                    raw: raw.into(),
-                                },
-                                Right((value, raw)) => BigInt {
-                                    value,
-                                    raw: raw.into(),
-                                },
-                            })
-                            .map(Some);
-                    }
-                };
-
-                return bigint
-                    .map(|v| match v {
-                        Left((value, raw)) => Num {
-                            value,
-                            raw: raw.into(),
-                        },
-                        Right((value, raw)) => BigInt {
-                            value,
-                            raw: raw.into(),
-                        },
-                    })
-                    .map(Some);
-            }
+            '0' => return self.read_token_zero().map(Some),
 
             '1'..='9' => {
                 return self
@@ -505,6 +464,46 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
 
         Ok(tok!(':'))
+    }
+
+    /// This is extracted as a method to reduce size of `read_token`.
+    fn read_token_zero(&mut self) -> LexResult<Token> {
+        let next = self.input.peek();
+
+        let bigint = match next {
+            Some('x') | Some('X') => {
+                self.read_radix_number::<16, { lexical::NumberFormatBuilder::hexadecimal() }>()
+            }
+            Some('o') | Some('O') => {
+                self.read_radix_number::<8, { lexical::NumberFormatBuilder::octal() }>()
+            }
+            Some('b') | Some('B') => {
+                self.read_radix_number::<2, { lexical::NumberFormatBuilder::binary() }>()
+            }
+            _ => {
+                return self.read_number(false).map(|v| match v {
+                    Left((value, raw)) => Num {
+                        value,
+                        raw: raw.into(),
+                    },
+                    Right((value, raw)) => BigInt {
+                        value,
+                        raw: raw.into(),
+                    },
+                });
+            }
+        };
+
+        return bigint.map(|v| match v {
+            Left((value, raw)) => Num {
+                value,
+                raw: raw.into(),
+            },
+            Right((value, raw)) => BigInt {
+                value,
+                raw: raw.into(),
+            },
+        });
     }
 
     /// Read an escaped character for string literal.
