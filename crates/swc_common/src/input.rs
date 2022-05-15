@@ -272,7 +272,7 @@ mod tests {
 
     #[test]
     fn src_input_slice_1() {
-        let _ = with_test_sess("foo/d", |mut i| {
+        with_test_sess("foo/d", |mut i| {
             assert_eq!(i.slice(BytePos(1), BytePos(2)), "f");
             assert_eq!(i.last_pos, BytePos(2));
             assert_eq!(i.start_pos, BytePos(2));
@@ -288,7 +288,7 @@ mod tests {
 
     #[test]
     fn src_input_reset_to_1() {
-        let _ = with_test_sess("load", |mut i| {
+        with_test_sess("load", |mut i| {
             assert_eq!(i.slice(BytePos(1), BytePos(3)), "lo");
             assert_eq!(i.last_pos, BytePos(3));
             assert_eq!(i.start_pos, BytePos(3));
@@ -303,7 +303,7 @@ mod tests {
 
     #[test]
     fn src_input_smoke_01() {
-        let _ = with_test_sess("foo/d", |mut i| {
+        with_test_sess("foo/d", |mut i| {
             assert_eq!(i.cur_pos(), BytePos(1));
             assert_eq!(i.last_pos, BytePos(1));
             assert_eq!(i.start_pos, BytePos(1));
@@ -326,7 +326,7 @@ mod tests {
 
     #[test]
     fn src_input_find_01() {
-        let _ = with_test_sess("foo/d", |mut i| {
+        with_test_sess("foo/d", |mut i| {
             assert_eq!(i.cur_pos(), BytePos(1));
             assert_eq!(i.last_pos, BytePos(1));
             assert_eq!(i.start_pos, BytePos(1));
