@@ -492,7 +492,7 @@
             case REACT_BLOCK_TYPE:
                 return describeNativeComponentFrame(type._render, !1);
             case REACT_LAZY_TYPE:
-                var Component, prototype, fn, fn5, lazyComponent = type, payload = lazyComponent._payload, init = lazyComponent._init;
+                var Component, prototype, fn, fn1, lazyComponent = type, payload = lazyComponent._payload, init = lazyComponent._init;
                 try {
                     return describeUnknownElementTypeFrameInDEV(init(payload), source, ownerFn);
                 } catch (x) {}
@@ -500,7 +500,7 @@
         return "";
     }
     function describeFiber(fiber) {
-        var fn, fn6, fn7, ctor;
+        var fn, fn2, fn3, ctor;
         switch(fiber._debugOwner && fiber._debugOwner.type, fiber._debugSource, fiber.tag){
             case 5:
                 return describeBuiltInComponentFrame(fiber.type);
@@ -9413,25 +9413,33 @@
         }
         var isRootRenderedBySomeReact = !!container._reactRootContainer, rootEl = getReactRootElementInContainer(container), hasNonRootReactChild = !!(rootEl && getInstanceFromNode(rootEl));
         hasNonRootReactChild && !isRootRenderedBySomeReact && error1("render(...): Replacing React-rendered children with a new root component. If you intended to update the children of this node, you should instead have the existing children update their state and render the new components instead of calling ReactDOM.render."), 1 === container.nodeType && container.tagName && "BODY" === container.tagName.toUpperCase() && error1("render(): Rendering components directly into document.body is discouraged, since its children are often manipulated by third-party scripts and browser extensions. This may lead to subtle reconciliation issues. Try rendering into a container element created for your app.");
-    }, attemptUserBlockingHydration = function(fiber) {
+    }, function(fn) {
+        attemptUserBlockingHydration = fn;
+    }(function(fiber) {
         if (13 === fiber.tag) {
             var eventTime = requestEventTime();
             scheduleUpdateOnFiber(fiber, 4, eventTime), markRetryLaneIfNotHydrated(fiber, 4);
         }
-    }, attemptContinuousHydration = function(fiber) {
+    }), function(fn) {
+        attemptContinuousHydration = fn;
+    }(function(fiber) {
         if (13 === fiber.tag) {
             var eventTime = requestEventTime();
             scheduleUpdateOnFiber(fiber, 67108864, eventTime), markRetryLaneIfNotHydrated(fiber, 67108864);
         }
-    }, attemptHydrationAtCurrentPriority = function(fiber) {
+    }), function(fn) {
+        attemptHydrationAtCurrentPriority = fn;
+    }(function(fiber) {
         if (13 === fiber.tag) {
             var eventTime = requestEventTime(), lane = requestUpdateLane(fiber);
             scheduleUpdateOnFiber(fiber, lane, eventTime), markRetryLaneIfNotHydrated(fiber, lane);
         }
-    }, attemptHydrationAtPriority = function(priority, fn) {
+    }), function(fn) {
+        attemptHydrationAtPriority = fn;
+    }(function(priority, fn) {
         return fn();
-    };
-    var fn4, fn1, fn2, fn3, impl, _batchedUpdatesImpl, _discreteUpdatesImpl, _flushDiscreteUpdatesImpl, _batchedEventUpdatesImpl, didWarnAboutUnstableCreatePortal = !1;
+    });
+    var didWarnAboutUnstableCreatePortal = !1;
     function createPortal$1(children1, container) {
         var key1 = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : null;
         if (!isValidContainer(container)) throw Error("Target container is not a DOM element.");
@@ -9446,7 +9454,9 @@
             };
         }(children1, container, null, key1);
     }
-    if (("function" != typeof Map || null == Map.prototype || "function" != typeof Map.prototype.forEach || "function" != typeof Set || null == Set.prototype || "function" != typeof Set.prototype.clear || "function" != typeof Set.prototype.forEach) && error1("React depends on Map and Set built-in types. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills"), restoreImpl = function(domElement, tag, props17) {
+    if (("function" != typeof Map || null == Map.prototype || "function" != typeof Map.prototype.forEach || "function" != typeof Set || null == Set.prototype || "function" != typeof Set.prototype.clear || "function" != typeof Set.prototype.forEach) && error1("React depends on Map and Set built-in types. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills"), function(impl) {
+        restoreImpl = impl;
+    }(function(domElement, tag, props17) {
         var element, props14, node, element2, props15, element3, props16, value;
         switch(tag){
             case "input":
@@ -9472,7 +9482,9 @@
                 element3 = domElement, null != (value = (props16 = props17).value) && updateOptions(element3, !!props16.multiple, value, !1);
                 return;
         }
-    }, _batchedUpdatesImpl = batchedUpdates$1, _discreteUpdatesImpl = function(fn, a, b, c, d) {
+    }), function(_batchedUpdatesImpl, _discreteUpdatesImpl, _flushDiscreteUpdatesImpl, _batchedEventUpdatesImpl) {
+        batchedUpdatesImpl = _batchedUpdatesImpl, discreteUpdatesImpl = _discreteUpdatesImpl, flushDiscreteUpdatesImpl = _flushDiscreteUpdatesImpl, batchedEventUpdatesImpl = _batchedEventUpdatesImpl;
+    }(batchedUpdates$1, function(fn, a, b, c, d) {
         var prevExecutionContext = executionContext;
         executionContext |= 4;
         try {
@@ -9480,12 +9492,12 @@
         } finally{
             0 === (executionContext = prevExecutionContext) && (resetRenderTimer(), flushSyncCallbackQueue());
         }
-    }, _flushDiscreteUpdatesImpl = function() {
+    }, function() {
         if ((49 & executionContext) != 0) {
             (16 & executionContext) != 0 && error1("unstable_flushDiscreteUpdates: Cannot flush updates when React is already rendering.");
             return;
         }
-        (function flushPendingDiscreteUpdates() {
+        (function() {
             if (null !== rootsWithPendingDiscreteUpdates) {
                 var roots = rootsWithPendingDiscreteUpdates;
                 rootsWithPendingDiscreteUpdates = null, roots.forEach(function(root) {
@@ -9495,7 +9507,7 @@
             }
             flushSyncCallbackQueue();
         })(), flushPassiveEffects();
-    }, _batchedEventUpdatesImpl = function(fn, a) {
+    }, function(fn, a) {
         var prevExecutionContext = executionContext;
         executionContext |= 2;
         try {
@@ -9503,7 +9515,7 @@
         } finally{
             0 === (executionContext = prevExecutionContext) && (resetRenderTimer(), flushSyncCallbackQueue());
         }
-    }, batchedUpdatesImpl = _batchedUpdatesImpl, discreteUpdatesImpl = _discreteUpdatesImpl, flushDiscreteUpdatesImpl = _flushDiscreteUpdatesImpl, batchedEventUpdatesImpl = _batchedEventUpdatesImpl, findFiberByHostInstance = (devToolsConfig = {
+    }), findFiberByHostInstance = (devToolsConfig = {
         findFiberByHostInstance: getClosestInstanceFromNode,
         bundleType: 1,
         version: ReactVersion,

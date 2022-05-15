@@ -1,8 +1,7 @@
-class AbstractBase {
-}
 const MixedBase = function(baseClass) {
     return class extends baseClass {
         mixinMethod() {}
     };
-}(AbstractBase);
+}(class {
+});
 new MixedBase();

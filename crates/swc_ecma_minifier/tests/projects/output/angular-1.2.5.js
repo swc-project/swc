@@ -740,20 +740,6 @@
                 $get: factoryFn
             });
         }
-        function service(name, constructor) {
-            return factory1(name, [
-                "$injector",
-                function($injector) {
-                    return $injector.instantiate(constructor);
-                }, 
-            ]);
-        }
-        function value1(name, val) {
-            return factory1(name, valueFn1(val));
-        }
-        function constant(name, value) {
-            assertNotHasOwnProperty(name, "constant"), providerCache[name] = value, instanceCache[name] = value;
-        }
         function loadModules(modulesToLoad) {
             var moduleFn, invokeQueue, i, ii, runBlocks = [];
             return forEach(modulesToLoad, function(module) {
@@ -808,9 +794,20 @@
             $provide: {
                 provider: supportObject(provider1),
                 factory: supportObject(factory1),
-                service: supportObject(service),
-                value: supportObject(value1),
-                constant: supportObject(constant),
+                service: supportObject(function(name, constructor) {
+                    return factory1(name, [
+                        "$injector",
+                        function($injector) {
+                            return $injector.instantiate(constructor);
+                        }, 
+                    ]);
+                }),
+                value: supportObject(function(name, val) {
+                    return factory1(name, valueFn1(val));
+                }),
+                constant: supportObject(function(name, value) {
+                    assertNotHasOwnProperty(name, "constant"), providerCache[name] = value, instanceCache[name] = value;
+                }),
                 decorator: function(serviceName, decorFn) {
                     var origProvider = providerInjector.get(serviceName + providerSuffix), orig$get = origProvider.$get;
                     origProvider.$get = function() {
@@ -1556,13 +1553,6 @@
                             return isUndefined(config2.data) && forEach(headers1, function(value, header) {
                                 "content-type" === lowercase(header) && delete headers1[header];
                             }), isUndefined(config2.withCredentials) && !isUndefined(defaults.withCredentials) && (config2.withCredentials = defaults.withCredentials), (function(config, reqData, reqHeaders) {
-                                function done(status, response, headersString) {
-                                    cache && (isSuccess(status) ? cache.put(url1, [
-                                        status,
-                                        response,
-                                        parseHeaders(headersString)
-                                    ]) : cache.remove(url1)), resolvePromise(response, status, headersString), $rootScope.$$phase || $rootScope.$apply();
-                                }
                                 function resolvePromise(response, status, headers) {
                                     (isSuccess(status = Math.max(status, 0)) ? deferred.resolve : deferred.reject)({
                                         data: response,
@@ -1594,7 +1584,13 @@
                                         isArray(cachedResp) ? resolvePromise(cachedResp[1], cachedResp[0], copy(cachedResp[2])) : resolvePromise(cachedResp, 200, {});
                                     } else cache.put(url1, promise);
                                 }
-                                return isUndefined(cachedResp) && $httpBackend(config.method, url1, reqData, done, reqHeaders, config.timeout, config.withCredentials, config.responseType), promise;
+                                return isUndefined(cachedResp) && $httpBackend(config.method, url1, reqData, function(status, response, headersString) {
+                                    cache && (isSuccess(status) ? cache.put(url1, [
+                                        status,
+                                        response,
+                                        parseHeaders(headersString)
+                                    ]) : cache.remove(url1)), resolvePromise(response, status, headersString), $rootScope.$$phase || $rootScope.$apply();
+                                }, reqHeaders, config.timeout, config.withCredentials, config.responseType), promise;
                             })(config2, reqData1, headers1).then(transformResponse, transformResponse);
                         },
                         undefined
@@ -2573,13 +2569,13 @@
     }
     function qFactory(nextTick, exceptionHandler) {
         var defer = function() {
-            var value2, deferred, pending = [];
+            var value1, deferred, pending = [];
             return deferred = {
                 resolve: function(val) {
                     if (pending) {
                         var callbacks = pending;
-                        pending = undefined, value2 = ref(val), callbacks.length && nextTick(function() {
-                            for(var callback, i = 0, ii = callbacks.length; i < ii; i++)callback = callbacks[i], value2.then(callback[0], callback[1], callback[2]);
+                        pending = undefined, value1 = ref(val), callbacks.length && nextTick(function() {
+                            for(var callback, i = 0, ii = callbacks.length; i < ii; i++)callback = callbacks[i], value1.then(callback[0], callback[1], callback[2]);
                         });
                     }
                 },
@@ -2619,7 +2615,7 @@
                             wrappedCallback,
                             wrappedErrback,
                             wrappedProgressback, 
-                        ]) : value2.then(wrappedCallback, wrappedErrback, wrappedProgressback), result.promise;
+                        ]) : value1.then(wrappedCallback, wrappedErrback, wrappedProgressback), result.promise;
                     },
                     catch: function(callback) {
                         return this.then(null, callback);
@@ -2682,7 +2678,7 @@
         return {
             defer: defer,
             reject: reject,
-            when: function(value3, callback, errback, progressback) {
+            when: function(value2, callback, errback, progressback) {
                 var done, result = defer(), wrappedCallback = function(value) {
                     try {
                         return (isFunction(callback) ? callback : defaultCallback)(value);
@@ -2703,7 +2699,7 @@
                     }
                 };
                 return nextTick(function() {
-                    ref(value3).then(function(value) {
+                    ref(value2).then(function(value) {
                         done || (done = !0, result.resolve(ref(value).then(wrappedCallback, wrappedErrback, wrappedProgressback)));
                     }, function(reason) {
                         done || (done = !0, result.resolve(wrappedErrback(reason)));
@@ -2781,7 +2777,7 @@
                     },
                     $watchCollection: function(obj, listener) {
                         var oldValue, newValue, self = this, changeDetected = 0, objGetter = $parse(obj), internalArray = [], internalObject = {}, oldLength = 0;
-                        function $watchCollectionWatch() {
+                        return this.$watch(function() {
                             if (isObject(newValue = objGetter(self))) {
                                 if (isArrayLike(newValue)) {
                                     oldValue !== internalArray && (oldLength = (oldValue = internalArray).length = 0, changeDetected++), oldLength !== (newLength = newValue.length) && (changeDetected++, oldValue.length = oldLength = newLength);
@@ -2792,11 +2788,9 @@
                                 }
                             } else oldValue !== newValue && (oldValue = newValue, changeDetected++);
                             return changeDetected;
-                        }
-                        function $watchCollectionAction() {
+                        }, function() {
                             listener(newValue, oldValue, self);
-                        }
-                        return this.$watch($watchCollectionWatch, $watchCollectionAction);
+                        });
                     },
                     $digest: function() {
                         var watch, value, last, watchers, length, dirty, next, current, logIdx, logMsg, asyncTask, asyncQueue = this.$$asyncQueue, postDigestQueue = this.$$postDigestQueue, ttl = TTL, watchLog = [];
@@ -3239,8 +3233,8 @@
                     return array;
             }
             for(var filtered = [], j1 = 0; j1 < array.length; j1++){
-                var value4 = array[j1];
-                predicates.check(value4) && filtered.push(value4);
+                var value3 = array[j1];
+                predicates.check(value3) && filtered.push(value3);
             }
             return filtered;
         };
@@ -3372,13 +3366,6 @@
     }
     function orderByFilter($parse) {
         return function(array, sortPredicate, reverseOrder) {
-            function comparator(o1, o2) {
-                for(var i = 0; i < sortPredicate.length; i++){
-                    var comp = sortPredicate[i](o1, o2);
-                    if (0 !== comp) return comp;
-                }
-                return 0;
-            }
             function reverseComparator(comp, descending) {
                 return toBoolean(descending) ? function(a, b) {
                     return comp(b, a);
@@ -3401,7 +3388,13 @@
                 }, descending);
             });
             for(var arrayCopy = [], i3 = 0; i3 < array.length; i3++)arrayCopy.push(array[i3]);
-            return arrayCopy.sort(reverseComparator(comparator, reverseOrder));
+            return arrayCopy.sort(reverseComparator(function(o1, o2) {
+                for(var i = 0; i < sortPredicate.length; i++){
+                    var comp = sortPredicate[i](o1, o2);
+                    if (0 !== comp) return comp;
+                }
+                return 0;
+            }, reverseOrder));
         };
     }
     function ngDirective(directive) {
@@ -3790,10 +3783,9 @@
             return function(scope, element, attr) {
                 element.addClass("ng-binding").data("$binding", attr.ngBindHtml);
                 var parsed = $parse(attr.ngBindHtml);
-                function getStringValue() {
+                scope.$watch(function() {
                     return (parsed(scope) || "").toString();
-                }
-                scope.$watch(getStringValue, function(value) {
+                }, function(value) {
                     element.html($sce.getTrustedHtml(parsed(scope)) || "");
                 });
             };

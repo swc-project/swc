@@ -1,45 +1,31 @@
 import regeneratorRuntime from "regenerator-runtime";
-var _marked = regeneratorRuntime.mark(g6), _marked1 = regeneratorRuntime.mark(g5), _marked2 = regeneratorRuntime.mark(g4), _marked3 = regeneratorRuntime.mark(g3), _marked4 = regeneratorRuntime.mark(g2), _marked5 = regeneratorRuntime.mark(g);
-function g() {
+var _marked = regeneratorRuntime.mark(function() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
-            case "end":
-                return _ctx.stop();
-        }
-    }, _marked5);
-}
-function g2() {
-    var value;
-    return regeneratorRuntime.wrap(function(_ctx) {
-        for(;;)switch(_ctx.prev = _ctx.next){
-            case 0:
-                _ctx.next = 2;
+                _ctx.t0 = f, _ctx.next = 3;
                 return;
-            case 2:
-                value = _ctx.sent;
             case 3:
+                _ctx.t1 = _ctx.sent, (0, _ctx.t0)(_ctx.t1);
+            case 5:
             case "end":
                 return _ctx.stop();
         }
-    }, _marked4);
-}
-function g3() {
-    var value;
+    }, _marked);
+}), _marked1 = regeneratorRuntime.mark(function() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
-                _ctx.next = 2;
+                _ctx.t0 = f, _ctx.next = 3;
                 return;
-            case 2:
-                value = _ctx.sent;
             case 3:
+                _ctx.t1 = _ctx.sent, (0, _ctx.t0)(_ctx.t1);
+            case 5:
             case "end":
                 return _ctx.stop();
         }
-    }, _marked3);
-}
-function g4() {
+    }, _marked1);
+}), _marked2 = regeneratorRuntime.mark(function() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
@@ -79,32 +65,40 @@ function g4() {
                 return _ctx.stop();
         }
     }, _marked2);
-}
-function g5() {
+}), _marked3 = regeneratorRuntime.mark(function() {
+    var value;
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
-                _ctx.t0 = f, _ctx.next = 3;
+                _ctx.next = 2;
                 return;
+            case 2:
+                value = _ctx.sent;
             case 3:
-                _ctx.t1 = _ctx.sent, (0, _ctx.t0)(_ctx.t1);
-            case 5:
             case "end":
                 return _ctx.stop();
         }
-    }, _marked1);
-}
-function g6() {
+    }, _marked3);
+}), _marked4 = regeneratorRuntime.mark(function() {
+    var value;
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
-                _ctx.t0 = f, _ctx.next = 3;
+                _ctx.next = 2;
                 return;
+            case 2:
+                value = _ctx.sent;
             case 3:
-                _ctx.t1 = _ctx.sent, (0, _ctx.t0)(_ctx.t1);
-            case 5:
             case "end":
                 return _ctx.stop();
         }
-    }, _marked);
-}
+    }, _marked4);
+}), _marked5 = regeneratorRuntime.mark(function() {
+    return regeneratorRuntime.wrap(function(_ctx) {
+        for(;;)switch(_ctx.prev = _ctx.next){
+            case 0:
+            case "end":
+                return _ctx.stop();
+        }
+    }, _marked5);
+});

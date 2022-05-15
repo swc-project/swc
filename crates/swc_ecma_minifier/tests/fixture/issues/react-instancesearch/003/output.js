@@ -24,7 +24,15 @@ export default function createInstantSearchManager({ indexName , initialState ={
     const helper = algoliasearchHelper(searchClient, indexName, {
         ...HIGHLIGHT_TAGS
     });
-    addAlgoliaAgents(searchClient), helper.on("search", handleNewSearch).on("result", handleSearchSuccess({
+    addAlgoliaAgents(searchClient), helper.on("search", function() {
+        stalledSearchTimer || (stalledSearchTimer = setTimeout(()=>{
+            const { resultsFacetValues , ...partialState } = store.getState();
+            store.setState({
+                ...partialState,
+                isSearchStalled: !0
+            });
+        }, stalledSearchDelay));
+    }).on("result", handleSearchSuccess({
         indexId: indexName
     })).on("error", handleSearchError);
     let skip = !1, stalledSearchTimer = null, initialSearchParameters = helper.state;
@@ -44,7 +52,14 @@ export default function createInstantSearchManager({ indexName , initialState ={
             update: scheduleUpdate,
             getWidgets: ()=>widgets
         };
-    }(onWidgetsUpdate1);
+    }(function() {
+        const metadata = getMetadata(store.getState().widgets);
+        store.setState({
+            ...store.getState(),
+            metadata,
+            searching: !0
+        }), search();
+    });
     !function(client, results) {
         if (results && (client.transporter && !client._cacheHydrated || client._useCache && "function" == typeof client.addAlgoliaAgent)) {
             if (client.transporter && !client._cacheHydrated) {
@@ -177,15 +192,6 @@ export default function createInstantSearchManager({ indexName , initialState ={
             searching: !1
         });
     }
-    function handleNewSearch() {
-        stalledSearchTimer || (stalledSearchTimer = setTimeout(()=>{
-            const { resultsFacetValues , ...partialState } = store.getState();
-            store.setState({
-                ...partialState,
-                isSearchStalled: !0
-            });
-        }, stalledSearchDelay));
-    }
     function hydrateSearchClientWithMultiIndexRequest(client, results) {
         if (client.transporter) {
             client.transporter.responsesCache.set({
@@ -249,14 +255,6 @@ export default function createInstantSearchManager({ indexName , initialState ={
                 results: results.rawResults
             })
         };
-    }
-    function onWidgetsUpdate1() {
-        const metadata = getMetadata(store.getState().widgets);
-        store.setState({
-            ...store.getState(),
-            metadata,
-            searching: !0
-        }), search();
     }
     return {
         store,

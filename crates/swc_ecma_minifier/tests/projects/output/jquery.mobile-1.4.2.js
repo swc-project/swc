@@ -437,11 +437,10 @@
             eventName = (eventName || "").split(" ").join(this.eventNamespace + " ") + this.eventNamespace, element.unbind(eventName).undelegate(eventName);
         },
         _delay: function(handler, delay) {
-            function handlerProxy() {
-                return ("string" == typeof handler ? instance[handler] : handler).apply(instance, arguments);
-            }
             var instance = this;
-            return setTimeout(handlerProxy, delay || 0);
+            return setTimeout(function() {
+                return ("string" == typeof handler ? instance[handler] : handler).apply(instance, arguments);
+            }, delay || 0);
         },
         _hoverable: function(element) {
             this.hoverable = this.hoverable.add(element), this._on(element, {

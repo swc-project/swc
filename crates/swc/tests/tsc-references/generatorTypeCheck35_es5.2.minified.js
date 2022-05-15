@@ -1,6 +1,5 @@
 import regeneratorRuntime from "regenerator-runtime";
-var _marked = regeneratorRuntime.mark(g);
-function g() {
+var _marked = regeneratorRuntime.mark(function() {
     var g2;
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
@@ -13,4 +12,4 @@ function g() {
                 return _ctx.stop();
         }
     }, _marked);
-}
+});
