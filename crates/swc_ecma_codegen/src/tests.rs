@@ -766,8 +766,8 @@ fn test_all(src: &str, expected: &str, expected_minified: &str, config: Config) 
             Syntax::default(),
         );
 
-        dbg!(&out);
-        dbg!(&expected);
+        dbg!(out.trim());
+        dbg!(expected.trim());
 
         assert_eq!(
             DebugUsingDisplay(out.trim()),
@@ -785,8 +785,8 @@ fn test_all(src: &str, expected: &str, expected_minified: &str, config: Config) 
             Syntax::default(),
         );
 
-        dbg!(&out);
-        dbg!(&expected_minified);
+        dbg!(out.trim());
+        dbg!(expected_minified.trim());
 
         assert_eq!(
             DebugUsingDisplay(out.trim()),
@@ -825,8 +825,8 @@ fn ascii_only_2() {
 fn ascii_only_3() {
     test_all(
         "'\\u{1F60A}'",
-        "'😊';\n",
-        "'😊';\n",
+        "'\\u{1F60A}';\n",
+        "'\\u{1F60A}';\n",
         Config {
             ascii_only: true,
             ..Default::default()
