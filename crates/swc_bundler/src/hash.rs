@@ -40,10 +40,6 @@ impl Hasher<'_> {
 }
 
 impl WriteJs for &mut Hasher<'_> {
-    fn target(&self) -> EsVersion {
-        EsVersion::latest()
-    }
-
     fn increase_indent(&mut self) -> io::Result<()> {
         Ok(())
     }
