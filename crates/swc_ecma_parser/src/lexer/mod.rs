@@ -171,7 +171,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             //
             '.' => return self.read_token_dot().map(Some),
 
-            '(' | ')' | ';' | ',' | '[' | ']' | '{' | '}' | '@' | '`' => {
+            '(' | ')' | ';' | ',' | '[' | ']' | '{' | '}' | '@' | '`' | '~' => {
                 // These tokens are emitted directly.
                 self.input.bump();
                 return Ok(Some(match c {
@@ -185,6 +185,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     '}' => RBrace,
                     '@' => At,
                     '`' => tok!('`'),
+                    '~' => tok!('~'),
 
                     _ => unreachable!(),
                 }));
@@ -312,10 +313,6 @@ impl<'a, I: Input> Lexer<'a, I> {
                 } else {
                     AssignOp(Assign)
                 }
-            }
-            '~' => {
-                self.input.bump();
-                tok!('~')
             }
 
             // unexpected character
