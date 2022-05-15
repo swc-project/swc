@@ -798,8 +798,8 @@ fn test_all(src: &str, expected: &str, expected_minified: &str, config: Config) 
 #[test]
 fn ascii_only_str_1() {
     test_all(
-        "'😊'",
-        "'😊';\n",
+        "'😊❤️'",
+        "'😊❤️';\n",
         "\"\\u{1F60A}\"",
         Config {
             ascii_only: false,
@@ -811,7 +811,7 @@ fn ascii_only_str_1() {
 #[test]
 fn ascii_only_str_2() {
     test_all(
-        "'😊'",
+        "'😊❤️'",
         "\"\\u{1F60A}\";",
         "\"\\u{1F60A}\"",
         Config {
@@ -837,7 +837,7 @@ fn ascii_only_str_3() {
 #[test]
 fn ascii_only_tpl_lit() {
     test_all(
-        "`😊`",
+        "`😊❤️`",
         "`\\u{1F60A}`;",
         "`\\u{1F60A}`",
         Config {
