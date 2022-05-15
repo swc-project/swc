@@ -441,7 +441,7 @@ impl Compiler {
             let src = {
                 let mut buf = vec![];
                 {
-                    let mut wr = Box::new(swc_ecma_codegen::text_writer::JsWriter::with_target(
+                    let mut wr = Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
                         self.cm.clone(),
                         "\n",
                         &mut buf,
@@ -450,7 +450,6 @@ impl Compiler {
                         } else {
                             None
                         },
-                        target,
                     )) as Box<dyn WriteJs>;
 
                     if minify {
@@ -458,7 +457,11 @@ impl Compiler {
                     }
 
                     let mut emitter = Emitter {
-                        cfg: swc_ecma_codegen::Config { minify },
+                        cfg: swc_ecma_codegen::Config {
+                            minify,
+                            target,
+                            ..Default::default()
+                        },
                         comments,
                         cm: self.cm.clone(),
                         wr,
