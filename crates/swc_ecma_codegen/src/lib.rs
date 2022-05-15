@@ -1651,9 +1651,9 @@ where
     fn emit_quasi(&mut self, node: &TplElement) -> Result {
         srcmap!(node, true);
 
-        if self.cfg.minify {
-            self.wr
-                .write_str_lit(DUMMY_SP, &get_template_element_from_raw(&node.raw))?;
+        if self.cfg.minify || (self.cfg.ascii_only && !node.raw.is_ascii()) {
+            let v = get_template_element_from_raw(&node.raw, self.cfg.ascii_only);
+            self.wr.write_str_lit(DUMMY_SP, &v)?;
         } else {
             self.wr.write_str_lit(DUMMY_SP, &node.raw)?;
         }
@@ -3219,7 +3219,7 @@ where
     }
 }
 
-fn get_template_element_from_raw(s: &str) -> String {
+fn get_template_element_from_raw(s: &str, ascii_only: bool) -> String {
     fn read_escaped(
         radix: u32,
         len: Option<usize>,
