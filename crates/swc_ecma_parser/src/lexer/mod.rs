@@ -191,21 +191,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 }));
             }
 
-            '?' => match self.input.peek() {
-                Some('?') => {
-                    self.input.bump();
-                    self.input.bump();
-                    if self.input.cur() == Some('=') {
-                        self.input.bump();
-                        return Ok(Some(tok!("??=")));
-                    }
-                    return Ok(Some(tok!("??")));
-                }
-                _ => {
-                    self.input.bump();
-                    return Ok(Some(tok!('?')));
-                }
-            },
+            '?' => return self.read_token_question_mark().map(Some),
 
             '`' => {
                 self.bump();
@@ -499,6 +485,24 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
 
         return Ok(tok!('.'));
+    }
+
+    fn read_token_question_mark(&mut self) -> LexResult<Token> {
+        match self.input.peek() {
+            Some('?') => {
+                self.input.bump();
+                self.input.bump();
+                if self.input.cur() == Some('=') {
+                    self.input.bump();
+                    return Ok(tok!("??="));
+                }
+                return Ok(tok!("??"));
+            }
+            _ => {
+                self.input.bump();
+                return Ok(tok!('?'));
+            }
+        }
     }
 
     /// Read an escaped character for string literal.
