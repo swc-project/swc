@@ -52,7 +52,7 @@ fn assert_negate_cost(s: &str, in_bool_ctx: bool, is_ret_val_ignored: bool, expe
 
         let real = {
             let mut real = e.clone();
-            let _ = negate(&expr_ctx, &mut real, in_bool_ctx, is_ret_val_ignored);
+            negate(&expr_ctx, &mut real, in_bool_ctx, is_ret_val_ignored);
             let real = real.fold_with(&mut fixer(None));
             dump(&real, true)
         };
