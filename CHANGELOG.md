@@ -5,6 +5,20 @@
 
 
 
+- **(es/modules)** Fix handling of `import.meta.url` (#4670) ([49c40af](https://github.com/swc-project/swc/commit/49c40afb7e092655578ee4d991ddf1f3fd20ff6a))
+
+### Features
+
+
+
+- **(es/minifier)** Improve `ignore_return_value` (#4673) ([e57123e](https://github.com/swc-project/swc/commit/e57123e61ce4d07bd10c2e56f6e809b90a9d43f2))
+
+## [1.2.184] - 2022-05-15
+
+### Bug Fixes
+
+
+
 - **(es/minifier)** Don't inline a function if we need referential equality (#4665) ([96cec97](https://github.com/swc-project/swc/commit/96cec97b2c2192b4d5059dc05d1a3971e78f9cd5))
 
 

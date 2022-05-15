@@ -779,6 +779,77 @@ impl Pure<'_> {
                     }
                 }
 
+                Expr::Object(obj) => {
+                    if obj.props.iter().all(|p| match p {
+                        PropOrSpread::Spread(_) => false,
+                        PropOrSpread::Prop(p) => matches!(
+                            &**p,
+                            Prop::Shorthand(_) | Prop::KeyValue(_) | Prop::Method(..)
+                        ),
+                    }) {
+                        let mut exprs = vec![];
+
+                        for prop in obj.props.take() {
+                            if let PropOrSpread::Prop(p) = prop {
+                                match *p {
+                                    Prop::Shorthand(p) => {
+                                        exprs.push(Box::new(Expr::Ident(p)));
+                                    }
+                                    Prop::KeyValue(p) => {
+                                        if let PropName::Computed(e) = p.key {
+                                            exprs.push(e.expr);
+                                        }
+
+                                        exprs.push(p.value);
+                                    }
+                                    Prop::Method(p) => {
+                                        if let PropName::Computed(e) = p.key {
+                                            exprs.push(e.expr);
+                                        }
+                                    }
+
+                                    _ => unreachable!(),
+                                }
+                            }
+                        }
+
+                        *e = self
+                            .make_ignored_expr(exprs.into_iter())
+                            .unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
+                        report_change!("Ignored an object literal");
+                        self.changed = true;
+                        return;
+                    }
+                }
+
+                Expr::Array(arr) => {
+                    let mut exprs = vec![];
+
+                    //
+
+                    for ExprOrSpread { mut expr, .. } in arr.elems.take().into_iter().flatten() {
+                        self.ignore_return_value(
+                            &mut expr,
+                            DropOpts {
+                                drop_str_lit: true,
+                                drop_zero: true,
+                                drop_global_refs_if_unused: true,
+                                ..opts
+                            },
+                        );
+                        if !expr.is_invalid() {
+                            exprs.push(expr);
+                        }
+                    }
+
+                    *e = self
+                        .make_ignored_expr(exprs.into_iter())
+                        .unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
+                    report_change!("Ignored an array literal");
+                    self.changed = true;
+                    return;
+                }
+
                 // terser compiles
                 //
                 //  [1,foo(),...bar()][{foo}]
@@ -790,38 +861,24 @@ impl Pure<'_> {
                     obj,
                     prop: MemberProp::Computed(prop),
                     ..
-                }) => {
-                    let mut exprs = vec![];
+                }) => match &**obj {
+                    Expr::Object(..) | Expr::Array(..) => {
+                        self.ignore_return_value(obj, opts);
 
-                    if let Expr::Array(obj_arr) = &mut **obj {
-                        //
-
-                        for ExprOrSpread { mut expr, .. } in
-                            obj_arr.elems.take().into_iter().flatten()
-                        {
-                            self.ignore_return_value(
-                                &mut expr,
-                                DropOpts {
-                                    drop_str_lit: true,
-                                    drop_zero: true,
-                                    drop_global_refs_if_unused: true,
-                                    ..opts
-                                },
-                            );
-                            if !expr.is_invalid() {
-                                exprs.push(expr);
+                        match &**obj {
+                            Expr::Object(..) => {}
+                            _ => {
+                                *e = self
+                                    .make_ignored_expr(
+                                        vec![obj.take(), prop.expr.take()].into_iter(),
+                                    )
+                                    .unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
+                                return;
                             }
-                        }
-
-                        exprs.push(prop.expr.take());
-
-                        *e = self
-                            .make_ignored_expr(exprs.into_iter())
-                            .unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
-                        self.changed = true;
-                        return;
+                        };
                     }
-                }
+                    _ => {}
+                },
                 _ => {}
             }
         }

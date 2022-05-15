@@ -9,10 +9,4 @@ function foo1() {
 }
 (void 0 === tmp ? {
     b21: "string"
-} : tmp).b21, ({
-    1: "string"
-})[1], ({
-    1: !0
-})[1], ({
-    2: !0
-})[1], foo1().prop1, foo1().prop2;
+} : tmp).b21, foo1().prop1, foo1().prop2;
