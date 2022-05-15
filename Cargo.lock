@@ -3667,7 +3667,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.113.0"
+version = "0.113.1"
 dependencies = [
  "ahash",
  "base64 0.13.0",
@@ -3882,7 +3882,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_codegen"
-version = "0.7.2"
+version = "0.7.3"
 dependencies = [
  "auto_impl",
  "bitflags",
