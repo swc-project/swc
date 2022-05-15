@@ -10,6 +10,12 @@
 
 - **(html/parser)** Fix error reporting (#4644) ([1f945b9](https://github.com/swc-project/swc/commit/1f945b9277e564e393505b0baeaf3526d8a34d64))
 
+### Documentation
+
+
+
+- **(es/codegen)** Document `ascii_only` (#4669) ([bfb6be7](https://github.com/swc-project/swc/commit/bfb6be7075a57238ffe0e8c11edcf32b115b756b))
+
 ### Features
 
 
