@@ -543,7 +543,10 @@ where
             match &node.raw {
                 // TODO `es5_unicode` in `swc_ecma_transforms_compat` and avoid changing AST in
                 // codegen
-                Some(raw_value) if target > EsVersion::Es5 => {
+                Some(raw_value)
+                    if target > EsVersion::Es5
+                        && (!self.cfg.ascii_only || raw_value.chars().all(|c| c.is_ascii())) =>
+                {
                     self.wr.write_str_lit(DUMMY_SP, raw_value)?;
                 }
                 _ => {
