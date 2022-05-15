@@ -1,3 +1,1 @@
-({
-    [super.bar()]: 1
-})[0];
+super.bar();

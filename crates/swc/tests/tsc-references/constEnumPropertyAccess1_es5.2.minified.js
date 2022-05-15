@@ -1,9 +1,7 @@
 import * as swcHelpers from "@swc/helpers";
 !function(G) {
     G[G.A = 1] = "A", G[G.B = 2] = "B", G[G.C = 3] = "C", G[G.D = 2] = "D";
-}(G || (G = {})), ({
-    1: !0
-})[1];
+}(G || (G = {}));
 var G, C = function() {
     "use strict";
     function C() {
