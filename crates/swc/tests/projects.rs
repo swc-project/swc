@@ -787,6 +787,7 @@ fn should_visit() {
                 config.minify,
                 Some(&comments),
                 config.emit_source_map_columns,
+                false,
             )
             .unwrap()
             .code)

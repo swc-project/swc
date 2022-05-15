@@ -116,6 +116,7 @@ fn bench_codegen(b: &mut Bencher, _target: EsVersion) {
                     false,
                     None,
                     false,
+                    false,
                 )
                 .unwrap(),
             );
