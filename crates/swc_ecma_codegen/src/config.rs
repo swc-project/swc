@@ -13,6 +13,7 @@ pub struct Config {
     /// This is because it's not a concern of the code generator.
     pub target: EsVersion,
 
+    /// Forces the code generator to use only ascii characters.
     pub ascii_only: bool,
 
     pub minify: bool,
