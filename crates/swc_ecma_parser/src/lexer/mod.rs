@@ -244,42 +244,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             }
 
             // Logical operators
-            c @ '|' | c @ '&' => {
-                self.input.bump();
-                let token = if c == '&' { BitAnd } else { BitOr };
-
-                // '|=', '&='
-                if self.input.cur() == Some('=') {
-                    self.input.bump();
-                    return Ok(Some(AssignOp(match token {
-                        BitAnd => BitAndAssign,
-                        BitOr => BitOrAssign,
-                        _ => unreachable!(),
-                    })));
-                }
-
-                // '||', '&&'
-                if self.input.cur() == Some(c) {
-                    self.input.bump();
-
-                    if self.input.cur() == Some('=') {
-                        self.input.bump();
-                        return Ok(Some(AssignOp(match token {
-                            BitAnd => op!("&&="),
-                            BitOr => op!("||="),
-                            _ => unreachable!(),
-                        })));
-                    }
-
-                    return Ok(Some(BinOp(match token {
-                        BitAnd => LogicalAnd,
-                        BitOr => LogicalOr,
-                        _ => unreachable!(),
-                    })));
-                }
-
-                BinOp(token)
-            }
+            c @ '|' | c @ '&' => return self.read_token_logical(c).map(Some),
             '^' => {
                 // Bitwise xor
                 self.input.bump();
@@ -400,6 +365,8 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
     }
 
+    /// Read a token given `.`.
+    ///
     /// This is extracted as a method to reduce size of `read_token`.
     fn read_token_dot(&mut self) -> LexResult<Token> {
         // Check for eof
@@ -435,6 +402,8 @@ impl<'a, I: Input> Lexer<'a, I> {
         return Ok(tok!('.'));
     }
 
+    /// Read a token given `?`.
+    ///
     /// This is extracted as a method to reduce size of `read_token`.
     fn read_token_question_mark(&mut self) -> LexResult<Token> {
         match self.input.peek() {
@@ -454,6 +423,8 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
     }
 
+    /// Read a token given `:`.
+    ///
     /// This is extracted as a method to reduce size of `read_token`.
     fn read_token_colon(&mut self) -> LexResult<Token> {
         self.input.bump();
@@ -466,6 +437,8 @@ impl<'a, I: Input> Lexer<'a, I> {
         Ok(tok!(':'))
     }
 
+    /// Read a token given `0`.
+    ///
     /// This is extracted as a method to reduce size of `read_token`.
     fn read_token_zero(&mut self) -> LexResult<Token> {
         let next = self.input.peek();
@@ -494,7 +467,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             }
         };
 
-        return bigint.map(|v| match v {
+        bigint.map(|v| match v {
             Left((value, raw)) => Num {
                 value,
                 raw: raw.into(),
@@ -503,7 +476,47 @@ impl<'a, I: Input> Lexer<'a, I> {
                 value,
                 raw: raw.into(),
             },
-        });
+        })
+    }
+
+    /// Read a token given `|` or `&`.
+    ///
+    /// This is extracted as a method to reduce size of `read_token`.
+    fn read_token_logical(&mut self, c: char) -> LexResult<Token> {
+        self.input.bump();
+        let token = if c == '&' { BitAnd } else { BitOr };
+
+        // '|=', '&='
+        if self.input.cur() == Some('=') {
+            self.input.bump();
+            return Ok(AssignOp(match token {
+                BitAnd => BitAndAssign,
+                BitOr => BitOrAssign,
+                _ => unreachable!(),
+            }));
+        }
+
+        // '||', '&&'
+        if self.input.cur() == Some(c) {
+            self.input.bump();
+
+            if self.input.cur() == Some('=') {
+                self.input.bump();
+                return Ok(AssignOp(match token {
+                    BitAnd => op!("&&="),
+                    BitOr => op!("||="),
+                    _ => unreachable!(),
+                }));
+            }
+
+            return Ok(BinOp(match token {
+                BitAnd => LogicalAnd,
+                BitOr => LogicalOr,
+                _ => unreachable!(),
+            }));
+        }
+
+        Ok(BinOp(token))
     }
 
     /// Read an escaped character for string literal.
