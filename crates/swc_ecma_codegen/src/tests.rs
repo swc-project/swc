@@ -826,7 +826,7 @@ fn ascii_only_3() {
     test_all(
         "'\\u{1F60A}'",
         "'\\u{1F60A}';\n",
-        "'\\u{1F60A}';\n",
+        "\"\\u{1F60A}\"",
         Config {
             ascii_only: true,
             ..Default::default()
