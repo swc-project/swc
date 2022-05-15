@@ -37,8 +37,8 @@ impl Parse for Config {
                         ($inner:expr) => {{
                             panic!(
                                 "{}\nnote: exclude() expects one or more comma-separated regular \
-             expressions, like exclude(\".*\\\\.d\\\\.ts\") or \
-             exclude(\".*\\\\.d\\\\.ts\", \".*\\\\.tsx\")",
+                                 expressions, like exclude(\".*\\\\.d\\\\.ts\") or \
+                                 exclude(\".*\\\\.d\\\\.ts\", \".*\\\\.tsx\")",
                                 $inner
                             )
                         }};
