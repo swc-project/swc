@@ -1,0 +1,3 @@
+(1,1): expected-doctype-but-got-chars
+(1,9): foster-parenting-character
+(1,9): eof-in-table

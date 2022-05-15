@@ -1,7 +1,7 @@
 
   x Document
      ,-[$DIR/tests/fixture/element/svg/input.html:1:1]
-   1 | ,-> <html xmlns="http://www.w3.org/1999/xhtml">
+   1 | ,-> <!doctype html><html xmlns="http://www.w3.org/1999/xhtml">
    2 | |   <head>
    3 | |       <title>XTech SVG Demo</title>
    4 | |       <style>
@@ -131,8 +131,20 @@
      `----
 
   x Child
+   ,-[$DIR/tests/fixture/element/svg/input.html:1:1]
+ 1 | <!doctype html><html xmlns="http://www.w3.org/1999/xhtml">
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x DocumentType
+   ,-[$DIR/tests/fixture/element/svg/input.html:1:1]
+ 1 | <!doctype html><html xmlns="http://www.w3.org/1999/xhtml">
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Child
      ,-[$DIR/tests/fixture/element/svg/input.html:1:1]
-   1 | ,-> <html xmlns="http://www.w3.org/1999/xhtml">
+   1 | ,-> <!doctype html><html xmlns="http://www.w3.org/1999/xhtml">
    2 | |   <head>
    3 | |       <title>XTech SVG Demo</title>
    4 | |       <style>
@@ -263,7 +275,7 @@
 
   x Element
      ,-[$DIR/tests/fixture/element/svg/input.html:1:1]
-   1 | ,-> <html xmlns="http://www.w3.org/1999/xhtml">
+   1 | ,-> <!doctype html><html xmlns="http://www.w3.org/1999/xhtml">
    2 | |   <head>
    3 | |       <title>XTech SVG Demo</title>
    4 | |       <style>

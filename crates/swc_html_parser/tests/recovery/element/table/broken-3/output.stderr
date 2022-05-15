@@ -1,5 +1,5 @@
 
-  x Unexpected token
+  x Start tag for "<table>" seen but the previous "<table>" is still open
    ,-[$DIR/tests/recovery/element/table/broken-3/input.html:9:5]
  9 | <table>
    : ^^^^^^^

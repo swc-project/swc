@@ -1,0 +1,5 @@
+(1,5): expected-doctype-but-got-start-tag
+(1,6): invalid-codepoint
+(1,6): invalid-codepoint-in-foreign-content
+(1,22): unexpected-start-tag
+(1,22): eof-in-frameset

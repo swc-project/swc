@@ -1,0 +1,18 @@
+
+  x Unexpected "<select>" start tag where end tag expected
+   ,-[$DIR/tests/recovery/element/select-2/input.html:8:5]
+ 8 | <select name="test-1" id="test-1"></select>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Unexpected token
+   ,-[$DIR/tests/recovery/element/select-2/input.html:8:5]
+ 8 | <select name="test-1" id="test-1"></select>
+   :                                   ^^^^^^^^^
+   `----
+
+  x Unexpected token
+   ,-[$DIR/tests/recovery/element/select-2/input.html:9:1]
+ 9 | </select>
+   : ^^^^^^^^^
+   `----

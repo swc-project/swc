@@ -9,4 +9,4 @@ function _templateObject() {
     };
     return data;
 }
-("I AM THE TAG  PORTION")(_templateObject(), "AM");
+"I AM THE TAG  PORTION"(_templateObject(), "AM");

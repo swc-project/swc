@@ -1,0 +1,6 @@
+
+  x Stray doctype
+   ,-[$DIR/tests/recovery/element/head-3/input.html:6:1]
+ 6 | <!doctype html>
+   : ^^^^^^^^^^^^^^^
+   `----

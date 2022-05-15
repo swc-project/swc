@@ -1,0 +1,4 @@
+no doctype
+bad end tag </dummy>
+eof in template
+eof in dummy

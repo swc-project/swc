@@ -1,0 +1,6 @@
+
+  x Stray end tag "</div>"
+   ,-[$DIR/tests/recovery/element/template-4/input.html:8:5]
+ 8 | </div>
+   : ^^^^^^
+   `----

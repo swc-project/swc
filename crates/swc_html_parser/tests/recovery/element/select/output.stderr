@@ -1,4 +1,10 @@
 
+  x Missing doctype
+   ,-[$DIR/tests/recovery/element/select/input.html:1:1]
+ 1 | <select><div>foo</div>bar</select>
+   : ^^^^^^^^
+   `----
+
   x Unexpected token
    ,-[$DIR/tests/recovery/element/select/input.html:1:1]
  1 | <select><div>foo</div>bar</select>
@@ -11,7 +17,7 @@
    :                 ^^^^^^
    `----
 
-  x Unexpected token
+  x Unexpected start tag "<keygen>" with "<select>" open
    ,-[$DIR/tests/recovery/element/select/input.html:2:1]
  2 | <select><keygen>
    :         ^^^^^^^^

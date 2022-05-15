@@ -8,9 +8,6 @@ use swc_common::{
     errors::{ColorConfig, HANDLER},
     Globals, SourceMap, GLOBALS,
 };
-use swc_ecma_minifier::option::MinifyOptions;
-use swc_ecma_transforms_base::fixer::fixer;
-use swc_ecma_visit::VisitMutWith;
 use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
 use tracing_subscriber::EnvFilter;
 
@@ -18,8 +15,9 @@ use self::{
     bundle::BundleCommand,
     minify::MinifyCommand,
     test::TestCommand,
-    util::{parse_js, print_js},
+    util::{minifier::get_esbuild_output, print_js},
 };
+use crate::util::minifier::{get_minified, get_terser_output};
 
 mod bundle;
 mod minify;
@@ -51,7 +49,7 @@ fn init() -> Result<()> {
         .with_target(false)
         .with_ansi(true)
         .with_env_filter(EnvFilter::from_str(&log_env).unwrap())
-        .with_test_writer()
+        .with_writer(std::io::stderr)
         .pretty()
         .finish();
 
@@ -77,34 +75,21 @@ fn main() -> Result<()> {
                     HANDLER.set(handler, || {
                         //
 
-                        let fm = cm.load_file("input.js".as_ref())?;
+                        let m = get_minified(cm.clone(), "input.js".as_ref(), true, true)?;
 
-                        let m = parse_js(fm)?;
+                        let swc_output = print_js(cm.clone(), &m.module, true)?;
 
-                        let mut m = {
-                            swc_ecma_minifier::optimize(
-                                m.module,
-                                cm.clone(),
-                                None,
-                                None,
-                                &MinifyOptions {
-                                    compress: Some(Default::default()),
-                                    mangle: Some(Default::default()),
-                                    ..Default::default()
-                                },
-                                &swc_ecma_minifier::option::ExtraOptions {
-                                    unresolved_mark: m.unresolved_mark,
-                                    top_level_mark: m.top_level_mark,
-                                },
-                            )
-                        };
+                        let terser_output = get_terser_output("input.js".as_ref(), true, true)?;
+                        if swc_output.len() > terser_output.len() {
+                            return Ok(());
+                        }
 
-                        m.visit_mut_with(&mut fixer(None));
+                        // We only care about length, so we can replace it.
+                        //
+                        // We target es5, but esbuild does not support it
+                        let swc_output = swc_output.replace("\\n", "_");
 
-                        let swc_output = print_js(cm.clone(), &m, true)?;
-
-                        let esbuild_output =
-                            self::util::minifier::get_esbuild_output("input.js".as_ref(), true)?;
+                        let esbuild_output = get_esbuild_output("input.js".as_ref(), true)?;
 
                         if swc_output.len() > esbuild_output.len() {
                             return Ok(());

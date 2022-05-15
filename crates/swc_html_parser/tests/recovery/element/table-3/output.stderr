@@ -1,0 +1,12 @@
+
+  x Unexpected token
+   ,-[$DIR/tests/recovery/element/table-3/input.html:8:5]
+ 8 | <caption></table></caption>
+   :                  ^^^^^^^^^^
+   `----
+
+  x Unexpected token
+   ,-[$DIR/tests/recovery/element/table-3/input.html:9:1]
+ 9 | </table>
+   : ^^^^^^^^
+   `----

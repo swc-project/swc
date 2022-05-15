@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(html/parser)** Fix error reporting (#4644) ([1f945b9](https://github.com/swc-project/swc/commit/1f945b9277e564e393505b0baeaf3526d8a34d64))
+
 ### Features
 
 
@@ -12,6 +18,24 @@
 
 
 - **(es)** Add an option to omit columns from sourcemaps (#4646) ([b6f904b](https://github.com/swc-project/swc/commit/b6f904b8f0fbe8bffb25ab432006f8195d585bf7))
+
+
+- **(es/lints)** Implement `no-sparse-arrays` rule (#4652) ([9b226a7](https://github.com/swc-project/swc/commit/9b226a7026f06729904ef1fdc0e4a17aa631e5e4))
+
+
+- **(es/minifier)** Improve minifier (#4655) ([053f42b](https://github.com/swc-project/swc/commit/053f42b3aa80ac6334b720365b8f9b05d9b333ff))
+
+
+- **(html)** Support `iframe_srcdoc` (#4658) ([69ca949](https://github.com/swc-project/swc/commit/69ca9497d02cd50ad245e4415009a221b64914ee))
+
+
+- **(html/parser)** Improve error reporting (#4663) ([a8467c6](https://github.com/swc-project/swc/commit/a8467c64e8c3810a2ed9f449ee1b12029eca154c))
+
+### Refactor
+
+
+
+- **(es/react)** Use proper ident scope for react refresh (#4649) ([1150e84](https://github.com/swc-project/swc/commit/1150e842ed4f6ea4216f6b54706abffc52449c9f))
 
 ## [1.2.183] - 2022-05-13
 

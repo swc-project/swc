@@ -1,8 +1,8 @@
 
-  x Unexpected token
+  x Unexpected HTML start tag "<b>" in a foreign namespace context
    ,-[$DIR/tests/recovery/element/search-1/input.html:1:1]
  1 | <!DOCTYPE html>xxx<svg><x><g><a><search><b>
    :                                         ^^^
    `----
 
-  x Unexpected token
+  x Unexpected end of file

@@ -3323,7 +3323,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.40.1"
+version = "0.40.2"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -3367,7 +3367,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.113.1"
+version = "0.113.2"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3667,7 +3667,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.113.0"
+version = "0.113.1"
 dependencies = [
  "ahash",
  "base64 0.13.0",
@@ -3882,7 +3882,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_codegen"
-version = "0.7.2"
+version = "0.7.3"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -3922,7 +3922,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.7.2"
+version = "0.7.4"
 dependencies = [
  "bitflags",
  "lexical",

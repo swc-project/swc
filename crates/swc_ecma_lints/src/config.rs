@@ -195,4 +195,8 @@ pub struct LintConfig {
     #[cfg(feature = "non_critical_lints")]
     #[serde(default, alias = "noCompareNegZero")]
     pub no_compare_neg_zero: RuleConfig<()>,
+
+    #[cfg(feature = "non_critical_lints")]
+    #[serde(default, alias = "noSparseArrays")]
+    pub no_sparse_arrays: RuleConfig<()>,
 }

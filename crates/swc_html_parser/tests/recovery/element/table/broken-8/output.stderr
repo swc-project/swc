@@ -1,8 +1,16 @@
 
-  x Unexpected token
+  x Missing doctype
+   ,-[$DIR/tests/recovery/element/table/broken-8/input.html:1:1]
+ 1 | <body><table><tr><td><svg><td><foreignObject><span></td>Foo
+   : ^^^^^^
+   `----
+
+  x End tag "</td>" seen, but there were open elements
    ,-[$DIR/tests/recovery/element/table/broken-8/input.html:1:1]
  1 | <body><table><tr><td><svg><td><foreignObject><span></td>Foo
    :                                                    ^^^^^
    `----
 
   x Unexpected token
+
+  x Unexpected end of file

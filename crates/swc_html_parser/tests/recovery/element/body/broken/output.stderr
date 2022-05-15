@@ -1,5 +1,5 @@
 
-  x Unexpected token
+  x Stray start tag "<html>"
    ,-[$DIR/tests/recovery/element/body/broken/input.html:6:1]
  6 | <html test="test">
    : ^^^^^^^^^^^^^^^^^^
