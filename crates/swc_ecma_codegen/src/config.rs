@@ -14,6 +14,8 @@ pub struct Config {
     pub target: EsVersion,
 
     /// Forces the code generator to use only ascii characters.
+    ///
+    /// This is useful for environments that do not support unicode.
     pub ascii_only: bool,
 
     pub minify: bool,
