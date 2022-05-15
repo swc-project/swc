@@ -800,7 +800,7 @@ fn ascii_only_1() {
     test_all(
         "'😊'",
         "'😊';\n",
-        "'😊';\n",
+        "\"\\u{1F60A}\"",
         Config {
             ascii_only: false,
             ..Default::default()
@@ -812,8 +812,8 @@ fn ascii_only_1() {
 fn ascii_only_2() {
     test_all(
         "'😊'",
-        "'\\u{1F60A}';\n",
-        "'\\u{1F60A}';\n",
+        "\"\\u{1F60A}\";",
+        "\"\\u{1F60A}\"",
         Config {
             ascii_only: true,
             ..Default::default()
