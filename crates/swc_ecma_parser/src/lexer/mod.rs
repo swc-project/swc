@@ -174,7 +174,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             //
             '.' => return self.read_token_dot().map(Some),
 
-            '(' | ')' | ';' | ',' | '[' | ']' | '{' | '}' | '@' => {
+            '(' | ')' | ';' | ',' | '[' | ']' | '{' | '}' | '@' | '`' => {
                 // These tokens are emitted directly.
                 self.input.bump();
                 return Ok(Some(match c {
@@ -187,16 +187,13 @@ impl<'a, I: Input> Lexer<'a, I> {
                     '{' => LBrace,
                     '}' => RBrace,
                     '@' => At,
+                    '`' => tok!('`'),
+
                     _ => unreachable!(),
                 }));
             }
 
             '?' => return self.read_token_question_mark().map(Some),
-
-            '`' => {
-                self.bump();
-                return Ok(Some(tok!('`')));
-            }
 
             ':' => {
                 self.input.bump();
@@ -496,11 +493,11 @@ impl<'a, I: Input> Lexer<'a, I> {
                     self.input.bump();
                     return Ok(tok!("??="));
                 }
-                return Ok(tok!("??"));
+                Ok(tok!("??"))
             }
             _ => {
                 self.input.bump();
-                return Ok(tok!('?'));
+                Ok(tok!('?'))
             }
         }
     }
