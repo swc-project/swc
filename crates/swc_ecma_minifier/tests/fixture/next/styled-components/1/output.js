@@ -4049,37 +4049,33 @@
                                         if (0 === k) break;
                                         l++;
                                     }
-                                    switch(k = e.substring(t, l), 0 === q && (q = (f = f.replace(ca, "").trim()).charCodeAt(0)), q){
-                                        case 64:
-                                            switch(0 < r && (f = f.replace(N, "")), g = f.charCodeAt(1)){
-                                                case 100:
-                                                case 109:
-                                                case 115:
-                                                case 45:
-                                                    r = c;
-                                                    break;
-                                                default:
-                                                    r = O;
-                                            }
-                                            if (t = (k = M(c, r, k, g, a + 1)).length, 0 < A && (r = X(O, f, I), C = H(3, k, r, c, D, z, t, g, a, h), f = r.join(""), void 0 !== C && 0 === (t = (k = C.trim()).length) && (g = 0, k = "")), 0 < t) switch(g){
-                                                case 115:
-                                                    f = f.replace(da, ea);
-                                                case 100:
-                                                case 109:
-                                                case 45:
-                                                    k = f + "{" + k + "}";
-                                                    break;
-                                                case 107:
-                                                    k = (f = f.replace(fa, "$1 $2")) + "{" + k + "}", k = 1 === w2 || 2 === w2 && L("@" + k, 3) ? "@-webkit-" + k + "@" + k : "@" + k;
-                                                    break;
-                                                default:
-                                                    k = f + k, 112 === h && (k = (p += k, ""));
-                                            }
-                                            else k = "";
-                                            break;
-                                        default:
-                                            k = M(c, X(c, f, I), k, h, a + 1);
-                                    }
+                                    if (k = e.substring(t, l), 0 === q && (q = (f = f.replace(ca, "").trim()).charCodeAt(0)), 64 === q) {
+                                        switch(0 < r && (f = f.replace(N, "")), g = f.charCodeAt(1)){
+                                            case 100:
+                                            case 109:
+                                            case 115:
+                                            case 45:
+                                                r = c;
+                                                break;
+                                            default:
+                                                r = O;
+                                        }
+                                        if (t = (k = M(c, r, k, g, a + 1)).length, 0 < A && (r = X(O, f, I), C = H(3, k, r, c, D, z, t, g, a, h), f = r.join(""), void 0 !== C && 0 === (t = (k = C.trim()).length) && (g = 0, k = "")), 0 < t) switch(g){
+                                            case 115:
+                                                f = f.replace(da, ea);
+                                            case 100:
+                                            case 109:
+                                            case 45:
+                                                k = f + "{" + k + "}";
+                                                break;
+                                            case 107:
+                                                k = (f = f.replace(fa, "$1 $2")) + "{" + k + "}", k = 1 === w2 || 2 === w2 && L("@" + k, 3) ? "@-webkit-" + k + "@" + k : "@" + k;
+                                                break;
+                                            default:
+                                                k = f + k, 112 === h && (k = (p += k, ""));
+                                        }
+                                        else k = "";
+                                    } else k = M(c, X(c, f, I), k, h, a + 1);
                                     F += k, k = I = r = u = q = 0, f = "", g = e.charCodeAt(++l);
                                     break;
                                 case 125:
@@ -4164,15 +4160,7 @@
                                         0 === n + b + m && v--;
                                         break;
                                     case 40:
-                                        if (0 === n + b + m) {
-                                            if (0 === q) switch(2 * x + 3 * K){
-                                                case 533:
-                                                    break;
-                                                default:
-                                                    q = 1;
-                                            }
-                                            v++;
-                                        }
+                                        0 === n + b + m && (0 === q && (2 * x + 3 * K == 533 || (q = 1)), v++);
                                         break;
                                     case 64:
                                         0 === b + v + n + m + u + k && (k = 1);
@@ -6024,12 +6012,7 @@
                 return "undefined" != typeof window && null !== (_window$matchMedia2 = (_window2 = window).matchMedia) && void 0 !== _window$matchMedia2 && null !== (_window$matchMedia2$c = _window$matchMedia2.call(_window2, "(prefers-color-scheme: dark)")) && void 0 !== _window$matchMedia2$c && _window$matchMedia2$c.matches ? "night" : "day";
             }
             function resolveColorMode(colorMode, systemColorMode) {
-                switch(colorMode){
-                    case "auto":
-                        return systemColorMode;
-                    default:
-                        return colorMode;
-                }
+                return "auto" === colorMode ? systemColorMode : colorMode;
             }
             function chooseColorScheme(colorMode, dayScheme, nightScheme) {
                 switch(colorMode){
@@ -6261,7 +6244,6 @@
                     case "large":
                         paddingY = 9, paddingX = 20, fontSize = 2;
                         break;
-                    case "medium":
                     default:
                         paddingY = 5, paddingX = 16, fontSize = 1;
                 }
