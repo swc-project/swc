@@ -2301,31 +2301,31 @@
             }
             const name$o = "@firebase/app", version$1 = "0.7.8", logger = new _firebase_logger__WEBPACK_IMPORTED_MODULE_1__.Yd("@firebase/app"), PLATFORM_LOG_STRING = {
                 [name$o]: "fire-core",
-                ["@firebase/app-compat"]: "fire-core-compat",
-                ["@firebase/analytics"]: "fire-analytics",
-                ["@firebase/analytics-compat"]: "fire-analytics-compat",
-                ["@firebase/app-check"]: "fire-app-check",
-                ["@firebase/app-check-compat"]: "fire-app-check-compat",
-                ["@firebase/auth"]: "fire-auth",
-                ["@firebase/auth-compat"]: "fire-auth-compat",
-                ["@firebase/database"]: "fire-rtdb",
-                ["@firebase/database-compat"]: "fire-rtdb-compat",
-                ["@firebase/functions"]: "fire-fn",
-                ["@firebase/functions-compat"]: "fire-fn-compat",
-                ["@firebase/installations"]: "fire-iid",
-                ["@firebase/installations-compat"]: "fire-iid-compat",
-                ["@firebase/messaging"]: "fire-fcm",
-                ["@firebase/messaging-compat"]: "fire-fcm-compat",
-                ["@firebase/performance"]: "fire-perf",
-                ["@firebase/performance-compat"]: "fire-perf-compat",
-                ["@firebase/remote-config"]: "fire-rc",
-                ["@firebase/remote-config-compat"]: "fire-rc-compat",
-                ["@firebase/storage"]: "fire-gcs",
-                ["@firebase/storage-compat"]: "fire-gcs-compat",
-                ["@firebase/firestore"]: "fire-fst",
-                ["@firebase/firestore-compat"]: "fire-fst-compat",
+                "@firebase/app-compat": "fire-core-compat",
+                "@firebase/analytics": "fire-analytics",
+                "@firebase/analytics-compat": "fire-analytics-compat",
+                "@firebase/app-check": "fire-app-check",
+                "@firebase/app-check-compat": "fire-app-check-compat",
+                "@firebase/auth": "fire-auth",
+                "@firebase/auth-compat": "fire-auth-compat",
+                "@firebase/database": "fire-rtdb",
+                "@firebase/database-compat": "fire-rtdb-compat",
+                "@firebase/functions": "fire-fn",
+                "@firebase/functions-compat": "fire-fn-compat",
+                "@firebase/installations": "fire-iid",
+                "@firebase/installations-compat": "fire-iid-compat",
+                "@firebase/messaging": "fire-fcm",
+                "@firebase/messaging-compat": "fire-fcm-compat",
+                "@firebase/performance": "fire-perf",
+                "@firebase/performance-compat": "fire-perf-compat",
+                "@firebase/remote-config": "fire-rc",
+                "@firebase/remote-config-compat": "fire-rc-compat",
+                "@firebase/storage": "fire-gcs",
+                "@firebase/storage-compat": "fire-gcs-compat",
+                "@firebase/firestore": "fire-fst",
+                "@firebase/firestore-compat": "fire-fst-compat",
                 "fire-js": "fire-js",
-                ["firebase"]: "fire-js-all"
+                firebase: "fire-js-all"
             }, _apps = new Map(), _components = new Map();
             function _addComponent(app, component) {
                 try {
@@ -2341,12 +2341,12 @@
                 return !0;
             }
             new _firebase_util__WEBPACK_IMPORTED_MODULE_2__.LL("app", "Firebase", {
-                ["no-app"]: "No Firebase App '{$appName}' has been created - call Firebase App.initializeApp()",
-                ["bad-app-name"]: "Illegal App name: '{$appName}",
-                ["duplicate-app"]: "Firebase App named '{$appName}' already exists with different options or config",
-                ["app-deleted"]: "Firebase App named '{$appName}' already deleted",
-                ["invalid-app-argument"]: "firebase.{$appName}() takes either no argument or a Firebase App instance.",
-                ["invalid-log-argument"]: "First argument to `onLog` must be null or a function."
+                "no-app": "No Firebase App '{$appName}' has been created - call Firebase App.initializeApp()",
+                "bad-app-name": "Illegal App name: '{$appName}",
+                "duplicate-app": "Firebase App named '{$appName}' already exists with different options or config",
+                "app-deleted": "Firebase App named '{$appName}' already deleted",
+                "invalid-app-argument": "firebase.{$appName}() takes either no argument or a Firebase App instance.",
+                "invalid-log-argument": "First argument to `onLog` must be null or a function."
             });
             const SDK_VERSION = "9.4.1";
             function registerVersion(libraryKeyOrName, version, variant) {
