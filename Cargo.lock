@@ -3969,6 +3969,7 @@ name = "swc_html_parser"
 version = "0.7.4"
 dependencies = [
  "bitflags",
+ "criterion",
  "lexical",
  "once_cell",
  "serde",
@@ -3977,6 +3978,7 @@ dependencies = [
  "swc_common",
  "swc_html_ast",
  "swc_html_visit",
+ "swc_node_base",
  "testing",
 ]
 
