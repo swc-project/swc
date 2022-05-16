@@ -81,7 +81,7 @@ fn main() -> Result<()> {
                             let swc_output = print_js(cm.clone(), &m.module, true)?;
 
                             let terser_output = get_terser_output("input.js".as_ref(), true, true)?;
-                            if swc_output.len() > terser_output.len() {
+                            if swc_output.trim().len() > terser_output.trim().len() {
                                 return Ok(());
                             }
 
