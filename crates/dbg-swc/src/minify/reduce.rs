@@ -7,13 +7,22 @@ use std::{
 };
 
 use anyhow::{Context, Result};
-use clap::Args;
+use clap::{ArgEnum, Args};
 use sha1::{Digest, Sha1};
 use swc_common::SourceMap;
 
 #[derive(Debug, Args)]
 pub struct ReduceCommand {
     pub path: PathBuf,
+
+    #[clap(long, arg_enum)]
+    pub mode: ReduceMode,
+}
+
+#[derive(Debug, Clone, Copy, ArgEnum)]
+pub enum ReduceMode {
+    Size,
+    Semantics,
 }
 
 impl ReduceCommand {
@@ -21,7 +30,14 @@ impl ReduceCommand {
         fs::copy(&self.path, "input.js").context("failed to copy")?;
 
         let mut c = Command::new("creduce");
-        c.env("CREDUCE_COMPARE", "1");
+
+        c.env(
+            "CREDUCE_COMPARE",
+            match self.mode {
+                ReduceMode::Size => "SIZE",
+                ReduceMode::Semantics => "SEMANTICS",
+            },
+        );
         let exe = current_exe()?;
         c.arg(&exe);
         c.arg("input.js");

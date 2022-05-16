@@ -1,11 +1,26 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/modules)** Fix handling of `import.meta.url` (#4670) ([49c40af](https://github.com/swc-project/swc/commit/49c40afb7e092655578ee4d991ddf1f3fd20ff6a))
+
 ### Features
 
 
 
+- **(dbg-swc)** Add a command to diff semantics (#4671) ([e3cda26](https://github.com/swc-project/swc/commit/e3cda264bbc3607232f75db13e11d7bbd2634cdf))
+
+
 - **(es/minifier)** Improve `ignore_return_value` (#4673) ([e57123e](https://github.com/swc-project/swc/commit/e57123e61ce4d07bd10c2e56f6e809b90a9d43f2))
+
+### Build
+
+
+
+- **(repo)** Downgrade `rustc` (#4674) ([50db276](https://github.com/swc-project/swc/commit/50db276d826e80071f7347826673ea481f33bfed))
 
 ## [1.2.184] - 2022-05-15
 

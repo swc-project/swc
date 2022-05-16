@@ -213,7 +213,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.2.184"
+version = "1.2.185"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -786,7 +786,7 @@ dependencies = [
 
 [[package]]
 name = "dbg-swc"
-version = "0.13.0"
+version = "0.13.1"
 dependencies = [
  "anyhow",
  "clap 3.1.0",
@@ -3589,7 +3589,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.112.0"
+version = "0.112.1"
 dependencies = [
  "Inflector",
  "ahash",

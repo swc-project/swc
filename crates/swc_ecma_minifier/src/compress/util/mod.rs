@@ -245,6 +245,7 @@ pub(crate) fn negate_cost(
     in_bool_ctx: bool,
     is_ret_val_ignored: bool,
 ) -> isize {
+    #[allow(clippy::only_used_in_recursion)]
     #[cfg_attr(test, tracing::instrument(skip(e)))]
     fn cost(
         expr_ctx: &ExprCtx,
