@@ -2,4 +2,4 @@
 set -eu
 
 ls .input | xargs -L 1 -I {} cargo run --release -- minify reduce './.input/{}'
-mv data/*.js ./.input/
+# mv data/*.js ./.input/
