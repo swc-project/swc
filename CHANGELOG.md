@@ -16,6 +16,9 @@
 
 - **(es)** Add check for `BytePos::DUMMY` (#4675) ([da49f81](https://github.com/swc-project/swc/commit/da49f810db791ef28291f535c46f7396fec29809))
 
+
+- **(es/minifier)** Enable `computed_props` by default (#4678) ([04d66db](https://github.com/swc-project/swc/commit/04d66dbc8b8179300e69164bb9257e87cb887a03))
+
 ### Miscellaneous Tasks
 - **general**: Add stale workflow ([890a5ae](https://github.com/swc-project/swc/commit/890a5ae0e6c876157873427a0bea555c47677e55))
 
