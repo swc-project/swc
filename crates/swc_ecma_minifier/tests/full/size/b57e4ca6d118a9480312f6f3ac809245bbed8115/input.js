@@ -1,0 +1,7 @@
+[](function () {
+    (function () {
+        var a = function () {
+            b(a);
+        };
+    })();
+});
