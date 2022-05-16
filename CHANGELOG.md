@@ -5,6 +5,9 @@
 
 
 
+- **(dbg-swc)** Make reducer parallel (#4676) ([ba6688a](https://github.com/swc-project/swc/commit/ba6688a783eb626cdc9da5d1d8babb018fdfb9bb))
+
+
 - **(es)** Add check for `BytePos::DUMMY` (#4675) ([da49f81](https://github.com/swc-project/swc/commit/da49f810db791ef28291f535c46f7396fec29809))
 
 ### Miscellaneous Tasks
