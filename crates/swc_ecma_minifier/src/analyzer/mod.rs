@@ -628,7 +628,11 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_fn_decl(&mut self, n: &FnDecl) {
-        self.declare_decl(&n.ident, true, None, true);
+        let ctx = Ctx {
+            in_decl_with_no_side_effect_for_member_access: true,
+            ..self.ctx
+        };
+        self.with_ctx(ctx).declare_decl(&n.ident, true, None, true);
 
         if n.function.body.is_empty() {
             self.data.var_or_default(n.ident.to_id()).mark_as_pure_fn();
