@@ -10,10 +10,13 @@ use anyhow::{Context, Result};
 use clap::{ArgEnum, Args};
 use rayon::prelude::*;
 use sha1::{Digest, Sha1};
-use swc_common::SourceMap;
+use swc_common::{SourceMap, GLOBALS};
 use tempdir::TempDir;
 
-use crate::{util::all_js_files, CREDUCE_INPUT_ENV_VAR, CREDUCE_MODE_ENV_VAR};
+use crate::{
+    util::{all_js_files, parse_js, print_js},
+    CREDUCE_INPUT_ENV_VAR, CREDUCE_MODE_ENV_VAR,
+};
 
 #[derive(Debug, Args)]
 pub struct ReduceCommand {
@@ -34,18 +37,29 @@ pub enum ReduceMode {
 }
 
 impl ReduceCommand {
-    pub fn run(self, _cm: Arc<SourceMap>) -> Result<()> {
+    pub fn run(self, cm: Arc<SourceMap>) -> Result<()> {
         let js_files = all_js_files(&self.path)?;
 
-        js_files
-            .into_par_iter()
-            .map(|path| self.reduce_file(&path))
-            .collect::<Result<Vec<_>>>()?;
+        GLOBALS.with(|globals| {
+            js_files
+                .into_par_iter()
+                .map(|path| GLOBALS.set(globals, || self.reduce_file(cm.clone(), &path)))
+                .collect::<Result<Vec<_>>>()
+        })?;
 
         Ok(())
     }
 
-    fn reduce_file(&self, src_path: &Path) -> Result<()> {
+    fn reduce_file(&self, cm: Arc<SourceMap>, src_path: &Path) -> Result<()> {
+        // Strip comments to workaround a bug of creduce
+
+        let fm = cm.load_file(src_path).context("failed to prepare file")?;
+        let m = parse_js(fm)?;
+        let code = print_js(cm, &m.module, false)?;
+
+        fs::write(&src_path, code.as_bytes()).context("failed to strip comments")?;
+
+        //
         let dir = TempDir::new("dbg-swc").context("failed to create a temp directory")?;
 
         let input = dir.path().join("input.js");
@@ -53,6 +67,8 @@ impl ReduceCommand {
         fs::copy(&src_path, &input).context("failed to copy")?;
 
         let mut c = Command::new("creduce");
+
+        c.arg("--not-c");
 
         c.env(
             CREDUCE_MODE_ENV_VAR,
@@ -72,8 +88,12 @@ impl ReduceCommand {
             move_to_data_dir(&input)?;
         }
 
-        if self.remove {
-            fs::remove_file(&src_path).context("failed to remove")?;
+        if let Some(1) = status.code() {
+            if self.remove {
+                fs::remove_file(&src_path).context("failed to remove")?;
+            }
+        } else {
+            dbg!(&status, status.code());
         }
 
         Ok(())
