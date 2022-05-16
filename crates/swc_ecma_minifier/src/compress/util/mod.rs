@@ -812,25 +812,3 @@ impl Visit for SuperFinder {
         self.found = true;
     }
 }
-
-// TODO: remove
-pub(crate) fn contains_update<N>(body: &N) -> bool
-where
-    N: VisitWith<UpdateFinder>,
-{
-    let mut visitor = UpdateFinder { found: false };
-    body.visit_with(&mut visitor);
-    visitor.found
-}
-
-pub struct UpdateFinder {
-    found: bool,
-}
-
-impl Visit for UpdateFinder {
-    noop_visit_type!();
-
-    fn visit_update_expr(&mut self, _: &UpdateExpr) {
-        self.found = true;
-    }
-}

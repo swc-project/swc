@@ -4,11 +4,7 @@ use swc_ecma_utils::{prepend_stmt, ExprExt, ExprFactory, StmtExt};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Optimizer;
-use crate::{
-    compress::util::{contains_update, is_primitive},
-    mode::Mode,
-    util::idents_used_by,
-};
+use crate::{compress::util::is_primitive, mode::Mode, util::idents_used_by};
 
 /// Methods related to option `switches`.
 impl<M> Optimizer<'_, M>
@@ -288,10 +284,6 @@ where
 
                 if cannot_cross_block && block_start != i + 1 {
                     break;
-                }
-
-                if contains_update(&cases[i]) {
-                    continue;
                 }
 
                 block_start = j + 1;
