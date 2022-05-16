@@ -291,14 +291,11 @@ where
                 // To merge cases, the first one should be terminate the switch statement.
                 //
                 // Otherwise fallthough will be skipped
-                let case_i_terminates = matches!(
-                    cases[i].cons.last(),
-                    Some(
-                        Stmt::Break(BreakStmt { label: None, .. })
-                            | Stmt::Return(..)
-                            | Stmt::Throw(..)
-                    )
-                );
+                let case_i_terminates = cases[i]
+                    .cons
+                    .last()
+                    .map(|s| s.terminates())
+                    .unwrap_or(false);
 
                 // first case with a body and don't cross non-primitive branch
                 let found = case_i_terminates
