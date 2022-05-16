@@ -477,7 +477,7 @@ impl Compiler {
 
             if cfg!(debug_assertions)
                 && !src_map_buf.is_empty()
-                && src_map_buf.iter().all(|(bp, _)| *bp == BytePos(0))
+                && src_map_buf.iter().all(|(bp, _)| bp.is_dummy())
                 && src.lines().count() >= 3
                 && option_env!("SWC_DEBUG") == Some("1")
             {

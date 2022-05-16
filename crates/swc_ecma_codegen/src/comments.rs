@@ -52,7 +52,7 @@ where
         prefix_space: bool,
         _is_hi: bool,
     ) -> Result {
-        if pos == BytePos(0) {
+        if pos.is_dummy() {
             return Ok(());
         }
 

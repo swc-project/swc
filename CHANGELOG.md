@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(es)** Add check for `BytePos::DUMMY` (#4675) ([da49f81](https://github.com/swc-project/swc/commit/da49f810db791ef28291f535c46f7396fec29809))
+
 ### Miscellaneous Tasks
 - **general**: Add stale workflow ([890a5ae](https://github.com/swc-project/swc/commit/890a5ae0e6c876157873427a0bea555c47677e55))
 
