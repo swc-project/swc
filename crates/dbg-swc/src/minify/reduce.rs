@@ -21,6 +21,10 @@ pub struct ReduceCommand {
 
     #[clap(long, arg_enum)]
     pub mode: ReduceMode,
+
+    /// If true, the input file will be removed after the reduction.
+    #[clap(long)]
+    pub remove: bool,
 }
 
 #[derive(Debug, Clone, Copy, ArgEnum)]
@@ -66,6 +70,10 @@ impl ReduceCommand {
 
         if status.success() {
             move_to_data_dir(&input)?;
+        }
+
+        if self.remove {
+            fs::remove_file(&input).context("failed to remove")?;
         }
 
         Ok(())
