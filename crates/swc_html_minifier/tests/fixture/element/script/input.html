@@ -48,6 +48,31 @@
                 "prepTime": "PT20M"
             }
         </script>
+        <script type="speculationrules">
+           {
+             "prerender": [
+               {
+                 "source": "list",
+                 "urls": ["/page/2"],
+                 "score": 0.5
+               },
+               {
+                 "source": "document",
+                 "if_href_matches": ["https://*.wikipedia.org/**"],
+                 "if_not_selector_matches": [".restricted-section *"],
+                 "score": 0.1
+               }
+             ]
+           }
+        </script>
+        <script type="importmap">
+        {
+          "imports": {
+            "moment": "/node_modules/moment/src/moment.js",
+            "lodash": "/node_modules/lodash-es/lodash.js"
+          }
+        }
+        </script>
     </head>
 <body>
     <h2>Party coffee cake recipe</h2>
