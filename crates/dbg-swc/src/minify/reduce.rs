@@ -73,7 +73,7 @@ impl ReduceCommand {
         }
 
         if self.remove {
-            fs::remove_file(&input).context("failed to remove")?;
+            fs::remove_file(&src_path).context("failed to remove")?;
         }
 
         Ok(())
