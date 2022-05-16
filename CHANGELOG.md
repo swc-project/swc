@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/minifier)** Consider fallthrough while merging swtich cases (#4672) ([3bb4b74](https://github.com/swc-project/swc/commit/3bb4b74d945b7b9bd107114c2df5eeef13874aba))
+
 ### Features
 
 

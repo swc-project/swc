@@ -90,6 +90,7 @@ fn main() -> Result<()> {
 
                             let terser_output = get_terser_output(&input, true, true)?;
                             if swc_output.trim().len() > terser_output.trim().len() {
+                                // It's interesting, as our output is larger than terser's.
                                 return Ok(());
                             }
 
@@ -101,6 +102,7 @@ fn main() -> Result<()> {
                             let esbuild_output = get_esbuild_output(&input, true)?;
 
                             if swc_output.len() > esbuild_output.len() {
+                                // It's interesting, as our output is larger than esbuild's.
                                 return Ok(());
                             }
 
@@ -118,13 +120,11 @@ fn main() -> Result<()> {
 
                             let terser_output = get_terser_output(&input, true, false)?;
 
-                            if swc_output.len() <= 1000 || terser_output.len() <= 1000 {
-                                bail!("We don't care about this file because it's too small")
-                            }
-
                             if swc_output.trim() == terser_output.trim() {
                                 bail!("We don't care about this file")
                             }
+
+                            // It's interesting, as our output may have a bug
 
                             Ok(())
                         } else {
