@@ -11,6 +11,8 @@ use clap::{ArgEnum, Args};
 use sha1::{Digest, Sha1};
 use swc_common::SourceMap;
 
+use crate::CREDUCE_MODE_ENV_VAR;
+
 #[derive(Debug, Args)]
 pub struct ReduceCommand {
     pub path: PathBuf,
@@ -32,7 +34,7 @@ impl ReduceCommand {
         let mut c = Command::new("creduce");
 
         c.env(
-            "CREDUCE_COMPARE",
+            CREDUCE_MODE_ENV_VAR,
             match self.mode {
                 ReduceMode::Size => "SIZE",
                 ReduceMode::Semantics => "SEMANTICS",

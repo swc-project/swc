@@ -1,6 +1,6 @@
 #![feature(box_syntax)]
 
-use std::{env, str::FromStr, sync::Arc};
+use std::{env, path::PathBuf, str::FromStr, sync::Arc};
 
 use anyhow::{bail, Result};
 use clap::{StructOpt, Subcommand};
@@ -23,6 +23,10 @@ mod bundle;
 mod minify;
 mod test;
 mod util;
+
+const CREDUCE_INPUT_ENV_VAR: &str = "CREDUCE_INPUT";
+
+const CREDUCE_MODE_ENV_VAR: &str = "CREDUCE_COMPARE";
 
 #[derive(Debug, clap::Parser)]
 struct AppArgs {
@@ -63,7 +67,7 @@ fn main() -> Result<()> {
 
     let cm = Arc::new(SourceMap::default());
 
-    if let Ok(mode) = env::var("CREDUCE_COMPARE") {
+    if let Ok(mode) = env::var(CREDUCE_MODE_ENV_VAR) {
         return try_with_handler(
             cm.clone(),
             HandlerOpts {
@@ -74,13 +78,17 @@ fn main() -> Result<()> {
                 GLOBALS.set(&Globals::default(), || {
                     HANDLER.set(handler, || {
                         //
+                        let input = PathBuf::from(
+                            env::var(CREDUCE_INPUT_ENV_VAR)
+                                .expect("creduce is invoked without the name of input file"),
+                        );
 
                         if mode == "SIZE" {
-                            let m = get_minified(cm.clone(), "input.js".as_ref(), true, true)?;
+                            let m = get_minified(cm.clone(), &input, true, true)?;
 
                             let swc_output = print_js(cm.clone(), &m.module, true)?;
 
-                            let terser_output = get_terser_output("input.js".as_ref(), true, true)?;
+                            let terser_output = get_terser_output(&input, true, true)?;
                             if swc_output.trim().len() > terser_output.trim().len() {
                                 return Ok(());
                             }
@@ -90,7 +98,7 @@ fn main() -> Result<()> {
                             // We target es5, but esbuild does not support it
                             let swc_output = swc_output.replace("\\n", "_");
 
-                            let esbuild_output = get_esbuild_output("input.js".as_ref(), true)?;
+                            let esbuild_output = get_esbuild_output(&input, true)?;
 
                             if swc_output.len() > esbuild_output.len() {
                                 return Ok(());
@@ -104,12 +112,11 @@ fn main() -> Result<()> {
 
                             bail!("We don't care about this file")
                         } else if mode == "SEMANTICS" {
-                            let m = get_minified(cm.clone(), "input.js".as_ref(), true, false)?;
+                            let m = get_minified(cm.clone(), &input, true, false)?;
 
                             let swc_output = print_js(cm.clone(), &m.module, true)?;
 
-                            let terser_output =
-                                get_terser_output("input.js".as_ref(), true, false)?;
+                            let terser_output = get_terser_output(&input, true, false)?;
 
                             if swc_output.len() <= 1000 || terser_output.len() <= 1000 {
                                 bail!("We don't care about this file because it's too small")
