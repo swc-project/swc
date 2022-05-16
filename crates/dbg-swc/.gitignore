@@ -1,7 +1,10 @@
-*.output.js
-input.js
+/*.output.js
+/input.js
 *.orig
 
 *.txt
 
 /.input
+
+# creduce
+creduce_bug*
