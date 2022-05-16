@@ -258,8 +258,7 @@ impl TerserCompressorOptions {
             bools_as_ints: self.booleans_as_integers,
             collapse_vars: self.collapse_vars.unwrap_or(self.defaults),
             comparisons: self.comparisons.unwrap_or(self.defaults),
-            // TODO: Use self.defaults
-            computed_props: self.computed_props.unwrap_or(false),
+            computed_props: self.computed_props.unwrap_or(self.defaults),
             // TODO: Use self.defaults
             conditionals: self.conditionals.unwrap_or(false),
             dead_code: self.dead_code.unwrap_or(self.defaults),
