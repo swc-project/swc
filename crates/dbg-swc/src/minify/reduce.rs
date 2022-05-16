@@ -8,11 +8,12 @@ use std::{
 
 use anyhow::{Context, Result};
 use clap::{ArgEnum, Args};
+use rayon::prelude::*;
 use sha1::{Digest, Sha1};
 use swc_common::SourceMap;
 use tempdir::TempDir;
 
-use crate::{CREDUCE_INPUT_ENV_VAR, CREDUCE_MODE_ENV_VAR};
+use crate::{util::all_js_files, CREDUCE_INPUT_ENV_VAR, CREDUCE_MODE_ENV_VAR};
 
 #[derive(Debug, Args)]
 pub struct ReduceCommand {
@@ -30,7 +31,12 @@ pub enum ReduceMode {
 
 impl ReduceCommand {
     pub fn run(self, _cm: Arc<SourceMap>) -> Result<()> {
-        self.reduce_file(&self.path)?;
+        let js_files = all_js_files(&self.path)?;
+
+        js_files
+            .into_par_iter()
+            .map(|path| self.reduce_file(&path))
+            .collect::<Result<Vec<_>>>()?;
 
         Ok(())
     }
