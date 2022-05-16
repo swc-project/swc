@@ -628,7 +628,11 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_fn_decl(&mut self, n: &FnDecl) {
-        self.declare_decl(&n.ident, true, None, true);
+        let ctx = Ctx {
+            in_decl_with_no_side_effect_for_member_access: true,
+            ..self.ctx
+        };
+        self.with_ctx(ctx).declare_decl(&n.ident, true, None, true);
 
         if n.function.body.is_empty() {
             self.data.var_or_default(n.ident.to_id()).mark_as_pure_fn();
@@ -877,7 +881,7 @@ where
             }
             _ => {
                 let ctx = Ctx {
-                    in_var_decl_with_no_side_effect_for_member_access: false,
+                    in_decl_with_no_side_effect_for_member_access: false,
                     ..self.ctx
                 };
                 n.visit_children_with(&mut *self.with_ctx(ctx));
@@ -1042,7 +1046,7 @@ where
                 inline_prevented: self.ctx.inline_prevented || prevent_inline,
                 in_pat_of_var_decl: true,
                 in_pat_of_var_decl_with_init: e.init.is_some(),
-                in_var_decl_with_no_side_effect_for_member_access: e
+                in_decl_with_no_side_effect_for_member_access: e
                     .init
                     .as_deref()
                     .map(is_safe_to_access_prop)

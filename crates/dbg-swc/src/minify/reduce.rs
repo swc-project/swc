@@ -65,9 +65,9 @@ fn move_to_data_dir(input_path: &Path) -> Result<PathBuf> {
     let result = hasher.finalize();
     let hash_str = format!("{:x}", result);
 
-    create_dir_all("data").context("failed to create `.data`")?;
+    create_dir_all(format!("data/{}", hash_str)).context("failed to create `.data`")?;
 
-    let to = PathBuf::from(format!("data/{}.js", hash_str));
+    let to = PathBuf::from(format!("data/{}/input.js", hash_str));
     fs::copy(input_path, &to).context("failed to copy")?;
 
     Ok(to)

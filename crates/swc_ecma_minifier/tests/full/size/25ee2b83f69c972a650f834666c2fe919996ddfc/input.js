@@ -1,7 +1,0 @@
-[][
-    {
-        b() {
-            a({ components: components });
-        },
-    }
-];

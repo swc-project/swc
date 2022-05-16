@@ -27,7 +27,7 @@ pub(crate) struct Ctx {
 
     pub(super) var_decl_kind_of_pat: Option<VarDeclKind>,
 
-    pub(super) in_var_decl_with_no_side_effect_for_member_access: bool,
+    pub(super) in_decl_with_no_side_effect_for_member_access: bool,
 
     pub(super) in_pat_of_var_decl: bool,
     pub(super) in_pat_of_var_decl_with_init: bool,
