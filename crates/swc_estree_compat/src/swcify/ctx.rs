@@ -43,12 +43,12 @@ impl Context {
         let start = node
             .start
             .map(|offset| self.fm.start_pos + BytePos(offset as _))
-            .unwrap_or(BytePos(0));
+            .unwrap_or(BytePos::DUMMY);
 
         let end = node
             .end
             .map(|offset| self.fm.start_pos + BytePos(offset as _))
-            .unwrap_or(BytePos(0));
+            .unwrap_or(BytePos::DUMMY);
 
         Span::new(start, end, SyntaxContext::empty())
     }

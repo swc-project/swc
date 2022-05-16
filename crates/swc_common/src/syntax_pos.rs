@@ -60,8 +60,8 @@ impl<'a> arbitrary::Arbitrary<'a> for Span {
 /// Dummy span, both position and length are zero, syntax context is zero as
 /// well.
 pub const DUMMY_SP: Span = Span {
-    lo: BytePos(0),
-    hi: BytePos(0),
+    lo: BytePos::DUMMY,
+    hi: BytePos::DUMMY,
     ctxt: SyntaxContext::empty(),
 };
 
@@ -836,6 +836,12 @@ impl SourceFile {
         mut src: String,
         start_pos: BytePos,
     ) -> SourceFile {
+        debug_assert_ne!(
+            start_pos,
+            BytePos::DUMMY,
+            "BytePos::DUMMY is reserved and `SourceFile` should not use it"
+        );
+
         remove_bom(&mut src);
 
         let src_hash = {
@@ -987,6 +993,8 @@ pub trait Pos {
 pub struct BytePos(#[cfg_attr(feature = "rkyv", omit_bounds)] pub u32);
 
 impl BytePos {
+    /// Dummy position. This is reserved for synthesized spans.
+    pub const DUMMY: Self = BytePos(0);
     const MIN_RESERVED: Self = BytePos(DUMMY_RESERVE);
 
     pub const fn is_reserved_for_comments(self) -> bool {
