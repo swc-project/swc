@@ -10,6 +10,7 @@ use anyhow::{Context, Result};
 use clap::{ArgEnum, Args};
 use sha1::{Digest, Sha1};
 use swc_common::SourceMap;
+use tempdir::TempDir;
 
 use crate::{CREDUCE_INPUT_ENV_VAR, CREDUCE_MODE_ENV_VAR};
 
@@ -35,7 +36,11 @@ impl ReduceCommand {
     }
 
     fn reduce_file(&self, src_path: &Path) -> Result<()> {
-        fs::copy(&src_path, "input.js").context("failed to copy")?;
+        let dir = TempDir::new("dbg-swc").context("failed to create a temp directory")?;
+
+        let input = dir.path().join("input.js");
+
+        fs::copy(&src_path, &input).context("failed to copy")?;
 
         let mut c = Command::new("creduce");
 
@@ -46,15 +51,15 @@ impl ReduceCommand {
                 ReduceMode::Semantics => "SEMANTICS",
             },
         );
-        c.env(CREDUCE_INPUT_ENV_VAR, "input.js");
+        c.env(CREDUCE_INPUT_ENV_VAR, &input);
 
         let exe = current_exe()?;
         c.arg(&exe);
-        c.arg("input.js");
+        c.arg(&input);
         let status = c.status().context("failed to run creduce")?;
 
         if status.success() {
-            move_to_data_dir("input.js".as_ref())?;
+            move_to_data_dir(&input)?;
         }
 
         Ok(())
@@ -78,7 +83,7 @@ fn move_to_data_dir(input_path: &Path) -> Result<PathBuf> {
     create_dir_all(format!("data/{}", hash_str)).context("failed to create `.data`")?;
 
     let to = PathBuf::from(format!("data/{}/input.js", hash_str));
-    fs::copy(input_path, &to).context("failed to copy")?;
+    fs::write(&to, src.as_bytes()).context("failed to write")?;
 
     Ok(to)
 }
