@@ -1,6 +1,17 @@
 # Changelog
 ## [unreleased]
 
+### Miscellaneous Tasks
+- **general**: Add stale workflow ([890a5ae](https://github.com/swc-project/swc/commit/890a5ae0e6c876157873427a0bea555c47677e55))
+
+### Testing
+
+
+
+- **(es/minifier)** Add size tests using `dbg-swc` (#4664) ([36ff4f7](https://github.com/swc-project/swc/commit/36ff4f735f43bbea5a943866b7083fe51633d9df))
+
+## [1.2.185] - 2022-05-15
+
 ### Bug Fixes
 
 
