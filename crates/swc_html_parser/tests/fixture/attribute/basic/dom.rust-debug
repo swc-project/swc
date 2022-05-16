@@ -78,6 +78,21 @@
 |       src="test"
 |     "
 
+"
+|     <img>
+|       src="test.jpg"
+|     "
+"
+|     <img>
+|       data-src="test.jpg"
+|       src="test.jpg"
+|     "
+
+"
+|     <button>
+|       disabled=""
+|     "
+
 
 
 "

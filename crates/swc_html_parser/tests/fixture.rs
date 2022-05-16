@@ -635,6 +635,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                                         attribute.value = Some("".into());
                                     }
 
+                                    attribute.span = Default::default();
                                     attribute.raw_name = None;
                                     attribute.raw_value = None;
 
@@ -730,6 +731,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                                                             .expect("failed to deserialize");
 
                                                     attributes.push(AttributeToken {
+                                                        span: Default::default(),
                                                         name: key.clone().into(),
                                                         raw_name: None,
                                                         value: value.map(|v| v.into()),

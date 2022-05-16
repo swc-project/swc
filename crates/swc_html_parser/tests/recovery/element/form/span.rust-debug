@@ -55,6 +55,10 @@
     `----
 
   x Attribute
+   ,-[$DIR/tests/recovery/element/form/input.html:2:1]
+ 2 | <html lang="en">
+   :       ^^^^^^^^^
+   `----
 
   x Child
    ,-[$DIR/tests/recovery/element/form/input.html:3:1]
@@ -178,6 +182,12 @@
    ,-[$DIR/tests/recovery/element/form/input.html:7:1]
  7 | ,-> <form action="test">
  8 | `->     <form action="test"></form>
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/recovery/element/form/input.html:7:1]
+ 7 | <form action="test">
+   :       ^^^^^^^^^^^^^
    `----
 
   x Child

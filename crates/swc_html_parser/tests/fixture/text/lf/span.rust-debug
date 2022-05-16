@@ -300,6 +300,10 @@
     `----
 
   x Attribute
+    ,-[$DIR/tests/fixture/text/lf/input.html:22:1]
+ 22 | test="test"
+    : ^^^^^^^^^^^
+    `----
 
   x Child
     ,-[$DIR/tests/fixture/text/lf/input.html:23:1]
@@ -349,6 +353,13 @@
  31 | |   >
  32 | `-> 
  33 |     </div
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/text/lf/input.html:28:1]
+ 28 | ,-> data-q
+ 29 | |   =
+ 30 | `-> "test"
     `----
 
   x Child
@@ -401,6 +412,13 @@
  41 |     </div
     `----
 
+  x Attribute
+    ,-[$DIR/tests/fixture/text/lf/input.html:36:1]
+ 36 | ,-> data-q
+ 37 | |   =
+ 38 | `-> 'test'
+    `----
+
   x Child
     ,-[$DIR/tests/fixture/text/lf/input.html:39:1]
  39 | ,-> >
@@ -449,6 +467,13 @@
  47 | |   >
  48 | `-> 
  49 |     </div
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/text/lf/input.html:44:1]
+ 44 | ,-> data-q
+ 45 | |   =
+ 46 | `-> test
     `----
 
   x Child

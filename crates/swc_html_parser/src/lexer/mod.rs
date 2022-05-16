@@ -30,6 +30,7 @@ where
     pub last_start_tag_token: Option<Token>,
     pending_tokens: Vec<TokenAndSpan>,
     cur_token: Option<Token>,
+    attribute_start_position: Option<BytePos>,
     character_reference_code: Option<Vec<(u8, u32, Option<char>)>>,
     temporary_buffer: Option<String>,
     is_adjusted_current_node_is_element_in_html_namespace: Option<bool>,
@@ -57,6 +58,7 @@ where
             last_start_tag_token: None,
             pending_tokens: vec![],
             cur_token: None,
+            attribute_start_position: None,
             character_reference_code: None,
             temporary_buffer: None,
             is_adjusted_current_node_is_element_in_html_namespace: None,
@@ -301,6 +303,32 @@ where
         let token_and_span = TokenAndSpan { span, token };
 
         self.pending_tokens.push(token_and_span);
+    }
+
+    fn update_attribute_span(&mut self) {
+        if let Some(attribute_start_position) = self.attribute_start_position {
+            if let Some(mut token) = self.cur_token.take() {
+                match token {
+                    Token::StartTag {
+                        ref mut attributes, ..
+                    }
+                    | Token::EndTag {
+                        ref mut attributes, ..
+                    } => {
+                        if let Some(last) = attributes.last_mut() {
+                            last.span = Span::new(
+                                attribute_start_position,
+                                self.cur_pos,
+                                Default::default(),
+                            );
+                        }
+
+                        self.cur_token = Some(token);
+                    }
+                    _ => {}
+                }
+            }
+        }
     }
 
     fn leave_attribute_name_state(&mut self) {
@@ -2085,11 +2113,14 @@ where
                                 Token::StartTag { attributes, .. }
                                 | Token::EndTag { attributes, .. } => {
                                     attributes.push(AttributeToken {
+                                        span: Default::default(),
                                         name: c.to_string().into(),
                                         raw_name: Some(c.to_string().into()),
                                         value: None,
                                         raw_value: None,
                                     });
+
+                                    self.attribute_start_position = Some(self.cur_pos);
                                 }
                                 _ => {}
                             }
@@ -2107,11 +2138,14 @@ where
                                 Token::StartTag { attributes, .. }
                                 | Token::EndTag { attributes, .. } => {
                                     attributes.push(AttributeToken {
+                                        span: Default::default(),
                                         name: "".into(),
                                         raw_name: Some("".into()),
                                         value: None,
                                         raw_value: None,
                                     });
+
+                                    self.attribute_start_position = Some(self.cur_pos);
                                 }
                                 _ => {}
                             }
@@ -2158,11 +2192,13 @@ where
                     // Reconsume in the after attribute name state.
                     Some(c) if is_spacy(c) => {
                         self.leave_attribute_name_state();
+                        self.update_attribute_span();
                         self.skip_next_lf(c);
                         self.reconsume_in_state(State::AfterAttributeName);
                     }
                     Some('/' | '>') | None => {
                         self.leave_attribute_name_state();
+                        self.update_attribute_span();
                         self.reconsume_in_state(State::AfterAttributeName);
                     }
                     // U+003D EQUALS SIGN (=)
@@ -2294,11 +2330,14 @@ where
                                 Token::StartTag { attributes, .. }
                                 | Token::EndTag { attributes, .. } => {
                                     attributes.push(AttributeToken {
+                                        span: Default::default(),
                                         name: "".into(),
                                         raw_name: Some("".into()),
                                         value: None,
                                         raw_value: None,
                                     });
+
+                                    self.attribute_start_position = Some(self.cur_pos);
                                 }
                                 _ => {}
                             }
@@ -2647,8 +2686,8 @@ where
                     // U+0020 SPACE
                     // Switch to the before attribute name state.
                     Some(c) if is_spacy(c) => {
+                        self.update_attribute_span();
                         self.skip_next_lf(c);
-
                         self.state = State::BeforeAttributeName;
                     }
                     // U+0026 AMPERSAND (&)
@@ -2661,6 +2700,7 @@ where
                     // U+003E GREATER-THAN SIGN (>)
                     // Switch to the data state. Emit the current tag token.
                     Some('>') => {
+                        self.update_attribute_span();
                         self.state = State::Data;
                         self.emit_cur_token();
                     }
@@ -2715,6 +2755,7 @@ where
                     // EOF
                     // This is an eof-in-tag parse error. Emit an end-of-file token.
                     None => {
+                        self.update_attribute_span();
                         self.emit_error(ErrorKind::EofInTag);
                         self.emit_token(Token::Eof);
 
@@ -2737,24 +2778,27 @@ where
                     // U+0020 SPACE
                     // Switch to the before attribute name state.
                     Some(c) if is_spacy(c) => {
+                        self.update_attribute_span();
                         self.skip_next_lf(c);
-
                         self.state = State::BeforeAttributeName;
                     }
                     // U+002F SOLIDUS (/)
                     // Switch to the self-closing start tag state.
                     Some('/') => {
+                        self.update_attribute_span();
                         self.state = State::SelfClosingStartTag;
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // Switch to the data state. Emit the current tag token.
                     Some('>') => {
+                        self.update_attribute_span();
                         self.state = State::Data;
                         self.emit_cur_token();
                     }
                     // EOF
                     // This is an eof-in-tag parse error. Emit an end-of-file token.
                     None => {
+                        self.update_attribute_span();
                         self.emit_error(ErrorKind::EofInTag);
                         self.emit_token(Token::Eof);
 
@@ -2764,6 +2808,7 @@ where
                     // This is a missing-whitespace-between-attributes parse error. Reconsume in
                     // the before attribute name state.
                     _ => {
+                        self.update_attribute_span();
                         self.emit_error(ErrorKind::MissingWhitespaceBetweenAttributes);
                         self.reconsume_in_state(State::BeforeAttributeName);
                     }

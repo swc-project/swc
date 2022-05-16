@@ -18,7 +18,9 @@
 |         <font>
 |           size="4"
 |           <font>
-|             size="5"
+|             size="4"
 |             <font>
-|               size="4"
-|               "X"
+|               size="5"
+|               <font>
+|                 size="4"
+|                 "X"

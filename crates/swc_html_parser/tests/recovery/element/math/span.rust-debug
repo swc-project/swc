@@ -190,6 +190,10 @@
     `----
 
   x Attribute
+    ,-[$DIR/tests/recovery/element/math/input.html:36:13]
+ 36 | <html xmlns="http://www.w3.org/1999/xhtml">
+    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
 
   x Child
    ,-[$DIR/tests/recovery/element/math/input.html:3:1]
@@ -927,6 +931,12 @@
  32 | `->         </annotation-xml>
     `----
 
+  x Attribute
+    ,-[$DIR/tests/recovery/element/math/input.html:22:9]
+ 22 | <annotation-xml encoding="MathML-Content">
+    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
   x Child
     ,-[$DIR/tests/recovery/element/math/input.html:22:9]
  22 | ,-> <annotation-xml encoding="MathML-Content">
@@ -1103,6 +1113,12 @@
     : ^^^^^^^^^^^^^^^^^^^^
     `----
 
+  x Attribute
+    ,-[$DIR/tests/recovery/element/math/input.html:28:21]
+ 28 | <cn type="integer">2</cn>
+    :     ^^^^^^^^^^^^^^
+    `----
+
   x Child
     ,-[$DIR/tests/recovery/element/math/input.html:28:21]
  28 | <cn type="integer">2</cn>
@@ -1249,6 +1265,12 @@
  42 | `->         </annotation-xml>
     `----
 
+  x Attribute
+    ,-[$DIR/tests/recovery/element/math/input.html:35:9]
+ 35 | <annotation-xml encoding="application/xhtml+xml">
+    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
   x Child
     ,-[$DIR/tests/recovery/element/math/input.html:35:9]
  35 | ,-> <annotation-xml encoding="application/xhtml+xml">
@@ -1391,6 +1413,18 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
+  x Attribute
+    ,-[$DIR/tests/recovery/element/math/input.html:45:9]
+ 45 | <annotation encoding="image/png" src="some/path/formula.png"/>
+    :             ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/recovery/element/math/input.html:45:9]
+ 45 | <annotation encoding="image/png" src="some/path/formula.png"/>
+    :                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
   x Child
     ,-[$DIR/tests/recovery/element/math/input.html:45:9]
  45 | ,-> <annotation encoding="image/png" src="some/path/formula.png"/>
@@ -1441,6 +1475,12 @@
  48 | ,-> <annotation encoding="application/x-tex">
  49 | |               x^{2} + y
  50 | `->         </annotation>
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/recovery/element/math/input.html:48:9]
+ 48 | <annotation encoding="application/x-tex">
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
