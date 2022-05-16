@@ -83,11 +83,10 @@ impl<'a> Input for StringInput<'a> {
         self.orig_start == self.last_pos
     }
 
+    /// TODO(kdy1): Remove this?
+    #[inline]
     fn cur_pos(&mut self) -> BytePos {
-        self.iter
-            .clone()
-            .next()
-            .map_or(self.last_pos, |(p, _)| self.cur_pos + BytePos(p as u32))
+        self.last_pos
     }
 
     #[inline]
