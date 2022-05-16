@@ -7270,7 +7270,7 @@ where
 
             if !found {
                 additional_attributes.push(Attribute {
-                    span: token_attribute.span.clone(),
+                    span: token_attribute.span,
                     namespace: None,
                     prefix: None,
                     name: token_attribute.name.clone(),

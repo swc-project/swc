@@ -204,7 +204,7 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 4,
+                    "start": 17,
                     "end": 75,
                     "ctxt": 0
                   },
@@ -214,8 +214,8 @@
                     {
                       "type": "Attribute",
                       "span": {
-                        "start": 10,
-                        "end": 16,
+                        "start": 23,
+                        "end": 29,
                         "ctxt": 0
                       },
                       "namespace": null,
@@ -228,7 +228,7 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 17,
+                        "start": 30,
                         "end": 75,
                         "ctxt": 0
                       },
@@ -238,8 +238,8 @@
                         {
                           "type": "Attribute",
                           "span": {
-                            "start": 23,
-                            "end": 29,
+                            "start": 36,
+                            "end": 42,
                             "ctxt": 0
                           },
                           "namespace": null,
@@ -252,7 +252,7 @@
                         {
                           "type": "Element",
                           "span": {
-                            "start": 30,
+                            "start": 43,
                             "end": 75,
                             "ctxt": 0
                           },
@@ -262,21 +262,21 @@
                             {
                               "type": "Attribute",
                               "span": {
-                                "start": 36,
-                                "end": 42,
+                                "start": 49,
+                                "end": 57,
                                 "ctxt": 0
                               },
                               "namespace": null,
                               "prefix": null,
                               "name": "size",
-                              "value": "4"
+                              "value": "5"
                             }
                           ],
                           "children": [
                             {
                               "type": "Element",
                               "span": {
-                                "start": 43,
+                                "start": 58,
                                 "end": 75,
                                 "ctxt": 0
                               },
@@ -286,52 +286,25 @@
                                 {
                                   "type": "Attribute",
                                   "span": {
-                                    "start": 49,
-                                    "end": 57,
+                                    "start": 64,
+                                    "end": 70,
                                     "ctxt": 0
                                   },
                                   "namespace": null,
                                   "prefix": null,
                                   "name": "size",
-                                  "value": "5"
+                                  "value": "4"
                                 }
                               ],
                               "children": [
                                 {
-                                  "type": "Element",
+                                  "type": "Text",
                                   "span": {
-                                    "start": 58,
+                                    "start": 74,
                                     "end": 75,
                                     "ctxt": 0
                                   },
-                                  "tagName": "font",
-                                  "namespace": "http://www.w3.org/1999/xhtml",
-                                  "attributes": [
-                                    {
-                                      "type": "Attribute",
-                                      "span": {
-                                        "start": 64,
-                                        "end": 70,
-                                        "ctxt": 0
-                                      },
-                                      "namespace": null,
-                                      "prefix": null,
-                                      "name": "size",
-                                      "value": "4"
-                                    }
-                                  ],
-                                  "children": [
-                                    {
-                                      "type": "Text",
-                                      "span": {
-                                        "start": 74,
-                                        "end": 75,
-                                        "ctxt": 0
-                                      },
-                                      "value": "X"
-                                    }
-                                  ],
-                                  "content": null
+                                  "value": "X"
                                 }
                               ],
                               "content": null
