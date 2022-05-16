@@ -288,16 +288,32 @@ where
 
                 block_start = j + 1;
 
+                // To merge cases, the first one should be terminate the switch statement.
+                //
+                // Otherwise fallthough will be skipped
+                let case_i_terminates = matches!(
+                    cases[i].cons.last(),
+                    Some(
+                        Stmt::Break(BreakStmt { label: None, .. })
+                            | Stmt::Return(..)
+                            | Stmt::Throw(..)
+                    )
+                );
+
                 // first case with a body and don't cross non-primitive branch
-                let found = if j != len - 1 {
-                    cases[i].cons.eq_ignore_span(&cases[j].cons)
-                } else {
-                    if let Some(Stmt::Break(BreakStmt { label: None, .. })) = cases[i].cons.last() {
-                        cases[i].cons[..(cases[i].cons.len() - 1)].eq_ignore_span(&cases[j].cons)
-                    } else {
+                let found = case_i_terminates
+                    && if j != len - 1 {
                         cases[i].cons.eq_ignore_span(&cases[j].cons)
-                    }
-                };
+                    } else {
+                        if let Some(Stmt::Break(BreakStmt { label: None, .. })) =
+                            cases[i].cons.last()
+                        {
+                            cases[i].cons[..(cases[i].cons.len() - 1)]
+                                .eq_ignore_span(&cases[j].cons)
+                        } else {
+                            cases[i].cons.eq_ignore_span(&cases[j].cons)
+                        }
+                    };
 
                 if found {
                     self.changed = true;
