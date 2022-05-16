@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 set -eu
 
-ls .input | xargs -L 1 -I {} cargo run --release -- minify reduce './.input/{}'
-mv data/*.js ./.input/
+find .input -type f | xargs -L 1 -I {} cargo run --release -- minify reduce --mode size '{}' && rm '{}'
+# mv data/*.js ./.input/
