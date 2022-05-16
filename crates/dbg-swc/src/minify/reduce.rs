@@ -11,7 +11,7 @@ use clap::{ArgEnum, Args};
 use sha1::{Digest, Sha1};
 use swc_common::SourceMap;
 
-use crate::CREDUCE_MODE_ENV_VAR;
+use crate::{CREDUCE_INPUT_ENV_VAR, CREDUCE_MODE_ENV_VAR};
 
 #[derive(Debug, Args)]
 pub struct ReduceCommand {
@@ -29,7 +29,13 @@ pub enum ReduceMode {
 
 impl ReduceCommand {
     pub fn run(self, _cm: Arc<SourceMap>) -> Result<()> {
-        fs::copy(&self.path, "input.js").context("failed to copy")?;
+        self.reduce_file(&self.path)?;
+
+        Ok(())
+    }
+
+    fn reduce_file(&self, src_path: &Path) -> Result<()> {
+        fs::copy(&src_path, "input.js").context("failed to copy")?;
 
         let mut c = Command::new("creduce");
 
@@ -40,6 +46,8 @@ impl ReduceCommand {
                 ReduceMode::Semantics => "SEMANTICS",
             },
         );
+        c.env(CREDUCE_INPUT_ENV_VAR, "input.js");
+
         let exe = current_exe()?;
         c.arg(&exe);
         c.arg("input.js");
