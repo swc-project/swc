@@ -67,7 +67,11 @@ impl VisitMut for GlobalDefs {
             _ => {}
         }
 
-        if let Some((_, new)) = self.defs.iter().find(|(pred, _)| should_replace(pred, n)) {
+        if let Some((_, new)) = self
+            .defs
+            .iter()
+            .find(|(pred, _)| Ident::within_ignored_ctxt(|| should_replace(pred, n)))
+        {
             *n = *new.clone();
             return;
         }
