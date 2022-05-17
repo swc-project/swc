@@ -88,6 +88,7 @@ impl DiffOptionCommand {
         };
 
         if orig == new {
+            fs::remove_file(f)?;
             return Ok(());
         }
 
