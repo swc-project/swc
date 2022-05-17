@@ -109,7 +109,7 @@ impl DiffOptionCommand {
 
         if self.open {
             let mut c = Command::new("code");
-            c.arg("--diff");
+            c.arg("--diff").arg("--wait");
             c.arg(&orig_path);
             c.arg(&new_path);
             c.output().context("failed to run vscode")?;
