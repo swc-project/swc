@@ -5,6 +5,9 @@
 
 
 
+- **(common)** Don't use reserved byte position (#4690) ([606f7c9](https://github.com/swc-project/swc/commit/606f7c967e908b4d70d37edbb76c11a7ea985336))
+
+
 - **(es/ast)** Fix `EqIgnoreSpan` of `Ident` (#4689) ([07356a5](https://github.com/swc-project/swc/commit/07356a5bba29572c99b53a1db79314a252faf663))
 
 
