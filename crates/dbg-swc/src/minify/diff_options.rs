@@ -10,6 +10,7 @@ use swc_common::SourceMap;
 use swc_ecma_minifier::option::{CompressOptions, MinifyOptions};
 use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_visit::VisitMutWith;
+use tracing::info;
 
 use crate::util::{all_js_files, make_pretty, parse_js, print_js};
 
@@ -37,6 +38,8 @@ impl DiffOptionCommand {
     }
 
     fn process_file(&self, cm: Arc<SourceMap>, f: &Path) -> Result<()> {
+        info!("Processing `{}`", f.display());
+
         let fm = cm.load_file(f)?;
         let m = parse_js(fm)?;
 
