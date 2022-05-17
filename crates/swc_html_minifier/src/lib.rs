@@ -325,7 +325,10 @@ impl VisitMut for Minifier {
             && n.attributes.iter().any(|attribute| match &*attribute.name {
                 "type"
                     if attribute.value.is_some()
-                        && (&*attribute.value.as_ref().unwrap()) == "application/ld+json" =>
+                        && matches!(
+                            &**attribute.value.as_ref().unwrap(),
+                            "application/ld+json" | "importmap" | "speculationrules"
+                        ) =>
                 {
                     true
                 }
