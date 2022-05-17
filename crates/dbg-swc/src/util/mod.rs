@@ -1,5 +1,6 @@
 use std::{
     path::{Path, PathBuf},
+    process::{Command, Stdio},
     sync::Arc,
 };
 
@@ -19,6 +20,20 @@ where
     F: FnOnce() -> Result<T>,
 {
     op()
+}
+
+pub fn make_pretty(f: &Path) -> Result<()> {
+    let mut c = Command::new("npx");
+    c.stderr(Stdio::inherit());
+    c.arg("js-beautify").arg("--replace").arg(f);
+
+    let output = c.output().context("failed to run prettier")?;
+
+    if !output.status.success() {
+        bail!("prettier failed");
+    }
+
+    Ok(())
 }
 
 pub fn parse_js(fm: Arc<SourceFile>) -> Result<ModuleRecord> {
@@ -80,7 +95,7 @@ pub fn print_js(cm: Arc<SourceMap>, m: &Module, minify: bool) -> Result<String> 
     String::from_utf8(buf).context("swc emitted non-utf8 output")
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct ModuleRecord {
     pub module: Module,
     pub comments: SingleThreadedComments,
