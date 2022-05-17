@@ -20,6 +20,9 @@
 - **(es/minifier)** Enable `computed_props` by default (#4678) ([04d66db](https://github.com/swc-project/swc/commit/04d66dbc8b8179300e69164bb9257e87cb887a03))
 
 
+- **(es/minifier)** Enable `conditionals` by default (#4687) ([c01476d](https://github.com/swc-project/swc/commit/c01476d9ae0a617489099237fa08b90018693eb5))
+
+
 - **(html/minifier)** Compress more json content (#4684) ([3aac28e](https://github.com/swc-project/swc/commit/3aac28e9df0de3c543e6677882eee1ec51fef6a9))
 
 ### Miscellaneous Tasks
