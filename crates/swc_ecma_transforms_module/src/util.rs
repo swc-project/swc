@@ -161,6 +161,17 @@ pub struct Scope {
 }
 
 impl Scope {
+    /// insert exported bindings without duplication
+    pub(crate) fn insert_exported_bindings(&mut self, ident: &Ident) {
+        let bindings = self
+            .exported_bindings
+            .entry((ident.sym.clone(), ident.span.ctxt()))
+            .or_default();
+        if !bindings.contains(&(ident.sym.clone(), ident.span.ctxt())) {
+            bindings.push((ident.sym.clone(), ident.span.ctxt()));
+        }
+    }
+
     ///
     /// ```js
     /// Object.keys(_foo).forEach(function (key) {

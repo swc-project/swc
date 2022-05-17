@@ -213,6 +213,18 @@ impl Fold for CommonJs {
                     for ident in found {
                         exports.push(ident.sym.clone());
                     }
+
+                    if let Decl::Var(VarDecl { decls, .. }) = decl {
+                        for var_decl in decls {
+                            if let VarDeclarator {
+                                name: Pat::Ident(BindingIdent { id, .. }),
+                                ..
+                            } = var_decl
+                            {
+                                self.scope.borrow_mut().insert_exported_bindings(id);
+                            }
+                        }
+                    }
                 }
                 _ => {}
             }
@@ -383,11 +395,7 @@ impl Fold for CommonJs {
 
                             if !is_class {
                                 let mut scope = self.scope.borrow_mut();
-                                scope
-                                    .exported_bindings
-                                    .entry((ident.sym.clone(), ident.span.ctxt()))
-                                    .or_default()
-                                    .push((ident.sym.clone(), ident.span.ctxt()));
+                                scope.insert_exported_bindings(&ident);
                             }
 
                             let append_to: &mut Vec<_> = if is_class {
@@ -429,11 +437,7 @@ impl Fold for CommonJs {
                                 decl.visit_with(&mut v);
 
                                 for ident in found.drain(..) {
-                                    scope
-                                        .exported_bindings
-                                        .entry((ident.sym.clone(), ident.span.ctxt()))
-                                        .or_default()
-                                        .push((ident.sym.clone(), ident.span.ctxt()));
+                                    scope.insert_exported_bindings(&ident);
                                     init_export!(ident.sym);
 
                                     extra_stmts.push(
