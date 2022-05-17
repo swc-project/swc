@@ -5,6 +5,14 @@
 
 
 
+- **(html/parser)** Fix span of attributes (#4681) ([637ef7f](https://github.com/swc-project/swc/commit/637ef7f49f0b3b7bbb06860371e6f8b2518759c2))
+
+## [1.2.186] - 2022-05-17
+
+### Bug Fixes
+
+
+
 - **(es/minifier)** Consider fallthrough while merging swtich cases (#4672) ([3bb4b74](https://github.com/swc-project/swc/commit/3bb4b74d945b7b9bd107114c2df5eeef13874aba))
 
 ### Features
