@@ -94,7 +94,7 @@ impl From<Ident> for BindingIdent {
 /// There's a type named [Id] which only contains minimal information to
 /// distinguish identifiers.
 #[ast_node("Identifier")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash)]
 pub struct Ident {
     pub span: Span,
     #[serde(rename = "value")]
@@ -104,6 +104,12 @@ pub struct Ident {
     /// TypeScript only. Used in case of an optional parameter.
     #[serde(default)]
     pub optional: bool,
+}
+
+impl EqIgnoreSpan for Ident {
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.span.ctxt == other.span.ctxt && self.sym == other.sym
+    }
 }
 
 impl From<Id> for Ident {
