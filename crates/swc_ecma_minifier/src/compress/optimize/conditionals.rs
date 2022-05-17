@@ -116,7 +116,10 @@ where
             stmts
                 .windows(2)
                 .any(|stmts| match (&stmts[0].as_stmt(), &stmts[1].as_stmt()) {
-                    (Some(Stmt::If(l)), Some(Stmt::If(r))) => l.cons.eq_ignore_span(&r.cons),
+                    (
+                        Some(Stmt::If(l @ IfStmt { alt: None, .. })),
+                        Some(Stmt::If(r @ IfStmt { alt: None, .. })),
+                    ) => l.cons.eq_ignore_span(&r.cons),
                     _ => false,
                 });
         if !has_work {
@@ -132,7 +135,7 @@ where
             match stmt.try_into_stmt() {
                 Ok(stmt) => {
                     match stmt {
-                        Stmt::If(mut stmt) => {
+                        Stmt::If(mut stmt @ IfStmt { alt: None, .. }) => {
                             //
 
                             match &mut cur {
