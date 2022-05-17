@@ -53,6 +53,10 @@
    `----
 
   x Attribute
+   ,-[$DIR/tests/fixture/element/script-cdata/input.html:2:1]
+ 2 | <script type="text/javascript">
+   :         ^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
   x Child
    ,-[$DIR/tests/fixture/element/script-cdata/input.html:2:1]

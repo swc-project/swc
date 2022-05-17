@@ -61,6 +61,10 @@
     `----
 
   x Attribute
+   ,-[$DIR/tests/fixture/element/dialog/input.html:2:1]
+ 2 | <html lang="en">
+   :       ^^^^^^^^^
+   `----
 
   x Child
    ,-[$DIR/tests/fixture/element/dialog/input.html:3:1]
@@ -191,6 +195,12 @@
   9 | `->     <p>Greetings, one and all!</p>
  10 |     </dialog>
     `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/element/dialog/input.html:8:1]
+ 8 | <dialog open>
+   :         ^^^^
+   `----
 
   x Child
    ,-[$DIR/tests/fixture/element/dialog/input.html:8:1]

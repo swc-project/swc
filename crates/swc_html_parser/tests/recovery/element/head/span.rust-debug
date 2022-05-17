@@ -52,6 +52,10 @@
     `----
 
   x Attribute
+   ,-[$DIR/tests/recovery/element/head/input.html:2:1]
+ 2 | <html lang="en">
+   :       ^^^^^^^^^
+   `----
 
   x Child
    ,-[$DIR/tests/recovery/element/head/input.html:3:1]
@@ -129,6 +133,12 @@
    ,-[$DIR/tests/recovery/element/head/input.html:6:1]
  6 | <meta charset="UTF-8">
    : ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/recovery/element/head/input.html:6:1]
+ 6 | <meta charset="UTF-8">
+   :       ^^^^^^^^^^^^^^^
    `----
 
   x Child

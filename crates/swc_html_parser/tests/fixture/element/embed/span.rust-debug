@@ -70,6 +70,10 @@
     `----
 
   x Attribute
+   ,-[$DIR/tests/fixture/element/embed/input.html:2:1]
+ 2 | <html lang="en">
+   :       ^^^^^^^^^
+   `----
 
   x Child
    ,-[$DIR/tests/fixture/element/embed/input.html:3:1]
@@ -203,6 +207,30 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
+  x Attribute
+   ,-[$DIR/tests/fixture/element/embed/input.html:7:5]
+ 7 | <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
+   :        ^^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/element/embed/input.html:7:5]
+ 7 | <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
+   :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/element/embed/input.html:7:5]
+ 7 | <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
+   :                                                          ^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/element/embed/input.html:7:5]
+ 7 | <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
+   :                                                                      ^^^^^^^^^^^^
+   `----
+
   x Child
    ,-[$DIR/tests/fixture/element/embed/input.html:7:5]
  7 | ,-> <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
@@ -269,6 +297,30 @@
  12 | |              src="/media/cc0-videos/flower.mp4"
  13 | |              width="250"
  14 | `->            height="200">
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/element/embed/input.html:11:5]
+ 11 | <embed type="video/webm"
+    :        ^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/element/embed/input.html:12:12]
+ 12 | src="/media/cc0-videos/flower.mp4"
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/element/embed/input.html:13:12]
+ 13 | width="250"
+    : ^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/element/embed/input.html:14:12]
+ 14 | height="200">
+    : ^^^^^^^^^^^^
     `----
 
   x Child

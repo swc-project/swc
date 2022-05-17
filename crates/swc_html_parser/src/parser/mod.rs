@@ -1380,7 +1380,7 @@ where
                             attributes: attributes
                                 .iter()
                                 .map(|attribute| Attribute {
-                                    span: Default::default(),
+                                    span: attribute.span,
                                     namespace: None,
                                     prefix: None,
                                     name: attribute.name.clone(),
@@ -6565,12 +6565,11 @@ where
                 attributes,
                 ..
             } => {
-                // TODO span
                 let attributes = attributes
                     .into_iter()
                     .map(|attribute_token| {
                         let mut attribute = Attribute {
-                            span: Default::default(),
+                            span: attribute_token.span,
                             namespace: None,
                             prefix: None,
                             name: attribute_token.name,
@@ -7030,7 +7029,7 @@ where
 
             // It is possible when new created element doesn't have parent
             if let Some(previous_parent) = previous_parent {
-                assert!(Rc::ptr_eq(
+                assert!(is_same_node(
                     node,
                     &previous_parent.upgrade().expect("dangling weak")
                 ));
@@ -7271,7 +7270,7 @@ where
 
             if !found {
                 additional_attributes.push(Attribute {
-                    span: Default::default(),
+                    span: token_attribute.span,
                     namespace: None,
                     prefix: None,
                     name: token_attribute.name.clone(),

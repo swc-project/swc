@@ -79,6 +79,10 @@
     `----
 
   x Attribute
+   ,-[$DIR/tests/fixture/element/br/input.html:2:1]
+ 2 | <html lang="en">
+   :       ^^^^^^^^^
+   `----
 
   x Child
    ,-[$DIR/tests/fixture/element/br/input.html:3:1]

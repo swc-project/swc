@@ -67,6 +67,10 @@
     `----
 
   x Attribute
+   ,-[$DIR/tests/recovery/element/h1/input.html:2:1]
+ 2 | <html lang="en">
+   :       ^^^^^^^^^
+   `----
 
   x Child
    ,-[$DIR/tests/recovery/element/h1/input.html:3:1]

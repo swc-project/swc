@@ -66,8 +66,8 @@
                     {
                       "type": "Attribute",
                       "span": {
-                        "start": 0,
-                        "end": 0,
+                        "start": 7,
+                        "end": 11,
                         "ctxt": 0
                       },
                       "namespace": null,
@@ -90,8 +90,8 @@
                         {
                           "type": "Attribute",
                           "span": {
-                            "start": 0,
-                            "end": 0,
+                            "start": 15,
+                            "end": 19,
                             "ctxt": 0
                           },
                           "namespace": null,
@@ -114,8 +114,8 @@
                             {
                               "type": "Attribute",
                               "span": {
-                                "start": 0,
-                                "end": 0,
+                                "start": 23,
+                                "end": 27,
                                 "ctxt": 0
                               },
                               "namespace": null,
@@ -160,8 +160,8 @@
                                         {
                                           "type": "Attribute",
                                           "span": {
-                                            "start": 0,
-                                            "end": 0,
+                                            "start": 42,
+                                            "end": 46,
                                             "ctxt": 0
                                           },
                                           "namespace": null,
@@ -184,8 +184,8 @@
                                             {
                                               "type": "Attribute",
                                               "span": {
-                                                "start": 0,
-                                                "end": 0,
+                                                "start": 50,
+                                                "end": 54,
                                                 "ctxt": 0
                                               },
                                               "namespace": null,
@@ -252,8 +252,8 @@
                     {
                       "type": "Attribute",
                       "span": {
-                        "start": 0,
-                        "end": 0,
+                        "start": 7,
+                        "end": 11,
                         "ctxt": 0
                       },
                       "namespace": null,
@@ -276,8 +276,8 @@
                         {
                           "type": "Attribute",
                           "span": {
-                            "start": 0,
-                            "end": 0,
+                            "start": 15,
+                            "end": 19,
                             "ctxt": 0
                           },
                           "namespace": null,
@@ -300,8 +300,8 @@
                             {
                               "type": "Attribute",
                               "span": {
-                                "start": 0,
-                                "end": 0,
+                                "start": 23,
+                                "end": 27,
                                 "ctxt": 0
                               },
                               "namespace": null,

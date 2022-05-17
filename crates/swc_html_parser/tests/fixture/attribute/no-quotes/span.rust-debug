@@ -96,6 +96,10 @@
    `----
 
   x Attribute
+   ,-[$DIR/tests/fixture/attribute/no-quotes/input.html:5:1]
+ 5 | <a href=https://www.w3schools.com>This is a link</a>
+   :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
   x Child
    ,-[$DIR/tests/fixture/attribute/no-quotes/input.html:5:1]

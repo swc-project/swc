@@ -208,9 +208,14 @@ struct SpanVisualizer<'a> {
 macro_rules! mtd {
     ($T:ty,$name:ident) => {
         fn $name(&mut self, n: &$T) {
-            self.handler
-                .struct_span_err(n.span(), stringify!($T))
-                .emit();
+            let span = n.span();
+
+            // We should not have dummy span in original parsing
+            if span.lo == BytePos(0) && span.hi == BytePos(0) {
+                panic!("Broken span");
+            }
+
+            self.handler.struct_span_err(span, stringify!($T)).emit();
 
             n.visit_children_with(self);
         }
@@ -635,6 +640,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                                         attribute.value = Some("".into());
                                     }
 
+                                    attribute.span = Default::default();
                                     attribute.raw_name = None;
                                     attribute.raw_value = None;
 
@@ -730,6 +736,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                                                             .expect("failed to deserialize");
 
                                                     attributes.push(AttributeToken {
+                                                        span: Default::default(),
                                                         name: key.clone().into(),
                                                         raw_name: None,
                                                         value: value.map(|v| v.into()),

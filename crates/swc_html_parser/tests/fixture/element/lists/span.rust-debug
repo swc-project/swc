@@ -211,6 +211,10 @@
    `----
 
   x Attribute
+   ,-[$DIR/tests/fixture/element/lists/input.html:5:1]
+ 5 | <h2 data-test="test">An Unordered HTML List</h2>
+   :     ^^^^^^^^^^^^^^^^
+   `----
 
   x Child
    ,-[$DIR/tests/fixture/element/lists/input.html:5:1]

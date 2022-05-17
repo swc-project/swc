@@ -105,8 +105,8 @@
                     {
                       "type": "Attribute",
                       "span": {
-                        "start": 0,
-                        "end": 0,
+                        "start": 21,
+                        "end": 32,
                         "ctxt": 0
                       },
                       "namespace": null,
