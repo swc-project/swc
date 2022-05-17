@@ -94,7 +94,7 @@ impl VisitMut for InlineGlobals {
         }
 
         for (key, value) in self.global_exprs.iter() {
-            if key.eq_ignore_span(&*expr) {
+            if Ident::within_ignored_ctxt(|| key.eq_ignore_span(&*expr)) {
                 *expr = value.clone();
                 expr.visit_mut_with(self);
                 return;
