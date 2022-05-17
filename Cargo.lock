@@ -3300,6 +3300,7 @@ dependencies = [
  "is-macro",
  "num-bigint",
  "rkyv",
+ "scoped-tls",
  "serde",
  "serde_json",
  "string_enum",
