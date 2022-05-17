@@ -3371,8 +3371,7 @@
                     return comp(b, a);
                 } : comp;
             }
-            if (!isArray(array)) return array;
-            if (!sortPredicate) return array;
+            if (!isArray(array) || !sortPredicate) return array;
             sortPredicate = function(obj, iterator, context) {
                 var results = [];
                 return forEach(obj, function(value, index, list) {
