@@ -6,6 +6,7 @@ use std::{
 
 use anyhow::Result;
 use clap::Args;
+use rayon::prelude::*;
 use swc_common::SourceMap;
 use swc_ecma_minifier::option::{CompressOptions, MinifyOptions};
 use swc_ecma_transforms_base::fixer::fixer;
@@ -30,9 +31,10 @@ impl DiffOptionCommand {
             .filter(|p| p.file_name() == Some("input.js".as_ref()))
             .collect::<Vec<_>>();
 
-        for js in inputs {
-            self.process_file(cm.clone(), &js)?;
-        }
+        inputs
+            .into_par_iter()
+            .map(|f| self.process_file(cm.clone(), &f))
+            .collect::<Result<Vec<_>>>()?;
 
         Ok(())
     }
