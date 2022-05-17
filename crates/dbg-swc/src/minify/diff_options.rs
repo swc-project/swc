@@ -1,10 +1,11 @@
 use std::{
     fs,
     path::{Path, PathBuf},
+    process::Command,
     sync::Arc,
 };
 
-use anyhow::Result;
+use anyhow::{Context, Result};
 use clap::Args;
 use rayon::prelude::*;
 use swc_common::{SourceMap, GLOBALS};
@@ -20,6 +21,9 @@ use crate::util::{all_js_files, make_pretty, parse_js, print_js};
 #[derive(Debug, Args)]
 pub struct DiffOptionCommand {
     pub path: PathBuf,
+
+    #[clap(long)]
+    pub open: bool,
 }
 
 impl DiffOptionCommand {
@@ -102,6 +106,14 @@ impl DiffOptionCommand {
         let new_path = f.with_extension("new.js");
         fs::write(&new_path, new)?;
         make_pretty(&new_path)?;
+
+        if self.open {
+            let mut c = Command::new("code");
+            c.arg("--diff");
+            c.arg(&orig_path);
+            c.arg(&new_path);
+            c.output().context("failed to run vscode")?;
+        }
 
         Ok(())
     }
