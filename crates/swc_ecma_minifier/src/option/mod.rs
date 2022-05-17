@@ -139,7 +139,7 @@ pub struct CompressOptions {
     #[serde(alias = "computed_props")]
     pub computed_props: bool,
 
-    #[serde(default)]
+    #[serde(default = "true_by_default")]
     #[serde(alias = "conditionals")]
     pub conditionals: bool,
 
