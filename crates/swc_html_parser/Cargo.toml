@@ -6,7 +6,7 @@ authors = [
 description = "HTML parser"
 documentation = "https://rustdoc.swc.rs/swc_html_parser/"
 edition = "2021"
-include = ["Cargo.toml", "src/**/*.rs",  "src/**/*.json"]
+include = ["Cargo.toml", "src/**/*.rs", "src/**/*.json"]
 license = "Apache-2.0"
 name = "swc_html_parser"
 repository = "https://github.com/swc-project/swc.git"
@@ -29,7 +29,17 @@ swc_common = { version = "0.18.0", path = "../swc_common" }
 swc_html_ast = { version = "0.6.0", path = "../swc_html_ast" }
 
 [dev-dependencies]
+criterion = "0.3"
 serde = "1.0.127"
 serde_json = "1.0.66"
 swc_html_visit = { version = "0.6.0", path = "../swc_html_visit" }
+swc_node_base = { version = "0.5.0", path = "../swc_node_base" }
 testing = { version = "0.20.0", path = "../testing" }
+
+[[bench]]
+harness = false
+name = "compare"
+
+[[bench]]
+harness = false
+name = "parser"

@@ -38,6 +38,7 @@ where
     last_emitted_error_pos: Option<BytePos>,
 }
 
+// TODO implement iterator as public API
 impl<I> Lexer<I>
 where
     I: Input,

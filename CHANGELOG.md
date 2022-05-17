@@ -19,14 +19,32 @@
 
 - **(es/minifier)** Enable `computed_props` by default (#4678) ([04d66db](https://github.com/swc-project/swc/commit/04d66dbc8b8179300e69164bb9257e87cb887a03))
 
+
+- **(es/minifier)** Enable `conditionals` by default (#4687) ([c01476d](https://github.com/swc-project/swc/commit/c01476d9ae0a617489099237fa08b90018693eb5))
+
+
+- **(html/minifier)** Compress more json content (#4684) ([3aac28e](https://github.com/swc-project/swc/commit/3aac28e9df0de3c543e6677882eee1ec51fef6a9))
+
 ### Miscellaneous Tasks
 - **general**: Add stale workflow ([890a5ae](https://github.com/swc-project/swc/commit/890a5ae0e6c876157873427a0bea555c47677e55))
+
+### Performance
+
+
+
+- **(common)** Improve performance of `StringInput` (#4680) ([fe1e62a](https://github.com/swc-project/swc/commit/fe1e62a5e7a4a0037ba8d158879fb68bf9c14520))
+
+
+- **(html)** Setup benchmarks (#4685) ([b56f3b7](https://github.com/swc-project/swc/commit/b56f3b7f00e10a45ddaab1c0a774645fe8121389))
 
 ### Testing
 
 
 
 - **(es/minifier)** Add size tests using `dbg-swc` (#4664) ([36ff4f7](https://github.com/swc-project/swc/commit/36ff4f735f43bbea5a943866b7083fe51633d9df))
+
+
+- **(html/parser)** Add tests for broken html/svg (#4683) ([1d9ee0a](https://github.com/swc-project/swc/commit/1d9ee0a1002a7667add5ac39df16d7584b70d233))
 
 ## [1.2.185] - 2022-05-15
 

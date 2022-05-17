@@ -142,6 +142,8 @@ pub fn expand(callee: &Ident, attr: Config) -> Result<Vec<ItemFn>, Error> {
                 .to_string_lossy()
                 .replace('\\', "__")
                 .replace(' ', "_")
+                .replace('[', "_")
+                .replace(']', "_")
                 .replace('/', "__")
                 .replace('.', "_")
                 .replace('-', "_")

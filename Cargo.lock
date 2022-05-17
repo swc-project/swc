@@ -3104,7 +3104,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.18.3"
+version = "0.18.4"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3411,7 +3411,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.114.4"
+version = "0.114.5"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3952,7 +3952,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.4.1"
+version = "0.4.2"
 dependencies = [
  "serde_json",
  "swc_atoms",
@@ -3969,6 +3969,7 @@ name = "swc_html_parser"
 version = "0.7.4"
 dependencies = [
  "bitflags",
+ "criterion",
  "lexical",
  "once_cell",
  "serde",
@@ -3977,6 +3978,7 @@ dependencies = [
  "swc_common",
  "swc_html_ast",
  "swc_html_visit",
+ "swc_node_base",
  "testing",
 ]
 

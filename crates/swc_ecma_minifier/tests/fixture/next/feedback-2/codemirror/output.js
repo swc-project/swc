@@ -847,10 +847,7 @@
     function lineIsHidden(doc, line) {
         var sps = sawCollapsedSpans && line.markedSpans;
         if (sps) {
-            for(var sp = void 0, i = 0; i < sps.length; ++i)if ((sp = sps[i]).marker.collapsed) {
-                if (null == sp.from) return !0;
-                if (!sp.marker.widgetNode && 0 == sp.from && sp.marker.inclusiveLeft && lineIsHiddenInner(doc, line, sp)) return !0;
-            }
+            for(var sp = void 0, i = 0; i < sps.length; ++i)if ((sp = sps[i]).marker.collapsed && (null == sp.from || !sp.marker.widgetNode && 0 == sp.from && sp.marker.inclusiveLeft && lineIsHiddenInner(doc, line, sp))) return !0;
         }
     }
     function lineIsHiddenInner(doc, line, span) {
@@ -1553,8 +1550,7 @@
         return coords;
     }
     function findViewIndex(cm, n) {
-        if (n >= cm.display.viewTo) return null;
-        if ((n -= cm.display.viewFrom) < 0) return null;
+        if (n >= cm.display.viewTo || (n -= cm.display.viewFrom) < 0) return null;
         for(var view = cm.display.view, i = 0; i < view.length; i++)if ((n -= view[i].size) < 0) return i;
     }
     function regChange(cm, from, to, lendiff) {
@@ -3330,8 +3326,7 @@
         lineInfo: function(line) {
             var n;
             if ("number" == typeof line) {
-                if (!isLine(this, line)) return null;
-                if (n = line, line = getLine(this, line), !line) return null;
+                if (!isLine(this, line) || (n = line, line = getLine(this, line), !line)) return null;
             } else if (null == (n = lineNo1(line))) return null;
             return {
                 line: n,
@@ -4152,7 +4147,7 @@
         16 == e.keyCode && (this.doc.sel.shift = !1), signalDOMEvent(this, e);
     }
     function onKeyPress(e) {
-        if ((!e.target || e.target == this.display.input.getField()) && !(eventInWidget(this.display, e) || signalDOMEvent(this, e)) && (!e.ctrlKey || e.altKey) && (!mac || !e.metaKey)) {
+        if (!(e.target && e.target != this.display.input.getField() || eventInWidget(this.display, e) || signalDOMEvent(this, e) || e.ctrlKey && !e.altKey || mac && e.metaKey)) {
             var cm, keyCode = e.keyCode, charCode = e.charCode;
             if (presto && keyCode == lastStoppedKey) {
                 lastStoppedKey = null, e_preventDefault(e);
@@ -4340,7 +4335,7 @@
         return gutterEvent(cm, e, "gutterClick", !0);
     }
     function onContextMenu(cm, e) {
-        eventInWidget(cm.display, e) || contextMenuInGutter(cm, e) || !signalDOMEvent(cm, e, "contextmenu") && (captureRightClick || cm.display.input.onContextMenu(e));
+        !(eventInWidget(cm.display, e) || contextMenuInGutter(cm, e) || signalDOMEvent(cm, e, "contextmenu")) && (captureRightClick || cm.display.input.onContextMenu(e));
     }
     function contextMenuInGutter(cm, e) {
         return !!hasHandler(cm, "gutterContextMenu") && gutterEvent(cm, e, "gutterContextMenu", !1);
@@ -4638,8 +4633,7 @@
                         return moveInStorageOrder ? new Pos(start.line, mv(ch, 1), "before") : new Pos(start.line, ch, "after");
                     }; partPos >= 0 && partPos < bidi.length; partPos += dir){
                         var part = bidi[partPos], moveInStorageOrder1 = dir > 0 == (1 != part.level), ch7 = moveInStorageOrder1 ? wrappedLineExtent.begin : mv(wrappedLineExtent.end, -1);
-                        if (part.from <= ch7 && ch7 < part.to) return getRes(ch7, moveInStorageOrder1);
-                        if (ch7 = moveInStorageOrder1 ? part.from : mv(part.to, -1), wrappedLineExtent.begin <= ch7 && ch7 < wrappedLineExtent.end) return getRes(ch7, moveInStorageOrder1);
+                        if (part.from <= ch7 && ch7 < part.to || (ch7 = moveInStorageOrder1 ? part.from : mv(part.to, -1), wrappedLineExtent.begin <= ch7 && ch7 < wrappedLineExtent.end)) return getRes(ch7, moveInStorageOrder1);
                     }
                 }, res = searchInVisualLine(partPos2 + dir2, dir2, wrappedLineExtent2);
                 if (res) return res;
