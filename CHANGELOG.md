@@ -19,6 +19,9 @@
 
 - **(es/minifier)** Enable `computed_props` by default (#4678) ([04d66db](https://github.com/swc-project/swc/commit/04d66dbc8b8179300e69164bb9257e87cb887a03))
 
+
+- **(html/minifier)** Compress more json content (#4684) ([3aac28e](https://github.com/swc-project/swc/commit/3aac28e9df0de3c543e6677882eee1ec51fef6a9))
+
 ### Miscellaneous Tasks
 - **general**: Add stale workflow ([890a5ae](https://github.com/swc-project/swc/commit/890a5ae0e6c876157873427a0bea555c47677e55))
 
