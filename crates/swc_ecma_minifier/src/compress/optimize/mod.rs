@@ -1919,8 +1919,9 @@ where
         let _tracing = tracing::span!(
             Level::ERROR,
             "visit_mut_fn_decl",
-            id = tracing::value::display(&f.ident)
-        );
+            id = tracing::field::display(&f.ident)
+        )
+        .entered();
 
         self.functions
             .entry(f.ident.to_id())

@@ -390,8 +390,9 @@ impl VisitMut for Pure<'_> {
         let _tracing = tracing::span!(
             Level::ERROR,
             "visit_mut_fn_decl",
-            id = tracing::value::display(&n.ident)
-        );
+            id = tracing::fie::display(&n.ident)
+        )
+        .entered();
 
         n.visit_mut_children_with(self);
     }
