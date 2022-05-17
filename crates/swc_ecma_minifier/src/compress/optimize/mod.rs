@@ -1914,8 +1914,15 @@ where
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_fn_decl(&mut self, f: &mut FnDecl) {
+        #[cfg(feature = "debug")]
+        let _tracing = tracing::span!(
+            Level::ERROR,
+            "visit_mut_fn_decl",
+            id = tracing::field::display(&f.ident)
+        )
+        .entered();
+
         self.functions
             .entry(f.ident.to_id())
             .or_insert_with(|| FnMetadata::from(&f.function));

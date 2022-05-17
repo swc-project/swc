@@ -1,14 +1,11 @@
-use std::{
-    path::{Path, PathBuf},
-    process::{Command, Stdio},
-    sync::Arc,
-};
+use std::{path::PathBuf, process::Command, sync::Arc};
 
-use anyhow::{bail, Context, Result};
+use anyhow::{Context, Result};
 use clap::Args;
 use swc_common::SourceMap;
 
 use crate::util::{
+    make_pretty,
     minifier::{get_esbuild_output, get_minified},
     print_js,
 };
@@ -53,18 +50,4 @@ impl CompareCommand {
 
         Ok(())
     }
-}
-
-fn make_pretty(f: &Path) -> Result<()> {
-    let mut c = Command::new("npx");
-    c.stderr(Stdio::inherit());
-    c.arg("js-beautify").arg("--replace").arg(f);
-
-    let output = c.output().context("failed to run prettier")?;
-
-    if !output.status.success() {
-        bail!("prettier failed");
-    }
-
-    Ok(())
 }

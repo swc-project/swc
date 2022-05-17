@@ -24,8 +24,7 @@
                 value: !0
             });
         }, __webpack_require__.t = function(value, mode) {
-            if (1 & mode && (value = __webpack_require__(value)), 8 & mode) return value;
-            if (4 & mode && "object" == typeof value && value && value.__esModule) return value;
+            if (1 & mode && (value = __webpack_require__(value)), 8 & mode || 4 & mode && "object" == typeof value && value && value.__esModule) return value;
             var ns = Object.create(null);
             if (__webpack_require__.r(ns), Object.defineProperty(ns, "default", {
                 enumerable: !0,
@@ -3089,8 +3088,7 @@
         },
         function(module, exports) {
             module.exports = function() {
-                if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
-                if (Reflect.construct.sham) return !1;
+                if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                 if ("function" == typeof Proxy) return !0;
                 try {
                     return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
@@ -3367,8 +3365,7 @@
             }(), barcode_reader = barcode_reader_BarcodeReader, code_128_reader = function(_BarcodeReader) {
                 inherits_default()(Code128Reader, _BarcodeReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = Code128Reader, hasNativeReflectConstruct = function() {
-                    if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
-                    if (Reflect.construct.sham) return !1;
+                    if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
@@ -4416,7 +4413,7 @@
                                 else done = !0;
                                 unshift && (codeset = codeset === this.CODE_A ? this.CODE_B : this.CODE_A);
                             }
-                            return null === code ? null : (code.end = this._nextUnset(this._row, code.end), this._verifyTrailingWhitespace(code)) ? (checksum -= multiplier * rawResult[rawResult.length - 1]) % 103 !== rawResult[rawResult.length - 1] ? null : result.length ? (removeLastCharacter && result.splice(result.length - 1, 1), {
+                            return null === code ? null : (code.end = this._nextUnset(this._row, code.end), this._verifyTrailingWhitespace(code) && (checksum -= multiplier * rawResult[rawResult.length - 1]) % 103 === rawResult[rawResult.length - 1] && result.length) ? (removeLastCharacter && result.splice(result.length - 1, 1), {
                                 code: result.join(""),
                                 start: startInfo.start,
                                 end: code.end,
@@ -4425,7 +4422,7 @@
                                 decodedCodes: decodedCodes,
                                 endInfo: code,
                                 format: this.FORMAT
-                            }) : null : null;
+                            }) : null;
                         }
                     },
                     {
@@ -4614,8 +4611,7 @@
             ], ean_reader = function(_BarcodeReader) {
                 inherits_default()(EANReader, _BarcodeReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = EANReader, hasNativeReflectConstruct = function() {
-                    if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
-                    if (Reflect.construct.sham) return !1;
+                    if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
@@ -4788,13 +4784,10 @@
                                 start: startInfo.start,
                                 end: startInfo.end
                             };
-                            if (decodedCodes.push(code), !(code = this._decodePayload(code, result, decodedCodes))) return null;
-                            if (!(code = this._findEnd(code.end, !1))) return null;
-                            if (decodedCodes.push(code), !this._checksum(result)) return null;
+                            if (decodedCodes.push(code), !(code = this._decodePayload(code, result, decodedCodes)) || !(code = this._findEnd(code.end, !1)) || (decodedCodes.push(code), !this._checksum(result))) return null;
                             if (this.supplements.length > 0) {
                                 var supplement = this._decodeExtensions(code.end);
-                                if (!supplement) return null;
-                                if (!supplement.decodedCodes) return null;
+                                if (!supplement || !supplement.decodedCodes) return null;
                                 var lastCode = supplement.decodedCodes[supplement.decodedCodes.length - 1], endInfo = {
                                     start: lastCode.start + ((lastCode.end - lastCode.start) / 2 | 0),
                                     end: lastCode.end
@@ -4867,8 +4860,7 @@
             ]), code_39_reader = function(_BarcodeReader) {
                 inherits_default()(Code39Reader, _BarcodeReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = Code39Reader, hasNativeReflectConstruct = function() {
-                    if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
-                    if (Reflect.construct.sham) return !1;
+                    if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
@@ -4978,8 +4970,7 @@
                             do {
                                 counters = this._toCounters(nextStart, counters);
                                 var pattern = this._toPattern(counters);
-                                if (pattern < 0) return null;
-                                if (null === (decodedChar = this._patternToChar(pattern))) return null;
+                                if (pattern < 0 || null === (decodedChar = this._patternToChar(pattern))) return null;
                                 result.push(decodedChar), lastStart = nextStart, nextStart += array_helper.a.sum(counters), nextStart = this._nextSet(this._row, nextStart);
                             }while ("*" !== decodedChar)
                             return (result.pop(), result.length && this._verifyTrailingWhitespace(lastStart, nextStart, counters)) ? {
@@ -4999,8 +4990,7 @@
             }, code_39_vin_reader = function(_Code39Reader) {
                 inherits_default()(Code39VINReader, _Code39Reader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = Code39VINReader, hasNativeReflectConstruct = function() {
-                    if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
-                    if (Reflect.construct.sham) return !1;
+                    if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
@@ -5090,8 +5080,7 @@
             ], codabar_reader = function(_BarcodeReader) {
                 inherits_default()(NewCodabarReader, _BarcodeReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = NewCodabarReader, hasNativeReflectConstruct = function() {
-                    if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
-                    if (Reflect.construct.sham) return !1;
+                    if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
@@ -5262,9 +5251,7 @@
                                 if (null === decodedChar) return null;
                                 if (result.push(decodedChar), nextStart += 8, result.length > 1 && this._isStartEnd(pattern)) break;
                             }while (nextStart < this._counters.length)
-                            if (result.length - 2 < 4 || !this._isStartEnd(pattern)) return null;
-                            if (!this._verifyWhitespace(start.startCounter, nextStart - 8)) return null;
-                            if (!this._validateResult(result, start.startCounter)) return null;
+                            if (result.length - 2 < 4 || !this._isStartEnd(pattern) || !this._verifyWhitespace(start.startCounter, nextStart - 8) || !this._validateResult(result, start.startCounter)) return null;
                             nextStart = nextStart > this._counters.length ? this._counters.length : nextStart;
                             var end = start.start + this._sumCounters(start.startCounter, nextStart - 8);
                             return {
@@ -5281,8 +5268,7 @@
             }(barcode_reader), upc_reader = function(_EANReader) {
                 inherits_default()(UPCReader, _EANReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = UPCReader, hasNativeReflectConstruct = function() {
-                    if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
-                    if (Reflect.construct.sham) return !1;
+                    if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
@@ -5317,8 +5303,7 @@
             }(ean_reader), ean_8_reader = function(_EANReader) {
                 inherits_default()(EAN8Reader, _EANReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = EAN8Reader, hasNativeReflectConstruct = function() {
-                    if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
-                    if (Reflect.construct.sham) return !1;
+                    if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
@@ -5362,8 +5347,7 @@
             }(ean_reader), ean_2_reader = function(_EANReader) {
                 inherits_default()(EAN2Reader, _EANReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = EAN2Reader, hasNativeReflectConstruct = function() {
-                    if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
-                    if (Reflect.construct.sham) return !1;
+                    if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
@@ -5424,8 +5408,7 @@
             ], ean_5_reader = function(_EANReader) {
                 inherits_default()(EAN5Reader, _EANReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = EAN5Reader, hasNativeReflectConstruct = function() {
-                    if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
-                    if (Reflect.construct.sham) return !1;
+                    if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
@@ -5458,8 +5441,7 @@
                                 if (!(code = this._decodeCode(offset))) return null;
                                 decodedCodes.push(code), result1.push(code.code % 10), code.code >= 10 && (codeFrequency1 |= 1 << 4 - i1), 4 !== i1 && (offset = this._nextSet(this._row, code.end), offset = this._nextUnset(this._row, offset));
                             }
-                            if (5 !== result1.length) return null;
-                            if (function(result) {
+                            if (5 !== result1.length || function(result) {
                                 for(var length = result.length, sum = 0, i = length - 2; i >= 0; i -= 2)sum += result[i];
                                 sum *= 3;
                                 for(var _i = length - 1; _i >= 0; _i -= 2)sum += result[_i];
@@ -5494,8 +5476,7 @@
             var upc_e_reader = function(_EANReader) {
                 inherits_default()(UPCEReader, _EANReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = UPCEReader, hasNativeReflectConstruct = function() {
-                    if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
-                    if (Reflect.construct.sham) return !1;
+                    if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
@@ -5635,8 +5616,7 @@
             }(ean_reader), i2of5_reader = function(_BarcodeReader) {
                 inherits_default()(I2of5Reader, _BarcodeReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = I2of5Reader, hasNativeReflectConstruct = function() {
-                    if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
-                    if (Reflect.construct.sham) return !1;
+                    if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
@@ -5880,7 +5860,7 @@
                             var endInfo = this._findEnd();
                             if (!endInfo) return null;
                             var counters = this._fillCounters(startInfo.end, endInfo.start, !1);
-                            return this._verifyCounterLength(counters) && this._decodePayload(counters, result, decodedCodes) ? result.length % 2 != 0 || result.length < 6 ? null : (decodedCodes.push(endInfo), {
+                            return this._verifyCounterLength(counters) ? !this._decodePayload(counters, result, decodedCodes) || result.length % 2 != 0 || result.length < 6 ? null : (decodedCodes.push(endInfo), {
                                 code: result.join(""),
                                 start: startInfo.start,
                                 end: endInfo.end,
@@ -5980,8 +5960,7 @@
             }, 0), _2of5_reader = function(_BarcodeReader) {
                 inherits_default()(TwoOfFiveReader, _BarcodeReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = TwoOfFiveReader, hasNativeReflectConstruct = function() {
-                    if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
-                    if (Reflect.construct.sham) return !1;
+                    if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
@@ -6112,14 +6091,14 @@
                             var decodedCodes = [];
                             decodedCodes.push(startInfo);
                             var result = [];
-                            return this._decodePayload(counters, result, decodedCodes) ? result.length < 5 ? null : (decodedCodes.push(endInfo), {
+                            return !this._decodePayload(counters, result, decodedCodes) || result.length < 5 ? null : (decodedCodes.push(endInfo), {
                                 code: result.join(""),
                                 start: startInfo.start,
                                 end: endInfo.end,
                                 startInfo: startInfo,
                                 decodedCodes: decodedCodes,
                                 format: this.FORMAT
-                            }) : null;
+                            });
                         }
                     }, 
                 ]), TwoOfFiveReader;
@@ -6177,8 +6156,7 @@
             ]), code_93_reader = function(_BarcodeReader) {
                 inherits_default()(Code93Reader, _BarcodeReader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = Code93Reader, hasNativeReflectConstruct = function() {
-                    if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
-                    if (Reflect.construct.sham) return !1;
+                    if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
@@ -6331,8 +6309,7 @@
                             do {
                                 counters = this._toCounters(nextStart, counters);
                                 var pattern = this._toPattern(counters);
-                                if (pattern < 0) return null;
-                                if (null === (decodedChar = this._patternToChar(pattern))) return null;
+                                if (pattern < 0 || null === (decodedChar = this._patternToChar(pattern))) return null;
                                 result.push(decodedChar), lastStart = nextStart, nextStart += array_helper.a.sum(counters), nextStart = this._nextSet(this._row, nextStart);
                             }while ("*" !== decodedChar)
                             return (result.pop(), result.length && this._verifyEnd(lastStart, nextStart) && this._verifyChecksums(result)) ? (result = result.slice(0, result.length - 2), null === (result = this._decodeExtended(result))) ? null : {
@@ -6352,8 +6329,7 @@
             }, code_32_reader = function(_Code39Reader) {
                 inherits_default()(Code32Reader, _Code39Reader);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = Code32Reader, hasNativeReflectConstruct = function() {
-                    if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
-                    if (Reflect.construct.sham) return !1;
+                    if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
@@ -6398,8 +6374,7 @@
                             var result = get_default()(getPrototypeOf_default()(Code32Reader.prototype), "decode", this).call(this, row, start);
                             if (!result) return null;
                             var code = result.code;
-                            if (!code) return null;
-                            if (code = code.replace(code_32_reader_patterns.AEIO, ""), !this._checkChecksum(code)) return null;
+                            if (!code || (code = code.replace(code_32_reader_patterns.AEIO, ""), !this._checkChecksum(code))) return null;
                             var code32 = this._decodeCode32(code);
                             return code32 ? (result.code = code32, result) : null;
                         }
@@ -6626,8 +6601,7 @@
             }(), asyncToGenerator = __webpack_require__(20), asyncToGenerator_default = __webpack_require__.n(asyncToGenerator), regenerator = __webpack_require__(12), regenerator_default = __webpack_require__.n(regenerator), pick = __webpack_require__(85), pick_default = __webpack_require__.n(pick), wrapNativeSuper = __webpack_require__(86), wrapNativeSuper_default = __webpack_require__.n(wrapNativeSuper), Exception_Exception = function(_Error) {
                 inherits_default()(Exception, _Error);
                 var Derived, hasNativeReflectConstruct, _super = (Derived = Exception, hasNativeReflectConstruct = function() {
-                    if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
-                    if (Reflect.construct.sham) return !1;
+                    if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;

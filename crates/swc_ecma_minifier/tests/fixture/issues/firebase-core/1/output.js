@@ -1243,7 +1243,7 @@
             }, k.setRequestHeader = function(a, b) {
                 this.v.append(a, b);
             }, k.getResponseHeader = function(a) {
-                return this.h ? this.h.get(a.toLowerCase()) || "" : "";
+                return this.h && this.h.get(a.toLowerCase()) || "";
             }, k.getAllResponseHeaders = function() {
                 if (!this.h) return "";
                 const a = [], b = this.h.entries();
@@ -1368,7 +1368,7 @@
                 }), b6), "string" == typeof a ? null != c8 && encodeURIComponent(String(c8)) : R(a, b, c8));
             }
             function Hd(a, b, c) {
-                return c && c.internalChannelParams ? c.internalChannelParams[a] || b : b;
+                return c && c.internalChannelParams && c.internalChannelParams[a] || b;
             }
             function Id(a) {
                 this.za = 0, this.l = [], this.h = new Mb(), this.la = this.oa = this.F = this.W = this.g = this.sa = this.D = this.aa = this.o = this.P = this.s = null, this.Za = this.V = 0, this.Xa = Hd("failFast", !1, a), this.N = this.v = this.u = this.m = this.j = null, this.X = !0, this.I = this.ta = this.U = -1, this.Y = this.A = this.C = 0, this.Pa = Hd("baseRetryDelayMs", 5e3, a), this.$a = Hd("retryDelaySeedMs", 1e4, a), this.Ya = Hd("forwardChannelMaxRetries", 2, a), this.ra = Hd("forwardChannelRequestTimeoutMs", 2e4, a), this.qa = a && a.xmlHttpFactory || void 0, this.Ba = a && a.Yb || !1, this.K = void 0, this.H = a && a.supportsCrossDomainXhr || !1, this.J = "", this.i = new gd(a && a.concurrentRequestLimit), this.Ca = new ld(), this.ja = a && a.fastHandshake || !1, this.Ra = a && a.Wb || !1, a && a.Aa && this.h.Aa(), a && a.forceLongPolling && (this.X = !1), this.$ = !this.ja && this.X && a && a.detectBufferingProxy || !1, this.ka = void 0, this.O = 0, this.L = !1, this.B = null, this.Wa = !a || !1 !== a.Xb;

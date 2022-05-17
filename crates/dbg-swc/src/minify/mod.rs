@@ -4,9 +4,13 @@ use anyhow::Result;
 use clap::Subcommand;
 use swc_common::SourceMap;
 
-use self::{compare::CompareCommand, ensure_size::EnsureSize, reduce::ReduceCommand};
+use self::{
+    compare::CompareCommand, diff_options::DiffOptionCommand, ensure_size::EnsureSize,
+    reduce::ReduceCommand,
+};
 
 mod compare;
+mod diff_options;
 mod ensure_size;
 mod reduce;
 
@@ -15,6 +19,7 @@ mod reduce;
 pub enum MinifyCommand {
     Reduce(ReduceCommand),
     Compare(CompareCommand),
+    DiffOption(DiffOptionCommand),
     EnsureSize(EnsureSize),
 }
 
@@ -24,6 +29,7 @@ impl MinifyCommand {
             MinifyCommand::Reduce(cmd) => cmd.run(cm),
             MinifyCommand::EnsureSize(cmd) => cmd.run(cm),
             MinifyCommand::Compare(cmd) => cmd.run(cm),
+            MinifyCommand::DiffOption(cmd) => cmd.run(cm),
         }
     }
 }

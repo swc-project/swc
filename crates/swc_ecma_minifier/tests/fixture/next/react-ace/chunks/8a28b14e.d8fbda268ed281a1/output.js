@@ -169,7 +169,7 @@
                         }
                         if (!strictCSP) {
                             var container = target;
-                            target && target.getRootNode ? (container = target.getRootNode()) && container != target || (container = document) : container = document;
+                            target && target.getRootNode && (container = target.getRootNode()) && container != target || (container = document);
                             var doc = container.ownerDocument || container;
                             if (id && exports.hasCssString(id, container)) return null;
                             id && (cssText += "\n/*# sourceURL=ace/css/" + id + " */");
@@ -3395,15 +3395,13 @@
                                 var stringBefore = token && /string|escape/.test(token.type), stringAfter = !rightToken || /string|escape/.test(rightToken.type);
                                 if (rightChar == quote) (pair = stringBefore !== stringAfter) && /string\.end/.test(rightToken.type) && (pair = !1);
                                 else {
-                                    if (stringBefore && !stringAfter) return null;
-                                    if (stringBefore && stringAfter) return null;
+                                    if (stringBefore && !stringAfter || stringBefore && stringAfter) return null;
                                     var wordRe = session.$mode.tokenRe;
                                     wordRe.lastIndex = 0;
                                     var isWordBefore = wordRe.test(leftChar);
                                     wordRe.lastIndex = 0;
                                     var isWordAfter = wordRe.test(leftChar);
-                                    if (isWordBefore || isWordAfter) return null;
-                                    if (rightChar && !/[\s;,.})\]\\]/.test(rightChar)) return null;
+                                    if (isWordBefore || isWordAfter || rightChar && !/[\s;,.})\]\\]/.test(rightChar)) return null;
                                     var charBefore = line[cursor.column - 2];
                                     if (leftChar == quote && (charBefore == quote || wordRe.test(charBefore))) return null;
                                     pair = !0;
@@ -5161,8 +5159,7 @@
                         for(var folds = foldLine.folds, i = 0; i < folds.length; i++){
                             var range = folds[i].range;
                             if (range.contains(row, column)) {
-                                if (1 == side && range.isEnd(row, column) && !range.isEmpty()) continue;
-                                if (-1 == side && range.isStart(row, column) && !range.isEmpty()) continue;
+                                if (1 == side && range.isEnd(row, column) && !range.isEmpty() || -1 == side && range.isStart(row, column) && !range.isEmpty()) continue;
                                 return folds[i];
                             }
                         }
@@ -6654,9 +6651,7 @@
                             for(var i = command.length; i--;)if (this.exec(command[i], editor, args)) return !0;
                             return !1;
                         }
-                        if ("string" == typeof command && (command = this.commands[command]), !command) return !1;
-                        if (editor && editor.$readOnly && !command.readOnly) return !1;
-                        if (!1 != this.$checkCommandState && command.isAvailable && !command.isAvailable(editor)) return !1;
+                        if ("string" == typeof command && (command = this.commands[command]), !command || editor && editor.$readOnly && !command.readOnly || !1 != this.$checkCommandState && command.isAvailable && !command.isAvailable(editor)) return !1;
                         var e = {
                             editor: editor,
                             command: command,
@@ -8472,8 +8467,7 @@
                                 for(var first = (rows = this.$getSelectedRows(ranges[i])).first, last = rows.last; ++i < l;){
                                     totalDiff && ranges[i].moveBy(totalDiff, 0);
                                     var subRows = this.$getSelectedRows(ranges[i]);
-                                    if (copy && subRows.first != last) break;
-                                    if (!copy && subRows.first > last + 1) break;
+                                    if (copy && subRows.first != last || !copy && subRows.first > last + 1) break;
                                     last = subRows.last;
                                 }
                                 for(i--, diff = this.session.$moveLines(first, last, copy ? 0 : dir), copy && -1 == dir && (rangeIndex = i + 1); rangeIndex <= i;)ranges[rangeIndex].moveBy(diff, 0), rangeIndex++;
@@ -9262,8 +9256,7 @@
                         if (this.config = config, this.$updateCursorRow(), this.$lines.pageChanged(oldConfig, config)) return this.update(config);
                         this.$lines.moveContainer(config);
                         var lastRow = Math.min(config.lastRow + config.gutterOffset, this.session.getLength() - 1), oldLastRow = this.oldLastRow;
-                        if (this.oldLastRow = lastRow, !oldConfig || oldLastRow < config.firstRow) return this.update(config);
-                        if (lastRow < oldConfig.firstRow) return this.update(config);
+                        if (this.oldLastRow = lastRow, !oldConfig || oldLastRow < config.firstRow || lastRow < oldConfig.firstRow) return this.update(config);
                         if (oldConfig.firstRow < config.firstRow) for(var row = this.session.getFoldedRowCount(oldConfig.firstRow, config.firstRow - 1); row > 0; row--)this.$lines.shift();
                         if (oldLastRow > lastRow) for(var row = this.session.getFoldedRowCount(lastRow + 1, oldLastRow); row > 0; row--)this.$lines.pop();
                         config.firstRow < oldConfig.firstRow && this.$lines.unshift(this.$renderLines(config, config.firstRow, oldConfig.firstRow - 1)), lastRow > oldLastRow && this.$lines.push(this.$renderLines(config, oldLastRow + 1, lastRow)), this.updateLineHighlight(), this._signal("afterRender"), this.$updateGutterWidth(config);
@@ -9484,10 +9477,7 @@
                         if (this.config = config, this.$lines.pageChanged(oldConfig, config)) return this.update(config);
                         this.$lines.moveContainer(config);
                         var lastRow = config.lastRow, oldLastRow = oldConfig ? oldConfig.lastRow : -1;
-                        if (!oldConfig || oldLastRow < config.firstRow) return this.update(config);
-                        if (lastRow < oldConfig.firstRow) return this.update(config);
-                        if (!oldConfig || oldConfig.lastRow < config.firstRow) return this.update(config);
-                        if (config.lastRow < oldConfig.firstRow) return this.update(config);
+                        if (!oldConfig || oldLastRow < config.firstRow || lastRow < oldConfig.firstRow || !oldConfig || oldConfig.lastRow < config.firstRow || config.lastRow < oldConfig.firstRow) return this.update(config);
                         if (oldConfig.firstRow < config.firstRow) for(var row = this.session.getFoldedRowCount(oldConfig.firstRow, config.firstRow - 1); row > 0; row--)this.$lines.shift();
                         if (oldConfig.lastRow > config.lastRow) for(var row = this.session.getFoldedRowCount(config.lastRow + 1, oldConfig.lastRow); row > 0; row--)this.$lines.pop();
                         config.firstRow < oldConfig.firstRow && this.$lines.unshift(this.$renderLinesFragment(config, config.firstRow, oldConfig.firstRow - 1)), config.lastRow > oldConfig.lastRow && this.$lines.push(this.$renderLinesFragment(config, oldConfig.lastRow + 1, config.lastRow));
@@ -10817,7 +10807,7 @@ margin: 0 10px;\
                     }, this.scrollBy = function(deltaX, deltaY) {
                         deltaY && this.session.setScrollTop(this.session.getScrollTop() + deltaY), deltaX && this.session.setScrollLeft(this.session.getScrollLeft() + deltaX);
                     }, this.isScrollableBy = function(deltaX, deltaY) {
-                        return !!(deltaY < 0 && this.session.getScrollTop() >= 1 - this.scrollMargin.top) || !!(deltaY > 0 && this.session.getScrollTop() + this.$size.scrollerHeight - this.layerConfig.maxHeight < -1 + this.scrollMargin.bottom) || !!(deltaX < 0 && this.session.getScrollLeft() >= 1 - this.scrollMargin.left) || !!(deltaX > 0 && this.session.getScrollLeft() + this.$size.scrollerWidth - this.layerConfig.width < -1 + this.scrollMargin.right) || void 0;
+                        if (deltaY < 0 && this.session.getScrollTop() >= 1 - this.scrollMargin.top || deltaY > 0 && this.session.getScrollTop() + this.$size.scrollerHeight - this.layerConfig.maxHeight < -1 + this.scrollMargin.bottom || deltaX < 0 && this.session.getScrollLeft() >= 1 - this.scrollMargin.left || deltaX > 0 && this.session.getScrollLeft() + this.$size.scrollerWidth - this.layerConfig.width < -1 + this.scrollMargin.right) return !0;
                     }, this.pixelToScreenCoordinates = function(x, y) {
                         if (this.$hasCssTransforms) {
                             canvasPos = {
@@ -12072,7 +12062,7 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
                 (function() {
                     this.getRowLength = function(row) {
                         var h;
-                        return (h = this.lineWidgets ? this.lineWidgets[row] && this.lineWidgets[row].rowCount || 0 : 0, this.$useWrapMode && this.$wrapData[row]) ? this.$wrapData[row].length + 1 + h : 1 + h;
+                        return (h = this.lineWidgets && this.lineWidgets[row] && this.lineWidgets[row].rowCount || 0, this.$useWrapMode && this.$wrapData[row]) ? this.$wrapData[row].length + 1 + h : 1 + h;
                     }, this.$getWidgetScreenLength = function() {
                         var screenRows = 0;
                         return this.lineWidgets.forEach(function(w) {
