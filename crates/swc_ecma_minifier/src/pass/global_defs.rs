@@ -2,7 +2,7 @@ use std::borrow::Cow;
 
 use swc_common::{pass::CompilerPass, EqIgnoreSpan, Mark, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 pub fn globals_defs(
     defs: Vec<(Box<Expr>, Box<Expr>)>,
@@ -31,11 +31,6 @@ impl CompilerPass for GlobalDefs {
     fn name() -> Cow<'static, str> {
         Cow::Borrowed("global-defs")
     }
-}
-
-/// Finds top-level bindings.
-impl Visit for GlobalDefs {
-    noop_visit_type!();
 }
 
 /// We use [VisitMut] instead of [swc_ecma_visit::Fold] because it's faster.
