@@ -1,6 +1,8 @@
 /*.output.js
 /input.js
 *.orig
+input.new.js
+input.orig.js
 
 *.txt
 
