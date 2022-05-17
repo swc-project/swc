@@ -27,7 +27,7 @@ impl DiffOptionCommand {
 
         let inputs = js_files
             .into_iter()
-            .filter(|p| p.extension() == Some("js".as_ref()))
+            .filter(|p| p.file_name() == Some("input.js".as_ref()))
             .collect::<Vec<_>>();
 
         for js in inputs {
