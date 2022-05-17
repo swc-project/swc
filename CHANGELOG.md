@@ -31,6 +31,9 @@
 
 - **(common)** Improve performance of `StringInput` (#4680) ([fe1e62a](https://github.com/swc-project/swc/commit/fe1e62a5e7a4a0037ba8d158879fb68bf9c14520))
 
+
+- **(html)** Setup benchmarks (#4685) ([b56f3b7](https://github.com/swc-project/swc/commit/b56f3b7f00e10a45ddaab1c0a774645fe8121389))
+
 ### Testing
 
 
