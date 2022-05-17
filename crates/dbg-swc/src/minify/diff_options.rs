@@ -35,17 +35,27 @@ impl DiffOptionCommand {
             .filter(|p| p.file_name() == Some("input.js".as_ref()))
             .collect::<Vec<_>>();
 
-        GLOBALS.with(|globals| {
+        let files = GLOBALS.with(|globals| {
             inputs
                 .into_par_iter()
                 .map(|f| GLOBALS.set(globals, || self.process_file(cm.clone(), &f)))
                 .collect::<Result<Vec<_>>>()
         })?;
 
+        for (orig_path, new_path) in files.into_iter().flatten() {
+            if self.open {
+                let mut c = Command::new("code");
+                c.arg("--diff").arg("--wait");
+                c.arg(&orig_path);
+                c.arg(&new_path);
+                c.output().context("failed to run vscode")?;
+            }
+        }
+
         Ok(())
     }
 
-    fn process_file(&self, cm: Arc<SourceMap>, f: &Path) -> Result<()> {
+    fn process_file(&self, cm: Arc<SourceMap>, f: &Path) -> Result<Option<(PathBuf, PathBuf)>> {
         info!("Processing `{}`", f.display());
 
         let fm = cm.load_file(f)?;
@@ -97,7 +107,7 @@ impl DiffOptionCommand {
 
         if orig == new {
             fs::remove_file(f)?;
-            return Ok(());
+            return Ok(None);
         }
 
         let orig_path = f.with_extension("orig.js");
@@ -107,14 +117,6 @@ impl DiffOptionCommand {
         fs::write(&new_path, new)?;
         make_pretty(&new_path)?;
 
-        if self.open {
-            let mut c = Command::new("code");
-            c.arg("--diff").arg("--wait");
-            c.arg(&orig_path);
-            c.arg(&new_path);
-            c.output().context("failed to run vscode")?;
-        }
-
-        Ok(())
+        Ok(Some((orig_path, new_path)))
     }
 }
