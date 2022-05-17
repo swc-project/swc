@@ -37,6 +37,9 @@
 
 - **(es/minifier)** Add size tests using `dbg-swc` (#4664) ([36ff4f7](https://github.com/swc-project/swc/commit/36ff4f735f43bbea5a943866b7083fe51633d9df))
 
+
+- **(html/parser)** Add tests for broken html/svg (#4683) ([1d9ee0a](https://github.com/swc-project/swc/commit/1d9ee0a1002a7667add5ac39df16d7584b70d233))
+
 ## [1.2.185] - 2022-05-15
 
 ### Bug Fixes
