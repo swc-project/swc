@@ -76,6 +76,10 @@
     `----
 
   x Attribute
+   ,-[$DIR/tests/fixture/element/p/input.html:2:1]
+ 2 | <html lang="en">
+   :       ^^^^^^^^^
+   `----
 
   x Child
    ,-[$DIR/tests/fixture/element/p/input.html:3:1]
@@ -413,6 +417,12 @@
     ,-[$DIR/tests/fixture/element/p/input.html:15:1]
  15 | <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
     :                             ^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/element/p/input.html:15:1]
+ 15 | <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
+    :                                ^^^^^^^^
     `----
 
   x Child

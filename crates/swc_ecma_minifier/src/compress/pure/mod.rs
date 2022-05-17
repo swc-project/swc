@@ -385,6 +385,18 @@ impl VisitMut for Pure<'_> {
         self.visit_par(exprs);
     }
 
+    fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
+        #[cfg(feature = "debug")]
+        let _tracing = tracing::span!(
+            Level::ERROR,
+            "visit_mut_fn_decl",
+            id = tracing::field::display(&n.ident)
+        )
+        .entered();
+
+        n.visit_mut_children_with(self);
+    }
+
     fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {
         n.right.visit_mut_with(self);
 

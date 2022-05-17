@@ -55,6 +55,10 @@
     `----
 
   x Attribute
+   ,-[$DIR/tests/recovery/element/marquee/input.html:2:1]
+ 2 | <html lang="en">
+   :       ^^^^^^^^^
+   `----
 
   x Child
    ,-[$DIR/tests/recovery/element/marquee/input.html:3:1]
@@ -180,6 +184,18 @@
  7 | ,-> <marquee behavior="" direction="">
  8 | `->     <div>
  9 |     </marquee>
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/recovery/element/marquee/input.html:7:1]
+ 7 | <marquee behavior="" direction="">
+   :          ^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/recovery/element/marquee/input.html:7:1]
+ 7 | <marquee behavior="" direction="">
+   :                      ^^^^^^^^^^^^
    `----
 
   x Child

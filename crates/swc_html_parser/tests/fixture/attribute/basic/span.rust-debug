@@ -19,8 +19,13 @@
  16 | |                   "test"
  17 | |   />
  18 | |   
- 19 | |   </body>
- 20 | `-> </html>
+ 19 | |   <img src=test.jpg>
+ 20 | |   <img src=test.jpg data-src=test.jpg>
+ 21 | |   
+ 22 | |   <button disabled></button>
+ 23 | |   
+ 24 | |   </body>
+ 25 | `-> </html>
     `----
 
   x Child
@@ -54,8 +59,13 @@
  16 | |                   "test"
  17 | |   />
  18 | |   
- 19 | |   </body>
- 20 | `-> </html>
+ 19 | |   <img src=test.jpg>
+ 20 | |   <img src=test.jpg data-src=test.jpg>
+ 21 | |   
+ 22 | |   <button disabled></button>
+ 23 | |   
+ 24 | |   </body>
+ 25 | `-> </html>
     `----
 
   x Element
@@ -77,11 +87,20 @@
  16 | |                   "test"
  17 | |   />
  18 | |   
- 19 | |   </body>
- 20 | `-> </html>
+ 19 | |   <img src=test.jpg>
+ 20 | |   <img src=test.jpg data-src=test.jpg>
+ 21 | |   
+ 22 | |   <button disabled></button>
+ 23 | |   
+ 24 | |   </body>
+ 25 | `-> </html>
     `----
 
   x Attribute
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:2:1]
+ 2 | <html lang="en">
+   :       ^^^^^^^^^
+   `----
 
   x Child
    ,-[$DIR/tests/fixture/attribute/basic/input.html:3:1]
@@ -176,8 +195,13 @@
  16 | |                   "test"
  17 | |   />
  18 | |   
- 19 | |   </body>
- 20 | `-> </html>
+ 19 | |   <img src=test.jpg>
+ 20 | |   <img src=test.jpg data-src=test.jpg>
+ 21 | |   
+ 22 | |   <button disabled></button>
+ 23 | |   
+ 24 | |   </body>
+ 25 | `-> </html>
     `----
 
   x Element
@@ -195,8 +219,13 @@
  16 | |                   "test"
  17 | |   />
  18 | |   
- 19 | |   </body>
- 20 | `-> </html>
+ 19 | |   <img src=test.jpg>
+ 20 | |   <img src=test.jpg data-src=test.jpg>
+ 21 | |   
+ 22 | |   <button disabled></button>
+ 23 | |   
+ 24 | |   </body>
+ 25 | `-> </html>
     `----
 
   x Child
@@ -225,6 +254,222 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+ 8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :    ^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+ 8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :      ^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+ 8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :        ^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+ 8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :          ^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+ 8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :            ^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+ 8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :              ^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+ 8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :                ^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+ 8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :                  ^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+ 8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :                    ^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+ 8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :                      ^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+ 8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :                        ^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+ 8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :                          ^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+ 8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :                            ^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+ 8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :                              ^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+ 8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :                                ^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+ 8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :                                  ^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+ 8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :                                    ^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+ 8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :                                      ^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+ 8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :                                        ^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+ 8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :                                          ^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+ 8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :                                            ^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+ 8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :                                              ^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+ 8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :                                                ^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+ 8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :                                                  ^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+ 8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :                                                    ^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+ 8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :                                                      ^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+ 8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :                                                        ^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+ 8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :                                                          ^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+ 8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :                                                            ^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+ 8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :                                                              ^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+ 8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :                                                                ^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+ 8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :                                                                  ^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+ 8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :                                                                    ^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+ 8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :                                                                      ^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+ 8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :                                                                        ^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+ 8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   :                                                                          ^
+   `----
+
   x Child
    ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
@@ -249,6 +494,12 @@
    ,-[$DIR/tests/fixture/attribute/basic/input.html:9:1]
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:9:1]
+ 9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
+   :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -289,6 +540,12 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
+  x Attribute
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:10:1]
+ 10 | <p title=" <!-- hello world --> ">x</p>
+    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
   x Child
     ,-[$DIR/tests/fixture/attribute/basic/input.html:10:1]
  10 | <p title=" <!-- hello world --> ">x</p>
@@ -327,6 +584,18 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
+  x Attribute
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:11:1]
+ 11 | <tag v-ref:vm_pv :imgs=" objpicsurl_ "></tag>
+    :      ^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:11:1]
+ 11 | <tag v-ref:vm_pv :imgs=" objpicsurl_ "></tag>
+    :                  ^^^^^^^^^^^^^^^^^^^^^
+    `----
+
   x Child
     ,-[$DIR/tests/fixture/attribute/basic/input.html:11:1]
  11 | <tag v-ref:vm_pv :imgs=" objpicsurl_ "></tag>
@@ -351,6 +620,24 @@
     ,-[$DIR/tests/fixture/attribute/basic/input.html:12:1]
  12 | <br a=\u00A0 b="&nbsp;" c="\u00A0">
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:12:1]
+ 12 | <br a=\u00A0 b="&nbsp;" c="\u00A0">
+    :     ^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:12:1]
+ 12 | <br a=\u00A0 b="&nbsp;" c="\u00A0">
+    :              ^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:12:1]
+ 12 | <br a=\u00A0 b="&nbsp;" c="\u00A0">
+    :                         ^^^^^^^^^^
     `----
 
   x Child
@@ -385,18 +672,127 @@
  17 | `-> />
     `----
 
+  x Attribute
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:14:9]
+ 14 | ,-> src
+ 15 | |                   =
+ 16 | `->                 "test"
+    `----
+
   x Child
     ,-[$DIR/tests/fixture/attribute/basic/input.html:17:1]
  17 | ,-> />
- 18 | |   
- 19 | |   </body>
- 20 | `-> </html>
+ 18 | `-> 
+ 19 |     <img src=test.jpg>
     `----
 
   x Text
     ,-[$DIR/tests/fixture/attribute/basic/input.html:17:1]
  17 | ,-> />
- 18 | |   
- 19 | |   </body>
- 20 | `-> </html>
+ 18 | `-> 
+ 19 |     <img src=test.jpg>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:19:1]
+ 19 | <img src=test.jpg>
+    : ^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:19:1]
+ 19 | <img src=test.jpg>
+    : ^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:19:1]
+ 19 | <img src=test.jpg>
+    :      ^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:19:1]
+ 19 | <img src=test.jpg>
+    :                   ^
+ 20 | <img src=test.jpg data-src=test.jpg>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:19:1]
+ 19 | <img src=test.jpg>
+    :                   ^
+ 20 | <img src=test.jpg data-src=test.jpg>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:20:1]
+ 20 | <img src=test.jpg data-src=test.jpg>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:20:1]
+ 20 | <img src=test.jpg data-src=test.jpg>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:20:1]
+ 20 | <img src=test.jpg data-src=test.jpg>
+    :      ^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:20:1]
+ 20 | <img src=test.jpg data-src=test.jpg>
+    :                   ^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:20:1]
+ 20 | ,-> <img src=test.jpg data-src=test.jpg>
+ 21 | `-> 
+ 22 |     <button disabled></button>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:20:1]
+ 20 | ,-> <img src=test.jpg data-src=test.jpg>
+ 21 | `-> 
+ 22 |     <button disabled></button>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:22:1]
+ 22 | <button disabled></button>
+    : ^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:22:1]
+ 22 | <button disabled></button>
+    : ^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:22:1]
+ 22 | <button disabled></button>
+    :         ^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:22:1]
+ 22 | ,-> <button disabled></button>
+ 23 | |   
+ 24 | |   </body>
+ 25 | `-> </html>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:22:1]
+ 22 | ,-> <button disabled></button>
+ 23 | |   
+ 24 | |   </body>
+ 25 | `-> </html>
     `----

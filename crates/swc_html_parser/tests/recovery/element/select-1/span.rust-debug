@@ -70,6 +70,10 @@
    `----
 
   x Attribute
+   ,-[$DIR/tests/recovery/element/select-1/input.html:2:5]
+ 2 | <option value="test">
+   :         ^^^^^^^^^^^^
+   `----
 
   x Child
    ,-[$DIR/tests/recovery/element/select-1/input.html:2:5]
@@ -97,6 +101,12 @@
  4 | ,-> <option value="test-2">
  5 | |               2
  6 | `->         </option>
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/recovery/element/select-1/input.html:4:9]
+ 4 | <option value="test-2">
+   :         ^^^^^^^^^^^^^^
    `----
 
   x Child

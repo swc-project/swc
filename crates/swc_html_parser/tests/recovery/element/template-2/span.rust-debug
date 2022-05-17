@@ -49,6 +49,10 @@
    `----
 
   x Attribute
+   ,-[$DIR/tests/recovery/element/template-2/input.html:2:1]
+ 2 | <html lang="en">
+   :       ^^^^^^^^^
+   `----
 
   x Child
    ,-[$DIR/tests/recovery/element/template-2/input.html:3:1]
@@ -170,6 +174,12 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
+  x Attribute
+   ,-[$DIR/tests/recovery/element/template-2/input.html:7:1]
+ 7 | <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+   :      ^^^^^^^^^^^^^^^
+   `----
+
   x Child
    ,-[$DIR/tests/recovery/element/template-2/input.html:7:1]
  7 | <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
@@ -180,6 +190,12 @@
    ,-[$DIR/tests/recovery/element/template-2/input.html:7:1]
  7 | <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
    :                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/recovery/element/template-2/input.html:7:1]
+ 7 | <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+   :                                ^^^^^^^^^^
    `----
 
   x DocumentFragment
@@ -200,6 +216,12 @@
    :                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
+  x Attribute
+   ,-[$DIR/tests/recovery/element/template-2/input.html:7:1]
+ 7 | <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+   :                                                ^^^^^^^^^^^^^^^^^
+   `----
+
   x Child
    ,-[$DIR/tests/recovery/element/template-2/input.html:7:1]
  7 | <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
@@ -210,6 +232,12 @@
    ,-[$DIR/tests/recovery/element/template-2/input.html:7:1]
  7 | <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
    :                                                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/recovery/element/template-2/input.html:7:1]
+ 7 | <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+   :                                                                                                               ^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -234,6 +262,12 @@
    ,-[$DIR/tests/recovery/element/template-2/input.html:7:1]
  7 | <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
    :                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/recovery/element/template-2/input.html:7:1]
+ 7 | <div id="tmplParent"><template id="tmpl1"><div id="fosterParent"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></div></template></div>
+   :                                                                         ^^^^^^^^
    `----
 
   x Child

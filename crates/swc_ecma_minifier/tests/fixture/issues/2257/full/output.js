@@ -953,7 +953,7 @@
                 return Object.keys(descriptor).forEach(function(key) {
                     desc1[key] = descriptor[key];
                 }), desc1.enumerable = !!desc1.enumerable, desc1.configurable = !!desc1.configurable, ("value" in desc1 || desc1.initializer) && (desc1.writable = !0), desc1 = decorators.slice().reverse().reduce(function(desc, decorator) {
-                    return decorator ? decorator(target, property, desc) || desc : desc;
+                    return decorator && decorator(target, property, desc) || desc;
                 }, desc1), context && void 0 !== desc1.initializer && (desc1.value = desc1.initializer ? desc1.initializer.call(context) : void 0, desc1.initializer = void 0), void 0 === desc1.initializer && (Object.defineProperty(target, property, desc1), desc1 = null), desc1;
             }
             function _arrayWithHoles(arr) {
@@ -1045,10 +1045,7 @@
             }
             function _asyncIterator(iterable) {
                 var method;
-                if ("function" == typeof Symbol) {
-                    if (Symbol.asyncIterator && null != (method = iterable[Symbol.asyncIterator])) return method.call(iterable);
-                    if (Symbol.iterator && null != (method = iterable[Symbol.iterator])) return method.call(iterable);
-                }
+                if ("function" == typeof Symbol && (Symbol.asyncIterator && null != (method = iterable[Symbol.asyncIterator]) || Symbol.iterator && null != (method = iterable[Symbol.iterator]))) return method.call(iterable);
                 throw new TypeError("Object is not async iterable");
             }
             function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
@@ -1116,8 +1113,7 @@
             }
             function construct(Parent1, args1, Class1) {
                 return (construct = !function() {
-                    if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
-                    if (Reflect.construct.sham) return !1;
+                    if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
                         return Date.prototype.toString.call(Reflect.construct(Date, [], function() {})), !0;
@@ -3495,7 +3491,7 @@
                     return function() {
                         return new IteratorConstructor(this);
                     };
-                }, TO_STRING_TAG = NAME + " Iterator", INCORRECT_VALUES_NAME = !1, IterablePrototype = Iterable.prototype, nativeIterator = IterablePrototype[ITERATOR] || IterablePrototype["@@iterator"] || DEFAULT && IterablePrototype[DEFAULT], defaultIterator = !BUGGY_SAFARI_ITERATORS && nativeIterator || getIterationMethod(DEFAULT), anyNativeIterator = "Array" == NAME ? IterablePrototype.entries || nativeIterator : nativeIterator;
+                }, TO_STRING_TAG = NAME + " Iterator", INCORRECT_VALUES_NAME = !1, IterablePrototype = Iterable.prototype, nativeIterator = IterablePrototype[ITERATOR] || IterablePrototype["@@iterator"] || DEFAULT && IterablePrototype[DEFAULT], defaultIterator = !BUGGY_SAFARI_ITERATORS && nativeIterator || getIterationMethod(DEFAULT), anyNativeIterator = "Array" == NAME && IterablePrototype.entries || nativeIterator;
                 if (anyNativeIterator && (CurrentIteratorPrototype = getPrototypeOf(anyNativeIterator.call(new Iterable()))) !== Object.prototype && CurrentIteratorPrototype.next && (IS_PURE || getPrototypeOf(CurrentIteratorPrototype) === IteratorPrototype || (setPrototypeOf ? setPrototypeOf(CurrentIteratorPrototype, IteratorPrototype) : isCallable(CurrentIteratorPrototype[ITERATOR]) || redefine(CurrentIteratorPrototype, ITERATOR, returnThis)), setToStringTag(CurrentIteratorPrototype, TO_STRING_TAG, !0, !0), IS_PURE && (Iterators[TO_STRING_TAG] = returnThis)), PROPER_FUNCTION_NAME && DEFAULT == VALUES && nativeIterator && nativeIterator.name !== VALUES && (!IS_PURE && CONFIGURABLE_FUNCTION_NAME ? createNonEnumerableProperty(IterablePrototype, "name", VALUES) : (INCORRECT_VALUES_NAME = !0, defaultIterator = function() {
                     return nativeIterator.call(this);
                 })), DEFAULT) {
@@ -4452,9 +4448,7 @@
             var isCallable = __webpack_require__(67106), isObject = __webpack_require__(39817);
             module.exports = function(input, pref) {
                 var fn, val;
-                if ("string" === pref && isCallable(fn = input.toString) && !isObject(val = fn.call(input))) return val;
-                if (isCallable(fn = input.valueOf) && !isObject(val = fn.call(input))) return val;
-                if ("string" !== pref && isCallable(fn = input.toString) && !isObject(val = fn.call(input))) return val;
+                if ("string" === pref && isCallable(fn = input.toString) && !isObject(val = fn.call(input)) || isCallable(fn = input.valueOf) && !isObject(val = fn.call(input)) || "string" !== pref && isCallable(fn = input.toString) && !isObject(val = fn.call(input))) return val;
                 throw TypeError("Can't convert object to primitive value");
             };
         },
@@ -4960,8 +4954,7 @@
                             buffer = data, byteOffset = toOffset(offset, BYTES);
                             var $len = data.byteLength;
                             if (void 0 === $length) {
-                                if ($len % BYTES) throw RangeError(WRONG_LENGTH);
-                                if ((byteLength = $len - byteOffset) < 0) throw RangeError(WRONG_LENGTH);
+                                if ($len % BYTES || (byteLength = $len - byteOffset) < 0) throw RangeError(WRONG_LENGTH);
                             } else if ((byteLength = toLength($length) * BYTES) + byteOffset > $len) throw RangeError(WRONG_LENGTH);
                             length = byteLength / BYTES;
                         } else if (isTypedArray(data)) return fromList(TypedArrayConstructor, data);
@@ -6059,7 +6052,7 @@
                     s = "" === s ? t : s + repeat.call("0", 7 - t.length) + t;
                 }
                 return s;
-            }, FORCED = nativeToFixed && !0 || !fails(function() {
+            }, FORCED = !!nativeToFixed || !fails(function() {
                 nativeToFixed.call({});
             });
             $({
@@ -6546,8 +6539,7 @@
             "use strict";
             var Internal, OwnPromiseCapability, PromiseWrapper, nativeThen, $ = __webpack_require__(35437), IS_PURE = __webpack_require__(80627), global = __webpack_require__(19514), getBuiltIn = __webpack_require__(44990), NativePromise = __webpack_require__(91591), redefine = __webpack_require__(78109), redefineAll = __webpack_require__(59855), setPrototypeOf = __webpack_require__(59057), setToStringTag = __webpack_require__(77875), setSpecies = __webpack_require__(53988), aCallable = __webpack_require__(74618), isCallable = __webpack_require__(67106), isObject = __webpack_require__(39817), anInstance = __webpack_require__(51819), inspectSource = __webpack_require__(71975), iterate = __webpack_require__(7261), checkCorrectnessOfIteration = __webpack_require__(34124), speciesConstructor = __webpack_require__(94850), task = __webpack_require__(46660).set, microtask = __webpack_require__(50277), promiseResolve = __webpack_require__(56540), hostReportErrors = __webpack_require__(85033), newPromiseCapabilityModule = __webpack_require__(11098), perform = __webpack_require__(68275), InternalStateModule = __webpack_require__(44670), isForced = __webpack_require__(23736), wellKnownSymbol = __webpack_require__(81019), IS_BROWSER = __webpack_require__(23573), IS_NODE = __webpack_require__(96590), V8_VERSION = __webpack_require__(50661), SPECIES = wellKnownSymbol("species"), PROMISE = "Promise", getInternalState = InternalStateModule.get, setInternalState = InternalStateModule.set, getInternalPromiseState = InternalStateModule.getterFor(PROMISE), NativePromisePrototype = NativePromise && NativePromise.prototype, PromiseConstructor = NativePromise, PromiseConstructorPrototype = NativePromisePrototype, TypeError = global.TypeError, document = global.document, process = global.process, newPromiseCapability = newPromiseCapabilityModule.f, newGenericPromiseCapability = newPromiseCapability, DISPATCH_EVENT = !!(document && document.createEvent && global.dispatchEvent), NATIVE_REJECTION_EVENT = isCallable(global.PromiseRejectionEvent), UNHANDLED_REJECTION = "unhandledrejection", SUBCLASSING = !1, FORCED = isForced(PROMISE, function() {
                 var PROMISE_CONSTRUCTOR_SOURCE = inspectSource(PromiseConstructor), GLOBAL_CORE_JS_PROMISE = PROMISE_CONSTRUCTOR_SOURCE !== String(PromiseConstructor);
-                if (!GLOBAL_CORE_JS_PROMISE && 66 === V8_VERSION) return !0;
-                if (IS_PURE && !PromiseConstructorPrototype.finally) return !0;
+                if (!GLOBAL_CORE_JS_PROMISE && 66 === V8_VERSION || IS_PURE && !PromiseConstructorPrototype.finally) return !0;
                 if (V8_VERSION >= 51 && /native code/.test(PROMISE_CONSTRUCTOR_SOURCE)) return !1;
                 var promise = new PromiseConstructor(function(resolve) {
                     resolve(1);
@@ -7496,8 +7488,7 @@
                         }
                         for(var results = [];;){
                             var result = regExpExec(rx, S);
-                            if (null === result) break;
-                            if (results.push(result), !global) break;
+                            if (null === result || (results.push(result), !global)) break;
                             "" === toString(result[0]) && (rx.lastIndex = advanceStringIndex(S, toLength(rx.lastIndex), fullUnicode));
                         }
                         for(var accumulatedResult = "", nextSourcePosition = 0, i = 0; i < results.length; i++){
@@ -8585,12 +8576,10 @@
             var EOF, $ = __webpack_require__(35437), DESCRIPTORS = __webpack_require__(87122), USE_NATIVE_URL = __webpack_require__(62902), global = __webpack_require__(19514), defineProperties = __webpack_require__(68381), redefine = __webpack_require__(78109), anInstance = __webpack_require__(51819), has = __webpack_require__(1521), assign = __webpack_require__(59038), arrayFrom = __webpack_require__(83581), codeAt = __webpack_require__(88668).codeAt, toASCII = __webpack_require__(41075), $toString = __webpack_require__(72729), setToStringTag = __webpack_require__(77875), URLSearchParamsModule = __webpack_require__(79085), InternalStateModule = __webpack_require__(44670), NativeURL = global.URL, URLSearchParams = URLSearchParamsModule.URLSearchParams, getInternalSearchParamsState = URLSearchParamsModule.getState, setInternalState = InternalStateModule.set, getInternalURLState = InternalStateModule.getterFor("URL"), floor = Math.floor, pow = Math.pow, INVALID_SCHEME = "Invalid scheme", INVALID_HOST = "Invalid host", INVALID_PORT = "Invalid port", ALPHA = /[A-Za-z]/, ALPHANUMERIC = /[\d+-.A-Za-z]/, DIGIT = /\d/, HEX_START = /^0x/i, OCT = /^[0-7]+$/, DEC = /^\d+$/, HEX = /^[\dA-Fa-f]+$/, FORBIDDEN_HOST_CODE_POINT = /[\0\t\n\r #%/:<>?@[\\\]^|]/, FORBIDDEN_HOST_CODE_POINT_EXCLUDING_PERCENT = /[\0\t\n\r #/:<>?@[\\\]^|]/, LEADING_AND_TRAILING_C0_CONTROL_OR_SPACE = /^[\u0000-\u0020]+|[\u0000-\u0020]+$/g, TAB_AND_NEW_LINE = /[\t\n\r]/g, parseHost = function(url, input) {
                 var result, codePoints, index;
                 if ("[" == input.charAt(0)) {
-                    if ("]" != input.charAt(input.length - 1)) return INVALID_HOST;
-                    if (!(result = parseIPv6(input.slice(1, -1)))) return INVALID_HOST;
+                    if ("]" != input.charAt(input.length - 1) || !(result = parseIPv6(input.slice(1, -1)))) return INVALID_HOST;
                     url.host = result;
                 } else if (isSpecial(url)) {
-                    if (input = toASCII(input), FORBIDDEN_HOST_CODE_POINT.test(input)) return INVALID_HOST;
-                    if (null === (result = parseIPv4(input))) return INVALID_HOST;
+                    if (input = toASCII(input), FORBIDDEN_HOST_CODE_POINT.test(input) || null === (result = parseIPv4(input))) return INVALID_HOST;
                     url.host = result;
                 } else {
                     if (FORBIDDEN_HOST_CODE_POINT_EXCLUDING_PERCENT.test(input)) return INVALID_HOST;
@@ -8640,8 +8629,7 @@
                     }
                     for(value = length = 0; length < 4 && HEX.test(chr());)value = 16 * value + parseInt(chr(), 16), pointer++, length++;
                     if ("." == chr()) {
-                        if (0 == length) return;
-                        if (pointer -= length, pieceIndex > 6) return;
+                        if (0 == length || (pointer -= length, pieceIndex > 6)) return;
                         for(numbersSeen = 0; chr();){
                             if (ipv4Piece = null, numbersSeen > 0) {
                                 if ("." != chr() || !(numbersSeen < 4)) return;
@@ -9792,8 +9780,7 @@
                     if (path !== encodedPath) replaceHashPath(encodedPath);
                     else {
                         var a, b, location = getDOMLocation(), prevLocation = history.location;
-                        if (!forceNextPop && (a = prevLocation, b = location, a.pathname === b.pathname && a.search === b.search && a.hash === b.hash)) return;
-                        if (ignorePath === createPath(location)) return;
+                        if (!forceNextPop && (a = prevLocation, b = location, a.pathname === b.pathname && a.search === b.search && a.hash === b.hash) || ignorePath === createPath(location)) return;
                         ignorePath = null, handlePop(location);
                     }
                 }
@@ -10405,8 +10392,7 @@
                             };
                     }
                 }(options3), ret = Object.create(null);
-                if ("string" != typeof query) return ret;
-                if (!(query = query.trim().replace(/^[?#&]/, ""))) return ret;
+                if ("string" != typeof query || !(query = query.trim().replace(/^[?#&]/, ""))) return ret;
                 for (const param of query.split("&")){
                     if ("" === param) continue;
                     let [key, value] = splitOnFirst(options3.decode ? param.replace(/\+/g, " ") : param, "=");
@@ -14549,8 +14535,7 @@
                         c = c.return;
                     }
                     for(c.sibling.return = c.return, c = c.sibling; 5 !== c.tag && 6 !== c.tag && 18 !== c.tag;){
-                        if (2 & c.flags) continue b;
-                        if (null === c.child || 4 === c.tag) continue b;
+                        if (2 & c.flags || null === c.child || 4 === c.tag) continue b;
                         c.child.return = c, c = c.child;
                     }
                     if (!(2 & c.flags)) {

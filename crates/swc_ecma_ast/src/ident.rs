@@ -1,5 +1,6 @@
 use std::fmt::Display;
 
+use scoped_tls::scoped_thread_local;
 use serde::{Deserialize, Serialize};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
@@ -94,7 +95,7 @@ impl From<Ident> for BindingIdent {
 /// There's a type named [Id] which only contains minimal information to
 /// distinguish identifiers.
 #[ast_node("Identifier")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash)]
 pub struct Ident {
     pub span: Span,
     #[serde(rename = "value")]
@@ -104,6 +105,22 @@ pub struct Ident {
     /// TypeScript only. Used in case of an optional parameter.
     #[serde(default)]
     pub optional: bool,
+}
+
+scoped_thread_local!(static EQ_IGNORE_SPAN_IGNORE_CTXT: ());
+
+impl EqIgnoreSpan for Ident {
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        if self.sym != other.sym {
+            return false;
+        }
+
+        if self.span.ctxt == other.span.ctxt {
+            return true;
+        }
+
+        EQ_IGNORE_SPAN_IGNORE_CTXT.is_set()
+    }
 }
 
 impl From<Id> for Ident {
@@ -119,6 +136,14 @@ impl From<Ident> for Id {
 }
 
 impl Ident {
+    /// In `op`, [EqIgnoreSpan] of [Ident] will ignore the syntax context.
+    pub fn within_ignored_ctxt<F, Ret>(op: F) -> Ret
+    where
+        F: FnOnce() -> Ret,
+    {
+        EQ_IGNORE_SPAN_IGNORE_CTXT.set(&(), op)
+    }
+
     /// Creates `Id` using `JsWord` and `SyntaxContext` of `self`.
     pub fn to_id(&self) -> Id {
         (self.sym.clone(), self.span.ctxt)

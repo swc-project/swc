@@ -55,6 +55,10 @@
     `----
 
   x Attribute
+   ,-[$DIR/tests/recovery/element/select-2/input.html:2:1]
+ 2 | <html lang="en">
+   :       ^^^^^^^^^
+   `----
 
   x Child
    ,-[$DIR/tests/recovery/element/select-2/input.html:3:1]
@@ -178,6 +182,18 @@
    ,-[$DIR/tests/recovery/element/select-2/input.html:7:1]
  7 | ,-> <select name="test" id="test">
  8 | `->     <select name="test-1" id="test-1"></select>
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/recovery/element/select-2/input.html:7:1]
+ 7 | <select name="test" id="test">
+   :         ^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/recovery/element/select-2/input.html:7:1]
+ 7 | <select name="test" id="test">
+   :                     ^^^^^^^^^
    `----
 
   x Child
