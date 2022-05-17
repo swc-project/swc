@@ -160,7 +160,7 @@ impl SourceMap {
     ) -> SourceMap {
         SourceMap {
             files: Default::default(),
-            start_pos: Default::default(),
+            start_pos: AtomicUsize::new(1),
             file_loader,
             path_mapping,
             doctest_offset: None,
