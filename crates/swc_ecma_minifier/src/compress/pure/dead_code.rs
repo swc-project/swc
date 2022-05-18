@@ -225,6 +225,9 @@ impl Pure<'_> {
             if stmts.iter().skip(idx).all(|s| match s.as_stmt() {
                 Some(stmt) => matches!(stmt, Stmt::Decl(Decl::Fn(_))),
                 None => false,
+            if stmts.iter().skip(idx + 1).all(|s| match s.as_stmt() {
+                Some(Stmt::Decl(Decl::Fn(_))) => true,
+                _ => false,
             }) {
                 return;
             }
