@@ -311,7 +311,9 @@ where
         self.open_elements_stack.push(root.clone());
 
         // 8.
-        if get_tag_name!(context_node) == "template" {
+        if get_tag_name!(context_node) == "template"
+            && get_namespace!(context_node) == Namespace::HTML
+        {
             self.template_insertion_mode_stack
                 .push(InsertionMode::InTemplate);
         }
@@ -325,7 +327,8 @@ where
 
         // 11.
         // TODO how we can get parent here?
-        if get_tag_name!(context_node) == "form" {
+        if get_tag_name!(context_node) == "form" && get_namespace!(context_node) == Namespace::HTML
+        {
             self.form_element_pointer = Some(context_node);
         }
 
@@ -7213,7 +7216,10 @@ where
         // If the current node is not now a td element or a th element, then this is a
         // parse error.
         match self.open_elements_stack.items.last() {
-            Some(node) if matches!(get_tag_name!(node).as_ref(), "td" | "th") => {
+            Some(node)
+                if matches!(get_tag_name!(node).as_ref(), "td" | "th")
+                    && get_namespace!(node) == Namespace::HTML =>
+            {
                 match &node.data {
                     Data::Element(element) => {
                         self.errors
@@ -7306,6 +7312,18 @@ where
                         }
                     }
                 }
+            }
+
+            // Optimization - logic below only works with HTML namespaces, so we can skip
+            // extra checks
+            if get_namespace!(inner_node) != Namespace::HTML {
+                if last {
+                    self.insertion_mode = InsertionMode::InBody;
+
+                    return;
+                }
+
+                continue;
             }
 
             // 4. If node is a select element, run these substeps:

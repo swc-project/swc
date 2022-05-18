@@ -1,0 +1,6 @@
+
+  x A table cell was implicitly closed, but there were open elements
+    ,-[$DIR/tests/recovery/element/td/input.html:13:9]
+ 13 | <td>
+    : ^^^^
+    `----
