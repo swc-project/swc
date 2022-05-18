@@ -41,7 +41,7 @@ function _asyncfn() {
             } finally{
                 try {
                     if (_iteratorAbruptCompletion && _iterator.return != null) {
-                        yield _iteratorError.return();
+                        yield _iterator.return();
                     }
                 } finally{
                     if (_didIteratorError) {
@@ -64,7 +64,7 @@ function _asyncfn() {
             } finally{
                 try {
                     if (_iteratorAbruptCompletion1 && _iterator1.return != null) {
-                        yield _iteratorError1.return();
+                        yield _iterator1.return();
                     }
                 } finally{
                     if (_didIteratorError1) {
@@ -88,7 +88,7 @@ function _asyncfn() {
             } finally{
                 try {
                     if (_iteratorAbruptCompletion2 && _iterator2.return != null) {
-                        yield _iteratorError2.return();
+                        yield _iterator2.return();
                     }
                 } finally{
                     if (_didIteratorError2) {
@@ -111,7 +111,7 @@ function _asyncfn() {
             } finally{
                 try {
                     if (_iteratorAbruptCompletion3 && _iterator3.return != null) {
-                        yield _iteratorError3.return();
+                        yield _iterator3.return();
                     }
                 } finally{
                     if (_didIteratorError3) {
@@ -167,7 +167,7 @@ function _f3() {
             } finally{
                 try {
                     if (_iteratorAbruptCompletion && _iterator.return != null) {
-                        yield _iteratorError.return();
+                        yield _iterator.return();
                     }
                 } finally{
                     if (_didIteratorError) {
