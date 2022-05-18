@@ -21,4 +21,3 @@ properties/methods_keep_quoted_true/input.js
 pure_funcs/unary/input.js
 pure_getters/issue_2265_3/input.js
 reduce_vars/variables_collision_in_immediately_invoked_func/input.js
-return_undefined/return_undefined/input.js
