@@ -1,7 +1,7 @@
 #![allow(clippy::needless_update)]
 
 use rayon::prelude::*;
-use swc_common::{pass::Repeated, util::take::Take, SyntaxContext, DUMMY_SP, GLOBALS};
+use swc_common::{pass::Repeated, util::take::Take, Spanned, SyntaxContext, DUMMY_SP, GLOBALS};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{undefined, ExprCtx};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
@@ -376,13 +376,6 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_expr_stmt(&mut self, s: &mut ExprStmt) {
-        if self.tracker.is_pure_done(s.span) {
-            return;
-        }
-
-        let old_changed = self.changed;
-        self.changed = false;
-
         s.visit_mut_children_with(self);
 
         self.ignore_return_value(
@@ -393,12 +386,6 @@ impl VisitMut for Pure<'_> {
                 drop_str_lit: false,
             },
         );
-
-        if !self.changed {
-            self.tracker.mark_pure_as_done(s.span);
-        }
-
-        self.changed |= old_changed;
     }
 
     fn visit_mut_exprs(&mut self, exprs: &mut Vec<Box<Expr>>) {
@@ -485,22 +472,9 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_if_stmt(&mut self, s: &mut IfStmt) {
-        if self.tracker.is_pure_done(s.span) {
-            return;
-        }
-
-        let old_changed = self.changed;
-        self.changed = false;
-
         s.visit_mut_children_with(self);
 
         self.optimize_expr_in_bool_ctx(&mut s.test, false);
-
-        if !self.changed {
-            self.tracker.mark_pure_as_done(s.span);
-        }
-
-        self.changed |= old_changed;
     }
 
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
@@ -662,6 +636,15 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
+        let span = s.span();
+
+        if self.tracker.is_pure_done(span) {
+            return;
+        }
+
+        let old_changed = self.changed;
+        self.changed = false;
+
         let _tracing = if cfg!(feature = "debug") && self.config.debug_infinite_loop {
             let text = dump(&*s, false);
 
@@ -730,6 +713,12 @@ impl VisitMut for Pure<'_> {
         if cfg!(debug_assertions) {
             s.visit_with(&mut AssertValid);
         }
+
+        if !self.changed {
+            self.tracker.mark_pure_as_done(span);
+        }
+
+        self.changed |= old_changed;
     }
 
     fn visit_mut_stmts(&mut self, items: &mut Vec<Stmt>) {

@@ -58,4 +58,22 @@ impl VisitMut for UniqueScope<'_> {
 
         self.make_unique(&mut n.span, false);
     }
+
+    fn visit_mut_return_stmt(&mut self, n: &mut ReturnStmt) {
+        n.visit_mut_children_with(self);
+
+        self.make_unique(&mut n.span, false);
+    }
+
+    fn visit_mut_switch_stmt(&mut self, n: &mut SwitchStmt) {
+        n.visit_mut_children_with(self);
+
+        self.make_unique(&mut n.span, false);
+    }
+
+    fn visit_mut_try_stmt(&mut self, n: &mut TryStmt) {
+        n.visit_mut_children_with(self);
+
+        self.make_unique(&mut n.span, false);
+    }
 }
