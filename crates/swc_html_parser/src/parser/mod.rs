@@ -2961,7 +2961,7 @@ where
                             self.open_elements_stack.generate_implied_end_tags();
 
                             match self.open_elements_stack.items.last() {
-                                Some(node) if get_tag_name!(node) != tag_name => {
+                                Some(node) if !is_html_element_with_tag_name!(node, tag_name) => {
                                     self.errors.push(Error::new(
                                         token_and_info.span,
                                         ErrorKind::UnclosedElements(tag_name.clone()),
@@ -3166,7 +3166,7 @@ where
                                 .generate_implied_end_tags_with_exclusion(tag_name);
 
                             match self.open_elements_stack.items.last() {
-                                Some(node) if get_tag_name!(node) != tag_name => {
+                                Some(node) if !is_html_element_with_tag_name!(node, tag_name) => {
                                     self.errors.push(Error::new(
                                         token_and_info.span,
                                         ErrorKind::UnclosedElements(tag_name.clone()),
@@ -3213,7 +3213,7 @@ where
                             self.open_elements_stack.generate_implied_end_tags();
 
                             match self.open_elements_stack.items.last() {
-                                Some(node) if get_tag_name!(node) != tag_name => {
+                                Some(node) if !is_html_element_with_tag_name!(node, tag_name) => {
                                     self.errors.push(Error::new(
                                         token_and_info.span,
                                         ErrorKind::UnclosedElements(tag_name.clone()),
@@ -3427,7 +3427,7 @@ where
                             self.open_elements_stack.generate_implied_end_tags();
 
                             match self.open_elements_stack.items.last() {
-                                Some(node) if get_tag_name!(node) != tag_name => {
+                                Some(node) if !is_html_element_with_tag_name!(node, tag_name) => {
                                     self.errors.push(Error::new(
                                         token_and_info.span,
                                         ErrorKind::UnclosedElements(tag_name.clone()),
@@ -5231,7 +5231,7 @@ where
                             self.open_elements_stack.generate_implied_end_tags();
 
                             match self.open_elements_stack.items.last() {
-                                Some(node) if get_tag_name!(node) != tag_name => {
+                                Some(node) if !is_html_element_with_tag_name!(node, tag_name) => {
                                     self.errors.push(Error::new(
                                         token_and_info.span,
                                         ErrorKind::UnclosedElements(tag_name.clone()),

@@ -38,3 +38,9 @@ macro_rules! is_html_element {
         get_namespace!($node) == Namespace::HTML && matches!(get_tag_name!($node), $tag_names)
     }};
 }
+
+macro_rules! is_html_element_with_tag_name {
+    ($node:expr, $tag_name:expr) => {{
+        get_namespace!($node) == Namespace::HTML && get_tag_name!($node) == $tag_name
+    }};
+}
