@@ -733,9 +733,10 @@ impl VisitMut for Pure<'_> {
         }
     }
 
-    /// We don't optimize [Tpl] contained in [TaggedTpl].
     fn visit_mut_tagged_tpl(&mut self, n: &mut TaggedTpl) {
         n.tag.visit_mut_with(self);
+
+        n.tpl.exprs.visit_mut_with(self);
     }
 
     fn visit_mut_tpl(&mut self, n: &mut Tpl) {
