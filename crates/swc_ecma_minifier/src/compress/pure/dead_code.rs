@@ -193,7 +193,7 @@ impl Pure<'_> {
     where
         T: StmtLike + ModuleItemExt + Take,
     {
-        if !self.options.dead_code {
+        if !self.options.dead_code && !self.options.if_return {
             return;
         }
 
@@ -276,6 +276,16 @@ impl Pure<'_> {
             }
 
             new_stmts.extend(hoisted_fns);
+
+            match stmts[idx].as_stmt() {
+                Some(Stmt::Return(ReturnStmt { arg: None, .. })) => {
+                    // Exclude return
+                    new_stmts.extend(stmts.drain(..idx));
+                }
+                _ => {
+                    new_stmts.extend(stmts.drain(..=idx));
+                }
+            }
 
             *stmts = new_stmts;
         }
