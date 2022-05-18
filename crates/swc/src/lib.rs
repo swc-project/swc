@@ -408,6 +408,7 @@ impl Compiler {
 
             Ok(program)
         })
+        .with_context(|| format!("Parser config: {:?}", syntax))
     }
 
     /// Converts ast node to source string and sourcemap.
