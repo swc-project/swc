@@ -61,6 +61,7 @@ mod mode;
 pub mod option;
 mod pass;
 pub mod timing;
+mod tracker;
 mod util;
 
 const DISABLE_BUGGY_PASSES: bool = true;
