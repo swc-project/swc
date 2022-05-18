@@ -31,6 +31,12 @@
 
 - **(es/minifier)** Improve `if_return` (#4694) ([274648e](https://github.com/swc-project/swc/commit/274648ec2664297043f5acb5cba659ace724fc59))
 
+### Performance
+
+
+
+- **(es/minifier)** Make minifier more parallel (#4699) ([9a27b5f](https://github.com/swc-project/swc/commit/9a27b5f275e2116ceacfd10e15ab4a92f6bb25fc))
+
 ### Testing
 
 
