@@ -281,6 +281,10 @@ impl Options {
     {
         let mut cfg = self.config.clone();
         cfg.merge(config.unwrap_or_default());
+        if let FileName::Real(base) = base {
+            cfg.adjust(base);
+        }
+
         let is_module = self.is_module;
 
         let mut source_maps = self.source_maps.clone();
