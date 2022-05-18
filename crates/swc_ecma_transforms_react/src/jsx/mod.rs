@@ -264,6 +264,19 @@ pub struct JsxDirectives {
     pub pragma_frag: Option<Arc<Box<Expr>>>,
 }
 
+fn respan(e: &mut Expr, span: Span) {
+    match e {
+        Expr::Ident(i) => {
+            i.span.lo = span.lo;
+            i.span.hi = span.hi;
+        }
+        Expr::Member(e) => {
+            e.span = span;
+        }
+        _ => {}
+    }
+}
+
 impl JsxDirectives {
     pub fn from_comments(
         cm: &SourceMap,
@@ -311,23 +324,31 @@ impl JsxDirectives {
                         },
                         Some("@jsxFrag") => match val {
                             Some(src) => {
-                                res.pragma_frag = Some(parse_expr_for_jsx(
+                                // TODO: Optimize
+                                let mut e = (*parse_expr_for_jsx(
                                     cm,
                                     "module-jsx-pragma-frag",
                                     src.to_string(),
                                     top_level_mark,
                                 ))
+                                .clone();
+                                respan(&mut e, cmt.span);
+                                res.pragma_frag = Some(e.into())
                             }
                             _ => todo!("proper error reporting for wrong `@jsxFrag`"),
                         },
                         Some("@jsx") => match val {
                             Some(src) => {
-                                res.pragma = Some(parse_expr_for_jsx(
+                                // TODO: Optimize
+                                let mut e = (*parse_expr_for_jsx(
                                     cm,
                                     "module-jsx-pragma",
                                     src.to_string(),
                                     top_level_mark,
-                                ));
+                                ))
+                                .clone();
+                                respan(&mut e, cmt.span);
+                                res.pragma = Some(e.into());
                             }
                             _ => todo!("proper error reporting for wrong `@jsxFrag`"),
                         },
