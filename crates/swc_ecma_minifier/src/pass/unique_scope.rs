@@ -7,7 +7,7 @@ use crate::tracker::Tracker;
 /// Makes [BlockStmt] and [Function] unique in aspect of span hygiene.
 ///
 /// Required for [crate::hygiene_optimizer] to work properly.
-pub(crate) fn unique_scope<'a>(tracker: &'a mut Tracker) -> impl 'a + Fold + VisitMut {
+pub(crate) fn unique_scope(tracker: &mut Tracker) -> impl '_ + Fold + VisitMut {
     as_folder(UniqueScope { tracker })
 }
 
@@ -39,6 +39,12 @@ impl VisitMut for UniqueScope<'_> {
         n.visit_mut_children_with(self);
 
         self.make_unique(&mut n.span, true);
+    }
+
+    fn visit_mut_expr_stmt(&mut self, n: &mut ExprStmt) {
+        n.visit_mut_children_with(self);
+
+        self.make_unique(&mut n.span, false);
     }
 
     fn visit_mut_function(&mut self, n: &mut Function) {
