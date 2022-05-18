@@ -1,0 +1,14 @@
+{
+    "jsc": {
+        "target": "es2017",
+        "transform": {
+            "react": {
+                "runtime": "automatic"
+            }
+        },
+        "externalHelpers": true
+    },
+    "module": {
+        "type": "es6"
+    }
+}
