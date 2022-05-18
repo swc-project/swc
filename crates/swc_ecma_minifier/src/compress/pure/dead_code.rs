@@ -275,8 +275,6 @@ impl Pure<'_> {
                 }
             }
 
-            new_stmts.extend(hoisted_fns);
-
             match stmts[idx].as_stmt() {
                 Some(Stmt::Return(ReturnStmt { arg: None, .. })) => {
                     // Exclude return
