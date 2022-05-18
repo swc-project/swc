@@ -173,7 +173,9 @@ impl OpenElementsStack {
 
         while let Some(inner_node) = node {
             // 2. If node is the target node, terminate in a match state.
-            if is_html_element_with_tag_name!(inner_node, tag_name) {
+            if get_tag_name!(inner_node) == tag_name
+                && get_namespace!(inner_node) == Namespace::HTML
+            {
                 return true;
             }
 
@@ -374,7 +376,9 @@ impl OpenElementsStack {
     // that element was not in the above list.
     pub fn generate_implied_end_tags(&mut self) {
         while let Some(node) = self.items.last() {
-            if IMPLICIT_END_TAG_REQUIRED.contains(&get_tag_name!(node)) {
+            if IMPLICIT_END_TAG_REQUIRED.contains(&get_tag_name!(node))
+                && get_namespace!(node) == Namespace::HTML
+            {
                 self.pop();
             } else {
                 break;
@@ -384,11 +388,13 @@ impl OpenElementsStack {
 
     pub fn generate_implied_end_tags_with_exclusion(&mut self, tag_name: &str) {
         while let Some(node) = self.items.last() {
-            if get_tag_name!(node) == tag_name {
+            if is_html_element_with_tag_name!(node, tag_name) {
                 break;
             }
 
-            if IMPLICIT_END_TAG_REQUIRED.contains(&get_tag_name!(node)) {
+            if IMPLICIT_END_TAG_REQUIRED.contains(&get_tag_name!(node))
+                && get_namespace!(node) == Namespace::HTML
+            {
                 self.pop();
             } else {
                 break;
@@ -405,7 +411,9 @@ impl OpenElementsStack {
     // stack of open elements.
     pub fn generate_implied_end_tags_thoroughly(&mut self) {
         while let Some(node) = self.items.last() {
-            if IMPLICIT_END_TAG_REQUIRED_THOROUGHLY.contains(&get_tag_name!(node)) {
+            if IMPLICIT_END_TAG_REQUIRED_THOROUGHLY.contains(&get_tag_name!(node))
+                && get_namespace!(node) == Namespace::HTML
+            {
                 self.pop();
             } else {
                 break;
