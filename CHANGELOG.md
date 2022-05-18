@@ -16,6 +16,12 @@
 
 - **(html/parser)** Fix span of attributes (#4681) ([637ef7f](https://github.com/swc-project/swc/commit/637ef7f49f0b3b7bbb06860371e6f8b2518759c2))
 
+### Testing
+
+
+
+- **(es)** Add a test for a fixed issue (#4693) ([b93af7b](https://github.com/swc-project/swc/commit/b93af7ba61509f79b32008c3d8df3e5b82f4c40e))
+
 ## [1.2.186] - 2022-05-17
 
 ### Bug Fixes
