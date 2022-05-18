@@ -376,6 +376,13 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_expr_stmt(&mut self, s: &mut ExprStmt) {
+        if self.tracker.is_pure_done(s.span) {
+            return;
+        }
+
+        let old_changed = self.changed;
+        self.changed = false;
+
         s.visit_mut_children_with(self);
 
         self.ignore_return_value(
@@ -386,6 +393,12 @@ impl VisitMut for Pure<'_> {
                 drop_str_lit: false,
             },
         );
+
+        if !self.changed {
+            self.tracker.mark_pure_as_done(s.span);
+        }
+
+        self.changed |= old_changed;
     }
 
     fn visit_mut_exprs(&mut self, exprs: &mut Vec<Box<Expr>>) {

@@ -10,12 +10,22 @@ pub(crate) struct Tracker {
     data: Arc<Mutex<TrackerData>>,
 }
 
+impl Tracker {
+    pub(crate) fn mark_pure_as_done(&self, span: Span) {
+        self.data.lock().pure_done.insert(span);
+    }
+
+    pub(crate) fn is_pure_done(&self, span: Span) -> bool {
+        self.data.lock().pure_done.contains(&span)
+    }
+}
+
 #[derive(Debug, Default)]
 pub(crate) struct TrackerData {
     all: FxHashSet<Span>,
 
     pure_done: FxHashSet<Span>,
-    full_done: FxHashSet<Span>,
+    // full_done: FxHashSet<Span>,
 }
 
 impl TrackerData {
