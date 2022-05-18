@@ -203,8 +203,6 @@ impl Pure<'_> {
         if !need_work {
             return;
         }
-        // TODO(kdy1): Move this to pure optimizer and handle termination within a pass.
-        // let mut need_terminate_check = false;
         //
 
         let mut new_stmts = vec![];
@@ -228,7 +226,6 @@ impl Pure<'_> {
                             negate(&self.expr_ctx, &mut test, true, false);
 
                             swap(&mut cons, &mut alt);
-                            // need_terminate_check = true;
                         }
 
                         new_stmts.push(T::from_stmt(Stmt::If(IfStmt {
@@ -246,8 +243,6 @@ impl Pure<'_> {
                 Err(stmt) => new_stmts.push(stmt),
             }
         }
-
-        // if need_terminate_check {}
 
         self.changed = true;
         report_change!("conditionals: Dropped useless `else` token");
