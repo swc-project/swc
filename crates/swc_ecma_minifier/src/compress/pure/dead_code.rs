@@ -222,6 +222,10 @@ impl Pure<'_> {
                     stmts.remove(idx);
                 }
 
+            if stmts.iter().skip(idx).all(|s| match s.as_stmt() {
+                Some(stmt) => matches!(stmt, Stmt::Decl(Decl::Fn(_))),
+                None => false,
+            }) {
                 return;
             }
 
@@ -286,6 +290,8 @@ impl Pure<'_> {
                     new_stmts.extend(stmts.drain(..=idx));
                 }
             }
+
+            new_stmts.extend(hoisted_fns);
 
             *stmts = new_stmts;
         }
