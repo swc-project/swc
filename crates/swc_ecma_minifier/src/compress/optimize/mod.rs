@@ -1780,8 +1780,6 @@ where
 
         self.compress_typeofs(e);
 
-        self.optimize_nullish_coalescing(e);
-
         self.compress_logical_exprs_as_bang_bang(e, false);
 
         self.compress_useless_cond_expr(e);
@@ -1798,8 +1796,6 @@ where
         }
 
         self.compress_cond_expr_if_similar(e);
-
-        self.compress_negated_bin_eq(e);
 
         if self.options.negate_iife {
             self.negate_iife_in_cond(e);

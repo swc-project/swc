@@ -898,6 +898,73 @@ impl Pure<'_> {
             }
         }
     }
+
+    ///
+    /// - `!(x == y)` => `x != y`
+    /// - `!(x === y)` => `x !== y`
+    pub(super) fn compress_negated_bin_eq(&self, e: &mut Expr) {
+        let unary = match e {
+            Expr::Unary(e @ UnaryExpr { op: op!("!"), .. }) => e,
+            _ => return,
+        };
+
+        match &mut *unary.arg {
+            Expr::Bin(BinExpr {
+                op: op @ op!("=="),
+                left,
+                right,
+                ..
+            })
+            | Expr::Bin(BinExpr {
+                op: op @ op!("==="),
+                left,
+                right,
+                ..
+            }) => {
+                *e = Expr::Bin(BinExpr {
+                    span: unary.span,
+                    op: if *op == op!("==") {
+                        op!("!=")
+                    } else {
+                        op!("!==")
+                    },
+                    left: left.take(),
+                    right: right.take(),
+                })
+            }
+            _ => {}
+        }
+    }
+
+    pub(super) fn optimize_nullish_coalescing(&mut self, e: &mut Expr) {
+        let (l, r) = match e {
+            Expr::Bin(BinExpr {
+                op: op!("??"),
+                left,
+                right,
+                ..
+            }) => (&mut **left, &mut **right),
+            _ => return,
+        };
+
+        match l {
+            Expr::Lit(Lit::Null(..)) => {
+                report_change!("Removing null from lhs of ??");
+                self.changed = true;
+                *e = r.take();
+            }
+            Expr::Lit(Lit::Num(..))
+            | Expr::Lit(Lit::Str(..))
+            | Expr::Lit(Lit::BigInt(..))
+            | Expr::Lit(Lit::Bool(..))
+            | Expr::Lit(Lit::Regex(..)) => {
+                report_change!("Removing rhs of ?? as lhs cannot be null nor undefined");
+                self.changed = true;
+                *e = l.take();
+            }
+            _ => {}
+        }
+    }
 }
 
 #[derive(Debug, Default, Clone, Copy)]
