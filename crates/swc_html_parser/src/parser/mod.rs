@@ -6274,7 +6274,7 @@ where
 
         // 1., 2., 4. and 5.
         for (i, node) in self.open_elements_stack.items.iter().enumerate().rev() {
-            if get_tag_name!(node) == tag_name && get_namespace!(node) == Namespace::HTML {
+            if is_html_element_with_tag_name!(node, tag_name) {
                 match_idx = Some(i);
 
                 break;
@@ -7320,6 +7320,8 @@ where
                 continue;
             }
 
+            let tag_name = get_tag_name!(inner_node);
+
             // 4. If node is a select element, run these substeps:
             //
             //   1. If last is true, jump to the step below labeled done.
@@ -7339,7 +7341,7 @@ where
             //   7. Jump back to the step labeled loop.
             //
             //   8. Done: Switch the insertion mode to "in select" and return.
-            if get_tag_name!(inner_node) == "select" {
+            if tag_name == "select" {
                 if !last {
                     let mut ancestor = Some(inner_node);
 
@@ -7373,7 +7375,7 @@ where
 
             // 5. If node is a td or th element and last is false, then switch the insertion
             // mode to "in cell" and return.
-            if (get_tag_name!(inner_node) == "td" || get_tag_name!(inner_node) == "th") && !last {
+            if (tag_name == "td" || tag_name == "th") && !last {
                 self.insertion_mode = InsertionMode::InCell;
 
                 return;
@@ -7381,7 +7383,7 @@ where
 
             // 6. If node is a tr element, then switch the insertion mode to "in row" and
             // return.
-            if get_tag_name!(inner_node) == "tr" {
+            if tag_name == "tr" {
                 self.insertion_mode = InsertionMode::InRow;
 
                 return;
@@ -7389,10 +7391,7 @@ where
 
             // 7. If node is a tbody, thead, or tfoot element, then switch the insertion
             // mode to "in table body" and return.
-            if get_tag_name!(inner_node) == "tbody"
-                || get_tag_name!(inner_node) == "thead"
-                || get_tag_name!(inner_node) == "tfoot"
-            {
+            if tag_name == "tbody" || tag_name == "thead" || tag_name == "tfoot" {
                 self.insertion_mode = InsertionMode::InTableBody;
 
                 return;
@@ -7400,7 +7399,7 @@ where
 
             // 8. If node is a caption element, then switch the insertion mode to "in
             // caption" and return.
-            if get_tag_name!(inner_node) == "caption" {
+            if tag_name == "caption" {
                 self.insertion_mode = InsertionMode::InCaption;
 
                 return;
@@ -7408,7 +7407,7 @@ where
 
             // 9. If node is a colgroup element, then switch the insertion mode to "in
             // column group" and return.
-            if get_tag_name!(inner_node) == "colgroup" {
+            if tag_name == "colgroup" {
                 self.insertion_mode = InsertionMode::InColumnGroup;
 
                 return;
@@ -7416,7 +7415,7 @@ where
 
             // // 10. If node is a table element, then switch the insertion mode to "in
             // table" and return.
-            if get_tag_name!(inner_node) == "table" {
+            if tag_name == "table" {
                 self.insertion_mode = InsertionMode::InTable;
 
                 return;
@@ -7424,7 +7423,7 @@ where
 
             // 11. If node is a template element, then switch the insertion mode to the
             // current template insertion mode and return.
-            if get_tag_name!(inner_node) == "template" {
+            if tag_name == "template" {
                 if let Some(last) = self.template_insertion_mode_stack.last() {
                     self.insertion_mode = last.clone();
 
@@ -7434,7 +7433,7 @@ where
 
             // 12. If node is a head element and last is false, then switch the insertion
             // mode to "in head" and return.
-            if get_tag_name!(inner_node) == "head" && !last {
+            if tag_name == "head" && !last {
                 self.insertion_mode = InsertionMode::InHead;
 
                 return;
@@ -7442,7 +7441,7 @@ where
 
             // 13. If node is a body element, then switch the insertion mode to "in body"
             // and return.
-            if get_tag_name!(inner_node) == "body" {
+            if tag_name == "body" {
                 self.insertion_mode = InsertionMode::InBody;
 
                 return;
@@ -7450,7 +7449,7 @@ where
 
             // 14. If node is a frameset element, then switch the insertion mode to "in
             // frameset" and return. (fragment case)
-            if get_tag_name!(inner_node) == "frameset" {
+            if tag_name == "frameset" {
                 self.insertion_mode = InsertionMode::InFrameset;
 
                 return;
@@ -7463,7 +7462,7 @@ where
             //
             //   2. Otherwise, the head element pointer is not null, switch the insertion
             // mode to "after head" and return.
-            if get_tag_name!(inner_node) == "html" {
+            if tag_name == "html" {
                 if self.head_element_pointer.is_none() {
                     // Fragment case
                     self.insertion_mode = InsertionMode::BeforeHead;
