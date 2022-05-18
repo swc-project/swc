@@ -280,7 +280,9 @@ impl Options {
         P: 'a + swc_ecma_visit::Fold,
     {
         let mut cfg = self.config.clone();
+
         cfg.merge(config.unwrap_or_default());
+
         if let FileName::Real(base) = base {
             cfg.adjust(base);
         }
@@ -983,7 +985,7 @@ impl Config {
     ///
     /// - typescript: `tsx` will be modified if file extension is `ts`.
     pub fn adjust(&mut self, file: &Path) {
-        if self.jsc.syntax.is_none() {
+        if self.jsc.syntax.is_none() || matches!(self.jsc.syntax, Some(Syntax::Es(..))) {
             if file.extension() == Some("ts".as_ref()) {
                 self.jsc.syntax = Some(Syntax::Typescript(TsConfig::default()));
             } else if file.extension() == Some("tsx".as_ref()) {
@@ -1005,8 +1007,9 @@ impl Config {
                 *dts = true;
             }
 
-            let is_ts = file.extension().map(|v| v == "ts").unwrap_or(false);
-            if is_ts {
+            if file.extension() == Some("tsx".as_ref()) {
+                *tsx = true;
+            } else if file.extension() == Some("ts".as_ref()) {
                 *tsx = false;
             }
         }
