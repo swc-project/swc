@@ -1,3 +1,3 @@
 function x() {
-    return a() ? b() : c() ? d() : void (e(), f());
+    return a() ? b() : c() ? d() : (e(), void f());
 }
