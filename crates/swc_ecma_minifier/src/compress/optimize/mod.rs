@@ -1194,48 +1194,6 @@ where
         }))
     }
 
-    ///
-    /// - `a ? true : false` => `!!a`
-    fn compress_useless_cond_expr(&mut self, expr: &mut Expr) {
-        let cond = match expr {
-            Expr::Cond(c) => c,
-            _ => return,
-        };
-
-        let lt = cond.cons.get_type();
-        let rt = cond.alt.get_type();
-        match (lt, rt) {
-            (Known(Type::Bool), Known(Type::Bool)) => {}
-            _ => return,
-        }
-
-        let lb = cond.cons.as_pure_bool(&self.expr_ctx);
-        let rb = cond.alt.as_pure_bool(&self.expr_ctx);
-
-        let lb = match lb {
-            Value::Known(v) => v,
-            Value::Unknown => return,
-        };
-        let rb = match rb {
-            Value::Known(v) => v,
-            Value::Unknown => return,
-        };
-
-        // `cond ? true : false` => !!cond
-        if lb && !rb {
-            self.negate(&mut cond.test, false);
-            self.negate(&mut cond.test, false);
-            *expr = *cond.test.take();
-            return;
-        }
-
-        // `cond ? false : true` => !cond
-        if !lb && rb {
-            self.negate(&mut cond.test, false);
-            *expr = *cond.test.take();
-        }
-    }
-
     fn merge_var_decls(&mut self, stmts: &mut Vec<Stmt>) {
         if !self.options.join_vars && !self.options.hoist_vars {
             return;
@@ -1781,8 +1739,6 @@ where
         self.compress_typeofs(e);
 
         self.compress_logical_exprs_as_bang_bang(e, false);
-
-        self.compress_useless_cond_expr(e);
 
         self.inline(e);
 
