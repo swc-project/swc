@@ -71,7 +71,9 @@ impl Pure<'_> {
                     }
                 }
                 Expr::Lit(Lit::Num(n)) => {
-                    *p = PropName::Num(n.clone());
+                    if n.value.is_sign_positive() {
+                        *p = PropName::Num(n.clone());
+                    }
                 }
                 _ => {}
             }
