@@ -1,0 +1,19 @@
+{
+    "jsc": {
+        "target": "es2017",
+        "transform": {
+            "react": {
+                "runtime": "automatic"
+            }
+        },
+        "parser": {
+            "syntax": "typescript",
+            "dts": true,
+            "dynamicImport": true
+        },
+        "externalHelpers": true
+    },
+    "module": {
+        "type": "es6"
+    }
+}
