@@ -143,7 +143,13 @@ pub fn optimize(
             let _timer = timer!("compress ast");
 
             m = GLOBALS.with(|globals| {
-                m.fold_with(&mut compressor(globals, marks, options, &Minification))
+                m.fold_with(&mut compressor(
+                    globals,
+                    marks,
+                    options,
+                    &Minification,
+                    &mut tracker,
+                ))
             });
         }
 

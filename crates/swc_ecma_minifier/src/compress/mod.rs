@@ -33,6 +33,7 @@ use crate::{
     marks::Marks,
     mode::Mode,
     option::CompressOptions,
+    tracker::Tracker,
     util::{now, unit::CompileUnit, Optional},
     DISABLE_BUGGY_PASSES, MAX_PAR_DEPTH,
 };
@@ -47,6 +48,7 @@ pub(crate) fn compressor<'a, M>(
     marks: Marks,
     options: &'a CompressOptions,
     mode: &'a M,
+    tracker: &'a mut Tracker,
 ) -> impl 'a + JsPass
 where
     M: Mode,

@@ -83,6 +83,7 @@ impl Evaluator {
                         marks,
                         &serde_json::from_str("{ \"hoist_props\": true }").unwrap(),
                         &data,
+                        &mut Default::default(),
                     ))
                 })
             });
