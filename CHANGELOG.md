@@ -23,6 +23,9 @@
 - **(es/modules)** Fix reassignment of exported vars (#4688) ([7ce572b](https://github.com/swc-project/swc/commit/7ce572b497d6b19231af8414616d412ac6c42264))
 
 
+- **(es/react)** Fix span of error messages (#4704) ([5f45a3d](https://github.com/swc-project/swc/commit/5f45a3d49649516d7c918b7039ebf04995db300a))
+
+
 - **(html/parser)** Fix span of attributes (#4681) ([637ef7f](https://github.com/swc-project/swc/commit/637ef7f49f0b3b7bbb06860371e6f8b2518759c2))
 
 ### Features
