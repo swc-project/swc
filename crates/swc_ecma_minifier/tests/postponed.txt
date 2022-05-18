@@ -100,7 +100,6 @@ conditionals/ifs_6/input.js
 conditionals/ifs_same_consequent/input.js
 conditionals/issue_1154/input.js
 conditionals/issue_2535_1/input.js
-conditionals/issue_2994/input.js
 dead_code/dead_code_2_should_warn/input.js
 dead_code/dead_code_2_should_warn_strict/input.js
 dead_code/dead_code_const_annotation/input.js

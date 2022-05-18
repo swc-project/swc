@@ -271,6 +271,7 @@ conditionals/issue_1645_1/input.js
 conditionals/issue_1645_2/input.js
 conditionals/issue_2535_2/input.js
 conditionals/issue_2560/input.js
+conditionals/issue_2994/input.js
 conditionals/no_evaluate/input.js
 conditionals/ternary_boolean_alternative/input.js
 conditionals/ternary_boolean_consequent/input.js
@@ -711,6 +712,8 @@ issue_1041/const_pragma/input.js
 issue_1041/not_const/input.js
 issue_1043/issue_1043/input.js
 issue_1044/issue_1044/input.js
+issue_1052/defun_else_if_return/input.js
+issue_1052/defun_if_return/input.js
 issue_1105/Infinity_in_with_scope/input.js
 issue_1105/Infinity_not_in_with_scope/input.js
 issue_1105/with_in_global_scope/input.js
