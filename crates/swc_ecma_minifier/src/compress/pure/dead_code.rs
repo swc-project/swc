@@ -206,9 +206,25 @@ impl Pure<'_> {
         if let Some(idx) = idx {
             self.drop_duplicate_terminate(&mut stmts[..=idx]);
 
+            // Return at the last is fine
             if idx == stmts.len() - 1 {
                 return;
             }
+
+            // If only function declarations are left, we should not proceed
+            if stmts
+                .iter()
+                .skip(idx + 1)
+                .all(|s| matches!(s.as_stmt(), Some(Stmt::Decl(Decl::Fn(_)))))
+            {
+                if let Some(Stmt::Return(ReturnStmt { arg: None, .. })) = stmts[idx].as_stmt() {
+                    // Remove last return
+                    stmts.remove(idx);
+                }
+
+                return;
+            }
+
             self.changed = true;
 
             report_change!("Dropping statements after a control keyword");
@@ -249,8 +265,17 @@ impl Pure<'_> {
                 );
             }
 
+            match stmts[idx].as_stmt() {
+                Some(Stmt::Return(ReturnStmt { arg: None, .. })) => {
+                    // Exclude return
+                    new_stmts.extend(stmts.drain(..idx));
+                }
+                _ => {
+                    new_stmts.extend(stmts.drain(..=idx));
+                }
+            }
+
             new_stmts.extend(hoisted_fns);
-            new_stmts.extend(stmts.drain(..=idx));
 
             *stmts = new_stmts;
         }
