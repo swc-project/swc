@@ -173,9 +173,7 @@ impl OpenElementsStack {
 
         while let Some(inner_node) = node {
             // 2. If node is the target node, terminate in a match state.
-            if get_tag_name!(inner_node) == tag_name
-                && get_namespace!(inner_node) == Namespace::HTML
-            {
+            if is_html_element_with_tag_name!(inner_node, tag_name) {
                 return true;
             }
 
