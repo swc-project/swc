@@ -6,15 +6,17 @@ import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 it("should auto-detect tsx", async () => {
-  const { code } = await swc.transformFile(join(__dirname, '..', '..', 'tests', "issue-4621/1/input.tsx",), {
-    jsc: {
-      target: "es5",
-      parser: {
-        syntax: 'typescript'
-      }
-    },
-  });
-  expect(code).toMatchInlineSnapshot(`
+    const filename = join(__dirname, '..', '..', 'tests', "issue-4621", '1', 'index.tsx');
+    console.log(filename);
+    const { code } = await swc.transformFile(filename, {
+        jsc: {
+            target: "es5",
+            parser: {
+                syntax: 'typescript'
+            }
+        },
+    });
+    expect(code).toMatchInlineSnapshot(`
         "function _arrayLikeToArray(arr, len) {
             if (len == null || len > arr.length) len = arr.length;
             for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
