@@ -66,7 +66,7 @@ function _main() {
                         break;
                     }
                     _ctx.next = 21;
-                    return _iteratorError.return();
+                    return _iterator.return();
                 case 21:
                     _ctx.prev = 21;
                     if (!_didIteratorError) {
