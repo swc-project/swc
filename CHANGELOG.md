@@ -11,6 +11,9 @@
 - **(es/ast)** Fix `EqIgnoreSpan` of `Ident` (#4689) ([07356a5](https://github.com/swc-project/swc/commit/07356a5bba29572c99b53a1db79314a252faf663))
 
 
+- **(es/minifier)** Don't hoist functions with `dead_code` (#4695) ([183e884](https://github.com/swc-project/swc/commit/183e884cbfa775868f91fbea8604b63352b583a6))
+
+
 - **(es/modules)** Fix reassignment of exported vars (#4688) ([7ce572b](https://github.com/swc-project/swc/commit/7ce572b497d6b19231af8414616d412ac6c42264))
 
 
