@@ -146,6 +146,7 @@ where
                     left_parallel_depth: 0,
                     mode: self.mode,
                     dump_for_infinite_loop: Default::default(),
+                    tracker: self.tracker.clone(),
                 };
                 node.visit_mut_with(&mut v);
 
@@ -165,6 +166,7 @@ where
                             left_parallel_depth: self.left_parallel_depth - 1,
                             mode: self.mode,
                             dump_for_infinite_loop: Default::default(),
+                            tracker: self.tracker.clone(),
                         };
                         node.visit_mut_with(&mut v);
 

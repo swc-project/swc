@@ -30,6 +30,7 @@ use swc_common::{comments::Comments, pass::Repeat, sync::Lrc, SourceMap, GLOBALS
 use swc_ecma_ast::Module;
 use swc_ecma_visit::{FoldWith, VisitMutWith};
 use swc_timer::timer;
+use tracker::TrackerData;
 
 use crate::{
     compress::{compressor, pure_optimizer, PureOptimizerConfig},
@@ -44,7 +45,6 @@ use crate::{
         unique_scope::unique_scope,
     },
     timing::Timings,
-    tracker::Tracker,
 };
 
 #[macro_use]
@@ -77,7 +77,7 @@ pub fn optimize(
 ) -> Module {
     let _timer = timer!("minify");
 
-    let mut tracker = Tracker::default();
+    let mut tracker = TrackerData::default();
 
     let mut marks = Marks::new();
     marks.unresolved_mark = extra.unresolved_mark;
@@ -110,6 +110,8 @@ pub fn optimize(
         m.visit_mut_with(&mut info_marker(comments, marks, extra.unresolved_mark));
     }
     m.visit_mut_with(&mut unique_scope(&mut tracker));
+
+    let tracker = tracker.into_tracker();
 
     if options.wrap {
         // TODO: wrap_common_js
@@ -148,7 +150,7 @@ pub fn optimize(
                     marks,
                     options,
                     &Minification,
-                    &mut tracker,
+                    tracker,
                 ))
             });
         }

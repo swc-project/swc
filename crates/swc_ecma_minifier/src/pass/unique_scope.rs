@@ -2,17 +2,17 @@ use swc_common::{Mark, Span};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
-use crate::tracker::Tracker;
+use crate::tracker::TrackerData;
 
 /// Makes [BlockStmt] and [Function] unique in aspect of span hygiene.
 ///
 /// Required for [crate::hygiene_optimizer] to work properly.
-pub(crate) fn unique_scope(tracker: &mut Tracker) -> impl '_ + Fold + VisitMut {
+pub(crate) fn unique_scope(tracker: &mut TrackerData) -> impl '_ + Fold + VisitMut {
     as_folder(UniqueScope { tracker })
 }
 
 struct UniqueScope<'a> {
-    tracker: &'a mut Tracker,
+    tracker: &'a mut TrackerData,
 }
 
 impl UniqueScope<'_> {

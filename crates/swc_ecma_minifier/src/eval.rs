@@ -12,6 +12,7 @@ use crate::{
     compress::{compressor, pure_optimizer, PureOptimizerConfig},
     marks::Marks,
     mode::Mode,
+    tracker::TrackerData,
 };
 
 pub struct Evaluator {
@@ -83,7 +84,7 @@ impl Evaluator {
                         marks,
                         &serde_json::from_str("{ \"hoist_props\": true }").unwrap(),
                         &data,
-                        &mut Default::default(),
+                        TrackerData::default().into_tracker(),
                     ))
                 })
             });
