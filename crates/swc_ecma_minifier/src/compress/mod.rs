@@ -48,7 +48,7 @@ pub(crate) fn compressor<'a, M>(
     marks: Marks,
     options: &'a CompressOptions,
     mode: &'a M,
-    tracker: &'a mut Tracker,
+    tracker: Tracker,
 ) -> impl 'a + JsPass
 where
     M: Mode,
@@ -62,6 +62,7 @@ where
         left_parallel_depth: 0,
         mode,
         dump_for_infinite_loop: Default::default(),
+        tracker,
     };
 
     chain!(
@@ -88,6 +89,8 @@ where
     dump_for_infinite_loop: Vec<String>,
 
     mode: &'a M,
+
+    tracker: Tracker,
 }
 
 impl<M> CompilerPass for Compressor<'_, M>

@@ -1,16 +1,30 @@
+use std::sync::Arc;
+
+use parking_lot::Mutex;
 use rustc_hash::FxHashSet;
 use swc_common::{Mark, Span};
 
 /// Tracks finished nodes.
-#[derive(Debug, Default)]
+#[derive(Debug, Clone)]
 pub(crate) struct Tracker {
+    data: Arc<Mutex<TrackerData>>,
+}
+
+#[derive(Debug, Default)]
+pub(crate) struct TrackerData {
     all: FxHashSet<Span>,
 
     pure_done: FxHashSet<Span>,
     full_done: FxHashSet<Span>,
 }
 
-impl Tracker {
+impl TrackerData {
+    pub fn into_tracker(self) -> Tracker {
+        Tracker {
+            data: Arc::new(Mutex::new(self)),
+        }
+    }
+
     /// Adds `span` to the list of known spans.
     pub(crate) fn add_to_known_list_of_spans(&mut self, span: Span) {
         self.all.insert(span);
