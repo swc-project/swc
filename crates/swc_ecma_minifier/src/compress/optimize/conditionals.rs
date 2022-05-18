@@ -7,7 +7,10 @@ use swc_ecma_utils::{ExprExt, ExprFactory, StmtExt, StmtLike};
 
 use super::Optimizer;
 use crate::{
-    compress::{optimize::Ctx, util::negate_cost},
+    compress::{
+        optimize::Ctx,
+        util::{negate, negate_cost},
+    },
     mode::Mode,
     DISABLE_BUGGY_PASSES,
 };
@@ -707,6 +710,8 @@ where
         if !need_work {
             return;
         }
+        // TODO(kdy1): Move this to pure optimizer and handle termination within a pass.
+        // let mut need_terminate_check = false;
         //
 
         let mut new_stmts = vec![];
@@ -716,11 +721,23 @@ where
                 Ok(stmt) => match stmt {
                     Stmt::If(IfStmt {
                         span,
-                        test,
-                        cons,
-                        alt: Some(alt),
+                        mut test,
+                        mut cons,
+                        alt: Some(mut alt),
                         ..
                     }) if cons.terminates() => {
+                        if let (
+                            Stmt::Return(ReturnStmt { arg: None, .. }),
+                            Stmt::Decl(Decl::Fn(..)),
+                        ) = (&*cons, &*alt)
+                        {
+                            // I don't know why, but terser behaves differently
+                            negate(&self.expr_ctx, &mut test, true, false);
+
+                            swap(&mut cons, &mut alt);
+                            // need_terminate_check = true;
+                        }
+
                         new_stmts.push(T::from_stmt(Stmt::If(IfStmt {
                             span,
                             test,
@@ -736,6 +753,8 @@ where
                 Err(stmt) => new_stmts.push(stmt),
             }
         }
+
+        // if need_terminate_check {}
 
         self.changed = true;
         report_change!("conditionals: Dropped useless `else` token");
