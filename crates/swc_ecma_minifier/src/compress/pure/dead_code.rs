@@ -193,7 +193,7 @@ impl Pure<'_> {
     where
         T: StmtLike + ModuleItemExt + Take,
     {
-        if !self.options.dead_code {
+        if !self.options.dead_code && !self.options.if_return {
             return;
         }
 

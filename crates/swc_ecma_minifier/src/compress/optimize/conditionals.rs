@@ -7,7 +7,10 @@ use swc_ecma_utils::{ExprExt, ExprFactory, StmtExt, StmtLike};
 
 use super::Optimizer;
 use crate::{
-    compress::{optimize::Ctx, util::negate_cost},
+    compress::{
+        optimize::Ctx,
+        util::{negate, negate_cost},
+    },
     mode::Mode,
     DISABLE_BUGGY_PASSES,
 };
@@ -691,6 +694,10 @@ where
     /// else baz()
     ///
     /// `else` token can be removed from the code above.
+    /// if (foo) return bar()
+    /// else baz()
+    ///
+    /// `else` token can be removed from the code above.
     pub(super) fn drop_else_token<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike,
@@ -716,11 +723,22 @@ where
                 Ok(stmt) => match stmt {
                     Stmt::If(IfStmt {
                         span,
-                        test,
-                        cons,
-                        alt: Some(alt),
+                        mut test,
+                        mut cons,
+                        alt: Some(mut alt),
                         ..
                     }) if cons.terminates() => {
+                        if let (
+                            Stmt::Return(ReturnStmt { arg: None, .. }),
+                            Stmt::Decl(Decl::Fn(..)),
+                        ) = (&*cons, &*alt)
+                        {
+                            // I don't know why, but terser behaves differently
+                            negate(&self.expr_ctx, &mut test, true, false);
+
+                            swap(&mut cons, &mut alt);
+                        }
+
                         new_stmts.push(T::from_stmt(Stmt::If(IfStmt {
                             span,
                             test,
