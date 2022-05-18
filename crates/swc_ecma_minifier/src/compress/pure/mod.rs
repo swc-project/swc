@@ -105,14 +105,6 @@ impl Pure<'_> {
             stmts.visit_with(&mut AssertValid);
         }
 
-        // We apply this before dropping unreachable statements because this method can
-        // generate unreachable statements.
-        self.drop_else_token(stmts);
-
-        if cfg!(debug_assertions) {
-            stmts.visit_with(&mut AssertValid);
-        }
-
         self.drop_unreachable_stmts(stmts);
 
         if cfg!(debug_assertions) {
