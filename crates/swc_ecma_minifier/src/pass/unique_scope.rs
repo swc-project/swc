@@ -7,36 +7,43 @@ use crate::tracker::Tracker;
 /// Makes [BlockStmt] and [Function] unique in aspect of span hygiene.
 ///
 /// Required for [crate::hygiene_optimizer] to work properly.
-pub(crate) fn unique_scope(tracker: &mut Tracker) -> impl Fold + VisitMut {
-    as_folder(UniqueScope)
+pub(crate) fn unique_scope<'a>(tracker: &'a mut Tracker) -> impl 'a + Fold + VisitMut {
+    as_folder(UniqueScope { tracker })
 }
 
-struct UniqueScope;
+struct UniqueScope<'a> {
+    tracker: &'a mut Tracker,
+}
 
-impl UniqueScope {
-    fn make_unique(&self, span: &mut Span) {
-        span.ctxt = span.ctxt.apply_mark(Mark::fresh(Mark::root()));
+impl UniqueScope<'_> {
+    fn make_unique(&mut self, span: &mut Span, is_scope: bool) {
+        if is_scope {
+            span.ctxt = span.ctxt.apply_mark(Mark::fresh(Mark::root()));
+            self.tracker.add_to_known_list_of_spans(*span);
+        } else {
+            self.tracker.ensure_unique(span);
+        }
     }
 }
 
-impl VisitMut for UniqueScope {
+impl VisitMut for UniqueScope<'_> {
     noop_visit_mut_type!();
 
     fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
         n.visit_mut_children_with(self);
 
-        self.make_unique(&mut n.span);
+        self.make_unique(&mut n.span, true);
     }
 
     fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
         n.visit_mut_children_with(self);
 
-        self.make_unique(&mut n.span);
+        self.make_unique(&mut n.span, true);
     }
 
     fn visit_mut_function(&mut self, n: &mut Function) {
         n.visit_mut_children_with(self);
 
-        self.make_unique(&mut n.span);
+        self.make_unique(&mut n.span, true);
     }
 }
