@@ -485,9 +485,22 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_if_stmt(&mut self, s: &mut IfStmt) {
+        if self.tracker.is_pure_done(s.span) {
+            return;
+        }
+
+        let old_changed = self.changed;
+        self.changed = false;
+
         s.visit_mut_children_with(self);
 
         self.optimize_expr_in_bool_ctx(&mut s.test, false);
+
+        if !self.changed {
+            self.tracker.mark_pure_as_done(s.span);
+        }
+
+        self.changed |= old_changed;
     }
 
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
