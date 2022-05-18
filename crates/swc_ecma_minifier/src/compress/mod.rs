@@ -331,6 +331,7 @@ where
                     force_str_for_tpl: M::force_str_for_tpl(),
                     debug_infinite_loop: self.pass >= 20,
                 },
+                self.tracker.clone(),
             );
             n.apply(&mut visitor);
 

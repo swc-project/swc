@@ -13,6 +13,7 @@ use crate::{
     debug::{dump, AssertValid},
     marks::Marks,
     option::CompressOptions,
+    tracker::Tracker,
     util::ModuleItemExt,
     MAX_PAR_DEPTH,
 };
@@ -49,6 +50,7 @@ pub(crate) fn pure_optimizer<'a>(
     data: Option<&'a ProgramData>,
     marks: Marks,
     config: PureOptimizerConfig,
+    tracker: Tracker,
 ) -> impl 'a + VisitMut + Repeated {
     Pure {
         options,
@@ -64,6 +66,7 @@ pub(crate) fn pure_optimizer<'a>(
             ..Default::default()
         },
         changed: Default::default(),
+        tracker,
     }
 }
 
@@ -77,6 +80,8 @@ struct Pure<'a> {
     data: Option<&'a ProgramData>,
     ctx: Ctx,
     changed: bool,
+
+    tracker: Tracker,
 }
 
 impl Repeated for Pure<'_> {
@@ -167,6 +172,7 @@ impl Pure<'_> {
                 let mut v = Pure {
                     expr_ctx: self.expr_ctx.clone(),
                     changed: false,
+                    tracker: self.tracker.clone(),
                     ..*self
                 };
                 node.visit_mut_with(&mut v);
@@ -186,6 +192,7 @@ impl Pure<'_> {
                                     ..self.ctx
                                 },
                                 changed: false,
+                                tracker: self.tracker.clone(),
                                 ..*self
                             };
                             node.visit_mut_with(&mut v);

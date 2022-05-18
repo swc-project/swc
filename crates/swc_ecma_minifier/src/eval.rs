@@ -243,6 +243,7 @@ impl Evaluator {
                     force_str_for_tpl: Eval::force_str_for_tpl(),
                     debug_infinite_loop: false,
                 },
+                TrackerData::default().into_tracker(),
             ));
         }
 

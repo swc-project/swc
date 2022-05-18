@@ -150,7 +150,7 @@ pub fn optimize(
                     marks,
                     options,
                     &Minification,
-                    tracker,
+                    tracker.clone(),
                 ))
             });
         }
@@ -169,6 +169,7 @@ pub fn optimize(
                 enable_join_vars: true,
                 debug_infinite_loop: false,
             },
+            tracker,
         )));
     }
 
