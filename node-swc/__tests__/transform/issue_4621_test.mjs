@@ -6,14 +6,22 @@ import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 it("should auto-detect tsx", async () => {
-    const filename = join(__dirname, '..', '..', 'tests', "issue-4621", '1', 'index.tsx');
+    const filename = join(
+        __dirname,
+        "..",
+        "..",
+        "tests",
+        "issue-4621",
+        "1",
+        "index.tsx"
+    );
     console.log(filename);
     const { code } = await swc.transformFile(filename, {
         jsc: {
             target: "es5",
             parser: {
-                syntax: 'typescript'
-            }
+                syntax: "typescript",
+            },
         },
     });
     expect(code).toMatchInlineSnapshot(`
@@ -488,6 +496,33 @@ it("should auto-detect tsx", async () => {
             };
         }, React.Component);
         export default App;
+        "
+    `);
+});
+
+it("should auto-detect tsx even with no parser option", async () => {
+    const filename = join(
+        __dirname,
+        "..",
+        "..",
+        "tests",
+        "issue-4621",
+        "1",
+        "index.tsx"
+    );
+    console.log(filename);
+    const { code } = await swc.transformFile(filename, {
+        jsc: {
+            target: "es5",
+        },
+    });
+    expect(code).toMatchInlineSnapshot(`
+        "import { jsx as _jsx } from \\"react/jsx-runtime\\";
+        export default function foo() {
+            return /*#__PURE__*/ _jsx(\\"div\\", {
+                children: \\"Hello\\"
+            });
+        };
         "
     `);
 });

@@ -6,11 +6,6 @@
                 "runtime": "automatic"
             }
         },
-        "parser": {
-            "syntax": "typescript",
-            "dts": true,
-            "dynamicImport": true
-        },
         "externalHelpers": true
     },
     "module": {
