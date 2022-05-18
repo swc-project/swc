@@ -26,26 +26,25 @@
 #![allow(clippy::logic_bug)]
 #![allow(unstable_name_collisions)]
 
-use compress::{pure_optimizer, PureOptimizerConfig};
-use mode::Mode;
 use swc_common::{comments::Comments, pass::Repeat, sync::Lrc, SourceMap, GLOBALS};
 use swc_ecma_ast::Module;
 use swc_ecma_visit::{FoldWith, VisitMutWith};
 use swc_timer::timer;
-use timing::Timings;
 
 pub use crate::pass::unique_scope::unique_scope;
 use crate::{
-    compress::compressor,
+    compress::{compressor, pure_optimizer, PureOptimizerConfig},
     marks::Marks,
     metadata::info_marker,
-    mode::Minification,
+    mode::{Minification, Mode},
     option::{ExtraOptions, MinifyOptions},
     pass::{
         expand_names::name_expander, global_defs, mangle_names::name_mangler,
         mangle_props::mangle_properties, merge_exports::merge_exports,
         postcompress::postcompress_optimizer, precompress::precompress_optimizer,
     },
+    timing::Timings,
+    tracker::Tracker,
 };
 
 #[macro_use]
@@ -78,6 +77,8 @@ pub fn optimize(
 ) -> Module {
     let _timer = timer!("minify");
 
+    let mut tracker = Tracker::default();
+
     let mut marks = Marks::new();
     marks.unresolved_mark = extra.unresolved_mark;
 
@@ -108,7 +109,7 @@ pub fn optimize(
     if options.compress.is_some() {
         m.visit_mut_with(&mut info_marker(comments, marks, extra.unresolved_mark));
     }
-    m.visit_mut_with(&mut unique_scope());
+    m.visit_mut_with(&mut unique_scope(&mut tracker));
 
     if options.wrap {
         // TODO: wrap_common_js
