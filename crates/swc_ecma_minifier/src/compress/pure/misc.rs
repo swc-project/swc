@@ -3,7 +3,10 @@ use std::{fmt::Write, num::FpCategory};
 use swc_atoms::js_word;
 use swc_common::{iter::IdentifyLast, util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::ExprExt;
+use swc_ecma_utils::{
+    ExprExt, Type,
+    Value::{self, Known},
+};
 
 use super::Pure;
 use crate::compress::{
@@ -896,6 +899,115 @@ impl Pure<'_> {
                     }
                 }
             }
+        }
+    }
+
+    ///
+    /// - `!(x == y)` => `x != y`
+    /// - `!(x === y)` => `x !== y`
+    pub(super) fn compress_negated_bin_eq(&self, e: &mut Expr) {
+        let unary = match e {
+            Expr::Unary(e @ UnaryExpr { op: op!("!"), .. }) => e,
+            _ => return,
+        };
+
+        match &mut *unary.arg {
+            Expr::Bin(BinExpr {
+                op: op @ op!("=="),
+                left,
+                right,
+                ..
+            })
+            | Expr::Bin(BinExpr {
+                op: op @ op!("==="),
+                left,
+                right,
+                ..
+            }) => {
+                *e = Expr::Bin(BinExpr {
+                    span: unary.span,
+                    op: if *op == op!("==") {
+                        op!("!=")
+                    } else {
+                        op!("!==")
+                    },
+                    left: left.take(),
+                    right: right.take(),
+                })
+            }
+            _ => {}
+        }
+    }
+
+    pub(super) fn optimize_nullish_coalescing(&mut self, e: &mut Expr) {
+        let (l, r) = match e {
+            Expr::Bin(BinExpr {
+                op: op!("??"),
+                left,
+                right,
+                ..
+            }) => (&mut **left, &mut **right),
+            _ => return,
+        };
+
+        match l {
+            Expr::Lit(Lit::Null(..)) => {
+                report_change!("Removing null from lhs of ??");
+                self.changed = true;
+                *e = r.take();
+            }
+            Expr::Lit(Lit::Num(..))
+            | Expr::Lit(Lit::Str(..))
+            | Expr::Lit(Lit::BigInt(..))
+            | Expr::Lit(Lit::Bool(..))
+            | Expr::Lit(Lit::Regex(..)) => {
+                report_change!("Removing rhs of ?? as lhs cannot be null nor undefined");
+                self.changed = true;
+                *e = l.take();
+            }
+            _ => {}
+        }
+    }
+
+    ///
+    /// - `a ? true : false` => `!!a`
+    pub(super) fn compress_useless_cond_expr(&mut self, expr: &mut Expr) {
+        let cond = match expr {
+            Expr::Cond(c) => c,
+            _ => return,
+        };
+
+        let lt = cond.cons.get_type();
+        let rt = cond.alt.get_type();
+        match (lt, rt) {
+            (Known(Type::Bool), Known(Type::Bool)) => {}
+            _ => return,
+        }
+
+        let lb = cond.cons.as_pure_bool(&self.expr_ctx);
+        let rb = cond.alt.as_pure_bool(&self.expr_ctx);
+
+        let lb = match lb {
+            Value::Known(v) => v,
+            Value::Unknown => return,
+        };
+        let rb = match rb {
+            Value::Known(v) => v,
+            Value::Unknown => return,
+        };
+
+        // `cond ? true : false` => !!cond
+        if lb && !rb {
+            self.negate(&mut cond.test, false, false);
+            self.negate(&mut cond.test, false, false);
+            *expr = *cond.test.take();
+            return;
+        }
+
+        // `cond ? false : true` => !cond
+        if !lb && rb {
+            self.negate(&mut cond.test, false, false);
+            *expr = *cond.test.take();
         }
     }
 }

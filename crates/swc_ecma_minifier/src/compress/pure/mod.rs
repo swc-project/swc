@@ -366,6 +366,12 @@ impl VisitMut for Pure<'_> {
         self.lift_seqs_of_bin(e);
 
         self.lift_seqs_of_cond_assign(e);
+
+        self.optimize_nullish_coalescing(e);
+
+        self.compress_negated_bin_eq(e);
+
+        self.compress_useless_cond_expr(e);
     }
 
     fn visit_mut_expr_stmt(&mut self, s: &mut ExprStmt) {
@@ -727,9 +733,10 @@ impl VisitMut for Pure<'_> {
         }
     }
 
-    /// We don't optimize [Tpl] contained in [TaggedTpl].
     fn visit_mut_tagged_tpl(&mut self, n: &mut TaggedTpl) {
         n.tag.visit_mut_with(self);
+
+        n.tpl.exprs.visit_mut_with(self);
     }
 
     fn visit_mut_tpl(&mut self, n: &mut Tpl) {

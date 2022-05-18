@@ -10,8 +10,7 @@ const process = {
     }
 }, foo = 42;
 function Environment() {
-    return m`<table><thead><tr><th>Name ${42}</th><th>Value</th></tr></thead><tbody>${Object.keys(process.env).sort().map((key)=>{
-        return m`<tr key=${key}><td>${key}</td><td>${String(process.env[key])}</td></tr>`;
-    })}</tbody></table>`;
+    return m`<table><thead><tr><th>Name ${42}</th><th>Value</th></tr></thead><tbody>${Object.keys(process.env).sort().map((key)=>m`<tr key=${key}><td>${key}</td><td>${String(process.env[key])}</td></tr>`
+    )}</tbody></table>`;
 }
 export { Environment };
