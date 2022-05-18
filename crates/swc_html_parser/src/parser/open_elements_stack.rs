@@ -102,7 +102,7 @@ impl OpenElementsStack {
     }
 
     pub fn push(&mut self, node: RcNode) {
-        if get_tag_name!(node) == "template" {
+        if is_html_element!(node, "template") {
             self.template_element_count += 1;
         }
 
@@ -113,7 +113,7 @@ impl OpenElementsStack {
         let popped = self.items.pop();
 
         if let Some(node) = &popped {
-            if get_tag_name!(node) == "template" {
+            if is_html_element!(node, "template") {
                 self.template_element_count -= 1;
             }
         }
@@ -122,7 +122,7 @@ impl OpenElementsStack {
     }
 
     pub fn insert(&mut self, index: usize, node: RcNode) {
-        if get_tag_name!(node) == "template" {
+        if is_html_element!(node, "template") {
             self.template_element_count += 1;
         }
 
@@ -131,11 +131,11 @@ impl OpenElementsStack {
 
     pub fn replace(&mut self, index: usize, node: RcNode) {
         if let Some(item) = self.items.get(index) {
-            if get_tag_name!(item) == "template" {
+            if is_html_element!(item, "template") {
                 self.template_element_count -= 1;
             }
 
-            if get_tag_name!(node) == "template" {
+            if is_html_element!(node, "template") {
                 self.template_element_count += 1;
             }
 
@@ -147,7 +147,7 @@ impl OpenElementsStack {
         let position = self.items.iter().rposition(|x| is_same_node(node, x));
 
         if let Some(position) = position {
-            if get_tag_name!(node) == "template" {
+            if is_html_element!(node, "template") {
                 self.template_element_count -= 1;
             }
 
@@ -330,7 +330,7 @@ impl OpenElementsStack {
     // template, or html element, pop elements from the stack of open elements.
     pub fn clear_back_to_table_context(&mut self) {
         while let Some(node) = self.items.last() {
-            if !matches!(get_tag_name!(node), "table" | "template" | "html") {
+            if !is_html_element!(node, "table" | "template" | "html") {
                 self.pop();
             } else {
                 break;
@@ -343,7 +343,7 @@ impl OpenElementsStack {
     // template, or html element, pop elements from the stack of open elements.
     pub fn clear_back_to_table_row_context(&mut self) {
         while let Some(node) = self.items.last() {
-            if !matches!(get_tag_name!(node), "tr" | "template" | "html") {
+            if !is_html_element!(node, "tr" | "template" | "html") {
                 self.pop();
             } else {
                 break;
@@ -357,10 +357,7 @@ impl OpenElementsStack {
     // elements.
     pub fn clear_back_to_table_body_context(&mut self) {
         while let Some(node) = self.items.last() {
-            if !matches!(
-                get_tag_name!(node),
-                "thead" | "tfoot" | "tbody" | "template" | "html"
-            ) {
+            if !is_html_element!(node, "thead" | "tfoot" | "tbody" | "template" | "html") {
                 self.pop();
             } else {
                 break;
