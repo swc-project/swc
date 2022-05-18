@@ -407,12 +407,6 @@ where
             stmts.visit_with(&mut AssertValid);
         }
 
-        self.drop_else_token(stmts);
-
-        if cfg!(debug_assertions) {
-            stmts.visit_with(&mut AssertValid);
-        }
-
         self.break_assignments_in_seqs(stmts);
 
         if cfg!(debug_assertions) {
@@ -1583,7 +1577,6 @@ where
         match n {
             BlockStmtOrExpr::BlockStmt(n) => {
                 self.merge_if_returns(&mut n.stmts, false, true);
-                self.drop_else_token(&mut n.stmts);
             }
             BlockStmtOrExpr::Expr(_) => {}
         }
@@ -2050,7 +2043,6 @@ where
 
         if let Some(body) = &mut n.body {
             self.merge_if_returns(&mut body.stmts, false, true);
-            self.drop_else_token(&mut body.stmts);
         }
 
         {

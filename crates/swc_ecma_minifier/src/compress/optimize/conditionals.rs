@@ -3,14 +3,11 @@ use std::mem::swap;
 use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::ExprRefExt;
-use swc_ecma_utils::{ExprExt, ExprFactory, StmtExt, StmtLike};
+use swc_ecma_utils::{ExprExt, ExprFactory, StmtLike};
 
 use super::Optimizer;
 use crate::{
-    compress::{
-        optimize::Ctx,
-        util::{negate, negate_cost},
-    },
+    compress::{optimize::Ctx, util::negate_cost},
     mode::Mode,
     DISABLE_BUGGY_PASSES,
 };
@@ -688,77 +685,6 @@ where
         }
 
         *stmts = new;
-    }
-
-    /// if (foo) return bar()
-    /// else baz()
-    ///
-    /// `else` token can be removed from the code above.
-    pub(super) fn drop_else_token<T>(&mut self, stmts: &mut Vec<T>)
-    where
-        T: StmtLike,
-    {
-        // Find an if statement with else token.
-        let need_work = stmts.iter().any(|stmt| match stmt.as_stmt() {
-            Some(Stmt::If(IfStmt {
-                cons,
-                alt: Some(..),
-                ..
-            })) => cons.terminates(),
-            _ => false,
-        });
-        if !need_work {
-            return;
-        }
-        // TODO(kdy1): Move this to pure optimizer and handle termination within a pass.
-        // let mut need_terminate_check = false;
-        //
-
-        let mut new_stmts = vec![];
-
-        for stmt in stmts.take() {
-            match stmt.try_into_stmt() {
-                Ok(stmt) => match stmt {
-                    Stmt::If(IfStmt {
-                        span,
-                        mut test,
-                        mut cons,
-                        alt: Some(mut alt),
-                        ..
-                    }) if cons.terminates() => {
-                        if let (
-                            Stmt::Return(ReturnStmt { arg: None, .. }),
-                            Stmt::Decl(Decl::Fn(..)),
-                        ) = (&*cons, &*alt)
-                        {
-                            // I don't know why, but terser behaves differently
-                            negate(&self.expr_ctx, &mut test, true, false);
-
-                            swap(&mut cons, &mut alt);
-                            // need_terminate_check = true;
-                        }
-
-                        new_stmts.push(T::from_stmt(Stmt::If(IfStmt {
-                            span,
-                            test,
-                            cons,
-                            alt: None,
-                        })));
-                        new_stmts.push(T::from_stmt(*alt));
-                    }
-                    _ => {
-                        new_stmts.push(T::from_stmt(stmt));
-                    }
-                },
-                Err(stmt) => new_stmts.push(stmt),
-            }
-        }
-
-        // if need_terminate_check {}
-
-        self.changed = true;
-        report_change!("conditionals: Dropped useless `else` token");
-        *stmts = new_stmts;
     }
 }
 
