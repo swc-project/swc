@@ -458,6 +458,13 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_function(&mut self, f: &mut Function) {
+        if self.tracker.is_pure_done(f.span) {
+            return;
+        }
+
+        let old_changed = self.changed;
+        self.changed = false;
+
         {
             let ctx = Ctx {
                 _in_try_block: false,
@@ -469,6 +476,12 @@ impl VisitMut for Pure<'_> {
         if let Some(body) = &mut f.body {
             self.optimize_fn_stmts(&mut body.stmts)
         }
+
+        if !self.changed {
+            self.tracker.mark_pure_as_done(f.span);
+        }
+
+        self.changed |= old_changed;
     }
 
     fn visit_mut_if_stmt(&mut self, s: &mut IfStmt) {
