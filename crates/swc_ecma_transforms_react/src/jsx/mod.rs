@@ -940,7 +940,10 @@ where
             if let Runtime::Automatic = self.runtime {
                 HANDLER.with(|handler| {
                     handler
-                        .struct_span_err(span, "pragma cannot be set when runtime is automatic")
+                        .struct_span_err(
+                            pragma.span(),
+                            "pragma cannot be set when runtime is automatic",
+                        )
                         .emit()
                 });
             }
@@ -953,7 +956,10 @@ where
             if let Runtime::Automatic = self.runtime {
                 HANDLER.with(|handler| {
                     handler
-                        .struct_span_err(span, "pragmaFrag cannot be set when runtime is automatic")
+                        .struct_span_err(
+                            pragma_frag.span(),
+                            "pragmaFrag cannot be set when runtime is automatic",
+                        )
                         .emit()
                 });
             }
