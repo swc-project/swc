@@ -7,7 +7,7 @@ use crate::tracker::Tracker;
 /// Makes [BlockStmt] and [Function] unique in aspect of span hygiene.
 ///
 /// Required for [crate::hygiene_optimizer] to work properly.
-pub fn unique_scope(tracker: &mut Tracker) -> impl Fold + VisitMut {
+pub(crate) fn unique_scope(tracker: &mut Tracker) -> impl Fold + VisitMut {
     as_folder(UniqueScope)
 }
 

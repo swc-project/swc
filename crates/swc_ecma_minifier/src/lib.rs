@@ -31,7 +31,6 @@ use swc_ecma_ast::Module;
 use swc_ecma_visit::{FoldWith, VisitMutWith};
 use swc_timer::timer;
 
-pub use crate::pass::unique_scope::unique_scope;
 use crate::{
     compress::{compressor, pure_optimizer, PureOptimizerConfig},
     marks::Marks,
@@ -42,6 +41,7 @@ use crate::{
         expand_names::name_expander, global_defs, mangle_names::name_mangler,
         mangle_props::mangle_properties, merge_exports::merge_exports,
         postcompress::postcompress_optimizer, precompress::precompress_optimizer,
+        unique_scope::unique_scope,
     },
     timing::Timings,
     tracker::Tracker,
