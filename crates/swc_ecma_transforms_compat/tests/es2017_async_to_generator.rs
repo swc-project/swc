@@ -2524,7 +2524,7 @@ test!(
                 } finally{
                     try {
                         if (_iteratorAbruptCompletion && _iterator.return != null) {
-                            yield _iteratorError.return();
+                            yield _iterator.return();
                         }
                     } finally{
                         if (_didIteratorError) {
