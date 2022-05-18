@@ -2321,47 +2321,34 @@ where
                             return Ok(());
                         }
 
-                        let mut errored = false;
-
                         for node in &self.open_elements_stack.items {
-                            let is_required_element = match &node.data {
-                                Data::Element(Element { tag_name, .. })
-                                    if matches!(
-                                        &**tag_name,
-                                        "dd" | "dt"
-                                            | "li"
-                                            | "optgroup"
-                                            | "option"
-                                            | "p"
-                                            | "rb"
-                                            | "rp"
-                                            | "rt"
-                                            | "rtc"
-                                            | "tbody"
-                                            | "td"
-                                            | "tfoot"
-                                            | "th"
-                                            | "thead"
-                                            | "tr"
-                                            | "body"
-                                            | "html"
-                                    ) =>
-                                {
-                                    true
-                                }
-                                _ => false,
-                            };
-
-                            if !is_required_element {
-                                errored = true;
+                            if !is_html_element!(
+                                node,
+                                "dd" | "dt"
+                                    | "li"
+                                    | "optgroup"
+                                    | "option"
+                                    | "p"
+                                    | "rb"
+                                    | "rp"
+                                    | "rt"
+                                    | "rtc"
+                                    | "tbody"
+                                    | "td"
+                                    | "tfoot"
+                                    | "th"
+                                    | "thead"
+                                    | "tr"
+                                    | "body"
+                                    | "html"
+                            ) {
+                                self.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::UnexpectedEof,
+                                ));
 
                                 break;
                             }
-                        }
-
-                        if errored {
-                            self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedEof));
                         }
 
                         self.stopped = true;
@@ -2390,40 +2377,33 @@ where
                         }
 
                         for node in &self.open_elements_stack.items {
-                            match &node.data {
-                                Data::Element(Element { tag_name, .. })
-                                    if !matches!(
-                                        &**tag_name,
-                                        "dd" | "dt"
-                                            | "li"
-                                            | "optgroup"
-                                            | "option"
-                                            | "p"
-                                            | "rb"
-                                            | "rp"
-                                            | "rt"
-                                            | "rtc"
-                                            | "tbody"
-                                            | "td"
-                                            | "tfoot"
-                                            | "th"
-                                            | "thead"
-                                            | "tr"
-                                            | "body"
-                                            | "html"
-                                    ) =>
-                                {
-                                    self.errors.push(Error::new(
-                                        token_and_info.span,
-                                        ErrorKind::UnexpectedEndTagWithUnclosedElements(
-                                            "body".into(),
-                                        ),
-                                    ));
+                            if !is_html_element!(
+                                node,
+                                "dd" | "dt"
+                                    | "li"
+                                    | "optgroup"
+                                    | "option"
+                                    | "p"
+                                    | "rb"
+                                    | "rp"
+                                    | "rt"
+                                    | "rtc"
+                                    | "tbody"
+                                    | "td"
+                                    | "tfoot"
+                                    | "th"
+                                    | "thead"
+                                    | "tr"
+                                    | "body"
+                                    | "html"
+                            ) {
+                                self.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::UnexpectedEndTagWithUnclosedElements("body".into()),
+                                ));
 
-                                    break;
-                                }
-                                _ => {}
-                            };
+                                break;
+                            }
                         }
 
                         self.insertion_mode = InsertionMode::AfterBody;
@@ -2454,40 +2434,33 @@ where
                         }
 
                         for node in &self.open_elements_stack.items {
-                            match &node.data {
-                                Data::Element(Element { tag_name, .. })
-                                    if !matches!(
-                                        &**tag_name,
-                                        "dd" | "dt"
-                                            | "li"
-                                            | "optgroup"
-                                            | "option"
-                                            | "p"
-                                            | "rb"
-                                            | "rp"
-                                            | "rt"
-                                            | "rtc"
-                                            | "tbody"
-                                            | "td"
-                                            | "tfoot"
-                                            | "th"
-                                            | "thead"
-                                            | "tr"
-                                            | "body"
-                                            | "html"
-                                    ) =>
-                                {
-                                    self.errors.push(Error::new(
-                                        token_and_info.span,
-                                        ErrorKind::UnexpectedEndTagWithUnclosedElements(
-                                            "html".into(),
-                                        ),
-                                    ));
+                            if !is_html_element!(
+                                node,
+                                "dd" | "dt"
+                                    | "li"
+                                    | "optgroup"
+                                    | "option"
+                                    | "p"
+                                    | "rb"
+                                    | "rp"
+                                    | "rt"
+                                    | "rtc"
+                                    | "tbody"
+                                    | "td"
+                                    | "tfoot"
+                                    | "th"
+                                    | "thead"
+                                    | "tr"
+                                    | "body"
+                                    | "html"
+                            ) {
+                                self.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::UnexpectedEndTagWithUnclosedElements("html".into()),
+                                ));
 
-                                    break;
-                                }
-                                _ => {}
-                            };
+                                break;
+                            }
                         }
 
                         self.insertion_mode = InsertionMode::AfterBody;
@@ -2672,32 +2645,29 @@ where
                         // the stack).
                         // Step "Loop".
                         for node in self.open_elements_stack.items.iter().rev() {
-                            match &node.data {
-                                Data::Element(Element { tag_name, .. }) if &*tag_name == "li" => {
-                                    // Generate implied end tags, except for li elements.
-                                    self.open_elements_stack
-                                        .generate_implied_end_tags_with_exclusion("li");
+                            if is_html_element!(node, "li") {
+                                // Generate implied end tags, except for li elements.
+                                self.open_elements_stack
+                                    .generate_implied_end_tags_with_exclusion("li");
 
-                                    // If the current node is not an li element, then this is a
-                                    // parse error.
-                                    match self.open_elements_stack.items.last() {
-                                        Some(node) if !is_html_element!(node, "li") => {
-                                            self.errors.push(Error::new(
-                                                token_and_info.span,
-                                                ErrorKind::UnclosedElementsImplied("li".into()),
-                                            ));
-                                        }
-                                        _ => {}
+                                // If the current node is not an li element, then this is a
+                                // parse error.
+                                match self.open_elements_stack.items.last() {
+                                    Some(node) if !is_html_element!(node, "li") => {
+                                        self.errors.push(Error::new(
+                                            token_and_info.span,
+                                            ErrorKind::UnclosedElementsImplied("li".into()),
+                                        ));
                                     }
-
-                                    // Pop elements from the stack of open elements until an li
-                                    // element has been popped from the stack.
-                                    self.open_elements_stack.pop_until_tag_name_popped(&["li"]);
-
-                                    // Jump to the step labeled done below.
-                                    break;
+                                    _ => {}
                                 }
-                                _ => {}
+
+                                // Pop elements from the stack of open elements until an li
+                                // element has been popped from the stack.
+                                self.open_elements_stack.pop_until_tag_name_popped(&["li"]);
+
+                                // Jump to the step labeled done below.
+                                break;
                             }
 
                             // If node is in the special category, but is not an address,
@@ -2705,14 +2675,7 @@ where
                             // Otherwise, set node to the previous entry in the stack
                             // of open elements and return to the step labeled loop.
                             if self.is_special_element(node)
-                                && !match &node.data {
-                                    Data::Element(Element { tag_name, .. })
-                                        if matches!(tag_name.as_ref(), "address" | "div" | "p") =>
-                                    {
-                                        true
-                                    }
-                                    _ => false,
-                                }
+                                && !is_html_element!(node, "address" | "div" | "p")
                             {
                                 break;
                             }
@@ -2776,56 +2739,52 @@ where
                         // the stack).
                         // Step "Loop".
                         for node in self.open_elements_stack.items.iter().rev() {
-                            match &node.data {
-                                Data::Element(Element { tag_name, .. }) if &*tag_name == "dd" => {
-                                    // Generate implied end tags, except for dd elements.
-                                    self.open_elements_stack
-                                        .generate_implied_end_tags_with_exclusion("dd");
+                            if is_html_element!(node, "dd") {
+                                // Generate implied end tags, except for dd elements.
+                                self.open_elements_stack
+                                    .generate_implied_end_tags_with_exclusion("dd");
 
-                                    // If the current node is not an dd element, then this is a
-                                    // parse error.
-                                    match self.open_elements_stack.items.last() {
-                                        Some(node) if !is_html_element!(node, "dd") => {
-                                            self.errors.push(Error::new(
-                                                token_and_info.span,
-                                                ErrorKind::UnclosedElementsImplied("dd".into()),
-                                            ));
-                                        }
-                                        _ => {}
+                                // If the current node is not an dd element, then this is a
+                                // parse error.
+                                match self.open_elements_stack.items.last() {
+                                    Some(node) if !is_html_element!(node, "dd") => {
+                                        self.errors.push(Error::new(
+                                            token_and_info.span,
+                                            ErrorKind::UnclosedElementsImplied("dd".into()),
+                                        ));
                                     }
-
-                                    // Pop elements from the stack of open elements until an dd
-                                    // element has been popped from the stack.
-                                    self.open_elements_stack.pop_until_tag_name_popped(&["dd"]);
-
-                                    // Jump to the step labeled done below.
-                                    break;
+                                    _ => {}
                                 }
-                                Data::Element(Element { tag_name, .. }) if &*tag_name == "dt" => {
-                                    // Generate implied end tags, except for li elements.
-                                    self.open_elements_stack
-                                        .generate_implied_end_tags_with_exclusion("dt");
 
-                                    // If the current node is not an dt element, then this is a
-                                    // parse error.
-                                    match self.open_elements_stack.items.last() {
-                                        Some(node) if !is_html_element!(node, "dt") => {
-                                            self.errors.push(Error::new(
-                                                token_and_info.span,
-                                                ErrorKind::UnclosedElementsImplied("dt".into()),
-                                            ));
-                                        }
-                                        _ => {}
+                                // Pop elements from the stack of open elements until an dd
+                                // element has been popped from the stack.
+                                self.open_elements_stack.pop_until_tag_name_popped(&["dd"]);
+
+                                // Jump to the step labeled done below.
+                                break;
+                            } else if is_html_element!(node, "dt") {
+                                // Generate implied end tags, except for li elements.
+                                self.open_elements_stack
+                                    .generate_implied_end_tags_with_exclusion("dt");
+
+                                // If the current node is not an dt element, then this is a
+                                // parse error.
+                                match self.open_elements_stack.items.last() {
+                                    Some(node) if !is_html_element!(node, "dt") => {
+                                        self.errors.push(Error::new(
+                                            token_and_info.span,
+                                            ErrorKind::UnclosedElementsImplied("dt".into()),
+                                        ));
                                     }
-
-                                    // Pop elements from the stack of open elements until an dt
-                                    // element has been popped from the stack.
-                                    self.open_elements_stack.pop_until_tag_name_popped(&["dt"]);
-
-                                    // Jump to the step labeled done below.
-                                    break;
+                                    _ => {}
                                 }
-                                _ => {}
+
+                                // Pop elements from the stack of open elements until an dt
+                                // element has been popped from the stack.
+                                self.open_elements_stack.pop_until_tag_name_popped(&["dt"]);
+
+                                // Jump to the step labeled done below.
+                                break;
                             }
 
                             // If node is in the special category, but is not an address,
@@ -2833,14 +2792,7 @@ where
                             // Otherwise, set node to the previous entry in the stack of
                             // open elements and return to the step labeled loop.
                             if self.is_special_element(node)
-                                && !match &node.data {
-                                    Data::Element(Element { tag_name, .. })
-                                        if matches!(tag_name.as_ref(), "address" | "div" | "p") =>
-                                    {
-                                        true
-                                    }
-                                    _ => false,
-                                }
+                                && !is_html_element!(node, "address" | "div" | "p")
                             {
                                 break;
                             }
@@ -3258,14 +3210,13 @@ where
                                     ActiveFormattingElement::Marker => {
                                         break;
                                     }
-                                    ActiveFormattingElement::Element(item, _) => match &item.data {
-                                        Data::Element(element) if &*element.tag_name == "a" => {
+                                    ActiveFormattingElement::Element(item, _) => {
+                                        if is_html_element!(item, "a") {
                                             node = Some(item);
 
                                             break;
                                         }
-                                        _ => {}
-                                    },
+                                    }
                                 }
                             }
 
@@ -6772,7 +6723,9 @@ where
                 .enumerate()
                 .rev()
                 .find(|info| match &info.1 {
-                    ActiveFormattingElement::Element(element, _) => matches!(&element.data, Data::Element(element) if element.tag_name == subject),
+                    ActiveFormattingElement::Element(element, _) => {
+                        is_html_element_with_tag_name!(element, &*subject)
+                    }
                     _ => false,
                 })
                 .map(|(i, e)| match e {
@@ -7573,11 +7526,9 @@ where
                 | "ul"
                 | "wbr"
                 | "xmp"
-        ) {
-            return true;
-        } else if is_mathml_element!(node, "mi" | "mo" | "mn" | "ms" | "mtext" | "annotation-xml") {
-            return true;
-        } else if is_svg_element!(node, "title" | "foreignObject" | "desc") {
+        ) || is_mathml_element!(node, "mi" | "mo" | "mn" | "ms" | "mtext" | "annotation-xml")
+            || is_svg_element!(node, "title" | "foreignObject" | "desc")
+        {
             return true;
         }
 
@@ -7660,17 +7611,8 @@ where
 
         // 2.
         let mut adjusted_insertion_location = if self.foster_parenting_enabled
-            && match &target.data {
-                Data::Element(element)
-                    if matches!(
-                        element.tag_name.as_ref(),
-                        "table" | "tbody" | "tfoot" | "thead" | "tr"
-                    ) =>
-                {
-                    true
-                }
-                _ => false,
-            } {
+            && is_html_element!(target, "table" | "tbody" | "tfoot" | "thead" | "tr")
+        {
             // 2.1
             let mut last_template = None;
             let mut last_template_index = 0;
@@ -7680,28 +7622,20 @@ where
             let mut last_table_index = 0;
 
             for (i, node) in self.open_elements_stack.items.iter().enumerate().rev() {
-                match &node.data {
-                    Data::Element(element)
-                        if &*element.tag_name == "template" && last_template.is_none() =>
-                    {
-                        last_template = Some(node);
-                        last_template_index = i;
+                if is_html_element!(node, "template") && last_template.is_none() {
+                    last_template = Some(node);
+                    last_template_index = i;
 
-                        if last_table.is_some() {
-                            break;
-                        }
+                    if last_table.is_some() {
+                        break;
                     }
-                    Data::Element(element)
-                        if &*element.tag_name == "table" && last_table.is_none() =>
-                    {
-                        last_table = Some(node);
-                        last_table_index = i;
+                } else if is_html_element!(node, "table") && last_table.is_none() {
+                    last_table = Some(node);
+                    last_table_index = i;
 
-                        if last_template.is_some() {
-                            break;
-                        }
+                    if last_template.is_some() {
+                        break;
                     }
-                    _ => {}
                 }
             }
 
@@ -7770,7 +7704,10 @@ where
         adjusted_insertion_location = match &adjusted_insertion_location {
             InsertionPosition::LastChild(node) | InsertionPosition::BeforeSibling(node) => {
                 match &node.data {
-                    Data::Element(element) if &*element.tag_name == "template" => {
+                    Data::Element(element)
+                        if &*element.tag_name == "template"
+                            && element.namespace == Namespace::HTML =>
+                    {
                         adjusted_insertion_location
                     }
                     _ => adjusted_insertion_location,
