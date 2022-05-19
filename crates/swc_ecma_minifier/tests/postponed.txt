@@ -180,6 +180,7 @@ drop_unused/unused_circular_references_3/input.js
 drop_unused/unused_funarg_1/input.js
 drop_unused/unused_funarg_2/input.js
 drop_unused/unused_null_conditional_chain/input.js
+drop_unused/var_catch_toplevel/input.js
 evaluate/call_args_drop_param/input.js
 evaluate/issue_2207_3/input.js
 evaluate/issue_399/input.js
