@@ -8,8 +8,7 @@ Object.defineProperty(exports, "thing", {
     value: 42,
     writable: !0
 }), Object.defineProperty(exports, "bad1", {}), Object.defineProperty(exports, "bad2", {
-    get: ()=>12
-    ,
+    get: ()=>12,
     value: "no"
 }), Object.defineProperty(exports, "bad3", {
     writable: !0

@@ -1,2 +1,1 @@
-import("./foo").then((x)=>x
-);
+import("./foo").then((x)=>x);

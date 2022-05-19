@@ -10,8 +10,7 @@ const props = {
     a: 1,
     b: 1
 };
-const Foo = (props1)=>/*#__PURE__*/ React.createElement("div", null, props1.a)
-;
+const Foo = (props1)=>/*#__PURE__*/ React.createElement("div", null, props1.a);
 // ok
 const a1 = /*#__PURE__*/ React.createElement(Foo, swcHelpers.extends({}, props));
 const a2 = /*#__PURE__*/ React.createElement(Foo, swcHelpers.extends({

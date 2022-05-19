@@ -271,11 +271,9 @@ function merge(defaults, route, options) {
     removeUndefinedProperties(options.headers);
     const mergedOptions = mergeDeep(defaults || {}, options);
     if (defaults && defaults.mediaType.previews.length) {
-        mergedOptions.mediaType.previews = defaults.mediaType.previews.filter((preview)=>!mergedOptions.mediaType.previews.includes(preview)
-        ).concat(mergedOptions.mediaType.previews);
+        mergedOptions.mediaType.previews = defaults.mediaType.previews.filter((preview)=>!mergedOptions.mediaType.previews.includes(preview)).concat(mergedOptions.mediaType.previews);
     }
-    mergedOptions.mediaType.previews = mergedOptions.mediaType.previews.map((preview)=>preview.replace(/-preview/, "")
-    );
+    mergedOptions.mediaType.previews = mergedOptions.mediaType.previews.map((preview)=>preview.replace(/-preview/, ""));
     return mergedOptions;
 }
 function addQueryParameters(url, parameters) {
@@ -300,12 +298,10 @@ function extractUrlVariableNames(url) {
     if (!matches) {
         return [];
     }
-    return matches.map(removeNonChars).reduce((a, b)=>a.concat(b)
-    , []);
+    return matches.map(removeNonChars).reduce((a, b)=>a.concat(b), []);
 }
 function omit(object, keysToOmit) {
-    return Object.keys(object).filter((option)=>!keysToOmit.includes(option)
-    ).reduce((obj, key)=>{
+    return Object.keys(object).filter((option)=>!keysToOmit.includes(option)).reduce((obj, key)=>{
         obj[key] = object[key];
         return obj;
     }, {});
@@ -454,14 +450,12 @@ function parse(options) {
     if (!/^http/.test(url)) {
         url = options.baseUrl + url;
     }
-    const omittedParameters = Object.keys(options).filter((option)=>urlVariableNames.includes(option)
-    ).concat("baseUrl");
+    const omittedParameters = Object.keys(options).filter((option)=>urlVariableNames.includes(option)).concat("baseUrl");
     const remainingParameters = omit(parameters, omittedParameters);
     const isBinaryRequest = /application\/octet-stream/i.test(headers.accept);
     if (!isBinaryRequest) {
         if (options.mediaType.format) {
-            headers.accept = headers.accept.split(/,/).map((preview)=>preview.replace(/application\/vnd(\.\w+)(\.v3)?(\.\w+)?(\+json)?$/, `application/vnd$1$2.${options.mediaType.format}`)
-            ).join(",");
+            headers.accept = headers.accept.split(/,/).map((preview)=>preview.replace(/application\/vnd(\.\w+)(\.v3)?(\.\w+)?(\+json)?$/, `application/vnd$1$2.${options.mediaType.format}`)).join(",");
         }
         if (options.mediaType.previews.length) {
             const previewsFromAcceptHeader = headers.accept.match(/[\w-]+(?=-preview)/g) || [];
@@ -603,8 +597,7 @@ function onceStrict(fn) {
     return f;
 }
 once_1.strict = strict;
-const logOnce = once_1((deprecation2)=>console.warn(deprecation2)
-);
+const logOnce = once_1((deprecation2)=>console.warn(deprecation2));
 class RequestError extends Error {
     constructor(message, statusCode, options){
         super(message);

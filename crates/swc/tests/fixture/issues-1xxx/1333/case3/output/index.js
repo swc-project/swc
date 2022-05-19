@@ -50,8 +50,7 @@ class RequestHandler {
                 "channels",
                 "guilds",
                 "webhooks"
-            ].includes(p) ? match : `/${p}/:id`
-        ).replace(/\/reactions\/[^/]+/g, "/reactions/:id").replace(/\/webhooks\/(\d+)\/[\w-]{64,}/, "webhooks/$1/:token").replace(/\?.*$/, "");
+            ].includes(p) ? match : `/${p}/:id`).replace(/\/reactions\/[^/]+/g, "/reactions/:id").replace(/\/webhooks\/(\d+)\/[\w-]{64,}/, "webhooks/$1/:token").replace(/\?.*$/, "");
         let ending = ";";
         if (method === "delete" && route.endsWith("/message/:id")) {
             var ref;
@@ -116,8 +115,7 @@ class RequestHandler {
      * @private
      */ async _make(url, request, tries = 0) {
         const signal = new _abortSignal.AbortSignal();
-        const timeout = _utils.Timers.setTimeout(()=>signal.abort()
-        , this.rest.options.timeout);
+        const timeout = _utils.Timers.setTimeout(()=>signal.abort(), this.rest.options.timeout);
         let res;
         try {
             res = await (0, _nodeFetch).default(url, {
@@ -204,6 +202,5 @@ exports.RequestHandler = RequestHandler;
  * @param {string[]} headers The headers to fetch.
  * @return {string[]} The header values.
  */ function getHeaders(res, headers1) {
-    return headers1.map((headerName)=>res.headers.get(headerName)
-    );
+    return headers1.map((headerName)=>res.headers.get(headerName));
 }

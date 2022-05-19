@@ -86,8 +86,7 @@ let x = onMouseOver();
 // Repro from #23649
 export function Set(...keys1) {
     const result3 = {};
-    keys1.forEach((key)=>result3[key] = true
-    );
+    keys1.forEach((key)=>result3[key] = true);
     return result3;
 }
 export function keys(obj) {
@@ -97,8 +96,7 @@ const langCodeSet = Set('fr', 'en', 'es', 'it', 'nl');
 export const langCodes = keys(langCodeSet);
 const arr = langCodes.map((code)=>({
         code
-    })
-);
+    }));
 // Repro from #29081
 function test(obj) {
     let { a  } = obj, rest = swcHelpers.objectWithoutProperties(obj, [

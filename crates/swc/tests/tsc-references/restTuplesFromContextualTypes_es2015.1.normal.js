@@ -37,28 +37,15 @@ function f4(t) {
     f((a, ...x)=>{});
     f((a, b, ...x)=>{});
 }
-let g0 = f5(()=>"hello"
-);
-let g1 = f5((x, y)=>42
-);
-let g2 = f5((x, y)=>42
-);
-let g3 = f5((x, y)=>x + y
-);
-let g4 = f5((...args)=>true
-);
-let g5 = pipe(()=>true
-, (b)=>42
-);
-let g6 = pipe((x)=>"hello"
-, (s)=>s.length
-);
-let g7 = pipe((x, y)=>42
-, (x)=>"" + x
-);
-let g8 = pipe((x, y)=>42
-, (x)=>"" + x
-);
+let g0 = f5(()=>"hello");
+let g1 = f5((x, y)=>42);
+let g2 = f5((x, y)=>42);
+let g3 = f5((x, y)=>x + y);
+let g4 = f5((...args)=>true);
+let g5 = pipe(()=>true, (b)=>42);
+let g6 = pipe((x)=>"hello", (s)=>s.length);
+let g7 = pipe((x, y)=>42, (x)=>"" + x);
+let g8 = pipe((x, y)=>42, (x)=>"" + x);
 (function foo(a, b) {})(...tuple);
 (function foo(...rest) {})(1, '');
 take(function(...rest) {});

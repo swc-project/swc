@@ -1,5 +1,4 @@
 // @noImplicitAny: true
 let x;
 let y = true;
-x = y && ((a)=>a
-);
+x = y && ((a)=>a);

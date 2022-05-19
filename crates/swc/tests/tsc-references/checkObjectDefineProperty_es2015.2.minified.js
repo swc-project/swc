@@ -8,8 +8,7 @@ Object.defineProperty(x, "name", {
     value: "Smith",
     writable: !1
 }), Object.defineProperty(x, "zip", {
-    get: ()=>98122
-    ,
+    get: ()=>98122,
     set (_) {}
 }), Object.defineProperty(x, "houseNumber", {
     get: ()=>21.75

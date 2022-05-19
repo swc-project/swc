@@ -21,13 +21,11 @@ class C {
     constructor(x){
         this.x = x;
         this.ia = 1;
-        this.ib = ()=>this.ia
-        ;
+        this.ib = ()=>this.ia;
     }
 }
 C.sa = 1;
-C.sb = ()=>1
-;
+C.sb = ()=>1;
 var c;
 // BUG 820454
 var r1;

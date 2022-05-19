@@ -67,10 +67,8 @@ function f22(x) {
 function f23(x) {
     let e = x[0]; // string
 }
-const convert = (value)=>value
-;
-const convert2 = (value)=>value
-;
+const convert = (value)=>value;
+const convert2 = (value)=>value;
 function f31() {
     var x;
     var x;
@@ -83,18 +81,12 @@ function f33() {
     var z;
     var z;
 }
-const f40 = (a1)=>a1
-;
-const f41 = (a2)=>a2
-;
-const f42 = (a3)=>a3
-;
-const f43 = (a4)=>a4
-;
-const f44 = (value)=>value
-;
-const f45 = (value)=>value
-; // Error
+const f40 = (a1)=>a1;
+const f41 = (a2)=>a2;
+const f42 = (a3)=>a3;
+const f43 = (a4)=>a4;
+const f44 = (value)=>value;
+const f45 = (value)=>value; // Error
 // Repro from #21863
 function f50() {}
 var a = {

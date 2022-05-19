@@ -17,10 +17,8 @@ var C4 = function() {
 C4(), new C4(), new class {
 }(), new function() {
     this.functions = [
-        (x)=>x
-        ,
-        (x)=>x + 1
-        ,
+        (x)=>x,
+        (x)=>x + 1,
         (x)=>x - 1
     ];
 }();

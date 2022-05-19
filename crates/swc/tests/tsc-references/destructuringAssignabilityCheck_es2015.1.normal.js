@@ -1,10 +1,8 @@
 // @strict: true
 const [] = {}; // should be error
 const {} = undefined; // error correctly
-(([])=>0
-)({}); // should be error
-(({})=>0
-)(undefined); // should be error
+(([])=>0)({}); // should be error
+(({})=>0)(undefined); // should be error
 function foo({}) {
     return 0;
 }

@@ -9,13 +9,11 @@ class ReusablePayments extends PureComponent {
     }
     setDefaultReusablePayment(skipPaymentSource) {
         var _props = this.props, reusablePaymentSources = _props.reusablePaymentSources, selectedReusablePayment = _props.selectedReusablePayment, onChange = _props.onChange;
-        var validReusablePaymentSources = reusablePaymentSources.filter((ps)=>ps.__typename === "StripePaymentSource" && ps !== skipPaymentSource
-        );
+        var validReusablePaymentSources = reusablePaymentSources.filter((ps)=>ps.__typename === "StripePaymentSource" && ps !== skipPaymentSource);
         if (selectedReusablePayment === null) {
             return;
         }
-        if (selectedReusablePayment && validReusablePaymentSources.find((ps)=>ps === selectedReusablePayment
-        )) {
+        if (selectedReusablePayment && validReusablePaymentSources.find((ps)=>ps === selectedReusablePayment)) {
             // selectedReusablePayment still valid
             return;
         }
@@ -23,14 +21,12 @@ class ReusablePayments extends PureComponent {
             onChange(null);
             return;
         }
-        var ps1 = validReusablePaymentSources.find((ps)=>ps.isDefault
-        );
+        var ps1 = validReusablePaymentSources.find((ps)=>ps.isDefault);
         onChange(ps1 || validReusablePaymentSources[0]);
     }
     render() {
         var _props = this.props, selectedReusablePayment = _props.selectedReusablePayment, reusablePaymentSources = _props.reusablePaymentSources;
-        var stripePaymentSources = reusablePaymentSources.filter((ps)=>ps.__typename === "StripePaymentSource"
-        );
+        var stripePaymentSources = reusablePaymentSources.filter((ps)=>ps.__typename === "StripePaymentSource");
         if (!stripePaymentSources.length) {
             return null;
         }
@@ -81,8 +77,7 @@ class ReusablePayments extends PureComponent {
                     type: "button",
                     size: "xsmall"
                 }, "Remove"))));
-            }))
-        );
+            })));
     }
     constructor(...args){
         super(...args);

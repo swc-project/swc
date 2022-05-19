@@ -66,8 +66,7 @@ class LoadScript extends React.PureComponent {
                         }, 1);
                     }
                 } else resolve();
-            })
-        , this.cleanup = ()=>{
+            }), this.cleanup = ()=>{
             cleaningUp = !0;
             const script1 = document.getElementById(this.props.id);
             script1 && script1.parentNode && script1.parentNode.removeChild(script1), Array.prototype.slice.call(document.getElementsByTagName("script")).filter(function(script) {

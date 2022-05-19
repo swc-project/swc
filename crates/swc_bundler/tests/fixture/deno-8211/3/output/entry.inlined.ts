@@ -185,8 +185,7 @@ function parseZoneInfo(ts, offsetFormat, locale, timeZone = null) {
         timeZoneName: offsetFormat
     }, intlOpts), intl = hasIntl();
     if (intl && hasFormatToParts()) {
-        const parsed = new Intl.DateTimeFormat(locale, modified).formatToParts(date1).find((m)=>m.type.toLowerCase() === "timezonename"
-        );
+        const parsed = new Intl.DateTimeFormat(locale, modified).formatToParts(date1).find((m)=>m.type.toLowerCase() === "timezonename");
         return parsed ? parsed.value : null;
     } else if (intl) {
         const without = new Intl.DateTimeFormat(locale, intlOpts).format(date1), included = new Intl.DateTimeFormat(locale, modified).format(date1), diffed = included.substring(without.length), trimmed = diffed.replace(/^[, \u200e]+/, "");
@@ -797,8 +796,7 @@ class Formatter {
         return this.loc.numberFormatter(opts).format(n3);
     }
     formatDateTimeFromString(dt9, fmt) {
-        const knownEnglish = this.loc.listingMode() === "en", useDateTimeFormatter = this.loc.outputCalendar && this.loc.outputCalendar !== "gregory" && hasFormatToParts(), string = (opts, extract)=>this.loc.extract(dt9, opts, extract)
-        , formatOffset1 = (opts)=>{
+        const knownEnglish = this.loc.listingMode() === "en", useDateTimeFormatter = this.loc.outputCalendar && this.loc.outputCalendar !== "gregory" && hasFormatToParts(), string = (opts, extract)=>this.loc.extract(dt9, opts, extract), formatOffset1 = (opts)=>{
             if (dt9.isOffsetFixed && dt9.offset === 0 && opts.allowZ) {
                 return "Z";
             }
@@ -806,21 +804,18 @@ class Formatter {
         }, meridiem = ()=>knownEnglish ? meridiemForDateTime(dt9) : string({
                 hour: "numeric",
                 hour12: true
-            }, "dayperiod")
-        , month = (length, standalone)=>knownEnglish ? monthForDateTime(dt9, length) : string(standalone ? {
+            }, "dayperiod"), month = (length, standalone)=>knownEnglish ? monthForDateTime(dt9, length) : string(standalone ? {
                 month: length
             } : {
                 month: length,
                 day: "numeric"
-            }, "month")
-        , weekday = (length, standalone)=>knownEnglish ? weekdayForDateTime(dt9, length) : string(standalone ? {
+            }, "month"), weekday = (length, standalone)=>knownEnglish ? weekdayForDateTime(dt9, length) : string(standalone ? {
                 weekday: length
             } : {
                 weekday: length,
                 month: "long",
                 day: "numeric"
-            }, "weekday")
-        , maybeMacro = (token)=>{
+            }, "weekday"), maybeMacro = (token)=>{
             const formatOpts = Formatter.macroTokenToFormatOpts(token);
             if (formatOpts) {
                 return this.formatWithSystemDefault(dt9, formatOpts);
@@ -829,8 +824,7 @@ class Formatter {
             }
         }, era = (length)=>knownEnglish ? eraForDateTime(dt9, length) : string({
                 era: length
-            }, "era")
-        , tokenToString = (token)=>{
+            }, "era"), tokenToString = (token)=>{
             switch(token){
                 case "S":
                     return this.num(dt9.millisecond);
@@ -1011,10 +1005,7 @@ class Formatter {
                 } else {
                     return token;
                 }
-            }
-        , tokens = Formatter.parseFormat(fmt), realTokens = tokens.reduce((found, { literal , val  })=>literal ? found : found.concat(val)
-        , []), collapsed = dur.shiftTo(...realTokens.map(tokenToField).filter((t)=>t
-        ));
+            }, tokens = Formatter.parseFormat(fmt), realTokens = tokens.reduce((found, { literal , val  })=>literal ? found : found.concat(val), []), collapsed = dur.shiftTo(...realTokens.map(tokenToField).filter((t)=>t));
         return stringifyTokens(tokens, tokenToString(collapsed));
     }
 }
@@ -1444,8 +1435,7 @@ class LocalZone extends Zone {
     }
 }
 function combineRegexes(...regexes) {
-    const full = regexes.reduce((f, r)=>f + r.source
-    , "");
+    const full = regexes.reduce((f, r)=>f + r.source, "");
     return RegExp(`^${full}$`);
 }
 function combineExtractors(...extractors) {
@@ -1460,8 +1450,7 @@ function combineExtractors(...extractors) {
             {},
             null,
             1
-        ]).slice(0, 2)
-    ;
+        ]).slice(0, 2);
 }
 function parse(s4, ...patterns) {
     if (s4 == null) {
@@ -1545,8 +1534,7 @@ const isoDuration = /^-?P(?:(?:(-?\d{1,9})Y)?(?:(-?\d{1,9})M)?(?:(-?\d{1,9})W)?(
 function extractISODuration(match8) {
     const [s5, yearStr, monthStr, weekStr, dayStr, hourStr, minuteStr, secondStr, millisecondsStr] = match8;
     const hasNegativePrefix = s5[0] === "-";
-    const maybeNegate = (num)=>num && hasNegativePrefix ? -num : num
-    ;
+    const maybeNegate = (num)=>num && hasNegativePrefix ? -num : num;
     return [
         {
             years: maybeNegate(parseInteger(yearStr)),
@@ -1717,8 +1705,7 @@ function computeOrdinal(year, month, day) {
     return day + (isLeapYear(year) ? leapLadder : nonLeapLadder)[month - 1];
 }
 function uncomputeOrdinal(year, ordinal) {
-    const table = isLeapYear(year) ? leapLadder : nonLeapLadder, month0 = table.findIndex((i)=>i < ordinal
-    ), day = ordinal - table[month0];
+    const table = isLeapYear(year) ? leapLadder : nonLeapLadder, month0 = table.findIndex((i)=>i < ordinal), day = ordinal - table[month0];
     return {
         month: month0 + 1,
         day
@@ -1820,8 +1807,7 @@ function hasInvalidTimeData(obj) {
 const INVALID = "Invalid DateTime";
 const INVALID1 = "Invalid Duration";
 let intlDTCache = {};
-let now = ()=>Date.now()
-, defaultZone = null, defaultLocale = null, defaultNumberingSystem = null, defaultOutputCalendar = null, throwOnInvalid = false;
+let now = ()=>Date.now(), defaultZone = null, defaultLocale = null, defaultNumberingSystem = null, defaultOutputCalendar = null, throwOnInvalid = false;
 const INVALID2 = "Invalid Interval";
 class Info {
     static hasDST(zone = Settings.defaultZone) {
@@ -2190,8 +2176,7 @@ class Duration {
         if (units.length === 0) {
             return this;
         }
-        units = units.map((u)=>Duration.normalizeUnit(u)
-        );
+        units = units.map((u)=>Duration.normalizeUnit(u));
         const built = {}, accumulated = {}, vals = this.toObject();
         let lastUnit;
         for (const k of orderedUnits){
@@ -2290,8 +2275,7 @@ class Duration {
 function dayDiff(earlier, later) {
     const utcDayStart = (dt10)=>dt10.toUTC(0, {
             keepLocalTime: true
-        }).startOf("day").valueOf()
-    , ms = utcDayStart(later) - utcDayStart(earlier);
+        }).startOf("day").valueOf(), ms = utcDayStart(later) - utcDayStart(earlier);
     return Math.floor(Duration.fromMillis(ms).as("days"));
 }
 const MISSING_FTP = "missing Intl.DateTimeFormat.formatToParts support";
@@ -3151,15 +3135,13 @@ class DateTime {
         if (!dateTimes.every(DateTime.isDateTime)) {
             throw new InvalidArgumentError("min requires all arguments be DateTimes");
         }
-        return bestBy(dateTimes, (i)=>i.valueOf()
-        , Math.min);
+        return bestBy(dateTimes, (i)=>i.valueOf(), Math.min);
     }
     static max(...dateTimes) {
         if (!dateTimes.every(DateTime.isDateTime)) {
             throw new InvalidArgumentError("max requires all arguments be DateTimes");
         }
-        return bestBy(dateTimes, (i)=>i.valueOf()
-        , Math.max);
+        return bestBy(dateTimes, (i)=>i.valueOf(), Math.max);
     }
     static fromFormatExplain(text, fmt, options = {}) {
         const { locale =null , numberingSystem =null  } = options, localeToUse = Locale.fromOpts({
@@ -3552,8 +3534,7 @@ class Locale {
                 month: length
             }, formatStr = format ? "format" : "standalone";
             if (!this.monthsCache[formatStr][length]) {
-                this.monthsCache[formatStr][length] = mapMonths((dt17)=>this.extract(dt17, intl, "month")
-                );
+                this.monthsCache[formatStr][length] = mapMonths((dt17)=>this.extract(dt17, intl, "month"));
             }
             return this.monthsCache[formatStr][length];
         });
@@ -3569,15 +3550,13 @@ class Locale {
                 weekday: length
             }, formatStr = format ? "format" : "standalone";
             if (!this.weekdaysCache[formatStr][length]) {
-                this.weekdaysCache[formatStr][length] = mapWeekdays((dt18)=>this.extract(dt18, intl, "weekday")
-                );
+                this.weekdaysCache[formatStr][length] = mapWeekdays((dt18)=>this.extract(dt18, intl, "weekday"));
             }
             return this.weekdaysCache[formatStr][length];
         });
     }
     meridiems(defaultOK = true) {
-        return listStuff(this, undefined, defaultOK, ()=>meridiems
-        , ()=>{
+        return listStuff(this, undefined, defaultOK, ()=>meridiems, ()=>{
             if (!this.meridiemCache) {
                 const intl = {
                     hour: "numeric",
@@ -3586,8 +3565,7 @@ class Locale {
                 this.meridiemCache = [
                     DateTime.utc(2016, 11, 13, 9),
                     DateTime.utc(2016, 11, 13, 19)
-                ].map((dt19)=>this.extract(dt19, intl, "dayperiod")
-                );
+                ].map((dt19)=>this.extract(dt19, intl, "dayperiod"));
             }
             return this.meridiemCache;
         });
@@ -3601,15 +3579,13 @@ class Locale {
                 this.eraCache[length] = [
                     DateTime.utc(-40, 1, 1),
                     DateTime.utc(2017, 1, 1)
-                ].map((dt20)=>this.extract(dt20, intl, "era")
-                );
+                ].map((dt20)=>this.extract(dt20, intl, "era"));
             }
             return this.eraCache[length];
         });
     }
     extract(dt21, intlOpts, field) {
-        const df = this.dtFormatter(dt21, intlOpts), results = df.formatToParts(), matching = results.find((m)=>m.type.toLowerCase() === field
-        );
+        const df = this.dtFormatter(dt21, intlOpts), results = df.formatToParts(), matching = results.find((m)=>m.type.toLowerCase() === field);
         return matching ? matching.value : null;
     }
     numberFormatter(opts = {}) {
@@ -3814,8 +3790,7 @@ class Interval {
     }
     splitAt(...dateTimes) {
         if (!this.isValid) return [];
-        const sorted = dateTimes.map(friendlyDateTime).filter((d)=>this.contains(d)
-        ).sort(), results = [];
+        const sorted = dateTimes.map(friendlyDateTime).filter((d)=>this.contains(d)).sort(), results = [];
         let { s: s14  } = this, i = 0;
         while(s14 < this.e){
             const added = sorted[i] || this.e, next = +added > +this.e ? this.e : added;
@@ -3880,8 +3855,7 @@ class Interval {
         return Interval.fromDateTimes(s17, e);
     }
     static merge(intervals) {
-        const [found, __final] = intervals.sort((a, b)=>a.s - b.s
-        ).reduce(([sofar, current], item)=>{
+        const [found, __final] = intervals.sort((a, b)=>a.s - b.s).reduce(([sofar, current], item)=>{
             if (!current) {
                 return [
                     sofar,
@@ -3920,9 +3894,7 @@ class Interval {
                     time: i.e,
                     type: "e"
                 }
-            ]
-        ), flattened = Array.prototype.concat(...ends), arr = flattened.sort((a, b)=>a.time - b.time
-        );
+            ]), flattened = Array.prototype.concat(...ends), arr = flattened.sort((a, b)=>a.time - b.time);
         for (const i1 of arr){
             currentCount += i1.type === "s" ? 1 : -1;
             if (currentCount === 1) {
@@ -3939,9 +3911,7 @@ class Interval {
     difference(...intervals) {
         return Interval.xor([
             this
-        ].concat(intervals)).map((i)=>this.intersection(i)
-        ).filter((i)=>i && !i.isEmpty()
-        );
+        ].concat(intervals)).map((i)=>this.intersection(i)).filter((i)=>i && !i.isEmpty());
     }
     toString() {
         if (!this.isValid) return INVALID2;
@@ -4030,8 +4000,7 @@ function __default(earlier, later, units, opts) {
             "minutes",
             "seconds",
             "milliseconds"
-        ].indexOf(u) >= 0
-    );
+        ].indexOf(u) >= 0);
     if (lowerOrderUnits.length === 0) {
         if (highWater < later) {
             highWater = cursor.plus({
@@ -4049,8 +4018,7 @@ function __default(earlier, later, units, opts) {
         return duration;
     }
 }
-function intUnit(regex, post = (i)=>i
-) {
+function intUnit(regex, post = (i)=>i) {
     return {
         regex,
         deser: ([s18])=>post(parseDigits(s18))
@@ -4071,16 +4039,14 @@ function oneOf(strings, startIndex) {
     } else {
         return {
             regex: RegExp(strings.map(fixListRegex).join("|")),
-            deser: ([s21])=>strings.findIndex((i)=>stripInsensitivities(s21) === stripInsensitivities(i)
-                ) + startIndex
+            deser: ([s21])=>strings.findIndex((i)=>stripInsensitivities(s21) === stripInsensitivities(i)) + startIndex
         };
     }
 }
 function offset(regex, groups) {
     return {
         regex,
-        deser: ([, h, m])=>signedOffset(h, m)
-        ,
+        deser: ([, h, m])=>signedOffset(h, m),
         groups
     };
 }
@@ -4096,11 +4062,9 @@ function escapeToken(value) {
 function unitForToken(token, loc) {
     const one = digitRegex(loc), two = digitRegex(loc, "{2}"), three = digitRegex(loc, "{3}"), four = digitRegex(loc, "{4}"), six = digitRegex(loc, "{6}"), oneOrTwo = digitRegex(loc, "{1,2}"), oneToThree = digitRegex(loc, "{1,3}"), oneToSix = digitRegex(loc, "{1,6}"), oneToNine = digitRegex(loc, "{1,9}"), twoToFour = digitRegex(loc, "{2,4}"), fourToSix = digitRegex(loc, "{4,6}"), literal = (t)=>({
             regex: RegExp(escapeToken(t.val)),
-            deser: ([s23])=>s23
-            ,
+            deser: ([s23])=>s23,
             literal: true
-        })
-    , unitate = (t)=>{
+        }), unitate = (t)=>{
         if (token.literal) {
             return literal(t);
         }
@@ -4263,9 +4227,7 @@ function tokenForPart(part, locale, formatOpts) {
     return undefined;
 }
 function buildRegex(units) {
-    const re = units.map((u)=>u.regex
-    ).reduce((f, r)=>`${f}(${r.source})`
-    , "");
+    const re = units.map((u)=>u.regex).reduce((f, r)=>`${f}(${r.source})`, "");
     return [
         `^${re}$`,
         units
@@ -4383,21 +4345,17 @@ function maybeExpandMacroToken(token, locale) {
     }
     const formatter = Formatter.create(locale, formatOpts);
     const parts = formatter.formatDateTimeParts(getDummyDateTime());
-    const tokens = parts.map((p)=>tokenForPart(p, locale, formatOpts)
-    );
+    const tokens = parts.map((p)=>tokenForPart(p, locale, formatOpts));
     if (tokens.includes(undefined)) {
         return token;
     }
     return tokens;
 }
 function expandMacroTokens(tokens, locale) {
-    return Array.prototype.concat(...tokens.map((t)=>maybeExpandMacroToken(t, locale)
-    ));
+    return Array.prototype.concat(...tokens.map((t)=>maybeExpandMacroToken(t, locale)));
 }
 function explainFromTokens(locale, input, format) {
-    const tokens = expandMacroTokens(Formatter.parseFormat(format), locale), units = tokens.map((t)=>unitForToken(t, locale)
-    ), disqualifyingUnit = units.find((t)=>t.invalidReason
-    );
+    const tokens = expandMacroTokens(Formatter.parseFormat(format), locale), units = tokens.map((t)=>unitForToken(t, locale)), disqualifyingUnit = units.find((t)=>t.invalidReason);
     if (disqualifyingUnit) {
         return {
             input,

@@ -43,19 +43,15 @@ takeName(x);
 /**
  * @type {number}
  */ var b = x.houseNumber;
-const returnExemplar = ()=>x
-;
-const needsExemplar = (_ = x)=>void 0
-;
+const returnExemplar = ()=>x;
+const needsExemplar = (_ = x)=>void 0;
 const expected = /** @type {{name: string, readonly middleInit: string, readonly lastName: string, zip: number, readonly houseNumber: number, zipStr: string}} */ (/** @type {*} */ (null));
 /**
  * 
  * @param {typeof returnExemplar} a 
  * @param {typeof needsExemplar} b 
  */ function match(a, b) {}
-match(()=>expected
-, (x = expected)=>void 0
-);
+match(()=>expected, (x = expected)=>void 0);
 module.exports = x;
 // @filename: validate.ts
 // Validate in TS as simple validations would usually be interpreted as more special assignments

@@ -13,11 +13,8 @@ new Derived(), new Derived2(), f2({
     y: new Derived2()
 }), function(y, x) {
     y(null);
-}((x)=>x
-, new Base()), function(y, x) {
+}((x)=>x, new Base()), function(y, x) {
     y(null);
-}((x)=>x
-, new Derived()), function(y, x) {
+}((x)=>x, new Derived()), function(y, x) {
     y(null);
-}((x)=>x
-, null);
+}((x)=>x, null);

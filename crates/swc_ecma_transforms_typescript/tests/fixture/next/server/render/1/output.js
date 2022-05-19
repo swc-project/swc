@@ -137,8 +137,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
         }
         return results;
     };
-    const headTags = (...args)=>callMiddleware("headTags", args)
-    ;
+    const headTags = (...args)=>callMiddleware("headTags", args);
     const isFallback = !!query.__nextFallback;
     delete query.__nextFallback;
     delete query.__nextLocale;
@@ -241,8 +240,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
         },
         defaultGetInitialProps: async (docCtx)=>{
             const enhanceApp = (AppComp)=>{
-                return (props)=><AppComp {...props}/>
-                ;
+                return (props)=><AppComp {...props}/>;
             };
             const { html , head  } = await docCtx.renderPage({
                 enhanceApp
@@ -281,8 +279,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
             mountedInstances: new Set()
         }}>
 
-                    <LoadableContext.Provider value={(moduleName)=>reactLoadableModules.push(moduleName)
-        }>
+                    <LoadableContext.Provider value={(moduleName)=>reactLoadableModules.push(moduleName)}>
 
                         <StyleRegistry registry={jsxStyleRegistry}>
 
@@ -296,8 +293,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
 
             </AmpStateContext.Provider>
 
-        </RouterContext.Provider>
-    ;
+        </RouterContext.Provider>;
     props1 = await loadGetInitialProps(App, {
         AppTree: ctx.AppTree,
         Component,
@@ -336,8 +332,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
         if (data == null) {
             throw new Error(GSP_NO_RETURNED_VALUE);
         }
-        const invalidKeys = Object.keys(data).filter((key)=>key !== "revalidate" && key !== "props" && key !== "redirect" && key !== "notFound"
-        );
+        const invalidKeys = Object.keys(data).filter((key)=>key !== "revalidate" && key !== "props" && key !== "redirect" && key !== "notFound");
         if (invalidKeys.includes("unstable_revalidate")) {
             throw new Error(UNSTABLE_REVALIDATE_RENAME_ERROR);
         }
@@ -454,8 +449,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
         if (data == null) {
             throw new Error(GSSP_NO_RETURNED_VALUE);
         }
-        const invalidKeys = Object.keys(data).filter((key)=>key !== "props" && key !== "redirect" && key !== "notFound"
-        );
+        const invalidKeys = Object.keys(data).filter((key)=>key !== "props" && key !== "redirect" && key !== "notFound");
         if (data.unstable_notFound) {
             throw new Error(`unstable_notFound has been renamed to notFound, please update the field to continue. Page: ${pathname}`);
         }
@@ -523,12 +517,10 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
                     ...filteredBuildManifest.pages,
                     [page]: [
                         ...filteredBuildManifest.pages[page],
-                        ...filteredBuildManifest.lowPriorityFiles.filter((f)=>f.includes("_buildManifest")
-                        ), 
+                        ...filteredBuildManifest.lowPriorityFiles.filter((f)=>f.includes("_buildManifest")), 
                     ]
                 },
-                lowPriorityFiles: filteredBuildManifest.lowPriorityFiles.filter((f)=>!f.includes("_buildManifest")
-                )
+                lowPriorityFiles: filteredBuildManifest.lowPriorityFiles.filter((f)=>!f.includes("_buildManifest"))
             };
         }
     }
@@ -584,8 +576,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
                 bodyResult: piperFromArray([
                     docProps.html
                 ]),
-                documentElement: (htmlProps)=><Document {...htmlProps} {...docProps}/>
-                ,
+                documentElement: (htmlProps)=><Document {...htmlProps} {...docProps}/>,
                 head: docProps.head,
                 headTags: await headTags(documentCtx),
                 styles: docProps.styles
@@ -601,8 +592,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
             ]);
             return {
                 bodyResult,
-                documentElement: ()=>Document()
-                ,
+                documentElement: ()=>Document(),
                 head: head1,
                 headTags: [],
                 styles: jsxStyleRegistry.styles()
@@ -697,8 +687,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
         }
         const plural = nonRenderedComponents.length !== 1 ? "s" : "";
         if (nonRenderedComponents.length) {
-            const missingComponentList = nonRenderedComponents.map((e)=>`<${e} />`
-            ).join(", ");
+            const missingComponentList = nonRenderedComponents.map((e)=>`<${e} />`).join(", ");
             warn(`Your custom Document (pages/_document) did not render all the required subcomponent${plural}.\n` + `Missing component${plural}: ${missingComponentList}\n` + "Read how to fix here: https://nextjs.org/docs/messages/missing-document-component");
         }
     }
@@ -790,8 +779,7 @@ function renderToStream(element, generateStaticHTML) {
                     throw new Error("invariant: write called without an underlying stream. This is a bug in Next.js");
                 }
                 if (!underlyingStream.writable.write(chunk, encoding)) {
-                    underlyingStream.queuedCallbacks.push(()=>callback()
-                    );
+                    underlyingStream.queuedCallbacks.push(()=>callback());
                 } else {
                     callback();
                 }
@@ -831,8 +819,7 @@ function renderToStream(element, generateStaticHTML) {
                     const drainHandler = ()=>{
                         const prevCallbacks = underlyingStream.queuedCallbacks;
                         underlyingStream.queuedCallbacks = [];
-                        prevCallbacks.forEach((callback)=>callback()
-                        );
+                        prevCallbacks.forEach((callback)=>callback());
                     };
                     res.on("drain", drainHandler);
                     underlyingStream = {
@@ -869,10 +856,8 @@ function renderToStream(element, generateStaticHTML) {
 }
 function chainPipers(pipers) {
     return pipers.reduceRight((lhs, rhs)=>(res, next)=>{
-            rhs(res, (err)=>err ? next(err) : lhs(res, next)
-            );
-        }
-    , (res, next)=>{
+            rhs(res, (err)=>err ? next(err) : lhs(res, next));
+        }, (res, next)=>{
         res.end();
         next();
     });
@@ -882,8 +867,7 @@ function piperFromArray(chunks) {
         if (typeof res.cork === "function") {
             res.cork();
         }
-        chunks.forEach((chunk)=>res.write(chunk)
-        );
+        chunks.forEach((chunk)=>res.write(chunk));
         if (typeof res.uncork === "function") {
             res.uncork();
         }
@@ -895,8 +879,7 @@ function piperToString(input) {
         const bufferedChunks = [];
         const stream = new Writable({
             writev (chunks, callback) {
-                chunks.forEach((chunk)=>bufferedChunks.push(chunk.chunk)
-                );
+                chunks.forEach((chunk)=>bufferedChunks.push(chunk.chunk));
                 callback();
             }
         });

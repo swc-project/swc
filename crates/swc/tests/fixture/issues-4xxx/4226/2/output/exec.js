@@ -8,6 +8,5 @@ const v0 = function() {
         return _ref.apply(this, arguments);
     };
 }().constructor;
-const res = v0(()=>Reflect.get(v3, "a")
-);
+const res = v0(()=>Reflect.get(v3, "a"));
 console.log(res);

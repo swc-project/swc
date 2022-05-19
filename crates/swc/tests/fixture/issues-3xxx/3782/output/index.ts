@@ -6,7 +6,6 @@ const byID = (id)=>{
     // Do some async stuff
     return new Promise((resolve)=>setTimeout(()=>{
             resolve("result");
-        }, 2000)
-    );
+        }, 2000));
 };
 exports.byID = byID;

@@ -20,8 +20,7 @@ class SomeDerivedClass extends SomeBaseClass {
     fn() {
         var x = super.func();
         var x;
-        var y = ()=>super.func()
-        ;
+        var y = ()=>super.func();
     }
     get a() {
         var x = super.func();

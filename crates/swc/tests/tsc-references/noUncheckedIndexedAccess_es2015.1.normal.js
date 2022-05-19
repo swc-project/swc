@@ -70,10 +70,8 @@ const e15 = symbolMap[s]; // Should OK
 symbolMap[s] = undefined; // Should error
 const variadicOk1 = nonEmptyStringArray[0]; // Should OK
 const variadicError1 = nonEmptyStringArray[1]; // Should error
-const fn1 = (key)=>myRecord1[key]
-; // Should OK
-const fn2 = (key)=>myRecord2[key]
-; // Should OK
+const fn1 = (key)=>myRecord1[key]; // Should OK
+const fn2 = (key)=>myRecord2[key]; // Should OK
 const fn3 = (key)=>{
     myRecord2[key] = undefined; // Should error
     const v = myRecord2[key]; // Should error

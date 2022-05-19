@@ -11,11 +11,9 @@ class FetchUser extends React.Component {
 }
 // Ok
 function UserName0() {
-    return /*#__PURE__*/ React.createElement(FetchUser, null, (user)=>/*#__PURE__*/ React.createElement("h1", null, user.Name)
-    );
+    return /*#__PURE__*/ React.createElement(FetchUser, null, (user)=>/*#__PURE__*/ React.createElement("h1", null, user.Name));
 }
 function UserName1() {
-    return /*#__PURE__*/ React.createElement(FetchUser, null, (user)=>/*#__PURE__*/ React.createElement("h1", null, user.Name)
-    );
+    return /*#__PURE__*/ React.createElement(FetchUser, null, (user)=>/*#__PURE__*/ React.createElement("h1", null, user.Name));
 }
 export { };

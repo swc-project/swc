@@ -2,8 +2,7 @@ import * as swcHelpers from "@swc/helpers";
 swcHelpers.asyncToGenerator(function*() {
     let counter = 0;
     let resolve;
-    let promise = new Promise((r)=>resolve = r
-    );
+    let promise = new Promise((r)=>resolve = r);
     let iterable = {
         [Symbol.asyncIterator] () {
             return {
@@ -48,8 +47,7 @@ swcHelpers.asyncToGenerator(function*() {
     ]){
         yield null;
         let oldresolve = resolve;
-        promise = new Promise((r)=>resolve = r
-        );
+        promise = new Promise((r)=>resolve = r);
         oldresolve({
             value: v,
             done: false

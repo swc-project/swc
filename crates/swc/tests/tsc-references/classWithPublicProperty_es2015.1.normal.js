@@ -8,12 +8,10 @@ class C {
     constructor(){
         this.a = '';
         this.b = '';
-        this.d = ()=>''
-        ;
+        this.d = ()=>'';
     }
 }
-C.g = ()=>''
-;
+C.g = ()=>'';
 // all of these are valid
 var c = new C();
 var r1 = c.x;

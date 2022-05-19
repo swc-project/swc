@@ -20,8 +20,7 @@ var r2 = f({
     y: new Derived2()
 }); // {}[]
 function f2(a) {
-    return (x)=>a.y
-    ;
+    return (x)=>a.y;
 }
 var r3 = f2({
     x: new Derived(),

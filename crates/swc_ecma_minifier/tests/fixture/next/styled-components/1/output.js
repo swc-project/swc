@@ -5903,18 +5903,15 @@
                 }), alias && (config[alias] = config[prop]);
                 var parse = createParser1(config);
                 return parse;
-            }, cjs = __webpack_require__(9996), cjs_default = __webpack_require__.n(cjs), lib_esm_sx = (props)=>css_dist_index_esm(props.sx)
-            ;
+            }, cjs = __webpack_require__(9996), cjs_default = __webpack_require__.n(cjs), lib_esm_sx = (props)=>css_dist_index_esm(props.sx);
             const Box = styled_components_browser_esm.div.withConfig({
                 displayName: "Box",
                 componentId: "sc-1gh2r6s-0"
             })(space, color, typography, layout, flexbox, grid, background, border, position, shadow, lib_esm_sx);
             var lib_esm_Box = Box, lib_esm_theme = __webpack_require__(7689).theme;
             const defaultDayScheme = "light", defaultNightScheme = "dark", ThemeContext = react.createContext({
-                setColorMode: ()=>null
-                ,
-                setDayScheme: ()=>null
-                ,
+                setColorMode: ()=>null,
+                setDayScheme: ()=>null,
                 setNightScheme: ()=>null
             }), getServerHandoff = ()=>{
                 try {
@@ -5925,8 +5922,7 @@
                 return {};
             }, ThemeProvider = ({ children , ...props })=>{
                 var _ref, _props$theme, _ref2, _props$colorMode, _ref3, _props$dayScheme, _ref4, _props$nightScheme;
-                const { theme: fallbackTheme , colorMode: fallbackColorMode , dayScheme: fallbackDayScheme , nightScheme: fallbackNightScheme ,  } = useTheme(), theme = null !== (_ref = null !== (_props$theme = props.theme) && void 0 !== _props$theme ? _props$theme : fallbackTheme) && void 0 !== _ref ? _ref : lib_esm_theme, { resolvedServerColorMode  } = getServerHandoff(), resolvedColorModePassthrough = react.useRef(resolvedServerColorMode), [colorMode, setColorMode] = react.useState(null !== (_ref2 = null !== (_props$colorMode = props.colorMode) && void 0 !== _props$colorMode ? _props$colorMode : fallbackColorMode) && void 0 !== _ref2 ? _ref2 : "day"), [dayScheme, setDayScheme] = react.useState(null !== (_ref3 = null !== (_props$dayScheme = props.dayScheme) && void 0 !== _props$dayScheme ? _props$dayScheme : fallbackDayScheme) && void 0 !== _ref3 ? _ref3 : defaultDayScheme), [nightScheme, setNightScheme] = react.useState(null !== (_ref4 = null !== (_props$nightScheme = props.nightScheme) && void 0 !== _props$nightScheme ? _props$nightScheme : fallbackNightScheme) && void 0 !== _ref4 ? _ref4 : defaultNightScheme), systemColorMode = useSystemColorMode(), resolvedColorMode = resolvedColorModePassthrough.current || resolveColorMode(colorMode, systemColorMode), colorScheme = chooseColorScheme(resolvedColorMode, dayScheme, nightScheme), { resolvedTheme , resolvedColorScheme  } = react.useMemo(()=>applyColorScheme(theme, colorScheme)
-                , [
+                const { theme: fallbackTheme , colorMode: fallbackColorMode , dayScheme: fallbackDayScheme , nightScheme: fallbackNightScheme ,  } = useTheme(), theme = null !== (_ref = null !== (_props$theme = props.theme) && void 0 !== _props$theme ? _props$theme : fallbackTheme) && void 0 !== _ref ? _ref : lib_esm_theme, { resolvedServerColorMode  } = getServerHandoff(), resolvedColorModePassthrough = react.useRef(resolvedServerColorMode), [colorMode, setColorMode] = react.useState(null !== (_ref2 = null !== (_props$colorMode = props.colorMode) && void 0 !== _props$colorMode ? _props$colorMode : fallbackColorMode) && void 0 !== _ref2 ? _ref2 : "day"), [dayScheme, setDayScheme] = react.useState(null !== (_ref3 = null !== (_props$dayScheme = props.dayScheme) && void 0 !== _props$dayScheme ? _props$dayScheme : fallbackDayScheme) && void 0 !== _ref3 ? _ref3 : defaultDayScheme), [nightScheme, setNightScheme] = react.useState(null !== (_ref4 = null !== (_props$nightScheme = props.nightScheme) && void 0 !== _props$nightScheme ? _props$nightScheme : fallbackNightScheme) && void 0 !== _ref4 ? _ref4 : defaultNightScheme), systemColorMode = useSystemColorMode(), resolvedColorMode = resolvedColorModePassthrough.current || resolveColorMode(colorMode, systemColorMode), colorScheme = chooseColorScheme(resolvedColorMode, dayScheme, nightScheme), { resolvedTheme , resolvedColorScheme  } = react.useMemo(()=>applyColorScheme(theme, colorScheme), [
                     theme,
                     colorScheme
                 ]);
@@ -6280,8 +6276,7 @@
                             outline: "solid 1px transparent"
                         }
                     }
-                })
-            , getButtonStyles = (theme)=>{
+                }), getButtonStyles = (theme)=>{
                 const styles = {
                     ...getBaseStyles(theme),
                     display: "grid",
@@ -6352,8 +6347,7 @@
                     ref: forwardedRef
                 }, props, {
                     as: "button"
-                }), children)
-            );
+                }), children));
             ButtonComponent.displayName = "Button";
             const { get: getKey , compose: constants_compose , system: constants_system ,  } = styled_system_dist_index_esm_namespaceObject, constants_get = (key)=>{
                 var path, fallback;
@@ -6379,11 +6373,9 @@
                 ";", 
             ], constants_get("fontSizes.0"), constants_get("fontWeights.bold"), constants_get("lineHeights.condensedUltra"), ({ scheme , ...props })=>({
                     color: "secondary" === scheme ? constants_get("colors.fg.default")(props) : "primary" === scheme ? constants_get("colors.fg.onEmphasis")(props) : constants_get("colors.fg.default")(props)
-                })
-            , ({ scheme , ...props })=>({
+                }), ({ scheme , ...props })=>({
                     backgroundColor: "secondary" === scheme ? constants_get("colors.neutral.muted")(props) : "primary" === scheme ? constants_get("colors.neutral.emphasis")(props) : constants_get("colors.neutral.muted")(props)
-                })
-            , lib_esm_sx);
+                }), lib_esm_sx);
             var lib_esm_CounterLabel = CounterLabel;
             function ButtonCounter_extends() {
                 return (ButtonCounter_extends = Object.assign || function(target) {
@@ -6400,8 +6392,7 @@
                         ml: 2,
                         ...sxProp
                     }
-                }, props), children)
-            ;
+                }, props), children);
             Counter.displayName = "Counter";
             const Button = Object.assign(ButtonComponent, {
                 Counter: Counter
@@ -6413,8 +6404,7 @@
                 let cur = (0, react.useContext)($f01a183cc7bdff77849e49ad26eb904$var$SSRContext), value = (0, react.useMemo)(()=>({
                         prefix: cur === $f01a183cc7bdff77849e49ad26eb904$var$defaultContext ? "" : cur.prefix + "-" + ++cur.current,
                         current: 0
-                    })
-                , [
+                    }), [
                     cur
                 ]);
                 return react.createElement($f01a183cc7bdff77849e49ad26eb904$var$SSRContext.Provider, {

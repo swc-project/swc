@@ -35,8 +35,7 @@ var p;
 var fn = function(s) {
     return 42;
 };
-var fn = (s)=>3
-;
+var fn = (s)=>3;
 var fn;
 var fn;
 var fn = null;

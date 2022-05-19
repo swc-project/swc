@@ -5,8 +5,7 @@ import * as swcHelpers from "@swc/helpers";
 // @target: es2017
 // @filename: file.js
 // Error (good)
-/** @type {function(): string} */ const a = ()=>0
-;
+/** @type {function(): string} */ const a = ()=>0;
 // Error (good)
 /** @type {function(): string} */ const b = function() {
     var _ref = swcHelpers.asyncToGenerator(function*() {

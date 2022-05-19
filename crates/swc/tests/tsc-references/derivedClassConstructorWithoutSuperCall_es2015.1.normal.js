@@ -8,8 +8,7 @@ class Base2 {
 }
 class Derived2 extends Base2 {
     constructor(){
-        var r2 = ()=>super()
-        ; // error for misplaced super call (nested function)
+        var r2 = ()=>super(); // error for misplaced super call (nested function)
     }
 }
 class Derived3 extends Base2 {

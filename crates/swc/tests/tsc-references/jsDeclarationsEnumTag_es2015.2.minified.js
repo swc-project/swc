@@ -9,10 +9,8 @@ export const Second = {
     FINE: 2
 };
 export const Fs = {
-    ADD1: (n)=>n + 1
-    ,
-    ID: (n)=>n
-    ,
+    ADD1: (n)=>n + 1,
+    ID: (n)=>n,
     SUB1: (n)=>n - 1
 };
 export function consume() {

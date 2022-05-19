@@ -1,7 +1,6 @@
 export function getAllEntities(state) {
     let { ids , entities  } = state;
-    return ids.map((id)=>entities[id]
-    );
+    return ids.map((id)=>entities[id]);
 }
 export function getEntity(id, state) {
     let { ids , entities  } = state;

@@ -14,8 +14,7 @@ ExpandoExpr.prop = {
 }, ExpandoExpr.m = function(n) {
     return n + 1;
 }, ExpandoExpr.prop.x, ExpandoExpr.m(12), ExpandoExpr(101).length;
-const ExpandoArrow = (n)=>n.toString()
-;
+const ExpandoArrow = (n)=>n.toString();
 function ExpandoMerge(n) {
     return 100 * n;
 }

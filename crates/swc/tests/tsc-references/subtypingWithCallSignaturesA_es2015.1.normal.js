@@ -1,2 +1,1 @@
-var r5 = foo3((x)=>''
-); // error
+var r5 = foo3((x)=>''); // error

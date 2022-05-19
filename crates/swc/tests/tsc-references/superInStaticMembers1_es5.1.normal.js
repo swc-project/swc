@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var _this = this, _superprop_get_w = ()=>super.w
-;
+var _this = this, _superprop_get_w = ()=>super.w;
 var _Reflect, __, _Reflect1, __1;
 // @target: es5, es2015, es2021, es2022, esnext
 // @noTypesAndSymbols: true
@@ -774,8 +773,7 @@ _Reflect1 = function Reflect() {
 }, __1 = {
     writable: true,
     value: function() {
-        var _this1 = _this, _superprop_get_w1 = ()=>_superprop_get_w()
-        ;
+        var _this1 = _this, _superprop_get_w1 = ()=>_superprop_get_w();
         var C = /*#__PURE__*/ function(B) {
             "use strict";
             swcHelpers.inherits(C, B);
@@ -837,8 +835,7 @@ var __31 = {
     C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
 });
 (function Reflect() {
-    var _this2 = this, _superprop_get_w2 = ()=>super.w
-    ;
+    var _this2 = this, _superprop_get_w2 = ()=>super.w;
     var C = /*#__PURE__*/ function(B) {
         "use strict";
         swcHelpers.inherits(C, B);

@@ -22,9 +22,7 @@ var holder2 = {
 holder2.a.isLeader(), holder2.a;
 class ArrowGuard {
     constructor(){
-        this.isElite = ()=>this instanceof ArrowElite
-        , this.isMedic = ()=>this instanceof ArrowMedic
-        ;
+        this.isElite = ()=>this instanceof ArrowElite, this.isMedic = ()=>this instanceof ArrowMedic;
     }
 }
 class ArrowElite extends ArrowGuard {

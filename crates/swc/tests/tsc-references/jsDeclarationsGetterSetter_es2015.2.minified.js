@@ -25,7 +25,6 @@ Object.defineProperty(E.prototype, "x", {
 export class F {
 }
 Object.defineProperty(F.prototype, "x", {
-    get: ()=>12
-    ,
+    get: ()=>12,
     set (_arg) {}
 });

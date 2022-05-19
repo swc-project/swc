@@ -61,9 +61,6 @@ class fn5 {
         return undefined;
     }
 }
-new fn5((n)=>n.toFixed()
-);
-new fn5((n)=>n.substr(0)
-);
-new fn5((n)=>n.blah
-); // Error
+new fn5((n)=>n.toFixed());
+new fn5((n)=>n.substr(0));
+new fn5((n)=>n.blah); // Error

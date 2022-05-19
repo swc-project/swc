@@ -25,10 +25,7 @@ var r3 = f2(i);
 function f3(x, y) {
     return y(null);
 }
-var r4 = f3(new Base(), (x)=>x
-);
-var r5 = f3(new Derived(), (x)=>x
-);
+var r4 = f3(new Base(), (x)=>x);
+var r5 = f3(new Derived(), (x)=>x);
 var r6 = f3(null, null); // any
-var r7 = f3(null, (x)=>x
-); // any
+var r7 = f3(null, (x)=>x); // any
