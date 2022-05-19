@@ -31,6 +31,9 @@
 
 - **(html/parser)** Fix span of attributes (#4681) ([637ef7f](https://github.com/swc-project/swc/commit/637ef7f49f0b3b7bbb06860371e6f8b2518759c2))
 
+
+- **(html/parser)** Fix bugs (#4707) ([0b39e1b](https://github.com/swc-project/swc/commit/0b39e1b3fcf08e36b1d758a5842c625cd54b331d))
+
 ### Features
 
 
