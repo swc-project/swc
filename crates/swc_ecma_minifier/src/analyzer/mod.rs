@@ -371,6 +371,19 @@ where
         n.right.visit_with(&mut *self.with_ctx(ctx));
     }
 
+    fn visit_assign_pat(&mut self, p: &AssignPat) {
+        p.left.visit_with(self);
+
+        {
+            let ctx = Ctx {
+                in_pat_of_param: false,
+                var_decl_kind_of_pat: None,
+                ..self.ctx
+            };
+            p.right.visit_with(&mut *self.with_ctx(ctx))
+        }
+    }
+
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_await_expr(&mut self, n: &AwaitExpr) {
         let ctx = Ctx {
@@ -605,7 +618,15 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, e)))]
     fn visit_expr(&mut self, e: &Expr) {
-        e.visit_children_with(self);
+        {
+            let ctx = Ctx {
+                in_pat_of_var_decl: false,
+                in_pat_of_param: false,
+                in_catch_param: false,
+                ..self.ctx
+            };
+            e.visit_children_with(&mut *self.with_ctx(ctx));
+        }
 
         if let Expr::Ident(i) = e {
             if cfg!(feature = "debug") {
