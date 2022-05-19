@@ -58,6 +58,9 @@
 
 - **(es)** Add a test for a fixed issue (#4693) ([b93af7b](https://github.com/swc-project/swc/commit/b93af7ba61509f79b32008c3d8df3e5b82f4c40e))
 
+
+- **(es/minifier)** Categorize more tests (#4709) ([6f565fb](https://github.com/swc-project/swc/commit/6f565fbb3aeb9df3b364a50c57a7a44a08a76305))
+
 ## [1.2.186] - 2022-05-17
 
 ### Bug Fixes
