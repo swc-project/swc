@@ -11,7 +11,13 @@
 - **(es/ast)** Fix `EqIgnoreSpan` of `Ident` (#4689) ([07356a5](https://github.com/swc-project/swc/commit/07356a5bba29572c99b53a1db79314a252faf663))
 
 
+- **(es/compat)** Fix `break` in for await loop (#4705) ([100c0b5](https://github.com/swc-project/swc/commit/100c0b58c9e5074a32e9dbc4f5dd7a88388bd8be))
+
+
 - **(es/config)** Auto-detect `tsx` (#4696) ([ad309f4](https://github.com/swc-project/swc/commit/ad309f4050dfb3483ed56108cc11f4865dca3f89))
+
+
+- **(es/config)** Add `jsc.output.charset` (#4708) ([bf5ba28](https://github.com/swc-project/swc/commit/bf5ba284715bc86904c47c2dc2e3575ff5fe09be))
 
 
 - **(es/minifier)** Don't hoist functions with `dead_code` (#4695) ([183e884](https://github.com/swc-project/swc/commit/183e884cbfa775868f91fbea8604b63352b583a6))
@@ -23,13 +29,22 @@
 - **(es/modules)** Fix reassignment of exported vars (#4688) ([7ce572b](https://github.com/swc-project/swc/commit/7ce572b497d6b19231af8414616d412ac6c42264))
 
 
+- **(es/react)** Fix span of error messages (#4704) ([5f45a3d](https://github.com/swc-project/swc/commit/5f45a3d49649516d7c918b7039ebf04995db300a))
+
+
 - **(html/parser)** Fix span of attributes (#4681) ([637ef7f](https://github.com/swc-project/swc/commit/637ef7f49f0b3b7bbb06860371e6f8b2518759c2))
+
+
+- **(html/parser)** Fix bugs (#4707) ([0b39e1b](https://github.com/swc-project/swc/commit/0b39e1b3fcf08e36b1d758a5842c625cd54b331d))
 
 ### Features
 
 
 
 - **(es/minifier)** Improve `if_return` (#4694) ([274648e](https://github.com/swc-project/swc/commit/274648ec2664297043f5acb5cba659ace724fc59))
+
+
+- **(html/minifier)** Compress characters in `head` (#4682) ([cac8cee](https://github.com/swc-project/swc/commit/cac8cee62abab7dba28d2014d50e9bfdd71e03cc))
 
 ### Performance
 

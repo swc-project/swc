@@ -633,6 +633,7 @@ impl Options {
             comments: comments.cloned(),
             preserve_comments,
             emit_source_map_columns: cfg.emit_source_map_columns.into_bool(),
+            output: cfg.jsc.output,
         })
     }
 }
@@ -1099,6 +1100,8 @@ pub struct BuiltInput<P: swc_ecma_visit::Fold> {
 
     pub inline_sources_content: bool,
     pub emit_source_map_columns: bool,
+
+    pub output: JscOutputConfig,
 }
 
 /// `jsc` in  `.swcrc`.
@@ -1143,6 +1146,31 @@ pub struct JscConfig {
 
     #[serde(default)]
     pub preserve_all_comments: BoolConfig<false>,
+
+    #[serde(default)]
+    pub output: JscOutputConfig,
+}
+
+#[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+pub struct JscOutputConfig {
+    #[serde(default)]
+    pub charset: Option<OutputCharset>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+pub enum OutputCharset {
+    #[serde(rename = "utf8")]
+    Utf8,
+    #[serde(rename = "ascii")]
+    Ascii,
+}
+
+impl Default for OutputCharset {
+    fn default() -> Self {
+        OutputCharset::Utf8
+    }
 }
 
 /// `jsc.experimental` in `.swcrc`

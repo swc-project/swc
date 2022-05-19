@@ -730,7 +730,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 delegate: false,
                 arg: Some(Box::new(Expr::Call(CallExpr {
                     span: DUMMY_SP,
-                    callee: iterator_error
+                    callee: iterator
                         .clone()
                         .make_member(quote_ident!("return"))
                         .as_callee(),
