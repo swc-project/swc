@@ -3953,7 +3953,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.5.0"
+version = "0.5.1"
 dependencies = [
  "serde_json",
  "swc_atoms",
@@ -3967,7 +3967,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.8.0"
+version = "0.8.1"
 dependencies = [
  "bitflags",
  "criterion",
