@@ -755,6 +755,7 @@ fn should_visit() {
                 inline_sources_content: config.inline_sources_content,
                 comments: config.comments,
                 emit_source_map_columns: config.emit_source_map_columns,
+                output: config.output,
             };
 
             if config.minify {
