@@ -1143,6 +1143,15 @@ pub struct JscConfig {
 
     #[serde(default)]
     pub preserve_all_comments: BoolConfig<false>,
+
+    #[serde(default)]
+    pub output: JscOutputConfig,
+}
+
+#[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+pub struct JscOutputConfig {
+    pub ascii_only: BoolConfig<false>,
 }
 
 /// `jsc.experimental` in `.swcrc`
