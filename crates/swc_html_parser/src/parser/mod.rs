@@ -786,12 +786,9 @@ where
                 let is_script = tag_name == "script";
                 let adjusted_current_node = self.get_adjusted_current_node();
                 let namespace = match adjusted_current_node {
-                    Some(node) => match &node.data {
-                        Data::Element(element) => element.namespace,
-                        _ => {
-                            unreachable!();
-                        }
-                    },
+                    Some(node) => {
+                        get_namespace!(node)
+                    }
                     _ => {
                         unreachable!();
                     }
@@ -859,12 +856,7 @@ where
                 if is_self_closing {
                     if is_script
                         && match self.open_elements_stack.items.last() {
-                            Some(node) => match &node.data {
-                                Data::Element(element) if element.namespace == Namespace::SVG => {
-                                    true
-                                }
-                                _ => false,
-                            },
+                            Some(node) => get_namespace!(node) == Namespace::SVG,
                             _ => false,
                         }
                     {
@@ -975,8 +967,7 @@ where
                     node = self.open_elements_stack.items.get(stack_idx);
 
                     if let Some(node) = node {
-                        if matches!(&node.data, Data::Element(element) if element.namespace == Namespace::HTML)
-                        {
+                        if get_namespace!(node) == Namespace::HTML {
                             break;
                         }
                     }
@@ -6688,17 +6679,12 @@ where
         let last = self.open_elements_stack.items.last();
 
         if let Some(last) = last {
-            match &last.data {
-                Data::Element(element)
-                    if element.tag_name == subject
-                        && element.namespace == Namespace::HTML
-                        && self.active_formatting_elements.get_position(last).is_none() =>
-                {
-                    self.open_elements_stack.pop();
+            if is_html_element_with_tag_name!(last, &*subject)
+                && self.active_formatting_elements.get_position(last).is_none()
+            {
+                self.open_elements_stack.pop();
 
-                    return Ok(());
-                }
-                _ => {}
+                return Ok(());
             }
         }
 
@@ -7140,17 +7126,14 @@ where
 
         // 2. If the current node is not a p element, then this is a parse error.
         match self.open_elements_stack.items.last() {
-            Some(node) if !is_html_element!(node, "p") => match &node.data {
-                Data::Element(element) => {
-                    self.errors.push(Error::new(
-                        element.span,
-                        ErrorKind::UnclosedElementsImplied(element.tag_name.clone()),
-                    ));
-                }
-                _ => {
-                    unreachable!();
-                }
-            },
+            Some(node) if !is_html_element!(node, "p") => {
+                let tag_name = get_tag_name!(node);
+
+                self.errors.push(Error::new(
+                    get_span!(node),
+                    ErrorKind::UnclosedElementsImplied(tag_name.into()),
+                ));
+            }
             _ => {}
         }
 
@@ -7167,15 +7150,8 @@ where
         // parse error.
         match self.open_elements_stack.items.last() {
             Some(node) if is_html_element!(node, "td" | "th") => {
-                match &node.data {
-                    Data::Element(element) => {
-                        self.errors
-                            .push(Error::new(element.span, ErrorKind::UnclosedElementsCell));
-                    }
-                    _ => {
-                        unreachable!();
-                    }
-                };
+                self.errors
+                    .push(Error::new(get_span!(node), ErrorKind::UnclosedElementsCell));
             }
             _ => {}
         }
