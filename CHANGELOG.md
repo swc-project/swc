@@ -17,6 +17,9 @@
 - **(es/config)** Auto-detect `tsx` (#4696) ([ad309f4](https://github.com/swc-project/swc/commit/ad309f4050dfb3483ed56108cc11f4865dca3f89))
 
 
+- **(es/config)** Add `jsc.output.charset` (#4708) ([bf5ba28](https://github.com/swc-project/swc/commit/bf5ba284715bc86904c47c2dc2e3575ff5fe09be))
+
+
 - **(es/minifier)** Don't hoist functions with `dead_code` (#4695) ([183e884](https://github.com/swc-project/swc/commit/183e884cbfa775868f91fbea8604b63352b583a6))
 
 
