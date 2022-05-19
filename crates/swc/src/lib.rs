@@ -884,6 +884,7 @@ impl Compiler {
                 inline_sources_content: config.inline_sources_content,
                 comments: config.comments,
                 emit_source_map_columns: config.emit_source_map_columns,
+                output: config.output,
             };
 
             let orig = if config.source_maps.enabled() {
@@ -1129,7 +1130,7 @@ impl Compiler {
                 config.minify,
                 config.comments.as_ref().map(|v| v as _),
                 config.emit_source_map_columns,
-                false,
+                config.output.ascii_only.into_bool(),
             )
         })
     }

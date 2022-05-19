@@ -633,6 +633,7 @@ impl Options {
             comments: comments.cloned(),
             preserve_comments,
             emit_source_map_columns: cfg.emit_source_map_columns.into_bool(),
+            output: cfg.jsc.output,
         })
     }
 }
@@ -1099,6 +1100,8 @@ pub struct BuiltInput<P: swc_ecma_visit::Fold> {
 
     pub inline_sources_content: bool,
     pub emit_source_map_columns: bool,
+
+    pub output: JscOutputConfig,
 }
 
 /// `jsc` in  `.swcrc`.
