@@ -21,7 +21,7 @@ function _f1() {
             } finally{
                 try {
                     if (_iteratorAbruptCompletion && _iterator.return != null) {
-                        yield _iteratorError.return();
+                        yield _iterator.return();
                     }
                 } finally{
                     if (_didIteratorError) {
@@ -43,7 +43,7 @@ function _f1() {
             } finally{
                 try {
                     if (_iteratorAbruptCompletion1 && _iterator1.return != null) {
-                        yield _iteratorError1.return();
+                        yield _iterator1.return();
                     }
                 } finally{
                     if (_didIteratorError1) {
@@ -74,7 +74,7 @@ function _f2() {
             } finally{
                 try {
                     if (_iteratorAbruptCompletion && _iterator.return != null) {
-                        yield _iteratorError.return();
+                        yield _iterator.return();
                     }
                 } finally{
                     if (_didIteratorError) {
@@ -96,7 +96,7 @@ function _f2() {
             } finally{
                 try {
                     if (_iteratorAbruptCompletion2 && _iterator2.return != null) {
-                        yield _iteratorError2.return();
+                        yield _iterator2.return();
                     }
                 } finally{
                     if (_didIteratorError2) {

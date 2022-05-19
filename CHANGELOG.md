@@ -11,6 +11,9 @@
 - **(es/ast)** Fix `EqIgnoreSpan` of `Ident` (#4689) ([07356a5](https://github.com/swc-project/swc/commit/07356a5bba29572c99b53a1db79314a252faf663))
 
 
+- **(es/compat)** Fix `break` in for await loop (#4705) ([100c0b5](https://github.com/swc-project/swc/commit/100c0b58c9e5074a32e9dbc4f5dd7a88388bd8be))
+
+
 - **(es/config)** Auto-detect `tsx` (#4696) ([ad309f4](https://github.com/swc-project/swc/commit/ad309f4050dfb3483ed56108cc11f4865dca3f89))
 
 
@@ -21,6 +24,9 @@
 
 
 - **(es/modules)** Fix reassignment of exported vars (#4688) ([7ce572b](https://github.com/swc-project/swc/commit/7ce572b497d6b19231af8414616d412ac6c42264))
+
+
+- **(es/react)** Fix span of error messages (#4704) ([5f45a3d](https://github.com/swc-project/swc/commit/5f45a3d49649516d7c918b7039ebf04995db300a))
 
 
 - **(html/parser)** Fix span of attributes (#4681) ([637ef7f](https://github.com/swc-project/swc/commit/637ef7f49f0b3b7bbb06860371e6f8b2518759c2))
