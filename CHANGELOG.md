@@ -11,6 +11,9 @@
 - **(es/ast)** Fix `EqIgnoreSpan` of `Ident` (#4689) ([07356a5](https://github.com/swc-project/swc/commit/07356a5bba29572c99b53a1db79314a252faf663))
 
 
+- **(es/codegen)** Don't add a newline after an arrow body (#4711) ([72fbf69](https://github.com/swc-project/swc/commit/72fbf692a49f1612e2c04548c8c82279eeb3ad35))
+
+
 - **(es/compat)** Fix `break` in for await loop (#4705) ([100c0b5](https://github.com/swc-project/swc/commit/100c0b58c9e5074a32e9dbc4f5dd7a88388bd8be))
 
 
