@@ -113,6 +113,7 @@ pub extern crate swc_common as common;
 pub extern crate swc_ecmascript as ecmascript;
 
 use std::{
+    env,
     fs::{read_to_string, File},
     path::{Path, PathBuf},
     sync::Arc,
@@ -372,7 +373,7 @@ impl Compiler {
         is_module: IsModule,
         comments: Option<&dyn Comments>,
     ) -> Result<Program, Error> {
-        self.run(|| {
+        let mut res = self.run(|| {
             let mut error = false;
 
             let mut errors = vec![];
@@ -407,8 +408,13 @@ impl Compiler {
             }
 
             Ok(program)
-        })
-        .with_context(|| format!("Parser config: {:?}", syntax))
+        });
+
+        if env::var("SWC_DEBUG").unwrap_or_default() == "1" {
+            res = res.with_context(|| format!("Parser config: {:?}", syntax));
+        }
+
+        res
     }
 
     /// Converts ast node to source string and sourcemap.
