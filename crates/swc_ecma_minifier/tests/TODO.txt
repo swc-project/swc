@@ -1,13 +1,10 @@
 asm/asm_mixed/input.js
 collapse_vars/collapse_vars_do_while/input.js
 collapse_vars/collapse_vars_misc1/input.js
-collapse_vars/issue_2497/input.js
 drop_unused/keep_assign/input.js
 drop_unused/reassign_const/input.js
-drop_unused/var_catch_toplevel/input.js
 evaluate/issue_2535_1/input.js
 harmony/array_literal_with_spread_4a/input.js
-inline/dont_inline_funcs_into_default_param_2/input.js
 issue_281/inner_var_for_in_1/input.js
 issue_368/collapse/input.js
 nullish/conditional_to_nullish_coalescing_2/input.js
@@ -21,4 +18,3 @@ properties/methods_keep_quoted_true/input.js
 pure_funcs/unary/input.js
 pure_getters/issue_2265_3/input.js
 reduce_vars/variables_collision_in_immediately_invoked_func/input.js
-return_undefined/return_undefined/input.js

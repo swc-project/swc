@@ -76,6 +76,7 @@ collapse_vars/issue_2436_8/input.js
 collapse_vars/issue_2436_9/input.js
 collapse_vars/issue_2437/input.js
 collapse_vars/issue_2453/input.js
+collapse_vars/issue_2497/input.js
 collapse_vars/issue_2506/input.js
 collapse_vars/issue_2914_2/input.js
 collapse_vars/issue_315/input.js
@@ -180,6 +181,7 @@ drop_unused/unused_circular_references_3/input.js
 drop_unused/unused_funarg_1/input.js
 drop_unused/unused_funarg_2/input.js
 drop_unused/unused_null_conditional_chain/input.js
+drop_unused/var_catch_toplevel/input.js
 evaluate/call_args_drop_param/input.js
 evaluate/issue_2207_3/input.js
 evaluate/issue_399/input.js
@@ -344,7 +346,6 @@ if_return/issue_2747/input.js
 if_return/issue_512/input.js
 inline/do_not_repeat_when_variable_larger_than_inlined_node/input.js
 inline/inline_annotation/input.js
-inline/inline_into_scope_conflict/input.js
 inline/inline_within_extends_1/input.js
 inline/inline_within_extends_2/input.js
 issue_1034/non_hoisted_function_after_return/input.js
@@ -664,6 +665,7 @@ regexp/unsafe_slashes/input.js
 rename/function_iife_catch/input.js
 rename/function_iife_catch_ie8/input.js
 rename/mangle_catch_var/input.js
+return_undefined/return_undefined/input.js
 sequences/cascade_assignment_in_return/input.js
 sequences/delete_seq_4/input.js
 sequences/delete_seq_5/input.js
