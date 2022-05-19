@@ -354,7 +354,10 @@ where
                         let percentage_or_number_or_none = match cur!(self) {
                             tok!("percentage") => ComponentValue::Percentage(self.parse()?),
                             tok!("number") => ComponentValue::Number(self.parse()?),
-                            Token::Function { value, .. } if is_math_function(value) => {
+                            Token::Function { value, .. }
+                                if is_math_function(value)
+                                    || value.eq_str_ignore_ascii_case("var") =>
+                            {
                                 ComponentValue::Function(self.parse()?)
                             }
                             tok!("ident") => {
@@ -403,7 +406,10 @@ where
 
                                 ComponentValue::Ident(ident)
                             }
-                            Token::Function { value, .. } if is_math_function(value) => {
+                            Token::Function { value, .. }
+                                if is_math_function(value)
+                                    || value.eq_str_ignore_ascii_case("var") =>
+                            {
                                 ComponentValue::Function(self.parse()?)
                             }
                             _ => {
@@ -449,7 +455,10 @@ where
                         let percentage_or_number = match cur!(self) {
                             tok!("percentage") => ComponentValue::Percentage(self.parse()?),
                             tok!("number") => ComponentValue::Number(self.parse()?),
-                            Token::Function { value, .. } if is_math_function(value) => {
+                            Token::Function { value, .. }
+                                if is_math_function(value)
+                                    || value.eq_str_ignore_ascii_case("var") =>
+                            {
                                 ComponentValue::Function(self.parse()?)
                             }
                             tok!("ident") if !is_legacy_syntax => {
@@ -482,7 +491,10 @@ where
                     "hsl" | "hsla" => {
                         let percentage_or_none = match cur!(self) {
                             tok!("percentage") => ComponentValue::Percentage(self.parse()?),
-                            Token::Function { value, .. } if is_math_function(value) => {
+                            Token::Function { value, .. }
+                                if is_math_function(value)
+                                    || value.eq_str_ignore_ascii_case("var") =>
+                            {
                                 ComponentValue::Function(self.parse()?)
                             }
                             tok!("ident") => {
@@ -3261,12 +3273,12 @@ fn is_named_color(name: &str) -> bool {
 fn is_length_unit(unit: &str) -> bool {
     matches!(
         &*unit.to_ascii_lowercase(),
-        "em" | "rem"  | 
-        "ex" | "rex" | 
-        "cap" | "rcap" | 
-        "ch" | "rch" | 
-        "ic" | "ric" | 
-        "lh" | "rlh" | 
+        "em" | "rem"  |
+        "ex" | "rex" |
+        "cap" | "rcap" |
+        "ch" | "rch" |
+        "ic" | "ric" |
+        "lh" | "rlh" |
         //  Viewport-percentage Lengths
         "vw" | "svw" | "lvw" | "dvw" |
         "vh" | "svh" | "lvh" | "dvh" |
