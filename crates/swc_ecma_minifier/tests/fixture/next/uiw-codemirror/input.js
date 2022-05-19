@@ -11301,7 +11301,7 @@ picking a completion.
                                     ? 1 /* Upper */
                                     : ch != ch.toUpperCase()
                                     ? 2 /* Lower */
-                                    : 0 /* NonWord */;
+                                    : 0; /* NonWord */
                         if (
                             !i ||
                             (type == 1 /* Upper */ && hasLower) ||
