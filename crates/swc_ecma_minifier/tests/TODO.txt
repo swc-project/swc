@@ -6,7 +6,6 @@ drop_unused/keep_assign/input.js
 drop_unused/reassign_const/input.js
 evaluate/issue_2535_1/input.js
 harmony/array_literal_with_spread_4a/input.js
-inline/dont_inline_funcs_into_default_param_2/input.js
 issue_281/inner_var_for_in_1/input.js
 issue_368/collapse/input.js
 nullish/conditional_to_nullish_coalescing_2/input.js
