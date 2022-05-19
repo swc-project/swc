@@ -76,6 +76,7 @@ collapse_vars/issue_2436_8/input.js
 collapse_vars/issue_2436_9/input.js
 collapse_vars/issue_2437/input.js
 collapse_vars/issue_2453/input.js
+collapse_vars/issue_2497/input.js
 collapse_vars/issue_2506/input.js
 collapse_vars/issue_2914_2/input.js
 collapse_vars/issue_315/input.js
