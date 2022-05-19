@@ -26,6 +26,9 @@
 - **(es/minifier)** Don't create keys with negative number (#4698) ([809a626](https://github.com/swc-project/swc/commit/809a626a990eb4edb1cf71b87c3de31a60fa1a86))
 
 
+- **(es/minifier)** Fix analysis of assignment patterns (#4712) ([73dfa95](https://github.com/swc-project/swc/commit/73dfa95e5a0c24f61ed9b912a08c4ccde120890f))
+
+
 - **(es/modules)** Fix reassignment of exported vars (#4688) ([7ce572b](https://github.com/swc-project/swc/commit/7ce572b497d6b19231af8414616d412ac6c42264))
 
 
