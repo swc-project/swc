@@ -121,7 +121,7 @@ use std::{
 use anyhow::{bail, Context, Error};
 use atoms::JsWord;
 use common::{collections::AHashMap, comments::SingleThreadedComments, errors::HANDLER};
-use config::{IsModule, JsMinifyCommentOption, JsMinifyOptions};
+use config::{IsModule, JsMinifyCommentOption, JsMinifyOptions, OutputCharset};
 use json_comments::StripComments;
 use once_cell::sync::Lazy;
 use serde::Serialize;
@@ -1130,7 +1130,11 @@ impl Compiler {
                 config.minify,
                 config.comments.as_ref().map(|v| v as _),
                 config.emit_source_map_columns,
-                config.output.ascii_only.into_bool(),
+                config
+                    .output
+                    .charset
+                    .map(|v| matches!(v, OutputCharset::Ascii))
+                    .unwrap_or(false),
             )
         })
     }
