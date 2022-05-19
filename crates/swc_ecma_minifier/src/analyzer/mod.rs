@@ -643,8 +643,8 @@ where
                 self.with_ctx(ctx).report_usage(i, true);
                 self.with_ctx(ctx).report_usage(i, false);
             } else {
-                self.with_ctx(ctx)
-                    .report_usage(i, self.ctx.in_update_arg || self.ctx.in_assign_lhs);
+                let is_assign = self.ctx.in_update_arg || self.ctx.in_assign_lhs;
+                self.with_ctx(ctx).report_usage(i, is_assign);
             }
         }
     }
