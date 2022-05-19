@@ -37,6 +37,9 @@
 
 - **(es/minifier)** Improve `if_return` (#4694) ([274648e](https://github.com/swc-project/swc/commit/274648ec2664297043f5acb5cba659ace724fc59))
 
+
+- **(html/minifier)** Compress characters in `head` (#4682) ([cac8cee](https://github.com/swc-project/swc/commit/cac8cee62abab7dba28d2014d50e9bfdd71e03cc))
+
 ### Performance
 
 

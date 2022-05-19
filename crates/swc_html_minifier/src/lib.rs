@@ -340,7 +340,13 @@ impl VisitMut for Minifier {
         self.current_element_namespace = old_current_element_namespace;
         self.is_script_json_ld = old_value_is_script_json_ld;
 
-        n.children.retain(|child| !matches!(child, Child::Comment(comment) if !self.is_conditional_comment(&comment.data)));
+        let allow_to_remove_spaces = &*n.tag_name == "head" && n.namespace == Namespace::HTML;
+
+        n.children.retain(|child| match child {
+            Child::Comment(comment) if !self.is_conditional_comment(&comment.data) => false,
+            Child::Text(_) if allow_to_remove_spaces => false,
+            _ => true,
+        });
 
         let mut already_seen: AHashSet<JsWord> = Default::default();
 
