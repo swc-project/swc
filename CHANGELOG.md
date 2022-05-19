@@ -26,6 +26,9 @@
 - **(es/minifier)** Don't create keys with negative number (#4698) ([809a626](https://github.com/swc-project/swc/commit/809a626a990eb4edb1cf71b87c3de31a60fa1a86))
 
 
+- **(es/minifier)** Fix analysis of assignment patterns (#4712) ([73dfa95](https://github.com/swc-project/swc/commit/73dfa95e5a0c24f61ed9b912a08c4ccde120890f))
+
+
 - **(es/modules)** Fix reassignment of exported vars (#4688) ([7ce572b](https://github.com/swc-project/swc/commit/7ce572b497d6b19231af8414616d412ac6c42264))
 
 
@@ -57,6 +60,9 @@
 
 
 - **(es)** Add a test for a fixed issue (#4693) ([b93af7b](https://github.com/swc-project/swc/commit/b93af7ba61509f79b32008c3d8df3e5b82f4c40e))
+
+
+- **(es/minifier)** Categorize more tests (#4709) ([6f565fb](https://github.com/swc-project/swc/commit/6f565fbb3aeb9df3b364a50c57a7a44a08a76305))
 
 ## [1.2.186] - 2022-05-17
 
