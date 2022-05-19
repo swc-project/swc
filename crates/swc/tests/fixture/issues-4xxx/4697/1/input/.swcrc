@@ -2,7 +2,7 @@
     "jsc": {
         "target": "es2021",
         "output": {
-            "asciiOnly": true
+            "charset": "ascii"
         }
     }
 }
