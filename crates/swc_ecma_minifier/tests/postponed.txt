@@ -345,7 +345,6 @@ if_return/issue_2747/input.js
 if_return/issue_512/input.js
 inline/do_not_repeat_when_variable_larger_than_inlined_node/input.js
 inline/inline_annotation/input.js
-inline/inline_into_scope_conflict/input.js
 inline/inline_within_extends_1/input.js
 inline/inline_within_extends_2/input.js
 issue_1034/non_hoisted_function_after_return/input.js
