@@ -618,15 +618,16 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, e)))]
     fn visit_expr(&mut self, e: &Expr) {
-        {
-            let ctx = Ctx {
-                in_pat_of_var_decl: false,
-                in_pat_of_param: false,
-                in_catch_param: false,
-                ..self.ctx
-            };
-            e.visit_children_with(&mut *self.with_ctx(ctx));
-        }
+        let ctx = Ctx {
+            in_pat_of_var_decl: false,
+            in_pat_of_param: false,
+            in_catch_param: false,
+            var_decl_kind_of_pat: None,
+            in_pat_of_var_decl_with_init: false,
+            ..self.ctx
+        };
+
+        e.visit_children_with(&mut *self.with_ctx(ctx));
 
         if let Expr::Ident(i) = e {
             if cfg!(feature = "debug") {
@@ -639,10 +640,11 @@ where
             }
 
             if self.ctx.in_update_arg {
-                self.report_usage(i, true);
-                self.report_usage(i, false);
+                self.with_ctx(ctx).report_usage(i, true);
+                self.with_ctx(ctx).report_usage(i, false);
             } else {
-                self.report_usage(i, self.ctx.in_update_arg || self.ctx.in_assign_lhs);
+                self.with_ctx(ctx)
+                    .report_usage(i, self.ctx.in_update_arg || self.ctx.in_assign_lhs);
             }
         }
     }
