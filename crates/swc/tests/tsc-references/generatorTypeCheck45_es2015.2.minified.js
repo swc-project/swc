@@ -1,5 +1,3 @@
 foo("", function*() {
-    yield (x)=>x.length
-    ;
-}, (p)=>void 0
-);
+    yield (x)=>x.length;
+}, (p)=>void 0);

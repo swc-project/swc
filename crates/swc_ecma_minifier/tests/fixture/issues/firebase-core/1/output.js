@@ -488,9 +488,7 @@
                     let a;
                     return 0 < this.h ? (this.h--, a = this.g, this.g = a.next, a.next = null) : a = this.i(), a;
                 }
-            }(()=>new wb()
-            , (a)=>a.reset()
-            );
+            }(()=>new wb(), (a)=>a.reset());
             class wb {
                 constructor(){
                     this.next = this.g = this.h = null;
@@ -2291,8 +2289,7 @@
                             const service = provider.getImmediate();
                             return `${service.library}/${service.version}`;
                         }
-                    }).filter((logString)=>logString
-                    ).join(" ");
+                    }).filter((logString)=>logString).join(" ");
                 }
             }
             function isVersionServiceProvider(provider) {
@@ -2364,11 +2361,9 @@
                 _registerComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.wA(`${library}-version`, ()=>({
                         library,
                         version
-                    })
-                , "VERSION"));
+                    }), "VERSION"));
             }
-            _registerComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.wA("platform-logger", (container)=>new PlatformLoggerServiceImpl(container)
-            , "PRIVATE")), registerVersion(name$o, version$1, ""), registerVersion(name$o, version$1, "esm2017"), registerVersion("fire-js", "");
+            _registerComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.wA("platform-logger", (container)=>new PlatformLoggerServiceImpl(container), "PRIVATE")), registerVersion(name$o, version$1, ""), registerVersion(name$o, version$1, "esm2017"), registerVersion("fire-js", "");
         },
         8463: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
             "use strict";

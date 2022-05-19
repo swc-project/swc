@@ -2,5 +2,4 @@
 // @checkJs: true
 // @noEmit: true
 // @Filename: a.js
-/** doc */ const a = b = ()=>0
-;
+/** doc */ const a = b = ()=>0;

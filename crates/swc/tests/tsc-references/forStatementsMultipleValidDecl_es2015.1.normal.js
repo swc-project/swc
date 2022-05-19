@@ -32,8 +32,7 @@ for(var p;;){}
 for(var fn = function(s) {
     return 42;
 };;){}
-for(var fn = (s)=>3
-;;){}
+for(var fn = (s)=>3;;){}
 for(var fn;;){}
 for(var fn;;){}
 for(var fn = null;;){}

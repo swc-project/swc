@@ -23,16 +23,11 @@ xNever.f() // error, never still expects an argument
 class MyPromise {
     constructor(executor){}
 }
-new MyPromise((resolve)=>resolve()
-); // no error
-new MyPromise((resolve)=>resolve()
-); // no error
-new MyPromise((resolve)=>resolve()
-); // error, `any` arguments cannot be omitted
-new MyPromise((resolve)=>resolve()
-); // error, `unknown` arguments cannot be omitted
-new MyPromise((resolve)=>resolve()
-); // error, `never` arguments cannot be omitted
+new MyPromise((resolve)=>resolve()); // no error
+new MyPromise((resolve)=>resolve()); // no error
+new MyPromise((resolve)=>resolve()); // error, `any` arguments cannot be omitted
+new MyPromise((resolve)=>resolve()); // error, `unknown` arguments cannot be omitted
+new MyPromise((resolve)=>resolve()); // error, `never` arguments cannot be omitted
 // Multiple parameters
 function a(x, y, z) {}
 a(4, "hello"); // ok
@@ -48,27 +43,19 @@ c(3, void 0, void 0); // ok
 c(3, void 0); // ok
 c(3); // ok
 c(); // ok
-call((x, y)=>x + y
-) // error
+call((x, y)=>x + y) // error
 ;
-call((x, y)=>x + y
-, 4, 2) // ok
+call((x, y)=>x + y, 4, 2) // ok
 ;
-call((x, y)=>x
-, 4, void 0) // ok
+call((x, y)=>x, 4, void 0) // ok
 ;
-call((x, y)=>x
-, 4) // ok
+call((x, y)=>x, 4) // ok
 ;
-call((x, y)=>42
-) // ok
+call((x, y)=>42) // ok
 ;
-call((x, y)=>42
-) // ok
+call((x, y)=>42) // ok
 ;
-call((x, y)=>42
-, 4) // ok
+call((x, y)=>42, 4) // ok
 ;
-call((x, y)=>42
-, 4, 2) // ok
+call((x, y)=>42, 4, 2) // ok
 ;

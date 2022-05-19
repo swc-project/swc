@@ -23,8 +23,7 @@ function outside() {
 function defaultArgFunction(a = function() {
     return b;
 }, b = 1) {}
-function defaultArgArrow(a = ()=>()=>b
-, b = 3) {}
+function defaultArgArrow(a = ()=>()=>b, b = 3) {}
 class C {
     method(a = b, b = 1) {}
     constructor(a = b, b = 1){}

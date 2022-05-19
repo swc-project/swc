@@ -19,7 +19,4 @@ class fn5 {
         return;
     }
 }
-new fn5((n)=>n.toFixed()
-), new fn5((n)=>n.substr(0)
-), new fn5((n)=>n.blah
-);
+new fn5((n)=>n.toFixed()), new fn5((n)=>n.substr(0)), new fn5((n)=>n.blah);

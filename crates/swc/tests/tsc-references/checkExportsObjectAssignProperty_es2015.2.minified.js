@@ -6,8 +6,7 @@ Object.defineProperty(exports, "thing", {
     value: "Smith",
     writable: !1
 }), Object.defineProperty(exports, "rwAccessors", {
-    get: ()=>98122
-    ,
+    get: ()=>98122,
     set (_) {}
 }), Object.defineProperty(exports, "readonlyAccessor", {
     get: ()=>21.75
@@ -22,8 +21,7 @@ Object.defineProperty(exports, "thing", {
     value: "Smith",
     writable: !1
 }), Object.defineProperty(module.exports, "rwAccessors", {
-    get: ()=>98122
-    ,
+    get: ()=>98122,
     set (_) {}
 }), Object.defineProperty(module.exports, "readonlyAccessor", {
     get: ()=>21.75

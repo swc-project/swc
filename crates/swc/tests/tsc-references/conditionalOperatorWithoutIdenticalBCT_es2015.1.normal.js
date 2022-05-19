@@ -15,15 +15,7 @@ var result1 = true ? a : b;
 var result2 = true ? a : b;
 var result3 = true ? a : b;
 var result31 = true ? a : b;
-var result4 = true ? (m)=>m.propertyX1
- : (n)=>n.propertyX2
-;
-var result5 = true ? (m)=>m.propertyX1
- : (n)=>n.propertyX2
-;
-var result6 = true ? (m)=>m.propertyX1
- : (n)=>n.propertyX2
-;
-var result61 = true ? (m)=>m.propertyX1
- : (n)=>n.propertyX2
-;
+var result4 = true ? (m)=>m.propertyX1 : (n)=>n.propertyX2;
+var result5 = true ? (m)=>m.propertyX1 : (n)=>n.propertyX2;
+var result6 = true ? (m)=>m.propertyX1 : (n)=>n.propertyX2;
+var result61 = true ? (m)=>m.propertyX1 : (n)=>n.propertyX2;

@@ -60,8 +60,7 @@ function f12(obj, k1, k2, k3) {
 }
 export function getAllEntities(state) {
     const { ids , entities  } = state;
-    return ids.map((id)=>entities[id]
-    );
+    return ids.map((id)=>entities[id]);
 }
 export function getEntity(id, state) {
     const { ids , entities  } = state;

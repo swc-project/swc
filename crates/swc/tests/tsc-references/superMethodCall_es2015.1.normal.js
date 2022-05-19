@@ -10,8 +10,7 @@ class Derived extends Base {
         return (ref = super.method) === null || ref === void 0 ? void 0 : ref.call(this);
     }
     asyncMethod() {
-        var _this = this, _superprop_get_method = ()=>super.method
-        ;
+        var _this = this, _superprop_get_method = ()=>super.method;
         return swcHelpers.asyncToGenerator(function*() {
             var ref;
             return (ref = _superprop_get_method()) === null || ref === void 0 ? void 0 : ref.call(_this);

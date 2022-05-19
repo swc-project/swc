@@ -11,8 +11,7 @@ function o__1(e__3) {
             } catch (o__5) {
                 console.error(o__5);
             }
-            return new Promise((e__6, r__6)=>r__6(new Error("oh no!"))
-            );
+            return new Promise((e__6, r__6)=>r__6(new Error("oh no!")));
         }
     }
 }

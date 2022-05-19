@@ -1,5 +1,4 @@
 // @allowUnreachableCode: true
 // @noImplicitAny: true
 let x;
-x = (100, (a)=>a
-);
+x = (100, (a)=>a);

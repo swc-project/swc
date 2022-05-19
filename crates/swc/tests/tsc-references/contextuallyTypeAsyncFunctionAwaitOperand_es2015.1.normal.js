@@ -9,8 +9,7 @@ function _fn1() {
         };
         const obj2 = yield new Promise((resolve)=>resolve({
                 key: "value"
-            })
-        );
+            }));
         return yield {
             key: "value"
         };

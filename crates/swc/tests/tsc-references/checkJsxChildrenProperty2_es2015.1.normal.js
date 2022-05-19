@@ -30,8 +30,7 @@ let k1 = /*#__PURE__*/ React.createElement(Comp, swcHelpers.extends({
 let k2 = /*#__PURE__*/ React.createElement(Comp, {
     a: 10,
     b: "hi"
-}, /*#__PURE__*/ React.createElement("div", null, " My Div "), (name)=>/*#__PURE__*/ React.createElement("div", null, " My name ", name, " ")
-);
+}, /*#__PURE__*/ React.createElement("div", null, " My Div "), (name)=>/*#__PURE__*/ React.createElement("div", null, " My name ", name, " "));
 let k3 = /*#__PURE__*/ React.createElement(Comp, {
     a: 10,
     b: "hi"

@@ -93,8 +93,7 @@ function f10(foo1) {
 }
 // Infers g1: (...args: any[]) => { sum: number, nested: { mul: string } }
 var g1 = applySpec({
-    sum: (a)=>3
-    ,
+    sum: (a)=>3,
     nested: {
         mul: (b)=>"n"
     }
@@ -108,8 +107,7 @@ var g2 = applySpec({
     }
 });
 // Repro from #12633
-const foo = (object, partial)=>object
-;
+const foo = (object, partial)=>object;
 let o = {
     a: 5,
     b: 7

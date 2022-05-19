@@ -4,8 +4,7 @@ function f1(bar = foo) {
     var foo = 2;
     return bar; // returns 1
 }
-function f2(bar = (baz = foo)=>baz
-) {
+function f2(bar = (baz = foo)=>baz) {
     var foo = 2;
     return bar(); // returns 1
 }

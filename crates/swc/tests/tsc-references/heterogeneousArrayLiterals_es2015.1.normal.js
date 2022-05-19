@@ -53,25 +53,20 @@ var i = [
     }
 ]; // {}[]
 var j = [
-    ()=>1
-    ,
+    ()=>1,
     ()=>''
 ]; // {}[]
 var k = [
-    ()=>1
-    ,
+    ()=>1,
     ()=>1
 ]; // { (): number }[]
 var l = [
-    ()=>1
-    ,
+    ()=>1,
     ()=>null
 ]; // { (): any }[]
 var m = [
-    ()=>1
-    ,
-    ()=>''
-    ,
+    ()=>1,
+    ()=>'',
     ()=>null
 ]; // { (): any }[]
 var n = [
@@ -111,25 +106,20 @@ var derived2;
         }
     ]; // {foo: Derived}[]
     var j = [
-        ()=>base
-        ,
+        ()=>base,
         ()=>derived
     ]; // { {}: Base }
     var k = [
-        ()=>base
-        ,
+        ()=>base,
         ()=>1
     ]; // {}[]~
     var l = [
-        ()=>base
-        ,
+        ()=>base,
         ()=>null
     ]; // { (): any }[]
     var m = [
-        ()=>base
-        ,
-        ()=>derived
-        ,
+        ()=>base,
+        ()=>derived,
         ()=>null
     ]; // { (): any }[]
     var n = [
@@ -170,8 +160,7 @@ var WithContextualType;
     ];
     var c = [];
     var d = [
-        ()=>derived
-        ,
+        ()=>derived,
         ()=>derived2
     ];
 })(WithContextualType || (WithContextualType = {}));
@@ -193,15 +182,12 @@ function foo(t, u) {
         1
     ]; // {}[]
     var e = [
-        ()=>t
-        ,
+        ()=>t,
         ()=>u
     ]; // {}[]
     var f = [
-        ()=>t
-        ,
-        ()=>u
-        ,
+        ()=>t,
+        ()=>u,
         ()=>null
     ]; // { (): any }[]
 }
@@ -223,15 +209,12 @@ function foo2(t, u) {
         1
     ]; // {}[]
     var e = [
-        ()=>t
-        ,
+        ()=>t,
         ()=>u
     ]; // {}[]
     var f = [
-        ()=>t
-        ,
-        ()=>u
-        ,
+        ()=>t,
+        ()=>u,
         ()=>null
     ]; // { (): any }[]
     var g = [
@@ -269,15 +252,12 @@ function foo3(t, u) {
         1
     ]; // {}[]
     var e = [
-        ()=>t
-        ,
+        ()=>t,
         ()=>u
     ]; // {}[]
     var f = [
-        ()=>t
-        ,
-        ()=>u
-        ,
+        ()=>t,
+        ()=>u,
         ()=>null
     ]; // { (): any }[]
     var g = [
@@ -315,15 +295,12 @@ function foo4(t, u) {
         1
     ]; // {}[]
     var e = [
-        ()=>t
-        ,
+        ()=>t,
         ()=>u
     ]; // {}[]
     var f = [
-        ()=>t
-        ,
-        ()=>u
-        ,
+        ()=>t,
+        ()=>u,
         ()=>null
     ]; // { (): any }[]
     var g = [
