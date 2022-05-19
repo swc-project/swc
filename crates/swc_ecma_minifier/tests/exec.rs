@@ -9893,3 +9893,40 @@ fn terser_insane_1() {
 
     run_exec_test(src, config, false);
 }
+
+#[test]
+fn terser_insane_2() {
+    let src = r###"
+    function f() {
+        console.log(a)
+        a--;
+        console.log(a)
+        try {
+            console.log(a)
+            a++;
+            console.log(a)
+            x();
+        } catch (a) {
+            if (a) var a;
+            var a = 10;
+        }
+        console.log(a)
+    }
+    f();
+    "###;
+
+    let config = r###"
+    {
+        "conditionals": true,
+        "negate_iife": true,
+        "passes": 2,
+        "reduce_funcs": true,
+        "reduce_vars": true,
+        "side_effects": true,
+        "toplevel": true,
+        "unused": true
+    }
+    "###;
+
+    run_exec_test(src, config, false);
+}
