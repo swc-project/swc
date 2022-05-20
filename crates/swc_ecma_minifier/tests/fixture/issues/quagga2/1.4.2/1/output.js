@@ -265,7 +265,7 @@
                         ], max = (1 << bitsPerPixel1) - 1;
                         hist1 = function(imageWrapper, bitsPerPixel) {
                             bitsPerPixel || (bitsPerPixel = 8);
-                            for(var imageData = imageWrapper.data, length = imageData.length, bitShift = 8 - bitsPerPixel, hist = new Int32Array(1 << bitsPerPixel); length--;)hist[imageData[length] >> bitShift]++;
+                            for(var imageData = imageWrapper.data, length = imageData.length, bitShift = 8 - bitsPerPixel, bucketCnt = 1 << bitsPerPixel, hist = new Int32Array(bucketCnt); length--;)hist[imageData[length] >> bitShift]++;
                             return hist;
                         }(imageWrapper2, bitsPerPixel1);
                         for(var k = 1; k < max; k++)p1 = px(0, k), p2 = px(k + 1, max), p12 = p1 * p2, 0 === p12 && (p12 = 1), m1 = mx(0, k) * p2, m2 = mx(k + 1, max) * p1, m12 = m1 - m2, vet[k] = m12 * m12 / p12;

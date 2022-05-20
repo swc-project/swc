@@ -2938,8 +2938,8 @@
             return isDefined(regexp) ? (imgSrcSanitizationWhitelist = regexp, this) : imgSrcSanitizationWhitelist;
         }, this.$get = function() {
             return function(uri, isImage) {
-                var normalizedVal;
-                return msie && !(msie >= 8) || "" === (normalizedVal = urlResolve(uri).href) || normalizedVal.match(isImage ? imgSrcSanitizationWhitelist : aHrefSanitizationWhitelist) ? uri : "unsafe:" + normalizedVal;
+                var normalizedVal, regex = isImage ? imgSrcSanitizationWhitelist : aHrefSanitizationWhitelist;
+                return msie && !(msie >= 8) || "" === (normalizedVal = urlResolve(uri).href) || normalizedVal.match(regex) ? uri : "unsafe:" + normalizedVal;
             };
         };
     }

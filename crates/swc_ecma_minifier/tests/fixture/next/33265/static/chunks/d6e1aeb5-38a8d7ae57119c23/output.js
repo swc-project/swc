@@ -9905,7 +9905,10 @@
                         };
                     };
                 }).prototype = new stream1();
-                var ADTS_SAMPLING_FREQUENCIES = [
+                var h264 = {
+                    H264Stream: _H264Stream,
+                    NalByteStream: _NalByteStream
+                }, ADTS_SAMPLING_FREQUENCIES = [
                     96000,
                     88200,
                     64000,
@@ -10020,7 +10023,7 @@
                     "levelIdc",
                     "profileCompatibility",
                     "sarRatio", 
-                ], H264Stream = _H264Stream, isLikelyAacData = utils.isLikelyAacData, ONE_SECOND_IN_TS$1 = clock.ONE_SECOND_IN_TS, retriggerForStream = function(key, event) {
+                ], H264Stream = h264.H264Stream, isLikelyAacData = utils.isLikelyAacData, ONE_SECOND_IN_TS$1 = clock.ONE_SECOND_IN_TS, retriggerForStream = function(key, event) {
                     event.stream = key, this.trigger("log", event);
                 }, addPipelineLogRetriggers = function(transmuxer, pipeline) {
                     for(var keys = Object.keys(pipeline), i = 0; i < keys.length; i++){
