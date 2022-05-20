@@ -276,8 +276,19 @@ where
                                 }
                             }
                         }
-                        _ => {
+
+                        Expr::Object(..) => {
                             for id in idents_used_by_ignoring_nested(&**init) {
+                                if let Some(v_usage) = self.data.vars.get(&id) {
+                                    if v_usage.reassigned() {
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+
+                        _ => {
+                            for id in idents_used_by(&**init) {
                                 if let Some(v_usage) = self.data.vars.get(&id) {
                                     if v_usage.reassigned() {
                                         return;
