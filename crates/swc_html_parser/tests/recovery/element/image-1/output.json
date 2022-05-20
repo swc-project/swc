@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 91,
+    "end": 24,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -11,18 +11,18 @@
       "type": "DocumentType",
       "span": {
         "start": 1,
-        "end": 91,
+        "end": 16,
         "ctxt": 0
       },
       "name": "html",
-      "publicId": "-//W3C//DTD HTML 4.01//EN",
-      "systemId": "http://www.w3.org/TR/html4/strict.dtd"
+      "publicId": null,
+      "systemId": null
     },
     {
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 91,
+        "end": 24,
         "ctxt": 0
       },
       "tagName": "html",
@@ -33,7 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 91,
+            "end": 24,
             "ctxt": 0
           },
           "tagName": "head",
@@ -46,13 +46,27 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 91,
+            "end": 24,
             "ctxt": 0
           },
           "tagName": "body",
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
-          "children": [],
+          "children": [
+            {
+              "type": "Element",
+              "span": {
+                "start": 16,
+                "end": 24,
+                "ctxt": 0
+              },
+              "tagName": "img",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [],
+              "content": null
+            }
+          ],
           "content": null
         }
       ],
