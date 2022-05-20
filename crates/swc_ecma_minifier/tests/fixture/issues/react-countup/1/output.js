@@ -53,7 +53,9 @@
                 }
                 return t1.prototype.determineDirectionAndSmartEasing = function() {
                     var t = this.finalEndVal ? this.finalEndVal : this.endVal;
-                    if (this.countDown = this.startVal > t, Math.abs(t - this.startVal) > this.options.smartEasingThreshold) {
+                    this.countDown = this.startVal > t;
+                    var i = t - this.startVal;
+                    if (Math.abs(i) > this.options.smartEasingThreshold) {
                         this.finalEndVal = t;
                         var a = this.countDown ? 1 : -1;
                         this.endVal = t + a * this.options.smartEasingAmount, this.duration = this.duration / 2;

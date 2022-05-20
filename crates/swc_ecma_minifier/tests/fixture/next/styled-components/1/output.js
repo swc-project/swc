@@ -3459,8 +3459,7 @@
             "use strict";
             var REACT_ELEMENT_TYPE = "function" == typeof Symbol && Symbol.for ? Symbol.for("react.element") : 0xeac7;
             function cloneUnlessOtherwiseSpecified(value, options) {
-                var val;
-                return !1 !== options.clone && options.isMergeableObject(value) ? deepmerge((val = value, Array.isArray(val) ? [] : {}), value, options) : value;
+                return !1 !== options.clone && options.isMergeableObject(value) ? deepmerge(Array.isArray(value) ? [] : {}, value, options) : value;
             }
             function defaultArrayMerge(target, source, options) {
                 return target.concat(source).map(function(element) {
@@ -4896,7 +4895,7 @@
                     var r6 = t18.componentId, o6 = function(e, t) {
                         if (null == e) return {};
                         var n, r, o = {}, s = Object.keys(e);
-                        for(r = 0; r < s.length; r++)n = s[r], t.indexOf(n) >= 0 || (o[n] = e[n]);
+                        for(r = 0; r < s.length; r++)t.indexOf(n = s[r]) >= 0 || (o[n] = e[n]);
                         return o;
                     }(t18, [
                         "componentId"
@@ -5834,9 +5833,9 @@
                 return function(props) {
                     void 0 === props && (props = {});
                     var styles, theme1 = _extends({}, defaultTheme, {}, props.theme || props), result = {}, styles1 = (styles = "function" == typeof args ? args(theme1) : args, function(theme) {
-                        var next = {}, breakpoints = index_esm_get(theme, "breakpoints", defaultBreakpoints), mediaQueries = [
+                        var next = {}, mediaQueries = [
                             null
-                        ].concat(breakpoints.map(function(n) {
+                        ].concat(index_esm_get(theme, "breakpoints", defaultBreakpoints).map(function(n) {
                             return "@media screen and (min-width: " + n + ")";
                         }));
                         for(var key in styles){

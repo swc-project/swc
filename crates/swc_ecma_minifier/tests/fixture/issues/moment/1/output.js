@@ -129,8 +129,8 @@
         null != config && this.set(config);
     }
     function zeroFill(number, targetLength, forceSign) {
-        var absNumber = "" + Math.abs(number);
-        return (number >= 0 ? forceSign ? "+" : "" : "-") + Math.pow(10, Math.max(0, targetLength - absNumber.length)).toString().substr(1) + absNumber;
+        var absNumber = "" + Math.abs(number), zerosToFill = targetLength - absNumber.length;
+        return (number >= 0 ? forceSign ? "+" : "" : "-") + Math.pow(10, Math.max(0, zerosToFill)).toString().substr(1) + absNumber;
     }
     hooks.suppressDeprecationWarnings = !1, hooks.deprecationHandler = null, keys = Object.keys ? Object.keys : function(obj) {
         var i, res = [];

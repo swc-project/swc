@@ -2556,7 +2556,8 @@
         },
         function(module, exports) {
             module.exports = function(out, scale) {
-                var r = 2.0 * Math.random() * Math.PI, z = 2.0 * Math.random() - 1.0, zScale = Math.sqrt(1.0 - z * z) * (scale = scale || 1.0);
+                scale = scale || 1.0;
+                var r = 2.0 * Math.random() * Math.PI, z = 2.0 * Math.random() - 1.0, zScale = Math.sqrt(1.0 - z * z) * scale;
                 return out[0] = Math.cos(r) * zScale, out[1] = Math.sin(r) * zScale, out[2] = z * scale, out;
             };
         },
@@ -2632,7 +2633,7 @@
                 "use strict";
                 var undefined, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
                 function wrap(innerFn, outerFn, self, tryLocsList) {
-                    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []);
+                    var generator = Object.create((outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator).prototype), context = new Context(tryLocsList || []);
                     return generator._invoke = makeInvokeMethod(innerFn, self, context), generator;
                 }
                 function tryCatch(fn, obj, arg) {
@@ -6454,7 +6455,7 @@
                             color: "blue",
                             lineWidth: 2
                         });
-                        var lineLength = Math.sqrt(Math.pow(Math.abs((line1 = line2 = [
+                        var lineLength = (line1 = line2 = [
                             {
                                 x: ((box1 = box2)[1][0] - box1[0][0]) / 2 + box1[0][0],
                                 y: (box1[1][1] - box1[0][1]) / 2 + box1[0][1]
@@ -6463,7 +6464,7 @@
                                 x: (box1[3][0] - box1[2][0]) / 2 + box1[2][0],
                                 y: (box1[3][1] - box1[2][1]) / 2 + box1[2][1]
                             }, 
-                        ])[1].y - line1[0].y), 2) + Math.pow(Math.abs(line1[1].x - line1[0].x), 2)), lineAngle1 = Math.atan2(line2[1].y - line2[0].y, line2[1].x - line2[0].x);
+                        ], Math.sqrt(Math.pow(Math.abs(line1[1].y - line1[0].y), 2) + Math.pow(Math.abs(line1[1].x - line1[0].x), 2))), lineAngle1 = Math.atan2(line2[1].y - line2[0].y, line2[1].x - line2[0].x);
                         return null === (line2 = function(line, angle, ext) {
                             function extendLine(amount) {
                                 var extension = {
@@ -6626,16 +6627,14 @@
                 try {
                     return navigator.mediaDevices.enumerateDevices();
                 } catch (err) {
-                    var error = new Exception_Exception("enumerateDevices is not defined. ".concat(ERROR_DESC), -1);
-                    return Promise.reject(error);
+                    return Promise.reject(new Exception_Exception("enumerateDevices is not defined. ".concat(ERROR_DESC), -1));
                 }
             }
             function getUserMedia(constraints) {
                 try {
                     return navigator.mediaDevices.getUserMedia(constraints);
                 } catch (err) {
-                    var error = new Exception_Exception("getUserMedia is not defined. ".concat(ERROR_DESC), -1);
-                    return Promise.reject(error);
+                    return Promise.reject(new Exception_Exception("getUserMedia is not defined. ".concat(ERROR_DESC), -1));
                 }
             }
             function waitForVideo(video) {

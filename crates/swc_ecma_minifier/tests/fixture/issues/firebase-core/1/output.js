@@ -1245,7 +1245,7 @@
             }, k.getAllResponseHeaders = function() {
                 if (!this.h) return "";
                 const a = [], b = this.h.entries();
-                for(var c = b.next(); !c.done;)c = c.value, a.push(c[0] + ": " + c[1]), c = b.next();
+                for(var c = b.next(); !c.done;)a.push((c = c.value)[0] + ": " + c[1]), c = b.next();
                 return a.join("\r\n");
             }, Object.defineProperty(qd.prototype, "withCredentials", {
                 get: function() {

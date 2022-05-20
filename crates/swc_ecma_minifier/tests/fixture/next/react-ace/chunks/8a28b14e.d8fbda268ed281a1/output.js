@@ -1073,7 +1073,7 @@
                     }, this.selectEnd = this.selectAllEnd = this.selectByWordsEnd = this.selectByLinesEnd = function() {
                         this.$clickSelection = null, this.editor.unsetStyle("ace_selecting"), this.editor.renderer.scroller.releaseCapture && this.editor.renderer.scroller.releaseCapture();
                     }, this.focusWait = function() {
-                        var ax, ay, distance = (ax = this.mousedownEvent.x, ay = this.mousedownEvent.y, Math.sqrt(Math.pow(this.x - ax, 2) + Math.pow(this.y - ay, 2))), time = Date.now();
+                        var ax, ay, bx, by, distance = (ax = this.mousedownEvent.x, ay = this.mousedownEvent.y, bx = this.x, by = this.y, Math.sqrt(Math.pow(bx - ax, 2) + Math.pow(by - ay, 2))), time = Date.now();
                         (distance > 0 || time - this.mousedownEvent.time > this.$focusTimeout) && this.startSelect(this.mousedownEvent.getDocumentPosition());
                     }, this.onDoubleClick = function(ev) {
                         var pos = ev.getDocumentPosition(), editor = this.editor, range = editor.session.getBracketRange(pos);
@@ -1212,9 +1212,7 @@
                 "ace/lib/useragent", 
             ], function(require, exports, module) {
                 "use strict";
-                var event = require("../lib/event"), useragent = require("../lib/useragent"), MouseEvent = exports.MouseEvent = function(domEvent, editor) {
-                    this.domEvent = domEvent, this.editor = editor, this.x = this.clientX = domEvent.clientX, this.y = this.clientY = domEvent.clientY, this.$pos = null, this.$inSelection = null, this.propagationStopped = !1, this.defaultPrevented = !1;
-                };
+                var event = require("../lib/event"), useragent = require("../lib/useragent");
                 (function() {
                     this.stopPropagation = function() {
                         event.stopPropagation(this.domEvent), this.propagationStopped = !0;
@@ -1242,7 +1240,9 @@
                     } : function() {
                         return this.domEvent.ctrlKey;
                     };
-                }).call(MouseEvent.prototype);
+                }).call((exports.MouseEvent = function(domEvent, editor) {
+                    this.domEvent = domEvent, this.editor = editor, this.x = this.clientX = domEvent.clientX, this.y = this.clientY = domEvent.clientY, this.$pos = null, this.$inSelection = null, this.propagationStopped = !1, this.defaultPrevented = !1;
+                }).prototype);
             }), ace.define("ace/mouse/dragdrop_handler", [
                 "require",
                 "exports",
@@ -1687,7 +1687,7 @@
                     },
                     getOptions: function(optionNames) {
                         var result = {};
-                        if (optionNames) Array.isArray(optionNames) || (result = optionNames, optionNames = Object.keys(result));
+                        if (optionNames) Array.isArray(optionNames) || (optionNames = Object.keys(result = optionNames));
                         else {
                             var options = this.$options;
                             optionNames = Object.keys(options).filter(function(key) {
@@ -4520,9 +4520,7 @@
                 "ace/lib/event_emitter", 
             ], function(require, exports, module) {
                 "use strict";
-                var oop = require("./lib/oop"), EventEmitter = require("./lib/event_emitter").EventEmitter, Anchor = exports.Anchor = function(doc, row, column) {
-                    this.$onChange = this.onChange.bind(this), this.attach(doc), void 0 === column ? this.setPosition(row.row, row.column) : this.setPosition(row, column);
-                };
+                var oop = require("./lib/oop"), EventEmitter = require("./lib/event_emitter").EventEmitter;
                 (function() {
                     function $pointsInOrder(point1, point2, equalPointsInOrder) {
                         var bColIsAfter = equalPointsInOrder ? point1.column <= point2.column : point1.column < point2.column;
@@ -4571,7 +4569,9 @@
                         var pos = {};
                         return row >= this.document.getLength() ? (pos.row = Math.max(0, this.document.getLength() - 1), pos.column = this.document.getLine(pos.row).length) : row < 0 ? (pos.row = 0, pos.column = 0) : (pos.row = row, pos.column = Math.min(this.document.getLine(pos.row).length, Math.max(0, column))), column < 0 && (pos.column = 0), pos;
                     };
-                }).call(Anchor.prototype);
+                }).call((exports.Anchor = function(doc, row, column) {
+                    this.$onChange = this.onChange.bind(this), this.attach(doc), void 0 === column ? this.setPosition(row.row, row.column) : this.setPosition(row, column);
+                }).prototype);
             }), ace.define("ace/document", [
                 "require",
                 "exports",
@@ -8986,7 +8986,7 @@
                     };
                 }
                 function stringifyDelta(d) {
-                    if (d = d || this, Array.isArray(d)) return d.map(stringifyDelta).join("\n");
+                    if (Array.isArray(d = d || this)) return d.map(stringifyDelta).join("\n");
                     var type = "";
                     return d.action ? (type = "insert" == d.action ? "+" : "-", type += "[" + d.lines + "]") : d.value && (type = Array.isArray(d.value) ? d.value.map(stringifyRange).join("\n") : stringifyRange(d.value)), d.start && (type += stringifyRange(d)), (d.id || d.rev) && (type += "\t(" + (d.id || d.rev) + ")"), type;
                 }
@@ -9118,7 +9118,7 @@
                     }, this.pageChanged = function(oldConfig, newConfig) {
                         return Math.floor(oldConfig.firstRowScreen * oldConfig.lineHeight / this.canvasHeight) !== Math.floor(newConfig.firstRowScreen * newConfig.lineHeight / this.canvasHeight);
                     }, this.computeLineTop = function(row, config, session) {
-                        var screenPage = Math.floor(config.firstRowScreen * config.lineHeight / this.canvasHeight);
+                        var screenTop = config.firstRowScreen * config.lineHeight, screenPage = Math.floor(screenTop / this.canvasHeight);
                         return session.documentToScreenRow(row, 0) * config.lineHeight - screenPage * this.canvasHeight;
                     }, this.computeLineHeight = function(row, config, session) {
                         return config.lineHeight * session.getRowLineCount(row);
@@ -9816,12 +9816,7 @@
                 "ace/lib/useragent",
                 "ace/lib/event_emitter", 
             ], function(require, exports, module) {
-                var oop = require("../lib/oop"), dom = require("../lib/dom"), lang = require("../lib/lang"), event = require("../lib/event"), useragent = require("../lib/useragent"), EventEmitter = require("../lib/event_emitter").EventEmitter, USE_OBSERVER = "function" == typeof ResizeObserver, FontMetrics = exports.FontMetrics = function(parentEl) {
-                    this.el = dom.createElement("div"), this.$setMeasureNodeStyles(this.el.style, !0), this.$main = dom.createElement("div"), this.$setMeasureNodeStyles(this.$main.style), this.$measureNode = dom.createElement("div"), this.$setMeasureNodeStyles(this.$measureNode.style), this.el.appendChild(this.$main), this.el.appendChild(this.$measureNode), parentEl.appendChild(this.el), this.$measureNode.textContent = lang.stringRepeat("X", 256), this.$characterSize = {
-                        width: 0,
-                        height: 0
-                    }, USE_OBSERVER ? this.$addObserver() : this.checkForSizeChanges();
-                };
+                var oop = require("../lib/oop"), dom = require("../lib/dom"), lang = require("../lib/lang"), event = require("../lib/event"), useragent = require("../lib/useragent"), EventEmitter = require("../lib/event_emitter").EventEmitter, USE_OBSERVER = "function" == typeof ResizeObserver;
                 (function() {
                     oop.implement(this, EventEmitter), this.$characterSize = {
                         width: 0,
@@ -9921,7 +9916,12 @@
                         var u = sub(clientPos, a1), f = solve(sub(m1, mul(h[0], u)), sub(m2, mul(h[1], u)), u);
                         return mul(200, f);
                     };
-                }).call(FontMetrics.prototype);
+                }).call((exports.FontMetrics = function(parentEl) {
+                    this.el = dom.createElement("div"), this.$setMeasureNodeStyles(this.el.style, !0), this.$main = dom.createElement("div"), this.$setMeasureNodeStyles(this.$main.style), this.$measureNode = dom.createElement("div"), this.$setMeasureNodeStyles(this.$measureNode.style), this.el.appendChild(this.$main), this.el.appendChild(this.$measureNode), parentEl.appendChild(this.el), this.$measureNode.textContent = lang.stringRepeat("X", 256), this.$characterSize = {
+                        width: 0,
+                        height: 0
+                    }, USE_OBSERVER ? this.$addObserver() : this.checkForSizeChanges();
+                }).prototype);
             }), ace.define("ace/virtual_renderer", [
                 "require",
                 "exports",
@@ -10531,7 +10531,7 @@ margin: 0 10px;\
                         var gutterWidth = this.$showGutter ? width : 0;
                         gutterWidth != this.gutterWidth && (this.$changes |= this.$updateCachedSize(!0, gutterWidth, this.$size.width, this.$size.height)), this.session.getUseWrapMode() && this.adjustWrapLimit() ? this.$loop.schedule(this.CHANGE_FULL) : this.$size.$dirty ? this.$loop.schedule(this.CHANGE_FULL) : this.$computeLayerConfig();
                     }, this.adjustWrapLimit = function() {
-                        var limit = Math.floor((this.$size.scrollerWidth - 2 * this.$padding) / this.characterWidth);
+                        var availableWidth = this.$size.scrollerWidth - 2 * this.$padding, limit = Math.floor(availableWidth / this.characterWidth);
                         return this.session.adjustWrapLimit(limit, this.$showPrintMargin && this.$printMarginColumn);
                     }, this.setAnimatedScroll = function(shouldAnimate) {
                         this.setOption("animatedScroll", shouldAnimate);
@@ -11553,12 +11553,12 @@ margin: 0 10px;\
             ], function(require, exports, module) {
                 var RangeList = require("./range_list").RangeList, Range = require("./range").Range, Selection = require("./selection").Selection, onMouseDown = require("./mouse/multi_select_handler").onMouseDown, event = require("./lib/event"), lang = require("./lib/lang"), commands = require("./commands/multi_select_commands");
                 exports.commands = commands.defaultCommands.concat(commands.multiSelectCommands);
-                var search = new (require("./search")).Search(), EditSession = require("./edit_session").EditSession;
+                var search = new (require("./search")).Search();
                 (function() {
                     this.getSelectionMarkers = function() {
                         return this.$selectionMarkers;
                     };
-                }).call(EditSession.prototype), (function() {
+                }).call(require("./edit_session").EditSession.prototype), (function() {
                     this.ranges = null, this.rangeList = null, this.addRange = function(range, $blockChangeEvents) {
                         if (range) {
                             if (!this.inMultiSelectMode && 0 === this.rangeCount) {
@@ -11879,7 +11879,7 @@ margin: 0 10px;\
                 "ace/range"
             ], function(require, exports, module) {
                 "use strict";
-                var Range = require("../../range").Range, FoldMode = exports.FoldMode = function() {};
+                var Range = require("../../range").Range;
                 (function() {
                     this.foldingStartMarker = null, this.foldingStopMarker = null, this.getFoldWidget = function(session, foldStyle, row) {
                         var line = session.getLine(row);
@@ -11920,7 +11920,7 @@ margin: 0 10px;\
                         }, start = session.$findOpeningBracket(bracket, end);
                         if (start) return start.column++, end.column--, Range.fromPoints(start, end);
                     };
-                }).call(FoldMode.prototype);
+                }).call((exports.FoldMode = function() {}).prototype);
             }), ace.define("ace/theme/textmate", [
                 "require",
                 "exports",

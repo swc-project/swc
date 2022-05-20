@@ -4715,7 +4715,7 @@
             return;
         }
         function checkTilt(e) {
-            x = Math.abs((aig = (evt = e.originalEvent).accelerationIncludingGravity).x), y = Math.abs(aig.y), z = Math.abs(aig.z), !window.orientation && (x > 7 || (z > 6 && y < 8 || z < 8 && y > 6) && x > 5) ? zoom.enabled && zoom.disable() : zoom.enabled || zoom.enable();
+            aig = (evt = e.originalEvent).accelerationIncludingGravity, x = Math.abs(aig.x), y = Math.abs(aig.y), z = Math.abs(aig.z), !window.orientation && (x > 7 || (z > 6 && y < 8 || z < 8 && y > 6) && x > 5) ? zoom.enabled && zoom.disable() : zoom.enabled || zoom.enable();
         }
         zoom = $.mobile.zoom, $.mobile.document.on("mobileinit", function() {
             $.mobile.iosorientationfixEnabled && $.mobile.window.bind("orientationchange.iosorientationfix", zoom.enable).bind("devicemotion.iosorientationfix", checkTilt);

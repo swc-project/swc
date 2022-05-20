@@ -2095,7 +2095,7 @@
                 if (Array.isArray(src)) {
                     var newsrc = [];
                     src.forEach(function(srcobj) {
-                        srcobj = filterSource(srcobj), Array.isArray(srcobj) ? newsrc = newsrc.concat(srcobj) : isObject(srcobj) && newsrc.push(srcobj);
+                        Array.isArray(srcobj = filterSource(srcobj)) ? newsrc = newsrc.concat(srcobj) : isObject(srcobj) && newsrc.push(srcobj);
                     }), src = newsrc;
                 } else src = "string" == typeof src && src.trim() ? [
                     fixSource({
@@ -2477,7 +2477,8 @@
             }(Button1);
             PlayToggle1.prototype.controlText_ = "Play", Component$1.registerComponent("PlayToggle", PlayToggle1);
             var defaultImplementation = function(seconds, guide) {
-                var s = Math.floor((seconds = seconds < 0 ? 0 : seconds) % 60), m = Math.floor(seconds / 60 % 60), h = Math.floor(seconds / 3600), gm = Math.floor(guide / 60 % 60), gh = Math.floor(guide / 3600);
+                seconds = seconds < 0 ? 0 : seconds;
+                var s = Math.floor(seconds % 60), m = Math.floor(seconds / 60 % 60), h = Math.floor(seconds / 3600), gm = Math.floor(guide / 60 % 60), gh = Math.floor(guide / 3600);
                 return (isNaN(seconds) || seconds === 1 / 0) && (h = m = s = "-"), m = (((h = h > 0 || gh > 0 ? h + ":" : "") || gm >= 10) && m < 10 ? "0" + m : m) + ":", s = s < 10 ? "0" + s : s, h + m + s;
             }, implementation = defaultImplementation;
             function setFormatTime(customImplementation) {
@@ -2653,7 +2654,7 @@
             }(Button1);
             SeekToLive1.prototype.controlText_ = "Seek to live, currently playing live", Component$1.registerComponent("SeekToLive", SeekToLive1);
             var clamp = function(number, min, max) {
-                return Math.min(max, Math.max(min, isNaN(number = Number(number)) ? min : number));
+                return number = Number(number), Math.min(max, Math.max(min, isNaN(number) ? min : number));
             }, Slider1 = function(_Component) {
                 function Slider(player, options) {
                     var _this;
@@ -8478,8 +8479,8 @@
                         return data;
                     },
                     generateSampleTableForFrame: function(frame, baseDataOffset) {
-                        var sample, samples = [];
-                        return sample = sampleForFrame(frame, baseDataOffset || 0), samples.push(sample), samples;
+                        var samples = [];
+                        return samples.push(sampleForFrame(frame, baseDataOffset || 0)), samples;
                     },
                     concatenateNalDataForFrame: function(frame) {
                         var i, currentNal, dataOffset = 0, nalsByteLength = frame.byteLength, numberOfNals = frame.length, data = new Uint8Array(nalsByteLength + 4 * numberOfNals), view = new DataView(data.buffer);
@@ -8515,7 +8516,7 @@
                 }, silence_1 = function() {
                     if (!silence) {
                         var metaTable;
-                        silence = (metaTable = {
+                        silence = Object.keys(metaTable = {
                             96000: [
                                 highPrefix,
                                 [
@@ -8729,11 +8730,11 @@
                                     7
                                 ], 
                             ]
-                        }, Object.keys(metaTable).reduce(function(obj, key) {
+                        }).reduce(function(obj, key) {
                             return obj[key] = new Uint8Array(metaTable[key].reduce(function(arr, part) {
                                 return arr.concat(part);
                             }, [])), obj;
-                        }, {}));
+                        }, {});
                     }
                     return silence;
                 };
@@ -8783,9 +8784,9 @@
                         }));
                     },
                     generateSampleTable: function(frames) {
-                        var i, currentFrame, samples = [];
-                        for(i = 0; i < frames.length; i++)currentFrame = frames[i], samples.push({
-                            size: currentFrame.data.byteLength,
+                        var i, samples = [];
+                        for(i = 0; i < frames.length; i++)samples.push({
+                            size: frames[i].data.byteLength,
                             duration: 1024
                         });
                         return samples;
@@ -9186,7 +9187,7 @@
                     0x033e: 0x2514,
                     0x033f: 0x2518
                 }, getCharFromCode = function(code) {
-                    return null === code ? "" : (code = CHARACTER_TRANSLATION[code] || code, String.fromCharCode(code));
+                    return null === code ? "" : String.fromCharCode(code = CHARACTER_TRANSLATION[code] || code);
                 }, BOTTOM_ROW = 14, ROWS = [
                     0x1100,
                     0x1120,
@@ -11824,12 +11825,15 @@
                     return !pendingAudioTimelineChange || pendingAudioTimelineChange.to !== segmentTimeline;
                 }
                 return !1;
+            }, mediaDuration = function(audioTimingInfo, videoTimingInfo) {
+                var audioDuration = audioTimingInfo && "number" == typeof audioTimingInfo.start && "number" == typeof audioTimingInfo.end ? audioTimingInfo.end - audioTimingInfo.start : 0, videoDuration = videoTimingInfo && "number" == typeof videoTimingInfo.start && "number" == typeof videoTimingInfo.end ? videoTimingInfo.end - videoTimingInfo.start : 0;
+                return Math.max(audioDuration, videoDuration);
             }, segmentTooLong = function(_ref3) {
                 var segmentDuration = _ref3.segmentDuration, maxDuration = _ref3.maxDuration;
                 return !!segmentDuration && Math.round(segmentDuration) > maxDuration + TIME_FUDGE_FACTOR;
             }, getTroublesomeSegmentDurationMessage = function(segmentInfo, sourceType) {
                 if ("hls" !== sourceType) return null;
-                var audioTimingInfo, videoTimingInfo, segmentDuration = (audioTimingInfo = segmentInfo.audioTimingInfo, videoTimingInfo = segmentInfo.videoTimingInfo, Math.max(audioTimingInfo && "number" == typeof audioTimingInfo.start && "number" == typeof audioTimingInfo.end ? audioTimingInfo.end - audioTimingInfo.start : 0, videoTimingInfo && "number" == typeof videoTimingInfo.start && "number" == typeof videoTimingInfo.end ? videoTimingInfo.end - videoTimingInfo.start : 0));
+                var segmentDuration = mediaDuration(segmentInfo.audioTimingInfo, segmentInfo.videoTimingInfo);
                 if (!segmentDuration) return null;
                 var targetDuration = segmentInfo.playlist.targetDuration, isSegmentWayTooLong = segmentTooLong({
                     segmentDuration: segmentDuration,
@@ -14936,7 +14940,8 @@
                             },
                             systemBandwidth: {
                                 get: function() {
-                                    return Math.floor(1 / (1 / (this.bandwidth || 1) + (this.throughput > 0 ? 1 / this.throughput : 0)));
+                                    var invThroughput, invBandwidth = 1 / (this.bandwidth || 1);
+                                    return invThroughput = this.throughput > 0 ? 1 / this.throughput : 0, Math.floor(1 / (invBandwidth + invThroughput));
                                 },
                                 set: function() {
                                     videojs.log.error('The "systemBandwidth" property is read-only');
