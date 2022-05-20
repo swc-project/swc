@@ -245,10 +245,15 @@ where
                         _ => {}
                     }
 
-                    for id in idents_used_by(&**init) {
-                        if let Some(v_usage) = self.data.vars.get(&id) {
-                            if v_usage.reassigned() {
-                                return;
+                    match &**init {
+                        Expr::Fn(..) | Expr::Arrow(..) => {}
+                        _ => {
+                            for id in idents_used_by(&**init) {
+                                if let Some(v_usage) = self.data.vars.get(&id) {
+                                    if v_usage.reassigned() {
+                                        return;
+                                    }
+                                }
                             }
                         }
                     }
