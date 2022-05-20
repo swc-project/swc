@@ -1014,6 +1014,9 @@ where
             }
 
             Expr::Lit(..) => return true,
+
+            Expr::Yield(..) | Expr::Await(..) => return false,
+
             Expr::Unary(UnaryExpr {
                 op: op!("!") | op!("void") | op!("typeof"),
                 arg,
