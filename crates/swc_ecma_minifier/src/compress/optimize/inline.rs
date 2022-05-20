@@ -246,7 +246,7 @@ where
                     }
 
                     match &**init {
-                        Expr::Fn(..) | Expr::Arrow(..) => {}
+                        Expr::Fn(..) | Expr::Arrow(..) | Expr::Lit(..) => {}
                         _ => {
                             for id in idents_used_by(&**init) {
                                 if let Some(v_usage) = self.data.vars.get(&id) {
