@@ -2143,19 +2143,15 @@ where
             tok!("number") => Ok(CmykComponent::Number(self.parse()?)),
             tok!("percentage") => Ok(CmykComponent::Percentage(self.parse()?)),
             Token::Function { value, .. } => {
-                if !is_math_function(value) {
+                if is_math_function(value) || value.eq_str_ignore_ascii_case("var") {
+                    Ok(CmykComponent::Function(self.parse()?))
+                } else {
                     let span = self.input.cur_span()?;
-
-                    return Err(Error::new(span, ErrorKind::Expected("math function token")));
+                    Err(Error::new(
+                        span,
+                        ErrorKind::Expected("math or var function token"),
+                    ))
                 }
-
-                if !value.eq_str_ignore_ascii_case("var") {
-                    let span = self.input.cur_span()?;
-
-                    return Err(Error::new(span, ErrorKind::Expected("var function token")));
-                }
-
-                Ok(CmykComponent::Function(self.parse()?))
             }
             _ => {
                 unreachable!()
