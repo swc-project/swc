@@ -1152,6 +1152,16 @@ where
                 return exprs.iter().all(|e| self.is_skippable_for_seq(a, e));
             }
 
+            Expr::TaggedTpl(..) | Expr::New(..) => {
+                // TODO(kdy1): We can optimize some known calls.
+
+                return false;
+            }
+
+            Expr::Tpl(Tpl { exprs, .. }) => {
+                return exprs.iter().all(|e| self.is_skippable_for_seq(a, e));
+            }
+
             _ => {}
         }
 
