@@ -1211,39 +1211,13 @@ where
                         force_quirks,
                         ..
                     } => {
-                        let is_valid_doctype = matches!(
-                            (
-                                name.as_ref().map(|value| &**value),
-                                public_id.as_ref().map(|value| &**value),
-                                system_id.as_ref().map(|value| &**value),
-                            ),
-                            (Some("html"), None, None)
-                                | (Some("html"), None, Some("about:legacy-compat"))
-                                | (Some("html"), Some("-//W3C//DTD HTML 4.0//EN"), None)
-                                | (
-                                    Some("html"),
-                                    Some("-//W3C//DTD HTML 4.0//EN"),
-                                    Some("http://www.w3.org/TR/REC-html40/strict.dtd"),
-                                )
-                                | (Some("html"), Some("-//W3C//DTD HTML 4.01//EN"), None)
-                                | (
-                                    Some("html"),
-                                    Some("-//W3C//DTD HTML 4.01//EN"),
-                                    Some("http://www.w3.org/TR/html4/strict.dtd"),
-                                )
-                                | (
-                                    Some("html"),
-                                    Some("-//W3C//DTD XHTML 1.0 Strict//EN"),
-                                    Some("http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"),
-                                )
-                                | (
-                                    Some("html"),
-                                    Some("-//W3C//DTD XHTML 1.1//EN"),
-                                    Some("http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"),
-                                )
-                        );
+                        let is_html_name = matches!(name, Some(name) if name.as_ref().eq_ignore_ascii_case("html"));
+                        let is_conforming_doctype = is_html_name
+                            && public_id.is_none()
+                            && (system_id.is_none()
+                                || matches!(system_id, Some(system_id) if system_id.as_ref().eq("about:legacy-compat")));
 
-                        if !is_valid_doctype {
+                        if !is_conforming_doctype {
                             self.errors.push(Error::new(
                                 token_and_info.span,
                                 ErrorKind::NonConformingDoctype,
@@ -1261,7 +1235,7 @@ where
 
                         if !self.config.iframe_srcdoc
                             && (*force_quirks
-                                || !matches!(name, Some(name) if name.as_ref().eq_ignore_ascii_case("html"))
+                                || !is_html_name
                                 || matches!(public_id, Some(public_id) if QUIRKY_PUBLIC_MATCHES
                                     .contains(&&*public_id.to_ascii_lowercase()) || QUIRKY_PUBLIC_PREFIXES.contains(&&*public_id.to_ascii_lowercase()))
                                 || matches!(system_id, Some(system_id) if QUIRKY_SYSTEM_MATCHES
