@@ -246,7 +246,36 @@ where
                     }
 
                     match &**init {
-                        Expr::Fn(..) | Expr::Arrow(..) | Expr::Lit(..) => {}
+                        Expr::Lit(..) => {}
+
+                        Expr::Fn(f) => {
+                            let excluded: Vec<Id> = find_pat_ids(&f.function.params);
+
+                            for id in idents_used_by(&f.function.params) {
+                                if excluded.contains(&id) {
+                                    continue;
+                                }
+                                if let Some(v_usage) = self.data.vars.get(&id) {
+                                    if v_usage.reassigned() {
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+                        Expr::Arrow(f) => {
+                            let excluded: Vec<Id> = find_pat_ids(&f.params);
+
+                            for id in idents_used_by(&f.params) {
+                                if excluded.contains(&id) {
+                                    continue;
+                                }
+                                if let Some(v_usage) = self.data.vars.get(&id) {
+                                    if v_usage.reassigned() {
+                                        return;
+                                    }
+                                }
+                            }
+                        }
                         _ => {
                             for id in idents_used_by(&**init) {
                                 if let Some(v_usage) = self.data.vars.get(&id) {
