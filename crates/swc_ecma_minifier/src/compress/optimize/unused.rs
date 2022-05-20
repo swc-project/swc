@@ -5,7 +5,9 @@ use swc_ecma_utils::contains_ident_ref;
 
 use super::Optimizer;
 use crate::{
-    compress::{optimize::util::class_has_side_effect, util::is_global_var},
+    compress::{
+        optimize::util::class_has_side_effect, util::is_global_var_with_pure_property_access,
+    },
     debug::dump,
     mode::Mode,
     option::PureGetterOption,
@@ -271,7 +273,7 @@ where
         match e {
             Expr::Ident(e) => {
                 if e.span.ctxt.outer() == self.marks.unresolved_mark {
-                    if is_global_var(&e.sym) {
+                    if is_global_var_with_pure_property_access(&e.sym) {
                         return false;
                     }
                 }

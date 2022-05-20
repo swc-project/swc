@@ -11,7 +11,7 @@ use swc_ecma_utils::{
 use super::Pure;
 use crate::compress::{
     pure::strings::{convert_str_value_to_tpl_cooked, convert_str_value_to_tpl_raw},
-    util::{is_global_var, is_pure_undefined},
+    util::{is_global_var_with_pure_property_access, is_pure_undefined},
 };
 
 impl Pure<'_> {
@@ -519,7 +519,7 @@ impl Pure<'_> {
                 if self.options.side_effects
                     || (self.options.unused && opts.drop_global_refs_if_unused)
                 {
-                    if is_global_var(&i.sym) {
+                    if is_global_var_with_pure_property_access(&i.sym) {
                         report_change!("Dropping a reference to a global variable");
                         *e = Expr::Invalid(Invalid { span: DUMMY_SP });
                         return;
