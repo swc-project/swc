@@ -459,11 +459,11 @@
                 var dataHeader = getvint(bytes, offset + innerid.length);
                 return getInfinityDataSize(id, bytes, offset + dataHeader.length + dataHeader.value + innerid.length);
             }, findEbml1 = function findEbml(bytes, paths) {
-                paths = (paths1 = paths, Array.isArray(paths1) ? paths1.map(function(p) {
+                paths = Array.isArray(paths1 = paths) ? paths1.map(function(p) {
                     return ebml_helpers_normalizePath(p);
                 }) : [
                     ebml_helpers_normalizePath(paths1)
-                ]), bytes = (0, byte_helpers.Ki)(bytes);
+                ], bytes = (0, byte_helpers.Ki)(bytes);
                 var paths1, results = [];
                 if (!paths.length) return results;
                 for(var i = 0; i < bytes.length;){
@@ -1064,9 +1064,8 @@
                 return current.hasOwnProperty(element) || (current[element] = !0), current;
             }
             function toOrderedSet(input) {
-                if (!input) return [];
-                var input1, list = (input1 = input) ? input1.split(/[\t\n\f\r ]+/).filter(notEmptyString) : [];
-                return Object.keys(list.reduce(orderedSetReducer, {}));
+                var input1;
+                return input ? Object.keys(((input1 = input) ? input1.split(/[\t\n\f\r ]+/).filter(notEmptyString) : []).reduce(orderedSetReducer, {})) : [];
             }
             function copy(src, dest) {
                 for(var p in src)dest[p] = src[p];
@@ -3133,12 +3132,12 @@
                 return sidx && sidx.uri + "-" + byteRangeToString(sidx.byterange);
             }, mergeDiscontiguousPlaylists = function(playlists) {
                 var o;
-                return (o = playlists.reduce(function(acc, playlist) {
+                return Object.keys(o = playlists.reduce(function(acc, playlist) {
                     var _acc$name$segments, name = playlist.attributes.id + (playlist.attributes.lang || "");
                     return acc[name] ? (playlist.segments[0] && (playlist.segments[0].discontinuity = !0), (_acc$name$segments = acc[name].segments).push.apply(_acc$name$segments, playlist.segments), playlist.attributes.contentProtection && (acc[name].attributes.contentProtection = playlist.attributes.contentProtection)) : acc[name] = playlist, acc;
-                }, {}), Object.keys(o).map(function(k) {
+                }, {})).map(function(k) {
                     return o[k];
-                })).map(function(playlist) {
+                }).map(function(playlist) {
                     var l, key;
                     return playlist.discontinuityStarts = (l = playlist.segments, key = "discontinuity", l.reduce(function(a, e, i) {
                         return e[key] && a.push(i), a;
@@ -5147,23 +5146,25 @@
                 return 2 === placeHoldersLen1 && (tmp = revLookup[b64.charCodeAt(i)] << 2 | revLookup[b64.charCodeAt(i + 1)] >> 4, arr[curByte++] = 0xff & tmp), 1 === placeHoldersLen1 && (tmp = revLookup[b64.charCodeAt(i)] << 10 | revLookup[b64.charCodeAt(i + 1)] << 4 | revLookup[b64.charCodeAt(i + 2)] >> 2, arr[curByte++] = tmp >> 8 & 0xff, arr[curByte++] = 0xff & tmp), arr;
             }, exports.fromByteArray = function(uint8) {
                 for(var tmp, len = uint8.length, extraBytes = len % 3, parts = [], i = 0, len2 = len - extraBytes; i < len2; i += 16383)parts.push(encodeChunk(uint8, i, i + 16383 > len2 ? len2 : i + 16383));
-                return 1 === extraBytes ? (tmp = uint8[len - 1], parts.push(lookup[tmp >> 2] + lookup[tmp << 4 & 0x3f] + "==")) : 2 === extraBytes && (tmp = (uint8[len - 2] << 8) + uint8[len - 1], parts.push(lookup[tmp >> 10] + lookup[tmp >> 4 & 0x3f] + lookup[tmp << 2 & 0x3f] + "=")), parts.join("");
+                return 1 === extraBytes ? parts.push(lookup[(tmp = uint8[len - 1]) >> 2] + lookup[tmp << 4 & 0x3f] + "==") : 2 === extraBytes && parts.push(lookup[(tmp = (uint8[len - 2] << 8) + uint8[len - 1]) >> 10] + lookup[tmp >> 4 & 0x3f] + lookup[tmp << 2 & 0x3f] + "="), parts.join("");
             };
             for(var lookup = [], revLookup = [], Arr = "undefined" != typeof Uint8Array ? Uint8Array : Array, code = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", i3 = 0, len1 = code.length; i3 < len1; ++i3)lookup[i3] = code[i3], revLookup[code.charCodeAt(i3)] = i3;
             function getLens(b64) {
                 var len = b64.length;
                 if (len % 4 > 0) throw new Error("Invalid string. Length must be a multiple of 4");
                 var validLen = b64.indexOf("=");
-                return -1 === validLen && (validLen = len), [
+                -1 === validLen && (validLen = len);
+                var placeHoldersLen = validLen === len ? 0 : 4 - validLen % 4;
+                return [
                     validLen,
-                    validLen === len ? 0 : 4 - validLen % 4
+                    placeHoldersLen
                 ];
             }
             function tripletToBase64(num) {
                 return lookup[num >> 18 & 0x3f] + lookup[num >> 12 & 0x3f] + lookup[num >> 6 & 0x3f] + lookup[0x3f & num];
             }
             function encodeChunk(uint8, start, end) {
-                for(var tmp, output = [], i = start; i < end; i += 3)tmp = (uint8[i] << 16 & 0xff0000) + (uint8[i + 1] << 8 & 0xff00) + (0xff & uint8[i + 2]), output.push(tripletToBase64(tmp));
+                for(var output = [], i = start; i < end; i += 3)output.push(tripletToBase64((uint8[i] << 16 & 0xff0000) + (uint8[i + 1] << 8 & 0xff00) + (0xff & uint8[i + 2])));
                 return output.join("");
             }
             revLookup["-".charCodeAt(0)] = 62, revLookup["_".charCodeAt(0)] = 63;
@@ -5216,7 +5217,7 @@
                 var buf;
                 if (byteOffset < 0 || array.byteLength < byteOffset) throw new RangeError('"offset" is outside of buffer bounds');
                 if (array.byteLength < byteOffset + (length || 0)) throw new RangeError('"length" is outside of buffer bounds');
-                return buf = void 0 === byteOffset && void 0 === length ? new Uint8Array(array) : void 0 === length ? new Uint8Array(array, byteOffset) : new Uint8Array(array, byteOffset, length), Object.setPrototypeOf(buf, Buffer.prototype), buf;
+                return Object.setPrototypeOf(buf = void 0 === byteOffset && void 0 === length ? new Uint8Array(array) : void 0 === length ? new Uint8Array(array, byteOffset) : new Uint8Array(array, byteOffset, length), Buffer.prototype), buf;
             }
             function fromObject(obj) {
                 if (Buffer.isBuffer(obj)) {

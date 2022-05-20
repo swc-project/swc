@@ -8525,7 +8525,7 @@
             }), redefine(URLSearchParamsPrototype, ITERATOR, URLSearchParamsPrototype.entries, {
                 name: "entries"
             }), redefine(URLSearchParamsPrototype, "toString", function() {
-                for(var entry, entries = getInternalParamsState(this).entries, result = [], index = 0; index < entries.length;)entry = entries[index++], result.push(serialize(entry.key) + "=" + serialize(entry.value));
+                for(var entry, entries = getInternalParamsState(this).entries, result = [], index = 0; index < entries.length;)result.push(serialize((entry = entries[index++]).key) + "=" + serialize(entry.value));
                 return result.join("&");
             }, {
                 enumerable: !0
@@ -16203,7 +16203,7 @@
                         return this.context[contextProp] ? this.context[contextProp].get() : defaultValue;
                     }, _proto2.render = function() {
                         var children;
-                        return (children = this.props.children, Array.isArray(children) ? children[0] : children)(this.state.value);
+                        return (Array.isArray(children = this.props.children) ? children[0] : children)(this.state.value);
                     }, Consumer;
                 }(_react_17_0_2_react.Component);
                 return Consumer1.contextTypes = ((_Consumer$contextType = {})[contextProp] = _prop_types_15_7_2_prop_types_default().object, _Consumer$contextType), {
@@ -16814,7 +16814,7 @@
                     };
                 }
                 function wrap(innerFn, outerFn, self, tryLocsList) {
-                    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []);
+                    var generator = Object.create((outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator).prototype), context = new Context(tryLocsList || []);
                     return generator._invoke = makeInvokeMethod(innerFn, self, context), generator;
                 }
                 function tryCatch(fn, obj, arg) {

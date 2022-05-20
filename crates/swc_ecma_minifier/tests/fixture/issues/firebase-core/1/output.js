@@ -1245,7 +1245,7 @@
             }, k.getAllResponseHeaders = function() {
                 if (!this.h) return "";
                 const a = [], b = this.h.entries();
-                for(var c = b.next(); !c.done;)c = c.value, a.push(c[0] + ": " + c[1]), c = b.next();
+                for(var c = b.next(); !c.done;)a.push((c = c.value)[0] + ": " + c[1]), c = b.next();
                 return a.join("\r\n");
             }, Object.defineProperty(qd.prototype, "withCredentials", {
                 get: function() {
@@ -1829,7 +1829,7 @@
                     return _arr;
                 }(arr3, 2) || function() {
                     throw new TypeError("Invalid attempt to destructure non-iterable instance");
-                }(), setRef = ref2[0], isIntersected = ref2[1], wrapperStyle = {
+                }(), setRef = ref2[0], isIntersected = ref2[1], isVisible = !isLazy || isIntersected, wrapperStyle = {
                     boxSizing: "border-box",
                     display: "block",
                     overflow: "hidden",
@@ -1885,7 +1885,7 @@
                     srcSet: void 0,
                     sizes: void 0
                 };
-                (!isLazy || isIntersected) && (imgAttributes = generateImgAttrs({
+                isVisible && (imgAttributes = generateImgAttrs({
                     src: src2,
                     unoptimized: unoptimized,
                     layout: layout,

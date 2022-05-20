@@ -265,7 +265,7 @@
                         ], max = (1 << bitsPerPixel1) - 1;
                         hist1 = function(imageWrapper, bitsPerPixel) {
                             bitsPerPixel || (bitsPerPixel = 8);
-                            for(var imageData = imageWrapper.data, length = imageData.length, bitShift = 8 - bitsPerPixel, hist = new Int32Array(1 << bitsPerPixel); length--;)hist[imageData[length] >> bitShift]++;
+                            for(var imageData = imageWrapper.data, length = imageData.length, bitShift = 8 - bitsPerPixel, bucketCnt = 1 << bitsPerPixel, hist = new Int32Array(bucketCnt); length--;)hist[imageData[length] >> bitShift]++;
                             return hist;
                         }(imageWrapper2, bitsPerPixel1);
                         for(var k = 1; k < max; k++)p1 = px(0, k), p2 = px(k + 1, max), p12 = p1 * p2, 0 === p12 && (p12 = 1), m1 = mx(0, k) * p2, m2 = mx(k + 1, max) * p1, m12 = m1 - m2, vet[k] = m12 * m12 / p12;
@@ -2632,7 +2632,7 @@
                 "use strict";
                 var undefined, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
                 function wrap(innerFn, outerFn, self, tryLocsList) {
-                    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []);
+                    var generator = Object.create((outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator).prototype), context = new Context(tryLocsList || []);
                     return generator._invoke = makeInvokeMethod(innerFn, self, context), generator;
                 }
                 function tryCatch(fn, obj, arg) {
@@ -6626,16 +6626,14 @@
                 try {
                     return navigator.mediaDevices.enumerateDevices();
                 } catch (err) {
-                    var error = new Exception_Exception("enumerateDevices is not defined. ".concat(ERROR_DESC), -1);
-                    return Promise.reject(error);
+                    return Promise.reject(new Exception_Exception("enumerateDevices is not defined. ".concat(ERROR_DESC), -1));
                 }
             }
             function getUserMedia(constraints) {
                 try {
                     return navigator.mediaDevices.getUserMedia(constraints);
                 } catch (err) {
-                    var error = new Exception_Exception("getUserMedia is not defined. ".concat(ERROR_DESC), -1);
-                    return Promise.reject(error);
+                    return Promise.reject(new Exception_Exception("getUserMedia is not defined. ".concat(ERROR_DESC), -1));
                 }
             }
             function waitForVideo(video) {
