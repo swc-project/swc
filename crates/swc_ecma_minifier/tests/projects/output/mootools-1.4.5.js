@@ -3266,7 +3266,7 @@ Elements.prototype = {
         return 1 - Math.cos(p * Math.PI / 2);
     },
     Back: function(p, x) {
-        return x = x && x[0] || 1.618, Math.pow(p, 2) * ((x + 1) * p - x);
+        return Math.pow(p, 2) * (((x = x && x[0] || 1.618) + 1) * p - x);
     },
     Bounce: function(p) {
         for(var value, a = 0, b = 1;; a += b, b /= 2)if (p >= (7 - 4 * a) / 11) {

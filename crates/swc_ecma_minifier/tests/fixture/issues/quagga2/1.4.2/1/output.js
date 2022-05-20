@@ -2556,8 +2556,7 @@
         },
         function(module, exports) {
             module.exports = function(out, scale) {
-                scale = scale || 1.0;
-                var r = 2.0 * Math.random() * Math.PI, z = 2.0 * Math.random() - 1.0, zScale = Math.sqrt(1.0 - z * z) * scale;
+                var r = 2.0 * Math.random() * Math.PI, z = 2.0 * Math.random() - 1.0, zScale = Math.sqrt(1.0 - z * z) * (scale = scale || 1.0);
                 return out[0] = Math.cos(r) * zScale, out[1] = Math.sin(r) * zScale, out[2] = z * scale, out;
             };
         },
@@ -6455,7 +6454,7 @@
                             color: "blue",
                             lineWidth: 2
                         });
-                        var lineLength = (line1 = line2 = [
+                        var lineLength = Math.sqrt(Math.pow(Math.abs((line1 = line2 = [
                             {
                                 x: ((box1 = box2)[1][0] - box1[0][0]) / 2 + box1[0][0],
                                 y: (box1[1][1] - box1[0][1]) / 2 + box1[0][1]
@@ -6464,7 +6463,7 @@
                                 x: (box1[3][0] - box1[2][0]) / 2 + box1[2][0],
                                 y: (box1[3][1] - box1[2][1]) / 2 + box1[2][1]
                             }, 
-                        ], Math.sqrt(Math.pow(Math.abs(line1[1].y - line1[0].y), 2) + Math.pow(Math.abs(line1[1].x - line1[0].x), 2))), lineAngle1 = Math.atan2(line2[1].y - line2[0].y, line2[1].x - line2[0].x);
+                        ])[1].y - line1[0].y), 2) + Math.pow(Math.abs(line1[1].x - line1[0].x), 2)), lineAngle1 = Math.atan2(line2[1].y - line2[0].y, line2[1].x - line2[0].x);
                         return null === (line2 = function(line, angle, ext) {
                             function extendLine(amount) {
                                 var extension = {

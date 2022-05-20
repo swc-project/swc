@@ -1073,7 +1073,7 @@
                     }, this.selectEnd = this.selectAllEnd = this.selectByWordsEnd = this.selectByLinesEnd = function() {
                         this.$clickSelection = null, this.editor.unsetStyle("ace_selecting"), this.editor.renderer.scroller.releaseCapture && this.editor.renderer.scroller.releaseCapture();
                     }, this.focusWait = function() {
-                        var ax, ay, bx, by, distance = (ax = this.mousedownEvent.x, ay = this.mousedownEvent.y, bx = this.x, by = this.y, Math.sqrt(Math.pow(bx - ax, 2) + Math.pow(by - ay, 2))), time = Date.now();
+                        var ax, ay, distance = (ax = this.mousedownEvent.x, ay = this.mousedownEvent.y, Math.sqrt(Math.pow(this.x - ax, 2) + Math.pow(this.y - ay, 2))), time = Date.now();
                         (distance > 0 || time - this.mousedownEvent.time > this.$focusTimeout) && this.startSelect(this.mousedownEvent.getDocumentPosition());
                     }, this.onDoubleClick = function(ev) {
                         var pos = ev.getDocumentPosition(), editor = this.editor, range = editor.session.getBracketRange(pos);
@@ -9118,7 +9118,7 @@
                     }, this.pageChanged = function(oldConfig, newConfig) {
                         return Math.floor(oldConfig.firstRowScreen * oldConfig.lineHeight / this.canvasHeight) !== Math.floor(newConfig.firstRowScreen * newConfig.lineHeight / this.canvasHeight);
                     }, this.computeLineTop = function(row, config, session) {
-                        var screenTop = config.firstRowScreen * config.lineHeight, screenPage = Math.floor(screenTop / this.canvasHeight);
+                        var screenPage = Math.floor(config.firstRowScreen * config.lineHeight / this.canvasHeight);
                         return session.documentToScreenRow(row, 0) * config.lineHeight - screenPage * this.canvasHeight;
                     }, this.computeLineHeight = function(row, config, session) {
                         return config.lineHeight * session.getRowLineCount(row);
@@ -10531,7 +10531,7 @@ margin: 0 10px;\
                         var gutterWidth = this.$showGutter ? width : 0;
                         gutterWidth != this.gutterWidth && (this.$changes |= this.$updateCachedSize(!0, gutterWidth, this.$size.width, this.$size.height)), this.session.getUseWrapMode() && this.adjustWrapLimit() ? this.$loop.schedule(this.CHANGE_FULL) : this.$size.$dirty ? this.$loop.schedule(this.CHANGE_FULL) : this.$computeLayerConfig();
                     }, this.adjustWrapLimit = function() {
-                        var availableWidth = this.$size.scrollerWidth - 2 * this.$padding, limit = Math.floor(availableWidth / this.characterWidth);
+                        var limit = Math.floor((this.$size.scrollerWidth - 2 * this.$padding) / this.characterWidth);
                         return this.session.adjustWrapLimit(limit, this.$showPrintMargin && this.$printMarginColumn);
                     }, this.setAnimatedScroll = function(shouldAnimate) {
                         this.setOption("animatedScroll", shouldAnimate);

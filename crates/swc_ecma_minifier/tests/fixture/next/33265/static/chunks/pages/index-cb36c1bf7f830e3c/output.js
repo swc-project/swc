@@ -70,9 +70,9 @@
                 }
                 return Number(number);
             }), numberToBytes = function(number, _temp2) {
-                var x, _ref2$le = (void 0 === _temp2 ? {} : _temp2).le, le = void 0 !== _ref2$le && _ref2$le;
+                var _ref2$le = (void 0 === _temp2 ? {} : _temp2).le, le = void 0 !== _ref2$le && _ref2$le;
                 ("bigint" != typeof number && "number" != typeof number || "number" == typeof number && number != number) && (number = 0), number = BigInt(number);
-                for(var byteCount = (x = number, Math.ceil(x.toString(2).length / 8)), bytes = new Uint8Array(new ArrayBuffer(byteCount)), i = 0; i < byteCount; i++){
+                for(var byteCount = Math.ceil(number.toString(2).length / 8), bytes = new Uint8Array(new ArrayBuffer(byteCount)), i = 0; i < byteCount; i++){
                     var byteIndex = le ? i : Math.abs(i + 1 - bytes.length);
                     bytes[byteIndex] = Number(number / BYTE_TABLE[i] & BigInt(0xff)), number < 0 && (bytes[byteIndex] = Math.abs(~bytes[byteIndex]), bytes[byteIndex] -= 0 === i ? 1 : 2);
                 }

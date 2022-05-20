@@ -2477,8 +2477,7 @@
             }(Button1);
             PlayToggle1.prototype.controlText_ = "Play", Component$1.registerComponent("PlayToggle", PlayToggle1);
             var defaultImplementation = function(seconds, guide) {
-                seconds = seconds < 0 ? 0 : seconds;
-                var s = Math.floor(seconds % 60), m = Math.floor(seconds / 60 % 60), h = Math.floor(seconds / 3600), gm = Math.floor(guide / 60 % 60), gh = Math.floor(guide / 3600);
+                var s = Math.floor((seconds = seconds < 0 ? 0 : seconds) % 60), m = Math.floor(seconds / 60 % 60), h = Math.floor(seconds / 3600), gm = Math.floor(guide / 60 % 60), gh = Math.floor(guide / 3600);
                 return (isNaN(seconds) || seconds === 1 / 0) && (h = m = s = "-"), m = (((h = h > 0 || gh > 0 ? h + ":" : "") || gm >= 10) && m < 10 ? "0" + m : m) + ":", s = s < 10 ? "0" + s : s, h + m + s;
             }, implementation = defaultImplementation;
             function setFormatTime(customImplementation) {
@@ -2654,7 +2653,7 @@
             }(Button1);
             SeekToLive1.prototype.controlText_ = "Seek to live, currently playing live", Component$1.registerComponent("SeekToLive", SeekToLive1);
             var clamp = function(number, min, max) {
-                return number = Number(number), Math.min(max, Math.max(min, isNaN(number) ? min : number));
+                return Math.min(max, Math.max(min, isNaN(number = Number(number)) ? min : number));
             }, Slider1 = function(_Component) {
                 function Slider(player, options) {
                     var _this;
@@ -11825,15 +11824,12 @@
                     return !pendingAudioTimelineChange || pendingAudioTimelineChange.to !== segmentTimeline;
                 }
                 return !1;
-            }, mediaDuration = function(audioTimingInfo, videoTimingInfo) {
-                var audioDuration = audioTimingInfo && "number" == typeof audioTimingInfo.start && "number" == typeof audioTimingInfo.end ? audioTimingInfo.end - audioTimingInfo.start : 0, videoDuration = videoTimingInfo && "number" == typeof videoTimingInfo.start && "number" == typeof videoTimingInfo.end ? videoTimingInfo.end - videoTimingInfo.start : 0;
-                return Math.max(audioDuration, videoDuration);
             }, segmentTooLong = function(_ref3) {
                 var segmentDuration = _ref3.segmentDuration, maxDuration = _ref3.maxDuration;
                 return !!segmentDuration && Math.round(segmentDuration) > maxDuration + TIME_FUDGE_FACTOR;
             }, getTroublesomeSegmentDurationMessage = function(segmentInfo, sourceType) {
                 if ("hls" !== sourceType) return null;
-                var segmentDuration = mediaDuration(segmentInfo.audioTimingInfo, segmentInfo.videoTimingInfo);
+                var audioTimingInfo, videoTimingInfo, segmentDuration = (audioTimingInfo = segmentInfo.audioTimingInfo, videoTimingInfo = segmentInfo.videoTimingInfo, Math.max(audioTimingInfo && "number" == typeof audioTimingInfo.start && "number" == typeof audioTimingInfo.end ? audioTimingInfo.end - audioTimingInfo.start : 0, videoTimingInfo && "number" == typeof videoTimingInfo.start && "number" == typeof videoTimingInfo.end ? videoTimingInfo.end - videoTimingInfo.start : 0));
                 if (!segmentDuration) return null;
                 var targetDuration = segmentInfo.playlist.targetDuration, isSegmentWayTooLong = segmentTooLong({
                     segmentDuration: segmentDuration,
@@ -14940,8 +14936,7 @@
                             },
                             systemBandwidth: {
                                 get: function() {
-                                    var invThroughput, invBandwidth = 1 / (this.bandwidth || 1);
-                                    return invThroughput = this.throughput > 0 ? 1 / this.throughput : 0, Math.floor(1 / (invBandwidth + invThroughput));
+                                    return Math.floor(1 / (1 / (this.bandwidth || 1) + (this.throughput > 0 ? 1 / this.throughput : 0)));
                                 },
                                 set: function() {
                                     videojs.log.error('The "systemBandwidth" property is read-only');
