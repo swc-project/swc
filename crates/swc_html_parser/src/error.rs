@@ -231,6 +231,14 @@ impl Error {
             ErrorKind::NonSpaceCharacterAfterFrameset => {
                 "Non-space character after \"<frameset>\"".into()
             }
+            ErrorKind::EndTagDidNotMatchCurrentOpenElement(
+                end_tag_name,
+                current_element_tag_name,
+            ) => format!(
+                "End tag \"{}\" did not match the name of the current open element (\"{:}\")",
+                end_tag_name, current_element_tag_name
+            )
+            .into(),
             ErrorKind::UnclosedElementsCell => {
                 "A table cell was implicitly closed, but there were open elements".into()
             }
@@ -337,5 +345,6 @@ pub enum ErrorKind {
     UnclosedElementsOnStack,
     UnclosedElementsCell,
     NonSpaceCharacterInFrameset,
+    EndTagDidNotMatchCurrentOpenElement(JsWord, JsWord),
     NonSpaceCharacterAfterFrameset,
 }
