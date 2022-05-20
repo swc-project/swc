@@ -16,7 +16,7 @@ use super::{is_pure_undefined, Optimizer};
 use crate::{
     alias::{collect_infects_from, AliasConfig},
     compress::{
-        optimize::util::replace_id_with_expr,
+        optimize::{unused::PropertyAccessOpts, util::replace_id_with_expr},
         util::{is_directive, is_ident_used_by, replace_expr},
     },
     debug::dump,
@@ -1007,6 +1007,26 @@ where
                         if deps.contains(&e.to_id()) {
                             return false;
                         }
+                    }
+                }
+
+                return true;
+            }
+
+            Expr::Member(MemberExpr { obj, prop, .. }) => {
+                if self.should_preserve_property_access(
+                    obj,
+                    PropertyAccessOpts {
+                        allow_getter: false,
+                        only_ident: false,
+                    },
+                ) {
+                    return false;
+                }
+
+                if let MemberProp::Computed(prop) = prop {
+                    if !self.is_skippable_for_seq(a, &prop.expr) {
+                        return false;
                     }
                 }
 
