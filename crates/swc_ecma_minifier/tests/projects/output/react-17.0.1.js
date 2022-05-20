@@ -607,7 +607,7 @@
     try {
         Object.freeze({});
     } catch (e) {}
-    var Children = {
+    exports.Children = {
         map: mapChildren,
         forEach: function(children, forEachFunc, forEachContext) {
             mapChildren(children, function() {
@@ -629,8 +629,7 @@
             if (!isValidElement(children)) throw Error("React.Children.only expected to receive a single React element child.");
             return children;
         }
-    };
-    exports.Children = Children, exports.Component = Component, exports.PureComponent = PureComponent, exports.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = ReactSharedInternals, exports.cloneElement = function(element, props, children) {
+    }, exports.Component = Component, exports.PureComponent = PureComponent, exports.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = ReactSharedInternals, exports.cloneElement = function(element, props, children) {
         for(var newElement = cloneElement.apply(this, arguments), i = 2; i < arguments.length; i++)validateChildKeys(arguments[i], newElement.type);
         return validatePropTypes(newElement), newElement;
     }, exports.createContext = function(defaultValue, calculateChangedBits) {

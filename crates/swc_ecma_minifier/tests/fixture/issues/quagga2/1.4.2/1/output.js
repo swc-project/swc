@@ -670,7 +670,7 @@
         },
         function(module, __webpack_exports__, __webpack_require__) {
             "use strict";
-            var Tracer = {
+            __webpack_exports__.a = {
                 searchDirections: [
                     [
                         0,
@@ -747,7 +747,6 @@
                     };
                 }
             };
-            __webpack_exports__.a = Tracer;
         },
         function(module, exports, __webpack_require__) {
             var Symbol = __webpack_require__(27), getRawTag = __webpack_require__(103), objectToString = __webpack_require__(104), symToStringTag = Symbol ? Symbol.toStringTag : void 0;

@@ -10588,7 +10588,8 @@
                         default:
                             return null;
                     }
-                }, probe$1 = {
+                }, handleRollover = timestampRolloverStream.handleRollover, probe = {};
+                probe.ts = {
                     parseType: function(packet, pmtPid) {
                         var pid = parsePid(packet);
                         return 0 === pid ? "pat" : pid === pmtPid ? "pmt" : pmtPid ? "pes" : null;
@@ -10661,8 +10662,7 @@
                         }
                         return frameBuffer = frameBuffer.subarray(frameSyncPoint), frameI -= frameSyncPoint, frameSyncPoint = 0, frameBuffer && frameBuffer.byteLength > 3 && "slice_layer_without_partitioning_rbsp_idr" === parseNalUnitType(0x1f & frameBuffer[frameSyncPoint + 3]) && (foundKeyFrame = !0), foundKeyFrame;
                     }
-                }, handleRollover = timestampRolloverStream.handleRollover, probe = {};
-                probe.ts = probe$1, probe.aac = utils;
+                }, probe.aac = utils;
                 var ONE_SECOND_IN_TS = clock.ONE_SECOND_IN_TS, MP2T_PACKET_LENGTH = 188, parsePsi_ = function(bytes, pmt) {
                     for(var packet, startIndex = 0, endIndex = MP2T_PACKET_LENGTH; endIndex < bytes.byteLength;){
                         if (0x47 === bytes[startIndex] && 0x47 === bytes[endIndex]) {
