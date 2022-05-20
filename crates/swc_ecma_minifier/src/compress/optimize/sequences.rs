@@ -1024,6 +1024,14 @@ where
                 return self.is_skippable_for_seq(a, left) && self.is_skippable_for_seq(a, right)
             }
 
+            Expr::Cond(CondExpr {
+                test, cons, alt, ..
+            }) => {
+                return self.is_skippable_for_seq(a, test)
+                    && self.is_skippable_for_seq(a, cons)
+                    && self.is_skippable_for_seq(a, alt)
+            }
+
             Expr::Assign(e) => {
                 let left_id = e.left.as_ident();
                 let left_id = match left_id {
