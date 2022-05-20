@@ -1080,7 +1080,8 @@ where
 
                 // TODO: Check for side effects in object properties.
 
-                log_abort!("unimpl: object");
+                // TODO: Use log_abort
+                report_change!("sequences: skip: Unknown expr: {}", dump(e, true));
 
                 return false;
             }
