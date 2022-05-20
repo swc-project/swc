@@ -1198,8 +1198,7 @@ where
             return true;
         }
 
-        // TODO: Use log_abort
-        report_change!("sequences: skip: Unknown expr: {}", dump(e, true));
+        log_abort!("sequences: skip: Unknown expr: {}", dump(e, true));
 
         false
     }
