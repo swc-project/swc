@@ -1205,6 +1205,9 @@ impl SourceMap {
                     &f
                 }
             };
+            if config.skip(&f.name) {
+                continue;
+            }
 
             let emit_columns = config.emit_columns(&f.name);
 
@@ -1341,6 +1344,10 @@ pub trait SourceMapGenConfig {
     /// You can define whether to emit sourcemap with columns or not
     fn emit_columns(&self, _f: &FileName) -> bool {
         true
+    }
+
+    fn skip(&self, _f: &FileName) -> bool {
+        false
     }
 }
 
