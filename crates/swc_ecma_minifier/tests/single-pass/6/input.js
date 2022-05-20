@@ -1,4 +1,4 @@
-const loadScript = (options) => {
+export const loadScript = (options) => {
     const { id, onLoad = () => null, ...rest } = options;
 
     return new Promise((resolve) => {
