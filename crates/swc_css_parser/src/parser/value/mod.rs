@@ -551,7 +551,10 @@ where
                         let percentage_or_number = match cur!(self) {
                             tok!("percentage") => ComponentValue::Percentage(self.parse()?),
                             tok!("number") => ComponentValue::Number(self.parse()?),
-                            Token::Function { value, .. } if is_math_function(value) => {
+                            Token::Function { value, .. }
+                                if is_math_function(value)
+                                    || value.eq_str_ignore_ascii_case("var") =>
+                            {
                                 ComponentValue::Function(self.parse()?)
                             }
                             tok!("ident") if !is_legacy_syntax => {
@@ -584,7 +587,10 @@ where
                     "hsl" | "hsla" => {
                         let percentage_or_none = match cur!(self) {
                             tok!("percentage") => ComponentValue::Percentage(self.parse()?),
-                            Token::Function { value, .. } if is_math_function(value) => {
+                            Token::Function { value, .. }
+                                if is_math_function(value)
+                                    || value.eq_str_ignore_ascii_case("var") =>
+                            {
                                 ComponentValue::Function(self.parse()?)
                             }
                             tok!("ident") => {
@@ -657,7 +663,9 @@ where
                         tok!("number") | tok!("percentage") => {
                             ComponentValue::AlphaValue(self.parse()?)
                         }
-                        Token::Function { value, .. } if is_math_function(value) => {
+                        Token::Function { value, .. }
+                            if is_math_function(value) || value.eq_str_ignore_ascii_case("var") =>
+                        {
                             ComponentValue::Function(self.parse()?)
                         }
                         tok!("ident") => {
@@ -723,7 +731,10 @@ where
                             tok!("number") | tok!("dimension") => {
                                 ComponentValue::Hue(self.parse()?)
                             }
-                            Token::Function { value, .. } if is_math_function(value) => {
+                            Token::Function { value, .. }
+                                if is_math_function(value)
+                                    || value.eq_str_ignore_ascii_case("var") =>
+                            {
                                 ComponentValue::Function(self.parse()?)
                             }
                             tok!("ident") => {
@@ -756,7 +767,10 @@ where
                     "lab" | "lch" | "oklab" | "oklch" => {
                         let percentage_or_none = match cur!(self) {
                             tok!("percentage") => ComponentValue::Percentage(self.parse()?),
-                            Token::Function { value, .. } if is_math_function(value) => {
+                            Token::Function { value, .. }
+                                if is_math_function(value)
+                                    || value.eq_str_ignore_ascii_case("var") =>
+                            {
                                 ComponentValue::Function(self.parse()?)
                             }
                             tok!("ident") => {
@@ -802,7 +816,10 @@ where
                     "hwb" => {
                         let percentage_or_none = match cur!(self) {
                             tok!("percentage") => ComponentValue::Percentage(self.parse()?),
-                            Token::Function { value, .. } if is_math_function(value) => {
+                            Token::Function { value, .. }
+                                if is_math_function(value)
+                                    || value.eq_str_ignore_ascii_case("var") =>
+                            {
                                 ComponentValue::Function(self.parse()?)
                             }
                             tok!("ident") => {
@@ -835,7 +852,10 @@ where
                     "lab" | "lch" | "oklab" | "oklch" => {
                         let number_or_none = match cur!(self) {
                             tok!("number") => ComponentValue::Number(self.parse()?),
-                            Token::Function { value, .. } if is_math_function(value) => {
+                            Token::Function { value, .. }
+                                if is_math_function(value)
+                                    || value.eq_str_ignore_ascii_case("var") =>
+                            {
                                 ComponentValue::Function(self.parse()?)
                             }
                             tok!("ident") => {
@@ -881,7 +901,10 @@ where
                     "hwb" => {
                         let percentage_or_none = match cur!(self) {
                             tok!("percentage") => ComponentValue::Percentage(self.parse()?),
-                            Token::Function { value, .. } if is_math_function(value) => {
+                            Token::Function { value, .. }
+                                if is_math_function(value)
+                                    || value.eq_str_ignore_ascii_case("var") =>
+                            {
                                 ComponentValue::Function(self.parse()?)
                             }
                             tok!("ident") => {
@@ -914,7 +937,10 @@ where
                     "lab" | "oklab" => {
                         let number_or_none = match cur!(self) {
                             tok!("number") => ComponentValue::Number(self.parse()?),
-                            Token::Function { value, .. } if is_math_function(value) => {
+                            Token::Function { value, .. }
+                                if is_math_function(value)
+                                    || value.eq_str_ignore_ascii_case("var") =>
+                            {
                                 ComponentValue::Function(self.parse()?)
                             }
                             tok!("ident") => {
@@ -949,7 +975,10 @@ where
                             tok!("number") | tok!("dimension") => {
                                 ComponentValue::Hue(self.parse()?)
                             }
-                            Token::Function { value, .. } if is_math_function(value) => {
+                            Token::Function { value, .. }
+                                if is_math_function(value)
+                                    || value.eq_str_ignore_ascii_case("var") =>
+                            {
                                 ComponentValue::Function(self.parse()?)
                             }
                             tok!("ident") => {
@@ -1008,7 +1037,9 @@ where
                         tok!("number") | tok!("percentage") => {
                             ComponentValue::AlphaValue(self.parse()?)
                         }
-                        Token::Function { value, .. } if is_math_function(value) => {
+                        Token::Function { value, .. }
+                            if is_math_function(value) || value.eq_str_ignore_ascii_case("var") =>
+                        {
                             ComponentValue::Function(self.parse()?)
                         }
                         tok!("ident") if !matches!(function_name, "device-cmyk") => {
@@ -1103,7 +1134,9 @@ where
                 let number_or_percentage_or_none = match cur!(self) {
                     tok!("number") => ComponentValue::Number(self.parse()?),
                     tok!("percentage") if !is_xyz => ComponentValue::Percentage(self.parse()?),
-                    Token::Function { value, .. } if is_math_function(value) => {
+                    Token::Function { value, .. }
+                        if is_math_function(value) || value.eq_str_ignore_ascii_case("var") =>
+                    {
                         ComponentValue::Function(self.parse()?)
                     }
                     tok!("ident") => {
@@ -1142,7 +1175,10 @@ where
                             tok!("percentage") if !is_xyz => {
                                 ComponentValue::Percentage(self.parse()?)
                             }
-                            Token::Function { value, .. } if is_math_function(value) => {
+                            Token::Function { value, .. }
+                                if is_math_function(value)
+                                    || value.eq_str_ignore_ascii_case("var") =>
+                            {
                                 ComponentValue::Function(self.parse()?)
                             }
                             tok!("ident") => {
@@ -1170,7 +1206,9 @@ where
                     let number_or_percentage_or_none = match cur!(self) {
                         tok!("number") => ComponentValue::Number(self.parse()?),
                         tok!("percentage") if !is_xyz => ComponentValue::Percentage(self.parse()?),
-                        Token::Function { value, .. } if is_math_function(value) => {
+                        Token::Function { value, .. }
+                            if is_math_function(value) || value.eq_str_ignore_ascii_case("var") =>
+                        {
                             ComponentValue::Function(self.parse()?)
                         }
                         tok!("ident") => {
@@ -1217,7 +1255,9 @@ where
 
                             ComponentValue::Ident(ident)
                         }
-                        Token::Function { value, .. } if is_math_function(value) => {
+                        Token::Function { value, .. }
+                            if is_math_function(value) || value.eq_str_ignore_ascii_case("var") =>
+                        {
                             ComponentValue::Function(self.parse()?)
                         }
                         _ => {
@@ -1247,7 +1287,9 @@ where
                         tok!("number") | tok!("percentage") => {
                             ComponentValue::AlphaValue(self.parse()?)
                         }
-                        Token::Function { value, .. } if is_math_function(value) => {
+                        Token::Function { value, .. }
+                            if is_math_function(value) || value.eq_str_ignore_ascii_case("var") =>
+                        {
                             ComponentValue::Function(self.parse()?)
                         }
                         tok!("ident") if !matches!(function_name, "device-cmyk") => {
@@ -2105,6 +2147,12 @@ where
                     let span = self.input.cur_span()?;
 
                     return Err(Error::new(span, ErrorKind::Expected("math function token")));
+                }
+
+                if !value.eq_str_ignore_ascii_case("var") {
+                    let span = self.input.cur_span()?;
+
+                    return Err(Error::new(span, ErrorKind::Expected("var function token")));
                 }
 
                 Ok(CmykComponent::Function(self.parse()?))
