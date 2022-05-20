@@ -3,6 +3,7 @@
   "span": {
     "start": 1,
     "end": 96,
+    "end": 34,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -23,6 +24,7 @@
       "span": {
         "start": 0,
         "end": 96,
+        "end": 23,
         "ctxt": 0
       },
       "tagName": "html",
@@ -34,6 +36,7 @@
           "span": {
             "start": 0,
             "end": 22,
+            "end": 23,
             "ctxt": 0
           },
           "tagName": "head",
@@ -47,6 +50,8 @@
           "span": {
             "start": 16,
             "end": 96,
+            "start": 0,
+            "end": 23,
             "ctxt": 0
           },
           "tagName": "body",
@@ -58,6 +63,19 @@
               "span": {
                 "start": 22,
                 "end": 81,
+              "type": "Text",
+              "span": {
+                "start": 23,
+                "end": 34,
+                "ctxt": 0
+              },
+              "value": " x "
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 16,
+                "end": 23,
                 "ctxt": 0
               },
               "tagName": "table",
@@ -153,6 +171,7 @@
                   "value": "quux"
                 }
               ],
+              "children": [],
               "content": null
             }
           ],
