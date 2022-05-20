@@ -120,9 +120,11 @@
                             var r = e.length;
                             if (r % 4 > 0) throw new Error("Invalid string. Length must be a multiple of 4");
                             var t = e.indexOf("=");
-                            return -1 === t && (t = r), [
+                            -1 === t && (t = r);
+                            var f = t === r ? 0 : 4 - t % 4;
+                            return [
                                 t,
-                                t === r ? 0 : 4 - t % 4
+                                f
                             ];
                         }
                         function tripletToBase64(e) {

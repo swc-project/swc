@@ -5154,9 +5154,11 @@
                 var len = b64.length;
                 if (len % 4 > 0) throw new Error("Invalid string. Length must be a multiple of 4");
                 var validLen = b64.indexOf("=");
-                return -1 === validLen && (validLen = len), [
+                -1 === validLen && (validLen = len);
+                var placeHoldersLen = validLen === len ? 0 : 4 - validLen % 4;
+                return [
                     validLen,
-                    validLen === len ? 0 : 4 - validLen % 4
+                    placeHoldersLen
                 ];
             }
             function tripletToBase64(num) {

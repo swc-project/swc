@@ -2526,7 +2526,8 @@
         for(start = 0; start < startLength && startValue[start] === endValue[start]; start++);
         var minEnd = startLength - start;
         for(end = 1; end <= minEnd && startValue[startLength - end] === endValue[endLength - end]; end++);
-        return fallbackText = endValue.slice(start, end > 1 ? 1 - end : void 0);
+        var sliceTail = end > 1 ? 1 - end : void 0;
+        return fallbackText = endValue.slice(start, sliceTail);
     }
     function getText() {
         return "value" in root1 ? root1.value : root1.textContent;
