@@ -1038,7 +1038,7 @@ where
             Expr::Yield(..) | Expr::Await(..) => return false,
 
             Expr::Unary(UnaryExpr {
-                op: op!("!") | op!("void") | op!("typeof"),
+                op: op!("!") | op!("void") | op!("typeof") | op!(unary, "-") | op!(unary, "+"),
                 arg,
                 ..
             }) => return self.is_skippable_for_seq(a, arg),
