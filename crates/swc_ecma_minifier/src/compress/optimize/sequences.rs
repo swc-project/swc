@@ -1173,8 +1173,8 @@ where
                     }
                 }
 
-                // TODO(kdy1): We can calculate side effects of call expressions in some cases.
-                return false;
+                // TODO(kdy1): We can calculate side effects of call expressions
+                // in some cases.
             }
 
             Expr::Seq(SeqExpr { exprs, .. }) => {
