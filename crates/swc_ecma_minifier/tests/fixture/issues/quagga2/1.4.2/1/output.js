@@ -2632,7 +2632,7 @@
                 "use strict";
                 var undefined, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
                 function wrap(innerFn, outerFn, self, tryLocsList) {
-                    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []);
+                    var generator = Object.create((outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator).prototype), context = new Context(tryLocsList || []);
                     return generator._invoke = makeInvokeMethod(innerFn, self, context), generator;
                 }
                 function tryCatch(fn, obj, arg) {
@@ -6626,16 +6626,14 @@
                 try {
                     return navigator.mediaDevices.enumerateDevices();
                 } catch (err) {
-                    var error = new Exception_Exception("enumerateDevices is not defined. ".concat(ERROR_DESC), -1);
-                    return Promise.reject(error);
+                    return Promise.reject(new Exception_Exception("enumerateDevices is not defined. ".concat(ERROR_DESC), -1));
                 }
             }
             function getUserMedia(constraints) {
                 try {
                     return navigator.mediaDevices.getUserMedia(constraints);
                 } catch (err) {
-                    var error = new Exception_Exception("getUserMedia is not defined. ".concat(ERROR_DESC), -1);
-                    return Promise.reject(error);
+                    return Promise.reject(new Exception_Exception("getUserMedia is not defined. ".concat(ERROR_DESC), -1));
                 }
             }
             function waitForVideo(video) {

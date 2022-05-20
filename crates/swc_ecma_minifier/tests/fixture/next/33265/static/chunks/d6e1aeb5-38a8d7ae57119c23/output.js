@@ -2095,7 +2095,7 @@
                 if (Array.isArray(src)) {
                     var newsrc = [];
                     src.forEach(function(srcobj) {
-                        srcobj = filterSource(srcobj), Array.isArray(srcobj) ? newsrc = newsrc.concat(srcobj) : isObject(srcobj) && newsrc.push(srcobj);
+                        Array.isArray(srcobj = filterSource(srcobj)) ? newsrc = newsrc.concat(srcobj) : isObject(srcobj) && newsrc.push(srcobj);
                     }), src = newsrc;
                 } else src = "string" == typeof src && src.trim() ? [
                     fixSource({
@@ -8478,8 +8478,8 @@
                         return data;
                     },
                     generateSampleTableForFrame: function(frame, baseDataOffset) {
-                        var sample, samples = [];
-                        return sample = sampleForFrame(frame, baseDataOffset || 0), samples.push(sample), samples;
+                        var samples = [];
+                        return samples.push(sampleForFrame(frame, baseDataOffset || 0)), samples;
                     },
                     concatenateNalDataForFrame: function(frame) {
                         var i, currentNal, dataOffset = 0, nalsByteLength = frame.byteLength, numberOfNals = frame.length, data = new Uint8Array(nalsByteLength + 4 * numberOfNals), view = new DataView(data.buffer);
@@ -8515,7 +8515,7 @@
                 }, silence_1 = function() {
                     if (!silence) {
                         var metaTable;
-                        silence = (metaTable = {
+                        silence = Object.keys(metaTable = {
                             96000: [
                                 highPrefix,
                                 [
@@ -8729,11 +8729,11 @@
                                     7
                                 ], 
                             ]
-                        }, Object.keys(metaTable).reduce(function(obj, key) {
+                        }).reduce(function(obj, key) {
                             return obj[key] = new Uint8Array(metaTable[key].reduce(function(arr, part) {
                                 return arr.concat(part);
                             }, [])), obj;
-                        }, {}));
+                        }, {});
                     }
                     return silence;
                 };
@@ -8783,9 +8783,9 @@
                         }));
                     },
                     generateSampleTable: function(frames) {
-                        var i, currentFrame, samples = [];
-                        for(i = 0; i < frames.length; i++)currentFrame = frames[i], samples.push({
-                            size: currentFrame.data.byteLength,
+                        var i, samples = [];
+                        for(i = 0; i < frames.length; i++)samples.push({
+                            size: frames[i].data.byteLength,
                             duration: 1024
                         });
                         return samples;
@@ -9186,7 +9186,7 @@
                     0x033e: 0x2514,
                     0x033f: 0x2518
                 }, getCharFromCode = function(code) {
-                    return null === code ? "" : (code = CHARACTER_TRANSLATION[code] || code, String.fromCharCode(code));
+                    return null === code ? "" : String.fromCharCode(code = CHARACTER_TRANSLATION[code] || code);
                 }, BOTTOM_ROW = 14, ROWS = [
                     0x1100,
                     0x1120,

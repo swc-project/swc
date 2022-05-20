@@ -1,6 +1,5 @@
-var array;
 let _iterator = Symbol.iterator;
-array.concat([
+(void 0).concat([
     ...new class {
         next() {
             return {
