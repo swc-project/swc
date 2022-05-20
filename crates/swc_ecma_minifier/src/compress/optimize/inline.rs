@@ -8,7 +8,7 @@ use crate::{
     compress::optimize::util::{class_has_side_effect, is_valid_for_lhs},
     debug::dump,
     mode::Mode,
-    util::{idents_captured_by, idents_used_by},
+    util::{idents_captured_by, idents_used_by, idents_used_by_ignoring_nested},
 };
 
 /// Methods related to option `inline`.
@@ -277,7 +277,7 @@ where
                             }
                         }
                         _ => {
-                            for id in idents_used_by(&**init) {
+                            for id in idents_used_by_ignoring_nested(&**init) {
                                 if let Some(v_usage) = self.data.vars.get(&id) {
                                     if v_usage.reassigned() {
                                         return;
