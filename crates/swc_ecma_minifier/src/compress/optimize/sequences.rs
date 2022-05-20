@@ -902,8 +902,7 @@ where
                         }
 
                         if let Some(id) = a1.last_mut().unwrap().id() {
-                            // TODO(kdy1): Optimize
-                            if idents_used_by(&**e2).contains(&id) {
+                            if IdentUsageFinder::find(&id, &**e2) {
                                 break;
                             }
                         }
@@ -915,7 +914,7 @@ where
 
                         if let Some(id) = a1.last_mut().unwrap().id() {
                             // TODO(kdy1): Optimize
-                            if idents_used_by(&**e2).contains(&id) {
+                            if IdentUsageFinder::find(&id, &**e2) {
                                 break;
                             }
                         }
