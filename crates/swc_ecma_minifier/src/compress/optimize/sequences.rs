@@ -1145,6 +1145,10 @@ where
                 }
             }
 
+            Expr::Seq(SeqExpr { exprs, .. }) => {
+                return exprs.iter().all(|e| self.is_skippable_for_seq(a, e));
+            }
+
             _ => {}
         }
 
