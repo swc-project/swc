@@ -1109,12 +1109,41 @@ where
                     return true;
                 }
 
+                for p in &e.props {
+                    match p {
+                        PropOrSpread::Spread(_) => return false,
+                        PropOrSpread::Prop(p) => match &**p {
+                            Prop::Shorthand(i) => {
+                                if !self.is_skippable_for_seq(a, &Expr::Ident(i.clone())) {
+                                    return false;
+                                }
+                            }
+                            Prop::KeyValue(kv) => {
+                                if let PropName::Computed(key) = &kv.key {
+                                    if !self.is_skippable_for_seq(a, &key.expr) {
+                                        return false;
+                                    }
+                                }
+
+                                if !self.is_skippable_for_seq(a, &kv.value) {
+                                    return false;
+                                }
+                            }
+                            Prop::Assign(_) => {
+                                log_abort!("assign property");
+                                return false;
+                            }
+                            _ => {
+                                log_abort!("handler is not implemented for this kind of property");
+                                return false;
+                            }
+                        },
+                    }
+                }
+
                 // TODO: Check for side effects in object properties.
 
-                // TODO: Use log_abort
-                report_change!("sequences: skip: Unknown expr: {}", dump(e, true));
-
-                return false;
+                return true;
             }
 
             Expr::Array(e) => {
