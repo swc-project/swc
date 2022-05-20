@@ -4120,23 +4120,6 @@ where
             }
             // The "in table" insertion mode
             InsertionMode::InTable => {
-                let anything_else = |parser: &mut Parser<I>,
-                                     foster_parenting_enabled: bool,
-                                     token_and_info: &mut TokenAndInfo|
-                 -> PResult<()> {
-                    parser
-                        .errors
-                        .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
-
-                    let saved_foster_parenting_state = foster_parenting_enabled;
-
-                    parser.foster_parenting_enabled = true;
-                    parser.process_token_using_rules(token_and_info, InsertionMode::InBody)?;
-                    parser.foster_parenting_enabled = saved_foster_parenting_state;
-
-                    Ok(())
-                };
-
                 // When the user agent is to apply the rules for the "in table" insertion mode,
                 // the user agent must handle the token as follows:
                 match token {
@@ -4394,7 +4377,9 @@ where
                         };
 
                         if input_type.is_none() || !is_hidden {
-                            anything_else(self, self.foster_parenting_enabled, token_and_info)?;
+                            self.process_token_in_table_insertion_mode_anything_else(
+                                token_and_info,
+                            )?;
                         } else {
                             self.errors.push(Error::new(
                                 token_and_info.span,
@@ -4451,7 +4436,7 @@ where
                     // Parse error. Enable foster parenting, process the token using the rules for
                     // the "in body" insertion mode, and then disable foster parenting.
                     _ => {
-                        anything_else(self, self.foster_parenting_enabled, token_and_info)?;
+                        self.process_token_in_table_insertion_mode_anything_else(token_and_info)?;
                     }
                 }
             }
@@ -4507,19 +4492,11 @@ where
                         }
 
                         if has_non_ascii_whitespace {
-                            self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
-
                             for mut character_token in mem::take(&mut self.pending_character_tokens)
                             {
-                                let saved_foster_parenting_state = self.foster_parenting_enabled;
-
-                                self.foster_parenting_enabled = true;
-                                self.process_token_using_rules(
+                                self.process_token_in_table_insertion_mode_anything_else(
                                     &mut character_token,
-                                    InsertionMode::InBody,
                                 )?;
-                                self.foster_parenting_enabled = saved_foster_parenting_state;
                             }
                         } else {
                             for mut character_token in mem::take(&mut self.pending_character_tokens)
@@ -6154,6 +6131,22 @@ where
                 }
             }
         }
+
+        Ok(())
+    }
+
+    fn process_token_in_table_insertion_mode_anything_else(
+        &mut self,
+        token_and_info: &mut TokenAndInfo,
+    ) -> PResult<()> {
+        self.errors
+            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+
+        let saved_foster_parenting_state = self.foster_parenting_enabled;
+
+        self.foster_parenting_enabled = true;
+        self.process_token_using_rules(token_and_info, InsertionMode::InBody)?;
+        self.foster_parenting_enabled = saved_foster_parenting_state;
 
         Ok(())
     }
