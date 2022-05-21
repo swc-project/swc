@@ -36,7 +36,7 @@ export default function foo() {
 `);
 });
 
-it("should auto-detect tsx even with no parser option", async () => {
+it("should respect .swcrc without parser option", async () => {
     const filename = join(
         __dirname,
         "..",
