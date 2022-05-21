@@ -246,6 +246,8 @@ impl Error {
             ErrorKind::UnclosedElementsCell => {
                 "A table cell was implicitly closed, but there were open elements".into()
             }
+            ErrorKind::NonSpaceAfterBody => "Non-space character after body".into(),
+            ErrorKind::EndTagAfterBody => "Saw an end tag after \"body\" had been closed".into(),
         }
     }
 
@@ -352,4 +354,6 @@ pub enum ErrorKind {
     EndTagDidNotMatchCurrentOpenElement(JsWord, JsWord),
     NonSpaceCharacterAfterFrameset,
     NonSpaceCharacterInTrailer,
+    NonSpaceAfterBody,
+    EndTagAfterBody,
 }

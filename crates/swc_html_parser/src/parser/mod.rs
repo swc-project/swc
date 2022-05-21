@@ -5784,8 +5784,32 @@ where
                     //
                     // Parse error. Switch the insertion mode to "in body" and reprocess the token.
                     _ => {
-                        self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        match token {
+                            // Doctype handled above
+                            // Comment handled above
+                            // EOF handled above
+                            Token::Character { .. } => {
+                                self.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::NonSpaceAfterBody,
+                                ));
+                            }
+                            Token::StartTag { tag_name, .. } => {
+                                self.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::StrayStartTag(tag_name.clone()),
+                                ));
+                            }
+                            Token::EndTag { .. } => {
+                                self.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::EndTagAfterBody,
+                                ));
+                            }
+                            _ => {
+                                unreachable!();
+                            }
+                        }
 
                         self.insertion_mode = InsertionMode::InBody;
                         self.process_token(token_and_info, None)?;
