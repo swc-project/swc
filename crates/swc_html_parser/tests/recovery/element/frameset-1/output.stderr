@@ -10,3 +10,15 @@
  16 | a
     : ^
     `----
+
+  x Stray start tag "<div>"
+    ,-[$DIR/tests/recovery/element/frameset-1/input.html:17:1]
+ 17 | <div></div>
+    : ^^^^^
+    `----
+
+  x Stray end tag "</div>"
+    ,-[$DIR/tests/recovery/element/frameset-1/input.html:17:1]
+ 17 | <div></div>
+    :      ^^^^^^
+    `----
