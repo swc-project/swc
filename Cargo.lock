@@ -3634,7 +3634,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.112.2"
+version = "0.112.3"
 dependencies = [
  "Inflector",
  "ahash",
@@ -3967,7 +3967,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.8.6"
+version = "0.8.7"
 dependencies = [
  "bitflags",
  "criterion",
