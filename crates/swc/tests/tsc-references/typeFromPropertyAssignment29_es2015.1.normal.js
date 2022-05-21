@@ -29,7 +29,7 @@ function ExpandoNested(n7) {
     const nested = function(m) {
         return n7 + m;
     };
-    nested.total = n7 + 1_000_000;
+    nested.total = n7 + 1000000;
     return nested;
 }
 ExpandoNested.also = -1;
