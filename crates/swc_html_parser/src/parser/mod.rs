@@ -949,17 +949,10 @@ where
 
                 loop {
                     if stack_idx == 0 || node.is_none() {
-                        break;
+                        return Ok(());
                     }
 
                     let inner_node = node.unwrap();
-                    let first = self.open_elements_stack.items.first();
-
-                    if let Some(first) = first {
-                        if is_same_node(inner_node, first) {
-                            return Ok(());
-                        }
-                    }
 
                     match &inner_node.data {
                         Data::Element(element)

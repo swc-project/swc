@@ -1,0 +1,6 @@
+
+  x Unexpected token
+   ,-[$DIR/tests/recovery/element/math-1/input.html:9:1]
+ 9 | </math>
+   : ^^^^^^^
+   `----
