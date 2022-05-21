@@ -577,7 +577,11 @@ where
         } else {
             match &num.raw {
                 Some(raw) => {
-                    self.wr.write_str_lit(num.span, raw)?;
+                    if raw.contains('_') {
+                        self.wr.write_str_lit(num.span, &num.value.to_string())?;
+                    } else {
+                        self.wr.write_str_lit(num.span, raw)?;
+                    }
                 }
                 _ => {
                     self.wr.write_str_lit(num.span, &num.value.to_string())?;
