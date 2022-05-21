@@ -225,12 +225,6 @@ impl Error {
             )
             .into(),
             ErrorKind::UnexpectedEof => "Unexpected end of file".into(),
-            ErrorKind::NonSpaceCharacterInFrameset => {
-                "Non-space character in \"<frameset>\"".into()
-            }
-            ErrorKind::NonSpaceCharacterAfterFrameset => {
-                "Non-space character after \"<frameset>\"".into()
-            }
             ErrorKind::EndTagDidNotMatchCurrentOpenElement(
                 end_tag_name,
                 current_element_tag_name,
@@ -239,8 +233,28 @@ impl Error {
                 end_tag_name, current_element_tag_name
             )
             .into(),
+            ErrorKind::NonSpaceCharacterInFrameset => {
+                "Non-space character in \"<frameset>\"".into()
+            }
+            ErrorKind::NonSpaceCharacterAfterFrameset => {
+                "Non-space character after \"<frameset>\"".into()
+            }
+            ErrorKind::NonSpaceCharacterInTrailer => "Non-space character in page trailer".into(),
             ErrorKind::UnclosedElementsCell => {
                 "A table cell was implicitly closed, but there were open elements".into()
+            }
+            ErrorKind::NonSpaceAfterBody => "Non-space character after body".into(),
+            ErrorKind::EndTagAfterBody => "Saw an end tag after \"body\" had been closed".into(),
+            ErrorKind::NonSpaceInNoscriptInHead => {
+                "Non-space character inside \"noscript\" inside \"head\"".into()
+            }
+            ErrorKind::BadStartTagInNoscriptInHead(tag_name) => format!(
+                "Bad start tag in \"{}\" in \"noscript\" in \"head\"",
+                tag_name
+            )
+            .into(),
+            ErrorKind::EofWithUnclosedElements => {
+                "End of file seen and there were open elements".into()
             }
         }
     }
@@ -347,4 +361,10 @@ pub enum ErrorKind {
     NonSpaceCharacterInFrameset,
     EndTagDidNotMatchCurrentOpenElement(JsWord, JsWord),
     NonSpaceCharacterAfterFrameset,
+    NonSpaceCharacterInTrailer,
+    NonSpaceAfterBody,
+    EndTagAfterBody,
+    NonSpaceInNoscriptInHead,
+    BadStartTagInNoscriptInHead(JsWord),
+    EofWithUnclosedElements,
 }
