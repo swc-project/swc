@@ -5060,8 +5060,10 @@ where
                         if matches!(tag_name.as_ref(), "tbody" | "tfoot" | "thead") =>
                     {
                         if !self.open_elements_stack.has_in_table_scope(tag_name) {
-                            self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::StrayEndTag(tag_name.clone()),
+                            ));
                         } else if !self.open_elements_stack.has_in_table_scope("tr") {
                             // Ignore
 
@@ -5083,8 +5085,10 @@ where
                             "body" | "caption" | "col" | "colgroup" | "html" | "td" | "th"
                         ) =>
                     {
-                        self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        self.errors.push(Error::new(
+                            token_and_info.span,
+                            ErrorKind::StrayEndTag(tag_name.clone()),
+                        ));
                     }
                     // Anything else
                     //
@@ -5345,9 +5349,10 @@ where
                             Some(node) if is_html_element!(node, "optgroup") => {
                                 self.open_elements_stack.pop();
                             }
-                            _ => self
-                                .errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken)),
+                            _ => self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::StrayEndTag(tag_name.clone()),
+                            )),
                         }
                     }
                     // An end tag whose tag name is "option"
@@ -5359,9 +5364,10 @@ where
                             Some(node) if is_html_element!(node, "option") => {
                                 self.open_elements_stack.pop();
                             }
-                            _ => self
-                                .errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken)),
+                            _ => self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::StrayEndTag(tag_name.clone()),
+                            )),
                         }
                     }
                     // An end tag whose tag name is "select"

@@ -5,7 +5,7 @@
    : ^^^^^^^^
    `----
 
-  x Unexpected token
+  x Stray end tag "</option>"
    ,-[$DIR/tests/recovery/element/select-1/input.html:7:5]
  7 | </option>
    : ^^^^^^^^^
