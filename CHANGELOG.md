@@ -14,6 +14,9 @@
 
 
 
+- **(es/modules/amd)** Support local-scoped amd requires (#4727) ([886585b](https://github.com/swc-project/swc/commit/886585b90e2f240e4d72091629bc547ab74f7e2e))
+
+
 - **(html/parser)** Improve error reporting for misplaced non-space characters inside a table (#4723) ([e9b2ebf](https://github.com/swc-project/swc/commit/e9b2ebfc3bffb7d28b7ca0e50f8570aaed2f35e5))
 
 ## [1.2.189] - 2022-05-21
