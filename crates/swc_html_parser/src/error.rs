@@ -242,6 +242,7 @@ impl Error {
             ErrorKind::NonSpaceCharacterAfterAfterFrameset => {
                 "Non-space character in page trailer".into()
             }
+            ErrorKind::NonSpaceCharacterInTrailer => "Non-space character in page trailer".into(),
             ErrorKind::UnclosedElementsCell => {
                 "A table cell was implicitly closed, but there were open elements".into()
             }
@@ -350,5 +351,5 @@ pub enum ErrorKind {
     NonSpaceCharacterInFrameset,
     EndTagDidNotMatchCurrentOpenElement(JsWord, JsWord),
     NonSpaceCharacterAfterFrameset,
-    NonSpaceCharacterAfterAfterFrameset,
+    NonSpaceCharacterInTrailer,
 }
