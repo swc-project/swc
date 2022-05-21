@@ -225,12 +225,6 @@ impl Error {
             )
             .into(),
             ErrorKind::UnexpectedEof => "Unexpected end of file".into(),
-            ErrorKind::NonSpaceCharacterInFrameset => {
-                "Non-space character in \"<frameset>\"".into()
-            }
-            ErrorKind::NonSpaceCharacterAfterFrameset => {
-                "Non-space character after \"<frameset>\"".into()
-            }
             ErrorKind::EndTagDidNotMatchCurrentOpenElement(
                 end_tag_name,
                 current_element_tag_name,
@@ -239,8 +233,11 @@ impl Error {
                 end_tag_name, current_element_tag_name
             )
             .into(),
-            ErrorKind::NonSpaceCharacterAfterAfterFrameset => {
-                "Non-space character in page trailer".into()
+            ErrorKind::NonSpaceCharacterInFrameset => {
+                "Non-space character in \"<frameset>\"".into()
+            }
+            ErrorKind::NonSpaceCharacterAfterFrameset => {
+                "Non-space character after \"<frameset>\"".into()
             }
             ErrorKind::NonSpaceCharacterInTrailer => "Non-space character in page trailer".into(),
             ErrorKind::UnclosedElementsCell => {
