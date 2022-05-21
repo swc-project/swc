@@ -20,7 +20,13 @@
   x Unexpected token
    ,-[$DIR/tests/recovery/element/table/broken-7/input.html:2:1]
  2 | A<table><tr> B</tr> </em>C</table>
-   :               ^^^^^
+   :             ^
+   `----
+
+  x Unexpected token
+   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:2:1]
+ 2 | A<table><tr> B</tr> </em>C</table>
+   :              ^
    `----
 
   x Unexpected token
@@ -32,7 +38,7 @@
   x Unexpected token
    ,-[$DIR/tests/recovery/element/table/broken-7/input.html:2:1]
  2 | A<table><tr> B</tr> </em>C</table>
-   :                           ^^^^^^^^
+   :                          ^
    `----
 
   x Unexpected end of file

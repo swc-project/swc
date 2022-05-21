@@ -2,17 +2,17 @@
   x Unexpected token
    ,-[$DIR/tests/recovery/element/table/table-characters/input.html:7:5]
  7 | A<table>B<tr>C</tr>D</table>
-   :          ^^^^
+   :         ^
    `----
 
   x Unexpected token
    ,-[$DIR/tests/recovery/element/table/table-characters/input.html:7:5]
  7 | A<table>B<tr>C</tr>D</table>
-   :               ^^^^^
+   :              ^
    `----
 
   x Unexpected token
    ,-[$DIR/tests/recovery/element/table/table-characters/input.html:7:5]
  7 | A<table>B<tr>C</tr>D</table>
-   :                     ^^^^^^^^
+   :                    ^
    `----

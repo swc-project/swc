@@ -12,5 +12,9 @@
    `----
 
   x Unexpected token
+   ,-[$DIR/tests/recovery/element/table-1/input.html:1:1]
+ 1 | <table><td></tbody>A
+   :                    ^
+   `----
 
   x Unexpected end of file
