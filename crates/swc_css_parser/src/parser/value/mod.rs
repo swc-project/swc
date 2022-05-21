@@ -554,23 +554,6 @@ where
 
                 match function_name {
                     "rgb" | "rgba" => {
-                        let percentage_or_number = match cur!(self) {
-                            tok!("percentage") => ComponentValue::Percentage(self.parse()?),
-                            tok!("number") => ComponentValue::Number(self.parse()?),
-                            Token::Function { value, .. }
-                                if is_math_function(value)
-                                    || value.eq_str_ignore_ascii_case("var") =>
-                            {
-                                ComponentValue::Function(self.parse()?)
-                            }
-                            tok!("ident") if !is_legacy_syntax => {
-                                let ident: Ident = self.parse()?;
-
-                                if !(&*ident.value).eq_ignore_ascii_case("none") {
-                                    return Err(Error::new(
-                                        ident.span,
-                                        ErrorKind::Expected("'none' value of an ident token"),
-                                    ));
                         let percentage_or_number =
                             self.try_parse_variable_function(|parser| match cur!(parser) {
                                 tok!("percentage") => {
@@ -604,22 +587,6 @@ where
                         values.push(percentage_or_number);
                     }
                     "hsl" | "hsla" => {
-                        let percentage_or_none = match cur!(self) {
-                            tok!("percentage") => ComponentValue::Percentage(self.parse()?),
-                            Token::Function { value, .. }
-                                if is_math_function(value)
-                                    || value.eq_str_ignore_ascii_case("var") =>
-                            {
-                                ComponentValue::Function(self.parse()?)
-                            }
-                            tok!("ident") => {
-                                let ident: Ident = self.parse()?;
-
-                                if !(&*ident.value).eq_ignore_ascii_case("none") {
-                                    return Err(Error::new(
-                                        ident.span,
-                                        ErrorKind::Expected("'none' value of an ident token"),
-                                    ));
                         let percentage_or_none =
                             self.try_parse_variable_function(|parser| match cur!(parser) {
                                 tok!("percentage") => {
@@ -687,23 +654,6 @@ where
 
                     self.input.skip_ws()?;
 
-                    let alpha_value = match cur!(self) {
-                        tok!("number") | tok!("percentage") => {
-                            ComponentValue::AlphaValue(self.parse()?)
-                        }
-                        Token::Function { value, .. }
-                            if is_math_function(value) || value.eq_str_ignore_ascii_case("var") =>
-                        {
-                            ComponentValue::Function(self.parse()?)
-                        }
-                        tok!("ident") => {
-                            let ident: Ident = self.parse()?;
-
-                            if !(&*ident.value).eq_ignore_ascii_case("none") {
-                                return Err(Error::new(
-                                    ident.span,
-                                    ErrorKind::Expected("'none' value of an ident token"),
-                                ));
                     let alpha_value =
                         self.try_parse_variable_function(|parser| match cur!(parser) {
                             tok!("number") | tok!("percentage") => {
@@ -767,18 +717,6 @@ where
 
                 match function_name {
                     "hwb" => {
-                        let hue_or_none = match cur!(self) {
-                            tok!("number") | tok!("dimension") => {
-                                ComponentValue::Hue(self.parse()?)
-                            }
-                            Token::Function { value, .. }
-                                if is_math_function(value)
-                                    || value.eq_str_ignore_ascii_case("var") =>
-                            {
-                                ComponentValue::Function(self.parse()?)
-                            }
-                            tok!("ident") => {
-                                let ident: Ident = self.parse()?;
                         let hue_or_none =
                             self.try_parse_variable_function(|parser| match cur!(parser) {
                                 tok!("number") | tok!("dimension") => {
@@ -813,22 +751,6 @@ where
                         values.push(hue_or_none);
                     }
                     "lab" | "lch" | "oklab" | "oklch" => {
-                        let percentage_or_none = match cur!(self) {
-                            tok!("percentage") => ComponentValue::Percentage(self.parse()?),
-                            Token::Function { value, .. }
-                                if is_math_function(value)
-                                    || value.eq_str_ignore_ascii_case("var") =>
-                            {
-                                ComponentValue::Function(self.parse()?)
-                            }
-                            tok!("ident") => {
-                                let ident: Ident = self.parse()?;
-
-                                if !(&*ident.value).eq_ignore_ascii_case("none") {
-                                    return Err(Error::new(
-                                        ident.span,
-                                        ErrorKind::Expected("'none' value of an ident token"),
-                                    ));
                         let percentage_or_none =
                             self.try_parse_variable_function(|parser| match cur!(parser) {
                                 tok!("percentage") => {
@@ -876,22 +798,6 @@ where
 
                 match function_name {
                     "hwb" => {
-                        let percentage_or_none = match cur!(self) {
-                            tok!("percentage") => ComponentValue::Percentage(self.parse()?),
-                            Token::Function { value, .. }
-                                if is_math_function(value)
-                                    || value.eq_str_ignore_ascii_case("var") =>
-                            {
-                                ComponentValue::Function(self.parse()?)
-                            }
-                            tok!("ident") => {
-                                let ident: Ident = self.parse()?;
-
-                                if !(&*ident.value).eq_ignore_ascii_case("none") {
-                                    return Err(Error::new(
-                                        ident.span,
-                                        ErrorKind::Expected("'none' value of an ident token"),
-                                    ));
                         let percentage_or_none =
                             self.try_parse_variable_function(|parser| match cur!(parser) {
                                 tok!("percentage") => {
@@ -924,22 +830,6 @@ where
                         values.push(percentage_or_none);
                     }
                     "lab" | "lch" | "oklab" | "oklch" => {
-                        let number_or_none = match cur!(self) {
-                            tok!("number") => ComponentValue::Number(self.parse()?),
-                            Token::Function { value, .. }
-                                if is_math_function(value)
-                                    || value.eq_str_ignore_ascii_case("var") =>
-                            {
-                                ComponentValue::Function(self.parse()?)
-                            }
-                            tok!("ident") => {
-                                let ident: Ident = self.parse()?;
-
-                                if !(&*ident.value).eq_ignore_ascii_case("none") {
-                                    return Err(Error::new(
-                                        ident.span,
-                                        ErrorKind::Expected("'none' value of an ident token"),
-                                    ));
                         let number_or_none =
                             self.try_parse_variable_function(|parser| match cur!(parser) {
                                 tok!("number") => Ok(ComponentValue::Number(parser.parse()?)),
@@ -985,22 +875,6 @@ where
 
                 match function_name {
                     "hwb" => {
-                        let percentage_or_none = match cur!(self) {
-                            tok!("percentage") => ComponentValue::Percentage(self.parse()?),
-                            Token::Function { value, .. }
-                                if is_math_function(value)
-                                    || value.eq_str_ignore_ascii_case("var") =>
-                            {
-                                ComponentValue::Function(self.parse()?)
-                            }
-                            tok!("ident") => {
-                                let ident: Ident = self.parse()?;
-
-                                if !(&*ident.value).eq_ignore_ascii_case("none") {
-                                    return Err(Error::new(
-                                        ident.span,
-                                        ErrorKind::Expected("'none' value of an ident token"),
-                                    ));
                         let percentage_or_none =
                             self.try_parse_variable_function(|parser| match cur!(parser) {
                                 tok!("percentage") => {
@@ -1033,22 +907,6 @@ where
                         values.push(percentage_or_none);
                     }
                     "lab" | "oklab" => {
-                        let number_or_none = match cur!(self) {
-                            tok!("number") => ComponentValue::Number(self.parse()?),
-                            Token::Function { value, .. }
-                                if is_math_function(value)
-                                    || value.eq_str_ignore_ascii_case("var") =>
-                            {
-                                ComponentValue::Function(self.parse()?)
-                            }
-                            tok!("ident") => {
-                                let ident: Ident = self.parse()?;
-
-                                if !(&*ident.value).eq_ignore_ascii_case("none") {
-                                    return Err(Error::new(
-                                        ident.span,
-                                        ErrorKind::Expected("'none' value of an ident token"),
-                                    ));
                         let number_or_none =
                             self.try_parse_variable_function(|parser| match cur!(parser) {
                                 tok!("number") => Ok(ComponentValue::Number(parser.parse()?)),
@@ -1079,18 +937,6 @@ where
                         values.push(number_or_none);
                     }
                     "lch" | "oklch" => {
-                        let hue_or_none = match cur!(self) {
-                            tok!("number") | tok!("dimension") => {
-                                ComponentValue::Hue(self.parse()?)
-                            }
-                            Token::Function { value, .. }
-                                if is_math_function(value)
-                                    || value.eq_str_ignore_ascii_case("var") =>
-                            {
-                                ComponentValue::Function(self.parse()?)
-                            }
-                            tok!("ident") => {
-                                let ident: Ident = self.parse()?;
                         let hue_or_none =
                             self.try_parse_variable_function(|parser| match cur!(parser) {
                                 tok!("number") | tok!("dimension") => {
@@ -1153,23 +999,6 @@ where
 
                     self.input.skip_ws()?;
 
-                    let alpha_value = match cur!(self) {
-                        tok!("number") | tok!("percentage") => {
-                            ComponentValue::AlphaValue(self.parse()?)
-                        }
-                        Token::Function { value, .. }
-                            if is_math_function(value) || value.eq_str_ignore_ascii_case("var") =>
-                        {
-                            ComponentValue::Function(self.parse()?)
-                        }
-                        tok!("ident") if !matches!(function_name, "device-cmyk") => {
-                            let ident: Ident = self.parse()?;
-
-                            if !(&*ident.value).eq_ignore_ascii_case("none") {
-                                return Err(Error::new(
-                                    ident.span,
-                                    ErrorKind::Expected("'none' value of an ident token"),
-                                ));
                     let alpha_value =
                         self.try_parse_variable_function(|parser| match cur!(parser) {
                             tok!("number") | tok!("percentage") => {
@@ -1229,12 +1058,12 @@ where
                 let mut is_custom_params = false;
                 let mut is_xyz = false;
 
-                let ident = match cur!(self) {
+                let ident = self.try_parse_variable_function(|parser| match cur!(parser) {
                     Token::Ident { value, .. } => {
                         if value.starts_with("--") {
                             is_custom_params = true;
 
-                            ComponentValue::DashedIdent(self.parse()?)
+                            Ok(ComponentValue::DashedIdent(parser.parse()?))
                         } else {
                             match &*value.to_ascii_lowercase() {
                                 "xyz" | "xyz-d50" | "xyz-d65" => is_xyz = true,
@@ -1246,36 +1075,19 @@ where
                                 }
                             }
 
-                            ComponentValue::Ident(self.parse()?)
+                            Ok(ComponentValue::Ident(parser.parse()?))
                         }
                     }
-                    _ => {
-                        let span = self.input.cur_span()?;
-
-                        return Err(Error::new(span, ErrorKind::Expected("ident token")));
-                    }
-                };
+                    _ => Err(Error::new(
+                        parser.input.cur_span()?,
+                        ErrorKind::Expected("ident token"),
+                    )),
+                })?;
 
                 values.push(ident);
 
                 self.input.skip_ws()?;
 
-                let number_or_percentage_or_none = match cur!(self) {
-                    tok!("number") => ComponentValue::Number(self.parse()?),
-                    tok!("percentage") if !is_xyz => ComponentValue::Percentage(self.parse()?),
-                    Token::Function { value, .. }
-                        if is_math_function(value) || value.eq_str_ignore_ascii_case("var") =>
-                    {
-                        ComponentValue::Function(self.parse()?)
-                    }
-                    tok!("ident") => {
-                        let ident: Ident = self.parse()?;
-
-                        if !(&*ident.value).eq_ignore_ascii_case("none") {
-                            return Err(Error::new(
-                                ident.span,
-                                ErrorKind::Expected("'none' value of an ident token"),
-                            ));
                 let number_or_percentage_or_none =
                     self.try_parse_variable_function(|parser| match cur!(parser) {
                         tok!("number") => Ok(ComponentValue::Number(parser.parse()?)),
@@ -1319,7 +1131,6 @@ where
                             }
                             Token::Function { value, .. }
                                 if is_math_function(value)
-                                    || value.eq_str_ignore_ascii_case("var") =>
                                     || value.eq_str_ignore_ascii_case("var")
                                     || value.eq_str_ignore_ascii_case("env") =>
                             {
@@ -1347,22 +1158,6 @@ where
                         self.input.skip_ws()?;
                     }
                 } else {
-                    let number_or_percentage_or_none = match cur!(self) {
-                        tok!("number") => ComponentValue::Number(self.parse()?),
-                        tok!("percentage") if !is_xyz => ComponentValue::Percentage(self.parse()?),
-                        Token::Function { value, .. }
-                            if is_math_function(value) || value.eq_str_ignore_ascii_case("var") =>
-                        {
-                            ComponentValue::Function(self.parse()?)
-                        }
-                        tok!("ident") => {
-                            let ident: Ident = self.parse()?;
-
-                            if !(&*ident.value).eq_ignore_ascii_case("none") {
-                                return Err(Error::new(
-                                    ident.span,
-                                    ErrorKind::Expected("'none' value of an ident token"),
-                                ));
                     let number_or_percentage_or_none =
                         self.try_parse_variable_function(|parser| match cur!(parser) {
                             tok!("number") => Ok(ComponentValue::Number(parser.parse()?)),
@@ -1406,18 +1201,6 @@ where
                             tok!("ident") => {
                                 let ident: Ident = parser.parse()?;
 
-                            ComponentValue::Ident(ident)
-                        }
-                        Token::Function { value, .. }
-                            if is_math_function(value) || value.eq_str_ignore_ascii_case("var") =>
-                        {
-                            ComponentValue::Function(self.parse()?)
-                        }
-                        _ => {
-                            let span = self.input.cur_span()?;
-
-                            return Err(Error::new(
-                                span,
                                 if ident.value.eq_str_ignore_ascii_case("none") {
                                     Ok(ComponentValue::Ident(ident))
                                 } else {
@@ -1449,23 +1232,6 @@ where
 
                     self.input.skip_ws()?;
 
-                    let alpha_value = match cur!(self) {
-                        tok!("number") | tok!("percentage") => {
-                            ComponentValue::AlphaValue(self.parse()?)
-                        }
-                        Token::Function { value, .. }
-                            if is_math_function(value) || value.eq_str_ignore_ascii_case("var") =>
-                        {
-                            ComponentValue::Function(self.parse()?)
-                        }
-                        tok!("ident") if !matches!(function_name, "device-cmyk") => {
-                            let ident: Ident = self.parse()?;
-
-                            if !(&*ident.value).eq_ignore_ascii_case("none") {
-                                return Err(Error::new(
-                                    ident.span,
-                                    ErrorKind::Expected("'none' value of an ident token"),
-                                ));
                     let alpha_value =
                         self.try_parse_variable_function(|parser| match cur!(parser) {
                             tok!("number") | tok!("percentage") => {
@@ -2336,15 +2102,13 @@ where
             tok!("number") => Ok(CmykComponent::Number(self.parse()?)),
             tok!("percentage") => Ok(CmykComponent::Percentage(self.parse()?)),
             Token::Function { value, .. } => {
-                if is_math_function(value) || value.eq_str_ignore_ascii_case("var") {
-                    Ok(CmykComponent::Function(self.parse()?))
-                } else {
+                if !is_math_function(value) {
                     let span = self.input.cur_span()?;
-                    Err(Error::new(
-                        span,
-                        ErrorKind::Expected("math or var function token"),
-                    ))
+
+                    return Err(Error::new(span, ErrorKind::Expected("math function token")));
                 }
+
+                Ok(CmykComponent::Function(self.parse()?))
             }
             _ => {
                 unreachable!()
