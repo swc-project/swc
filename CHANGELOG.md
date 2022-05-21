@@ -5,6 +5,14 @@
 
 
 
+- **(html/parser)** Fix error reporting related to `image` (#4720) ([4cee4ac](https://github.com/swc-project/swc/commit/4cee4ac23804e8e43575477c41e5e0cfb624103a))
+
+## [1.2.188] - 2022-05-21
+
+### Bug Fixes
+
+
+
 - **(es/codegen)** Exclude synthesized files from sourcemap (#4714) ([03dd9de](https://github.com/swc-project/swc/commit/03dd9de1c34ef8af66b78b03e7264e623ea81e8b))
 
 
