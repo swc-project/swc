@@ -17,6 +17,7 @@ var ns;
         nested.NestedClass = NestedClass;
     })(nested1 = ns1.nested || (ns1.nested = {}));
 })(ns || (ns = {}));
+export default ns;
 ns.Class; // Error
 ns.Value; // Error
 var c;
@@ -24,4 +25,3 @@ var t = "";
 var n = {
     a: ""
 };
-export { };
