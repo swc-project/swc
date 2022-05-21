@@ -5,7 +5,7 @@ import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-it("should auto-detect tsx", async () => {
+it("should allow using tsx", async () => {
     const filename = join(
         __dirname,
         "..",
@@ -21,6 +21,7 @@ it("should auto-detect tsx", async () => {
             target: "es5",
             parser: {
                 syntax: "typescript",
+                tsx: true
             },
         },
     });
