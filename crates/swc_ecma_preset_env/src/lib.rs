@@ -133,6 +133,8 @@ where
         es2021::logical_assignments()
     );
 
+    let pass = add!(pass, NumericSeparator, es2021::numeric_separator());
+
     // ES2020
 
     let pass = add!(pass, ExportNamespaceFrom, es2020::export_namespace_from());
