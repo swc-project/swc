@@ -13,7 +13,7 @@ it("should transpile decorators", async () => {
         "tests",
         "issue-4734",
         "1",
-        "index.tsx"
+        "index.ts"
     );
     console.log(filename);
     const { code } = await swc.transformFile(filename, {
