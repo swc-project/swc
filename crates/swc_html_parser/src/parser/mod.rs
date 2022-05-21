@@ -565,8 +565,10 @@ where
             //
             // Parse error. Insert a U+FFFD REPLACEMENT CHARACTER character.
             Token::Character { value, raw } if *value == '\x00' => {
-                self.errors
-                    .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                self.errors.push(Error::new(
+                    token_and_info.span,
+                    ErrorKind::UnexpectedNullCharacter,
+                ));
 
                 token_and_info.token = Token::Character {
                     value: '\u{FFFD}',
