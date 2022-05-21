@@ -5,6 +5,9 @@
 
 
 
+- **(es/modules/cjs)** FIx detection of exported names (#4737) ([d9bb59a](https://github.com/swc-project/swc/commit/d9bb59a8cb1998f87b0f115e9cc4b0b53923096a))
+
+
 - **(es/typescript)** Mark namespaces as concrete (#4736) ([41d4437](https://github.com/swc-project/swc/commit/41d443767147f97909e6b1004cb4be6dcea207c1))
 
 
