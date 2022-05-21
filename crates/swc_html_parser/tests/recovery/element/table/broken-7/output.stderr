@@ -5,6 +5,12 @@
    : ^^^^^^^
    `----
 
+  x A table cell was implicitly closed, but there were open elements
+   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
+ 1 | <table><tr><td><svg><desc><td></desc><circle>
+   :                     ^^^^^^
+   `----
+
   x Unexpected token
    ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
  1 | <table><tr><td><svg><desc><td></desc><circle>
@@ -14,7 +20,13 @@
   x Unexpected token
    ,-[$DIR/tests/recovery/element/table/broken-7/input.html:2:1]
  2 | A<table><tr> B</tr> </em>C</table>
-   :               ^^^^^
+   :             ^
+   `----
+
+  x Unexpected token
+   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:2:1]
+ 2 | A<table><tr> B</tr> </em>C</table>
+   :              ^
    `----
 
   x Unexpected token
@@ -26,7 +38,7 @@
   x Unexpected token
    ,-[$DIR/tests/recovery/element/table/broken-7/input.html:2:1]
  2 | A<table><tr> B</tr> </em>C</table>
-   :                           ^^^^^^^^
+   :                          ^
    `----
 
   x Unexpected end of file

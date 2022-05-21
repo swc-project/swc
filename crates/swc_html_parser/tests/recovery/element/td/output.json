@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 437,
+    "end": 471,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 17,
-        "end": 430,
+        "end": 464,
         "ctxt": 0
       },
       "tagName": "html",
@@ -239,7 +239,7 @@
           "type": "Element",
           "span": {
             "start": 303,
-            "end": 430,
+            "end": 464,
             "ctxt": 0
           },
           "tagName": "body",
@@ -258,8 +258,53 @@
             {
               "type": "Element",
               "span": {
+                "start": 369,
+                "end": 413,
+                "ctxt": 0
+              },
+              "tagName": "svg",
+              "namespace": "http://www.w3.org/2000/svg",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 374,
+                    "end": 391,
+                    "ctxt": 0
+                  },
+                  "value": "\n                "
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 391,
+                    "end": 395,
+                    "ctxt": 0
+                  },
+                  "tagName": "td",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [],
+                  "content": null
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 400,
+                    "end": 413,
+                    "ctxt": 0
+                  },
+                  "value": "\n            "
+                }
+              ],
+              "content": null
+            },
+            {
+              "type": "Element",
+              "span": {
                 "start": 310,
-                "end": 421,
+                "end": 455,
                 "ctxt": 0
               },
               "tagName": "table",
@@ -279,7 +324,7 @@
                   "type": "Element",
                   "span": {
                     "start": 0,
-                    "end": 421,
+                    "end": 455,
                     "ctxt": 0
                   },
                   "tagName": "tbody",
@@ -290,7 +335,7 @@
                       "type": "Element",
                       "span": {
                         "start": 322,
-                        "end": 407,
+                        "end": 352,
                         "ctxt": 0
                       },
                       "tagName": "tr",
@@ -310,7 +355,7 @@
                           "type": "Element",
                           "span": {
                             "start": 335,
-                            "end": 407,
+                            "end": 352,
                             "ctxt": 0
                           },
                           "tagName": "td",
@@ -325,57 +370,49 @@
                                 "ctxt": 0
                               },
                               "value": "\n            "
-                            },
-                            {
-                              "type": "Element",
-                              "span": {
-                                "start": 352,
-                                "end": 396,
-                                "ctxt": 0
-                              },
-                              "tagName": "svg",
-                              "namespace": "http://www.w3.org/2000/svg",
-                              "attributes": [],
-                              "children": [
-                                {
-                                  "type": "Text",
-                                  "span": {
-                                    "start": 357,
-                                    "end": 374,
-                                    "ctxt": 0
-                                  },
-                                  "value": "\n                "
-                                },
-                                {
-                                  "type": "Element",
-                                  "span": {
-                                    "start": 374,
-                                    "end": 378,
-                                    "ctxt": 0
-                                  },
-                                  "tagName": "td",
-                                  "namespace": "http://www.w3.org/2000/svg",
-                                  "attributes": [],
-                                  "children": [],
-                                  "content": null
-                                },
-                                {
-                                  "type": "Text",
-                                  "span": {
-                                    "start": 383,
-                                    "end": 396,
-                                    "ctxt": 0
-                                  },
-                                  "value": "\n            "
-                                }
-                              ],
-                              "content": null
-                            },
+                            }
+                          ],
+                          "content": null
+                        }
+                      ],
+                      "content": null
+                    },
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 352,
+                        "end": 441,
+                        "ctxt": 0
+                      },
+                      "tagName": "tr",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [],
+                      "children": [
+                        {
+                          "type": "Text",
+                          "span": {
+                            "start": 356,
+                            "end": 436,
+                            "ctxt": 0
+                          },
+                          "value": "\n            \n            "
+                        },
+                        {
+                          "type": "Element",
+                          "span": {
+                            "start": 432,
+                            "end": 441,
+                            "ctxt": 0
+                          },
+                          "tagName": "td",
+                          "namespace": "http://www.w3.org/1999/xhtml",
+                          "attributes": [],
+                          "children": [
                             {
                               "type": "Text",
                               "span": {
-                                "start": 402,
-                                "end": 407,
+                                "start": 436,
+                                "end": 441,
                                 "ctxt": 0
                               },
                               "value": "\n    "
@@ -389,8 +426,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 412,
-                        "end": 421,
+                        "start": 446,
+                        "end": 455,
                         "ctxt": 0
                       },
                       "value": "\n"
@@ -404,8 +441,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 421,
-                "end": 430,
+                "start": 455,
+                "end": 464,
                 "ctxt": 0
               },
               "value": "\n\n"
