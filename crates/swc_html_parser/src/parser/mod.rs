@@ -1802,9 +1802,36 @@ where
             InsertionMode::InHeadNoScript => {
                 let anything_else =
                     |parser: &mut Parser<I>, token_and_info: &mut TokenAndInfo| -> PResult<()> {
-                        parser
-                            .errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        match &token_and_info.token {
+                            Token::Character { .. } => {
+                                parser.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::NonSpaceInNoscriptInHead,
+                                ));
+                            }
+                            Token::StartTag { tag_name, .. } => {
+                                parser.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::BadStartTagInNoscriptInHead(tag_name.clone()),
+                                ));
+                            }
+                            Token::EndTag { tag_name, .. } => {
+                                parser.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::StrayEndTag(tag_name.clone()),
+                                ));
+                            }
+                            Token::Eof => {
+                                parser.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::EofWithUnclosedElements,
+                                ));
+                            }
+                            _ => {
+                                unreachable!()
+                            }
+                        }
+
                         parser.open_elements_stack.pop();
                         parser.insertion_mode = InsertionMode::InHead;
                         parser.process_token(token_and_info, None)?;

@@ -248,6 +248,17 @@ impl Error {
             }
             ErrorKind::NonSpaceAfterBody => "Non-space character after body".into(),
             ErrorKind::EndTagAfterBody => "Saw an end tag after \"body\" had been closed".into(),
+            ErrorKind::NonSpaceInNoscriptInHead => {
+                "Non-space character inside \"noscript\" inside \"head\"".into()
+            }
+            ErrorKind::BadStartTagInNoscriptInHead(tag_name) => format!(
+                "Bad start tag in \"{}\" in \"noscript\" in \"head\"",
+                tag_name
+            )
+            .into(),
+            ErrorKind::EofWithUnclosedElements => {
+                "End of file seen and there were open elements".into()
+            }
         }
     }
 
@@ -356,4 +367,7 @@ pub enum ErrorKind {
     NonSpaceCharacterInTrailer,
     NonSpaceAfterBody,
     EndTagAfterBody,
+    NonSpaceInNoscriptInHead,
+    BadStartTagInNoscriptInHead(JsWord),
+    EofWithUnclosedElements,
 }
