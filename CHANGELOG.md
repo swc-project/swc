@@ -8,6 +8,9 @@
 - **(es/codegen)** Exclude synthesized files from sourcemap (#4714) ([03dd9de](https://github.com/swc-project/swc/commit/03dd9de1c34ef8af66b78b03e7264e623ea81e8b))
 
 
+- **(es/codegen)** Fix numeric literals (#4731) ([f1baff4](https://github.com/swc-project/swc/commit/f1baff4114bfdb7ccc0c80266445d79a4b0104eb))
+
+
 - **(es/minifier)** Consider more side effects while inlining (#4715) ([1358f45](https://github.com/swc-project/swc/commit/1358f452e757210f9a203a28a1806c404cbf2fd7))
 
 
