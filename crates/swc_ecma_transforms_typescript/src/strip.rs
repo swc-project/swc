@@ -1547,7 +1547,8 @@ where
             Decl::TsModule(module) => {
                 match &module.id {
                     TsModuleName::Ident(id) => {
-                        self.decl_names.insert(id.to_id());
+                        let v = self.scope.decls.entry(id.to_id()).or_default();
+                        v.has_concrete = true;
                     }
                     TsModuleName::Str(_) => {}
                 }
