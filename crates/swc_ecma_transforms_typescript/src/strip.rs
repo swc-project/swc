@@ -1545,6 +1545,12 @@ where
                 interface.body.visit_with(self);
             }
             Decl::TsModule(module) => {
+                match &module.id {
+                    TsModuleName::Ident(id) => {
+                        self.decl_names.insert(id.to_id());
+                    }
+                    TsModuleName::Str(_) => {}
+                }
                 module.body.visit_with(self);
             }
             Decl::TsTypeAlias(alias) => {
