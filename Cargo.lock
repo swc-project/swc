@@ -3762,7 +3762,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.117.0"
+version = "0.117.1"
 dependencies = [
  "criterion",
  "serde",
@@ -3967,7 +3967,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.8.7"
+version = "0.8.8"
 dependencies = [
  "bitflags",
  "criterion",

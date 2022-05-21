@@ -565,8 +565,10 @@ where
             //
             // Parse error. Insert a U+FFFD REPLACEMENT CHARACTER character.
             Token::Character { value, raw } if *value == '\x00' => {
-                self.errors
-                    .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                self.errors.push(Error::new(
+                    token_and_info.span,
+                    ErrorKind::UnexpectedNullCharacter,
+                ));
 
                 token_and_info.token = Token::Character {
                     value: '\u{FFFD}',
@@ -1802,9 +1804,36 @@ where
             InsertionMode::InHeadNoScript => {
                 let anything_else =
                     |parser: &mut Parser<I>, token_and_info: &mut TokenAndInfo| -> PResult<()> {
-                        parser
-                            .errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        match &token_and_info.token {
+                            Token::Character { .. } => {
+                                parser.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::NonSpaceInNoscriptInHead,
+                                ));
+                            }
+                            Token::StartTag { tag_name, .. } => {
+                                parser.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::BadStartTagInNoscriptInHead(tag_name.clone()),
+                                ));
+                            }
+                            Token::EndTag { tag_name, .. } => {
+                                parser.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::StrayEndTag(tag_name.clone()),
+                                ));
+                            }
+                            Token::Eof => {
+                                parser.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::EofWithUnclosedElements,
+                                ));
+                            }
+                            _ => {
+                                unreachable!()
+                            }
+                        }
+
                         parser.open_elements_stack.pop();
                         parser.insertion_mode = InsertionMode::InHead;
                         parser.process_token(token_and_info, None)?;
@@ -2234,8 +2263,10 @@ where
                     //
                     // Switch the insertion mode to "in frameset".
                     Token::StartTag { tag_name, .. } if tag_name == "frameset" => {
-                        self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        self.errors.push(Error::new(
+                            token_and_info.span,
+                            ErrorKind::StrayStartTag(tag_name.clone()),
+                        ));
 
                         let len = self.open_elements_stack.items.len();
                         let body = self.open_elements_stack.items.get(1);
@@ -4982,8 +5013,10 @@ where
                     // elements. Switch the insertion mode to "in table body".
                     Token::EndTag { tag_name, .. } if tag_name == "tr" => {
                         if !self.open_elements_stack.has_in_table_scope("tr") {
-                            self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::NoTableRowToClose,
+                            ));
                         } else {
                             self.open_elements_stack.clear_back_to_table_row_context();
                             self.open_elements_stack.pop();
@@ -5058,8 +5091,10 @@ where
                         if matches!(tag_name.as_ref(), "tbody" | "tfoot" | "thead") =>
                     {
                         if !self.open_elements_stack.has_in_table_scope(tag_name) {
-                            self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::StrayEndTag(tag_name.clone()),
+                            ));
                         } else if !self.open_elements_stack.has_in_table_scope("tr") {
                             // Ignore
 
@@ -5081,8 +5116,10 @@ where
                             "body" | "caption" | "col" | "colgroup" | "html" | "td" | "th"
                         ) =>
                     {
-                        self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        self.errors.push(Error::new(
+                            token_and_info.span,
+                            ErrorKind::StrayEndTag(tag_name.clone()),
+                        ));
                     }
                     // Anything else
                     //
@@ -5343,9 +5380,10 @@ where
                             Some(node) if is_html_element!(node, "optgroup") => {
                                 self.open_elements_stack.pop();
                             }
-                            _ => self
-                                .errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken)),
+                            _ => self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::StrayEndTag(tag_name.clone()),
+                            )),
                         }
                     }
                     // An end tag whose tag name is "option"
@@ -5357,9 +5395,10 @@ where
                             Some(node) if is_html_element!(node, "option") => {
                                 self.open_elements_stack.pop();
                             }
-                            _ => self
-                                .errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken)),
+                            _ => self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::StrayEndTag(tag_name.clone()),
+                            )),
                         }
                     }
                     // An end tag whose tag name is "select"
@@ -5782,8 +5821,32 @@ where
                     //
                     // Parse error. Switch the insertion mode to "in body" and reprocess the token.
                     _ => {
-                        self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        match token {
+                            // Doctype handled above
+                            // Comment handled above
+                            // EOF handled above
+                            Token::Character { .. } => {
+                                self.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::NonSpaceAfterBody,
+                                ));
+                            }
+                            Token::StartTag { tag_name, .. } => {
+                                self.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::StrayStartTag(tag_name.clone()),
+                                ));
+                            }
+                            Token::EndTag { .. } => {
+                                self.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::EndTagAfterBody,
+                                ));
+                            }
+                            _ => {
+                                unreachable!();
+                            }
+                        }
 
                         self.insertion_mode = InsertionMode::InBody;
                         self.process_token(token_and_info, None)?;
@@ -6071,8 +6134,33 @@ where
                     //
                     // Parse error. Switch the insertion mode to "in body" and reprocess the token.
                     _ => {
-                        self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        match token {
+                            // Doctype handled above
+                            // Comment handled above
+                            // EOF handled above
+                            Token::Character { .. } => {
+                                self.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::NonSpaceCharacterInTrailer,
+                                ));
+                            }
+                            Token::StartTag { tag_name, .. } => {
+                                self.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::StrayStartTag(tag_name.clone()),
+                                ));
+                            }
+                            Token::EndTag { tag_name, .. } => {
+                                self.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::StrayEndTag(tag_name.clone()),
+                                ));
+                            }
+                            _ => {
+                                unreachable!();
+                            }
+                        }
+
                         self.insertion_mode = InsertionMode::InBody;
                         self.process_token(token_and_info, None)?;
                     }
@@ -6124,10 +6212,35 @@ where
                     // Anything else
                     //
                     // Parse error. Ignore the token.
-                    _ => {
-                        self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
-                    }
+                    // Anything else
+                    //
+                    // Parse error. Ignore the token.
+                    _ => match token {
+                        // Doctype handled above
+                        // Comment handled above
+                        // EOF handled above
+                        Token::Character { .. } => {
+                            self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::NonSpaceCharacterInTrailer,
+                            ));
+                        }
+                        Token::StartTag { tag_name, .. } => {
+                            self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::StrayStartTag(tag_name.clone()),
+                            ));
+                        }
+                        Token::EndTag { tag_name, .. } => {
+                            self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::StrayEndTag(tag_name.clone()),
+                            ));
+                        }
+                        _ => {
+                            unreachable!();
+                        }
+                    },
                 }
             }
         }

@@ -5,6 +5,9 @@
 
 
 
+- **(es/typescript)** Mark namespaces as concrete (#4736) ([41d4437](https://github.com/swc-project/swc/commit/41d443767147f97909e6b1004cb4be6dcea207c1))
+
+
 - **(html/parser)** Fix error reporting in the foreign context (#4725) ([4df0637](https://github.com/swc-project/swc/commit/4df06378179bc27562e84e0814c0878b8edf29f5))
 
 
@@ -18,6 +21,9 @@
 
 
 - **(html/parser)** Improve error reporting for misplaced non-space characters inside a table (#4723) ([e9b2ebf](https://github.com/swc-project/swc/commit/e9b2ebfc3bffb7d28b7ca0e50f8570aaed2f35e5))
+
+
+- **(html/parser)** Improve error reporting (#4728) ([c346d30](https://github.com/swc-project/swc/commit/c346d309a7f2d16bac84bd9f8bdf74520ab6f711))
 
 ## [1.2.189] - 2022-05-21
 

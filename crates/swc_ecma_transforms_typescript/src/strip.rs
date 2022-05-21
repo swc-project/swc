@@ -1545,6 +1545,13 @@ where
                 interface.body.visit_with(self);
             }
             Decl::TsModule(module) => {
+                match &module.id {
+                    TsModuleName::Ident(id) => {
+                        let v = self.scope.decls.entry(id.to_id()).or_default();
+                        v.has_concrete = true;
+                    }
+                    TsModuleName::Str(_) => {}
+                }
                 module.body.visit_with(self);
             }
             Decl::TsTypeAlias(alias) => {
