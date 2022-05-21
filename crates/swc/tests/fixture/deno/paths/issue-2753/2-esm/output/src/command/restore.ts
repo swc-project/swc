@@ -1,1 +1,1 @@
-export { };
+import { module } from "../config";
