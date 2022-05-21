@@ -921,20 +921,31 @@ where
             // corresponding to the current insertion mode in HTML content.
             Token::EndTag { tag_name, .. } => {
                 let mut node = self.open_elements_stack.items.last();
+                let mut stack_idx = self.open_elements_stack.items.len() - 1;
 
                 if let Some(node) = node {
                     match &node.data {
                         Data::Element(element)
                             if &*element.tag_name.to_ascii_lowercase() != tag_name =>
                         {
-                            self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            if stack_idx == 0 {
+                                self.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::StrayEndTag(tag_name.clone()),
+                                ));
+                            } else {
+                                self.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::EndTagDidNotMatchCurrentOpenElement(
+                                        tag_name.clone(),
+                                        element.tag_name.clone(),
+                                    ),
+                                ));
+                            }
                         }
                         _ => {}
                     }
                 }
-
-                let mut stack_idx = self.open_elements_stack.items.len() - 1;
 
                 loop {
                     if stack_idx == 0 || node.is_none() {
