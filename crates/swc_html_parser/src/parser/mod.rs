@@ -7123,7 +7123,7 @@ where
         // If the current node is not now a td element or a th element, then this is a
         // parse error.
         match self.open_elements_stack.items.last() {
-            Some(node) if is_html_element!(node, "td" | "th") => {
+            Some(node) if !is_html_element!(node, "td" | "th") => {
                 self.errors
                     .push(Error::new(get_span!(node), ErrorKind::UnclosedElementsCell));
             }
