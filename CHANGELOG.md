@@ -10,6 +10,12 @@
 
 - **(html/parser)** Fix parsing of closing tag in foreign contents (#4721) ([1c4d50f](https://github.com/swc-project/swc/commit/1c4d50f06a86a8c34d929090457f8970ed3b58e3))
 
+### Features
+
+
+
+- **(html/parser)** Improve error reporting for misplaced non-space characters inside a table (#4723) ([e9b2ebf](https://github.com/swc-project/swc/commit/e9b2ebfc3bffb7d28b7ca0e50f8570aaed2f35e5))
+
 ## [1.2.189] - 2022-05-21
 
 ### Bug Fixes
