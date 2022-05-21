@@ -1,0 +1,12 @@
+
+  x Non conforming doctype
+   ,-[$DIR/tests/recovery/element/frameset-1/input.html:1:1]
+ 1 | ,-> <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"
+ 2 | `->         "http://www.w3.org/TR/html4/frameset.dtd">
+   `----
+
+  x Non-space character after "<frameset>"
+    ,-[$DIR/tests/recovery/element/frameset-1/input.html:16:1]
+ 16 | a
+    : ^
+    `----
