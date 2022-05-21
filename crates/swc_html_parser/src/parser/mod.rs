@@ -3554,9 +3554,7 @@ where
                             ErrorKind::UnexpectedImageStartTag,
                         ));
 
-                        let mut new_token_and_info = token_and_info.clone();
-
-                        match &mut new_token_and_info {
+                        match token_and_info {
                             TokenAndInfo {
                                 token: Token::StartTag { tag_name, .. },
                                 ..
@@ -3568,7 +3566,7 @@ where
                             }
                         }
 
-                        self.process_token(&mut new_token_and_info, None)?;
+                        self.process_token(token_and_info, None)?;
                     }
                     // A start tag whose tag name is "textarea"
                     //
