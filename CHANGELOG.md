@@ -16,6 +16,9 @@
 
 - **(es/minifier)** Implement more skipping rules for `sequences` (#4716) ([dc67911](https://github.com/swc-project/swc/commit/dc67911f61cb6e0f4c2e37ed0d32ed3f62cb0501))
 
+
+- **(html/parser)** Report an error for a legacy doctype (#4717) ([5d0e8fb](https://github.com/swc-project/swc/commit/5d0e8fbda41d012c8fb258bdc0c61402ba9f8a7e))
+
 ## [1.2.187] - 2022-05-20
 
 ### Bug Fixes
