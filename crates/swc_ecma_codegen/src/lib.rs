@@ -577,8 +577,8 @@ where
         } else {
             match &num.raw {
                 Some(raw) => {
-                    if raw.contains('_') {
-                        self.wr.write_str_lit(num.span, &num.value.to_string())?;
+                    if self.cfg.target < EsVersion::Es2021 && raw.contains('_') {
+                        self.wr.write_str_lit(num.span, &raw.replace('_', ""))?;
                     } else {
                         self.wr.write_str_lit(num.span, raw)?;
                     }
@@ -600,7 +600,11 @@ where
         } else {
             match &v.raw {
                 Some(raw) => {
-                    self.wr.write_lit(v.span, raw)?;
+                    if self.cfg.target < EsVersion::Es2021 && raw.contains('_') {
+                        self.wr.write_str_lit(v.span, &raw.replace('_', ""))?;
+                    } else {
+                        self.wr.write_str_lit(v.span, raw)?;
+                    }
                 }
                 _ => {
                     self.wr.write_lit(v.span, &v.value.to_string())?;
