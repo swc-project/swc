@@ -5,6 +5,12 @@
    : ^^^^^^^
    `----
 
+  x A table cell was implicitly closed, but there were open elements
+   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
+ 1 | <table><tr><td><svg><desc><td></desc><circle>
+   :                     ^^^^^^
+   `----
+
   x Unexpected token
    ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
  1 | <table><tr><td><svg><desc><td></desc><circle>

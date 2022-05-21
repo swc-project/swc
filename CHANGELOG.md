@@ -1,5 +1,19 @@
 # Changelog
-## [unreleased]
+## [1.2.189] - 2022-05-21
+
+### Bug Fixes
+
+
+
+- **(es/codegen)** Fix numeric literals (#4733) ([ea46eb4](https://github.com/swc-project/swc/commit/ea46eb41e0e0581765c12a0f50b5c467beb878ea))
+
+
+- **(es/config)** Respect `.swcrc` (#4735) ([9966e98](https://github.com/swc-project/swc/commit/9966e98ac692575032b04315dd269b1f05fe2ba4))
+
+
+- **(html/parser)** Fix error reporting related to `image` (#4720) ([4cee4ac](https://github.com/swc-project/swc/commit/4cee4ac23804e8e43575477c41e5e0cfb624103a))
+
+## [1.2.188] - 2022-05-21
 
 ### Bug Fixes
 
@@ -8,13 +22,22 @@
 - **(es/codegen)** Exclude synthesized files from sourcemap (#4714) ([03dd9de](https://github.com/swc-project/swc/commit/03dd9de1c34ef8af66b78b03e7264e623ea81e8b))
 
 
+- **(es/codegen)** Fix numeric literals (#4731) ([f1baff4](https://github.com/swc-project/swc/commit/f1baff4114bfdb7ccc0c80266445d79a4b0104eb))
+
+
 - **(es/minifier)** Consider more side effects while inlining (#4715) ([1358f45](https://github.com/swc-project/swc/commit/1358f452e757210f9a203a28a1806c404cbf2fd7))
+
+
+- **(html/parser)** Fix handling of unclosed `td`/`th` (#4719) ([2c2e6bb](https://github.com/swc-project/swc/commit/2c2e6bb65b0d3144774761fca3e8f81f988f143d))
 
 ### Features
 
 
 
 - **(es/minifier)** Implement more skipping rules for `sequences` (#4716) ([dc67911](https://github.com/swc-project/swc/commit/dc67911f61cb6e0f4c2e37ed0d32ed3f62cb0501))
+
+
+- **(html/parser)** Report an error for a legacy doctype (#4717) ([5d0e8fb](https://github.com/swc-project/swc/commit/5d0e8fbda41d012c8fb258bdc0c61402ba9f8a7e))
 
 ## [1.2.187] - 2022-05-20
 

@@ -14,13 +14,15 @@
  11 | |   <table>
  12 | |       <tr>
  13 | |           <td>
- 14 | |               <svg>
- 15 | |                   <td></td>
- 16 | |               </svg>
- 17 | |       </tr>
- 18 | |   </table>
- 19 | |   </body>
- 20 | `-> </html>
+ 14 | |               <tr>
+ 15 | |               <svg>
+ 16 | |                   <td></td>
+ 17 | |               </svg>
+ 18 | |               <td>
+ 19 | |       </tr>
+ 20 | |   </table>
+ 21 | |   </body>
+ 22 | `-> </html>
     `----
 
   x Child
@@ -49,13 +51,15 @@
  11 | |   <table>
  12 | |       <tr>
  13 | |           <td>
- 14 | |               <svg>
- 15 | |                   <td></td>
- 16 | |               </svg>
- 17 | |       </tr>
- 18 | |   </table>
- 19 | `-> </body>
- 20 |     </html>
+ 14 | |               <tr>
+ 15 | |               <svg>
+ 16 | |                   <td></td>
+ 17 | |               </svg>
+ 18 | |               <td>
+ 19 | |       </tr>
+ 20 | |   </table>
+ 21 | `-> </body>
+ 22 |     </html>
     `----
 
   x Element
@@ -72,13 +76,15 @@
  11 | |   <table>
  12 | |       <tr>
  13 | |           <td>
- 14 | |               <svg>
- 15 | |                   <td></td>
- 16 | |               </svg>
- 17 | |       </tr>
- 18 | |   </table>
- 19 | `-> </body>
- 20 |     </html>
+ 14 | |               <tr>
+ 15 | |               <svg>
+ 16 | |                   <td></td>
+ 17 | |               </svg>
+ 18 | |               <td>
+ 19 | |       </tr>
+ 20 | |   </table>
+ 21 | `-> </body>
+ 22 |     </html>
     `----
 
   x Attribute
@@ -281,13 +287,15 @@
  11 | |   <table>
  12 | |       <tr>
  13 | |           <td>
- 14 | |               <svg>
- 15 | |                   <td></td>
- 16 | |               </svg>
- 17 | |       </tr>
- 18 | |   </table>
- 19 | `-> </body>
- 20 |     </html>
+ 14 | |               <tr>
+ 15 | |               <svg>
+ 16 | |                   <td></td>
+ 17 | |               </svg>
+ 18 | |               <td>
+ 19 | |       </tr>
+ 20 | |   </table>
+ 21 | `-> </body>
+ 22 |     </html>
     `----
 
   x Element
@@ -296,13 +304,15 @@
  11 | |   <table>
  12 | |       <tr>
  13 | |           <td>
- 14 | |               <svg>
- 15 | |                   <td></td>
- 16 | |               </svg>
- 17 | |       </tr>
- 18 | |   </table>
- 19 | `-> </body>
- 20 |     </html>
+ 14 | |               <tr>
+ 15 | |               <svg>
+ 16 | |                   <td></td>
+ 17 | |               </svg>
+ 18 | |               <td>
+ 19 | |       </tr>
+ 20 | |   </table>
+ 21 | `-> </body>
+ 22 |     </html>
     `----
 
   x Child
@@ -320,15 +330,67 @@
     `----
 
   x Child
+    ,-[$DIR/tests/recovery/element/td/input.html:15:13]
+ 15 | ,-> <svg>
+ 16 | |                   <td></td>
+ 17 | `->             </svg>
+    `----
+
+  x Element
+    ,-[$DIR/tests/recovery/element/td/input.html:15:13]
+ 15 | ,-> <svg>
+ 16 | |                   <td></td>
+ 17 | `->             </svg>
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/element/td/input.html:15:13]
+ 15 | ,-> <svg>
+ 16 | `->                 <td></td>
+    `----
+
+  x Text
+    ,-[$DIR/tests/recovery/element/td/input.html:15:13]
+ 15 | ,-> <svg>
+ 16 | `->                 <td></td>
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/element/td/input.html:16:17]
+ 16 | <td></td>
+    : ^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/recovery/element/td/input.html:16:17]
+ 16 | <td></td>
+    : ^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/element/td/input.html:16:17]
+ 16 | ,-> <td></td>
+ 17 | `->             </svg>
+    `----
+
+  x Text
+    ,-[$DIR/tests/recovery/element/td/input.html:16:17]
+ 16 | ,-> <td></td>
+ 17 | `->             </svg>
+    `----
+
+  x Child
     ,-[$DIR/tests/recovery/element/td/input.html:11:1]
  11 | ,-> <table>
  12 | |       <tr>
  13 | |           <td>
- 14 | |               <svg>
- 15 | |                   <td></td>
- 16 | |               </svg>
- 17 | |       </tr>
- 18 | `-> </table>
+ 14 | |               <tr>
+ 15 | |               <svg>
+ 16 | |                   <td></td>
+ 17 | |               </svg>
+ 18 | |               <td>
+ 19 | |       </tr>
+ 20 | `-> </table>
     `----
 
   x Element
@@ -336,11 +398,13 @@
  11 | ,-> <table>
  12 | |       <tr>
  13 | |           <td>
- 14 | |               <svg>
- 15 | |                   <td></td>
- 16 | |               </svg>
- 17 | |       </tr>
- 18 | `-> </table>
+ 14 | |               <tr>
+ 15 | |               <svg>
+ 16 | |                   <td></td>
+ 17 | |               </svg>
+ 18 | |               <td>
+ 19 | |       </tr>
+ 20 | `-> </table>
     `----
 
   x Child
@@ -363,20 +427,14 @@
     ,-[$DIR/tests/recovery/element/td/input.html:12:5]
  12 | ,-> <tr>
  13 | |           <td>
- 14 | |               <svg>
- 15 | |                   <td></td>
- 16 | |               </svg>
- 17 | `->     </tr>
+ 14 | `->             <tr>
     `----
 
   x Element
     ,-[$DIR/tests/recovery/element/td/input.html:12:5]
  12 | ,-> <tr>
  13 | |           <td>
- 14 | |               <svg>
- 15 | |                   <td></td>
- 16 | |               </svg>
- 17 | `->     </tr>
+ 14 | `->             <tr>
     `----
 
   x Child
@@ -394,117 +452,111 @@
   x Child
     ,-[$DIR/tests/recovery/element/td/input.html:13:9]
  13 | ,-> <td>
- 14 | |               <svg>
- 15 | |                   <td></td>
- 16 | |               </svg>
- 17 | `->     </tr>
+ 14 | `->             <tr>
     `----
 
   x Element
     ,-[$DIR/tests/recovery/element/td/input.html:13:9]
  13 | ,-> <td>
- 14 | |               <svg>
- 15 | |                   <td></td>
- 16 | |               </svg>
- 17 | `->     </tr>
+ 14 | `->             <tr>
     `----
 
   x Child
     ,-[$DIR/tests/recovery/element/td/input.html:13:9]
  13 | ,-> <td>
- 14 | `->             <svg>
+ 14 | `->             <tr>
     `----
 
   x Text
     ,-[$DIR/tests/recovery/element/td/input.html:13:9]
  13 | ,-> <td>
- 14 | `->             <svg>
+ 14 | `->             <tr>
     `----
 
   x Child
     ,-[$DIR/tests/recovery/element/td/input.html:14:13]
- 14 | ,-> <svg>
- 15 | |                   <td></td>
- 16 | `->             </svg>
+ 14 | ,-> <tr>
+ 15 | |               <svg>
+ 16 | |                   <td></td>
+ 17 | |               </svg>
+ 18 | |               <td>
+ 19 | `->     </tr>
     `----
 
   x Element
     ,-[$DIR/tests/recovery/element/td/input.html:14:13]
- 14 | ,-> <svg>
- 15 | |                   <td></td>
- 16 | `->             </svg>
+ 14 | ,-> <tr>
+ 15 | |               <svg>
+ 16 | |                   <td></td>
+ 17 | |               </svg>
+ 18 | |               <td>
+ 19 | `->     </tr>
     `----
 
   x Child
     ,-[$DIR/tests/recovery/element/td/input.html:14:13]
- 14 | ,-> <svg>
- 15 | `->                 <td></td>
+ 14 | ,-> <tr>
+ 15 | |               <svg>
+ 16 | |                   <td></td>
+ 17 | |               </svg>
+ 18 | `->             <td>
     `----
 
   x Text
     ,-[$DIR/tests/recovery/element/td/input.html:14:13]
- 14 | ,-> <svg>
- 15 | `->                 <td></td>
+ 14 | ,-> <tr>
+ 15 | |               <svg>
+ 16 | |                   <td></td>
+ 17 | |               </svg>
+ 18 | `->             <td>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/td/input.html:15:17]
- 15 | <td></td>
-    : ^^^^
+    ,-[$DIR/tests/recovery/element/td/input.html:18:13]
+ 18 | ,-> <td>
+ 19 | `->     </tr>
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/td/input.html:15:17]
- 15 | <td></td>
-    : ^^^^
+    ,-[$DIR/tests/recovery/element/td/input.html:18:13]
+ 18 | ,-> <td>
+ 19 | `->     </tr>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/td/input.html:15:17]
- 15 | ,-> <td></td>
- 16 | `->             </svg>
+    ,-[$DIR/tests/recovery/element/td/input.html:18:13]
+ 18 | ,-> <td>
+ 19 | `->     </tr>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/td/input.html:15:17]
- 15 | ,-> <td></td>
- 16 | `->             </svg>
+    ,-[$DIR/tests/recovery/element/td/input.html:18:13]
+ 18 | ,-> <td>
+ 19 | `->     </tr>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/td/input.html:16:13]
- 16 | ,-> </svg>
- 17 | `->     </tr>
+    ,-[$DIR/tests/recovery/element/td/input.html:19:5]
+ 19 | ,-> </tr>
+ 20 | `-> </table>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/td/input.html:16:13]
- 16 | ,-> </svg>
- 17 | `->     </tr>
+    ,-[$DIR/tests/recovery/element/td/input.html:19:5]
+ 19 | ,-> </tr>
+ 20 | `-> </table>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/td/input.html:17:5]
- 17 | ,-> </tr>
- 18 | `-> </table>
+    ,-[$DIR/tests/recovery/element/td/input.html:20:1]
+ 20 | ,-> </table>
+ 21 | `-> </body>
+ 22 |     </html>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/td/input.html:17:5]
- 17 | ,-> </tr>
- 18 | `-> </table>
-    `----
-
-  x Child
-    ,-[$DIR/tests/recovery/element/td/input.html:18:1]
- 18 | ,-> </table>
- 19 | `-> </body>
- 20 |     </html>
-    `----
-
-  x Text
-    ,-[$DIR/tests/recovery/element/td/input.html:18:1]
- 18 | ,-> </table>
- 19 | `-> </body>
- 20 |     </html>
+    ,-[$DIR/tests/recovery/element/td/input.html:20:1]
+ 20 | ,-> </table>
+ 21 | `-> </body>
+ 22 |     </html>
     `----
