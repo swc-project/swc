@@ -4984,8 +4984,10 @@ where
                     // elements. Switch the insertion mode to "in table body".
                     Token::EndTag { tag_name, .. } if tag_name == "tr" => {
                         if !self.open_elements_stack.has_in_table_scope("tr") {
-                            self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::NoTableRowToClose,
+                            ));
                         } else {
                             self.open_elements_stack.clear_back_to_table_row_context();
                             self.open_elements_stack.pop();
