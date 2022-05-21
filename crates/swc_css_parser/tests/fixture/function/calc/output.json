@@ -8487,52 +8487,32 @@
                 },
                 "value": [
                   {
-                    "type": "CalcSum",
+                    "type": "Function",
                     "span": {
                       "start": 2276,
                       "end": 2288,
                       "ctxt": 0
                     },
-                    "expressions": [
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 2276,
+                        "end": 2279,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
                       {
-                        "type": "CalcProduct",
+                        "type": "DashedIdent",
                         "span": {
-                          "start": 2276,
-                          "end": 2288,
+                          "start": 2280,
+                          "end": 2287,
                           "ctxt": 0
                         },
-                        "expressions": [
-                          {
-                            "type": "Function",
-                            "span": {
-                              "start": 2276,
-                              "end": 2288,
-                              "ctxt": 0
-                            },
-                            "name": {
-                              "type": "Ident",
-                              "span": {
-                                "start": 2276,
-                                "end": 2279,
-                                "ctxt": 0
-                              },
-                              "value": "var",
-                              "raw": "var"
-                            },
-                            "value": [
-                              {
-                                "type": "DashedIdent",
-                                "span": {
-                                  "start": 2280,
-                                  "end": 2287,
-                                  "ctxt": 0
-                                },
-                                "value": "--width",
-                                "raw": "--width"
-                              }
-                            ]
-                          }
-                        ]
+                        "value": "--width",
+                        "raw": "--width"
                       }
                     ]
                   },
@@ -8654,52 +8634,32 @@
                     "value": ","
                   },
                   {
-                    "type": "CalcSum",
+                    "type": "Function",
                     "span": {
                       "start": 2323,
                       "end": 2335,
                       "ctxt": 0
                     },
-                    "expressions": [
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 2323,
+                        "end": 2326,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
                       {
-                        "type": "CalcProduct",
+                        "type": "DashedIdent",
                         "span": {
-                          "start": 2323,
-                          "end": 2335,
+                          "start": 2327,
+                          "end": 2334,
                           "ctxt": 0
                         },
-                        "expressions": [
-                          {
-                            "type": "Function",
-                            "span": {
-                              "start": 2323,
-                              "end": 2335,
-                              "ctxt": 0
-                            },
-                            "name": {
-                              "type": "Ident",
-                              "span": {
-                                "start": 2323,
-                                "end": 2326,
-                                "ctxt": 0
-                              },
-                              "value": "var",
-                              "raw": "var"
-                            },
-                            "value": [
-                              {
-                                "type": "DashedIdent",
-                                "span": {
-                                  "start": 2327,
-                                  "end": 2334,
-                                  "ctxt": 0
-                                },
-                                "value": "--width",
-                                "raw": "--width"
-                              }
-                            ]
-                          }
-                        ]
+                        "value": "--width",
+                        "raw": "--width"
                       }
                     ]
                   },
@@ -8821,52 +8781,32 @@
                     "value": ","
                   },
                   {
-                    "type": "CalcSum",
+                    "type": "Function",
                     "span": {
                       "start": 2365,
                       "end": 2377,
                       "ctxt": 0
                     },
-                    "expressions": [
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 2365,
+                        "end": 2368,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
                       {
-                        "type": "CalcProduct",
+                        "type": "DashedIdent",
                         "span": {
-                          "start": 2365,
-                          "end": 2377,
+                          "start": 2369,
+                          "end": 2376,
                           "ctxt": 0
                         },
-                        "expressions": [
-                          {
-                            "type": "Function",
-                            "span": {
-                              "start": 2365,
-                              "end": 2377,
-                              "ctxt": 0
-                            },
-                            "name": {
-                              "type": "Ident",
-                              "span": {
-                                "start": 2365,
-                                "end": 2368,
-                                "ctxt": 0
-                              },
-                              "value": "var",
-                              "raw": "var"
-                            },
-                            "value": [
-                              {
-                                "type": "DashedIdent",
-                                "span": {
-                                  "start": 2369,
-                                  "end": 2376,
-                                  "ctxt": 0
-                                },
-                                "value": "--width",
-                                "raw": "--width"
-                              }
-                            ]
-                          }
-                        ]
+                        "value": "--width",
+                        "raw": "--width"
                       }
                     ]
                   },
@@ -8988,52 +8928,32 @@
                     "value": ","
                   },
                   {
-                    "type": "CalcSum",
+                    "type": "Function",
                     "span": {
                       "start": 2409,
                       "end": 2421,
                       "ctxt": 0
                     },
-                    "expressions": [
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 2409,
+                        "end": 2412,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
                       {
-                        "type": "CalcProduct",
+                        "type": "DashedIdent",
                         "span": {
-                          "start": 2409,
-                          "end": 2421,
+                          "start": 2413,
+                          "end": 2420,
                           "ctxt": 0
                         },
-                        "expressions": [
-                          {
-                            "type": "Function",
-                            "span": {
-                              "start": 2409,
-                              "end": 2421,
-                              "ctxt": 0
-                            },
-                            "name": {
-                              "type": "Ident",
-                              "span": {
-                                "start": 2409,
-                                "end": 2412,
-                                "ctxt": 0
-                              },
-                              "value": "var",
-                              "raw": "var"
-                            },
-                            "value": [
-                              {
-                                "type": "DashedIdent",
-                                "span": {
-                                  "start": 2413,
-                                  "end": 2420,
-                                  "ctxt": 0
-                                },
-                                "value": "--width",
-                                "raw": "--width"
-                              }
-                            ]
-                          }
-                        ]
+                        "value": "--width",
+                        "raw": "--width"
                       }
                     ]
                   },
@@ -9155,52 +9075,32 @@
                     "value": ","
                   },
                   {
-                    "type": "CalcSum",
+                    "type": "Function",
                     "span": {
                       "start": 2456,
                       "end": 2468,
                       "ctxt": 0
                     },
-                    "expressions": [
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 2456,
+                        "end": 2459,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
                       {
-                        "type": "CalcProduct",
+                        "type": "DashedIdent",
                         "span": {
-                          "start": 2456,
-                          "end": 2468,
+                          "start": 2460,
+                          "end": 2467,
                           "ctxt": 0
                         },
-                        "expressions": [
-                          {
-                            "type": "Function",
-                            "span": {
-                              "start": 2456,
-                              "end": 2468,
-                              "ctxt": 0
-                            },
-                            "name": {
-                              "type": "Ident",
-                              "span": {
-                                "start": 2456,
-                                "end": 2459,
-                                "ctxt": 0
-                              },
-                              "value": "var",
-                              "raw": "var"
-                            },
-                            "value": [
-                              {
-                                "type": "DashedIdent",
-                                "span": {
-                                  "start": 2460,
-                                  "end": 2467,
-                                  "ctxt": 0
-                                },
-                                "value": "--width",
-                                "raw": "--width"
-                              }
-                            ]
-                          }
-                        ]
+                        "value": "--width",
+                        "raw": "--width"
                       }
                     ]
                   },

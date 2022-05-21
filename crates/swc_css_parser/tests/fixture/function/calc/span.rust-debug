@@ -10646,36 +10646,6 @@
     :              ^^^^^^^^^^^^
     `----
 
-  x CalcSum
-    ,-[$DIR/tests/fixture/function/calc/input.css:84:5]
- 84 | width: round(var(--width), 50px);
-    :              ^^^^^^^^^^^^
-    `----
-
-  x CalcProductOrOperator
-    ,-[$DIR/tests/fixture/function/calc/input.css:84:5]
- 84 | width: round(var(--width), 50px);
-    :              ^^^^^^^^^^^^
-    `----
-
-  x CalcProduct
-    ,-[$DIR/tests/fixture/function/calc/input.css:84:5]
- 84 | width: round(var(--width), 50px);
-    :              ^^^^^^^^^^^^
-    `----
-
-  x CalcValueOrOperator
-    ,-[$DIR/tests/fixture/function/calc/input.css:84:5]
- 84 | width: round(var(--width), 50px);
-    :              ^^^^^^^^^^^^
-    `----
-
-  x CalcValue
-    ,-[$DIR/tests/fixture/function/calc/input.css:84:5]
- 84 | width: round(var(--width), 50px);
-    :              ^^^^^^^^^^^^
-    `----
-
   x Function
     ,-[$DIR/tests/fixture/function/calc/input.css:84:5]
  84 | width: round(var(--width), 50px);
@@ -10845,36 +10815,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/function/calc/input.css:85:5]
- 85 | width: round(nearest, var(--width), 50px);
-    :                       ^^^^^^^^^^^^
-    `----
-
-  x CalcSum
-    ,-[$DIR/tests/fixture/function/calc/input.css:85:5]
- 85 | width: round(nearest, var(--width), 50px);
-    :                       ^^^^^^^^^^^^
-    `----
-
-  x CalcProductOrOperator
-    ,-[$DIR/tests/fixture/function/calc/input.css:85:5]
- 85 | width: round(nearest, var(--width), 50px);
-    :                       ^^^^^^^^^^^^
-    `----
-
-  x CalcProduct
-    ,-[$DIR/tests/fixture/function/calc/input.css:85:5]
- 85 | width: round(nearest, var(--width), 50px);
-    :                       ^^^^^^^^^^^^
-    `----
-
-  x CalcValueOrOperator
-    ,-[$DIR/tests/fixture/function/calc/input.css:85:5]
- 85 | width: round(nearest, var(--width), 50px);
-    :                       ^^^^^^^^^^^^
-    `----
-
-  x CalcValue
     ,-[$DIR/tests/fixture/function/calc/input.css:85:5]
  85 | width: round(nearest, var(--width), 50px);
     :                       ^^^^^^^^^^^^
@@ -11054,36 +10994,6 @@
     :                  ^^^^^^^^^^^^
     `----
 
-  x CalcSum
-    ,-[$DIR/tests/fixture/function/calc/input.css:86:5]
- 86 | width: round(up, var(--width), 50px);
-    :                  ^^^^^^^^^^^^
-    `----
-
-  x CalcProductOrOperator
-    ,-[$DIR/tests/fixture/function/calc/input.css:86:5]
- 86 | width: round(up, var(--width), 50px);
-    :                  ^^^^^^^^^^^^
-    `----
-
-  x CalcProduct
-    ,-[$DIR/tests/fixture/function/calc/input.css:86:5]
- 86 | width: round(up, var(--width), 50px);
-    :                  ^^^^^^^^^^^^
-    `----
-
-  x CalcValueOrOperator
-    ,-[$DIR/tests/fixture/function/calc/input.css:86:5]
- 86 | width: round(up, var(--width), 50px);
-    :                  ^^^^^^^^^^^^
-    `----
-
-  x CalcValue
-    ,-[$DIR/tests/fixture/function/calc/input.css:86:5]
- 86 | width: round(up, var(--width), 50px);
-    :                  ^^^^^^^^^^^^
-    `----
-
   x Function
     ,-[$DIR/tests/fixture/function/calc/input.css:86:5]
  86 | width: round(up, var(--width), 50px);
@@ -11258,36 +11168,6 @@
     :                    ^^^^^^^^^^^^
     `----
 
-  x CalcSum
-    ,-[$DIR/tests/fixture/function/calc/input.css:87:5]
- 87 | width: round(down, var(--width), 50px);
-    :                    ^^^^^^^^^^^^
-    `----
-
-  x CalcProductOrOperator
-    ,-[$DIR/tests/fixture/function/calc/input.css:87:5]
- 87 | width: round(down, var(--width), 50px);
-    :                    ^^^^^^^^^^^^
-    `----
-
-  x CalcProduct
-    ,-[$DIR/tests/fixture/function/calc/input.css:87:5]
- 87 | width: round(down, var(--width), 50px);
-    :                    ^^^^^^^^^^^^
-    `----
-
-  x CalcValueOrOperator
-    ,-[$DIR/tests/fixture/function/calc/input.css:87:5]
- 87 | width: round(down, var(--width), 50px);
-    :                    ^^^^^^^^^^^^
-    `----
-
-  x CalcValue
-    ,-[$DIR/tests/fixture/function/calc/input.css:87:5]
- 87 | width: round(down, var(--width), 50px);
-    :                    ^^^^^^^^^^^^
-    `----
-
   x Function
     ,-[$DIR/tests/fixture/function/calc/input.css:87:5]
  87 | width: round(down, var(--width), 50px);
@@ -11457,36 +11337,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/function/calc/input.css:88:5]
- 88 | width: round(to-zero, var(--width), 50px);
-    :                       ^^^^^^^^^^^^
-    `----
-
-  x CalcSum
-    ,-[$DIR/tests/fixture/function/calc/input.css:88:5]
- 88 | width: round(to-zero, var(--width), 50px);
-    :                       ^^^^^^^^^^^^
-    `----
-
-  x CalcProductOrOperator
-    ,-[$DIR/tests/fixture/function/calc/input.css:88:5]
- 88 | width: round(to-zero, var(--width), 50px);
-    :                       ^^^^^^^^^^^^
-    `----
-
-  x CalcProduct
-    ,-[$DIR/tests/fixture/function/calc/input.css:88:5]
- 88 | width: round(to-zero, var(--width), 50px);
-    :                       ^^^^^^^^^^^^
-    `----
-
-  x CalcValueOrOperator
-    ,-[$DIR/tests/fixture/function/calc/input.css:88:5]
- 88 | width: round(to-zero, var(--width), 50px);
-    :                       ^^^^^^^^^^^^
-    `----
-
-  x CalcValue
     ,-[$DIR/tests/fixture/function/calc/input.css:88:5]
  88 | width: round(to-zero, var(--width), 50px);
     :                       ^^^^^^^^^^^^
