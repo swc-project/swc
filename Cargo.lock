@@ -3967,7 +3967,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.8.5"
+version = "0.8.6"
 dependencies = [
  "bitflags",
  "criterion",

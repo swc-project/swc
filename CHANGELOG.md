@@ -7,6 +7,9 @@
 
 - **(html/parser)** Fix error reporting in the foreign context (#4725) ([4df0637](https://github.com/swc-project/swc/commit/4df06378179bc27562e84e0814c0878b8edf29f5))
 
+
+- **(html/parser)** Fix parsing of closing tag in foreign contents (#4721) ([1c4d50f](https://github.com/swc-project/swc/commit/1c4d50f06a86a8c34d929090457f8970ed3b58e3))
+
 ## [1.2.189] - 2022-05-21
 
 ### Bug Fixes
