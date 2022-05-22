@@ -43,7 +43,7 @@ impl VisitMut for Normalizer {
         if cfg!(target_os = "windows") {
             let path = Path::new(&*i.src.value).with_extension("ts");
             if path.is_file() {
-                let p = path.canonicalize().unwrap();
+                let p = path.canonicalize().unwrap().with_extension("");
                 i.src.value = p.display().to_string().into()
             }
         }
@@ -56,7 +56,7 @@ impl VisitMut for Normalizer {
             if let Expr::Lit(Lit::Str(s)) = &mut *i.args[0].expr {
                 let path = Path::new(&*s.value).with_extension("ts");
                 if path.is_file() {
-                    let p = path.canonicalize().unwrap();
+                    let p = path.canonicalize().unwrap().with_extension("");
                     s.value = p.display().to_string().into()
                 }
             }
