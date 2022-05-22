@@ -5,7 +5,7 @@ use std::{
 
 use indexmap::IndexMap;
 use swc_common::{chain, FileName};
-use swc_ecma_ast::ImportDecl;
+use swc_ecma_ast::*;
 use swc_ecma_loader::resolvers::{node::NodeModulesResolver, tsc::TsConfigResolver};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_module::{
@@ -13,7 +13,7 @@ use swc_ecma_transforms_module::{
     rewriter::import_rewriter,
 };
 use swc_ecma_transforms_testing::test_fixture;
-use swc_ecma_visit::{as_folder, VisitMut};
+use swc_ecma_visit::{as_folder, VisitMut, VisitMutWith};
 use testing::run_test2;
 
 type TestProvider = NodeImportResolver<NodeModulesResolver>;
@@ -45,6 +45,20 @@ impl VisitMut for Normalizer {
             if path.is_file() {
                 let p = path.canonicalize().unwrap();
                 i.src.value = p.display().to_string().into()
+            }
+        }
+    }
+
+    fn visit_mut_call_expr(&mut self, i: &mut CallExpr) {
+        i.visit_mut_children_with(self);
+
+        if let Callee::Import(..) = i.callee {
+            if let Expr::Lit(Lit::Str(s)) = &mut *i.args[0].expr {
+                let path = Path::new(&*s.value).with_extension("ts");
+                if path.is_file() {
+                    let p = path.canonicalize().unwrap();
+                    s.value = p.display().to_string().into()
+                }
             }
         }
     }
