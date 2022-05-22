@@ -213,7 +213,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.2.187"
+version = "1.2.189"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -2956,7 +2956,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.181.1"
+version = "0.181.2"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3311,7 +3311,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.108.2"
+version = "0.108.4"
 dependencies = [
  "bitflags",
  "criterion",
@@ -3634,7 +3634,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.112.2"
+version = "0.112.4"
 dependencies = [
  "Inflector",
  "ahash",
@@ -3762,7 +3762,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.117.0"
+version = "0.117.1"
 dependencies = [
  "criterion",
  "serde",
@@ -3967,7 +3967,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.8.1"
+version = "0.8.8"
 dependencies = [
  "bitflags",
  "criterion",

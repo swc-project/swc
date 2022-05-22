@@ -11,6 +11,12 @@
     : ^^^^^^
     `----
 
+  x End tag "head" did not match the name of the current open element ("annotation-xml")
+    ,-[$DIR/tests/recovery/element/math/input.html:37:13]
+ 37 | <head><title>INNER HTML TITLE</title></head>
+    :                                      ^^^^^^^
+    `----
+
   x Unexpected token
     ,-[$DIR/tests/recovery/element/math/input.html:37:13]
  37 | <head><title>INNER HTML TITLE</title></head>
@@ -23,7 +29,7 @@
     : ^^^^^^
     `----
 
-  x Unexpected token
+  x End tag "body" did not match the name of the current open element ("annotation-xml")
     ,-[$DIR/tests/recovery/element/math/input.html:40:13]
  40 | </body>
     : ^^^^^^^
@@ -35,7 +41,7 @@
     : ^^^^^^^
     `----
 
-  x Unexpected token
+  x End tag "html" did not match the name of the current open element ("annotation-xml")
     ,-[$DIR/tests/recovery/element/math/input.html:41:13]
  41 | </html>
     : ^^^^^^^

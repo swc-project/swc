@@ -565,8 +565,10 @@ where
             //
             // Parse error. Insert a U+FFFD REPLACEMENT CHARACTER character.
             Token::Character { value, raw } if *value == '\x00' => {
-                self.errors
-                    .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                self.errors.push(Error::new(
+                    token_and_info.span,
+                    ErrorKind::UnexpectedNullCharacter,
+                ));
 
                 token_and_info.token = Token::Character {
                     value: '\u{FFFD}',
@@ -921,34 +923,38 @@ where
             // corresponding to the current insertion mode in HTML content.
             Token::EndTag { tag_name, .. } => {
                 let mut node = self.open_elements_stack.items.last();
+                let mut stack_idx = self.open_elements_stack.items.len() - 1;
 
                 if let Some(node) = node {
                     match &node.data {
                         Data::Element(element)
                             if &*element.tag_name.to_ascii_lowercase() != tag_name =>
                         {
-                            self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            if stack_idx == 0 {
+                                self.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::StrayEndTag(tag_name.clone()),
+                                ));
+                            } else {
+                                self.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::EndTagDidNotMatchCurrentOpenElement(
+                                        tag_name.clone(),
+                                        element.tag_name.clone(),
+                                    ),
+                                ));
+                            }
                         }
                         _ => {}
                     }
                 }
 
-                let mut stack_idx = self.open_elements_stack.items.len() - 1;
-
                 loop {
                     if stack_idx == 0 || node.is_none() {
-                        break;
+                        return Ok(());
                     }
 
                     let inner_node = node.unwrap();
-                    let first = self.open_elements_stack.items.first();
-
-                    if let Some(first) = first {
-                        if is_same_node(inner_node, first) {
-                            return Ok(());
-                        }
-                    }
 
                     match &inner_node.data {
                         Data::Element(element)
@@ -1211,39 +1217,13 @@ where
                         force_quirks,
                         ..
                     } => {
-                        let is_valid_doctype = matches!(
-                            (
-                                name.as_ref().map(|value| &**value),
-                                public_id.as_ref().map(|value| &**value),
-                                system_id.as_ref().map(|value| &**value),
-                            ),
-                            (Some("html"), None, None)
-                                | (Some("html"), None, Some("about:legacy-compat"))
-                                | (Some("html"), Some("-//W3C//DTD HTML 4.0//EN"), None)
-                                | (
-                                    Some("html"),
-                                    Some("-//W3C//DTD HTML 4.0//EN"),
-                                    Some("http://www.w3.org/TR/REC-html40/strict.dtd"),
-                                )
-                                | (Some("html"), Some("-//W3C//DTD HTML 4.01//EN"), None)
-                                | (
-                                    Some("html"),
-                                    Some("-//W3C//DTD HTML 4.01//EN"),
-                                    Some("http://www.w3.org/TR/html4/strict.dtd"),
-                                )
-                                | (
-                                    Some("html"),
-                                    Some("-//W3C//DTD XHTML 1.0 Strict//EN"),
-                                    Some("http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"),
-                                )
-                                | (
-                                    Some("html"),
-                                    Some("-//W3C//DTD XHTML 1.1//EN"),
-                                    Some("http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"),
-                                )
-                        );
+                        let is_html_name = matches!(name, Some(name) if name.as_ref().eq_ignore_ascii_case("html"));
+                        let is_conforming_doctype = is_html_name
+                            && public_id.is_none()
+                            && (system_id.is_none()
+                                || matches!(system_id, Some(system_id) if system_id.as_ref().eq("about:legacy-compat")));
 
-                        if !is_valid_doctype {
+                        if !is_conforming_doctype {
                             self.errors.push(Error::new(
                                 token_and_info.span,
                                 ErrorKind::NonConformingDoctype,
@@ -1261,7 +1241,7 @@ where
 
                         if !self.config.iframe_srcdoc
                             && (*force_quirks
-                                || !matches!(name, Some(name) if name.as_ref().eq_ignore_ascii_case("html"))
+                                || !is_html_name
                                 || matches!(public_id, Some(public_id) if QUIRKY_PUBLIC_MATCHES
                                     .contains(&&*public_id.to_ascii_lowercase()) || QUIRKY_PUBLIC_PREFIXES.contains(&&*public_id.to_ascii_lowercase()))
                                 || matches!(system_id, Some(system_id) if QUIRKY_SYSTEM_MATCHES
@@ -1824,9 +1804,36 @@ where
             InsertionMode::InHeadNoScript => {
                 let anything_else =
                     |parser: &mut Parser<I>, token_and_info: &mut TokenAndInfo| -> PResult<()> {
-                        parser
-                            .errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        match &token_and_info.token {
+                            Token::Character { .. } => {
+                                parser.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::NonSpaceInNoscriptInHead,
+                                ));
+                            }
+                            Token::StartTag { tag_name, .. } => {
+                                parser.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::BadStartTagInNoscriptInHead(tag_name.clone()),
+                                ));
+                            }
+                            Token::EndTag { tag_name, .. } => {
+                                parser.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::StrayEndTag(tag_name.clone()),
+                                ));
+                            }
+                            Token::Eof => {
+                                parser.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::EofWithUnclosedElements,
+                                ));
+                            }
+                            _ => {
+                                unreachable!()
+                            }
+                        }
+
                         parser.open_elements_stack.pop();
                         parser.insertion_mode = InsertionMode::InHead;
                         parser.process_token(token_and_info, None)?;
@@ -2256,8 +2263,10 @@ where
                     //
                     // Switch the insertion mode to "in frameset".
                     Token::StartTag { tag_name, .. } if tag_name == "frameset" => {
-                        self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        self.errors.push(Error::new(
+                            token_and_info.span,
+                            ErrorKind::StrayStartTag(tag_name.clone()),
+                        ));
 
                         let len = self.open_elements_stack.items.len();
                         let body = self.open_elements_stack.items.get(1);
@@ -3580,9 +3589,7 @@ where
                             ErrorKind::UnexpectedImageStartTag,
                         ));
 
-                        let mut new_token_and_info = token_and_info.clone();
-
-                        match &mut new_token_and_info {
+                        match token_and_info {
                             TokenAndInfo {
                                 token: Token::StartTag { tag_name, .. },
                                 ..
@@ -3594,7 +3601,7 @@ where
                             }
                         }
 
-                        self.process_token(&mut new_token_and_info, None)?;
+                        self.process_token(token_and_info, None)?;
                     }
                     // A start tag whose tag name is "textarea"
                     //
@@ -4144,23 +4151,6 @@ where
             }
             // The "in table" insertion mode
             InsertionMode::InTable => {
-                let anything_else = |parser: &mut Parser<I>,
-                                     foster_parenting_enabled: bool,
-                                     token_and_info: &mut TokenAndInfo|
-                 -> PResult<()> {
-                    parser
-                        .errors
-                        .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
-
-                    let saved_foster_parenting_state = foster_parenting_enabled;
-
-                    parser.foster_parenting_enabled = true;
-                    parser.process_token_using_rules(token_and_info, InsertionMode::InBody)?;
-                    parser.foster_parenting_enabled = saved_foster_parenting_state;
-
-                    Ok(())
-                };
-
                 // When the user agent is to apply the rules for the "in table" insertion mode,
                 // the user agent must handle the token as follows:
                 match token {
@@ -4418,7 +4408,9 @@ where
                         };
 
                         if input_type.is_none() || !is_hidden {
-                            anything_else(self, self.foster_parenting_enabled, token_and_info)?;
+                            self.process_token_in_table_insertion_mode_anything_else(
+                                token_and_info,
+                            )?;
                         } else {
                             self.errors.push(Error::new(
                                 token_and_info.span,
@@ -4475,7 +4467,7 @@ where
                     // Parse error. Enable foster parenting, process the token using the rules for
                     // the "in body" insertion mode, and then disable foster parenting.
                     _ => {
-                        anything_else(self, self.foster_parenting_enabled, token_and_info)?;
+                        self.process_token_in_table_insertion_mode_anything_else(token_and_info)?;
                     }
                 }
             }
@@ -4531,19 +4523,11 @@ where
                         }
 
                         if has_non_ascii_whitespace {
-                            self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
-
                             for mut character_token in mem::take(&mut self.pending_character_tokens)
                             {
-                                let saved_foster_parenting_state = self.foster_parenting_enabled;
-
-                                self.foster_parenting_enabled = true;
-                                self.process_token_using_rules(
+                                self.process_token_in_table_insertion_mode_anything_else(
                                     &mut character_token,
-                                    InsertionMode::InBody,
                                 )?;
-                                self.foster_parenting_enabled = saved_foster_parenting_state;
                             }
                         } else {
                             for mut character_token in mem::take(&mut self.pending_character_tokens)
@@ -5029,8 +5013,10 @@ where
                     // elements. Switch the insertion mode to "in table body".
                     Token::EndTag { tag_name, .. } if tag_name == "tr" => {
                         if !self.open_elements_stack.has_in_table_scope("tr") {
-                            self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::NoTableRowToClose,
+                            ));
                         } else {
                             self.open_elements_stack.clear_back_to_table_row_context();
                             self.open_elements_stack.pop();
@@ -5105,8 +5091,10 @@ where
                         if matches!(tag_name.as_ref(), "tbody" | "tfoot" | "thead") =>
                     {
                         if !self.open_elements_stack.has_in_table_scope(tag_name) {
-                            self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                            self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::StrayEndTag(tag_name.clone()),
+                            ));
                         } else if !self.open_elements_stack.has_in_table_scope("tr") {
                             // Ignore
 
@@ -5128,8 +5116,10 @@ where
                             "body" | "caption" | "col" | "colgroup" | "html" | "td" | "th"
                         ) =>
                     {
-                        self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        self.errors.push(Error::new(
+                            token_and_info.span,
+                            ErrorKind::StrayEndTag(tag_name.clone()),
+                        ));
                     }
                     // Anything else
                     //
@@ -5390,9 +5380,10 @@ where
                             Some(node) if is_html_element!(node, "optgroup") => {
                                 self.open_elements_stack.pop();
                             }
-                            _ => self
-                                .errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken)),
+                            _ => self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::StrayEndTag(tag_name.clone()),
+                            )),
                         }
                     }
                     // An end tag whose tag name is "option"
@@ -5404,9 +5395,10 @@ where
                             Some(node) if is_html_element!(node, "option") => {
                                 self.open_elements_stack.pop();
                             }
-                            _ => self
-                                .errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken)),
+                            _ => self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::StrayEndTag(tag_name.clone()),
+                            )),
                         }
                     }
                     // An end tag whose tag name is "select"
@@ -5829,8 +5821,32 @@ where
                     //
                     // Parse error. Switch the insertion mode to "in body" and reprocess the token.
                     _ => {
-                        self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        match token {
+                            // Doctype handled above
+                            // Comment handled above
+                            // EOF handled above
+                            Token::Character { .. } => {
+                                self.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::NonSpaceAfterBody,
+                                ));
+                            }
+                            Token::StartTag { tag_name, .. } => {
+                                self.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::StrayStartTag(tag_name.clone()),
+                                ));
+                            }
+                            Token::EndTag { .. } => {
+                                self.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::EndTagAfterBody,
+                                ));
+                            }
+                            _ => {
+                                unreachable!();
+                            }
+                        }
 
                         self.insertion_mode = InsertionMode::InBody;
                         self.process_token(token_and_info, None)?;
@@ -6118,8 +6134,33 @@ where
                     //
                     // Parse error. Switch the insertion mode to "in body" and reprocess the token.
                     _ => {
-                        self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                        match token {
+                            // Doctype handled above
+                            // Comment handled above
+                            // EOF handled above
+                            Token::Character { .. } => {
+                                self.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::NonSpaceCharacterInTrailer,
+                                ));
+                            }
+                            Token::StartTag { tag_name, .. } => {
+                                self.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::StrayStartTag(tag_name.clone()),
+                                ));
+                            }
+                            Token::EndTag { tag_name, .. } => {
+                                self.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::StrayEndTag(tag_name.clone()),
+                                ));
+                            }
+                            _ => {
+                                unreachable!();
+                            }
+                        }
+
                         self.insertion_mode = InsertionMode::InBody;
                         self.process_token(token_and_info, None)?;
                     }
@@ -6171,13 +6212,54 @@ where
                     // Anything else
                     //
                     // Parse error. Ignore the token.
-                    _ => {
-                        self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
-                    }
+                    // Anything else
+                    //
+                    // Parse error. Ignore the token.
+                    _ => match token {
+                        // Doctype handled above
+                        // Comment handled above
+                        // EOF handled above
+                        Token::Character { .. } => {
+                            self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::NonSpaceCharacterInTrailer,
+                            ));
+                        }
+                        Token::StartTag { tag_name, .. } => {
+                            self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::StrayStartTag(tag_name.clone()),
+                            ));
+                        }
+                        Token::EndTag { tag_name, .. } => {
+                            self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::StrayEndTag(tag_name.clone()),
+                            ));
+                        }
+                        _ => {
+                            unreachable!();
+                        }
+                    },
                 }
             }
         }
+
+        Ok(())
+    }
+
+    fn process_token_in_table_insertion_mode_anything_else(
+        &mut self,
+        token_and_info: &mut TokenAndInfo,
+    ) -> PResult<()> {
+        self.errors
+            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+
+        let saved_foster_parenting_state = self.foster_parenting_enabled;
+
+        self.foster_parenting_enabled = true;
+        self.process_token_using_rules(token_and_info, InsertionMode::InBody)?;
+        self.foster_parenting_enabled = saved_foster_parenting_state;
 
         Ok(())
     }
@@ -7149,7 +7231,7 @@ where
         // If the current node is not now a td element or a th element, then this is a
         // parse error.
         match self.open_elements_stack.items.last() {
-            Some(node) if is_html_element!(node, "td" | "th") => {
+            Some(node) if !is_html_element!(node, "td" | "th") => {
                 self.errors
                     .push(Error::new(get_span!(node), ErrorKind::UnclosedElementsCell));
             }
