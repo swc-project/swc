@@ -1,5 +1,5 @@
 
-  x Unexpected start tag "<svg>" seen in "<table>"
+  x Start tag "svg" seen in "table"
     ,-[$DIR/tests/recovery/element/td/input.html:15:13]
  15 | <svg>
     : ^^^^^

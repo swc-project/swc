@@ -11,7 +11,7 @@
    :                 ^
    `----
 
-  x Stray end tag "</noscript>"
+  x Stray end tag "noscript"
    ,-[$DIR/tests/recovery/element/noscript-2/input.html:1:1]
  1 | <head><noscript>ABC<!--foo--></noscript>
    :                              ^^^^^^^^^^^

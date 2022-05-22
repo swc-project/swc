@@ -5,19 +5,19 @@
    : ^^^^^^
    `----
 
-  x Stray end tag "</br>"
+  x Stray end tag "br"
    ,-[$DIR/tests/recovery/element/noscript-1/input.html:1:1]
  1 | <head><noscript></br><!--foo--></noscript>
    :                 ^^^^^
    `----
 
-  x Unexpected end tag "</br>"
+  x End tag "br"
    ,-[$DIR/tests/recovery/element/noscript-1/input.html:1:1]
  1 | <head><noscript></br><!--foo--></noscript>
    :                 ^^^^^
    `----
 
-  x Stray end tag "</noscript>"
+  x Stray end tag "noscript"
    ,-[$DIR/tests/recovery/element/noscript-1/input.html:1:1]
  1 | <head><noscript></br><!--foo--></noscript>
    :                                ^^^^^^^^^^^

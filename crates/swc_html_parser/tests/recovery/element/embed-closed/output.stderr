@@ -1,5 +1,5 @@
 
-  x Stray end tag "</embed>"
+  x Stray end tag "embed"
     ,-[$DIR/tests/recovery/element/embed-closed/input.html:11:1]
  11 | </embed>
     : ^^^^^^^^

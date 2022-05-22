@@ -5,7 +5,7 @@
    :         ^^^^
    `----
 
-  x Stray end tag "</h1>"
+  x Stray end tag "h1"
    ,-[$DIR/tests/recovery/element/h1/input.html:7:5]
  7 | <h1>test<h1>test</h1></h1>
    :                      ^^^^^
@@ -17,7 +17,7 @@
    :         ^^^^
    `----
 
-  x Stray end tag "</h2>"
+  x Stray end tag "h2"
    ,-[$DIR/tests/recovery/element/h1/input.html:8:5]
  8 | <h2>test<h1>test</h1></h2>
    :                      ^^^^^
@@ -29,7 +29,7 @@
    :         ^^^^
    `----
 
-  x Stray end tag "</h3>"
+  x Stray end tag "h3"
    ,-[$DIR/tests/recovery/element/h1/input.html:9:5]
  9 | <h3>test<h1>test</h1></h3>
    :                      ^^^^^
@@ -41,7 +41,7 @@
     :         ^^^^
     `----
 
-  x Stray end tag "</h4>"
+  x Stray end tag "h4"
     ,-[$DIR/tests/recovery/element/h1/input.html:10:5]
  10 | <h4>test<h1>test</h1></h4>
     :                      ^^^^^
@@ -53,7 +53,7 @@
     :         ^^^^
     `----
 
-  x Stray end tag "</h5>"
+  x Stray end tag "h5"
     ,-[$DIR/tests/recovery/element/h1/input.html:11:5]
  11 | <h5>test<h1>test</h1></h5>
     :                      ^^^^^
@@ -65,7 +65,7 @@
     :         ^^^^
     `----
 
-  x Stray end tag "</h6>"
+  x Stray end tag "h6"
     ,-[$DIR/tests/recovery/element/h1/input.html:12:5]
  12 | <h6>test<h1>test</h1></h6>
     :                      ^^^^^
@@ -77,7 +77,7 @@
     :         ^^^^
     `----
 
-  x Stray end tag "</h1>"
+  x Stray end tag "h1"
     ,-[$DIR/tests/recovery/element/h1/input.html:13:5]
  13 | <h1>test<h2>test</h2></h1>
     :                      ^^^^^

@@ -11,7 +11,7 @@
    :              ^
    `----
 
-  x Stray end tag "</em>"
+  x Stray end tag "em"
    ,-[$DIR/tests/recovery/element/table/table-characters-3/input.html:7:5]
  7 | A<table><tr> B</tr> </em>C</table>
    :                     ^^^^^

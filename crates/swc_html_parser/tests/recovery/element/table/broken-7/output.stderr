@@ -11,7 +11,7 @@
    :                     ^^^^^^
    `----
 
-  x Stray end tag "</desc>"
+  x Stray end tag "desc"
    ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
  1 | <table><tr><td><svg><desc><td></desc><circle>
    :                               ^^^^^^^
@@ -29,7 +29,7 @@
    :              ^
    `----
 
-  x Stray end tag "</em>"
+  x Stray end tag "em"
    ,-[$DIR/tests/recovery/element/table/broken-7/input.html:2:1]
  2 | A<table><tr> B</tr> </em>C</table>
    :                     ^^^^^
