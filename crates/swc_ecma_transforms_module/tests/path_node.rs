@@ -48,6 +48,9 @@ fn issue_4730() {
                 "@print/a".into(),
                 vec![current_dir()
                     .unwrap()
+                    .join("tests")
+                    .join("fixture-manual")
+                    .join("issue-4730")
                     .join("packages")
                     .join("a")
                     .join("src")
@@ -59,6 +62,9 @@ fn issue_4730() {
                 "@print/b".into(),
                 vec![current_dir()
                     .unwrap()
+                    .join("tests")
+                    .join("fixture-manual")
+                    .join("issue-4730")
                     .join("packages")
                     .join("b")
                     .join("src")
@@ -77,7 +83,7 @@ fn issue_4730() {
             )
         },
         &input_dir.join("src").join("index.js"),
-        &output_dir.join("index.ts"),
+        &output_dir.join("index.js"),
     );
 }
 
