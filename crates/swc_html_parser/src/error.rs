@@ -143,11 +143,17 @@ impl Error {
                 format!("Stray start tag \"<{}>\"", tag_name).into()
             }
             ErrorKind::StrayEndTag(tag_name) => format!("Stray end tag \"</{}>\"", tag_name).into(),
+            ErrorKind::UnclosedElements(tag_name) => format!(
+                "End tag \"{}\" seen, but there were open elements",
+                tag_name
+            )
+            .into(),
             ErrorKind::UnclosedElementsImplied(tag_name) => format!(
                 "End tag \"{}\" implied, but there were open elements",
                 tag_name
             )
             .into(),
+
             ErrorKind::NoElementToCloseButEndTagSeen(tag_name) => format!(
                 "No \"{}\" element in scope but a \"{}\" end tag seen",
                 tag_name, tag_name
@@ -171,11 +177,6 @@ impl Error {
             .into(),
             ErrorKind::UnexpectedStartTagBetweenHeadAndBody(tag_name) => format!(
                 "Unexpected HTML start tag \"<{}>\" between \"</head>\" and \"<body>\"",
-                tag_name
-            )
-            .into(),
-            ErrorKind::UnclosedElements(tag_name) => format!(
-                "End tag \"</{}>\" seen, but there were open elements",
                 tag_name
             )
             .into(),
@@ -344,10 +345,11 @@ pub enum ErrorKind {
     StrayDoctype,
     StrayStartTag(JsWord),
     StrayEndTag(JsWord),
+    UnclosedElements(JsWord),
     UnclosedElementsImplied(JsWord),
+
     NoElementToCloseButEndTagSeen(JsWord),
     NestedHeadingTags,
-
     NoTableRowToClose,
     NoCellToClose,
     FormWhenFormOpen,
@@ -365,7 +367,6 @@ pub enum ErrorKind {
     UnexpectedStartTagInRuby(JsWord),
     UnexpectedEndTagWithUnclosedElements(JsWord),
     UnexpectedEof,
-    UnclosedElements(JsWord),
     UnclosedElementsOnStack,
     UnclosedElementsCell,
     NonSpaceCharacterInFrameset,
