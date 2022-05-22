@@ -105,7 +105,12 @@ pub fn optimize(
     }
 
     if options.compress.is_some() {
-        m.visit_mut_with(&mut info_marker(comments, marks, extra.unresolved_mark));
+        m.visit_mut_with(&mut info_marker(
+            options.compress.as_ref(),
+            comments,
+            marks,
+            extra.unresolved_mark,
+        ));
     }
     m.visit_mut_with(&mut unique_scope());
 

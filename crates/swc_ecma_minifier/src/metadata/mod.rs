@@ -1,6 +1,6 @@
 use swc_common::{
     comments::{Comment, CommentKind, Comments},
-    Mark, Span, SyntaxContext,
+    EqIgnoreSpan, Mark, Span, SyntaxContext,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_pat_ids;
@@ -8,18 +8,20 @@ use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 
-use crate::marks::Marks;
+use crate::{marks::Marks, option::CompressOptions};
 
 #[cfg(test)]
 mod tests;
 
 /// This pass analyzes the comment and convert it to a mark.
-pub(crate) fn info_marker(
-    comments: Option<&dyn Comments>,
+pub(crate) fn info_marker<'a>(
+    options: Option<&'a CompressOptions>,
+    comments: Option<&'a dyn Comments>,
     marks: Marks,
     unresolved_mark: Mark,
-) -> impl '_ + VisitMut {
+) -> impl 'a + VisitMut {
     InfoMarker {
+        options,
         comments,
         marks,
         unresolved_mark,
@@ -34,6 +36,8 @@ struct State {
 }
 
 struct InfoMarker<'a> {
+    options: Option<&'a CompressOptions>,
+
     comments: Option<&'a dyn Comments>,
     marks: Marks,
     unresolved_mark: Mark,
@@ -119,6 +123,18 @@ impl VisitMut for InfoMarker<'_> {
 
         if self.has_pure(n.span) {
             n.span = n.span.apply_mark(self.marks.pure);
+        } else if let Some(options) = self.options {
+            if let Callee::Expr(e) = &n.callee {
+                // Check for pure_funcs
+
+                if options
+                    .pure_funcs
+                    .iter()
+                    .any(|pure_func| Ident::within_ignored_ctxt(|| e.eq_ignore_span(pure_func)))
+                {
+                    n.span = n.span.apply_mark(self.marks.pure);
+                }
+            }
         }
     }
 
