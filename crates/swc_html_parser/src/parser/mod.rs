@@ -1808,7 +1808,7 @@ where
                             Token::Character { .. } => {
                                 parser.errors.push(Error::new(
                                     token_and_info.span,
-                                    ErrorKind::NonSpaceInNoscriptInHead,
+                                    ErrorKind::NonSpaceCharacterInNoscriptInHead,
                                 ));
                             }
                             Token::StartTag { tag_name, .. } => {
@@ -4818,10 +4818,20 @@ where
                     //
                     // Reprocess the token.
                     _ => match self.open_elements_stack.items.last() {
-                        Some(node) if !is_html_element!(node, "colgroup") => {
-                            self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
-                        }
+                        Some(node) if !is_html_element!(node, "colgroup") => match token {
+                            Token::Character { .. } => {
+                                self.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::NonSpaceCharacterInColumnGroup,
+                                ));
+                            }
+                            _ => {
+                                self.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::GarbageInColumnGroup,
+                                ));
+                            }
+                        },
                         _ => {
                             self.open_elements_stack.pop();
                             self.insertion_mode = InsertionMode::InTable;
