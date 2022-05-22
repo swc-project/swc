@@ -5,13 +5,13 @@
    : ^^^^^^^^
    `----
 
-  x Unexpected token
+  x Stray start tag "<div>"
    ,-[$DIR/tests/recovery/element/select/input.html:1:1]
  1 | <select><div>foo</div>bar</select>
    :         ^^^^^
    `----
 
-  x Unexpected token
+  x Stray end tag "</div>"
    ,-[$DIR/tests/recovery/element/select/input.html:1:1]
  1 | <select><div>foo</div>bar</select>
    :                 ^^^^^^
