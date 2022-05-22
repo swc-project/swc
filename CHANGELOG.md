@@ -20,6 +20,9 @@
 
 
 
+- **(es/minifier)** Implement `pure_funcs` (#4710) ([9e42382](https://github.com/swc-project/swc/commit/9e423820916ab847731b8b484a165169174b80df))
+
+
 - **(es/modules/amd)** Support local-scoped amd requires (#4727) ([886585b](https://github.com/swc-project/swc/commit/886585b90e2f240e4d72091629bc547ab74f7e2e))
 
 
