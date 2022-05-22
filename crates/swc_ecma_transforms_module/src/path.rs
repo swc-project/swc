@@ -250,7 +250,7 @@ where
         }
 
         let s = rel_path.to_string_lossy();
-        let s = if s.starts_with('.') || s.starts_with('/') {
+        let s = if s.starts_with('.') || s.starts_with('/') || rel_path.is_absolute() {
             s
         } else {
             Cow::Owned(format!("./{}", s))
