@@ -4,7 +4,8 @@ use std::{
 };
 
 use indexmap::IndexMap;
-use swc_common::FileName;
+use swc_common::{chain, FileName};
+use swc_ecma_ast::ImportDecl;
 use swc_ecma_loader::resolvers::{node::NodeModulesResolver, tsc::TsConfigResolver};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_module::{
@@ -12,6 +13,7 @@ use swc_ecma_transforms_module::{
     rewriter::import_rewriter,
 };
 use swc_ecma_transforms_testing::test_fixture;
+use swc_ecma_visit::{as_folder, VisitMut};
 use testing::run_test2;
 
 type TestProvider = NodeImportResolver<NodeModulesResolver>;
@@ -32,6 +34,20 @@ fn node_modules() {
         Ok(())
     })
     .unwrap();
+}
+
+struct Normalizer;
+
+impl VisitMut for Normalizer {
+    fn visit_mut_import_decl(&mut self, i: &mut ImportDecl) {
+        if cfg!(target_os = "windows") {
+            let path = Path::new(&*i.src.value);
+            if path.is_file() {
+                let p = path.canonicalize().unwrap();
+                i.src.value = p.display().to_string().into()
+            }
+        }
+    }
 }
 
 #[test]
@@ -79,9 +95,12 @@ fn issue_4730() {
 
             let resolver = paths_resolver(&input_dir, rules);
 
-            import_rewriter(
-                FileName::Real(input_dir.join("src").join("index.js")),
-                resolver,
+            chain!(
+                import_rewriter(
+                    FileName::Real(input_dir.join("src").join("index.js")),
+                    resolver,
+                ),
+                as_folder(Normalizer)
             )
         },
         &input_dir.join("src").join("index.js"),
