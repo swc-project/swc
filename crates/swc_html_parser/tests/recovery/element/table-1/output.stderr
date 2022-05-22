@@ -11,7 +11,7 @@
    :        ^^^^
    `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
    ,-[$DIR/tests/recovery/element/table-1/input.html:1:1]
  1 | <table><td></tbody>A
    :                    ^

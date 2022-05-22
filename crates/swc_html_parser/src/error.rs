@@ -260,6 +260,9 @@ impl Error {
             ErrorKind::NonSpaceCharacterInColumnGroup => {
                 "Non-space character in \"colgroup\" element".into()
             }
+            ErrorKind::NonSpaceCharacterInTable => {
+                "Misplaced non-space characters inside a table".into()
+            }
         }
     }
 
@@ -373,4 +376,5 @@ pub enum ErrorKind {
     EofWithUnclosedElements,
     GarbageInColumnGroup,
     NonSpaceCharacterInColumnGroup,
+    NonSpaceCharacterInTable,
 }

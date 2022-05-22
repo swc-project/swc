@@ -5,13 +5,13 @@
    : ^^^^^
    `----
 
-  x Unexpected token
+  x Unexpected start tag "<svg>" seen in "<table>"
    ,-[$DIR/tests/recovery/element/s/input.html:1:1]
  1 | <div><table><svg><foreignObject><select><table><s>
    :             ^^^^^
    `----
 
-  x Unexpected token
+  x Unexpected start tag "<select>" seen in "<table>"
    ,-[$DIR/tests/recovery/element/s/input.html:1:1]
  1 | <div><table><svg><foreignObject><select><table><s>
    :                                 ^^^^^^^^
@@ -29,7 +29,7 @@
    :                                         ^^^^^^^
    `----
 
-  x Unexpected token
+  x Unexpected start tag "<s>" seen in "<table>"
    ,-[$DIR/tests/recovery/element/s/input.html:1:1]
  1 | <div><table><svg><foreignObject><select><table><s>
    :                                                ^^^

@@ -6275,8 +6275,29 @@ where
         &mut self,
         token_and_info: &mut TokenAndInfo,
     ) -> PResult<()> {
-        self.errors
-            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+        match &token_and_info.token {
+            Token::StartTag { tag_name, .. } => {
+                self.errors.push(Error::new(
+                    token_and_info.span,
+                    ErrorKind::UnexpectedStartTagInTable(tag_name.clone()),
+                ));
+            }
+            Token::EndTag { tag_name, .. } => {
+                self.errors.push(Error::new(
+                    token_and_info.span,
+                    ErrorKind::StrayEndTag(tag_name.clone()),
+                ));
+            }
+            Token::Character { .. } => {
+                self.errors.push(Error::new(
+                    token_and_info.span,
+                    ErrorKind::NonSpaceCharacterInTable,
+                ));
+            }
+            _ => {
+                unreachable!();
+            }
+        }
 
         let saved_foster_parenting_state = self.foster_parenting_enabled;
 

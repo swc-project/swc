@@ -953,6 +953,12 @@
     :           ^^^^^^^
     `----
 
+  x Stray end tag "</svg<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:50:1]
+ 50 | <div><svg><table></svg</div>
+    :                  ^^^^^^^^^^^
+    `----
+
   x Unexpected token
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:50:1]
  50 | <div><svg><table></svg</div>
@@ -971,13 +977,13 @@
     :                  ^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:51:1]
  51 | <div><svg><tt></svg</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<svg>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:51:1]
  51 | <div><svg><tt></svg</div>
     :      ^^^^^
@@ -989,10 +995,16 @@
     :           ^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<tt>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:51:1]
  51 | <div><svg><tt></svg</div>
     :           ^^^^
+    `----
+
+  x Stray end tag "</svg<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:51:1]
+ 51 | <div><svg><tt></svg</div>
+    :               ^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -1013,20 +1025,20 @@
     :               ^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:51:1]
  51 | <div><svg><tt></svg</div>
     :                          ^
  52 | <div><svg><u></svg</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:52:1]
  52 | <div><svg><u></svg</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<svg>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:52:1]
  52 | <div><svg><u></svg</div>
     :      ^^^^^
@@ -1038,10 +1050,16 @@
     :           ^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<u>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:52:1]
  52 | <div><svg><u></svg</div>
     :           ^^^
+    `----
+
+  x Stray end tag "</svg<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:52:1]
+ 52 | <div><svg><u></svg</div>
+    :              ^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -1062,20 +1080,20 @@
     :              ^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:52:1]
  52 | <div><svg><u></svg</div>
     :                         ^
  53 | <div><svg><ul></svg</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:53:1]
  53 | <div><svg><ul></svg</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<svg>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:53:1]
  53 | <div><svg><ul></svg</div>
     :      ^^^^^
@@ -1087,10 +1105,16 @@
     :           ^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<ul>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:53:1]
  53 | <div><svg><ul></svg</div>
     :           ^^^^
+    `----
+
+  x Stray end tag "</svg<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:53:1]
+ 53 | <div><svg><ul></svg</div>
+    :               ^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -1111,20 +1135,20 @@
     :               ^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:53:1]
  53 | <div><svg><ul></svg</div>
     :                          ^
  54 | <div><svg><var></svg</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:54:1]
  54 | <div><svg><var></svg</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<svg>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:54:1]
  54 | <div><svg><var></svg</div>
     :      ^^^^^
@@ -1136,10 +1160,16 @@
     :           ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<var>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:54:1]
  54 | <div><svg><var></svg</div>
     :           ^^^^^
+    `----
+
+  x Stray end tag "</svg<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:54:1]
+ 54 | <div><svg><var></svg</div>
+    :                ^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -1160,20 +1190,20 @@
     :                ^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:54:1]
  54 | <div><svg><var></svg</div>
     :                           ^
  55 | <div><math></p></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:55:1]
  55 | <div><math></p></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:55:1]
  55 | <div><math></p></math</div>
     :      ^^^^^^
@@ -1185,7 +1215,7 @@
     :            ^^^^
     `----
 
-  x Unexpected token
+  x Stray end tag "</p>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:55:1]
  55 | <div><math></p></math</div>
     :            ^^^^
@@ -1195,6 +1225,12 @@
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:55:1]
  55 | <div><math></p></math</div>
     :            ^^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:55:1]
+ 55 | <div><math></p></math</div>
+    :                ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -1215,20 +1251,20 @@
     :                ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:55:1]
  55 | <div><math></p></math</div>
     :                            ^
  56 | <div><math></br></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:56:1]
  56 | <div><math></br></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:56:1]
  56 | <div><math></br></math</div>
     :      ^^^^^^
@@ -1240,7 +1276,7 @@
     :            ^^^^^
     `----
 
-  x Unexpected token
+  x Stray end tag "</br>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:56:1]
  56 | <div><math></br></math</div>
     :            ^^^^^
@@ -1250,6 +1286,12 @@
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:56:1]
  56 | <div><math></br></math</div>
     :            ^^^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:56:1]
+ 56 | <div><math></br></math</div>
+    :                 ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -1270,20 +1312,20 @@
     :                 ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:56:1]
  56 | <div><math></br></math</div>
     :                             ^
  57 | <div><math><b></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:57:1]
  57 | <div><math><b></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:57:1]
  57 | <div><math><b></math</div>
     :      ^^^^^^
@@ -1295,10 +1337,16 @@
     :            ^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<b>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:57:1]
  57 | <div><math><b></math</div>
     :            ^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:57:1]
+ 57 | <div><math><b></math</div>
+    :               ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -1319,20 +1367,20 @@
     :               ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:57:1]
  57 | <div><math><b></math</div>
     :                           ^
  58 | <div><math><big></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:58:1]
  58 | <div><math><big></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:58:1]
  58 | <div><math><big></math</div>
     :      ^^^^^^
@@ -1344,10 +1392,16 @@
     :            ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<big>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:58:1]
  58 | <div><math><big></math</div>
     :            ^^^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:58:1]
+ 58 | <div><math><big></math</div>
+    :                 ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -1368,20 +1422,20 @@
     :                 ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:58:1]
  58 | <div><math><big></math</div>
     :                             ^
  59 | <div><math><blockquote></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:59:1]
  59 | <div><math><blockquote></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:59:1]
  59 | <div><math><blockquote></math</div>
     :      ^^^^^^
@@ -1393,10 +1447,16 @@
     :            ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<blockquote>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:59:1]
  59 | <div><math><blockquote></math</div>
     :            ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:59:1]
+ 59 | <div><math><blockquote></math</div>
+    :                        ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -1417,20 +1477,20 @@
     :                        ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:59:1]
  59 | <div><math><blockquote></math</div>
     :                                    ^
  60 | <div><math><br></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:60:1]
  60 | <div><math><br></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:60:1]
  60 | <div><math><br></math</div>
     :      ^^^^^^
@@ -1442,10 +1502,16 @@
     :            ^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<br>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:60:1]
  60 | <div><math><br></math</div>
     :            ^^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:60:1]
+ 60 | <div><math><br></math</div>
+    :                ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -1466,20 +1532,20 @@
     :                ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:60:1]
  60 | <div><math><br></math</div>
     :                            ^
  61 | <div><math><center></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:61:1]
  61 | <div><math><center></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:61:1]
  61 | <div><math><center></math</div>
     :      ^^^^^^
@@ -1491,10 +1557,16 @@
     :            ^^^^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<center>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:61:1]
  61 | <div><math><center></math</div>
     :            ^^^^^^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:61:1]
+ 61 | <div><math><center></math</div>
+    :                    ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -1515,20 +1587,20 @@
     :                    ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:61:1]
  61 | <div><math><center></math</div>
     :                                ^
  62 | <div><math><code></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:62:1]
  62 | <div><math><code></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:62:1]
  62 | <div><math><code></math</div>
     :      ^^^^^^
@@ -1540,10 +1612,16 @@
     :            ^^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<code>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:62:1]
  62 | <div><math><code></math</div>
     :            ^^^^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:62:1]
+ 62 | <div><math><code></math</div>
+    :                  ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -1564,20 +1642,20 @@
     :                  ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:62:1]
  62 | <div><math><code></math</div>
     :                              ^
  63 | <div><math><dd></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:63:1]
  63 | <div><math><dd></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:63:1]
  63 | <div><math><dd></math</div>
     :      ^^^^^^
@@ -1589,10 +1667,16 @@
     :            ^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<dd>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:63:1]
  63 | <div><math><dd></math</div>
     :            ^^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:63:1]
+ 63 | <div><math><dd></math</div>
+    :                ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -1613,20 +1697,20 @@
     :                ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:63:1]
  63 | <div><math><dd></math</div>
     :                            ^
  64 | <div><math><div></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:64:1]
  64 | <div><math><div></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:64:1]
  64 | <div><math><div></math</div>
     :      ^^^^^^
@@ -1638,10 +1722,16 @@
     :            ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:64:1]
  64 | <div><math><div></math</div>
     :            ^^^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:64:1]
+ 64 | <div><math><div></math</div>
+    :                 ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -1662,20 +1752,20 @@
     :                 ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:64:1]
  64 | <div><math><div></math</div>
     :                             ^
  65 | <div><math><dl></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:65:1]
  65 | <div><math><dl></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:65:1]
  65 | <div><math><dl></math</div>
     :      ^^^^^^
@@ -1687,10 +1777,16 @@
     :            ^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<dl>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:65:1]
  65 | <div><math><dl></math</div>
     :            ^^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:65:1]
+ 65 | <div><math><dl></math</div>
+    :                ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -1711,20 +1807,20 @@
     :                ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:65:1]
  65 | <div><math><dl></math</div>
     :                            ^
  66 | <div><math><dt></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:66:1]
  66 | <div><math><dt></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:66:1]
  66 | <div><math><dt></math</div>
     :      ^^^^^^
@@ -1736,10 +1832,16 @@
     :            ^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<dt>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:66:1]
  66 | <div><math><dt></math</div>
     :            ^^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:66:1]
+ 66 | <div><math><dt></math</div>
+    :                ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -1760,20 +1862,20 @@
     :                ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:66:1]
  66 | <div><math><dt></math</div>
     :                            ^
  67 | <div><math><em></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:67:1]
  67 | <div><math><em></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:67:1]
  67 | <div><math><em></math</div>
     :      ^^^^^^
@@ -1785,10 +1887,16 @@
     :            ^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<em>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:67:1]
  67 | <div><math><em></math</div>
     :            ^^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:67:1]
+ 67 | <div><math><em></math</div>
+    :                ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -1809,20 +1917,20 @@
     :                ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:67:1]
  67 | <div><math><em></math</div>
     :                            ^
  68 | <div><math><embed></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:68:1]
  68 | <div><math><embed></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:68:1]
  68 | <div><math><embed></math</div>
     :      ^^^^^^
@@ -1834,10 +1942,16 @@
     :            ^^^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<embed>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:68:1]
  68 | <div><math><embed></math</div>
     :            ^^^^^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:68:1]
+ 68 | <div><math><embed></math</div>
+    :                   ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -1858,20 +1972,20 @@
     :                   ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:68:1]
  68 | <div><math><embed></math</div>
     :                               ^
  69 | <div><math><h1></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:69:1]
  69 | <div><math><h1></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:69:1]
  69 | <div><math><h1></math</div>
     :      ^^^^^^
@@ -1883,10 +1997,16 @@
     :            ^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<h1>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:69:1]
  69 | <div><math><h1></math</div>
     :            ^^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:69:1]
+ 69 | <div><math><h1></math</div>
+    :                ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -1907,20 +2027,20 @@
     :                ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:69:1]
  69 | <div><math><h1></math</div>
     :                            ^
  70 | <div><math><h2></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:70:1]
  70 | <div><math><h2></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:70:1]
  70 | <div><math><h2></math</div>
     :      ^^^^^^
@@ -1932,10 +2052,16 @@
     :            ^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<h2>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:70:1]
  70 | <div><math><h2></math</div>
     :            ^^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:70:1]
+ 70 | <div><math><h2></math</div>
+    :                ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -1956,20 +2082,20 @@
     :                ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:70:1]
  70 | <div><math><h2></math</div>
     :                            ^
  71 | <div><math><h3></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:71:1]
  71 | <div><math><h3></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:71:1]
  71 | <div><math><h3></math</div>
     :      ^^^^^^
@@ -1981,10 +2107,16 @@
     :            ^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<h3>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:71:1]
  71 | <div><math><h3></math</div>
     :            ^^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:71:1]
+ 71 | <div><math><h3></math</div>
+    :                ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -2005,20 +2137,20 @@
     :                ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:71:1]
  71 | <div><math><h3></math</div>
     :                            ^
  72 | <div><math><h4></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:72:1]
  72 | <div><math><h4></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:72:1]
  72 | <div><math><h4></math</div>
     :      ^^^^^^
@@ -2030,10 +2162,16 @@
     :            ^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<h4>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:72:1]
  72 | <div><math><h4></math</div>
     :            ^^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:72:1]
+ 72 | <div><math><h4></math</div>
+    :                ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -2054,20 +2192,20 @@
     :                ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:72:1]
  72 | <div><math><h4></math</div>
     :                            ^
  73 | <div><math><h5></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:73:1]
  73 | <div><math><h5></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:73:1]
  73 | <div><math><h5></math</div>
     :      ^^^^^^
@@ -2079,10 +2217,16 @@
     :            ^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<h5>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:73:1]
  73 | <div><math><h5></math</div>
     :            ^^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:73:1]
+ 73 | <div><math><h5></math</div>
+    :                ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -2103,20 +2247,20 @@
     :                ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:73:1]
  73 | <div><math><h5></math</div>
     :                            ^
  74 | <div><math><h6></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:74:1]
  74 | <div><math><h6></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:74:1]
  74 | <div><math><h6></math</div>
     :      ^^^^^^
@@ -2128,10 +2272,16 @@
     :            ^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<h6>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:74:1]
  74 | <div><math><h6></math</div>
     :            ^^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:74:1]
+ 74 | <div><math><h6></math</div>
+    :                ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -2152,20 +2302,20 @@
     :                ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:74:1]
  74 | <div><math><h6></math</div>
     :                            ^
  75 | <div><math><hr></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:75:1]
  75 | <div><math><hr></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:75:1]
  75 | <div><math><hr></math</div>
     :      ^^^^^^
@@ -2177,10 +2327,16 @@
     :            ^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<hr>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:75:1]
  75 | <div><math><hr></math</div>
     :            ^^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:75:1]
+ 75 | <div><math><hr></math</div>
+    :                ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -2201,20 +2357,20 @@
     :                ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:75:1]
  75 | <div><math><hr></math</div>
     :                            ^
  76 | <div><math><i></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:76:1]
  76 | <div><math><i></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:76:1]
  76 | <div><math><i></math</div>
     :      ^^^^^^
@@ -2226,10 +2382,16 @@
     :            ^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<i>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:76:1]
  76 | <div><math><i></math</div>
     :            ^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:76:1]
+ 76 | <div><math><i></math</div>
+    :               ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -2250,20 +2412,20 @@
     :               ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:76:1]
  76 | <div><math><i></math</div>
     :                           ^
  77 | <div><math><img></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:77:1]
  77 | <div><math><img></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:77:1]
  77 | <div><math><img></math</div>
     :      ^^^^^^
@@ -2275,10 +2437,16 @@
     :            ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<img>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:77:1]
  77 | <div><math><img></math</div>
     :            ^^^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:77:1]
+ 77 | <div><math><img></math</div>
+    :                 ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -2299,20 +2467,20 @@
     :                 ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:77:1]
  77 | <div><math><img></math</div>
     :                             ^
  78 | <div><math><li></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:78:1]
  78 | <div><math><li></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:78:1]
  78 | <div><math><li></math</div>
     :      ^^^^^^
@@ -2324,10 +2492,16 @@
     :            ^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<li>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:78:1]
  78 | <div><math><li></math</div>
     :            ^^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:78:1]
+ 78 | <div><math><li></math</div>
+    :                ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -2348,20 +2522,20 @@
     :                ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:78:1]
  78 | <div><math><li></math</div>
     :                            ^
  79 | <div><math><listing></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:79:1]
  79 | <div><math><listing></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:79:1]
  79 | <div><math><listing></math</div>
     :      ^^^^^^
@@ -2373,7 +2547,7 @@
     :            ^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<listing>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:79:1]
  79 | <div><math><listing></math</div>
     :            ^^^^^^^^^
@@ -2391,7 +2565,7 @@
     :                     ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Stray end tag "</math<>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:79:1]
  79 | <div><math><listing></math</div>
     :                     ^^^^^^^^^^^^
@@ -2400,17 +2574,23 @@
   x Unexpected token
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:79:1]
  79 | <div><math><listing></math</div>
+    :                     ^^^^^^^^^^^^
+    `----
+
+  x Misplaced non-space characters inside a table
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:79:1]
+ 79 | <div><math><listing></math</div>
     :                                 ^
  80 | <div><math><menu></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:80:1]
  80 | <div><math><menu></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:80:1]
  80 | <div><math><menu></math</div>
     :      ^^^^^^
@@ -2422,10 +2602,16 @@
     :            ^^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<menu>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:80:1]
  80 | <div><math><menu></math</div>
     :            ^^^^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:80:1]
+ 80 | <div><math><menu></math</div>
+    :                  ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -2446,20 +2632,20 @@
     :                  ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:80:1]
  80 | <div><math><menu></math</div>
     :                              ^
  81 | <div><math><meta></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:81:1]
  81 | <div><math><meta></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:81:1]
  81 | <div><math><meta></math</div>
     :      ^^^^^^
@@ -2471,10 +2657,16 @@
     :            ^^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<meta>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:81:1]
  81 | <div><math><meta></math</div>
     :            ^^^^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:81:1]
+ 81 | <div><math><meta></math</div>
+    :                  ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -2495,20 +2687,20 @@
     :                  ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:81:1]
  81 | <div><math><meta></math</div>
     :                              ^
  82 | <div><math><nobr></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:82:1]
  82 | <div><math><nobr></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:82:1]
  82 | <div><math><nobr></math</div>
     :      ^^^^^^
@@ -2520,10 +2712,16 @@
     :            ^^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<nobr>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:82:1]
  82 | <div><math><nobr></math</div>
     :            ^^^^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:82:1]
+ 82 | <div><math><nobr></math</div>
+    :                  ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -2544,20 +2742,20 @@
     :                  ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:82:1]
  82 | <div><math><nobr></math</div>
     :                              ^
  83 | <div><math><ol></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:83:1]
  83 | <div><math><ol></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:83:1]
  83 | <div><math><ol></math</div>
     :      ^^^^^^
@@ -2569,10 +2767,16 @@
     :            ^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<ol>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:83:1]
  83 | <div><math><ol></math</div>
     :            ^^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:83:1]
+ 83 | <div><math><ol></math</div>
+    :                ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -2593,20 +2797,20 @@
     :                ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:83:1]
  83 | <div><math><ol></math</div>
     :                            ^
  84 | <div><math><p></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:84:1]
  84 | <div><math><p></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:84:1]
  84 | <div><math><p></math</div>
     :      ^^^^^^
@@ -2618,10 +2822,16 @@
     :            ^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<p>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:84:1]
  84 | <div><math><p></math</div>
     :            ^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:84:1]
+ 84 | <div><math><p></math</div>
+    :               ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -2642,20 +2852,20 @@
     :               ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:84:1]
  84 | <div><math><p></math</div>
     :                           ^
  85 | <div><math><pre></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:85:1]
  85 | <div><math><pre></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:85:1]
  85 | <div><math><pre></math</div>
     :      ^^^^^^
@@ -2667,7 +2877,7 @@
     :            ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<pre>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:85:1]
  85 | <div><math><pre></math</div>
     :            ^^^^^
@@ -2685,7 +2895,7 @@
     :                 ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Stray end tag "</math<>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:85:1]
  85 | <div><math><pre></math</div>
     :                 ^^^^^^^^^^^^
@@ -2694,17 +2904,23 @@
   x Unexpected token
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:85:1]
  85 | <div><math><pre></math</div>
+    :                 ^^^^^^^^^^^^
+    `----
+
+  x Misplaced non-space characters inside a table
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:85:1]
+ 85 | <div><math><pre></math</div>
     :                             ^
  86 | <div><math><ruby></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:86:1]
  86 | <div><math><ruby></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:86:1]
  86 | <div><math><ruby></math</div>
     :      ^^^^^^
@@ -2716,10 +2932,16 @@
     :            ^^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<ruby>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:86:1]
  86 | <div><math><ruby></math</div>
     :            ^^^^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:86:1]
+ 86 | <div><math><ruby></math</div>
+    :                  ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -2740,20 +2962,20 @@
     :                  ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:86:1]
  86 | <div><math><ruby></math</div>
     :                              ^
  87 | <div><math><s></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:87:1]
  87 | <div><math><s></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:87:1]
  87 | <div><math><s></math</div>
     :      ^^^^^^
@@ -2765,10 +2987,16 @@
     :            ^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<s>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:87:1]
  87 | <div><math><s></math</div>
     :            ^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:87:1]
+ 87 | <div><math><s></math</div>
+    :               ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -2789,20 +3017,20 @@
     :               ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:87:1]
  87 | <div><math><s></math</div>
     :                           ^
  88 | <div><math><small></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:88:1]
  88 | <div><math><small></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:88:1]
  88 | <div><math><small></math</div>
     :      ^^^^^^
@@ -2814,10 +3042,16 @@
     :            ^^^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<small>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:88:1]
  88 | <div><math><small></math</div>
     :            ^^^^^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:88:1]
+ 88 | <div><math><small></math</div>
+    :                   ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -2838,20 +3072,20 @@
     :                   ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:88:1]
  88 | <div><math><small></math</div>
     :                               ^
  89 | <div><math><span></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:89:1]
  89 | <div><math><span></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:89:1]
  89 | <div><math><span></math</div>
     :      ^^^^^^
@@ -2863,10 +3097,16 @@
     :            ^^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<span>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:89:1]
  89 | <div><math><span></math</div>
     :            ^^^^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:89:1]
+ 89 | <div><math><span></math</div>
+    :                  ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -2887,20 +3127,20 @@
     :                  ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:89:1]
  89 | <div><math><span></math</div>
     :                              ^
  90 | <div><math><strong></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:90:1]
  90 | <div><math><strong></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:90:1]
  90 | <div><math><strong></math</div>
     :      ^^^^^^
@@ -2912,10 +3152,16 @@
     :            ^^^^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<strong>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:90:1]
  90 | <div><math><strong></math</div>
     :            ^^^^^^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:90:1]
+ 90 | <div><math><strong></math</div>
+    :                    ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -2936,20 +3182,20 @@
     :                    ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:90:1]
  90 | <div><math><strong></math</div>
     :                                ^
  91 | <div><math><strike></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:91:1]
  91 | <div><math><strike></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:91:1]
  91 | <div><math><strike></math</div>
     :      ^^^^^^
@@ -2961,10 +3207,16 @@
     :            ^^^^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<strike>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:91:1]
  91 | <div><math><strike></math</div>
     :            ^^^^^^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:91:1]
+ 91 | <div><math><strike></math</div>
+    :                    ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -2985,20 +3237,20 @@
     :                    ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:91:1]
  91 | <div><math><strike></math</div>
     :                                ^
  92 | <div><math><sub></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:92:1]
  92 | <div><math><sub></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:92:1]
  92 | <div><math><sub></math</div>
     :      ^^^^^^
@@ -3010,10 +3262,16 @@
     :            ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<sub>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:92:1]
  92 | <div><math><sub></math</div>
     :            ^^^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:92:1]
+ 92 | <div><math><sub></math</div>
+    :                 ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -3034,20 +3292,20 @@
     :                 ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:92:1]
  92 | <div><math><sub></math</div>
     :                             ^
  93 | <div><math><sup></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:93:1]
  93 | <div><math><sup></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:93:1]
  93 | <div><math><sup></math</div>
     :      ^^^^^^
@@ -3059,10 +3317,16 @@
     :            ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<sup>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:93:1]
  93 | <div><math><sup></math</div>
     :            ^^^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:93:1]
+ 93 | <div><math><sup></math</div>
+    :                 ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -3083,20 +3347,20 @@
     :                 ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:93:1]
  93 | <div><math><sup></math</div>
     :                             ^
  94 | <div><math><table></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:94:1]
  94 | <div><math><table></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:94:1]
  94 | <div><math><table></math</div>
     :      ^^^^^^
@@ -3114,6 +3378,12 @@
     :            ^^^^^^^
     `----
 
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:94:1]
+ 94 | <div><math><table></math</div>
+    :                   ^^^^^^^^^^^^
+    `----
+
   x Unexpected token
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:94:1]
  94 | <div><math><table></math</div>
@@ -3132,13 +3402,13 @@
     :                   ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:95:1]
  95 | <div><math><tt></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:95:1]
  95 | <div><math><tt></math</div>
     :      ^^^^^^
@@ -3150,10 +3420,16 @@
     :            ^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<tt>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:95:1]
  95 | <div><math><tt></math</div>
     :            ^^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:95:1]
+ 95 | <div><math><tt></math</div>
+    :                ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -3174,20 +3450,20 @@
     :                ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:95:1]
  95 | <div><math><tt></math</div>
     :                            ^
  96 | <div><math><u></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:96:1]
  96 | <div><math><u></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:96:1]
  96 | <div><math><u></math</div>
     :      ^^^^^^
@@ -3199,10 +3475,16 @@
     :            ^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<u>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:96:1]
  96 | <div><math><u></math</div>
     :            ^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:96:1]
+ 96 | <div><math><u></math</div>
+    :               ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -3223,20 +3505,20 @@
     :               ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:96:1]
  96 | <div><math><u></math</div>
     :                           ^
  97 | <div><math><ul></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:97:1]
  97 | <div><math><ul></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:97:1]
  97 | <div><math><ul></math</div>
     :      ^^^^^^
@@ -3248,10 +3530,16 @@
     :            ^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<ul>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:97:1]
  97 | <div><math><ul></math</div>
     :            ^^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:97:1]
+ 97 | <div><math><ul></math</div>
+    :                ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -3272,20 +3560,20 @@
     :                ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:97:1]
  97 | <div><math><ul></math</div>
     :                            ^
  98 | <div><math><var></math</div>
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<div>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:98:1]
  98 | <div><math><var></math</div>
     : ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<math>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:98:1]
  98 | <div><math><var></math</div>
     :      ^^^^^^
@@ -3297,10 +3585,16 @@
     :            ^^^^^
     `----
 
-  x Unexpected token
+  x Unexpected start tag "<var>" seen in "<table>"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:98:1]
  98 | <div><math><var></math</div>
     :            ^^^^^
+    `----
+
+  x Stray end tag "</math<>"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:98:1]
+ 98 | <div><math><var></math</div>
+    :                 ^^^^^^^^^^^^
     `----
 
   x Unexpected token
@@ -3321,7 +3615,7 @@
     :                 ^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:98:1]
  98 | <div><math><var></math</div>
     :                             ^
@@ -3334,7 +3628,7 @@
     : ^^^^^^^
     `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
      ,-[$DIR/tests/recovery/element/foreign-context/input.html:99:1]
   99 | </body>
      :        ^
