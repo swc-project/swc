@@ -41,7 +41,7 @@ struct Normalizer;
 impl VisitMut for Normalizer {
     fn visit_mut_import_decl(&mut self, i: &mut ImportDecl) {
         if cfg!(target_os = "windows") {
-            let path = Path::new(&*i.src.value);
+            let path = Path::new(&*i.src.value).with_extension("ts");
             if path.is_file() {
                 let p = path.canonicalize().unwrap();
                 i.src.value = p.display().to_string().into()
