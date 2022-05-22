@@ -138,7 +138,23 @@ impl Error {
             ErrorKind::EofInElementThatCanContainOnlyText => {
                 "Eof in element that can contain only text".into()
             }
+            ErrorKind::StrayDoctype => "Stray doctype".into(),
+            ErrorKind::StrayStartTag(tag_name) => {
+                format!("Stray start tag \"<{}>\"", tag_name).into()
+            }
+            ErrorKind::StrayEndTag(tag_name) => format!("Stray end tag \"</{}>\"", tag_name).into(),
+            ErrorKind::UnclosedElementsImplied(tag_name) => format!(
+                "End tag \"{}\" implied, but there were open elements",
+                tag_name
+            )
+            .into(),
+            ErrorKind::NoElementToCloseButEndTagSeen(tag_name) => format!(
+                "No \"{}\" element in scope but a \"{}\" end tag seen",
+                tag_name, tag_name
+            )
+            .into(),
             ErrorKind::NestedHeadingTags => "Heading cannot be a child of another heading".into(),
+
             ErrorKind::UnexpectedStartSelectWhereEndSelectExpected => {
                 "Unexpected \"<select>\" start tag where end tag expected".into()
             }
@@ -155,16 +171,6 @@ impl Error {
             .into(),
             ErrorKind::UnexpectedStartTagBetweenHeadAndBody(tag_name) => format!(
                 "Unexpected HTML start tag \"<{}>\" between \"</head>\" and \"<body>\"",
-                tag_name
-            )
-            .into(),
-            ErrorKind::StrayDoctype => "Stray doctype".into(),
-            ErrorKind::StrayStartTag(tag_name) => {
-                format!("Stray start tag \"<{}>\"", tag_name).into()
-            }
-            ErrorKind::StrayEndTag(tag_name) => format!("Stray end tag \"</{}>\"", tag_name).into(),
-            ErrorKind::UnclosedElementsImplied(tag_name) => format!(
-                "End tag \"</{}>\" implied, but there were open elements",
                 tag_name
             )
             .into(),
@@ -187,11 +193,6 @@ impl Error {
             ErrorKind::UnexpectedStartTagInTable(tag_name) => format!(
                 "Unexpected start tag \"<{}>\" seen in \"<table>\"",
                 tag_name
-            )
-            .into(),
-            ErrorKind::NoElementToCloseButEndTagSeen(tag_name) => format!(
-                "No \"{}\" element in scope but a \"</{}>\" end tag seen",
-                tag_name, tag_name
             )
             .into(),
             ErrorKind::UnclosedElementsOnStack => "Unclosed elements on stack".into(),
@@ -343,13 +344,15 @@ pub enum ErrorKind {
     StrayDoctype,
     StrayStartTag(JsWord),
     StrayEndTag(JsWord),
+    UnclosedElementsImplied(JsWord),
+    NoElementToCloseButEndTagSeen(JsWord),
     NestedHeadingTags,
+
     NoTableRowToClose,
     NoCellToClose,
     FormWhenFormOpen,
     TableSeenWhileTableOpen,
     StartTagSeenWhenAlreadyOpen(JsWord),
-    NoElementToCloseButEndTagSeen(JsWord),
     UnexpectedImageStartTag,
     UnexpectedStartSelectWhereEndSelectExpected,
     UnexpectedHtmlStartTagInForeignContext(JsWord),
@@ -362,7 +365,6 @@ pub enum ErrorKind {
     UnexpectedStartTagInRuby(JsWord),
     UnexpectedEndTagWithUnclosedElements(JsWord),
     UnexpectedEof,
-    UnclosedElementsImplied(JsWord),
     UnclosedElements(JsWord),
     UnclosedElementsOnStack,
     UnclosedElementsCell,

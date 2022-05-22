@@ -2505,7 +2505,7 @@ where
                         ) =>
                     {
                         if self.open_elements_stack.has_in_button_scope("p") {
-                            self.close_p_element();
+                            self.close_p_element(token_and_info);
                         }
 
                         self.insert_html_element(token_and_info)?;
@@ -2524,7 +2524,7 @@ where
                         if matches!(tag_name.as_ref(), "h1" | "h2" | "h3" | "h4" | "h5" | "h6") =>
                     {
                         if self.open_elements_stack.has_in_button_scope("p") {
-                            self.close_p_element();
+                            self.close_p_element(token_and_info);
                         }
 
                         match self.open_elements_stack.items.last() {
@@ -2562,7 +2562,7 @@ where
                         if matches!(tag_name.as_ref(), "pre" | "listing") =>
                     {
                         if self.open_elements_stack.has_in_button_scope("p") {
-                            self.close_p_element();
+                            self.close_p_element(token_and_info);
                         }
 
                         self.insert_html_element(token_and_info)?;
@@ -2600,7 +2600,7 @@ where
                         }
 
                         if self.open_elements_stack.has_in_button_scope("p") {
-                            self.close_p_element();
+                            self.close_p_element(token_and_info);
                         }
 
                         let element = self.insert_html_element(token_and_info)?;
@@ -2685,7 +2685,7 @@ where
                         // If the stack of open elements has a p element in button scope,
                         // then close a p element.
                         if self.open_elements_stack.has_in_button_scope("p") {
-                            self.close_p_element();
+                            self.close_p_element(token_and_info);
                         }
 
                         self.insert_html_element(token_and_info)?;
@@ -2802,7 +2802,7 @@ where
                         // If the stack of open elements has a p element in button scope,
                         // then close a p element.
                         if self.open_elements_stack.has_in_button_scope("p") {
-                            self.close_p_element();
+                            self.close_p_element(token_and_info);
                         }
 
                         self.insert_html_element(token_and_info)?;
@@ -2817,7 +2817,7 @@ where
                     // Switch the tokenizer to the PLAINTEXT state.
                     Token::StartTag { tag_name, .. } if tag_name == "plaintext" => {
                         if self.open_elements_stack.has_in_button_scope("p") {
-                            self.close_p_element();
+                            self.close_p_element(token_and_info);
                         }
 
                         self.insert_html_element(token_and_info)?;
@@ -3053,7 +3053,7 @@ where
                             })?;
                         }
 
-                        self.close_p_element();
+                        self.close_p_element(token_and_info);
                     }
                     // An end tag whose tag name is "li"
                     //
@@ -3406,7 +3406,7 @@ where
                         if self.document_mode != DocumentMode::Quirks
                             && self.open_elements_stack.has_in_button_scope("p")
                         {
-                            self.close_p_element();
+                            self.close_p_element(token_and_info);
                         }
 
                         self.insert_html_element(token_and_info)?;
@@ -3565,7 +3565,7 @@ where
                         ..
                     } if tag_name == "hr" => {
                         if self.open_elements_stack.has_in_button_scope("p") {
-                            self.close_p_element();
+                            self.close_p_element(&mut token_and_info.clone());
                         }
 
                         let is_self_closing = *self_closing;
@@ -3649,7 +3649,7 @@ where
                     // Follow the generic raw text element parsing algorithm.
                     Token::StartTag { tag_name, .. } if tag_name == "xmp" => {
                         if self.open_elements_stack.has_in_button_scope("p") {
-                            self.close_p_element();
+                            self.close_p_element(token_and_info);
                         }
 
                         self.reconstruct_active_formatting_elements()?;
@@ -7255,7 +7255,7 @@ where
         Ok(())
     }
 
-    fn close_p_element(&mut self) {
+    fn close_p_element(&mut self, token_and_info: &mut TokenAndInfo) {
         // When the steps above say the user agent is to close a p element, it means
         // that the user agent must run the following steps:
 
@@ -7266,10 +7266,17 @@ where
         // 2. If the current node is not a p element, then this is a parse error.
         match self.open_elements_stack.items.last() {
             Some(node) if !is_html_element!(node, "p") => {
-                let tag_name = get_tag_name!(node);
+                let tag_name = match &token_and_info.token {
+                    Token::StartTag { tag_name, .. } | Token::EndTag { tag_name, .. } => {
+                        tag_name.clone()
+                    }
+                    _ => {
+                        unreachable!();
+                    }
+                };
 
                 self.errors.push(Error::new(
-                    get_span!(node),
+                    token_and_info.span,
                     ErrorKind::UnclosedElementsImplied(tag_name.into()),
                 ));
             }
