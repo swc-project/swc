@@ -5,7 +5,7 @@
    : ^^^^^^^
    `----
 
-  x Unexpected token
+  x Stray end tag "</table>"
     ,-[$DIR/tests/recovery/element/table/broken-3/input.html:16:1]
  16 | </table>
     : ^^^^^^^^

@@ -5,7 +5,7 @@
    : ^^^^^^^^^^
    `----
 
-  x Unexpected token
+  x Stray end tag "</textarea>"
    ,-[$DIR/tests/recovery/element/textarea/input.html:1:1]
  1 | <textarea><!--</textarea>--></textarea>
    :                             ^^^^^^^^^^^

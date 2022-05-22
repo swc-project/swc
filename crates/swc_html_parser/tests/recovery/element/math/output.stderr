@@ -17,7 +17,7 @@
     :                                      ^^^^^^^
     `----
 
-  x Unexpected token
+  x Stray end tag "</head>"
     ,-[$DIR/tests/recovery/element/math/input.html:37:13]
  37 | <head><title>INNER HTML TITLE</title></head>
     :                                      ^^^^^^^

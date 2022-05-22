@@ -5,7 +5,7 @@
    : ^^^^^
    `----
 
-  x Unexpected token
+  x Stray end tag "</x>"
    ,-[$DIR/tests/recovery/element/p-1/input.html:1:1]
  1 | <div><p>a</x> b
    :          ^^^^

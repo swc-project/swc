@@ -6350,8 +6350,10 @@ where
 
             // 3.
             if self.is_special_element(node) {
-                self.errors
-                    .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                self.errors.push(Error::new(
+                    token_and_info.span,
+                    ErrorKind::StrayEndTag(tag_name.clone()),
+                ));
 
                 return;
             }

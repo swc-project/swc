@@ -5,7 +5,7 @@
    : ^^^^^^^^^^
    `----
 
-  x Unexpected token
+  x Stray end tag "</frameset>"
    ,-[$DIR/tests/recovery/element/frameset/input.html:7:1]
  7 | <frameset></frameset>
    :           ^^^^^^^^^^^

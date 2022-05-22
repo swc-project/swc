@@ -17,7 +17,7 @@
    :                 ^^^^^
    `----
 
-  x Unexpected token
+  x Stray end tag "</noscript>"
    ,-[$DIR/tests/recovery/element/noscript-1/input.html:1:1]
  1 | <head><noscript></br><!--foo--></noscript>
    :                                ^^^^^^^^^^^

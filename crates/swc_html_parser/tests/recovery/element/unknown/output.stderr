@@ -1,11 +1,11 @@
 
-  x Unexpected token
+  x Stray end tag "</unknown>"
     ,-[$DIR/tests/recovery/element/unknown/input.html:11:5]
  11 | </unknown>
     : ^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Stray end tag "</test>"
     ,-[$DIR/tests/recovery/element/unknown/input.html:13:5]
  13 | <unknown>Test</test>Test</unknown>
     :              ^^^^^^^
