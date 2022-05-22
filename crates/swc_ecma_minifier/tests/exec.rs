@@ -9213,6 +9213,7 @@ g = 42;
 }
 
 #[test]
+#[ignore]
 fn terser_pure_funcs_issue_3065_4() {
     let src = r###"var debug = function (msg) {
     console.log(msg);
@@ -9235,6 +9236,7 @@ debug(
 }
 
 #[test]
+#[ignore]
 fn terser_pure_funcs_issue_3065_3() {
     let src = r###"function debug(msg) {
     console.log(msg);
