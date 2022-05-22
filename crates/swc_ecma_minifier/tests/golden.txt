@@ -1031,6 +1031,13 @@ properties/mangle_properties_which_matches_pattern/input.js
 properties/native_prototype_lhs/input.js
 pure_funcs/array/input.js
 pure_funcs/assign/input.js
+pure_funcs/babel/input.js
+pure_funcs/issue_3065_1/input.js
+pure_funcs/issue_3065_2/input.js
+pure_funcs/issue_3065_3/input.js
+pure_funcs/issue_3065_4/input.js
+pure_funcs/side_effects/input.js
+pure_funcs/unused/input.js
 pure_getters/chained/input.js
 pure_getters/collapse_rhs_call/input.js
 pure_getters/collapse_rhs_false/input.js
