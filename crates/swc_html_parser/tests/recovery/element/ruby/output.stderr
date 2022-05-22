@@ -5,7 +5,7 @@
    : ^^^^^^
    `----
 
-  x Unexpected token
+  x End tag "</ruby>" seen, but there were open elements
    ,-[$DIR/tests/recovery/element/ruby/input.html:1:1]
  1 | <html><ruby>a<rb>b<span></ruby></html>
    :                         ^^^^^^^

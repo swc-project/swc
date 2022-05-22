@@ -6361,8 +6361,10 @@ where
 
         let match_idx = match match_idx {
             None => {
-                self.errors
-                    .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                self.errors.push(Error::new(
+                    token_and_info.span,
+                    ErrorKind::StrayEndTag(tag_name.clone()),
+                ));
 
                 return;
             }
@@ -6375,8 +6377,10 @@ where
 
         // 2. - 2.
         if match_idx != self.open_elements_stack.items.len() - 1 {
-            self.errors
-                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+            self.errors.push(Error::new(
+                token_and_info.span,
+                ErrorKind::UnclosedElements(tag_name.clone()),
+            ));
         }
 
         // 2.- 3.
