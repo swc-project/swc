@@ -6871,8 +6871,10 @@ where
                 .rposition(|n| is_same_node(n, &formatting_element.1));
 
             if formatting_element_stack_index.is_none() {
-                self.errors
-                    .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                self.errors.push(Error::new(
+                    token_and_info.span,
+                    ErrorKind::NoElementToCloseButEndTagSeen(subject),
+                ));
                 self.active_formatting_elements
                     .remove(&formatting_element.1);
 
@@ -6885,8 +6887,10 @@ where
                     .open_elements_stack
                     .has_node_in_scope(&formatting_element.1)
             {
-                self.errors
-                    .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                self.errors.push(Error::new(
+                    token_and_info.span,
+                    ErrorKind::NoElementToCloseButEndTagSeen(subject),
+                ));
 
                 return Ok(());
             }
@@ -6895,9 +6899,12 @@ where
 
             // 6.
             if let Some(node) = self.open_elements_stack.items.last() {
+                // errEndTagViolatesNestingRules(name);
                 if !is_same_node(node, &formatting_element.1) {
-                    self.errors
-                        .push(Error::new(token_and_info.span, ErrorKind::UnexpectedToken));
+                    self.errors.push(Error::new(
+                        token_and_info.span,
+                        ErrorKind::EndTagViolatesNestingRules(subject.clone()),
+                    ));
                 }
             }
 

@@ -138,7 +138,6 @@ impl Error {
             ErrorKind::EofInElementThatCanContainOnlyText => {
                 "Eof in element that can contain only text".into()
             }
-            ErrorKind::UnexpectedToken => "Unexpected token".into(),
             ErrorKind::NestedHeadingTags => "Heading cannot be a child of another heading".into(),
             ErrorKind::UnexpectedStartSelectWhereEndSelectExpected => {
                 "Unexpected \"<select>\" start tag where end tag expected".into()
@@ -263,6 +262,9 @@ impl Error {
             ErrorKind::NonSpaceCharacterInTable => {
                 "Misplaced non-space characters inside a table".into()
             }
+            ErrorKind::EndTagViolatesNestingRules(tag_name) => {
+                format!("End tag \"{}\" violates nesting rules", tag_name).into()
+            }
         }
     }
 
@@ -338,7 +340,6 @@ pub enum ErrorKind {
     EofInElementThatCanContainOnlyText,
 
     // Parser errors
-    UnexpectedToken,
     StrayDoctype,
     StrayStartTag(JsWord),
     StrayEndTag(JsWord),
@@ -377,4 +378,5 @@ pub enum ErrorKind {
     GarbageInColumnGroup,
     NonSpaceCharacterInColumnGroup,
     NonSpaceCharacterInTable,
+    EndTagViolatesNestingRules(JsWord),
 }

@@ -5,7 +5,7 @@
    : ^^^
    `----
 
-  x Unexpected token
+  x End tag "a" violates nesting rules
    ,-[$DIR/tests/recovery/element/a/input.html:1:1]
  1 | <a><p></a></p>
    :       ^^^^
