@@ -6,12 +6,14 @@ import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 it("should work", async () => {
-    const filename = join(
-        __dirname,
+    const dir = path.join(__dirname,
         "..",
         "..",
         "tests",
         "issue-4730",
+    );
+    const filename = join(
+        dir,
         "src",
         "index.ts"
     );
@@ -24,8 +26,8 @@ it("should work", async () => {
             },
             target: "es2020",
             paths: {
-                "@print/a": [join(process.cwd(), "./packages/a/src/index.ts")],
-                "@print/b": [join(process.cwd(), "./packages/b/src/index.ts")],
+                "@print/a": [join(dir, "./packages/a/src/index.ts")],
+                "@print/b": [join(dir, "./packages/b/src/index.ts")],
             },
         },
         module: {
