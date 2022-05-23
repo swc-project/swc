@@ -1257,7 +1257,6 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                 };
             let expected_number_of_errors = contents.lines().count();
 
-            println!("{:?}", errors);
             assert_eq!(actual_number_of_errors, expected_number_of_errors);
         }
 
