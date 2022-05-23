@@ -43,6 +43,12 @@
 
 - **(html/parser)** Improve error reporting (#4740) ([51f4cea](https://github.com/swc-project/swc/commit/51f4cea10349145a66e45dabb78cc244784b3c98))
 
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Fix CI (#4747) ([0f85f7b](https://github.com/swc-project/swc/commit/0f85f7b9de970648509aff8ac466fe25ab004cdb))
+
 ### Refactor
 
 
