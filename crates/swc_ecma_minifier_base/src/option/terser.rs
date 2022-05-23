@@ -9,7 +9,7 @@ use swc_ecma_parser::parse_file_as_expr;
 use swc_ecma_utils::drop_span;
 
 use super::{default_passes, true_by_default, CompressOptions, TopLevelOptions};
-use crate::option::PureGetterOption;
+use crate::{option::PureGetterOption, trace_op};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
