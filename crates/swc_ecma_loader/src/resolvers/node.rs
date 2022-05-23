@@ -21,7 +21,7 @@ use swc_common::{
     collections::{AHashMap, AHashSet},
     FileName,
 };
-use tracing::{debug, trace};
+use tracing::{debug, trace, Level};
 
 use crate::{resolve::Resolve, TargetEnv, NODE_BUILTINS};
 
@@ -227,6 +227,20 @@ impl NodeModulesResolver {
         pkg_dir: &Path,
         pkg_path: &Path,
     ) -> Result<Option<PathBuf>, Error> {
+        let _tracing = if cfg!(debug_assertions) {
+            Some(
+                tracing::span!(
+                    Level::ERROR,
+                    "resolve_package_entry",
+                    pkg_dir = tracing::field::display(pkg_dir.display()),
+                    pkg_path = tracing::field::display(pkg_path.display()),
+                )
+                .entered(),
+            )
+        } else {
+            None
+        };
+
         let file = File::open(pkg_path)?;
         let reader = BufReader::new(file);
         let pkg: PackageJson = serde_json::from_reader(reader)
