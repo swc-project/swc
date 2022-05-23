@@ -59,3 +59,7 @@ pub fn lookup_char_pos_proxy(
         0
     }
 }
+
+pub fn doctest_offset_line_proxy(env: &SourceMapHostEnvironment, orig: u32) -> u32 {
+    (env.source_map.lock()).doctest_offset_line(orig as usize) as u32
+}

@@ -9,6 +9,7 @@ use crate::memory_interop::read_returned_result_from_host_fallible;
 #[cfg(target_arch = "wasm32")]
 extern "C" {
     fn __lookup_char_pos_source_map_proxy(byte_pos: u32, allocated_ret_ptr: i32) -> i32;
+    fn __doctest_offset_line_proxy(orig: u32) -> u32;
 }
 
 #[cfg(feature = "plugin-mode")]
@@ -52,6 +53,12 @@ impl SourceMapper for PluginSourceMapProxy {
     }
 
     fn doctest_offset_line(&self, line: usize) -> usize {
-        unimplemented!("Not implemented yet");
+        #[cfg(target_arch = "wasm32")]
+        unsafe {
+            return __doctest_offset_line_proxy(line as u32) as usize;
+        };
+
+        #[cfg(not(target_arch = "wasm32"))]
+        unimplemented!("Sourcemap proxy cannot be called in this context")
     }
 }
