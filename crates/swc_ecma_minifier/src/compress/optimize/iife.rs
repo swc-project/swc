@@ -5,7 +5,7 @@ use swc_atoms::js_word;
 use swc_common::{pass::Either, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    contains_arguments, contains_this_expr, find_pat_ids, undefined, ExprFactory,
+    contains_arguments, contains_this_expr, find_pat_ids, undefined, ExprFactory, IdentUsageFinder,
 };
 use swc_ecma_visit::VisitMutWith;
 
@@ -489,7 +489,7 @@ where
                 }
 
                 if let Some(i) = &f.ident {
-                    if idents_used_by(&f.function.body).contains(&i.to_id()) {
+                    if IdentUsageFinder::find(&i.to_id(), &f.function.body) {
                         log_abort!("iife: [x] Recursive?");
                         return;
                     }
