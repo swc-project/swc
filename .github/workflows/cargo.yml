@@ -119,8 +119,14 @@ jobs:
         run: cargo metadata --format-version=1 --all-features > target/bins/cargo-metadata.json
 
       - name: Build tests and save binaries metadata
+        continue-on-error: true
         shell: bash
         run: scripts/github/build-binaries.sh
+
+      - name: Print free disk space (windows)
+        if: runner.os == 'Windows'
+        run: |
+          fsutil volume diskfree c:
 
       - name: Make cache efficient
         shell: bash
