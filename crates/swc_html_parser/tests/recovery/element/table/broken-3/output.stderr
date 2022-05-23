@@ -1,11 +1,11 @@
 
-  x Start tag for "<table>" seen but the previous "<table>" is still open
+  x Start tag for "table" seen but the previous "table" is still open
    ,-[$DIR/tests/recovery/element/table/broken-3/input.html:9:5]
  9 | <table>
    : ^^^^^^^
    `----
 
-  x Unexpected token
+  x Stray end tag "table"
     ,-[$DIR/tests/recovery/element/table/broken-3/input.html:16:1]
  16 | </table>
     : ^^^^^^^^

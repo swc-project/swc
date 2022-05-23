@@ -1,11 +1,11 @@
 
-  x Non conforming doctype
+  x Eof in doctype
    ,-[$DIR/tests/recovery/doctype/eof/input.html:1:1]
  1 | <!DOCTYPE
    : ^^^^^^^^^
    `----
 
-  x Eof in doctype
+  x Non conforming doctype
    ,-[$DIR/tests/recovery/doctype/eof/input.html:1:1]
  1 | <!DOCTYPE
    : ^^^^^^^^^

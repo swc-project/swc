@@ -1,14 +1,14 @@
 
-  x Missing doctype
+  x Start tag seen without seeing a doctype firs, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/element/p-1/input.html:1:1]
  1 | <div><p>a</x> b
    : ^^^^^
    `----
 
-  x Unexpected token
+  x Stray end tag "x"
    ,-[$DIR/tests/recovery/element/p-1/input.html:1:1]
  1 | <div><p>a</x> b
    :          ^^^^
    `----
 
-  x Unexpected end of file
+  x End of file seen and there were open elements
