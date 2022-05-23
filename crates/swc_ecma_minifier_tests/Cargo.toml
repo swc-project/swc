@@ -1,8 +1,13 @@
 [package]
-name = "swc_ecma_minifier_tests"
-version = "0.1.0"
+authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+description = "Tests for the swc minifier"
+documentation = "https://rustdoc.swc.rs/swc_ecma_minifier_tests/"
 edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+include = ["Cargo.toml", "src/**/*.rs", "src/lists/*.json"]
+license = "Apache-2.0"
+name = "swc_ecma_minifier_tests"
+publish = false
+repository = "https://github.com/swc-project/swc.git"
+version = "0.1.0"
 
 [dependencies]
