@@ -3459,6 +3459,12 @@ version = "0.1.0"
 [[package]]
 name = "swc_ecma_minifier_pure"
 version = "0.1.0"
+dependencies = [
+ "swc_atoms",
+ "swc_common",
+ "swc_ecma_ast",
+ "swc_ecma_utils",
+]
 
 [[package]]
 name = "swc_ecma_minifier_utils"
