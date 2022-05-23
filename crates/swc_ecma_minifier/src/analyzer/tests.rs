@@ -10,9 +10,9 @@ use testing::NormalizedOutput;
 use super::VarUsageInfo;
 use crate::marks::Marks;
 
-#[testing::fixture("tests/fixture/**/input.js")]
-#[testing::fixture("tests/single-pass/**/input.js")]
-#[testing::fixture("tests/terser/compress/**/input.js")]
+#[testing::fixture("../swc_ecma_minifier_tests/tests/fixture/**/input.js")]
+#[testing::fixture("../swc_ecma_minifier_tests/tests/single-pass/**/input.js")]
+#[testing::fixture("../swc_ecma_minifier_tests/tests/terser/compress/**/input.js")]
 fn snapshot(input: PathBuf) {
     let dir = input.parent().unwrap();
 
