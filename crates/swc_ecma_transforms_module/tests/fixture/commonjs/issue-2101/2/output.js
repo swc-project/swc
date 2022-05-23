@@ -2,15 +2,15 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+var _exportNames = {
+    render: true
+};
 Object.defineProperty(exports, "render", {
     enumerable: true,
     get: function() {
         return _customRender.customRender;
     }
 });
-var _exportNames = {
-    render: true
-};
 var _customRender = require("./customRender");
 var _react = require("@testing-library/react");
 // re-ordering the export wildcard from case 1 should make no difference to output

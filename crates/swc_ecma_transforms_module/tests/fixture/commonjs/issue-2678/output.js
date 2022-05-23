@@ -2,9 +2,8 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.default = someCall;
 exports.warn = warn;
-exports.test = void 0;
+exports.default = exports.test = void 0;
 function someCall() {
     throw new Error("this should not be called");
 }
@@ -15,7 +14,7 @@ const test = {};
 exports.test = test;
 Object.defineProperty(test, "someCall", {
     set: (v)=>{
-        exports.default = someCall = v;
+        someCall = v;
     }
 });
 Object.defineProperty(test, "warn", {
@@ -25,3 +24,5 @@ Object.defineProperty(test, "warn", {
         exports.warn = warn = v;
     }
 });
+var _default = someCall;
+exports.default = _default;

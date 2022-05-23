@@ -2,9 +2,10 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.default = foo;
-exports.bar = void 0;
+exports.default = exports.bar = void 0;
+foo = 1;
 function foo() {}
-exports.bar = exports.default = foo = 1;
-exports.bar = exports.default = foo = 2;
+foo = 2;
+var _default = foo;
+exports.default = _default;
 exports.bar = foo;

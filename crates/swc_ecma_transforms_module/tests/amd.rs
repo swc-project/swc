@@ -495,9 +495,10 @@ define(["require", "exports"], function (require, _exports) {
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.default = foo;
-
+  _exports.default = void 0;
   function foo() {}
+  var _default = foo;
+  _exports.default = _default;
 });
 
 "#
@@ -600,15 +601,15 @@ define(["require", "exports"], function (require, _exports) {
   })();
 
   var a = 2;
-  _exports.a = a;
-  _exports.a = a = 3;
+  a = 3;
   var b = 2;
-  _exports.c = b;
-  _exports.c = b = 3;
+  b = 3;
   var d = 3;
+  d = 4;
+  _exports.a = a;
+  _exports.c = b;
   _exports.e = d;
   _exports.f = d;
-  _exports.f = _exports.e = d = 4;
 });
 
 "#
@@ -684,9 +685,10 @@ define(["require", "exports"], function (require, _exports) {
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.default = _default;
-
+  _exports.default = void 0;
   function _default() {}
+  var _default1 = _default;
+  _exports.default = _default1;
 });
 
 "#
@@ -780,9 +782,8 @@ function (require, _exports, foo2, _fooBar, _fooBar1) {
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.default = _exports.test2 = _exports.test = void 0;
+  _exports.test = _exports.default = _exports.test2 = void 0;
   var test;
-  _exports.test = test;
   var test2 = 5;
   _exports.test2 = test2;
   var _default = test;
@@ -791,6 +792,7 @@ function (require, _exports, foo2, _fooBar, _fooBar1) {
   foo2;
   foo2.bar;
   foo2.foo;
+  _exports.test = test;
 });
 
 "#
@@ -894,7 +896,8 @@ define(["require", "exports"], function (require, _exports) {
 
   class Foo {}
 
-  _exports.default = Foo;
+  var _default = Foo;
+  _exports.default = _default;
 });
 
 "#
@@ -1104,10 +1107,10 @@ define(["require", "exports"], function (require, _exports) {
     value: true
   });
   _exports.default = void 0;
-
-  class _default {}
-
-  _exports.default = _default;
+  class _default {
+  }
+  var _default1 = _default;
+  _exports.default = _default1;
 });
 
 "#

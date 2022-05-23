@@ -2,12 +2,12 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.default = exports.bar2 = exports.bar = exports.foo = exports.foo1 = void 0;
+exports.default = exports.bar2 = exports.foo = exports.bar = exports.foo1 = void 0;
 const foo = 1;
 let bar = 2;
-exports.default = exports.bar2 = exports.bar = bar = 3;
+bar = 3;
 exports.foo1 = foo;
-exports.foo = foo;
 exports.bar = bar;
+exports.foo = foo;
 exports.bar2 = bar;
 exports.default = bar;

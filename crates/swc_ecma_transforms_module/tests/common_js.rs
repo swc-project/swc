@@ -58,12 +58,14 @@ export default function({
     inp = inp || input(name);
     return {input: inp};
 }",
-    "\"use strict\";
-Object.defineProperty(exports, \"__esModule\", {
+    r#"
+"use strict";
+Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
 exports.input = input;
-exports.default = _default;
+exports.default = void 0;
 function input(name) {
     return `${name}.md?render`;
 }
@@ -73,7 +75,10 @@ function _default({ name , input: inp  }) {
         input: inp
     };
 }
-"
+var _default1 = _default;
+exports.default = _default1;
+
+"#
 );
 
 test!(
@@ -164,16 +169,23 @@ test!(
     "const Base = getBase('')
 
 export default class Foo extends Base {}",
-    "
-\"use strict\";
-Object.defineProperty(exports, \"__esModule\", {
+    r#"
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
 exports.default = void 0;
+
 const Base = getBase('');
 class Foo extends Base {
 }
-exports.default = Foo;"
+
+var _default = Foo;
+exports.default = _default;
+
+"#
 );
 
 test!(
@@ -187,18 +199,25 @@ test!(
 foo = 1;
 export default class foo {}
 foo = 2;",
-    "
-\"use strict\";
-Object.defineProperty(exports, \"__esModule\", {
+    r#"
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
 exports.default = exports.bar = void 0;
+
 foo = 1;
 class foo {
 }
 foo = 2;
-exports.default = foo;
-exports.bar = foo;"
+
+var _default = foo;
+exports.default = _default;
+exports.bar = foo;
+
+"#
 );
 
 test!(
@@ -741,12 +760,12 @@ export default class {}
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
 exports.default = void 0;
-
-class _default {}
-
+class _default {
+}
 var _default1 = _default;
-_exports.default = _default1;
+exports.default = _default1;
 
 "#
 );
@@ -850,19 +869,17 @@ var test = 2;
 exports.test = test;
 exports.test = test = 5;
 ref = test++, exports.test = test, ref;
-
-(function () {
+(function() {
   var test1 = 2;
   test1 = 3;
   test1++;
 })();
-
 var a = 2;
-exports.a = a = 3;
+a = 3;
 var b = 2;
-exports.c = b = 3;
+b = 3;
 var d = 3;
-exports.f = exports.e = d = 4;
+d = 4;
 exports.a = a;
 exports.c = b;
 exports.e = d;
@@ -1238,10 +1255,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-_exports.default = void 0;
+exports.default = void 0;
 function _default() {}
 var _default1 = _default;
-_exports.default = _default1;
+exports.default = _default1;
 
 "#
 );
@@ -1420,12 +1437,12 @@ export default class Foo {}
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
 exports.default = void 0;
-
-class Foo {}
-
+class Foo {
+}
 var _default = Foo;
-_exports.default = _default;
+exports.default = _default;
 
 "#
 );
@@ -2154,10 +2171,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-_exports.default = void 0;
+exports.default = void 0;
 function foo() {}
 var _default = foo;
-_exports.default = _default;
+exports.default = _default;
 
 "#
 );
@@ -3898,7 +3915,7 @@ export { named1 } from "external";
     r#"
 "use strict";
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 Object.defineProperty(exports, "named1", {
     enumerable: true,
@@ -4033,7 +4050,7 @@ foo;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.test2 = exports.test = void 0;
+exports.test = exports.test2 = void 0;
 
 require("foo");
 
@@ -4921,22 +4938,22 @@ test!(
     Object.defineProperty(exports, \"__esModule\", {
       value: true
     });
-    exports.default = void 0;
 
+    exports.default = void 0;
     var _foo = _interopRequireDefault(require(\"foo\"));
 
-    class NotOK {
-        constructor() {
-            console.log(_foo.default);
-        }
-    }
-    exports.default = NotOK;
-
     class OK {
-        constructor() {
+        constructor(){
             console.log(_foo.default);
         }
     }
+    class NotOK {
+        constructor(){
+            console.log(_foo.default);
+        }
+    }
+    var _default = NotOK;
+    exports.default = _default;
     "
 );
 
@@ -5025,11 +5042,12 @@ test!(
       value: true
     });
 
-    exports.default = get;
-
+    exports.default = void 0;
     function get(key) {
       console.log(key);
     }
+    var _default = get;
+    exports.default = _default;
     "
 );
 
@@ -5049,13 +5067,12 @@ test!(
     Object.defineProperty(exports, \"__esModule\", {
       value: true
     });
+
     exports.get = get;
     exports.default = void 0;
-
     function get(key) {
       console.log(key);
     }
-
     var _default = a;
     exports.default = _default;
     "
@@ -5271,16 +5288,21 @@ test!(
       return 500;
     }
     ",
-    "
-    \"use strict\";
-    Object.defineProperty(exports, \"__esModule\", {
-        value: true
-    });
-    exports.default = Foo;
-    function Foo() {
-        return 500;
-    }
-    "
+    r#"
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.default = void 0;
+function Foo() {
+    return 500;
+}
+var _default = Foo;
+exports.default = _default;
+
+"#
 );
 
 test!(
@@ -5292,16 +5314,21 @@ test!(
       return 500;
     }
     ",
-    "
-    \"use strict\";
-    Object.defineProperty(exports, \"__esModule\", {
-        value: true
-    });
-    exports.default = _default;
-    function _default() {
-        return 500;
-    }
-    "
+    r#"
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.default = void 0;
+function _default() {
+    return 500;
+}
+var _default1 = _default;
+exports.default = _default1;
+
+"#
 );
 
 test!(
@@ -5460,16 +5487,17 @@ format = '123';",
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = defaultLocale;
-exports.format = void 0;
-function defaultLocale(definition) {
-    locale = formatLocale(definition);
-    exports.format = format = locale.format;
-    return locale;
-}
+exports.default = exports.format = void 0;
 var format;
 exports.format = format;
+function defaultLocale(definition) {
+  locale = formatLocale(definition);
+  exports.format = format = locale.format;
+  return locale;
+}
 exports.format = format = '123';
+var _default = defaultLocale;
+exports.default = _default;
 "#
 );
 

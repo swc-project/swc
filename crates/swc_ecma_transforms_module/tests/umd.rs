@@ -660,11 +660,13 @@ export default class {}
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
+
   _exports.default = void 0;
+  class _default {
+  }
 
-  class _default {}
-
-  _exports.default = _default;
+  var _default1 = _default;
+  _exports.default = _default1;
 });
 
 "#
@@ -699,12 +701,13 @@ export default function () {}
   }
 })(this, function (_exports) {
   "use strict";
-
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
+  _exports.default = void 0;
   function _default() {}
-  _exports.default = _default;
+  var _default1 = _default;
+  _exports.default = _default1;
 });
 
 "#
@@ -855,7 +858,8 @@ export default class Foo {}
 
   class Foo {}
 
-  _exports.default = Foo;
+  var _default = Foo;
+  _exports.default = _default;
 });
 
 "#
@@ -1276,29 +1280,30 @@ d = 4;
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
+
   var ref;
-  _exports.f = _exports.e = _exports.c = _exports.a = _exports.test = void 0
+  _exports.f = _exports.e = _exports.c = _exports.a = _exports.test = void 0;
   var test1 = 2;
   _exports.test = test1;
   _exports.test = test1 = 5;
   ref = test1++, _exports.test = test1, ref;
 
-  (function () {
+  (function() {
     var test = 2;
     test = 3;
     test++;
   })();
 
   var a = 2;
-  _exports.a = a;
-  _exports.a = a = 3;
+  a = 3;
   var b = 2;
-  _exports.c = b;
-  _exports.c = b = 3;
+  b = 3;
   var d = 3;
+  d = 4;
+  _exports.a = a;
+  _exports.c = b;
   _exports.e = d;
   _exports.f = d;
-  _exports.f = _exports.e = d = 4;
 });
 
 "#
@@ -1381,9 +1386,12 @@ export default function foo () {}
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  function foo() {}
-  _exports.default = foo;
 
+  _exports.default = void 0;
+  function foo() {}
+
+  var _default = foo;
+  _exports.default = _default;
 });
 
 "#
@@ -1684,15 +1692,15 @@ bar2;
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.default = _exports.test2 = _exports.test = void 0;
+  _exports.test = _exports.default = _exports.test2 = void 0;
   var test;
-  _exports.test = test;
   var test2 = 5;
   _exports.test2 = test2;
   var _default = test;
   _exports.default = _default;
   foo2.bar;
   foo2.foo;
+  _exports.test = test;
 });
 
 "#
