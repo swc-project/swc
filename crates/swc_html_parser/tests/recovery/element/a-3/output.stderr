@@ -1,5 +1,5 @@
 
-  x Missing doctype
+  x Start tag seen without seeing a doctype firs, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/element/a-3/input.html:1:1]
  1 | <a>1<div>2<div>3</a>4</div>5</div>
    : ^^^

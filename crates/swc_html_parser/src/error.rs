@@ -159,6 +159,9 @@ impl Error {
             ErrorKind::SomethingBetweenHeadAndBody(tag_name) => {
                 format!("\"{}\" element between \"head\" and \"body\"", tag_name).into()
             }
+            ErrorKind::StartTagWithoutDoctype => {
+                "Start tag seen without seeing a doctype firs, expected \"<!DOCTYPE html>\"".into()
+            }
             ErrorKind::StartSelectWhereEndSelectExpected => {
                 "\"select\" start tag where end tag expected".into()
             }
@@ -193,6 +196,9 @@ impl Error {
             }
             ErrorKind::StartTagInTableBody(tag_name) => {
                 format!("Start tag \"{}\" seen in \"table\" body", tag_name).into()
+            }
+            ErrorKind::EndTagSeenWithoutDoctype => {
+                "End tag seen without seeing a doctype first, expected \"<!DOCTYPE html>\"".into()
             }
             ErrorKind::EndTagAfterBody => "Saw an end tag after \"body\" had been closed".into(),
             ErrorKind::EndTagSeenWithSelectOpen(tag_name) => {
@@ -244,6 +250,13 @@ impl Error {
                 tag_name
             )
             .into(),
+            ErrorKind::NonSpaceCharacterWithoutDoctype => "Non-space characters found without \
+                                                           seeing a doctype first, expected \
+                                                           \"<!DOCTYPE html>\""
+                .into(),
+            ErrorKind::EofWithoutDoctype => "End of file seen without seeing a doctype first, \
+                                             expected \"<!DOCTYPE html>\""
+                .into(),
             ErrorKind::UnexpectedEof => "Unexpected end of file".into(),
         }
     }
@@ -330,7 +343,7 @@ pub enum ErrorKind {
     NonSpaceCharacterInColumnGroup,
     NonSpaceCharacterInNoscriptInHead,
     SomethingBetweenHeadAndBody(JsWord),
-    // TODO errStartTagWithoutDoctype
+    StartTagWithoutDoctype,
     StartSelectWhereEndSelectExpected,
     StartTagWithSelectOpen(JsWord),
     BadStartTagInNoscriptInHead(JsWord),
@@ -342,7 +355,7 @@ pub enum ErrorKind {
     FormWhenFormOpen,
     TableSeenWhileTableOpen,
     StartTagInTableBody(JsWord),
-    // TODO errEndTagSeenWithoutDoctype
+    EndTagSeenWithoutDoctype,
     EndTagAfterBody,
     EndTagSeenWithSelectOpen(JsWord),
     GarbageInColumnGroup,
@@ -362,6 +375,8 @@ pub enum ErrorKind {
     EndTagViolatesNestingRules(JsWord),
     EofWithUnclosedElements,
     EndTagWithUnclosedElements(JsWord),
+    NonSpaceCharacterWithoutDoctype,
     // Todo improve me
+    EofWithoutDoctype,
     UnexpectedEof,
 }

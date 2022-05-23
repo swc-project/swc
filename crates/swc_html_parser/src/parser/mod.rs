@@ -452,14 +452,14 @@ where
                 token,
             };
 
-            self.tree_construction_dispatcher(&mut token_and_info)?;
-
             // Re-emit errors from tokenizer
             for error in self.input.take_errors() {
                 let (span, kind) = *error.into_inner();
 
                 self.errors.push(Error::new(span, kind));
             }
+
+            self.tree_construction_dispatcher(&mut token_and_info)?;
 
             // When a start tag token is emitted with its self-closing flag set,
             // if the flag is not acknowledged when it is processed by the tree
@@ -1276,8 +1276,35 @@ where
                     // token.
                     _ => {
                         if !self.config.iframe_srcdoc {
-                            self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::MissingDoctype));
+                            match &token {
+                                Token::StartTag { .. } => {
+                                    self.errors.push(Error::new(
+                                        token_and_info.span,
+                                        ErrorKind::StartTagWithoutDoctype,
+                                    ));
+                                }
+                                Token::EndTag { .. } => {
+                                    self.errors.push(Error::new(
+                                        token_and_info.span,
+                                        ErrorKind::EndTagSeenWithoutDoctype,
+                                    ));
+                                }
+                                Token::Character { .. } => {
+                                    self.errors.push(Error::new(
+                                        token_and_info.span,
+                                        ErrorKind::NonSpaceCharacterWithoutDoctype,
+                                    ));
+                                }
+                                Token::Eof => {
+                                    self.errors.push(Error::new(
+                                        token_and_info.span,
+                                        ErrorKind::EofWithoutDoctype,
+                                    ));
+                                }
+                                _ => {
+                                    unreachable!();
+                                }
+                            }
 
                             self.document_mode = DocumentMode::Quirks;
                         }

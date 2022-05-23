@@ -11,12 +11,6 @@
     :           ^^^^
     `----
 
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:11:1]
- 11 | <div><svg></p></svg</div>
-    :               ^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:11:1]
  11 | <div><svg></p></svg</div>
@@ -24,6 +18,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:11:1]
+ 11 | <div><svg></p></svg</div>
+    :               ^^^^^^^^^^^
+    `----
+
+  x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:11:1]
  11 | <div><svg></p></svg</div>
     :               ^^^^^^^^^^^
@@ -41,12 +41,6 @@
     :           ^^^^^
     `----
 
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:12:1]
- 12 | <div><svg></br></svg</div>
-    :                ^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:12:1]
  12 | <div><svg></br></svg</div>
@@ -59,16 +53,16 @@
     :                ^^^^^^^^^^^
     `----
 
+  x Stray end tag "svg<"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:12:1]
+ 12 | <div><svg></br></svg</div>
+    :                ^^^^^^^^^^^
+    `----
+
   x HTML start tag "b" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:13:1]
  13 | <div><svg><b></svg</div>
     :           ^^^
-    `----
-
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:13:1]
- 13 | <div><svg><b></svg</div>
-    :              ^^^^^^^^^^^
     `----
 
   x Unexpected solidus in tag
@@ -83,16 +77,16 @@
     :              ^^^^^^^^^^^
     `----
 
+  x Stray end tag "svg<"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:13:1]
+ 13 | <div><svg><b></svg</div>
+    :              ^^^^^^^^^^^
+    `----
+
   x HTML start tag "big" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:14:1]
  14 | <div><svg><big></svg</div>
     :           ^^^^^
-    `----
-
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:14:1]
- 14 | <div><svg><big></svg</div>
-    :                ^^^^^^^^^^^
     `----
 
   x Unexpected solidus in tag
@@ -107,16 +101,16 @@
     :                ^^^^^^^^^^^
     `----
 
+  x Stray end tag "svg<"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:14:1]
+ 14 | <div><svg><big></svg</div>
+    :                ^^^^^^^^^^^
+    `----
+
   x HTML start tag "blockquote" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:15:1]
  15 | <div><svg><blockquote></svg</div>
     :           ^^^^^^^^^^^^
-    `----
-
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:15:1]
- 15 | <div><svg><blockquote></svg</div>
-    :                       ^^^^^^^^^^^
     `----
 
   x Unexpected solidus in tag
@@ -131,16 +125,16 @@
     :                       ^^^^^^^^^^^
     `----
 
+  x Stray end tag "svg<"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:15:1]
+ 15 | <div><svg><blockquote></svg</div>
+    :                       ^^^^^^^^^^^
+    `----
+
   x HTML start tag "br" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:16:1]
  16 | <div><svg><br></svg</div>
     :           ^^^^
-    `----
-
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:16:1]
- 16 | <div><svg><br></svg</div>
-    :               ^^^^^^^^^^^
     `----
 
   x Unexpected solidus in tag
@@ -155,16 +149,16 @@
     :               ^^^^^^^^^^^
     `----
 
+  x Stray end tag "svg<"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:16:1]
+ 16 | <div><svg><br></svg</div>
+    :               ^^^^^^^^^^^
+    `----
+
   x HTML start tag "center" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:17:1]
  17 | <div><svg><center></svg</div>
     :           ^^^^^^^^
-    `----
-
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:17:1]
- 17 | <div><svg><center></svg</div>
-    :                   ^^^^^^^^^^^
     `----
 
   x Unexpected solidus in tag
@@ -179,16 +173,16 @@
     :                   ^^^^^^^^^^^
     `----
 
+  x Stray end tag "svg<"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:17:1]
+ 17 | <div><svg><center></svg</div>
+    :                   ^^^^^^^^^^^
+    `----
+
   x HTML start tag "code" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:18:1]
  18 | <div><svg><code></svg</div>
     :           ^^^^^^
-    `----
-
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:18:1]
- 18 | <div><svg><code></svg</div>
-    :                 ^^^^^^^^^^^
     `----
 
   x Unexpected solidus in tag
@@ -203,16 +197,16 @@
     :                 ^^^^^^^^^^^
     `----
 
+  x Stray end tag "svg<"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:18:1]
+ 18 | <div><svg><code></svg</div>
+    :                 ^^^^^^^^^^^
+    `----
+
   x HTML start tag "dd" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:19:1]
  19 | <div><svg><dd></svg</div>
     :           ^^^^
-    `----
-
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:19:1]
- 19 | <div><svg><dd></svg</div>
-    :               ^^^^^^^^^^^
     `----
 
   x Unexpected solidus in tag
@@ -227,16 +221,16 @@
     :               ^^^^^^^^^^^
     `----
 
+  x Stray end tag "svg<"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:19:1]
+ 19 | <div><svg><dd></svg</div>
+    :               ^^^^^^^^^^^
+    `----
+
   x HTML start tag "div" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:20:1]
  20 | <div><svg><div></svg</div>
     :           ^^^^^
-    `----
-
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:20:1]
- 20 | <div><svg><div></svg</div>
-    :                ^^^^^^^^^^^
     `----
 
   x Unexpected solidus in tag
@@ -251,16 +245,16 @@
     :                ^^^^^^^^^^^
     `----
 
+  x Stray end tag "svg<"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:20:1]
+ 20 | <div><svg><div></svg</div>
+    :                ^^^^^^^^^^^
+    `----
+
   x HTML start tag "dl" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:21:1]
  21 | <div><svg><dl></svg</div>
     :           ^^^^
-    `----
-
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:21:1]
- 21 | <div><svg><dl></svg</div>
-    :               ^^^^^^^^^^^
     `----
 
   x Unexpected solidus in tag
@@ -270,6 +264,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:21:1]
+ 21 | <div><svg><dl></svg</div>
+    :               ^^^^^^^^^^^
+    `----
+
+  x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:21:1]
  21 | <div><svg><dl></svg</div>
     :               ^^^^^^^^^^^
@@ -281,12 +281,6 @@
     :           ^^^^
     `----
 
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:22:1]
- 22 | <div><svg><dt></svg</div>
-    :               ^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:22:1]
  22 | <div><svg><dt></svg</div>
@@ -294,6 +288,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:22:1]
+ 22 | <div><svg><dt></svg</div>
+    :               ^^^^^^^^^^^
+    `----
+
+  x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:22:1]
  22 | <div><svg><dt></svg</div>
     :               ^^^^^^^^^^^
@@ -305,12 +305,6 @@
     :           ^^^^
     `----
 
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:23:1]
- 23 | <div><svg><em></svg</div>
-    :               ^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:23:1]
  23 | <div><svg><em></svg</div>
@@ -323,16 +317,16 @@
     :               ^^^^^^^^^^^
     `----
 
+  x Stray end tag "svg<"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:23:1]
+ 23 | <div><svg><em></svg</div>
+    :               ^^^^^^^^^^^
+    `----
+
   x HTML start tag "embed" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:24:1]
  24 | <div><svg><embed></svg</div>
     :           ^^^^^^^
-    `----
-
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:24:1]
- 24 | <div><svg><embed></svg</div>
-    :                  ^^^^^^^^^^^
     `----
 
   x Unexpected solidus in tag
@@ -347,16 +341,16 @@
     :                  ^^^^^^^^^^^
     `----
 
+  x Stray end tag "svg<"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:24:1]
+ 24 | <div><svg><embed></svg</div>
+    :                  ^^^^^^^^^^^
+    `----
+
   x HTML start tag "h1" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:25:1]
  25 | <div><svg><h1></svg</div>
     :           ^^^^
-    `----
-
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:25:1]
- 25 | <div><svg><h1></svg</div>
-    :               ^^^^^^^^^^^
     `----
 
   x Unexpected solidus in tag
@@ -366,6 +360,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:25:1]
+ 25 | <div><svg><h1></svg</div>
+    :               ^^^^^^^^^^^
+    `----
+
+  x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:25:1]
  25 | <div><svg><h1></svg</div>
     :               ^^^^^^^^^^^
@@ -377,12 +377,6 @@
     :           ^^^^
     `----
 
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:26:1]
- 26 | <div><svg><h2></svg</div>
-    :               ^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:26:1]
  26 | <div><svg><h2></svg</div>
@@ -390,6 +384,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:26:1]
+ 26 | <div><svg><h2></svg</div>
+    :               ^^^^^^^^^^^
+    `----
+
+  x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:26:1]
  26 | <div><svg><h2></svg</div>
     :               ^^^^^^^^^^^
@@ -401,12 +401,6 @@
     :           ^^^^
     `----
 
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:27:1]
- 27 | <div><svg><h3></svg</div>
-    :               ^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:27:1]
  27 | <div><svg><h3></svg</div>
@@ -414,6 +408,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:27:1]
+ 27 | <div><svg><h3></svg</div>
+    :               ^^^^^^^^^^^
+    `----
+
+  x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:27:1]
  27 | <div><svg><h3></svg</div>
     :               ^^^^^^^^^^^
@@ -425,12 +425,6 @@
     :           ^^^^
     `----
 
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:28:1]
- 28 | <div><svg><h4></svg</div>
-    :               ^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:28:1]
  28 | <div><svg><h4></svg</div>
@@ -438,6 +432,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:28:1]
+ 28 | <div><svg><h4></svg</div>
+    :               ^^^^^^^^^^^
+    `----
+
+  x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:28:1]
  28 | <div><svg><h4></svg</div>
     :               ^^^^^^^^^^^
@@ -449,12 +449,6 @@
     :           ^^^^
     `----
 
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:29:1]
- 29 | <div><svg><h5></svg</div>
-    :               ^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:29:1]
  29 | <div><svg><h5></svg</div>
@@ -462,6 +456,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:29:1]
+ 29 | <div><svg><h5></svg</div>
+    :               ^^^^^^^^^^^
+    `----
+
+  x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:29:1]
  29 | <div><svg><h5></svg</div>
     :               ^^^^^^^^^^^
@@ -473,12 +473,6 @@
     :           ^^^^
     `----
 
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:30:1]
- 30 | <div><svg><h6></svg</div>
-    :               ^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:30:1]
  30 | <div><svg><h6></svg</div>
@@ -486,6 +480,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:30:1]
+ 30 | <div><svg><h6></svg</div>
+    :               ^^^^^^^^^^^
+    `----
+
+  x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:30:1]
  30 | <div><svg><h6></svg</div>
     :               ^^^^^^^^^^^
@@ -497,12 +497,6 @@
     :           ^^^^
     `----
 
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:31:1]
- 31 | <div><svg><hr></svg</div>
-    :               ^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:31:1]
  31 | <div><svg><hr></svg</div>
@@ -515,16 +509,16 @@
     :               ^^^^^^^^^^^
     `----
 
+  x Stray end tag "svg<"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:31:1]
+ 31 | <div><svg><hr></svg</div>
+    :               ^^^^^^^^^^^
+    `----
+
   x HTML start tag "i" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:32:1]
  32 | <div><svg><i></svg</div>
     :           ^^^
-    `----
-
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:32:1]
- 32 | <div><svg><i></svg</div>
-    :              ^^^^^^^^^^^
     `----
 
   x Unexpected solidus in tag
@@ -539,16 +533,16 @@
     :              ^^^^^^^^^^^
     `----
 
+  x Stray end tag "svg<"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:32:1]
+ 32 | <div><svg><i></svg</div>
+    :              ^^^^^^^^^^^
+    `----
+
   x HTML start tag "img" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:33:1]
  33 | <div><svg><img></svg</div>
     :           ^^^^^
-    `----
-
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:33:1]
- 33 | <div><svg><img></svg</div>
-    :                ^^^^^^^^^^^
     `----
 
   x Unexpected solidus in tag
@@ -563,16 +557,16 @@
     :                ^^^^^^^^^^^
     `----
 
+  x Stray end tag "svg<"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:33:1]
+ 33 | <div><svg><img></svg</div>
+    :                ^^^^^^^^^^^
+    `----
+
   x HTML start tag "li" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:34:1]
  34 | <div><svg><li></svg</div>
     :           ^^^^
-    `----
-
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:34:1]
- 34 | <div><svg><li></svg</div>
-    :               ^^^^^^^^^^^
     `----
 
   x Unexpected solidus in tag
@@ -582,6 +576,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:34:1]
+ 34 | <div><svg><li></svg</div>
+    :               ^^^^^^^^^^^
+    `----
+
+  x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:34:1]
  34 | <div><svg><li></svg</div>
     :               ^^^^^^^^^^^
@@ -617,12 +617,6 @@
     :           ^^^^^^
     `----
 
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:36:1]
- 36 | <div><svg><menu></svg</div>
-    :                 ^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:36:1]
  36 | <div><svg><menu></svg</div>
@@ -630,6 +624,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:36:1]
+ 36 | <div><svg><menu></svg</div>
+    :                 ^^^^^^^^^^^
+    `----
+
+  x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:36:1]
  36 | <div><svg><menu></svg</div>
     :                 ^^^^^^^^^^^
@@ -641,12 +641,6 @@
     :           ^^^^^^
     `----
 
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:37:1]
- 37 | <div><svg><meta></svg</div>
-    :                 ^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:37:1]
  37 | <div><svg><meta></svg</div>
@@ -654,6 +648,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:37:1]
+ 37 | <div><svg><meta></svg</div>
+    :                 ^^^^^^^^^^^
+    `----
+
+  x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:37:1]
  37 | <div><svg><meta></svg</div>
     :                 ^^^^^^^^^^^
@@ -665,12 +665,6 @@
     :           ^^^^^^
     `----
 
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:38:1]
- 38 | <div><svg><nobr></svg</div>
-    :                 ^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:38:1]
  38 | <div><svg><nobr></svg</div>
@@ -683,16 +677,16 @@
     :                 ^^^^^^^^^^^
     `----
 
+  x Stray end tag "svg<"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:38:1]
+ 38 | <div><svg><nobr></svg</div>
+    :                 ^^^^^^^^^^^
+    `----
+
   x HTML start tag "ol" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:39:1]
  39 | <div><svg><ol></svg</div>
     :           ^^^^
-    `----
-
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:39:1]
- 39 | <div><svg><ol></svg</div>
-    :               ^^^^^^^^^^^
     `----
 
   x Unexpected solidus in tag
@@ -707,16 +701,16 @@
     :               ^^^^^^^^^^^
     `----
 
+  x Stray end tag "svg<"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:39:1]
+ 39 | <div><svg><ol></svg</div>
+    :               ^^^^^^^^^^^
+    `----
+
   x HTML start tag "p" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:40:1]
  40 | <div><svg><p></svg</div>
     :           ^^^
-    `----
-
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:40:1]
- 40 | <div><svg><p></svg</div>
-    :              ^^^^^^^^^^^
     `----
 
   x Unexpected solidus in tag
@@ -726,6 +720,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:40:1]
+ 40 | <div><svg><p></svg</div>
+    :              ^^^^^^^^^^^
+    `----
+
+  x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:40:1]
  40 | <div><svg><p></svg</div>
     :              ^^^^^^^^^^^
@@ -761,12 +761,6 @@
     :           ^^^^^^
     `----
 
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:42:1]
- 42 | <div><svg><ruby></svg</div>
-    :                 ^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:42:1]
  42 | <div><svg><ruby></svg</div>
@@ -779,16 +773,16 @@
     :                 ^^^^^^^^^^^
     `----
 
+  x Stray end tag "svg<"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:42:1]
+ 42 | <div><svg><ruby></svg</div>
+    :                 ^^^^^^^^^^^
+    `----
+
   x HTML start tag "s" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:43:1]
  43 | <div><svg><s></svg</div>
     :           ^^^
-    `----
-
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:43:1]
- 43 | <div><svg><s></svg</div>
-    :              ^^^^^^^^^^^
     `----
 
   x Unexpected solidus in tag
@@ -803,16 +797,16 @@
     :              ^^^^^^^^^^^
     `----
 
+  x Stray end tag "svg<"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:43:1]
+ 43 | <div><svg><s></svg</div>
+    :              ^^^^^^^^^^^
+    `----
+
   x HTML start tag "small" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:44:1]
  44 | <div><svg><small></svg</div>
     :           ^^^^^^^
-    `----
-
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:44:1]
- 44 | <div><svg><small></svg</div>
-    :                  ^^^^^^^^^^^
     `----
 
   x Unexpected solidus in tag
@@ -827,16 +821,16 @@
     :                  ^^^^^^^^^^^
     `----
 
+  x Stray end tag "svg<"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:44:1]
+ 44 | <div><svg><small></svg</div>
+    :                  ^^^^^^^^^^^
+    `----
+
   x HTML start tag "span" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:45:1]
  45 | <div><svg><span></svg</div>
     :           ^^^^^^
-    `----
-
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:45:1]
- 45 | <div><svg><span></svg</div>
-    :                 ^^^^^^^^^^^
     `----
 
   x Unexpected solidus in tag
@@ -851,16 +845,16 @@
     :                 ^^^^^^^^^^^
     `----
 
+  x Stray end tag "svg<"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:45:1]
+ 45 | <div><svg><span></svg</div>
+    :                 ^^^^^^^^^^^
+    `----
+
   x HTML start tag "strong" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:46:1]
  46 | <div><svg><strong></svg</div>
     :           ^^^^^^^^
-    `----
-
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:46:1]
- 46 | <div><svg><strong></svg</div>
-    :                   ^^^^^^^^^^^
     `----
 
   x Unexpected solidus in tag
@@ -870,6 +864,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:46:1]
+ 46 | <div><svg><strong></svg</div>
+    :                   ^^^^^^^^^^^
+    `----
+
+  x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:46:1]
  46 | <div><svg><strong></svg</div>
     :                   ^^^^^^^^^^^
@@ -881,12 +881,6 @@
     :           ^^^^^^^^
     `----
 
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:47:1]
- 47 | <div><svg><strike></svg</div>
-    :                   ^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:47:1]
  47 | <div><svg><strike></svg</div>
@@ -899,16 +893,16 @@
     :                   ^^^^^^^^^^^
     `----
 
+  x Stray end tag "svg<"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:47:1]
+ 47 | <div><svg><strike></svg</div>
+    :                   ^^^^^^^^^^^
+    `----
+
   x HTML start tag "sub" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:48:1]
  48 | <div><svg><sub></svg</div>
     :           ^^^^^
-    `----
-
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:48:1]
- 48 | <div><svg><sub></svg</div>
-    :                ^^^^^^^^^^^
     `----
 
   x Unexpected solidus in tag
@@ -918,6 +912,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:48:1]
+ 48 | <div><svg><sub></svg</div>
+    :                ^^^^^^^^^^^
+    `----
+
+  x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:48:1]
  48 | <div><svg><sub></svg</div>
     :                ^^^^^^^^^^^
@@ -929,12 +929,6 @@
     :           ^^^^^
     `----
 
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:49:1]
- 49 | <div><svg><sup></svg</div>
-    :                ^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:49:1]
  49 | <div><svg><sup></svg</div>
@@ -947,16 +941,16 @@
     :                ^^^^^^^^^^^
     `----
 
+  x Stray end tag "svg<"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:49:1]
+ 49 | <div><svg><sup></svg</div>
+    :                ^^^^^^^^^^^
+    `----
+
   x HTML start tag "table" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:50:1]
  50 | <div><svg><table></svg</div>
     :           ^^^^^^^
-    `----
-
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:50:1]
- 50 | <div><svg><table></svg</div>
-    :                  ^^^^^^^^^^^
     `----
 
   x Unexpected solidus in tag
@@ -966,6 +960,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:50:1]
+ 50 | <div><svg><table></svg</div>
+    :                  ^^^^^^^^^^^
+    `----
+
+  x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:50:1]
  50 | <div><svg><table></svg</div>
     :                  ^^^^^^^^^^^
@@ -995,12 +995,6 @@
     :           ^^^^
     `----
 
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:51:1]
- 51 | <div><svg><tt></svg</div>
-    :               ^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:51:1]
  51 | <div><svg><tt></svg</div>
@@ -1008,6 +1002,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:51:1]
+ 51 | <div><svg><tt></svg</div>
+    :               ^^^^^^^^^^^
+    `----
+
+  x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:51:1]
  51 | <div><svg><tt></svg</div>
     :               ^^^^^^^^^^^
@@ -1044,12 +1044,6 @@
     :           ^^^
     `----
 
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:52:1]
- 52 | <div><svg><u></svg</div>
-    :              ^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:52:1]
  52 | <div><svg><u></svg</div>
@@ -1057,6 +1051,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:52:1]
+ 52 | <div><svg><u></svg</div>
+    :              ^^^^^^^^^^^
+    `----
+
+  x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:52:1]
  52 | <div><svg><u></svg</div>
     :              ^^^^^^^^^^^
@@ -1093,12 +1093,6 @@
     :           ^^^^
     `----
 
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:53:1]
- 53 | <div><svg><ul></svg</div>
-    :               ^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:53:1]
  53 | <div><svg><ul></svg</div>
@@ -1106,6 +1100,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:53:1]
+ 53 | <div><svg><ul></svg</div>
+    :               ^^^^^^^^^^^
+    `----
+
+  x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:53:1]
  53 | <div><svg><ul></svg</div>
     :               ^^^^^^^^^^^
@@ -1142,12 +1142,6 @@
     :           ^^^^^
     `----
 
-  x Stray end tag "svg<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:54:1]
- 54 | <div><svg><var></svg</div>
-    :                ^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:54:1]
  54 | <div><svg><var></svg</div>
@@ -1155,6 +1149,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:54:1]
+ 54 | <div><svg><var></svg</div>
+    :                ^^^^^^^^^^^
+    `----
+
+  x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:54:1]
  54 | <div><svg><var></svg</div>
     :                ^^^^^^^^^^^
@@ -1197,12 +1197,6 @@
     :            ^^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:55:1]
- 55 | <div><math></p></math</div>
-    :                ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:55:1]
  55 | <div><math></p></math</div>
@@ -1210,6 +1204,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:55:1]
+ 55 | <div><math></p></math</div>
+    :                ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:55:1]
  55 | <div><math></p></math</div>
     :                ^^^^^^^^^^^^
@@ -1252,12 +1252,6 @@
     :            ^^^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:56:1]
- 56 | <div><math></br></math</div>
-    :                 ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:56:1]
  56 | <div><math></br></math</div>
@@ -1265,6 +1259,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:56:1]
+ 56 | <div><math></br></math</div>
+    :                 ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:56:1]
  56 | <div><math></br></math</div>
     :                 ^^^^^^^^^^^^
@@ -1301,12 +1301,6 @@
     :            ^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:57:1]
- 57 | <div><math><b></math</div>
-    :               ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:57:1]
  57 | <div><math><b></math</div>
@@ -1314,6 +1308,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:57:1]
+ 57 | <div><math><b></math</div>
+    :               ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:57:1]
  57 | <div><math><b></math</div>
     :               ^^^^^^^^^^^^
@@ -1350,12 +1350,6 @@
     :            ^^^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:58:1]
- 58 | <div><math><big></math</div>
-    :                 ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:58:1]
  58 | <div><math><big></math</div>
@@ -1363,6 +1357,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:58:1]
+ 58 | <div><math><big></math</div>
+    :                 ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:58:1]
  58 | <div><math><big></math</div>
     :                 ^^^^^^^^^^^^
@@ -1399,12 +1399,6 @@
     :            ^^^^^^^^^^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:59:1]
- 59 | <div><math><blockquote></math</div>
-    :                        ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:59:1]
  59 | <div><math><blockquote></math</div>
@@ -1412,6 +1406,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:59:1]
+ 59 | <div><math><blockquote></math</div>
+    :                        ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:59:1]
  59 | <div><math><blockquote></math</div>
     :                        ^^^^^^^^^^^^
@@ -1448,12 +1448,6 @@
     :            ^^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:60:1]
- 60 | <div><math><br></math</div>
-    :                ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:60:1]
  60 | <div><math><br></math</div>
@@ -1461,6 +1455,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:60:1]
+ 60 | <div><math><br></math</div>
+    :                ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:60:1]
  60 | <div><math><br></math</div>
     :                ^^^^^^^^^^^^
@@ -1497,12 +1497,6 @@
     :            ^^^^^^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:61:1]
- 61 | <div><math><center></math</div>
-    :                    ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:61:1]
  61 | <div><math><center></math</div>
@@ -1510,6 +1504,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:61:1]
+ 61 | <div><math><center></math</div>
+    :                    ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:61:1]
  61 | <div><math><center></math</div>
     :                    ^^^^^^^^^^^^
@@ -1546,12 +1546,6 @@
     :            ^^^^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:62:1]
- 62 | <div><math><code></math</div>
-    :                  ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:62:1]
  62 | <div><math><code></math</div>
@@ -1559,6 +1553,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:62:1]
+ 62 | <div><math><code></math</div>
+    :                  ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:62:1]
  62 | <div><math><code></math</div>
     :                  ^^^^^^^^^^^^
@@ -1595,12 +1595,6 @@
     :            ^^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:63:1]
- 63 | <div><math><dd></math</div>
-    :                ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:63:1]
  63 | <div><math><dd></math</div>
@@ -1608,6 +1602,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:63:1]
+ 63 | <div><math><dd></math</div>
+    :                ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:63:1]
  63 | <div><math><dd></math</div>
     :                ^^^^^^^^^^^^
@@ -1644,12 +1644,6 @@
     :            ^^^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:64:1]
- 64 | <div><math><div></math</div>
-    :                 ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:64:1]
  64 | <div><math><div></math</div>
@@ -1657,6 +1651,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:64:1]
+ 64 | <div><math><div></math</div>
+    :                 ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:64:1]
  64 | <div><math><div></math</div>
     :                 ^^^^^^^^^^^^
@@ -1693,12 +1693,6 @@
     :            ^^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:65:1]
- 65 | <div><math><dl></math</div>
-    :                ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:65:1]
  65 | <div><math><dl></math</div>
@@ -1706,6 +1700,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:65:1]
+ 65 | <div><math><dl></math</div>
+    :                ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:65:1]
  65 | <div><math><dl></math</div>
     :                ^^^^^^^^^^^^
@@ -1742,12 +1742,6 @@
     :            ^^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:66:1]
- 66 | <div><math><dt></math</div>
-    :                ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:66:1]
  66 | <div><math><dt></math</div>
@@ -1755,6 +1749,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:66:1]
+ 66 | <div><math><dt></math</div>
+    :                ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:66:1]
  66 | <div><math><dt></math</div>
     :                ^^^^^^^^^^^^
@@ -1791,12 +1791,6 @@
     :            ^^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:67:1]
- 67 | <div><math><em></math</div>
-    :                ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:67:1]
  67 | <div><math><em></math</div>
@@ -1804,6 +1798,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:67:1]
+ 67 | <div><math><em></math</div>
+    :                ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:67:1]
  67 | <div><math><em></math</div>
     :                ^^^^^^^^^^^^
@@ -1840,12 +1840,6 @@
     :            ^^^^^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:68:1]
- 68 | <div><math><embed></math</div>
-    :                   ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:68:1]
  68 | <div><math><embed></math</div>
@@ -1853,6 +1847,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:68:1]
+ 68 | <div><math><embed></math</div>
+    :                   ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:68:1]
  68 | <div><math><embed></math</div>
     :                   ^^^^^^^^^^^^
@@ -1889,12 +1889,6 @@
     :            ^^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:69:1]
- 69 | <div><math><h1></math</div>
-    :                ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:69:1]
  69 | <div><math><h1></math</div>
@@ -1902,6 +1896,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:69:1]
+ 69 | <div><math><h1></math</div>
+    :                ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:69:1]
  69 | <div><math><h1></math</div>
     :                ^^^^^^^^^^^^
@@ -1938,12 +1938,6 @@
     :            ^^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:70:1]
- 70 | <div><math><h2></math</div>
-    :                ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:70:1]
  70 | <div><math><h2></math</div>
@@ -1951,6 +1945,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:70:1]
+ 70 | <div><math><h2></math</div>
+    :                ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:70:1]
  70 | <div><math><h2></math</div>
     :                ^^^^^^^^^^^^
@@ -1987,12 +1987,6 @@
     :            ^^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:71:1]
- 71 | <div><math><h3></math</div>
-    :                ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:71:1]
  71 | <div><math><h3></math</div>
@@ -2000,6 +1994,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:71:1]
+ 71 | <div><math><h3></math</div>
+    :                ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:71:1]
  71 | <div><math><h3></math</div>
     :                ^^^^^^^^^^^^
@@ -2036,12 +2036,6 @@
     :            ^^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:72:1]
- 72 | <div><math><h4></math</div>
-    :                ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:72:1]
  72 | <div><math><h4></math</div>
@@ -2049,6 +2043,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:72:1]
+ 72 | <div><math><h4></math</div>
+    :                ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:72:1]
  72 | <div><math><h4></math</div>
     :                ^^^^^^^^^^^^
@@ -2085,12 +2085,6 @@
     :            ^^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:73:1]
- 73 | <div><math><h5></math</div>
-    :                ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:73:1]
  73 | <div><math><h5></math</div>
@@ -2098,6 +2092,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:73:1]
+ 73 | <div><math><h5></math</div>
+    :                ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:73:1]
  73 | <div><math><h5></math</div>
     :                ^^^^^^^^^^^^
@@ -2134,12 +2134,6 @@
     :            ^^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:74:1]
- 74 | <div><math><h6></math</div>
-    :                ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:74:1]
  74 | <div><math><h6></math</div>
@@ -2147,6 +2141,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:74:1]
+ 74 | <div><math><h6></math</div>
+    :                ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:74:1]
  74 | <div><math><h6></math</div>
     :                ^^^^^^^^^^^^
@@ -2183,12 +2183,6 @@
     :            ^^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:75:1]
- 75 | <div><math><hr></math</div>
-    :                ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:75:1]
  75 | <div><math><hr></math</div>
@@ -2196,6 +2190,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:75:1]
+ 75 | <div><math><hr></math</div>
+    :                ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:75:1]
  75 | <div><math><hr></math</div>
     :                ^^^^^^^^^^^^
@@ -2232,12 +2232,6 @@
     :            ^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:76:1]
- 76 | <div><math><i></math</div>
-    :               ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:76:1]
  76 | <div><math><i></math</div>
@@ -2245,6 +2239,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:76:1]
+ 76 | <div><math><i></math</div>
+    :               ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:76:1]
  76 | <div><math><i></math</div>
     :               ^^^^^^^^^^^^
@@ -2281,12 +2281,6 @@
     :            ^^^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:77:1]
- 77 | <div><math><img></math</div>
-    :                 ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:77:1]
  77 | <div><math><img></math</div>
@@ -2294,6 +2288,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:77:1]
+ 77 | <div><math><img></math</div>
+    :                 ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:77:1]
  77 | <div><math><img></math</div>
     :                 ^^^^^^^^^^^^
@@ -2330,12 +2330,6 @@
     :            ^^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:78:1]
- 78 | <div><math><li></math</div>
-    :                ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:78:1]
  78 | <div><math><li></math</div>
@@ -2343,6 +2337,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:78:1]
+ 78 | <div><math><li></math</div>
+    :                ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:78:1]
  78 | <div><math><li></math</div>
     :                ^^^^^^^^^^^^
@@ -2428,12 +2428,6 @@
     :            ^^^^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:80:1]
- 80 | <div><math><menu></math</div>
-    :                  ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:80:1]
  80 | <div><math><menu></math</div>
@@ -2441,6 +2435,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:80:1]
+ 80 | <div><math><menu></math</div>
+    :                  ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:80:1]
  80 | <div><math><menu></math</div>
     :                  ^^^^^^^^^^^^
@@ -2477,12 +2477,6 @@
     :            ^^^^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:81:1]
- 81 | <div><math><meta></math</div>
-    :                  ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:81:1]
  81 | <div><math><meta></math</div>
@@ -2490,6 +2484,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:81:1]
+ 81 | <div><math><meta></math</div>
+    :                  ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:81:1]
  81 | <div><math><meta></math</div>
     :                  ^^^^^^^^^^^^
@@ -2526,12 +2526,6 @@
     :            ^^^^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:82:1]
- 82 | <div><math><nobr></math</div>
-    :                  ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:82:1]
  82 | <div><math><nobr></math</div>
@@ -2539,6 +2533,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:82:1]
+ 82 | <div><math><nobr></math</div>
+    :                  ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:82:1]
  82 | <div><math><nobr></math</div>
     :                  ^^^^^^^^^^^^
@@ -2575,12 +2575,6 @@
     :            ^^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:83:1]
- 83 | <div><math><ol></math</div>
-    :                ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:83:1]
  83 | <div><math><ol></math</div>
@@ -2588,6 +2582,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:83:1]
+ 83 | <div><math><ol></math</div>
+    :                ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:83:1]
  83 | <div><math><ol></math</div>
     :                ^^^^^^^^^^^^
@@ -2624,12 +2624,6 @@
     :            ^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:84:1]
- 84 | <div><math><p></math</div>
-    :               ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:84:1]
  84 | <div><math><p></math</div>
@@ -2637,6 +2631,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:84:1]
+ 84 | <div><math><p></math</div>
+    :               ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:84:1]
  84 | <div><math><p></math</div>
     :               ^^^^^^^^^^^^
@@ -2722,12 +2722,6 @@
     :            ^^^^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:86:1]
- 86 | <div><math><ruby></math</div>
-    :                  ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:86:1]
  86 | <div><math><ruby></math</div>
@@ -2735,6 +2729,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:86:1]
+ 86 | <div><math><ruby></math</div>
+    :                  ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:86:1]
  86 | <div><math><ruby></math</div>
     :                  ^^^^^^^^^^^^
@@ -2771,12 +2771,6 @@
     :            ^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:87:1]
- 87 | <div><math><s></math</div>
-    :               ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:87:1]
  87 | <div><math><s></math</div>
@@ -2784,6 +2778,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:87:1]
+ 87 | <div><math><s></math</div>
+    :               ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:87:1]
  87 | <div><math><s></math</div>
     :               ^^^^^^^^^^^^
@@ -2820,12 +2820,6 @@
     :            ^^^^^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:88:1]
- 88 | <div><math><small></math</div>
-    :                   ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:88:1]
  88 | <div><math><small></math</div>
@@ -2833,6 +2827,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:88:1]
+ 88 | <div><math><small></math</div>
+    :                   ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:88:1]
  88 | <div><math><small></math</div>
     :                   ^^^^^^^^^^^^
@@ -2869,12 +2869,6 @@
     :            ^^^^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:89:1]
- 89 | <div><math><span></math</div>
-    :                  ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:89:1]
  89 | <div><math><span></math</div>
@@ -2882,6 +2876,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:89:1]
+ 89 | <div><math><span></math</div>
+    :                  ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:89:1]
  89 | <div><math><span></math</div>
     :                  ^^^^^^^^^^^^
@@ -2918,12 +2918,6 @@
     :            ^^^^^^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:90:1]
- 90 | <div><math><strong></math</div>
-    :                    ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:90:1]
  90 | <div><math><strong></math</div>
@@ -2931,6 +2925,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:90:1]
+ 90 | <div><math><strong></math</div>
+    :                    ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:90:1]
  90 | <div><math><strong></math</div>
     :                    ^^^^^^^^^^^^
@@ -2967,12 +2967,6 @@
     :            ^^^^^^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:91:1]
- 91 | <div><math><strike></math</div>
-    :                    ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:91:1]
  91 | <div><math><strike></math</div>
@@ -2980,6 +2974,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:91:1]
+ 91 | <div><math><strike></math</div>
+    :                    ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:91:1]
  91 | <div><math><strike></math</div>
     :                    ^^^^^^^^^^^^
@@ -3016,12 +3016,6 @@
     :            ^^^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:92:1]
- 92 | <div><math><sub></math</div>
-    :                 ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:92:1]
  92 | <div><math><sub></math</div>
@@ -3029,6 +3023,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:92:1]
+ 92 | <div><math><sub></math</div>
+    :                 ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:92:1]
  92 | <div><math><sub></math</div>
     :                 ^^^^^^^^^^^^
@@ -3065,12 +3065,6 @@
     :            ^^^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:93:1]
- 93 | <div><math><sup></math</div>
-    :                 ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:93:1]
  93 | <div><math><sup></math</div>
@@ -3078,6 +3072,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:93:1]
+ 93 | <div><math><sup></math</div>
+    :                 ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:93:1]
  93 | <div><math><sup></math</div>
     :                 ^^^^^^^^^^^^
@@ -3114,12 +3114,6 @@
     :            ^^^^^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:94:1]
- 94 | <div><math><table></math</div>
-    :                   ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:94:1]
  94 | <div><math><table></math</div>
@@ -3127,6 +3121,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:94:1]
+ 94 | <div><math><table></math</div>
+    :                   ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:94:1]
  94 | <div><math><table></math</div>
     :                   ^^^^^^^^^^^^
@@ -3156,12 +3156,6 @@
     :            ^^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:95:1]
- 95 | <div><math><tt></math</div>
-    :                ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:95:1]
  95 | <div><math><tt></math</div>
@@ -3169,6 +3163,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:95:1]
+ 95 | <div><math><tt></math</div>
+    :                ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:95:1]
  95 | <div><math><tt></math</div>
     :                ^^^^^^^^^^^^
@@ -3205,12 +3205,6 @@
     :            ^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:96:1]
- 96 | <div><math><u></math</div>
-    :               ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:96:1]
  96 | <div><math><u></math</div>
@@ -3218,6 +3212,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:96:1]
+ 96 | <div><math><u></math</div>
+    :               ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:96:1]
  96 | <div><math><u></math</div>
     :               ^^^^^^^^^^^^
@@ -3254,12 +3254,6 @@
     :            ^^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:97:1]
- 97 | <div><math><ul></math</div>
-    :                ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:97:1]
  97 | <div><math><ul></math</div>
@@ -3267,6 +3261,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:97:1]
+ 97 | <div><math><ul></math</div>
+    :                ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:97:1]
  97 | <div><math><ul></math</div>
     :                ^^^^^^^^^^^^
@@ -3303,12 +3303,6 @@
     :            ^^^^^
     `----
 
-  x Stray end tag "math<"
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:98:1]
- 98 | <div><math><var></math</div>
-    :                 ^^^^^^^^^^^^
-    `----
-
   x Unexpected solidus in tag
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:98:1]
  98 | <div><math><var></math</div>
@@ -3316,6 +3310,12 @@
     `----
 
   x End tag with attributes
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:98:1]
+ 98 | <div><math><var></math</div>
+    :                 ^^^^^^^^^^^^
+    `----
+
+  x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:98:1]
  98 | <div><math><var></math</div>
     :                 ^^^^^^^^^^^^
