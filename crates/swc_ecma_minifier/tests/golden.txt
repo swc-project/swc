@@ -803,6 +803,7 @@ issue_267/issue_267/input.js
 issue_269/issue_269_dangers/input.js
 issue_269/issue_269_in_scope/input.js
 issue_281/drop_fargs/input.js
+issue_281/inner_var_for_in_1/input.js
 issue_281/issue_1254_negate_iife_nested/input.js
 issue_281/issue_1254_negate_iife_true/input.js
 issue_281/issue_1288_side_effects/input.js
@@ -824,6 +825,7 @@ issue_281/wrap_iife_in_expression/input.js
 issue_281/wrap_iife_in_return_call/input.js
 issue_2989/inline_script_off/input.js
 issue_2989/inline_script_on/input.js
+issue_368/collapse/input.js
 issue_427/no_wrap_func_args/input.js
 issue_427/wrap_func_args/input.js
 issue_59/keep_continue/input.js
