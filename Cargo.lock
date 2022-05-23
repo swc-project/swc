@@ -3470,7 +3470,6 @@ dependencies = [
  "testing",
  "tracing",
  "typed-arena",
- "unicode-id",
  "walkdir",
 ]
 

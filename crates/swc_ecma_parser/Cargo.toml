@@ -36,7 +36,6 @@ swc_ecma_ast = { version = "0.78.0", path = "../swc_ecma_ast" }
 swc_ecma_visit = { version = "0.64.0", path = "../swc_ecma_visit", optional = true }
 tracing = "0.1.32"
 typed-arena = "2.0.1"
-unicode-id = "0.3"
 
 [dev-dependencies]
 criterion = "0.3"
