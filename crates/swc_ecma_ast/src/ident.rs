@@ -150,6 +150,7 @@ impl Ident {
     }
 
     /// Returns true if `c` is a valid character for an identifier start.
+    #[inline]
     pub fn is_valid_start(c: char) -> bool {
         c == '$' || c == '_' || c.is_ascii_alphabetic() || {
             if c.is_ascii() {
@@ -162,6 +163,7 @@ impl Ident {
 
     /// Returns true if `c` is a valid character for an identifier part after
     /// start.
+    #[inline]
     pub fn is_valid_continue(c: char) -> bool {
         c == '$' || c == '_' || c == '\u{200c}' || c == '\u{200d}' || c.is_ascii_alphanumeric() || {
             if c.is_ascii() {
