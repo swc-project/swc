@@ -648,6 +648,10 @@ where
 
                 // TODO: Check if parameter is used and inline if call is not related to parameters.
                 Expr::Call(e) => {
+                    if let Some(..) = e.callee.as_expr().and_then(|e| e.as_ident()) {
+                        return true;
+                    }
+
                     let used = idents_used_by(&e.callee);
                     param_ids.iter().all(|param| !used.contains(&param.to_id()))
                 }
