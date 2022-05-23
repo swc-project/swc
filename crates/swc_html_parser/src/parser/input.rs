@@ -11,6 +11,8 @@ pub trait ParserInput: Clone + Iterator<Item = TokenAndSpan> {
 
     fn take_errors(&mut self) -> Vec<Error>;
 
+    fn set_last_start_tag_token(&mut self, token: Token);
+
     fn set_input_state(&mut self, state: State);
 
     fn set_adjusted_current_node_to_html_namespace(&mut self, value: bool);

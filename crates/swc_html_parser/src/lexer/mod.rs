@@ -124,7 +124,7 @@ where
     state: State,
     return_state: State,
     errors: Vec<Error>,
-    pub last_start_tag_token: Option<Token>,
+    last_start_tag_token: Option<Token>,
     pending_tokens: Vec<TokenAndSpan>,
     cur_token: Option<Token>,
     attribute_start_position: Option<BytePos>,
@@ -192,6 +192,10 @@ where
 
     fn take_errors(&mut self) -> Vec<Error> {
         take(&mut self.errors)
+    }
+
+    fn set_last_start_tag_token(&mut self, token: Token) {
+        self.last_start_tag_token = Some(token);
     }
 
     fn set_adjusted_current_node_to_html_namespace(&mut self, value: bool) {
