@@ -43,6 +43,12 @@
 
 - **(html/parser)** Improve error reporting (#4740) ([51f4cea](https://github.com/swc-project/swc/commit/51f4cea10349145a66e45dabb78cc244784b3c98))
 
+### Refactor
+
+
+
+- **(es/minifier)** Make `rust-analyzer` faster (#4744) ([47e6cc5](https://github.com/swc-project/swc/commit/47e6cc519092af220cd735c2eedad3e7ad7f3e18))
+
 ## [1.2.189] - 2022-05-21
 
 ### Bug Fixes
