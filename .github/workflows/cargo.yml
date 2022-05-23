@@ -101,6 +101,8 @@ jobs:
             os: ubuntu-latest
           - crate: binding_css_node
             os: ubuntu-latest
+          - crate: dbg-swc
+            os: ubuntu-latest
           - crate: enum_kind
             os: ubuntu-latest
           - crate: from_variant
@@ -191,6 +193,12 @@ jobs:
           - crate: swc_ecma_loader
             os: windows-latest
           - crate: swc_ecma_minifier
+            os: ubuntu-latest
+          - crate: swc_ecma_minifier_base
+            os: ubuntu-latest
+          - crate: swc_ecma_minifier_pure
+            os: ubuntu-latest
+          - crate: swc_ecma_minifier_utils
             os: ubuntu-latest
           - crate: swc_ecma_parser
             os: ubuntu-latest
