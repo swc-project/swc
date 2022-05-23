@@ -1164,7 +1164,6 @@ fn html5lib_test_tree_construction(input: PathBuf) {
         return;
     }
 
-    // TODO improve test for parsing `<template>`
     testing::run_test2(false, |cm, handler| {
         // Type annotation
         if false {
@@ -1233,18 +1232,17 @@ fn html5lib_test_tree_construction(input: PathBuf) {
         // `search` proposed, but not merged in spec
         let need_skip_tests = parent_name.contains("scripted") || parent_name.contains("search");
 
-        // TODO finish me
-        // if !need_skip_tests {
-        //     let errors = parser.take_errors();
-        //     let errors_path = input.parent().unwrap().join(file_stem.clone() +
-        // ".errors");     let contents =
-        //         fs::read_to_string(errors_path).expect("Something went wrong reading
-        // the file");     let actual_number_of_errors = errors.len();
-        //     let expected_number_of_errors = contents.lines().count();
-        //
-        //     println!("{:?}", errors);
-        //     assert_eq!(actual_number_of_errors, expected_number_of_errors);
-        // }
+        if !need_skip_tests {
+            let errors = parser.take_errors();
+            let errors_path = input.parent().unwrap().join(file_stem.clone() + ".errors");
+            let contents =
+                fs::read_to_string(errors_path).expect("Something went wrong reading the file");
+            let actual_number_of_errors = errors.len();
+            let expected_number_of_errors = contents.lines().count();
+
+            println!("{:?}", errors);
+            assert_eq!(actual_number_of_errors, expected_number_of_errors);
+        }
 
         match document_or_document_fragment {
             DocumentOrDocumentFragment::Document(Ok(mut document)) => {
