@@ -204,6 +204,9 @@ impl Error {
             ErrorKind::TableSeenWhileTableOpen => {
                 "Start tag for \"table\" seen but the previous \"table\" is still open".into()
             }
+            ErrorKind::StartTagInTableBody(tag_name) => {
+                format!("Start tag \"{}\" seen in \"table\" body", tag_name).into()
+            }
             ErrorKind::EndTagAfterBody => "Saw an end tag after \"body\" had been closed".into(),
             ErrorKind::EndTagSeenWithSelectOpen(tag_name) => {
                 format!("\"{}\" end tag with \"select\" open", tag_name).into()
@@ -271,7 +274,6 @@ pub enum ErrorKind {
     ControlCharacterInInputStream,
     NoncharacterInInputStream,
     SurrogateInInputStream,
-    NonVoidHtmlElementStartTagWithTrailingSolidus,
     EndTagWithAttributes,
     EndTagWithTrailingSolidus,
     UnexpectedSolidusInTag,
@@ -345,19 +347,17 @@ pub enum ErrorKind {
     NonSpaceCharacterInNoscriptInHead,
     SomethingBetweenHeadAndBody(JsWord),
     // TODO errStartTagWithoutDoctype
-    // Todo errNoSelectInTableScope
     StartSelectWhereEndSelectExpected,
     StartTagWithSelectOpen(JsWord),
     BadStartTagInNoscriptInHead(JsWord),
     UnexpectedImageStartTag,
     SomethingSeenWhenSomethingOpen(JsWord),
     HeadingWhenHeadingOpen,
-    // TODO errFramesetStart
     NoCellToClose,
     StartTagInTable(JsWord),
     FormWhenFormOpen,
     TableSeenWhileTableOpen,
-    // TODO errStartTagInTableBody
+    StartTagInTableBody(JsWord),
     // TODO errEndTagSeenWithoutDoctype
     EndTagAfterBody,
     EndTagSeenWithSelectOpen(JsWord),
@@ -373,7 +373,7 @@ pub enum ErrorKind {
     // TODO errUnclosedChildrenInRuby
     // TODO errStartTagSeenWithoutRuby
     UnexpectedStartTagInRuby(JsWord),
-    // TODO errSelfClosing
+    NonVoidHtmlElementStartTagWithTrailingSolidus,
     UnclosedElementsOnStack,
     EndTagDidNotMatchCurrentOpenElement(JsWord, JsWord),
     EndTagViolatesNestingRules(JsWord),

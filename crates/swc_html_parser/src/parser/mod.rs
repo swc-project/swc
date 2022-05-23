@@ -4869,7 +4869,7 @@ where
                     {
                         self.errors.push(Error::new(
                             token_and_info.span,
-                            ErrorKind::StartTagInTable(tag_name.clone()),
+                            ErrorKind::StartTagInTableBody(tag_name.clone()),
                         ));
                         self.open_elements_stack.clear_back_to_table_body_context();
                         self.insert_html_element(&mut TokenAndInfo {
@@ -5456,6 +5456,7 @@ where
 
                             return Ok(());
                         }
+
                         self.open_elements_stack
                             .pop_until_tag_name_popped(&["select"]);
                         self.reset_insertion_mode();
