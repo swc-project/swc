@@ -8,7 +8,7 @@ use swc_html_ast::{AttributeToken, Token, TokenAndSpan};
 
 use crate::{
     error::{Error, ErrorKind},
-    parser::{input::ParserInput, ParserConfig},
+    parser::input::ParserInput,
 };
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -139,7 +139,7 @@ impl<I> Lexer<I>
 where
     I: Input,
 {
-    pub fn new(input: I, _config: ParserConfig) -> Self {
+    pub fn new(input: I) -> Self {
         let start_pos = input.last_pos();
 
         Lexer {

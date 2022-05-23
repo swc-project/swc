@@ -26,7 +26,7 @@ fn document_test(input: PathBuf, config: ParserConfig) {
     testing::run_test2(false, |cm, handler| {
         let json_path = input.parent().unwrap().join("output.json");
         let fm = cm.load_file(&input).unwrap();
-        let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
+        let lexer = Lexer::new(SourceFileInput::from(&*fm));
         let mut parser = Parser::new(lexer, config);
         let document: PResult<Document> = parser.parse_document();
         let errors = parser.take_errors();
@@ -74,7 +74,7 @@ fn document_recovery_test(input: PathBuf, config: ParserConfig) {
 
         let json_path = input.parent().unwrap().join("output.json");
         let fm = cm.load_file(&input).unwrap();
-        let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
+        let lexer = Lexer::new(SourceFileInput::from(&*fm));
         let mut parser = Parser::new(lexer, config);
         let document: PResult<Document> = parser.parse_document();
         let errors = parser.take_errors();
@@ -130,7 +130,7 @@ fn document_span_visualizer(input: PathBuf, config: ParserConfig) {
         }
 
         let fm = cm.load_file(&input).unwrap();
-        let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
+        let lexer = Lexer::new(SourceFileInput::from(&*fm));
         let mut parser = Parser::new(lexer, config);
 
         let document: PResult<Document> = parser.parse_document();
@@ -168,7 +168,7 @@ fn document_dom_visualizer(input: PathBuf, config: ParserConfig) {
         }
 
         let fm = cm.load_file(&input).unwrap();
-        let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
+        let lexer = Lexer::new(SourceFileInput::from(&*fm));
         let mut parser = Parser::new(lexer, config);
 
         let document: PResult<Document> = parser.parse_document();
@@ -574,12 +574,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
             eprintln!("==== ==== Output ==== ====\n{}\n", output);
 
             let lexer_str_input = StringInput::new(&input, BytePos(0), BytePos(input.len() as u32));
-            let mut lexer = Lexer::new(
-                lexer_str_input,
-                ParserConfig {
-                    ..Default::default()
-                },
-            );
+            let mut lexer = Lexer::new(lexer_str_input);
 
             lexer.set_input_state(state.clone());
 
@@ -1171,7 +1166,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
         let json_path = input.parent().unwrap().join(file_stem.clone() + ".json");
         let fm = cm.load_file(&input).unwrap();
 
-        let lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default());
+        let lexer = Lexer::new(SourceFileInput::from(&*fm));
         let config = ParserConfig {
             scripting_enabled,
             iframe_srcdoc: false,
