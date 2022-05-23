@@ -8,6 +8,9 @@
 - **(es/loader)** Fix `jsc.paths` on windows (#4739) ([417b218](https://github.com/swc-project/swc/commit/417b2182cead074c9ebf9358d53f353157637a8d))
 
 
+- **(es/loader)** Fix hang related to `jsc.paths` (#4742) ([777ea37](https://github.com/swc-project/swc/commit/777ea371d0bd17c6acd7aa2e7b20057de4577c08))
+
+
 - **(es/modules/cjs)** FIx detection of exported names (#4737) ([d9bb59a](https://github.com/swc-project/swc/commit/d9bb59a8cb1998f87b0f115e9cc4b0b53923096a))
 
 
