@@ -3,6 +3,7 @@ use std::f64;
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_minifier_base::{log_abort, report_change};
 use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_utils::{ExprCtx, ExprExt, IdentUsageFinder, Value};
 use swc_ecma_visit::{
@@ -11,7 +12,7 @@ use swc_ecma_visit::{
 };
 use unicode_id::UnicodeID;
 
-use crate::{compress_util::ModuleItemExt, debug::dump};
+use crate::{debug::dump, util::ModuleItemExt};
 
 #[cfg(test)]
 mod tests;
