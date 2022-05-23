@@ -121,11 +121,6 @@ impl Error {
             ErrorKind::UnknownNamedCharacterReference => "Unknown named character reference".into(),
 
             // Parser errors
-            ErrorKind::EndTagWithoutMatchingOpenElement => {
-                "End tag without matching open element".into()
-            }
-            ErrorKind::NonConformingDoctype => "Non conforming doctype".into(),
-            ErrorKind::MissingDoctype => "Missing doctype".into(),
             ErrorKind::StrayStartTag(tag_name) => {
                 format!("Stray start tag \"{}\"", tag_name).into()
             }
@@ -144,6 +139,7 @@ impl Error {
                 "A table cell was implicitly closed, but there were open elements".into()
             }
             ErrorKind::StrayDoctype => "Stray doctype".into(),
+            ErrorKind::NonConformingDoctype => "Non conforming doctype".into(),
             ErrorKind::NonSpaceCharacterInTrailer => "Non-space character in page trailer".into(),
             ErrorKind::NonSpaceCharacterAfterFrameset => {
                 "Non-space character after \"frameset\"".into()
@@ -323,18 +319,14 @@ pub enum ErrorKind {
     UnknownNamedCharacterReference,
 
     // Parser errors
-    // TODO fix me
-    EndTagWithoutMatchingOpenElement,
-    // TODO fix me
-    NonConformingDoctype,
-    // TODO fix me
-    MissingDoctype,
     StrayStartTag(JsWord),
     StrayEndTag(JsWord),
     UnclosedElements(JsWord),
     UnclosedElementsImplied(JsWord),
     UnclosedElementsCell,
     StrayDoctype,
+    // TODO fix me
+    NonConformingDoctype,
     // TODO more doctypes errors
     NonSpaceCharacterInTrailer,
     NonSpaceCharacterAfterFrameset,

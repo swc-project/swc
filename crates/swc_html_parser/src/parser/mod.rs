@@ -1409,10 +1409,10 @@ where
                     // Any other end tag
                     //
                     // Parse error. Ignore the token.
-                    Token::EndTag { .. } => {
+                    Token::EndTag { tag_name, .. } => {
                         self.errors.push(Error::new(
                             token_and_info.span,
-                            ErrorKind::EndTagWithoutMatchingOpenElement,
+                            ErrorKind::StrayEndTag(tag_name.clone()),
                         ));
                     }
                     // Anything else
@@ -1509,10 +1509,10 @@ where
                     // Any other end tag
                     //
                     // Parse error. Ignore the token.
-                    Token::EndTag { .. } => {
+                    Token::EndTag { tag_name, .. } => {
                         self.errors.push(Error::new(
                             token_and_info.span,
-                            ErrorKind::EndTagWithoutMatchingOpenElement,
+                            ErrorKind::StrayEndTag(tag_name.clone()),
                         ));
                     }
                     // Anything else
