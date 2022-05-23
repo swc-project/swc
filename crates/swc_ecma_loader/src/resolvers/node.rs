@@ -135,6 +135,19 @@ impl NodeModulesResolver {
     /// Resolve a path as a file. If `path` refers to a file, it is returned;
     /// otherwise the `path` + each extension is tried.
     fn resolve_as_file(&self, path: &Path) -> Result<Option<PathBuf>, Error> {
+        let _tracing = if cfg!(debug_assertions) {
+            Some(
+                tracing::span!(
+                    Level::ERROR,
+                    "resolve_as_file",
+                    path = tracing::field::display(path.display())
+                )
+                .entered(),
+            )
+        } else {
+            None
+        };
+
         if cfg!(debug_assertions) {
             trace!("resolve_as_file({})", path.display());
         }
@@ -200,6 +213,19 @@ impl NodeModulesResolver {
     /// Resolve a path as a directory, using the "main" key from a package.json
     /// file if it exists, or resolving to the index.EXT file if it exists.
     fn resolve_as_directory(&self, path: &Path) -> Result<Option<PathBuf>, Error> {
+        let _tracing = if cfg!(debug_assertions) {
+            Some(
+                tracing::span!(
+                    Level::ERROR,
+                    "resolve_as_directory",
+                    path = tracing::field::display(path.display())
+                )
+                .entered(),
+            )
+        } else {
+            None
+        };
+
         if cfg!(debug_assertions) {
             trace!("resolve_as_directory({})", path.display());
         }
