@@ -1,14 +1,11 @@
 use std::path::PathBuf;
 
 use swc_common::{comments::SingleThreadedComments, Mark};
-use swc_ecma_ast::Id;
+use swc_ecma_minifier::dump_snapshot;
 use swc_ecma_parser::{parse_file_as_module, EsConfig, Syntax};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_visit::FoldWith;
 use testing::NormalizedOutput;
-
-use super::VarUsageInfo;
-use crate::marks::Marks;
 
 #[testing::fixture("tests/fixture/**/input.js")]
 #[testing::fixture("tests/single-pass/**/input.js")]
@@ -22,8 +19,6 @@ fn snapshot(input: PathBuf) {
 
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
-
-        let marks = Marks::new();
 
         let program = parse_file_as_module(
             &fm,
@@ -47,34 +42,13 @@ fn snapshot(input: PathBuf) {
             }
         };
 
-        let data = super::analyze(&program, Some(marks));
+        let dump = dump_snapshot(&program);
 
-        // Iteration order of hashmap is not deterministic
-        let mut snapshot = TestSnapshot {
-            vars: data
-                .vars
-                .into_iter()
-                .map(|(id, mut v)| {
-                    v.infects = Default::default();
-                    v.accessed_props = Default::default();
-
-                    (id, v)
-                })
-                .collect(),
-        };
-
-        snapshot.vars.sort_by(|a, b| a.0.cmp(&b.0));
-
-        NormalizedOutput::from(format!("{:#?}", snapshot))
+        NormalizedOutput::from(dump)
             .compare_to_file(dir.join("analysis-snapshot.rust-debug"))
             .unwrap();
 
         Ok(())
     })
     .unwrap()
-}
-
-#[derive(Debug)]
-struct TestSnapshot {
-    vars: Vec<(Id, VarUsageInfo)>,
 }
