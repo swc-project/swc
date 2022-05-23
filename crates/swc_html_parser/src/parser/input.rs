@@ -7,13 +7,7 @@ use super::PResult;
 use crate::{error::Error, lexer::State};
 
 pub trait ParserInput: Clone + Iterator<Item = TokenAndSpan> {
-    type State: Debug;
-
     fn start_pos(&mut self) -> BytePos;
-
-    fn state(&mut self) -> Self::State;
-
-    fn reset(&mut self, state: &Self::State);
 
     fn take_errors(&mut self) -> Vec<Error>;
 

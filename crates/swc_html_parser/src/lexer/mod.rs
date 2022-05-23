@@ -135,7 +135,6 @@ where
     last_emitted_error_pos: Option<BytePos>,
 }
 
-// TODO implement iterator as public API
 impl<I> Lexer<I>
 where
     I: Input,
@@ -183,29 +182,12 @@ impl<I: Input> Iterator for Lexer<I> {
     }
 }
 
-#[derive(Debug, Clone, Copy)]
-pub struct LexerState {
-    pos: BytePos,
-}
-
 impl<I> ParserInput for Lexer<I>
 where
     I: Input,
 {
-    type State = LexerState;
-
     fn start_pos(&mut self) -> swc_common::BytePos {
         self.input.cur_pos()
-    }
-
-    fn state(&mut self) -> Self::State {
-        LexerState {
-            pos: self.input.cur_pos(),
-        }
-    }
-
-    fn reset(&mut self, state: &Self::State) {
-        self.input.reset_to(state.pos);
     }
 
     fn take_errors(&mut self) -> Vec<Error> {
