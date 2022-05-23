@@ -20,7 +20,7 @@ do
     echo "- crate: $crate"
     echo "  os: ubuntu-latest"
 
-    if echo $json_str | jq -e ".check.$crate" > /dev/null``; then
+    if echo $json_str | jq -e ".check.\"$crate\"" > /dev/null``; then
         echo "  check: |"
 
         check_commands=$(echo $json_str | jq -e -r ".check.$crate | .[]")
