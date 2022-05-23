@@ -4,15 +4,10 @@ use swc_common::{BytePos, Span};
 use swc_html_ast::{Token, TokenAndSpan};
 
 use super::PResult;
-use crate::{
-    error::{Error, ErrorKind},
-    lexer::State,
-};
+use crate::{error::Error, lexer::State};
 
-pub trait ParserInput {
+pub trait ParserInput: Clone + Iterator<Item = TokenAndSpan> {
     type State: Debug;
-
-    fn next(&mut self) -> PResult<TokenAndSpan>;
 
     fn start_pos(&mut self) -> BytePos;
 
@@ -101,15 +96,13 @@ where
         }
 
         if self.cur.is_none() {
-            let res = self.input.next();
+            let result = self.input.next();
 
-            if let Err(err) = &res {
-                if let ErrorKind::Eof = err.kind() {
-                    return Ok(());
-                }
+            if let Some(result) = result {
+                self.cur = Some(result);
+            } else {
+                return Ok(());
             }
-
-            self.cur = res.map(Some)?;
         }
 
         Ok(())
