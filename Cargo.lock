@@ -3455,6 +3455,16 @@ dependencies = [
 [[package]]
 name = "swc_ecma_minifier_base"
 version = "0.1.0"
+dependencies = [
+ "swc_atoms",
+ "swc_common",
+ "swc_ecma_ast",
+ "swc_ecma_codegen",
+ "swc_ecma_transforms_base",
+ "swc_ecma_utils",
+ "swc_ecma_visit",
+ "tracing",
+]
 
 [[package]]
 name = "swc_ecma_minifier_pure"
