@@ -40,6 +40,7 @@ swc_common = {version = "0.18.0", path = "../swc_common"}
 swc_config = {version = "0.1.0", path = "../swc_config"}
 swc_ecma_ast = {version = "0.78.0", path = "../swc_ecma_ast"}
 swc_ecma_codegen = {version = "0.108.0", path = "../swc_ecma_codegen"}
+swc_ecma_minifier_base = {version = "0.1.0", path = "../swc_ecma_minifier_base"}
 swc_ecma_minifier_pure = {version = "0.1.0", path = "../swc_ecma_minifier_pure"}
 swc_ecma_minifier_utils = {version = "0.1.0", path = "../swc_ecma_minifier_utils"}
 swc_ecma_parser = {version = "0.104.0", path = "../swc_ecma_parser"}

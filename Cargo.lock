@@ -3436,6 +3436,7 @@ dependencies = [
  "swc_config",
  "swc_ecma_ast",
  "swc_ecma_codegen",
+ "swc_ecma_minifier_base",
  "swc_ecma_minifier_pure",
  "swc_ecma_minifier_utils",
  "swc_ecma_parser",
@@ -3450,6 +3451,10 @@ dependencies = [
  "unicode-id",
  "walkdir",
 ]
+
+[[package]]
+name = "swc_ecma_minifier_base"
+version = "0.1.0"
 
 [[package]]
 name = "swc_ecma_minifier_pure"
