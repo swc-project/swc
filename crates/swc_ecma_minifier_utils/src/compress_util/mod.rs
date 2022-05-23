@@ -11,7 +11,7 @@ use swc_ecma_visit::{
 };
 use unicode_id::UnicodeID;
 
-use crate::{debug::dump, util::ModuleItemExt};
+use crate::{compress_util::ModuleItemExt, debug::dump};
 
 #[cfg(test)]
 mod tests;
