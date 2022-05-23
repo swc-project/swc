@@ -6,8 +6,7 @@ use swc_ecma_utils::ExprCtx;
 use swc_ecma_visit::{noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith};
 use tracing::{info, warn};
 
-use super::negate_cost;
-use crate::{compress::util::negate, debug::dump};
+use super::{negate, negate_cost};
 
 struct UnwrapParen;
 impl VisitMut for UnwrapParen {
