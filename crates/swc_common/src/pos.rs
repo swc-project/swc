@@ -28,9 +28,19 @@ impl<'a, T> Spanned for Cow<'a, T>
 where
     T: Spanned + Clone,
 {
-    #[inline(always)]
+    #[inline]
     fn span(&self) -> Span {
         (**self).span()
+    }
+
+    #[inline]
+    fn lo(&self) -> BytePos {
+        (**self).lo()
+    }
+
+    #[inline]
+    fn hi(&self) -> BytePos {
+        (**self).hi()
     }
 }
 
@@ -53,10 +63,27 @@ impl<S> Spanned for Option<S>
 where
     S: Spanned,
 {
+    #[inline]
     fn span(&self) -> Span {
         match *self {
             Some(ref s) => s.span(),
             None => DUMMY_SP,
+        }
+    }
+
+    #[inline]
+    fn lo(&self) -> BytePos {
+        match *self {
+            Some(ref s) => s.lo(),
+            None => BytePos::DUMMY,
+        }
+    }
+
+    #[inline]
+    fn hi(&self) -> BytePos {
+        match *self {
+            Some(ref s) => s.hi(),
+            None => BytePos::DUMMY,
         }
     }
 }
@@ -68,6 +95,16 @@ where
     fn span(&self) -> Span {
         <S as Spanned>::span(&*self)
     }
+
+    #[inline]
+    fn lo(&self) -> BytePos {
+        <S as Spanned>::lo(&*self)
+    }
+
+    #[inline]
+    fn hi(&self) -> BytePos {
+        <S as Spanned>::hi(&*self)
+    }
 }
 
 impl<S> Spanned for Arc<S>
@@ -76,6 +113,16 @@ where
 {
     fn span(&self) -> Span {
         <S as Spanned>::span(&*self)
+    }
+
+    #[inline]
+    fn lo(&self) -> BytePos {
+        <S as Spanned>::lo(&*self)
+    }
+
+    #[inline]
+    fn hi(&self) -> BytePos {
+        <S as Spanned>::hi(&*self)
     }
 }
 
@@ -86,6 +133,16 @@ where
     fn span(&self) -> Span {
         <S as Spanned>::span(&*self)
     }
+
+    #[inline]
+    fn lo(&self) -> BytePos {
+        <S as Spanned>::lo(&*self)
+    }
+
+    #[inline]
+    fn hi(&self) -> BytePos {
+        <S as Spanned>::hi(&*self)
+    }
 }
 
 impl<'a, S> Spanned for &'a S
@@ -93,7 +150,17 @@ where
     S: ?Sized + Spanned,
 {
     fn span(&self) -> Span {
-        <S as Spanned>::span(*self)
+        <S as Spanned>::span(self)
+    }
+
+    #[inline]
+    fn lo(&self) -> BytePos {
+        <S as Spanned>::lo(self)
+    }
+
+    #[inline]
+    fn hi(&self) -> BytePos {
+        <S as Spanned>::hi(self)
     }
 }
 
@@ -106,6 +173,20 @@ where
         match *self {
             ::either::Either::Left(ref n) => n.span(),
             ::either::Either::Right(ref n) => n.span(),
+        }
+    }
+
+    fn lo(&self) -> BytePos {
+        match *self {
+            ::either::Either::Left(ref n) => n.lo(),
+            ::either::Either::Right(ref n) => n.lo(),
+        }
+    }
+
+    fn hi(&self) -> BytePos {
+        match *self {
+            ::either::Either::Left(ref n) => n.hi(),
+            ::either::Either::Right(ref n) => n.hi(),
         }
     }
 }
