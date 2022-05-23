@@ -1618,79 +1618,153 @@ where
 
     fn replace_seq_update(&mut self, a: &mut Mergable, b: &mut Expr) -> Result<bool, ()> {
         if let Mergable::Expr(a) = a {
-            if let Expr::Update(UpdateExpr {
-                op,
-                prefix: false,
-                arg,
-                ..
-            }) = *a
-            {
-                if let Expr::Ident(a_id) = &**arg {
-                    if let Some(usage) = self.data.vars.get(&a_id.to_id()) {
-                        if let Some(VarDeclKind::Const) = usage.var_kind {
-                            return Err(());
-                        }
-                    }
-
-                    let mut v = UsageCounter {
-                        expr_usage: Default::default(),
-                        pat_usage: Default::default(),
-                        target: &*a_id,
-                        in_lhs: false,
-                    };
-                    b.visit_with(&mut v);
-                    if v.expr_usage != 1 || v.pat_usage != 0 {
-                        log_abort!(
-                            "sequences: Aborting merging of an update expression because of usage \
-                             counts ({}, ref = {}, pat = {})",
-                            a_id,
-                            v.expr_usage,
-                            v.pat_usage
-                        );
-
-                        return Ok(false);
-                    }
-
-                    let mut replaced = false;
-                    replace_expr(b, |e| {
-                        if replaced {
-                            return;
+            match a {
+                Expr::Update(UpdateExpr {
+                    op,
+                    prefix: false,
+                    arg,
+                    ..
+                }) => {
+                    if let Expr::Ident(a_id) = &**arg {
+                        if let Some(usage) = self.data.vars.get(&a_id.to_id()) {
+                            if let Some(VarDeclKind::Const) = usage.var_kind {
+                                return Err(());
+                            }
                         }
 
-                        if let Expr::Ident(orig_expr) = &*e {
-                            if orig_expr.to_id() == a_id.to_id() {
-                                replaced = true;
-                                *e = Expr::Update(UpdateExpr {
-                                    span: DUMMY_SP,
-                                    op: *op,
-                                    prefix: true,
-                                    arg: Box::new(Expr::Ident(orig_expr.clone())),
-                                });
+                        let mut v = UsageCounter {
+                            expr_usage: Default::default(),
+                            pat_usage: Default::default(),
+                            target: &*a_id,
+                            in_lhs: false,
+                        };
+                        b.visit_with(&mut v);
+                        if v.expr_usage != 1 || v.pat_usage != 0 {
+                            log_abort!(
+                                "sequences: Aborting merging of an update expression because of \
+                                 usage counts ({}, ref = {}, pat = {})",
+                                a_id,
+                                v.expr_usage,
+                                v.pat_usage
+                            );
+
+                            return Ok(false);
+                        }
+
+                        let mut replaced = false;
+                        replace_expr(b, |e| {
+                            if replaced {
                                 return;
                             }
-                        }
 
-                        if let Expr::Update(e @ UpdateExpr { prefix: false, .. }) = e {
-                            if let Expr::Ident(arg) = &*e.arg {
-                                if *op == e.op && arg.to_id() == a_id.to_id() {
-                                    e.prefix = true;
+                            if let Expr::Ident(orig_expr) = &*e {
+                                if orig_expr.to_id() == a_id.to_id() {
                                     replaced = true;
+                                    *e = Expr::Update(UpdateExpr {
+                                        span: DUMMY_SP,
+                                        op: *op,
+                                        prefix: true,
+                                        arg: Box::new(Expr::Ident(orig_expr.clone())),
+                                    });
+                                    return;
                                 }
                             }
-                        }
-                    });
-                    if replaced {
-                        self.changed = true;
-                        report_change!(
-                            "sequences: Merged update expression into another expression",
-                        );
 
-                        a.take();
-                        return Ok(true);
+                            if let Expr::Update(e @ UpdateExpr { prefix: false, .. }) = e {
+                                if let Expr::Ident(arg) = &*e.arg {
+                                    if *op == e.op && arg.to_id() == a_id.to_id() {
+                                        e.prefix = true;
+                                        replaced = true;
+                                    }
+                                }
+                            }
+                        });
+                        if replaced {
+                            self.changed = true;
+                            report_change!(
+                                "sequences: Merged update expression into another expression",
+                            );
+
+                            a.take();
+                            return Ok(true);
+                        }
                     }
                 }
 
-                return Ok(false);
+                Expr::Update(UpdateExpr {
+                    op,
+                    prefix: true,
+                    arg,
+                    ..
+                }) => {
+                    if let Expr::Ident(a_id) = &**arg {
+                        if let Some(usage) = self.data.vars.get(&a_id.to_id()) {
+                            if let Some(VarDeclKind::Const) = usage.var_kind {
+                                return Err(());
+                            }
+                        }
+
+                        let mut v = UsageCounter {
+                            expr_usage: Default::default(),
+                            pat_usage: Default::default(),
+                            target: &*a_id,
+                            in_lhs: false,
+                        };
+                        b.visit_with(&mut v);
+                        if v.expr_usage != 1 || v.pat_usage != 0 {
+                            log_abort!(
+                                "sequences: Aborting merging of an update expression because of \
+                                 usage counts ({}, ref = {}, pat = {})",
+                                a_id,
+                                v.expr_usage,
+                                v.pat_usage
+                            );
+
+                            return Ok(false);
+                        }
+
+                        let mut replaced = false;
+                        replace_expr(b, |e| {
+                            if replaced {
+                                return;
+                            }
+
+                            if let Expr::Ident(orig_expr) = &*e {
+                                if orig_expr.to_id() == a_id.to_id() {
+                                    replaced = true;
+                                    *e = Expr::Update(UpdateExpr {
+                                        span: DUMMY_SP,
+                                        op: *op,
+                                        prefix: true,
+                                        arg: Box::new(Expr::Ident(orig_expr.clone())),
+                                    });
+                                    return;
+                                }
+                            }
+
+                            if let Expr::Update(e @ UpdateExpr { prefix: false, .. }) = e {
+                                if let Expr::Ident(arg) = &*e.arg {
+                                    if *op == e.op && arg.to_id() == a_id.to_id() {
+                                        e.prefix = true;
+                                        replaced = true;
+                                    }
+                                }
+                            }
+                        });
+                        if replaced {
+                            self.changed = true;
+                            report_change!(
+                                "sequences: Merged prefix update expression into another \
+                                 expression",
+                            );
+
+                            a.take();
+                            return Ok(true);
+                        }
+                    }
+                }
+
+                _ => {}
             }
         }
 
