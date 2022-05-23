@@ -320,7 +320,7 @@ impl<I: Tokens> Parser<I> {
 
         let args = self.parse_args(false)?;
         Ok(Box::new(Expr::Call(CallExpr {
-            span: span!(self, expr.span().lo()),
+            span: span!(self, expr.span_lo()),
             callee: Callee::Expr(expr),
             args,
             type_args: None,
