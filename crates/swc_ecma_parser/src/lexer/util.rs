@@ -10,7 +10,6 @@ use swc_common::{
 };
 use swc_ecma_ast::Ident;
 use tracing::warn;
-use unicode_id::UnicodeID;
 
 use super::{comments_buffer::BufferedComment, input::Input, Char, LexResult, Lexer};
 use crate::{
