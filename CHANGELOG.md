@@ -34,6 +34,9 @@
 
 - **(html/parser)** Improve error reporting (#4728) ([c346d30](https://github.com/swc-project/swc/commit/c346d309a7f2d16bac84bd9f8bdf74520ab6f711))
 
+
+- **(html/parser)** Improve error reporting (#4740) ([51f4cea](https://github.com/swc-project/swc/commit/51f4cea10349145a66e45dabb78cc244784b3c98))
+
 ## [1.2.189] - 2022-05-21
 
 ### Bug Fixes
