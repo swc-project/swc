@@ -18,3 +18,5 @@ swc_ecma_ast = { version = "0.78.1", path = "../swc_ecma_ast" }
 swc_ecma_minifier_base = { version = "0.1.0", path = "../swc_ecma_minifier_base" }
 swc_ecma_minifier_utils = { version = "0.1.0", path = "../swc_ecma_minifier_utils" }
 swc_ecma_utils = { version = "0.85.0", path = "../swc_ecma_utils" }
+swc_ecma_visit = { version = "0.64.0", path = "../swc_ecma_visit" }
+tracing = "0.1.34"
