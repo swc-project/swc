@@ -49,6 +49,9 @@
 
 - **(es/minifier)** Make `rust-analyzer` faster (#4744) ([47e6cc5](https://github.com/swc-project/swc/commit/47e6cc519092af220cd735c2eedad3e7ad7f3e18))
 
+
+- **(es/minifier)** Make `rust-analyzer` fast, really (#4746) ([49b3c27](https://github.com/swc-project/swc/commit/49b3c2715c3b418d982443f47e2c70e6959fd16f))
+
 ## [1.2.189] - 2022-05-21
 
 ### Bug Fixes
