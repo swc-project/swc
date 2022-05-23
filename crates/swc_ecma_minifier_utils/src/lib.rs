@@ -7,3 +7,4 @@
 //! You should not use this crate directly.
 
 pub mod compress_util;
+pub mod util;
