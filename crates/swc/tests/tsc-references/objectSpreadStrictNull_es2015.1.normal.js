@@ -1,4 +1,5 @@
 import _object_spread from "@swc/helpers/lib/_object_spread.js";
+import _object_spread_props from "@swc/helpers/lib/_object_spread_props.js";
 // @strictNullChecks: true
 function f(definiteBoolean, definiteString, optionalString, optionalNumber, undefinedString, undefinedNumber) {
     // optional
@@ -16,7 +17,7 @@ const m = {
     yearReleased: 1999
 };
 // should error here because title: undefined is not assignable to string
-const x = _object_spread({}, m, {
+const x = _object_spread_props(_object_spread({}, m), {
     title: undefined
 });
 function g(fields, partialFields, nearlyPartialFields) {

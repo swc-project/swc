@@ -56,6 +56,7 @@ export { default as newArrowCheck } from './_new_arrow_check';
 export { default as nonIterableRest } from './_non_iterable_rest';
 export { default as nonIterableSpread } from './_non_iterable_spread';
 export { default as objectSpread } from './_object_spread';
+export { default as objectSpreadProps } from './_object_spread_props';
 export { default as objectWithoutProperties } from './_object_without_properties';
 export { default as objectWithoutPropertiesLoose } from './_object_without_properties_loose';
 export { default as possibleConstructorReturn } from './_possible_constructor_return';
