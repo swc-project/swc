@@ -1,4 +1,5 @@
 /// Used when something is modified.
+#[macro_export]
 macro_rules! report_change {
     ($($tt:tt)+) => {{
         tracing::debug!(
@@ -9,6 +10,7 @@ macro_rules! report_change {
 }
 
 /// Used when a function decided to give up.
+#[macro_export]
 macro_rules! log_abort {
     ($($tt:tt)+) => {{
         if cfg!(feature = "debug") {
@@ -20,6 +22,7 @@ macro_rules! log_abort {
     }};
 }
 
+#[macro_export]
 macro_rules! dump_change_detail {
     ($($tt:tt)+) => {{
         if cfg!(feature = "debug") {
@@ -31,6 +34,7 @@ macro_rules! dump_change_detail {
     }};
 }
 
+#[macro_export]
 macro_rules! trace_op {
     ($($tt:tt)+) => {{
         if cfg!(feature = "debug") {
