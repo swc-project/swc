@@ -2318,9 +2318,9 @@ dependencies = [
 
 [[package]]
 name = "rayon"
-version = "1.5.2"
+version = "1.5.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fd249e82c21598a9a426a4e00dd7adc1d640b22445ec8545feef801d1a74c221"
+checksum = "bd99e5772ead8baa5215278c9b15bf92087709e9c1b2d1f97cdb5a183c933a7d"
 dependencies = [
  "autocfg",
  "crossbeam-deque",
@@ -3458,14 +3458,22 @@ dependencies = [
  "criterion",
  "once_cell",
  "pretty_assertions",
+ "rayon",
  "serde",
  "serde_json",
  "swc_atoms",
  "swc_cached",
  "swc_common",
+ "swc_ecma_ast",
+ "swc_ecma_codegen",
  "swc_ecma_minifier",
+ "swc_ecma_parser",
+ "swc_ecma_transforms_base",
+ "swc_ecma_utils",
+ "swc_ecma_visit",
  "swc_node_base",
  "testing",
+ "tracing",
  "walkdir",
 ]
 
