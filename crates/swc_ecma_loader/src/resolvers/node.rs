@@ -21,7 +21,7 @@ use swc_common::{
     collections::{AHashMap, AHashSet},
     FileName,
 };
-use tracing::debug;
+use tracing::{debug, trace};
 
 use crate::{resolve::Resolve, TargetEnv, NODE_BUILTINS};
 
@@ -135,6 +135,10 @@ impl NodeModulesResolver {
     /// Resolve a path as a file. If `path` refers to a file, it is returned;
     /// otherwise the `path` + each extension is tried.
     fn resolve_as_file(&self, path: &Path) -> Result<Option<PathBuf>, Error> {
+        if cfg!(debug_assertions) {
+            trace!("resolve_as_file({})", path.display());
+        }
+
         let try_exact = path.extension().is_some();
         if try_exact {
             if path.is_file() {
@@ -196,6 +200,10 @@ impl NodeModulesResolver {
     /// Resolve a path as a directory, using the "main" key from a package.json
     /// file if it exists, or resolving to the index.EXT file if it exists.
     fn resolve_as_directory(&self, path: &Path) -> Result<Option<PathBuf>, Error> {
+        if cfg!(debug_assertions) {
+            trace!("resolve_as_directory({})", path.display());
+        }
+
         let pkg_path = path.join(PACKAGE);
         if pkg_path.is_file() {
             if let Some(main) = self.resolve_package_entry(path, &pkg_path)? {
