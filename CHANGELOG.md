@@ -5,6 +5,9 @@
 
 
 
+- **(css/parser)** Allow `var()` call in color functions (#4713) ([07d31aa](https://github.com/swc-project/swc/commit/07d31aa50ab8420ee2e8e2751833385470337eae))
+
+
 - **(es/loader)** Fix `jsc.paths` on windows (#4739) ([417b218](https://github.com/swc-project/swc/commit/417b2182cead074c9ebf9358d53f353157637a8d))
 
 
