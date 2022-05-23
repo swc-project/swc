@@ -10,14 +10,17 @@ use std::{
 };
 
 use anyhow::{bail, Context, Error};
-use dashmap::{DashMap, DashSet};
+use dashmap::DashMap;
 #[cfg(windows)]
 use normpath::BasePath;
 use once_cell::sync::Lazy;
 use path_clean::PathClean;
 use pathdiff::diff_paths;
 use serde::Deserialize;
-use swc_common::{collections::AHashMap, FileName};
+use swc_common::{
+    collections::{AHashMap, AHashSet},
+    FileName,
+};
 use tracing::debug;
 
 use crate::{resolve::Resolve, TargetEnv, NODE_BUILTINS};
@@ -35,10 +38,10 @@ static BROWSER_CACHE: Lazy<DashMap<PathBuf, BrowserCache, ahash::RandomState>> =
 
 #[derive(Debug, Default)]
 struct BrowserCache {
-    rewrites: DashMap<PathBuf, PathBuf, ahash::RandomState>,
-    ignores: DashSet<PathBuf, ahash::RandomState>,
-    module_rewrites: DashMap<String, PathBuf, ahash::RandomState>,
-    module_ignores: DashSet<String, ahash::RandomState>,
+    rewrites: AHashMap<PathBuf, PathBuf>,
+    ignores: AHashSet<PathBuf>,
+    module_rewrites: AHashMap<String, PathBuf>,
+    module_ignores: AHashSet<String>,
 }
 
 /// Helper to find the nearest `package.json` file to get
@@ -232,7 +235,7 @@ impl NodeModulesResolver {
                             vec![Some(path), pkg.module.as_ref(), pkg.main.as_ref()]
                         }
                         Browser::Obj(map) => {
-                            let bucket = BROWSER_CACHE.entry(pkg_dir.to_path_buf()).or_default();
+                            let mut bucket = BrowserCache::default();
 
                             for (k, v) in map {
                                 let target_key = Path::new(k);
@@ -282,6 +285,9 @@ impl NodeModulesResolver {
                                     }
                                 }
                             }
+
+                            BROWSER_CACHE.insert(pkg_dir.to_path_buf(), bucket);
+
                             vec![pkg.module.as_ref(), pkg.main.as_ref()]
                         }
                     }
