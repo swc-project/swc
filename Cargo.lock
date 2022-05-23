@@ -3450,6 +3450,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_ecma_minifier_tests"
+version = "0.1.0"
+
+[[package]]
 name = "swc_ecma_parser"
 version = "0.104.0"
 dependencies = [

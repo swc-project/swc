@@ -21,6 +21,7 @@ members = [
   "crates/swc_plugin_proxy",
   "crates/swc_timer",
   "crates/swc_webpack_ast",
+  "crates/swc_ecma_minifier_tests",
 ]
 
 [profile.release]
@@ -45,5 +46,5 @@ opt-level = 3
 opt-level = 3
 
 [patch.crates-io]
-cranelift-codegen = {git = "https://github.com/kdy1/wasmtime", branch = "tls"}
-cranelift-entity = {git = "https://github.com/kdy1/wasmtime", branch = "tls"}
+cranelift-codegen = { git = "https://github.com/kdy1/wasmtime", branch = "tls" }
+cranelift-entity = { git = "https://github.com/kdy1/wasmtime", branch = "tls" }
