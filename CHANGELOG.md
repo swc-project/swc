@@ -41,6 +41,9 @@
 - **(es/minifier)** Handle prefix update expressions with sequential inliner (#4741) ([a51816a](https://github.com/swc-project/swc/commit/a51816a577cb13a8af6e8086c5aab41b6ac79a58))
 
 
+- **(es/minifier)** Implement more rules (#4763) ([20b724d](https://github.com/swc-project/swc/commit/20b724d3cd184ce6bc82e244a9e6ef1d1f21cb96))
+
+
 - **(es/modules/amd)** Support local-scoped amd requires (#4727) ([886585b](https://github.com/swc-project/swc/commit/886585b90e2f240e4d72091629bc547ab74f7e2e))
 
 
