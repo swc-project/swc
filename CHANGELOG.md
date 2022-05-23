@@ -43,6 +43,21 @@
 
 - **(html/parser)** Improve error reporting (#4740) ([51f4cea](https://github.com/swc-project/swc/commit/51f4cea10349145a66e45dabb78cc244784b3c98))
 
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Fix CI (#4747) ([0f85f7b](https://github.com/swc-project/swc/commit/0f85f7b9de970648509aff8ac466fe25ab004cdb))
+
+
+- **(es/minifier)** Add `#[doc(hidden)]` (#4751) ([22bf5f0](https://github.com/swc-project/swc/commit/22bf5f014e35ac4994d70660ae7e25cfb4659caf))
+
+### Performance
+
+
+
+- **(common)** Add more methods to `Spanned` (#4749) ([98df645](https://github.com/swc-project/swc/commit/98df64517efbc53021e4e386ad876f1f46bd17f0))
+
 ### Refactor
 
 
@@ -51,6 +66,9 @@
 
 
 - **(es/minifier)** Make `rust-analyzer` fast, really (#4746) ([49b3c27](https://github.com/swc-project/swc/commit/49b3c2715c3b418d982443f47e2c70e6959fd16f))
+
+
+- **(es/parser)** Remove duplicate (#4750) ([b7a195a](https://github.com/swc-project/swc/commit/b7a195a1cf18763b19846b7f14efc80a0f17fd1e))
 
 ## [1.2.189] - 2022-05-21
 

@@ -3412,7 +3412,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.114.14"
+version = "0.114.15"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3451,7 +3451,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.104.0"
+version = "0.104.2"
 dependencies = [
  "criterion",
  "either",
@@ -3470,7 +3470,6 @@ dependencies = [
  "testing",
  "tracing",
  "typed-arena",
- "unicode-id",
  "walkdir",
 ]
 
