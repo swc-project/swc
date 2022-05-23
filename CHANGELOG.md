@@ -11,6 +11,9 @@
 - **(es/loader)** Fix hang related to `jsc.paths` (#4742) ([777ea37](https://github.com/swc-project/swc/commit/777ea371d0bd17c6acd7aa2e7b20057de4577c08))
 
 
+- **(es/minifier)** Consider parameters while detecting pure calls (#4748) ([e4dee1e](https://github.com/swc-project/swc/commit/e4dee1ed3304f9b5950b99360054dc72201c80ad))
+
+
 - **(es/modules/cjs)** FIx detection of exported names (#4737) ([d9bb59a](https://github.com/swc-project/swc/commit/d9bb59a8cb1998f87b0f115e9cc4b0b53923096a))
 
 
