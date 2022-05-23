@@ -8,6 +8,7 @@ use swc_common::{
     Mark, Span, Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
+use swc_ecma_minifier_base::trace_op;
 use swc_ecma_utils::{ModuleItemLike, StmtLike, Value};
 use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Fold, FoldWith, Visit, VisitWith};
 
@@ -16,7 +17,7 @@ pub(crate) mod sort;
 pub(crate) mod unit;
 
 ///
-pub(crate) fn make_number(span: Span, value: f64) -> Expr {
+pub fn make_number(span: Span, value: f64) -> Expr {
     trace_op!("Creating a numeric literal");
     Expr::Lit(Lit::Num(Number {
         span,

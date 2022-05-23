@@ -412,20 +412,18 @@ pub(crate) fn is_primitive<'a>(expr_ctx: &ExprCtx, e: &'a Expr) -> Option<&'a Ex
     }
 }
 
-pub(crate) fn is_valid_identifier(s: &str, ascii_only: bool) -> bool {
-    if ascii_only {
-        if s.chars().any(|c| !c.is_ascii()) {
-            return false;
-        }
+pub fn is_valid_identifier(s: &str, ascii_only: bool) -> bool {
+    if ascii_only && s.chars().any(|c| !c.is_ascii()) {
+        return false;
     }
 
-    s.starts_with(|c: char| c.is_id_start())
-        && s.chars().all(|c: char| c.is_id_continue())
+    s.starts_with(Ident::is_valid_start)
+        && s.chars().all(Ident::is_valid_continue)
         && !s.contains('𝒶')
         && !s.is_reserved()
 }
 
-pub(crate) fn is_directive(e: &Stmt) -> bool {
+pub fn is_directive(e: &Stmt) -> bool {
     match e {
         Stmt::Expr(s) => match &*s.expr {
             Expr::Lit(Lit::Str(Str { value, .. })) => value.starts_with("use "),
@@ -435,7 +433,7 @@ pub(crate) fn is_directive(e: &Stmt) -> bool {
     }
 }
 
-pub(crate) fn is_pure_undefined_or_null(expr_ctx: &ExprCtx, e: &Expr) -> bool {
+pub fn is_pure_undefined_or_null(expr_ctx: &ExprCtx, e: &Expr) -> bool {
     is_pure_undefined(expr_ctx, e) || matches!(e, Expr::Lit(Lit::Null(..)))
 }
 

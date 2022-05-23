@@ -167,7 +167,7 @@ impl Drop for Ctx<'_> {
     }
 }
 
-pub(crate) struct AssertValid;
+pub struct AssertValid;
 
 impl Visit for AssertValid {
     noop_visit_type!();

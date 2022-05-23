@@ -2,19 +2,14 @@ use std::fmt::Debug;
 
 use swc_common::Mark;
 use swc_ecma_ast::*;
+use swc_ecma_minifier_base::debug::{dump, invoke, AssertValid, Debugger};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene};
 use swc_ecma_utils::DropSpan;
 use swc_ecma_visit::{as_folder, FoldWith, VisitMut, VisitMutWith, VisitWith};
 
-use crate::debug::{dump, AssertValid};
-
 /// Indicates a unit of minifaction.
 pub(crate) trait CompileUnit:
-    swc_ecma_codegen::Node
-    + Clone
-    + VisitMutWith<DropSpan>
-    + VisitMutWith<crate::debug::Debugger>
-    + Debug
+    swc_ecma_codegen::Node + Clone + VisitMutWith<DropSpan> + VisitMutWith<Debugger> + Debug
 {
     fn is_module() -> bool;
 
@@ -59,7 +54,7 @@ impl CompileUnit for Module {
     {
         self.visit_mut_with(&mut *visitor);
 
-        crate::debug::invoke(self);
+        invoke(self);
     }
 
     fn remove_mark(&mut self) -> Mark {

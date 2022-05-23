@@ -15,15 +15,16 @@ debug = ["swc_ecma_minifier_base/debug"]
 [dependencies]
 arrayvec = "0.7.2"
 rustc-hash = "1.1.0"
-swc_atoms = {version = "0.2.11", path = "../swc_atoms"}
-swc_common = {version = "0.18.6", path = "../swc_common"}
-swc_ecma_ast = {version = "0.78.1", path = "../swc_ecma_ast"}
-swc_ecma_minifier_base = {version = "0.1.0", path = "../swc_ecma_minifier_base"}
-swc_ecma_transforms_base = {version = "0.85.0", path = "../swc_ecma_transforms_base"}
-swc_ecma_utils = {version = "0.85.0", path = "../swc_ecma_utils"}
-swc_ecma_visit = {version = "0.64.0", path = "../swc_ecma_visit"}
+swc_atoms = { version = "0.2.11", path = "../swc_atoms" }
+swc_common = { version = "0.18.6", path = "../swc_common" }
+swc_ecma_ast = { version = "0.78.1", path = "../swc_ecma_ast" }
+swc_ecma_codegen = { version = "0.108.4", path = "../swc_ecma_codegen" }
+swc_ecma_minifier_base = { version = "0.1.0", path = "../swc_ecma_minifier_base" }
+swc_ecma_transforms_base = { version = "0.85.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_utils = { version = "0.85.0", path = "../swc_ecma_utils" }
+swc_ecma_visit = { version = "0.64.0", path = "../swc_ecma_visit" }
 tracing = "0.1.34"
 
 [dev-dependencies]
-swc_ecma_parser = {path = "../swc_ecma_parser"}
-testing = {path = "../testing"}
+swc_ecma_parser = { path = "../swc_ecma_parser" }
+testing = { path = "../testing" }
