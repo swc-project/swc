@@ -11,3 +11,15 @@ repository = "https://github.com/swc-project/swc.git"
 version = "0.1.0"
 
 [dependencies]
+swc_node_base = { version = "0.5.3", path = "../swc_node_base" }
+
+[dev-dependencies]
+ansi_term = "0.12.1"
+anyhow = "1"
+criterion = "0.3.5"
+once_cell = "1.11.0"
+pretty_assertions = "1.1"
+swc_ecma_minifier = { path = "../swc_ecma_minifier" }
+swc_node_base = { path = "../swc_node_base" }
+testing = { path = "../testing" }
+walkdir = "2"
