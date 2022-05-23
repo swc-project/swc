@@ -49,7 +49,9 @@ impl SourceMapper for PluginSourceMapProxy {
     }
 
     fn call_span_if_macro(&self, sp: Span) -> Span {
-        unimplemented!("Not implemented yet");
+        // This mimics host's behavior
+        // https://github.com/swc-project/swc/blob/f7dc3fff1f03c9b7cee27ef760dc11bc96083f60/crates/swc_common/src/source_map.rs#L1283-L1285=
+        sp
     }
 
     fn doctest_offset_line(&self, line: usize) -> usize {
