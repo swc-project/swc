@@ -81,7 +81,6 @@ collapse_vars/issue_2506/input.js
 collapse_vars/issue_2914_2/input.js
 collapse_vars/issue_315/input.js
 collapse_vars/lvalues_def/input.js
-collapse_vars/may_throw_2/input.js
 collapse_vars/noinline_annotation/input.js
 collapse_vars/pure_getters_chain/input.js
 collapse_vars/recursive_function_replacement/input.js

@@ -1,5 +1,5 @@
 
-  x Missing doctype
+  x Start tag seen without seeing a doctype firs, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/element/noscript-2/input.html:1:1]
  1 | <head><noscript>ABC<!--foo--></noscript>
    : ^^^^^^
@@ -11,7 +11,7 @@
    :                 ^
    `----
 
-  x Unexpected token
+  x Stray end tag "noscript"
    ,-[$DIR/tests/recovery/element/noscript-2/input.html:1:1]
  1 | <head><noscript>ABC<!--foo--></noscript>
    :                              ^^^^^^^^^^^

@@ -5,7 +5,7 @@
    : ^^^^^^^^^
    `----
 
-  x Missing doctype
+  x Start tag seen without seeing a doctype firs, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/comment/cdata-1/input.html:9:1]
  9 | <div>test</div>
    : ^^^^^

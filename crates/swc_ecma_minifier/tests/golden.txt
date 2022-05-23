@@ -211,6 +211,7 @@ collapse_vars/issue_3096/input.js
 collapse_vars/issue_348/input.js
 collapse_vars/issue_805/input.js
 collapse_vars/may_throw_1/input.js
+collapse_vars/may_throw_2/input.js
 collapse_vars/modified/input.js
 collapse_vars/reassign_const_1/input.js
 collapse_vars/reassign_const_2/input.js

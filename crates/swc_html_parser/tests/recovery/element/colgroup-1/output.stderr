@@ -1,0 +1,36 @@
+
+  x Start tag seen without seeing a doctype firs, expected "<!DOCTYPE html>"
+   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:1:1]
+ 1 | <body>
+   : ^^^^^^
+   `----
+
+  x Garbage in "colgroup" element
+   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:2:1]
+ 2 | <template><col><colgroup></template>
+   :                ^^^^^^^^^^
+   `----
+
+  x Garbage in "colgroup" element
+   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:3:1]
+ 3 | <template><col><colgroup></div></template>
+   :                ^^^^^^^^^^
+   `----
+
+  x Garbage in "colgroup" element
+   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:3:1]
+ 3 | <template><col><colgroup></div></template>
+   :                          ^^^^^^
+   `----
+
+  x Garbage in "colgroup" element
+   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:4:1]
+ 4 | <template><col><colgroup>A</template>
+   :                ^^^^^^^^^^
+   `----
+
+  x Non-space character in "colgroup" element
+   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:4:1]
+ 4 | <template><col><colgroup>A</template>
+   :                          ^
+   `----

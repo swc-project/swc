@@ -1,11 +1,11 @@
 
-  x Stray start tag "<frameset>"
+  x Stray start tag "frameset"
    ,-[$DIR/tests/recovery/element/frameset/input.html:7:1]
  7 | <frameset></frameset>
    : ^^^^^^^^^^
    `----
 
-  x Unexpected token
+  x Stray end tag "frameset"
    ,-[$DIR/tests/recovery/element/frameset/input.html:7:1]
  7 | <frameset></frameset>
    :           ^^^^^^^^^^^

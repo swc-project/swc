@@ -1,11 +1,11 @@
 
-  x Missing doctype
+  x Start tag seen without seeing a doctype firs, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/element/textarea/input.html:1:1]
  1 | <textarea><!--</textarea>--></textarea>
    : ^^^^^^^^^^
    `----
 
-  x Unexpected token
+  x Stray end tag "textarea"
    ,-[$DIR/tests/recovery/element/textarea/input.html:1:1]
  1 | <textarea><!--</textarea>--></textarea>
    :                             ^^^^^^^^^^^
