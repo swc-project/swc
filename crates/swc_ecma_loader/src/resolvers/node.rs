@@ -10,15 +10,18 @@ use std::{
 };
 
 use anyhow::{bail, Context, Error};
-use dashmap::{DashMap, DashSet};
+use dashmap::DashMap;
 #[cfg(windows)]
 use normpath::BasePath;
 use once_cell::sync::Lazy;
 use path_clean::PathClean;
 use pathdiff::diff_paths;
 use serde::Deserialize;
-use swc_common::{collections::AHashMap, FileName};
-use tracing::debug;
+use swc_common::{
+    collections::{AHashMap, AHashSet},
+    FileName,
+};
+use tracing::{debug, trace, Level};
 
 use crate::{resolve::Resolve, TargetEnv, NODE_BUILTINS};
 
@@ -35,10 +38,10 @@ static BROWSER_CACHE: Lazy<DashMap<PathBuf, BrowserCache, ahash::RandomState>> =
 
 #[derive(Debug, Default)]
 struct BrowserCache {
-    rewrites: DashMap<PathBuf, PathBuf, ahash::RandomState>,
-    ignores: DashSet<PathBuf, ahash::RandomState>,
-    module_rewrites: DashMap<String, PathBuf, ahash::RandomState>,
-    module_ignores: DashSet<String, ahash::RandomState>,
+    rewrites: AHashMap<PathBuf, PathBuf>,
+    ignores: AHashSet<PathBuf>,
+    module_rewrites: AHashMap<String, PathBuf>,
+    module_ignores: AHashSet<String>,
 }
 
 /// Helper to find the nearest `package.json` file to get
@@ -132,6 +135,23 @@ impl NodeModulesResolver {
     /// Resolve a path as a file. If `path` refers to a file, it is returned;
     /// otherwise the `path` + each extension is tried.
     fn resolve_as_file(&self, path: &Path) -> Result<Option<PathBuf>, Error> {
+        let _tracing = if cfg!(debug_assertions) {
+            Some(
+                tracing::span!(
+                    Level::ERROR,
+                    "resolve_as_file",
+                    path = tracing::field::display(path.display())
+                )
+                .entered(),
+            )
+        } else {
+            None
+        };
+
+        if cfg!(debug_assertions) {
+            trace!("resolve_as_file({})", path.display());
+        }
+
         let try_exact = path.extension().is_some();
         if try_exact {
             if path.is_file() {
@@ -192,9 +212,30 @@ impl NodeModulesResolver {
 
     /// Resolve a path as a directory, using the "main" key from a package.json
     /// file if it exists, or resolving to the index.EXT file if it exists.
-    fn resolve_as_directory(&self, path: &Path) -> Result<Option<PathBuf>, Error> {
+    fn resolve_as_directory(
+        &self,
+        path: &Path,
+        allow_package_entry: bool,
+    ) -> Result<Option<PathBuf>, Error> {
+        let _tracing = if cfg!(debug_assertions) {
+            Some(
+                tracing::span!(
+                    Level::ERROR,
+                    "resolve_as_directory",
+                    path = tracing::field::display(path.display())
+                )
+                .entered(),
+            )
+        } else {
+            None
+        };
+
+        if cfg!(debug_assertions) {
+            trace!("resolve_as_directory({})", path.display());
+        }
+
         let pkg_path = path.join(PACKAGE);
-        if pkg_path.is_file() {
+        if allow_package_entry && pkg_path.is_file() {
             if let Some(main) = self.resolve_package_entry(path, &pkg_path)? {
                 return Ok(Some(main));
             }
@@ -216,6 +257,20 @@ impl NodeModulesResolver {
         pkg_dir: &Path,
         pkg_path: &Path,
     ) -> Result<Option<PathBuf>, Error> {
+        let _tracing = if cfg!(debug_assertions) {
+            Some(
+                tracing::span!(
+                    Level::ERROR,
+                    "resolve_package_entry",
+                    pkg_dir = tracing::field::display(pkg_dir.display()),
+                    pkg_path = tracing::field::display(pkg_path.display()),
+                )
+                .entered(),
+            )
+        } else {
+            None
+        };
+
         let file = File::open(pkg_path)?;
         let reader = BufReader::new(file);
         let pkg: PackageJson = serde_json::from_reader(reader)
@@ -232,7 +287,7 @@ impl NodeModulesResolver {
                             vec![Some(path), pkg.module.as_ref(), pkg.main.as_ref()]
                         }
                         Browser::Obj(map) => {
-                            let bucket = BROWSER_CACHE.entry(pkg_dir.to_path_buf()).or_default();
+                            let mut bucket = BrowserCache::default();
 
                             for (k, v) in map {
                                 let target_key = Path::new(k);
@@ -243,7 +298,7 @@ impl NodeModulesResolver {
                                     let path = pkg_dir.join(k);
                                     if let Ok(file) = self
                                         .resolve_as_file(&path)
-                                        .or_else(|_| self.resolve_as_directory(&path))
+                                        .or_else(|_| self.resolve_as_directory(&path, false))
                                     {
                                         file
                                     } else {
@@ -258,7 +313,7 @@ impl NodeModulesResolver {
                                         let path = pkg_dir.join(dest);
                                         let file = self
                                             .resolve_as_file(&path)
-                                            .or_else(|_| self.resolve_as_directory(&path))?;
+                                            .or_else(|_| self.resolve_as_directory(&path, false))?;
                                         if let Some(file) = file {
                                             let target = file.clean();
 
@@ -282,6 +337,9 @@ impl NodeModulesResolver {
                                     }
                                 }
                             }
+
+                            BROWSER_CACHE.insert(pkg_dir.to_path_buf(), bucket);
+
                             vec![pkg.module.as_ref(), pkg.main.as_ref()]
                         }
                     }
@@ -295,7 +353,7 @@ impl NodeModulesResolver {
             let path = pkg_dir.join(target);
             return self
                 .resolve_as_file(&path)
-                .or_else(|_| self.resolve_as_directory(&path));
+                .or_else(|_| self.resolve_as_directory(&path, false));
         }
 
         Ok(None)
@@ -316,7 +374,7 @@ impl NodeModulesResolver {
                 if let Some(result) = self
                     .resolve_as_file(&path)
                     .ok()
-                    .or_else(|| self.resolve_as_directory(&path).ok())
+                    .or_else(|| self.resolve_as_directory(&path, true).ok())
                     .flatten()
                 {
                     return Ok(Some(result));
@@ -385,7 +443,7 @@ impl Resolve for NodeModulesResolver {
             if target_path.is_absolute() {
                 let path = PathBuf::from(target_path);
                 self.resolve_as_file(&path)
-                    .or_else(|_| self.resolve_as_directory(&path))
+                    .or_else(|_| self.resolve_as_directory(&path, true))
                     .and_then(|p| self.wrap(p))
             } else {
                 let mut components = target_path.components();
@@ -403,7 +461,7 @@ impl Resolve for NodeModulesResolver {
                     #[cfg(not(windows))]
                     let path = base_dir.join(target);
                     self.resolve_as_file(&path)
-                        .or_else(|_| self.resolve_as_directory(&path))
+                        .or_else(|_| self.resolve_as_directory(&path, true))
                         .and_then(|p| self.wrap(p))
                 } else {
                     self.resolve_node_modules(base_dir, target)
