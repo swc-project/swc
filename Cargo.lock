@@ -3417,7 +3417,6 @@ dependencies = [
  "ahash",
  "ansi_term",
  "anyhow",
- "arrayvec",
  "backtrace",
  "criterion",
  "indexmap",
@@ -3489,6 +3488,8 @@ dependencies = [
 name = "swc_ecma_minifier_utils"
 version = "0.1.0"
 dependencies = [
+ "arrayvec",
+ "rustc-hash",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
@@ -3497,6 +3498,7 @@ dependencies = [
  "swc_ecma_transforms_base",
  "swc_ecma_utils",
  "swc_ecma_visit",
+ "testing",
  "tracing",
 ]
 

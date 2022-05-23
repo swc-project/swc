@@ -3,14 +3,15 @@ use std::f64;
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_minifier_base::{dump_change_detail, log_abort, report_change};
+use swc_ecma_minifier_base::{debug::dump, dump_change_detail, log_abort, report_change, trace_op};
 use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_utils::{ExprCtx, ExprExt, IdentUsageFinder, Value};
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, FoldWith, Visit, VisitMut, VisitMutWith,
     VisitWith,
 };
-use unicode_id::UnicodeID;
+
+use crate::util::ModuleItemExt;
 
 #[cfg(test)]
 mod tests;
