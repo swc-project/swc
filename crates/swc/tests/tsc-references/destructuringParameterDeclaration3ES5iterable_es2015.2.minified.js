@@ -1,8 +1,24 @@
-var E, E1;
 function a10([a, b, [[c]], ...x]) {}
+var E, E1, array = [
+    1,
+    2,
+    3
+];
 function foo(...a) {}
 function foo1(...a) {}
-a10([
+!function(...a) {}([
+    ...array
+]), function(...x) {}(...array), function([a, b, [[c]]]) {}([
+    1,
+    2,
+    [
+        [
+            "string"
+        ]
+    ],
+    !1,
+    !0
+]), a10([
     1,
     2,
     [
@@ -19,6 +35,9 @@ a10([
     !1,
     !0
 ]), a10([
+    1,
+    2
+]), function([a, b, c, ...x]) {}([
     1,
     2
 ]), foo("hello", 1, 2), foo("hello", "world"), function(E) {
