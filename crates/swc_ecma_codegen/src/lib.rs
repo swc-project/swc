@@ -2172,7 +2172,7 @@ where
                         && previous_sibling.hi != parent_node.hi()
                         && self.comments.is_some()
                     {
-                        self.emit_leading_comments(previous_sibling.span().hi(), true)?;
+                        self.emit_leading_comments(previous_sibling.hi(), true)?;
                     }
 
                     self.write_delim(format)?;
@@ -2270,11 +2270,11 @@ where
 
                 if let Some(previous_sibling) = previous_sibling {
                     if format.contains(ListFormat::DelimitersMask)
-                        && previous_sibling.span().hi() != parent_node.hi()
+                        && previous_sibling.hi() != parent_node.hi()
                         && emit_trailing_comments
                         && self.comments.is_some()
                     {
-                        self.emit_leading_comments(previous_sibling.span().hi(), true)?;
+                        self.emit_leading_comments(previous_sibling.hi(), true)?;
                     }
                 }
             }
