@@ -12,8 +12,6 @@ arrays/index/input.js
 arrays/index_length/input.js
 arrow/call_args_drop_param/input.js
 arrow/issue_2084/input.js
-arrow/issue_2105_1/input.js
-arrow/issue_2105_2/input.js
 arrow/issue_2136_2/input.js
 arrow/issue_2136_3/input.js
 arrow/issue_27/input.js
