@@ -30,115 +30,102 @@ impl Error {
     pub fn message(&self) -> Cow<'static, str> {
         match &self.inner.1 {
             ErrorKind::Eof => "Unexpected end of file".into(),
-            ErrorKind::ControlCharacterInInputStream => "Control character in input stream".into(),
-            ErrorKind::NoncharacterInInputStream => "Noncharacter in input stream".into(),
-            ErrorKind::SurrogateInInputStream => "Surrogate in input stream".into(),
-            ErrorKind::NonVoidHtmlElementStartTagWithTrailingSolidus => {
-                "Non void html element start tag with trailing solidus".into()
+
+            // Lexer errors
+            ErrorKind::AbruptClosingOfEmptyComment => "Abrupt closing of empty comment".into(),
+            ErrorKind::AbruptDoctypePublicIdentifier => "Abrupt doctype public identifier".into(),
+            ErrorKind::AbruptDoctypeSystemIdentifier => "Abrupt doctype system identifier".into(),
+            ErrorKind::AbsenceOfDigitsInNumericCharacterReference => {
+                "Absence of digits in numeric character reference".into()
             }
+            ErrorKind::CdataInHtmlContent => "Cdata in html content".into(),
+            ErrorKind::CharacterReferenceOutsideUnicodeRange => {
+                "Character reference outside unicode range".into()
+            }
+            ErrorKind::ControlCharacterInInputStream => "Control character in input stream".into(),
+            ErrorKind::ControlCharacterReference => "Control character reference".into(),
             ErrorKind::EndTagWithAttributes => "End tag with attributes".into(),
+            ErrorKind::DuplicateAttribute => "Duplicate attribute".into(),
             ErrorKind::EndTagWithTrailingSolidus => "End tag with trailing solidus".into(),
-            ErrorKind::UnexpectedSolidusInTag => "Unexpected solidus in tag".into(),
-            ErrorKind::UnexpectedNullCharacter => "Unexpected null character".into(),
-            ErrorKind::UnexpectedQuestionMarkInsteadOfTagName => {
-                "Unexpected question mark instead of tag name".into()
+            ErrorKind::EofBeforeTagName => "Eof before tag name".into(),
+            ErrorKind::EofInCdata => "Eof in cdata".into(),
+            ErrorKind::EofInComment => "Eof in comment".into(),
+            ErrorKind::EofInDoctype => "Eof in doctype".into(),
+            ErrorKind::EofInScriptHtmlCommentLikeText => {
+                "Eof in script html comment like text".into()
+            }
+            ErrorKind::EofInTag => "Eof in tag".into(),
+            ErrorKind::IncorrectlyClosedComment => "Incorrectly closed comment".into(),
+            ErrorKind::IncorrectlyOpenedComment => "Incorrectly opened comment".into(),
+            ErrorKind::InvalidCharacterSequenceAfterDoctypeName => {
+                "Invalid character sequence after doctype name".into()
             }
             ErrorKind::InvalidFirstCharacterOfTagName => {
                 "Invalid first character of tag name".into()
             }
-            ErrorKind::UnexpectedEqualsSignBeforeAttributeName => {
-                "Unexpected equals sign before attribute name".into()
-            }
-            ErrorKind::MissingEndTagName => "Missing end tag name".into(),
-            ErrorKind::UnexpectedCharacterInAttributeName => {
-                "Unexpected character in attribute name".into()
-            }
-            ErrorKind::UnknownNamedCharacterReference => "Unknown named character reference".into(),
-            ErrorKind::MissingSemicolonAfterCharacterReference => {
-                "Missing semicolon after character reference".into()
-            }
-            ErrorKind::UnexpectedCharacterAfterDoctypeSystemIdentifier => {
-                "Unexpected character after doctype system identifier".into()
-            }
-            ErrorKind::UnexpectedCharacterInUnquotedAttributeValue => {
-                "Unexpected character in unquoted attribute value".into()
-            }
-            ErrorKind::EofBeforeTagName => "Eof before tag name".into(),
-            ErrorKind::EofInTag => "Eof in tag".into(),
             ErrorKind::MissingAttributeValue => "Missing attribute value".into(),
-            ErrorKind::MissingWhitespaceBetweenAttributes => {
-                "Missing whitespace between attributes".into()
-            }
-            ErrorKind::MissingWhitespaceAfterDoctypePublicKeyword => {
-                "Missing whitespace after doctype public keyword".into()
-            }
-            ErrorKind::MissingWhitespaceBetweenDoctypePublicAndSystemIdentifiers => {
-                "Missing whitespace between doctype public and system identifiers".into()
-            }
-            ErrorKind::MissingWhitespaceAfterDoctypeSystemKeyword => {
-                "Missing whitespace after doctype system keyword".into()
-            }
+            ErrorKind::MissingDoctypeName => "Missing doctype name".into(),
+            ErrorKind::MissingDoctypePublicIdentifier => "Missing doctype public identifier".into(),
+            ErrorKind::MissingDoctypeSystemIdentifier => "Missing doctype system identifier".into(),
+            ErrorKind::MissingEndTagName => "Missing end tag name".into(),
             ErrorKind::MissingQuoteBeforeDoctypePublicIdentifier => {
                 "Missing quote before doctype public identifier".into()
             }
             ErrorKind::MissingQuoteBeforeDoctypeSystemIdentifier => {
                 "Missing quote before doctype system identifier".into()
             }
-            ErrorKind::MissingDoctypePublicIdentifier => "Missing doctype public identifier".into(),
-            ErrorKind::MissingDoctypeSystemIdentifier => "Missing doctype system identifier".into(),
-            ErrorKind::AbruptDoctypePublicIdentifier => "Abrupt doctype public identifier".into(),
-            ErrorKind::AbruptDoctypeSystemIdentifier => "Abrupt doctype system identifier".into(),
-            ErrorKind::CdataInHtmlContent => "Cdata in html content".into(),
-            ErrorKind::IncorrectlyOpenedComment => "Incorrectly opened comment".into(),
-            ErrorKind::EofInScriptHtmlCommentLikeText => {
-                "Eof in script html comment like text".into()
+            ErrorKind::MissingSemicolonAfterCharacterReference => {
+                "Missing semicolon after character reference".into()
             }
-            ErrorKind::EofInDoctype => "Eof in doctype".into(),
-            ErrorKind::NestedComment => "Nested comment".into(),
-            ErrorKind::AbruptClosingOfEmptyComment => "Abrupt closing of empty comment".into(),
-            ErrorKind::EofInComment => "Eof in comment".into(),
-            ErrorKind::IncorrectlyClosedComment => "Incorrectly closed comment".into(),
-            ErrorKind::EofInCdata => "Eof in cdata".into(),
-            ErrorKind::AbsenceOfDigitsInNumericCharacterReference => {
-                "Absence of digits in numeric character reference".into()
+            ErrorKind::MissingWhitespaceAfterDoctypePublicKeyword => {
+                "Missing whitespace after doctype public keyword".into()
             }
-            ErrorKind::NullCharacterReference => "Null character reference".into(),
-            ErrorKind::SurrogateCharacterReference => "Surrogate character reference".into(),
-            ErrorKind::CharacterReferenceOutsideUnicodeRange => {
-                "Character reference outside unicode range".into()
+            ErrorKind::MissingWhitespaceAfterDoctypeSystemKeyword => {
+                "Missing whitespace after doctype system keyword".into()
             }
-            ErrorKind::ControlCharacterReference => "Control character reference".into(),
-            ErrorKind::NoncharacterCharacterReference => "Noncharacter character reference".into(),
             ErrorKind::MissingWhitespaceBeforeDoctypeName => {
                 "Missing whitespace before doctype name".into()
             }
-            ErrorKind::MissingDoctypeName => "Missing doctype name".into(),
-            ErrorKind::InvalidCharacterSequenceAfterDoctypeName => {
-                "Invalid character sequence after doctype name".into()
+            ErrorKind::MissingWhitespaceBetweenAttributes => {
+                "Missing whitespace between attributes".into()
             }
-            ErrorKind::DuplicateAttribute => "Duplicate attribute".into(),
-            ErrorKind::NonConformingDoctype => "Non conforming doctype".into(),
-            ErrorKind::MissingDoctype => "Missing doctype".into(),
-            ErrorKind::MisplacedDoctype => "Misplaced doctype".into(),
+            ErrorKind::MissingWhitespaceBetweenDoctypePublicAndSystemIdentifiers => {
+                "Missing whitespace between doctype public and system identifiers".into()
+            }
+            ErrorKind::NestedComment => "Nested comment".into(),
+            ErrorKind::NoncharacterCharacterReference => "Noncharacter character reference".into(),
+            ErrorKind::NoncharacterInInputStream => "Noncharacter in input stream".into(),
+            ErrorKind::NonVoidHtmlElementStartTagWithTrailingSolidus => {
+                "Non void html element start tag with trailing solidus".into()
+            }
+            ErrorKind::NullCharacterReference => "Null character reference".into(),
+            ErrorKind::SurrogateCharacterReference => "Surrogate character reference".into(),
+            ErrorKind::SurrogateInInputStream => "Surrogate in input stream".into(),
+            ErrorKind::UnexpectedCharacterAfterDoctypeSystemIdentifier => {
+                "Unexpected character after doctype system identifier".into()
+            }
+            ErrorKind::UnexpectedCharacterInAttributeName => {
+                "Unexpected character in attribute name".into()
+            }
+            ErrorKind::UnexpectedCharacterInUnquotedAttributeValue => {
+                "Unexpected character in unquoted attribute value".into()
+            }
+            ErrorKind::UnexpectedEqualsSignBeforeAttributeName => {
+                "Unexpected equals sign before attribute name".into()
+            }
+            ErrorKind::UnexpectedNullCharacter => "Unexpected null character".into(),
+            ErrorKind::UnexpectedQuestionMarkInsteadOfTagName => {
+                "Unexpected question mark instead of tag name".into()
+            }
+            ErrorKind::UnexpectedSolidusInTag => "Unexpected solidus in tag".into(),
+            ErrorKind::UnknownNamedCharacterReference => "Unknown named character reference".into(),
+
+            // Parser errors
             ErrorKind::EndTagWithoutMatchingOpenElement => {
                 "End tag without matching open element".into()
             }
-            ErrorKind::ClosingOfElementWithOpenChildElements => {
-                "Closing of element with open child elements".into()
-            }
-            ErrorKind::DisallowedContentInNoscriptInHead => {
-                "Disallowed content in noscript in head".into()
-            }
-            ErrorKind::OpenElementsLeftAfterEof => "Open elements left after eof".into(),
-            ErrorKind::AbandonedHeadElementChild => "Abandoned head element child".into(),
-            ErrorKind::MisplacedStartTagForHeadElement => {
-                "Misplaced start tag for head element".into()
-            }
-            ErrorKind::NestedNoscriptInHead => "Nested noscript in head".into(),
-            ErrorKind::EofInElementThatCanContainOnlyText => {
-                "Eof in element that can contain only text".into()
-            }
-
+            ErrorKind::NonConformingDoctype => "Non conforming doctype".into(),
+            ErrorKind::MissingDoctype => "Missing doctype".into(),
             ErrorKind::StrayStartTag(tag_name) => {
                 format!("Stray start tag \"{}\"", tag_name).into()
             }
@@ -269,69 +256,66 @@ impl Error {
 #[derive(Debug, Clone, PartialEq)]
 #[non_exhaustive]
 pub enum ErrorKind {
-    // Lexer errors
     Eof,
-    ControlCharacterInInputStream,
-    NoncharacterInInputStream,
-    SurrogateInInputStream,
-    EndTagWithAttributes,
-    EndTagWithTrailingSolidus,
-    UnexpectedSolidusInTag,
-    UnexpectedNullCharacter,
-    UnexpectedQuestionMarkInsteadOfTagName,
-    InvalidFirstCharacterOfTagName,
-    UnexpectedEqualsSignBeforeAttributeName,
-    MissingEndTagName,
-    UnexpectedCharacterInAttributeName,
-    UnknownNamedCharacterReference,
-    MissingSemicolonAfterCharacterReference,
-    UnexpectedCharacterAfterDoctypeSystemIdentifier,
-    UnexpectedCharacterInUnquotedAttributeValue,
-    EofBeforeTagName,
-    EofInTag,
-    MissingAttributeValue,
-    MissingWhitespaceBetweenAttributes,
-    MissingWhitespaceAfterDoctypePublicKeyword,
-    MissingWhitespaceBetweenDoctypePublicAndSystemIdentifiers,
-    MissingWhitespaceAfterDoctypeSystemKeyword,
-    MissingQuoteBeforeDoctypePublicIdentifier,
-    MissingQuoteBeforeDoctypeSystemIdentifier,
-    MissingDoctypePublicIdentifier,
-    MissingDoctypeSystemIdentifier,
+
+    // Lexer errors
+    AbruptClosingOfEmptyComment,
     AbruptDoctypePublicIdentifier,
     AbruptDoctypeSystemIdentifier,
-    CdataInHtmlContent,
-    IncorrectlyOpenedComment,
-    EofInScriptHtmlCommentLikeText,
-    EofInDoctype,
-    NestedComment,
-    AbruptClosingOfEmptyComment,
-    EofInComment,
-    IncorrectlyClosedComment,
-    EofInCdata,
     AbsenceOfDigitsInNumericCharacterReference,
+    CdataInHtmlContent,
+    CharacterReferenceOutsideUnicodeRange,
+    ControlCharacterInInputStream,
+    ControlCharacterReference,
+    EndTagWithAttributes,
+    DuplicateAttribute,
+    EndTagWithTrailingSolidus,
+    EofBeforeTagName,
+    EofInCdata,
+    EofInComment,
+    EofInDoctype,
+    EofInScriptHtmlCommentLikeText,
+    EofInTag,
+    IncorrectlyClosedComment,
+    IncorrectlyOpenedComment,
+    InvalidCharacterSequenceAfterDoctypeName,
+    InvalidFirstCharacterOfTagName,
+    MissingAttributeValue,
+    MissingDoctypeName,
+    MissingDoctypePublicIdentifier,
+    MissingDoctypeSystemIdentifier,
+    MissingEndTagName,
+    MissingQuoteBeforeDoctypePublicIdentifier,
+    MissingQuoteBeforeDoctypeSystemIdentifier,
+    MissingSemicolonAfterCharacterReference,
+    MissingWhitespaceAfterDoctypePublicKeyword,
+    MissingWhitespaceAfterDoctypeSystemKeyword,
+    MissingWhitespaceBeforeDoctypeName,
+    MissingWhitespaceBetweenAttributes,
+    MissingWhitespaceBetweenDoctypePublicAndSystemIdentifiers,
+    NestedComment,
+    NoncharacterCharacterReference,
+    NoncharacterInInputStream,
+    NonVoidHtmlElementStartTagWithTrailingSolidus,
     NullCharacterReference,
     SurrogateCharacterReference,
-    CharacterReferenceOutsideUnicodeRange,
-    ControlCharacterReference,
-    NoncharacterCharacterReference,
-    MissingWhitespaceBeforeDoctypeName,
-    MissingDoctypeName,
-    InvalidCharacterSequenceAfterDoctypeName,
-    DuplicateAttribute,
-    NonConformingDoctype,
-    MissingDoctype,
-    MisplacedDoctype,
-    EndTagWithoutMatchingOpenElement,
-    ClosingOfElementWithOpenChildElements,
-    DisallowedContentInNoscriptInHead,
-    OpenElementsLeftAfterEof,
-    AbandonedHeadElementChild,
-    MisplacedStartTagForHeadElement,
-    NestedNoscriptInHead,
-    EofInElementThatCanContainOnlyText,
+    SurrogateInInputStream,
+    UnexpectedCharacterAfterDoctypeSystemIdentifier,
+    UnexpectedCharacterInAttributeName,
+    UnexpectedCharacterInUnquotedAttributeValue,
+    UnexpectedEqualsSignBeforeAttributeName,
+    UnexpectedNullCharacter,
+    UnexpectedQuestionMarkInsteadOfTagName,
+    UnexpectedSolidusInTag,
+    UnknownNamedCharacterReference,
 
     // Parser errors
+    // TODO fix me
+    EndTagWithoutMatchingOpenElement,
+    // TODO fix me
+    NonConformingDoctype,
+    // TODO fix me
+    MissingDoctype,
     StrayStartTag(JsWord),
     StrayEndTag(JsWord),
     UnclosedElements(JsWord),
@@ -373,7 +357,6 @@ pub enum ErrorKind {
     // TODO errUnclosedChildrenInRuby
     // TODO errStartTagSeenWithoutRuby
     UnexpectedStartTagInRuby(JsWord),
-    NonVoidHtmlElementStartTagWithTrailingSolidus,
     UnclosedElementsOnStack,
     EndTagDidNotMatchCurrentOpenElement(JsWord, JsWord),
     EndTagViolatesNestingRules(JsWord),
