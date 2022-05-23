@@ -3104,7 +3104,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.18.6"
+version = "0.18.7"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3242,7 +3242,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.101.2"
+version = "0.101.3"
 dependencies = [
  "bitflags",
  "lexical",
@@ -3311,7 +3311,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.108.4"
+version = "0.108.5"
 dependencies = [
  "bitflags",
  "criterion",
