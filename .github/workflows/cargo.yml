@@ -101,8 +101,6 @@ jobs:
             os: ubuntu-latest
           - crate: binding_css_node
             os: ubuntu-latest
-          - crate: dbg-swc
-            os: ubuntu-latest
           - crate: enum_kind
             os: ubuntu-latest
           - crate: from_variant
@@ -193,8 +191,6 @@ jobs:
           - crate: swc_ecma_loader
             os: windows-latest
           - crate: swc_ecma_minifier
-            os: ubuntu-latest
-          - crate: swc_ecma_minifier_tests
             os: ubuntu-latest
           - crate: swc_ecma_parser
             os: ubuntu-latest
@@ -325,6 +321,7 @@ jobs:
             os: ubuntu-latest
           - crate: testing_macros
             os: ubuntu-latest
+
     steps:
       - name: Handle line endings
         shell: bash
