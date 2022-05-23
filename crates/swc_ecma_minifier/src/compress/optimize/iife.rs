@@ -653,6 +653,17 @@ where
                     }
 
                     let used = idents_used_by(&e.callee);
+
+                    if used.iter().all(|id| {
+                        self.data
+                            .vars
+                            .get(id)
+                            .map(|usage| usage.ref_count == 1 && usage.used_as_callee)
+                            .unwrap_or(false)
+                    }) {
+                        return true;
+                    }
+
                     param_ids.iter().all(|param| !used.contains(&param.to_id()))
                 }
 
