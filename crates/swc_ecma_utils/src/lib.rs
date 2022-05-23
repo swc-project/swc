@@ -1180,7 +1180,7 @@ pub trait ExprExt {
                         ..
                     },
                 ..
-            }) if params.is_empty() && stmts.is_empty() => true,
+            }) if params.iter().all(|p| p.pat.is_ident()) && stmts.is_empty() => true,
 
             _ => false,
         }
