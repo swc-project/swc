@@ -245,8 +245,7 @@ function formatLookup(names) {
     return new Map(names.map((name, i)=>[
             name.toLowerCase(),
             i
-        ]
-    ));
+        ]));
 }
 function parseWeekdayNumberSunday(d, string, i) {
     var n = numberRe.exec(string.slice(i, i + 1));

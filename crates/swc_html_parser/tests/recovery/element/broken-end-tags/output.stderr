@@ -1,4 +1,10 @@
 
+  x Start tag seen without seeing a doctype firs, expected "<!DOCTYPE html>"
+   ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:1:1]
+ 1 | <div></div>
+   : ^^^^^
+   `----
+
   x End tag with attributes
     ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:17:1]
  17 | <div></div test="a">

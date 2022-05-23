@@ -3,7 +3,7 @@ use is_macro::Is;
 use serde::{self, Deserialize, Serialize};
 use string_enum::StringEnum;
 use swc_atoms::JsWord;
-use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
+use swc_common::{ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
 
 use crate::{
     class::Class,
@@ -905,12 +905,26 @@ pub struct ExprOrSpread {
 }
 
 impl Spanned for ExprOrSpread {
+    #[inline]
     fn span(&self) -> Span {
         let expr = self.expr.span();
         match self.spread {
             Some(spread) => expr.with_lo(spread.lo()),
             None => expr,
         }
+    }
+
+    #[inline]
+    fn span_lo(&self) -> BytePos {
+        match self.spread {
+            Some(s) => s.lo,
+            None => self.expr.span_lo(),
+        }
+    }
+
+    #[inline]
+    fn span_hi(&self) -> BytePos {
+        self.expr.span_hi()
     }
 }
 

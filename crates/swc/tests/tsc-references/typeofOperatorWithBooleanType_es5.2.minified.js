@@ -19,7 +19,7 @@ var objA = new A();
 void 0 === BOOLEAN || swcHelpers.typeOf(BOOLEAN), swcHelpers.typeOf(!0), swcHelpers.typeOf({
     x: !0,
     y: !1
-}), swcHelpers.typeOf(objA.a), swcHelpers.typeOf(M.n), swcHelpers.typeOf(!0), swcHelpers.typeOf(A.foo()), swcHelpers.typeOf(void 0 === BOOLEAN ? "undefined" : swcHelpers.typeOf(BOOLEAN)), swcHelpers.typeOf(!0), void 0 === BOOLEAN || swcHelpers.typeOf(BOOLEAN), swcHelpers.typeOf(!0), swcHelpers.typeOf(!0), swcHelpers.typeOf(objA.a), swcHelpers.typeOf(M.n);
+}), swcHelpers.typeOf(objA.a), swcHelpers.typeOf(M.n), swcHelpers.typeOf(foo()), swcHelpers.typeOf(A.foo()), swcHelpers.typeOf(void 0 === BOOLEAN ? "undefined" : swcHelpers.typeOf(BOOLEAN)), swcHelpers.typeOf(!0), void 0 === BOOLEAN || swcHelpers.typeOf(BOOLEAN), swcHelpers.typeOf(foo()), swcHelpers.typeOf(!0), swcHelpers.typeOf(objA.a), swcHelpers.typeOf(M.n);
 z: void 0 === BOOLEAN || swcHelpers.typeOf(BOOLEAN);
 r: swcHelpers.typeOf(foo);
 z: swcHelpers.typeOf(!0);

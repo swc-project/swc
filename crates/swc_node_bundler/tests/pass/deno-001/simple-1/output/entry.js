@@ -150,28 +150,23 @@ async function readTrailers(headers, r) {
     if (result == null) throw new Deno.errors.InvalidData("Missing trailer header.");
     const undeclared = [
         ...result.keys()
-    ].filter((k)=>!trailerNames.includes(k)
-    );
+    ].filter((k)=>!trailerNames.includes(k));
     if (undeclared.length > 0) throw new Deno.errors.InvalidData(`Undeclared trailers: ${Deno.inspect(undeclared)}.`);
     for (const [k1, v] of result)headers.append(k1, v);
-    const missingTrailers = trailerNames.filter((k)=>!result.has(k)
-    );
+    const missingTrailers = trailerNames.filter((k)=>!result.has(k));
     if (missingTrailers.length > 0) throw new Deno.errors.InvalidData(`Missing trailers: ${Deno.inspect(missingTrailers)}.`);
     headers.delete("trailer");
 }
 function parseTrailer(field) {
     if (field == null) return undefined;
-    const trailerNames = field.split(",").map((v)=>v.trim().toLowerCase()
-    );
+    const trailerNames = field.split(",").map((v)=>v.trim().toLowerCase());
     if (trailerNames.length === 0) throw new Deno.errors.InvalidData("Empty trailer header.");
-    const prohibited = trailerNames.filter((k)=>isProhibidedForTrailer(k)
-    );
+    const prohibited = trailerNames.filter((k)=>isProhibidedForTrailer(k));
     if (prohibited.length > 0) throw new Deno.errors.InvalidData(`Prohibited trailer names: ${Deno.inspect(prohibited)}.`);
     return new Headers(trailerNames.map((key)=>[
             key,
             ""
-        ]
-    ));
+        ]));
 }
 async function writeChunkedBody(w, r) {
     const writer = BufWriter.create(w);
@@ -192,15 +187,12 @@ async function writeTrailers(w, headers, trailers) {
     const transferEncoding = headers.get("transfer-encoding");
     if (transferEncoding === null || !transferEncoding.match(/^chunked/)) throw new TypeError(`Trailers are only allowed for "transfer-encoding: chunked", got "transfer-encoding: ${transferEncoding}".`);
     const writer = BufWriter.create(w);
-    const trailerNames = trailer.split(",").map((s)=>s.trim().toLowerCase()
-    );
-    const prohibitedTrailers = trailerNames.filter((k)=>isProhibidedForTrailer(k)
-    );
+    const trailerNames = trailer.split(",").map((s)=>s.trim().toLowerCase());
+    const prohibitedTrailers = trailerNames.filter((k)=>isProhibidedForTrailer(k));
     if (prohibitedTrailers.length > 0) throw new TypeError(`Prohibited trailer names: ${Deno.inspect(prohibitedTrailers)}.`);
     const undeclared = [
         ...trailers.keys()
-    ].filter((k)=>!trailerNames.includes(k)
-    );
+    ].filter((k)=>!trailerNames.includes(k));
     if (undeclared.length > 0) throw new TypeError(`Undeclared trailers: ${Deno.inspect(undeclared)}.`);
     for (const [key, value] of trailers)await writer.write(encoder.encode(`${key}: ${value}\r\n`));
     await writer.write(encoder.encode("\r\n"));
@@ -262,8 +254,7 @@ class ServerRequest {
             else {
                 const transferEncoding = this.headers.get("transfer-encoding");
                 if (transferEncoding != null) {
-                    const parts = transferEncoding.split(",").map((e)=>e.trim().toLowerCase()
-                    );
+                    const parts = transferEncoding.split(",").map((e)=>e.trim().toLowerCase());
                     assert(parts.includes("chunked"), 'transfer-encoding must include "chunked" if content-length is not set');
                     this._body = chunkedBodyReader(this.headers, this.r);
                 } else this._body = emptyReader();
@@ -439,8 +430,7 @@ function fixLength(req) {
         const arrClen = contentLength.split(",");
         if (arrClen.length > 1) {
             const distinct = [
-                ...new Set(arrClen.map((e)=>e.trim()
-                ))
+                ...new Set(arrClen.map((e)=>e.trim()))
             ];
             if (distinct.length > 1) throw Error("cannot contain multiple Content-Length headers");
             else req.headers.set("Content-Length", distinct[0]);

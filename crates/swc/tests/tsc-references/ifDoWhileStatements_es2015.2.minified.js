@@ -26,12 +26,9 @@ for(;;);
 for(;;);
 for(;;);
 for(;;);
-for(()=>43
-; ()=>43
-;);
+for(()=>43; ()=>43;);
 do ;
-while (()=>43
-)
+while (()=>43)
 for(new C(); new C(););
 do ;
 while (new C())

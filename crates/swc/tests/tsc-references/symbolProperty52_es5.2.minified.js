@@ -1,2 +1,2 @@
 import * as swcHelpers from "@swc/helpers";
-swcHelpers.defineProperty({}, Symbol.nonsense, 0), ({})[Symbol.nonsense];
+swcHelpers.defineProperty({}, Symbol.nonsense, 0);

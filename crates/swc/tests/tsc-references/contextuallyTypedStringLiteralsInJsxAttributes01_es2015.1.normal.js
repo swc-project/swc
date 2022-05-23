@@ -1,5 +1,4 @@
-const FooComponent = (props)=>/*#__PURE__*/ React.createElement("span", null, props.foo)
-;
+const FooComponent = (props)=>/*#__PURE__*/ React.createElement("span", null, props.foo);
 /*#__PURE__*/ React.createElement(FooComponent, {
     foo: "A"
 });

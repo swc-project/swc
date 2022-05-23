@@ -2,16 +2,27 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 5,
+    "end": 63,
     "ctxt": 0
   },
-  "mode": "quirks",
+  "mode": "no-quirks",
   "children": [
+    {
+      "type": "DocumentType",
+      "span": {
+        "start": 1,
+        "end": 16,
+        "ctxt": 0
+      },
+      "name": "html",
+      "publicId": null,
+      "systemId": null
+    },
     {
       "type": "Element",
       "span": {
-        "start": 0,
-        "end": 5,
+        "start": 17,
+        "end": 56,
         "ctxt": 0
       },
       "tagName": "html",
@@ -21,8 +32,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 0,
-            "end": 2,
+            "start": 24,
+            "end": 30,
             "ctxt": 0
           },
           "tagName": "head",
@@ -32,10 +43,19 @@
           "content": null
         },
         {
+          "type": "Text",
+          "span": {
+            "start": 37,
+            "end": 38,
+            "ctxt": 0
+          },
+          "value": "\n"
+        },
+        {
           "type": "Element",
           "span": {
-            "start": 0,
-            "end": 5,
+            "start": 38,
+            "end": 56,
             "ctxt": 0
           },
           "tagName": "body",
@@ -45,11 +65,11 @@
             {
               "type": "Text",
               "span": {
-                "start": 1,
-                "end": 5,
+                "start": 44,
+                "end": 56,
                 "ctxt": 0
               },
-              "value": "INIT"
+              "value": "INIT\n"
             }
           ],
           "content": null

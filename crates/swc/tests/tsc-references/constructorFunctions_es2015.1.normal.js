@@ -33,10 +33,8 @@ c5_v2 = class {
 new c5_v2();
 /** @class */ function C6() {
     this.functions = [
-        (x)=>x
-        ,
-        (x)=>x + 1
-        ,
+        (x)=>x,
+        (x)=>x + 1,
         (x)=>x - 1
     ];
 }

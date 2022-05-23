@@ -8,7 +8,7 @@ use crate::{
     compress::optimize::util::{class_has_side_effect, is_valid_for_lhs},
     debug::dump,
     mode::Mode,
-    util::{idents_captured_by, idents_used_by},
+    util::{idents_captured_by, idents_used_by, idents_used_by_ignoring_nested},
 };
 
 /// Methods related to option `inline`.
@@ -157,7 +157,10 @@ where
                             op: op!("!"), arg, ..
                         }) => arg.is_lit(),
                         Expr::This(..) => usage.is_fn_local,
-                        Expr::Arrow(arr) => is_arrow_simple_enough_for_copy(arr),
+                        Expr::Arrow(arr) => {
+                            !(usage.used_as_arg && usage.ref_count > 1)
+                                && is_arrow_simple_enough_for_copy(arr)
+                        }
                         _ => false,
                     }
                 {
@@ -242,16 +245,61 @@ where
                         _ => {}
                     }
 
-                    if let Expr::Ident(v) = &**init {
-                        if let Some(v_usage) = self.data.vars.get(&v.to_id()) {
-                            if v_usage.reassigned() {
-                                return;
+                    match &**init {
+                        Expr::Lit(..) => {}
+
+                        Expr::Fn(f) => {
+                            let excluded: Vec<Id> = find_pat_ids(&f.function.params);
+
+                            for id in idents_used_by(&f.function.params) {
+                                if excluded.contains(&id) {
+                                    continue;
+                                }
+                                if let Some(v_usage) = self.data.vars.get(&id) {
+                                    if v_usage.reassigned() {
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+                        Expr::Arrow(f) => {
+                            let excluded: Vec<Id> = find_pat_ids(&f.params);
+
+                            for id in idents_used_by(&f.params) {
+                                if excluded.contains(&id) {
+                                    continue;
+                                }
+                                if let Some(v_usage) = self.data.vars.get(&id) {
+                                    if v_usage.reassigned() {
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+
+                        Expr::Object(..) => {
+                            for id in idents_used_by_ignoring_nested(&**init) {
+                                if let Some(v_usage) = self.data.vars.get(&id) {
+                                    if v_usage.reassigned() {
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+
+                        _ => {
+                            for id in idents_used_by(&**init) {
+                                if let Some(v_usage) = self.data.vars.get(&id) {
+                                    if v_usage.reassigned() {
+                                        return;
+                                    }
+                                }
                             }
                         }
                     }
 
                     if usage.used_as_arg && !usage.is_fn_local {
-                        if let Expr::Fn(..) = &**init {
+                        if let Expr::Fn(..) | Expr::Arrow(..) = &**init {
                             return;
                         }
                     }
@@ -466,7 +514,12 @@ where
 
         if let Some(usage) = self.data.vars.get(&i.to_id()) {
             if usage.declared_as_catch_param {
-                log_abort!("inline: [x] Declared as a catch parameter");
+                log_abort!("inline: Declared as a catch parameter");
+                return;
+            }
+
+            if usage.used_as_arg && usage.ref_count > 1 {
+                log_abort!("inline: Used as an arugment");
                 return;
             }
 

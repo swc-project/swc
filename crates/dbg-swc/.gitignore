@@ -1,0 +1,13 @@
+/*.output.js
+/input.js
+*.orig
+input.new.js
+input.orig.js
+
+*.txt
+
+/.input
+/.compare
+
+# creduce
+creduce_bug*

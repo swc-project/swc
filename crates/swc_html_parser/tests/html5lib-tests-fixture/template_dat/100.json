@@ -39,78 +39,86 @@
               "tagName": "template",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
-              "children": [
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 11,
-                    "end": 51,
-                    "ctxt": 0
-                  },
-                  "tagName": "svg",
-                  "namespace": "http://www.w3.org/2000/svg",
-                  "attributes": [],
-                  "children": [
-                    {
-                      "type": "Element",
-                      "span": {
-                        "start": 16,
-                        "end": 51,
-                        "ctxt": 0
-                      },
-                      "tagName": "foo",
-                      "namespace": "http://www.w3.org/2000/svg",
-                      "attributes": [],
-                      "children": [
-                        {
-                          "type": "Element",
-                          "span": {
-                            "start": 21,
-                            "end": 51,
-                            "ctxt": 0
-                          },
-                          "tagName": "template",
-                          "namespace": "http://www.w3.org/2000/svg",
-                          "attributes": [],
-                          "children": [
-                            {
-                              "type": "Element",
-                              "span": {
-                                "start": 31,
-                                "end": 51,
-                                "ctxt": 0
-                              },
-                              "tagName": "foreignObject",
-                              "namespace": "http://www.w3.org/2000/svg",
-                              "attributes": [],
-                              "children": [
-                                {
-                                  "type": "Element",
-                                  "span": {
-                                    "start": 46,
-                                    "end": 51,
-                                    "ctxt": 0
-                                  },
-                                  "tagName": "div",
-                                  "namespace": "http://www.w3.org/1999/xhtml",
-                                  "attributes": [],
-                                  "children": [],
-                                  "content": null
-                                }
-                              ],
-                              "content": null
-                            }
-                          ],
-                          "content": null
-                        }
-                      ],
-                      "content": null
-                    }
-                  ],
-                  "content": null
-                }
-              ],
-              "content": null
+              "children": [],
+              "content": {
+                "type": "DocumentFragment",
+                "span": {
+                  "start": 1,
+                  "end": 51,
+                  "ctxt": 0
+                },
+                "children": [
+                  {
+                    "type": "Element",
+                    "span": {
+                      "start": 11,
+                      "end": 51,
+                      "ctxt": 0
+                    },
+                    "tagName": "svg",
+                    "namespace": "http://www.w3.org/2000/svg",
+                    "attributes": [],
+                    "children": [
+                      {
+                        "type": "Element",
+                        "span": {
+                          "start": 16,
+                          "end": 51,
+                          "ctxt": 0
+                        },
+                        "tagName": "foo",
+                        "namespace": "http://www.w3.org/2000/svg",
+                        "attributes": [],
+                        "children": [
+                          {
+                            "type": "Element",
+                            "span": {
+                              "start": 21,
+                              "end": 51,
+                              "ctxt": 0
+                            },
+                            "tagName": "template",
+                            "namespace": "http://www.w3.org/2000/svg",
+                            "attributes": [],
+                            "children": [
+                              {
+                                "type": "Element",
+                                "span": {
+                                  "start": 31,
+                                  "end": 51,
+                                  "ctxt": 0
+                                },
+                                "tagName": "foreignObject",
+                                "namespace": "http://www.w3.org/2000/svg",
+                                "attributes": [],
+                                "children": [
+                                  {
+                                    "type": "Element",
+                                    "span": {
+                                      "start": 46,
+                                      "end": 51,
+                                      "ctxt": 0
+                                    },
+                                    "tagName": "div",
+                                    "namespace": "http://www.w3.org/1999/xhtml",
+                                    "attributes": [],
+                                    "children": [],
+                                    "content": null
+                                  }
+                                ],
+                                "content": null
+                              }
+                            ],
+                            "content": null
+                          }
+                        ],
+                        "content": null
+                      }
+                    ],
+                    "content": null
+                  }
+                ]
+              }
             }
           ],
           "content": null

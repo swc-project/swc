@@ -75,8 +75,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 20,
+                    "end": 21,
                     "ctxt": 0
                   },
                   "namespace": null,
@@ -87,8 +87,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 22,
+                    "end": 23,
                     "ctxt": 0
                   },
                   "namespace": null,
@@ -99,8 +99,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 24,
+                    "end": 25,
                     "ctxt": 0
                   },
                   "namespace": null,

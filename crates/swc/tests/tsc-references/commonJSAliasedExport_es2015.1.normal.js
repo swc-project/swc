@@ -2,8 +2,7 @@
 // @outdir: out/
 // @declaration: true
 // @Filename: commonJSAliasedExport.js
-const donkey = (ast)=>ast
-;
+const donkey = (ast)=>ast;
 function funky(declaration) {
     return false;
 }

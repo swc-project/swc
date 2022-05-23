@@ -366,6 +366,12 @@ impl VisitMut for Pure<'_> {
         self.lift_seqs_of_bin(e);
 
         self.lift_seqs_of_cond_assign(e);
+
+        self.optimize_nullish_coalescing(e);
+
+        self.compress_negated_bin_eq(e);
+
+        self.compress_useless_cond_expr(e);
     }
 
     fn visit_mut_expr_stmt(&mut self, s: &mut ExprStmt) {
@@ -383,6 +389,18 @@ impl VisitMut for Pure<'_> {
 
     fn visit_mut_exprs(&mut self, exprs: &mut Vec<Box<Expr>>) {
         self.visit_par(exprs);
+    }
+
+    fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
+        #[cfg(feature = "debug")]
+        let _tracing = tracing::span!(
+            Level::ERROR,
+            "visit_mut_fn_decl",
+            id = tracing::field::display(&n.ident)
+        )
+        .entered();
+
+        n.visit_mut_children_with(self);
     }
 
     fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {
@@ -715,9 +733,10 @@ impl VisitMut for Pure<'_> {
         }
     }
 
-    /// We don't optimize [Tpl] contained in [TaggedTpl].
     fn visit_mut_tagged_tpl(&mut self, n: &mut TaggedTpl) {
         n.tag.visit_mut_with(self);
+
+        n.tpl.exprs.visit_mut_with(self);
     }
 
     fn visit_mut_tpl(&mut self, n: &mut Tpl) {

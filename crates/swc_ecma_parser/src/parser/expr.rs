@@ -12,14 +12,14 @@ mod ops;
 mod tests;
 mod verifier;
 
-impl<'a, I: Tokens> Parser<I> {
+impl<I: Tokens> Parser<I> {
     pub fn parse_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_expr);
 
         let _tracing = debug_tracing!(self, "parse_expr");
 
         let expr = self.parse_assignment_expr()?;
-        let start = expr.span().lo();
+        let start = expr.span_lo();
 
         if is!(self, ',') {
             let mut exprs = vec![expr];
@@ -217,7 +217,7 @@ impl<'a, I: Tokens> Parser<I> {
                 ..self.ctx()
             };
             let alt = self.with_ctx(ctx).parse_assignment_expr()?;
-            let span = Span::new(start, alt.span().hi(), Default::default());
+            let span = Span::new(start, alt.span_hi(), Default::default());
             Ok(Box::new(Expr::Cond(CondExpr {
                 span,
                 test,
@@ -915,8 +915,8 @@ impl<'a, I: Tokens> Parser<I> {
             // span of sequence expression should not include '(', ')'
             let seq_expr = Box::new(Expr::Seq(SeqExpr {
                 span: Span::new(
-                    exprs.first().unwrap().span().lo(),
-                    exprs.last().unwrap().span().hi(),
+                    exprs.first().unwrap().span_lo(),
+                    exprs.last().unwrap().span_hi(),
                     Default::default(),
                 ),
                 exprs,
@@ -957,7 +957,7 @@ impl<'a, I: Tokens> Parser<I> {
         tag: Box<Expr>,
         type_params: Option<TsTypeParamInstantiation>,
     ) -> PResult<TaggedTpl> {
-        let tagged_tpl_start = tag.span().lo();
+        let tagged_tpl_start = tag.span_lo();
         trace_cur!(self, parse_tagged_tpl);
 
         let tpl = self.parse_tpl(true)?;
@@ -1168,8 +1168,8 @@ impl<'a, I: Tokens> Parser<I> {
             let bracket_lo = self.input.prev_span().lo;
             let prop = self.include_in_expr(true).parse_expr()?;
             expect!(self, ']');
-            let span = Span::new(obj.span().lo(), self.input.last_pos(), Default::default());
-            debug_assert_eq!(obj.span().lo(), span.lo());
+            let span = Span::new(obj.span_lo(), self.input.last_pos(), Default::default());
+            debug_assert_eq!(obj.span_lo(), span.lo());
             let prop = ComputedPropName {
                 span: Span::new(bracket_lo, self.input.last_pos(), Default::default()),
                 expr: prop,
@@ -1290,9 +1290,9 @@ impl<'a, I: Tokens> Parser<I> {
                 Either::Left(p) => MemberProp::PrivateName(p),
                 Either::Right(i) => MemberProp::Ident(i),
             })?;
-            let span = span!(self, obj.span().lo());
-            debug_assert_eq!(obj.span().lo(), span.lo());
-            debug_assert_eq!(prop.span().hi(), span.hi());
+            let span = span!(self, obj.span_lo());
+            debug_assert_eq!(obj.span_lo(), span.lo());
+            debug_assert_eq!(prop.span_hi(), span.hi());
 
             let type_args = if self.syntax().typescript() && is!(self, '<') {
                 self.try_parse_ts_type_args()
@@ -1631,7 +1631,7 @@ impl<'a, I: Tokens> Parser<I> {
                         arg = ExprOrSpread {
                             spread: None,
                             expr: Box::new(Expr::Cond(CondExpr {
-                                span: Span::new(start, alt.span().hi(), Default::default()),
+                                span: Span::new(start, alt.span_hi(), Default::default()),
 
                                 test,
                                 cons,
@@ -1800,7 +1800,7 @@ pub(in crate::parser) enum PatOrExprOrSpread {
 
 /// simple leaf methods.
 
-impl<'a, I: Tokens> Parser<I> {
+impl<I: Tokens> Parser<I> {
     fn parse_yield_expr(&mut self) -> PResult<Box<Expr>> {
         let start = cur_pos!(self);
 
@@ -1838,7 +1838,7 @@ impl<'a, I: Tokens> Parser<I> {
     fn at_possible_async(&mut self, expr: &Expr) -> PResult<bool> {
         // TODO(kdy1): !this.state.containsEsc &&
 
-        Ok(self.state.potential_arrow_start == Some(expr.span().lo())
+        Ok(self.state.potential_arrow_start == Some(expr.span_lo())
             && matches!(
                 *expr,
                 Expr::Ident(Ident {

@@ -1,6 +1,6 @@
 use super::*;
 
-impl<'a, I: Tokens> Parser<I> {
+impl<I: Tokens> Parser<I> {
     fn parse_import(&mut self) -> PResult<ModuleItem> {
         let start = cur_pos!(self);
 

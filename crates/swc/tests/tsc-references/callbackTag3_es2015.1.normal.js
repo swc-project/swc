@@ -4,5 +4,4 @@
 // @Filename: cb.js
 /** @callback Miracle
  * @returns {string} What were you expecting
- */ /** @type {Miracle} smallId */ var sid = ()=>"!"
-;
+ */ /** @type {Miracle} smallId */ var sid = ()=>"!";

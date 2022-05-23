@@ -6,7 +6,7 @@ use super::*;
 use crate::{error::SyntaxError, lexer::TokenContext, parser::stmt::IsDirective, Tokens};
 
 /// Parser for function expression and function declaration.
-impl<'a, I: Tokens> Parser<I> {
+impl<I: Tokens> Parser<I> {
     pub(super) fn parse_async_fn_expr(&mut self) -> PResult<Box<Expr>> {
         let start = cur_pos!(self);
         expect!(self, "async");
@@ -320,7 +320,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let args = self.parse_args(false)?;
         Ok(Box::new(Expr::Call(CallExpr {
-            span: span!(self, expr.span().lo()),
+            span: span!(self, expr.span_lo()),
             callee: Callee::Expr(expr),
             args,
             type_args: None,
@@ -1304,7 +1304,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
 }
 
-impl<'a, I: Tokens> Parser<I> {
+impl<I: Tokens> Parser<I> {
     fn make_method<F>(
         &mut self,
         parse_args: F,

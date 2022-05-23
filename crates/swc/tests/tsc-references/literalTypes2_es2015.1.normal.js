@@ -164,20 +164,13 @@ class C2 {
     }
 }
 function f20() {
-    const f1 = ()=>0
-    ;
-    const f2 = ()=>"hello"
-    ;
-    const f3 = ()=>true
-    ;
-    const f4 = ()=>E.C
-    ;
-    const f5 = ()=>"foo"
-    ;
-    const f6 = ()=>"bar"
-    ;
-    const f7 = ()=>"bar"
-    ;
+    const f1 = ()=>0;
+    const f2 = ()=>"hello";
+    const f3 = ()=>true;
+    const f4 = ()=>E.C;
+    const f5 = ()=>"foo";
+    const f6 = ()=>"bar";
+    const f7 = ()=>"bar";
 }
 const a = [
     1,
@@ -195,10 +188,8 @@ const x7 = g6([
 ]); // Type number
 const x8 = g6(a); // Type 1 | 2
 const x9 = g7(a); // Type (1 | 2)[]
-const x10 = g8(1, (x)=>x
-); // Type number
-const x11 = g8(1, (x)=>x + 1
-); // Type number
+const x10 = g8(1, (x)=>x); // Type number
+const x11 = g8(1, (x)=>x + 1); // Type number
 function makeArray(x) {
     return [
         x

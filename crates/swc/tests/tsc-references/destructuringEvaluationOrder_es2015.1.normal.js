@@ -3,8 +3,7 @@ import * as swcHelpers from "@swc/helpers";
 // @noTypesAndSymbols: true
 // https://github.com/microsoft/TypeScript/issues/39205
 let trace = [];
-let order = (n)=>trace.push(n)
-;
+let order = (n)=>trace.push(n);
 // order(0) should evaluate before order(1) because the first element is undefined
 let [{ [order(1)]: x  } = order(0)] = [];
 // order(0) should not evaluate because the first element is defined

@@ -169,7 +169,8 @@ impl miette::Diagnostic for MietteDiagnostic<'_> {
             .children
             .iter()
             .filter(|s| s.level == Level::Help)
-            .find_map(|s| Some(Box::new(&s.message[0].0) as Box<_>))
+            .map(|s| Box::new(&s.message[0].0) as Box<_>)
+            .next()
     }
 
     fn url<'a>(&'a self) -> Option<Box<dyn fmt::Display + 'a>> {

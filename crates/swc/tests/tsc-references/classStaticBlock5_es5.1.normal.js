@@ -1,7 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var _superprop_get_b = ()=>super.b
-, _superprop_get_a = ()=>super.a
-;
+var _superprop_get_b = ()=>super.b, _superprop_get_a = ()=>super.a;
 // @target: esnext, es2022, es2015, es5
 var B = function B() {
     "use strict";

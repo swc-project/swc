@@ -283,7 +283,7 @@ fn issue_414() {
     let s2 = file("tests/projects/issue-414/b.ts").unwrap();
     println!("{}", s2);
     assert!(s2.contains("define("));
-    assert!(s2.contains("function(_bar) {"));
+    assert!(s2.contains("__esModule"));
 }
 
 /// should handle comments in return statement
@@ -754,6 +754,8 @@ fn should_visit() {
                 preserve_comments: config.preserve_comments,
                 inline_sources_content: config.inline_sources_content,
                 comments: config.comments,
+                emit_source_map_columns: config.emit_source_map_columns,
+                output: config.output,
             };
 
             if config.minify {
@@ -785,6 +787,8 @@ fn should_visit() {
                 // TODO: figure out sourcemaps
                 config.minify,
                 Some(&comments),
+                config.emit_source_map_columns,
+                false,
             )
             .unwrap()
             .code)

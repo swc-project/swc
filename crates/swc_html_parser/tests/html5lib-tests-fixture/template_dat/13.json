@@ -75,7 +75,15 @@
                       "namespace": "http://www.w3.org/1999/xhtml",
                       "attributes": [],
                       "children": [],
-                      "content": null
+                      "content": {
+                        "type": "DocumentFragment",
+                        "span": {
+                          "start": 15,
+                          "end": 25,
+                          "ctxt": 0
+                        },
+                        "children": []
+                      }
                     }
                   ],
                   "content": null

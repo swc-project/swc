@@ -20,8 +20,8 @@
         {
           "type": "Attribute",
           "span": {
-            "start": 0,
-            "end": 0,
+            "start": 7,
+            "end": 10,
             "ctxt": 0
           },
           "namespace": null,
@@ -53,7 +53,15 @@
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
               "children": [],
-              "content": null
+              "content": {
+                "type": "DocumentFragment",
+                "span": {
+                  "start": 11,
+                  "end": 21,
+                  "ctxt": 0
+                },
+                "children": []
+              }
             }
           ],
           "content": null

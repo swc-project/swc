@@ -52,49 +52,65 @@
               "tagName": "template",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
-              "children": [
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 17,
-                    "end": 31,
-                    "ctxt": 0
-                  },
-                  "tagName": "template",
-                  "namespace": "http://www.w3.org/1999/xhtml",
-                  "attributes": [],
-                  "children": [
-                    {
-                      "type": "Element",
+              "children": [],
+              "content": {
+                "type": "DocumentFragment",
+                "span": {
+                  "start": 7,
+                  "end": 51,
+                  "ctxt": 0
+                },
+                "children": [
+                  {
+                    "type": "Element",
+                    "span": {
+                      "start": 17,
+                      "end": 31,
+                      "ctxt": 0
+                    },
+                    "tagName": "template",
+                    "namespace": "http://www.w3.org/1999/xhtml",
+                    "attributes": [],
+                    "children": [],
+                    "content": {
+                      "type": "DocumentFragment",
                       "span": {
-                        "start": 27,
+                        "start": 17,
                         "end": 31,
                         "ctxt": 0
                       },
-                      "tagName": "tr",
-                      "namespace": "http://www.w3.org/1999/xhtml",
-                      "attributes": [],
-                      "children": [],
-                      "content": null
+                      "children": [
+                        {
+                          "type": "Element",
+                          "span": {
+                            "start": 27,
+                            "end": 31,
+                            "ctxt": 0
+                          },
+                          "tagName": "tr",
+                          "namespace": "http://www.w3.org/1999/xhtml",
+                          "attributes": [],
+                          "children": [],
+                          "content": null
+                        }
+                      ]
                     }
-                  ],
-                  "content": null
-                },
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 47,
-                    "end": 51,
-                    "ctxt": 0
                   },
-                  "tagName": "td",
-                  "namespace": "http://www.w3.org/1999/xhtml",
-                  "attributes": [],
-                  "children": [],
-                  "content": null
-                }
-              ],
-              "content": null
+                  {
+                    "type": "Element",
+                    "span": {
+                      "start": 47,
+                      "end": 51,
+                      "ctxt": 0
+                    },
+                    "tagName": "td",
+                    "namespace": "http://www.w3.org/1999/xhtml",
+                    "attributes": [],
+                    "children": [],
+                    "content": null
+                  }
+                ]
+              }
             }
           ],
           "content": null

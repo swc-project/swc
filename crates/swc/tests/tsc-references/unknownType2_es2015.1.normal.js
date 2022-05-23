@@ -1,5 +1,4 @@
-let validate = (x)=>x === 'yes' || x === 'no' ? x : 'idk'
-; // No error
+let validate = (x)=>x === 'yes' || x === 'no' ? x : 'idk'; // No error
 const u = undefined;
 if (u === 5) {
     const y = u.toString(10);

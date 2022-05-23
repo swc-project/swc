@@ -26,10 +26,8 @@ switch(x){
     case typeof x:
     case typeof M:
     case M.fn(1):
-    case (x)=>''
-    :
-    case ((x)=>''
-    )(2):
+    case (x)=>'':
+    case ((x)=>'')(2):
     default:
 }
 // basic assignable check, rest covered in tests for 'assignment compatibility'
@@ -73,9 +71,7 @@ switch([
     'a'
 ]){
 }
-switch((x)=>''
-){
+switch((x)=>''){
 }
-switch(((x)=>''
-)(1)){
+switch(((x)=>'')(1)){
 }

@@ -2,8 +2,7 @@ import * as swcHelpers from "@swc/helpers";
 let friendA;
 var _x = new WeakMap();
 friendA = {
-    getX: (obj)=>swcHelpers.classPrivateFieldGet(obj, _x)
-    ,
+    getX: (obj)=>swcHelpers.classPrivateFieldGet(obj, _x),
     setX (obj, value) {
         swcHelpers.classPrivateFieldSet(obj, _x, value);
     }

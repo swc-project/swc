@@ -6,3 +6,4 @@ global.sideefffect = (() => {
         console.log(`Side effect: ${i++}`);
     };
 })();
+global.pass = () => console.log("PASS");

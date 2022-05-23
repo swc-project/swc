@@ -1,0 +1,1 @@
+a = b ? function () {} : function () {};

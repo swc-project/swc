@@ -29,9 +29,6 @@ function f3(y, x) {
     return y(null);
 }
 // all ok - second argument is processed before x is fixed
-var r4 = f3((x)=>x
-, new Base());
-var r5 = f3((x)=>x
-, new Derived());
-var r6 = f3((x)=>x
-, null);
+var r4 = f3((x)=>x, new Base());
+var r5 = f3((x)=>x, new Derived());
+var r6 = f3((x)=>x, null);

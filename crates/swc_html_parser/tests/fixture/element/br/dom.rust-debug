@@ -1,6 +1,19 @@
+| <!DOCTYPE html>
 | <html>
+|   lang="en"
 |   <head>
+|     "
+    "
+|     <title>
+|       "Document"
+|     "
+"
+|   "
+"
 |   <body>
+|     "
+
+"
 |     <p>
 |       " O'er all the hilltops"
 |       <br>
@@ -26,4 +39,6 @@
     Thou too shalt rest.
 "
 |     "
+
+
 "

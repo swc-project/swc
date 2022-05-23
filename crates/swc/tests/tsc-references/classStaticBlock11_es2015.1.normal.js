@@ -15,7 +15,6 @@ var __ = {
     writable: true,
     value: (()=>{
         // getX has privileged access to #x
-        getX = (obj)=>swcHelpers.classPrivateFieldGet(obj, _x)
-        ;
+        getX = (obj)=>swcHelpers.classPrivateFieldGet(obj, _x);
     })()
 };

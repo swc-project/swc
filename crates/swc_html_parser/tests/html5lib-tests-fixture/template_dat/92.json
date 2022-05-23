@@ -39,45 +39,61 @@
               "tagName": "template",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
-              "children": [
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 11,
-                    "end": 28,
-                    "ctxt": 0
-                  },
-                  "tagName": "template",
-                  "namespace": "http://www.w3.org/1999/xhtml",
-                  "attributes": [],
-                  "children": [
-                    {
-                      "type": "Text",
-                      "span": {
-                        "start": 28,
-                        "end": 31,
-                        "ctxt": 0
-                      },
-                      "value": "Foo"
+              "children": [],
+              "content": {
+                "type": "DocumentFragment",
+                "span": {
+                  "start": 1,
+                  "end": 28,
+                  "ctxt": 0
+                },
+                "children": [
+                  {
+                    "type": "Element",
+                    "span": {
+                      "start": 11,
+                      "end": 28,
+                      "ctxt": 0
                     },
-                    {
-                      "type": "Element",
+                    "tagName": "template",
+                    "namespace": "http://www.w3.org/1999/xhtml",
+                    "attributes": [],
+                    "children": [],
+                    "content": {
+                      "type": "DocumentFragment",
                       "span": {
-                        "start": 21,
+                        "start": 11,
                         "end": 28,
                         "ctxt": 0
                       },
-                      "tagName": "table",
-                      "namespace": "http://www.w3.org/1999/xhtml",
-                      "attributes": [],
-                      "children": [],
-                      "content": null
+                      "children": [
+                        {
+                          "type": "Text",
+                          "span": {
+                            "start": 28,
+                            "end": 31,
+                            "ctxt": 0
+                          },
+                          "value": "Foo"
+                        },
+                        {
+                          "type": "Element",
+                          "span": {
+                            "start": 21,
+                            "end": 28,
+                            "ctxt": 0
+                          },
+                          "tagName": "table",
+                          "namespace": "http://www.w3.org/1999/xhtml",
+                          "attributes": [],
+                          "children": [],
+                          "content": null
+                        }
+                      ]
                     }
-                  ],
-                  "content": null
-                }
-              ],
-              "content": null
+                  }
+                ]
+              }
             }
           ],
           "content": null

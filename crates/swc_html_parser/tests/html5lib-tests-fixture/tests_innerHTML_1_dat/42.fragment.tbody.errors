@@ -1,0 +1,3 @@
+(1,7): XXX-undefined-error
+(1,10): unexpected-start-tag-implies-table-voodoo
+(1,10): eof-in-table

@@ -12,8 +12,8 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
-    member_expr, private_ident, quote_ident, quote_str, var::VarCollector, DestructuringFinder,
-    ExprFactory, IsDirective,
+    find_pat_ids, member_expr, private_ident, quote_ident, quote_str, var::VarCollector,
+    DestructuringFinder, ExprFactory, IsDirective,
 };
 use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Visit, VisitWith};
 
@@ -207,11 +207,29 @@ impl Fold for CommonJs {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { decl, .. })) => {
                     let mut found: Vec<Ident> = vec![];
 
-                    let mut v = DestructuringFinder { found: &mut found };
-                    decl.visit_with(&mut v);
+                    match decl {
+                        Decl::Class(d) => {
+                            found.push(d.ident.clone());
+                        }
+                        Decl::Fn(d) => {
+                            found.push(d.ident.clone());
+                        }
+                        Decl::Var(v) => {
+                            found.extend(find_pat_ids(&v.decls));
+                        }
+                        _ => {
+                            unreachable!()
+                        }
+                    }
 
                     for ident in found {
                         exports.push(ident.sym.clone());
+                    }
+
+                    if let Decl::Var(var) = decl {
+                        for id in find_pat_ids(&var.decls) {
+                            self.scope.borrow_mut().insert_exported_bindings(id);
+                        }
                     }
                 }
                 _ => {}
@@ -383,11 +401,7 @@ impl Fold for CommonJs {
 
                             if !is_class {
                                 let mut scope = self.scope.borrow_mut();
-                                scope
-                                    .exported_bindings
-                                    .entry((ident.sym.clone(), ident.span.ctxt()))
-                                    .or_default()
-                                    .push((ident.sym.clone(), ident.span.ctxt()));
+                                scope.insert_exported_bindings(ident.to_id());
                             }
 
                             let append_to: &mut Vec<_> = if is_class {
@@ -429,11 +443,7 @@ impl Fold for CommonJs {
                                 decl.visit_with(&mut v);
 
                                 for ident in found.drain(..) {
-                                    scope
-                                        .exported_bindings
-                                        .entry((ident.sym.clone(), ident.span.ctxt()))
-                                        .or_default()
-                                        .push((ident.sym.clone(), ident.span.ctxt()));
+                                    scope.insert_exported_bindings(ident.to_id());
                                     init_export!(ident.sym);
 
                                     extra_stmts.push(
@@ -977,12 +987,12 @@ impl Fold for CommonJs {
                             type_args: Default::default(),
                         };
 
-                        *obj = Box::new(Expr::Call(CallExpr {
+                        expr = Expr::Call(CallExpr {
                             span: *span,
                             callee: url_obj.make_member(quote_ident!("toString")).as_callee(),
                             args: Default::default(),
                             type_args: Default::default(),
-                        }));
+                        });
                     }
                 }
             }

@@ -9,5 +9,4 @@ var p3 = import([
     "path1",
     "path2"
 ]);
-var p4 = import(()=>"PathToModule"
-);
+var p4 = import(()=>"PathToModule");

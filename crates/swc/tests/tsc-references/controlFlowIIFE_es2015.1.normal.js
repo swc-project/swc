@@ -19,8 +19,7 @@ function f3() {
     let x = getStringOrNumber();
     let y;
     if (typeof x === "string") {
-        let n = ((z)=>x.length + y + z
-        )(y = 1);
+        let n = ((z)=>x.length + y + z)(y = 1);
     }
 }
 // Repros from #8381

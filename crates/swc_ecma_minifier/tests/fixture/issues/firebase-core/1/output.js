@@ -488,9 +488,7 @@
                     let a;
                     return 0 < this.h ? (this.h--, a = this.g, this.g = a.next, a.next = null) : a = this.i(), a;
                 }
-            }(()=>new wb()
-            , (a)=>a.reset()
-            );
+            }(()=>new wb(), (a)=>a.reset());
             class wb {
                 constructor(){
                     this.next = this.g = this.h = null;
@@ -1243,11 +1241,11 @@
             }, k.setRequestHeader = function(a, b) {
                 this.v.append(a, b);
             }, k.getResponseHeader = function(a) {
-                return this.h ? this.h.get(a.toLowerCase()) || "" : "";
+                return this.h && this.h.get(a.toLowerCase()) || "";
             }, k.getAllResponseHeaders = function() {
                 if (!this.h) return "";
                 const a = [], b = this.h.entries();
-                for(var c = b.next(); !c.done;)c = c.value, a.push(c[0] + ": " + c[1]), c = b.next();
+                for(var c = b.next(); !c.done;)a.push((c = c.value)[0] + ": " + c[1]), c = b.next();
                 return a.join("\r\n");
             }, Object.defineProperty(qd.prototype, "withCredentials", {
                 get: function() {
@@ -1368,7 +1366,7 @@
                 }), b6), "string" == typeof a ? null != c8 && encodeURIComponent(String(c8)) : R(a, b, c8));
             }
             function Hd(a, b, c) {
-                return c && c.internalChannelParams ? c.internalChannelParams[a] || b : b;
+                return c && c.internalChannelParams && c.internalChannelParams[a] || b;
             }
             function Id(a) {
                 this.za = 0, this.l = [], this.h = new Mb(), this.la = this.oa = this.F = this.W = this.g = this.sa = this.D = this.aa = this.o = this.P = this.s = null, this.Za = this.V = 0, this.Xa = Hd("failFast", !1, a), this.N = this.v = this.u = this.m = this.j = null, this.X = !0, this.I = this.ta = this.U = -1, this.Y = this.A = this.C = 0, this.Pa = Hd("baseRetryDelayMs", 5e3, a), this.$a = Hd("retryDelaySeedMs", 1e4, a), this.Ya = Hd("forwardChannelMaxRetries", 2, a), this.ra = Hd("forwardChannelRequestTimeoutMs", 2e4, a), this.qa = a && a.xmlHttpFactory || void 0, this.Ba = a && a.Yb || !1, this.K = void 0, this.H = a && a.supportsCrossDomainXhr || !1, this.J = "", this.i = new gd(a && a.concurrentRequestLimit), this.Ca = new ld(), this.ja = a && a.fastHandshake || !1, this.Ra = a && a.Wb || !1, a && a.Aa && this.h.Aa(), a && a.forceLongPolling && (this.X = !1), this.$ = !this.ja && this.X && a && a.detectBufferingProxy || !1, this.ka = void 0, this.O = 0, this.L = !1, this.B = null, this.Wa = !a || !1 !== a.Xb;
@@ -1831,7 +1829,7 @@
                     return _arr;
                 }(arr3, 2) || function() {
                     throw new TypeError("Invalid attempt to destructure non-iterable instance");
-                }(), setRef = ref2[0], isIntersected = ref2[1], wrapperStyle = {
+                }(), setRef = ref2[0], isIntersected = ref2[1], isVisible = !isLazy || isIntersected, wrapperStyle = {
                     boxSizing: "border-box",
                     display: "block",
                     overflow: "hidden",
@@ -1887,7 +1885,7 @@
                     srcSet: void 0,
                     sizes: void 0
                 };
-                (!isLazy || isIntersected) && (imgAttributes = generateImgAttrs({
+                isVisible && (imgAttributes = generateImgAttrs({
                     src: src2,
                     unoptimized: unoptimized,
                     layout: layout,
@@ -2291,8 +2289,7 @@
                             const service = provider.getImmediate();
                             return `${service.library}/${service.version}`;
                         }
-                    }).filter((logString)=>logString
-                    ).join(" ");
+                    }).filter((logString)=>logString).join(" ");
                 }
             }
             function isVersionServiceProvider(provider) {
@@ -2301,31 +2298,31 @@
             }
             const name$o = "@firebase/app", version$1 = "0.7.8", logger = new _firebase_logger__WEBPACK_IMPORTED_MODULE_1__.Yd("@firebase/app"), PLATFORM_LOG_STRING = {
                 [name$o]: "fire-core",
-                ["@firebase/app-compat"]: "fire-core-compat",
-                ["@firebase/analytics"]: "fire-analytics",
-                ["@firebase/analytics-compat"]: "fire-analytics-compat",
-                ["@firebase/app-check"]: "fire-app-check",
-                ["@firebase/app-check-compat"]: "fire-app-check-compat",
-                ["@firebase/auth"]: "fire-auth",
-                ["@firebase/auth-compat"]: "fire-auth-compat",
-                ["@firebase/database"]: "fire-rtdb",
-                ["@firebase/database-compat"]: "fire-rtdb-compat",
-                ["@firebase/functions"]: "fire-fn",
-                ["@firebase/functions-compat"]: "fire-fn-compat",
-                ["@firebase/installations"]: "fire-iid",
-                ["@firebase/installations-compat"]: "fire-iid-compat",
-                ["@firebase/messaging"]: "fire-fcm",
-                ["@firebase/messaging-compat"]: "fire-fcm-compat",
-                ["@firebase/performance"]: "fire-perf",
-                ["@firebase/performance-compat"]: "fire-perf-compat",
-                ["@firebase/remote-config"]: "fire-rc",
-                ["@firebase/remote-config-compat"]: "fire-rc-compat",
-                ["@firebase/storage"]: "fire-gcs",
-                ["@firebase/storage-compat"]: "fire-gcs-compat",
-                ["@firebase/firestore"]: "fire-fst",
-                ["@firebase/firestore-compat"]: "fire-fst-compat",
+                "@firebase/app-compat": "fire-core-compat",
+                "@firebase/analytics": "fire-analytics",
+                "@firebase/analytics-compat": "fire-analytics-compat",
+                "@firebase/app-check": "fire-app-check",
+                "@firebase/app-check-compat": "fire-app-check-compat",
+                "@firebase/auth": "fire-auth",
+                "@firebase/auth-compat": "fire-auth-compat",
+                "@firebase/database": "fire-rtdb",
+                "@firebase/database-compat": "fire-rtdb-compat",
+                "@firebase/functions": "fire-fn",
+                "@firebase/functions-compat": "fire-fn-compat",
+                "@firebase/installations": "fire-iid",
+                "@firebase/installations-compat": "fire-iid-compat",
+                "@firebase/messaging": "fire-fcm",
+                "@firebase/messaging-compat": "fire-fcm-compat",
+                "@firebase/performance": "fire-perf",
+                "@firebase/performance-compat": "fire-perf-compat",
+                "@firebase/remote-config": "fire-rc",
+                "@firebase/remote-config-compat": "fire-rc-compat",
+                "@firebase/storage": "fire-gcs",
+                "@firebase/storage-compat": "fire-gcs-compat",
+                "@firebase/firestore": "fire-fst",
+                "@firebase/firestore-compat": "fire-fst-compat",
                 "fire-js": "fire-js",
-                ["firebase"]: "fire-js-all"
+                firebase: "fire-js-all"
             }, _apps = new Map(), _components = new Map();
             function _addComponent(app, component) {
                 try {
@@ -2341,12 +2338,12 @@
                 return !0;
             }
             new _firebase_util__WEBPACK_IMPORTED_MODULE_2__.LL("app", "Firebase", {
-                ["no-app"]: "No Firebase App '{$appName}' has been created - call Firebase App.initializeApp()",
-                ["bad-app-name"]: "Illegal App name: '{$appName}",
-                ["duplicate-app"]: "Firebase App named '{$appName}' already exists with different options or config",
-                ["app-deleted"]: "Firebase App named '{$appName}' already deleted",
-                ["invalid-app-argument"]: "firebase.{$appName}() takes either no argument or a Firebase App instance.",
-                ["invalid-log-argument"]: "First argument to `onLog` must be null or a function."
+                "no-app": "No Firebase App '{$appName}' has been created - call Firebase App.initializeApp()",
+                "bad-app-name": "Illegal App name: '{$appName}",
+                "duplicate-app": "Firebase App named '{$appName}' already exists with different options or config",
+                "app-deleted": "Firebase App named '{$appName}' already deleted",
+                "invalid-app-argument": "firebase.{$appName}() takes either no argument or a Firebase App instance.",
+                "invalid-log-argument": "First argument to `onLog` must be null or a function."
             });
             const SDK_VERSION = "9.4.1";
             function registerVersion(libraryKeyOrName, version, variant) {
@@ -2364,11 +2361,9 @@
                 _registerComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.wA(`${library}-version`, ()=>({
                         library,
                         version
-                    })
-                , "VERSION"));
+                    }), "VERSION"));
             }
-            _registerComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.wA("platform-logger", (container)=>new PlatformLoggerServiceImpl(container)
-            , "PRIVATE")), registerVersion(name$o, version$1, ""), registerVersion(name$o, version$1, "esm2017"), registerVersion("fire-js", "");
+            _registerComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.wA("platform-logger", (container)=>new PlatformLoggerServiceImpl(container), "PRIVATE")), registerVersion(name$o, version$1, ""), registerVersion(name$o, version$1, "esm2017"), registerVersion("fire-js", "");
         },
         8463: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
             "use strict";

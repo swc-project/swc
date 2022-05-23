@@ -1,0 +1,8 @@
+(1,36) unexpected-start-tag-implies-table-voodoo
+(1,41) unexpected-start-tag-in-select
+(1,44) unexpected-start-tag-in-select
+(1,51) unexpected-end-tag-in-select
+(1,54) unexpected-start-tag-in-select
+(1,61) unexpected-end-tag-in-select
+(1,64) unexpected-start-tag-in-select
+(1,75) unexpected-table-element-end-tag-in-select-in-table

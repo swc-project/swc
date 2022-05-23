@@ -47,7 +47,7 @@
                 "end": 35,
                 "ctxt": 0
               },
-              "value": "\r    "
+              "value": "\n    "
             },
             {
               "type": "Element",
@@ -67,7 +67,7 @@
                     "end": 62,
                     "ctxt": 0
                   },
-                  "value": "\r\r        Test\r\r    "
+                  "value": "\n\n        Test\n\n    "
                 }
               ],
               "content": null
@@ -79,7 +79,7 @@
                 "end": 71,
                 "ctxt": 0
               },
-              "value": "\r"
+              "value": "\n"
             }
           ],
           "content": null
@@ -91,7 +91,7 @@
             "end": 79,
             "ctxt": 0
           },
-          "value": "\r"
+          "value": "\n"
         },
         {
           "type": "Element",
@@ -111,7 +111,7 @@
                 "end": 87,
                 "ctxt": 0
               },
-              "value": "\r\r"
+              "value": "\n\n"
             },
             {
               "type": "Element",
@@ -143,7 +143,7 @@
                 "end": 115,
                 "ctxt": 0
               },
-              "value": "\r"
+              "value": "\n"
             },
             {
               "type": "Element",
@@ -175,7 +175,7 @@
                 "end": 166,
                 "ctxt": 0
               },
-              "value": "\r\r\r\r"
+              "value": "\n\n\n\n"
             }
           ],
           "content": null

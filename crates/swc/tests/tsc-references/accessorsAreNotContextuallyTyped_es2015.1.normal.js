@@ -2,8 +2,7 @@
 class C {
     set x(v) {}
     get x() {
-        return (x)=>""
-        ;
+        return (x)=>"";
     }
 }
 var c;

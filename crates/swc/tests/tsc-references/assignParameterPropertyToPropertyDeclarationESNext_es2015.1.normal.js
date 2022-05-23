@@ -39,8 +39,7 @@ class D extends C {
 class E {
     constructor(foo2){
         this.foo2 = foo2;
-        this.bar = ()=>this.foo1 + this.foo2
-        ;
+        this.bar = ()=>this.foo1 + this.foo2;
         this.foo1 = '';
     }
 }
@@ -72,7 +71,6 @@ class H {
         this.p2 = ()=>{
             return this.p1.foo;
         };
-        this.p3 = ()=>this.p1.foo
-        ;
+        this.p3 = ()=>this.p1.foo;
     }
 }

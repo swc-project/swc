@@ -4,8 +4,7 @@
 // @skipLibCheck: true
 // @libFiles: react.d.ts,lib.d.ts
 const React = require('react');
-const Tag = (x)=>/*#__PURE__*/ React.createElement("div", null)
-;
+const Tag = (x)=>/*#__PURE__*/ React.createElement("div", null);
 // OK
 const k1 = /*#__PURE__*/ React.createElement(Tag, null);
 const k2 = /*#__PURE__*/ React.createElement(Tag, null);

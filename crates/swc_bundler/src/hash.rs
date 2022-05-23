@@ -3,7 +3,7 @@ use std::io;
 use anyhow::{Context, Error};
 use crc::{Crc, Digest, CRC_64_ECMA_182};
 use swc_common::{sync::Lrc, BytePos, SourceMap, Span};
-use swc_ecma_ast::{EsVersion, Module};
+use swc_ecma_ast::Module;
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
 
 pub(crate) fn calc_hash(cm: Lrc<SourceMap>, m: &Module) -> Result<String, Error> {
@@ -40,10 +40,6 @@ impl Hasher<'_> {
 }
 
 impl WriteJs for &mut Hasher<'_> {
-    fn target(&self) -> EsVersion {
-        EsVersion::latest()
-    }
-
     fn increase_indent(&mut self) -> io::Result<()> {
         Ok(())
     }

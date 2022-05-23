@@ -6,12 +6,10 @@ class C {
         return '';
     }
     constructor(){
-        this.a = '', this.b = '', this.d = ()=>''
-        ;
+        this.a = '', this.b = '', this.d = ()=>'';
     }
 }
-C.g = ()=>''
-;
+C.g = ()=>'';
 class D extends C {
     method() {
         var d = new D();

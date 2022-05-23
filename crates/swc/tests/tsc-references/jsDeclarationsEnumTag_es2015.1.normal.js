@@ -15,10 +15,8 @@
     /** @type {number} */ FINE: 2
 };
 /** @enum {function(number): number} */ export const Fs = {
-    ADD1: (n)=>n + 1
-    ,
-    ID: (n)=>n
-    ,
+    ADD1: (n)=>n + 1,
+    ID: (n)=>n,
     SUB1: (n)=>n - 1
 };
 /**

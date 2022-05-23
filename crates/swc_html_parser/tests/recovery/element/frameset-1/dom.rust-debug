@@ -1,0 +1,52 @@
+| <!DOCTYPE html "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
+| <html>
+|   <head>
+|     "
+    "
+|     <meta>
+|       content="text/html; charset=utf-8"
+|       http-equiv="Content-Type"
+|     "
+    "
+|     <title>
+|       "Тег FRAMESET"
+|     "
+"
+|   "
+
+"
+|   <frameset>
+|     cols="*"
+|     rows="80,*"
+|     "
+    "
+|     <frame>
+|       name="topFrame"
+|       noresize=""
+|       scrolling="no"
+|       src="top.html"
+|     "
+    "
+|     <frameset>
+|       cols="80,*"
+|       "
+        "
+|       <frame>
+|         name="leftFrame"
+|         noresize=""
+|         scrolling="no"
+|         src="left.html"
+|       "
+        "
+|       <frame>
+|         name="mainFrame"
+|         src="main.html"
+|       "
+    "
+|     "
+"
+|   "
+
+
+
+"

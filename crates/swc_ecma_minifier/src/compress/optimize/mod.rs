@@ -1,5 +1,6 @@
 use std::{iter::once, mem::take};
 
+#[allow(unused_imports)]
 use retain_mut::RetainMut;
 use rustc_hash::FxHashMap;
 use swc_atoms::{js_word, JsWord};
@@ -1193,48 +1194,6 @@ where
         }))
     }
 
-    ///
-    /// - `a ? true : false` => `!!a`
-    fn compress_useless_cond_expr(&mut self, expr: &mut Expr) {
-        let cond = match expr {
-            Expr::Cond(c) => c,
-            _ => return,
-        };
-
-        let lt = cond.cons.get_type();
-        let rt = cond.alt.get_type();
-        match (lt, rt) {
-            (Known(Type::Bool), Known(Type::Bool)) => {}
-            _ => return,
-        }
-
-        let lb = cond.cons.as_pure_bool(&self.expr_ctx);
-        let rb = cond.alt.as_pure_bool(&self.expr_ctx);
-
-        let lb = match lb {
-            Value::Known(v) => v,
-            Value::Unknown => return,
-        };
-        let rb = match rb {
-            Value::Known(v) => v,
-            Value::Unknown => return,
-        };
-
-        // `cond ? true : false` => !!cond
-        if lb && !rb {
-            self.negate(&mut cond.test, false);
-            self.negate(&mut cond.test, false);
-            *expr = *cond.test.take();
-            return;
-        }
-
-        // `cond ? false : true` => !cond
-        if !lb && rb {
-            self.negate(&mut cond.test, false);
-            *expr = *cond.test.take();
-        }
-    }
-
     fn merge_var_decls(&mut self, stmts: &mut Vec<Stmt>) {
         if !self.options.join_vars && !self.options.hoist_vars {
             return;
@@ -1779,11 +1738,7 @@ where
 
         self.compress_typeofs(e);
 
-        self.optimize_nullish_coalescing(e);
-
         self.compress_logical_exprs_as_bang_bang(e, false);
-
-        self.compress_useless_cond_expr(e);
 
         self.inline(e);
 
@@ -1797,8 +1752,6 @@ where
         }
 
         self.compress_cond_expr_if_similar(e);
-
-        self.compress_negated_bin_eq(e);
 
         if self.options.negate_iife {
             self.negate_iife_in_cond(e);
@@ -1913,8 +1866,15 @@ where
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_fn_decl(&mut self, f: &mut FnDecl) {
+        #[cfg(feature = "debug")]
+        let _tracing = tracing::span!(
+            Level::ERROR,
+            "visit_mut_fn_decl",
+            id = tracing::field::display(&f.ident)
+        )
+        .entered();
+
         self.functions
             .entry(f.ident.to_id())
             .or_insert_with(|| FnMetadata::from(&f.function));

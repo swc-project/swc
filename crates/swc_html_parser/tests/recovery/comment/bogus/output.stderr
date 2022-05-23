@@ -4,3 +4,5 @@
  1 | <!–– Failing New York Times Comment -->
    : ^^^^^
    `----
+
+  x End of file seen without seeing a doctype first, expected "<!DOCTYPE html>"

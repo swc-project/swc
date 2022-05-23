@@ -78,7 +78,16 @@ impl ActiveFormattingElementStack {
             }
 
             let mut sorted_attributes_in_element = attributes_in_element.clone();
+
+            for attribute in &mut sorted_attributes_in_element {
+                attribute.span = Default::default();
+            }
+
             let mut sorted_attributes_in_new_element = attributes_in_new_element.clone();
+
+            for attribute in &mut sorted_attributes_in_new_element {
+                attribute.span = Default::default();
+            }
 
             sorted_attributes_in_element.sort();
             sorted_attributes_in_new_element.sort();

@@ -27,13 +27,50 @@ a1([
         ]
     ],
     3
+]), function(z = [
+    void 0,
+    null
+]) {}([
+    1,
+    2,
+    3
 ]), b2("string", {
     x: 200,
     y: "string"
 }), b2("string", {
     x: 200,
     y: !0
-}), function(Foo) {
+}), function([a, z, y] = [
+    void 0,
+    null,
+    void 0
+]) {}([
+    "string",
+    1,
+    2
+]), function([[a], b, [[c, d]]] = [
+    [
+        void 0
+    ],
+    void 0,
+    [
+        [
+            void 0,
+            void 0
+        ]
+    ]
+]) {}([
+    [
+        "string"
+    ],
+    1,
+    [
+        [
+            !0,
+            !1
+        ]
+    ]
+]), function(Foo) {
     Foo[Foo.a = 0] = "a";
 }(Foo || (Foo = {})), c0({
     z: {
@@ -53,6 +90,10 @@ a1([
     z: 1
 }), c2({}), c2({
     z: 1
+}), function({ b  } = {
+    b: "hello"
+}) {}({
+    b: 1
 }), c5([
     1,
     2,

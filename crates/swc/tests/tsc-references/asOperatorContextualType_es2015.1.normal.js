@@ -1,3 +1,2 @@
 // should error
-var x = (v)=>v
-;
+var x = (v)=>v;

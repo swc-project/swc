@@ -1,0 +1,8 @@
+{
+    "jsc": {
+        "target": "es2021",
+        "output": {
+            "charset": "ascii"
+        }
+    }
+}

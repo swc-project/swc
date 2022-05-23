@@ -140,8 +140,7 @@ impl Storage for ProgramData {
                 is_fn_local: true,
                 var_kind: kind,
                 var_initialized: has_init,
-                no_side_effect_for_member_access: ctx
-                    .in_var_decl_with_no_side_effect_for_member_access,
+                no_side_effect_for_member_access: ctx.in_decl_with_no_side_effect_for_member_access,
 
                 ..Default::default()
             });

@@ -113,6 +113,7 @@ pub extern crate swc_common as common;
 pub extern crate swc_ecmascript as ecmascript;
 
 use std::{
+    env,
     fs::{read_to_string, File},
     path::{Path, PathBuf},
     sync::Arc,
@@ -121,7 +122,7 @@ use std::{
 use anyhow::{bail, Context, Error};
 use atoms::JsWord;
 use common::{collections::AHashMap, comments::SingleThreadedComments, errors::HANDLER};
-use config::{IsModule, JsMinifyCommentOption, JsMinifyOptions};
+use config::{IsModule, JsMinifyCommentOption, JsMinifyOptions, OutputCharset};
 use json_comments::StripComments;
 use once_cell::sync::Lazy;
 use serde::Serialize;
@@ -372,7 +373,7 @@ impl Compiler {
         is_module: IsModule,
         comments: Option<&dyn Comments>,
     ) -> Result<Program, Error> {
-        self.run(|| {
+        let mut res = self.run(|| {
             let mut error = false;
 
             let mut errors = vec![];
@@ -407,7 +408,13 @@ impl Compiler {
             }
 
             Ok(program)
-        })
+        });
+
+        if env::var("SWC_DEBUG").unwrap_or_default() == "1" {
+            res = res.with_context(|| format!("Parser config: {:?}", syntax));
+        }
+
+        res
     }
 
     /// Converts ast node to source string and sourcemap.
@@ -428,6 +435,8 @@ impl Compiler {
         orig: Option<&sourcemap::SourceMap>,
         minify: bool,
         comments: Option<&dyn Comments>,
+        emit_source_map_columns: bool,
+        ascii_only: bool,
     ) -> Result<TransformOutput, Error>
     where
         T: Node + VisitWith<IdentCollector>,
@@ -440,7 +449,7 @@ impl Compiler {
             let src = {
                 let mut buf = vec![];
                 {
-                    let mut wr = Box::new(swc_ecma_codegen::text_writer::JsWriter::with_target(
+                    let mut wr = Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
                         self.cm.clone(),
                         "\n",
                         &mut buf,
@@ -449,7 +458,6 @@ impl Compiler {
                         } else {
                             None
                         },
-                        target,
                     )) as Box<dyn WriteJs>;
 
                     if minify {
@@ -457,7 +465,11 @@ impl Compiler {
                     }
 
                     let mut emitter = Emitter {
-                        cfg: swc_ecma_codegen::Config { minify },
+                        cfg: swc_ecma_codegen::Config {
+                            minify,
+                            target,
+                            ascii_only,
+                        },
                         comments,
                         cm: self.cm.clone(),
                         wr,
@@ -472,7 +484,7 @@ impl Compiler {
 
             if cfg!(debug_assertions)
                 && !src_map_buf.is_empty()
-                && src_map_buf.iter().all(|(bp, _)| *bp == BytePos(0))
+                && src_map_buf.iter().all(|(bp, _)| bp.is_dummy())
                 && src.lines().count() >= 3
                 && option_env!("SWC_DEBUG") == Some("1")
             {
@@ -493,6 +505,7 @@ impl Compiler {
                                     output_path: output_path.as_deref(),
                                     names: source_map_names,
                                     inline_sources_content,
+                                    emit_columns: emit_source_map_columns,
                                 },
                             )
                             .to_writer(&mut buf)
@@ -517,6 +530,7 @@ impl Compiler {
                                 output_path: output_path.as_deref(),
                                 names: source_map_names,
                                 inline_sources_content,
+                                emit_columns: emit_source_map_columns,
                             },
                         )
                         .to_writer(&mut buf)
@@ -546,6 +560,8 @@ struct SwcSourceMapConfig<'a> {
     names: &'a AHashMap<BytePos, JsWord>,
 
     inline_sources_content: bool,
+
+    emit_columns: bool,
 }
 
 impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
@@ -583,6 +599,18 @@ impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
 
     fn inline_sources_content(&self, _: &FileName) -> bool {
         self.inline_sources_content
+    }
+
+    fn emit_columns(&self, _f: &FileName) -> bool {
+        self.emit_columns
+    }
+
+    fn skip(&self, f: &FileName) -> bool {
+        if let FileName::Custom(s) = f {
+            s.starts_with('<')
+        } else {
+            false
+        }
     }
 }
 
@@ -869,6 +897,8 @@ impl Compiler {
                 preserve_comments: config.preserve_comments,
                 inline_sources_content: config.inline_sources_content,
                 comments: config.comments,
+                emit_source_map_columns: config.emit_source_map_columns,
+                output: config.output,
             };
 
             let orig = if config.source_maps.enabled() {
@@ -1040,6 +1070,8 @@ impl Compiler {
                 orig.as_ref(),
                 true,
                 Some(&comments),
+                opts.emit_source_map_columns,
+                opts.format.ascii_only,
             )
         })
     }
@@ -1111,6 +1143,12 @@ impl Compiler {
                 orig,
                 config.minify,
                 config.comments.as_ref().map(|v| v as _),
+                config.emit_source_map_columns,
+                config
+                    .output
+                    .charset
+                    .map(|v| matches!(v, OutputCharset::Ascii))
+                    .unwrap_or(false),
             )
         })
     }

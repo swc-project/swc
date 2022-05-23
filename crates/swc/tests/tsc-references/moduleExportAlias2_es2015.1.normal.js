@@ -1,8 +1,7 @@
 // @Filename: semver.js
 /// <reference path='node.d.ts' />
 exports = module.exports = C;
-exports.f = (n)=>n + 1
-;
+exports.f = (n)=>n + 1;
 function C() {
     this.p = 1;
 }

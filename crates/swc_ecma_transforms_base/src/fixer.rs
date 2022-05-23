@@ -337,7 +337,17 @@ impl VisitMut for Fixer<'_> {
         self.ctx = Context::Callee { is_new: false };
         node.callee.visit_mut_with(self);
         match &mut node.callee {
-            Callee::Expr(e) if e.is_cond() || e.is_bin() || e.is_lit() || e.is_unary() => {
+            Callee::Expr(e)
+                if match &**e {
+                    Expr::Lit(Lit::Num(..) | Lit::Str(..)) => false,
+                    Expr::Cond(..)
+                    | Expr::Bin(..)
+                    | Expr::Lit(..)
+                    | Expr::Unary(..)
+                    | Expr::Object(..) => true,
+                    _ => false,
+                } =>
+            {
                 self.wrap(&mut **e);
             }
             _ => {}
@@ -503,15 +513,13 @@ impl VisitMut for Fixer<'_> {
         debug_assert!(self.span_map.is_empty());
         self.span_map.clear();
 
-        let n = n.visit_mut_children_with(self);
+        n.visit_mut_children_with(self);
         if let Some(c) = self.comments {
             for (to, from) in self.span_map.drain() {
                 c.move_leading(from.lo, to.lo);
                 c.move_trailing(from.hi, to.hi);
             }
         }
-
-        n
     }
 
     fn visit_mut_new_expr(&mut self, node: &mut NewExpr) {
@@ -566,15 +574,13 @@ impl VisitMut for Fixer<'_> {
         debug_assert!(self.span_map.is_empty());
         self.span_map.clear();
 
-        let n = n.visit_mut_children_with(self);
+        n.visit_mut_children_with(self);
         if let Some(c) = self.comments {
             for (to, from) in self.span_map.drain() {
                 c.move_leading(from.lo, to.lo);
                 c.move_trailing(from.hi, to.hi);
             }
         }
-
-        n
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
