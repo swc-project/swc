@@ -212,7 +212,11 @@ impl NodeModulesResolver {
 
     /// Resolve a path as a directory, using the "main" key from a package.json
     /// file if it exists, or resolving to the index.EXT file if it exists.
-    fn resolve_as_directory(&self, path: &Path) -> Result<Option<PathBuf>, Error> {
+    fn resolve_as_directory(
+        &self,
+        path: &Path,
+        allow_package_entry: bool,
+    ) -> Result<Option<PathBuf>, Error> {
         let _tracing = if cfg!(debug_assertions) {
             Some(
                 tracing::span!(
@@ -231,7 +235,7 @@ impl NodeModulesResolver {
         }
 
         let pkg_path = path.join(PACKAGE);
-        if pkg_path.is_file() {
+        if allow_package_entry && pkg_path.is_file() {
             if let Some(main) = self.resolve_package_entry(path, &pkg_path)? {
                 return Ok(Some(main));
             }
@@ -294,7 +298,7 @@ impl NodeModulesResolver {
                                     let path = pkg_dir.join(k);
                                     if let Ok(file) = self
                                         .resolve_as_file(&path)
-                                        .or_else(|_| self.resolve_as_directory(&path))
+                                        .or_else(|_| self.resolve_as_directory(&path, false))
                                     {
                                         file
                                     } else {
@@ -309,7 +313,7 @@ impl NodeModulesResolver {
                                         let path = pkg_dir.join(dest);
                                         let file = self
                                             .resolve_as_file(&path)
-                                            .or_else(|_| self.resolve_as_directory(&path))?;
+                                            .or_else(|_| self.resolve_as_directory(&path, false))?;
                                         if let Some(file) = file {
                                             let target = file.clean();
 
@@ -349,7 +353,7 @@ impl NodeModulesResolver {
             let path = pkg_dir.join(target);
             return self
                 .resolve_as_file(&path)
-                .or_else(|_| self.resolve_as_directory(&path));
+                .or_else(|_| self.resolve_as_directory(&path, false));
         }
 
         Ok(None)
@@ -370,7 +374,7 @@ impl NodeModulesResolver {
                 if let Some(result) = self
                     .resolve_as_file(&path)
                     .ok()
-                    .or_else(|| self.resolve_as_directory(&path).ok())
+                    .or_else(|| self.resolve_as_directory(&path, true).ok())
                     .flatten()
                 {
                     return Ok(Some(result));
@@ -439,7 +443,7 @@ impl Resolve for NodeModulesResolver {
             if target_path.is_absolute() {
                 let path = PathBuf::from(target_path);
                 self.resolve_as_file(&path)
-                    .or_else(|_| self.resolve_as_directory(&path))
+                    .or_else(|_| self.resolve_as_directory(&path, true))
                     .and_then(|p| self.wrap(p))
             } else {
                 let mut components = target_path.components();
@@ -457,7 +461,7 @@ impl Resolve for NodeModulesResolver {
                     #[cfg(not(windows))]
                     let path = base_dir.join(target);
                     self.resolve_as_file(&path)
-                        .or_else(|_| self.resolve_as_directory(&path))
+                        .or_else(|_| self.resolve_as_directory(&path, true))
                         .and_then(|p| self.wrap(p))
                 } else {
                     self.resolve_node_modules(base_dir, target)
