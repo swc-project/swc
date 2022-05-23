@@ -699,10 +699,22 @@ where
                 self.process_token(token_and_info, None)?;
             }
             Token::EndTag { tag_name, .. } if matches!(tag_name.as_ref(), "br" | "p") => {
-                self.errors.push(Error::new(
-                    token_and_info.span,
-                    ErrorKind::HtmlEndTagInForeignContext(tag_name.clone()),
-                ));
+                if self.open_elements_stack.items.is_empty() {
+                    self.errors.push(Error::new(
+                        token_and_info.span,
+                        ErrorKind::StrayEndTag(tag_name.clone()),
+                    ));
+                } else {
+                    let last = get_tag_name!(self.open_elements_stack.items.last().unwrap());
+
+                    self.errors.push(Error::new(
+                        token_and_info.span,
+                        ErrorKind::EndTagDidNotMatchCurrentOpenElement(
+                            tag_name.clone(),
+                            last.into(),
+                        ),
+                    ));
+                }
                 self.open_elements_stack.pop_until_in_foreign();
                 self.process_token(token_and_info, None)?;
             }

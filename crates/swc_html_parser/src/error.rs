@@ -212,11 +212,6 @@ impl Error {
                 tag_name
             )
             .into(),
-            ErrorKind::HtmlEndTagInForeignContext(tag_name) => format!(
-                "HTML end tag \"{}\" in a foreign namespace context",
-                tag_name
-            )
-            .into(),
             ErrorKind::NoTableRowToClose => "No table row to close".into(),
             ErrorKind::NonSpaceCharacterInTable => {
                 "Misplaced non-space characters inside a table".into()
@@ -354,8 +349,6 @@ pub enum ErrorKind {
     EndTagBr,
     NoElementToCloseButEndTagSeen(JsWord),
     HtmlStartTagInForeignContext(JsWord),
-    // TODO Do we need it?
-    HtmlEndTagInForeignContext(JsWord),
     NoTableRowToClose,
     NonSpaceCharacterInTable,
     UnclosedChildrenInRuby,
@@ -366,7 +359,7 @@ pub enum ErrorKind {
     EofWithUnclosedElements,
     EndTagWithUnclosedElements(JsWord),
     NonSpaceCharacterWithoutDoctype,
-    // Todo improve me
+    // Todo improve me End of file seen and there were open elements
     EofWithoutDoctype,
     UnexpectedEof,
 }

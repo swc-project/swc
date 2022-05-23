@@ -1,5 +1,5 @@
 
-  x HTML end tag "p" in a foreign namespace context
+  x End tag "p" did not match the name of the current open element ("svg")
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:11:1]
  11 | <div><svg></p></svg</div>
     :           ^^^^
@@ -29,7 +29,7 @@
     :               ^^^^^^^^^^^
     `----
 
-  x HTML end tag "br" in a foreign namespace context
+  x End tag "br" did not match the name of the current open element ("svg")
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:12:1]
  12 | <div><svg></br></svg</div>
     :           ^^^^^
@@ -1179,7 +1179,7 @@
     :      ^^^^^^
     `----
 
-  x HTML end tag "p" in a foreign namespace context
+  x End tag "p" did not match the name of the current open element ("math")
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:55:1]
  55 | <div><math></p></math</div>
     :            ^^^^
@@ -1234,7 +1234,7 @@
     :      ^^^^^^
     `----
 
-  x HTML end tag "br" in a foreign namespace context
+  x End tag "br" did not match the name of the current open element ("math")
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:56:1]
  56 | <div><math></br></math</div>
     :            ^^^^^
