@@ -23,6 +23,9 @@
 - **(es/typescript)** Mark namespaces as concrete (#4736) ([41d4437](https://github.com/swc-project/swc/commit/41d443767147f97909e6b1004cb4be6dcea207c1))
 
 
+- **(es/typescript)** Preserve referenced imports for namespace (#4759) ([065b2a5](https://github.com/swc-project/swc/commit/065b2a514ff4429e52e244a9f090048f5f764d83))
+
+
 - **(html/parser)** Fix error reporting in the foreign context (#4725) ([4df0637](https://github.com/swc-project/swc/commit/4df06378179bc27562e84e0814c0878b8edf29f5))
 
 
