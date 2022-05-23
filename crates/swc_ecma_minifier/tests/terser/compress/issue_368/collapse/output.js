@@ -1,10 +1,8 @@
 function f1() {
-    return void 0 !== ("function" === typeof b ? b() : b) && c();
+    return void 0 !== ("function" == typeof b ? b() : b) && c();
 }
 function f2(b) {
-    return (
-        "stirng" == typeof ("function" === typeof (b = c()) ? b() : b) && d()
-    );
+    return "stirng" == typeof ("function" == typeof (b = c()) ? b() : b) && d();
 }
 function f3(c) {
     var a;
