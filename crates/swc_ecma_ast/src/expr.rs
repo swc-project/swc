@@ -924,7 +924,7 @@ impl Spanned for ExprOrSpread {
 
     #[inline]
     fn span_hi(&self) -> BytePos {
-        self.expr.hi()
+        self.expr.span_hi()
     }
 }
 
