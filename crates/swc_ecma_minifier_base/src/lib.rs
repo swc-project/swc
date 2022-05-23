@@ -1,3 +1,5 @@
+#![deny(warnings)]
+
 pub mod debug;
 mod macros;
 pub mod marks;

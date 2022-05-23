@@ -335,12 +335,12 @@ pub struct CompressOptions {
 }
 
 impl CompressOptions {
-    pub(crate) fn sequences(&self) -> bool {
+    pub fn sequences(&self) -> bool {
         self.sequences != 0
     }
 
     /// Returns `true` if any of toplevel optimizer is enabled.
-    pub(crate) fn top_level(&self) -> bool {
+    pub fn top_level(&self) -> bool {
         if !self.top_retain.is_empty() {
             return true;
         }

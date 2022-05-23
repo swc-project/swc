@@ -17,7 +17,7 @@ use swc_ecma_visit::{
 };
 use tracing::debug;
 
-pub(crate) struct Debugger {}
+pub struct Debugger {}
 
 impl VisitMut for Debugger {
     noop_visit_mut_type!();
@@ -36,14 +36,12 @@ impl VisitMut for Debugger {
     }
 }
 
-pub(crate) fn dump<N>(node: &N, force: bool) -> String
+pub fn dump<N>(node: &N, force: bool) -> String
 where
     N: swc_ecma_codegen::Node + Clone + VisitMutWith<DropSpan> + VisitMutWith<Debugger>,
 {
-    if !force {
-        if !cfg!(feature = "debug") {
-            return String::new();
-        }
+    if !force && !cfg!(feature = "debug") {
+        return String::new();
     }
 
     let mut node = node.clone();
@@ -70,7 +68,7 @@ where
 ///
 /// If the cargo feature `debug` is disabled or the environment variable
 /// `SWC_RUN` is not `1`, this function is noop.
-pub(crate) fn invoke(module: &Module) {
+pub fn invoke(module: &Module) {
     if cfg!(debug_assertions) {
         module.visit_with(&mut AssertValid);
     }
