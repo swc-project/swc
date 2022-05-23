@@ -1158,8 +1158,8 @@ pub trait ExprExt {
             return true;
         }
 
-        match *self.as_expr() {
-            Expr::Member(MemberExpr { ref obj, .. }) => {
+        match self.as_expr() {
+            Expr::Member(MemberExpr { obj, .. }) => {
                 obj.is_global_ref_to(ctx, "Math")
                     || match &**obj {
                         // Allow dummy span
@@ -1175,11 +1175,12 @@ pub trait ExprExt {
             Expr::Fn(FnExpr {
                 function:
                     Function {
-                        body: Some(BlockStmt { ref stmts, .. }),
+                        params,
+                        body: Some(BlockStmt { stmts, .. }),
                         ..
                     },
                 ..
-            }) if stmts.is_empty() => true,
+            }) if params.is_empty() && stmts.is_empty() => true,
 
             _ => false,
         }
