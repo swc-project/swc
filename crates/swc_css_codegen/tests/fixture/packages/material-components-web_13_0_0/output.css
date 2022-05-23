@@ -6919,31 +6919,19 @@ svg.mdc-button__icon {
 @media (min-width: 840px) {
   .mdc-layout-grid--fixed-column-width {
     width: 1176px;
-    width: calc(
-                var(--mdc-layout-grid-column-width-desktop, 72px) * 12 +
-                var(--mdc-layout-grid-gutter-desktop, 24px) * 11 +
-                var(--mdc-layout-grid-margin-desktop, 24px) * 2
-        );
+    width: calc(var(--mdc-layout-grid-column-width-desktop, 72px) * 12 + var(--mdc-layout-grid-gutter-desktop, 24px) * 11 + var(--mdc-layout-grid-margin-desktop, 24px) * 2);
   }
 }
 @media (min-width: 600px) and (max-width: 839px) {
   .mdc-layout-grid--fixed-column-width {
     width: 720px;
-    width: calc(
-                var(--mdc-layout-grid-column-width-tablet, 72px) * 8 +
-                var(--mdc-layout-grid-gutter-tablet, 16px) * 7 +
-                var(--mdc-layout-grid-margin-tablet, 16px) * 2
-        );
+    width: calc(var(--mdc-layout-grid-column-width-tablet, 72px) * 8 + var(--mdc-layout-grid-gutter-tablet, 16px) * 7 + var(--mdc-layout-grid-margin-tablet, 16px) * 2);
   }
 }
 @media (max-width: 599px) {
   .mdc-layout-grid--fixed-column-width {
     width: 368px;
-    width: calc(
-                var(--mdc-layout-grid-column-width-phone, 72px) * 4 +
-                var(--mdc-layout-grid-gutter-phone, 16px) * 3 +
-                var(--mdc-layout-grid-margin-phone, 16px) * 2
-        );
+    width: calc(var(--mdc-layout-grid-column-width-phone, 72px) * 4 + var(--mdc-layout-grid-gutter-phone, 16px) * 3 + var(--mdc-layout-grid-margin-phone, 16px) * 2);
   }
 }
 .mdc-layout-grid--align-left {

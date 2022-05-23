@@ -160,9 +160,7 @@ where
             | "atan" | "sqrt" | "exp" | "abs" | "sign" => {
                 self.input.skip_ws()?;
 
-                let calc_sum = self.try_parse_variable_function(|parser| {
-                    Ok(ComponentValue::CalcSum(parser.parse()?))
-                })?;
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
                 values.push(calc_sum);
 
@@ -171,9 +169,7 @@ where
             "min" | "max" | "hypot" => {
                 self.input.skip_ws()?;
 
-                let calc_sum = self.try_parse_variable_function(|parser| {
-                    Ok(ComponentValue::CalcSum(parser.parse()?))
-                })?;
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
                 values.push(calc_sum);
 
@@ -188,9 +184,7 @@ where
                         break;
                     }
 
-                    let calc_sum = self.try_parse_variable_function(|parser| {
-                        Ok(ComponentValue::CalcSum(parser.parse()?))
-                    })?;
+                    let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
                     values.push(calc_sum);
                 }
@@ -198,9 +192,7 @@ where
             "clamp" => {
                 self.input.skip_ws()?;
 
-                let calc_sum = self.try_parse_variable_function(|parser| {
-                    Ok(ComponentValue::CalcSum(parser.parse()?))
-                })?;
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
                 values.push(calc_sum);
 
@@ -216,9 +208,7 @@ where
                     return Err(Error::new(span, ErrorKind::Expected("',' delim token")));
                 }
 
-                let calc_sum = self.try_parse_variable_function(|parser| {
-                    Ok(ComponentValue::CalcSum(parser.parse()?))
-                })?;
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
                 values.push(calc_sum);
 
@@ -234,9 +224,7 @@ where
                     return Err(Error::new(span, ErrorKind::Expected("',' delim token")));
                 }
 
-                let calc_sum = self.try_parse_variable_function(|parser| {
-                    Ok(ComponentValue::CalcSum(parser.parse()?))
-                })?;
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
                 values.push(calc_sum);
 
@@ -264,9 +252,7 @@ where
                     }
                 }
 
-                let calc_sum = self.try_parse_variable_function(|parser| {
-                    Ok(ComponentValue::CalcSum(parser.parse()?))
-                })?;
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
                 values.push(calc_sum);
 
@@ -282,9 +268,7 @@ where
                     return Err(Error::new(span, ErrorKind::Expected("',' delim token")));
                 }
 
-                let calc_sum = self.try_parse_variable_function(|parser| {
-                    Ok(ComponentValue::CalcSum(parser.parse()?))
-                })?;
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
                 values.push(calc_sum);
 
@@ -293,9 +277,7 @@ where
             "mod" | "rem" | "atan2" | "pow" => {
                 self.input.skip_ws()?;
 
-                let calc_sum = self.try_parse_variable_function(|parser| {
-                    Ok(ComponentValue::CalcSum(parser.parse()?))
-                })?;
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
                 values.push(calc_sum);
 
@@ -311,9 +293,7 @@ where
                     return Err(Error::new(span, ErrorKind::Expected("',' delim token")));
                 }
 
-                let calc_sum = self.try_parse_variable_function(|parser| {
-                    Ok(ComponentValue::CalcSum(parser.parse()?))
-                })?;
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
                 values.push(calc_sum);
 
@@ -322,9 +302,7 @@ where
             "log" => {
                 self.input.skip_ws()?;
 
-                let calc_sum = self.try_parse_variable_function(|parser| {
-                    Ok(ComponentValue::CalcSum(parser.parse()?))
-                })?;
+                let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
                 values.push(calc_sum);
 
@@ -335,9 +313,7 @@ where
 
                     self.input.skip_ws()?;
 
-                    let calc_sum = self.try_parse_variable_function(|parser| {
-                        Ok(ComponentValue::CalcSum(parser.parse()?))
-                    })?;
+                    let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
                     values.push(calc_sum);
 
@@ -357,14 +333,9 @@ where
 
                         self.input.skip_ws()?;
 
-                        let color = match cur!(self) {
-                            Token::Function { value, .. }
-                                if matches!(&*value.to_lowercase(), "var" | "env") =>
-                            {
-                                ComponentValue::Function(self.parse()?)
-                            }
-                            _ => ComponentValue::Color(self.parse()?),
-                        };
+                        let color = self.try_parse_variable_function(|parser| {
+                            Ok(ComponentValue::Color(parser.parse()?))
+                        })?;
 
                         values.push(color);
 
