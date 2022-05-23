@@ -1,5 +1,5 @@
 
-  x Unexpected end tag for "</html>", but there were unclosed elements
+  x Unexpected end tag for "html", but there were unclosed elements
    ,-[$DIR/tests/recovery/element/html/input.html:9:1]
  9 | </html>
    : ^^^^^^^

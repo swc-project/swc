@@ -5,6 +5,9 @@
 
 
 
+- **(es/loader)** Fix `jsc.paths` on windows (#4739) ([417b218](https://github.com/swc-project/swc/commit/417b2182cead074c9ebf9358d53f353157637a8d))
+
+
 - **(es/modules/cjs)** FIx detection of exported names (#4737) ([d9bb59a](https://github.com/swc-project/swc/commit/d9bb59a8cb1998f87b0f115e9cc4b0b53923096a))
 
 
@@ -30,6 +33,9 @@
 
 
 - **(html/parser)** Improve error reporting (#4728) ([c346d30](https://github.com/swc-project/swc/commit/c346d309a7f2d16bac84bd9f8bdf74520ab6f711))
+
+
+- **(html/parser)** Improve error reporting (#4740) ([51f4cea](https://github.com/swc-project/swc/commit/51f4cea10349145a66e45dabb78cc244784b3c98))
 
 ## [1.2.189] - 2022-05-21
 

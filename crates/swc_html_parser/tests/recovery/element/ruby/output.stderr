@@ -1,11 +1,11 @@
 
-  x Missing doctype
+  x Start tag seen without seeing a doctype firs, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/element/ruby/input.html:1:1]
  1 | <html><ruby>a<rb>b<span></ruby></html>
    : ^^^^^^
    `----
 
-  x Unexpected token
+  x End tag "ruby" seen, but there were open elements
    ,-[$DIR/tests/recovery/element/ruby/input.html:1:1]
  1 | <html><ruby>a<rb>b<span></ruby></html>
    :                         ^^^^^^^

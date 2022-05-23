@@ -1,5 +1,5 @@
 
-  x Unexpected HTML start tag "<meta>" between "</head>" and "<body>"
+  x "meta" element between "head" and "body"
    ,-[$DIR/tests/recovery/element/head/input.html:6:1]
  6 | <meta charset="UTF-8">
    : ^^^^^^^^^^^^^^^^^^^^^^

@@ -5,19 +5,19 @@
  2 | `->         "http://www.w3.org/TR/html4/frameset.dtd">
    `----
 
-  x Non-space character after "<frameset>"
+  x Non-space character after "frameset"
     ,-[$DIR/tests/recovery/element/frameset-1/input.html:16:1]
  16 | a
     : ^
     `----
 
-  x Stray start tag "<div>"
+  x Stray start tag "div"
     ,-[$DIR/tests/recovery/element/frameset-1/input.html:17:1]
  17 | <div></div>
     : ^^^^^
     `----
 
-  x Stray end tag "</div>"
+  x Stray end tag "div"
     ,-[$DIR/tests/recovery/element/frameset-1/input.html:17:1]
  17 | <div></div>
     :      ^^^^^^
