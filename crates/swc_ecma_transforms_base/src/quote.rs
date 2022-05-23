@@ -36,9 +36,7 @@ macro_rules! helper_expr {
         let external = $crate::helpers::HELPERS.with(|helper| helper.external());
 
         if external {
-            swc_ecma_utils::quote_ident!(span, "swcHelpers").make_member(
-                swc_ecma_utils::quote_ident!($span, $crate::external_name!($s)),
-            )
+            Expr::from(swc_ecma_utils::quote_ident!(span, $s))
         } else {
             Expr::from(swc_ecma_utils::quote_ident!(span, $s))
         }
@@ -60,9 +58,7 @@ macro_rules! helper_expr {
         let external = $crate::helpers::HELPERS.with(|helper| helper.external());
 
         if external {
-            swc_ecma_utils::quote_ident!(span, "swcHelpers").make_member(
-                swc_ecma_utils::quote_ident!($span, $crate::external_name!($s)),
-            )
+            Expr::from(swc_ecma_utils::quote_ident!(span, $s))
         } else {
             Expr::from(swc_ecma_utils::quote_ident!(span, concat!('_', $s)))
         }
