@@ -1,8 +1,7 @@
 function f1() {
     const x = getStringOrNumber();
     if (typeof x === "string") {
-        const f = ()=>x.length
-        ;
+        const f = ()=>x.length;
     }
 }
 function f2() {
@@ -10,8 +9,7 @@ function f2() {
     if (typeof x !== "string") {
         return;
     }
-    const f = ()=>x.length
-    ;
+    const f = ()=>x.length;
 }
 function f3() {
     const x = getStringOrNumber();
@@ -33,7 +31,6 @@ function f4() {
 function f5() {
     const x = getStringOrNumber();
     if (typeof x === "string") {
-        const f = ()=>()=>x.length
-        ;
+        const f = ()=>()=>x.length;
     }
 }

@@ -17,10 +17,8 @@ function implicitThis(n) {
 }
 let impl = {
     a: 12,
-    explicitVoid2: ()=>this.a
-    ,
-    explicitVoid1: ()=>12
-    ,
+    explicitVoid2: ()=>this.a,
+    explicitVoid1: ()=>12,
     explicitStructural () {
         return this.a;
     },
@@ -33,14 +31,11 @@ let impl = {
 };
 impl.explicitVoid1 = function() {
     return 12;
-}, impl.explicitVoid2 = ()=>12
-, impl.explicitStructural = function() {
+}, impl.explicitVoid2 = ()=>12, impl.explicitStructural = function() {
     return this.a;
 }, impl.explicitInterface = function() {
     return this.a;
-}, impl.explicitStructural = ()=>12
-, impl.explicitInterface = ()=>12
-, impl.explicitThis = function() {
+}, impl.explicitStructural = ()=>12, impl.explicitInterface = ()=>12, impl.explicitThis = function() {
     return this.a;
 }, ({
     y: 12,
@@ -67,13 +62,7 @@ c.explicitC = explicitCFunction, c.explicitC = function(m) {
     return this.n + m;
 }, c.explicitProperty = explicitPropertyFunction, c.explicitProperty = function(m) {
     return this.n + m;
-}, c.explicitProperty = reconstructed.explicitProperty, c.explicitC = (m)=>m
-, c.explicitThis = (m)=>m
-, c.explicitProperty = (m)=>m
-, c.explicitC = (m)=>m + this.n
-, c.explicitThis = (m)=>m + this.n
-, c.explicitProperty = (m)=>m + this.n
-, c.explicitThis = explicitCFunction, c.explicitThis = function(m) {
+}, c.explicitProperty = reconstructed.explicitProperty, c.explicitC = (m)=>m, c.explicitThis = (m)=>m, c.explicitProperty = (m)=>m, c.explicitC = (m)=>m + this.n, c.explicitThis = (m)=>m + this.n, c.explicitProperty = (m)=>m + this.n, c.explicitThis = explicitCFunction, c.explicitThis = function(m) {
     return this.n + m;
 }, c.explicitC = function(m) {
     return this.n + m;
@@ -85,8 +74,7 @@ c.explicitC = explicitCFunction, c.explicitC = function(m) {
     return this.n + m;
 }, c.explicitC = function(m) {
     return this.n + m;
-}, c.explicitVoid = (n)=>n
-;
+}, c.explicitVoid = (n)=>n;
 class Base1 {
     polymorphic() {
         return this.x;

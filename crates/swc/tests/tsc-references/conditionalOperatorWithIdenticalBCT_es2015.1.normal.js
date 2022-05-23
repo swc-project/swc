@@ -29,9 +29,7 @@ var result3 = true ? {
 };
 //Contextually typed
 var resultIsX1 = true ? x : a;
-var result4 = true ? (m)=>m.propertyX
- : (n)=>n.propertyA
-;
+var result4 = true ? (m)=>m.propertyX : (n)=>n.propertyA;
 //Cond ? Expr1 : Expr2,  Expr2 is supertype
 //Be Not contextually typed
 true ? a : x;
@@ -53,14 +51,10 @@ var result7 = true ? {
 };
 //Contextually typed
 var resultIsX2 = true ? x : a;
-var result8 = true ? (m)=>m.propertyA
- : (n)=>n.propertyX
-;
+var result8 = true ? (m)=>m.propertyA : (n)=>n.propertyX;
 //Result = Cond ? Expr1 : Expr2,  Result is supertype
 //Contextually typed
 var resultIsX3 = true ? a : b;
-var result10 = true ? (m)=>m.propertyX1
- : (n)=>n.propertyX2
-;
+var result10 = true ? (m)=>m.propertyX1 : (n)=>n.propertyX2;
 //Expr1 and Expr2 are literals
 var result11 = true ? 1 : 'string';

@@ -24,8 +24,7 @@ for (var _ref1 of array){
 }
 for (const norest of array.map((a)=>swcHelpers.objectSpread({}, a, {
         x: 'a string'
-    })
-)){
+    }))){
     [
         norest.x,
         norest.y

@@ -3,6 +3,4 @@ var i, a, C = function() {
     "use strict";
     swcHelpers.classCallCheck(this, C);
 };
-(void 0)["a b"], C["c d"], i["a b"], a["a b"], ({
-    "a b": 1
-})["a b"];
+(void 0)["a b"], C["c d"], i["a b"], a["a b"];

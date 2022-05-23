@@ -9,16 +9,12 @@ class C3 {
 }
 class C5 {
     foo() {
-        let f1 = (x)=>this
-        ;
-        let f2 = (x)=>this
-        ;
-        let f3 = (x)=>(y)=>this
-        ;
+        let f1 = (x)=>this;
+        let f2 = (x)=>this;
+        let f3 = (x)=>(y)=>this;
         let f4 = (x)=>{
             let g = (y)=>{
-                return ()=>this
-                ;
+                return ()=>this;
             };
             return g(this);
         };

@@ -147,10 +147,7 @@ class Shard extends _utils.Emitter {
         swcHelpers.classPrivateFieldSet(this, _serialization1, _serialization.Serialization.create(encoding));
         // Step 2.2 - Compression
         if (this.manager.compression) {
-            swcHelpers.classPrivateFieldSet(this, _compression1, _compression.Compression.create(this.manager.compression).on("data", (buffer)=>this._packet(buffer)
-            ).on("error", (error)=>this.emit(_utils.ShardEvent.ERROR, error)
-            ).on("debug", (message)=>this._debug(message)
-            ));
+            swcHelpers.classPrivateFieldSet(this, _compression1, _compression.Compression.create(this.manager.compression).on("data", (buffer)=>this._packet(buffer)).on("error", (error)=>this.emit(_utils.ShardEvent.ERROR, error)).on("debug", (message)=>this._debug(message)));
             qs.append("compress", "zlib-stream");
         }
         /* Step 5 - Set the status and wait for the hello op code. */ this.status = this.status === _utils.Status.DISCONNECTED ? _utils.Status.RECONNECTING : _utils.Status.CONNECTING;
@@ -182,8 +179,7 @@ class Shard extends _utils.Emitter {
                  * @event Shard#ready
                  */ this.emit(_utils.ShardEvent.READY);
                 this.session.id = pak.d.session_id;
-                this.expectedGuilds = new Set(pak.d.guilds.map((g)=>g.id
-                ));
+                this.expectedGuilds = new Set(pak.d.guilds.map((g)=>g.id));
                 this.status = _utils.Status.WAITING_FOR_GUILDS;
                 this.heartbeat.acked = true;
                 this.heartbeat.new("ready");

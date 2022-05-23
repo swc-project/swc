@@ -91,7 +91,6 @@ jobs:
           # Enable alert commit comment
           comment-on-alert: true
           comment-always: true
-          alert-comment-cc-users: "@kdy1"
           skip-fetch-gh-pages: true
 
       - name: Analyze benchmark result (root)

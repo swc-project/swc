@@ -159,6 +159,16 @@
    `----
 
   x Attribute
+   ,-[$DIR/tests/recovery/element/plaintext/input.html:5:5]
+ 5 | <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   :       ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/recovery/element/plaintext/input.html:5:5]
+ 5 | <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   :                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
   x Child
    ,-[$DIR/tests/recovery/element/plaintext/input.html:5:5]

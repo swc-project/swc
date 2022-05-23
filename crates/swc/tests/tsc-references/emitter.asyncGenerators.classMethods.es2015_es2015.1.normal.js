@@ -75,8 +75,7 @@ class B9 {
 }
 class C9 extends B9 {
     f() {
-        var _this = this, _superprop_get_g = ()=>super.g
-        ;
+        var _this = this, _superprop_get_g = ()=>super.g;
         return swcHelpers.wrapAsyncGenerator(function*() {
             _superprop_get_g().call(_this);
         })();

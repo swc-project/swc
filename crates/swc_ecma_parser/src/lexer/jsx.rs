@@ -73,11 +73,11 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
 
         fn is_hex(s: &str) -> bool {
-            s.chars().all(|c| c.is_digit(16))
+            s.chars().all(|c| c.is_ascii_hexdigit())
         }
 
         fn is_dec(s: &str) -> bool {
-            s.chars().all(|c| c.is_digit(10))
+            s.chars().all(|c| c.is_ascii_digit())
         }
 
         let mut s = String::new();

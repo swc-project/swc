@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 1154,
+    "end": 1500,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 17,
-        "end": 1154,
+        "end": 1500,
         "ctxt": 0
       },
       "tagName": "html",
@@ -31,8 +31,8 @@
         {
           "type": "Attribute",
           "span": {
-            "start": 0,
-            "end": 0,
+            "start": 23,
+            "end": 32,
             "ctxt": 0
           },
           "namespace": null,
@@ -110,7 +110,7 @@
           "type": "Element",
           "span": {
             "start": 77,
-            "end": 1154,
+            "end": 1500,
             "ctxt": 0
           },
           "tagName": "body",
@@ -139,8 +139,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 98,
+                    "end": 127,
                     "ctxt": 0
                   },
                   "namespace": null,
@@ -149,440 +149,725 @@
                   "value": "element-details-template"
                 }
               ],
-              "children": [
-                {
-                  "type": "Text",
-                  "span": {
-                    "start": 128,
-                    "end": 137,
-                    "ctxt": 0
-                  },
-                  "value": "\n        "
+              "children": [],
+              "content": {
+                "type": "DocumentFragment",
+                "span": {
+                  "start": 88,
+                  "end": 1126,
+                  "ctxt": 0
                 },
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 137,
-                    "end": 689,
-                    "ctxt": 0
-                  },
-                  "tagName": "style",
-                  "namespace": "http://www.w3.org/1999/xhtml",
-                  "attributes": [],
-                  "children": [
-                    {
-                      "type": "Text",
-                      "span": {
-                        "start": 144,
-                        "end": 689,
-                        "ctxt": 0
-                      },
-                      "value": "\n            details {font-family: \"Open Sans Light\", Helvetica, Arial, sans-serif }\n            .name {font-weight: bold; color: #217ac0; font-size: 120% }\n            h4 {\n                margin: 10px 0 -8px 0;\n                background: #217ac0;\n                color: white;\n                padding: 2px 6px;\n                border: 1px solid #cee9f9;\n                border-radius: 4px;\n            }\n            .attributes { margin-left: 22px; font-size: 90% }\n            .attributes p { margin-left: 16px; font-style: italic }\n        "
-                    }
-                  ],
-                  "content": null
-                },
-                {
-                  "type": "Text",
-                  "span": {
-                    "start": 697,
-                    "end": 706,
-                    "ctxt": 0
-                  },
-                  "value": "\n        "
-                },
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 706,
-                    "end": 1098,
-                    "ctxt": 0
-                  },
-                  "tagName": "details",
-                  "namespace": "http://www.w3.org/1999/xhtml",
-                  "attributes": [],
-                  "children": [
-                    {
-                      "type": "Text",
-                      "span": {
-                        "start": 715,
-                        "end": 728,
-                        "ctxt": 0
-                      },
-                      "value": "\n            "
+                "children": [
+                  {
+                    "type": "Text",
+                    "span": {
+                      "start": 128,
+                      "end": 137,
+                      "ctxt": 0
                     },
-                    {
-                      "type": "Element",
-                      "span": {
-                        "start": 728,
-                        "end": 928,
-                        "ctxt": 0
-                      },
-                      "tagName": "summary",
-                      "namespace": "http://www.w3.org/1999/xhtml",
-                      "attributes": [],
-                      "children": [
-                        {
-                          "type": "Text",
-                          "span": {
-                            "start": 737,
-                            "end": 754,
-                            "ctxt": 0
-                          },
-                          "value": "\n                "
+                    "value": "\n        "
+                  },
+                  {
+                    "type": "Element",
+                    "span": {
+                      "start": 137,
+                      "end": 689,
+                      "ctxt": 0
+                    },
+                    "tagName": "style",
+                    "namespace": "http://www.w3.org/1999/xhtml",
+                    "attributes": [],
+                    "children": [
+                      {
+                        "type": "Text",
+                        "span": {
+                          "start": 144,
+                          "end": 689,
+                          "ctxt": 0
                         },
-                        {
-                          "type": "Element",
-                          "span": {
-                            "start": 754,
-                            "end": 823,
-                            "ctxt": 0
-                          },
-                          "tagName": "code",
-                          "namespace": "http://www.w3.org/1999/xhtml",
-                          "attributes": [
-                            {
-                              "type": "Attribute",
-                              "span": {
-                                "start": 0,
-                                "end": 0,
-                                "ctxt": 0
-                              },
-                              "namespace": null,
-                              "prefix": null,
-                              "name": "class",
-                              "value": "name"
-                            }
-                          ],
-                          "children": [
-                            {
-                              "type": "Text",
-                              "span": {
-                                "start": 773,
-                                "end": 777,
-                                "ctxt": 0
-                              },
-                              "value": "<"
+                        "value": "\n            details {font-family: \"Open Sans Light\", Helvetica, Arial, sans-serif }\n            .name {font-weight: bold; color: #217ac0; font-size: 120% }\n            h4 {\n                margin: 10px 0 -8px 0;\n                background: #217ac0;\n                color: white;\n                padding: 2px 6px;\n                border: 1px solid #cee9f9;\n                border-radius: 4px;\n            }\n            .attributes { margin-left: 22px; font-size: 90% }\n            .attributes p { margin-left: 16px; font-style: italic }\n        "
+                      }
+                    ],
+                    "content": null
+                  },
+                  {
+                    "type": "Text",
+                    "span": {
+                      "start": 697,
+                      "end": 706,
+                      "ctxt": 0
+                    },
+                    "value": "\n        "
+                  },
+                  {
+                    "type": "Element",
+                    "span": {
+                      "start": 706,
+                      "end": 1098,
+                      "ctxt": 0
+                    },
+                    "tagName": "details",
+                    "namespace": "http://www.w3.org/1999/xhtml",
+                    "attributes": [],
+                    "children": [
+                      {
+                        "type": "Text",
+                        "span": {
+                          "start": 715,
+                          "end": 728,
+                          "ctxt": 0
+                        },
+                        "value": "\n            "
+                      },
+                      {
+                        "type": "Element",
+                        "span": {
+                          "start": 728,
+                          "end": 928,
+                          "ctxt": 0
+                        },
+                        "tagName": "summary",
+                        "namespace": "http://www.w3.org/1999/xhtml",
+                        "attributes": [],
+                        "children": [
+                          {
+                            "type": "Text",
+                            "span": {
+                              "start": 737,
+                              "end": 754,
+                              "ctxt": 0
                             },
-                            {
-                              "type": "Element",
-                              "span": {
-                                "start": 777,
-                                "end": 812,
-                                "ctxt": 0
-                              },
-                              "tagName": "slot",
-                              "namespace": "http://www.w3.org/1999/xhtml",
-                              "attributes": [
-                                {
-                                  "type": "Attribute",
-                                  "span": {
-                                    "start": 0,
-                                    "end": 0,
-                                    "ctxt": 0
-                                  },
-                                  "namespace": null,
-                                  "prefix": null,
-                                  "name": "name",
-                                  "value": "element-name"
-                                }
-                              ],
-                              "children": [
-                                {
-                                  "type": "Text",
-                                  "span": {
-                                    "start": 803,
-                                    "end": 812,
-                                    "ctxt": 0
-                                  },
-                                  "value": "NEED NAME"
-                                }
-                              ],
-                              "content": null
+                            "value": "\n                "
+                          },
+                          {
+                            "type": "Element",
+                            "span": {
+                              "start": 754,
+                              "end": 823,
+                              "ctxt": 0
                             },
-                            {
-                              "type": "Text",
-                              "span": {
-                                "start": 819,
-                                "end": 823,
-                                "ctxt": 0
+                            "tagName": "code",
+                            "namespace": "http://www.w3.org/1999/xhtml",
+                            "attributes": [
+                              {
+                                "type": "Attribute",
+                                "span": {
+                                  "start": 760,
+                                  "end": 772,
+                                  "ctxt": 0
+                                },
+                                "namespace": null,
+                                "prefix": null,
+                                "name": "class",
+                                "value": "name"
+                              }
+                            ],
+                            "children": [
+                              {
+                                "type": "Text",
+                                "span": {
+                                  "start": 773,
+                                  "end": 777,
+                                  "ctxt": 0
+                                },
+                                "value": "<"
                               },
-                              "value": ">"
-                            }
-                          ],
-                          "content": null
-                        },
-                        {
-                          "type": "Text",
-                          "span": {
-                            "start": 830,
-                            "end": 847,
-                            "ctxt": 0
-                          },
-                          "value": "\n                "
-                        },
-                        {
-                          "type": "Element",
-                          "span": {
-                            "start": 847,
-                            "end": 904,
-                            "ctxt": 0
-                          },
-                          "tagName": "i",
-                          "namespace": "http://www.w3.org/1999/xhtml",
-                          "attributes": [
-                            {
-                              "type": "Attribute",
-                              "span": {
-                                "start": 0,
-                                "end": 0,
-                                "ctxt": 0
+                              {
+                                "type": "Element",
+                                "span": {
+                                  "start": 777,
+                                  "end": 812,
+                                  "ctxt": 0
+                                },
+                                "tagName": "slot",
+                                "namespace": "http://www.w3.org/1999/xhtml",
+                                "attributes": [
+                                  {
+                                    "type": "Attribute",
+                                    "span": {
+                                      "start": 783,
+                                      "end": 802,
+                                      "ctxt": 0
+                                    },
+                                    "namespace": null,
+                                    "prefix": null,
+                                    "name": "name",
+                                    "value": "element-name"
+                                  }
+                                ],
+                                "children": [
+                                  {
+                                    "type": "Text",
+                                    "span": {
+                                      "start": 803,
+                                      "end": 812,
+                                      "ctxt": 0
+                                    },
+                                    "value": "NEED NAME"
+                                  }
+                                ],
+                                "content": null
                               },
-                              "namespace": null,
-                              "prefix": null,
-                              "name": "class",
-                              "value": "desc"
-                            }
-                          ],
-                          "children": [
-                            {
-                              "type": "Element",
-                              "span": {
-                                "start": 863,
-                                "end": 904,
-                                "ctxt": 0
-                              },
-                              "tagName": "slot",
-                              "namespace": "http://www.w3.org/1999/xhtml",
-                              "attributes": [
-                                {
-                                  "type": "Attribute",
-                                  "span": {
-                                    "start": 0,
-                                    "end": 0,
-                                    "ctxt": 0
-                                  },
-                                  "namespace": null,
-                                  "prefix": null,
-                                  "name": "name",
-                                  "value": "description"
-                                }
-                              ],
-                              "children": [
-                                {
-                                  "type": "Text",
-                                  "span": {
-                                    "start": 888,
-                                    "end": 904,
-                                    "ctxt": 0
-                                  },
-                                  "value": "NEED DESCRIPTION"
-                                }
-                              ],
-                              "content": null
-                            }
-                          ],
-                          "content": null
-                        },
-                        {
-                          "type": "Text",
-                          "span": {
-                            "start": 915,
-                            "end": 928,
-                            "ctxt": 0
+                              {
+                                "type": "Text",
+                                "span": {
+                                  "start": 819,
+                                  "end": 823,
+                                  "ctxt": 0
+                                },
+                                "value": ">"
+                              }
+                            ],
+                            "content": null
                           },
-                          "value": "\n            "
-                        }
-                      ],
-                      "content": null
-                    },
-                    {
-                      "type": "Text",
-                      "span": {
-                        "start": 938,
-                        "end": 951,
-                        "ctxt": 0
+                          {
+                            "type": "Text",
+                            "span": {
+                              "start": 830,
+                              "end": 847,
+                              "ctxt": 0
+                            },
+                            "value": "\n                "
+                          },
+                          {
+                            "type": "Element",
+                            "span": {
+                              "start": 847,
+                              "end": 904,
+                              "ctxt": 0
+                            },
+                            "tagName": "i",
+                            "namespace": "http://www.w3.org/1999/xhtml",
+                            "attributes": [
+                              {
+                                "type": "Attribute",
+                                "span": {
+                                  "start": 850,
+                                  "end": 862,
+                                  "ctxt": 0
+                                },
+                                "namespace": null,
+                                "prefix": null,
+                                "name": "class",
+                                "value": "desc"
+                              }
+                            ],
+                            "children": [
+                              {
+                                "type": "Element",
+                                "span": {
+                                  "start": 863,
+                                  "end": 904,
+                                  "ctxt": 0
+                                },
+                                "tagName": "slot",
+                                "namespace": "http://www.w3.org/1999/xhtml",
+                                "attributes": [
+                                  {
+                                    "type": "Attribute",
+                                    "span": {
+                                      "start": 869,
+                                      "end": 887,
+                                      "ctxt": 0
+                                    },
+                                    "namespace": null,
+                                    "prefix": null,
+                                    "name": "name",
+                                    "value": "description"
+                                  }
+                                ],
+                                "children": [
+                                  {
+                                    "type": "Text",
+                                    "span": {
+                                      "start": 888,
+                                      "end": 904,
+                                      "ctxt": 0
+                                    },
+                                    "value": "NEED DESCRIPTION"
+                                  }
+                                ],
+                                "content": null
+                              }
+                            ],
+                            "content": null
+                          },
+                          {
+                            "type": "Text",
+                            "span": {
+                              "start": 915,
+                              "end": 928,
+                              "ctxt": 0
+                            },
+                            "value": "\n            "
+                          }
+                        ],
+                        "content": null
                       },
-                      "value": "\n            "
-                    },
-                    {
-                      "type": "Element",
-                      "span": {
-                        "start": 951,
-                        "end": 1083,
-                        "ctxt": 0
+                      {
+                        "type": "Text",
+                        "span": {
+                          "start": 938,
+                          "end": 951,
+                          "ctxt": 0
+                        },
+                        "value": "\n            "
                       },
-                      "tagName": "div",
-                      "namespace": "http://www.w3.org/1999/xhtml",
-                      "attributes": [
-                        {
-                          "type": "Attribute",
-                          "span": {
-                            "start": 0,
-                            "end": 0,
-                            "ctxt": 0
-                          },
-                          "namespace": null,
-                          "prefix": null,
-                          "name": "class",
-                          "value": "attributes"
-                        }
-                      ],
-                      "children": [
-                        {
-                          "type": "Text",
-                          "span": {
-                            "start": 975,
-                            "end": 992,
-                            "ctxt": 0
-                          },
-                          "value": "\n                "
+                      {
+                        "type": "Element",
+                        "span": {
+                          "start": 951,
+                          "end": 1083,
+                          "ctxt": 0
                         },
-                        {
-                          "type": "Element",
-                          "span": {
-                            "start": 992,
-                            "end": 1006,
-                            "ctxt": 0
+                        "tagName": "div",
+                        "namespace": "http://www.w3.org/1999/xhtml",
+                        "attributes": [
+                          {
+                            "type": "Attribute",
+                            "span": {
+                              "start": 956,
+                              "end": 974,
+                              "ctxt": 0
+                            },
+                            "namespace": null,
+                            "prefix": null,
+                            "name": "class",
+                            "value": "attributes"
+                          }
+                        ],
+                        "children": [
+                          {
+                            "type": "Text",
+                            "span": {
+                              "start": 975,
+                              "end": 992,
+                              "ctxt": 0
+                            },
+                            "value": "\n                "
                           },
-                          "tagName": "h4",
-                          "namespace": "http://www.w3.org/1999/xhtml",
-                          "attributes": [],
-                          "children": [
-                            {
-                              "type": "Text",
-                              "span": {
-                                "start": 996,
-                                "end": 1006,
-                                "ctxt": 0
-                              },
-                              "value": "Attributes"
-                            }
-                          ],
-                          "content": null
-                        },
-                        {
-                          "type": "Text",
-                          "span": {
-                            "start": 1011,
-                            "end": 1028,
-                            "ctxt": 0
+                          {
+                            "type": "Element",
+                            "span": {
+                              "start": 992,
+                              "end": 1006,
+                              "ctxt": 0
+                            },
+                            "tagName": "h4",
+                            "namespace": "http://www.w3.org/1999/xhtml",
+                            "attributes": [],
+                            "children": [
+                              {
+                                "type": "Text",
+                                "span": {
+                                  "start": 996,
+                                  "end": 1006,
+                                  "ctxt": 0
+                                },
+                                "value": "Attributes"
+                              }
+                            ],
+                            "content": null
                           },
-                          "value": "\n                "
-                        },
-                        {
-                          "type": "Element",
-                          "span": {
-                            "start": 1028,
-                            "end": 1059,
-                            "ctxt": 0
+                          {
+                            "type": "Text",
+                            "span": {
+                              "start": 1011,
+                              "end": 1028,
+                              "ctxt": 0
+                            },
+                            "value": "\n                "
                           },
-                          "tagName": "slot",
-                          "namespace": "http://www.w3.org/1999/xhtml",
-                          "attributes": [
-                            {
-                              "type": "Attribute",
-                              "span": {
-                                "start": 0,
-                                "end": 0,
-                                "ctxt": 0
-                              },
-                              "namespace": null,
-                              "prefix": null,
-                              "name": "name",
-                              "value": "attributes"
-                            }
-                          ],
-                          "children": [
-                            {
-                              "type": "Element",
-                              "span": {
-                                "start": 1052,
-                                "end": 1059,
-                                "ctxt": 0
-                              },
-                              "tagName": "p",
-                              "namespace": "http://www.w3.org/1999/xhtml",
-                              "attributes": [],
-                              "children": [
-                                {
-                                  "type": "Text",
-                                  "span": {
-                                    "start": 1055,
-                                    "end": 1059,
-                                    "ctxt": 0
-                                  },
-                                  "value": "None"
-                                }
-                              ],
-                              "content": null
-                            }
-                          ],
-                          "content": null
-                        },
-                        {
-                          "type": "Text",
-                          "span": {
-                            "start": 1070,
-                            "end": 1083,
-                            "ctxt": 0
+                          {
+                            "type": "Element",
+                            "span": {
+                              "start": 1028,
+                              "end": 1059,
+                              "ctxt": 0
+                            },
+                            "tagName": "slot",
+                            "namespace": "http://www.w3.org/1999/xhtml",
+                            "attributes": [
+                              {
+                                "type": "Attribute",
+                                "span": {
+                                  "start": 1034,
+                                  "end": 1051,
+                                  "ctxt": 0
+                                },
+                                "namespace": null,
+                                "prefix": null,
+                                "name": "name",
+                                "value": "attributes"
+                              }
+                            ],
+                            "children": [
+                              {
+                                "type": "Element",
+                                "span": {
+                                  "start": 1052,
+                                  "end": 1059,
+                                  "ctxt": 0
+                                },
+                                "tagName": "p",
+                                "namespace": "http://www.w3.org/1999/xhtml",
+                                "attributes": [],
+                                "children": [
+                                  {
+                                    "type": "Text",
+                                    "span": {
+                                      "start": 1055,
+                                      "end": 1059,
+                                      "ctxt": 0
+                                    },
+                                    "value": "None"
+                                  }
+                                ],
+                                "content": null
+                              }
+                            ],
+                            "content": null
                           },
-                          "value": "\n            "
-                        }
-                      ],
-                      "content": null
-                    },
-                    {
-                      "type": "Text",
-                      "span": {
-                        "start": 1089,
-                        "end": 1098,
-                        "ctxt": 0
+                          {
+                            "type": "Text",
+                            "span": {
+                              "start": 1070,
+                              "end": 1083,
+                              "ctxt": 0
+                            },
+                            "value": "\n            "
+                          }
+                        ],
+                        "content": null
                       },
-                      "value": "\n        "
-                    }
-                  ],
-                  "content": null
-                },
-                {
-                  "type": "Text",
-                  "span": {
-                    "start": 1108,
-                    "end": 1117,
-                    "ctxt": 0
+                      {
+                        "type": "Text",
+                        "span": {
+                          "start": 1089,
+                          "end": 1098,
+                          "ctxt": 0
+                        },
+                        "value": "\n        "
+                      }
+                    ],
+                    "content": null
                   },
-                  "value": "\n        "
-                },
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 1117,
-                    "end": 1121,
-                    "ctxt": 0
+                  {
+                    "type": "Text",
+                    "span": {
+                      "start": 1108,
+                      "end": 1117,
+                      "ctxt": 0
+                    },
+                    "value": "\n        "
                   },
-                  "tagName": "hr",
-                  "namespace": "http://www.w3.org/1999/xhtml",
-                  "attributes": [],
-                  "children": [],
-                  "content": null
-                },
-                {
-                  "type": "Text",
-                  "span": {
-                    "start": 1121,
-                    "end": 1126,
-                    "ctxt": 0
+                  {
+                    "type": "Element",
+                    "span": {
+                      "start": 1117,
+                      "end": 1121,
+                      "ctxt": 0
+                    },
+                    "tagName": "hr",
+                    "namespace": "http://www.w3.org/1999/xhtml",
+                    "attributes": [],
+                    "children": [],
+                    "content": null
                   },
-                  "value": "\n    "
-                }
-              ],
-              "content": null
+                  {
+                    "type": "Text",
+                    "span": {
+                      "start": 1121,
+                      "end": 1126,
+                      "ctxt": 0
+                    },
+                    "value": "\n    "
+                  }
+                ]
+              }
             },
             {
               "type": "Text",
               "span": {
                 "start": 1137,
-                "end": 1154,
+                "end": 1143,
+                "ctxt": 0
+              },
+              "value": "\n\n    "
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 1143,
+                "end": 1472,
+                "ctxt": 0
+              },
+              "tagName": "template",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 1153,
+                    "end": 1163,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "id",
+                  "value": "tmpl1"
+                }
+              ],
+              "children": [],
+              "content": {
+                "type": "DocumentFragment",
+                "span": {
+                  "start": 1143,
+                  "end": 1472,
+                  "ctxt": 0
+                },
+                "children": [
+                  {
+                    "type": "Text",
+                    "span": {
+                      "start": 1164,
+                      "end": 1173,
+                      "ctxt": 0
+                    },
+                    "value": "\n        "
+                  },
+                  {
+                    "type": "Element",
+                    "span": {
+                      "start": 1173,
+                      "end": 1215,
+                      "ctxt": 0
+                    },
+                    "tagName": "div",
+                    "namespace": "http://www.w3.org/1999/xhtml",
+                    "attributes": [
+                      {
+                        "type": "Attribute",
+                        "span": {
+                          "start": 1178,
+                          "end": 1187,
+                          "ctxt": 0
+                        },
+                        "namespace": null,
+                        "prefix": null,
+                        "name": "id",
+                        "value": "div1"
+                      }
+                    ],
+                    "children": [
+                      {
+                        "type": "Text",
+                        "span": {
+                          "start": 1188,
+                          "end": 1215,
+                          "ctxt": 0
+                        },
+                        "value": "This is div inside template"
+                      }
+                    ],
+                    "content": null
+                  },
+                  {
+                    "type": "Text",
+                    "span": {
+                      "start": 1221,
+                      "end": 1230,
+                      "ctxt": 0
+                    },
+                    "value": "\n        "
+                  },
+                  {
+                    "type": "Element",
+                    "span": {
+                      "start": 1230,
+                      "end": 1280,
+                      "ctxt": 0
+                    },
+                    "tagName": "div",
+                    "namespace": "http://www.w3.org/1999/xhtml",
+                    "attributes": [
+                      {
+                        "type": "Attribute",
+                        "span": {
+                          "start": 1235,
+                          "end": 1244,
+                          "ctxt": 0
+                        },
+                        "namespace": null,
+                        "prefix": null,
+                        "name": "id",
+                        "value": "div2"
+                      }
+                    ],
+                    "children": [
+                      {
+                        "type": "Text",
+                        "span": {
+                          "start": 1245,
+                          "end": 1280,
+                          "ctxt": 0
+                        },
+                        "value": "This is another div inside template"
+                      }
+                    ],
+                    "content": null
+                  },
+                  {
+                    "type": "Text",
+                    "span": {
+                      "start": 1286,
+                      "end": 1295,
+                      "ctxt": 0
+                    },
+                    "value": "\n        "
+                  },
+                  {
+                    "type": "Element",
+                    "span": {
+                      "start": 1295,
+                      "end": 1456,
+                      "ctxt": 0
+                    },
+                    "tagName": "template",
+                    "namespace": "http://www.w3.org/1999/xhtml",
+                    "attributes": [
+                      {
+                        "type": "Attribute",
+                        "span": {
+                          "start": 1305,
+                          "end": 1315,
+                          "ctxt": 0
+                        },
+                        "namespace": null,
+                        "prefix": null,
+                        "name": "id",
+                        "value": "tmpl2"
+                      }
+                    ],
+                    "children": [],
+                    "content": {
+                      "type": "DocumentFragment",
+                      "span": {
+                        "start": 1295,
+                        "end": 1456,
+                        "ctxt": 0
+                      },
+                      "children": [
+                        {
+                          "type": "Element",
+                          "span": {
+                            "start": 1316,
+                            "end": 1365,
+                            "ctxt": 0
+                          },
+                          "tagName": "div",
+                          "namespace": "http://www.w3.org/1999/xhtml",
+                          "attributes": [
+                            {
+                              "type": "Attribute",
+                              "span": {
+                                "start": 1321,
+                                "end": 1330,
+                                "ctxt": 0
+                              },
+                              "namespace": null,
+                              "prefix": null,
+                              "name": "id",
+                              "value": "div3"
+                            }
+                          ],
+                          "children": [
+                            {
+                              "type": "Text",
+                              "span": {
+                                "start": 1331,
+                                "end": 1365,
+                                "ctxt": 0
+                              },
+                              "value": "This is div inside nested template"
+                            }
+                          ],
+                          "content": null
+                        },
+                        {
+                          "type": "Text",
+                          "span": {
+                            "start": 1371,
+                            "end": 1384,
+                            "ctxt": 0
+                          },
+                          "value": "\n            "
+                        },
+                        {
+                          "type": "Element",
+                          "span": {
+                            "start": 1384,
+                            "end": 1441,
+                            "ctxt": 0
+                          },
+                          "tagName": "div",
+                          "namespace": "http://www.w3.org/1999/xhtml",
+                          "attributes": [
+                            {
+                              "type": "Attribute",
+                              "span": {
+                                "start": 1389,
+                                "end": 1398,
+                                "ctxt": 0
+                              },
+                              "namespace": null,
+                              "prefix": null,
+                              "name": "id",
+                              "value": "div4"
+                            }
+                          ],
+                          "children": [
+                            {
+                              "type": "Text",
+                              "span": {
+                                "start": 1399,
+                                "end": 1441,
+                                "ctxt": 0
+                              },
+                              "value": "This is another div inside nested template"
+                            }
+                          ],
+                          "content": null
+                        },
+                        {
+                          "type": "Text",
+                          "span": {
+                            "start": 1447,
+                            "end": 1456,
+                            "ctxt": 0
+                          },
+                          "value": "\n        "
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "type": "Text",
+                    "span": {
+                      "start": 1467,
+                      "end": 1472,
+                      "ctxt": 0
+                    },
+                    "value": "\n    "
+                  }
+                ]
+              }
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 1483,
+                "end": 1500,
                 "ctxt": 0
               },
               "value": "\n\n\n"

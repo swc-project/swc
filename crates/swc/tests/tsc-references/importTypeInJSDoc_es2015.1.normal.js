@@ -9,8 +9,7 @@ a = new Foo({
 const q = /** @type {import("./externs").Bar} */ ({
     doer: (q1)=>q1
 });
-const r = /** @type {typeof import("./externs").Bar} */ ((r1)=>r1
-);
+const r = /** @type {typeof import("./externs").Bar} */ ((r1)=>r1);
 // @target: es6
 // @outDir: ./out
 // @allowJs: true

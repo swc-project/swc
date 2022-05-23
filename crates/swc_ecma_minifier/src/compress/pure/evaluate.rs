@@ -2,7 +2,6 @@ use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{undefined, ExprExt, IsEmpty, Value};
-use swc_ecma_visit::VisitMutWith;
 
 use super::Pure;
 use crate::compress::util::{eval_as_number, is_pure_undefined_or_null};
@@ -450,7 +449,6 @@ impl Pure<'_> {
                         span: bin_expr.span,
                         exprs: vec![bin_expr.left.clone(), bin_expr.right.clone()],
                     });
-                    e.visit_mut_with(self);
                 } else {
                     self.changed = true;
                     report_change!("evaluate: `foo || false` => `foo` (bool ctx)");
@@ -484,7 +482,6 @@ impl Pure<'_> {
                         span: bin_expr.span,
                         exprs: vec![bin_expr.left.clone(), bin_expr.right.clone()],
                     });
-                    e.visit_mut_with(self);
                 }
                 return;
             }

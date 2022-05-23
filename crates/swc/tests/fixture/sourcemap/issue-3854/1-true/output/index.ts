@@ -32,30 +32,22 @@ var _node = swcHelpers.interopRequireWildcard(require("./BodyNodesBuilder"));
         }
     });
 });
-const create = ()=>new BodyBuilder()
-;
+const create = ()=>new BodyBuilder();
 exports.create = create;
-const trustBox = ()=>new TrustBoxBuilder()
-;
+const trustBox = ()=>new TrustBoxBuilder();
 exports.trustBox = trustBox;
-const opener = ()=>new OpenerBuilder()
-;
+const opener = ()=>new OpenerBuilder();
 exports.opener = opener;
-const stage = ()=>new BodyStageBuilder()
-;
+const stage = ()=>new BodyStageBuilder();
 exports.stage = stage;
-const header = ()=>new BodyHeaderBuilder()
-;
+const header = ()=>new BodyHeaderBuilder();
 exports.header = header;
-const source = (nodes = [])=>new ArticleSourceBuilder(...nodes)
-;
+const source = (nodes = [])=>new ArticleSourceBuilder(...nodes);
 exports.source = source;
-const sources = ()=>new ArticleSourcesBuilder()
-;
+const sources = ()=>new ArticleSourcesBuilder();
 exports.sources = sources;
 const seq = {
-    stage: ()=>new BodyStageSeqBuilder()
-    ,
+    stage: ()=>new BodyStageSeqBuilder(),
     source: ()=>new ArticleSourceSeqBuilder()
 };
 exports.seq = seq;

@@ -1,35 +1,35 @@
 
-  x Unexpected token
+  x Start tag "h1" seen in "table"
    ,-[$DIR/tests/recovery/element/table/broken-1/input.html:8:1]
  8 | <table><h1>test</h1></table>
    :        ^^^^
    `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
    ,-[$DIR/tests/recovery/element/table/broken-1/input.html:8:1]
  8 | <table><h1>test</h1></table>
    :            ^
    `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
    ,-[$DIR/tests/recovery/element/table/broken-1/input.html:8:1]
  8 | <table><h1>test</h1></table>
    :             ^
    `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
    ,-[$DIR/tests/recovery/element/table/broken-1/input.html:8:1]
  8 | <table><h1>test</h1></table>
    :              ^
    `----
 
-  x Unexpected token
+  x Misplaced non-space characters inside a table
    ,-[$DIR/tests/recovery/element/table/broken-1/input.html:8:1]
  8 | <table><h1>test</h1></table>
    :               ^
    `----
 
-  x Unexpected token
+  x Stray end tag "h1"
    ,-[$DIR/tests/recovery/element/table/broken-1/input.html:8:1]
  8 | <table><h1>test</h1></table>
    :                ^^^^^

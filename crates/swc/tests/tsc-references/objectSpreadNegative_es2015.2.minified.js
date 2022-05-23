@@ -40,7 +40,7 @@ swcHelpers.objectSpread({
 }), swcHelpers.objectSpread({
     a: 'wrong type?'
 }, o3), swcHelpers.objectSpread({}, o3, {
-    ['in the middle']: 13,
+    'in the middle': 13,
     b: 'maybe?'
 }, o4), swcHelpers.objectSpread({}, 12), swcHelpers.objectSpread({}, 2), swcHelpers.objectSpread({}, 0).toFixed(), swcHelpers.objectSpread({}, !0).valueOf();
 let spreadStr = swcHelpers.objectSpread({}, 'foo');

@@ -52,59 +52,67 @@
               "tagName": "template",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
-              "children": [
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 17,
-                    "end": 20,
-                    "ctxt": 0
-                  },
-                  "tagName": "i",
-                  "namespace": "http://www.w3.org/1999/xhtml",
-                  "attributes": [],
-                  "children": [],
-                  "content": null
+              "children": [],
+              "content": {
+                "type": "DocumentFragment",
+                "span": {
+                  "start": 7,
+                  "end": 29,
+                  "ctxt": 0
                 },
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 20,
-                    "end": 29,
-                    "ctxt": 0
+                "children": [
+                  {
+                    "type": "Element",
+                    "span": {
+                      "start": 17,
+                      "end": 20,
+                      "ctxt": 0
+                    },
+                    "tagName": "i",
+                    "namespace": "http://www.w3.org/1999/xhtml",
+                    "attributes": [],
+                    "children": [],
+                    "content": null
                   },
-                  "tagName": "menu",
-                  "namespace": "http://www.w3.org/1999/xhtml",
-                  "attributes": [],
-                  "children": [
-                    {
-                      "type": "Element",
-                      "span": {
-                        "start": 17,
-                        "end": 29,
-                        "ctxt": 0
-                      },
-                      "tagName": "i",
-                      "namespace": "http://www.w3.org/1999/xhtml",
-                      "attributes": [],
-                      "children": [
-                        {
-                          "type": "Text",
-                          "span": {
-                            "start": 26,
-                            "end": 29,
-                            "ctxt": 0
-                          },
-                          "value": "Foo"
-                        }
-                      ],
-                      "content": null
-                    }
-                  ],
-                  "content": null
-                }
-              ],
-              "content": null
+                  {
+                    "type": "Element",
+                    "span": {
+                      "start": 20,
+                      "end": 29,
+                      "ctxt": 0
+                    },
+                    "tagName": "menu",
+                    "namespace": "http://www.w3.org/1999/xhtml",
+                    "attributes": [],
+                    "children": [
+                      {
+                        "type": "Element",
+                        "span": {
+                          "start": 17,
+                          "end": 29,
+                          "ctxt": 0
+                        },
+                        "tagName": "i",
+                        "namespace": "http://www.w3.org/1999/xhtml",
+                        "attributes": [],
+                        "children": [
+                          {
+                            "type": "Text",
+                            "span": {
+                              "start": 26,
+                              "end": 29,
+                              "ctxt": 0
+                            },
+                            "value": "Foo"
+                          }
+                        ],
+                        "content": null
+                      }
+                    ],
+                    "content": null
+                  }
+                ]
+              }
             }
           ],
           "content": null

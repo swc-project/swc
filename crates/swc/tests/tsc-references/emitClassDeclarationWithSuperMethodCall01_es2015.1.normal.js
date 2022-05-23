@@ -4,7 +4,6 @@ class Parent {
 }
 class Foo extends Parent {
     foo() {
-        var x = ()=>super.foo()
-        ;
+        var x = ()=>super.foo();
     }
 }

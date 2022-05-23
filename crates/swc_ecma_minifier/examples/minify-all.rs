@@ -2,7 +2,7 @@
 
 extern crate swc_node_base;
 
-use std::{env, fs, path::PathBuf};
+use std::{env, fs, path::PathBuf, time::Instant};
 
 use anyhow::Result;
 use rayon::prelude::*;
@@ -20,7 +20,9 @@ use walkdir::WalkDir;
 fn main() {
     let dirs = env::args().skip(1).collect::<Vec<_>>();
     let files = expand_dirs(dirs);
+    eprintln!("Using {} files", files.len());
 
+    let start = Instant::now();
     testing::run_test2(false, |cm, handler| {
         GLOBALS.with(|globals| {
             let _ = files
@@ -81,6 +83,8 @@ fn main() {
         })
     })
     .unwrap();
+
+    eprintln!("Took {:?}", start.elapsed());
 }
 
 /// Return the whole input files as abolute path.
@@ -110,7 +114,10 @@ fn print<N: swc_ecma_codegen::Node>(cm: Lrc<SourceMap>, nodes: &[N], minify: boo
 
     {
         let mut emitter = swc_ecma_codegen::Emitter {
-            cfg: swc_ecma_codegen::Config { minify },
+            cfg: swc_ecma_codegen::Config {
+                minify,
+                ..Default::default()
+            },
             cm: cm.clone(),
             comments: None,
             wr: Box::new(JsWriter::new(cm, "\n", &mut buf, None)),

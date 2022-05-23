@@ -11,11 +11,8 @@ f({
     bar: new Derived()
 }), function(x, y) {
     y(null);
-}(new Base(), (x)=>x
-), function(x, y) {
+}(new Base(), (x)=>x), function(x, y) {
     y(null);
-}(new Derived(), (x)=>x
-), (null)(null), function(x, y) {
+}(new Derived(), (x)=>x), (null)(null), function(x, y) {
     y(null);
-}(null, (x)=>x
-);
+}(null, (x)=>x);

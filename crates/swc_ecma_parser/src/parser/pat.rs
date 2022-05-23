@@ -10,7 +10,7 @@ use crate::{
     token::AssignOpToken,
 };
 
-impl<'a, I: Tokens> Parser<I> {
+impl<I: Tokens> Parser<I> {
     pub fn parse_pat(&mut self) -> PResult<Pat> {
         self.parse_binding_pat_or_ident()
     }
@@ -490,7 +490,7 @@ impl PatType {
     }
 }
 
-impl<'a, I: Tokens> Parser<I> {
+impl<I: Tokens> Parser<I> {
     /// This does not return 'rest' pattern because non-last parameter cannot be
     /// rest.
     pub(super) fn reparse_expr_as_pat(&mut self, pat_ty: PatType, expr: Box<Expr>) -> PResult<Pat> {

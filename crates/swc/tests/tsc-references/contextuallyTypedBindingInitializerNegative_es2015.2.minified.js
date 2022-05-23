@@ -1,4 +1,3 @@
-let { stringIdentity: id = (arg)=>arg.length
-  } = {
+let { stringIdentity: id = (arg)=>arg.length  } = {
     stringIdentity: (x)=>x
 };

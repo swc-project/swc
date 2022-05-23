@@ -12,8 +12,7 @@ function f(a) {
     ];
 }
 function f2(a) {
-    return (x)=>a.y
-    ;
+    return (x)=>a.y;
 }
 f({
     x: new Derived(),

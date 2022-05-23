@@ -3,6 +3,5 @@ console.log(React.createElement("div", null, React.createElement("div", null))),
     2
 ].map((i)=>React.createElement("div", {
         key: i
-    }, i)
-)));
+    }, i))));
 export { };

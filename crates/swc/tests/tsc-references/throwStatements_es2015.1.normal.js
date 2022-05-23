@@ -40,8 +40,7 @@ throw anObjectLiteral;
 var aFunction = F;
 throw aFunction;
 throw aFunction('');
-var aLambda = (x)=>2
-;
+var aLambda = (x)=>2;
 throw aLambda;
 throw aLambda(1);
 var aModule = M;
@@ -63,8 +62,7 @@ throw 'a string';
 throw function() {
     return 'a string';
 };
-throw (x)=>42
-;
+throw (x)=>42;
 throw {
     x: 12,
     y: 13

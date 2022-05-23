@@ -6,7 +6,6 @@ class A {
 class B extends A {
     constructor(...args){
         super(...args);
-        this.m = ()=>1
-        ;
+        this.m = ()=>1;
     }
 }

@@ -26,8 +26,7 @@ class C {
 // added level of function nesting
 class C2 {
     get y() {
-        ()=>this.x
-        ;
+        ()=>this.x;
         return null;
     }
     set y(x) {
@@ -36,12 +35,10 @@ class C2 {
         };
     }
     foo() {
-        ()=>this.foo
-        ;
+        ()=>this.foo;
     }
     static get y() {
-        ()=>this.x
-        ;
+        ()=>this.x;
         return null;
     }
     static set y(x) {
@@ -50,11 +47,9 @@ class C2 {
         };
     }
     static foo() {
-        ()=>this.foo
-        ;
+        ()=>this.foo;
     }
     static bar() {
-        ()=>this.foo()
-        ;
+        ()=>this.foo();
     }
 }

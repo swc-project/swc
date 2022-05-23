@@ -213,7 +213,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.2.182"
+version = "1.2.189"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -785,6 +785,30 @@ dependencies = [
 ]
 
 [[package]]
+name = "dbg-swc"
+version = "0.13.3"
+dependencies = [
+ "anyhow",
+ "clap 3.1.0",
+ "rayon",
+ "sha1 0.10.1",
+ "swc_atoms",
+ "swc_common",
+ "swc_ecma_ast",
+ "swc_ecma_codegen",
+ "swc_ecma_minifier",
+ "swc_ecma_parser",
+ "swc_ecma_transforms_base",
+ "swc_ecma_visit",
+ "swc_error_reporters",
+ "swc_timer",
+ "tempdir",
+ "tracing",
+ "tracing-subscriber",
+ "url",
+]
+
+[[package]]
 name = "debug_unreachable"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -957,6 +981,12 @@ name = "fs_extra"
 version = "1.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2022715d62ab30faffd124d40b76f4134a550a87792276512b18d63272333394"
+
+[[package]]
+name = "fuchsia-cprng"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a06f77d526c1a601b7c4cdd98f54b5eaabffc14d5f2f0296febdc7f357c6d3ba"
 
 [[package]]
 name = "futures-channel"
@@ -1993,7 +2023,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5d5285893bb5eb82e6aaf5d59ee909a06a16737a8970984dd7746ba9283498d6"
 dependencies = [
  "phf_shared",
- "rand",
+ "rand 0.8.4",
 ]
 
 [[package]]
@@ -2220,13 +2250,26 @@ checksum = "ce082a9940a7ace2ad4a8b7d0b1eac6aa378895f18be598230c5f2284ac05426"
 
 [[package]]
 name = "rand"
+version = "0.4.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "552840b97013b1a26992c11eac34bdd778e464601a4c2054b5f0bff7c6761293"
+dependencies = [
+ "fuchsia-cprng",
+ "libc",
+ "rand_core 0.3.1",
+ "rdrand",
+ "winapi",
+]
+
+[[package]]
+name = "rand"
 version = "0.8.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2e7573632e6454cf6b99d7aac4ccca54be06da05aca2ef7423d22d27d4d4bcd8"
 dependencies = [
  "libc",
  "rand_chacha",
- "rand_core",
+ "rand_core 0.6.3",
  "rand_hc",
 ]
 
@@ -2237,8 +2280,23 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e6c10a63a0fa32252be49d21e7709d4d4baf8d231c2dbce1eaa8141b9b127d88"
 dependencies = [
  "ppv-lite86",
- "rand_core",
+ "rand_core 0.6.3",
 ]
+
+[[package]]
+name = "rand_core"
+version = "0.3.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7a6fdeb83b075e8266dcc8762c22776f6877a63111121f5f8c7411e5be7eed4b"
+dependencies = [
+ "rand_core 0.4.2",
+]
+
+[[package]]
+name = "rand_core"
+version = "0.4.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9c33a3c44ca05fa6f1807d8e6743f3824e8509beca625669633be0acbdf509dc"
 
 [[package]]
 name = "rand_core"
@@ -2255,14 +2313,14 @@ version = "0.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d51e9f596de227fda2ea6c84607f5558e196eeaf43c986b724ba4fb8fdf497e7"
 dependencies = [
- "rand_core",
+ "rand_core 0.6.3",
 ]
 
 [[package]]
 name = "rayon"
-version = "1.5.1"
+version = "1.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c06aca804d41dbc8ba42dfd964f0d01334eceb64314b9ecf7c5fad5188a06d90"
+checksum = "fd249e82c21598a9a426a4e00dd7adc1d640b22445ec8545feef801d1a74c221"
 dependencies = [
  "autocfg",
  "crossbeam-deque",
@@ -2272,15 +2330,23 @@ dependencies = [
 
 [[package]]
 name = "rayon-core"
-version = "1.9.1"
+version = "1.9.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d78120e2c850279833f1dd3582f730c4ab53ed95aeaaaa862a2a5c71b1656d8e"
+checksum = "9f51245e1e62e1f1629cbfec37b5793bbabcaeb90f30e94d2ba03564687353e4"
 dependencies = [
  "crossbeam-channel",
  "crossbeam-deque",
  "crossbeam-utils",
- "lazy_static",
  "num_cpus",
+]
+
+[[package]]
+name = "rdrand"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "678054eb77286b51581ba43620cc911abf02758c91f93f479767aed0f90458b2"
+dependencies = [
+ "rand_core 0.3.1",
 ]
 
 [[package]]
@@ -2649,6 +2715,17 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2579985fda508104f7587689507983eadd6a6e84dd35d6d115361f530916fa0d"
 
 [[package]]
+name = "sha1"
+version = "0.10.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c77f4e7f65455545c2153c1253d25056825e77ee2533f0e41deb65a93a34852f"
+dependencies = [
+ "cfg-if 1.0.0",
+ "cpufeatures",
+ "digest",
+]
+
+[[package]]
 name = "sharded-slab"
 version = "0.1.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2789,7 +2866,7 @@ dependencies = [
  "serde",
  "serde_derive",
  "serde_json",
- "sha1",
+ "sha1 0.6.0",
  "syn",
 ]
 
@@ -2879,7 +2956,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.178.0"
+version = "0.181.2"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -2943,7 +3020,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.146.0"
+version = "0.147.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3001,7 +3078,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.52.0"
+version = "0.55.0"
 dependencies = [
  "anyhow",
  "atty",
@@ -3027,7 +3104,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.18.0"
+version = "0.18.7"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3061,7 +3138,7 @@ dependencies = [
 
 [[package]]
 name = "swc_config"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "anyhow",
  "indexmap",
@@ -3165,7 +3242,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.101.2"
+version = "0.101.3"
 dependencies = [
  "bitflags",
  "lexical",
@@ -3217,12 +3294,13 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.78.0"
+version = "0.78.1"
 dependencies = [
  "arbitrary",
  "is-macro",
  "num-bigint",
  "rkyv",
+ "scoped-tls",
  "serde",
  "serde_json",
  "string_enum",
@@ -3233,7 +3311,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.107.0"
+version = "0.108.5"
 dependencies = [
  "bitflags",
  "criterion",
@@ -3290,7 +3368,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.40.0"
+version = "0.41.0"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -3313,7 +3391,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_loader"
-version = "0.30.1"
+version = "0.30.2"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3334,7 +3412,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.113.1"
+version = "0.114.15"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3373,7 +3451,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.104.0"
+version = "0.104.2"
 dependencies = [
  "criterion",
  "either",
@@ -3392,13 +3470,12 @@ dependencies = [
  "testing",
  "tracing",
  "typed-arena",
- "unicode-id",
  "walkdir",
 ]
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.128.0"
+version = "0.129.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3454,7 +3531,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.153.0"
+version = "0.154.0"
 dependencies = [
  "pretty_assertions",
  "sourcemap",
@@ -3479,7 +3556,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.84.0"
+version = "0.85.0"
 dependencies = [
  "better_scoped_tls",
  "criterion",
@@ -3503,7 +3580,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_classes"
-version = "0.72.0"
+version = "0.73.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3515,7 +3592,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.98.0"
+version = "0.99.1"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -3556,7 +3633,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.111.0"
+version = "0.112.4"
 dependencies = [
  "Inflector",
  "ahash",
@@ -3582,7 +3659,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.123.1"
+version = "0.124.1"
 dependencies = [
  "ahash",
  "dashmap",
@@ -3611,7 +3688,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "0.106.0"
+version = "0.107.0"
 dependencies = [
  "either",
  "serde",
@@ -3634,7 +3711,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.113.0"
+version = "0.114.1"
 dependencies = [
  "ahash",
  "base64 0.13.0",
@@ -3663,7 +3740,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "0.86.0"
+version = "0.87.0"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -3684,7 +3761,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.116.0"
+version = "0.117.1"
 dependencies = [
  "criterion",
  "serde",
@@ -3705,7 +3782,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.85.0"
+version = "0.85.1"
 dependencies = [
  "indexmap",
  "once_cell",
@@ -3732,7 +3809,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.156.0"
+version = "0.157.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3779,7 +3856,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.98.0"
+version = "0.101.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3827,7 +3904,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.7.0"
+version = "0.8.0"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -3838,7 +3915,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_ast"
-version = "0.6.0"
+version = "0.7.0"
 dependencies = [
  "is-macro",
  "serde",
@@ -3849,7 +3926,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_codegen"
-version = "0.7.0"
+version = "0.8.0"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -3875,8 +3952,9 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.4.0"
+version = "0.5.1"
 dependencies = [
+ "serde_json",
  "swc_atoms",
  "swc_common",
  "swc_html_ast",
@@ -3888,9 +3966,10 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.7.1"
+version = "0.8.9"
 dependencies = [
  "bitflags",
+ "criterion",
  "lexical",
  "once_cell",
  "serde",
@@ -3899,12 +3978,13 @@ dependencies = [
  "swc_common",
  "swc_html_ast",
  "swc_html_visit",
+ "swc_node_base",
  "testing",
 ]
 
 [[package]]
 name = "swc_html_visit"
-version = "0.6.0"
+version = "0.7.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -3970,7 +4050,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.53.0"
+version = "0.54.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -4066,7 +4146,7 @@ dependencies = [
 
 [[package]]
 name = "swc_webpack_ast"
-version = "0.96.0"
+version = "0.99.0"
 dependencies = [
  "anyhow",
  "rayon",
@@ -4106,6 +4186,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d9bffcddbc2458fa3e6058414599e3c838a022abae82e5c67b4f7f80298d5bff"
 
 [[package]]
+name = "tempdir"
+version = "0.3.7"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "15f2b5fb00ccdf689e0149d1b1b3c03fead81c2b37735d812fa8bddbbf41b6d8"
+dependencies = [
+ "rand 0.4.6",
+ "remove_dir_all",
+]
+
+[[package]]
 name = "tempfile"
 version = "3.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4113,7 +4203,7 @@ checksum = "dac1c663cfc93810f88aed9b8941d48cabf856a1b111c29a40439018d870eb22"
 dependencies = [
  "cfg-if 1.0.0",
  "libc",
- "rand",
+ "rand 0.8.4",
  "redox_syscall",
  "remove_dir_all",
  "winapi",
@@ -4378,9 +4468,9 @@ checksum = "360dfd1d6d30e05fda32ace2c8c70e9c0a9da713275777f5a4dbb8a1893930c6"
 
 [[package]]
 name = "tracing"
-version = "0.1.32"
+version = "0.1.34"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4a1bdf54a7c28a2bbf701e1d2233f6c77f473486b94bee4f9678da5a148dca7f"
+checksum = "5d0ecdcb44a79f0fe9844f0c4f33a342cbcbb5117de8001e6ba0dc2351327d09"
 dependencies = [
  "cfg-if 1.0.0",
  "log",
@@ -4444,9 +4534,9 @@ dependencies = [
 
 [[package]]
 name = "tracing-subscriber"
-version = "0.3.9"
+version = "0.3.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9e0ab7bdc962035a87fba73f3acca9b8a8d0034c2e6f60b84aeaaddddc155dce"
+checksum = "4bc28f93baff38037f64e6f43d34cfa1605f27a49c34e8a04c5e78b0babf2596"
 dependencies = [
  "ansi_term",
  "lazy_static",

@@ -2095,7 +2095,7 @@
                 if (Array.isArray(src)) {
                     var newsrc = [];
                     src.forEach(function(srcobj) {
-                        srcobj = filterSource(srcobj), Array.isArray(srcobj) ? newsrc = newsrc.concat(srcobj) : isObject(srcobj) && newsrc.push(srcobj);
+                        Array.isArray(srcobj = filterSource(srcobj)) ? newsrc = newsrc.concat(srcobj) : isObject(srcobj) && newsrc.push(srcobj);
                     }), src = newsrc;
                 } else src = "string" == typeof src && src.trim() ? [
                     fixSource({
@@ -2872,7 +2872,7 @@
                 }, _proto.enableInterval_ = function() {
                     this.updateInterval || (this.updateInterval = this.setInterval(this.update, 30));
                 }, _proto.disableInterval_ = function(e) {
-                    this.player_.liveTracker && this.player_.liveTracker.isLive() && e && "ended" !== e.type || this.updateInterval && (this.clearInterval(this.updateInterval), this.updateInterval = null);
+                    this.player_.liveTracker && this.player_.liveTracker.isLive() && e && "ended" !== e.type || !this.updateInterval || (this.clearInterval(this.updateInterval), this.updateInterval = null);
                 }, _proto.createEl = function() {
                     return _Slider.prototype.createEl.call(this, "div", {
                         className: "vjs-progress-holder"
@@ -6472,8 +6472,7 @@
                 return timeRangesList;
             }, isRangeDifferent = function(a, b) {
                 if (a === b) return !1;
-                if (!a && b || !b && a) return !0;
-                if (a.length !== b.length) return !0;
+                if (!a && b || !b && a || a.length !== b.length) return !0;
                 for(var i = 0; i < a.length; i++)if (a.start(i) !== b.start(i) || a.end(i) !== b.end(i)) return !0;
                 return !1;
             }, lastBufferedEnd = function(a) {
@@ -6900,8 +6899,7 @@
             }, updateMaster$1 = function(master, newMedia, unchangedCheck) {
                 void 0 === unchangedCheck && (unchangedCheck = isPlaylistUnchanged);
                 var result = mergeOptions$2(master, {}), oldMedia = result.playlists[newMedia.id];
-                if (!oldMedia) return null;
-                if (unchangedCheck(oldMedia, newMedia)) return null;
+                if (!oldMedia || unchangedCheck(oldMedia, newMedia)) return null;
                 newMedia.segments = getAllSegments(newMedia);
                 var mergedPlaylist = mergeOptions$2(oldMedia, newMedia);
                 if (mergedPlaylist.preloadSegment && !newMedia.preloadSegment && delete mergedPlaylist.preloadSegment, oldMedia.segments) {
@@ -7287,9 +7285,7 @@
                             return endRequestAndCallback(error, request, "", bytes);
                         });
                         var type = (0, _videojs_vhs_utils_es_containers__WEBPACK_IMPORTED_MODULE_12__.Xm)(bytes);
-                        return "ts" === type && bytes.length < 188 ? callbackOnCompleted(request, function() {
-                            return endRequestAndCallback(error, request, "", bytes);
-                        }) : !type && bytes.length < 376 ? callbackOnCompleted(request, function() {
+                        return "ts" === type && bytes.length < 188 || !type && bytes.length < 376 ? callbackOnCompleted(request, function() {
                             return endRequestAndCallback(error, request, "", bytes);
                         }) : endRequestAndCallback(null, request, type, bytes);
                     }
@@ -7307,18 +7303,14 @@
                 });
                 return request1;
             }, EventTarget = videojs.EventTarget, mergeOptions = videojs.mergeOptions, dashPlaylistUnchanged = function(a, b) {
-                if (!isPlaylistUnchanged(a, b)) return !1;
-                if (a.sidx && b.sidx && (a.sidx.offset !== b.sidx.offset || a.sidx.length !== b.sidx.length)) return !1;
-                if (!a.sidx && b.sidx || a.sidx && !b.sidx) return !1;
-                if (a.segments && !b.segments || !a.segments && b.segments) return !1;
+                if (!isPlaylistUnchanged(a, b) || a.sidx && b.sidx && (a.sidx.offset !== b.sidx.offset || a.sidx.length !== b.sidx.length) || !a.sidx && b.sidx || a.sidx && !b.sidx || a.segments && !b.segments || !a.segments && b.segments) return !1;
                 if (!a.segments && !b.segments) return !0;
                 for(var i = 0; i < a.segments.length; i++){
                     var aSegment = a.segments[i], bSegment = b.segments[i];
                     if (aSegment.uri !== bSegment.uri) return !1;
                     if (aSegment.byterange || bSegment.byterange) {
                         var aByterange = aSegment.byterange, bByterange = bSegment.byterange;
-                        if (aByterange && !bByterange || !aByterange && bByterange) return !1;
-                        if (aByterange.offset !== bByterange.offset || aByterange.length !== bByterange.length) return !1;
+                        if (aByterange && !bByterange || !aByterange && bByterange || aByterange.offset !== bByterange.offset || aByterange.length !== bByterange.length) return !1;
                     }
                 }
                 return !0;
@@ -8486,8 +8478,8 @@
                         return data;
                     },
                     generateSampleTableForFrame: function(frame, baseDataOffset) {
-                        var sample, samples = [];
-                        return sample = sampleForFrame(frame, baseDataOffset || 0), samples.push(sample), samples;
+                        var samples = [];
+                        return samples.push(sampleForFrame(frame, baseDataOffset || 0)), samples;
                     },
                     concatenateNalDataForFrame: function(frame) {
                         var i, currentNal, dataOffset = 0, nalsByteLength = frame.byteLength, numberOfNals = frame.length, data = new Uint8Array(nalsByteLength + 4 * numberOfNals), view = new DataView(data.buffer);
@@ -8523,7 +8515,7 @@
                 }, silence_1 = function() {
                     if (!silence) {
                         var metaTable;
-                        silence = (metaTable = {
+                        silence = Object.keys(metaTable = {
                             96000: [
                                 highPrefix,
                                 [
@@ -8737,11 +8729,11 @@
                                     7
                                 ], 
                             ]
-                        }, Object.keys(metaTable).reduce(function(obj, key) {
+                        }).reduce(function(obj, key) {
                             return obj[key] = new Uint8Array(metaTable[key].reduce(function(arr, part) {
                                 return arr.concat(part);
                             }, [])), obj;
-                        }, {}));
+                        }, {});
                     }
                     return silence;
                 };
@@ -8791,9 +8783,9 @@
                         }));
                     },
                     generateSampleTable: function(frames) {
-                        var i, currentFrame, samples = [];
-                        for(i = 0; i < frames.length; i++)currentFrame = frames[i], samples.push({
-                            size: currentFrame.data.byteLength,
+                        var i, samples = [];
+                        for(i = 0; i < frames.length; i++)samples.push({
+                            size: frames[i].data.byteLength,
                             duration: 1024
                         });
                         return samples;
@@ -8834,7 +8826,7 @@
                         return result;
                     },
                     parseUserData: function(sei) {
-                        return 181 !== sei.payload[0] ? null : (sei.payload[1] << 8 | sei.payload[2]) != 49 ? null : "GA94" !== String.fromCharCode(sei.payload[3], sei.payload[4], sei.payload[5], sei.payload[6]) ? null : 0x03 !== sei.payload[7] ? null : sei.payload.subarray(8, sei.payload.length - 1);
+                        return 181 !== sei.payload[0] || (sei.payload[1] << 8 | sei.payload[2]) != 49 || "GA94" !== String.fromCharCode(sei.payload[3], sei.payload[4], sei.payload[5], sei.payload[6]) || 0x03 !== sei.payload[7] ? null : sei.payload.subarray(8, sei.payload.length - 1);
                     },
                     parseCaptionPackets: function(pts, userData) {
                         var i, count, offset, data, results = [];
@@ -9194,7 +9186,7 @@
                     0x033e: 0x2514,
                     0x033f: 0x2518
                 }, getCharFromCode = function(code) {
-                    return null === code ? "" : (code = CHARACTER_TRANSLATION[code] || code, String.fromCharCode(code));
+                    return null === code ? "" : String.fromCharCode(code = CHARACTER_TRANSLATION[code] || code);
                 }, BOTTOM_ROW = 14, ROWS = [
                     0x1100,
                     0x1120,
@@ -9913,7 +9905,10 @@
                         };
                     };
                 }).prototype = new stream1();
-                var ADTS_SAMPLING_FREQUENCIES = [
+                var h264 = {
+                    H264Stream: _H264Stream,
+                    NalByteStream: _NalByteStream
+                }, ADTS_SAMPLING_FREQUENCIES = [
                     96000,
                     88200,
                     64000,
@@ -9989,8 +9984,7 @@
                         var chunk, packet, tempLength, frameSize = 0, byteIndex = 0;
                         for(everything.length ? (tempLength = everything.length, (everything = new Uint8Array(bytes.byteLength + tempLength)).set(everything.subarray(0, tempLength)), everything.set(bytes, tempLength)) : everything = bytes; everything.length - byteIndex >= 3;){
                             if (73 === everything[byteIndex] && 68 === everything[byteIndex + 1] && 51 === everything[byteIndex + 2]) {
-                                if (everything.length - byteIndex < 10) break;
-                                if (frameSize = utils.parseId3TagSize(everything, byteIndex), byteIndex + frameSize > everything.length) break;
+                                if (everything.length - byteIndex < 10 || (frameSize = utils.parseId3TagSize(everything, byteIndex), byteIndex + frameSize > everything.length)) break;
                                 chunk = {
                                     type: "timed-metadata",
                                     data: everything.subarray(byteIndex, byteIndex + frameSize)
@@ -9998,8 +9992,7 @@
                                 continue;
                             }
                             if ((0xff & everything[byteIndex]) == 0xff && (0xf0 & everything[byteIndex + 1]) == 0xf0) {
-                                if (everything.length - byteIndex < 7) break;
-                                if (frameSize = utils.parseAdtsSize(everything, byteIndex), byteIndex + frameSize > everything.length) break;
+                                if (everything.length - byteIndex < 7 || (frameSize = utils.parseAdtsSize(everything, byteIndex), byteIndex + frameSize > everything.length)) break;
                                 packet = {
                                     type: "audio",
                                     data: everything.subarray(byteIndex, byteIndex + frameSize),
@@ -10030,7 +10023,7 @@
                     "levelIdc",
                     "profileCompatibility",
                     "sarRatio", 
-                ], H264Stream = _H264Stream, isLikelyAacData = utils.isLikelyAacData, ONE_SECOND_IN_TS$1 = clock.ONE_SECOND_IN_TS, retriggerForStream = function(key, event) {
+                ], H264Stream = h264.H264Stream, isLikelyAacData = utils.isLikelyAacData, ONE_SECOND_IN_TS$1 = clock.ONE_SECOND_IN_TS, retriggerForStream = function(key, event) {
                     event.stream = key, this.trigger("log", event);
                 }, addPipelineLogRetriggers = function(transmuxer, pipeline) {
                     for(var keys = Object.keys(pipeline), i = 0; i < keys.length; i++){
@@ -10187,8 +10180,7 @@
                         info: {}
                     }, timelineStartPts = 0;
                     if (this.pendingTracks.length < this.numberOfTracks) {
-                        if ("VideoSegmentStream" !== flushSource && "AudioSegmentStream" !== flushSource) return;
-                        if (this.remuxTracks) return;
+                        if ("VideoSegmentStream" !== flushSource && "AudioSegmentStream" !== flushSource || this.remuxTracks) return;
                         if (0 === this.pendingTracks.length) {
                             this.emittedTracks++, this.emittedTracks >= this.numberOfTracks && (this.trigger("done"), this.emittedTracks = 0);
                             return;
@@ -10420,8 +10412,7 @@
                         return (!videoTrackIds || 0 !== videoTrackIds.length) && (!timescales || "object" != typeof timescales || 0 !== Object.keys(timescales).length) && (trackId !== videoTrackIds[0] || timescale !== timescales[trackId]);
                     }, this.parse = function(segment, videoTrackIds, timescales) {
                         var parsedData;
-                        if (!this.isInitialized()) return null;
-                        if (!videoTrackIds || !timescales) return null;
+                        if (!this.isInitialized() || !videoTrackIds || !timescales) return null;
                         if (this.isNewInit(videoTrackIds, timescales)) timescale = timescales[trackId = videoTrackIds[0]];
                         else if (null === trackId || !timescale) return segmentCache.push(segment), null;
                         for(; segmentCache.length > 0;){
@@ -10759,22 +10750,14 @@
                         var type = probe.aac.parseType(bytes, byteIndex);
                         switch(type){
                             case "timed-metadata":
-                                if (bytes.length - byteIndex < 10) {
-                                    endLoop = !0;
-                                    break;
-                                }
-                                if ((frameSize = probe.aac.parseId3TagSize(bytes, byteIndex)) > bytes.length) {
+                                if (bytes.length - byteIndex < 10 || (frameSize = probe.aac.parseId3TagSize(bytes, byteIndex)) > bytes.length) {
                                     endLoop = !0;
                                     break;
                                 }
                                 null === timestamp && (packet = bytes.subarray(byteIndex, byteIndex + frameSize), timestamp = probe.aac.parseAacTimestamp(packet)), byteIndex += frameSize;
                                 break;
                             case "audio":
-                                if (bytes.length - byteIndex < 7) {
-                                    endLoop = !0;
-                                    break;
-                                }
-                                if ((frameSize = probe.aac.parseAdtsSize(bytes, byteIndex)) > bytes.length) {
+                                if (bytes.length - byteIndex < 7 || (frameSize = probe.aac.parseAdtsSize(bytes, byteIndex)) > bytes.length) {
                                     endLoop = !0;
                                     break;
                                 }
@@ -11030,10 +11013,10 @@
                 if (transmuxer.onmessage = function(event) {
                     transmuxer.currentTransmux === options && ("data" === event.data.action && handleData_(event, transmuxedData, onData), "trackinfo" === event.data.action && onTrackInfo(event.data.trackInfo), "gopInfo" === event.data.action && handleGopInfo_(event, transmuxedData), "audioTimingInfo" === event.data.action && onAudioTimingInfo(event.data.audioTimingInfo), "videoTimingInfo" === event.data.action && onVideoTimingInfo(event.data.videoTimingInfo), "videoSegmentTimingInfo" === event.data.action && onVideoSegmentTimingInfo(event.data.videoSegmentTimingInfo), "audioSegmentTimingInfo" === event.data.action && onAudioSegmentTimingInfo(event.data.audioSegmentTimingInfo), "id3Frame" === event.data.action && onId3([
                         event.data.id3Frame
-                    ], event.data.id3Frame.dispatchType), "caption" === event.data.action && onCaptions(event.data.caption), "endedtimeline" === event.data.action && (waitForEndedTimelineEvent = !1, onEndedTimeline()), "log" === event.data.action && onTransmuxerLog(event.data.log), "transmuxed" === event.data.type && (waitForEndedTimelineEvent || (transmuxer.onmessage = null, handleDone_({
+                    ], event.data.id3Frame.dispatchType), "caption" === event.data.action && onCaptions(event.data.caption), "endedtimeline" === event.data.action && (waitForEndedTimelineEvent = !1, onEndedTimeline()), "log" === event.data.action && onTransmuxerLog(event.data.log), "transmuxed" !== event.data.type || waitForEndedTimelineEvent || (transmuxer.onmessage = null, handleDone_({
                         transmuxedData: transmuxedData,
                         callback: onDone
-                    }), dequeue(transmuxer))));
+                    }), dequeue(transmuxer)));
                 }, audioAppendStart && transmuxer.postMessage({
                     action: "setAudioAppendStart",
                     appendStart: audioAppendStart
@@ -11656,7 +11639,7 @@
                     return logFn1("could not choose a playlist with options", options), null;
                 }
             }, lastBandwidthSelector = function() {
-                var pixelRatio = this.useDevicePixelRatio ? global_window__WEBPACK_IMPORTED_MODULE_0___default().devicePixelRatio || 1 : 1;
+                var pixelRatio = this.useDevicePixelRatio && global_window__WEBPACK_IMPORTED_MODULE_0___default().devicePixelRatio || 1;
                 return simpleSelector(this.playlists.master, this.systemBandwidth, parseInt(safeGetComputedStyle(this.tech_.el(), "width"), 10) * pixelRatio, parseInt(safeGetComputedStyle(this.tech_.el(), "height"), 10) * pixelRatio, this.limitRenditionByPlayerDimensions, this.masterPlaylistController_);
             }, minRebufferMaxBandwidthSelector = function(settings) {
                 var master = settings.master, currentTime = settings.currentTime, bandwidth = settings.bandwidth, duration = settings.duration, segmentDuration = settings.segmentDuration, timeUntilRebuffer = settings.timeUntilRebuffer, currentTimeline = settings.currentTimeline, syncController = settings.syncController, compatiblePlaylists = master.playlists.filter(function(playlist) {
@@ -11798,8 +11781,7 @@
                 if (akeys.length !== bkeys.length) return !1;
                 for(var i = 0; i < akeys.length; i++){
                     var key = akeys[i];
-                    if (key !== bkeys[i]) return !1;
-                    if (a[key] !== b[key]) return !1;
+                    if (key !== bkeys[i] || a[key] !== b[key]) return !1;
                 }
                 return !0;
             }, getSyncSegmentCandidate = function(currentTimeline, segments, targetTime) {
@@ -12114,7 +12096,7 @@
                 }, _proto.timestampOffsetForSegment_ = function(options) {
                     return timestampOffsetForSegment(options);
                 }, _proto.earlyAbortWhenNeeded_ = function(stats) {
-                    if (!this.vhs_.tech_.paused() && this.xhrOptions_.timeout && this.playlist_.attributes.BANDWIDTH && !(Date.now() - (stats.firstBytesReceivedAt || Date.now()) < 1000)) {
+                    if (!(this.vhs_.tech_.paused() || !this.xhrOptions_.timeout || !this.playlist_.attributes.BANDWIDTH || Date.now() - (stats.firstBytesReceivedAt || Date.now()) < 1000)) {
                         var buffered, currentTime, playbackRate, currentTime1 = this.currentTime_(), measuredBandwidth = stats.bandwidth, segmentDuration = this.pendingSegment_.duration, requestTimeRemaining = Playlist.estimateSegmentRequestTime(segmentDuration, measuredBandwidth, this.playlist_, stats.bytesReceived), timeUntilRebuffer$1 = (buffered = this.buffered_(), currentTime = currentTime1, void 0 === (playbackRate = this.vhs_.tech_.playbackRate()) && (playbackRate = 1), ((buffered.length ? buffered.end(buffered.length - 1) : 0) - currentTime) / playbackRate - 1);
                         if (!(requestTimeRemaining <= timeUntilRebuffer$1)) {
                             var switchCandidate = minRebufferMaxBandwidthSelector({
@@ -12138,10 +12120,10 @@
                 }, _proto.handleProgress_ = function(event, simpleSegment) {
                     this.earlyAbortWhenNeeded_(simpleSegment.stats), this.checkForAbort_(simpleSegment.requestId) || this.trigger("progress");
                 }, _proto.handleTrackInfo_ = function(simpleSegment, trackInfo) {
-                    this.earlyAbortWhenNeeded_(simpleSegment.stats), !this.checkForAbort_(simpleSegment.requestId) && (this.checkForIllegalMediaSwitch(trackInfo) || (trackInfo = trackInfo || {}, shallowEqual(this.currentMediaInfo_, trackInfo) || (this.appendInitSegment_ = {
+                    this.earlyAbortWhenNeeded_(simpleSegment.stats), this.checkForAbort_(simpleSegment.requestId) || this.checkForIllegalMediaSwitch(trackInfo) || (trackInfo = trackInfo || {}, shallowEqual(this.currentMediaInfo_, trackInfo) || (this.appendInitSegment_ = {
                         audio: !0,
                         video: !0
-                    }, this.startingMediaInfo_ = trackInfo, this.currentMediaInfo_ = trackInfo, this.logger_("trackinfo update", trackInfo), this.trigger("trackinfo")), !this.checkForAbort_(simpleSegment.requestId) && (this.pendingSegment_.trackInfo = trackInfo, this.hasEnoughInfoToAppend_() && this.processCallQueue_())));
+                    }, this.startingMediaInfo_ = trackInfo, this.currentMediaInfo_ = trackInfo, this.logger_("trackinfo update", trackInfo), this.trigger("trackinfo")), !this.checkForAbort_(simpleSegment.requestId) && (this.pendingSegment_.trackInfo = trackInfo, this.hasEnoughInfoToAppend_() && this.processCallQueue_()));
                 }, _proto.handleTimingInfo_ = function(simpleSegment, mediaType, timeType, time) {
                     if (this.earlyAbortWhenNeeded_(simpleSegment.stats), !this.checkForAbort_(simpleSegment.requestId)) {
                         var segmentInfo = this.pendingSegment_, timingInfoProperty = timingInfoPropertyForMedia(mediaType);
@@ -12223,18 +12205,17 @@
                 }, _proto.getMediaInfo_ = function(segmentInfo) {
                     return void 0 === segmentInfo && (segmentInfo = this.pendingSegment_), this.getCurrentMediaInfo_(segmentInfo) || this.startingMediaInfo_;
                 }, _proto.hasEnoughInfoToAppend_ = function() {
-                    if (!this.sourceUpdater_.ready()) return !1;
-                    if (this.waitingOnRemove_ || this.quotaExceededErrorRetryTimeout_) return !1;
+                    if (!this.sourceUpdater_.ready() || this.waitingOnRemove_ || this.quotaExceededErrorRetryTimeout_) return !1;
                     var segmentInfo = this.pendingSegment_, trackInfo = this.getCurrentMediaInfo_();
                     if (!segmentInfo || !trackInfo) return !1;
                     var hasAudio = trackInfo.hasAudio, hasVideo = trackInfo.hasVideo, isMuxed = trackInfo.isMuxed;
-                    return (!hasVideo || !!segmentInfo.videoTimingInfo) && (!hasAudio || !!this.audioDisabled_ || !!isMuxed || !!segmentInfo.audioTimingInfo) && !shouldWaitForTimelineChange({
+                    return !(hasVideo && !segmentInfo.videoTimingInfo || hasAudio && !this.audioDisabled_ && !isMuxed && !segmentInfo.audioTimingInfo || shouldWaitForTimelineChange({
                         timelineChangeController: this.timelineChangeController_,
                         currentTimeline: this.currentTimeline_,
                         segmentTimeline: segmentInfo.timeline,
                         loaderType: this.loaderType_,
                         audioDisabled: this.audioDisabled_
-                    });
+                    }));
                 }, _proto.handleData_ = function(simpleSegment, result) {
                     if (this.earlyAbortWhenNeeded_(simpleSegment.stats), !this.checkForAbort_(simpleSegment.requestId)) {
                         if (this.callQueue_.length || !this.hasEnoughInfoToAppend_()) {
@@ -12595,7 +12576,7 @@
                         sourceUpdater.updating() || "closed" === sourceUpdater.mediaSource.readyState || (sourceUpdater.queue.shift(), queueEntry.action(sourceUpdater), queueEntry.doneFn && queueEntry.doneFn(), shiftQueue("audio", sourceUpdater), shiftQueue("video", sourceUpdater));
                         return;
                     }
-                    if ("mediaSource" !== type && !(!sourceUpdater.ready() || "closed" === sourceUpdater.mediaSource.readyState || _updating(type, sourceUpdater))) {
+                    if (!("mediaSource" === type || !sourceUpdater.ready() || "closed" === sourceUpdater.mediaSource.readyState || _updating(type, sourceUpdater))) {
                         if (queueEntry.type !== type) {
                             if (null === (queueIndex = nextQueueIndexOfType(type, sourceUpdater.queue))) return;
                             queueEntry = sourceUpdater.queue[queueIndex];
@@ -13639,10 +13620,7 @@
                     }
                 }
             }, groupMatch1 = function groupMatch(list, media) {
-                for(var i = 0; i < list.length; i++){
-                    if (playlistMatch(media, list[i])) return !0;
-                    if (list[i].playlists && groupMatch(list[i].playlists, media)) return !0;
-                }
+                for(var i = 0; i < list.length; i++)if (playlistMatch(media, list[i]) || list[i].playlists && groupMatch(list[i].playlists, media)) return !0;
                 return !1;
             }, activeTrack1 = {
                 AUDIO: function(type, settings) {
@@ -13695,9 +13673,9 @@
                             }
                             else groups.main ? variants = groups.main : 1 === groupKeys.length && (variants = groups[groupKeys[0]]);
                         }
-                        return void 0 === track ? variants : null !== track && variants ? variants.filter(function(props) {
+                        return void 0 === track ? variants : null !== track && variants && variants.filter(function(props) {
                             return props.id === track.id;
-                        })[0] || null : null;
+                        })[0] || null;
                     }), mediaTypes[type].activeTrack = activeTrack1[type](type, settings4), mediaTypes[type].onGroupChanged = (type3 = type, settings1 = settings4, function() {
                         var _settings$segmentLoad = settings1.segmentLoaders, segmentLoader = _settings$segmentLoad[type3], mainSegmentLoader = _settings$segmentLoad.main, mediaType = settings1.mediaTypes[type3], activeTrack = mediaType.activeTrack(), activeGroup = mediaType.getActiveGroup(), previousActiveLoader = mediaType.activePlaylistLoader, lastGroup = mediaType.lastGroup_;
                         if ((!activeGroup || !lastGroup || activeGroup.id !== lastGroup.id) && (mediaType.lastGroup_ = activeGroup, mediaType.lastTrack_ = activeTrack, stopLoaders(segmentLoader, mediaType), activeGroup && !activeGroup.isMasterPlaylist)) {
@@ -13970,8 +13948,7 @@
                         _this3.loadOnPlay_ && _this3.tech_.off("play", _this3.loadOnPlay_);
                         var selectedMedia, updatedPlaylist = _this3.masterPlaylistLoader_.media();
                         if (!updatedPlaylist) {
-                            if (_this3.excludeUnsupportedVariants_(), _this3.enableLowInitialPlaylist && (selectedMedia = _this3.selectInitialPlaylist()), selectedMedia || (selectedMedia = _this3.selectPlaylist()), !selectedMedia || !_this3.shouldSwitchToMedia_(selectedMedia)) return;
-                            if (_this3.initialMedia_ = selectedMedia, _this3.switchMedia_(_this3.initialMedia_, "initial"), !("vhs-json" === _this3.sourceType_ && _this3.initialMedia_.segments)) return;
+                            if (_this3.excludeUnsupportedVariants_(), _this3.enableLowInitialPlaylist && (selectedMedia = _this3.selectInitialPlaylist()), selectedMedia || (selectedMedia = _this3.selectPlaylist()), !selectedMedia || !_this3.shouldSwitchToMedia_(selectedMedia) || (_this3.initialMedia_ = selectedMedia, _this3.switchMedia_(_this3.initialMedia_, "initial"), !("vhs-json" === _this3.sourceType_ && _this3.initialMedia_.segments))) return;
                             updatedPlaylist = _this3.initialMedia_;
                         }
                         _this3.handleUpdatedMediaPlaylist(updatedPlaylist);
@@ -14263,18 +14240,12 @@
                             var expired = this.syncController_.getExpiredTime(media, this.duration());
                             if (null !== expired) {
                                 var master = this.masterPlaylistLoader_.master, mainSeekable = Vhs$1.Playlist.seekable(media, expired, Vhs$1.Playlist.liveEdgeDelay(master, media));
-                                if (0 !== mainSeekable.length) {
-                                    if (this.mediaTypes_.AUDIO.activePlaylistLoader) {
-                                        if (media = this.mediaTypes_.AUDIO.activePlaylistLoader.media(), null === (expired = this.syncController_.getExpiredTime(media, this.duration()))) return;
-                                        if (0 === (audioSeekable = Vhs$1.Playlist.seekable(media, expired, Vhs$1.Playlist.liveEdgeDelay(master, media))).length) return;
-                                    }
-                                    this.seekable_ && this.seekable_.length && (oldEnd = this.seekable_.end(0), oldStart = this.seekable_.start(0)), audioSeekable ? audioSeekable.start(0) > mainSeekable.end(0) || mainSeekable.start(0) > audioSeekable.end(0) ? this.seekable_ = mainSeekable : this.seekable_ = videojs.createTimeRanges([
-                                        [
-                                            audioSeekable.start(0) > mainSeekable.start(0) ? audioSeekable.start(0) : mainSeekable.start(0),
-                                            audioSeekable.end(0) < mainSeekable.end(0) ? audioSeekable.end(0) : mainSeekable.end(0), 
-                                        ], 
-                                    ]) : this.seekable_ = mainSeekable, this.seekable_ && this.seekable_.length && this.seekable_.end(0) === oldEnd && this.seekable_.start(0) === oldStart || (this.logger_("seekable updated [" + printableRange(this.seekable_) + "]"), this.tech_.trigger("seekablechanged"));
-                                }
+                                0 !== mainSeekable.length && (!this.mediaTypes_.AUDIO.activePlaylistLoader || (media = this.mediaTypes_.AUDIO.activePlaylistLoader.media(), null !== (expired = this.syncController_.getExpiredTime(media, this.duration())) && 0 !== (audioSeekable = Vhs$1.Playlist.seekable(media, expired, Vhs$1.Playlist.liveEdgeDelay(master, media))).length)) && (this.seekable_ && this.seekable_.length && (oldEnd = this.seekable_.end(0), oldStart = this.seekable_.start(0)), audioSeekable ? audioSeekable.start(0) > mainSeekable.end(0) || mainSeekable.start(0) > audioSeekable.end(0) ? this.seekable_ = mainSeekable : this.seekable_ = videojs.createTimeRanges([
+                                    [
+                                        audioSeekable.start(0) > mainSeekable.start(0) ? audioSeekable.start(0) : mainSeekable.start(0),
+                                        audioSeekable.end(0) < mainSeekable.end(0) ? audioSeekable.end(0) : mainSeekable.end(0), 
+                                    ], 
+                                ]) : this.seekable_ = mainSeekable, this.seekable_ && this.seekable_.length && this.seekable_.end(0) === oldEnd && this.seekable_.start(0) === oldStart || (this.logger_("seekable updated [" + printableRange(this.seekable_) + "]"), this.tech_.trigger("seekablechanged")));
                             }
                         }
                     }
@@ -14692,7 +14663,7 @@
                     var average = -1, lastSystemBandwidth = -1;
                     if (decay < 0 || decay > 1) throw new Error("Moving average bandwidth decay must be between 0 and 1.");
                     return function() {
-                        var pixelRatio = this.useDevicePixelRatio ? global_window__WEBPACK_IMPORTED_MODULE_0___default().devicePixelRatio || 1 : 1;
+                        var pixelRatio = this.useDevicePixelRatio && global_window__WEBPACK_IMPORTED_MODULE_0___default().devicePixelRatio || 1;
                         return average < 0 && (average = this.systemBandwidth, lastSystemBandwidth = this.systemBandwidth), this.systemBandwidth > 0 && this.systemBandwidth !== lastSystemBandwidth && (average = decay * this.systemBandwidth + (1 - decay) * average, lastSystemBandwidth = this.systemBandwidth), simpleSelector(this.playlists.master, average, parseInt(safeGetComputedStyle(this.tech_.el(), "width"), 10) * pixelRatio, parseInt(safeGetComputedStyle(this.tech_.el(), "height"), 10) * pixelRatio, this.limitRenditionByPlayerDimensions, this.masterPlaylistController_);
                     };
                 },

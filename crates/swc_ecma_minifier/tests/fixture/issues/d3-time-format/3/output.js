@@ -95,11 +95,7 @@
                 return date.getHours();
             });
             hour1.range;
-            var day1 = newInterval((date)=>date.setHours(0, 0, 0, 0)
-            , (date, step)=>date.setDate(date.getDate() + step)
-            , (start, end)=>(end - start - (end.getTimezoneOffset() - start.getTimezoneOffset()) * 60000) / 86400000
-            , (date)=>date.getDate() - 1
-            ), src_day = day1;
+            var day1 = newInterval((date)=>date.setHours(0, 0, 0, 0), (date, step)=>date.setDate(date.getDate() + step), (start, end)=>(end - start - (end.getTimezoneOffset() - start.getTimezoneOffset()) * 60000) / 86400000, (date)=>date.getDate() - 1), src_day = day1;
             function weekday(i) {
                 return newInterval(function(date) {
                     date.setDate(date.getDate() - (date.getDay() + 7 - i) % 7), date.setHours(0, 0, 0, 0);
@@ -302,8 +298,7 @@
                     ], 
                 ];
                 function tickInterval(start, stop, count) {
-                    const target = Math.abs(stop - start) / count, i = (0, bisector.Z)(([, , step])=>step
-                    ).right(tickIntervals, target);
+                    const target = Math.abs(stop - start) / count, i = (0, bisector.Z)(([, , step])=>step).right(tickIntervals, target);
                     if (i === tickIntervals.length) return year.every((0, src_ticks.ly)(start / 31536000000, stop / 31536000000, count));
                     if (0 === i) return src_millisecond.every(Math.max((0, src_ticks.ly)(start, stop, count), 1));
                     const [t, step1] = tickIntervals[target / tickIntervals[i - 1][2] < tickIntervals[i][2] / target ? i - 1 : i];
@@ -368,8 +363,7 @@
                 return new Map(names.map((name, i)=>[
                         name.toLowerCase(),
                         i
-                    ]
-                ));
+                    ]));
             }
             function parseWeekdayNumberSunday(d, string, i) {
                 var n = numberRe.exec(string.slice(i, i + 1));

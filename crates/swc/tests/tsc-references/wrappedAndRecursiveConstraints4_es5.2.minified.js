@@ -14,7 +14,5 @@ new C({
     length: 2
 }).foo("")({
     length: 3,
-    charAt: function(x) {
-        "";
-    }
+    charAt: function(x) {}
 });

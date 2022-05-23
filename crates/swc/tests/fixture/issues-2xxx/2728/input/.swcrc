@@ -1,0 +1,10 @@
+{
+    "jsc": {
+        "minify": {
+            "compress": true,
+            "mangle": {
+                "topLevel": true
+            }
+        }
+    }
+}

@@ -1,0 +1,3 @@
+(1,7) expected-doctype-but-got-start-tag
+(1,12) unexpected-start-tag-implies-table-voodoo
+(1,22) eof-in-table

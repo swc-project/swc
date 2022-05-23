@@ -1,6 +1,5 @@
 import * as swcHelpers from "@swc/helpers";
-var _this = this, _superprop_get_w = ()=>super.w
-;
+var _this = this, _superprop_get_w = ()=>super.w;
 export var Reflect = function() {
     "use strict";
     swcHelpers.classCallCheck(this, Reflect);

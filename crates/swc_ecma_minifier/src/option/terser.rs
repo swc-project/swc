@@ -258,13 +258,10 @@ impl TerserCompressorOptions {
             bools_as_ints: self.booleans_as_integers,
             collapse_vars: self.collapse_vars.unwrap_or(self.defaults),
             comparisons: self.comparisons.unwrap_or(self.defaults),
-            // TODO: Use self.defaults
-            computed_props: self.computed_props.unwrap_or(false),
-            // TODO: Use self.defaults
-            conditionals: self.conditionals.unwrap_or(false),
+            computed_props: self.computed_props.unwrap_or(self.defaults),
+            conditionals: self.conditionals.unwrap_or(self.defaults),
             dead_code: self.dead_code.unwrap_or(self.defaults),
-            // TODO: Use self.defaults
-            directives: self.directives.unwrap_or(false),
+            directives: self.directives.unwrap_or(self.defaults),
             drop_console: self.drop_console,
             drop_debugger: self.drop_debugger.unwrap_or(self.defaults),
             ecma: self.ecma.into(),
@@ -388,6 +385,28 @@ impl TerserCompressorOptions {
             unused: self.unused.unwrap_or(self.defaults),
             const_to_let: self.const_to_let.unwrap_or(self.defaults),
             pristine_globals: self.pristine_globals.unwrap_or(self.defaults),
+            pure_funcs: self
+                .pure_funcs
+                .into_iter()
+                .map(|input| {
+                    let fm = cm.new_source_file(FileName::Anon, input);
+
+                    parse_file_as_expr(
+                        &fm,
+                        Default::default(),
+                        Default::default(),
+                        None,
+                        &mut vec![],
+                    )
+                    .map(drop_span)
+                    .unwrap_or_else(|err| {
+                        panic!(
+                            "failed to parse `pure_funcs` of minifier options: {:?}",
+                            err
+                        )
+                    })
+                })
+                .collect(),
         }
     }
 }

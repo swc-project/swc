@@ -50,10 +50,8 @@ M2.M3 = {
     x: ''
 }; // Error
 function fn() {}
-fn = ()=>3
-; // Bug 823548: Should be error (fn is not a reference)
-fn = ()=>3
-; // Should be error
+fn = ()=>3; // Bug 823548: Should be error (fn is not a reference)
+fn = ()=>3; // Should be error
 function fn2(x2, y) {
     x2 = 3;
     x2 = 3; // OK

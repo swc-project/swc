@@ -1,0 +1,8 @@
+(1,15): expected-doctype-but-got-start-tag
+(1,39): unexpected-start-tag-implies-table-voodoo
+(1,39): unexpected-start-tag-implies-end-tag
+(1,39): unexpected-end-tag
+(1,45): foster-parenting-character-in-table
+(1,45): foster-parenting-character-in-table
+(1,68): foster-parenting-character-in-table
+(1,71): expected-closing-tag-but-got-eof

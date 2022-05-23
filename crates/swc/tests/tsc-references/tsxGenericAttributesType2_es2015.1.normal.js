@@ -8,7 +8,6 @@ const React = require('react');
 const decorator4 = function(Component) {
     return (props)=>/*#__PURE__*/ React.createElement(Component, swcHelpers.extends({}, props, {
             y: "blah"
-        }))
-    ;
+        }));
 };
 export { };

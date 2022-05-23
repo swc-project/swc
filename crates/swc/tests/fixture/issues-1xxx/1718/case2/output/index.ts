@@ -8,8 +8,7 @@ function _scanUser() {
             var _ref = swcHelpers.asyncToGenerator(function*({ users  }) {
                 for (const user of users){
                     console.log("user", user);
-                    yield new Promise((resolve)=>setTimeout(resolve, 30)
-                    );
+                    yield new Promise((resolve)=>setTimeout(resolve, 30));
                 }
             });
             return function(_) {

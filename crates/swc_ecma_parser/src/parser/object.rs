@@ -6,7 +6,7 @@ use swc_common::Spanned;
 use super::*;
 use crate::parser::class_and_fn::is_not_this;
 
-impl<'a, I: Tokens> Parser<I> {
+impl<I: Tokens> Parser<I> {
     /// Parse a object literal or object pattern.
     pub(super) fn parse_object<T>(&mut self) -> PResult<T>
     where

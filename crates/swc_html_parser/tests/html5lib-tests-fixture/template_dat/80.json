@@ -39,36 +39,44 @@
               "tagName": "template",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
-              "children": [
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 24,
-                    "end": 36,
-                    "ctxt": 0
-                  },
-                  "tagName": "sub",
-                  "namespace": "http://www.w3.org/1999/xhtml",
-                  "attributes": [],
-                  "children": [
-                    {
-                      "type": "Element",
-                      "span": {
-                        "start": 29,
-                        "end": 36,
-                        "ctxt": 0
-                      },
-                      "tagName": "table",
-                      "namespace": "http://www.w3.org/1999/xhtml",
-                      "attributes": [],
-                      "children": [],
-                      "content": null
-                    }
-                  ],
-                  "content": null
-                }
-              ],
-              "content": null
+              "children": [],
+              "content": {
+                "type": "DocumentFragment",
+                "span": {
+                  "start": 1,
+                  "end": 36,
+                  "ctxt": 0
+                },
+                "children": [
+                  {
+                    "type": "Element",
+                    "span": {
+                      "start": 24,
+                      "end": 36,
+                      "ctxt": 0
+                    },
+                    "tagName": "sub",
+                    "namespace": "http://www.w3.org/1999/xhtml",
+                    "attributes": [],
+                    "children": [
+                      {
+                        "type": "Element",
+                        "span": {
+                          "start": 29,
+                          "end": 36,
+                          "ctxt": 0
+                        },
+                        "tagName": "table",
+                        "namespace": "http://www.w3.org/1999/xhtml",
+                        "attributes": [],
+                        "children": [],
+                        "content": null
+                      }
+                    ],
+                    "content": null
+                  }
+                ]
+              }
             }
           ],
           "content": null

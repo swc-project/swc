@@ -4,5 +4,4 @@
 // operand types.
 var a;
 // bug 786110
-var r = a || ((a1)=>a1.toLowerCase()
-);
+var r = a || ((a1)=>a1.toLowerCase());

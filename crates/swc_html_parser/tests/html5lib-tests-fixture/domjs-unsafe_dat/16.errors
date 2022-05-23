@@ -1,0 +1,2 @@
+(1,20): expected-doctype-but-got-start-tag
+(1,35): invalid-codepoint

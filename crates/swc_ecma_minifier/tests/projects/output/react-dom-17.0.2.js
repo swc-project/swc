@@ -56,8 +56,7 @@
         }
     }
     function shouldRemoveAttribute(name, value, propertyInfo, isCustomComponentTag) {
-        if (null == value) return !0;
-        if (shouldRemoveAttributeWithWarning(name, value, propertyInfo, isCustomComponentTag)) return !0;
+        if (null == value || shouldRemoveAttributeWithWarning(name, value, propertyInfo, isCustomComponentTag)) return !0;
         if (isCustomComponentTag) return !1;
         if (null !== propertyInfo) switch(propertyInfo.type){
             case 3:
@@ -723,7 +722,7 @@
     var didWarnSelectedSetOnOption = !1, didWarnInvalidChild = !1;
     function validateProps(element, props) {
         "object" == typeof props.children && null !== props.children && React.Children.forEach(props.children, function(child) {
-            if (null != child) "string" != typeof child && "number" != typeof child && "string" == typeof child.type && (didWarnInvalidChild || (didWarnInvalidChild = !0, error1("Only strings and numbers are supported as <option> children.")));
+            null != child && "string" != typeof child && "number" != typeof child && "string" == typeof child.type && (didWarnInvalidChild || (didWarnInvalidChild = !0, error1("Only strings and numbers are supported as <option> children.")));
         }), null == props.selected || didWarnSelectedSetOnOption || (error1("Use the `defaultValue` or `value` props on <select> instead of setting `selected` on <option>."), didWarnSelectedSetOnOption = !0);
     }
     function getHostProps$1(element, props) {
@@ -2527,7 +2526,8 @@
         for(start = 0; start < startLength && startValue[start] === endValue[start]; start++);
         var minEnd = startLength - start;
         for(end = 1; end <= minEnd && startValue[startLength - end] === endValue[endLength - end]; end++);
-        return fallbackText = endValue.slice(start, end > 1 ? 1 - end : void 0);
+        var sliceTail = end > 1 ? 1 - end : void 0;
+        return fallbackText = endValue.slice(start, sliceTail);
     }
     function getText() {
         return "value" in root1 ? root1.value : root1.textContent;
@@ -3643,7 +3643,7 @@
     }
     function getPossibleStandardName(propName) {
         var lowerCasedName = propName.toLowerCase();
-        return possibleStandardNames.hasOwnProperty(lowerCasedName) ? possibleStandardNames[lowerCasedName] || null : null;
+        return possibleStandardNames.hasOwnProperty(lowerCasedName) && possibleStandardNames[lowerCasedName] || null;
     }
     function warnForUnmatchedText(textNode, text) {
         warnForTextDifference(textNode.nodeValue, text);
@@ -3658,7 +3658,7 @@
         didWarnInvalidHydration || (didWarnInvalidHydration = !0, error1("Expected server HTML to contain a matching <%s> in <%s>.", tag, parentNode.nodeName.toLowerCase()));
     }
     function warnForInsertedHydratedText(parentNode, text) {
-        "" !== text && (didWarnInvalidHydration || (didWarnInvalidHydration = !0, error1('Expected server HTML to contain a matching text node for "%s" in <%s>.', text, parentNode.nodeName.toLowerCase())));
+        "" === text || didWarnInvalidHydration || (didWarnInvalidHydration = !0, error1('Expected server HTML to contain a matching text node for "%s" in <%s>.', text, parentNode.nodeName.toLowerCase()));
     }
     normalizeMarkupForTextOrAttribute = function(markup) {
         return ("string" == typeof markup ? markup : "" + markup).replace(NORMALIZE_NEWLINES_REGEX, "\n").replace(NORMALIZE_NULL_AND_REPLACEMENT_REGEX, "");
@@ -4737,13 +4737,11 @@
     }
     var warnForMissingKey = function(child, returnFiber) {};
     didWarnAboutMaps = !1, didWarnAboutGenerators = !1, didWarnAboutStringRefs = {}, ownerHasKeyUseWarning = {}, ownerHasFunctionTypeWarning = {}, warnForMissingKey = function(child, returnFiber) {
-        if (null !== child && "object" == typeof child) {
-            if (child._store && !child._store.validated && null == child.key) {
-                if ("object" != typeof child._store) throw Error("React Component in warnForMissingKey should have a _store. This error is likely caused by a bug in React. Please file an issue.");
-                child._store.validated = !0;
-                var componentName = getComponentName(returnFiber.type) || "Component";
-                ownerHasKeyUseWarning[componentName] || (ownerHasKeyUseWarning[componentName] = !0, error1('Each child in a list should have a unique "key" prop. See https://reactjs.org/link/warning-keys for more information.'));
-            }
+        if (null !== child && "object" == typeof child && child._store && !child._store.validated && null == child.key) {
+            if ("object" != typeof child._store) throw Error("React Component in warnForMissingKey should have a _store. This error is likely caused by a bug in React. Please file an issue.");
+            child._store.validated = !0;
+            var componentName = getComponentName(returnFiber.type) || "Component";
+            ownerHasKeyUseWarning[componentName] || (ownerHasKeyUseWarning[componentName] = !0, error1('Each child in a list should have a unique "key" prop. See https://reactjs.org/link/warning-keys for more information.'));
         }
     };
     var isArray$1 = Array.isArray;
@@ -6545,10 +6543,10 @@
         return workInProgress.memoizedState = null, _primaryChildFragment6;
     }
     function mountSuspensePrimaryChildren(workInProgress, primaryChildren, renderLanes) {
-        var mode = workInProgress.mode, primaryChildFragment = createFiberFromOffscreen({
+        var primaryChildFragment = createFiberFromOffscreen({
             mode: "visible",
             children: primaryChildren
-        }, mode, renderLanes, null);
+        }, workInProgress.mode, renderLanes, null);
         return primaryChildFragment.return = workInProgress, workInProgress.child = primaryChildFragment, primaryChildFragment;
     }
     function mountSuspenseFallbackChildren(workInProgress, primaryChildren, fallbackChildren, renderLanes) {
@@ -7828,8 +7826,7 @@
                     node = node.return;
                 }
                 for(node.sibling.return = node.return, node = node.sibling; 5 !== node.tag && 6 !== node.tag && 18 !== node.tag;){
-                    if (node.flags & Placement) continue siblings;
-                    if (null === node.child || 4 === node.tag) continue siblings;
+                    if (node.flags & Placement || null === node.child || 4 === node.tag) continue siblings;
                     node.child.return = node, node = node.child;
                 }
                 if (!(node.flags & Placement)) return node.stateNode;
@@ -8711,23 +8708,21 @@
     }
     var didWarnStateUpdateForNotYetMountedComponent = null;
     function warnAboutUpdateOnNotYetMountedFiberInDEV(fiber) {
-        if ((16 & executionContext) == 0) {
-            if (6 & fiber.mode) {
-                var tag = fiber.tag;
-                if (2 === tag || 3 === tag || 1 === tag || 0 === tag || 11 === tag || 14 === tag || 15 === tag || 22 === tag) {
-                    var componentName = getComponentName(fiber.type) || "ReactComponent";
-                    if (null !== didWarnStateUpdateForNotYetMountedComponent) {
-                        if (didWarnStateUpdateForNotYetMountedComponent.has(componentName)) return;
-                        didWarnStateUpdateForNotYetMountedComponent.add(componentName);
-                    } else didWarnStateUpdateForNotYetMountedComponent = new Set([
-                        componentName
-                    ]);
-                    var previousFiber = current1;
-                    try {
-                        setCurrentFiber(fiber), error1("Can't perform a React state update on a component that hasn't mounted yet. This indicates that you have a side-effect in your render function that asynchronously later calls tries to update the component. Move this work to useEffect instead.");
-                    } finally{
-                        previousFiber ? setCurrentFiber(fiber) : resetCurrentFiber();
-                    }
+        if ((16 & executionContext) == 0 && 6 & fiber.mode) {
+            var tag = fiber.tag;
+            if (2 === tag || 3 === tag || 1 === tag || 0 === tag || 11 === tag || 14 === tag || 15 === tag || 22 === tag) {
+                var componentName = getComponentName(fiber.type) || "ReactComponent";
+                if (null !== didWarnStateUpdateForNotYetMountedComponent) {
+                    if (didWarnStateUpdateForNotYetMountedComponent.has(componentName)) return;
+                    didWarnStateUpdateForNotYetMountedComponent.add(componentName);
+                } else didWarnStateUpdateForNotYetMountedComponent = new Set([
+                    componentName
+                ]);
+                var previousFiber = current1;
+                try {
+                    setCurrentFiber(fiber), error1("Can't perform a React state update on a component that hasn't mounted yet. This indicates that you have a side-effect in your render function that asynchronously later calls tries to update the component. Move this work to useEffect instead.");
+                } finally{
+                    previousFiber ? setCurrentFiber(fiber) : resetCurrentFiber();
                 }
             }
         }

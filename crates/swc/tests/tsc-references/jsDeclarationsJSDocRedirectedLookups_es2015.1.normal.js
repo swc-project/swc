@@ -13,10 +13,8 @@
 /** @type {Void} */ const d = undefined;
 /** @type {Undefined} */ const e = undefined;
 /** @type {Null} */ const f = null;
-/** @type {Function} */ const g = ()=>void 0
-;
-/** @type {function} */ const h = ()=>void 0
-;
+/** @type {Function} */ const g = ()=>void 0;
+/** @type {function} */ const h = ()=>void 0;
 /** @type {array} */ const i = [];
 /** @type {promise} */ const j = Promise.resolve(0);
 /** @type {Object<string, string>} */ const k = {

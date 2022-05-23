@@ -9,8 +9,7 @@
  */ function Cp(t) {
     /** @type {this} */ this.dit = this;
     this.y = t;
-    /** @return {this} */ this.m3 = ()=>this
-    ;
+    /** @return {this} */ this.m3 = ()=>this;
 }
 Cp.prototype = {
     /** @return {this} */ m4 () {

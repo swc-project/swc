@@ -4,8 +4,7 @@ var M;
         return '';
     }
     M1.fn = fn;
-}(M || (M = {})), M.fn(1), (x)=>''
-;
+}(M || (M = {})), M.fn(1), (x)=>'';
 class C {
 }
 switch(new C()){

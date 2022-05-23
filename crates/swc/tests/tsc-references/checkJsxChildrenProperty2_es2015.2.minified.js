@@ -5,5 +5,4 @@ swcHelpers.extends({
     b: "hi"
 }, {
     children: "Random"
-}), (name)=>React.createElement("div", null, " My name ", name, " ")
-;
+}), (name)=>React.createElement("div", null, " My name ", name, " ");

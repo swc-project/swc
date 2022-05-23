@@ -52,18 +52,26 @@
               "tagName": "template",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
-              "children": [
-                {
-                  "type": "Comment",
-                  "span": {
-                    "start": 17,
-                    "end": 31,
-                    "ctxt": 0
-                  },
-                  "data": "comment"
-                }
-              ],
-              "content": null
+              "children": [],
+              "content": {
+                "type": "DocumentFragment",
+                "span": {
+                  "start": 7,
+                  "end": 31,
+                  "ctxt": 0
+                },
+                "children": [
+                  {
+                    "type": "Comment",
+                    "span": {
+                      "start": 17,
+                      "end": 31,
+                      "ctxt": 0
+                    },
+                    "data": "comment"
+                  }
+                ]
+              }
             }
           ],
           "content": null

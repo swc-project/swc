@@ -160,7 +160,7 @@ impl SourceMap {
     ) -> SourceMap {
         SourceMap {
             files: Default::default(),
-            start_pos: Default::default(),
+            start_pos: AtomicUsize::new(1),
             file_loader,
             path_mapping,
             doctest_offset: None,
@@ -1166,6 +1166,7 @@ impl SourceMap {
 
         let mut ch_start = 0;
         let mut line_ch_start = 0;
+        let mut prev_dst_line = u32::MAX;
 
         for (pos, lc) in mappings.iter() {
             let pos = *pos;
@@ -1178,7 +1179,7 @@ impl SourceMap {
 
             // If pos is same as a DUMMY_SP (eg BytePos(0)) and if line and col are 0;
             // ignore the mapping.
-            if lc.line == 0 && lc.col == 0 && pos == BytePos(0) {
+            if lc.line == 0 && lc.col == 0 && pos.is_dummy() {
                 continue;
             }
 
@@ -1204,6 +1205,15 @@ impl SourceMap {
                     &f
                 }
             };
+            if config.skip(&f.name) {
+                continue;
+            }
+
+            let emit_columns = config.emit_columns(&f.name);
+
+            if !emit_columns && lc.line == prev_dst_line {
+                continue;
+            }
 
             let a = match f.lookup_line(pos) {
                 Some(line) => line as u32,
@@ -1242,6 +1252,7 @@ impl SourceMap {
             }
 
             builder.add_raw(lc.line, lc.col, line - 1, col, Some(src_id), name_idx);
+            prev_dst_line = lc.line;
         }
 
         builder.into_sourcemap()
@@ -1328,6 +1339,15 @@ pub trait SourceMapGenConfig {
             f,
             FileName::Real(..) | FileName::Custom(..) | FileName::Url(..)
         )
+    }
+
+    /// You can define whether to emit sourcemap with columns or not
+    fn emit_columns(&self, _f: &FileName) -> bool {
+        true
+    }
+
+    fn skip(&self, _f: &FileName) -> bool {
+        false
     }
 }
 
