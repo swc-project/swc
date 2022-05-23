@@ -67,6 +67,10 @@ where
     }
 
     pub(super) fn emit_leading_comments(&mut self, mut pos: BytePos, is_hi: bool) -> Result {
+        if pos.is_dummy() {
+            return Ok(());
+        }
+
         let comments = match self.comments {
             Some(ref comments) => comments,
             None => return Ok(()),
@@ -79,11 +83,8 @@ where
         write_comments!(self, false, comments.take_leading(pos))
     }
 
+    #[inline(always)]
     pub(super) fn emit_leading_comments_of_span(&mut self, span: Span, is_hi: bool) -> Result {
-        if span.is_dummy_ignoring_cmt() {
-            return Ok(());
-        }
-
         let pos = if is_hi { span.hi } else { span.lo };
         self.emit_leading_comments(pos, is_hi)
     }

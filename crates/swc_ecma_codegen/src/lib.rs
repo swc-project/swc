@@ -2172,7 +2172,7 @@ where
                         && previous_sibling.hi != parent_node.hi()
                         && self.comments.is_some()
                     {
-                        self.emit_leading_comments(previous_sibling.span().hi(), true)?;
+                        self.emit_leading_comments(previous_sibling.hi(), true)?;
                     }
 
                     self.write_delim(format)?;
@@ -2270,11 +2270,11 @@ where
 
                 if let Some(previous_sibling) = previous_sibling {
                     if format.contains(ListFormat::DelimitersMask)
-                        && previous_sibling.span().hi() != parent_node.hi()
+                        && previous_sibling.hi() != parent_node.hi()
                         && emit_trailing_comments
                         && self.comments.is_some()
                     {
-                        self.emit_leading_comments(previous_sibling.span().hi(), true)?;
+                        self.emit_leading_comments(previous_sibling.hi(), true)?;
                     }
                 }
             }
@@ -3574,7 +3574,7 @@ fn is_space_require_before_rhs(rhs: &Expr) -> bool {
 }
 
 fn is_empty_comments(span: &Span, comments: &Option<&dyn Comments>) -> bool {
-    span.is_dummy() || comments.map_or(true, |c| !c.has_leading(span.hi() - BytePos(1)))
+    span.is_dummy() || comments.map_or(true, |c| !c.has_leading(span.span_hi() - BytePos(1)))
 }
 
 fn minify_number(num: f64) -> String {
