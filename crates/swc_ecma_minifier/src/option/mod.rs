@@ -250,10 +250,13 @@ pub struct CompressOptions {
     pub props: bool,
 
     #[serde(default)]
-    #[serde(alias = "properties")]
+    #[serde(alias = "pure_getters")]
     pub pure_getters: PureGetterOption,
 
-    // pure_funcs    : null,
+    #[serde(default)]
+    #[serde(alias = "pure_funcs")]
+    pub pure_funcs: Vec<Box<Expr>>,
+
     #[serde(default)]
     #[serde(alias = "reduce_funcs")]
     pub reduce_fns: bool,

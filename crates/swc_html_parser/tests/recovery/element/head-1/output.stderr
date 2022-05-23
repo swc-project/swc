@@ -1,5 +1,5 @@
 
-  x Stray start tag "<head>"
+  x Stray start tag "head"
    ,-[$DIR/tests/recovery/element/head-1/input.html:6:1]
  6 | <head>
    : ^^^^^^

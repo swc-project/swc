@@ -9,4 +9,6 @@ import * as swcHelpers from "@swc/helpers";
         "use strict";
         swcHelpers.classCallCheck(this, NestedClass);
     }, nested.NestedClass = NestedClass;
-}(ns || (ns = {})), ns.Class, ns.Value;
+}(ns || (ns = {}));
+export default ns;
+ns.Class, ns.Value;

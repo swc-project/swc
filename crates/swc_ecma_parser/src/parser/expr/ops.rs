@@ -93,7 +93,7 @@ impl<I: Tokens> Parser<I> {
             && !self.input.had_line_break_before_cur()
             && is!(self, "as")
         {
-            let start = left.span().lo();
+            let start = left.span_lo();
             let expr = left;
             let node = if peeked_is!(self, "const") {
                 bump!(self); // as
@@ -212,7 +212,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         let node = Box::new(Expr::Bin(BinExpr {
-            span: Span::new(left.span().lo(), right.span().hi(), Default::default()),
+            span: Span::new(left.span_lo(), right.span_hi(), Default::default()),
             op,
             left,
             right,
@@ -253,7 +253,7 @@ impl<I: Tokens> Parser<I> {
             };
 
             let arg = self.parse_unary_expr()?;
-            let span = Span::new(start, arg.span().hi(), Default::default());
+            let span = Span::new(start, arg.span_hi(), Default::default());
             self.check_assign_target(&arg, false);
 
             return Ok(Box::new(Expr::Update(UpdateExpr {
@@ -311,7 +311,7 @@ impl<I: Tokens> Parser<I> {
             }
 
             return Ok(Box::new(Expr::Unary(UnaryExpr {
-                span: Span::new(start, arg.span().hi(), Default::default()),
+                span: Span::new(start, arg.span_hi(), Default::default()),
                 op,
                 arg,
             })));
@@ -344,7 +344,7 @@ impl<I: Tokens> Parser<I> {
             };
 
             return Ok(Box::new(Expr::Update(UpdateExpr {
-                span: span!(self, expr.span().lo()),
+                span: span!(self, expr.span_lo()),
                 prefix: false,
                 op,
                 arg: expr,

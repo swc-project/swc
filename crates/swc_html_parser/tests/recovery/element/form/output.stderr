@@ -1,11 +1,11 @@
 
-  x Saw a "<form>" start tag, but there was already an active "<form>" element, nested forms are not allowed.
+  x Saw a "form" start tag, but there was already an active "form" element, nested forms are not allowed
    ,-[$DIR/tests/recovery/element/form/input.html:8:5]
  8 | <form action="test"></form>
    : ^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x Stray end tag "</form>"
+  x Stray end tag "form"
    ,-[$DIR/tests/recovery/element/form/input.html:9:1]
  9 | </form>
    : ^^^^^^^

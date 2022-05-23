@@ -1,11 +1,11 @@
 
-  x Missing doctype
+  x Start tag seen without seeing a doctype firs, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/element/p/input.html:1:1]
  1 | <p>a<p>b</p></p>
    : ^^^
    `----
 
-  x No "p" element in scope but a "</p>" end tag seen
+  x No "p" element in scope but a "p" end tag seen
    ,-[$DIR/tests/recovery/element/p/input.html:1:1]
  1 | <p>a<p>b</p></p>
    :             ^^^^

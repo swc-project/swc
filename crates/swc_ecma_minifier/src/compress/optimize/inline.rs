@@ -8,7 +8,7 @@ use crate::{
     compress::optimize::util::{class_has_side_effect, is_valid_for_lhs},
     debug::dump,
     mode::Mode,
-    util::{idents_captured_by, idents_used_by},
+    util::{idents_captured_by, idents_used_by, idents_used_by_ignoring_nested},
 };
 
 /// Methods related to option `inline`.
@@ -245,10 +245,55 @@ where
                         _ => {}
                     }
 
-                    if let Expr::Ident(v) = &**init {
-                        if let Some(v_usage) = self.data.vars.get(&v.to_id()) {
-                            if v_usage.reassigned() {
-                                return;
+                    match &**init {
+                        Expr::Lit(..) => {}
+
+                        Expr::Fn(f) => {
+                            let excluded: Vec<Id> = find_pat_ids(&f.function.params);
+
+                            for id in idents_used_by(&f.function.params) {
+                                if excluded.contains(&id) {
+                                    continue;
+                                }
+                                if let Some(v_usage) = self.data.vars.get(&id) {
+                                    if v_usage.reassigned() {
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+                        Expr::Arrow(f) => {
+                            let excluded: Vec<Id> = find_pat_ids(&f.params);
+
+                            for id in idents_used_by(&f.params) {
+                                if excluded.contains(&id) {
+                                    continue;
+                                }
+                                if let Some(v_usage) = self.data.vars.get(&id) {
+                                    if v_usage.reassigned() {
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+
+                        Expr::Object(..) => {
+                            for id in idents_used_by_ignoring_nested(&**init) {
+                                if let Some(v_usage) = self.data.vars.get(&id) {
+                                    if v_usage.reassigned() {
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+
+                        _ => {
+                            for id in idents_used_by(&**init) {
+                                if let Some(v_usage) = self.data.vars.get(&id) {
+                                    if v_usage.reassigned() {
+                                        return;
+                                    }
+                                }
                             }
                         }
                     }

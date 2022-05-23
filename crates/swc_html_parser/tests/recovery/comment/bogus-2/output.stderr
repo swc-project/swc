@@ -5,4 +5,4 @@
    : ^^^^^^^^^^
    `----
 
-  x Missing doctype
+  x End of file seen without seeing a doctype first, expected "<!DOCTYPE html>"

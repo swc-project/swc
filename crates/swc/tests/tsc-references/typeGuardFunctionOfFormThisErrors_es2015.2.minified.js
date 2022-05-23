@@ -16,8 +16,6 @@ let a = new FollowerGuard(), b = new LeadGuard();
 function invalidGuard(c) {
     return !1;
 }
-b.isFollower = b.isLeader, b.isLeader = b.isFollower, a.isFollower = a.isLeader, a.isLeader = a.isFollower;
-let c;
-({
+b.isFollower = b.isLeader, b.isLeader = b.isFollower, a.isFollower = a.isLeader, a.isLeader = a.isFollower, ({
     invalidGuard
-}).invalidGuard(c), (0, a.isFollower)() ? a.follow() : a.lead();
+}).invalidGuard(void 0), (0, a.isFollower)() ? a.follow() : a.lead();

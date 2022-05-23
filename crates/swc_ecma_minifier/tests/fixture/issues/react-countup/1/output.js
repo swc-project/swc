@@ -152,7 +152,7 @@
                     return _arr;
                 }(arr3, 2) || function() {
                     throw new TypeError("Invalid attempt to destructure non-iterable instance");
-                }(), setRef = ref2[0], isIntersected = ref2[1], wrapperStyle = {
+                }(), setRef = ref2[0], isIntersected = ref2[1], isVisible = !isLazy || isIntersected, wrapperStyle = {
                     boxSizing: "border-box",
                     display: "block",
                     overflow: "hidden",
@@ -208,7 +208,7 @@
                     srcSet: void 0,
                     sizes: void 0
                 };
-                (!isLazy || isIntersected) && (imgAttributes = generateImgAttrs({
+                isVisible && (imgAttributes = generateImgAttrs({
                     src: src2,
                     unoptimized: unoptimized,
                     layout: layout,

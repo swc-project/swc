@@ -81,7 +81,6 @@ collapse_vars/issue_2506/input.js
 collapse_vars/issue_2914_2/input.js
 collapse_vars/issue_315/input.js
 collapse_vars/lvalues_def/input.js
-collapse_vars/may_throw_2/input.js
 collapse_vars/noinline_annotation/input.js
 collapse_vars/pure_getters_chain/input.js
 collapse_vars/recursive_function_replacement/input.js
@@ -539,7 +538,6 @@ properties/skip_undeclared_properties_by_default/input.js
 properties/sub_properties/input.js
 properties/unsafe_methods_regex/input.js
 pure_funcs/arithmetic/input.js
-pure_funcs/babel/input.js
 pure_funcs/boolean_and/input.js
 pure_funcs/boolean_or/input.js
 pure_funcs/conditional/input.js
@@ -556,15 +554,9 @@ pure_funcs/issue_2705_3/input.js
 pure_funcs/issue_2705_4/input.js
 pure_funcs/issue_2705_5/input.js
 pure_funcs/issue_2705_6/input.js
-pure_funcs/issue_3065_1/input.js
-pure_funcs/issue_3065_2/input.js
 pure_funcs/issue_3065_2b/input.js
-pure_funcs/issue_3065_3/input.js
-pure_funcs/issue_3065_4/input.js
 pure_funcs/issue_526_1/input.js
 pure_funcs/relational/input.js
-pure_funcs/side_effects/input.js
-pure_funcs/unused/input.js
 pure_getters/collapse_vars_1_true/input.js
 pure_getters/collapse_vars_2_true/input.js
 pure_getters/impure_getter_2/input.js

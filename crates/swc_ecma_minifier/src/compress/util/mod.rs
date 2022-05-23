@@ -733,7 +733,7 @@ impl VisitMut for UnreachableHandler {
     }
 }
 
-pub(super) fn is_global_var(s: &str) -> bool {
+pub(super) fn is_global_var_with_pure_property_access(s: &str) -> bool {
     matches!(
         s,
         "clearInterval"
@@ -770,6 +770,7 @@ pub(super) fn is_global_var(s: &str) -> bool {
             | "NaN"
             | "Symbol"
             | "Promise"
+            | "Math"
     )
 }
 

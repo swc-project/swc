@@ -113,23 +113,25 @@
                             return 2 === o && (r = f1[e.charCodeAt(h)] << 2 | f1[e.charCodeAt(h + 1)] >> 4, u[a++] = 255 & r), 1 === o && (r = f1[e.charCodeAt(h)] << 10 | f1[e.charCodeAt(h + 1)] << 4 | f1[e.charCodeAt(h + 2)] >> 2, u[a++] = r >> 8 & 255, u[a++] = 255 & r), u;
                         }, r2.fromByteArray = function(e) {
                             for(var r, f = e.length, n = f % 3, i = [], u = 0, a = f - n; u < a; u += 16383)i.push(encodeChunk(e, u, u + 16383 > a ? a : u + 16383));
-                            return 1 === n ? (r = e[f - 1], i.push(t2[r >> 2] + t2[r << 4 & 63] + "==")) : 2 === n && (r = (e[f - 2] << 8) + e[f - 1], i.push(t2[r >> 10] + t2[r >> 4 & 63] + t2[r << 2 & 63] + "=")), i.join("");
+                            return 1 === n ? i.push(t2[(r = e[f - 1]) >> 2] + t2[r << 4 & 63] + "==") : 2 === n && i.push(t2[(r = (e[f - 2] << 8) + e[f - 1]) >> 10] + t2[r >> 4 & 63] + t2[r << 2 & 63] + "="), i.join("");
                         };
                         for(var t2 = [], f1 = [], n1 = "undefined" != typeof Uint8Array ? Uint8Array : Array, i1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", o1 = 0, u1 = i1.length; o1 < u1; ++o1)t2[o1] = i1[o1], f1[i1.charCodeAt(o1)] = o1;
                         function getLens(e) {
                             var r = e.length;
                             if (r % 4 > 0) throw new Error("Invalid string. Length must be a multiple of 4");
                             var t = e.indexOf("=");
-                            return -1 === t && (t = r), [
+                            -1 === t && (t = r);
+                            var f = t === r ? 0 : 4 - t % 4;
+                            return [
                                 t,
-                                t === r ? 0 : 4 - t % 4
+                                f
                             ];
                         }
                         function tripletToBase64(e) {
                             return t2[e >> 18 & 63] + t2[e >> 12 & 63] + t2[e >> 6 & 63] + t2[63 & e];
                         }
                         function encodeChunk(e, r, t) {
-                            for(var f, n = [], i = r; i < t; i += 3)f = (e[i] << 16 & 16711680) + (e[i + 1] << 8 & 65280) + (255 & e[i + 2]), n.push(tripletToBase64(f));
+                            for(var n = [], i = r; i < t; i += 3)n.push(tripletToBase64((e[i] << 16 & 16711680) + (e[i + 1] << 8 & 65280) + (255 & e[i + 2])));
                             return n.join("");
                         }
                         f1["-".charCodeAt(0)] = 62, f1["_".charCodeAt(0)] = 63;
@@ -182,7 +184,7 @@
                             var f;
                             if (r < 0 || e.byteLength < r) throw new RangeError('"offset" is outside of buffer bounds');
                             if (e.byteLength < r + (t || 0)) throw new RangeError('"length" is outside of buffer bounds');
-                            return f = void 0 === r && void 0 === t ? new Uint8Array(e) : void 0 === t ? new Uint8Array(e, r) : new Uint8Array(e, r, t), Object.setPrototypeOf(f, Buffer.prototype), f;
+                            return Object.setPrototypeOf(f = void 0 === r && void 0 === t ? new Uint8Array(e) : void 0 === t ? new Uint8Array(e, r) : new Uint8Array(e, r, t), Buffer.prototype), f;
                         }
                         function fromObject(e) {
                             if (Buffer.isBuffer(e)) {

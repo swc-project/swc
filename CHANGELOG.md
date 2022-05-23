@@ -5,6 +5,120 @@
 
 
 
+- **(es/loader)** Fix `jsc.paths` on windows (#4739) ([417b218](https://github.com/swc-project/swc/commit/417b2182cead074c9ebf9358d53f353157637a8d))
+
+
+- **(es/loader)** Fix hang related to `jsc.paths` (#4742) ([777ea37](https://github.com/swc-project/swc/commit/777ea371d0bd17c6acd7aa2e7b20057de4577c08))
+
+
+- **(es/minifier)** Consider parameters while detecting pure calls (#4748) ([e4dee1e](https://github.com/swc-project/swc/commit/e4dee1ed3304f9b5950b99360054dc72201c80ad))
+
+
+- **(es/modules/cjs)** FIx detection of exported names (#4737) ([d9bb59a](https://github.com/swc-project/swc/commit/d9bb59a8cb1998f87b0f115e9cc4b0b53923096a))
+
+
+- **(es/typescript)** Mark namespaces as concrete (#4736) ([41d4437](https://github.com/swc-project/swc/commit/41d443767147f97909e6b1004cb4be6dcea207c1))
+
+
+- **(html/parser)** Fix error reporting in the foreign context (#4725) ([4df0637](https://github.com/swc-project/swc/commit/4df06378179bc27562e84e0814c0878b8edf29f5))
+
+
+- **(html/parser)** Fix parsing of closing tag in foreign contents (#4721) ([1c4d50f](https://github.com/swc-project/swc/commit/1c4d50f06a86a8c34d929090457f8970ed3b58e3))
+
+### Features
+
+
+
+- **(es/minifier)** Implement `pure_funcs` (#4710) ([9e42382](https://github.com/swc-project/swc/commit/9e423820916ab847731b8b484a165169174b80df))
+
+
+- **(es/minifier)** Handle prefix update expressions with sequential inliner (#4741) ([a51816a](https://github.com/swc-project/swc/commit/a51816a577cb13a8af6e8086c5aab41b6ac79a58))
+
+
+- **(es/modules/amd)** Support local-scoped amd requires (#4727) ([886585b](https://github.com/swc-project/swc/commit/886585b90e2f240e4d72091629bc547ab74f7e2e))
+
+
+- **(html/parser)** Improve error reporting for misplaced non-space characters inside a table (#4723) ([e9b2ebf](https://github.com/swc-project/swc/commit/e9b2ebfc3bffb7d28b7ca0e50f8570aaed2f35e5))
+
+
+- **(html/parser)** Improve error reporting (#4728) ([c346d30](https://github.com/swc-project/swc/commit/c346d309a7f2d16bac84bd9f8bdf74520ab6f711))
+
+
+- **(html/parser)** Improve error reporting (#4740) ([51f4cea](https://github.com/swc-project/swc/commit/51f4cea10349145a66e45dabb78cc244784b3c98))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Fix CI (#4747) ([0f85f7b](https://github.com/swc-project/swc/commit/0f85f7b9de970648509aff8ac466fe25ab004cdb))
+
+
+- **(es/minifier)** Add `#[doc(hidden)]` (#4751) ([22bf5f0](https://github.com/swc-project/swc/commit/22bf5f014e35ac4994d70660ae7e25cfb4659caf))
+
+### Performance
+
+
+
+- **(common)** Add more methods to `Spanned` (#4749) ([98df645](https://github.com/swc-project/swc/commit/98df64517efbc53021e4e386ad876f1f46bd17f0))
+
+### Refactor
+
+
+
+- **(es/minifier)** Make `rust-analyzer` faster (#4744) ([47e6cc5](https://github.com/swc-project/swc/commit/47e6cc519092af220cd735c2eedad3e7ad7f3e18))
+
+
+- **(es/minifier)** Make `rust-analyzer` fast, really (#4746) ([49b3c27](https://github.com/swc-project/swc/commit/49b3c2715c3b418d982443f47e2c70e6959fd16f))
+
+
+- **(es/parser)** Remove duplicate (#4750) ([b7a195a](https://github.com/swc-project/swc/commit/b7a195a1cf18763b19846b7f14efc80a0f17fd1e))
+
+## [1.2.189] - 2022-05-21
+
+### Bug Fixes
+
+
+
+- **(es/codegen)** Fix numeric literals (#4733) ([ea46eb4](https://github.com/swc-project/swc/commit/ea46eb41e0e0581765c12a0f50b5c467beb878ea))
+
+
+- **(es/config)** Respect `.swcrc` (#4735) ([9966e98](https://github.com/swc-project/swc/commit/9966e98ac692575032b04315dd269b1f05fe2ba4))
+
+
+- **(html/parser)** Fix error reporting related to `image` (#4720) ([4cee4ac](https://github.com/swc-project/swc/commit/4cee4ac23804e8e43575477c41e5e0cfb624103a))
+
+## [1.2.188] - 2022-05-21
+
+### Bug Fixes
+
+
+
+- **(es/codegen)** Exclude synthesized files from sourcemap (#4714) ([03dd9de](https://github.com/swc-project/swc/commit/03dd9de1c34ef8af66b78b03e7264e623ea81e8b))
+
+
+- **(es/codegen)** Fix numeric literals (#4731) ([f1baff4](https://github.com/swc-project/swc/commit/f1baff4114bfdb7ccc0c80266445d79a4b0104eb))
+
+
+- **(es/minifier)** Consider more side effects while inlining (#4715) ([1358f45](https://github.com/swc-project/swc/commit/1358f452e757210f9a203a28a1806c404cbf2fd7))
+
+
+- **(html/parser)** Fix handling of unclosed `td`/`th` (#4719) ([2c2e6bb](https://github.com/swc-project/swc/commit/2c2e6bb65b0d3144774761fca3e8f81f988f143d))
+
+### Features
+
+
+
+- **(es/minifier)** Implement more skipping rules for `sequences` (#4716) ([dc67911](https://github.com/swc-project/swc/commit/dc67911f61cb6e0f4c2e37ed0d32ed3f62cb0501))
+
+
+- **(html/parser)** Report an error for a legacy doctype (#4717) ([5d0e8fb](https://github.com/swc-project/swc/commit/5d0e8fbda41d012c8fb258bdc0c61402ba9f8a7e))
+
+## [1.2.187] - 2022-05-20
+
+### Bug Fixes
+
+
+
 - **(common)** Don't use reserved byte position (#4690) ([606f7c9](https://github.com/swc-project/swc/commit/606f7c967e908b4d70d37edbb76c11a7ea985336))
 
 

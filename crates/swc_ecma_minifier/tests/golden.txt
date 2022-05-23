@@ -211,6 +211,7 @@ collapse_vars/issue_3096/input.js
 collapse_vars/issue_348/input.js
 collapse_vars/issue_805/input.js
 collapse_vars/may_throw_1/input.js
+collapse_vars/may_throw_2/input.js
 collapse_vars/modified/input.js
 collapse_vars/reassign_const_1/input.js
 collapse_vars/reassign_const_2/input.js
@@ -802,6 +803,7 @@ issue_267/issue_267/input.js
 issue_269/issue_269_dangers/input.js
 issue_269/issue_269_in_scope/input.js
 issue_281/drop_fargs/input.js
+issue_281/inner_var_for_in_1/input.js
 issue_281/issue_1254_negate_iife_nested/input.js
 issue_281/issue_1254_negate_iife_true/input.js
 issue_281/issue_1288_side_effects/input.js
@@ -823,6 +825,7 @@ issue_281/wrap_iife_in_expression/input.js
 issue_281/wrap_iife_in_return_call/input.js
 issue_2989/inline_script_off/input.js
 issue_2989/inline_script_on/input.js
+issue_368/collapse/input.js
 issue_427/no_wrap_func_args/input.js
 issue_427/wrap_func_args/input.js
 issue_59/keep_continue/input.js
@@ -988,6 +991,7 @@ parameters/arrow_functions/input.js
 parameters/arrow_return/input.js
 parameters/default_values_in_destructurings/input.js
 parameters/destructuring_arguments_1/input.js
+parameters/destructuring_arguments_2/input.js
 parameters/regression_arrow_functions_and_hoist/input.js
 parameters/regression_assign_arrow_functions/input.js
 properties/accessor_1/input.js
@@ -1031,6 +1035,13 @@ properties/mangle_properties_which_matches_pattern/input.js
 properties/native_prototype_lhs/input.js
 pure_funcs/array/input.js
 pure_funcs/assign/input.js
+pure_funcs/babel/input.js
+pure_funcs/issue_3065_1/input.js
+pure_funcs/issue_3065_2/input.js
+pure_funcs/issue_3065_3/input.js
+pure_funcs/issue_3065_4/input.js
+pure_funcs/side_effects/input.js
+pure_funcs/unused/input.js
 pure_getters/chained/input.js
 pure_getters/collapse_rhs_call/input.js
 pure_getters/collapse_rhs_false/input.js

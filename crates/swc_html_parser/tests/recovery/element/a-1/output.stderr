@@ -1,11 +1,11 @@
 
-  x Missing doctype
+  x Start tag seen without seeing a doctype firs, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/element/a-1/input.html:1:1]
  1 | <a>1<p>2</a>3</p>
    : ^^^
    `----
 
-  x Unexpected token
+  x End tag "a" violates nesting rules
    ,-[$DIR/tests/recovery/element/a-1/input.html:1:1]
  1 | <a>1<p>2</a>3</p>
    :         ^^^^

@@ -604,6 +604,14 @@ impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
     fn emit_columns(&self, _f: &FileName) -> bool {
         self.emit_columns
     }
+
+    fn skip(&self, f: &FileName) -> bool {
+        if let FileName::Custom(s) = f {
+            s.starts_with('<')
+        } else {
+            false
+        }
+    }
 }
 
 pub(crate) fn minify_file_comments(

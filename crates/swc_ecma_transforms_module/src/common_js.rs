@@ -207,8 +207,20 @@ impl Fold for CommonJs {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { decl, .. })) => {
                     let mut found: Vec<Ident> = vec![];
 
-                    let mut v = DestructuringFinder { found: &mut found };
-                    decl.visit_with(&mut v);
+                    match decl {
+                        Decl::Class(d) => {
+                            found.push(d.ident.clone());
+                        }
+                        Decl::Fn(d) => {
+                            found.push(d.ident.clone());
+                        }
+                        Decl::Var(v) => {
+                            found.extend(find_pat_ids(&v.decls));
+                        }
+                        _ => {
+                            unreachable!()
+                        }
+                    }
 
                     for ident in found {
                         exports.push(ident.sym.clone());
