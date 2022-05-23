@@ -14,12 +14,12 @@ pub trait Spanned {
     fn span(&self) -> Span;
 
     #[inline]
-    fn lo(&self) -> BytePos {
+    fn span_lo(&self) -> BytePos {
         self.span().lo
     }
 
     #[inline]
-    fn hi(&self) -> BytePos {
+    fn span_hi(&self) -> BytePos {
         self.span().hi
     }
 }
@@ -34,13 +34,13 @@ where
     }
 
     #[inline]
-    fn lo(&self) -> BytePos {
-        (**self).lo()
+    fn span_lo(&self) -> BytePos {
+        (**self).span_lo()
     }
 
     #[inline]
-    fn hi(&self) -> BytePos {
-        (**self).hi()
+    fn span_hi(&self) -> BytePos {
+        (**self).span_hi()
     }
 }
 
@@ -72,17 +72,17 @@ where
     }
 
     #[inline]
-    fn lo(&self) -> BytePos {
+    fn span_lo(&self) -> BytePos {
         match *self {
-            Some(ref s) => s.lo(),
+            Some(ref s) => s.span_lo(),
             None => BytePos::DUMMY,
         }
     }
 
     #[inline]
-    fn hi(&self) -> BytePos {
+    fn span_hi(&self) -> BytePos {
         match *self {
-            Some(ref s) => s.hi(),
+            Some(ref s) => s.span_hi(),
             None => BytePos::DUMMY,
         }
     }
@@ -97,13 +97,13 @@ where
     }
 
     #[inline]
-    fn lo(&self) -> BytePos {
-        <S as Spanned>::lo(&*self)
+    fn span_lo(&self) -> BytePos {
+        <S as Spanned>::span_lo(&*self)
     }
 
     #[inline]
-    fn hi(&self) -> BytePos {
-        <S as Spanned>::hi(&*self)
+    fn span_hi(&self) -> BytePos {
+        <S as Spanned>::span_hi(&*self)
     }
 }
 
@@ -116,13 +116,13 @@ where
     }
 
     #[inline]
-    fn lo(&self) -> BytePos {
-        <S as Spanned>::lo(&*self)
+    fn span_lo(&self) -> BytePos {
+        <S as Spanned>::span_lo(&*self)
     }
 
     #[inline]
-    fn hi(&self) -> BytePos {
-        <S as Spanned>::hi(&*self)
+    fn span_hi(&self) -> BytePos {
+        <S as Spanned>::span_hi(&*self)
     }
 }
 
@@ -135,13 +135,13 @@ where
     }
 
     #[inline]
-    fn lo(&self) -> BytePos {
-        <S as Spanned>::lo(&*self)
+    fn span_lo(&self) -> BytePos {
+        <S as Spanned>::span_lo(&*self)
     }
 
     #[inline]
-    fn hi(&self) -> BytePos {
-        <S as Spanned>::hi(&*self)
+    fn span_hi(&self) -> BytePos {
+        <S as Spanned>::span_hi(&*self)
     }
 }
 
@@ -154,13 +154,13 @@ where
     }
 
     #[inline]
-    fn lo(&self) -> BytePos {
-        <S as Spanned>::lo(self)
+    fn span_lo(&self) -> BytePos {
+        <S as Spanned>::span_lo(self)
     }
 
     #[inline]
-    fn hi(&self) -> BytePos {
-        <S as Spanned>::hi(self)
+    fn span_hi(&self) -> BytePos {
+        <S as Spanned>::span_hi(self)
     }
 }
 
@@ -176,17 +176,17 @@ where
         }
     }
 
-    fn lo(&self) -> BytePos {
+    fn span_lo(&self) -> BytePos {
         match *self {
-            ::either::Either::Left(ref n) => n.lo(),
-            ::either::Either::Right(ref n) => n.lo(),
+            ::either::Either::Left(ref n) => n.span_lo(),
+            ::either::Either::Right(ref n) => n.span_lo(),
         }
     }
 
-    fn hi(&self) -> BytePos {
+    fn span_hi(&self) -> BytePos {
         match *self {
-            ::either::Either::Left(ref n) => n.hi(),
-            ::either::Either::Right(ref n) => n.hi(),
+            ::either::Either::Left(ref n) => n.span_hi(),
+            ::either::Either::Right(ref n) => n.span_hi(),
         }
     }
 }

@@ -915,15 +915,15 @@ impl Spanned for ExprOrSpread {
     }
 
     #[inline]
-    fn lo(&self) -> BytePos {
+    fn span_lo(&self) -> BytePos {
         match self.spread {
             Some(s) => s.lo,
-            None => self.expr.lo(),
+            None => self.expr.span_lo(),
         }
     }
 
     #[inline]
-    fn hi(&self) -> BytePos {
+    fn span_hi(&self) -> BytePos {
         self.expr.hi()
     }
 }
