@@ -221,8 +221,9 @@ impl Error {
             ErrorKind::NonSpaceCharacterInTable => {
                 "Misplaced non-space characters inside a table".into()
             }
-            ErrorKind::UnexpectedStartTagInRuby(tag_name) => format!(
-                "Unexpected start tag \"<{}>\" with \"<ruby>\" open",
+            ErrorKind::UnclosedChildrenInRuby => "Unclosed children in \"ruby\"".into(),
+            ErrorKind::StartTagSeenWithoutRuby(tag_name) => format!(
+                "Start tag \"{}\" seen without a \"ruby\" element being open",
                 tag_name
             )
             .into(),
@@ -325,9 +326,8 @@ pub enum ErrorKind {
     UnclosedElementsImplied(JsWord),
     UnclosedElementsCell,
     StrayDoctype,
-    // TODO fix me
+    // TODO fix me and doctypes errors
     NonConformingDoctype,
-    // TODO more doctypes errors
     NonSpaceCharacterInTrailer,
     NonSpaceCharacterAfterFrameset,
     NonSpaceCharacterInFrameset,
@@ -358,10 +358,8 @@ pub enum ErrorKind {
     HtmlEndTagInForeignContext(JsWord),
     NoTableRowToClose,
     NonSpaceCharacterInTable,
-    // TODO fix me
-    // TODO errUnclosedChildrenInRuby
-    // TODO errStartTagSeenWithoutRuby
-    UnexpectedStartTagInRuby(JsWord),
+    UnclosedChildrenInRuby,
+    StartTagSeenWithoutRuby(JsWord),
     UnclosedElementsOnStack,
     EndTagDidNotMatchCurrentOpenElement(JsWord, JsWord),
     EndTagViolatesNestingRules(JsWord),

@@ -3763,16 +3763,25 @@ where
                     Token::StartTag { tag_name, .. }
                         if matches!(tag_name.as_ref(), "rb" | "rtc") =>
                     {
-                        if self.open_elements_stack.has_in_scope("ruby") {
+                        let is_scope = self.open_elements_stack.has_in_scope("ruby");
+
+                        if is_scope {
                             self.open_elements_stack.generate_implied_end_tags();
                         }
 
                         match self.open_elements_stack.items.last() {
                             Some(node) if !is_html_element!(node, "ruby") => {
-                                self.errors.push(Error::new(
-                                    token_and_info.span,
-                                    ErrorKind::UnexpectedStartTagInRuby(tag_name.clone()),
-                                ));
+                                if !is_scope {
+                                    self.errors.push(Error::new(
+                                        token_and_info.span,
+                                        ErrorKind::StartTagSeenWithoutRuby(tag_name.clone()),
+                                    ));
+                                } else {
+                                    self.errors.push(Error::new(
+                                        token_and_info.span,
+                                        ErrorKind::UnclosedChildrenInRuby,
+                                    ));
+                                }
                             }
                             _ => {}
                         }
@@ -3789,17 +3798,26 @@ where
                     Token::StartTag { tag_name, .. }
                         if matches!(tag_name.as_ref(), "rp" | "rt") =>
                     {
-                        if self.open_elements_stack.has_in_scope("ruby") {
+                        let in_scope = self.open_elements_stack.has_in_scope("ruby");
+
+                        if in_scope {
                             self.open_elements_stack
                                 .generate_implied_end_tags_with_exclusion("rtc");
                         }
 
                         match self.open_elements_stack.items.last() {
                             Some(node) if !is_html_element!(node, "rtc" | "ruby") => {
-                                self.errors.push(Error::new(
-                                    token_and_info.span,
-                                    ErrorKind::UnexpectedStartTagInRuby(tag_name.clone()),
-                                ));
+                                if !in_scope {
+                                    self.errors.push(Error::new(
+                                        token_and_info.span,
+                                        ErrorKind::StartTagSeenWithoutRuby(tag_name.clone()),
+                                    ));
+                                } else {
+                                    self.errors.push(Error::new(
+                                        token_and_info.span,
+                                        ErrorKind::UnclosedChildrenInRuby,
+                                    ));
+                                }
                             }
                             _ => {}
                         }
@@ -7303,7 +7321,7 @@ where
 
                 self.errors.push(Error::new(
                     token_and_info.span,
-                    ErrorKind::UnclosedElementsImplied(tag_name.into()),
+                    ErrorKind::UnclosedElementsImplied(tag_name),
                 ));
             }
             _ => {}

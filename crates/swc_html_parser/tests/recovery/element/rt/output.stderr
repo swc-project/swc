@@ -1,0 +1,8 @@
+
+  x Unclosed children in "ruby"
+   ,-[$DIR/tests/recovery/element/rt/input.html:1:1]
+ 1 | <!doctype html><ruby><div><p><rt>
+   :                              ^^^^
+   `----
+
+  x Unexpected end of file
