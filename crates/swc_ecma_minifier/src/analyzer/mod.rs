@@ -1132,6 +1132,7 @@ where
 }
 
 /// This is **NOT** a public api.
+#[doc(hidden)]
 pub fn dump_snapshot(program: &Module) -> String {
     let marks = Marks::new();
 
