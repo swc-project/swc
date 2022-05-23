@@ -1,10 +1,10 @@
 use swc_atoms::js_word;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
+use swc_ecma_minifier_utils::compress_util::is_valid_identifier;
 use swc_ecma_utils::{prop_name_eq, ExprExt};
 
 use super::Pure;
-use crate::{compress::util::is_valid_identifier, util::deeply_contains_this_expr};
 
 impl Pure<'_> {
     pub(super) fn optimize_property_of_member_expr(

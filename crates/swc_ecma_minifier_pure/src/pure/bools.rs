@@ -3,14 +3,14 @@ use std::mem::swap;
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned};
 use swc_ecma_ast::*;
+use swc_ecma_minifier_base::{option::CompressOptions, report_change};
+use swc_ecma_minifier_utils::{
+    compress_util::{negate, negate_cost},
+    util::make_bool,
+};
 use swc_ecma_utils::{ExprCtx, ExprExt, Type, Value};
 
 use super::Pure;
-use crate::{
-    compress::util::{is_pure_undefined, negate, negate_cost},
-    option::CompressOptions,
-    util::make_bool,
-};
 
 impl Pure<'_> {
     pub(super) fn negate_twice(&mut self, e: &mut Expr, is_ret_val_ignored: bool) {
