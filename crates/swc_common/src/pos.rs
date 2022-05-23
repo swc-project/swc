@@ -12,6 +12,16 @@ pub use crate::syntax_pos::{
 pub trait Spanned {
     /// Get span of `self`.
     fn span(&self) -> Span;
+
+    #[inline]
+    fn lo(&self) -> BytePos {
+        self.span().lo
+    }
+
+    #[inline]
+    fn hi(&self) -> BytePos {
+        self.span().hi
+    }
 }
 
 impl<'a, T> Spanned for Cow<'a, T>
