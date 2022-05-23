@@ -48,20 +48,14 @@ use crate::{
     },
 };
 
-#[macro_use]
-mod macros;
 mod alias;
 mod analyzer;
 mod compress;
-mod debug;
 pub mod eval;
-pub mod marks;
 mod metadata;
 mod mode;
-pub mod option;
 mod pass;
 pub mod timing;
-mod util;
 
 const DISABLE_BUGGY_PASSES: bool = true;
 const MAX_PAR_DEPTH: u8 = 3;
