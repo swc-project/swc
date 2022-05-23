@@ -9,7 +9,6 @@ use tracing::{debug, span, Level};
 
 use self::{ctx::Ctx, misc::DropOpts};
 use crate::{
-    analyzer::ProgramData,
     debug::{dump, AssertValid},
     marks::Marks,
     option::CompressOptions,
@@ -73,8 +72,6 @@ struct Pure<'a> {
     marks: Marks,
     expr_ctx: ExprCtx,
 
-    #[allow(unused)]
-    data: Option<&'a ProgramData>,
     ctx: Ctx,
     changed: bool,
 }

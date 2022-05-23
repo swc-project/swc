@@ -1,15 +1,16 @@
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_minifier_base::report_change;
+use swc_ecma_minifier_utils::{
+    compress_util::{drop_invalid_stmts, is_directive},
+    util::ModuleItemExt,
+};
 use swc_ecma_utils::{prepend_stmt, StmtLike};
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 
 use super::Pure;
-use crate::{
-    compress::util::{drop_invalid_stmts, is_directive},
-    util::ModuleItemExt,
-};
 
 impl Pure<'_> {
     /// Join variables.
@@ -260,6 +261,12 @@ impl Visit for VarWithOutInitCounter {
 
     fn visit_getter_prop(&mut self, _: &GetterProp) {}
 
+    fn visit_module_item(&mut self, s: &ModuleItem) {
+        if let ModuleItem::Stmt(_) = s {
+            s.visit_children_with(self);
+        }
+    }
+
     fn visit_setter_prop(&mut self, _: &SetterProp) {}
 
     fn visit_var_decl(&mut self, v: &VarDecl) {
@@ -273,11 +280,9 @@ impl Visit for VarWithOutInitCounter {
         for d in &v.decls {
             if d.init.is_some() {
                 found_init = true;
-            } else {
-                if found_init {
-                    self.need_work = true;
-                    return;
-                }
+            } else if found_init {
+                self.need_work = true;
+                return;
             }
         }
 
@@ -288,12 +293,6 @@ impl Visit for VarWithOutInitCounter {
             self.found_var_without_init = true;
         } else {
             self.found_var_with_init = true;
-        }
-    }
-
-    fn visit_module_item(&mut self, s: &ModuleItem) {
-        if let ModuleItem::Stmt(_) = s {
-            s.visit_children_with(self);
         }
     }
 

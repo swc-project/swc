@@ -1,9 +1,9 @@
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_minifier_base::report_change;
 use swc_ecma_utils::{contains_arguments, contains_this_expr};
 
 use super::Pure;
-use crate::compress::util::contains_super;
 
 /// Methods related to the option `arrows`.
 impl Pure<'_> {
