@@ -249,7 +249,7 @@ impl Error {
             ErrorKind::EofWithoutDoctype => "End of file seen without seeing a doctype first, \
                                              expected \"<!DOCTYPE html>\""
                 .into(),
-            ErrorKind::UnexpectedEof => "Unexpected end of file".into(),
+            ErrorKind::EofInText => "End of file seen when expecting text or an end tag".into(),
         }
     }
 
@@ -321,7 +321,6 @@ pub enum ErrorKind {
     UnclosedElementsImplied(JsWord),
     UnclosedElementsCell,
     StrayDoctype,
-    // TODO fix me and doctypes errors
     NonConformingDoctype,
     NonSpaceCharacterInTrailer,
     NonSpaceCharacterAfterFrameset,
@@ -359,7 +358,6 @@ pub enum ErrorKind {
     EofWithUnclosedElements,
     EndTagWithUnclosedElements(JsWord),
     NonSpaceCharacterWithoutDoctype,
-    // Todo improve me End of file seen and there were open elements
     EofWithoutDoctype,
-    UnexpectedEof,
+    EofInText,
 }

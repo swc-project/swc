@@ -5,4 +5,4 @@
    : ^^^^^^^^^
    `----
 
-  x Unexpected end of file
+  x End of file seen and there were open elements

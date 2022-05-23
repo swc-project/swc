@@ -699,22 +699,12 @@ where
                 self.process_token(token_and_info, None)?;
             }
             Token::EndTag { tag_name, .. } if matches!(tag_name.as_ref(), "br" | "p") => {
-                if self.open_elements_stack.items.is_empty() {
-                    self.errors.push(Error::new(
-                        token_and_info.span,
-                        ErrorKind::StrayEndTag(tag_name.clone()),
-                    ));
-                } else {
-                    let last = get_tag_name!(self.open_elements_stack.items.last().unwrap());
+                let last = get_tag_name!(self.open_elements_stack.items.last().unwrap());
 
-                    self.errors.push(Error::new(
-                        token_and_info.span,
-                        ErrorKind::EndTagDidNotMatchCurrentOpenElement(
-                            tag_name.clone(),
-                            last.into(),
-                        ),
-                    ));
-                }
+                self.errors.push(Error::new(
+                    token_and_info.span,
+                    ErrorKind::EndTagDidNotMatchCurrentOpenElement(tag_name.clone(), last.into()),
+                ));
                 self.open_elements_stack.pop_until_in_foreign();
                 self.process_token(token_and_info, None)?;
             }
@@ -2383,7 +2373,7 @@ where
                             ) {
                                 self.errors.push(Error::new(
                                     token_and_info.span,
-                                    ErrorKind::UnexpectedEof,
+                                    ErrorKind::EofWithUnclosedElements,
                                 ));
 
                                 break;
@@ -4102,7 +4092,7 @@ where
                     // token.
                     Token::Eof => {
                         self.errors
-                            .push(Error::new(token_and_info.span, ErrorKind::UnexpectedEof));
+                            .push(Error::new(token_and_info.span, ErrorKind::EofInText));
                         self.open_elements_stack.pop();
                         self.insertion_mode = self.original_insertion_mode.clone();
                         self.process_token(token_and_info, None)?;
@@ -5827,8 +5817,10 @@ where
                         if !self.open_elements_stack.contains_template_element() {
                             self.stopped = true;
                         } else {
-                            self.errors
-                                .push(Error::new(token_and_info.span, ErrorKind::UnexpectedEof));
+                            self.errors.push(Error::new(
+                                token_and_info.span,
+                                ErrorKind::EofWithUnclosedElements,
+                            ));
                             self.open_elements_stack
                                 .pop_until_tag_name_popped(&["template"]);
                             self.active_formatting_elements.clear_to_last_marker();
@@ -6050,7 +6042,7 @@ where
                             Some(node) if !is_html_element!(node, "html") => {
                                 self.errors.push(Error::new(
                                     token_and_info.span,
-                                    ErrorKind::UnexpectedEof,
+                                    ErrorKind::EofWithUnclosedElements,
                                 ));
                             }
                             _ => {}
