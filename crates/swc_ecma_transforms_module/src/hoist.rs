@@ -1,10 +1,11 @@
 use std::borrow::Cow;
 
-use indexmap::IndexMap;
-use swc_atoms::JsWord;
+//use indexmap::IndexMap;
+//use swc_atoms::JsWord;
 use swc_common::{pass::CompilerPass, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_pat_ids, IsDirective};
+//use swc_ecma_utils::{find_pat_ids, IsDirective};
+use swc_ecma_utils::private_ident;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut};
 
 pub fn module_hoister() -> impl Fold + VisitMut + CompilerPass {
@@ -19,10 +20,124 @@ impl CompilerPass for ModuleHoister {
     }
 }
 
+// This transformation will re-ordering the export declarations. The goal is to
+// solve the ReferenceError problem when exports are referencing identifiers
+// declared later in the code.
+//
+// Consider the input code:
+//
+// ```ts
+// export { foo as bar };
+// foo = 1;
+// export default class foo {}
+// foo = 2;
+// ```
+//
+// The transformation turns that code into:
+//
+// ```ts
+// exports.bar = exports.default = void 0;
+// foo = 1;
+// class foo {}
+// foo = 2;
+// exports.bar = exports.default = foo;
+// ```
+//
+// The transformation is split into the following steps:
+//
+// 1. Initialize exports with "void 0". Initialization is needed to make sure
+// export fields are set to undefined in case later code in the module throws
+// an exception.
+//
+//    TODO: remove initial exports initialization if the code cannot throw.
+//
+// 2. Separate export declarations. Since exports can be placed before or after
+// the identifier is defined, the export declarations can be split into the
+// export statement and the declaration itself. This allows moving the export
+// declarations freely.
+//
+// 3. Move export declarations to the bottom.
+
 impl VisitMut for ModuleHoister {
     noop_visit_mut_type!();
 
     fn visit_mut_module(&mut self, module: &mut Module) {
+        let mut stmts: Vec<swc_ecma_ast::ModuleItem> = Vec::with_capacity(module.body.len());
+        let mut extra = vec![];
+
+        let body = module.body.take();
+
+        // 1. Initialize exports with "void 0".
+
+        // 2. Separate export declarations.
+        for stmt in body.into_iter() {
+            match stmt {
+                // TODO what should be done with the imports?
+                // ModuleItem::ModuleDecl(ModuleDecl::Import(..)) if found_other => {
+                //     need_hoist_up = true;
+                // }
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                    decl,
+                    ..
+                })) => {
+                    let expr = match decl.clone() {
+                        DefaultDecl::Class(expr) => Decl::Class(ClassDecl {
+                            class: expr.class,
+                            ident: expr.ident.unwrap_or(private_ident!("_default")),
+                            declare: false,
+                        }),
+                        DefaultDecl::Fn(expr) => Decl::Fn(FnDecl {
+                            function: expr.function,
+                            ident: expr.ident.unwrap_or(private_ident!("_default")),
+                            declare: false,
+                        }),
+                        _ => todo!(),
+                    };
+                    stmts.push(ModuleItem::Stmt(Stmt::Decl(expr.clone())));
+
+                    let ident = match expr {
+                        Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
+                            ident
+                        }
+                        _ => todo!(),
+                    };
+
+                    let export =
+                        ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
+                            span: DUMMY_SP,
+                            expr: Box::new(Expr::Ident(ident)),
+                        }));
+                    extra.push(export);
+                }
+
+                ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                    // TODO specifiers,
+                    src: None,
+                    type_only: false,
+                    asserts: None,
+                    ..
+                })) => {
+                    // TODO
+                    // dbg!(&stmt);
+                    extra.push(stmt);
+                }
+
+                _ => {
+                    stmts.push(stmt);
+                }
+            }
+        }
+
+        // 3. Move export declarations to the bottom.
+        stmts.extend(extra);
+
+        module.body = stmts;
+    }
+}
+
+/*
+impl VisitMut for ModuleHoister {
+    fn visit_mut_module_old(&mut self, module: &mut Module) {
         let mut found_other = false;
         let mut need_hoist_up = false;
         let mut need_hoist_down = false;
@@ -298,3 +413,4 @@ impl VisitMut for ModuleHoister {
         module.body = stmts;
     }
 }
+*/

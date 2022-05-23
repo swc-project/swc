@@ -160,6 +160,52 @@ test!(
     |_| tr(Config {
         ..Default::default()
     }),
+    issue_4567_1,
+    "const Base = getBase('')
+
+export default class Foo extends Base {}",
+    "
+\"use strict\";
+Object.defineProperty(exports, \"__esModule\", {
+    value: true
+});
+exports.default = void 0;
+const Base = getBase('');
+class Foo extends Base {
+}
+exports.default = Foo;"
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        ..Default::default()
+    }),
+    issue_4567_2,
+    "export { foo as bar };
+
+foo = 1;
+export default class foo {}
+foo = 2;",
+    "
+\"use strict\";
+Object.defineProperty(exports, \"__esModule\", {
+    value: true
+});
+exports.default = exports.bar = void 0;
+foo = 1;
+class foo {
+}
+foo = 2;
+exports.default = foo;
+exports.bar = foo;"
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        ..Default::default()
+    }),
     issue_326,
     "import foo from 'foo';
 import bar from '../foo';
@@ -699,7 +745,8 @@ exports.default = void 0;
 
 class _default {}
 
-exports.default = _default;
+var _default1 = _default;
+_exports.default = _default1;
 
 "#
 );
@@ -1191,8 +1238,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-exports.default = _default;
+_exports.default = void 0;
 function _default() {}
+var _default1 = _default;
+_exports.default = _default1;
 
 "#
 );
@@ -1375,7 +1424,8 @@ exports.default = void 0;
 
 class Foo {}
 
-exports.default = Foo;
+var _default = Foo;
+_exports.default = _default;
 
 "#
 );
@@ -2104,9 +2154,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-exports.default = foo;
-
+_exports.default = void 0;
 function foo() {}
+var _default = foo;
+_exports.default = _default;
 
 "#
 );
