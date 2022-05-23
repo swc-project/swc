@@ -991,6 +991,7 @@ parameters/arrow_functions/input.js
 parameters/arrow_return/input.js
 parameters/default_values_in_destructurings/input.js
 parameters/destructuring_arguments_1/input.js
+parameters/destructuring_arguments_2/input.js
 parameters/regression_arrow_functions_and_hoist/input.js
 parameters/regression_assign_arrow_functions/input.js
 properties/accessor_1/input.js
