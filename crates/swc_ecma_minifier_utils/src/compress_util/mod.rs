@@ -25,12 +25,7 @@ mod tests;
 /// This method returns `!e` if `!!e` is given as a argument.
 ///
 /// TODO: Handle special cases like !1 or !0
-pub(super) fn negate(
-    expr_ctx: &ExprCtx,
-    e: &mut Expr,
-    in_bool_ctx: bool,
-    is_ret_val_ignored: bool,
-) {
+pub fn negate(expr_ctx: &ExprCtx, e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) {
     negate_inner(expr_ctx, e, in_bool_ctx, is_ret_val_ignored);
 }
 
@@ -239,7 +234,7 @@ pub(crate) fn is_ok_to_negate_rhs(expr_ctx: &ExprCtx, rhs: &Expr) -> bool {
 
 /// A negative value means that it's efficient to negate the expression.
 #[cfg_attr(feature = "debug", tracing::instrument(skip(e)))]
-pub(crate) fn negate_cost(
+pub fn negate_cost(
     expr_ctx: &ExprCtx,
     e: &Expr,
     in_bool_ctx: bool,
@@ -400,7 +395,7 @@ pub(crate) fn is_pure_undefined(expr_ctx: &ExprCtx, e: &Expr) -> bool {
     }
 }
 
-pub(crate) fn is_primitive<'a>(expr_ctx: &ExprCtx, e: &'a Expr) -> Option<&'a Expr> {
+pub fn is_primitive<'a>(expr_ctx: &ExprCtx, e: &'a Expr) -> Option<&'a Expr> {
     if is_pure_undefined(expr_ctx, e) {
         Some(e)
     } else {
@@ -441,7 +436,7 @@ pub fn is_pure_undefined_or_null(expr_ctx: &ExprCtx, e: &Expr) -> bool {
 ///
 /// This method is used to test if a whole call can be replaced, while
 /// preserving standalone constants.
-pub(crate) fn eval_as_number(expr_ctx: &ExprCtx, e: &Expr) -> Option<f64> {
+pub fn eval_as_number(expr_ctx: &ExprCtx, e: &Expr) -> Option<f64> {
     match e {
         Expr::Bin(BinExpr {
             op: op!(bin, "-"),
@@ -562,7 +557,7 @@ pub(crate) fn eval_as_number(expr_ctx: &ExprCtx, e: &Expr) -> Option<f64> {
     None
 }
 
-pub(crate) fn is_ident_used_by<N>(id: Id, node: &N) -> bool
+pub fn is_ident_used_by<N>(id: Id, node: &N) -> bool
 where
     N: for<'aa> VisitWith<IdentUsageFinder<'aa>>,
 {
@@ -597,7 +592,7 @@ where
     node.visit_mut_with(&mut ExprReplacer { op })
 }
 
-pub(super) fn is_fine_for_if_cons(s: &Stmt) -> bool {
+pub fn is_fine_for_if_cons(s: &Stmt) -> bool {
     match s {
         Stmt::Decl(Decl::Fn(FnDecl {
             ident:
@@ -620,7 +615,7 @@ pub(super) fn is_fine_for_if_cons(s: &Stmt) -> bool {
     }
 }
 
-pub(super) fn drop_invalid_stmts<T>(stmts: &mut Vec<T>)
+pub fn drop_invalid_stmts<T>(stmts: &mut Vec<T>)
 where
     T: ModuleItemExt,
 {
@@ -640,7 +635,7 @@ where
 }
 
 #[derive(Debug, Default)]
-pub(super) struct UnreachableHandler {
+pub struct UnreachableHandler {
     vars: Vec<Ident>,
     in_var_name: bool,
     in_hoisted_var: bool,
@@ -731,7 +726,7 @@ impl VisitMut for UnreachableHandler {
     }
 }
 
-pub(super) fn is_global_var_with_pure_property_access(s: &str) -> bool {
+pub fn is_global_var_with_pure_property_access(s: &str) -> bool {
     matches!(
         s,
         "clearInterval"
@@ -773,7 +768,7 @@ pub(super) fn is_global_var_with_pure_property_access(s: &str) -> bool {
 }
 
 // TODO: remove
-pub(crate) fn contains_super<N>(body: &N) -> bool
+pub fn contains_super<N>(body: &N) -> bool
 where
     N: VisitWith<SuperFinder>,
 {

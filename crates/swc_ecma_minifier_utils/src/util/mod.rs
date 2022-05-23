@@ -12,9 +12,9 @@ use swc_ecma_minifier_base::trace_op;
 use swc_ecma_utils::{ModuleItemLike, StmtLike, Value};
 use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Fold, FoldWith, Visit, VisitWith};
 
-pub(crate) mod base54;
-pub(crate) mod sort;
-pub(crate) mod unit;
+pub mod base54;
+pub mod sort;
+pub mod unit;
 
 ///
 pub fn make_number(span: Span, value: f64) -> Expr {
@@ -80,7 +80,7 @@ impl ModuleItemExt for ModuleItem {
 ///
 /// - `!0` for true
 /// - `!1` for false
-pub(crate) fn make_bool(span: Span, value: bool) -> Expr {
+pub fn make_bool(span: Span, value: bool) -> Expr {
     trace_op!("Creating a boolean literal");
 
     Expr::Unary(UnaryExpr {
@@ -197,7 +197,7 @@ pub(crate) trait SpanExt: Into<Span> {
 
 impl SpanExt for Span {}
 
-pub(crate) fn contains_leaping_continue_with_label<N>(n: &N, label: Id) -> bool
+pub fn contains_leaping_continue_with_label<N>(n: &N, label: Id) -> bool
 where
     N: VisitWith<LeapFinder>,
 {
@@ -209,7 +209,7 @@ where
     v.found_continue_with_label
 }
 
-pub(crate) fn contains_leaping_yield<N>(n: &N) -> bool
+pub fn contains_leaping_yield<N>(n: &N) -> bool
 where
     N: VisitWith<LeapFinder>,
 {
@@ -219,7 +219,7 @@ where
 }
 
 #[derive(Default)]
-pub(crate) struct LeapFinder {
+pub struct LeapFinder {
     found_yield: bool,
     found_continue_with_label: bool,
     target_label: Option<Id>,
@@ -259,7 +259,7 @@ impl Visit for LeapFinder {
 }
 
 /// This method returns true only if `T` is `var`. (Not `const` or `let`)
-pub(crate) fn is_hoisted_var_decl_without_init<T>(t: &T) -> bool
+pub fn is_hoisted_var_decl_without_init<T>(t: &T) -> bool
 where
     T: StmtLike,
 {
@@ -379,7 +379,7 @@ where
 }
 
 #[derive(Default)]
-pub(crate) struct IdentUsageCollector {
+pub struct IdentUsageCollector {
     ids: FxHashSet<Id>,
     ignore_nested: bool,
 }
@@ -431,7 +431,7 @@ impl Visit for IdentUsageCollector {
 }
 
 #[derive(Default)]
-pub(crate) struct CapturedIdCollector {
+pub struct CapturedIdCollector {
     ids: FxHashSet<Id>,
     is_nested: bool,
 }
@@ -475,7 +475,7 @@ impl Visit for CapturedIdCollector {
     }
 }
 
-pub(crate) fn idents_captured_by<N>(n: &N) -> FxHashSet<Id>
+pub fn idents_captured_by<N>(n: &N) -> FxHashSet<Id>
 where
     N: VisitWith<CapturedIdCollector>,
 {
@@ -487,7 +487,7 @@ where
     v.ids
 }
 
-pub(crate) fn idents_used_by<N>(n: &N) -> FxHashSet<Id>
+pub fn idents_used_by<N>(n: &N) -> FxHashSet<Id>
 where
     N: VisitWith<IdentUsageCollector>,
 {
@@ -499,7 +499,7 @@ where
     v.ids
 }
 
-pub(crate) fn idents_used_by_ignoring_nested<N>(n: &N) -> FxHashSet<Id>
+pub fn idents_used_by_ignoring_nested<N>(n: &N) -> FxHashSet<Id>
 where
     N: VisitWith<IdentUsageCollector>,
 {
@@ -511,7 +511,7 @@ where
     v.ids
 }
 
-pub(crate) fn can_end_conditionally(s: &Stmt) -> bool {
+pub fn can_end_conditionally(s: &Stmt) -> bool {
     ///
     ///`ignore_always`: If true, [Stmt::Return] will be ignored.
     fn can_end(s: &Stmt, ignore_always: bool) -> bool {
@@ -556,7 +556,7 @@ pub fn now() -> Option<Instant> {
     }
 }
 
-pub(crate) fn contains_eval<N>(node: &N, include_with: bool) -> bool
+pub fn contains_eval<N>(node: &N, include_with: bool) -> bool
 where
     N: VisitWith<EvalFinder>,
 {
@@ -569,7 +569,7 @@ where
     v.found
 }
 
-pub(crate) struct EvalFinder {
+pub struct EvalFinder {
     found: bool,
     include_with: bool,
 }

@@ -1,6 +1,6 @@
 use std::cmp::Ordering;
 
-pub(crate) fn is_sorted_by<T, F>(mut items: impl Iterator<Item = T>, mut compare: F) -> bool
+pub fn is_sorted_by<T, F>(mut items: impl Iterator<Item = T>, mut compare: F) -> bool
 where
     T: Copy,
     F: FnMut(&T, &T) -> Option<Ordering>,
@@ -20,7 +20,7 @@ where
     true
 }
 
-pub(crate) fn is_sorted_by_key<T, F, K>(items: impl Iterator<Item = T>, key: F) -> bool
+pub fn is_sorted_by_key<T, F, K>(items: impl Iterator<Item = T>, key: F) -> bool
 where
     T: Copy,
     F: FnMut(T) -> K,

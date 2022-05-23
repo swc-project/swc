@@ -6,7 +6,7 @@ static BASE54_DEFAULT_CHARS: &[u8; 64] =
 
 /// givin a number, return a base54 encoded string
 /// `usize -> [a-zA-Z$_][a-zA-Z$_0-9]*`
-pub(crate) fn encode(init: &mut usize, skip_reserved: bool) -> JsWord {
+pub fn encode(init: &mut usize, skip_reserved: bool) -> JsWord {
     if skip_reserved {
         while init.is_reserved()
             || init.is_reserved_in_strict_bind()

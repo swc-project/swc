@@ -6,5 +6,8 @@
 //! This crate **will** make breaking changes without proper version bump.
 //! You should not use this crate directly.
 
+#![deny(warnings)]
+#![allow(clippy::vec_box)]
+
 pub mod compress_util;
 pub mod util;
