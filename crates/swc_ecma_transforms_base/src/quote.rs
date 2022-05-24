@@ -66,7 +66,7 @@ macro_rules! helper_expr {
                 concat!("_", stringify!($field_name))
             ))
         } else {
-            Expr::from(swc_ecma_utils::quote_ident!(span, $s))
+            Expr::from(swc_ecma_utils::quote_ident!(span, concat!("_", $s)))
         }
     }};
 }
