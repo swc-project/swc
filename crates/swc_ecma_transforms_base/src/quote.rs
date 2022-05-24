@@ -60,7 +60,7 @@ macro_rules! helper_expr {
         if external {
             Expr::from(swc_ecma_utils::quote_ident!(span, $s))
         } else {
-            Expr::from(swc_ecma_utils::quote_ident!(span, concat!('_', $s)))
+            Expr::from(swc_ecma_utils::quote_ident!(span, $s))
         }
     }};
 }

@@ -8,7 +8,7 @@ use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
 use swc_common::{FileName, FilePathMapping, Mark, SourceMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{prepend_stmts, quote_ident, quote_str, DropSpan};
+use swc_ecma_utils::{prepend_stmts, DropSpan};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 #[macro_export]
