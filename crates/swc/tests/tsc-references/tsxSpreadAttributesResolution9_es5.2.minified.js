@@ -1,10 +1,13 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _extends from "@swc/helpers/lib/_extends.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var React = require("react"), Opt = function(_Component) {
     "use strict";
-    swcHelpers.inherits(Opt, _Component);
-    var _super = swcHelpers.createSuper(Opt);
+    _inherits(Opt, _Component);
+    var _super = _create_super(Opt);
     function Opt() {
-        return swcHelpers.classCallCheck(this, Opt), _super.apply(this, arguments);
+        return _class_call_check(this, Opt), _super.apply(this, arguments);
     }
     return Opt.prototype.render = function() {
         return React.createElement("div", null, "Hello");
@@ -12,6 +15,6 @@ var React = require("react"), Opt = function(_Component) {
 }(React.Component), obj1 = {
     x: 2
 };
-swcHelpers.extends({}, {}), swcHelpers.extends({}, obj1), swcHelpers.extends({}, obj1, {
+_extends({}, {}), _extends({}, obj1), _extends({}, obj1, {
     y: !0
 });

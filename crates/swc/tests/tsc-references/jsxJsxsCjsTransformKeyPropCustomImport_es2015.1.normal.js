@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 // @jsx: react-jsx,react-jsxdev
 // @jsxImportSource: preact
 // @strict: true
@@ -7,10 +7,10 @@ import * as swcHelpers from "@swc/helpers";
 const props = {
     answer: 42
 };
-const a = /*#__PURE__*/ React.createElement("div", swcHelpers.extends({
+const a = /*#__PURE__*/ React.createElement("div", _extends({
     key: "foo"
 }, props), "text");
-const b = /*#__PURE__*/ React.createElement("div", swcHelpers.extends({}, props, {
+const b = /*#__PURE__*/ React.createElement("div", _extends({}, props, {
     key: "bar"
 }), "text");
 export { };

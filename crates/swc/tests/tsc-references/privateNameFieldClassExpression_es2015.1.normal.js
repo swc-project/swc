@@ -1,10 +1,10 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
 var _class, _Foo;
 var _foo = /*#__PURE__*/ new WeakMap(), _foo2 = /*#__PURE__*/ new WeakMap();
 // @target: es2015
 class B {
     constructor(){
-        swcHelpers.classPrivateFieldInit(this, _foo, {
+        _class_private_field_init(this, _foo, {
             writable: true,
             value: (_class = class {
                 constructor(){
@@ -12,7 +12,7 @@ class B {
                 }
             }, _class.test = 123, _class)
         });
-        swcHelpers.classPrivateFieldInit(this, _foo2, {
+        _class_private_field_init(this, _foo2, {
             writable: true,
             value: (_Foo = class Foo {
             }, _Foo.otherClass = 123, _Foo)

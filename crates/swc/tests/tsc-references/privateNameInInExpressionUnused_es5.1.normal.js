@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
 var _brand_check_brand = new WeakSet();
 var _unused = /*#__PURE__*/ new WeakMap(), _brand = /*#__PURE__*/ new WeakMap();
 // @strict: true
@@ -7,12 +8,12 @@ var _unused = /*#__PURE__*/ new WeakMap(), _brand = /*#__PURE__*/ new WeakMap();
 var Foo = /*#__PURE__*/ function() {
     "use strict";
     function Foo() {
-        swcHelpers.classCallCheck(this, Foo);
-        swcHelpers.classPrivateFieldInit(this, _unused, {
+        _class_call_check(this, Foo);
+        _class_private_field_init(this, _unused, {
             writable: true,
             value: void 0 // expect unused error
         });
-        swcHelpers.classPrivateFieldInit(this, _brand, {
+        _class_private_field_init(this, _brand, {
             writable: true,
             value: void _brand_check_brand.add(this)
         }) // expect no error

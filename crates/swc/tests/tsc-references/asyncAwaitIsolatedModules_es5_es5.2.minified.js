@@ -1,6 +1,7 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 import regeneratorRuntime from "regenerator-runtime";
-swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+_async_to_generator(regeneratorRuntime.mark(function _callee() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
@@ -8,7 +9,7 @@ swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                 return _ctx.stop();
         }
     }, _callee);
-})), swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+})), _async_to_generator(regeneratorRuntime.mark(function _callee() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
@@ -16,7 +17,7 @@ swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                 return _ctx.stop();
         }
     }, _callee);
-})), swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+})), _async_to_generator(regeneratorRuntime.mark(function _callee() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
@@ -24,7 +25,7 @@ swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                 return _ctx.stop();
         }
     }, _callee);
-})), swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+})), _async_to_generator(regeneratorRuntime.mark(function _callee() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
@@ -32,7 +33,7 @@ swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                 return _ctx.stop();
         }
     }, _callee);
-})), swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+})), _async_to_generator(regeneratorRuntime.mark(function _callee() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
@@ -40,7 +41,7 @@ swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                 return _ctx.stop();
         }
     }, _callee);
-})), swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+})), _async_to_generator(regeneratorRuntime.mark(function _callee() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
@@ -48,7 +49,7 @@ swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                 return _ctx.stop();
         }
     }, _callee);
-})), swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+})), _async_to_generator(regeneratorRuntime.mark(function _callee() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
@@ -58,7 +59,7 @@ swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                 return _ctx.stop();
         }
     }, _callee);
-})), swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+})), _async_to_generator(regeneratorRuntime.mark(function _callee() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
@@ -68,7 +69,7 @@ swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                 return _ctx.stop();
         }
     }, _callee);
-})), swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+})), _async_to_generator(regeneratorRuntime.mark(function _callee() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
@@ -78,7 +79,7 @@ swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                 return _ctx.stop();
         }
     }, _callee);
-})), swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+})), _async_to_generator(regeneratorRuntime.mark(function _callee() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
@@ -92,11 +93,11 @@ swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
 var M, C = function() {
     "use strict";
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
     }
     var _proto = C.prototype;
     return _proto.m1 = function() {
-        return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function(_ctx) {
                 for(;;)switch(_ctx.prev = _ctx.next){
                     case 0:
@@ -106,7 +107,7 @@ var M, C = function() {
             }, _callee);
         }))();
     }, _proto.m2 = function() {
-        return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function(_ctx) {
                 for(;;)switch(_ctx.prev = _ctx.next){
                     case 0:
@@ -116,7 +117,7 @@ var M, C = function() {
             }, _callee);
         }))();
     }, _proto.m3 = function() {
-        return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function(_ctx) {
                 for(;;)switch(_ctx.prev = _ctx.next){
                     case 0:
@@ -126,7 +127,7 @@ var M, C = function() {
             }, _callee);
         }))();
     }, C.m4 = function() {
-        return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function(_ctx) {
                 for(;;)switch(_ctx.prev = _ctx.next){
                     case 0:
@@ -136,7 +137,7 @@ var M, C = function() {
             }, _callee);
         }))();
     }, C.m5 = function() {
-        return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function(_ctx) {
                 for(;;)switch(_ctx.prev = _ctx.next){
                     case 0:
@@ -146,7 +147,7 @@ var M, C = function() {
             }, _callee);
         }))();
     }, C.m6 = function() {
-        return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function(_ctx) {
                 for(;;)switch(_ctx.prev = _ctx.next){
                     case 0:
@@ -159,7 +160,7 @@ var M, C = function() {
 }();
 !function(M1) {
     function _f1() {
-        return (_f1 = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return (_f1 = _async_to_generator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function(_ctx) {
                 for(;;)switch(_ctx.prev = _ctx.next){
                     case 0:

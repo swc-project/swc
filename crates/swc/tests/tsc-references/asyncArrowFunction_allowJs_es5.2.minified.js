@@ -1,6 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
 import regeneratorRuntime from "regenerator-runtime";
-swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+_async_to_generator(regeneratorRuntime.mark(function _callee() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
@@ -10,7 +10,7 @@ swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                 return _ctx.stop();
         }
     }, _callee);
-})), swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+})), _async_to_generator(regeneratorRuntime.mark(function _callee() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
@@ -20,7 +20,7 @@ swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                 return _ctx.stop();
         }
     }, _callee);
-})), swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+})), _async_to_generator(regeneratorRuntime.mark(function _callee() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:

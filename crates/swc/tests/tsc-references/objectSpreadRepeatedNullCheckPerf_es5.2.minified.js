@@ -1,6 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
+import _object_spread from "@swc/helpers/lib/_object_spread.js";
 !function(config) {
-    return swcHelpers.objectSpread({}, void 0 !== config.a && {
+    return _object_spread({}, void 0 !== config.a && {
         a: config.a.toString()
     }, void 0 !== config.b && {
         b: config.b.toString()

@@ -1,9 +1,9 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @filename: m2.ts
 import Entity from "m1";
 var Decl = function Decl() {
     "use strict";
-    swcHelpers.classCallCheck(this, Decl);
+    _class_call_check(this, Decl);
 };
 export { Decl as default };
 Entity();

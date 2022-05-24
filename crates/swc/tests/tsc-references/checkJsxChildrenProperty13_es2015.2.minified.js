@@ -1,8 +1,8 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 let React = require('react');
 class Button extends React.Component {
     render() {
-        return React.createElement(InnerButton, swcHelpers.extends({}, this.props, {
+        return React.createElement(InnerButton, _extends({}, this.props, {
             children: "hi"
         }), React.createElement("div", null, "Hello World"));
     }

@@ -1,6 +1,7 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
 function a1(param) {
-    var _param = swcHelpers.slicedToArray(param, 3), ref = (_param[0], _param[1], swcHelpers.slicedToArray(_param[2], 1)), ref1 = swcHelpers.slicedToArray(ref[0], 1);
+    var _param = _sliced_to_array(param, 3), ref = (_param[0], _param[1], _sliced_to_array(_param[2], 1)), ref1 = _sliced_to_array(ref[0], 1);
     ref1[0];
 }
 function b2() {
@@ -19,7 +20,7 @@ function c2(param) {
     param.z;
 }
 function c5(param) {
-    var _param = swcHelpers.slicedToArray(param, 3), ref = (_param[0], _param[1], swcHelpers.slicedToArray(_param[2], 1)), ref2 = swcHelpers.slicedToArray(ref[0], 1);
+    var _param = _sliced_to_array(param, 3), ref = (_param[0], _param[1], _sliced_to_array(_param[2], 1)), ref2 = _sliced_to_array(ref[0], 1);
     ref2[0];
 }
 a1([
@@ -99,26 +100,26 @@ a1([
 var Foo, C2 = function() {
     "use strict";
     function C2() {
-        swcHelpers.classCallCheck(this, C2);
+        _class_call_check(this, C2);
     }
     var _proto = C2.prototype;
     return _proto.d3 = function() {}, _proto.d4 = function() {}, _proto.e0 = function(param) {
-        var _param = swcHelpers.slicedToArray(param, 3);
+        var _param = _sliced_to_array(param, 3);
         _param[0], _param[1], _param[2];
     }, C2;
 }(), C3 = function() {
     "use strict";
     function C3() {
-        swcHelpers.classCallCheck(this, C3);
+        _class_call_check(this, C3);
     }
     var _proto = C3.prototype;
     return _proto.d3 = function(param) {
-        var _param = swcHelpers.slicedToArray(param, 3);
+        var _param = _sliced_to_array(param, 3);
         _param[0], _param[1], _param[2];
     }, _proto.d4 = function(param) {
         param.x, param.y, param.z;
     }, _proto.e0 = function(param) {
-        var _param = swcHelpers.slicedToArray(param, 3);
+        var _param = _sliced_to_array(param, 3);
         _param[0], _param[1], _param[2];
     }, C3;
 }();

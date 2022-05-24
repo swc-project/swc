@@ -1,6 +1,8 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _create_class from "@swc/helpers/lib/_create_class.js";
+import _object_without_properties from "@swc/helpers/lib/_object_without_properties.js";
 suddenly(function(_param) {
-    return _param.x, swcHelpers.objectWithoutProperties(_param, [
+    return _param.x, _object_without_properties(_param, [
         "x"
     ]).y;
 }), suddenly(function() {
@@ -10,9 +12,9 @@ suddenly(function(_param) {
             ka: 1
         },
         y: "noo"
-    }, nested = (_param.x.z, swcHelpers.objectWithoutProperties(_param.x, [
+    }, nested = (_param.x.z, _object_without_properties(_param.x, [
         "z"
-    ])), rest = swcHelpers.objectWithoutProperties(_param, [
+    ])), rest = _object_without_properties(_param, [
         "x"
     ]);
     return rest.y + nested.ka;
@@ -20,17 +22,17 @@ suddenly(function(_param) {
 var C = function() {
     "use strict";
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
     }
     return C.prototype.m = function(_param) {
-        _param.a, swcHelpers.objectWithoutProperties(_param, [
+        _param.a, _object_without_properties(_param, [
             "a"
         ]);
-    }, swcHelpers.createClass(C, [
+    }, _create_class(C, [
         {
             key: "p",
             set: function(_param) {
-                _param.a, swcHelpers.objectWithoutProperties(_param, [
+                _param.a, _object_without_properties(_param, [
                     "a"
                 ]);
             }
@@ -39,7 +41,7 @@ var C = function() {
 }();
 function foobar() {
     var _param = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
-    _param.bar, swcHelpers.objectWithoutProperties(_param, [
+    _param.bar, _object_without_properties(_param, [
         "bar"
     ]);
 }

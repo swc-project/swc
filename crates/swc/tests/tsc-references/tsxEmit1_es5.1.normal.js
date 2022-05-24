@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
 var p;
 var selfClosed1 = /*#__PURE__*/ React.createElement("div", null);
 var selfClosed2 = /*#__PURE__*/ React.createElement("div", {
@@ -39,7 +40,7 @@ var openClosed5 = /*#__PURE__*/ React.createElement("div", {
 var SomeClass = /*#__PURE__*/ function() {
     "use strict";
     function SomeClass() {
-        swcHelpers.classCallCheck(this, SomeClass);
+        _class_call_check(this, SomeClass);
     }
     var _proto = SomeClass.prototype;
     _proto.f = function f() {
@@ -49,7 +50,7 @@ var SomeClass = /*#__PURE__*/ function() {
         });
         var rewrites2 = /*#__PURE__*/ React.createElement("div", null, [
             p
-        ].concat(swcHelpers.toConsumableArray(p), [
+        ].concat(_to_consumable_array(p), [
             p
         ]));
         var rewrites3 = /*#__PURE__*/ React.createElement("div", null, {
@@ -63,7 +64,7 @@ var SomeClass = /*#__PURE__*/ function() {
         var rewrites5 = /*#__PURE__*/ React.createElement("div", {
             a: [
                 p
-            ].concat(swcHelpers.toConsumableArray(p), [
+            ].concat(_to_consumable_array(p), [
                 p
             ])
         });

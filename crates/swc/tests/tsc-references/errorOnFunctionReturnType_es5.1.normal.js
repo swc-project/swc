@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
 import regeneratorRuntime from "regenerator-runtime";
 // @noEmit: true
 // @allowJs: true
@@ -14,7 +14,7 @@ function testPromise2() {
     return _testPromise2.apply(this, arguments);
 }
 function _testPromise2() {
-    _testPromise2 = /** @type {FunctionReturningPromise} */ swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    _testPromise2 = /** @type {FunctionReturningPromise} */ _async_to_generator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
@@ -41,7 +41,7 @@ function testNever2() {
     return _testNever2.apply(this, arguments);
 }
 function _testNever2() {
-    _testNever2 = /** @type {FunctionReturningNever} */ swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    _testNever2 = /** @type {FunctionReturningNever} */ _async_to_generator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:

@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(function() {
     var tmp, x;
@@ -10,7 +10,7 @@ var _marked = regeneratorRuntime.mark(function() {
                 tmp = _ctx1.sent, x = function() {
                     "use strict";
                     function C() {
-                        swcHelpers.classCallCheck(this, C);
+                        _class_call_check(this, C);
                     }
                     return C.prototype[tmp] = regeneratorRuntime.mark(function _callee() {
                         return regeneratorRuntime.wrap(function(_ctx) {

@@ -1,11 +1,11 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // call signatures in derived types must have the same or fewer optional parameters as the target for assignment
 var ClassTypeParam;
 (function(ClassTypeParam) {
     var Base = function Base() {
         "use strict";
         var _this = this;
-        swcHelpers.classCallCheck(this, Base);
+        _class_call_check(this, Base);
         this.init = function() {
             _this.a = function() {
                 return null;
@@ -98,11 +98,11 @@ var GenericSignaturesInvalid;
     };
     var Base2 = function Base2() {
         "use strict";
-        swcHelpers.classCallCheck(this, Base2);
+        _class_call_check(this, Base2);
     };
     var Target = function Target() {
         "use strict";
-        swcHelpers.classCallCheck(this, Target);
+        _class_call_check(this, Target);
     };
 })(GenericSignaturesInvalid || (GenericSignaturesInvalid = {}));
 var GenericSignaturesValid;
@@ -110,7 +110,7 @@ var GenericSignaturesValid;
     var Base2 = function Base2() {
         "use strict";
         var _this = this;
-        swcHelpers.classCallCheck(this, Base2);
+        _class_call_check(this, Base2);
         this.init = function() {
             _this.a = function() {
                 return null;

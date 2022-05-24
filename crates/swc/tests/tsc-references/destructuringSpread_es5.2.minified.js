@@ -1,17 +1,17 @@
-import * as swcHelpers from "@swc/helpers";
-swcHelpers.objectSpread({}, {}, {
+import _object_spread from "@swc/helpers/lib/_object_spread.js";
+_object_spread({}, {}, {
     x: 0
-}).x, swcHelpers.objectSpread({
+}).x, _object_spread({
     y: 0
 }, {}).y;
-var ref = swcHelpers.objectSpread({
+var ref = _object_spread({
     z: 0
 }, {
     a: 0,
     b: 0
 });
 ref.z, ref.a, ref.b;
-var ref1 = swcHelpers.objectSpread({}, swcHelpers.objectSpread({}, swcHelpers.objectSpread({}, {
+var ref1 = _object_spread({}, _object_spread({}, _object_spread({}, {
     c: 0
 }, {
     d: 0

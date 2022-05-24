@@ -1,8 +1,8 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var CharacterInfo = function() {
     "use strict";
     function CharacterInfo() {
-        swcHelpers.classCallCheck(this, CharacterInfo);
+        _class_call_check(this, CharacterInfo);
     }
     return CharacterInfo.isDecimalDigit = function(c) {
         return c >= CharacterCodes._0 && c <= CharacterCodes._9;

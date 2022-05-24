@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var ANY, ANY1, M, ANY2 = [
     "",
     ""
@@ -7,7 +7,7 @@ var ANY, ANY1, M, ANY2 = [
     y: null
 }, A = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, A);
+    _class_call_check(this, A);
 };
 !function(M1) {
     var n;

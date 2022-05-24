@@ -1,3 +1,3 @@
 var _obj;
-import * as swcHelpers from "@swc/helpers";
-foo((_obj = {}, swcHelpers.defineProperty(_obj, Symbol.isConcatSpreadable, ""), swcHelpers.defineProperty(_obj, Symbol.toPrimitive, 0), swcHelpers.defineProperty(_obj, Symbol.unscopables, !0), _obj));
+import _define_property from "@swc/helpers/lib/_define_property.js";
+foo((_define_property(_obj = {}, Symbol.isConcatSpreadable, ""), _define_property(_obj, Symbol.toPrimitive, 0), _define_property(_obj, Symbol.unscopables, !0), _obj));

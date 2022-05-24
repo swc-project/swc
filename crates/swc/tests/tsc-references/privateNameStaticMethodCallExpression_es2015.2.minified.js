@@ -1,14 +1,14 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_static_private_method_get from "@swc/helpers/lib/_class_static_private_method_get.js";
 class AA {
     test() {
-        swcHelpers.classStaticPrivateMethodGet(AA, AA, method).call(AA);
-        let func = swcHelpers.classStaticPrivateMethodGet(AA, AA, method);
-        func(), new (swcHelpers.classStaticPrivateMethodGet(AA, AA, method))();
+        _class_static_private_method_get(AA, AA, method).call(AA);
+        let func = _class_static_private_method_get(AA, AA, method);
+        func(), new (_class_static_private_method_get(AA, AA, method))();
         let arr = [
             1,
             2
         ];
-        swcHelpers.classStaticPrivateMethodGet(AA, AA, method2).call(AA, 0, ...arr, 3), new (swcHelpers.classStaticPrivateMethodGet(AA, AA, method2))(0, ...arr, 3), swcHelpers.classStaticPrivateMethodGet(AA, AA, method2).bind(AA)`head${1}middle${2}tail`, swcHelpers.classStaticPrivateMethodGet(AA.getClass(), AA, method2).bind(AA)`test${1}and${2}`, swcHelpers.classStaticPrivateMethodGet(AA.getClass(), AA, method2).call(AA, 0, ...arr, 3), new (swcHelpers.classStaticPrivateMethodGet(AA.getClass(), AA, method2))(0, ...arr, 3), swcHelpers.classStaticPrivateMethodGet(AA.getClass(), AA, method2).bind(AA)`head${1}middle${2}tail`;
+        _class_static_private_method_get(AA, AA, method2).call(AA, 0, ...arr, 3), new (_class_static_private_method_get(AA, AA, method2))(0, ...arr, 3), _class_static_private_method_get(AA, AA, method2).bind(AA)`head${1}middle${2}tail`, _class_static_private_method_get(AA.getClass(), AA, method2).bind(AA)`test${1}and${2}`, _class_static_private_method_get(AA.getClass(), AA, method2).call(AA, 0, ...arr, 3), new (_class_static_private_method_get(AA.getClass(), AA, method2))(0, ...arr, 3), _class_static_private_method_get(AA.getClass(), AA, method2).bind(AA)`head${1}middle${2}tail`;
     }
     static getClass() {
         return AA;

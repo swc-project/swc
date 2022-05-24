@@ -1,4 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_private_field_get from "@swc/helpers/lib/_class_private_field_get.js";
+import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
+import _class_private_field_set from "@swc/helpers/lib/_class_private_field_set.js";
 var _f = /*#__PURE__*/ new WeakMap(), _g = /*#__PURE__*/ new WeakMap(), _h = /*#__PURE__*/ new WeakMap(), _i = /*#__PURE__*/ new WeakMap();
 // @strict: true
 // @target:es2015
@@ -6,19 +8,19 @@ var _f = /*#__PURE__*/ new WeakMap(), _g = /*#__PURE__*/ new WeakMap(), _h = /*#
 // Properties with non-undefined types require initialization
 class C1 {
     constructor(){
-        swcHelpers.classPrivateFieldInit(this, _f, {
+        _class_private_field_init(this, _f, {
             writable: true,
             value: void 0 //Error
         });
-        swcHelpers.classPrivateFieldInit(this, _g, {
+        _class_private_field_init(this, _g, {
             writable: true,
             value: void 0
         });
-        swcHelpers.classPrivateFieldInit(this, _h, {
+        _class_private_field_init(this, _h, {
             writable: true,
             value: void 0 //Error
         });
-        swcHelpers.classPrivateFieldInit(this, _i, {
+        _class_private_field_init(this, _i, {
             writable: true,
             value: void 0
         });
@@ -34,15 +36,15 @@ class C4 {
         this.a = 0;
         this.b = 0;
         this.c = "abc";
-        swcHelpers.classPrivateFieldInit(this, _d, {
+        _class_private_field_init(this, _d, {
             writable: true,
             value: 0
         });
-        swcHelpers.classPrivateFieldInit(this, _e, {
+        _class_private_field_init(this, _e, {
             writable: true,
             value: 0
         });
-        swcHelpers.classPrivateFieldInit(this, _f1, {
+        _class_private_field_init(this, _f1, {
             writable: true,
             value: "abc"
         });
@@ -52,19 +54,19 @@ var _b = /*#__PURE__*/ new WeakMap();
 // Assignment in constructor satisfies strict initialization check
 class C5 {
     constructor(){
-        swcHelpers.classPrivateFieldInit(this, _b, {
+        _class_private_field_init(this, _b, {
             writable: true,
             value: void 0
         });
         this.a = 0;
-        swcHelpers.classPrivateFieldSet(this, _b, 0);
+        _class_private_field_set(this, _b, 0);
     }
 }
 var _b1 = /*#__PURE__*/ new WeakMap();
 // All code paths must contain assignment
 class C6 {
     constructor(cond){
-        swcHelpers.classPrivateFieldInit(this, _b1, {
+        _class_private_field_init(this, _b1, {
             writable: true,
             value: void 0
         });
@@ -72,23 +74,23 @@ class C6 {
             return;
         }
         this.a = 0;
-        swcHelpers.classPrivateFieldSet(this, _b1, 0);
+        _class_private_field_set(this, _b1, 0);
     }
 }
 var _b2 = /*#__PURE__*/ new WeakMap();
 class C7 {
     constructor(cond){
-        swcHelpers.classPrivateFieldInit(this, _b2, {
+        _class_private_field_init(this, _b2, {
             writable: true,
             value: void 0
         });
         if (cond) {
             this.a = 1;
-            swcHelpers.classPrivateFieldSet(this, _b2, 1);
+            _class_private_field_set(this, _b2, 1);
             return;
         }
         this.a = 0;
-        swcHelpers.classPrivateFieldSet(this, _b2, 1);
+        _class_private_field_set(this, _b2, 1);
     }
 }
 // Properties with string literal names aren't checked
@@ -102,27 +104,27 @@ var _d1 = /*#__PURE__*/ new WeakMap();
 // within their constructor
 class C10 {
     constructor(){
-        swcHelpers.classPrivateFieldInit(this, _d1, {
+        _class_private_field_init(this, _d1, {
             writable: true,
             value: void 0
         });
         let x = this.a; // Error
         this.a = this.b; // Error
-        this.b = swcHelpers.classPrivateFieldGet(this, _d1 //Error
+        this.b = _class_private_field_get(this, _d1 //Error
         );
         this.b = x;
-        swcHelpers.classPrivateFieldSet(this, _d1, x);
+        _class_private_field_set(this, _d1, x);
         let y = this.c;
     }
 }
 var _b3 = /*#__PURE__*/ new WeakMap();
 class C11 {
     constructor(){
-        swcHelpers.classPrivateFieldInit(this, _b3, {
+        _class_private_field_init(this, _b3, {
             writable: true,
             value: void 0
         });
         this.a = someValue();
-        swcHelpers.classPrivateFieldSet(this, _b3, someValue());
+        _class_private_field_set(this, _b3, someValue());
     }
 }

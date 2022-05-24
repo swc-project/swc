@@ -1,8 +1,8 @@
 var foo;
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 import { React } from "./test";
 export var React;
-swcHelpers.extends({
+_extends({
     x: ""
 }, foo, {
     y: ""

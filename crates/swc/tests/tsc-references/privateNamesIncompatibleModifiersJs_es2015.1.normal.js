@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
+import _class_private_method_init from "@swc/helpers/lib/_class_private_method_init.js";
 var /**
      * @public
      */ _a = /*#__PURE__*/ new WeakMap(), /**
@@ -20,12 +21,12 @@ var /**
 // @filename: privateNamesIncompatibleModifiersJs.js
 class A {
     constructor(){
-        swcHelpers.classPrivateMethodInit(this, _aMethod);
-        swcHelpers.classPrivateMethodInit(this, _bMethod);
-        swcHelpers.classPrivateMethodInit(this, _cMethod);
+        _class_private_method_init(this, _aMethod);
+        _class_private_method_init(this, _bMethod);
+        _class_private_method_init(this, _cMethod);
         /**
      * @public
-     */ swcHelpers.classPrivateFieldInit(this, _aProp, {
+     */ _class_private_field_init(this, _aProp, {
             get: get_aProp,
             set: /**
      * @public
@@ -33,7 +34,7 @@ class A {
         });
         /**
      * @private
-     */ swcHelpers.classPrivateFieldInit(this, _bProp, {
+     */ _class_private_field_init(this, _bProp, {
             get: get_bProp,
             set: /**
      * @private
@@ -41,21 +42,21 @@ class A {
         });
         /**
     * @protected
-    */ swcHelpers.classPrivateFieldInit(this, _cProp, {
+    */ _class_private_field_init(this, _cProp, {
             get: get_cProp,
             set: /**
      * @protected
      */ set_cProp
         });
-        swcHelpers.classPrivateFieldInit(this, _a, {
+        _class_private_field_init(this, _a, {
             writable: true,
             value: 1
         });
-        swcHelpers.classPrivateFieldInit(this, _b, {
+        _class_private_field_init(this, _b, {
             writable: true,
             value: 1
         });
-        swcHelpers.classPrivateFieldInit(this, _c, {
+        _class_private_field_init(this, _c, {
             writable: true,
             value: 1
         });

@@ -1,7 +1,8 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _type_of from "@swc/helpers/lib/_type_of.js";
 var C = function C() {
     "use strict";
-    swcHelpers.classCallCheck(this, C);
+    _class_call_check(this, C);
 };
 var strOrNum;
 var strOrBool;
@@ -23,7 +24,7 @@ if (typeof numOrBool != "number") {
 } else {
     var r3 = numOrBool; // number | boolean
 }
-if ((typeof strOrC === "undefined" ? "undefined" : swcHelpers.typeOf(strOrC)) != "Object") {
+if ((typeof strOrC === "undefined" ? "undefined" : _type_of(strOrC)) != "Object") {
     var r4 = strOrC; // string | C
 } else {
     var r4 = strOrC; // string | C

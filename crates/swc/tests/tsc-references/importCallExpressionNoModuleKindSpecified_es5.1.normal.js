@@ -1,11 +1,12 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 import regeneratorRuntime from "regenerator-runtime";
 // @lib: es5
 // @filename: 0.ts
 export var B = /*#__PURE__*/ function() {
     "use strict";
     function B() {
-        swcHelpers.classCallCheck(this, B);
+        _class_call_check(this, B);
     }
     var _proto = B.prototype;
     _proto.print = function print() {
@@ -23,7 +24,7 @@ export function backup() {
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         this.myModule = import("./0");
     }
     var _proto = C.prototype;
@@ -32,7 +33,7 @@ var C = /*#__PURE__*/ function() {
         this.myModule.then(function(Zero) {
             console.log(Zero.foo());
         }, function() {
-            var _ref = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee(err) {
+            var _ref = _async_to_generator(regeneratorRuntime.mark(function _callee(err) {
                 var one;
                 return regeneratorRuntime.wrap(function _callee$(_ctx) {
                     while(1)switch(_ctx.prev = _ctx.next){

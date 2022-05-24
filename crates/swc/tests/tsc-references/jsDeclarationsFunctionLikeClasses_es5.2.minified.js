@@ -1,6 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
+import _instanceof from "@swc/helpers/lib/_instanceof.js";
 export function Point(x, y) {
-    if (!swcHelpers._instanceof(this, Point)) return new Point(x, y);
+    if (!_instanceof(this, Point)) return new Point(x, y);
     this.x = x, this.y = y;
 }
 export function magnitude(p) {

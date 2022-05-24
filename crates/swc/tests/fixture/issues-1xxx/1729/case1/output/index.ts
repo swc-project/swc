@@ -1,4 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _construct from "@swc/helpers/lib/_construct.js";
+import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
 function createConstructor(callback) {
     var klass;
     return function() {
@@ -8,13 +10,13 @@ function createConstructor(callback) {
         if (klass === undefined) {
             klass = callback();
         }
-        return swcHelpers.construct(klass, swcHelpers.toConsumableArray(args));
+        return _construct(klass, _to_consumable_array(args));
     };
 }
 var constructor = createConstructor(function() {
     return function _class() {
         "use strict";
-        swcHelpers.classCallCheck(this, _class);
+        _class_call_check(this, _class);
     };
 });
 console.log(constructor());

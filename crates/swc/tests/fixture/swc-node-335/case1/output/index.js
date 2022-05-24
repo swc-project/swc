@@ -1,8 +1,8 @@
-import * as swcHelpers from "@swc/helpers";
+import _define_property from "@swc/helpers/lib/_define_property.js";
 let Foo = class Foo {
     method() {
         let Foo = class Foo {
         };
     }
 };
-swcHelpers.defineProperty(Foo, "a", 1);
+_define_property(Foo, "a", 1);

@@ -1,12 +1,13 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_private_field_get from "@swc/helpers/lib/_class_private_field_get.js";
+import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
 var _myField = /*#__PURE__*/ new WeakMap();
 // @target: es2015
 class A {
     constructor(){
-        swcHelpers.classPrivateFieldInit(this, _myField, {
+        _class_private_field_init(this, _myField, {
             writable: true,
             value: "hello world"
         });
-        console.log(swcHelpers.classPrivateFieldGet(this, _myField));
+        console.log(_class_private_field_get(this, _myField));
     }
 }

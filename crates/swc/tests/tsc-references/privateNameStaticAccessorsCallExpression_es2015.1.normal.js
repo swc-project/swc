@@ -1,19 +1,20 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_static_private_field_spec_get from "@swc/helpers/lib/_class_static_private_field_spec_get.js";
+import _class_static_private_field_spec_set from "@swc/helpers/lib/_class_static_private_field_spec_set.js";
 // @target: es2015
 class A {
     static test() {
-        swcHelpers.classStaticPrivateFieldSpecGet(this, A, _fieldFunc).call(A);
-        const func = swcHelpers.classStaticPrivateFieldSpecGet(this, A, _fieldFunc);
+        _class_static_private_field_spec_get(this, A, _fieldFunc).call(A);
+        const func = _class_static_private_field_spec_get(this, A, _fieldFunc);
         func();
-        new (swcHelpers.classStaticPrivateFieldSpecGet(this, A, _fieldFunc))();
+        new (_class_static_private_field_spec_get(this, A, _fieldFunc))();
         const arr = [
             1,
             2
         ];
-        swcHelpers.classStaticPrivateFieldSpecGet(this, A, _fieldFunc2).call(A, 0, ...arr, 3);
-        const b = new (swcHelpers.classStaticPrivateFieldSpecGet(this, A, _fieldFunc2))(0, ...arr, 3);
-        const str = swcHelpers.classStaticPrivateFieldSpecGet(this, A, _fieldFunc2).bind(A)`head${1}middle${2}tail`;
-        swcHelpers.classStaticPrivateFieldSpecGet(this.getClass(), A, _fieldFunc2).bind(A)`test${1}and${2}`;
+        _class_static_private_field_spec_get(this, A, _fieldFunc2).call(A, 0, ...arr, 3);
+        const b = new (_class_static_private_field_spec_get(this, A, _fieldFunc2))(0, ...arr, 3);
+        const str = _class_static_private_field_spec_get(this, A, _fieldFunc2).bind(A)`head${1}middle${2}tail`;
+        _class_static_private_field_spec_get(this.getClass(), A, _fieldFunc2).bind(A)`test${1}and${2}`;
     }
     static getClass() {
         return A;
@@ -33,7 +34,7 @@ var _x = {
 };
 function get_fieldFunc() {
     return function() {
-        swcHelpers.classStaticPrivateFieldSpecSet(A, A, _x, 10);
+        _class_static_private_field_spec_set(A, A, _x, 10);
     };
 }
 function get_fieldFunc2() {

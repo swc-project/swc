@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 //﻿
 // Copyright (c) Microsoft Corporation.  All rights reserved.
 // 
@@ -19,7 +19,7 @@ var Formatting;
     var Indenter = /*#__PURE__*/ function() {
         "use strict";
         function Indenter(logger, tree, snapshot, languageHostIndentation, editorOptions, firstToken, smartIndent) {
-            swcHelpers.classCallCheck(this, Indenter);
+            _class_call_check(this, Indenter);
             this.logger = logger;
             this.tree = tree;
             this.snapshot = snapshot;

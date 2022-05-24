@@ -1,7 +1,7 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 let React = require('react');
 export default function Component(props) {
-    return React.createElement(AnotherComponent, swcHelpers.extends({}, props, {
+    return React.createElement(AnotherComponent, _extends({}, props, {
         property2: !0,
         AnotherProperty1: "hi"
     }));

@@ -1,6 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
 const x = function() {
-    var _ref = swcHelpers.asyncToGenerator(function*(i) {
+    var _ref = _async_to_generator(function*(i) {
         return yield someOtherFunction(i);
     });
     return function x(i) {
@@ -8,7 +8,7 @@ const x = function() {
     };
 }();
 const x1 = function() {
-    var _ref = swcHelpers.asyncToGenerator(function*(i) {
+    var _ref = _async_to_generator(function*(i) {
         return yield someOtherFunction(i);
     });
     return function x1(i) {

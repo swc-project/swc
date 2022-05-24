@@ -1,10 +1,11 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _create_class from "@swc/helpers/lib/_create_class.js";
 var num, strOrNum, var1, ClassWithAccessors = function() {
     "use strict";
     function ClassWithAccessors() {
-        swcHelpers.classCallCheck(this, ClassWithAccessors);
+        _class_call_check(this, ClassWithAccessors);
     }
-    return swcHelpers.createClass(ClassWithAccessors, [
+    return _create_class(ClassWithAccessors, [
         {
             key: "p1",
             get: function() {

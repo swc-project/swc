@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 //@jsx: preserve
 // A built-in element (OK)
 var a1 = /*#__PURE__*/ React.createElement("div", {
@@ -22,7 +22,7 @@ var e1 = /*#__PURE__*/ React.createElement("imag", {
 // A custom type
 var MyClass = function MyClass() {
     "use strict";
-    swcHelpers.classCallCheck(this, MyClass);
+    _class_call_check(this, MyClass);
 };
 // Let's use it
 // TODO: Error on missing 'reqd'

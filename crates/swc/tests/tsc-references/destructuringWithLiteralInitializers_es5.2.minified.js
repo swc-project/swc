@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
 function f2(param) {
     param.x, param.y;
 }
@@ -29,20 +29,20 @@ function f7() {
     _a.x, _a.y;
 }
 function g3() {
-    var ref = swcHelpers.slicedToArray(arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [
+    var ref = _sliced_to_array(arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [
         0,
         0
     ], 2);
     ref[0], ref[1];
 }
 function g4() {
-    var ref = swcHelpers.slicedToArray(arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [
+    var ref = _sliced_to_array(arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [
         0
     ], 2);
     ref[0], ref[1];
 }
 function g5() {
-    var ref = swcHelpers.slicedToArray(arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [], 2);
+    var ref = _sliced_to_array(arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [], 2);
     ref[0], ref[1];
 }
 !function(param) {
@@ -93,13 +93,13 @@ function g5() {
         y: 1
     }
 }), function(param) {
-    var _param = swcHelpers.slicedToArray(param, 2);
+    var _param = _sliced_to_array(param, 2);
     _param[0], _param[1];
 }([
     1,
     1
 ]), function(param) {
-    var _param = swcHelpers.slicedToArray(param, 2);
+    var _param = _sliced_to_array(param, 2);
     _param[0], _param[1];
 }([
     1,

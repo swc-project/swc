@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @allowJs: true
 // @checkJs: true
 // @strict: true
@@ -13,7 +13,7 @@ var K = require("./mod1").K;
 var K = /*#__PURE__*/ function() {
     "use strict";
     function K() {
-        swcHelpers.classCallCheck(this, K);
+        _class_call_check(this, K);
     }
     var _proto = K.prototype;
     _proto.values = function values() {

@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 import "./cjs4";
 import "./cjs3";
 import "./cjs2";
@@ -11,7 +11,7 @@ import "./bar";
 import "./bar2";
 export var Foo = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, Foo);
+    _class_call_check(this, Foo);
 };
 export function func() {}
 export * from "./cls";

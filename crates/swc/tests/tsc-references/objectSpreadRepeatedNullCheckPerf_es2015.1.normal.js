@@ -1,6 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
+import _object_spread from "@swc/helpers/lib/_object_spread.js";
 function parseWithSpread(config) {
-    return swcHelpers.objectSpread({}, config.a !== undefined && {
+    return _object_spread({}, config.a !== undefined && {
         a: config.a.toString()
     }, config.b !== undefined && {
         b: config.b.toString()

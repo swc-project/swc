@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _create_class from "@swc/helpers/lib/_create_class.js";
 // @allowJs: true
 // @checkJs: true
 // @target: es5
@@ -8,11 +9,11 @@ import * as swcHelpers from "@swc/helpers";
 var Handler = /*#__PURE__*/ function() {
     "use strict";
     function Handler() {
-        swcHelpers.classCallCheck(this, Handler);
+        _class_call_check(this, Handler);
     }
     var _proto = Handler.prototype;
     _proto.process = function process() {};
-    swcHelpers.createClass(Handler, null, [
+    _create_class(Handler, null, [
         {
             key: "OPTIONS",
             get: function get() {

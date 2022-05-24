@@ -1,10 +1,12 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var DB = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(DB, B);
-    var _super = swcHelpers.createSuper(DB);
+    _inherits(DB, B);
+    var _super = _create_super(DB);
     function DB() {
-        swcHelpers.classCallCheck(this, DB);
+        _class_call_check(this, DB);
         return _super.apply(this, arguments);
     }
     var _proto = DB.prototype;
@@ -14,10 +16,10 @@ var DB = /*#__PURE__*/ function(B) {
 }(B);
 var DD = /*#__PURE__*/ function(D) {
     "use strict";
-    swcHelpers.inherits(DD, D);
-    var _super = swcHelpers.createSuper(DD);
+    _inherits(DD, D);
+    var _super = _create_super(DD);
     function DD() {
-        swcHelpers.classCallCheck(this, DD);
+        _class_call_check(this, DD);
         return _super.apply(this, arguments);
     }
     var _proto = DD.prototype;
@@ -27,10 +29,10 @@ var DD = /*#__PURE__*/ function(D) {
 }(D);
 var EB = /*#__PURE__*/ function(D) {
     "use strict";
-    swcHelpers.inherits(EB, D);
-    var _super = swcHelpers.createSuper(EB);
+    _inherits(EB, D);
+    var _super = _create_super(EB);
     function EB() {
-        swcHelpers.classCallCheck(this, EB);
+        _class_call_check(this, EB);
         return _super.apply(this, arguments);
     }
     var _proto = EB.prototype;

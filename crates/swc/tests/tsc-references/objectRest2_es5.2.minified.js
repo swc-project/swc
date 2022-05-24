@@ -1,9 +1,10 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
+import _object_spread from "@swc/helpers/lib/_object_spread.js";
 import regeneratorRuntime from "regenerator-runtime";
 !function(name) {
     var _ref;
     return {
-        resolve: (_ref = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee(context, args) {
+        resolve: (_ref = _async_to_generator(regeneratorRuntime.mark(function _callee(context, args) {
             var objects;
             return regeneratorRuntime.wrap(function(_ctx) {
                 for(;;)switch(_ctx.prev = _ctx.next){
@@ -12,7 +13,7 @@ import regeneratorRuntime from "regenerator-runtime";
                             objects: 12
                         };
                     case 2:
-                        return objects = _ctx.sent.objects, _ctx.abrupt("return", swcHelpers.objectSpread({}, connectionFromArray(objects, args)));
+                        return objects = _ctx.sent.objects, _ctx.abrupt("return", _object_spread({}, connectionFromArray(objects, args)));
                     case 4:
                     case "end":
                         return _ctx.stop();

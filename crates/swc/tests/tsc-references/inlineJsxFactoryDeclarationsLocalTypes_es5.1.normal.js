@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @filename: component.tsx
 /** @jsx predom */ import { predom } from "./renderer2";
 import prerendered from "./component";
@@ -8,7 +8,7 @@ export var MySFC = function(props) {
 export var MyClass = /*#__PURE__*/ function() {
     "use strict";
     function MyClass(props) {
-        swcHelpers.classCallCheck(this, MyClass);
+        _class_call_check(this, MyClass);
         this.props = props;
     }
     var _proto = MyClass.prototype;
@@ -36,7 +36,7 @@ var DOMSFC = function(props) {
 var DOMClass = /*#__PURE__*/ function() {
     "use strict";
     function DOMClass(props) {
-        swcHelpers.classCallCheck(this, DOMClass);
+        _class_call_check(this, DOMClass);
         this.props = props;
     }
     var _proto = DOMClass.prototype;

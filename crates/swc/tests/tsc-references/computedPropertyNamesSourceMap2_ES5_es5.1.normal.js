@@ -1,9 +1,10 @@
-import * as swcHelpers from "@swc/helpers";
+import _define_enumerable_properties from "@swc/helpers/lib/_define_enumerable_properties.js";
+import _define_property from "@swc/helpers/lib/_define_property.js";
 var _obj, _mutatorMap = {};
 // @target: es5
 // @sourceMap: true
-var v = (_obj = {}, swcHelpers.defineProperty(_obj, "hello", function() {
+var v = (_obj = {}, _define_property(_obj, "hello", function() {
     debugger;
 }), _mutatorMap["goodbye"] = _mutatorMap["goodbye"] || {}, _mutatorMap["goodbye"].get = function() {
     return 0;
-}, swcHelpers.defineEnumerableProperties(_obj, _mutatorMap), _obj);
+}, _define_enumerable_properties(_obj, _mutatorMap), _obj);

@@ -1,11 +1,11 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 (M || (M = {})).Point = 1;
 var M, M2, m2, a2, M3, m3, a3, m = M;
 M.Point, m.Point, function(M21) {
     var Point = function() {
         "use strict";
         function Point() {
-            swcHelpers.classCallCheck(this, Point);
+            _class_call_check(this, Point);
         }
         return Point.Origin = function() {
             return {

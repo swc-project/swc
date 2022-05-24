@@ -1,12 +1,12 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 function make1(obj) {
-    return /*#__PURE__*/ React.createElement("test1", swcHelpers.extends({}, obj)); // OK
+    return /*#__PURE__*/ React.createElement("test1", _extends({}, obj)); // OK
 }
 function make2(obj) {
-    return /*#__PURE__*/ React.createElement("test1", swcHelpers.extends({}, obj)); // Error (x is number, not string)
+    return /*#__PURE__*/ React.createElement("test1", _extends({}, obj)); // Error (x is number, not string)
 }
 function make3(obj) {
-    return /*#__PURE__*/ React.createElement("test1", swcHelpers.extends({}, obj)); // Error, missing x
+    return /*#__PURE__*/ React.createElement("test1", _extends({}, obj)); // Error, missing x
 }
-/*#__PURE__*/ React.createElement("test1", swcHelpers.extends({}, {})); // Error, missing x
-/*#__PURE__*/ React.createElement("test2", swcHelpers.extends({}, {})); // Error, missing toString
+/*#__PURE__*/ React.createElement("test1", _extends({}, {})); // Error, missing x
+/*#__PURE__*/ React.createElement("test2", _extends({}, {})); // Error, missing toString

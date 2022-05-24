@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
 // @module: system
 // @target: esnext
 // @useDefineForClassFields: false
@@ -21,7 +21,7 @@ class C {
         this.myModule.then((Zero)=>{
             console.log(Zero.foo());
         }, function() {
-            var _ref = swcHelpers.asyncToGenerator(function*(err) {
+            var _ref = _async_to_generator(function*(err) {
                 console.log(err);
                 let one = yield import("./1");
                 console.log(one.backup());
@@ -41,7 +41,7 @@ export class D {
         this.myModule.then((Zero)=>{
             console.log(Zero.foo());
         }, function() {
-            var _ref = swcHelpers.asyncToGenerator(function*(err) {
+            var _ref = _async_to_generator(function*(err) {
                 console.log(err);
                 let one = yield import("./1");
                 console.log(one.backup());

@@ -1,13 +1,13 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // object types are identical structurally
 var B = function B(x, y) {
     "use strict";
-    swcHelpers.classCallCheck(this, B);
+    _class_call_check(this, B);
     return null;
 };
 var C = function C(x, y) {
     "use strict";
-    swcHelpers.classCallCheck(this, C);
+    _class_call_check(this, C);
     return null;
 };
 var a;

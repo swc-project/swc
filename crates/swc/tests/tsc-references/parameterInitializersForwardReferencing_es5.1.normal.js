@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 function left(a) {
     var b = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : a, c = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : b;
     a;
@@ -42,7 +42,7 @@ var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
         var a = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : b, _$b = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 1;
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
     }
     var _proto = C.prototype;
     _proto.method = function method() {

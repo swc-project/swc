@@ -8,7 +8,7 @@ use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
 use swc_common::{FileName, FilePathMapping, Mark, SourceMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{prepend_stmts, quote_ident, quote_str, DropSpan};
+use swc_ecma_utils::{prepend_stmts, DropSpan};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 #[macro_export]
@@ -63,6 +63,31 @@ macro_rules! add_to {
                 });
                 stmt
             }))
+        }
+    }};
+}
+
+macro_rules! add_import_to {
+    ($buf:expr, $name:ident, $b:expr, $mark:expr) => {{
+        let enable = $b.load(Ordering::Relaxed);
+        if enable {
+            let s = ImportSpecifier::Default(ImportDefaultSpecifier {
+                span: DUMMY_SP,
+                local: Ident::new(
+                    concat!("_", stringify!($name)).into(),
+                    DUMMY_SP.apply_mark($mark),
+                ),
+            });
+
+            let src: Str = concat!("@swc/helpers/lib/_", stringify!($name), ".js").into();
+
+            $buf.push(ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                span: DUMMY_SP,
+                specifiers: vec![s],
+                src,
+                asserts: Default::default(),
+                type_only: Default::default(),
+            })))
         }
     }};
 }
@@ -124,9 +149,11 @@ macro_rules! define_helpers {
                 pub fn $name(&self) {
                     self.inner.$name.store(true, Ordering::Relaxed);
 
-                    $(
-                        self.$dep();
-                    )*
+                    if !self.external {
+                        $(
+                            self.$dep();
+                        )*
+                    }
                 }
             )*
         }
@@ -161,6 +188,19 @@ macro_rules! define_helpers {
                     debug_assert!(!helpers.external);
                     $(
                             add_to!(buf, $name, helpers.inner.$name, helpers.mark.0);
+                    )*
+                });
+
+                buf
+            }
+
+            fn build_imports(&self) -> Vec<ModuleItem> {
+                let mut buf = vec![];
+
+                HELPERS.with(|helpers|{
+                    debug_assert!(helpers.external);
+                    $(
+                            add_import_to!(buf, $name, helpers.inner.$name, helpers.mark.0);
                     )*
                 });
 
@@ -326,19 +366,10 @@ struct InjectHelpers;
 
 impl InjectHelpers {
     fn make_helpers_for_module(&self) -> Vec<ModuleItem> {
-        let (mark, external) = HELPERS.with(|helper| (helper.mark(), helper.external()));
+        let (_, external) = HELPERS.with(|helper| (helper.mark(), helper.external()));
         if external {
             if self.is_helper_used() {
-                vec![ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
-                    span: DUMMY_SP,
-                    specifiers: vec![ImportSpecifier::Namespace(ImportStarAsSpecifier {
-                        span: DUMMY_SP,
-                        local: quote_ident!(DUMMY_SP.apply_mark(mark), "swcHelpers"),
-                    })],
-                    src: quote_str!("@swc/helpers"),
-                    type_only: false,
-                    asserts: None,
-                }))]
+                self.build_imports()
             } else {
                 vec![]
             }
@@ -467,8 +498,7 @@ mod tests {
 
     #[test]
     fn external_helper() {
-        let input = "_throw()
-swcHelpers._throw()";
+        let input = "_throw()";
         crate::tests::Tester::run(|tester| {
             HELPERS.set(&Helpers::new(true), || {
                 let expected = tester.apply_transform(
@@ -477,9 +507,8 @@ swcHelpers._throw()";
                     }),
                     "output.js",
                     Default::default(),
-                    "import * as swcHelpers1 from \"@swc/helpers\";
-_throw();
-swcHelpers._throw();",
+                    "import _throw1 from \"@swc/helpers/lib/_throw.js\";
+_throw();",
                 )?;
                 enable_helper!(throw);
 

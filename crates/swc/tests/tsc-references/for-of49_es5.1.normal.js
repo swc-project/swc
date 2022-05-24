@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
+import _to_array from "@swc/helpers/lib/_to_array.js";
 //@target: ES6
 var k, v;
 var map = new Map([
@@ -11,7 +12,7 @@ var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError 
 try {
     for(var _iterator = map[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
         var ref, ref1;
-        ref = swcHelpers.toArray(_step.value), k = ref[0], ref1 = swcHelpers.slicedToArray(ref.slice(1), 1), v = ref1[0], ref1, ref;
+        ref = _to_array(_step.value), k = ref[0], ref1 = _sliced_to_array(ref.slice(1), 1), v = ref1[0], ref1, ref;
         k;
         v;
     }

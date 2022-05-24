@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
+import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
 // The type T associated with a destructuring variable declaration is determined as follows:
 //      If the declaration includes a type annotation, T is that type.
 var ref = {
@@ -55,10 +56,10 @@ var temp1 = [
     false,
     true
 ];
-var ref3 = swcHelpers.slicedToArray([
+var ref3 = _sliced_to_array([
     1,
     "string"
-].concat(swcHelpers.toConsumableArray(temp1)), 2), d3 = ref3[0], d4 = ref3[1];
+].concat(_to_consumable_array(temp1)), 2), d3 = ref3[0], d4 = ref3[1];
 //  Combining both forms of destructuring,
 var ref4 = {
     e: [
@@ -69,7 +70,7 @@ var ref4 = {
             b4: 0
         }
     ]
-}, _e = swcHelpers.slicedToArray(ref4.e, 3), e1 = _e[0], e2 = _e[1], tmp7 = _e[2], e3 = tmp7 === void 0 ? {
+}, _e = _sliced_to_array(ref4.e, 3), e1 = _e[0], e2 = _e[1], tmp7 = _e[2], e3 = tmp7 === void 0 ? {
     b1: 1000,
     b4: 200
 } : tmp7;
@@ -82,7 +83,7 @@ var ref5 = {
             f5: 0
         }
     ]
-}, _f = swcHelpers.slicedToArray(ref5.f, 3), f1 = _f[0], f2 = _f[1], ref6 = _f[2], f4 = ref6.f3, f5 = ref6.f5;
+}, _f = _sliced_to_array(ref5.f, 3), f1 = _f[0], f2 = _f[1], ref6 = _f[2], f4 = ref6.f3, f5 = ref6.f5;
 // When a destructuring variable declaration, binding property, or binding element specifies
 // an initializer expression, the type of the initializer expression is required to be assignable
 // to the widened form of the type associated with the destructuring variable declaration, binding property, or binding element.

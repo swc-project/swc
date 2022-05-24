@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // Copyright (c) Microsoft. All rights reserved. Licensed under the Apache License, Version 2.0. 
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
@@ -18,7 +18,7 @@ var TypeScript;
     var PrintContext = /*#__PURE__*/ function() {
         "use strict";
         function PrintContext(outfile, parser) {
-            swcHelpers.classCallCheck(this, PrintContext);
+            _class_call_check(this, PrintContext);
             this.outfile = outfile;
             this.parser = parser;
             this.builder = "";

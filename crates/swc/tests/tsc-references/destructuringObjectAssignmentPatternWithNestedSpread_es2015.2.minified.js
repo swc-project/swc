@@ -1,11 +1,11 @@
 var _c;
-import * as swcHelpers from "@swc/helpers";
+import _object_without_properties from "@swc/helpers/lib/_object_without_properties.js";
 let a, d;
-_c = {
+_object_without_properties((_c = {
     x: {
         a: 1,
         y: 2
     }
-}, swcHelpers.objectWithoutProperties(_c.x, [
+}).x, [
     "a"
 ]), { x: { a  } = d  } = _c;

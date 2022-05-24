@@ -1,18 +1,21 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_private_field_get from "@swc/helpers/lib/_class_private_field_get.js";
+import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
+import _class_private_field_set from "@swc/helpers/lib/_class_private_field_set.js";
 var _name = /*#__PURE__*/ new WeakMap();
 var Animal = /*#__PURE__*/ function() {
     "use strict";
     function Animal(name) {
-        swcHelpers.classCallCheck(this, Animal);
-        swcHelpers.classPrivateFieldInit(this, _name, {
+        _class_call_check(this, Animal);
+        _class_private_field_init(this, _name, {
             writable: true,
             value: void 0
         });
-        swcHelpers.classPrivateFieldSet(this, _name, name);
+        _class_private_field_set(this, _name, name);
     }
     var _proto = Animal.prototype;
     _proto.noise = function noise() {
-        return swcHelpers.classPrivateFieldGet(this, _name).toUpperCase();
+        return _class_private_field_get(this, _name).toUpperCase();
     };
     return Animal;
 }();

@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var _predicate, _sort, _min, _nest, _other, _property, my = null != my ? my : {};
 my.method = function(n) {
     return n + 1;
@@ -12,7 +12,7 @@ my.method = function(n) {
 }, my.predicate.type = function() {
     "use strict";
     function _class() {
-        swcHelpers.classCallCheck(this, _class);
+        _class_call_check(this, _class);
     }
     return _class.prototype.m = function() {
         return 101;
@@ -21,5 +21,5 @@ my.method = function(n) {
 var min = null !== (_min = window.min) && void 0 !== _min ? _min : {};
 min.nest = null !== (_nest = this.min.nest) && void 0 !== _nest ? _nest : function() {}, min.nest.other = null !== (_other = self.min.nest.other) && void 0 !== _other ? _other : function _class() {
     "use strict";
-    swcHelpers.classCallCheck(this, _class);
+    _class_call_check(this, _class);
 }, min.property = null !== (_property = global.min.property) && void 0 !== _property ? _property : {};

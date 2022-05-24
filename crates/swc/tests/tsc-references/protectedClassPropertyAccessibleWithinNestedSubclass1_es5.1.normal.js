@@ -1,14 +1,16 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var Base = /*#__PURE__*/ function() {
     "use strict";
     function Base() {
-        swcHelpers.classCallCheck(this, Base);
+        _class_call_check(this, Base);
     }
     var _proto1 = Base.prototype;
     _proto1.method = function method() {
         var A = /*#__PURE__*/ function() {
             function A() {
-                swcHelpers.classCallCheck(this, A);
+                _class_call_check(this, A);
             }
             var _proto = A.prototype;
             _proto.methoda = function methoda() {
@@ -30,17 +32,17 @@ var Base = /*#__PURE__*/ function() {
 }();
 var Derived1 = /*#__PURE__*/ function(Base) {
     "use strict";
-    swcHelpers.inherits(Derived1, Base);
-    var _super = swcHelpers.createSuper(Derived1);
+    _inherits(Derived1, Base);
+    var _super = _create_super(Derived1);
     function Derived1() {
-        swcHelpers.classCallCheck(this, Derived1);
+        _class_call_check(this, Derived1);
         return _super.apply(this, arguments);
     }
     var _proto2 = Derived1.prototype;
     _proto2.method1 = function method1() {
         var B = /*#__PURE__*/ function() {
             function B() {
-                swcHelpers.classCallCheck(this, B);
+                _class_call_check(this, B);
             }
             var _proto = B.prototype;
             _proto.method1b = function method1b() {
@@ -62,17 +64,17 @@ var Derived1 = /*#__PURE__*/ function(Base) {
 }(Base);
 var Derived2 = /*#__PURE__*/ function(Base) {
     "use strict";
-    swcHelpers.inherits(Derived2, Base);
-    var _super = swcHelpers.createSuper(Derived2);
+    _inherits(Derived2, Base);
+    var _super = _create_super(Derived2);
     function Derived2() {
-        swcHelpers.classCallCheck(this, Derived2);
+        _class_call_check(this, Derived2);
         return _super.apply(this, arguments);
     }
     var _proto3 = Derived2.prototype;
     _proto3.method2 = function method2() {
         var C = /*#__PURE__*/ function() {
             function C() {
-                swcHelpers.classCallCheck(this, C);
+                _class_call_check(this, C);
             }
             var _proto = C.prototype;
             _proto.method2c = function method2c() {
@@ -94,17 +96,17 @@ var Derived2 = /*#__PURE__*/ function(Base) {
 }(Base);
 var Derived3 = /*#__PURE__*/ function(Derived1) {
     "use strict";
-    swcHelpers.inherits(Derived3, Derived1);
-    var _super = swcHelpers.createSuper(Derived3);
+    _inherits(Derived3, Derived1);
+    var _super = _create_super(Derived3);
     function Derived3() {
-        swcHelpers.classCallCheck(this, Derived3);
+        _class_call_check(this, Derived3);
         return _super.apply(this, arguments);
     }
     var _proto4 = Derived3.prototype;
     _proto4.method3 = function method3() {
         var D = /*#__PURE__*/ function() {
             function D() {
-                swcHelpers.classCallCheck(this, D);
+                _class_call_check(this, D);
             }
             var _proto = D.prototype;
             _proto.method3d = function method3d() {
@@ -126,17 +128,17 @@ var Derived3 = /*#__PURE__*/ function(Derived1) {
 }(Derived1);
 var Derived4 = /*#__PURE__*/ function(Derived2) {
     "use strict";
-    swcHelpers.inherits(Derived4, Derived2);
-    var _super = swcHelpers.createSuper(Derived4);
+    _inherits(Derived4, Derived2);
+    var _super = _create_super(Derived4);
     function Derived4() {
-        swcHelpers.classCallCheck(this, Derived4);
+        _class_call_check(this, Derived4);
         return _super.apply(this, arguments);
     }
     var _proto5 = Derived4.prototype;
     _proto5.method4 = function method4() {
         var E = /*#__PURE__*/ function() {
             function E() {
-                swcHelpers.classCallCheck(this, E);
+                _class_call_check(this, E);
             }
             var _proto = E.prototype;
             _proto.method4e = function method4e() {

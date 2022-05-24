@@ -1,13 +1,14 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_private_field_get from "@swc/helpers/lib/_class_private_field_get.js";
+import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
 import { Foo as A } from "./a";
 import { Foo as B } from "./b";
 var _x = new WeakMap();
 export class Foo {
     copy(other) {
-        swcHelpers.classPrivateFieldGet(other, _x);
+        _class_private_field_get(other, _x);
     }
     constructor(){
-        swcHelpers.classPrivateFieldInit(this, _x, {
+        _class_private_field_init(this, _x, {
             writable: !0,
             value: void 0
         });
@@ -16,7 +17,7 @@ export class Foo {
 var _x1 = new WeakMap();
 export class Foo {
     constructor(){
-        swcHelpers.classPrivateFieldInit(this, _x1, {
+        _class_private_field_init(this, _x1, {
             writable: !0,
             value: void 0
         });

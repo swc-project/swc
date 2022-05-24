@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var ns = {};
 ns.x = {
     status: "done",
@@ -10,7 +10,7 @@ ns.x = {
 var Thing = function() {
     "use strict";
     function Thing() {
-        swcHelpers.classCallCheck(this, Thing), this.s = {
+        _class_call_check(this, Thing), this.s = {
             status: "done",
             m: function(n) {}
         };

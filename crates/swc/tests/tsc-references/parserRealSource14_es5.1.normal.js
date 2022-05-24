@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // Copyright (c) Microsoft. All rights reserved. Licensed under the Apache License, Version 2.0. 
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
@@ -113,7 +113,7 @@ var TypeScript;
     var AstPath = /*#__PURE__*/ function() {
         "use strict";
         function AstPath() {
-            swcHelpers.classCallCheck(this, AstPath);
+            _class_call_check(this, AstPath);
             this.asts = [];
             this.top = -1;
         }
@@ -333,7 +333,7 @@ var TypeScript;
     TypeScript1.isValidAstNode = isValidAstNode;
     var AstPathContext = function AstPathContext() {
         "use strict";
-        swcHelpers.classCallCheck(this, AstPathContext);
+        _class_call_check(this, AstPathContext);
         this.path = new TypeScript.AstPath();
     };
     TypeScript1.AstPathContext = AstPathContext;

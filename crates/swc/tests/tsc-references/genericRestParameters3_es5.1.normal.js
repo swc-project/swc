@@ -1,18 +1,18 @@
-import * as swcHelpers from "@swc/helpers";
+import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
 f1("foo", "abc");
 f1("foo", 10, true);
 f1.apply(void 0, [
     "foo"
-].concat(swcHelpers.toConsumableArray(t1)));
+].concat(_to_consumable_array(t1)));
 f1.apply(void 0, [
     "foo"
-].concat(swcHelpers.toConsumableArray(t2)));
+].concat(_to_consumable_array(t2)));
 f1.apply(void 0, [
     "foo"
-].concat(swcHelpers.toConsumableArray(t3)));
+].concat(_to_consumable_array(t3)));
 f1.apply(void 0, [
     "foo"
-].concat(swcHelpers.toConsumableArray(t4)));
+].concat(_to_consumable_array(t4)));
 f1("foo", 10); // Error
 f1("foo"); // Error
 f2 = f1;
@@ -35,11 +35,11 @@ var b = bar(10, 20); // Error
 baz(); // Error
 baz(1); // Error
 baz(1, 2); // Error
-baz.apply(void 0, swcHelpers.toConsumableArray(ca)); // Error
+baz.apply(void 0, _to_consumable_array(ca)); // Error
 hmm(); // okay, A = []
 hmm(1, "s"); // okay, A = [1, "s"]
 hmm("what"); // no error?  A = [] | [number, string] ?
 var x2 = [
     "hello"
 ];
-foo2.apply(void 0, swcHelpers.toConsumableArray(x2));
+foo2.apply(void 0, _to_consumable_array(x2));

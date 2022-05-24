@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
 concatMaybe([
     1,
     2,
@@ -6,7 +6,7 @@ concatMaybe([
 ], 4);
 // Repros from #32247
 const g = function() {
-    var _ref = swcHelpers.asyncToGenerator(function*(com) {
+    var _ref = _async_to_generator(function*(com) {
         throw com;
     });
     return function g(com) {

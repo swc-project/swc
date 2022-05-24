@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 // @filename: file.tsx
 // @jsx: preserve
 // @noLib: true
@@ -8,7 +8,7 @@ const React = require('react');
 export function makeP(Ctor) {
     return class extends React.PureComponent {
         render() {
-            return /*#__PURE__*/ React.createElement(Ctor, swcHelpers.extends({}, this.props));
+            return /*#__PURE__*/ React.createElement(Ctor, _extends({}, this.props));
         }
     };
 }

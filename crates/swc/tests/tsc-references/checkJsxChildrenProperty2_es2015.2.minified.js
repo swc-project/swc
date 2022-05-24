@@ -1,6 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 let React = require('react');
-swcHelpers.extends({
+_extends({
     a: 10,
     b: "hi"
 }, {

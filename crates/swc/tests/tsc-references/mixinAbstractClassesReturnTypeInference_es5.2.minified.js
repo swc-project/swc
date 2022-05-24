@@ -1,21 +1,23 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var MixinClass, AbstractBase = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, AbstractBase);
+    _class_call_check(this, AbstractBase);
 }, DerivedFromAbstract2 = function(_superClass) {
     "use strict";
-    swcHelpers.inherits(DerivedFromAbstract2, _superClass);
-    var _super = swcHelpers.createSuper(DerivedFromAbstract2);
+    _inherits(DerivedFromAbstract2, _superClass);
+    var _super = _create_super(DerivedFromAbstract2);
     function DerivedFromAbstract2() {
-        return swcHelpers.classCallCheck(this, DerivedFromAbstract2), _super.apply(this, arguments);
+        return _class_call_check(this, DerivedFromAbstract2), _super.apply(this, arguments);
     }
     return DerivedFromAbstract2.prototype.abstractBaseMethod = function() {}, DerivedFromAbstract2;
 }(MixinClass = function(baseClass) {
     "use strict";
-    swcHelpers.inherits(MixinClass, baseClass);
-    var _super = swcHelpers.createSuper(MixinClass);
+    _inherits(MixinClass, baseClass);
+    var _super = _create_super(MixinClass);
     function MixinClass() {
-        return swcHelpers.classCallCheck(this, MixinClass), _super.apply(this, arguments);
+        return _class_call_check(this, MixinClass), _super.apply(this, arguments);
     }
     return MixinClass.prototype.mixinMethod = function() {}, MixinClass.staticMixinMethod = function() {}, MixinClass;
 }(AbstractBase));

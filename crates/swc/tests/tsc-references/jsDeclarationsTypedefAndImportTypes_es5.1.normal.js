@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @allowJs: true
 // @checkJs: true
 // @outDir: ./out
@@ -9,7 +9,7 @@ import * as swcHelpers from "@swc/helpers";
  */ var Conn = /*#__PURE__*/ function() {
     "use strict";
     function Conn() {
-        swcHelpers.classCallCheck(this, Conn);
+        _class_call_check(this, Conn);
         this.item = 3;
     }
     var _proto = Conn.prototype;
@@ -22,7 +22,7 @@ module.exports = Conn;
  * @typedef {import("./conn")} Conn
  */ var Wrap = function Wrap(c) {
     "use strict";
-    swcHelpers.classCallCheck(this, Wrap);
+    _class_call_check(this, Wrap);
     this.connItem = c.item;
     /** @type {import("./conn").Whatever} */ this.another = "";
 };

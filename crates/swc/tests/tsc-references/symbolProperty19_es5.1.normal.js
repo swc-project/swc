@@ -1,9 +1,9 @@
-import * as swcHelpers from "@swc/helpers";
+import _define_property from "@swc/helpers/lib/_define_property.js";
 var _obj;
 //@target: ES6
-var i = (_obj = {}, swcHelpers.defineProperty(_obj, Symbol.iterator, {
+var i = (_obj = {}, _define_property(_obj, Symbol.iterator, {
     p: null
-}), swcHelpers.defineProperty(_obj, Symbol.toStringTag, function() {
+}), _define_property(_obj, Symbol.toStringTag, function() {
     return {
         p: undefined
     };

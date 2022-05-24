@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _create_class from "@swc/helpers/lib/_create_class.js";
 // @allowJs: true
 // @checkJs: true
 // @target: esnext
@@ -8,7 +9,7 @@ import * as swcHelpers from "@swc/helpers";
 // @outDir: /out
 var С1 = function С1() {
     "use strict";
-    swcHelpers.classCallCheck(this, С1);
+    _class_call_check(this, С1);
     /** @type {string=} */ this.p1 = undefined;
     /** @type {string | undefined} */ this.p2 = undefined;
     /** @type {?string} */ this.p3 = null;
@@ -17,9 +18,9 @@ var С1 = function С1() {
 var С2 = /*#__PURE__*/ function() {
     "use strict";
     function С2() {
-        swcHelpers.classCallCheck(this, С2);
+        _class_call_check(this, С2);
     }
-    swcHelpers.createClass(С2, [
+    _create_class(С2, [
         {
             key: "p1",
             get: /** @type {string=} */ function get() {
@@ -50,9 +51,9 @@ var С2 = /*#__PURE__*/ function() {
 var С3 = /*#__PURE__*/ function() {
     "use strict";
     function С3() {
-        swcHelpers.classCallCheck(this, С3);
+        _class_call_check(this, С3);
     }
-    swcHelpers.createClass(С3, [
+    _create_class(С3, [
         {
             key: "p1",
             get: /** @type {string=} */ function get() {
@@ -95,9 +96,9 @@ var С3 = /*#__PURE__*/ function() {
 var С4 = /*#__PURE__*/ function() {
     "use strict";
     function С4() {
-        swcHelpers.classCallCheck(this, С4);
+        _class_call_check(this, С4);
     }
-    swcHelpers.createClass(С4, [
+    _create_class(С4, [
         {
             key: "p1",
             set: /** @param {string=} value */ function set(value) {

@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @allowJs: true
 // @checkJs: true
 // @declaration: true
@@ -6,7 +6,7 @@ import * as swcHelpers from "@swc/helpers";
 // @Filename: vue.js
 export var Vue = function Vue() {
     "use strict";
-    swcHelpers.classCallCheck(this, Vue);
+    _class_call_check(this, Vue);
 };
 export var config = {
     x: 0
