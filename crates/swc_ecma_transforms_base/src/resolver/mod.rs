@@ -1136,7 +1136,7 @@ impl<'a> VisitMut for Resolver<'a> {
                 catch_param_decls: Default::default(),
                 excluded_from_catch: Default::default(),
             };
-            stmts.visit_mut_children_with(&mut hoister)
+            stmts.visit_mut_with(&mut hoister)
         }
 
         // Phase 2.
@@ -1824,7 +1824,7 @@ impl VisitMut for Hoister<'_, '_> {
         node.name.visit_mut_with(self);
     }
 
-    /// should visit var decls first, cause val decl may appear behind the
+    /// should visit var decls first, cause var decl may appear behind the
     /// usage. this can deal with code below:
     /// ```js
     /// try {} catch (Ic) {
@@ -1857,6 +1857,26 @@ impl VisitMut for Hoister<'_, '_> {
 
         for other_item in other_items {
             other_item.visit_mut_with(self);
+        }
+    }
+
+    /// see docs for `self.visit_mut_module_items`
+    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        let mut other_stmts = vec![];
+
+        for item in stmts {
+            match item {
+                Stmt::Decl(Decl::Var(decl)) if decl.kind == VarDeclKind::Var => {
+                    item.visit_mut_with(self);
+                }
+                _ => {
+                    other_stmts.push(item);
+                }
+            }
+        }
+
+        for other_stmt in other_stmts {
+            other_stmt.visit_mut_with(self);
         }
     }
 }
