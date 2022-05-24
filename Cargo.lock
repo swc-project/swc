@@ -3592,7 +3592,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.99.3"
+version = "0.99.4"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -3927,7 +3927,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_codegen"
-version = "0.9.1"
+version = "0.9.2"
 dependencies = [
  "auto_impl",
  "bitflags",
