@@ -219,6 +219,13 @@ where
                 && match &*n.tag_name {
                     // Tag omission in text/html:
 
+                    // A body element's end tag can be omitted if the body element is not
+                    // immediately followed by a comment.
+                    "body" => match next {
+                        Some(Child::Comment(..)) => false,
+                        _ => true,
+                    },
+
                     // A p element's end tag can be omitted if the p element is immediately followed
                     // by an address, article, aside, blockquote, details, div, dl, fieldset,
                     // figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, hr,
