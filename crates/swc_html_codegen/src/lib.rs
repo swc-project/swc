@@ -290,10 +290,12 @@ where
                         None => true,
                         _ => false,
                     },
-
+                    // A caption element's end tag can be omitted if the caption element is not
+                    // immediately followed by ASCII whitespace or a comment.
+                    //
                     // A colgroup element's end tag can be omitted if the colgroup element is not
                     // immediately followed by ASCII whitespace or a comment.
-                    "colgroup" => match next {
+                    "caption" | "colgroup" => match next {
                         Some(Child::Text(text))
                             if text.value.chars().nth(0).unwrap().is_ascii_whitespace() =>
                         {
