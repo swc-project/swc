@@ -58,7 +58,7 @@ macro_rules! helper_expr {
         let external = $crate::helpers::HELPERS.with(|helper| helper.external());
 
         if external {
-            Expr::from(swc_ecma_utils::quote_ident!(span, $s))
+            Expr::from(swc_ecma_utils::quote_ident!(span, concat!("_", $s)))
         } else {
             Expr::from(swc_ecma_utils::quote_ident!(span, $s))
         }
