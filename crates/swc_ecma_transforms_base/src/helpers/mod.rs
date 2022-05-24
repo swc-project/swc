@@ -79,16 +79,20 @@ macro_rules! add_import_to {
                 ),
             });
 
-            let src = if stringify!(name).starts_with("ts_") {
-                concat!("@swc/helpers/lib/__", stringify!($name), ".js")
+            let src: Str = if stringify!(name).starts_with("ts_") {
+                format!(
+                    "@swc/helpers/lib/__{}.js",
+                    stringify!($name).replace("ts_", "")
+                )
+                .into()
             } else {
-                concat!("@swc/helpers/lib/_", stringify!($name), ".js")
+                concat!("@swc/helpers/lib/_", stringify!($name), ".js").into()
             };
 
             $buf.push(ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                 span: DUMMY_SP,
                 specifiers: vec![s],
-                src: src.into(),
+                src,
                 asserts: Default::default(),
                 type_only: Default::default(),
             })))
