@@ -26,7 +26,7 @@ fn document_test(input: PathBuf, config: ParserConfig) {
     testing::run_test2(false, |cm, handler| {
         let json_path = input.parent().unwrap().join("output.json");
         let fm = cm.load_file(&input).unwrap();
-        let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
+        let lexer = Lexer::new(SourceFileInput::from(&*fm));
         let mut parser = Parser::new(lexer, config);
         let document: PResult<Document> = parser.parse_document();
         let errors = parser.take_errors();
@@ -74,7 +74,7 @@ fn document_recovery_test(input: PathBuf, config: ParserConfig) {
 
         let json_path = input.parent().unwrap().join("output.json");
         let fm = cm.load_file(&input).unwrap();
-        let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
+        let lexer = Lexer::new(SourceFileInput::from(&*fm));
         let mut parser = Parser::new(lexer, config);
         let document: PResult<Document> = parser.parse_document();
         let errors = parser.take_errors();
@@ -130,7 +130,7 @@ fn document_span_visualizer(input: PathBuf, config: ParserConfig) {
         }
 
         let fm = cm.load_file(&input).unwrap();
-        let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
+        let lexer = Lexer::new(SourceFileInput::from(&*fm));
         let mut parser = Parser::new(lexer, config);
 
         let document: PResult<Document> = parser.parse_document();
@@ -168,7 +168,7 @@ fn document_dom_visualizer(input: PathBuf, config: ParserConfig) {
         }
 
         let fm = cm.load_file(&input).unwrap();
-        let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
+        let lexer = Lexer::new(SourceFileInput::from(&*fm));
         let mut parser = Parser::new(lexer, config);
 
         let document: PResult<Document> = parser.parse_document();
@@ -574,12 +574,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
             eprintln!("==== ==== Output ==== ====\n{}\n", output);
 
             let lexer_str_input = StringInput::new(&input, BytePos(0), BytePos(input.len() as u32));
-            let mut lexer = Lexer::new(
-                lexer_str_input,
-                ParserConfig {
-                    ..Default::default()
-                },
-            );
+            let mut lexer = Lexer::new(lexer_str_input);
 
             lexer.set_input_state(state.clone());
 
@@ -587,7 +582,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                 let last_start_tag: String = serde_json::from_value(last_start_tag.clone())
                     .expect("failed to get lastStartTag in test");
 
-                lexer.last_start_tag_token = Some(Token::StartTag {
+                lexer.set_last_start_tag_token(Token::StartTag {
                     tag_name: last_start_tag.into(),
                     raw_tag_name: None,
                     self_closing: false,
@@ -598,86 +593,80 @@ fn html5lib_test_tokenizer(input: PathBuf) {
             let mut actual_tokens = vec![];
 
             loop {
-                match lexer.next() {
-                    Ok(TokenAndSpan { token, .. }) => {
-                        let mut new_token = token.clone();
+                let token_and_span = lexer.next();
 
-                        match new_token {
-                            Token::Doctype {
-                                ref mut raw_keyword,
-                                ref mut raw_name,
-                                ref mut public_quote,
-                                ref mut raw_public_keyword,
-                                ref mut system_quote,
-                                ref mut raw_system_keyword,
-                                ..
-                            } => {
-                                *raw_keyword = None;
-                                *raw_name = None;
-                                *public_quote = None;
-                                *raw_public_keyword = None;
-                                *system_quote = None;
-                                *raw_system_keyword = None;
-                            }
-                            Token::StartTag {
-                                ref mut raw_tag_name,
-                                ref mut attributes,
-                                ..
-                            } => {
-                                *raw_tag_name = None;
+                if token_and_span.is_none() {
+                    break;
+                }
 
-                                let mut new_attributes = vec![];
-                                let mut already_seen: AHashSet<JsWord> = Default::default();
+                let mut new_token = token_and_span.unwrap().token.clone();
 
-                                for mut attribute in take(attributes) {
-                                    if already_seen.contains(&attribute.name) {
-                                        continue;
-                                    }
-
-                                    already_seen.insert(attribute.name.clone());
-
-                                    if attribute.value.is_none() {
-                                        attribute.value = Some("".into());
-                                    }
-
-                                    attribute.span = Default::default();
-                                    attribute.raw_name = None;
-                                    attribute.raw_value = None;
-
-                                    new_attributes.push(attribute);
-                                }
-
-                                new_attributes.sort_by(|a, b| a.name.partial_cmp(&b.name).unwrap());
-
-                                *attributes = new_attributes;
-                            }
-                            Token::EndTag {
-                                ref mut raw_tag_name,
-                                ref mut attributes,
-                                ref mut self_closing,
-                                ..
-                            } => {
-                                *raw_tag_name = None;
-                                *self_closing = false;
-                                *attributes = vec![];
-                            }
-                            Token::Character { ref mut raw, .. } => {
-                                *raw = None;
-                            }
-                            _ => {}
-                        }
-
-                        actual_tokens.push(new_token);
+                match new_token {
+                    Token::Doctype {
+                        ref mut raw_keyword,
+                        ref mut raw_name,
+                        ref mut public_quote,
+                        ref mut raw_public_keyword,
+                        ref mut system_quote,
+                        ref mut raw_system_keyword,
+                        ..
+                    } => {
+                        *raw_keyword = None;
+                        *raw_name = None;
+                        *public_quote = None;
+                        *raw_public_keyword = None;
+                        *system_quote = None;
+                        *raw_system_keyword = None;
                     }
-                    Err(error) => match error.kind() {
-                        ErrorKind::Eof => {
-                            break;
+                    Token::StartTag {
+                        ref mut raw_tag_name,
+                        ref mut attributes,
+                        ..
+                    } => {
+                        *raw_tag_name = None;
+
+                        let mut new_attributes = vec![];
+                        let mut already_seen: AHashSet<JsWord> = Default::default();
+
+                        for mut attribute in take(attributes) {
+                            if already_seen.contains(&attribute.name) {
+                                continue;
+                            }
+
+                            already_seen.insert(attribute.name.clone());
+
+                            if attribute.value.is_none() {
+                                attribute.value = Some("".into());
+                            }
+
+                            attribute.span = Default::default();
+                            attribute.raw_name = None;
+                            attribute.raw_value = None;
+
+                            new_attributes.push(attribute);
                         }
-                        _ => {
-                            unreachable!();
-                        }
-                    },
-                };
+
+                        new_attributes.sort_by(|a, b| a.name.partial_cmp(&b.name).unwrap());
+
+                        *attributes = new_attributes;
+                    }
+                    Token::EndTag {
+                        ref mut raw_tag_name,
+                        ref mut attributes,
+                        ref mut self_closing,
+                        ..
+                    } => {
+                        *raw_tag_name = None;
+                        *self_closing = false;
+                        *attributes = vec![];
+                    }
+                    Token::Character { ref mut raw, .. } => {
+                        *raw = None;
+                    }
+                    _ => {}
+                }
+
+                actual_tokens.push(new_token);
             }
 
             let mut expected_tokens: Vec<Token> = vec![];
@@ -1176,7 +1165,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
         let json_path = input.parent().unwrap().join(file_stem.clone() + ".json");
         let fm = cm.load_file(&input).unwrap();
 
-        let lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default());
+        let lexer = Lexer::new(SourceFileInput::from(&*fm));
         let config = ParserConfig {
             scripting_enabled,
             iframe_srcdoc: false,

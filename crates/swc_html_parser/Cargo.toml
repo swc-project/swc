@@ -42,4 +42,8 @@ name = "compare"
 
 [[bench]]
 harness = false
+name = "lexer"
+
+[[bench]]
+harness = false
 name = "parser"

@@ -8,66 +8,8 @@ use swc_html_ast::{AttributeToken, Token, TokenAndSpan};
 
 use crate::{
     error::{Error, ErrorKind},
-    parser::{input::ParserInput, PResult, ParserConfig},
+    parser::input::ParserInput,
 };
-
-pub(crate) type LexResult<T> = Result<T, ErrorKind>;
-
-pub struct Lexer<I>
-where
-    I: Input,
-{
-    input: I,
-    cur: Option<char>,
-    cur_pos: BytePos,
-    start_pos: BytePos,
-    /// Used to override last_pos
-    last_pos: Option<BytePos>,
-    finished: bool,
-    state: State,
-    return_state: State,
-    errors: Vec<Error>,
-    pub last_start_tag_token: Option<Token>,
-    pending_tokens: Vec<TokenAndSpan>,
-    cur_token: Option<Token>,
-    attribute_start_position: Option<BytePos>,
-    character_reference_code: Option<Vec<(u8, u32, Option<char>)>>,
-    temporary_buffer: Option<String>,
-    is_adjusted_current_node_is_element_in_html_namespace: Option<bool>,
-    doctype_keyword: Option<String>,
-    last_emitted_error_pos: Option<BytePos>,
-}
-
-// TODO implement iterator as public API
-impl<I> Lexer<I>
-where
-    I: Input,
-{
-    pub fn new(input: I, _config: ParserConfig) -> Self {
-        let start_pos = input.last_pos();
-
-        Lexer {
-            input,
-            cur: None,
-            cur_pos: start_pos,
-            start_pos,
-            last_pos: None,
-            finished: false,
-            state: State::Data,
-            return_state: State::Data,
-            errors: vec![],
-            last_start_tag_token: None,
-            pending_tokens: vec![],
-            cur_token: None,
-            attribute_start_position: None,
-            character_reference_code: None,
-            temporary_buffer: None,
-            is_adjusted_current_node_is_element_in_html_namespace: None,
-            doctype_keyword: None,
-            last_emitted_error_pos: None,
-        }
-    }
-}
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Entity {
@@ -165,49 +107,95 @@ pub enum State {
     NumericCharacterReferenceEnd,
 }
 
-#[derive(Debug, Clone, Copy)]
-pub struct LexerState {
-    pos: BytePos,
+pub(crate) type LexResult<T> = Result<T, ErrorKind>;
+
+#[derive(Clone)]
+pub struct Lexer<I>
+where
+    I: Input,
+{
+    input: I,
+    cur: Option<char>,
+    cur_pos: BytePos,
+    start_pos: BytePos,
+    /// Used to override last_pos
+    last_pos: Option<BytePos>,
+    finished: bool,
+    state: State,
+    return_state: State,
+    errors: Vec<Error>,
+    last_start_tag_token: Option<Token>,
+    pending_tokens: Vec<TokenAndSpan>,
+    cur_token: Option<Token>,
+    attribute_start_position: Option<BytePos>,
+    character_reference_code: Option<Vec<(u8, u32, Option<char>)>>,
+    temporary_buffer: Option<String>,
+    is_adjusted_current_node_is_element_in_html_namespace: Option<bool>,
+    doctype_keyword: Option<String>,
+    last_emitted_error_pos: Option<BytePos>,
+}
+
+impl<I> Lexer<I>
+where
+    I: Input,
+{
+    pub fn new(input: I) -> Self {
+        let start_pos = input.last_pos();
+
+        Lexer {
+            input,
+            cur: None,
+            cur_pos: start_pos,
+            start_pos,
+            last_pos: None,
+            finished: false,
+            state: State::Data,
+            return_state: State::Data,
+            errors: vec![],
+            last_start_tag_token: None,
+            pending_tokens: vec![],
+            cur_token: None,
+            attribute_start_position: None,
+            character_reference_code: None,
+            temporary_buffer: None,
+            is_adjusted_current_node_is_element_in_html_namespace: None,
+            doctype_keyword: None,
+            last_emitted_error_pos: None,
+        }
+    }
+}
+
+impl<I: Input> Iterator for Lexer<I> {
+    type Item = TokenAndSpan;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        let token_and_span = self.read_token_and_span();
+
+        match token_and_span {
+            Ok(token_and_span) => {
+                return Some(token_and_span);
+            }
+            Err(..) => {
+                return None;
+            }
+        }
+    }
 }
 
 impl<I> ParserInput for Lexer<I>
 where
     I: Input,
 {
-    type State = LexerState;
-
-    fn next(&mut self) -> PResult<TokenAndSpan> {
-        let token_and_span = self.read_token_and_span();
-
-        match token_and_span {
-            Ok(token_and_span) => {
-                return Ok(token_and_span);
-            }
-            Err(kind) => {
-                let end = self.last_pos.take().unwrap_or_else(|| self.input.cur_pos());
-                let span = Span::new(self.start_pos, end, Default::default());
-
-                return Err(Error::new(span, kind));
-            }
-        }
-    }
-
     fn start_pos(&mut self) -> swc_common::BytePos {
         self.input.cur_pos()
     }
 
-    fn state(&mut self) -> Self::State {
-        LexerState {
-            pos: self.input.cur_pos(),
-        }
-    }
-
-    fn reset(&mut self, state: &Self::State) {
-        self.input.reset_to(state.pos);
-    }
-
     fn take_errors(&mut self) -> Vec<Error> {
         take(&mut self.errors)
+    }
+
+    fn set_last_start_tag_token(&mut self, token: Token) {
+        self.last_start_tag_token = Some(token);
     }
 
     fn set_adjusted_current_node_to_html_namespace(&mut self, value: bool) {
