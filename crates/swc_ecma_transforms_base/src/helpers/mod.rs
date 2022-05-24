@@ -73,7 +73,10 @@ macro_rules! add_import_to {
         if enable {
             let s = ImportSpecifier::Default(ImportDefaultSpecifier {
                 span: DUMMY_SP,
-                local: Ident::new(stringify!($name).into(), DUMMY_SP.apply_mark($mark)),
+                local: Ident::new(
+                    concat!("_", stringify!($name)).into(),
+                    DUMMY_SP.apply_mark($mark),
+                ),
             });
 
             let src = if stringify!(name).starts_with("ts_") {
@@ -197,7 +200,7 @@ macro_rules! define_helpers {
                 let mut buf = vec![];
 
                 HELPERS.with(|helpers|{
-                    debug_assert!(!helpers.external);
+                    debug_assert!(helpers.external);
                     $(
                             add_import_to!(buf, $name, helpers.inner.$name, helpers.mark.0);
                     )*
