@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _wrap_async_generator from "@swc/helpers/lib/_wrap_async_generator.js";
 import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(f1);
 // @target: esnext
@@ -21,7 +21,7 @@ function f2() {
     return _f2.apply(this, arguments);
 }
 function _f2() {
-    _f2 = swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+    _f2 = _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
@@ -40,7 +40,7 @@ function f3() {
     return _f3.apply(this, arguments);
 }
 function _f3() {
-    _f3 = swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+    _f3 = _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
@@ -59,7 +59,7 @@ function f4() {
     return _f4.apply(this, arguments);
 }
 function _f4() {
-    _f4 = swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+    _f4 = _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
         var ret;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){

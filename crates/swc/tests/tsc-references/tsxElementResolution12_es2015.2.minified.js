@@ -1,3 +1,3 @@
 var attributes;
-import * as swcHelpers from "@swc/helpers";
-swcHelpers.extends({}, attributes), swcHelpers.extends({}, {});
+import _extends from "@swc/helpers/lib/_extends.js";
+_extends({}, attributes), _extends({}, {});

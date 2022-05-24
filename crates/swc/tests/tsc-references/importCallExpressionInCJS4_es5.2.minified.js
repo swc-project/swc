@@ -1,26 +1,29 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 import regeneratorRuntime from "regenerator-runtime";
 export var B = function() {
     "use strict";
     function B() {
-        swcHelpers.classCallCheck(this, B);
+        _class_call_check(this, B);
     }
     return B.prototype.print = function() {
         return "I am B";
     }, B;
 }();
 function _foo() {
-    return (_foo = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    return (_foo = _async_to_generator(regeneratorRuntime.mark(function _callee() {
         var C, c;
         return regeneratorRuntime.wrap(function(_ctx) {
             for(;;)switch(_ctx.prev = _ctx.next){
                 case 0:
                     return _ctx.t0 = function(_B) {
                         "use strict";
-                        swcHelpers.inherits(C, _B);
-                        var _super = swcHelpers.createSuper(C);
+                        _inherits(C, _B);
+                        var _super = _create_super(C);
                         function C() {
-                            return swcHelpers.classCallCheck(this, C), _super.apply(this, arguments);
+                            return _class_call_check(this, C), _super.apply(this, arguments);
                         }
                         return C;
                     }, _ctx.next = 3, import("./0");

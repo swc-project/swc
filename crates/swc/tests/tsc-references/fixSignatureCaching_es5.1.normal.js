@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _instanceof from "@swc/helpers/lib/_instanceof.js";
 // Repro from #10697
 (function(define, undefined) {
     define(function() {
@@ -797,7 +797,7 @@ import * as swcHelpers from "@swc/helpers";
          * @returns {boolean} <tt>true</tt> when the pattern matches, otherwise <tt>false</tt>
          * @function MobileDetect#match
          */ match: function match(pattern) {
-                if (!swcHelpers._instanceof(pattern, RegExp)) {
+                if (!_instanceof(pattern, RegExp)) {
                     pattern = new RegExp(pattern, "i");
                 }
                 return pattern.test(this.ua);

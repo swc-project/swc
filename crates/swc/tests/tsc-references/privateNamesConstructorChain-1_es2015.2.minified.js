@@ -1,11 +1,13 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_private_field_get from "@swc/helpers/lib/_class_private_field_get.js";
+import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
+import _class_static_private_field_spec_get from "@swc/helpers/lib/_class_static_private_field_spec_get.js";
 var _foo = new WeakMap();
 class Parent {
     accessChildProps() {
-        swcHelpers.classPrivateFieldGet(new Child(), _foo), swcHelpers.classStaticPrivateFieldSpecGet(Child, Parent, _bar);
+        _class_private_field_get(new Child(), _foo), _class_static_private_field_spec_get(Child, Parent, _bar);
     }
     constructor(){
-        swcHelpers.classPrivateFieldInit(this, _foo, {
+        _class_private_field_init(this, _foo, {
             writable: !0,
             value: 3
         });
@@ -17,10 +19,10 @@ var _bar = {
 }, _foo1 = new WeakMap(), _bar1 = new WeakMap();
 class Child extends Parent {
     constructor(...args){
-        super(...args), swcHelpers.classPrivateFieldInit(this, _foo1, {
+        super(...args), _class_private_field_init(this, _foo1, {
             writable: !0,
             value: "foo"
-        }), swcHelpers.classPrivateFieldInit(this, _bar1, {
+        }), _class_private_field_init(this, _bar1, {
             writable: !0,
             value: "bar"
         });

@@ -1,4 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _define_property from "@swc/helpers/lib/_define_property.js";
 import regeneratorRuntime from "regenerator-runtime";
 // @target: es5
 // @lib: esnext, dom
@@ -6,9 +8,9 @@ import regeneratorRuntime from "regenerator-runtime";
 // https://github.com/Microsoft/TypeScript/issues/24722
 var A = function A() {
     "use strict";
-    swcHelpers.classCallCheck(this, A);
+    _class_call_check(this, A);
     var _this = this;
-    this.b = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    this.b = _async_to_generator(regeneratorRuntime.mark(function _callee() {
         var _len, args, _key, obj, _args = arguments;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -19,7 +21,7 @@ var A = function A() {
                     _ctx.next = 3;
                     return Promise.resolve();
                 case 3:
-                    obj = swcHelpers.defineProperty({}, "a", function() {
+                    obj = _define_property({}, "a", function() {
                         return _this;
                     }); // computed property name after `await` triggers case
                 case 4:

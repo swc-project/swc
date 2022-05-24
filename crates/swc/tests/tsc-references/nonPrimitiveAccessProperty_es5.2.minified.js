@@ -1,3 +1,3 @@
 var a;
-import * as swcHelpers from "@swc/helpers";
-a.toString(), a.nonExist(), a.destructuring, swcHelpers.extends({}, a);
+import _extends from "@swc/helpers/lib/_extends.js";
+a.toString(), a.nonExist(), a.destructuring, _extends({}, a);

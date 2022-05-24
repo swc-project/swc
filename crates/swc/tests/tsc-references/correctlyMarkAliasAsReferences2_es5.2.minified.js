@@ -1,7 +1,7 @@
 var buttonProps;
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 import * as cx from "classnames";
 import * as React from "react";
-swcHelpers.extends({}, buttonProps), cx("class1", {
+_extends({}, buttonProps), cx("class1", {
     class2: !0
 });

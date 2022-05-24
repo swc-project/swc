@@ -1,23 +1,23 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @declaration: true
 var Foo = function Foo(x) {
     "use strict";
-    swcHelpers.classCallCheck(this, Foo);
+    _class_call_check(this, Foo);
     this.x = x;
 };
 var Bar = function Bar(x) {
     "use strict";
-    swcHelpers.classCallCheck(this, Bar);
+    _class_call_check(this, Bar);
     this.x = x;
 };
 var Baz = function Baz(x) {
     "use strict";
-    swcHelpers.classCallCheck(this, Baz);
+    _class_call_check(this, Baz);
     this.x = x;
 };
 var Qux = function Qux(x) {
     "use strict";
-    swcHelpers.classCallCheck(this, Qux);
+    _class_call_check(this, Qux);
     this.x = x;
 };
 // b is public

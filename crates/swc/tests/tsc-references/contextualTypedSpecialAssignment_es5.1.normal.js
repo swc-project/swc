@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @checkJs: true
 // @allowJs: true
 // @noEmit: true
@@ -22,7 +22,7 @@ ns.x;
 var Thing = /*#__PURE__*/ function() {
     "use strict";
     function Thing() {
-        swcHelpers.classCallCheck(this, Thing);
+        _class_call_check(this, Thing);
         /** @type {DoneStatus} */ this.s = {
             status: "done",
             m: function m(n) {}

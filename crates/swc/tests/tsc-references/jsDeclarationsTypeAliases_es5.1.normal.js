@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 /**
  * @typedef {string | number | symbol} PropName 
  */ /**
@@ -30,7 +30,7 @@ import * as swcHelpers from "@swc/helpers";
 }
 var ExportedThing = function ExportedThing() {
     "use strict";
-    swcHelpers.classCallCheck(this, ExportedThing);
+    _class_call_check(this, ExportedThing);
     this.z = "ok";
 };
 module.exports = {
@@ -39,7 +39,7 @@ module.exports = {
 };
 var LocalThing = function LocalThing() {
     "use strict";
-    swcHelpers.classCallCheck(this, LocalThing);
+    _class_call_check(this, LocalThing);
     this.y = "ok";
 };
 // @allowJs: true

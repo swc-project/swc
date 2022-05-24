@@ -1,19 +1,20 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _instanceof from "@swc/helpers/lib/_instanceof.js";
 var A = function A() {
     "use strict";
-    swcHelpers.classCallCheck(this, A);
+    _class_call_check(this, A);
 };
 var B = function B() {
     "use strict";
-    swcHelpers.classCallCheck(this, B);
+    _class_call_check(this, B);
 };
 var C = function C() {
     "use strict";
-    swcHelpers.classCallCheck(this, C);
+    _class_call_check(this, C);
 };
 var D = function D() {
     "use strict";
-    swcHelpers.classCallCheck(this, D);
+    _class_call_check(this, D);
 };
 function namedClasses(x) {
     if ("a" in x) {
@@ -38,17 +39,17 @@ function anonymousClasses(x) {
 }
 var AWithOptionalProp = function AWithOptionalProp() {
     "use strict";
-    swcHelpers.classCallCheck(this, AWithOptionalProp);
+    _class_call_check(this, AWithOptionalProp);
 };
 var BWithOptionalProp = function BWithOptionalProp() {
     "use strict";
-    swcHelpers.classCallCheck(this, BWithOptionalProp);
+    _class_call_check(this, BWithOptionalProp);
 };
 function positiveTestClassesWithOptionalProperties(x) {
     if ("a" in x) {
         x.a = "1";
     } else {
-        var y = swcHelpers._instanceof(x, AWithOptionalProp) ? x.a : x.b;
+        var y = _instanceof(x, AWithOptionalProp) ? x.a : x.b;
     }
 }
 function inParenthesizedExpression(x) {
@@ -60,7 +61,7 @@ function inParenthesizedExpression(x) {
 }
 var ClassWithUnionProp = function ClassWithUnionProp() {
     "use strict";
-    swcHelpers.classCallCheck(this, ClassWithUnionProp);
+    _class_call_check(this, ClassWithUnionProp);
 };
 function inProperty(x) {
     if ("a" in x.prop) {
@@ -71,7 +72,7 @@ function inProperty(x) {
 }
 var NestedClassWithProp = function NestedClassWithProp() {
     "use strict";
-    swcHelpers.classCallCheck(this, NestedClassWithProp);
+    _class_call_check(this, NestedClassWithProp);
 };
 function innestedProperty(x) {
     if ("a" in x.outer.prop) {
@@ -83,7 +84,7 @@ function innestedProperty(x) {
 var InMemberOfClass = /*#__PURE__*/ function() {
     "use strict";
     function InMemberOfClass() {
-        swcHelpers.classCallCheck(this, InMemberOfClass);
+        _class_call_check(this, InMemberOfClass);
     }
     var _proto = InMemberOfClass.prototype;
     _proto.inThis = function inThis() {
@@ -99,7 +100,7 @@ var InMemberOfClass = /*#__PURE__*/ function() {
 var SelfAssert = /*#__PURE__*/ function() {
     "use strict";
     function SelfAssert() {
-        swcHelpers.classCallCheck(this, SelfAssert);
+        _class_call_check(this, SelfAssert);
     }
     var _proto = SelfAssert.prototype;
     _proto.inThis = function inThis() {

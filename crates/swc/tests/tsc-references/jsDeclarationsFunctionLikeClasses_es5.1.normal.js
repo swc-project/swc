@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _instanceof from "@swc/helpers/lib/_instanceof.js";
 // @allowJs: true
 // @checkJs: true
 // @target: es5
@@ -9,7 +9,7 @@ import * as swcHelpers from "@swc/helpers";
  * @param {number} x
  * @param {number} y
  */ export function Point(x, y) {
-    if (!swcHelpers._instanceof(this, Point)) {
+    if (!_instanceof(this, Point)) {
         return new Point(x, y);
     }
     this.x = x;

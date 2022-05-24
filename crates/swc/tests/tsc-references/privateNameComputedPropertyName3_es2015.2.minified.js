@@ -1,25 +1,27 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_private_field_get from "@swc/helpers/lib/_class_private_field_get.js";
+import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
+import _class_private_field_set from "@swc/helpers/lib/_class_private_field_set.js";
 var _name = new WeakMap();
 console.log(new class {
     getValue(x) {
         var _y = new WeakMap();
-        let tmp = swcHelpers.classPrivateFieldGet(this, _name);
+        let tmp = _class_private_field_get(this, _name);
         return new class {
             [tmp]() {
-                return x + swcHelpers.classPrivateFieldGet(this, _y);
+                return x + _class_private_field_get(this, _y);
             }
             constructor(){
-                swcHelpers.classPrivateFieldInit(this, _y, {
+                _class_private_field_init(this, _y, {
                     writable: !0,
                     value: 100
                 });
             }
-        }()[swcHelpers.classPrivateFieldGet(this, _name)]();
+        }()[_class_private_field_get(this, _name)]();
     }
     constructor(name){
-        swcHelpers.classPrivateFieldInit(this, _name, {
+        _class_private_field_init(this, _name, {
             writable: !0,
             value: void 0
-        }), swcHelpers.classPrivateFieldSet(this, _name, name);
+        }), _class_private_field_set(this, _name, name);
     }
 }("NAME").getValue(100));

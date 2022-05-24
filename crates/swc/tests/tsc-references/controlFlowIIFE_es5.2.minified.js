@@ -1,5 +1,5 @@
 var maybeNumber, test;
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
 import regeneratorRuntime from "regenerator-runtime";
 if (maybeNumber = 1, ++maybeNumber, maybeNumber++, !test) throw new Error("Test is not defined");
 test.slice(1);

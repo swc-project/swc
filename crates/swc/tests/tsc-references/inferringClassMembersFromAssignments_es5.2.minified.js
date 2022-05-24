@@ -1,9 +1,9 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var C = function() {
     "use strict";
     function C() {
         var _this = this;
-        swcHelpers.classCallCheck(this, C), this.prop = function() {
+        _class_call_check(this, C), this.prop = function() {
             Math.random() ? _this.inPropertyDeclaration = 0 : _this.inPropertyDeclaration = "string";
         }, Math.random() ? this.inConstructor = 0 : this.inConstructor = "string", this.inMultiple = 0;
     }

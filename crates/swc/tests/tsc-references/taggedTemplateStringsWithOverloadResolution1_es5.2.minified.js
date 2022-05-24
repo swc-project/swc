@@ -1,6 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
+import _tagged_template_literal from "@swc/helpers/lib/_tagged_template_literal.js";
 function _templateObject() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         ""
     ]);
     return _templateObject = function _templateObject() {
@@ -8,7 +8,7 @@ function _templateObject() {
     }, data;
 }
 function _templateObject1() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         "",
         ""
     ]);
@@ -17,7 +17,7 @@ function _templateObject1() {
     }, data;
 }
 function _templateObject2() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         "",
         "",
         ""
@@ -27,7 +27,7 @@ function _templateObject2() {
     }, data;
 }
 function _templateObject3() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         "",
         "",
         ""
@@ -37,7 +37,7 @@ function _templateObject3() {
     }, data;
 }
 function _templateObject4() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         "",
         "",
         ""
@@ -47,7 +47,7 @@ function _templateObject4() {
     }, data;
 }
 function _templateObject5() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         "",
         "",
         "",

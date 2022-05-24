@@ -1,27 +1,29 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 // @strictNullChecks: true
 // @declaration: true
 var Shape = function Shape() {
     "use strict";
-    swcHelpers.classCallCheck(this, Shape);
+    _class_call_check(this, Shape);
 };
 var TaggedShape = /*#__PURE__*/ function(Shape) {
     "use strict";
-    swcHelpers.inherits(TaggedShape, Shape);
-    var _super = swcHelpers.createSuper(TaggedShape);
+    _inherits(TaggedShape, Shape);
+    var _super = _create_super(TaggedShape);
     function TaggedShape() {
-        swcHelpers.classCallCheck(this, TaggedShape);
+        _class_call_check(this, TaggedShape);
         return _super.apply(this, arguments);
     }
     return TaggedShape;
 }(Shape);
 var Item = function Item() {
     "use strict";
-    swcHelpers.classCallCheck(this, Item);
+    _class_call_check(this, Item);
 };
 var Options = function Options() {
     "use strict";
-    swcHelpers.classCallCheck(this, Options);
+    _class_call_check(this, Options);
 };
 var E;
 (function(E) {
@@ -60,7 +62,7 @@ function f13(foo, bar) {
 var Component = /*#__PURE__*/ function() {
     "use strict";
     function Component() {
-        swcHelpers.classCallCheck(this, Component);
+        _class_call_check(this, Component);
     }
     var _proto = Component.prototype;
     _proto.getProperty = function getProperty(key) {
@@ -118,7 +120,7 @@ function f34(ts) {
 }
 var C = function C() {
     "use strict";
-    swcHelpers.classCallCheck(this, C);
+    _class_call_check(this, C);
 };
 // Indexed access expressions have always permitted access to private and protected members.
 // For consistency we also permit such access in indexed access types.
@@ -271,7 +273,7 @@ function f84() {
 var C1 = /*#__PURE__*/ function() {
     "use strict";
     function C1() {
-        swcHelpers.classCallCheck(this, C1);
+        _class_call_check(this, C1);
     }
     var _proto = C1.prototype;
     _proto.get = function get(key) {
@@ -319,7 +321,7 @@ function f92(x, y, z) {
 var Base = /*#__PURE__*/ function() {
     "use strict";
     function Base() {
-        swcHelpers.classCallCheck(this, Base);
+        _class_call_check(this, Base);
     }
     var _proto = Base.prototype;
     _proto.get = function get(prop) {
@@ -332,10 +334,10 @@ var Base = /*#__PURE__*/ function() {
 }();
 var Person = /*#__PURE__*/ function(Base) {
     "use strict";
-    swcHelpers.inherits(Person, Base);
-    var _super = swcHelpers.createSuper(Person);
+    _inherits(Person, Base);
+    var _super = _create_super(Person);
     function Person(parts) {
-        swcHelpers.classCallCheck(this, Person);
+        _class_call_check(this, Person);
         var _this;
         _this = _super.call(this);
         _this.set("parts", parts);
@@ -350,7 +352,7 @@ var Person = /*#__PURE__*/ function(Base) {
 var OtherPerson = /*#__PURE__*/ function() {
     "use strict";
     function OtherPerson(parts) {
-        swcHelpers.classCallCheck(this, OtherPerson);
+        _class_call_check(this, OtherPerson);
         setProperty(this, "parts", parts);
     }
     var _proto = OtherPerson.prototype;
@@ -466,14 +468,14 @@ function updateIds2(obj, key, stringMap) {
 // Repro from #13604
 var A = function A() {
     "use strict";
-    swcHelpers.classCallCheck(this, A);
+    _class_call_check(this, A);
 };
 var B = /*#__PURE__*/ function(A) {
     "use strict";
-    swcHelpers.inherits(B, A);
-    var _super = swcHelpers.createSuper(B);
+    _inherits(B, A);
+    var _super = _create_super(B);
     function B() {
-        swcHelpers.classCallCheck(this, B);
+        _class_call_check(this, B);
         return _super.apply(this, arguments);
     }
     var _proto = B.prototype;
@@ -486,7 +488,7 @@ var B = /*#__PURE__*/ function(A) {
 var Form = /*#__PURE__*/ function() {
     "use strict";
     function Form() {
-        swcHelpers.classCallCheck(this, Form);
+        _class_call_check(this, Form);
     }
     var _proto = Form.prototype;
     _proto.set = function set(prop, value) {
@@ -497,15 +499,15 @@ var Form = /*#__PURE__*/ function() {
 // Repro from #13787
 var SampleClass = function SampleClass(props) {
     "use strict";
-    swcHelpers.classCallCheck(this, SampleClass);
+    _class_call_check(this, SampleClass);
     this.props = Object.freeze(props);
 };
 var AnotherSampleClass = /*#__PURE__*/ function(SampleClass) {
     "use strict";
-    swcHelpers.inherits(AnotherSampleClass, SampleClass);
-    var _super = swcHelpers.createSuper(AnotherSampleClass);
+    _inherits(AnotherSampleClass, SampleClass);
+    var _super = _create_super(AnotherSampleClass);
     function AnotherSampleClass(props) {
-        swcHelpers.classCallCheck(this, AnotherSampleClass);
+        _class_call_check(this, AnotherSampleClass);
         var foo = {
             foo: "bar"
         };
@@ -545,7 +547,7 @@ function fn(o, k) {
 var Unbounded = /*#__PURE__*/ function() {
     "use strict";
     function Unbounded() {
-        swcHelpers.classCallCheck(this, Unbounded);
+        _class_call_check(this, Unbounded);
     }
     var _proto = Unbounded.prototype;
     _proto.foo = function foo(x) {

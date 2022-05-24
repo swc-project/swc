@@ -1,26 +1,27 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _instanceof from "@swc/helpers/lib/_instanceof.js";
 var A = function A(a) {
     "use strict";
-    swcHelpers.classCallCheck(this, A);
+    _class_call_check(this, A);
     this.a = a;
 };
 var B = function B() {
     "use strict";
-    swcHelpers.classCallCheck(this, B);
+    _class_call_check(this, B);
 };
 function acceptA(a) {}
 function acceptB(b) {}
 function test(x) {
-    if (swcHelpers._instanceof(x, B)) {
+    if (_instanceof(x, B)) {
         acceptA(x);
     }
-    if (swcHelpers._instanceof(x, A)) {
+    if (_instanceof(x, A)) {
         acceptA(x);
     }
-    if (swcHelpers._instanceof(x, B)) {
+    if (_instanceof(x, B)) {
         acceptB(x);
     }
-    if (swcHelpers._instanceof(x, B)) {
+    if (_instanceof(x, B)) {
         acceptB(x);
     }
 }

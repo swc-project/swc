@@ -1,10 +1,12 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var Component = function(ReactComponent) {
     "use strict";
-    swcHelpers.inherits(Component, ReactComponent);
-    var _super = swcHelpers.createSuper(Component);
+    _inherits(Component, ReactComponent);
+    var _super = _create_super(Component);
     function Component() {
-        return swcHelpers.classCallCheck(this, Component), _super.apply(this, arguments);
+        return _class_call_check(this, Component), _super.apply(this, arguments);
     }
     return Component;
 }(ReactComponent);
@@ -17,10 +19,10 @@ Component.propTypes = {
 };
 var JustPropTypes = function(ReactComponent) {
     "use strict";
-    swcHelpers.inherits(JustPropTypes, ReactComponent);
-    var _super = swcHelpers.createSuper(JustPropTypes);
+    _inherits(JustPropTypes, ReactComponent);
+    var _super = _create_super(JustPropTypes);
     function JustPropTypes() {
-        return swcHelpers.classCallCheck(this, JustPropTypes), _super.apply(this, arguments);
+        return _class_call_check(this, JustPropTypes), _super.apply(this, arguments);
     }
     return JustPropTypes;
 }(ReactComponent);
@@ -30,10 +32,10 @@ JustPropTypes.propTypes = {
 };
 var JustDefaultProps = function(ReactComponent) {
     "use strict";
-    swcHelpers.inherits(JustDefaultProps, ReactComponent);
-    var _super = swcHelpers.createSuper(JustDefaultProps);
+    _inherits(JustDefaultProps, ReactComponent);
+    var _super = _create_super(JustDefaultProps);
     function JustDefaultProps() {
-        return swcHelpers.classCallCheck(this, JustDefaultProps), _super.apply(this, arguments);
+        return _class_call_check(this, JustDefaultProps), _super.apply(this, arguments);
     }
     return JustDefaultProps;
 }(ReactComponent);
@@ -42,10 +44,10 @@ JustDefaultProps.defaultProps = {
 };
 var BothWithSpecifiedGeneric = function(ReactComponent) {
     "use strict";
-    swcHelpers.inherits(BothWithSpecifiedGeneric, ReactComponent);
-    var _super = swcHelpers.createSuper(BothWithSpecifiedGeneric);
+    _inherits(BothWithSpecifiedGeneric, ReactComponent);
+    var _super = _create_super(BothWithSpecifiedGeneric);
     function BothWithSpecifiedGeneric() {
-        return swcHelpers.classCallCheck(this, BothWithSpecifiedGeneric), _super.apply(this, arguments);
+        return _class_call_check(this, BothWithSpecifiedGeneric), _super.apply(this, arguments);
     }
     return BothWithSpecifiedGeneric;
 }(ReactComponent);
@@ -58,10 +60,10 @@ BothWithSpecifiedGeneric.propTypes = {
 };
 var JustPropTypesWithSpecifiedGeneric = function(ReactComponent) {
     "use strict";
-    swcHelpers.inherits(JustPropTypesWithSpecifiedGeneric, ReactComponent);
-    var _super = swcHelpers.createSuper(JustPropTypesWithSpecifiedGeneric);
+    _inherits(JustPropTypesWithSpecifiedGeneric, ReactComponent);
+    var _super = _create_super(JustPropTypesWithSpecifiedGeneric);
     function JustPropTypesWithSpecifiedGeneric() {
-        return swcHelpers.classCallCheck(this, JustPropTypesWithSpecifiedGeneric), _super.apply(this, arguments);
+        return _class_call_check(this, JustPropTypesWithSpecifiedGeneric), _super.apply(this, arguments);
     }
     return JustPropTypesWithSpecifiedGeneric;
 }(ReactComponent);
@@ -71,10 +73,10 @@ JustPropTypesWithSpecifiedGeneric.propTypes = {
 };
 var JustDefaultPropsWithSpecifiedGeneric = function(ReactComponent) {
     "use strict";
-    swcHelpers.inherits(JustDefaultPropsWithSpecifiedGeneric, ReactComponent);
-    var _super = swcHelpers.createSuper(JustDefaultPropsWithSpecifiedGeneric);
+    _inherits(JustDefaultPropsWithSpecifiedGeneric, ReactComponent);
+    var _super = _create_super(JustDefaultPropsWithSpecifiedGeneric);
     function JustDefaultPropsWithSpecifiedGeneric() {
-        return swcHelpers.classCallCheck(this, JustDefaultPropsWithSpecifiedGeneric), _super.apply(this, arguments);
+        return _class_call_check(this, JustDefaultPropsWithSpecifiedGeneric), _super.apply(this, arguments);
     }
     return JustDefaultPropsWithSpecifiedGeneric;
 }(ReactComponent);

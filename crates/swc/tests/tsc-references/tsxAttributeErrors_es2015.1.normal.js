@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 // Error, number is not assignable to string
 /*#__PURE__*/ React.createElement("div", {
     text: 42
@@ -11,7 +11,7 @@ import * as swcHelpers from "@swc/helpers";
 var attribs = {
     text: 100
 };
-/*#__PURE__*/ React.createElement("div", swcHelpers.extends({}, attribs));
+/*#__PURE__*/ React.createElement("div", _extends({}, attribs));
 // No errors here
 /*#__PURE__*/ React.createElement("span", {
     foo: "bar",

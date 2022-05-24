@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
@@ -30,7 +30,7 @@ var _sort;
 my.predicate.type = /*#__PURE__*/ function() {
     "use strict";
     function _class() {
-        swcHelpers.classCallCheck(this, _class);
+        _class_call_check(this, _class);
     }
     var _proto = _class.prototype;
     _proto.m = function m() {
@@ -46,7 +46,7 @@ min.nest = (_nest = this.min.nest) !== null && _nest !== void 0 ? _nest : functi
 var _other;
 min.nest.other = (_other = self.min.nest.other) !== null && _other !== void 0 ? _other : function _class() {
     "use strict";
-    swcHelpers.classCallCheck(this, _class);
+    _class_call_check(this, _class);
 };
 var _property;
 min.property = (_property = global.min.property) !== null && _property !== void 0 ? _property : {};

@@ -1,11 +1,11 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // expect no errors here
 var A;
 (function(A1) {
     var x1 = A1.x = "hello world";
     var Point = function Point(x, y) {
         "use strict";
-        swcHelpers.classCallCheck(this, Point);
+        _class_call_check(this, Point);
         this.x = x;
         this.y = y;
     };
@@ -29,7 +29,7 @@ var X;
     (function(Y) {
         var Point = function Point(x, y) {
             "use strict";
-            swcHelpers.classCallCheck(this, Point);
+            _class_call_check(this, Point);
             this.x = x;
             this.y = y;
         };
@@ -48,7 +48,7 @@ var K;
 (function(K1) {
     var L = function L(name) {
         "use strict";
-        swcHelpers.classCallCheck(this, L);
+        _class_call_check(this, L);
         this.name = name;
     };
     K1.L = L;

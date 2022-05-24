@@ -1,5 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
-var ref = swcHelpers.slicedToArray({
+import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
+var ref = _sliced_to_array({
     0: "",
     1: !0
 }, 2);

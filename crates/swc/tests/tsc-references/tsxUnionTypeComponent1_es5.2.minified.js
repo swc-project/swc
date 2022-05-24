@@ -1,10 +1,12 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var React = require("react"), MyComponent = function(_Component) {
     "use strict";
-    swcHelpers.inherits(MyComponent, _Component);
-    var _super = swcHelpers.createSuper(MyComponent);
+    _inherits(MyComponent, _Component);
+    var _super = _create_super(MyComponent);
     function MyComponent() {
-        return swcHelpers.classCallCheck(this, MyComponent), _super.apply(this, arguments);
+        return _class_call_check(this, MyComponent), _super.apply(this, arguments);
     }
     return MyComponent.prototype.render = function() {
         var AnyComponent = this.props.AnyComponent;
@@ -12,10 +14,10 @@ var React = require("react"), MyComponent = function(_Component) {
     }, MyComponent;
 }(React.Component), MyButtonComponent = function(_Component) {
     "use strict";
-    swcHelpers.inherits(MyButtonComponent, _Component);
-    var _super = swcHelpers.createSuper(MyButtonComponent);
+    _inherits(MyButtonComponent, _Component);
+    var _super = _create_super(MyButtonComponent);
     function MyButtonComponent() {
-        return swcHelpers.classCallCheck(this, MyButtonComponent), _super.apply(this, arguments);
+        return _class_call_check(this, MyButtonComponent), _super.apply(this, arguments);
     }
     return MyButtonComponent;
 }(React.Component);

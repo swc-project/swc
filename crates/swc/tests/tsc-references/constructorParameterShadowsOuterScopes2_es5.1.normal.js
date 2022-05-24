@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @target: esnext
 // @useDefineForClassFields: true
 // With useDefineForClassFields: true and ESNext target, initializer
@@ -13,21 +13,21 @@ import * as swcHelpers from "@swc/helpers";
 var x = 1;
 var C = function C(x1) {
     "use strict";
-    swcHelpers.classCallCheck(this, C);
+    _class_call_check(this, C);
     this.b = x // ok
     ;
 };
 var y = 1;
 var D = function D(x) {
     "use strict";
-    swcHelpers.classCallCheck(this, D);
+    _class_call_check(this, D);
     this.b = y // ok
     ;
     var y1 = "";
 };
 var E = function E(z1) {
     "use strict";
-    swcHelpers.classCallCheck(this, E);
+    _class_call_check(this, E);
     this.b = z // not ok
     ;
 };

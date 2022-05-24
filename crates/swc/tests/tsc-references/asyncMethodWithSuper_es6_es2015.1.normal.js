@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
+import _wrap_async_generator from "@swc/helpers/lib/_wrap_async_generator.js";
 // @target: ES6
 // @lib: esnext
 // @noEmitHelpers: true
@@ -13,7 +14,7 @@ class B extends A {
         _superprop_get_x = ()=>super.x, // call additional property.
         _superprop_get_y = ()=>super.y, // call with element access
         _superprop_get = (_prop)=>super[_prop];
-        return swcHelpers.asyncToGenerator(function*() {
+        return _async_to_generator(function*() {
             _superprop_get_x().call(_this);
             _superprop_get_y().call(_this);
             _superprop_get("x").call(_this);
@@ -30,7 +31,7 @@ class B extends A {
         _superprop_get = (_prop)=>super[_prop], // property access (assign)
         _superprop_set_x = (_value)=>super.x = _value, // element access (assign)
         _superprop_set = (_prop, _value)=>super[_prop] = _value;
-        return swcHelpers.asyncToGenerator(function*() {
+        return _async_to_generator(function*() {
             const f = ()=>{};
             _superprop_get_x().call(_this);
             _superprop_get("x").call(_this);
@@ -53,11 +54,11 @@ class B extends A {
             // element access in arrow
             (()=>_superprop_get("x").call(_this));
             // property access in async arrow
-            swcHelpers.asyncToGenerator(function*() {
+            _async_to_generator(function*() {
                 return _superprop_get_x().call(_this);
             });
             // element access in async arrow
-            swcHelpers.asyncToGenerator(function*() {
+            _async_to_generator(function*() {
                 return _superprop_get("x").call(_this);
             });
         })();
@@ -65,14 +66,14 @@ class B extends A {
     property_access_only_read_only() {
         var _this = this, // call with property access
         _superprop_get_x = ()=>super.x;
-        return swcHelpers.asyncToGenerator(function*() {
+        return _async_to_generator(function*() {
             _superprop_get_x().call(_this);
             // property access (read)
             const a = _superprop_get_x();
             // property access in arrow
             (()=>_superprop_get_x().call(_this));
             // property access in async arrow
-            swcHelpers.asyncToGenerator(function*() {
+            _async_to_generator(function*() {
                 return _superprop_get_x().call(_this);
             });
         })();
@@ -80,7 +81,7 @@ class B extends A {
     property_access_only_write_only() {
         var _superprop_get_x = ()=>super.x, // property access (assign)
         _superprop_set_x = (_value)=>super.x = _value;
-        return swcHelpers.asyncToGenerator(function*() {
+        return _async_to_generator(function*() {
             const f = ()=>{};
             _superprop_set_x(f);
             // destructuring assign with property access
@@ -90,7 +91,7 @@ class B extends A {
             // property access (assign) in arrow
             (()=>_superprop_set_x(f));
             // property access (assign) in async arrow
-            swcHelpers.asyncToGenerator(function*() {
+            _async_to_generator(function*() {
                 return _superprop_set_x(f);
             });
         })();
@@ -98,14 +99,14 @@ class B extends A {
     element_access_only_read_only() {
         var _this = this, // call with element access
         _superprop_get = (_prop)=>super[_prop];
-        return swcHelpers.asyncToGenerator(function*() {
+        return _async_to_generator(function*() {
             _superprop_get("x").call(_this);
             // element access (read)
             const a = _superprop_get("x");
             // element access in arrow
             (()=>_superprop_get("x").call(_this));
             // element access in async arrow
-            swcHelpers.asyncToGenerator(function*() {
+            _async_to_generator(function*() {
                 return _superprop_get("x").call(_this);
             });
         })();
@@ -113,7 +114,7 @@ class B extends A {
     element_access_only_write_only() {
         var _superprop_get = (_prop)=>super[_prop], // element access (assign)
         _superprop_set = (_prop, _value)=>super[_prop] = _value;
-        return swcHelpers.asyncToGenerator(function*() {
+        return _async_to_generator(function*() {
             const f = ()=>{};
             _superprop_set("x", f);
             // destructuring assign with element access
@@ -123,7 +124,7 @@ class B extends A {
             // element access (assign) in arrow
             (()=>_superprop_set("x", f));
             // element access (assign) in async arrow
-            swcHelpers.asyncToGenerator(function*() {
+            _async_to_generator(function*() {
                 return _superprop_set("x", f);
             });
         })();
@@ -131,14 +132,14 @@ class B extends A {
     property_access_only_read_only_in_generator() {
         var _this = this, // call with property access
         _superprop_get_x = ()=>super.x;
-        return swcHelpers.wrapAsyncGenerator(function*() {
+        return _wrap_async_generator(function*() {
             _superprop_get_x().call(_this);
             // property access (read)
             const a = _superprop_get_x();
             // property access in arrow
             (()=>_superprop_get_x().call(_this));
             // property access in async arrow
-            swcHelpers.asyncToGenerator(function*() {
+            _async_to_generator(function*() {
                 return _superprop_get_x().call(_this);
             });
         })();
@@ -146,7 +147,7 @@ class B extends A {
     property_access_only_write_only_in_generator() {
         var _superprop_get_x = ()=>super.x, // property access (assign)
         _superprop_set_x = (_value)=>super.x = _value;
-        return swcHelpers.wrapAsyncGenerator(function*() {
+        return _wrap_async_generator(function*() {
             const f = ()=>{};
             _superprop_set_x(f);
             // destructuring assign with property access
@@ -156,7 +157,7 @@ class B extends A {
             // property access (assign) in arrow
             (()=>_superprop_set_x(f));
             // property access (assign) in async arrow
-            swcHelpers.asyncToGenerator(function*() {
+            _async_to_generator(function*() {
                 return _superprop_set_x(f);
             });
         })();
@@ -164,14 +165,14 @@ class B extends A {
     element_access_only_read_only_in_generator() {
         var _this = this, // call with element access
         _superprop_get = (_prop)=>super[_prop];
-        return swcHelpers.wrapAsyncGenerator(function*() {
+        return _wrap_async_generator(function*() {
             _superprop_get("x").call(_this);
             // element access (read)
             const a = _superprop_get("x");
             // element access in arrow
             (()=>_superprop_get("x").call(_this));
             // element access in async arrow
-            swcHelpers.asyncToGenerator(function*() {
+            _async_to_generator(function*() {
                 return _superprop_get("x").call(_this);
             });
         })();
@@ -179,7 +180,7 @@ class B extends A {
     element_access_only_write_only_in_generator() {
         var _superprop_get = (_prop)=>super[_prop], // element access (assign)
         _superprop_set = (_prop, _value)=>super[_prop] = _value;
-        return swcHelpers.wrapAsyncGenerator(function*() {
+        return _wrap_async_generator(function*() {
             const f = ()=>{};
             _superprop_set("x", f);
             // destructuring assign with element access
@@ -189,7 +190,7 @@ class B extends A {
             // element access (assign) in arrow
             (()=>_superprop_set("x", f));
             // element access (assign) in async arrow
-            swcHelpers.asyncToGenerator(function*() {
+            _async_to_generator(function*() {
                 return _superprop_set("x", f);
             });
         })();

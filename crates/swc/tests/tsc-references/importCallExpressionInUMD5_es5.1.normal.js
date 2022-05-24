@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
 import regeneratorRuntime from "regenerator-runtime";
 // @module: umd
 // @target: es2015
@@ -12,7 +12,7 @@ function func() {
 function _func() {
     _func = // @filename: 1.ts
     // https://github.com/microsoft/TypeScript/issues/36780
-    swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    _async_to_generator(regeneratorRuntime.mark(function _callee() {
         var packageName, packageJson;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){

@@ -1,10 +1,12 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 export var ShortDetails = /*#__PURE__*/ function(_Component) {
     "use strict";
-    swcHelpers.inherits(ShortDetails, _Component);
-    var _super = swcHelpers.createSuper(ShortDetails);
+    _inherits(ShortDetails, _Component);
+    var _super = _create_super(ShortDetails);
     function ShortDetails() {
-        swcHelpers.classCallCheck(this, ShortDetails);
+        _class_call_check(this, ShortDetails);
         return _super.apply(this, arguments);
     }
     var _proto = ShortDetails.prototype;

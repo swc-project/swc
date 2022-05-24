@@ -1,12 +1,13 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _instanceof from "@swc/helpers/lib/_instanceof.js";
 // @strictNullChecks: true
 // Type guards involving type parameters produce intersection types
 var C = function C() {
     "use strict";
-    swcHelpers.classCallCheck(this, C);
+    _class_call_check(this, C);
 };
 function f1(x) {
-    if (swcHelpers._instanceof(x, C)) {
+    if (_instanceof(x, C)) {
         var v1 = x;
         var v2 = x;
         x.prop;

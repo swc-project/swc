@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 // @filename: file.tsx
 // @jsx: preserve
 // @module: amd
@@ -12,7 +12,7 @@ function Baz(key1, value) {
         key1: key1,
         value: value
     });
-    let a1 = /*#__PURE__*/ React.createElement(ComponentWithTwoAttributes, swcHelpers.extends({}, {
+    let a1 = /*#__PURE__*/ React.createElement(ComponentWithTwoAttributes, _extends({}, {
         key1,
         value: value
     }, {

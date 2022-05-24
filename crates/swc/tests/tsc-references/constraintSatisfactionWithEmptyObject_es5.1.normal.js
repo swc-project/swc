@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // valid uses of a basic object constraint, no errors expected
 // Object constraint
 function foo(x) {}
@@ -7,7 +7,7 @@ var a = {};
 var r = foo({});
 var C = function C(x) {
     "use strict";
-    swcHelpers.classCallCheck(this, C);
+    _class_call_check(this, C);
     this.x = x;
 };
 var r2 = new C({});
@@ -19,7 +19,7 @@ var a = {};
 var r = foo2({});
 var C2 = function C2(x) {
     "use strict";
-    swcHelpers.classCallCheck(this, C2);
+    _class_call_check(this, C2);
     this.x = x;
 };
 var r2 = new C2({});

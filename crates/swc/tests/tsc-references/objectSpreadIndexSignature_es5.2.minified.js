@@ -1,6 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
-swcHelpers.objectSpread({}, indexed1, {
+import _object_spread from "@swc/helpers/lib/_object_spread.js";
+_object_spread({}, indexed1, {
     b: 11
-})[101], swcHelpers.objectSpread({}, indexed1, indexed2)[1001], indexed3 = swcHelpers.objectSpread({}, b ? indexed3 : void 0);
-var writable = swcHelpers.objectSpread({}, roindex);
+})[101], _object_spread({}, indexed1, indexed2)[1001], indexed3 = _object_spread({}, b ? indexed3 : void 0);
+var writable = _object_spread({}, roindex);
 writable.a = 0;

@@ -1,11 +1,11 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
 var _foo = /*#__PURE__*/ new WeakMap();
 // @strict: true
 // @target: es6
 // @strictPropertyInitialization: false
 class A {
     constructor(){
-        swcHelpers.classPrivateFieldInit(this, _foo, {
+        _class_private_field_init(this, _foo, {
             writable: true,
             value: void 0
         });
@@ -14,7 +14,7 @@ class A {
 var _foo1 = /*#__PURE__*/ new WeakMap();
 class B {
     constructor(){
-        swcHelpers.classPrivateFieldInit(this, _foo1, {
+        _class_private_field_init(this, _foo1, {
             writable: true,
             value: void 0
         });

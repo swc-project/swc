@@ -14,5 +14,5 @@ Object.defineProperty(exports, "Y", {
         return _z.Y;
     }
 });
-var swcHelpers = require("@swc/helpers");
-var _z = swcHelpers.interopRequireWildcard(require("./Z"));
+var _interop_require_wildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
+var _z = _interop_require_wildcard(require("./Z"));

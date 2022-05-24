@@ -1,7 +1,7 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var x13_1, x13_2, E, x, C7 = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, C7);
+    _class_call_check(this, C7);
 };
 foo13(x13_1, x13_2), foo13(x13_2, x13_1), function(E) {
     E[E.x = 10] = "x";

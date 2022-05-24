@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 // @filename: file.tsx
 // @jsx: preserve
 // @noLib: true
@@ -9,9 +9,9 @@ class Button extends React.Component {
     render() {
         let condition;
         if (condition) {
-            return /*#__PURE__*/ React.createElement(InnerButton, swcHelpers.extends({}, this.props));
+            return /*#__PURE__*/ React.createElement(InnerButton, _extends({}, this.props));
         } else {
-            return /*#__PURE__*/ React.createElement(InnerButton, swcHelpers.extends({}, this.props), /*#__PURE__*/ React.createElement("div", null, "Hello World"));
+            return /*#__PURE__*/ React.createElement(InnerButton, _extends({}, this.props), /*#__PURE__*/ React.createElement("div", null, "Hello World"));
         }
     }
 }

@@ -1,3 +1,3 @@
-import * as swcHelpers from "@swc/helpers";
+import _define_property from "@swc/helpers/lib/_define_property.js";
 //@target: ES6
-var v = swcHelpers.defineProperty({}, 0 in [], true);
+var v = _define_property({}, 0 in [], true);

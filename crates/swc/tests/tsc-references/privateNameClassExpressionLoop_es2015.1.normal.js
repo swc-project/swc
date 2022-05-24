@@ -1,16 +1,17 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
+import _class_private_method_init from "@swc/helpers/lib/_class_private_method_init.js";
 // @target: es2015
 const array = [];
 for(let i = 0; i < 10; ++i){
     var _myField, _method, _accessor, _C;
     array.push((_myField = /*#__PURE__*/ new WeakMap(), _method = /*#__PURE__*/ new WeakSet(), _accessor = /*#__PURE__*/ new WeakMap(), _C = class C {
         constructor(){
-            swcHelpers.classPrivateMethodInit(this, _method);
-            swcHelpers.classPrivateFieldInit(this, _accessor, {
+            _class_private_method_init(this, _method);
+            _class_private_field_init(this, _accessor, {
                 get: get_accessor,
                 set: set_accessor
             });
-            swcHelpers.classPrivateFieldInit(this, _myField, {
+            _class_private_field_init(this, _myField, {
                 writable: true,
                 value: "hello"
             });

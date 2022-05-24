@@ -1,6 +1,7 @@
-import * as swcHelpers from "@swc/helpers";
+import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
+import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
 function foo(param) {
-    var _x = swcHelpers.slicedToArray(param.x, 2), _y = (_x[0], _x[1], param.y);
+    var _x = _sliced_to_array(param.x, 2), _y = (_x[0], _x[1], param.y);
     _y.c, _y.d, _y.e;
 }
 function baz(x) {}
@@ -42,7 +43,7 @@ baz([
     "string",
     1,
     !0
-].concat(swcHelpers.toConsumableArray(array))), foo({
+].concat(_to_consumable_array(array))), foo({
     x: [
         "string",
         1

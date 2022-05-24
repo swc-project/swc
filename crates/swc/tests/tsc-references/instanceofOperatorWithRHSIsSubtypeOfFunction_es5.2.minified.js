@@ -1,3 +1,3 @@
-var x, f1, f2, f3, f4;
-import * as swcHelpers from "@swc/helpers";
-swcHelpers._instanceof(x, f1), swcHelpers._instanceof(x, f2), swcHelpers._instanceof(x, f3), swcHelpers._instanceof(x, f4), swcHelpers._instanceof(x, null), swcHelpers._instanceof(x, void 0);
+var x, f2, f3, f4;
+import _instanceof from "@swc/helpers/lib/_instanceof.js";
+_instanceof(x, void 0), _instanceof(x, f2), _instanceof(x, f3), _instanceof(x, f4), _instanceof(x, null), _instanceof(x, void 0);

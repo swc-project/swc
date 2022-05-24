@@ -1,5 +1,6 @@
 var E;
-import * as swcHelpers from "@swc/helpers";
+import _object_spread from "@swc/helpers/lib/_object_spread.js";
+import _object_without_properties from "@swc/helpers/lib/_object_without_properties.js";
 export function Set(...keys1) {
     let result = {};
     return keys1.forEach((key)=>result[key] = !0), result;

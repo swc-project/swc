@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 // @filename: file.tsx
 // @jsx: preserve
 // @module: amd
@@ -29,29 +29,29 @@ const b0 = /*#__PURE__*/ React.createElement(MainButton, {
     to: "/some/path",
     onClick: (e)=>{}
 }, "GO"); // extra property;
-const b1 = /*#__PURE__*/ React.createElement(MainButton, swcHelpers.extends({
+const b1 = /*#__PURE__*/ React.createElement(MainButton, _extends({
     onClick: (e)=>{}
 }, obj0), "Hello world"); // extra property;
-const b2 = /*#__PURE__*/ React.createElement(MainButton, swcHelpers.extends({}, {
+const b2 = /*#__PURE__*/ React.createElement(MainButton, _extends({}, {
     to: "10000"
 }, obj2)); // extra property
-const b3 = /*#__PURE__*/ React.createElement(MainButton, swcHelpers.extends({}, {
+const b3 = /*#__PURE__*/ React.createElement(MainButton, _extends({}, {
     to: "10000"
 }, {
     onClick: (k)=>{}
 })); // extra property
-const b4 = /*#__PURE__*/ React.createElement(MainButton, swcHelpers.extends({}, obj3, {
+const b4 = /*#__PURE__*/ React.createElement(MainButton, _extends({}, obj3, {
     to: true
 })); // Should error because Incorrect type; but attributes are any so everything is allowed
-const b5 = /*#__PURE__*/ React.createElement(MainButton, swcHelpers.extends({}, {
+const b5 = /*#__PURE__*/ React.createElement(MainButton, _extends({}, {
     onClick (e) {}
 }, obj0)); // Spread retain method declaration (see GitHub #13365), so now there is an extra attributes
-const b6 = /*#__PURE__*/ React.createElement(MainButton, swcHelpers.extends({}, {
+const b6 = /*#__PURE__*/ React.createElement(MainButton, _extends({}, {
     onClick (e) {}
 }, {
     children: 10
 })); // incorrect type for optional attribute
-const b7 = /*#__PURE__*/ React.createElement(MainButton, swcHelpers.extends({}, {
+const b7 = /*#__PURE__*/ React.createElement(MainButton, _extends({}, {
     onClick (e) {}
 }, {
     children: "hello",

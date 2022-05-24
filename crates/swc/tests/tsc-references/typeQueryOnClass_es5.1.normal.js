@@ -1,9 +1,10 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _create_class from "@swc/helpers/lib/_create_class.js";
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C(x) {
         var _this = this;
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         this.x = x;
         this.ia = 1;
         this.ib = function() {
@@ -16,7 +17,7 @@ var C = /*#__PURE__*/ function() {
     };
     C.foo = function foo(x) {};
     C.bar = function bar(x) {};
-    swcHelpers.createClass(C, [
+    _create_class(C, [
         {
             key: "ic",
             get: function get() {
@@ -58,7 +59,7 @@ var r2;
 var D = /*#__PURE__*/ function() {
     "use strict";
     function D(y) {
-        swcHelpers.classCallCheck(this, D);
+        _class_call_check(this, D);
         this.y = y;
     }
     var _proto = D.prototype;

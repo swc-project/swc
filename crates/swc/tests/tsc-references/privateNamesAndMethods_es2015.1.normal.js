@@ -1,26 +1,33 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
+import _class_private_field_get from "@swc/helpers/lib/_class_private_field_get.js";
+import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
+import _class_private_field_set from "@swc/helpers/lib/_class_private_field_set.js";
+import _class_private_field_update from "@swc/helpers/lib/_class_private_field_update.js";
+import _class_private_method_get from "@swc/helpers/lib/_class_private_method_get.js";
+import _class_private_method_init from "@swc/helpers/lib/_class_private_method_init.js";
+import _wrap_async_generator from "@swc/helpers/lib/_wrap_async_generator.js";
 var _foo = /*#__PURE__*/ new WeakSet(), _bar = /*#__PURE__*/ new WeakSet(), _baz = /*#__PURE__*/ new WeakSet(), __quux = /*#__PURE__*/ new WeakMap(), _quux = /*#__PURE__*/ new WeakMap();
 // @target: esnext, es2022
 // @lib: esnext, es2022
 // @useDefineForClassFields: false
 class A {
     constructor(){
-        swcHelpers.classPrivateMethodInit(this, _foo);
-        swcHelpers.classPrivateMethodInit(this, _bar);
-        swcHelpers.classPrivateMethodInit(this, _baz);
-        swcHelpers.classPrivateFieldInit(this, _quux, {
+        _class_private_method_init(this, _foo);
+        _class_private_method_init(this, _bar);
+        _class_private_method_init(this, _baz);
+        _class_private_field_init(this, _quux, {
             get: get_quux,
             set: set_quux
         });
-        swcHelpers.classPrivateFieldInit(this, __quux, {
+        _class_private_field_init(this, __quux, {
             writable: true,
             value: void 0
         });
-        swcHelpers.classPrivateMethodGet(this, _foo, foo).call(this, 30);
-        swcHelpers.classPrivateMethodGet(this, _bar, bar).call(this, 30);
-        swcHelpers.classPrivateMethodGet(this, _baz, baz).call(this, 30);
-        swcHelpers.classPrivateFieldSet(this, _quux, swcHelpers.classPrivateFieldGet(this, _quux) + 1);
-        swcHelpers.classPrivateFieldUpdate(this, _quux).value++;
+        _class_private_method_get(this, _foo, foo).call(this, 30);
+        _class_private_method_get(this, _bar, bar).call(this, 30);
+        _class_private_method_get(this, _baz, baz).call(this, 30);
+        _class_private_field_set(this, _quux, _class_private_field_get(this, _quux) + 1);
+        _class_private_field_update(this, _quux).value++;
     }
 }
 function foo(a) {}
@@ -28,30 +35,30 @@ function bar(a) {
     return _bar1.apply(this, arguments);
 }
 function _bar1() {
-    _bar1 = swcHelpers.asyncToGenerator(function*(a) {});
+    _bar1 = _async_to_generator(function*(a) {});
     return _bar1.apply(this, arguments);
 }
 function baz(a) {
     return _baz1.apply(this, arguments);
 }
 function _baz1() {
-    _baz1 = swcHelpers.wrapAsyncGenerator(function*(a) {
+    _baz1 = _wrap_async_generator(function*(a) {
         return 3;
     });
     return _baz1.apply(this, arguments);
 }
 function get_quux() {
-    return swcHelpers.classPrivateFieldGet(this, __quux);
+    return _class_private_field_get(this, __quux);
 }
 function set_quux(val) {
-    swcHelpers.classPrivateFieldSet(this, __quux, val);
+    _class_private_field_set(this, __quux, val);
 }
 var _foo1 = /*#__PURE__*/ new WeakSet();
 class B extends A {
     constructor(){
         super();
-        swcHelpers.classPrivateMethodInit(this, _foo1);
-        swcHelpers.classPrivateMethodGet(this, _foo1, foo1).call(this, "str");
+        _class_private_method_init(this, _foo1);
+        _class_private_method_get(this, _foo1, foo1).call(this, "str");
     }
 }
 function foo1(a) {}

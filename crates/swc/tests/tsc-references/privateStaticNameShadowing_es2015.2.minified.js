@@ -1,10 +1,10 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_static_private_method_get from "@swc/helpers/lib/_class_static_private_method_get.js";
 class X {
     constructor(){
-        swcHelpers.classStaticPrivateMethodGet(X, X, m).call(X);
+        _class_static_private_method_get(X, X, m).call(X);
     }
 }
 function m() {
-    return swcHelpers.classStaticPrivateMethodGet({}, X, m).call(X), 1;
+    return _class_static_private_method_get({}, X, m).call(X), 1;
 }
-swcHelpers.classStaticPrivateMethodGet(X, X, m).call(X);
+_class_static_private_method_get(X, X, m).call(X);

@@ -1,11 +1,12 @@
 var b, _o;
-import * as swcHelpers from "@swc/helpers";
-let o = swcHelpers.objectSpread({
+import _object_spread from "@swc/helpers/lib/_object_spread.js";
+import _object_without_properties from "@swc/helpers/lib/_object_without_properties.js";
+let o = _object_spread({
     x: 1
 }, {
     a: 'yes',
     b: 'no'
 });
-_o = o, swcHelpers.objectWithoutProperties(_o, [
+_object_without_properties(_o = o, [
     "b"
 ]), { b  } = _o;

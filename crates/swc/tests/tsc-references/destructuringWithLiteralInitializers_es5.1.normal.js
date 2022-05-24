@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
 // (arg: { x: any, y: any }) => void
 function f1(param) {
     var x = param.x, y = param.y;
@@ -103,7 +103,7 @@ f7({
 });
 // (arg: [any, any]) => void
 function g1(param) {
-    var _param = swcHelpers.slicedToArray(param, 2), x = _param[0], y = _param[1];
+    var _param = _sliced_to_array(param, 2), x = _param[0], y = _param[1];
 }
 g1([
     1,
@@ -111,7 +111,7 @@ g1([
 ]);
 // (arg: [number, number]) => void
 function g2(param) {
-    var _param = swcHelpers.slicedToArray(param, 2), tmp = _param[0], x = tmp === void 0 ? 0 : tmp, tmp1 = _param[1], y = tmp1 === void 0 ? 0 : tmp1;
+    var _param = _sliced_to_array(param, 2), tmp = _param[0], x = tmp === void 0 ? 0 : tmp, tmp1 = _param[1], y = tmp1 === void 0 ? 0 : tmp1;
 }
 g2([
     1,
@@ -119,7 +119,7 @@ g2([
 ]);
 // (arg?: [number, number]) => void
 function g3() {
-    var ref = swcHelpers.slicedToArray(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : [
+    var ref = _sliced_to_array(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : [
         0,
         0
     ], 2), x = ref[0], y = ref[1];
@@ -131,7 +131,7 @@ g3([
 ]);
 // (arg?: [number, number]) => void
 function g4() {
-    var ref = swcHelpers.slicedToArray(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : [
+    var ref = _sliced_to_array(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : [
         0
     ], 2), x = ref[0], tmp = ref[1], y = tmp === void 0 ? 0 : tmp;
 }
@@ -142,7 +142,7 @@ g4([
 ]);
 // (arg?: [number, number]) => void
 function g5() {
-    var ref = swcHelpers.slicedToArray(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : [], 2), tmp = ref[0], x = tmp === void 0 ? 0 : tmp, tmp2 = ref[1], y = tmp2 === void 0 ? 0 : tmp2;
+    var ref = _sliced_to_array(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : [], 2), tmp = ref[0], x = tmp === void 0 ? 0 : tmp, tmp2 = ref[1], y = tmp2 === void 0 ? 0 : tmp2;
 }
 g5();
 g5([

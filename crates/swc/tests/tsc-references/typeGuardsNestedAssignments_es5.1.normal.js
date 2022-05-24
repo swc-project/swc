@@ -1,8 +1,9 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _instanceof from "@swc/helpers/lib/_instanceof.js";
 // @strictNullChecks: true
 var Foo = function Foo() {
     "use strict";
-    swcHelpers.classCallCheck(this, Foo);
+    _class_call_check(this, Foo);
 };
 function f1() {
     var foo;
@@ -20,7 +21,7 @@ function f2() {
 }
 function f3() {
     var obj;
-    if (swcHelpers._instanceof(obj = getFooOrNull(), Foo)) {
+    if (_instanceof(obj = getFooOrNull(), Foo)) {
         obj;
     }
 }

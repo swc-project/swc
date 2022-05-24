@@ -1,38 +1,38 @@
-import * as swcHelpers from "@swc/helpers";
+import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
 function f0() {
     var a = [
         1,
         2,
         3
     ];
-    var a1 = swcHelpers.toConsumableArray(a);
+    var a1 = _to_consumable_array(a);
     var a2 = [
         1
-    ].concat(swcHelpers.toConsumableArray(a));
+    ].concat(_to_consumable_array(a));
     var a3 = [
         1,
         2
-    ].concat(swcHelpers.toConsumableArray(a));
-    var a4 = swcHelpers.toConsumableArray(a).concat([
+    ].concat(_to_consumable_array(a));
+    var a4 = _to_consumable_array(a).concat([
         1
     ]);
-    var a5 = swcHelpers.toConsumableArray(a).concat([
+    var a5 = _to_consumable_array(a).concat([
         1,
         2
     ]);
     var a6 = [
         1,
         2
-    ].concat(swcHelpers.toConsumableArray(a), [
+    ].concat(_to_consumable_array(a), [
         1,
         2
     ]);
     var a7 = [
         1
-    ].concat(swcHelpers.toConsumableArray(a), [
+    ].concat(_to_consumable_array(a), [
         2
-    ], swcHelpers.toConsumableArray(a));
-    var a8 = swcHelpers.toConsumableArray(a).concat(swcHelpers.toConsumableArray(a), swcHelpers.toConsumableArray(a));
+    ], _to_consumable_array(a));
+    var a8 = _to_consumable_array(a).concat(_to_consumable_array(a), _to_consumable_array(a));
 }
 function f1() {
     var a = [
@@ -42,14 +42,14 @@ function f1() {
     ];
     var b = [
         "hello"
-    ].concat(swcHelpers.toConsumableArray(a), [
+    ].concat(_to_consumable_array(a), [
         true
     ]);
     var b;
 }
 function f2() {
-    var a = swcHelpers.toConsumableArray(swcHelpers.toConsumableArray(swcHelpers.toConsumableArray(swcHelpers.toConsumableArray(swcHelpers.toConsumableArray([])))));
-    var b = swcHelpers.toConsumableArray(swcHelpers.toConsumableArray(swcHelpers.toConsumableArray(swcHelpers.toConsumableArray(swcHelpers.toConsumableArray([
+    var a = _to_consumable_array(_to_consumable_array(_to_consumable_array(_to_consumable_array(_to_consumable_array([])))));
+    var b = _to_consumable_array(_to_consumable_array(_to_consumable_array(_to_consumable_array(_to_consumable_array([
         5
     ])))));
 }

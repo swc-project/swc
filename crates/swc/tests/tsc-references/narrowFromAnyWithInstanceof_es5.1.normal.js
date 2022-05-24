@@ -1,19 +1,19 @@
-import * as swcHelpers from "@swc/helpers";
-if (swcHelpers._instanceof(x, Function)) {
+import _instanceof from "@swc/helpers/lib/_instanceof.js";
+if (_instanceof(x, Function)) {
     x();
     x(1, 2, 3);
     x("hello!");
     x.prop;
 }
-if (swcHelpers._instanceof(x, Object)) {
+if (_instanceof(x, Object)) {
     x.method();
     x();
 }
-if (swcHelpers._instanceof(x, Error)) {
+if (_instanceof(x, Error)) {
     x.message;
     x.mesage;
 }
-if (swcHelpers._instanceof(x, Date)) {
+if (_instanceof(x, Date)) {
     x.getDate();
     x.getHuors();
 }

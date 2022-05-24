@@ -1,13 +1,14 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 import regeneratorRuntime from "regenerator-runtime";
 import { jsx as _jsx, Fragment as _Fragment } from "react/jsx-runtime";
 import { useEffect } from "react";
 var Test = function Test(name) {
     "use strict";
-    swcHelpers.classCallCheck(this, Test);
+    _class_call_check(this, Test);
     var _this = this;
     this.print = function() {
-        var _ref = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee(arg) {
+        var _ref = _async_to_generator(regeneratorRuntime.mark(function _callee(arg) {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:

@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _type_of from "@swc/helpers/lib/_type_of.js";
 // @allowUnreachableCode: true
 // Call signatures without a return type should infer one from the function body (if present)
 // Simple types
@@ -35,7 +36,7 @@ function foo6(x) {
 }
 var r6 = foo6(1);
 function foo7(x) {
-    return typeof x === "undefined" ? "undefined" : swcHelpers.typeOf(x);
+    return typeof x === "undefined" ? "undefined" : _type_of(x);
 }
 var r7 = foo7(1);
 // object types
@@ -52,7 +53,7 @@ function foo9(x) {
 var r9 = foo9(1);
 var C = function C() {
     "use strict";
-    swcHelpers.classCallCheck(this, C);
+    _class_call_check(this, C);
 };
 function foo10(x) {
     var c;
@@ -64,7 +65,7 @@ var M;
     var x = M1.x = 1;
     var C = function C() {
         "use strict";
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
     };
     M1.C = C;
 })(M || (M = {}));
@@ -89,7 +90,7 @@ function foo13() {
 var r13 = foo13();
 var c1 = function c1(x) {
     "use strict";
-    swcHelpers.classCallCheck(this, c1);
+    _class_call_check(this, c1);
 };
 (function(c1) {
     var x = c1.x = 1;

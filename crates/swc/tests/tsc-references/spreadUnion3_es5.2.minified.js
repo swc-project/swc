@@ -1,8 +1,7 @@
-var x;
-import * as swcHelpers from "@swc/helpers";
+import _object_spread from "@swc/helpers/lib/_object_spread.js";
 function g(t) {
-    swcHelpers.objectSpread({}, t).a;
+    _object_spread({}, t).a;
 }
-x = void 0, swcHelpers.objectSpread({
+_object_spread({
     y: 123
-}, x), g(), g(void 0), g(null), swcHelpers.objectSpread({}, nullAndUndefinedUnion, nullAndUndefinedUnion), swcHelpers.objectSpread({}, nullAndUndefinedUnion);
+}, void 0), g(), g(void 0), g(null), _object_spread({}, nullAndUndefinedUnion, nullAndUndefinedUnion), _object_spread({}, nullAndUndefinedUnion);

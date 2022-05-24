@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
 // @target: es6
 class A {
     x() {}
@@ -11,7 +11,7 @@ class B extends A {
         _superprop_get_x = ()=>super.x, // call additional property.
         _superprop_get_y = ()=>super.y, // call with element access
         _superprop_get = (_prop)=>super[_prop];
-        return swcHelpers.asyncToGenerator(function*() {
+        return _async_to_generator(function*() {
             const _super = null;
             const _superIndex = null;
             _superprop_get_x().call(_this);
@@ -30,7 +30,7 @@ class B extends A {
         _superprop_get = (_prop)=>super[_prop], // property access (assign)
         _superprop_set_x = (_value)=>super.x = _value, // element access (assign)
         _superprop_set = (_prop, _value)=>super[_prop] = _value;
-        return swcHelpers.asyncToGenerator(function*() {
+        return _async_to_generator(function*() {
             const _super = null;
             const _superIndex = null;
             const f = ()=>{};

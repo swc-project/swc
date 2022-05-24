@@ -1,8 +1,8 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @target: es5
 // @module: esnext
 var E = function E() {
     "use strict";
-    swcHelpers.classCallCheck(this, E);
+    _class_call_check(this, E);
 };
 export default E;

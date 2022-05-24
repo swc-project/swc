@@ -1,9 +1,11 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 // subclassing is not transitive when you can remove required parameters and add optional parameters
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
     }
     var _proto = C.prototype;
     _proto.foo = function foo(x, y) {};
@@ -11,10 +13,10 @@ var C = /*#__PURE__*/ function() {
 }();
 var D = /*#__PURE__*/ function(C) {
     "use strict";
-    swcHelpers.inherits(D, C);
-    var _super = swcHelpers.createSuper(D);
+    _inherits(D, C);
+    var _super = _create_super(D);
     function D() {
-        swcHelpers.classCallCheck(this, D);
+        _class_call_check(this, D);
         return _super.apply(this, arguments);
     }
     var _proto = D.prototype;
@@ -24,10 +26,10 @@ var D = /*#__PURE__*/ function(C) {
 }(C);
 var E = /*#__PURE__*/ function(D) {
     "use strict";
-    swcHelpers.inherits(E, D);
-    var _super = swcHelpers.createSuper(E);
+    _inherits(E, D);
+    var _super = _create_super(E);
     function E() {
-        swcHelpers.classCallCheck(this, E);
+        _class_call_check(this, E);
         return _super.apply(this, arguments);
     }
     var _proto = E.prototype;

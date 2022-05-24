@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 export var A;
 !function(A1) {
     (A1.Utils || (A1.Utils = {})).mirror = function(p) {
@@ -17,6 +17,6 @@ export var A;
         y: 0
     }, Utils = A2.Utils || (A2.Utils = {}), Plane = function(tl, br) {
         "use strict";
-        swcHelpers.classCallCheck(this, Plane), this.tl = tl, this.br = br;
+        _class_call_check(this, Plane), this.tl = tl, this.br = br;
     }, Utils.Plane = Plane;
 }(A || (A = {}));

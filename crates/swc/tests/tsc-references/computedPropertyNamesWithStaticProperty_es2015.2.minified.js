@@ -1,5 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
-let _staticProp = (swcHelpers.classNameTDZError("C"), C).staticProp, _staticProp1 = (swcHelpers.classNameTDZError("C"), C).staticProp, _staticProp2 = (swcHelpers.classNameTDZError("C"), C).staticProp;
+import _class_name_tdz_error from "@swc/helpers/lib/_class_name_tdz_error.js";
+let _staticProp = (_class_name_tdz_error("C"), C).staticProp, _staticProp1 = (_class_name_tdz_error("C"), C).staticProp, _staticProp2 = (_class_name_tdz_error("C"), C).staticProp;
 class C {
     get [_staticProp]() {
         return "hello";

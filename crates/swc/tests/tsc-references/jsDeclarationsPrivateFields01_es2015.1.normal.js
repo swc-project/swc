@@ -1,4 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_private_field_get from "@swc/helpers/lib/_class_private_field_get.js";
+import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
+import _class_private_method_init from "@swc/helpers/lib/_class_private_method_init.js";
 var _hello = /*#__PURE__*/ new WeakMap(), _world = /*#__PURE__*/ new WeakMap(), _calcHello = /*#__PURE__*/ new WeakSet(), _screamingHello = /*#__PURE__*/ new WeakMap();
 // @target: esnext
 // @allowJS: true
@@ -7,29 +9,29 @@ var _hello = /*#__PURE__*/ new WeakMap(), _world = /*#__PURE__*/ new WeakMap(), 
 // @filename: file.js
 export class C {
     getWorld() {
-        return swcHelpers.classPrivateFieldGet(this, _world);
+        return _class_private_field_get(this, _world);
     }
     constructor(){
-        swcHelpers.classPrivateMethodInit(this, _calcHello);
-        swcHelpers.classPrivateFieldInit(this, _screamingHello, {
+        _class_private_method_init(this, _calcHello);
+        _class_private_field_init(this, _screamingHello, {
             get: get_screamingHello,
             set: /** @param value {string} */ set_screamingHello
         });
-        swcHelpers.classPrivateFieldInit(this, _hello, {
+        _class_private_field_init(this, _hello, {
             writable: true,
             value: "hello"
         });
-        swcHelpers.classPrivateFieldInit(this, _world, {
+        _class_private_field_init(this, _world, {
             writable: true,
             value: 100
         });
     }
 }
 function calcHello() {
-    return swcHelpers.classPrivateFieldGet(this, _hello);
+    return _class_private_field_get(this, _hello);
 }
 function get_screamingHello() {
-    return swcHelpers.classPrivateFieldGet(this, _hello).toUpperCase();
+    return _class_private_field_get(this, _hello).toUpperCase();
 }
 function set_screamingHello(value) {
     throw "NO";

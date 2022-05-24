@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // Copyright (c) Microsoft. All rights reserved. Licensed under the Apache License, Version 2.0. 
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
@@ -85,7 +85,7 @@ var TypeScript;
     var NullLogger = /*#__PURE__*/ function() {
         "use strict";
         function NullLogger() {
-            swcHelpers.classCallCheck(this, NullLogger);
+            _class_call_check(this, NullLogger);
         }
         var _proto = NullLogger.prototype;
         _proto.information = function information() {
@@ -110,7 +110,7 @@ var TypeScript;
     var LoggerAdapter = /*#__PURE__*/ function() {
         "use strict";
         function LoggerAdapter(logger) {
-            swcHelpers.classCallCheck(this, LoggerAdapter);
+            _class_call_check(this, LoggerAdapter);
             this.logger = logger;
             this._information = this.logger.information();
             this._debug = this.logger.debug();
@@ -143,7 +143,7 @@ var TypeScript;
     var BufferedLogger = /*#__PURE__*/ function() {
         "use strict";
         function BufferedLogger() {
-            swcHelpers.classCallCheck(this, BufferedLogger);
+            _class_call_check(this, BufferedLogger);
             this.logContents = [];
         }
         var _proto = BufferedLogger.prototype;
