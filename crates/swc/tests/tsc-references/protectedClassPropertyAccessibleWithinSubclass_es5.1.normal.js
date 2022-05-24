@@ -1,16 +1,19 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _create_class from "@swc/helpers/lib/_create_class.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 // @target: ES5
 // no errors
 var B = function B() {
     "use strict";
-    swcHelpers.classCallCheck(this, B);
+    _class_call_check(this, B);
 };
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     var _proto = C.prototype;
@@ -26,7 +29,7 @@ var C = /*#__PURE__*/ function(B) {
     C.bar = function bar() {
         this.foo();
     };
-    swcHelpers.createClass(C, [
+    _create_class(C, [
         {
             key: "y",
             get: function get() {

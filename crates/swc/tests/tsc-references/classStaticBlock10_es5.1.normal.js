@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @target: esnext, es2022, es2015, es5
 var a1 = 1;
 var a2 = 1;
@@ -9,7 +9,7 @@ function f() {
     var b1 = 22;
     var C1 = function C1() {
         "use strict";
-        swcHelpers.classCallCheck(this, C1);
+        _class_call_check(this, C1);
     };
     var __ = {
         writable: true,
@@ -23,7 +23,7 @@ function f() {
 }
 var C2 = function C2() {
     "use strict";
-    swcHelpers.classCallCheck(this, C2);
+    _class_call_check(this, C2);
 };
 var __ = {
     writable: true,

@@ -1,19 +1,19 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var Default = function Default() {
     "use strict";
-    swcHelpers.classCallCheck(this, Default);
+    _class_call_check(this, Default);
 };
 var Public = function Public() {
     "use strict";
-    swcHelpers.classCallCheck(this, Public);
+    _class_call_check(this, Public);
 };
 var Protected = function Protected() {
     "use strict";
-    swcHelpers.classCallCheck(this, Protected);
+    _class_call_check(this, Protected);
 };
 var Private = function Private() {
     "use strict";
-    swcHelpers.classCallCheck(this, Private);
+    _class_call_check(this, Private);
 };
 var v1;
 var v2;

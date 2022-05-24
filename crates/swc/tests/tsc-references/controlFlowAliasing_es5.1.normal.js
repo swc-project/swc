@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @strict: true
 // @declaration: true
 // Narrowing by aliased conditional expressions
@@ -184,7 +184,7 @@ function f33(obj15) {
 }
 var C10 = function C10(x) {
     "use strict";
-    swcHelpers.classCallCheck(this, C10);
+    _class_call_check(this, C10);
     this.x = x;
     var thisX_isString = typeof this.x === "string";
     var xIsString = typeof x === "string";
@@ -196,7 +196,7 @@ var C10 = function C10(x) {
 };
 var C11 = function C11(x) {
     "use strict";
-    swcHelpers.classCallCheck(this, C11);
+    _class_call_check(this, C11);
     this.x = x;
     var thisX_isString = typeof this.x === "string";
     var xIsString = typeof x === "string";

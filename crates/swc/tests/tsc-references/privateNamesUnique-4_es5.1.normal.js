@@ -1,14 +1,15 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
 // @target: es2015
 var A1 = function A1() {
     "use strict";
-    swcHelpers.classCallCheck(this, A1);
+    _class_call_check(this, A1);
 };
 var _something = /*#__PURE__*/ new WeakMap();
 var C = function C() {
     "use strict";
-    swcHelpers.classCallCheck(this, C);
-    swcHelpers.classPrivateFieldInit(this, _something, {
+    _class_call_check(this, C);
+    _class_private_field_init(this, _something, {
         writable: true,
         value: void 0
     });

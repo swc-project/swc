@@ -1,5 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
+import _define_enumerable_properties from "@swc/helpers/lib/_define_enumerable_properties.js";
+import _define_property from "@swc/helpers/lib/_define_property.js";
 var _obj, _mutatorMap = {};
-_obj = {}, swcHelpers.defineProperty(_obj, "", 0), swcHelpers.defineProperty(_obj, "", function() {}), _mutatorMap[""] = _mutatorMap[""] || {}, _mutatorMap[""].get = function() {
+_define_property(_obj = {}, "", 0), _define_property(_obj, "", function() {}), _mutatorMap[""] = _mutatorMap[""] || {}, _mutatorMap[""].get = function() {
     return 0;
-}, _mutatorMap[""] = _mutatorMap[""] || {}, _mutatorMap[""].set = function(x) {}, swcHelpers.defineEnumerableProperties(_obj, _mutatorMap);
+}, _mutatorMap[""] = _mutatorMap[""] || {}, _mutatorMap[""].set = function(x) {}, _define_enumerable_properties(_obj, _mutatorMap);

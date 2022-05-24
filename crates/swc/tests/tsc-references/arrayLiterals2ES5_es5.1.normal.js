@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
 // ElementList:  ( Modified )
 //      Elisionopt   AssignmentExpression
 //      Elisionopt   SpreadElement
@@ -20,18 +20,18 @@ var a1 = [
 var a2 = [
     ,
     ,
-].concat(swcHelpers.toConsumableArray(a0), [
+].concat(_to_consumable_array(a0), [
     "hello"
 ]);
 var a3 = [
     ,
-].concat(swcHelpers.toConsumableArray(a0));
+].concat(_to_consumable_array(a0));
 var a4 = [
     function() {
         return 1;
     }, 
 ];
-var a5 = swcHelpers.toConsumableArray(a0).concat([
+var a5 = _to_consumable_array(a0).concat([
     , 
 ]);
 // Each element expression in a non-empty array literal is processed as follows:
@@ -99,19 +99,19 @@ var temp4 = [];
 var d0 = [
     1,
     true, 
-].concat(swcHelpers.toConsumableArray(temp)); // has type (string|number|boolean)[]
-var d1 = swcHelpers.toConsumableArray(temp); // has type string[]
-var d2 = swcHelpers.toConsumableArray(temp1);
-var d3 = swcHelpers.toConsumableArray(temp1);
-var d4 = swcHelpers.toConsumableArray(temp).concat(swcHelpers.toConsumableArray(temp1));
-var d5 = swcHelpers.toConsumableArray(temp3);
-var d6 = swcHelpers.toConsumableArray(temp4);
-var d7 = swcHelpers.toConsumableArray(swcHelpers.toConsumableArray(temp1));
+].concat(_to_consumable_array(temp)); // has type (string|number|boolean)[]
+var d1 = _to_consumable_array(temp); // has type string[]
+var d2 = _to_consumable_array(temp1);
+var d3 = _to_consumable_array(temp1);
+var d4 = _to_consumable_array(temp).concat(_to_consumable_array(temp1));
+var d5 = _to_consumable_array(temp3);
+var d6 = _to_consumable_array(temp4);
+var d7 = _to_consumable_array(_to_consumable_array(temp1));
 var d8 = [
-    swcHelpers.toConsumableArray(temp1)
+    _to_consumable_array(temp1)
 ];
 var d9 = [
-    swcHelpers.toConsumableArray(temp1)
-].concat(swcHelpers.toConsumableArray([
+    _to_consumable_array(temp1)
+].concat(_to_consumable_array([
     "hello"
 ]));

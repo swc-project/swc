@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
@@ -6,13 +6,13 @@ import * as swcHelpers from "@swc/helpers";
 // @Filename: def.js
 var Outer = function Outer() {
     "use strict";
-    swcHelpers.classCallCheck(this, Outer);
+    _class_call_check(this, Outer);
 };
 // @Filename: a.js
 Outer.Inner = /*#__PURE__*/ function() {
     "use strict";
     function I() {
-        swcHelpers.classCallCheck(this, I);
+        _class_call_check(this, I);
     }
     var _proto = I.prototype;
     _proto.messages = function messages() {

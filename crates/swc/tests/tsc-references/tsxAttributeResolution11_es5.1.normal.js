@@ -1,9 +1,9 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 //@filename: file.tsx
 var MyComponent = /*#__PURE__*/ function() {
     "use strict";
     function MyComponent() {
-        swcHelpers.classCallCheck(this, MyComponent);
+        _class_call_check(this, MyComponent);
     }
     var _proto = MyComponent.prototype;
     _proto.render = function render() {};

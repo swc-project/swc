@@ -1,11 +1,11 @@
-import * as swcHelpers from "@swc/helpers";
+import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
 try {
     throw [
         0,
         1
     ];
 } catch (param) {
-    var _param = swcHelpers.slicedToArray(param, 2);
+    var _param = _sliced_to_array(param, 2);
     _param[0], _param[1];
 }
 try {
@@ -26,6 +26,6 @@ try {
         }
     ];
 } catch (param2) {
-    var ref = swcHelpers.slicedToArray(param2, 1)[0];
-    swcHelpers.slicedToArray(ref.x, 1)[0], ref.z;
+    var ref = _sliced_to_array(param2, 1)[0];
+    _sliced_to_array(ref.x, 1)[0], ref.z;
 }

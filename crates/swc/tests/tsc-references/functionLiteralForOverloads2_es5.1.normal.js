@@ -1,12 +1,12 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // basic uses of function literals with constructor overloads
 var C = function C(x) {
     "use strict";
-    swcHelpers.classCallCheck(this, C);
+    _class_call_check(this, C);
 };
 var D = function D(x) {
     "use strict";
-    swcHelpers.classCallCheck(this, D);
+    _class_call_check(this, D);
 };
 var f = C;
 var f2 = C;

@@ -1,15 +1,17 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _create_class from "@swc/helpers/lib/_create_class.js";
+import _object_spread from "@swc/helpers/lib/_object_spread.js";
 // @target: esnext
 // @useDefineForClassFields: false
 var K = /*#__PURE__*/ function() {
     "use strict";
     function K() {
-        swcHelpers.classCallCheck(this, K);
+        _class_call_check(this, K);
         this.p = 12;
     }
     var _proto = K.prototype;
     _proto.m = function m() {};
-    swcHelpers.createClass(K, [
+    _create_class(K, [
         {
             key: "g",
             get: function get() {
@@ -20,8 +22,8 @@ var K = /*#__PURE__*/ function() {
     return K;
 }();
 var k = new K();
-var sk = swcHelpers.objectSpread({}, k);
-var ssk = swcHelpers.objectSpread({}, k, k);
+var sk = _object_spread({}, k);
+var ssk = _object_spread({}, k, k);
 sk.p;
 sk.m(); // error
 sk.g; // error
@@ -35,8 +37,8 @@ var i = {
         return 0;
     }
 };
-var si = swcHelpers.objectSpread({}, i);
-var ssi = swcHelpers.objectSpread({}, i, i);
+var si = _object_spread({}, i);
+var ssi = _object_spread({}, i, i);
 si.p;
 si.m(); // ok
 si.g; // ok
@@ -50,8 +52,8 @@ var o = {
         return 0;
     }
 };
-var so = swcHelpers.objectSpread({}, o);
-var sso = swcHelpers.objectSpread({}, o, o);
+var so = _object_spread({}, o);
+var sso = _object_spread({}, o, o);
 so.p;
 so.m(); // ok
 so.g; // ok

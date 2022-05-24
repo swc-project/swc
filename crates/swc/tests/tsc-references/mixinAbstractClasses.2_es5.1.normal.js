@@ -1,12 +1,14 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 function Mixin(baseClass1) {
     // error expected: A mixin class that extends from a type variable containing an abstract construct signature must also be declared 'abstract'.
     var MixinClass = /*#__PURE__*/ function(baseClass) {
         "use strict";
-        swcHelpers.inherits(MixinClass, baseClass);
-        var _super = swcHelpers.createSuper(MixinClass);
+        _inherits(MixinClass, baseClass);
+        var _super = _create_super(MixinClass);
         function MixinClass() {
-            swcHelpers.classCallCheck(this, MixinClass);
+            _class_call_check(this, MixinClass);
             return _super.apply(this, arguments);
         }
         var _proto = MixinClass.prototype;
@@ -17,16 +19,16 @@ function Mixin(baseClass1) {
 }
 var AbstractBase = function AbstractBase() {
     "use strict";
-    swcHelpers.classCallCheck(this, AbstractBase);
+    _class_call_check(this, AbstractBase);
 };
 var MixedBase = Mixin(AbstractBase);
 // error expected: Non-abstract class 'DerivedFromAbstract' does not implement inherited abstract member 'abstractBaseMethod' from class 'AbstractBase & Mixin'.
 var DerivedFromAbstract = /*#__PURE__*/ function(MixedBase1) {
     "use strict";
-    swcHelpers.inherits(DerivedFromAbstract, MixedBase1);
-    var _super = swcHelpers.createSuper(DerivedFromAbstract);
+    _inherits(DerivedFromAbstract, MixedBase1);
+    var _super = _create_super(DerivedFromAbstract);
     function DerivedFromAbstract() {
-        swcHelpers.classCallCheck(this, DerivedFromAbstract);
+        _class_call_check(this, DerivedFromAbstract);
         return _super.apply(this, arguments);
     }
     return DerivedFromAbstract;

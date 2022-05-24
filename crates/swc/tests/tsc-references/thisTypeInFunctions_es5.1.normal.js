@@ -1,14 +1,16 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var _this = this;
 // body checking
 var B = function B() {
     "use strict";
-    swcHelpers.classCallCheck(this, B);
+    _class_call_check(this, B);
 };
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
     }
     var _proto = C.prototype;
     _proto.explicitThis = function explicitThis(m) {
@@ -27,10 +29,10 @@ var C = /*#__PURE__*/ function() {
 }();
 var D = /*#__PURE__*/ function(C) {
     "use strict";
-    swcHelpers.inherits(D, C);
-    var _super = swcHelpers.createSuper(D);
+    _inherits(D, C);
+    var _super = _create_super(D);
     function D() {
-        swcHelpers.classCallCheck(this, D);
+        _class_call_check(this, D);
         return _super.apply(this, arguments);
     }
     return D;
@@ -194,7 +196,7 @@ c.explicitVoid = function(n2) {
 var Base1 = /*#__PURE__*/ function() {
     "use strict";
     function Base1() {
-        swcHelpers.classCallCheck(this, Base1);
+        _class_call_check(this, Base1);
     }
     var _proto = Base1.prototype;
     _proto.polymorphic = function polymorphic() {
@@ -210,10 +212,10 @@ var Base1 = /*#__PURE__*/ function() {
 }();
 var Derived1 = /*#__PURE__*/ function(Base1) {
     "use strict";
-    swcHelpers.inherits(Derived1, Base1);
-    var _super = swcHelpers.createSuper(Derived1);
+    _inherits(Derived1, Base1);
+    var _super = _create_super(Derived1);
     function Derived1() {
-        swcHelpers.classCallCheck(this, Derived1);
+        _class_call_check(this, Derived1);
         return _super.apply(this, arguments);
     }
     return Derived1;
@@ -221,7 +223,7 @@ var Derived1 = /*#__PURE__*/ function(Base1) {
 var Base2 = /*#__PURE__*/ function() {
     "use strict";
     function Base2() {
-        swcHelpers.classCallCheck(this, Base2);
+        _class_call_check(this, Base2);
     }
     var _proto = Base2.prototype;
     _proto.polymorphic = function polymorphic() {
@@ -234,10 +236,10 @@ var Base2 = /*#__PURE__*/ function() {
 }();
 var Derived2 = /*#__PURE__*/ function(Base2) {
     "use strict";
-    swcHelpers.inherits(Derived2, Base2);
-    var _super = swcHelpers.createSuper(Derived2);
+    _inherits(Derived2, Base2);
+    var _super = _create_super(Derived2);
     function Derived2() {
-        swcHelpers.classCallCheck(this, Derived2);
+        _class_call_check(this, Derived2);
         return _super.apply(this, arguments);
     }
     return Derived2;

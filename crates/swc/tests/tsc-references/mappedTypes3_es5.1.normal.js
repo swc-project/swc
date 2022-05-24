@@ -1,8 +1,8 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @declaration: true
 var Box = function Box() {
     "use strict";
-    swcHelpers.classCallCheck(this, Box);
+    _class_call_check(this, Box);
 };
 function f1(b) {
     var bb = boxify(b);

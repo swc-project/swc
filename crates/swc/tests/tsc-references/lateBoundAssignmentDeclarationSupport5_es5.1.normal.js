@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _define_property from "@swc/helpers/lib/_define_property.js";
 // @allowJs: true
 // @checkJs: true
 // @noEmit: true
@@ -10,7 +10,7 @@ var _sym = Symbol();
 var _str = "my-fake-sym";
 function F() {}
 var _obj;
-F.prototype = (_obj = {}, swcHelpers.defineProperty(_obj, _sym, "ok"), swcHelpers.defineProperty(_obj, _str, "ok"), _obj);
+F.prototype = (_obj = {}, _define_property(_obj, _sym, "ok"), _define_property(_obj, _str, "ok"), _obj);
 var inst = new F();
 var _y = inst[_str];
 var _z = inst[_sym];

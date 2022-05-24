@@ -1,12 +1,13 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _instanceof from "@swc/helpers/lib/_instanceof.js";
 // @strict: true
 // Repro from #20138
 var C = function C() {
     "use strict";
-    swcHelpers.classCallCheck(this, C);
+    _class_call_check(this, C);
 };
 function f1(v) {
-    if (swcHelpers._instanceof(v, C)) {
+    if (_instanceof(v, C)) {
         var x = v;
     } else {
         var s = v;
@@ -14,10 +15,10 @@ function f1(v) {
 }
 var D = function D() {
     "use strict";
-    swcHelpers.classCallCheck(this, D);
+    _class_call_check(this, D);
 };
 function f2(v) {
-    if (swcHelpers._instanceof(v, C)) {
+    if (_instanceof(v, C)) {
         var x = v;
     } else {
         var y = v;
@@ -25,10 +26,10 @@ function f2(v) {
 }
 var E = function E() {
     "use strict";
-    swcHelpers.classCallCheck(this, E);
+    _class_call_check(this, E);
 };
 function f3(v) {
-    if (swcHelpers._instanceof(v, E)) {
+    if (_instanceof(v, E)) {
         var x = v;
     } else {
         var y = v;

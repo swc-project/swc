@@ -1,46 +1,46 @@
-import * as swcHelpers from "@swc/helpers";
-var unused1 = swcHelpers.objectSpread({
+import _object_spread from "@swc/helpers/lib/_object_spread.js";
+var unused1 = _object_spread({
     b: 1
 }, ab) // error
 ;
-var unused2 = swcHelpers.objectSpread({}, ab, ab) // ok, overwritten error doesn't apply to spreads
+var unused2 = _object_spread({}, ab, ab) // ok, overwritten error doesn't apply to spreads
 ;
-var unused3 = swcHelpers.objectSpread({
+var unused3 = _object_spread({
     b: 1
 }, abq) // ok, abq might have b: undefined
 ;
-var unused4 = swcHelpers.objectSpread({}, ab, {
+var unused4 = _object_spread({}, ab, {
     b: 1
 }) // ok, we don't care that b in ab is overwritten
 ;
-var unused5 = swcHelpers.objectSpread({}, abq, {
+var unused5 = _object_spread({}, abq, {
     b: 1
 }) // ok
 ;
 function g(obj) {
-    return swcHelpers.objectSpread({
+    return _object_spread({
         x: 1
     }, obj); // ok, obj might have x: undefined
 }
 function f(obj) {
-    return swcHelpers.objectSpread({
+    return _object_spread({
         x: 1
     }, obj); // ok, obj might be undefined
 }
 function h(obj) {
-    return swcHelpers.objectSpread({
+    return _object_spread({
         x: 1
     }, obj) // error
     ;
 }
 function i(b, t) {
-    return swcHelpers.objectSpread({
+    return _object_spread({
         command: "hi"
     }, b ? t : {}) // ok
     ;
 }
 function j() {
-    return swcHelpers.objectSpread({}, {
+    return _object_spread({}, {
         command: "hi"
     }, {
         command: "bye"
@@ -48,7 +48,7 @@ function j() {
     ;
 }
 function k(t) {
-    return swcHelpers.objectSpread({
+    return _object_spread({
         command: "hi"
     }, {
         spoiler: true
@@ -58,13 +58,13 @@ function k(t) {
     ;
 }
 function l(anyrequired) {
-    return swcHelpers.objectSpread({
+    return _object_spread({
         a: "zzz"
     }, anyrequired) // error
     ;
 }
 function m(anyoptional) {
-    return swcHelpers.objectSpread({
+    return _object_spread({
         a: "zzz"
     }, anyoptional) // ok
     ;

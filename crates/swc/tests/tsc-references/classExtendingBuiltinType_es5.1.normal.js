@@ -1,101 +1,104 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _wrap_native_super from "@swc/helpers/lib/_wrap_native_super.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var C1 = /*#__PURE__*/ function(Object) {
     "use strict";
-    swcHelpers.inherits(C1, Object);
-    var _super = swcHelpers.createSuper(C1);
+    _inherits(C1, Object);
+    var _super = _create_super(C1);
     function C1() {
-        swcHelpers.classCallCheck(this, C1);
+        _class_call_check(this, C1);
         return _super.apply(this, arguments);
     }
     return C1;
-}(swcHelpers.wrapNativeSuper(Object));
+}(_wrap_native_super(Object));
 var C2 = /*#__PURE__*/ function(Function) {
     "use strict";
-    swcHelpers.inherits(C2, Function);
-    var _super = swcHelpers.createSuper(C2);
+    _inherits(C2, Function);
+    var _super = _create_super(C2);
     function C2() {
-        swcHelpers.classCallCheck(this, C2);
+        _class_call_check(this, C2);
         return _super.apply(this, arguments);
     }
     return C2;
-}(swcHelpers.wrapNativeSuper(Function));
+}(_wrap_native_super(Function));
 var C3 = /*#__PURE__*/ function(String) {
     "use strict";
-    swcHelpers.inherits(C3, String);
-    var _super = swcHelpers.createSuper(C3);
+    _inherits(C3, String);
+    var _super = _create_super(C3);
     function C3() {
-        swcHelpers.classCallCheck(this, C3);
+        _class_call_check(this, C3);
         return _super.apply(this, arguments);
     }
     return C3;
-}(swcHelpers.wrapNativeSuper(String));
+}(_wrap_native_super(String));
 var C4 = /*#__PURE__*/ function(Boolean) {
     "use strict";
-    swcHelpers.inherits(C4, Boolean);
-    var _super = swcHelpers.createSuper(C4);
+    _inherits(C4, Boolean);
+    var _super = _create_super(C4);
     function C4() {
-        swcHelpers.classCallCheck(this, C4);
+        _class_call_check(this, C4);
         return _super.apply(this, arguments);
     }
     return C4;
-}(swcHelpers.wrapNativeSuper(Boolean));
+}(_wrap_native_super(Boolean));
 var C5 = /*#__PURE__*/ function(Number) {
     "use strict";
-    swcHelpers.inherits(C5, Number);
-    var _super = swcHelpers.createSuper(C5);
+    _inherits(C5, Number);
+    var _super = _create_super(C5);
     function C5() {
-        swcHelpers.classCallCheck(this, C5);
+        _class_call_check(this, C5);
         return _super.apply(this, arguments);
     }
     return C5;
-}(swcHelpers.wrapNativeSuper(Number));
+}(_wrap_native_super(Number));
 var C6 = /*#__PURE__*/ function(Date) {
     "use strict";
-    swcHelpers.inherits(C6, Date);
-    var _super = swcHelpers.createSuper(C6);
+    _inherits(C6, Date);
+    var _super = _create_super(C6);
     function C6() {
-        swcHelpers.classCallCheck(this, C6);
+        _class_call_check(this, C6);
         return _super.apply(this, arguments);
     }
     return C6;
-}(swcHelpers.wrapNativeSuper(Date));
+}(_wrap_native_super(Date));
 var C7 = /*#__PURE__*/ function(RegExp) {
     "use strict";
-    swcHelpers.inherits(C7, RegExp);
-    var _super = swcHelpers.createSuper(C7);
+    _inherits(C7, RegExp);
+    var _super = _create_super(C7);
     function C7() {
-        swcHelpers.classCallCheck(this, C7);
+        _class_call_check(this, C7);
         return _super.apply(this, arguments);
     }
     return C7;
-}(swcHelpers.wrapNativeSuper(RegExp));
+}(_wrap_native_super(RegExp));
 var C8 = /*#__PURE__*/ function(Error) {
     "use strict";
-    swcHelpers.inherits(C8, Error);
-    var _super = swcHelpers.createSuper(C8);
+    _inherits(C8, Error);
+    var _super = _create_super(C8);
     function C8() {
-        swcHelpers.classCallCheck(this, C8);
+        _class_call_check(this, C8);
         return _super.apply(this, arguments);
     }
     return C8;
-}(swcHelpers.wrapNativeSuper(Error));
+}(_wrap_native_super(Error));
 var C9 = /*#__PURE__*/ function(Array) {
     "use strict";
-    swcHelpers.inherits(C9, Array);
-    var _super = swcHelpers.createSuper(C9);
+    _inherits(C9, Array);
+    var _super = _create_super(C9);
     function C9() {
-        swcHelpers.classCallCheck(this, C9);
+        _class_call_check(this, C9);
         return _super.apply(this, arguments);
     }
     return C9;
-}(swcHelpers.wrapNativeSuper(Array));
+}(_wrap_native_super(Array));
 var C10 = /*#__PURE__*/ function(Array) {
     "use strict";
-    swcHelpers.inherits(C10, Array);
-    var _super = swcHelpers.createSuper(C10);
+    _inherits(C10, Array);
+    var _super = _create_super(C10);
     function C10() {
-        swcHelpers.classCallCheck(this, C10);
+        _class_call_check(this, C10);
         return _super.apply(this, arguments);
     }
     return C10;
-}(swcHelpers.wrapNativeSuper(Array));
+}(_wrap_native_super(Array));

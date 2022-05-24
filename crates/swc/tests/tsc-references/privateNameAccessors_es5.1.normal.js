@@ -1,22 +1,25 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_private_field_get from "@swc/helpers/lib/_class_private_field_get.js";
+import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
+import _class_private_field_set from "@swc/helpers/lib/_class_private_field_set.js";
 var _prop = /*#__PURE__*/ new WeakMap(), _roProp = /*#__PURE__*/ new WeakMap();
 // @strict: true
 // @target: es6
 var A1 = function A1(name) {
     "use strict";
-    swcHelpers.classCallCheck(this, A1);
-    swcHelpers.classPrivateFieldInit(this, _prop, {
+    _class_call_check(this, A1);
+    _class_private_field_init(this, _prop, {
         get: get_prop,
         set: set_prop
     });
-    swcHelpers.classPrivateFieldInit(this, _roProp, {
+    _class_private_field_init(this, _roProp, {
         get: get_roProp,
         set: void 0
     });
-    swcHelpers.classPrivateFieldSet(this, _prop, "");
-    swcHelpers.classPrivateFieldSet(this, _roProp, ""); // Error
-    console.log(swcHelpers.classPrivateFieldGet(this, _prop));
-    console.log(swcHelpers.classPrivateFieldGet(this, _roProp));
+    _class_private_field_set(this, _prop, "");
+    _class_private_field_set(this, _roProp, ""); // Error
+    console.log(_class_private_field_get(this, _prop));
+    console.log(_class_private_field_get(this, _roProp));
 };
 function get_prop() {
     return "";

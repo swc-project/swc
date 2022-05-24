@@ -1,17 +1,17 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // merged interfaces behave as if all extends clauses from each declaration are merged together
 // no errors expected
 var C = function C() {
     "use strict";
-    swcHelpers.classCallCheck(this, C);
+    _class_call_check(this, C);
 };
 var C2 = function C2() {
     "use strict";
-    swcHelpers.classCallCheck(this, C2);
+    _class_call_check(this, C2);
 };
 var D = function D() {
     "use strict";
-    swcHelpers.classCallCheck(this, D);
+    _class_call_check(this, D);
 };
 var a;
 var r = a.a;
@@ -20,14 +20,14 @@ var M;
 (function(M) {
     var C = function C() {
         "use strict";
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
     };
     var C2 = function C2() {
         "use strict";
-        swcHelpers.classCallCheck(this, C2);
+        _class_call_check(this, C2);
     };
     var D = function D() {
         "use strict";
-        swcHelpers.classCallCheck(this, D);
+        _class_call_check(this, D);
     };
 })(M || (M = {}));

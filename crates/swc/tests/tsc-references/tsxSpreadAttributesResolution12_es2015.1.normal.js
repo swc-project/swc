@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 // @filename: file.tsx
 // @jsx: preserve
 // @noLib: true
@@ -20,21 +20,21 @@ class OverWriteAttr extends React.Component {
 }
 let anyobj;
 // Error
-let x = /*#__PURE__*/ React.createElement(OverWriteAttr, swcHelpers.extends({}, obj, {
+let x = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({}, obj, {
     y: true,
     overwrite: "hi"
 }, obj1));
-let x1 = /*#__PURE__*/ React.createElement(OverWriteAttr, swcHelpers.extends({
+let x1 = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({
     overwrite: "hi"
 }, obj1, {
     x: 3
 }, {
     y: true
 }));
-let x2 = /*#__PURE__*/ React.createElement(OverWriteAttr, swcHelpers.extends({}, anyobj, {
+let x2 = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({}, anyobj, {
     x: 3
 }));
-let x3 = /*#__PURE__*/ React.createElement(OverWriteAttr, swcHelpers.extends({
+let x3 = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({
     overwrite: "hi"
 }, obj1, {
     y: true

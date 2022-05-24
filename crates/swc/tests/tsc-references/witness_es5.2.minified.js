@@ -1,8 +1,8 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var co2, cnd1, or1, or2, or3, and1, and3, propAcc1, M2, InitClass = function() {
     "use strict";
     function InitClass() {
-        swcHelpers.classCallCheck(this, InitClass), this.x = this.x;
+        _class_call_check(this, InitClass), this.x = this.x;
     }
     return InitClass.prototype.fn = function() {
         this.x;
@@ -26,7 +26,7 @@ fnCall();
 var C = function() {
     "use strict";
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
     }
     var _proto = C.prototype;
     return _proto.fn1 = function() {
@@ -47,11 +47,11 @@ var propAcc1 = {
 (M2 || (M2 = {})).x = M2.x;
 var C2 = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, C2), this.n = this.n;
+    _class_call_check(this, C2), this.n = this.n;
 };
 new C2().n;
 var C3 = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, C3);
+    _class_call_check(this, C3);
 };
 C3.q = C3.q, C3.q;

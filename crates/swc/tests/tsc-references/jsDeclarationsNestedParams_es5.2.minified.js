@@ -1,12 +1,13 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 import regeneratorRuntime from "regenerator-runtime";
 var X = function() {
     "use strict";
     function X() {
-        swcHelpers.classCallCheck(this, X);
+        _class_call_check(this, X);
     }
     return X.prototype.cancel = function(param) {
-        return param.reason, param.code, swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return param.reason, param.code, _async_to_generator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function(_ctx) {
                 for(;;)switch(_ctx.prev = _ctx.next){
                     case 0:
@@ -19,10 +20,10 @@ var X = function() {
 }(), Y = function() {
     "use strict";
     function Y() {
-        swcHelpers.classCallCheck(this, Y);
+        _class_call_check(this, Y);
     }
     return Y.prototype.cancel = function(param) {
-        return param.reason, param.suberr, swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return param.reason, param.suberr, _async_to_generator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function(_ctx) {
                 for(;;)switch(_ctx.prev = _ctx.next){
                     case 0:

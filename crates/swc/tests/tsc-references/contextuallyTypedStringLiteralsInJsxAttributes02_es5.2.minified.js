@@ -1,21 +1,21 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 require("react");
 export function MainButton(props) {
     return props.goTo ? this._buildMainLink(props) : this._buildMainButton(props);
 }
-swcHelpers.extends({}, {
+_extends({}, {
     onClick: function(k) {
         console.log(k);
     }
 }, {
     extra: !0
-}), swcHelpers.extends({}, {
+}), _extends({}, {
     goTo: "home"
 }, {
     extra: !0
 });
 export function NoOverload() {}
-swcHelpers.extends({}, {
+_extends({}, {
     onClick: function(k) {
         console.log(k);
     }
@@ -23,7 +23,7 @@ swcHelpers.extends({}, {
     extra: !0
 });
 export function NoOverload1() {}
-swcHelpers.extends({}, {
+_extends({}, {
     goTo: "home"
 }, {
     extra: !0

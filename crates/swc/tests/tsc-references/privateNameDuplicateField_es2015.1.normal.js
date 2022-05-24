@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
+import _class_private_method_init from "@swc/helpers/lib/_class_private_method_init.js";
 // @strict: true
 // @target: es6
 function Field() {
@@ -6,11 +7,11 @@ function Field() {
     // Error
     class A_Field_Field {
         constructor(){
-            swcHelpers.classPrivateFieldInit(this, _foo, {
+            _class_private_field_init(this, _foo, {
                 writable: true,
                 value: "foo"
             });
-            swcHelpers.classPrivateFieldInit(this, _foo, {
+            _class_private_field_init(this, _foo, {
                 writable: true,
                 value: "foo"
             });
@@ -20,8 +21,8 @@ function Field() {
     // Error
     class A_Field_Method {
         constructor(){
-            swcHelpers.classPrivateMethodInit(this, _foo1);
-            swcHelpers.classPrivateFieldInit(this, _foo1, {
+            _class_private_method_init(this, _foo1);
+            _class_private_field_init(this, _foo1, {
                 writable: true,
                 value: "foo"
             });
@@ -32,11 +33,11 @@ function Field() {
     // Error
     class A_Field_Getter {
         constructor(){
-            swcHelpers.classPrivateFieldInit(this, _foo2, {
+            _class_private_field_init(this, _foo2, {
                 get: get_foo,
                 set: void 0
             });
-            swcHelpers.classPrivateFieldInit(this, _foo2, {
+            _class_private_field_init(this, _foo2, {
                 writable: true,
                 value: "foo"
             });
@@ -49,11 +50,11 @@ function Field() {
     // Error
     class A_Field_Setter {
         constructor(){
-            swcHelpers.classPrivateFieldInit(this, _foo3, {
+            _class_private_field_init(this, _foo3, {
                 get: void 0,
                 set: set_foo
             });
-            swcHelpers.classPrivateFieldInit(this, _foo3, {
+            _class_private_field_init(this, _foo3, {
                 writable: true,
                 value: "foo"
             });
@@ -64,7 +65,7 @@ function Field() {
     // Error
     class A_Field_StaticField {
         constructor(){
-            swcHelpers.classPrivateFieldInit(this, _foo4, {
+            _class_private_field_init(this, _foo4, {
                 writable: true,
                 value: "foo"
             });
@@ -78,7 +79,7 @@ function Field() {
     // Error
     class A_Field_StaticMethod {
         constructor(){
-            swcHelpers.classPrivateFieldInit(this, _foo5, {
+            _class_private_field_init(this, _foo5, {
                 writable: true,
                 value: "foo"
             });
@@ -89,7 +90,7 @@ function Field() {
     // Error
     class A_Field_StaticGetter {
         constructor(){
-            swcHelpers.classPrivateFieldInit(this, _foo6, {
+            _class_private_field_init(this, _foo6, {
                 writable: true,
                 value: "foo"
             });
@@ -106,7 +107,7 @@ function Field() {
     // Error
     class A_Field_StaticSetter {
         constructor(){
-            swcHelpers.classPrivateFieldInit(this, _foo7, {
+            _class_private_field_init(this, _foo7, {
                 writable: true,
                 value: "foo"
             });
@@ -123,8 +124,8 @@ function Method() {
     // Error
     class A_Method_Field {
         constructor(){
-            swcHelpers.classPrivateMethodInit(this, _foo);
-            swcHelpers.classPrivateFieldInit(this, _foo, {
+            _class_private_method_init(this, _foo);
+            _class_private_field_init(this, _foo, {
                 writable: true,
                 value: "foo"
             });
@@ -135,8 +136,8 @@ function Method() {
     // Error
     class A_Method_Method {
         constructor(){
-            swcHelpers.classPrivateMethodInit(this, _foo8);
-            swcHelpers.classPrivateMethodInit(this, _foo8);
+            _class_private_method_init(this, _foo8);
+            _class_private_method_init(this, _foo8);
         }
     }
     function foo2() {}
@@ -145,8 +146,8 @@ function Method() {
     // Error
     class A_Method_Getter {
         constructor(){
-            swcHelpers.classPrivateMethodInit(this, _foo9);
-            swcHelpers.classPrivateFieldInit(this, _foo9, {
+            _class_private_method_init(this, _foo9);
+            _class_private_field_init(this, _foo9, {
                 get: get_foo,
                 set: void 0
             });
@@ -160,8 +161,8 @@ function Method() {
     // Error
     class A_Method_Setter {
         constructor(){
-            swcHelpers.classPrivateMethodInit(this, _foo10);
-            swcHelpers.classPrivateFieldInit(this, _foo10, {
+            _class_private_method_init(this, _foo10);
+            _class_private_field_init(this, _foo10, {
                 get: void 0,
                 set: set_foo
             });
@@ -173,7 +174,7 @@ function Method() {
     // Error
     class A_Method_StaticField {
         constructor(){
-            swcHelpers.classPrivateMethodInit(this, _foo11);
+            _class_private_method_init(this, _foo11);
         }
     }
     var _foo11 = {
@@ -185,7 +186,7 @@ function Method() {
     // Error
     class A_Method_StaticMethod {
         constructor(){
-            swcHelpers.classPrivateMethodInit(this, _foo12);
+            _class_private_method_init(this, _foo12);
         }
     }
     function foo6() {}
@@ -194,7 +195,7 @@ function Method() {
     // Error
     class A_Method_StaticGetter {
         constructor(){
-            swcHelpers.classPrivateMethodInit(this, _foo13);
+            _class_private_method_init(this, _foo13);
         }
     }
     var _foo13 = {
@@ -209,7 +210,7 @@ function Method() {
     // Error
     class A_Method_StaticSetter {
         constructor(){
-            swcHelpers.classPrivateMethodInit(this, _foo14);
+            _class_private_method_init(this, _foo14);
         }
     }
     var _foo14 = {
@@ -224,11 +225,11 @@ function Getter() {
     // Error
     class A_Getter_Field {
         constructor(){
-            swcHelpers.classPrivateFieldInit(this, _foo, {
+            _class_private_field_init(this, _foo, {
                 get: get_foo,
                 set: void 0
             });
-            swcHelpers.classPrivateFieldInit(this, _foo, {
+            _class_private_field_init(this, _foo, {
                 writable: true,
                 value: "foo"
             });
@@ -241,11 +242,11 @@ function Getter() {
     // Error
     class A_Getter_Method {
         constructor(){
-            swcHelpers.classPrivateFieldInit(this, _foo15, {
+            _class_private_field_init(this, _foo15, {
                 get: get_foo3,
                 set: void 0
             });
-            swcHelpers.classPrivateMethodInit(this, _foo15);
+            _class_private_method_init(this, _foo15);
         }
     }
     function get_foo3() {
@@ -256,7 +257,7 @@ function Getter() {
     // Error
     class A_Getter_Getter {
         constructor(){
-            swcHelpers.classPrivateFieldInit(this, _foo16, {
+            _class_private_field_init(this, _foo16, {
                 get: get_foo4,
                 set: void 0
             });
@@ -272,7 +273,7 @@ function Getter() {
     //OK
     class A_Getter_Setter {
         constructor(){
-            swcHelpers.classPrivateFieldInit(this, _foo17, {
+            _class_private_field_init(this, _foo17, {
                 get: get_foo5,
                 set: set_foo
             });
@@ -286,7 +287,7 @@ function Getter() {
     // Error
     class A_Getter_StaticField {
         constructor(){
-            swcHelpers.classPrivateFieldInit(this, _foo18, {
+            _class_private_field_init(this, _foo18, {
                 get: get_foo6,
                 set: void 0
             });
@@ -300,7 +301,7 @@ function Getter() {
     // Error
     class A_Getter_StaticMethod {
         constructor(){
-            swcHelpers.classPrivateFieldInit(this, _foo19, {
+            _class_private_field_init(this, _foo19, {
                 get: get_foo7,
                 set: void 0
             });
@@ -314,7 +315,7 @@ function Getter() {
     // Error
     class A_Getter_StaticGetter {
         constructor(){
-            swcHelpers.classPrivateFieldInit(this, _foo20, {
+            _class_private_field_init(this, _foo20, {
                 get: get_foo8,
                 set: void 0
             });
@@ -334,7 +335,7 @@ function Getter() {
     // Error
     class A_Getter_StaticSetter {
         constructor(){
-            swcHelpers.classPrivateFieldInit(this, _foo21, {
+            _class_private_field_init(this, _foo21, {
                 get: get_foo9,
                 set: void 0
             });
@@ -354,11 +355,11 @@ function Setter() {
     // Error
     class A_Setter_Field {
         constructor(){
-            swcHelpers.classPrivateFieldInit(this, _foo, {
+            _class_private_field_init(this, _foo, {
                 get: void 0,
                 set: set_foo
             });
-            swcHelpers.classPrivateFieldInit(this, _foo, {
+            _class_private_field_init(this, _foo, {
                 writable: true,
                 value: "foo"
             });
@@ -369,11 +370,11 @@ function Setter() {
     // Error
     class A_Setter_Method {
         constructor(){
-            swcHelpers.classPrivateFieldInit(this, _foo22, {
+            _class_private_field_init(this, _foo22, {
                 get: void 0,
                 set: set_foo4
             });
-            swcHelpers.classPrivateMethodInit(this, _foo22);
+            _class_private_method_init(this, _foo22);
         }
     }
     function set_foo4(value) {}
@@ -382,7 +383,7 @@ function Setter() {
     // OK
     class A_Setter_Getter {
         constructor(){
-            swcHelpers.classPrivateFieldInit(this, _foo23, {
+            _class_private_field_init(this, _foo23, {
                 get: get_foo,
                 set: set_foo5
             });
@@ -396,7 +397,7 @@ function Setter() {
     // Error
     class A_Setter_Setter {
         constructor(){
-            swcHelpers.classPrivateFieldInit(this, _foo24, {
+            _class_private_field_init(this, _foo24, {
                 get: void 0,
                 set: set_foo6
             });
@@ -408,7 +409,7 @@ function Setter() {
     // Error
     class A_Setter_StaticField {
         constructor(){
-            swcHelpers.classPrivateFieldInit(this, _foo25, {
+            _class_private_field_init(this, _foo25, {
                 get: void 0,
                 set: set_foo7
             });
@@ -423,7 +424,7 @@ function Setter() {
     // Error
     class A_Setter_StaticMethod {
         constructor(){
-            swcHelpers.classPrivateFieldInit(this, _foo26, {
+            _class_private_field_init(this, _foo26, {
                 get: void 0,
                 set: set_foo8
             });
@@ -435,7 +436,7 @@ function Setter() {
     // Error
     class A_Setter_StaticGetter {
         constructor(){
-            swcHelpers.classPrivateFieldInit(this, _foo27, {
+            _class_private_field_init(this, _foo27, {
                 get: void 0,
                 set: set_foo9
             });
@@ -453,7 +454,7 @@ function Setter() {
     // Error
     class A_Setter_StaticSetter {
         constructor(){
-            swcHelpers.classPrivateFieldInit(this, _foo28, {
+            _class_private_field_init(this, _foo28, {
                 get: void 0,
                 set: set_foo10
             });
@@ -471,7 +472,7 @@ function StaticField() {
     // Error
     class A_StaticField_Field {
         constructor(){
-            swcHelpers.classPrivateFieldInit(this, _foo, {
+            _class_private_field_init(this, _foo, {
                 writable: true,
                 value: "foo"
             });
@@ -485,7 +486,7 @@ function StaticField() {
     // Error
     class A_StaticField_Method {
         constructor(){
-            swcHelpers.classPrivateMethodInit(this, _foo29);
+            _class_private_method_init(this, _foo29);
         }
     }
     var _foo29 = {
@@ -497,7 +498,7 @@ function StaticField() {
     // Error
     class A_StaticField_Getter {
         constructor(){
-            swcHelpers.classPrivateFieldInit(this, _foo30, {
+            _class_private_field_init(this, _foo30, {
                 get: get_foo,
                 set: void 0
             });
@@ -514,7 +515,7 @@ function StaticField() {
     // Error
     class A_StaticField_Setter {
         constructor(){
-            swcHelpers.classPrivateFieldInit(this, _foo31, {
+            _class_private_field_init(this, _foo31, {
                 get: void 0,
                 set: set_foo
             });
@@ -576,7 +577,7 @@ function StaticMethod() {
     // Error
     class A_StaticMethod_Field {
         constructor(){
-            swcHelpers.classPrivateFieldInit(this, _foo, {
+            _class_private_field_init(this, _foo, {
                 writable: true,
                 value: "foo"
             });
@@ -587,7 +588,7 @@ function StaticMethod() {
     // Error
     class A_StaticMethod_Method {
         constructor(){
-            swcHelpers.classPrivateMethodInit(this, _foo36);
+            _class_private_method_init(this, _foo36);
         }
     }
     function foo13() {}
@@ -596,7 +597,7 @@ function StaticMethod() {
     // Error
     class A_StaticMethod_Getter {
         constructor(){
-            swcHelpers.classPrivateFieldInit(this, _foo37, {
+            _class_private_field_init(this, _foo37, {
                 get: get_foo,
                 set: void 0
             });
@@ -610,7 +611,7 @@ function StaticMethod() {
     // Error
     class A_StaticMethod_Setter {
         constructor(){
-            swcHelpers.classPrivateFieldInit(this, _foo38, {
+            _class_private_field_init(this, _foo38, {
                 get: void 0,
                 set: set_foo
             });
@@ -657,7 +658,7 @@ function StaticGetter() {
     // Error
     class A_StaticGetter_Field {
         constructor(){
-            swcHelpers.classPrivateFieldInit(this, _foo, {
+            _class_private_field_init(this, _foo, {
                 writable: true,
                 value: "foo"
             });
@@ -674,7 +675,7 @@ function StaticGetter() {
     // Error
     class A_StaticGetter_Method {
         constructor(){
-            swcHelpers.classPrivateMethodInit(this, _foo42);
+            _class_private_method_init(this, _foo42);
         }
     }
     var _foo42 = {
@@ -689,7 +690,7 @@ function StaticGetter() {
     // Error
     class A_StaticGetter_Getter {
         constructor(){
-            swcHelpers.classPrivateFieldInit(this, _foo43, {
+            _class_private_field_init(this, _foo43, {
                 get: get_foo14,
                 set: void 0
             });
@@ -709,7 +710,7 @@ function StaticGetter() {
     // Error
     class A_StaticGetter_Setter {
         constructor(){
-            swcHelpers.classPrivateFieldInit(this, _foo44, {
+            _class_private_field_init(this, _foo44, {
                 get: void 0,
                 set: set_foo
             });
@@ -775,7 +776,7 @@ function StaticSetter() {
     // Error
     class A_StaticSetter_Field {
         constructor(){
-            swcHelpers.classPrivateFieldInit(this, _foo, {
+            _class_private_field_init(this, _foo, {
                 writable: true,
                 value: "foo"
             });
@@ -790,7 +791,7 @@ function StaticSetter() {
     // Error
     class A_StaticSetter_Method {
         constructor(){
-            swcHelpers.classPrivateMethodInit(this, _foo49);
+            _class_private_method_init(this, _foo49);
         }
     }
     var _foo49 = {
@@ -803,7 +804,7 @@ function StaticSetter() {
     // Error
     class A_StaticSetter_Getter {
         constructor(){
-            swcHelpers.classPrivateFieldInit(this, _foo50, {
+            _class_private_field_init(this, _foo50, {
                 get: get_foo,
                 set: void 0
             });
@@ -821,7 +822,7 @@ function StaticSetter() {
     // Error
     class A_StaticSetter_Setter {
         constructor(){
-            swcHelpers.classPrivateFieldInit(this, _foo51, {
+            _class_private_field_init(this, _foo51, {
                 get: void 0,
                 set: set_foo16
             });

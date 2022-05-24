@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
+import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
 var ref = {
     a1: 10,
     a2: "world"
@@ -14,23 +15,23 @@ var ref1 = [
     void 0,
     void 0,
     void 0
-], ref2 = (ref1[0], ref1[1], ref1[2], swcHelpers.slicedToArray([
+], ref2 = (ref1[0], ref1[1], ref1[2], _sliced_to_array([
     1,
     "string"
-].concat(swcHelpers.toConsumableArray([
+].concat(_to_consumable_array([
     !0,
     !1,
     !0
 ])), 2));
 ref2[0], ref2[1];
-var _e = swcHelpers.slicedToArray([
+var _e = _sliced_to_array([
     1,
     2,
     {
         b1: 4,
         b4: 0
     }
-], 3), _f = (_e[0], _e[1], _e[2], swcHelpers.slicedToArray([
+], 3), _f = (_e[0], _e[1], _e[2], _sliced_to_array([
     1,
     2,
     {

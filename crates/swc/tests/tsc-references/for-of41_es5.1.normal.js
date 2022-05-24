@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
 //@target: ES6
 var array = [
     {
@@ -13,7 +13,7 @@ var array = [
 var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
 try {
     for(var _iterator = array[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
-        var _value = _step.value, _x = swcHelpers.slicedToArray(_value.x, 1), a = _x[0], p = _value.y.p;
+        var _value = _step.value, _x = _sliced_to_array(_value.x, 1), a = _x[0], p = _value.y.p;
         a;
         p;
     }

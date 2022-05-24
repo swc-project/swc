@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @filename: lib.js
 /**
  * @template T
@@ -6,7 +6,7 @@ import * as swcHelpers from "@swc/helpers";
  */ export var Encoder = /*#__PURE__*/ function() {
     "use strict";
     function Encoder() {
-        swcHelpers.classCallCheck(this, Encoder);
+        _class_call_check(this, Encoder);
     }
     var _proto = Encoder.prototype;
     /**

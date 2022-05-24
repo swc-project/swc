@@ -1,17 +1,19 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_private_field_get from "@swc/helpers/lib/_class_private_field_get.js";
+import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
+import _class_private_field_set from "@swc/helpers/lib/_class_private_field_set.js";
 // @target: es2015
 let friendA;
 var _x = /*#__PURE__*/ new WeakMap();
 class A {
     getX() {
-        return swcHelpers.classPrivateFieldGet(this, _x);
+        return _class_private_field_get(this, _x);
     }
     constructor(v){
-        swcHelpers.classPrivateFieldInit(this, _x, {
+        _class_private_field_init(this, _x, {
             writable: true,
             value: void 0
         });
-        swcHelpers.classPrivateFieldSet(this, _x, v);
+        _class_private_field_set(this, _x, v);
     }
 }
 var __ = {
@@ -19,10 +21,10 @@ var __ = {
     value: (()=>{
         friendA = {
             getX (obj) {
-                return swcHelpers.classPrivateFieldGet(obj, _x);
+                return _class_private_field_get(obj, _x);
             },
             setX (obj, value) {
-                swcHelpers.classPrivateFieldSet(obj, _x, value);
+                _class_private_field_set(obj, _x, value);
             }
         };
     })()

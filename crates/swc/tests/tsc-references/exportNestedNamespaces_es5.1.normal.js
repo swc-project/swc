@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @Filename: use.js
 import * as s from "./mod";
 // @allowJs: true
@@ -11,7 +11,7 @@ exports.n.K = function() {
 };
 exports.Classic = function _class() {
     "use strict";
-    swcHelpers.classCallCheck(this, _class);
+    _class_call_check(this, _class);
     this.p = 1;
 };
 var k = new s.n.K();

@@ -1,4 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var _this = this;
 // @filename: file.tsx
 // @jsx: preserve
@@ -9,10 +11,10 @@ var _this = this;
 var React = require("react");
 var BigGreeter = /*#__PURE__*/ function(_Component) {
     "use strict";
-    swcHelpers.inherits(BigGreeter, _Component);
-    var _super = swcHelpers.createSuper(BigGreeter);
+    _inherits(BigGreeter, _Component);
+    var _super = _create_super(BigGreeter);
     function BigGreeter() {
-        swcHelpers.classCallCheck(this, BigGreeter);
+        _class_call_check(this, BigGreeter);
         return _super.apply(this, arguments);
     }
     var _proto = BigGreeter.prototype;

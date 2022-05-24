@@ -1,5 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
-var ref = swcHelpers.slicedToArray(new Map([
+import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
+var ref = _sliced_to_array(new Map([
     [
         "",
         !0
@@ -8,5 +8,5 @@ var ref = swcHelpers.slicedToArray(new Map([
         "hello",
         !0
     ]
-]), 2), ref1 = swcHelpers.slicedToArray(ref[0], 2), ref2 = (ref1[0], ref1[1], swcHelpers.slicedToArray(ref[1], 2));
+]), 2), ref1 = _sliced_to_array(ref[0], 2), ref2 = (ref1[0], ref1[1], _sliced_to_array(ref[1], 2));
 ref2[0], ref2[1];

@@ -1,9 +1,11 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 // generic types should behave as if they have properties of their constraint type
 var A = /*#__PURE__*/ function() {
     "use strict";
     function A() {
-        swcHelpers.classCallCheck(this, A);
+        _class_call_check(this, A);
     }
     var _proto = A.prototype;
     _proto.foo = function foo() {
@@ -13,10 +15,10 @@ var A = /*#__PURE__*/ function() {
 }();
 var B = /*#__PURE__*/ function(A) {
     "use strict";
-    swcHelpers.inherits(B, A);
-    var _super = swcHelpers.createSuper(B);
+    _inherits(B, A);
+    var _super = _create_super(B);
     function B() {
-        swcHelpers.classCallCheck(this, B);
+        _class_call_check(this, B);
         return _super.apply(this, arguments);
     }
     var _proto = B.prototype;
@@ -28,7 +30,7 @@ var B = /*#__PURE__*/ function(A) {
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
     }
     var _proto = C.prototype;
     _proto.f = function f() {

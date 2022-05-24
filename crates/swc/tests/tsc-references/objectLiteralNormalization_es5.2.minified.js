@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _object_spread from "@swc/helpers/lib/_object_spread.js";
 var a1 = {
     a: 0
 };
@@ -27,10 +27,10 @@ a2.a, a2.b, a2 = {
 }, a2 = {
     a: 1
 };
-var b2 = swcHelpers.objectSpread({}, b1, {
+var b2 = _object_spread({}, b1, {
     z: 55
 });
-swcHelpers.objectSpread({}, b2);
+_object_spread({}, b2);
 var d1 = {
     kind: "a",
     pos: {

@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
@@ -13,7 +13,7 @@ function testPromise2() {
     return _testPromise2.apply(this, arguments);
 }
 function _testPromise2() {
-    _testPromise2 = /** @type {FunctionReturningPromise} */ swcHelpers.asyncToGenerator(function*() {
+    _testPromise2 = /** @type {FunctionReturningPromise} */ _async_to_generator(function*() {
         return "asd";
     });
     return _testPromise2.apply(this, arguments);
@@ -32,7 +32,7 @@ function testNever2() {
     return _testNever2.apply(this, arguments);
 }
 function _testNever2() {
-    _testNever2 = /** @type {FunctionReturningNever} */ swcHelpers.asyncToGenerator(function*() {
+    _testNever2 = /** @type {FunctionReturningNever} */ _async_to_generator(function*() {
         return "asd";
     });
     return _testNever2.apply(this, arguments);

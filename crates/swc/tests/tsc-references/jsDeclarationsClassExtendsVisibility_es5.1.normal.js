@@ -1,4 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 // @allowJs: true
 // @checkJs: true
 // @target: es5
@@ -7,7 +9,7 @@ import * as swcHelpers from "@swc/helpers";
 // @filename: bar.js
 var Bar = function Bar() {
     "use strict";
-    swcHelpers.classCallCheck(this, Bar);
+    _class_call_check(this, Bar);
 };
 module.exports = Bar;
 // @filename: cls.js
@@ -18,10 +20,10 @@ var Strings = {
 };
 var Foo = /*#__PURE__*/ function(Bar1) {
     "use strict";
-    swcHelpers.inherits(Foo, Bar1);
-    var _super = swcHelpers.createSuper(Foo);
+    _inherits(Foo, Bar1);
+    var _super = _create_super(Foo);
     function Foo() {
-        swcHelpers.classCallCheck(this, Foo);
+        _class_call_check(this, Foo);
         return _super.apply(this, arguments);
     }
     return Foo;

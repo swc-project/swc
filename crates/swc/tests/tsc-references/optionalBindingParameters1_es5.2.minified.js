@@ -1,6 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
+import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
 function foo(param) {
-    var _param = swcHelpers.slicedToArray(param, 3);
+    var _param = _sliced_to_array(param, 3);
     _param[0], _param[1], _param[2];
 }
 foo([

@@ -1,8 +1,8 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // Basic recursive type
 var List = function List() {
     "use strict";
-    swcHelpers.classCallCheck(this, List);
+    _class_call_check(this, List);
 };
 var list1 = new List();
 var list2 = new List();

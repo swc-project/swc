@@ -1,2 +1,2 @@
-import * as swcHelpers from "@swc/helpers";
-var v = v !== null ? v : swcHelpers._throw(new TypeError("Cannot destructure undefined"));
+import _throw from "@swc/helpers/lib/_throw.js";
+var v = v !== null ? v : _throw(new TypeError("Cannot destructure undefined"));

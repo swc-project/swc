@@ -1,8 +1,8 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 export var C = function() {
     "use strict";
     function C() {
-        swcHelpers.classCallCheck(this, C), this.assets = {};
+        _class_call_check(this, C), this.assets = {};
     }
     return C.prototype.m = function() {
         this.assets;

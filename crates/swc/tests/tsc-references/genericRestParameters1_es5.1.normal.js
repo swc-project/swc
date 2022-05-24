@@ -1,108 +1,108 @@
-import * as swcHelpers from "@swc/helpers";
+import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
 f1 = f2;
 f2 = f1;
 f1(42, "hello", true);
 f1(t3[0], t3[1], t3[2]);
-f1.apply(void 0, swcHelpers.toConsumableArray(t3));
+f1.apply(void 0, _to_consumable_array(t3));
 f1.apply(void 0, [
     42
-].concat(swcHelpers.toConsumableArray(t2)));
+].concat(_to_consumable_array(t2)));
 f1.apply(void 0, [
     42,
     "hello"
-].concat(swcHelpers.toConsumableArray(t1)));
+].concat(_to_consumable_array(t1)));
 f1.apply(void 0, [
     42,
     "hello",
     true
-].concat(swcHelpers.toConsumableArray(t0)));
+].concat(_to_consumable_array(t0)));
 f1(ns[0], ns[1], true);
-f1.apply(void 0, swcHelpers.toConsumableArray(ns).concat([
+f1.apply(void 0, _to_consumable_array(ns).concat([
     true
 ])); // FIXME: Error, since ...ns is considered as string|number here
 f2(42, "hello", true);
 f2(t3[0], t3[1], t3[2]);
-f2.apply(void 0, swcHelpers.toConsumableArray(t3));
+f2.apply(void 0, _to_consumable_array(t3));
 f2.apply(void 0, [
     42
-].concat(swcHelpers.toConsumableArray(t2)));
+].concat(_to_consumable_array(t2)));
 f2.apply(void 0, [
     42,
     "hello"
-].concat(swcHelpers.toConsumableArray(t1)));
+].concat(_to_consumable_array(t1)));
 f2.apply(void 0, [
     42,
     "hello",
     true
-].concat(swcHelpers.toConsumableArray(t0)));
+].concat(_to_consumable_array(t0)));
 f2(ns[0], ns[1], true);
-f2.apply(void 0, swcHelpers.toConsumableArray(ns).concat([
+f2.apply(void 0, _to_consumable_array(ns).concat([
     true
 ])); // FIXME: Error, since ...ns is considered as string|number here
 var x10 = f10(42, "hello", true); // [number, string, boolean]
 var x11 = f10(42, "hello"); // [number, string]
 var x12 = f10(42); // [number]
 var x13 = f10(); // []
-var x14 = f10.apply(void 0, swcHelpers.toConsumableArray(t3)); // [number, string, boolean]
+var x14 = f10.apply(void 0, _to_consumable_array(t3)); // [number, string, boolean]
 var x15 = f10.apply(void 0, [
     42
-].concat(swcHelpers.toConsumableArray(t2))); // [number, string, boolean]
+].concat(_to_consumable_array(t2))); // [number, string, boolean]
 var x16 = f10.apply(void 0, [
     42,
     "hello"
-].concat(swcHelpers.toConsumableArray(t1))); // [number, string, boolean]
+].concat(_to_consumable_array(t1))); // [number, string, boolean]
 var x17 = f10.apply(void 0, [
     42,
     "hello",
     true
-].concat(swcHelpers.toConsumableArray(t0))); // [number, string, boolean]
-var x18 = f10.apply(void 0, swcHelpers.toConsumableArray(ns).concat([
+].concat(_to_consumable_array(t0))); // [number, string, boolean]
+var x18 = f10.apply(void 0, _to_consumable_array(ns).concat([
     true
 ])); // (string | number | boolean)[]
 function g10(u, v) {
-    var x1 = f10.apply(void 0, swcHelpers.toConsumableArray(u)); // U
-    var x2 = f10.apply(void 0, swcHelpers.toConsumableArray(v)); // V
+    var x1 = f10.apply(void 0, _to_consumable_array(u)); // U
+    var x2 = f10.apply(void 0, _to_consumable_array(v)); // V
     var x3 = f10.apply(void 0, [
         1
-    ].concat(swcHelpers.toConsumableArray(u))); // [number, ...string[]]
-    var x4 = f10.apply(void 0, swcHelpers.toConsumableArray(u).concat(swcHelpers.toConsumableArray(v))); // (string | number)[]
+    ].concat(_to_consumable_array(u))); // [number, ...string[]]
+    var x4 = f10.apply(void 0, _to_consumable_array(u).concat(_to_consumable_array(v))); // (string | number)[]
 }
 var z10 = f11(42, "hello", true); // [42, "hello", true]
 var z11 = f11(42, "hello"); // [42, "hello"]
 var z12 = f11(42); // [42]
 var z13 = f11(); // []
-var z14 = f11.apply(void 0, swcHelpers.toConsumableArray(t3)); // [number, string, boolean]
+var z14 = f11.apply(void 0, _to_consumable_array(t3)); // [number, string, boolean]
 var z15 = f11.apply(void 0, [
     42
-].concat(swcHelpers.toConsumableArray(t2))); // [42, string, boolean]
+].concat(_to_consumable_array(t2))); // [42, string, boolean]
 var z16 = f11.apply(void 0, [
     42,
     "hello"
-].concat(swcHelpers.toConsumableArray(t1))); // [42, "hello", boolean]
+].concat(_to_consumable_array(t1))); // [42, "hello", boolean]
 var z17 = f11.apply(void 0, [
     42,
     "hello",
     true
-].concat(swcHelpers.toConsumableArray(t0))); // [42, "hello", true]
-var z18 = f11.apply(void 0, swcHelpers.toConsumableArray(ns).concat([
+].concat(_to_consumable_array(t0))); // [42, "hello", true]
+var z18 = f11.apply(void 0, _to_consumable_array(ns).concat([
     true
 ])); // (string | number | true)[]
 function g11(u, v) {
-    var x1 = f11.apply(void 0, swcHelpers.toConsumableArray(u)); // U
-    var x2 = f11.apply(void 0, swcHelpers.toConsumableArray(v)); // V
+    var x1 = f11.apply(void 0, _to_consumable_array(u)); // U
+    var x2 = f11.apply(void 0, _to_consumable_array(v)); // V
     var x3 = f11.apply(void 0, [
         1
-    ].concat(swcHelpers.toConsumableArray(u))); // [1, ...string[]]
-    var x4 = f11.apply(void 0, swcHelpers.toConsumableArray(u).concat(swcHelpers.toConsumableArray(v))); // (string | number)[]
+    ].concat(_to_consumable_array(u))); // [1, ...string[]]
+    var x4 = f11.apply(void 0, _to_consumable_array(u).concat(_to_consumable_array(v))); // (string | number)[]
 }
 function call(f) {
     for(var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
         args[_key - 1] = arguments[_key];
     }
-    return f.apply(void 0, swcHelpers.toConsumableArray(args));
+    return f.apply(void 0, _to_consumable_array(args));
 }
 function callr(args, f) {
-    return f.apply(void 0, swcHelpers.toConsumableArray(args));
+    return f.apply(void 0, _to_consumable_array(args));
 }
 var x20 = call(function(x, y) {
     return x + y;
@@ -125,7 +125,7 @@ function bind(f, x) {
         }
         return f.apply(void 0, [
             x
-        ].concat(swcHelpers.toConsumableArray(rest)));
+        ].concat(_to_consumable_array(rest)));
     };
 }
 var f21 = bind(f20, 42); // (y: string, z: boolean) => string[]

@@ -1,10 +1,11 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _to_array from "@swc/helpers/lib/_to_array.js";
 var _iterator = Symbol.iterator;
 //@target: ES6
 var SymbolIterator = /*#__PURE__*/ function() {
     "use strict";
     function SymbolIterator() {
-        swcHelpers.classCallCheck(this, SymbolIterator);
+        _class_call_check(this, SymbolIterator);
     }
     var _proto = SymbolIterator.prototype;
     _proto.next = function next() {
@@ -18,4 +19,4 @@ var SymbolIterator = /*#__PURE__*/ function() {
     };
     return SymbolIterator;
 }();
-var ref = swcHelpers.toArray(new SymbolIterator), a = ref[0], b = ref.slice(1);
+var ref = _to_array(new SymbolIterator), a = ref[0], b = ref.slice(1);

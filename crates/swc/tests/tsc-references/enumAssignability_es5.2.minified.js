@@ -1,5 +1,5 @@
 var E, F, Others;
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 !function(E) {
     E[E.A = 0] = "A";
 }(E || (E = {})), function(F) {
@@ -7,6 +7,6 @@ import * as swcHelpers from "@swc/helpers";
 }(F || (F = {})), E.A, F.B, function(Others) {
     var C = function() {
         "use strict";
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
     };
 }(Others || (Others = {}));

@@ -1,8 +1,8 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var C1 = /*#__PURE__*/ function() {
     "use strict";
     function C1() {
-        swcHelpers.classCallCheck(this, C1);
+        _class_call_check(this, C1);
     }
     var _proto = C1.prototype;
     _proto.f = function f(x) {
@@ -12,16 +12,16 @@ var C1 = /*#__PURE__*/ function() {
 }();
 var C2 = function C2() {
     "use strict";
-    swcHelpers.classCallCheck(this, C2);
+    _class_call_check(this, C2);
 };
 var C3 = function C3() {
     "use strict";
-    swcHelpers.classCallCheck(this, C3);
+    _class_call_check(this, C3);
 };
 var C5 = /*#__PURE__*/ function() {
     "use strict";
     function C5() {
-        swcHelpers.classCallCheck(this, C5);
+        _class_call_check(this, C5);
     }
     var _proto = C5.prototype;
     _proto.foo = function foo() {

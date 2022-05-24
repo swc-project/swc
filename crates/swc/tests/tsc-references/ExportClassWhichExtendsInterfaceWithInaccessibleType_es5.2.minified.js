@@ -1,10 +1,10 @@
 var A;
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 !function(A1) {
     var Point2d = function() {
         "use strict";
         function Point2d(x, y) {
-            swcHelpers.classCallCheck(this, Point2d), this.x = x, this.y = y;
+            _class_call_check(this, Point2d), this.x = x, this.y = y;
         }
         return Point2d.prototype.fromOrigin = function(p) {
             return 1;

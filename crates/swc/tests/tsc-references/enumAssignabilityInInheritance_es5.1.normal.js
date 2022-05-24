@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var // enum is only a subtype of number, no types are subtypes of enum, all of these except the first are errors
 E;
 (function(E) {
@@ -16,12 +16,12 @@ var r4 = foo7(E.A);
 var r4 = foo8(E.A);
 var A = function A() {
     "use strict";
-    swcHelpers.classCallCheck(this, A);
+    _class_call_check(this, A);
 };
 var r4 = foo9(E.A);
 var A2 = function A2() {
     "use strict";
-    swcHelpers.classCallCheck(this, A2);
+    _class_call_check(this, A2);
 };
 var r4 = foo10(E.A);
 var r4 = foo11(E.A);
@@ -38,7 +38,7 @@ function f() {}
 var r4 = foo14(E.A);
 var CC = function CC() {
     "use strict";
-    swcHelpers.classCallCheck(this, CC);
+    _class_call_check(this, CC);
 };
 (function(CC) {
     var bar = CC.bar = 1;
