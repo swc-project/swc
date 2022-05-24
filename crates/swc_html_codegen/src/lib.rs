@@ -655,11 +655,9 @@ where
 
                 attribute.push_str(&minifier);
             } else {
-                let quote = if value.contains('"') { '\'' } else { '"' };
+                let normalized = normalize_attribute_value(value);
 
-                attribute.push(quote);
-                attribute.push_str(value);
-                attribute.push(quote);
+                attribute.push_str(&normalized);
             }
         }
 
@@ -677,21 +675,7 @@ where
                 data.push('\n');
             }
 
-            for c in n.value.chars() {
-                match c {
-                    '&' => {
-                        data.push_str(&String::from("&amp;"));
-                    }
-                    '<' => {
-                        data.push_str(&String::from("&lt;"));
-                    }
-                    '>' => {
-                        data.push_str(&String::from("&gt;"));
-                    }
-                    '\u{00A0}' => data.push_str(&String::from("&nbsp;")),
-                    _ => data.push(c),
-                }
-            }
+            data.push_str(&escape_string(&n.value, false));
 
             write_str!(self, n.span, &data);
         }
@@ -1192,4 +1176,53 @@ fn is_html_tag_name(namespace: Namespace, tag_name: &str) -> bool {
             | "wbr"
             | "xmp"
     )
+fn normalize_attribute_value(value: &str) -> String {
+    if value.is_empty() {
+        return "\"\"".to_string();
+    }
+
+    let mut normalized = String::new();
+
+    normalized.push('"');
+    normalized.push_str(&escape_string(value, true));
+    normalized.push('"');
+
+    normalized
+}
+
+// Escaping a string (for the purposes of the algorithm above) consists of
+// running the following steps:
+//
+// 1. Replace any occurrence of the "&" character by the string "&amp;".
+//
+// 2. Replace any occurrences of the U+00A0 NO-BREAK SPACE character by the
+// string "&nbsp;".
+//
+// 3. If the algorithm was invoked in the attribute mode, replace any
+// occurrences of the """ character by the string "&quot;".
+//
+// 4. If the algorithm was not invoked in the attribute mode, replace any
+// occurrences of the "<" character by the string "&lt;", and any occurrences of
+// the ">" character by the string "&gt;".
+fn escape_string(value: &str, is_attribute_mode: bool) -> String {
+    let mut result = String::new();
+
+    for c in value.chars() {
+        match c {
+            '&' => {
+                result.push_str(&String::from("&amp;"));
+            }
+            '\u{00A0}' => result.push_str(&String::from("&nbsp;")),
+            '"' if is_attribute_mode => result.push_str(&String::from("&quot;")),
+            '<' if !is_attribute_mode => {
+                result.push_str(&String::from("&lt;"));
+            }
+            '>' if !is_attribute_mode => {
+                result.push_str(&String::from("&gt;"));
+            }
+            _ => result.push(c),
+        }
+    }
+
+    result
 }

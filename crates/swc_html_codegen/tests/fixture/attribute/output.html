@@ -49,7 +49,7 @@
 <a title="x" href=" ">foo</a>
 <p id="" class="" title="">x</p>
 <p x="x'">x</p>
-<p x='x"'>x</p>
+<p x="x&quot;">x</p>
 <a href="#"><p>Click me</p></a>
 <span><button>Hit me</button></span>
 <!--TODO FIX ME -->
@@ -68,20 +68,20 @@
 <div data-test="foo" class="bar">test</div>
 
 <div data-test="foo bar" class="bar">test</div>
-<div data-test='foo " bar' class="bar">test</div>
+<div data-test="foo &quot; bar" class="bar">test</div>
 <div data-test="foo ' bar" class="bar">test</div>
-<div data-test='foo " bar' class="bar">test</div>
+<div data-test="foo &quot; bar" class="bar">test</div>
 <div data-test="foo ' bar" class="bar">test</div>
 
-<div data-test='foo """ bar' class="bar">test</div>
+<div data-test="foo &quot;&quot;&quot; bar" class="bar">test</div>
 <div data-test="foo ''' bar" class="bar">test</div>
 
-<div data-test='"foo"' class="bar">test</div>
-<div data-test='"foo"' class="bar">test</div>
-<div data-test='"   foo   "' class="bar">test</div>
-<div data-test='"foo"' class="bar">test</div>
-<div data-test='"foo"' class="bar">test</div>
-<div data-test='"   foo   "' class="bar">test</div>
+<div data-test="&quot;foo&quot;" class="bar">test</div>
+<div data-test="&quot;foo&quot;" class="bar">test</div>
+<div data-test="&quot;   foo   &quot;" class="bar">test</div>
+<div data-test="&quot;foo&quot;" class="bar">test</div>
+<div data-test="&quot;foo&quot;" class="bar">test</div>
+<div data-test="&quot;   foo   &quot;" class="bar">test</div>
 <div data-test="'foo'" class="bar">test</div>
 <div data-test="'foo'" class="bar">test</div>
 <div data-test="
@@ -91,15 +91,16 @@ foo
 <div data-test="\foo" class="bar">test</div>
 <div data-test="\\foo" class="bar">test</div>
 
-<!--<span title='test "with" &amp;quot;'>test</span>-->
-<span title='test "with" &test'>test</span>
-<span title='test "with" <'>test</span>
-<span title='test "with" >'>test</span>
+<span title="test &quot;with&quot; &amp;quot;">test</span>
+<span title="test &quot;with&quot; &amp;test">test</span>
+<span title="test &quot;with&quot; &amp;amptest">test</span>
+<span title="test &quot;with&quot; <">test</span>
+<span title="test &quot;with&quot; >">test</span>
 <span title="foo">Test</span>
 <span title="foo<bar">Test</span>
 <span title="foo=bar">Test</span>
 <span title="foo>bar">Test</span>
-<span title='foo"bar'>Test</span>
+<span title="foo&quot;bar">Test</span>
 <span title="foo'bar">Test</span>
 
 <div>
@@ -129,7 +130,8 @@ __ bind(&amp;current);
 </code></pre>
 
 <div>
-    &amp;xxx; &amp;xxx &amp;thorn; &amp;thorn &amp;curren;t &amp;current
+    &amp;xxx; &amp;xxx &amp;thorn; &amp;thorn &amp;curren;t &amp;current &amp;current; &amp;&amp;
+    &amp;gt
 </div>
 
 

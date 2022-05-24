@@ -89,8 +89,9 @@ foo
 <div data-test=\foo class=bar>test</div>
 <div data-test=\\foo class=bar>test</div>
 
-<!--<span title='test "with" &amp;quot;'>test</span>-->
+<span title='test "with" &quot;'>test</span>
 <span title='test "with" &test'>test</span>
+<span title='test "with" &amptest'>test</span>
 <span title='test "with" <'>test</span>
 <span title='test "with" >'>test</span>
 <span title=foo>Test</span>
@@ -127,7 +128,8 @@ __ bind(&amp;current);
 </code></pre>
 
 <div>
-    &amp;xxx; &amp;xxx &amp;thorn; &amp;thorn &amp;curren;t &amp;current
+    &amp;xxx; &amp;xxx &amp;thorn; &amp;thorn &amp;curren;t &amp;current &amp;current; &amp;&amp;
+    &amp;gt
 </div>
 
 
