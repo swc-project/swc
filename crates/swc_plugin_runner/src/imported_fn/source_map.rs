@@ -1,10 +1,10 @@
 use std::sync::Arc;
 
 use parking_lot::Mutex;
-use swc_common::{plugin::Serialized, BytePos, SourceMap};
+use swc_common::{plugin::Serialized, BytePos, SourceMap, Span, SyntaxContext};
 use wasmer::{LazyInit, Memory, NativeFunc};
 
-use crate::memory_interop::allocate_return_values_into_guest;
+use crate::memory_interop::{allocate_return_values_into_guest, write_into_memory_view};
 
 /// External environment state for imported (declared in host, injected into
 /// guest) fn for source map proxy.
@@ -51,6 +51,47 @@ pub fn lookup_char_pos_proxy(
                 allocated_ret_ptr,
                 &serialized_loc_bytes,
             );
+            1
+        } else {
+            0
+        }
+    } else {
+        0
+    }
+}
+
+pub fn doctest_offset_line_proxy(env: &SourceMapHostEnvironment, orig: u32) -> u32 {
+    (env.source_map.lock()).doctest_offset_line(orig as usize) as u32
+}
+
+#[allow(clippy::too_many_arguments)]
+pub fn merge_spans_proxy(
+    env: &SourceMapHostEnvironment,
+    lhs_lo: u32,
+    lhs_hi: u32,
+    lhs_ctxt: u32,
+    rhs_lo: u32,
+    rhs_hi: u32,
+    rhs_ctxt: u32,
+    allocated_ptr: i32,
+) -> i32 {
+    if let Some(memory) = env.memory_ref() {
+        let sp_lhs = Span {
+            lo: BytePos(lhs_lo),
+            hi: BytePos(lhs_hi),
+            ctxt: SyntaxContext::from_u32(lhs_ctxt),
+        };
+
+        let sp_rhs = Span {
+            lo: BytePos(rhs_lo),
+            hi: BytePos(rhs_hi),
+            ctxt: SyntaxContext::from_u32(rhs_ctxt),
+        };
+
+        let ret = (env.source_map.lock()).merge_spans(sp_lhs, sp_rhs);
+        if let Some(span) = ret {
+            let serialized_bytes = Serialized::serialize(&span).expect("Should be serializable");
+            write_into_memory_view(memory, &serialized_bytes, |_| allocated_ptr);
             1
         } else {
             0

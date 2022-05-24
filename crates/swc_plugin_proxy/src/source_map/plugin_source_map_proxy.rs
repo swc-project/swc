@@ -9,6 +9,16 @@ use crate::memory_interop::read_returned_result_from_host_fallible;
 #[cfg(target_arch = "wasm32")]
 extern "C" {
     fn __lookup_char_pos_source_map_proxy(byte_pos: u32, allocated_ret_ptr: i32) -> i32;
+    fn __doctest_offset_line_proxy(orig: u32) -> u32;
+    fn __merge_spans_proxy(
+        lhs_lo: u32,
+        lhs_hi: u32,
+        lhs_ctxt: u32,
+        rhs_lo: u32,
+        rhs_hi: u32,
+        rhs_ctxt: u32,
+        allocated_ptr: i32,
+    ) -> i32;
 }
 
 #[cfg(feature = "plugin-mode")]
@@ -44,14 +54,51 @@ impl SourceMapper for PluginSourceMapProxy {
     }
 
     fn merge_spans(&self, sp_lhs: Span, sp_rhs: Span) -> Option<Span> {
-        unimplemented!("Not implemented yet");
+        #[cfg(target_arch = "wasm32")]
+        unsafe {
+            // We need to `allocate` memory, force creates empty span instead of DUMMY_SP
+            let span = Span {
+                lo: BytePos(0),
+                hi: BytePos(0),
+                ctxt: swc_common::SyntaxContext::empty(),
+            };
+
+            let serialized =
+                swc_common::plugin::Serialized::serialize(&span).expect("Should be serializable");
+            let serialized_ref = serialized.as_ref();
+            let ptr = serialized_ref.as_ptr();
+            let len = serialized_ref.len();
+
+            let ret = __merge_spans_proxy(
+                sp_lhs.lo.0,
+                sp_lhs.hi.0,
+                sp_lhs.ctxt.as_u32(),
+                sp_rhs.lo.0,
+                sp_rhs.hi.0,
+                sp_rhs.ctxt.as_u32(),
+                ptr as _,
+            );
+
+            return if ret == 1 { Some(span) } else { None };
+        };
+
+        #[cfg(not(target_arch = "wasm32"))]
+        unimplemented!("Sourcemap proxy cannot be called in this context")
     }
 
     fn call_span_if_macro(&self, sp: Span) -> Span {
-        unimplemented!("Not implemented yet");
+        // This mimics host's behavior
+        // https://github.com/swc-project/swc/blob/f7dc3fff1f03c9b7cee27ef760dc11bc96083f60/crates/swc_common/src/source_map.rs#L1283-L1285=
+        sp
     }
 
     fn doctest_offset_line(&self, line: usize) -> usize {
-        unimplemented!("Not implemented yet");
+        #[cfg(target_arch = "wasm32")]
+        unsafe {
+            return __doctest_offset_line_proxy(line as u32) as usize;
+        };
+
+        #[cfg(not(target_arch = "wasm32"))]
+        unimplemented!("Sourcemap proxy cannot be called in this context")
     }
 }
