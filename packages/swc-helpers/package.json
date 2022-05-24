@@ -1,6 +1,6 @@
 {
     "name": "@swc/helpers",
-    "version": "0.3.14",
+    "version": "0.3.15",
     "description": "External helpers for the swc project.",
     "esnext": "src/index.js",
     "module": "src/index.js",
