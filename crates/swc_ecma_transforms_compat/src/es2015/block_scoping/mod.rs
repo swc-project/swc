@@ -1,5 +1,6 @@
 use std::mem::take;
 
+use ahash::AHashSet;
 use indexmap::IndexMap;
 use smallvec::SmallVec;
 use swc_atoms::{js_word, JsWord};
@@ -181,6 +182,7 @@ impl BlockScoping {
                 has_break: false,
                 has_return: false,
                 label: IndexMap::new(),
+                inner_label: AHashSet::new(),
                 mutated,
                 in_switch_case: false,
                 in_nested_loop: false,
@@ -707,6 +709,7 @@ struct FlowHelper<'a> {
     has_return: bool,
     // label cannot be shadowed, so it's pretty safe to use JsWord
     label: IndexMap<JsWord, Label>,
+    inner_label: AHashSet<JsWord>,
     all: &'a Vec<Id>,
     mutated: AHashMap<Id, SyntaxContext>,
     in_switch_case: bool,
@@ -728,6 +731,13 @@ impl<'a> FlowHelper<'a> {
             );
         }
     }
+
+    fn has_outer_label(&self, label: &Option<Ident>) -> bool {
+        match label {
+            Some(l) => self.inner_label.get(&l.sym).is_none(),
+            None => false,
+        }
+    }
 }
 
 #[swc_trace]
@@ -736,6 +746,12 @@ impl VisitMut for FlowHelper<'_> {
 
     /// noop
     fn visit_mut_arrow_expr(&mut self, _n: &mut ArrowExpr) {}
+
+    fn visit_mut_labeled_stmt(&mut self, l: &mut LabeledStmt) {
+        self.inner_label.insert(l.label.sym.clone());
+
+        l.visit_mut_children_with(self);
+    }
 
     fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
         match &n.left {
@@ -796,6 +812,9 @@ impl VisitMut for FlowHelper<'_> {
 
         match node {
             Stmt::Continue(ContinueStmt { label, .. }) => {
+                if self.in_nested_loop && !self.has_outer_label(label) {
+                    return;
+                }
                 let value = if let Some(label) = label {
                     let value: JsWord = format!("continue|{}", label.sym).into();
                     self.label
@@ -818,7 +837,7 @@ impl VisitMut for FlowHelper<'_> {
                 });
             }
             Stmt::Break(BreakStmt { label, .. }) => {
-                if self.in_switch_case || self.in_nested_loop {
+                if (self.in_switch_case || self.in_nested_loop) && !self.has_outer_label(label) {
                     return;
                 }
                 let value = if let Some(label) = label {
