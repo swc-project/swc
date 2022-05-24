@@ -8,6 +8,9 @@
 - **(es/resolver)** Handle `var` after catch with the same name (#4772) ([e2da3dd](https://github.com/swc-project/swc/commit/e2da3ddc03a6386e308a1b68ffee0e6bc786c16b))
 
 
+- **(es/resolver)** Fix more edge cases related to `catch` and `var` (#4773) ([f28d9c1](https://github.com/swc-project/swc/commit/f28d9c143ba0e23a2e23d5d53d3680b8a29d7b5e))
+
+
 - **(html/codegen)** Emit `textarea` and `pre` in foreign context (#4766) ([8662665](https://github.com/swc-project/swc/commit/86626659b148fa8d76a433385eea4818c58ac031))
 
 ### Features
