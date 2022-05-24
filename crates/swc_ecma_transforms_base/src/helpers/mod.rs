@@ -153,9 +153,11 @@ macro_rules! define_helpers {
                 pub fn $name(&self) {
                     self.inner.$name.store(true, Ordering::Relaxed);
 
-                    $(
-                        self.$dep();
-                    )*
+                    if !self.external {
+                        $(
+                            self.$dep();
+                        )*
+                    }
                 }
             )*
         }
@@ -500,8 +502,7 @@ mod tests {
 
     #[test]
     fn external_helper() {
-        let input = "_throw()
-swcHelpers._throw()";
+        let input = "_throw()";
         crate::tests::Tester::run(|tester| {
             HELPERS.set(&Helpers::new(true), || {
                 let expected = tester.apply_transform(
@@ -510,9 +511,8 @@ swcHelpers._throw()";
                     }),
                     "output.js",
                     Default::default(),
-                    "import * as swcHelpers1 from \"@swc/helpers\";
-_throw();
-swcHelpers._throw();",
+                    "import _throw1 from \"@swc/helpers/_throw.js\";
+_throw();",
                 )?;
                 enable_helper!(throw);
 
