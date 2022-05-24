@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(html/parser)** Improve public api (#4762) ([c07780f](https://github.com/swc-project/swc/commit/c07780fab3bda752f43353871e5e69c5c4df0e84))
+
+## [1.2.190] - 2022-05-24
+
 ### Bug Fixes
 
 
