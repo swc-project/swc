@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 var _exportNames = {
-    node: true,
     create: true,
     trustBox: true,
     opener: true,
@@ -11,13 +10,16 @@ var _exportNames = {
     header: true,
     source: true,
     sources: true,
-    seq: true
+    seq: true,
+    node: true
 };
 exports.seq = exports.sources = exports.source = exports.header = exports.stage = exports.opener = exports.trustBox = exports.create = exports.node = void 0;
 var _class_private_field_get = require("@swc/helpers/lib/_class_private_field_get.js").default;
 var _class_private_field_init = require("@swc/helpers/lib/_class_private_field_init.js").default;
 var _class_private_field_set = require("@swc/helpers/lib/_class_private_field_set.js").default;
 var _interop_require_wildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
+exports.node = exports.seq = exports.sources = exports.source = exports.header = exports.stage = exports.opener = exports.trustBox = exports.create = void 0;
+var swcHelpers = require("@swc/helpers");
 var _abstractBuilders = require("./AbstractBuilders");
 var _builderUtils = require("./Builder.utils");
 var _elementBuilder = require("./ElementBuilder");

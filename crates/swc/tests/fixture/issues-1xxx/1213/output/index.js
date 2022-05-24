@@ -11,8 +11,17 @@ class NotOK {
     }
 }
 exports.default = NotOK;
+var swcHelpers = require("@swc/helpers");
+var _foo = swcHelpers.interopRequireDefault(require("foo"));
 class OK {
     constructor(){
         console.log(_foo.default);
     }
 }
+class NotOK {
+    constructor(){
+        console.log(_foo.default);
+    }
+}
+var _default = NotOK;
+exports.default = _default;

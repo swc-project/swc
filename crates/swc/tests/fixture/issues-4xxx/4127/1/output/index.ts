@@ -10,6 +10,7 @@ function test(constructor) {
 let _class = class _class {
 };
 exports.default = _class = _ts_decorate([
+_class = swcHelpers.__decorate([
     test
 ], _class);
 exports.default = _class;

@@ -4,6 +4,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.downloadDocument = exports.badIstanbul = exports.noop = void 0;
 var _object_without_properties = require("@swc/helpers/lib/_object_without_properties.js").default;
+exports.badIstanbul = exports.downloadDocument = exports.noop = void 0;
+var swcHelpers = require("@swc/helpers");
 //top comment
 const noop = ()=>{};
 exports.noop = noop;
