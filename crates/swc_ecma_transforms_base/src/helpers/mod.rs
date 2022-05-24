@@ -67,6 +67,32 @@ macro_rules! add_to {
     }};
 }
 
+macro_rules! add_import_to {
+    ($buf:expr, $name:ident, $b:expr, $mark:expr) => {{
+        let enable = $b.load(Ordering::Relaxed);
+        if enable {
+            let s = ImportSpecifier::Default(ImportDefaultSpecifier {
+                span: DUMMY_SP,
+                local: Ident::new(stringify!($name).into(), DUMMY_SP.apply_mark($mark)),
+            });
+
+            let src = if stringify!(name).starts_with("ts_") {
+                concat!("@swc/helpers/__", stringify!($name), ".js")
+            } else {
+                concat!("@swc/helpers/_", stringify!($name), ".js")
+            };
+
+            $buf.push(ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                span: DUMMY_SP,
+                specifiers: vec![s],
+                src: src.into(),
+                asserts: Default::default(),
+                type_only: Default::default(),
+            })))
+        }
+    }};
+}
+
 better_scoped_tls::scoped_tls!(
     /// This variable is used to manage helper scripts like `_inherits` from babel.
     ///
@@ -161,6 +187,19 @@ macro_rules! define_helpers {
                     debug_assert!(!helpers.external);
                     $(
                             add_to!(buf, $name, helpers.inner.$name, helpers.mark.0);
+                    )*
+                });
+
+                buf
+            }
+
+            fn build_imports(&self) -> Vec<ModuleItem> {
+                let mut buf = vec![];
+
+                HELPERS.with(|helpers|{
+                    debug_assert!(!helpers.external);
+                    $(
+                            add_import_to!(buf, $name, helpers.inner.$name, helpers.mark.0);
                     )*
                 });
 
@@ -326,19 +365,10 @@ struct InjectHelpers;
 
 impl InjectHelpers {
     fn make_helpers_for_module(&self) -> Vec<ModuleItem> {
-        let (mark, external) = HELPERS.with(|helper| (helper.mark(), helper.external()));
+        let (_, external) = HELPERS.with(|helper| (helper.mark(), helper.external()));
         if external {
             if self.is_helper_used() {
-                vec![ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
-                    span: DUMMY_SP,
-                    specifiers: vec![ImportSpecifier::Namespace(ImportStarAsSpecifier {
-                        span: DUMMY_SP,
-                        local: quote_ident!(DUMMY_SP.apply_mark(mark), "swcHelpers"),
-                    })],
-                    src: quote_str!("@swc/helpers"),
-                    type_only: false,
-                    asserts: None,
-                }))]
+                self.build_imports()
             } else {
                 vec![]
             }
