@@ -245,7 +245,6 @@ where
                         }
                         _ => false,
                     },
-
                     // A dd element's end tag can be omitted if the dd element is immediately
                     // followed by another dd element or a dt element, or if there is no more
                     // content in the parent element.
@@ -256,6 +255,35 @@ where
                             ..
                         })) if *namespace == Namespace::HTML
                             && (tag_name == "dd" || tag_name == "dt") =>
+                        {
+                            true
+                        }
+                        None => true,
+                        _ => false,
+                    },
+                    // An optgroup element's end tag can be omitted if the optgroup element is
+                    // immediately followed by another optgroup element, or if there is no more
+                    // content in the parent element.
+                    "optgroup" => match next {
+                        Some(Child::Element(Element {
+                            namespace,
+                            tag_name,
+                            ..
+                        })) if *namespace == Namespace::HTML && tag_name == "optgroup" => true,
+                        None => true,
+                        _ => false,
+                    },
+                    // An option element's end tag can be omitted if the option element is
+                    // immediately followed by another option element, or if it is immediately
+                    // followed by an optgroup element, or if there is no more content in the parent
+                    // element.
+                    "option" => match next {
+                        Some(Child::Element(Element {
+                            namespace,
+                            tag_name,
+                            ..
+                        })) if *namespace == Namespace::HTML
+                            && (tag_name == "option" || tag_name == "optgroup") =>
                         {
                             true
                         }
