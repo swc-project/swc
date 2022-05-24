@@ -136,8 +136,12 @@ where
         formatting_newline!(self);
     }
 
-    #[emitter]
-    fn emit_element(&mut self, n: &Element) -> Result {
+    fn basic_emit_element(
+        &mut self,
+        n: &Element,
+        _parent: Option<&Element>,
+        next: Option<&Child>,
+    ) -> Result {
         write_raw!(self, "<");
         write_raw!(self, &n.tag_name);
 
@@ -199,11 +203,36 @@ where
                 ..self.ctx
             };
 
-            self.with_ctx(ctx)
-                .emit_list(&n.children, ListFormat::NotDelimited)?;
+            if self.config.minify {
+                self.with_ctx(ctx)
+                    .emit_list_for_tag_omission(n, &n.children)?;
+            } else {
+                self.with_ctx(ctx)
+                    .emit_list(&n.children, ListFormat::NotDelimited)?;
+            }
         }
 
-        if self.is_plaintext {
+        let can_omit_end_tag = self.is_plaintext
+            || (self.config.minify
+                && n.namespace == Namespace::HTML
+                && match &*n.tag_name {
+                    // Tag omission in text/html:
+                    // An li element's end tag can be omitted if the li element is immediately
+                    // followed by another li element or if there is no more content in the parent
+                    // element.
+                    "li" => match next {
+                        Some(Child::Element(Element {
+                            namespace,
+                            tag_name,
+                            ..
+                        })) if *namespace == Namespace::HTML && tag_name == "li" => true,
+                        None => true,
+                        _ => false,
+                    },
+                    _ => false,
+                });
+
+        if can_omit_end_tag {
             return Ok(());
         }
 
@@ -211,6 +240,13 @@ where
         write_raw!(self, "/");
         write_raw!(self, &n.tag_name);
         write_raw!(self, ">");
+
+        Ok(())
+    }
+
+    #[emitter]
+    fn emit_element(&mut self, n: &Element) -> Result {
+        self.basic_emit_element(n, None, None)?;
     }
 
     #[emitter]
@@ -559,6 +595,23 @@ where
             }
 
             emit!(self, node)
+        }
+
+        Ok(())
+    }
+
+    fn emit_list_for_tag_omission(&mut self, parent: &Element, nodes: &[Child]) -> Result {
+        for (idx, node) in nodes.iter().enumerate() {
+            match node {
+                Child::Element(element) => {
+                    let next = nodes.get(idx + 1);
+
+                    self.basic_emit_element(element, Some(parent), next)?;
+                }
+                _ => {
+                    emit!(self, node)
+                }
+            }
         }
 
         Ok(())
