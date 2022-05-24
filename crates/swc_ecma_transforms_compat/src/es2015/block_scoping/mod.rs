@@ -796,10 +796,6 @@ impl VisitMut for FlowHelper<'_> {
 
         match node {
             Stmt::Continue(ContinueStmt { label, .. }) => {
-                if self.in_nested_loop {
-                    return;
-                }
-
                 let value = if let Some(label) = label {
                     let value: JsWord = format!("continue|{}", label.sym).into();
                     self.label

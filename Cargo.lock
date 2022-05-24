@@ -213,7 +213,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.2.190"
+version = "1.2.191"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -3592,7 +3592,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.99.2"
+version = "0.99.3"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -3633,12 +3633,13 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.112.6"
+version = "0.112.7"
 dependencies = [
  "Inflector",
  "ahash",
  "anyhow",
  "indexmap",
+ "path-clean",
  "pathdiff",
  "serde",
  "serde_json",

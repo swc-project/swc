@@ -7,7 +7,7 @@ include = ["Cargo.toml", "src/**/*.rs"]
 license = "Apache-2.0"
 name = "swc_ecma_transforms_module"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.112.6"
+version = "0.112.7"
 
 [lib]
 bench = false
@@ -17,6 +17,7 @@ Inflector = "0.11.4"
 ahash = "0.7.4"
 anyhow = "1.0.41"
 indexmap = "1.8.0"
+path-clean = "0.1.0"
 pathdiff = "0.2.0"
 serde = { version = "1.0.118", features = ["derive"] }
 swc_atoms = { version = "0.2", path = "../swc_atoms" }
