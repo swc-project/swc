@@ -83,13 +83,15 @@ it("module config should merged correctly", async () => {
 Object.defineProperty(exports, \\"__esModule\\", {
     value: true
 });
-exports.default = foo;
+exports.default = void 0;
 var _jsxRuntime = require(\\"react/jsx-runtime\\");
 function foo() {
     return /*#__PURE__*/ (0, _jsxRuntime).jsx(\\"div\\", {
         children: \\"Hello\\"
     });
 }
+var _default = foo;
+exports.default = _default;
 "
 `);
 });
