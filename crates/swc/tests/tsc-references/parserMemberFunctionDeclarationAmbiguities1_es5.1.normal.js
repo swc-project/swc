@@ -6,8 +6,8 @@ var C = /*#__PURE__*/ function() {
     }
     var _proto = C.prototype;
     _proto.public = function _public() {};
-    _proto.static = function static() {};
+    _proto.static = function _static() {};
     C.public = function _public() {};
-    C.static = function static() {};
+    C.static = function _static() {};
     return C;
 }();
