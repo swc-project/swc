@@ -159,6 +159,12 @@ where
                 {
                     true
                 }
+                // A body element's start tag can be omitted if the element is empty, or if the
+                // first thing inside the body element is not ASCII whitespace or a comment, except
+                // if the first thing inside the body element is a meta, link, script, style, or
+                // template element.
+                // TODO improve me
+                "body" if n.children.is_empty() => true,
                 _ => false,
             };
 
