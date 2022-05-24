@@ -826,6 +826,7 @@ impl Fold for CommonJs {
                 self.resolver
                     .make_require_call(self.unresolved_mark, src.clone(), src_span);
 
+            // We can't use _interopRequireDefault
             if src.starts_with("@swc/helpers/lib/") {
                 require = require.make_member(quote_ident!("default"));
             }
