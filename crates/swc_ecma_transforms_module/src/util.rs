@@ -413,11 +413,6 @@ impl Scope {
                     ImportSpecifier::Default(i) => {
                         let ident = i.local.clone();
 
-                        self.idents.insert(
-                            i.local.to_id(),
-                            (import.src.value.clone(), js_word!("default")),
-                        );
-
                         self.imports
                             .entry(import.src.value.clone())
                             .and_modify(|(span, opt)| {
@@ -430,6 +425,11 @@ impl Scope {
                             .or_insert_with(|| (import.src.span, Some((ident.sym, ident.span))));
 
                         if !import.src.value.starts_with("@swc/helpers") {
+                            self.idents.insert(
+                                i.local.to_id(),
+                                (import.src.value.clone(), js_word!("default")),
+                            );
+
                             self.import_types
                                 .entry(import.src.value.clone())
                                 .or_insert(false);

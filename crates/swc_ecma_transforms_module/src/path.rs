@@ -39,9 +39,11 @@ impl Resolver {
         src: JsWord,
         src_span: Span,
     ) -> Expr {
+        let is_helper = src.starts_with("@swc/helpers/lib/");
+
         let src = self.resolve(src);
 
-        Expr::Call(CallExpr {
+        let req = Expr::Call(CallExpr {
             span: DUMMY_SP,
             callee: quote_ident!(DUMMY_SP.apply_mark(unresolved_mark), "require").as_callee(),
             args: vec![Lit::Str(Str {
@@ -52,7 +54,13 @@ impl Resolver {
             .as_arg()],
 
             type_args: Default::default(),
-        })
+        });
+
+        if is_helper {
+            req.make_member(quote_ident!("default"))
+        } else {
+            req
+        }
     }
 }
 
