@@ -291,6 +291,23 @@ where
                         _ => false,
                     },
 
+                    // A tbody element's end tag can be omitted if the tbody element is immediately
+                    // followed by a tbody or tfoot element, or if there is no more content in the
+                    // parent element.
+                    "tbody" => match next {
+                        Some(Child::Element(Element {
+                            namespace,
+                            tag_name,
+                            ..
+                        })) if *namespace == Namespace::HTML
+                            && (tag_name == "tbody" || tag_name == "tfoot") =>
+                        {
+                            true
+                        }
+                        None => true,
+                        _ => false,
+                    },
+
                     // A thead element's end tag can be omitted if the thead element is immediately
                     // followed by a tbody or tfoot element.
                     "thead" => match next {
