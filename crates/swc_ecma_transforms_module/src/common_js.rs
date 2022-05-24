@@ -822,9 +822,13 @@ impl Fold for CommonJs {
                 self.config.lazy.is_lazy(&src)
             };
 
-            let require =
+            let mut require =
                 self.resolver
                     .make_require_call(self.unresolved_mark, src.clone(), src_span);
+
+            if src.starts_with("@swc/helpers/lib/") {
+                require = require.make_member(quote_ident!("default"));
+            }
 
             match import {
                 Some(import) => {
