@@ -88,6 +88,12 @@
 
 - **(es/parser)** Remove duplicate (#4750) ([b7a195a](https://github.com/swc-project/swc/commit/b7a195a1cf18763b19846b7f14efc80a0f17fd1e))
 
+### Testing
+
+
+
+- **(html/parser)** Enable error reporting tests (#4764) ([984d69e](https://github.com/swc-project/swc/commit/984d69e67b4a791922dd62050937a77f1f499927))
+
 ## [1.2.189] - 2022-05-21
 
 ### Bug Fixes
