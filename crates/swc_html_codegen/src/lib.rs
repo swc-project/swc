@@ -291,6 +291,17 @@ where
                         _ => false,
                     },
 
+                    // A colgroup element's end tag can be omitted if the colgroup element is not
+                    // immediately followed by ASCII whitespace or a comment.
+                    "colgroup" => match next {
+                        Some(Child::Text(text))
+                            if text.value.chars().nth(0).unwrap().is_ascii_whitespace() =>
+                        {
+                            false
+                        }
+                        Some(Child::Comment(..)) => false,
+                        _ => true,
+                    },
                     // A tbody element's end tag can be omitted if the tbody element is immediately
                     // followed by a tbody or tfoot element, or if there is no more content in the
                     // parent element.
@@ -307,7 +318,6 @@ where
                         None => true,
                         _ => false,
                     },
-
                     // A thead element's end tag can be omitted if the thead element is immediately
                     // followed by a tbody or tfoot element.
                     "thead" => match next {
