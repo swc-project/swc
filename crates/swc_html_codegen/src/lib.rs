@@ -261,6 +261,27 @@ where
                         None => true,
                         _ => false,
                     },
+
+                    // An rt element's end tag can be omitted if the rt element is immediately
+                    // followed by an rt or rp element, or if there is no more content in the parent
+                    // element.
+
+                    // An rp element's end tag can be omitted if the rp element is immediately
+                    // followed by an rt or rp element, or if there is no more content in the parent
+                    // element.
+                    "rt" | "rp" => match next {
+                        Some(Child::Element(Element {
+                            namespace,
+                            tag_name,
+                            ..
+                        })) if *namespace == Namespace::HTML
+                            && (tag_name == "rt" || tag_name == "rp") =>
+                        {
+                            true
+                        }
+                        None => true,
+                        _ => false,
+                    },
                     // An optgroup element's end tag can be omitted if the optgroup element is
                     // immediately followed by another optgroup element, or if there is no more
                     // content in the parent element.
