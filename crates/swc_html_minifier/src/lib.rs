@@ -1873,6 +1873,8 @@ impl VisitMut for Minifier {
             self.descendant_of_pre = old_descendant_of_pre;
         }
 
+        n.attributes.sort_by_key(|attribute| attribute.name.clone());
+
         let mut already_seen: AHashSet<JsWord> = Default::default();
 
         n.attributes.retain(|attribute| {
