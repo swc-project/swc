@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 // @filename: file.tsx
 // @jsx: preserve
 // @noLib: true
@@ -7,7 +7,7 @@ import * as swcHelpers from "@swc/helpers";
 const React = require('react');
 export default function Component(props) {
     return(// Error extra property
-    /*#__PURE__*/ React.createElement(AnotherComponent, swcHelpers.extends({}, props, {
+    /*#__PURE__*/ React.createElement(AnotherComponent, _extends({}, props, {
         Property1: true
     })));
 };

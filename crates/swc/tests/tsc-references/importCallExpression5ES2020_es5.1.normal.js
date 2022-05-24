@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @module: es2020
 // @target: es2020
 // @strictNullChecks: true
@@ -6,7 +6,7 @@ import * as swcHelpers from "@swc/helpers";
 export var B = /*#__PURE__*/ function() {
     "use strict";
     function B() {
-        swcHelpers.classCallCheck(this, B);
+        _class_call_check(this, B);
     }
     var _proto = B.prototype;
     _proto.print = function print() {

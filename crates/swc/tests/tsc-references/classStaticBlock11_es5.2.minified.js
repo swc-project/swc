@@ -1,8 +1,11 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_private_field_get from "@swc/helpers/lib/_class_private_field_get.js";
+import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
+import _class_private_field_set from "@swc/helpers/lib/_class_private_field_set.js";
 var _x = new WeakMap(), C = function(x) {
     "use strict";
-    swcHelpers.classCallCheck(this, C), swcHelpers.classPrivateFieldInit(this, _x, {
+    _class_call_check(this, C), _class_private_field_init(this, _x, {
         writable: !0,
         value: 1
-    }), swcHelpers.classPrivateFieldSet(this, _x, x);
+    }), _class_private_field_set(this, _x, x);
 };

@@ -1,7 +1,7 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var ExportedThing = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, ExportedThing), this.z = "ok";
+    _class_call_check(this, ExportedThing), this.z = "ok";
 };
 module.exports = {
     doTheThing: function(x) {
@@ -13,5 +13,5 @@ module.exports = {
 };
 var LocalThing = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, LocalThing), this.y = "ok";
+    _class_call_check(this, LocalThing), this.y = "ok";
 };

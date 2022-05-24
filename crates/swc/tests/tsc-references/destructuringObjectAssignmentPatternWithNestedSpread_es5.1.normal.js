@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _object_without_properties from "@swc/helpers/lib/_object_without_properties.js";
 // @target: es5, es2015, es2018
 // @noTypesAndSymbols: true
 var a, b, c = {
@@ -9,6 +9,6 @@ var a, b, c = {
 }, d;
 var _c;
 var ref, ref1;
-_c = c, b = swcHelpers.objectWithoutProperties(_c.x, [
+_c = c, b = _object_without_properties(_c.x, [
     "a"
 ]), ref = _c, ref1 = ref.x, a = (ref1 === void 0 ? d : ref1).a, ref, _c;

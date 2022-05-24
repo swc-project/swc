@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 this.props.children, this.props.children;
 var x = React.createElement("div", {
     attr1: "foobar",
@@ -6,22 +6,22 @@ var x = React.createElement("div", {
     attr3: "foobarbazbug",
     attr4: "baz"
 });
-Namespace.Component, Namespace.DeepNamespace.Component, swcHelpers.extends({}, x, {
+Namespace.Component, Namespace.DeepNamespace.Component, _extends({}, x, {
     y: 2,
     z: !0
-}), swcHelpers.extends({}, this.props, {
+}), _extends({}, this.props, {
     sound: "moo"
-}), swcHelpers.extends({}, x), swcHelpers.extends({}, x, {
+}), _extends({}, x), _extends({}, x, {
     y: 2
-}), swcHelpers.extends({}, x, {
+}), _extends({}, x, {
     y: 2,
     z: !0
-}), swcHelpers.extends({
+}), _extends({
     x: 1
-}, y), swcHelpers.extends({
+}, y), _extends({
     x: 1,
     y: "2"
-}, z, z), swcHelpers.extends({
+}, z, z), _extends({
     x: "1"
 }, z = {
     y: 2

@@ -1,6 +1,7 @@
-var ref, ref1;
-import * as swcHelpers from "@swc/helpers";
-ref = swcHelpers.toArray([
+var ref;
+import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
+import _to_array from "@swc/helpers/lib/_to_array.js";
+(ref = _sliced_to_array(_to_array([
     "",
     1
-]), ref1 = swcHelpers.slicedToArray(ref.slice(0), 2), ref1[0], ref1[1];
+]).slice(0), 2))[0], ref[1];

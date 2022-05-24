@@ -1,8 +1,10 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var Base = /*#__PURE__*/ function() {
     "use strict";
     function Base() {
-        swcHelpers.classCallCheck(this, Base);
+        _class_call_check(this, Base);
     }
     Base.staticMethod = function staticMethod() {
         Base.x; // OK, accessed within their declaring class
@@ -14,10 +16,10 @@ var Base = /*#__PURE__*/ function() {
 }();
 var Derived1 = /*#__PURE__*/ function(Base1) {
     "use strict";
-    swcHelpers.inherits(Derived1, Base1);
-    var _super = swcHelpers.createSuper(Derived1);
+    _inherits(Derived1, Base1);
+    var _super = _create_super(Derived1);
     function Derived1() {
-        swcHelpers.classCallCheck(this, Derived1);
+        _class_call_check(this, Derived1);
         return _super.apply(this, arguments);
     }
     Derived1.staticMethod1 = function staticMethod1() {
@@ -30,10 +32,10 @@ var Derived1 = /*#__PURE__*/ function(Base1) {
 }(Base);
 var Derived2 = /*#__PURE__*/ function(Base2) {
     "use strict";
-    swcHelpers.inherits(Derived2, Base2);
-    var _super = swcHelpers.createSuper(Derived2);
+    _inherits(Derived2, Base2);
+    var _super = _create_super(Derived2);
     function Derived2() {
-        swcHelpers.classCallCheck(this, Derived2);
+        _class_call_check(this, Derived2);
         return _super.apply(this, arguments);
     }
     Derived2.staticMethod2 = function staticMethod2() {
@@ -46,10 +48,10 @@ var Derived2 = /*#__PURE__*/ function(Base2) {
 }(Base);
 var Derived3 = /*#__PURE__*/ function(Derived11) {
     "use strict";
-    swcHelpers.inherits(Derived3, Derived11);
-    var _super = swcHelpers.createSuper(Derived3);
+    _inherits(Derived3, Derived11);
+    var _super = _create_super(Derived3);
     function Derived3() {
-        swcHelpers.classCallCheck(this, Derived3);
+        _class_call_check(this, Derived3);
         return _super.apply(this, arguments);
     }
     Derived3.staticMethod3 = function staticMethod3() {

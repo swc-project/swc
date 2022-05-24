@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _object_spread from "@swc/helpers/lib/_object_spread.js";
+import _object_without_properties from "@swc/helpers/lib/_object_without_properties.js";
 // Widening vs. non-widening literal types
 function f1() {
     const c1 = "hello"; // Widening type "hello"
@@ -99,10 +100,10 @@ const arr = langCodes.map((code)=>({
     }));
 // Repro from #29081
 function test(obj) {
-    let { a  } = obj, rest = swcHelpers.objectWithoutProperties(obj, [
+    let { a  } = obj, rest = _object_without_properties(obj, [
         "a"
     ]);
-    return swcHelpers.objectSpread({
+    return _object_spread({
         a: 'hello'
     }, rest);
 }

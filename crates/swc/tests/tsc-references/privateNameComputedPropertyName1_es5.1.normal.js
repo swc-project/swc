@@ -1,32 +1,35 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_private_field_get from "@swc/helpers/lib/_class_private_field_get.js";
+import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
+import _class_private_field_set from "@swc/helpers/lib/_class_private_field_set.js";
 var _a = /*#__PURE__*/ new WeakMap(), _b = /*#__PURE__*/ new WeakMap(), _c = /*#__PURE__*/ new WeakMap(), _d = /*#__PURE__*/ new WeakMap(), _e = /*#__PURE__*/ new WeakMap();
 // @target: esnext, es2022, es2015
 var A = /*#__PURE__*/ function() {
     "use strict";
     function A() {
-        swcHelpers.classCallCheck(this, A);
-        swcHelpers.classPrivateFieldInit(this, _a, {
+        _class_call_check(this, A);
+        _class_private_field_init(this, _a, {
             writable: true,
             value: "a"
         });
-        swcHelpers.classPrivateFieldInit(this, _b, {
+        _class_private_field_init(this, _b, {
             writable: true,
             value: void 0
         });
-        swcHelpers.classPrivateFieldInit(this, _c, {
+        _class_private_field_init(this, _c, {
             writable: true,
             value: "c"
         });
-        swcHelpers.classPrivateFieldInit(this, _d, {
+        _class_private_field_init(this, _d, {
             writable: true,
             value: void 0
         });
-        swcHelpers.classPrivateFieldInit(this, _e, {
+        _class_private_field_init(this, _e, {
             writable: true,
             value: ""
         });
-        swcHelpers.classPrivateFieldSet(this, _b, "b");
-        swcHelpers.classPrivateFieldSet(this, _d, "d");
+        _class_private_field_set(this, _b, "b");
+        _class_private_field_set(this, _d, "d");
     }
     var _proto = A.prototype;
     _proto.test = function test() {
@@ -37,13 +40,13 @@ var A = /*#__PURE__*/ function() {
             d: "d",
             e: "e"
         };
-        var a = data[swcHelpers.classPrivateFieldGet(this, _a)], b = data[swcHelpers.classPrivateFieldGet(this, _b)], c = data[swcHelpers.classPrivateFieldGet(this, _c)], d = data[swcHelpers.classPrivateFieldGet(this, _d)], e = data[swcHelpers.classPrivateFieldSet(this, _e, "e")];
+        var a = data[_class_private_field_get(this, _a)], b = data[_class_private_field_get(this, _b)], c = data[_class_private_field_get(this, _c)], d = data[_class_private_field_get(this, _d)], e = data[_class_private_field_set(this, _e, "e")];
         console.log(a, b, c, d, e);
-        var a1 = data[swcHelpers.classPrivateFieldGet(this, _a)];
-        var b1 = data[swcHelpers.classPrivateFieldGet(this, _b)];
-        var c1 = data[swcHelpers.classPrivateFieldGet(this, _c)];
-        var d1 = data[swcHelpers.classPrivateFieldGet(this, _d)];
-        var e1 = data[swcHelpers.classPrivateFieldGet(this, _e)];
+        var a1 = data[_class_private_field_get(this, _a)];
+        var b1 = data[_class_private_field_get(this, _b)];
+        var c1 = data[_class_private_field_get(this, _c)];
+        var d1 = data[_class_private_field_get(this, _d)];
+        var e1 = data[_class_private_field_get(this, _e)];
         console.log(a1, b1, c1, d1);
     };
     return A;

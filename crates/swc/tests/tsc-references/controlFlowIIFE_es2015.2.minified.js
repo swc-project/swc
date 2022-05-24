@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
 let maybeNumber;
 maybeNumber = 1, ++maybeNumber, maybeNumber++;
 let test;

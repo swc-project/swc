@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
 // @module: commonjs
 // @target: es6
 // @skipLibCheck: true
@@ -10,7 +10,7 @@ function foo() {
 }
 function _foo() {
     _foo = // @filename: index.ts
-    swcHelpers.asyncToGenerator(function*() {
+    _async_to_generator(function*() {
         return yield import((yield import("./foo")).default);
     });
     return _foo.apply(this, arguments);

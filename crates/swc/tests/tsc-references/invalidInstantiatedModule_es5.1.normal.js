@@ -1,9 +1,9 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var M;
 (function(M1) {
     var Point = function Point() {
         "use strict";
-        swcHelpers.classCallCheck(this, Point);
+        _class_call_check(this, Point);
     };
     M1.Point = Point;
     var Point = M1.Point = 1;

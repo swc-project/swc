@@ -1,7 +1,10 @@
 "use strict";
-var swcHelpers = require("@swc/helpers");
-var _regeneratorRuntime = swcHelpers.interopRequireDefault(require("regenerator-runtime"));
-swcHelpers.asyncToGenerator(_regeneratorRuntime.default.mark(function _callee1() {
+var _async_iterator = require("@swc/helpers/lib/_async_iterator.js").default;
+var _async_to_generator = require("@swc/helpers/lib/_async_to_generator.js").default;
+var _define_property = require("@swc/helpers/lib/_define_property.js").default;
+var _interop_require_default = require("@swc/helpers/lib/_interop_require_default.js").default;
+var _regeneratorRuntime = _interop_require_default(require("regenerator-runtime"));
+_async_to_generator(_regeneratorRuntime.default.mark(function _callee1() {
     var counter, resolve, promise, iterable, res, _iteratorNormalCompletion, _didIteratorError1, _iteratorError1, _iterator1, _step1, v, oldresolve;
     return _regeneratorRuntime.default.wrap(function _callee$(_ctx1) {
         while(1)switch(_ctx1.prev = _ctx1.next){
@@ -11,21 +14,21 @@ swcHelpers.asyncToGenerator(_regeneratorRuntime.default.mark(function _callee1()
                 promise = new Promise(function(r) {
                     return resolve = r;
                 });
-                iterable = swcHelpers.defineProperty({}, Symbol.asyncIterator, function() {
+                iterable = _define_property({}, Symbol.asyncIterator, function() {
                     return {
                         next: function next() {
                             return promise;
                         }
                     };
                 });
-                res = swcHelpers.asyncToGenerator(_regeneratorRuntime.default.mark(function _callee() {
+                res = _async_to_generator(_regeneratorRuntime.default.mark(function _callee() {
                     var _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, value;
                     return _regeneratorRuntime.default.wrap(function _callee$(_ctx) {
                         while(1)switch(_ctx.prev = _ctx.next){
                             case 0:
                                 _iteratorAbruptCompletion = false, _didIteratorError = false;
                                 _ctx.prev = 1;
-                                _iterator = swcHelpers.asyncIterator(iterable);
+                                _iterator = _async_iterator(iterable);
                             case 3:
                                 _ctx.next = 5;
                                 return _iterator.next();

@@ -1,19 +1,21 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var Component = function Component() {
     "use strict";
-    swcHelpers.classCallCheck(this, Component);
+    _class_call_check(this, Component);
 };
 var ComponentType = function ComponentType() {
     "use strict";
-    swcHelpers.classCallCheck(this, ComponentType);
+    _class_call_check(this, ComponentType);
 };
 var withTeamsForUser = function(_WrappedComponent) {
     var _class = /*#__PURE__*/ function(Component) {
         "use strict";
-        swcHelpers.inherits(_class, Component);
-        var _super = swcHelpers.createSuper(_class);
+        _inherits(_class, Component);
+        var _super = _create_super(_class);
         function _class() {
-            swcHelpers.classCallCheck(this, _class);
+            _class_call_check(this, _class);
             return _super.apply(this, arguments);
         }
         return _class;

@@ -1,9 +1,11 @@
 var A;
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 !function(A1) {
     var Point1 = function() {
         "use strict";
-        swcHelpers.classCallCheck(this, Point1);
+        _class_call_check(this, Point1);
     };
     A1.Origin = {
         x: 0,
@@ -11,10 +13,10 @@ import * as swcHelpers from "@swc/helpers";
     };
     var Point3d = function(Point) {
         "use strict";
-        swcHelpers.inherits(Point3d, Point);
-        var _super = swcHelpers.createSuper(Point3d);
+        _inherits(Point3d, Point);
+        var _super = _create_super(Point3d);
         function Point3d() {
-            return swcHelpers.classCallCheck(this, Point3d), _super.apply(this, arguments);
+            return _class_call_check(this, Point3d), _super.apply(this, arguments);
         }
         return Point3d;
     }(Point1);
@@ -26,7 +28,7 @@ import * as swcHelpers from "@swc/helpers";
     var Line = function() {
         "use strict";
         function Line(start, end) {
-            swcHelpers.classCallCheck(this, Line), this.start = start, this.end = end;
+            _class_call_check(this, Line), this.start = start, this.end = end;
         }
         return Line.fromorigin2d = function(p) {
             return null;

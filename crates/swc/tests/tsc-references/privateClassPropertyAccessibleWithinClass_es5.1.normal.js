@@ -1,9 +1,10 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _create_class from "@swc/helpers/lib/_create_class.js";
 // no errors
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
     }
     var _proto = C.prototype;
     _proto.foo = function foo() {
@@ -15,7 +16,7 @@ var C = /*#__PURE__*/ function() {
     C.bar = function bar() {
         this.foo();
     };
-    swcHelpers.createClass(C, [
+    _create_class(C, [
         {
             key: "y",
             get: function get() {
@@ -42,7 +43,7 @@ var C = /*#__PURE__*/ function() {
 var C2 = /*#__PURE__*/ function() {
     "use strict";
     function C2() {
-        swcHelpers.classCallCheck(this, C2);
+        _class_call_check(this, C2);
     }
     var _proto = C2.prototype;
     _proto.foo = function foo() {
@@ -63,7 +64,7 @@ var C2 = /*#__PURE__*/ function() {
             return _this.foo();
         });
     };
-    swcHelpers.createClass(C2, [
+    _create_class(C2, [
         {
             key: "y",
             get: function get() {

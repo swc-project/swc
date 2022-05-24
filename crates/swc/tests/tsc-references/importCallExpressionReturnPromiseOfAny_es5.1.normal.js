@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(loadModule);
 // @module: commonjs
@@ -7,7 +7,7 @@ var _marked = regeneratorRuntime.mark(loadModule);
 // @filename: defaultPath.ts
 export var C = function C() {
     "use strict";
-    swcHelpers.classCallCheck(this, C);
+    _class_call_check(this, C);
 };
 import("".concat(directory, "\\").concat(moduleFile));
 import(getSpecifier());

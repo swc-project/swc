@@ -1,26 +1,27 @@
-import * as a from "@swc/helpers";
-import b from "regenerator-runtime";
-import { jsx as c, jsxs as d, Fragment as e } from "react/jsx-runtime";
-import * as f from "react";
-export default function g() {
-    var g = a.slicedToArray(f.useState({
+import a from "@swc/helpers/lib/_async_to_generator.js";
+import b from "@swc/helpers/lib/_sliced_to_array.js";
+import c from "regenerator-runtime";
+import { jsx as d, jsxs as e, Fragment as f } from "react/jsx-runtime";
+import * as g from "react";
+export default function h() {
+    var h = b(g.useState({
         hits: []
-    }), 2), j = g[0], k = g[1], h = a.slicedToArray(f.useState("react"), 2), i = h[0], l = h[1];
-    return f.useEffect(function() {
-        "" !== i && function() {
-            c.apply(this, arguments);
+    }), 2), k = h[0], l = h[1], i = b(g.useState("react"), 2), j = i[0], m = i[1];
+    return g.useEffect(function() {
+        "" !== j && function() {
+            b.apply(this, arguments);
         }();
-        function c() {
-            return (c = a.asyncToGenerator(b.mark(function a() {
-                var c, d;
-                return b.wrap(function(a) {
+        function b() {
+            return (b = a(c.mark(function a() {
+                var b, d;
+                return c.wrap(function(a) {
                     for(;;)switch(a.prev = a.next){
                         case 0:
-                            return a.next = 2, fetch("https://hn.algolia.com/api/v1/search?query=" + i);
+                            return a.next = 2, fetch("https://hn.algolia.com/api/v1/search?query=" + j);
                         case 2:
-                            return c = a.sent, a.next = 5, c.json();
+                            return b = a.sent, a.next = 5, b.json();
                         case 5:
-                            k(d = a.sent);
+                            l(d = a.sent);
                         case 7:
                         case "end":
                             return a.stop();
@@ -29,19 +30,19 @@ export default function g() {
             }))).apply(this, arguments);
         }
     }, [
-        i
-    ]), d(e, {
+        j
+    ]), e(f, {
         children: [
-            c("input", {
-                value: i,
+            d("input", {
+                value: j,
                 onChange: function(a) {
-                    return l(a.target.value);
+                    return m(a.target.value);
                 }
             }),
-            c("ul", {
-                children: j.hits.map(function(a) {
-                    return c("li", {
-                        children: c("a", {
+            d("ul", {
+                children: k.hits.map(function(a) {
+                    return d("li", {
+                        children: d("a", {
                             href: a.url,
                             children: a.title
                         })

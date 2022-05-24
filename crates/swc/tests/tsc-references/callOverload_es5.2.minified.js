@@ -1,5 +1,5 @@
 var n;
-import * as swcHelpers from "@swc/helpers";
+import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
 fn(1), fn(1, 2, 3, 4), takeTwo(1, 2, 3, 4), withRest.apply(void 0, [
     "a"
-].concat(swcHelpers.toConsumableArray(n))), withRest(), withRest.apply(void 0, swcHelpers.toConsumableArray(n));
+].concat(_to_consumable_array(n))), withRest(), withRest.apply(void 0, _to_consumable_array(n));

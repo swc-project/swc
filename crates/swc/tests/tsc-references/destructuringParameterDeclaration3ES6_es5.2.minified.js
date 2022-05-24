@@ -1,6 +1,8 @@
-import * as swcHelpers from "@swc/helpers";
+import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
+import _to_array from "@swc/helpers/lib/_to_array.js";
+import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
 function a10(param) {
-    var _param = swcHelpers.toArray(param), ref = (_param[0], _param[1], swcHelpers.slicedToArray(_param[2], 1)), ref1 = swcHelpers.slicedToArray(ref[0], 1);
+    var _param = _to_array(param), ref = (_param[0], _param[1], _sliced_to_array(_param[2], 1)), ref1 = _sliced_to_array(ref[0], 1);
     ref1[0], _param.slice(3);
 }
 var E, E1, array = [
@@ -16,10 +18,10 @@ function foo1() {
 }
 !function() {
     for(var _len = arguments.length, a = new Array(_len), _key = 0; _key < _len; _key++)a[_key] = arguments[_key];
-}(swcHelpers.toConsumableArray(array)), (function() {
+}(_to_consumable_array(array)), (function() {
     for(var _len = arguments.length, x = new Array(_len), _key = 0; _key < _len; _key++)x[_key] = arguments[_key];
-}).apply(void 0, swcHelpers.toConsumableArray(array)), function(param) {
-    var _param = swcHelpers.slicedToArray(param, 3), ref = (_param[0], _param[1], swcHelpers.slicedToArray(_param[2], 1)), ref2 = swcHelpers.slicedToArray(ref[0], 1);
+}).apply(void 0, _to_consumable_array(array)), function(param) {
+    var _param = _sliced_to_array(param, 3), ref = (_param[0], _param[1], _sliced_to_array(_param[2], 1)), ref2 = _sliced_to_array(ref[0], 1);
     ref2[0];
 }([
     1,
@@ -51,7 +53,7 @@ function foo1() {
     1,
     2
 ]), function(param) {
-    var _param = swcHelpers.toArray(param);
+    var _param = _to_array(param);
     _param[0], _param[1], _param[2], _param.slice(3);
 }([
     1,

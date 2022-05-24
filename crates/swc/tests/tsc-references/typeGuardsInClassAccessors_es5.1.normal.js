@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _create_class from "@swc/helpers/lib/_create_class.js";
 //@target: es5
 // Note that type guards affect types of variables and parameters only and 
 // have no effect on members of objects such as properties. 
@@ -9,9 +10,9 @@ var var1;
 var ClassWithAccessors = /*#__PURE__*/ function() {
     "use strict";
     function ClassWithAccessors() {
-        swcHelpers.classCallCheck(this, ClassWithAccessors);
+        _class_call_check(this, ClassWithAccessors);
     }
-    swcHelpers.createClass(ClassWithAccessors, [
+    _create_class(ClassWithAccessors, [
         {
             key: "p1",
             get: // Inside public accessor getter

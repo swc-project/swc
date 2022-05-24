@@ -1,18 +1,18 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @declaration: true
 var C = function C(x) {
     "use strict";
-    swcHelpers.classCallCheck(this, C);
+    _class_call_check(this, C);
     this.x = x;
 };
 var D = function D(x) {
     "use strict";
-    swcHelpers.classCallCheck(this, D);
+    _class_call_check(this, D);
     this.x = x;
 };
 var E = function E(x) {
     "use strict";
-    swcHelpers.classCallCheck(this, E);
+    _class_call_check(this, E);
     this.x = x;
 };
 var c = new C(1);
@@ -22,17 +22,17 @@ var Generic;
 (function(Generic) {
     var C = function C(x) {
         "use strict";
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         this.x = x;
     };
     var D = function D(x) {
         "use strict";
-        swcHelpers.classCallCheck(this, D);
+        _class_call_check(this, D);
         this.x = x;
     };
     var E = function E(x) {
         "use strict";
-        swcHelpers.classCallCheck(this, E);
+        _class_call_check(this, E);
         this.x = x;
     };
     var c = new C(1);

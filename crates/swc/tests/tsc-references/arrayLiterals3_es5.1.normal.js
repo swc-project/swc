@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
 // Each element expression in a non-empty array literal is processed as follows:
 //    - If the array literal contains no spread elements, and if the array literal is contextually typed (section 4.19)
 //      by a type T and T has a property with the numeric name N, where N is the index of the element expression in the array literal,
@@ -45,6 +45,6 @@ var temp2 = [
         "string"
     ]
 ];
-var c0 = swcHelpers.toConsumableArray(temp2); // Error
-var c1 = swcHelpers.toConsumableArray(temp1); // Error cannot assign number[] to [number, number, number]
-var c2 = swcHelpers.toConsumableArray(temp1).concat(swcHelpers.toConsumableArray(temp)); // Error cannot assign (number|string)[] to number[]
+var c0 = _to_consumable_array(temp2); // Error
+var c1 = _to_consumable_array(temp1); // Error cannot assign number[] to [number, number, number]
+var c2 = _to_consumable_array(temp1).concat(_to_consumable_array(temp)); // Error cannot assign (number|string)[] to number[]

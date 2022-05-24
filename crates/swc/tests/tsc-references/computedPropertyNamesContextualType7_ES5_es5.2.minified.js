@@ -1,8 +1,8 @@
 var _obj;
-import * as swcHelpers from "@swc/helpers";
-foo((_obj = {
+import _define_property from "@swc/helpers/lib/_define_property.js";
+foo((_define_property(_obj = {
     0: function() {}
-}, swcHelpers.defineProperty(_obj, "hibye", !0), swcHelpers.defineProperty(_obj, 1, 0), swcHelpers.defineProperty(_obj, NaN, [
+}, "hibye", !0), _define_property(_obj, 1, 0), _define_property(_obj, NaN, [
     0
 ]), _obj)), g({
     p: ""

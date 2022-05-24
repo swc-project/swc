@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @filename: t3.ts
 import { I1 as I, T1 as T } from "./t1";
 // @module: commonjs
@@ -7,7 +7,7 @@ export var v = 1;
 export function f() {}
 export var C = function C() {
     "use strict";
-    swcHelpers.classCallCheck(this, C);
+    _class_call_check(this, C);
 };
 export var E;
 (function(E) {

@@ -1,10 +1,11 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _create_class from "@swc/helpers/lib/_create_class.js";
 export var A = function() {
     "use strict";
     function A() {
-        swcHelpers.classCallCheck(this, A);
+        _class_call_check(this, A);
     }
-    return swcHelpers.createClass(A, [
+    return _create_class(A, [
         {
             key: "x",
             get: function() {
@@ -16,9 +17,9 @@ export var A = function() {
 export var B = function() {
     "use strict";
     function B() {
-        swcHelpers.classCallCheck(this, B);
+        _class_call_check(this, B);
     }
-    return swcHelpers.createClass(B, [
+    return _create_class(B, [
         {
             key: "x",
             set: function(_arg) {}
@@ -28,9 +29,9 @@ export var B = function() {
 export var C = function() {
     "use strict";
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
     }
-    return swcHelpers.createClass(C, [
+    return _create_class(C, [
         {
             key: "x",
             get: function() {
@@ -42,7 +43,7 @@ export var C = function() {
 }();
 export var D = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, D);
+    _class_call_check(this, D);
 };
 Object.defineProperty(D.prototype, "x", {
     get: function() {
@@ -51,14 +52,14 @@ Object.defineProperty(D.prototype, "x", {
 });
 export var E = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, E);
+    _class_call_check(this, E);
 };
 Object.defineProperty(E.prototype, "x", {
     set: function(_arg) {}
 });
 export var F = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, F);
+    _class_call_check(this, F);
 };
 Object.defineProperty(F.prototype, "x", {
     get: function() {

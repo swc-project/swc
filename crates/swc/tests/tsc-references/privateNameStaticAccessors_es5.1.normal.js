@@ -1,13 +1,15 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_static_private_field_spec_get from "@swc/helpers/lib/_class_static_private_field_spec_get.js";
+import _class_static_private_field_spec_set from "@swc/helpers/lib/_class_static_private_field_spec_set.js";
 // @strict: true
 // @target: es6
 var A1 = function A1(name) {
     "use strict";
-    swcHelpers.classCallCheck(this, A1);
-    swcHelpers.classStaticPrivateFieldSpecSet(A1, A1, _prop, "");
-    swcHelpers.classStaticPrivateFieldSpecSet(A1, A1, _roProp, ""); // Error
-    console.log(swcHelpers.classStaticPrivateFieldSpecGet(A1, A1, _prop));
-    console.log(swcHelpers.classStaticPrivateFieldSpecGet(A1, A1, _roProp));
+    _class_call_check(this, A1);
+    _class_static_private_field_spec_set(A1, A1, _prop, "");
+    _class_static_private_field_spec_set(A1, A1, _roProp, ""); // Error
+    console.log(_class_static_private_field_spec_get(A1, A1, _prop));
+    console.log(_class_static_private_field_spec_get(A1, A1, _roProp));
 };
 var _prop = {
     get: get_prop,

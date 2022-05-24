@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _wrap_async_generator from "@swc/helpers/lib/_wrap_async_generator.js";
 function f(a) {
     return _f.apply(this, arguments);
 }
@@ -8,7 +8,7 @@ function _f() {
     // @noEmitHelpers: true
     // @noTypesAndSymbols: true
     // https://github.com/microsoft/TypeScript/issues/37686
-    swcHelpers.wrapAsyncGenerator(function*(a) {
+    _wrap_async_generator(function*(a) {
         var _b;
         let c = (_b = a.b) !== null && _b !== void 0 ? _b : 10;
         while(c){

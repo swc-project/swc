@@ -1,4 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(function() {
     var C;
@@ -7,10 +9,10 @@ var _marked = regeneratorRuntime.mark(function() {
             case 0:
                 return _ctx.t0 = function(_superClass) {
                     "use strict";
-                    swcHelpers.inherits(C, _superClass);
-                    var _super = swcHelpers.createSuper(C);
+                    _inherits(C, _superClass);
+                    var _super = _create_super(C);
                     function C() {
-                        return swcHelpers.classCallCheck(this, C), _super.apply(this, arguments);
+                        return _class_call_check(this, C), _super.apply(this, arguments);
                     }
                     return C;
                 }, _ctx.next = 3, 0;

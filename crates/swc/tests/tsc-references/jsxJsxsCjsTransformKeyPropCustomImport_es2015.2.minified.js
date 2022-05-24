@@ -1,9 +1,9 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 let props = {
     answer: 42
 };
-swcHelpers.extends({
+_extends({
     key: "foo"
-}, props), swcHelpers.extends({}, props, {
+}, props), _extends({}, props, {
     key: "bar"
 });

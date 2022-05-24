@@ -1,6 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
+import _tagged_template_literal from "@swc/helpers/lib/_tagged_template_literal.js";
 function _templateObject() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         '"!"4'
     ], [
         "\\x22\\x21\\x224"

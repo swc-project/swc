@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 //@filename: react-consumer.tsx
 var M;
 (function(M1) {
@@ -9,7 +9,7 @@ var M;
     // Should emit M.React.createElement
     //  and M.React.__spread
     var foo;
-    var spread1 = /*#__PURE__*/ React.createElement("div", swcHelpers.extends({
+    var spread1 = /*#__PURE__*/ React.createElement("div", _extends({
         x: ""
     }, foo, {
         y: ""

@@ -1,16 +1,17 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_private_field_get from "@swc/helpers/lib/_class_private_field_get.js";
+import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
 var _foo = /*#__PURE__*/ new WeakMap(), _bar = /*#__PURE__*/ new WeakMap();
 // @strict: true
 // @target: es6
 class A {
     constructor(){
-        swcHelpers.classPrivateFieldInit(this, _foo, {
+        _class_private_field_init(this, _foo, {
             writable: true,
-            value: swcHelpers.classPrivateFieldGet(this, _bar)
+            value: _class_private_field_get(this, _bar)
         });
-        swcHelpers.classPrivateFieldInit(this, _bar, {
+        _class_private_field_init(this, _bar, {
             writable: true,
-            value: swcHelpers.classPrivateFieldGet(this, _foo)
+            value: _class_private_field_get(this, _foo)
         });
         this["#baz"] = this["#baz"] // Error (should *not* be private name error)
         ;

@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
@@ -16,7 +16,7 @@ Outer.app.SomeView = function() {
 }();
 Outer.app.Inner = function _class() {
     "use strict";
-    swcHelpers.classCallCheck(this, _class);
+    _class_call_check(this, _class);
     /** @type {number} */ this.y = 12;
 };
 var example = new Outer.app.Inner();

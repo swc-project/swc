@@ -1,17 +1,18 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_static_private_method_get from "@swc/helpers/lib/_class_static_private_method_get.js";
 // @target: es2015
 var X = function X() {
     "use strict";
-    swcHelpers.classCallCheck(this, X);
-    swcHelpers.classStaticPrivateMethodGet(X, X, m).call(X);
+    _class_call_check(this, X);
+    _class_static_private_method_get(X, X, m).call(X);
 };
 var _f = {
     writable: true,
-    value: swcHelpers.classStaticPrivateMethodGet(X, X, m).call(X)
+    value: _class_static_private_method_get(X, X, m).call(X)
 };
 function m() {
     var X1 = {}; // shadow the class
     var _a = {}; // shadow the first generated var
-    swcHelpers.classStaticPrivateMethodGet(X1, X, m).call(X); // Should check with X as the receiver with _b as the class constructor 
+    _class_static_private_method_get(X1, X, m).call(X); // Should check with X as the receiver with _b as the class constructor 
     return 1;
 }

@@ -1,10 +1,10 @@
-import * as swcHelpers from "@swc/helpers";
+import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
 var x;
 var y;
 var z;
-var _x = swcHelpers.slicedToArray(x, 3), a = _x[0], b = _x[1], c = _x[2];
-var _y = swcHelpers.slicedToArray(y, 3), d = _y[0], e = _y[1], f = _y[2];
-var _z = swcHelpers.slicedToArray(z, 3), g = _z[0], h = _z[1], i = _z[2];
+var _x = _sliced_to_array(x, 3), a = _x[0], b = _x[1], c = _x[2];
+var _y = _sliced_to_array(y, 3), d = _y[0], e = _y[1], f = _y[2];
+var _z = _sliced_to_array(z, 3), g = _z[0], h = _z[1], i = _z[2];
 var j1 = x;
 var j2 = y;
 var j3 = z;

@@ -1,4 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 // @jsx: react
 // @strict: true
 // @esModuleInterop: true
@@ -6,10 +8,10 @@ import * as swcHelpers from "@swc/helpers";
 import React from "react";
 var ResizablePanel = /*#__PURE__*/ function(_Component) {
     "use strict";
-    swcHelpers.inherits(ResizablePanel, _Component);
-    var _super = swcHelpers.createSuper(ResizablePanel);
+    _inherits(ResizablePanel, _Component);
+    var _super = _create_super(ResizablePanel);
     function ResizablePanel() {
-        swcHelpers.classCallCheck(this, ResizablePanel);
+        _class_call_check(this, ResizablePanel);
         return _super.apply(this, arguments);
     }
     return ResizablePanel;

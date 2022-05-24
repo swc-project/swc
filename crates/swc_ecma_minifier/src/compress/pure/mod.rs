@@ -598,6 +598,8 @@ impl VisitMut for Pure<'_> {
 
         self.merge_seq_call(e);
 
+        let can_drop_zero = matches!(&**e.exprs.last().unwrap(), Expr::Arrow(..));
+
         let len = e.exprs.len();
         for (idx, e) in e.exprs.iter_mut().enumerate() {
             let is_last = idx == len - 1;
@@ -606,7 +608,7 @@ impl VisitMut for Pure<'_> {
                 self.ignore_return_value(
                     &mut **e,
                     DropOpts {
-                        drop_zero: false,
+                        drop_zero: can_drop_zero,
                         drop_global_refs_if_unused: false,
                         drop_str_lit: true,
                     },

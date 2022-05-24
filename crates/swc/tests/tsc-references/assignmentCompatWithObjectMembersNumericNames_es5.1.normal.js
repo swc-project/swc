@@ -1,13 +1,13 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // members N and M of types S and T have the same name, same accessibility, same optionality, and N is assignable M
 // numeric named properties work correctly, no errors expected
 var S = function S() {
     "use strict";
-    swcHelpers.classCallCheck(this, S);
+    _class_call_check(this, S);
 };
 var T = function T() {
     "use strict";
-    swcHelpers.classCallCheck(this, T);
+    _class_call_check(this, T);
 };
 var s;
 var t;

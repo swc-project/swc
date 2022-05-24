@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @allowJs: true
 // @checkJs: true
 // @outDir: ./out
@@ -10,7 +10,7 @@ b.cat = "cat";
 export function c() {}
 c.Cls = function _class() {
     "use strict";
-    swcHelpers.classCallCheck(this, _class);
+    _class_call_check(this, _class);
 };
 /**
  * @param {number} a

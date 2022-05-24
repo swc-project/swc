@@ -2,8 +2,8 @@
 // @useDefineForClassFields: true
 // @target: es2015
 "use strict";
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var x = 1;
 var C = function C() {
-    swcHelpers.classCallCheck(this, C);
+    _class_call_check(this, C);
 };

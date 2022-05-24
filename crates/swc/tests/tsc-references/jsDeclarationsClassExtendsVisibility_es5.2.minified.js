@@ -1,15 +1,17 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var Bar = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, Bar);
+    _class_call_check(this, Bar);
 };
 module.exports = Bar;
 var Bar = require("./bar"), Foo = function(Bar1) {
     "use strict";
-    swcHelpers.inherits(Foo, Bar1);
-    var _super = swcHelpers.createSuper(Foo);
+    _inherits(Foo, Bar1);
+    var _super = _create_super(Foo);
     function Foo() {
-        return swcHelpers.classCallCheck(this, Foo), _super.apply(this, arguments);
+        return _class_call_check(this, Foo), _super.apply(this, arguments);
     }
     return Foo;
 }(Bar);

@@ -1,9 +1,9 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @target: es6
 var B = /*#__PURE__*/ function() {
     "use strict";
     function B() {
-        swcHelpers.classCallCheck(this, B);
+        _class_call_check(this, B);
         this["hello"] = 10;
         this[0b110] = "world";
         this[0o23534] = "WORLD";

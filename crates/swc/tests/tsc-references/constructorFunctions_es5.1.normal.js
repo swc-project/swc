@@ -1,27 +1,28 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _instanceof from "@swc/helpers/lib/_instanceof.js";
 // @allowJs: true
 // @checkJs: true
 // @noEmit: true
 // @filename: index.js
 function C1() {
-    if (!swcHelpers._instanceof(this, C1)) return new C1();
+    if (!_instanceof(this, C1)) return new C1();
     this.x = 1;
 }
 var c1_v1 = C1();
 var c1_v2 = new C1();
 var C2 = function() {
-    if (!swcHelpers._instanceof(this, C2)) return new C2();
+    if (!_instanceof(this, C2)) return new C2();
     this.x = 1;
 };
 var c2_v1 = C2();
 var c2_v2 = new C2();
 /** @class */ function C3() {
-    if (!swcHelpers._instanceof(this, C3)) return new C3();
+    if (!_instanceof(this, C3)) return new C3();
 }
 var c3_v1 = C3(); // error: @class tag requires 'new'
 var c3_v2 = new C3();
 /** @class */ var C4 = function() {
-    if (!swcHelpers._instanceof(this, C4)) return new C4();
+    if (!_instanceof(this, C4)) return new C4();
 };
 var c4_v1 = C4(); // error: @class tag requires 'new'
 var c4_v2 = new C4();
@@ -31,7 +32,7 @@ new c5_v1();
 var c5_v2;
 c5_v2 = function _class() {
     "use strict";
-    swcHelpers.classCallCheck(this, _class);
+    _class_call_check(this, _class);
 };
 new c5_v2();
 /** @class */ function C6() {

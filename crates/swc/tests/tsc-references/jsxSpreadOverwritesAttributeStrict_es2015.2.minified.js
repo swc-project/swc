@@ -1,22 +1,22 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 require('react');
 let props = {
     a: 1,
     b: 1
 };
-swcHelpers.extends({}, props), swcHelpers.extends({
+_extends({}, props), _extends({
     d: 1
-}, props), swcHelpers.extends({
+}, props), _extends({
     a: 1
-}, props), swcHelpers.extends({
+}, props), _extends({
     a: 1,
     b: 2
-}, props), swcHelpers.extends({
+}, props), _extends({
     a: 1,
     d: 1
 }, props, {
     d: 1
-}), swcHelpers.extends({
+}), _extends({
     a: 1,
     d: 1
 }, props, {

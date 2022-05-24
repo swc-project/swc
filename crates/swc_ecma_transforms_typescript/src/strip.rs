@@ -1658,6 +1658,17 @@ where
                     match name {
                         TsEntityName::Ident(ref i) => {
                             entry.maybe_dependency = Some(i.clone());
+                            // Eagerly update referenced idents for the concrete exports
+                            // resolves https://github.com/swc-project/swc/issues/4481, if we
+                            // know reference exists & reexports.
+                            // when referenced idents are scoped in ts namespace, its references
+                            // is updated _after_ visiting import decl which strips out imports
+                            // already.
+                            if n.is_export && !n.is_type_only {
+                                let entry =
+                                    self.scope.referenced_idents.entry(i.to_id()).or_default();
+                                entry.has_concrete = true;
+                            }
                             break;
                         }
                         TsEntityName::TsQualifiedName(ref q) => name = &q.left,

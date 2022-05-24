@@ -1,10 +1,12 @@
-import * as swcHelpers from "@swc/helpers";
-var _staticProp = (swcHelpers.classNameTDZError("C"), C).staticProp, _staticProp1 = (swcHelpers.classNameTDZError("C"), C).staticProp, _staticProp2 = (swcHelpers.classNameTDZError("C"), C).staticProp, C = function() {
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_name_tdz_error from "@swc/helpers/lib/_class_name_tdz_error.js";
+import _create_class from "@swc/helpers/lib/_create_class.js";
+var _staticProp = (_class_name_tdz_error("C"), C).staticProp, _staticProp1 = (_class_name_tdz_error("C"), C).staticProp, _staticProp2 = (_class_name_tdz_error("C"), C).staticProp, C = function() {
     "use strict";
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
     }
-    return C.prototype[_staticProp2] = function() {}, swcHelpers.createClass(C, [
+    return C.prototype[_staticProp2] = function() {}, _create_class(C, [
         {
             key: _staticProp,
             get: function() {

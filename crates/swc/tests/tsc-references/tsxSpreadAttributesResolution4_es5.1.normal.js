@@ -1,4 +1,7 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _extends from "@swc/helpers/lib/_extends.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var _this = this;
 // @filename: file.tsx
 // @jsx: preserve
@@ -8,10 +11,10 @@ var _this = this;
 var React = require("react");
 var Poisoned = /*#__PURE__*/ function(_Component) {
     "use strict";
-    swcHelpers.inherits(Poisoned, _Component);
-    var _super = swcHelpers.createSuper(Poisoned);
+    _inherits(Poisoned, _Component);
+    var _super = _create_super(Poisoned);
     function Poisoned() {
-        swcHelpers.classCallCheck(this, Poisoned);
+        _class_call_check(this, Poisoned);
         return _super.apply(this, arguments);
     }
     var _proto = Poisoned.prototype;
@@ -25,13 +28,13 @@ var obj = {
     y: 2
 };
 // OK
-var p = /*#__PURE__*/ React.createElement(Poisoned, swcHelpers.extends({}, obj));
+var p = /*#__PURE__*/ React.createElement(Poisoned, _extends({}, obj));
 var EmptyProp = /*#__PURE__*/ function(_Component) {
     "use strict";
-    swcHelpers.inherits(EmptyProp, _Component);
-    var _super = swcHelpers.createSuper(EmptyProp);
+    _inherits(EmptyProp, _Component);
+    var _super = _create_super(EmptyProp);
     function EmptyProp() {
-        swcHelpers.classCallCheck(this, EmptyProp);
+        _class_call_check(this, EmptyProp);
         return _super.apply(this, arguments);
     }
     var _proto = EmptyProp.prototype;
@@ -42,9 +45,9 @@ var EmptyProp = /*#__PURE__*/ function(_Component) {
 }(React.Component);
 // OK
 var j;
-var e1 = /*#__PURE__*/ React.createElement(EmptyProp, swcHelpers.extends({}, {}));
-var e2 = /*#__PURE__*/ React.createElement(EmptyProp, swcHelpers.extends({}, j));
-var e3 = /*#__PURE__*/ React.createElement(EmptyProp, swcHelpers.extends({}, {
+var e1 = /*#__PURE__*/ React.createElement(EmptyProp, _extends({}, {}));
+var e2 = /*#__PURE__*/ React.createElement(EmptyProp, _extends({}, j));
+var e3 = /*#__PURE__*/ React.createElement(EmptyProp, _extends({}, {
     ref: function(input) {
         _this.textInput = input;
     }
@@ -52,7 +55,7 @@ var e3 = /*#__PURE__*/ React.createElement(EmptyProp, swcHelpers.extends({}, {
 var e4 = /*#__PURE__*/ React.createElement(EmptyProp, {
     "data-prop": true
 });
-var e5 = /*#__PURE__*/ React.createElement(EmptyProp, swcHelpers.extends({}, {
+var e5 = /*#__PURE__*/ React.createElement(EmptyProp, _extends({}, {
     "data-prop": true
 }));
 export { };

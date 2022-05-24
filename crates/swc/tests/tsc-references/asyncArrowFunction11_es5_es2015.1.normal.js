@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
 // @target: es5
 // @lib: esnext, dom
 // @downlevelIteration: true
@@ -6,7 +6,7 @@ import * as swcHelpers from "@swc/helpers";
 class A {
     constructor(){
         var _this = this;
-        this.b = swcHelpers.asyncToGenerator(function*(...args) {
+        this.b = _async_to_generator(function*(...args) {
             yield Promise.resolve();
             const obj = {
                 ["a"]: ()=>_this

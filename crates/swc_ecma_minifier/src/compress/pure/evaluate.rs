@@ -70,26 +70,46 @@ impl Pure<'_> {
             ..
         }) = &mut *es.expr
         {
-            if let Expr::Fn(FnExpr {
-                function:
-                    Function {
-                        params,
-                        body: Some(body),
-                        is_async: false,
-                        ..
-                    },
-                ..
-            }) = &mut **callee
-            {
-                if body.stmts.iter().any(|s| !is_fine_to_move(s)) {
-                    return;
+            match &mut **callee {
+                Expr::Fn(FnExpr {
+                    function:
+                        Function {
+                            params,
+                            body: Some(body),
+                            is_async: false,
+                            is_generator: false,
+                            ..
+                        },
+                    ..
+                }) => {
+                    if args.is_empty()
+                        && params.is_empty()
+                        && body.stmts.iter().all(is_fine_to_move)
+                    {
+                        self.changed = true;
+                        report_change!("Flattening iife");
+                        *s = Stmt::Block(body.take());
+                    }
                 }
 
-                if args.is_empty() && params.is_empty() {
-                    self.changed = true;
-                    report_change!("Flattening iife");
-                    *s = Stmt::Block(body.take());
+                Expr::Arrow(ArrowExpr {
+                    params,
+                    is_async: false,
+                    is_generator: false,
+                    body: BlockStmtOrExpr::BlockStmt(body),
+                    ..
+                }) => {
+                    if args.is_empty()
+                        && params.is_empty()
+                        && body.stmts.iter().all(is_fine_to_move)
+                    {
+                        self.changed = true;
+                        report_change!("Flattening iife");
+                        *s = Stmt::Block(body.take());
+                    }
                 }
+
+                _ => {}
             }
         }
     }

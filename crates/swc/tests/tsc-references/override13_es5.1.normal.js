@@ -1,18 +1,20 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 // @noImplicitOverride: true
 // @target: esnext
 var Foo = function Foo() {
     "use strict";
-    swcHelpers.classCallCheck(this, Foo);
+    _class_call_check(this, Foo);
     this.property = 1;
 };
 Foo.staticProperty = 2;
 var SubFoo = /*#__PURE__*/ function(Foo) {
     "use strict";
-    swcHelpers.inherits(SubFoo, Foo);
-    var _super = swcHelpers.createSuper(SubFoo);
+    _inherits(SubFoo, Foo);
+    var _super = _create_super(SubFoo);
     function SubFoo() {
-        swcHelpers.classCallCheck(this, SubFoo);
+        _class_call_check(this, SubFoo);
         var _this;
         _this = _super.apply(this, arguments);
         _this.property = 42;
@@ -23,10 +25,10 @@ var SubFoo = /*#__PURE__*/ function(Foo) {
 }(Foo);
 var StaticSubFoo = /*#__PURE__*/ function(Foo) {
     "use strict";
-    swcHelpers.inherits(StaticSubFoo, Foo);
-    var _super = swcHelpers.createSuper(StaticSubFoo);
+    _inherits(StaticSubFoo, Foo);
+    var _super = _create_super(StaticSubFoo);
     function StaticSubFoo() {
-        swcHelpers.classCallCheck(this, StaticSubFoo);
+        _class_call_check(this, StaticSubFoo);
         return _super.apply(this, arguments);
     }
     return StaticSubFoo;
@@ -35,20 +37,20 @@ StaticSubFoo.property = 42;
 StaticSubFoo.staticProperty = 42;
 var Intermediate = /*#__PURE__*/ function(Foo) {
     "use strict";
-    swcHelpers.inherits(Intermediate, Foo);
-    var _super = swcHelpers.createSuper(Intermediate);
+    _inherits(Intermediate, Foo);
+    var _super = _create_super(Intermediate);
     function Intermediate() {
-        swcHelpers.classCallCheck(this, Intermediate);
+        _class_call_check(this, Intermediate);
         return _super.apply(this, arguments);
     }
     return Intermediate;
 }(Foo);
 var Derived = /*#__PURE__*/ function(Intermediate) {
     "use strict";
-    swcHelpers.inherits(Derived, Intermediate);
-    var _super = swcHelpers.createSuper(Derived);
+    _inherits(Derived, Intermediate);
+    var _super = _create_super(Derived);
     function Derived() {
-        swcHelpers.classCallCheck(this, Derived);
+        _class_call_check(this, Derived);
         var _this;
         _this = _super.apply(this, arguments);
         _this.property = 42;
@@ -59,10 +61,10 @@ var Derived = /*#__PURE__*/ function(Intermediate) {
 }(Intermediate);
 var StaticDerived = /*#__PURE__*/ function(Intermediate) {
     "use strict";
-    swcHelpers.inherits(StaticDerived, Intermediate);
-    var _super = swcHelpers.createSuper(StaticDerived);
+    _inherits(StaticDerived, Intermediate);
+    var _super = _create_super(StaticDerived);
     function StaticDerived() {
-        swcHelpers.classCallCheck(this, StaticDerived);
+        _class_call_check(this, StaticDerived);
         return _super.apply(this, arguments);
     }
     return StaticDerived;

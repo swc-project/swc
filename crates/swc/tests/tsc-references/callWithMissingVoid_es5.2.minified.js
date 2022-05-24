@@ -1,8 +1,8 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var X = function() {
     "use strict";
     function X() {
-        swcHelpers.classCallCheck(this, X);
+        _class_call_check(this, X);
     }
     return X.prototype.f = function(t) {
         return {
@@ -13,7 +13,7 @@ var X = function() {
 x.f(), xUnion.f(42), xUnion.f(), xAny.f(), xUnknown.f(), xNever.f();
 var MyPromise = function(executor) {
     "use strict";
-    swcHelpers.classCallCheck(this, MyPromise);
+    _class_call_check(this, MyPromise);
 };
 function a(x, y, z) {}
 function b(x, y, z, what) {}

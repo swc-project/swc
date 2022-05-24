@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 function ExpandoDecl(n) {
     return n.toString();
 }
@@ -42,14 +42,14 @@ ExpandoExpr2.prop = 2, ExpandoExpr2.m = function(n) {
 }, ExpandoExpr2.prop, ExpandoExpr2.m(12), ExpandoExpr2(101).length;
 var ExpandoClass = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, ExpandoClass), this.n = 1001;
+    _class_call_check(this, ExpandoClass), this.n = 1001;
 };
 ExpandoClass.prop = 2, ExpandoClass.m = function(n) {
     return n + 1;
 }, ExpandoClass.prop, ExpandoClass.m(12), new ExpandoClass().n;
 var ExpandoExpr3 = function _class() {
     "use strict";
-    swcHelpers.classCallCheck(this, _class), this.n = 10001;
+    _class_call_check(this, _class), this.n = 10001;
 };
 ExpandoExpr3.prop = 3, ExpandoExpr3.m = function(n) {
     return n + 1;
