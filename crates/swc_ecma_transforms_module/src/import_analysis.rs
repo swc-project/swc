@@ -86,24 +86,22 @@ impl Visit for ImportAnalyzer {
         } else if import.specifiers.len() == 1
             && matches!(import.specifiers[0], ImportSpecifier::Namespace(..))
         {
-            if !import.src.value.starts_with("@swc/helpers") {
-                scope.import_types.insert(import.src.value.clone(), true);
-            }
+            scope.import_types.insert(import.src.value.clone(), true);
         } else {
             let mut has_non_default = false;
 
             for s in &import.specifiers {
                 match *s {
                     ImportSpecifier::Namespace(ref _ns) => {
-                        if !import.src.value.starts_with("@swc/helpers") {
-                            scope.import_types.insert(import.src.value.clone(), true);
-                        }
+                        scope.import_types.insert(import.src.value.clone(), true);
                     }
                     ImportSpecifier::Default(_) => {
-                        let src = import.src.value.clone();
-                        let src_already_exist = self.import_srcs.contains(&src);
+                        if !import.src.value.starts_with("@swc/helpers") {
+                            let src = import.src.value.clone();
+                            let src_already_exist = self.import_srcs.contains(&src);
 
-                        scope.import_types.entry(src).or_insert(src_already_exist);
+                            scope.import_types.entry(src).or_insert(src_already_exist);
+                        }
                     }
                     ImportSpecifier::Named(ref i) => {
                         let ImportNamedSpecifier {

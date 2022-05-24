@@ -383,9 +383,7 @@ impl Scope {
                     )
                 });
 
-            if !import.src.value.starts_with("@swc/helpers") {
-                self.import_types.insert(import.src.value, true);
-            }
+            self.import_types.insert(import.src.value, true);
         } else {
             self.imports
                 .entry(import.src.value.clone())
@@ -432,13 +430,15 @@ impl Scope {
                         }
                     }
                     ImportSpecifier::Default(i) => {
-                        self.idents.insert(
-                            i.local.to_id(),
-                            (import.src.value.clone(), js_word!("default")),
-                        );
-                        self.import_types
-                            .entry(import.src.value.clone())
-                            .or_insert(false);
+                        if !import.src.value.starts_with("@swc/helpers") {
+                            self.idents.insert(
+                                i.local.to_id(),
+                                (import.src.value.clone(), js_word!("default")),
+                            );
+                            self.import_types
+                                .entry(import.src.value.clone())
+                                .or_insert(false);
+                        }
                     }
                     ImportSpecifier::Named(i) => {
                         let ImportNamedSpecifier {
