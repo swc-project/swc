@@ -367,7 +367,18 @@ impl VisitMut for Minifier {
                 n.namespace,
                 &n.tag_name,
                 &attribute.name,
-                attribute.value.as_ref().unwrap(),
+                match &*attribute.name {
+                    "script" if n.namespace == Namespace::HTML => {
+                        let value = attribute.value.as_ref().unwrap();
+
+                        if let Some(second) = value.split(';').next() {
+                            second
+                        } else {
+                            value
+                        }
+                    }
+                    _ => attribute.value.as_ref().unwrap(),
+                },
             ) || (matches!(&*attribute.name, "id" | "class" | "style") && is_empty_value)
             {
                 return false;
