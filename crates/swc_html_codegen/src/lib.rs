@@ -140,6 +140,7 @@ where
         &mut self,
         n: &Element,
         parent: Option<&Element>,
+        prev: Option<&Child>,
         next: Option<&Child>,
     ) -> Result {
         let has_attributes = !n.attributes.is_empty();
@@ -169,14 +170,23 @@ where
                 // colgroup element is a col element, and if the element is not immediately preceded
                 // by another colgroup element whose end tag has been omitted. (It can't be omitted
                 // if the element is empty.)
-                // TODO improve me
                 "colgroup"
                     if match n.children.get(0) {
                         Some(Child::Element(element))
                             if element.namespace == Namespace::HTML
                                 && &*element.tag_name == "col" =>
                         {
-                            true
+                            match prev {
+                                // We don't need to check on omitted end tag, because we always
+                                // omit an end tag
+                                Some(Child::Element(element))
+                                    if element.namespace == Namespace::HTML
+                                        && &*element.tag_name == "colgroup" =>
+                                {
+                                    false
+                                }
+                                _ => true,
+                            }
                         }
                         _ => false,
                     } =>
@@ -592,7 +602,7 @@ where
 
     #[emitter]
     fn emit_element(&mut self, n: &Element) -> Result {
-        self.basic_emit_element(n, None, None)?;
+        self.basic_emit_element(n, None, None, None)?;
     }
 
     #[emitter]
@@ -950,9 +960,10 @@ where
         for (idx, node) in nodes.iter().enumerate() {
             match node {
                 Child::Element(element) => {
+                    let prev = if idx > 0 { nodes.get(idx - 1) } else { None };
                     let next = nodes.get(idx + 1);
 
-                    self.basic_emit_element(element, Some(parent), next)?;
+                    self.basic_emit_element(element, Some(parent), prev, next)?;
                 }
                 _ => {
                     emit!(self, node)
