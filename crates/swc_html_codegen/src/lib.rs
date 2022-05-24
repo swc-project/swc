@@ -291,6 +291,12 @@ where
                         _ => false,
                     },
 
+                    // A tfoot element's end tag can be omitted if there is no more content in the
+                    // parent element.
+                    "tfoot" => match next {
+                        None => true,
+                        _ => false,
+                    },
                     // A tr element's end tag can be omitted if the tr element is immediately
                     // followed by another tr element, or if there is no more content in the parent
                     // element.
