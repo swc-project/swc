@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 import { predom } from "./renderer2";
 import prerendered from "./component";
 export var MySFC = function(props) {
@@ -7,7 +7,7 @@ export var MySFC = function(props) {
 export var MyClass = function() {
     "use strict";
     function MyClass(props) {
-        swcHelpers.classCallCheck(this, MyClass), this.props = props;
+        _class_call_check(this, MyClass), this.props = props;
     }
     return MyClass.prototype.render = function() {
         return predom("p", null, this.props.x, " + ", this.props.y, " = ", this.props.x + this.props.y);
@@ -27,7 +27,7 @@ export default predom("h", null);
 var DOMClass = function() {
     "use strict";
     function DOMClass(props) {
-        swcHelpers.classCallCheck(this, DOMClass), this.props = props;
+        _class_call_check(this, DOMClass), this.props = props;
     }
     return DOMClass.prototype.render = function() {
         return predom("p", null, this.props.x, " + ", this.props.y, " = ", this.props.x + this.props.y);

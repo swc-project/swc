@@ -1,24 +1,27 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_private_field_get from "@swc/helpers/lib/_class_private_field_get.js";
+import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
+import _class_private_field_set from "@swc/helpers/lib/_class_private_field_set.js";
 var _y = new WeakMap(), Test = function() {
     "use strict";
     function Test() {
-        swcHelpers.classCallCheck(this, Test), swcHelpers.classPrivateFieldInit(this, _y, {
+        _class_call_check(this, Test), _class_private_field_init(this, _y, {
             writable: !0,
             value: 123
         });
     }
     return Test.something = function(obj) {
         var _s, _x, _x1;
-        swcHelpers.classPrivateFieldSet(obj[(new (_x = new WeakMap(), function _class() {
-            swcHelpers.classCallCheck(this, _class), swcHelpers.classPrivateFieldInit(this, _x, {
+        _class_private_field_set(obj[(new (_x = new WeakMap(), function _class() {
+            _class_call_check(this, _class), _class_private_field_init(this, _x, {
                 writable: !0,
                 value: 1
             }), this.s = "prop";
-        })).s], _y, 1), swcHelpers.classPrivateFieldSet(_s = obj[(new (_x1 = new WeakMap(), function _class() {
-            swcHelpers.classCallCheck(this, _class), swcHelpers.classPrivateFieldInit(this, _x1, {
+        })).s], _y, 1), _class_private_field_set(_s = obj[(new (_x1 = new WeakMap(), function _class() {
+            _class_call_check(this, _class), _class_private_field_init(this, _x1, {
                 writable: !0,
                 value: 1
             }), this.s = "prop";
-        })).s], _y, swcHelpers.classPrivateFieldGet(_s, _y) + 1);
+        })).s], _y, _class_private_field_get(_s, _y) + 1);
     }, Test;
 }();

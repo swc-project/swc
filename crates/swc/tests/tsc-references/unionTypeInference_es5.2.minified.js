@@ -1,10 +1,10 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
 import regeneratorRuntime from "regenerator-runtime";
 function fun(deepPromised) {
     return _fun.apply(this, arguments);
 }
 function _fun() {
-    return (_fun = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee(deepPromised) {
+    return (_fun = _async_to_generator(regeneratorRuntime.mark(function _callee(deepPromised) {
         var deepPromisedWithIndexer, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, value, awaitedValue;
         return regeneratorRuntime.wrap(function(_ctx) {
             for(;;)switch(_ctx.prev = _ctx.next){

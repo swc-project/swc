@@ -1,10 +1,10 @@
-import * as swcHelpers from "@swc/helpers";
+import _wrap_async_generator from "@swc/helpers/lib/_wrap_async_generator.js";
 import regeneratorRuntime from "regenerator-runtime";
 function lol() {
     return _lol.apply(this, arguments);
 }
 function _lol() {
-    _lol = swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+    _lol = _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:

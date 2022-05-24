@@ -1,11 +1,13 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var React = require("react");
 export var AddressComp = function(_Component) {
     "use strict";
-    swcHelpers.inherits(AddressComp, _Component);
-    var _super = swcHelpers.createSuper(AddressComp);
+    _inherits(AddressComp, _Component);
+    var _super = _create_super(AddressComp);
     function AddressComp() {
-        return swcHelpers.classCallCheck(this, AddressComp), _super.apply(this, arguments);
+        return _class_call_check(this, AddressComp), _super.apply(this, arguments);
     }
     return AddressComp.prototype.render = function() {
         return null;

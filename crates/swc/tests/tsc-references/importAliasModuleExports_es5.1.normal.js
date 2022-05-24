@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @filename: main.js
 import A from "./mod1";
 // @allowJs: true
@@ -9,7 +9,7 @@ import A from "./mod1";
 var Alias = /*#__PURE__*/ function() {
     "use strict";
     function Alias() {
-        swcHelpers.classCallCheck(this, Alias);
+        _class_call_check(this, Alias);
     }
     var _proto = Alias.prototype;
     _proto.bar = function bar() {

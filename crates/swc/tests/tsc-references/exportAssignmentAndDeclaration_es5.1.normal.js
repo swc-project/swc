@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 export var E1;
 (function(E1) {
     E1[E1["A"] = 0] = "A";
@@ -7,7 +7,7 @@ export var E1;
 })(E1 || (E1 = {}));
 var C1 = function C1() {
     "use strict";
-    swcHelpers.classCallCheck(this, C1);
+    _class_call_check(this, C1);
 };
 // Invalid, as there is already an exported member.
 module.exports = C1;

@@ -1,2 +1,2 @@
-import * as swcHelpers from "@swc/helpers";
-var a = swcHelpers.typeOf(0);
+import _type_of from "@swc/helpers/lib/_type_of.js";
+var a = _type_of(0);

@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
 // @lib: es2015
 // @target: ES6
 var map = new Map([
@@ -14,7 +14,7 @@ var map = new Map([
 var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
 try {
     for(var _iterator = map[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
-        var _value = swcHelpers.slicedToArray(_step.value, 2), k = _value[0], v = _value[1];
+        var _value = _sliced_to_array(_step.value, 2), k = _value[0], v = _value[1];
         k;
         v;
     }

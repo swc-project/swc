@@ -1,7 +1,7 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_static_private_field_spec_get from "@swc/helpers/lib/_class_static_private_field_spec_get.js";
 class A {
     constructor(){
-        console.log(swcHelpers.classStaticPrivateFieldSpecGet(A, A, _myField)), console.log(swcHelpers.classStaticPrivateFieldSpecGet(this, A, _myField));
+        console.log(_class_static_private_field_spec_get(A, A, _myField)), console.log(_class_static_private_field_spec_get(this, A, _myField));
     }
 }
 var _myField = {

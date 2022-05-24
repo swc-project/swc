@@ -1,9 +1,12 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _create_class from "@swc/helpers/lib/_create_class.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 import regeneratorRuntime from "regenerator-runtime";
 export var Base = function() {
     "use strict";
     function Base() {
-        swcHelpers.classCallCheck(this, Base);
+        _class_call_check(this, Base);
     }
     return Base.prototype.toJSON = function() {
         return {
@@ -15,10 +18,10 @@ export var Base = function() {
 }();
 export var Argument = function(Base) {
     "use strict";
-    swcHelpers.inherits(Argument, Base);
-    var _super = swcHelpers.createSuper(Argument);
+    _inherits(Argument, Base);
+    var _super = _create_super(Argument);
     function Argument() {
-        return swcHelpers.classCallCheck(this, Argument), _super.apply(this, arguments);
+        return _class_call_check(this, Argument), _super.apply(this, arguments);
     }
     return Argument.prototype.validate = regeneratorRuntime.mark(function validate(defs) {
         return regeneratorRuntime.wrap(function(_ctx) {
@@ -28,7 +31,7 @@ export var Argument = function(Base) {
                     return _ctx.stop();
             }
         }, validate);
-    }), Argument.parse = function(tokeniser) {}, swcHelpers.createClass(Argument, [
+    }), Argument.parse = function(tokeniser) {}, _create_class(Argument, [
         {
             key: "type",
             get: function() {

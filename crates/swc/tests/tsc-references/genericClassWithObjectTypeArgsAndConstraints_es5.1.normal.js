@@ -1,24 +1,24 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // Generic call with constraints infering type parameter from object member properties
 // No errors expected
 var C = function C() {
     "use strict";
-    swcHelpers.classCallCheck(this, C);
+    _class_call_check(this, C);
 };
 var D = function D() {
     "use strict";
-    swcHelpers.classCallCheck(this, D);
+    _class_call_check(this, D);
 };
 var X = function X() {
     "use strict";
-    swcHelpers.classCallCheck(this, X);
+    _class_call_check(this, X);
 };
 var Class;
 (function(Class) {
     var G = /*#__PURE__*/ function() {
         "use strict";
         function G() {
-            swcHelpers.classCallCheck(this, G);
+            _class_call_check(this, G);
         }
         var _proto = G.prototype;
         _proto.foo = function foo(t, t2) {
@@ -35,7 +35,7 @@ var Class;
     var G2 = /*#__PURE__*/ function() {
         "use strict";
         function G2() {
-            swcHelpers.classCallCheck(this, G2);
+            _class_call_check(this, G2);
         }
         var _proto = G2.prototype;
         _proto.foo2 = function foo2(t, t2) {

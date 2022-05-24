@@ -11,9 +11,9 @@ Object.defineProperty(exports, "render", {
 var _exportNames = {
     render: true
 };
-var swcHelpers = require("@swc/helpers");
+var _interop_require_wildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
 var _customRender = require("./customRender");
-var _react = swcHelpers.interopRequireWildcard(require("@testing-library/react"));
+var _react = _interop_require_wildcard(require("@testing-library/react"));
 // re-export everything
 Object.keys(_react).forEach(function(key) {
     if (key === "default" || key === "__esModule") return;

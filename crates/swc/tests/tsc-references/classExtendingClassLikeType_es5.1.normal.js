@@ -1,21 +1,23 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 // Error, no Base constructor function
 var D0 = /*#__PURE__*/ function(Base) {
     "use strict";
-    swcHelpers.inherits(D0, Base);
-    var _super = swcHelpers.createSuper(D0);
+    _inherits(D0, Base);
+    var _super = _create_super(D0);
     function D0() {
-        swcHelpers.classCallCheck(this, D0);
+        _class_call_check(this, D0);
         return _super.apply(this, arguments);
     }
     return D0;
 }(Base);
 var D1 = /*#__PURE__*/ function(_superClass) {
     "use strict";
-    swcHelpers.inherits(D1, _superClass);
-    var _super = swcHelpers.createSuper(D1);
+    _inherits(D1, _superClass);
+    var _super = _create_super(D1);
     function D1() {
-        swcHelpers.classCallCheck(this, D1);
+        _class_call_check(this, D1);
         var _this;
         _this = _super.call(this, "abc", "def");
         _this.x = "x";
@@ -26,10 +28,10 @@ var D1 = /*#__PURE__*/ function(_superClass) {
 }(getBase());
 var D2 = /*#__PURE__*/ function(_superClass) {
     "use strict";
-    swcHelpers.inherits(D2, _superClass);
-    var _super = swcHelpers.createSuper(D2);
+    _inherits(D2, _superClass);
+    var _super = _create_super(D2);
     function D2() {
-        swcHelpers.classCallCheck(this, D2);
+        _class_call_check(this, D2);
         var _this;
         _this = _super.call(this, 10);
         _this = _super.call(this, 10, 20);
@@ -41,10 +43,10 @@ var D2 = /*#__PURE__*/ function(_superClass) {
 }(getBase());
 var D3 = /*#__PURE__*/ function(_superClass) {
     "use strict";
-    swcHelpers.inherits(D3, _superClass);
-    var _super = swcHelpers.createSuper(D3);
+    _inherits(D3, _superClass);
+    var _super = _create_super(D3);
     function D3() {
-        swcHelpers.classCallCheck(this, D3);
+        _class_call_check(this, D3);
         var _this;
         _this = _super.call(this, "abc", 42);
         _this.x = "x";
@@ -56,10 +58,10 @@ var D3 = /*#__PURE__*/ function(_superClass) {
 // Error, no constructors with three type arguments
 var D4 = /*#__PURE__*/ function(_superClass) {
     "use strict";
-    swcHelpers.inherits(D4, _superClass);
-    var _super = swcHelpers.createSuper(D4);
+    _inherits(D4, _superClass);
+    var _super = _create_super(D4);
     function D4() {
-        swcHelpers.classCallCheck(this, D4);
+        _class_call_check(this, D4);
         return _super.apply(this, arguments);
     }
     return D4;
@@ -67,10 +69,10 @@ var D4 = /*#__PURE__*/ function(_superClass) {
 // Error, constructor return types differ
 var D5 = /*#__PURE__*/ function(_superClass) {
     "use strict";
-    swcHelpers.inherits(D5, _superClass);
-    var _super = swcHelpers.createSuper(D5);
+    _inherits(D5, _superClass);
+    var _super = _create_super(D5);
     function D5() {
-        swcHelpers.classCallCheck(this, D5);
+        _class_call_check(this, D5);
         return _super.apply(this, arguments);
     }
     return D5;

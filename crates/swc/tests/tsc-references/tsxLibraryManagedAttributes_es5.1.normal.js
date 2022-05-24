@@ -1,10 +1,12 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var Component = /*#__PURE__*/ function(ReactComponent) {
     "use strict";
-    swcHelpers.inherits(Component, ReactComponent);
-    var _super = swcHelpers.createSuper(Component);
+    _inherits(Component, ReactComponent);
+    var _super = _create_super(Component);
     function Component() {
-        swcHelpers.classCallCheck(this, Component);
+        _class_call_check(this, Component);
         return _super.apply(this, arguments);
     }
     return Component;
@@ -46,10 +48,10 @@ var f = /*#__PURE__*/ React.createElement(Component, {
 }); // Error, baz is _not_ nullable/undefinable since it's marked `isRequired`
 var JustPropTypes = /*#__PURE__*/ function(ReactComponent) {
     "use strict";
-    swcHelpers.inherits(JustPropTypes, ReactComponent);
-    var _super = swcHelpers.createSuper(JustPropTypes);
+    _inherits(JustPropTypes, ReactComponent);
+    var _super = _create_super(JustPropTypes);
     function JustPropTypes() {
-        swcHelpers.classCallCheck(this, JustPropTypes);
+        _class_call_check(this, JustPropTypes);
         return _super.apply(this, arguments);
     }
     return JustPropTypes;
@@ -75,10 +77,10 @@ var j = /*#__PURE__*/ React.createElement(JustPropTypes, {
 }); // error, bar is required
 var JustDefaultProps = /*#__PURE__*/ function(ReactComponent) {
     "use strict";
-    swcHelpers.inherits(JustDefaultProps, ReactComponent);
-    var _super = swcHelpers.createSuper(JustDefaultProps);
+    _inherits(JustDefaultProps, ReactComponent);
+    var _super = _create_super(JustDefaultProps);
     function JustDefaultProps() {
-        swcHelpers.classCallCheck(this, JustDefaultProps);
+        _class_call_check(this, JustDefaultProps);
         return _super.apply(this, arguments);
     }
     return JustDefaultProps;
@@ -98,10 +100,10 @@ var m = /*#__PURE__*/ React.createElement(JustDefaultProps, {
 }); // error, wrong type
 var BothWithSpecifiedGeneric = /*#__PURE__*/ function(ReactComponent) {
     "use strict";
-    swcHelpers.inherits(BothWithSpecifiedGeneric, ReactComponent);
-    var _super = swcHelpers.createSuper(BothWithSpecifiedGeneric);
+    _inherits(BothWithSpecifiedGeneric, ReactComponent);
+    var _super = _create_super(BothWithSpecifiedGeneric);
     function BothWithSpecifiedGeneric() {
-        swcHelpers.classCallCheck(this, BothWithSpecifiedGeneric);
+        _class_call_check(this, BothWithSpecifiedGeneric);
         return _super.apply(this, arguments);
     }
     return BothWithSpecifiedGeneric;
@@ -143,10 +145,10 @@ var s = /*#__PURE__*/ React.createElement(BothWithSpecifiedGeneric, {
 }); // Error, baz is _not_ nullable/undefinable since it's marked `isRequired`
 var JustPropTypesWithSpecifiedGeneric = /*#__PURE__*/ function(ReactComponent) {
     "use strict";
-    swcHelpers.inherits(JustPropTypesWithSpecifiedGeneric, ReactComponent);
-    var _super = swcHelpers.createSuper(JustPropTypesWithSpecifiedGeneric);
+    _inherits(JustPropTypesWithSpecifiedGeneric, ReactComponent);
+    var _super = _create_super(JustPropTypesWithSpecifiedGeneric);
     function JustPropTypesWithSpecifiedGeneric() {
-        swcHelpers.classCallCheck(this, JustPropTypesWithSpecifiedGeneric);
+        _class_call_check(this, JustPropTypesWithSpecifiedGeneric);
         return _super.apply(this, arguments);
     }
     return JustPropTypesWithSpecifiedGeneric;
@@ -172,10 +174,10 @@ var w = /*#__PURE__*/ React.createElement(JustPropTypesWithSpecifiedGeneric, {
 }); // error, bar is required
 var JustDefaultPropsWithSpecifiedGeneric = /*#__PURE__*/ function(ReactComponent) {
     "use strict";
-    swcHelpers.inherits(JustDefaultPropsWithSpecifiedGeneric, ReactComponent);
-    var _super = swcHelpers.createSuper(JustDefaultPropsWithSpecifiedGeneric);
+    _inherits(JustDefaultPropsWithSpecifiedGeneric, ReactComponent);
+    var _super = _create_super(JustDefaultPropsWithSpecifiedGeneric);
     function JustDefaultPropsWithSpecifiedGeneric() {
-        swcHelpers.classCallCheck(this, JustDefaultPropsWithSpecifiedGeneric);
+        _class_call_check(this, JustDefaultPropsWithSpecifiedGeneric);
         return _super.apply(this, arguments);
     }
     return JustDefaultPropsWithSpecifiedGeneric;

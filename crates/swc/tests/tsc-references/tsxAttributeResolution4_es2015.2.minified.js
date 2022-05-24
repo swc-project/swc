@@ -1,6 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
-swcHelpers.extends({}, {
+import _extends from "@swc/helpers/lib/_extends.js";
+_extends({}, {
     x: (n)=>0
-}), swcHelpers.extends({}, {
+}), _extends({}, {
     x: (n)=>n.len
 });

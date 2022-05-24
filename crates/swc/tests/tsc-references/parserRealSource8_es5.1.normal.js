@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // Copyright (c) Microsoft. All rights reserved. Licensed under the Apache License, Version 2.0. 
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
@@ -327,7 +327,7 @@ var TypeScript;
     };
     var AssignScopeContext = function AssignScopeContext(scopeChain, typeFlow, modDeclChain) {
         "use strict";
-        swcHelpers.classCallCheck(this, AssignScopeContext);
+        _class_call_check(this, AssignScopeContext);
         this.scopeChain = scopeChain;
         this.typeFlow = typeFlow;
         this.modDeclChain = modDeclChain;
@@ -340,7 +340,7 @@ var TypeScript;
     var ScopeSearchFilter = /*#__PURE__*/ function() {
         "use strict";
         function ScopeSearchFilter(select, stop) {
-            swcHelpers.classCallCheck(this, ScopeSearchFilter);
+            _class_call_check(this, ScopeSearchFilter);
             this.select = select;
             this.stop = stop;
             this.result = null;

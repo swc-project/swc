@@ -1,9 +1,9 @@
 var A, B, X, Y, D;
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 A || (A = {}), B || (B = {}), function(B) {
     var B1 = function() {
         "use strict";
-        swcHelpers.classCallCheck(this, B1);
+        _class_call_check(this, B1);
     };
 }(B || (B = {})), function(X1) {
     var Y1;

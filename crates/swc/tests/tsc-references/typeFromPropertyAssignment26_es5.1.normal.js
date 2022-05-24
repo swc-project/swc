@@ -1,4 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 // @noEmit: true
 // @noImplicitAny: true
 // @checkJs: true
@@ -7,16 +9,16 @@ import * as swcHelpers from "@swc/helpers";
 var UI = {};
 UI.TreeElement = function _class() {
     "use strict";
-    swcHelpers.classCallCheck(this, _class);
+    _class_call_check(this, _class);
     this.treeOutline = 12;
 };
 UI.context = new UI.TreeElement();
 var C = /*#__PURE__*/ function(_TreeElement) {
     "use strict";
-    swcHelpers.inherits(C, _TreeElement);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, _TreeElement);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     var _proto = C.prototype;

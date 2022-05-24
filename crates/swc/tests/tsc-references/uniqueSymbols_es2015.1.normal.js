@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
+import _wrap_async_generator from "@swc/helpers/lib/_wrap_async_generator.js";
 // @target: esnext
 // @lib: esnext
 // @declaration: false
@@ -61,7 +62,7 @@ function asyncFuncReturnConstCall() {
 }
 function _asyncFuncReturnConstCall() {
     _asyncFuncReturnConstCall = // async function return inference
-    swcHelpers.asyncToGenerator(function*() {
+    _async_to_generator(function*() {
         return constCall;
     });
     return _asyncFuncReturnConstCall.apply(this, arguments);
@@ -70,7 +71,7 @@ function asyncFuncReturnLetCall() {
     return _asyncFuncReturnLetCall.apply(this, arguments);
 }
 function _asyncFuncReturnLetCall() {
-    _asyncFuncReturnLetCall = swcHelpers.asyncToGenerator(function*() {
+    _asyncFuncReturnLetCall = _async_to_generator(function*() {
         return letCall;
     });
     return _asyncFuncReturnLetCall.apply(this, arguments);
@@ -79,7 +80,7 @@ function asyncFuncReturnVarCall() {
     return _asyncFuncReturnVarCall.apply(this, arguments);
 }
 function _asyncFuncReturnVarCall() {
-    _asyncFuncReturnVarCall = swcHelpers.asyncToGenerator(function*() {
+    _asyncFuncReturnVarCall = _async_to_generator(function*() {
         return varCall;
     });
     return _asyncFuncReturnVarCall.apply(this, arguments);
@@ -89,7 +90,7 @@ function asyncGenFuncYieldConstCall() {
 }
 function _asyncGenFuncYieldConstCall() {
     _asyncGenFuncYieldConstCall = // async generator function yield inference
-    swcHelpers.wrapAsyncGenerator(function*() {
+    _wrap_async_generator(function*() {
         yield constCall;
     });
     return _asyncGenFuncYieldConstCall.apply(this, arguments);
@@ -98,7 +99,7 @@ function asyncGenFuncYieldLetCall() {
     return _asyncGenFuncYieldLetCall.apply(this, arguments);
 }
 function _asyncGenFuncYieldLetCall() {
-    _asyncGenFuncYieldLetCall = swcHelpers.wrapAsyncGenerator(function*() {
+    _asyncGenFuncYieldLetCall = _wrap_async_generator(function*() {
         yield letCall;
     });
     return _asyncGenFuncYieldLetCall.apply(this, arguments);
@@ -107,7 +108,7 @@ function asyncGenFuncYieldVarCall() {
     return _asyncGenFuncYieldVarCall.apply(this, arguments);
 }
 function _asyncGenFuncYieldVarCall() {
-    _asyncGenFuncYieldVarCall = swcHelpers.wrapAsyncGenerator(function*() {
+    _asyncGenFuncYieldVarCall = _wrap_async_generator(function*() {
         yield varCall;
     });
     return _asyncGenFuncYieldVarCall.apply(this, arguments);
@@ -174,12 +175,12 @@ const o2 = {
         return s;
     },
     method2 () {
-        return swcHelpers.asyncToGenerator(function*() {
+        return _async_to_generator(function*() {
             return s;
         })();
     },
     method3 () {
-        return swcHelpers.wrapAsyncGenerator(function*() {
+        return _wrap_async_generator(function*() {
             yield s;
         })();
     },
@@ -196,12 +197,12 @@ class C0 {
         return s;
     }
     method2() {
-        return swcHelpers.asyncToGenerator(function*() {
+        return _async_to_generator(function*() {
             return s;
         })();
     }
     method3() {
-        return swcHelpers.wrapAsyncGenerator(function*() {
+        return _wrap_async_generator(function*() {
             yield s;
         })();
     }
@@ -258,12 +259,12 @@ const o3 = {
         return s; // return type should not widen due to contextual type
     },
     method2 () {
-        return swcHelpers.asyncToGenerator(function*() {
+        return _async_to_generator(function*() {
             return s; // return type should not widen due to contextual type
         })();
     },
     method3 () {
-        return swcHelpers.wrapAsyncGenerator(function*() {
+        return _wrap_async_generator(function*() {
             yield s; // yield type should not widen due to contextual type
         })();
     },

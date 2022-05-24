@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @allowJs: true
 // @checkJs: true
 // @outDir: ./out
@@ -36,6 +36,6 @@ var ref = require("./module.js"), taskGroups = ref.taskGroups, taskNameToGroup =
  * @prop {TaskGroup} group
  */ /** @typedef {{timers: Map<string, TaskNode>}} PriorTaskData */ var MainThreadTasks = function MainThreadTasks(x, y) {
     "use strict";
-    swcHelpers.classCallCheck(this, MainThreadTasks);
+    _class_call_check(this, MainThreadTasks);
 };
 module.exports = MainThreadTasks;

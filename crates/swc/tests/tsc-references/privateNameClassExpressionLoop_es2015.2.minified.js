@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
+import _class_private_method_init from "@swc/helpers/lib/_class_private_method_init.js";
 let array = [];
 for(let i = 0; i < 10; ++i){
     var _myField;
@@ -8,10 +9,10 @@ for(let i = 0; i < 10; ++i){
     function set_accessor(val) {}
     array.push((_myField = new WeakMap(), class {
         constructor(){
-            swcHelpers.classPrivateMethodInit(this, new WeakSet()), swcHelpers.classPrivateFieldInit(this, new WeakMap(), {
+            _class_private_method_init(this, new WeakSet()), _class_private_field_init(this, new WeakMap(), {
                 get: get_accessor,
                 set: set_accessor
-            }), swcHelpers.classPrivateFieldInit(this, _myField, {
+            }), _class_private_field_init(this, _myField, {
                 writable: !0,
                 value: "hello"
             });

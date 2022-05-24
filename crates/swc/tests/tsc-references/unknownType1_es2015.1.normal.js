@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
+import _object_spread from "@swc/helpers/lib/_object_spread.js";
 // Only equality operators are allowed with unknown
 function f10(x) {
     x == 5;
@@ -80,16 +81,16 @@ function f25() {
 }
 // Spread of unknown causes result to be unknown
 function f26(x, y, z) {
-    let o1 = swcHelpers.objectSpread({
+    let o1 = _object_spread({
         a: 42
     }, x); // { a: number }
-    let o2 = swcHelpers.objectSpread({
+    let o2 = _object_spread({
         a: 42
     }, x, y); // unknown
-    let o3 = swcHelpers.objectSpread({
+    let o3 = _object_spread({
         a: 42
     }, x, y, z); // any
-    let o4 = swcHelpers.objectSpread({
+    let o4 = _object_spread({
         a: 42
     }, z); // any
 }
@@ -97,7 +98,7 @@ function f26(x, y, z) {
 function f27() {}
 // Rest type cannot be created from unknown
 function f28(x) {
-    let a = swcHelpers.extends({}, x); // Error
+    let a = _extends({}, x); // Error
 }
 // Class properties of type unknown don't need definite assignment
 class C1 {

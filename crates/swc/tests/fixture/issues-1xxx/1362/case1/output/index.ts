@@ -3,7 +3,9 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.AppController = void 0;
-var swcHelpers = require("@swc/helpers");
+var _ts_decorate = require("@swc/helpers/lib/_ts_decorate.js").default;
+var _ts_metadata = require("@swc/helpers/lib/_ts_metadata.js").default;
+var _ts_param = require("@swc/helpers/lib/_ts_param.js").default;
 var _common = require("@nestjs/common");
 var _appService = require("./app.service");
 var _createUserDto = require("./dtos/CreateUserDto");
@@ -21,23 +23,23 @@ let AppController = class AppController {
     }
 };
 exports.AppController = AppController;
-swcHelpers.__decorate([
+_ts_decorate([
     (0, _common).Get(),
-    swcHelpers.__metadata("design:type", Function),
-    swcHelpers.__metadata("design:paramtypes", [])
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [])
 ], AppController.prototype, "getHello", null);
-swcHelpers.__decorate([
+_ts_decorate([
     (0, _common).Post(),
-    swcHelpers.__param(0, (0, _common).Body()),
-    swcHelpers.__metadata("design:type", Function),
-    swcHelpers.__metadata("design:paramtypes", [
+    _ts_param(0, (0, _common).Body()),
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
         typeof _createUserDto.CreateUserDto === "undefined" ? Object : _createUserDto.CreateUserDto
     ])
 ], AppController.prototype, "create", null);
-exports.AppController = AppController = swcHelpers.__decorate([
+exports.AppController = AppController = _ts_decorate([
     (0, _common).Controller(),
-    swcHelpers.__metadata("design:type", Function),
-    swcHelpers.__metadata("design:paramtypes", [
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", [
         typeof _appService.AppService === "undefined" ? Object : _appService.AppService
     ])
 ], AppController);

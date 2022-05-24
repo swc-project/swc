@@ -1,7 +1,7 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
 import "reflect-metadata";
 const v0 = function() {
-    var _ref = swcHelpers.asyncToGenerator(function*(v1) {
+    var _ref = _async_to_generator(function*(v1) {
         return v1;
     });
     return function(v1) {

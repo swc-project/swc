@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 // @filename: file.tsx
 // @jsx: preserve
 // @noLib: true
@@ -7,7 +7,7 @@ import * as swcHelpers from "@swc/helpers";
 var React = require("react");
 var decorator4 = function decorator4(Component) {
     return function(props) {
-        return /*#__PURE__*/ React.createElement(Component, swcHelpers.extends({}, props, {
+        return /*#__PURE__*/ React.createElement(Component, _extends({}, props, {
             y: "blah"
         }));
     };

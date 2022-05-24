@@ -1,4 +1,7 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _wrap_native_super from "@swc/helpers/lib/_wrap_native_super.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
@@ -9,11 +12,11 @@ import * as swcHelpers from "@swc/helpers";
  * @extends {Set<T>} Should prefer this Set<T>, not the Set in the heritage clause
  */ var My = /*#__PURE__*/ function(Set) {
     "use strict";
-    swcHelpers.inherits(My, Set);
-    var _super = swcHelpers.createSuper(My);
+    _inherits(My, Set);
+    var _super = _create_super(My);
     function My() {
-        swcHelpers.classCallCheck(this, My);
+        _class_call_check(this, My);
         return _super.apply(this, arguments);
     }
     return My;
-}(swcHelpers.wrapNativeSuper(Set));
+}(_wrap_native_super(Set));

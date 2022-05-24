@@ -1,22 +1,26 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
+import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 //@target: ES6
 function fun() {
     for(var _len = arguments.length, _tmp = new Array(_len), _key = 0; _key < _len; _key++){
         _tmp[_key] = arguments[_key];
     }
-    var __tmp = swcHelpers.slicedToArray(_tmp, 2), a = __tmp[0], b = __tmp[1];
+    var __tmp = _sliced_to_array(_tmp, 2), a = __tmp[0], b = __tmp[1];
 }
-fun.apply(void 0, swcHelpers.toConsumableArray(new FooIteratorIterator));
+fun.apply(void 0, _to_consumable_array(new FooIteratorIterator));
 var Bar = function Bar() {
     "use strict";
-    swcHelpers.classCallCheck(this, Bar);
+    _class_call_check(this, Bar);
 };
 var Foo = /*#__PURE__*/ function(Bar) {
     "use strict";
-    swcHelpers.inherits(Foo, Bar);
-    var _super = swcHelpers.createSuper(Foo);
+    _inherits(Foo, Bar);
+    var _super = _create_super(Foo);
     function Foo() {
-        swcHelpers.classCallCheck(this, Foo);
+        _class_call_check(this, Foo);
         return _super.apply(this, arguments);
     }
     return Foo;
@@ -25,7 +29,7 @@ var _iterator = Symbol.iterator;
 var FooIterator = /*#__PURE__*/ function() {
     "use strict";
     function FooIterator() {
-        swcHelpers.classCallCheck(this, FooIterator);
+        _class_call_check(this, FooIterator);
     }
     var _proto = FooIterator.prototype;
     _proto.next = function next() {
@@ -43,7 +47,7 @@ var _iterator1 = Symbol.iterator;
 var FooIteratorIterator = /*#__PURE__*/ function() {
     "use strict";
     function FooIteratorIterator() {
-        swcHelpers.classCallCheck(this, FooIteratorIterator);
+        _class_call_check(this, FooIteratorIterator);
     }
     var _proto = FooIteratorIterator.prototype;
     _proto.next = function next() {

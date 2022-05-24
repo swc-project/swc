@@ -875,7 +875,6 @@ labels/labels_7/input.js
 labels/labels_8/input.js
 labels/labels_9/input.js
 logical_assignment/assign_in_conditional_part_reused/input.js
-logical_assignment/logical_assignment_not_always_happens/input.js
 logical_assignment/prematurely_evaluate_assignment/input.js
 logical_assignment/prematurely_evaluate_assignment_inv/input.js
 loops/dead_code_condition/input.js

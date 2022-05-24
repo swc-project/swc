@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _create_class from "@swc/helpers/lib/_create_class.js";
 var // @declaration: true
 // @target: es6
 // constant enum declarations are completely erased in the emitted JavaScript code.
@@ -20,11 +21,11 @@ var g = o[1];
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
     }
     var _proto = C.prototype;
     _proto[1] = function() {};
-    swcHelpers.createClass(C, [
+    _create_class(C, [
         {
             key: 2,
             get: function get() {

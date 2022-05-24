@@ -1,9 +1,9 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_static_private_field_spec_get from "@swc/helpers/lib/_class_static_private_field_spec_get.js";
 // @target: esnext, es2022, es2015
 // @useDefineForClassFields: true
 class C {
     foo() {
-        return swcHelpers.classStaticPrivateFieldSpecGet(C, C, _x);
+        return _class_static_private_field_spec_get(C, C, _x);
     }
 }
 var _x = {
@@ -13,6 +13,6 @@ var _x = {
 var __ = {
     writable: true,
     value: (()=>{
-        console.log(swcHelpers.classStaticPrivateFieldSpecGet(C, C, _x));
+        console.log(_class_static_private_field_spec_get(C, C, _x));
     })()
 };

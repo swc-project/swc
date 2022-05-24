@@ -1,10 +1,10 @@
 var M;
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 !function(M) {
     var _iterator = Symbol.iterator, C = function() {
         "use strict";
         function C() {
-            swcHelpers.classCallCheck(this, C);
+            _class_call_check(this, C);
         }
         return C.prototype[_iterator] = function() {}, C;
     }();

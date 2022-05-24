@@ -1,4 +1,4 @@
-use swc_common::util::take::Take;
+use swc_common::{util::take::Take, Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Parallel};
 use swc_ecma_transforms_macros::parallel;
@@ -60,9 +60,15 @@ impl VisitMut for InstanceOf {
             right,
         }) = expr
         {
+            let instanceof_span = Span {
+                lo: left.span_hi(),
+                hi: right.span_lo(),
+                ..*span
+            };
+
             *expr = Expr::Call(CallExpr {
                 span: *span,
-                callee: helper!(*span, instanceof, "instanceof"),
+                callee: helper!(instanceof_span, instanceof, "instanceof"),
                 args: vec![left.take().as_arg(), right.take().as_arg()],
                 type_args: Default::default(),
             });

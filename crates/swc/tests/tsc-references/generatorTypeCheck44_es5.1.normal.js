@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _define_enumerable_properties from "@swc/helpers/lib/_define_enumerable_properties.js";
 import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(g);
 //@target: ES6
@@ -32,7 +32,7 @@ function g() {
                 _mutatorMap[_ctx.t3].get = function() {
                     return 0;
                 };
-                swcHelpers.defineEnumerableProperties(_obj, _mutatorMap);
+                _define_enumerable_properties(_obj, _mutatorMap);
                 x = (0, _obj);
             case 18:
             case "end":

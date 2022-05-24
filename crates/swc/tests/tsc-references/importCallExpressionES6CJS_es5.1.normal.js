@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @module: commonjs
 // @target: es6
 // @filename: 0.ts
@@ -18,7 +18,7 @@ function foo() {
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
     }
     var _proto = C.prototype;
     _proto.method = function method() {
@@ -29,7 +29,7 @@ var C = /*#__PURE__*/ function() {
 export var D = /*#__PURE__*/ function() {
     "use strict";
     function D() {
-        swcHelpers.classCallCheck(this, D);
+        _class_call_check(this, D);
     }
     var _proto = D.prototype;
     _proto.method = function method() {

@@ -1,13 +1,13 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var anyCtor, anyCtor1, nestedCtor, C0 = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, C0);
+    _class_call_check(this, C0);
 }, C1 = function(n, s) {
     "use strict";
-    swcHelpers.classCallCheck(this, C1);
+    _class_call_check(this, C1);
 }, T = function(n) {
     "use strict";
-    swcHelpers.classCallCheck(this, T);
+    _class_call_check(this, T);
 };
 new C0, new T, new anyCtor, new anyCtor1(void 0);
 var nested = new new new nestedCtor()()();

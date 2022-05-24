@@ -1,7 +1,7 @@
-import * as swcHelpers from "@swc/helpers";
+import _define_property from "@swc/helpers/lib/_define_property.js";
 var // @target: es6
 E;
 (function(E) {
     E[E["member"] = 0] = "member";
 })(E || (E = {}));
-var v = swcHelpers.defineProperty({}, E.member, 0);
+var v = _define_property({}, E.member, 0);

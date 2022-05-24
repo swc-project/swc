@@ -1,9 +1,9 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var variable = {};
 variable.a = 0;
 var C = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, C), this.initializedMember = {}, this.member = {}, this.member.a = 0;
+    _class_call_check(this, C), this.initializedMember = {}, this.member = {}, this.member.a = 0;
 }, obj = {
     property: {}
 };

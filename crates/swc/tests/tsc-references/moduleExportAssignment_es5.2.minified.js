@@ -1,8 +1,8 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var EE = function() {
     "use strict";
     function EE() {
-        swcHelpers.classCallCheck(this, EE);
+        _class_call_check(this, EE);
     }
     return EE.prototype.on = function(s) {}, EE;
 }(), npmlog = module.exports = new EE();

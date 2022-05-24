@@ -1,6 +1,7 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _tagged_template_literal from "@swc/helpers/lib/_tagged_template_literal.js";
 function _templateObject() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         "test"
     ]);
     return _templateObject = function _templateObject() {
@@ -8,7 +9,7 @@ function _templateObject() {
     }, data;
 }
 function _templateObject1() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         "test"
     ]);
     return _templateObject1 = function _templateObject1() {
@@ -18,7 +19,7 @@ function _templateObject1() {
 var Foo = function() {
     "use strict";
     function Foo() {
-        swcHelpers.classCallCheck(this, Foo);
+        _class_call_check(this, Foo);
     }
     return Foo.m = function(strings) {
         return new this();

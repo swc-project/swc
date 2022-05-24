@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // type of 'this' in FunctionExpression is Any
 function fn() {
     var p = this;
@@ -14,7 +14,7 @@ var t2 = function f() {
 };
 var C = function C() {
     "use strict";
-    swcHelpers.classCallCheck(this, C);
+    _class_call_check(this, C);
     this.x = function() {
         var q;
         var q = this;

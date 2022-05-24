@@ -1,8 +1,10 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var K = function() {
     "use strict";
     function K() {
-        swcHelpers.classCallCheck(this, K);
+        _class_call_check(this, K);
     }
     var _proto = K.prototype;
     return _proto.privateMethod = function() {}, _proto.m = function() {
@@ -12,10 +14,10 @@ var K = function() {
     }, K;
 }(), C = function(K) {
     "use strict";
-    swcHelpers.inherits(C, K);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, K);
+    var _super = _create_super(C);
     function C() {
-        return swcHelpers.classCallCheck(this, C), _super.apply(this, arguments);
+        return _class_call_check(this, C), _super.apply(this, arguments);
     }
     return C.prototype.m2 = function() {
         this.priv, this.prot;

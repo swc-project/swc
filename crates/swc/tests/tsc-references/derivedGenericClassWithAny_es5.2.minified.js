@@ -1,12 +1,15 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _create_class from "@swc/helpers/lib/_create_class.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var e, C = function() {
     "use strict";
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
     }
     return C.prototype.foo = function() {
         return null;
-    }, swcHelpers.createClass(C, [
+    }, _create_class(C, [
         {
             key: "X",
             get: function() {
@@ -16,16 +19,16 @@ var e, C = function() {
     ]), C;
 }(), D = function(C) {
     "use strict";
-    swcHelpers.inherits(D, C);
-    var _super = swcHelpers.createSuper(D);
+    _inherits(D, C);
+    var _super = _create_super(D);
     function D() {
-        return swcHelpers.classCallCheck(this, D), _super.apply(this, arguments);
+        return _class_call_check(this, D), _super.apply(this, arguments);
     }
     return D.prototype.foo = function() {
         return 1;
     }, D.bar = function() {
         return null;
-    }, swcHelpers.createClass(D, [
+    }, _create_class(D, [
         {
             key: "X",
             get: function() {
@@ -42,14 +45,14 @@ var e, C = function() {
     ]), D;
 }(C), E = function(D) {
     "use strict";
-    swcHelpers.inherits(E, D);
-    var _super = swcHelpers.createSuper(E);
+    _inherits(E, D);
+    var _super = _create_super(E);
     function E() {
-        return swcHelpers.classCallCheck(this, E), _super.apply(this, arguments);
+        return _class_call_check(this, E), _super.apply(this, arguments);
     }
     return E.prototype.foo = function() {
         return "";
-    }, swcHelpers.createClass(E, [
+    }, _create_class(E, [
         {
             key: "X",
             get: function() {

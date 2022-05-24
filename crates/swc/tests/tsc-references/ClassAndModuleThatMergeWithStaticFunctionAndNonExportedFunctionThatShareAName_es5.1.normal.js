@@ -1,8 +1,8 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var Point = /*#__PURE__*/ function() {
     "use strict";
     function Point(x, y) {
-        swcHelpers.classCallCheck(this, Point);
+        _class_call_check(this, Point);
         this.x = x;
         this.y = y;
     }
@@ -25,7 +25,7 @@ var A;
     var Point = /*#__PURE__*/ function() {
         "use strict";
         function Point(x, y) {
-            swcHelpers.classCallCheck(this, Point);
+            _class_call_check(this, Point);
             this.x = x;
             this.y = y;
         }

@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @filename: a-ext.js
 exports.A = function() {
     this.x = 1;
@@ -11,7 +11,7 @@ var A = require("./a-ext").A;
 // @filename: b-ext.js
 exports.B = function _class() {
     "use strict";
-    swcHelpers.classCallCheck(this, _class);
+    _class_call_check(this, _class);
     this.x = 1;
 };
 // @filename: b.js
@@ -40,7 +40,7 @@ var D = require("./d-ext").D;
 // @filename: e-ext.js
 export var E = function E() {
     "use strict";
-    swcHelpers.classCallCheck(this, E);
+    _class_call_check(this, E);
     this.x = 1;
 };
 // @filename: e.js
@@ -65,7 +65,7 @@ function G() {
 // @filename: h.js
 var H = function H() {
     "use strict";
-    swcHelpers.classCallCheck(this, H);
+    _class_call_check(this, H);
     this.x = 1;
 };
 /** @param {H} p */ function h(p) {

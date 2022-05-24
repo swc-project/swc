@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
 export class B {
     print() {
         return "I am B";
@@ -15,7 +15,7 @@ export class D {
         var _ref;
         import("./0"), this.myModule.then((Zero)=>{
             console.log(Zero.foo());
-        }, (_ref = swcHelpers.asyncToGenerator(function*(err) {
+        }, (_ref = _async_to_generator(function*(err) {
             console.log(err);
             let one = yield import("./1");
             console.log(one.backup());

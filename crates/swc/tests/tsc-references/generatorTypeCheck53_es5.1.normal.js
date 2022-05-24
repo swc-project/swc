@@ -1,14 +1,14 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(g);
 //@target: ES6
 var Foo = function Foo() {
     "use strict";
-    swcHelpers.classCallCheck(this, Foo);
+    _class_call_check(this, Foo);
 };
 var Baz = function Baz() {
     "use strict";
-    swcHelpers.classCallCheck(this, Baz);
+    _class_call_check(this, Baz);
 };
 function g() {
     return regeneratorRuntime.wrap(function g$(_ctx) {

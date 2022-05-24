@@ -1,6 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
+import _define_property from "@swc/helpers/lib/_define_property.js";
 import regeneratorRuntime from "regenerator-runtime";
-swcHelpers.defineProperty({}, foo(), regeneratorRuntime.mark(function _callee() {
+_define_property({}, foo(), regeneratorRuntime.mark(function _callee() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:

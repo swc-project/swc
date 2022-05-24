@@ -1,16 +1,16 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @module: commonjs
 // @target: es6
 // @noImplicitAny: true
 // @filename: anotherModule.ts
 export var D = function D() {
     "use strict";
-    swcHelpers.classCallCheck(this, D);
+    _class_call_check(this, D);
 };
 // @filename: defaultPath.ts
 export var C = function C() {
     "use strict";
-    swcHelpers.classCallCheck(this, C);
+    _class_call_check(this, C);
 };
 var p1 = import("./defaultPath");
 var p2 = import("./defaultPath");

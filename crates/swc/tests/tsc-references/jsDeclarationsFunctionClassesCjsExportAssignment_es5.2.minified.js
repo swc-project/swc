@@ -1,6 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
+import _instanceof from "@swc/helpers/lib/_instanceof.js";
 function Context(input) {
-    if (!swcHelpers._instanceof(this, Context)) return new Context(input);
+    if (!_instanceof(this, Context)) return new Context(input);
     this.state = this.construct(input);
 }
 module.exports = function(timeout) {

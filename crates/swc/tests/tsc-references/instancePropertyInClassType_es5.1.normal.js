@@ -1,10 +1,11 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _create_class from "@swc/helpers/lib/_create_class.js";
 var NonGeneric;
 (function(NonGeneric) {
     var C = /*#__PURE__*/ function() {
         "use strict";
         function C(a, b) {
-            swcHelpers.classCallCheck(this, C);
+            _class_call_check(this, C);
             this.a = a;
             this.b = b;
         }
@@ -12,7 +13,7 @@ var NonGeneric;
         _proto.fn = function fn() {
             return this;
         };
-        swcHelpers.createClass(C, [
+        _create_class(C, [
             {
                 key: "y",
                 get: function get() {
@@ -35,7 +36,7 @@ var Generic;
     var C = /*#__PURE__*/ function() {
         "use strict";
         function C(a, b) {
-            swcHelpers.classCallCheck(this, C);
+            _class_call_check(this, C);
             this.a = a;
             this.b = b;
         }
@@ -43,7 +44,7 @@ var Generic;
         _proto.fn = function fn() {
             return this;
         };
-        swcHelpers.createClass(C, [
+        _create_class(C, [
             {
                 key: "y",
                 get: function get() {

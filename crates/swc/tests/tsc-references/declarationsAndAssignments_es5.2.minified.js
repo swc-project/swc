@@ -1,7 +1,9 @@
 var M;
-import * as swcHelpers from "@swc/helpers";
+import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
+import _throw from "@swc/helpers/lib/_throw.js";
+import _to_array from "@swc/helpers/lib/_to_array.js";
 function f14(param) {
-    var _param = swcHelpers.slicedToArray(param, 2), ref = (_param[0], swcHelpers.slicedToArray(_param[1], 2)), ref1 = (ref[0], ref[1]);
+    var _param = _sliced_to_array(param, 2), ref = (_param[0], _sliced_to_array(_param[1], 2)), ref1 = (ref[0], ref[1]);
     ref1.x, ref1.y;
 }
 function f17(param) {

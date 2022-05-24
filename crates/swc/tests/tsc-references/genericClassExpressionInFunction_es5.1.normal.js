@@ -1,16 +1,18 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var A = function A() {
     "use strict";
-    swcHelpers.classCallCheck(this, A);
+    _class_call_check(this, A);
 };
 function B1() {
     // class expression can use T
     return /*#__PURE__*/ function(A) {
         "use strict";
-        swcHelpers.inherits(_class, A);
-        var _super = swcHelpers.createSuper(_class);
+        _inherits(_class, A);
+        var _super = _create_super(_class);
         function _class() {
-            swcHelpers.classCallCheck(this, _class);
+            _class_call_check(this, _class);
             return _super.apply(this, arguments);
         }
         return _class;
@@ -18,12 +20,12 @@ function B1() {
 }
 var B2 = function B2() {
     "use strict";
-    swcHelpers.classCallCheck(this, B2);
+    _class_call_check(this, B2);
     this.anon = /*#__PURE__*/ function(A) {
-        swcHelpers.inherits(_class, A);
-        var _super = swcHelpers.createSuper(_class);
+        _inherits(_class, A);
+        var _super = _create_super(_class);
         function _class() {
-            swcHelpers.classCallCheck(this, _class);
+            _class_call_check(this, _class);
             return _super.apply(this, arguments);
         }
         return _class;
@@ -32,10 +34,10 @@ var B2 = function B2() {
 function B3() {
     return /*#__PURE__*/ function(A) {
         "use strict";
-        swcHelpers.inherits(Inner, A);
-        var _super = swcHelpers.createSuper(Inner);
+        _inherits(Inner, A);
+        var _super = _create_super(Inner);
         function Inner() {
-            swcHelpers.classCallCheck(this, Inner);
+            _class_call_check(this, Inner);
             return _super.apply(this, arguments);
         }
         return Inner;
@@ -44,20 +46,20 @@ function B3() {
 // extends can call B
 var K = /*#__PURE__*/ function(_superClass) {
     "use strict";
-    swcHelpers.inherits(K, _superClass);
-    var _super = swcHelpers.createSuper(K);
+    _inherits(K, _superClass);
+    var _super = _create_super(K);
     function K() {
-        swcHelpers.classCallCheck(this, K);
+        _class_call_check(this, K);
         return _super.apply(this, arguments);
     }
     return K;
 }(B1());
 var C = /*#__PURE__*/ function(_superClass) {
     "use strict";
-    swcHelpers.inherits(C, _superClass);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, _superClass);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
@@ -65,10 +67,10 @@ var C = /*#__PURE__*/ function(_superClass) {
 var b3Number = B3();
 var S = /*#__PURE__*/ function(b3Number1) {
     "use strict";
-    swcHelpers.inherits(S, b3Number1);
-    var _super = swcHelpers.createSuper(S);
+    _inherits(S, b3Number1);
+    var _super = _create_super(S);
     function S() {
-        swcHelpers.classCallCheck(this, S);
+        _class_call_check(this, S);
         return _super.apply(this, arguments);
     }
     return S;

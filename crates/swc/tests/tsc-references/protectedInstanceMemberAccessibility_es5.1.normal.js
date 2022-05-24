@@ -1,8 +1,12 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _get from "@swc/helpers/lib/_get.js";
+import _get_prototype_of from "@swc/helpers/lib/_get_prototype_of.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var A = /*#__PURE__*/ function() {
     "use strict";
     function A() {
-        swcHelpers.classCallCheck(this, A);
+        _class_call_check(this, A);
     }
     var _proto = A.prototype;
     _proto.f = function f() {
@@ -12,10 +16,10 @@ var A = /*#__PURE__*/ function() {
 }();
 var B = /*#__PURE__*/ function(A) {
     "use strict";
-    swcHelpers.inherits(B, A);
-    var _super = swcHelpers.createSuper(B);
+    _inherits(B, A);
+    var _super = _create_super(B);
     function B() {
-        swcHelpers.classCallCheck(this, B);
+        _class_call_check(this, B);
         return _super.apply(this, arguments);
     }
     var _proto = B.prototype;
@@ -24,10 +28,10 @@ var B = /*#__PURE__*/ function(A) {
         var t2 = this.f();
         var t3 = this.y;
         var t4 = this.z; // error
-        var s1 = swcHelpers.get(swcHelpers.getPrototypeOf(B.prototype), "x", this); // error
-        var s2 = swcHelpers.get(swcHelpers.getPrototypeOf(B.prototype), "f", this).call(this);
-        var s3 = swcHelpers.get(swcHelpers.getPrototypeOf(B.prototype), "y", this); // error
-        var s4 = swcHelpers.get(swcHelpers.getPrototypeOf(B.prototype), "z", this); // error
+        var s1 = _get(_get_prototype_of(B.prototype), "x", this); // error
+        var s2 = _get(_get_prototype_of(B.prototype), "f", this).call(this);
+        var s3 = _get(_get_prototype_of(B.prototype), "y", this); // error
+        var s4 = _get(_get_prototype_of(B.prototype), "z", this); // error
         var a;
         var a1 = a.x; // error
         var a2 = a.f(); // error
@@ -48,10 +52,10 @@ var B = /*#__PURE__*/ function(A) {
 }(A);
 var C = /*#__PURE__*/ function(A) {
     "use strict";
-    swcHelpers.inherits(C, A);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, A);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;

@@ -1,10 +1,10 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @Filename: /ns.ts
 var ns;
 (function(ns1) {
     var Class = function Class() {
         "use strict";
-        swcHelpers.classCallCheck(this, Class);
+        _class_call_check(this, Class);
     };
     ns1.Class = Class;
     var Value = ns1.Value = "";
@@ -12,7 +12,7 @@ var ns;
     (function(nested) {
         var NestedClass = function NestedClass() {
             "use strict";
-            swcHelpers.classCallCheck(this, NestedClass);
+            _class_call_check(this, NestedClass);
         };
         nested.NestedClass = NestedClass;
     })(nested1 = ns1.nested || (ns1.nested = {}));

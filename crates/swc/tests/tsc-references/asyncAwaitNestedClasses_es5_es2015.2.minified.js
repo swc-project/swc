@@ -1,5 +1,5 @@
 var _B;
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
 class A {
 }
 A.B = ((_B = class {
@@ -10,7 +10,7 @@ A.B = ((_B = class {
     }
 }).C = class {
     static func() {
-        return swcHelpers.asyncToGenerator(function*() {
+        return _async_to_generator(function*() {
             yield _B.func2();
         })();
     }

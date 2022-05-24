@@ -1,12 +1,14 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 //@filename: app.tsx
 import * as React from "react";
 export var Text = /*#__PURE__*/ function(_Component) {
     "use strict";
-    swcHelpers.inherits(Text, _Component);
-    var _super = swcHelpers.createSuper(Text);
+    _inherits(Text, _Component);
+    var _super = _create_super(Text);
     function Text() {
-        swcHelpers.classCallCheck(this, Text);
+        _class_call_check(this, Text);
         var _this;
         _this = _super.apply(this, arguments);
         _this._tagName = "div";

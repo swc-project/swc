@@ -1,8 +1,8 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var Entry = function() {
     "use strict";
     function Entry() {
-        swcHelpers.classCallCheck(this, Entry), this.c = 1;
+        _class_call_check(this, Entry), this.c = 1;
     }
     return Entry.prototype.isInit = function(x) {
         return !0;
@@ -10,7 +10,7 @@ var Entry = function() {
 }(), Group = function() {
     "use strict";
     function Group() {
-        swcHelpers.classCallCheck(this, Group), this.d = "no";
+        _class_call_check(this, Group), this.d = "no";
     }
     return Group.prototype.isInit = function(x) {
         return !1;

@@ -2,8 +2,10 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var swcHelpers = require("@swc/helpers");
-var _nodeFetch = swcHelpers.interopRequireDefault(require("node-fetch"));
+var _class_private_field_get = require("@swc/helpers/lib/_class_private_field_get.js").default;
+var _class_private_field_init = require("@swc/helpers/lib/_class_private_field_init.js").default;
+var _interop_require_default = require("@swc/helpers/lib/_interop_require_default.js").default;
+var _nodeFetch = _interop_require_default(require("node-fetch"));
 var _abortSignal = require("./misc/AbortSignal");
 var _errors = require("../../errors");
 var _utils = require("../../utils");
@@ -23,7 +25,7 @@ class RequestHandler {
      * Whether this handler is inactive or not.
      * @return {boolean}
      */ get inactive() {
-        return !swcHelpers.classPrivateFieldGet(this, _queue).remaining && !this._limited;
+        return !_class_private_field_get(this, _queue).remaining && !this._limited;
     }
     /**
      * Whether the rate-limit bucket is currently limited.
@@ -80,7 +82,7 @@ class RequestHandler {
      *
      * @return {Promise<*>}
      */ async push(url, request) {
-        await swcHelpers.classPrivateFieldGet(this, _queue).wait();
+        await _class_private_field_get(this, _queue).wait();
         try {
             await this.rest.globalTimeout;
             if (this._limited) {
@@ -102,7 +104,7 @@ class RequestHandler {
             }
             return this._make(url, request);
         } finally{
-            swcHelpers.classPrivateFieldGet(this, _queue).next();
+            _class_private_field_get(this, _queue).next();
         }
     }
     /**
@@ -169,7 +171,7 @@ class RequestHandler {
      * @param {Rest} rest The REST Manager.
      * @param {string} id The ID of this request handler.
      */ constructor(rest, id){
-        swcHelpers.classPrivateFieldInit(this, _queue, {
+        _class_private_field_init(this, _queue, {
             writable: true,
             value: new _utils.AsyncQueue()
         });

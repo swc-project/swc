@@ -1,4 +1,7 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_iterator from "@swc/helpers/lib/_async_iterator.js";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
+import _await_async_generator from "@swc/helpers/lib/_await_async_generator.js";
+import _wrap_async_generator from "@swc/helpers/lib/_wrap_async_generator.js";
 import regeneratorRuntime from "regenerator-runtime";
 function f1() {
     return _f1.apply(this, arguments);
@@ -7,7 +10,7 @@ function _f1() {
     _f1 = // @target: es2018,es2017,es2015,es5
     // @lib: esnext
     // @filename: file1.ts
-    swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    _async_to_generator(regeneratorRuntime.mark(function _callee() {
         var y, _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, x;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -15,7 +18,7 @@ function _f1() {
                     ;
                     _iteratorAbruptCompletion = false, _didIteratorError = false;
                     _ctx.prev = 2;
-                    _iterator = swcHelpers.asyncIterator(y);
+                    _iterator = _async_iterator(y);
                 case 4:
                     _ctx.next = 6;
                     return _iterator.next();
@@ -86,7 +89,7 @@ function f2() {
 }
 function _f2() {
     _f2 = // @filename: file2.ts
-    swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    _async_to_generator(regeneratorRuntime.mark(function _callee() {
         var x, y, _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -94,7 +97,7 @@ function _f2() {
                     ;
                     _iteratorAbruptCompletion = false, _didIteratorError = false;
                     _ctx.prev = 2;
-                    _iterator = swcHelpers.asyncIterator(y);
+                    _iterator = _async_iterator(y);
                 case 4:
                     _ctx.next = 6;
                     return _iterator.next();
@@ -165,7 +168,7 @@ function f3() {
 }
 function _f3() {
     _f3 = // @filename: file3.ts
-    swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+    _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
         var y, _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, x;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -173,10 +176,10 @@ function _f3() {
                     ;
                     _iteratorAbruptCompletion = false, _didIteratorError = false;
                     _ctx.prev = 2;
-                    _iterator = swcHelpers.asyncIterator(y);
+                    _iterator = _async_iterator(y);
                 case 4:
                     _ctx.next = 6;
-                    return swcHelpers.awaitAsyncGenerator(_iterator.next());
+                    return _await_async_generator(_iterator.next());
                 case 6:
                     if (!(_iteratorAbruptCompletion = !(_step = _ctx.sent).done)) {
                         _ctx.next = 11;
@@ -244,7 +247,7 @@ function f4() {
 }
 function _f4() {
     _f4 = // @filename: file4.ts
-    swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+    _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
         var x, y, _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -252,10 +255,10 @@ function _f4() {
                     ;
                     _iteratorAbruptCompletion = false, _didIteratorError = false;
                     _ctx.prev = 2;
-                    _iterator = swcHelpers.asyncIterator(y);
+                    _iterator = _async_iterator(y);
                 case 4:
                     _ctx.next = 6;
-                    return swcHelpers.awaitAsyncGenerator(_iterator.next());
+                    return _await_async_generator(_iterator.next());
                 case 6:
                     if (!(_iteratorAbruptCompletion = !(_step = _ctx.sent).done)) {
                         _ctx.next = 11;
@@ -324,7 +327,7 @@ function f5() {
 function _f5() {
     _f5 = // @filename: file5.ts
     // https://github.com/Microsoft/TypeScript/issues/21363
-    swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    _async_to_generator(regeneratorRuntime.mark(function _callee() {
         var y, _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, x;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -332,7 +335,7 @@ function _f5() {
                     ;
                     _iteratorAbruptCompletion = false, _didIteratorError = false;
                     _ctx.prev = 2;
-                    _iterator = swcHelpers.asyncIterator(y);
+                    _iterator = _async_iterator(y);
                 case 4:
                     _ctx.next = 6;
                     return _iterator.next();
@@ -403,7 +406,7 @@ function f6() {
 function _f6() {
     _f6 = // @filename: file6.ts
     // https://github.com/Microsoft/TypeScript/issues/21363
-    swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+    _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
         var y, _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, x;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -411,10 +414,10 @@ function _f6() {
                     ;
                     _iteratorAbruptCompletion = false, _didIteratorError = false;
                     _ctx.prev = 2;
-                    _iterator = swcHelpers.asyncIterator(y);
+                    _iterator = _async_iterator(y);
                 case 4:
                     _ctx.next = 6;
-                    return swcHelpers.awaitAsyncGenerator(_iterator.next());
+                    return _await_async_generator(_iterator.next());
                 case 6:
                     if (!(_iteratorAbruptCompletion = !(_step = _ctx.sent).done)) {
                         _ctx.next = 13;
@@ -482,7 +485,7 @@ function f7() {
 function _f7() {
     _f7 = // @filename: file7.ts
     // https://github.com/microsoft/TypeScript/issues/36166
-    swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+    _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
         var y, _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, x;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -491,10 +494,10 @@ function _f7() {
                 case 1:
                     _iteratorAbruptCompletion = false, _didIteratorError = false;
                     _ctx.prev = 2;
-                    _iterator = swcHelpers.asyncIterator(y);
+                    _iterator = _async_iterator(y);
                 case 4:
                     _ctx.next = 6;
-                    return swcHelpers.awaitAsyncGenerator(_iterator.next());
+                    return _await_async_generator(_iterator.next());
                 case 6:
                     if (!(_iteratorAbruptCompletion = !(_step = _ctx.sent).done)) {
                         _ctx.next = 11;
