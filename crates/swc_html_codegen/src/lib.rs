@@ -165,7 +165,32 @@ where
                 // if the first thing inside the body element is a meta, link, script, style, or
                 // template element.
                 // TODO improve me
-                "body" if n.children.is_empty() => true,
+                "body"
+                    if n.children.is_empty()
+                        || (match n.children.get(0) {
+                            Some(Child::Text(text))
+                                if text.value.chars().next().unwrap().is_ascii_whitespace() =>
+                            {
+                                false
+                            }
+                            Some(Child::Comment(..)) => false,
+                            Some(Child::Element(Element {
+                                namespace,
+                                tag_name,
+                                ..
+                            })) if *namespace == Namespace::HTML
+                                && matches!(
+                                    &**tag_name,
+                                    "meta" | "link" | "script" | "style" | "template"
+                                ) =>
+                            {
+                                false
+                            }
+                            _ => true,
+                        }) =>
+                {
+                    true
+                }
                 // A colgroup element's start tag can be omitted if the first thing inside the
                 // colgroup element is a col element, and if the element is not immediately preceded
                 // by another colgroup element whose end tag has been omitted. (It can't be omitted
