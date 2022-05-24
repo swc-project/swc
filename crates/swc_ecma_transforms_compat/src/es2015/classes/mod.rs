@@ -1004,7 +1004,7 @@ where
                                 obj: Box::new(proto.clone().into()),
                                 prop: mk_key_prop_member(prop),
                             }))),
-                            right: method,
+                            right: escape_keywords(method),
                         })),
                     }));
                     !(v.get.is_none() && v.set.is_none())
@@ -1027,7 +1027,7 @@ where
                                 obj: Box::new(class_name.clone().into()),
                                 prop: mk_key_prop_member(prop),
                             }))),
-                            right: method,
+                            right: escape_keywords(method),
                         })),
                     }));
                     !(v.get.is_none() && v.set.is_none())
