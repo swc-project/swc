@@ -6,6 +6,11 @@ import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 it("should work", async () => {
+    if (process.platform === "win32") {
+        expect(true).toBeTruthy();
+        return;
+    }
+
     const dir = join(__dirname, "..", "..", "tests", "issue-4730");
     const filename = join(dir, "src", "index.ts");
     console.log(filename);
