@@ -7,6 +7,9 @@
 
 - **(es/compat)** Handle nested for loops with `break`/`continue` (#4777) ([4f00914](https://github.com/swc-project/swc/commit/4f00914c1af6e2dee7116c09dd6e63b5883cf8b5))
 
+
+- **(es/compat)** Handle nested `break`/`continue` in `block_scoping` (#4778) ([db1698e](https://github.com/swc-project/swc/commit/db1698e0129c80e32211d4c5545b11541445a471))
+
 ## [1.2.191] - 2022-05-24
 
 ### Bug Fixes
