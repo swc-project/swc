@@ -95,5 +95,36 @@ foo
 <div data-test='\foo' class='bar'>test</div>
 <div data-test='\\foo' class='bar'>test</div>
 
+<span title='test "with" &amp;quot;'>test</span>
+<span title='test "with" &amp;test'>test</span>
+<span title='test "with" &lt;'>test</span>
+<span title='test "with" &gt;'>test</span>
+<span title=foo>Test</span>
+<span title=foo<bar>Test</span>
+<span title="foo=bar">Test</span>
+<span title="foo>bar">Test</span>
+<span title='foo"bar'>Test</span>
+<span title="foo'bar">Test</span>
+
+<div>
+    &amp;quot;
+</div>
+
+<script>
+    let foo = "&amp;";
+</script>
+
+<style>
+    .class::before {
+        content: "&amp;";
+    }
+</style>
+
+<div>
+    foo & bar
+    foo&<i>bar</i>
+    foo&&& bar
+</div>
+
 </body>
 </html>
