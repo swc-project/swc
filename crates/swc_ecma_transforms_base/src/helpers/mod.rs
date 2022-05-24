@@ -80,9 +80,9 @@ macro_rules! add_import_to {
             });
 
             let src = if stringify!(name).starts_with("ts_") {
-                concat!("@swc/helpers/__", stringify!($name), ".js")
+                concat!("@swc/helpers/lib/__", stringify!($name), ".js")
             } else {
-                concat!("@swc/helpers/_", stringify!($name), ".js")
+                concat!("@swc/helpers/lib/_", stringify!($name), ".js")
             };
 
             $buf.push(ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
@@ -511,7 +511,7 @@ mod tests {
                     }),
                     "output.js",
                     Default::default(),
-                    "import _throw1 from \"@swc/helpers/_throw.js\";
+                    "import _throw1 from \"@swc/helpers/lib/_throw.js\";
 _throw();",
                 )?;
                 enable_helper!(throw);
