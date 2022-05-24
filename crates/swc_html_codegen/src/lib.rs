@@ -142,19 +142,41 @@ where
         parent: Option<&Element>,
         next: Option<&Child>,
     ) -> Result {
-        write_raw!(self, "<");
-        write_raw!(self, &n.tag_name);
+        let has_attributes = !n.attributes.is_empty();
+        let can_omit_start_tag = self.config.minify
+            && !has_attributes
+            && n.namespace == Namespace::HTML
+            && match &*n.tag_name {
+                // Tag omission in text/html:
+                // An html element's start tag can be omitted if the first thing inside the html
+                // element is not a comment.
+                "html" if matches!(n.children.get(0), Some(Child::Comment(..))) => true,
+                // A head element's start tag can be omitted if the element is empty, or if the
+                // first thing inside the head element is an element.
+                "head"
+                    if n.children.is_empty()
+                        || matches!(n.children.get(0), Some(Child::Element(..))) =>
+                {
+                    true
+                }
+                _ => false,
+            };
 
-        if !n.attributes.is_empty() {
-            space!(self);
+        if !can_omit_start_tag {
+            write_raw!(self, "<");
+            write_raw!(self, &n.tag_name);
 
-            self.emit_list(&n.attributes, ListFormat::SpaceDelimited)?;
-        }
+            if has_attributes {
+                space!(self);
 
-        write_raw!(self, ">");
+                self.emit_list(&n.attributes, ListFormat::SpaceDelimited)?;
+            }
 
-        if !self.config.minify && n.namespace == Namespace::HTML && &*n.tag_name == "html" {
-            newline!(self);
+            write_raw!(self, ">");
+
+            if !self.config.minify && n.namespace == Namespace::HTML && &*n.tag_name == "html" {
+                newline!(self);
+            }
         }
 
         let no_children = n.namespace == Namespace::HTML
