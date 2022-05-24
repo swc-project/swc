@@ -310,15 +310,12 @@ where
                     //
                     // A body element's end tag can be omitted if the body element is not
                     // immediately followed by a comment.
-                    "html" | "body" => match next {
-                        Some(Child::Comment(..)) => false,
-                        _ => true,
-                    },
+                    "html" | "body" => !matches!(next, Some(Child::Comment(..))),
                     // A head element's end tag can be omitted if the head element is not
                     // immediately followed by ASCII whitespace or a comment.
                     "head" => match next {
                         Some(Child::Text(text))
-                            if text.value.chars().nth(0).unwrap().is_ascii_whitespace() =>
+                            if text.value.chars().next().unwrap().is_ascii_whitespace() =>
                         {
                             false
                         }
@@ -526,7 +523,7 @@ where
                     // immediately followed by ASCII whitespace or a comment.
                     "caption" | "colgroup" => match next {
                         Some(Child::Text(text))
-                            if text.value.chars().nth(0).unwrap().is_ascii_whitespace() =>
+                            if text.value.chars().next().unwrap().is_ascii_whitespace() =>
                         {
                             false
                         }
@@ -565,10 +562,7 @@ where
                     },
                     // A tfoot element's end tag can be omitted if there is no more content in the
                     // parent element.
-                    "tfoot" => match next {
-                        None => true,
-                        _ => false,
-                    },
+                    "tfoot" => matches!(next, None),
                     // A tr element's end tag can be omitted if the tr element is immediately
                     // followed by another tr element, or if there is no more content in the parent
                     // element.
