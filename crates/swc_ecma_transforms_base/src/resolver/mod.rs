@@ -1027,7 +1027,7 @@ impl<'a> VisitMut for Resolver<'a> {
                 catch_param_decls: Default::default(),
                 excluded_from_catch: Default::default(),
             };
-            stmts.visit_mut_children_with(&mut hoister)
+            stmts.visit_mut_with(&mut hoister)
         }
 
         // Phase 2.
@@ -1822,5 +1822,41 @@ impl VisitMut for Hoister<'_, '_> {
     #[inline]
     fn visit_mut_var_declarator(&mut self, node: &mut VarDeclarator) {
         node.name.visit_mut_with(self);
+    }
+
+    /// should visit var decls first, cause val decl may appear behind the
+    /// usage. this can deal with code below:
+    /// ```js
+    /// try {} catch (Ic) {
+    ///   throw Ic;
+    /// }
+    /// var Ic;
+    /// ```
+    /// the `Ic` defined by catch param and the `Ic` defined by `var Ic` are
+    /// different variables.
+    /// If we deal with the `var Ic` first, we can know
+    /// that there is already an global declaration of Ic when deal with the try
+    /// block.
+    fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
+        let mut other_items = vec![];
+
+        for item in items {
+            match item {
+                ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl)))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: Decl::Var(decl),
+                    ..
+                })) if decl.kind == VarDeclKind::Var => {
+                    item.visit_mut_with(self);
+                }
+                _ => {
+                    other_items.push(item);
+                }
+            }
+        }
+
+        for other_item in other_items {
+            other_item.visit_mut_with(self);
+        }
     }
 }
