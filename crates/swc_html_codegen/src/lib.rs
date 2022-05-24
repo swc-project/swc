@@ -197,14 +197,26 @@ where
                 // element is a tr element, and if the element is not immediately preceded by a
                 // tbody, thead, or tfoot element whose end tag has been omitted. (It can't be
                 // omitted if the element is empty.)
-                // TODO improve me
                 "tbody"
                     if match n.children.get(0) {
                         Some(Child::Element(element))
                             if element.namespace == Namespace::HTML
                                 && &*element.tag_name == "tr" =>
                         {
-                            true
+                            match prev {
+                                // We don't need to check on omitted end tag, because we always
+                                // omit an end tag
+                                Some(Child::Element(element))
+                                    if element.namespace == Namespace::HTML
+                                        && matches!(
+                                            &*element.tag_name,
+                                            "tbody" | "thead" | "tfoot"
+                                        ) =>
+                                {
+                                    false
+                                }
+                                _ => true,
+                            }
                         }
                         _ => false,
                     } =>
