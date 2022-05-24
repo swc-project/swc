@@ -228,7 +228,6 @@ where
                         Some(Child::Comment(..)) => false,
                         _ => true,
                     },
-
                     // A head element's end tag can be omitted if the head element is not
                     // immediately followed by ASCII whitespace or a comment.
                     "head" => match next {
@@ -240,7 +239,6 @@ where
                         Some(Child::Comment(..)) => false,
                         _ => true,
                     },
-
                     // A p element's end tag can be omitted if the p element is immediately followed
                     // by an address, article, aside, blockquote, details, div, dl, fieldset,
                     // figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, hr,
@@ -310,7 +308,6 @@ where
                         }
                         _ => false,
                     },
-
                     // An li element's end tag can be omitted if the li element is immediately
                     // followed by another li element or if there is no more content in the parent
                     // element.
@@ -353,11 +350,10 @@ where
                         None => true,
                         _ => false,
                     },
-
                     // An rt element's end tag can be omitted if the rt element is immediately
                     // followed by an rt or rp element, or if there is no more content in the parent
                     // element.
-
+                    //
                     // An rp element's end tag can be omitted if the rp element is immediately
                     // followed by an rt or rp element, or if there is no more content in the parent
                     // element.
