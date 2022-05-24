@@ -17,6 +17,9 @@
 - **(es/compat)** Handle nested `break`/`continue` in `block_scoping` (#4778) ([db1698e](https://github.com/swc-project/swc/commit/db1698e0129c80e32211d4c5545b11541445a471))
 
 
+- **(es/compat)** Escape keywords in class method names (#4775) ([a3e4c20](https://github.com/swc-project/swc/commit/a3e4c201ded1b5b0cd021a4735e5dcae36284d5b))
+
+
 - **(es/fixer)** Preserve the paren in a spread element (#4771) ([65b7c4b](https://github.com/swc-project/swc/commit/65b7c4b69510d75065f79701020b8331ee3f88e4))
 
 
