@@ -35,6 +35,9 @@
 
 
 
+- **(es/helpers)** Import only used helpers (#4767) ([b8d2fb8](https://github.com/swc-project/swc/commit/b8d2fb85461aba2dfd3ee599fbe6a2a42ff34f32))
+
+
 - **(es/minifier)** Implement `pure_funcs` (#4710) ([9e42382](https://github.com/swc-project/swc/commit/9e423820916ab847731b8b484a165169174b80df))
 
 
