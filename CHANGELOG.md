@@ -11,6 +11,9 @@
 - **(es/compat)** Fix span of `instanceof` (#4757) ([8720f9a](https://github.com/swc-project/swc/commit/8720f9a948687d5851cb1cfc18961ac61d6406a2))
 
 
+- **(es/fixer)** Preserve the paren in a spread element (#4771) ([65b7c4b](https://github.com/swc-project/swc/commit/65b7c4b69510d75065f79701020b8331ee3f88e4))
+
+
 - **(es/loader)** Fix `jsc.paths` on windows (#4739) ([417b218](https://github.com/swc-project/swc/commit/417b2182cead074c9ebf9358d53f353157637a8d))
 
 
