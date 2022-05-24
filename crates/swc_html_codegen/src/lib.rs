@@ -139,7 +139,7 @@ where
     fn basic_emit_element(
         &mut self,
         n: &Element,
-        _parent: Option<&Element>,
+        parent: Option<&Element>,
         next: Option<&Child>,
     ) -> Result {
         write_raw!(self, "<");
@@ -218,6 +218,76 @@ where
                 && n.namespace == Namespace::HTML
                 && match &*n.tag_name {
                     // Tag omission in text/html:
+
+                    // A p element's end tag can be omitted if the p element is immediately followed
+                    // by an address, article, aside, blockquote, details, div, dl, fieldset,
+                    // figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, hr,
+                    // main, menu, nav, ol, p, pre, section, table, or ul element, or if there is no
+                    // more content in the parent element and the parent element is an HTML element
+                    // that is not an a, audio, del, ins, map, noscript, or video element, or an
+                    // autonomous custom element.
+                    "p" => match next {
+                        Some(Child::Element(Element {
+                            namespace,
+                            tag_name,
+                            ..
+                        })) if *namespace == Namespace::HTML
+                            && matches!(
+                                &**tag_name,
+                                "address"
+                                    | "article"
+                                    | "aside"
+                                    | "blockquote"
+                                    | "details"
+                                    | "div"
+                                    | "dl"
+                                    | "fieldset"
+                                    | "figcaption"
+                                    | "figure"
+                                    | "footer"
+                                    | "form"
+                                    | "h1"
+                                    | "h2"
+                                    | "h3"
+                                    | "h4"
+                                    | "h5"
+                                    | "h6"
+                                    | "header"
+                                    | "hgroup"
+                                    | "hr"
+                                    | "main"
+                                    | "menu"
+                                    | "nav"
+                                    | "ol"
+                                    | "p"
+                                    | "pre"
+                                    | "section"
+                                    | "table"
+                                    | "ul"
+                            ) =>
+                        {
+                            true
+                        }
+                        None if match parent {
+                            Some(Element {
+                                namespace,
+                                tag_name,
+                                ..
+                            }) if is_html_tag_name(*namespace, &**tag_name)
+                                && !matches!(
+                                    &**tag_name,
+                                    "a" | "audio" | "del" | "ins" | "map" | "noscript" | "video"
+                                ) =>
+                            {
+                                true
+                            }
+                            _ => false,
+                        } =>
+                        {
+                            true
+                        }
+                        _ => false,
+                    },
 
                     // An li element's end tag can be omitted if the li element is immediately
                     // followed by another li element or if there is no more content in the parent
@@ -833,4 +903,135 @@ fn minify_attribute_value(value: &str) -> String {
     } else {
         format!("\"{}\"", minified)
     }
+}
+
+fn is_html_tag_name(namespace: Namespace, tag_name: &str) -> bool {
+    if namespace != Namespace::HTML {
+        return false;
+    }
+
+    matches!(
+        tag_name,
+        "a" | "abbr"
+            | "address"
+            | "applet"
+            | "area"
+            | "article"
+            | "aside"
+            | "audio"
+            | "b"
+            | "base"
+            | "bdi"
+            | "bdo"
+            | "blockquote"
+            | "body"
+            | "br"
+            | "button"
+            | "canvas"
+            | "caption"
+            | "center"
+            | "cite"
+            | "code"
+            | "col"
+            | "colgroup"
+            | "data"
+            | "datalist"
+            | "dd"
+            | "del"
+            | "details"
+            | "dfn"
+            | "dialog"
+            | "dir"
+            | "div"
+            | "dl"
+            | "dt"
+            | "em"
+            | "embed"
+            | "fieldset"
+            | "figcaption"
+            | "figure"
+            | "footer"
+            | "form"
+            | "h1"
+            | "h2"
+            | "h3"
+            | "h4"
+            | "h5"
+            | "h6"
+            | "head"
+            | "header"
+            | "hgroup"
+            | "hr"
+            | "html"
+            | "i"
+            | "iframe"
+            | "image"
+            | "img"
+            | "input"
+            | "ins"
+            | "label"
+            | "legend"
+            | "li"
+            | "link"
+            | "listing"
+            | "main"
+            | "map"
+            | "mark"
+            | "marquee"
+            | "menu"
+            | "menuitem"
+            | "meta"
+            | "meter"
+            | "nav"
+            | "nobr"
+            | "noembed"
+            | "noscript"
+            | "object"
+            | "ol"
+            | "optgroup"
+            | "option"
+            | "output"
+            | "p"
+            | "param"
+            | "picture"
+            | "pre"
+            | "progress"
+            | "q"
+            | "rb"
+            | "rp"
+            | "rt"
+            | "rtc"
+            | "ruby"
+            | "s"
+            | "samp"
+            | "script"
+            | "section"
+            | "select"
+            | "small"
+            | "source"
+            | "span"
+            | "strong"
+            | "style"
+            | "sub"
+            | "summary"
+            | "sup"
+            | "table"
+            | "tbody"
+            | "td"
+            | "template"
+            | "textarea"
+            | "tfoot"
+            | "th"
+            | "thead"
+            | "time"
+            | "title"
+            | "tr"
+            | "track"
+            | "u"
+            | "ul"
+            | "var"
+            | "video"
+            | "wbr"
+            | "xmp"
+    )
 }
