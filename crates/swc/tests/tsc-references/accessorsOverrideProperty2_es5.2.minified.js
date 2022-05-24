@@ -1,15 +1,18 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _create_class from "@swc/helpers/lib/_create_class.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var Base = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, Base), this.x = 1;
+    _class_call_check(this, Base), this.x = 1;
 }, Derived = function(Base1) {
     "use strict";
-    swcHelpers.inherits(Derived, Base1);
-    var _super = swcHelpers.createSuper(Derived);
+    _inherits(Derived, Base1);
+    var _super = _create_super(Derived);
     function Derived() {
-        return swcHelpers.classCallCheck(this, Derived), _super.apply(this, arguments);
+        return _class_call_check(this, Derived), _super.apply(this, arguments);
     }
-    return swcHelpers.createClass(Derived, [
+    return _create_class(Derived, [
         {
             key: "x",
             get: function() {

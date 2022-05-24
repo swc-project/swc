@@ -1,5 +1,5 @@
 var TypeScript;
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 !function(TypeScript1) {
     var GetAstPathOptions, lastOf = function(items) {
         return null === items || 0 === items.length ? null : items[items.length - 1];
@@ -45,7 +45,7 @@ import * as swcHelpers from "@swc/helpers";
     var AstPath = function() {
         "use strict";
         function AstPath() {
-            swcHelpers.classCallCheck(this, AstPath), this.asts = [], this.top = -1;
+            _class_call_check(this, AstPath), this.asts = [], this.top = -1;
         }
         var _proto = AstPath.prototype;
         return _proto.clone = function() {
@@ -186,7 +186,7 @@ import * as swcHelpers from "@swc/helpers";
     TypeScript1.AstPath = AstPath, TypeScript1.isValidAstNode = isValidAstNode;
     var GetAstPathOptions1, AstPathContext = function AstPathContext() {
         "use strict";
-        swcHelpers.classCallCheck(this, AstPathContext), this.path = new TypeScript.AstPath();
+        _class_call_check(this, AstPathContext), this.path = new TypeScript.AstPath();
     };
     TypeScript1.AstPathContext = AstPathContext, (GetAstPathOptions1 = GetAstPathOptions = TypeScript1.GetAstPathOptions || (TypeScript1.GetAstPathOptions = {}))[GetAstPathOptions1.Default = 0] = "Default", GetAstPathOptions1[GetAstPathOptions1.EdgeInclusive = 1] = "EdgeInclusive", GetAstPathOptions1[GetAstPathOptions1.DontPruneSearchBasedOnPosition = 2] = "DontPruneSearchBasedOnPosition", TypeScript1.getAstPathToPosition = getAstPathToPosition, TypeScript1.getTokenizationOffset = getTokenizationOffset, TypeScript1.walkAST = walkAST;
 }(TypeScript || (TypeScript = {}));

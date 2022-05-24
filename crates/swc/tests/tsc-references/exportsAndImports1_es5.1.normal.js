@@ -1,13 +1,13 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @filename: t3.ts
-import { I, N, T } from "./t1";
+import { I, T } from "./t1";
 // @module: commonjs
 // @filename: t1.ts
 var v = 1;
 function f() {}
 var C = function C() {
     "use strict";
-    swcHelpers.classCallCheck(this, C);
+    _class_call_check(this, C);
 };
 var E;
 (function(E) {
@@ -27,7 +27,7 @@ var M;
     M1.x = x;
 })(M || (M = {}));
 var a = M.x;
-export { v, f, C, E, D, a };
+export { v, f, C, E, D, M, N, a };
 // @filename: t2.ts
 export { v, f, C, I, E, D, M, N, T, a } from "./t1";
-export { v, f, C, E, D, a };
+export { v, f, C, E, D, M, N, a };

@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 // @filename: file.tsx
 // @jsx: preserve
 // @noLib: true
@@ -16,9 +16,9 @@ const obj1 = {
 };
 // OK
 let p = /*#__PURE__*/ React.createElement(Opt, null);
-let y = /*#__PURE__*/ React.createElement(Opt, swcHelpers.extends({}, obj));
-let y1 = /*#__PURE__*/ React.createElement(Opt, swcHelpers.extends({}, obj1));
-let y2 = /*#__PURE__*/ React.createElement(Opt, swcHelpers.extends({}, obj1, {
+let y = /*#__PURE__*/ React.createElement(Opt, _extends({}, obj));
+let y1 = /*#__PURE__*/ React.createElement(Opt, _extends({}, obj1));
+let y2 = /*#__PURE__*/ React.createElement(Opt, _extends({}, obj1, {
     y: true
 }));
 let y3 = /*#__PURE__*/ React.createElement(Opt, {

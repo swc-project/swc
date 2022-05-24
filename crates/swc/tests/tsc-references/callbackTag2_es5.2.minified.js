@@ -1,5 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var SharedClass = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, SharedClass), this.id;
+    _class_call_check(this, SharedClass), this.id;
 };

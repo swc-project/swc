@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _object_spread from "@swc/helpers/lib/_object_spread.js";
 // @target: esnext
 // @useDefineForClassFields: false
 class K {
@@ -11,8 +11,8 @@ class K {
     }
 }
 let k = new K();
-let sk = swcHelpers.objectSpread({}, k);
-let ssk = swcHelpers.objectSpread({}, k, k);
+let sk = _object_spread({}, k);
+let ssk = _object_spread({}, k, k);
 sk.p;
 sk.m(); // error
 sk.g; // error
@@ -26,8 +26,8 @@ let i = {
         return 0;
     }
 };
-let si = swcHelpers.objectSpread({}, i);
-let ssi = swcHelpers.objectSpread({}, i, i);
+let si = _object_spread({}, i);
+let ssi = _object_spread({}, i, i);
 si.p;
 si.m(); // ok
 si.g; // ok
@@ -41,8 +41,8 @@ let o = {
         return 0;
     }
 };
-let so = swcHelpers.objectSpread({}, o);
-let sso = swcHelpers.objectSpread({}, o, o);
+let so = _object_spread({}, o);
+let sso = _object_spread({}, o, o);
 so.p;
 so.m(); // ok
 so.g; // ok

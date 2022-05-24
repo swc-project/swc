@@ -1,41 +1,116 @@
 {
   "type": "Document",
   "span": {
-    "start": 0,
-    "end": 229,
+    "start": 1,
+    "end": 330,
     "ctxt": 0
   },
-  "mode": "quirks",
+  "mode": "no-quirks",
   "children": [
+    {
+      "type": "DocumentType",
+      "span": {
+        "start": 1,
+        "end": 16,
+        "ctxt": 0
+      },
+      "name": "html",
+      "publicId": null,
+      "systemId": null
+    },
     {
       "type": "Element",
       "span": {
-        "start": 0,
-        "end": 229,
+        "start": 17,
+        "end": 323,
         "ctxt": 0
       },
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
-      "attributes": [],
+      "attributes": [
+        {
+          "type": "Attribute",
+          "span": {
+            "start": 23,
+            "end": 32,
+            "ctxt": 0
+          },
+          "namespace": null,
+          "prefix": null,
+          "name": "lang",
+          "value": "en"
+        }
+      ],
       "children": [
         {
           "type": "Element",
           "span": {
-            "start": 0,
-            "end": 3,
+            "start": 34,
+            "end": 69,
             "ctxt": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
-          "children": [],
+          "children": [
+            {
+              "type": "Text",
+              "span": {
+                "start": 40,
+                "end": 45,
+                "ctxt": 0
+              },
+              "value": "\n    "
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 45,
+                "end": 60,
+                "ctxt": 0
+              },
+              "tagName": "title",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 52,
+                    "end": 60,
+                    "ctxt": 0
+                  },
+                  "value": "Document"
+                }
+              ],
+              "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 68,
+                "end": 69,
+                "ctxt": 0
+              },
+              "value": "\n"
+            }
+          ],
           "content": null
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 76,
+            "end": 77,
+            "ctxt": 0
+          },
+          "value": "\n"
         },
         {
           "type": "Element",
           "span": {
-            "start": 0,
-            "end": 229,
+            "start": 77,
+            "end": 323,
             "ctxt": 0
           },
           "tagName": "body",
@@ -43,10 +118,19 @@
           "attributes": [],
           "children": [
             {
+              "type": "Text",
+              "span": {
+                "start": 83,
+                "end": 85,
+                "ctxt": 0
+              },
+              "value": "\n\n"
+            },
+            {
               "type": "Element",
               "span": {
-                "start": 0,
-                "end": 224,
+                "start": 85,
+                "end": 309,
                 "ctxt": 0
               },
               "tagName": "p",
@@ -56,8 +140,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 3,
-                    "end": 25,
+                    "start": 88,
+                    "end": 110,
                     "ctxt": 0
                   },
                   "value": " O'er all the hilltops"
@@ -65,8 +149,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 25,
-                    "end": 29,
+                    "start": 110,
+                    "end": 114,
                     "ctxt": 0
                   },
                   "tagName": "br",
@@ -78,8 +162,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 29,
-                    "end": 47,
+                    "start": 114,
+                    "end": 132,
                     "ctxt": 0
                   },
                   "value": "\n    Is quiet now,"
@@ -87,8 +171,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 47,
-                    "end": 51,
+                    "start": 132,
+                    "end": 136,
                     "ctxt": 0
                   },
                   "tagName": "br",
@@ -100,8 +184,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 51,
-                    "end": 75,
+                    "start": 136,
+                    "end": 160,
                     "ctxt": 0
                   },
                   "value": "\n    In all the treetops"
@@ -109,8 +193,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 75,
-                    "end": 79,
+                    "start": 160,
+                    "end": 164,
                     "ctxt": 0
                   },
                   "tagName": "br",
@@ -122,8 +206,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 79,
-                    "end": 96,
+                    "start": 164,
+                    "end": 181,
                     "ctxt": 0
                   },
                   "value": "\n    Hearest thou"
@@ -131,8 +215,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 96,
-                    "end": 100,
+                    "start": 181,
+                    "end": 185,
                     "ctxt": 0
                   },
                   "tagName": "br",
@@ -144,8 +228,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 100,
-                    "end": 121,
+                    "start": 185,
+                    "end": 206,
                     "ctxt": 0
                   },
                   "value": "\n    Hardly a breath;"
@@ -153,8 +237,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 121,
-                    "end": 125,
+                    "start": 206,
+                    "end": 210,
                     "ctxt": 0
                   },
                   "tagName": "br",
@@ -166,8 +250,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 125,
-                    "end": 164,
+                    "start": 210,
+                    "end": 249,
                     "ctxt": 0
                   },
                   "value": "\n    The birds are asleep in the trees:"
@@ -175,8 +259,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 164,
-                    "end": 168,
+                    "start": 249,
+                    "end": 253,
                     "ctxt": 0
                   },
                   "tagName": "br",
@@ -188,8 +272,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 168,
-                    "end": 194,
+                    "start": 253,
+                    "end": 279,
                     "ctxt": 0
                   },
                   "value": "\n    Wait, soon like these"
@@ -197,8 +281,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 194,
-                    "end": 198,
+                    "start": 279,
+                    "end": 283,
                     "ctxt": 0
                   },
                   "tagName": "br",
@@ -210,8 +294,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 198,
-                    "end": 224,
+                    "start": 283,
+                    "end": 309,
                     "ctxt": 0
                   },
                   "value": "\n    Thou too shalt rest.\n"
@@ -222,11 +306,11 @@
             {
               "type": "Text",
               "span": {
-                "start": 228,
-                "end": 229,
+                "start": 313,
+                "end": 323,
                 "ctxt": 0
               },
-              "value": "\n"
+              "value": "\n\n\n"
             }
           ],
           "content": null

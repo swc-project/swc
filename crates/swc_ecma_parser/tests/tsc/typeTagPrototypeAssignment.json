@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 79,
-    "end": 134,
+    "start": 80,
+    "end": 135,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 88,
-          "end": 89,
+          "start": 89,
+          "end": 90,
           "ctxt": 0
         },
         "value": "C",
@@ -22,15 +22,15 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 79,
-        "end": 95,
+        "start": 80,
+        "end": 96,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 92,
-          "end": 95,
+          "start": 93,
+          "end": 96,
           "ctxt": 0
         },
         "stmts": []
@@ -43,30 +43,30 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 118,
-        "end": 134,
+        "start": 119,
+        "end": 135,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 118,
-          "end": 134,
+          "start": 119,
+          "end": 135,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
-            "start": 118,
-            "end": 129,
+            "start": 119,
+            "end": 130,
             "ctxt": 0
           },
           "object": {
             "type": "Identifier",
             "span": {
-              "start": 118,
-              "end": 119,
+              "start": 119,
+              "end": 120,
               "ctxt": 0
             },
             "value": "C",
@@ -75,8 +75,8 @@
           "property": {
             "type": "Identifier",
             "span": {
-              "start": 120,
-              "end": 129,
+              "start": 121,
+              "end": 130,
               "ctxt": 0
             },
             "value": "prototype",
@@ -86,8 +86,8 @@
         "right": {
           "type": "NumericLiteral",
           "span": {
-            "start": 132,
-            "end": 134,
+            "start": 133,
+            "end": 135,
             "ctxt": 0
           },
           "value": 12.0,

@@ -1,0 +1,19 @@
+| <!DOCTYPE html>
+| <html>
+|   <head>
+|     <script>
+|       type="text/javascript"
+|       "
+//<![CDATA[
+document.write("<");
+//]]>
+"
+|     "
+"
+|     <script>
+|       "
+    let foo = "<!--<script>-->";
+
+    console.log(foo);
+"
+|   <body>

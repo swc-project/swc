@@ -1,229 +1,224 @@
 
   x Document
    ,-[$DIR/tests/fixture/element/select/input.html:1:1]
- 1 | ,-> <select><option>foo</option><option>bar</option></select>
- 2 | |   <select><option>foo<option>bar</select>
- 3 | `-> <select><option>foo</select>
+ 1 | ,-> <!doctype html>
+ 2 | |   <select><option>foo</option><option>bar</option></select>
+ 3 | |   <select><option>foo<option>bar</select>
+ 4 | `-> <select><option>foo</select>
    `----
 
   x Child
    ,-[$DIR/tests/fixture/element/select/input.html:1:1]
- 1 | ,-> <select><option>foo</option><option>bar</option></select>
- 2 | |   <select><option>foo<option>bar</select>
- 3 | `-> <select><option>foo</select>
+ 1 | <!doctype html>
+   : ^^^^^^^^^^^^^^^
    `----
+
+  x DocumentType
+   ,-[$DIR/tests/fixture/element/select/input.html:1:1]
+ 1 | <!doctype html>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Child
 
   x Element
-   ,-[$DIR/tests/fixture/element/select/input.html:1:1]
- 1 | ,-> <select><option>foo</option><option>bar</option></select>
- 2 | |   <select><option>foo<option>bar</select>
- 3 | `-> <select><option>foo</select>
-   `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/select/input.html:1:1]
- 1 | <select><option>foo</option><option>bar</option></select>
-   : ^^^^^^^^
-   `----
 
   x Element
-   ,-[$DIR/tests/fixture/element/select/input.html:1:1]
- 1 | <select><option>foo</option><option>bar</option></select>
-   : ^^^^^^^^
-   `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/select/input.html:1:1]
- 1 | <select><option>foo</option><option>bar</option></select>
+   ,-[$DIR/tests/fixture/element/select/input.html:2:1]
+ 2 | <select><option>foo</option><option>bar</option></select>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/element/select/input.html:1:1]
- 1 | <select><option>foo</option><option>bar</option></select>
+   ,-[$DIR/tests/fixture/element/select/input.html:2:1]
+ 2 | <select><option>foo</option><option>bar</option></select>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/select/input.html:1:1]
- 1 | <select><option>foo</option><option>bar</option></select>
+   ,-[$DIR/tests/fixture/element/select/input.html:2:1]
+ 2 | <select><option>foo</option><option>bar</option></select>
    :         ^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/element/select/input.html:1:1]
- 1 | <select><option>foo</option><option>bar</option></select>
+   ,-[$DIR/tests/fixture/element/select/input.html:2:1]
+ 2 | <select><option>foo</option><option>bar</option></select>
    :         ^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/select/input.html:1:1]
- 1 | <select><option>foo</option><option>bar</option></select>
+   ,-[$DIR/tests/fixture/element/select/input.html:2:1]
+ 2 | <select><option>foo</option><option>bar</option></select>
    :                 ^^^
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/select/input.html:1:1]
- 1 | <select><option>foo</option><option>bar</option></select>
+   ,-[$DIR/tests/fixture/element/select/input.html:2:1]
+ 2 | <select><option>foo</option><option>bar</option></select>
    :                 ^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/select/input.html:1:1]
- 1 | <select><option>foo</option><option>bar</option></select>
+   ,-[$DIR/tests/fixture/element/select/input.html:2:1]
+ 2 | <select><option>foo</option><option>bar</option></select>
    :                             ^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/element/select/input.html:1:1]
- 1 | <select><option>foo</option><option>bar</option></select>
+   ,-[$DIR/tests/fixture/element/select/input.html:2:1]
+ 2 | <select><option>foo</option><option>bar</option></select>
    :                             ^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/select/input.html:1:1]
- 1 | <select><option>foo</option><option>bar</option></select>
+   ,-[$DIR/tests/fixture/element/select/input.html:2:1]
+ 2 | <select><option>foo</option><option>bar</option></select>
    :                                     ^^^
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/select/input.html:1:1]
- 1 | <select><option>foo</option><option>bar</option></select>
+   ,-[$DIR/tests/fixture/element/select/input.html:2:1]
+ 2 | <select><option>foo</option><option>bar</option></select>
    :                                     ^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/select/input.html:1:1]
- 1 | <select><option>foo</option><option>bar</option></select>
+   ,-[$DIR/tests/fixture/element/select/input.html:2:1]
+ 2 | <select><option>foo</option><option>bar</option></select>
    :                                                          ^
- 2 | <select><option>foo<option>bar</select>
+ 3 | <select><option>foo<option>bar</select>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/select/input.html:1:1]
- 1 | <select><option>foo</option><option>bar</option></select>
+   ,-[$DIR/tests/fixture/element/select/input.html:2:1]
+ 2 | <select><option>foo</option><option>bar</option></select>
    :                                                          ^
- 2 | <select><option>foo<option>bar</select>
+ 3 | <select><option>foo<option>bar</select>
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/select/input.html:2:1]
- 2 | <select><option>foo<option>bar</select>
+   ,-[$DIR/tests/fixture/element/select/input.html:3:1]
+ 3 | <select><option>foo<option>bar</select>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/element/select/input.html:2:1]
- 2 | <select><option>foo<option>bar</select>
+   ,-[$DIR/tests/fixture/element/select/input.html:3:1]
+ 3 | <select><option>foo<option>bar</select>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/select/input.html:2:1]
- 2 | <select><option>foo<option>bar</select>
+   ,-[$DIR/tests/fixture/element/select/input.html:3:1]
+ 3 | <select><option>foo<option>bar</select>
    :         ^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/element/select/input.html:2:1]
- 2 | <select><option>foo<option>bar</select>
+   ,-[$DIR/tests/fixture/element/select/input.html:3:1]
+ 3 | <select><option>foo<option>bar</select>
    :         ^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/select/input.html:2:1]
- 2 | <select><option>foo<option>bar</select>
+   ,-[$DIR/tests/fixture/element/select/input.html:3:1]
+ 3 | <select><option>foo<option>bar</select>
    :                 ^^^
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/select/input.html:2:1]
- 2 | <select><option>foo<option>bar</select>
+   ,-[$DIR/tests/fixture/element/select/input.html:3:1]
+ 3 | <select><option>foo<option>bar</select>
    :                 ^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/select/input.html:2:1]
- 2 | <select><option>foo<option>bar</select>
+   ,-[$DIR/tests/fixture/element/select/input.html:3:1]
+ 3 | <select><option>foo<option>bar</select>
    :                    ^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/element/select/input.html:2:1]
- 2 | <select><option>foo<option>bar</select>
+   ,-[$DIR/tests/fixture/element/select/input.html:3:1]
+ 3 | <select><option>foo<option>bar</select>
    :                    ^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/select/input.html:2:1]
- 2 | <select><option>foo<option>bar</select>
+   ,-[$DIR/tests/fixture/element/select/input.html:3:1]
+ 3 | <select><option>foo<option>bar</select>
    :                            ^^^
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/select/input.html:2:1]
- 2 | <select><option>foo<option>bar</select>
+   ,-[$DIR/tests/fixture/element/select/input.html:3:1]
+ 3 | <select><option>foo<option>bar</select>
    :                            ^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/select/input.html:2:1]
- 2 | <select><option>foo<option>bar</select>
+   ,-[$DIR/tests/fixture/element/select/input.html:3:1]
+ 3 | <select><option>foo<option>bar</select>
    :                                        ^
- 3 | <select><option>foo</select>
-   `----
-
-  x Text
-   ,-[$DIR/tests/fixture/element/select/input.html:2:1]
- 2 | <select><option>foo<option>bar</select>
-   :                                        ^
- 3 | <select><option>foo</select>
-   `----
-
-  x Child
-   ,-[$DIR/tests/fixture/element/select/input.html:3:1]
- 3 | <select><option>foo</select>
-   : ^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Element
-   ,-[$DIR/tests/fixture/element/select/input.html:3:1]
- 3 | <select><option>foo</select>
-   : ^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Child
-   ,-[$DIR/tests/fixture/element/select/input.html:3:1]
- 3 | <select><option>foo</select>
-   :         ^^^^^^^^^^^
-   `----
-
-  x Element
-   ,-[$DIR/tests/fixture/element/select/input.html:3:1]
- 3 | <select><option>foo</select>
-   :         ^^^^^^^^^^^
-   `----
-
-  x Child
-   ,-[$DIR/tests/fixture/element/select/input.html:3:1]
- 3 | <select><option>foo</select>
-   :                 ^^^
+ 4 | <select><option>foo</select>
    `----
 
   x Text
    ,-[$DIR/tests/fixture/element/select/input.html:3:1]
- 3 | <select><option>foo</select>
+ 3 | <select><option>foo<option>bar</select>
+   :                                        ^
+ 4 | <select><option>foo</select>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/element/select/input.html:4:1]
+ 4 | <select><option>foo</select>
+   : ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/element/select/input.html:4:1]
+ 4 | <select><option>foo</select>
+   : ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/element/select/input.html:4:1]
+ 4 | <select><option>foo</select>
+   :         ^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/element/select/input.html:4:1]
+ 4 | <select><option>foo</select>
+   :         ^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/element/select/input.html:4:1]
+ 4 | <select><option>foo</select>
+   :                 ^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/element/select/input.html:4:1]
+ 4 | <select><option>foo</select>
    :                 ^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/select/input.html:3:1]
- 3 | <select><option>foo</select>
+   ,-[$DIR/tests/fixture/element/select/input.html:4:1]
+ 4 | <select><option>foo</select>
    :                             ^
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/select/input.html:3:1]
- 3 | <select><option>foo</select>
+   ,-[$DIR/tests/fixture/element/select/input.html:4:1]
+ 4 | <select><option>foo</select>
    :                             ^
    `----

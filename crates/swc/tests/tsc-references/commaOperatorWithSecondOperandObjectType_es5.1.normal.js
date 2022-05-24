@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @allowUnreachableCode: true
 var ANY;
 var BOOLEAN;
@@ -7,7 +7,7 @@ var STRING;
 var OBJECT;
 var CLASS = function CLASS() {
     "use strict";
-    swcHelpers.classCallCheck(this, CLASS);
+    _class_call_check(this, CLASS);
 };
 //The second operand type is Object
 ANY, OBJECT;

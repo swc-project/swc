@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _define_property from "@swc/helpers/lib/_define_property.js";
 var _obj;
 //@target: ES6
-var v = (_obj = {}, swcHelpers.defineProperty(_obj, e, 1), swcHelpers.defineProperty(_obj, e + e, 2), _obj);
+var v = (_obj = {}, _define_property(_obj, e, 1), _define_property(_obj, e + e, 2), _obj);

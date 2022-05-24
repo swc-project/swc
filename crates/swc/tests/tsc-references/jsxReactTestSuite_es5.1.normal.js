@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 /*#__PURE__*/ React.createElement("div", null, "text");
 /*#__PURE__*/ React.createElement("div", null, this.props.children);
 /*#__PURE__*/ React.createElement("div", null, /*#__PURE__*/ React.createElement("div", null, /*#__PURE__*/ React.createElement("br", null)), /*#__PURE__*/ React.createElement(Component, null, foo, /*#__PURE__*/ React.createElement("br", null), bar), /*#__PURE__*/ React.createElement("br", null));
@@ -26,11 +26,11 @@ var x = /*#__PURE__*/ React.createElement("div", {
 });
 /*#__PURE__*/ React.createElement(Namespace.Component, null);
 /*#__PURE__*/ React.createElement(Namespace.DeepNamespace.Component, null);
-/*#__PURE__*/ React.createElement(Component, swcHelpers.extends({}, x, {
+/*#__PURE__*/ React.createElement(Component, _extends({}, x, {
     y: 2,
     z: true
 }));
-/*#__PURE__*/ React.createElement(Component, swcHelpers.extends({}, this.props, {
+/*#__PURE__*/ React.createElement(Component, _extends({}, this.props, {
     sound: "moo"
 }));
 /*#__PURE__*/ React.createElement("font-face", null);
@@ -38,22 +38,22 @@ var x = /*#__PURE__*/ React.createElement("div", {
     x: y
 });
 /*#__PURE__*/ React.createElement("x-component", null);
-/*#__PURE__*/ React.createElement(Component, swcHelpers.extends({}, x));
-/*#__PURE__*/ React.createElement(Component, swcHelpers.extends({}, x, {
+/*#__PURE__*/ React.createElement(Component, _extends({}, x));
+/*#__PURE__*/ React.createElement(Component, _extends({}, x, {
     y: 2
 }));
-/*#__PURE__*/ React.createElement(Component, swcHelpers.extends({}, x, {
+/*#__PURE__*/ React.createElement(Component, _extends({}, x, {
     y: 2,
     z: true
 }));
-/*#__PURE__*/ React.createElement(Component, swcHelpers.extends({
+/*#__PURE__*/ React.createElement(Component, _extends({
     x: 1
 }, y));
-/*#__PURE__*/ React.createElement(Component, swcHelpers.extends({
+/*#__PURE__*/ React.createElement(Component, _extends({
     x: 1,
     y: "2"
 }, z, z), /*#__PURE__*/ React.createElement(Child, null));
-/*#__PURE__*/ React.createElement(Component, swcHelpers.extends({
+/*#__PURE__*/ React.createElement(Component, _extends({
     x: "1"
 }, (z = {
     y: 2

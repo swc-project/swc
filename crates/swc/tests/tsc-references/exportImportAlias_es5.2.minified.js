@@ -1,10 +1,10 @@
 var A, C, X, Z, K, M;
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 !function(A1) {
     A1.x = "hello world";
     var Point = function(x, y) {
         "use strict";
-        swcHelpers.classCallCheck(this, Point), this.x = x, this.y = y;
+        _class_call_check(this, Point), this.x = x, this.y = y;
     };
     A1.Point = Point;
 }(A || (A = {})), function(C1) {
@@ -16,7 +16,7 @@ import * as swcHelpers from "@swc/helpers";
     };
     X1.Y = Y1, Y = Y1 = X1.Y || (X1.Y = {}), Point = function(x, y) {
         "use strict";
-        swcHelpers.classCallCheck(this, Point), this.x = x, this.y = y;
+        _class_call_check(this, Point), this.x = x, this.y = y;
     }, Y.Point = Point;
 }(X || (X = {})), function(Z1) {
     var y = X.Y;
@@ -24,7 +24,7 @@ import * as swcHelpers from "@swc/helpers";
 }(Z || (Z = {})), Z.y(), new Z.y.Point(0, 0), function(K1) {
     var L = function(name) {
         "use strict";
-        swcHelpers.classCallCheck(this, L), this.name = name;
+        _class_call_check(this, L), this.name = name;
     };
     K1.L = L, (L = K1.L || (K1.L = {})).y = 12;
 }(K || (K = {})), function(M1) {

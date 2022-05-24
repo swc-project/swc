@@ -1,10 +1,11 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _create_class from "@swc/helpers/lib/_create_class.js";
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
     }
-    swcHelpers.createClass(C, null, [
+    _create_class(C, null, [
         {
             key: "x",
             get: function get() {
@@ -17,9 +18,9 @@ var C = /*#__PURE__*/ function() {
 var D = /*#__PURE__*/ function() {
     "use strict";
     function D() {
-        swcHelpers.classCallCheck(this, D);
+        _class_call_check(this, D);
     }
-    swcHelpers.createClass(D, null, [
+    _create_class(D, null, [
         {
             key: "x",
             set: function set(v) {} // error
@@ -30,9 +31,9 @@ var D = /*#__PURE__*/ function() {
 var E = /*#__PURE__*/ function() {
     "use strict";
     function E() {
-        swcHelpers.classCallCheck(this, E);
+        _class_call_check(this, E);
     }
-    swcHelpers.createClass(E, null, [
+    _create_class(E, null, [
         {
             key: "x",
             get: function get() {

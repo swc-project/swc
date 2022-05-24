@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 var _exportNames = {};
-var swcHelpers = require("@swc/helpers");
-var _foo = swcHelpers.interopRequireWildcard(require("./foo"));
+var _interop_require_wildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
+var _foo = _interop_require_wildcard(require("./foo"));
 Object.keys(_foo).forEach(function(key) {
     if (key === "default" || key === "__esModule") return;
     if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
@@ -16,7 +16,7 @@ Object.keys(_foo).forEach(function(key) {
         }
     });
 });
-var _bar = swcHelpers.interopRequireWildcard(require("./bar"));
+var _bar = _interop_require_wildcard(require("./bar"));
 Object.keys(_bar).forEach(function(key) {
     if (key === "default" || key === "__esModule") return;
     if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;

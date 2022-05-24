@@ -8,6 +8,5 @@ function createConstructor(callback) {
     };
 }
 const constructor = createConstructor(()=>class {
-    }
-);
+    });
 console.log(constructor());

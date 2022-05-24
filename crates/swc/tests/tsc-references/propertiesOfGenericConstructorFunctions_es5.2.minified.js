@@ -1,6 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
+import _define_property from "@swc/helpers/lib/_define_property.js";
 function Multimap(ik, iv) {
-    this._map = {}, this._map2 = swcHelpers.defineProperty({}, ik, iv);
+    this._map = {}, this._map2 = _define_property({}, ik, iv);
 }
 var map = new Multimap("a", 1), map2 = new Multimap("m", 2);
 function Cp(t) {

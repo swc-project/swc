@@ -1,9 +1,11 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 // @declaration: true
 var BaseA = /*#__PURE__*/ function() {
     "use strict";
     function BaseA(x) {
-        swcHelpers.classCallCheck(this, BaseA);
+        _class_call_check(this, BaseA);
         this.x = x;
     }
     var _proto = BaseA.prototype;
@@ -15,7 +17,7 @@ var BaseA = /*#__PURE__*/ function() {
 var BaseB = /*#__PURE__*/ function() {
     "use strict";
     function BaseB(x) {
-        swcHelpers.classCallCheck(this, BaseB);
+        _class_call_check(this, BaseB);
         this.x = x;
     }
     var _proto = BaseB.prototype;
@@ -27,7 +29,7 @@ var BaseB = /*#__PURE__*/ function() {
 var BaseC = /*#__PURE__*/ function() {
     "use strict";
     function BaseC(x) {
-        swcHelpers.classCallCheck(this, BaseC);
+        _class_call_check(this, BaseC);
         this.x = x;
     }
     var _proto = BaseC.prototype;
@@ -41,10 +43,10 @@ var BaseC = /*#__PURE__*/ function() {
 }();
 var DerivedA = /*#__PURE__*/ function(BaseA1) {
     "use strict";
-    swcHelpers.inherits(DerivedA, BaseA1);
-    var _super = swcHelpers.createSuper(DerivedA);
+    _inherits(DerivedA, BaseA1);
+    var _super = _create_super(DerivedA);
     function DerivedA(x) {
-        swcHelpers.classCallCheck(this, DerivedA);
+        _class_call_check(this, DerivedA);
         var _this;
         _this = _super.call(this, x);
         _this.x = x;
@@ -64,10 +66,10 @@ var DerivedA = /*#__PURE__*/ function(BaseA1) {
 }(BaseA);
 var DerivedB = /*#__PURE__*/ function(BaseB1) {
     "use strict";
-    swcHelpers.inherits(DerivedB, BaseB1);
-    var _super = swcHelpers.createSuper(DerivedB);
+    _inherits(DerivedB, BaseB1);
+    var _super = _create_super(DerivedB);
     function DerivedB(x) {
-        swcHelpers.classCallCheck(this, DerivedB);
+        _class_call_check(this, DerivedB);
         var _this;
         _this = _super.call(this, x);
         _this.x = x;
@@ -89,10 +91,10 @@ var DerivedB = /*#__PURE__*/ function(BaseB1) {
 }(BaseB);
 var DerivedC = /*#__PURE__*/ function(BaseC1) {
     "use strict";
-    swcHelpers.inherits(DerivedC, BaseC1);
-    var _super = swcHelpers.createSuper(DerivedC);
+    _inherits(DerivedC, BaseC1);
+    var _super = _create_super(DerivedC);
     function DerivedC(x) {
-        swcHelpers.classCallCheck(this, DerivedC);
+        _class_call_check(this, DerivedC);
         var _this;
         _this = _super.call(this, x);
         _this.x = x;

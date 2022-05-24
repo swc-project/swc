@@ -17,6 +17,9 @@
     color: rgb(48% 100% 100% / 50%);
     color: rgb(48% none 100% / 50%);
     color: rgb(48% 100% 100% / none);
+    color: rgb(var(--red), var(--green), var(--blue));
+    color: rgb(var(--red) var(--green) var(--blue));
+    color: rgb(var(--red) var(--green) var(--blue) / var(--alpha));
 }
 
 .rgba {
@@ -36,6 +39,7 @@
     color: rgba(48% 100% 100% / none);
     color: rgba(123 none 123 / 50%);
     color: rgba(123 123 123 / none);
+    color: rgb(var(--red), var(--green), var(--blue), var(--alpha));
 }
 
 .hsl {
@@ -46,11 +50,16 @@
     color: hsl(100 100% 50%);
     color: hsl(100, 100%, 50%, .8);
     color: hsl(100 100% 50% / .8);
+    color: hsl(var(--a), var(--b), var(--c));
+    color: hsl(var(--a), var(--b), var(--c), var(--d));
+    color: hsl(var(--a) var(--b) var(--c));
+    color: hsl(var(--a) var(--b) var(--c) / var(--d));
 }
 
 .hsla {
     color: hsla(100, 100%, 50%, .8);
     color: hsla(100 100% 50% / .8);
+    color: hsla(var(--a), var(--b), var(--c), var(--d));
 }
 
 .hwb {
@@ -59,12 +68,16 @@
     color: hwb(194 0% 50%);
     color: hwb(194 50% 0%);
     color: hwb(194 50% 50%);
+    color: hwb(var(--a) var(--b) var(--c));
+    color: hwb(var(--a) var(--b) var(--c) / var(--d));
 }
 
 .lab {
     color: lab(29.2345% 39.3825 20.0664);
     color: lab(29.2345% 39.3825 20.0664 / 100%);
     color: lab(29.2345% 39.3825 20.0664 / 50%);
+    color: lab(var(--a) var(--b) var(--c));
+    color: lab(var(--a) var(--b) var(--c) / var(--d));
 }
 
 .lch {
@@ -74,15 +87,20 @@
     color: lch(29.2345% 44.2 .5turn);
     color: lch(29.2345% 44.2 27 / 100%);
     color: lch(29.2345% 44.2 27 / 50%);
+    color: lch(var(--a) var(--b) var(--c));
+    color: lch(var(--a) var(--b) var(--c) / var(--d));
 }
 
 .oklab {
     color: oklab(40.101% 0.1147 0.0453);
+    color: oklab(var(--a) var(--b) var(--c));
 }
 
 .oklch {
     color: oklch(42.1% 0.192 328.6 / 1);
     color: oklch(42.1% 0.192 328.6);
+    color: oklch(var(--a) var(--b) var(--c));
+    color: oklch(var(--a) var(--b) var(--c) / var(--d));
 }
 
 .color {
@@ -107,6 +125,8 @@
     color: color(prophoto-rgb 0.36589 0.41717 0.31333);
     color: color(rec2020 0.42210 0.47580 0.35605);
     color: color(profoto-rgb 0.4835 0.9167 0.2188);
+    color: color(var(--a) var(--b) var(--c) var(--d));
+    color: color(var(--a) var(--b) var(--c) var(--d) / var(--e));
 }
 
 @color-profile --fogra55beta {
@@ -127,6 +147,7 @@
     color: device-cmyk(0% 70% 20% 0%);
     color: device-cmyk(0% 70% 20% 0%);
     color: device-cmyk(0 0.7 0.2 0);
+    color: device-cmyk(var(--a) var(--b) var(--c) var(--d));
 }
 
 .color-mix {

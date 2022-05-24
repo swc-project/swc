@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // Copyright (c) Microsoft. All rights reserved. Licensed under the Apache License, Version 2.0. 
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
@@ -13,7 +13,7 @@ var TypeScript;
     var AstWalkOptions = /*#__PURE__*/ function() {
         "use strict";
         function AstWalkOptions() {
-            swcHelpers.classCallCheck(this, AstWalkOptions);
+            _class_call_check(this, AstWalkOptions);
             this.goChildren = true;
             this.goNextSibling = true;
             this.reverseSiblings = false // visit siblings in reverse execution order
@@ -31,7 +31,7 @@ var TypeScript;
     var AstWalker = /*#__PURE__*/ function() {
         "use strict";
         function AstWalker(childrenWalkers, pre, post, options, state) {
-            swcHelpers.classCallCheck(this, AstWalker);
+            _class_call_check(this, AstWalker);
             this.childrenWalkers = childrenWalkers;
             this.pre = pre;
             this.post = post;
@@ -69,7 +69,7 @@ var TypeScript;
     var AstWalkerFactory = /*#__PURE__*/ function() {
         "use strict";
         function AstWalkerFactory() {
-            swcHelpers.classCallCheck(this, AstWalkerFactory);
+            _class_call_check(this, AstWalkerFactory);
             this.childrenWalkers = [];
             this.initChildrenWalkers();
         }

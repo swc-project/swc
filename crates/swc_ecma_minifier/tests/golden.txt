@@ -211,6 +211,7 @@ collapse_vars/issue_3096/input.js
 collapse_vars/issue_348/input.js
 collapse_vars/issue_805/input.js
 collapse_vars/may_throw_1/input.js
+collapse_vars/may_throw_2/input.js
 collapse_vars/modified/input.js
 collapse_vars/reassign_const_1/input.js
 collapse_vars/reassign_const_2/input.js
@@ -271,6 +272,7 @@ conditionals/issue_1645_1/input.js
 conditionals/issue_1645_2/input.js
 conditionals/issue_2535_2/input.js
 conditionals/issue_2560/input.js
+conditionals/issue_2994/input.js
 conditionals/no_evaluate/input.js
 conditionals/ternary_boolean_alternative/input.js
 conditionals/ternary_boolean_consequent/input.js
@@ -487,6 +489,8 @@ evaluate/unsafe_constant/input.js
 evaluate/unsafe_object_accessor/input.js
 evaluate/unsafe_string/input.js
 evaluate/unsafe_string_bad_index/input.js
+expansions/avoid_spread_getset_object/input.js
+expansions/avoid_spread_hole/input.js
 expansions/avoid_spread_holes_call/input.js
 expansions/avoid_spread_in_ternary/input.js
 expansions/expand_arguments/input.js
@@ -530,6 +534,7 @@ expression/pow_with_parentheses/input.js
 expression/pow_with_unary_between_brackets/input.js
 functions/avoid_generating_duplicate_functions_compared_together/input.js
 functions/avoid_generating_duplicate_functions_compared_together_2/input.js
+functions/avoid_generating_duplicate_functions_compared_together_3/input.js
 functions/avoid_generating_duplicate_functions_compared_together_4/input.js
 functions/deduplicate_parenthesis/input.js
 functions/drop_lone_use_strict/input.js
@@ -694,8 +699,10 @@ if_return/issue_1317_strict/input.js
 if_return/issue_1437/input.js
 if_return/issue_1437_conditionals/input.js
 inline/dont_inline_funcs_into_default_param/input.js
+inline/dont_inline_funcs_into_default_param_2/input.js
 inline/inline_annotation_2/input.js
 inline/inline_func_with_name_existing_in_block_scope/input.js
+inline/inline_into_scope_conflict/input.js
 inline/inline_into_scope_conflict_enclosed/input.js
 inline/inline_into_scope_conflict_enclosed_2/input.js
 inline/issue_308/input.js
@@ -708,6 +715,8 @@ issue_1041/const_pragma/input.js
 issue_1041/not_const/input.js
 issue_1043/issue_1043/input.js
 issue_1044/issue_1044/input.js
+issue_1052/defun_else_if_return/input.js
+issue_1052/defun_if_return/input.js
 issue_1105/Infinity_in_with_scope/input.js
 issue_1105/Infinity_not_in_with_scope/input.js
 issue_1105/with_in_global_scope/input.js
@@ -794,6 +803,7 @@ issue_267/issue_267/input.js
 issue_269/issue_269_dangers/input.js
 issue_269/issue_269_in_scope/input.js
 issue_281/drop_fargs/input.js
+issue_281/inner_var_for_in_1/input.js
 issue_281/issue_1254_negate_iife_nested/input.js
 issue_281/issue_1254_negate_iife_true/input.js
 issue_281/issue_1288_side_effects/input.js
@@ -815,6 +825,7 @@ issue_281/wrap_iife_in_expression/input.js
 issue_281/wrap_iife_in_return_call/input.js
 issue_2989/inline_script_off/input.js
 issue_2989/inline_script_on/input.js
+issue_368/collapse/input.js
 issue_427/no_wrap_func_args/input.js
 issue_427/wrap_func_args/input.js
 issue_59/keep_continue/input.js
@@ -840,6 +851,8 @@ issue_751/negate_booleans_2/input.js
 issue_782/dont_remove_this_binding_sequence/input.js
 issue_782/remove_redundant_sequence_items/input.js
 issue_926/template_strings/input.js
+issue_973/this_binding_collapse_vars/input.js
+issue_973/this_binding_conditionals/input.js
 issue_973/this_binding_sequences/input.js
 issue_973/this_binding_side_effects/input.js
 issue_t120/issue_t120_1/input.js
@@ -862,7 +875,6 @@ labels/labels_7/input.js
 labels/labels_8/input.js
 labels/labels_9/input.js
 logical_assignment/assign_in_conditional_part_reused/input.js
-logical_assignment/logical_assignment_not_always_happens/input.js
 logical_assignment/prematurely_evaluate_assignment/input.js
 logical_assignment/prematurely_evaluate_assignment_inv/input.js
 loops/dead_code_condition/input.js
@@ -978,6 +990,7 @@ parameters/arrow_functions/input.js
 parameters/arrow_return/input.js
 parameters/default_values_in_destructurings/input.js
 parameters/destructuring_arguments_1/input.js
+parameters/destructuring_arguments_2/input.js
 parameters/regression_arrow_functions_and_hoist/input.js
 parameters/regression_assign_arrow_functions/input.js
 properties/accessor_1/input.js
@@ -1021,6 +1034,13 @@ properties/mangle_properties_which_matches_pattern/input.js
 properties/native_prototype_lhs/input.js
 pure_funcs/array/input.js
 pure_funcs/assign/input.js
+pure_funcs/babel/input.js
+pure_funcs/issue_3065_1/input.js
+pure_funcs/issue_3065_2/input.js
+pure_funcs/issue_3065_3/input.js
+pure_funcs/issue_3065_4/input.js
+pure_funcs/side_effects/input.js
+pure_funcs/unused/input.js
 pure_getters/chained/input.js
 pure_getters/collapse_rhs_call/input.js
 pure_getters/collapse_rhs_false/input.js

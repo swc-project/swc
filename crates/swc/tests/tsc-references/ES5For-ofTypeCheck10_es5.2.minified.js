@@ -1,8 +1,8 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var _iterator = Symbol.iterator, StringIterator = function() {
     "use strict";
     function StringIterator() {
-        swcHelpers.classCallCheck(this, StringIterator);
+        _class_call_check(this, StringIterator);
     }
     var _proto = StringIterator.prototype;
     return _proto.next = function() {

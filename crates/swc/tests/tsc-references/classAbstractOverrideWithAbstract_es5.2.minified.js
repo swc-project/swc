@@ -1,46 +1,48 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var A = function() {
     "use strict";
     function A() {
-        swcHelpers.classCallCheck(this, A);
+        _class_call_check(this, A);
     }
     return A.prototype.foo = function() {}, A;
 }(), B = function(A) {
     "use strict";
-    swcHelpers.inherits(B, A);
-    var _super = swcHelpers.createSuper(B);
+    _inherits(B, A);
+    var _super = _create_super(B);
     function B() {
-        return swcHelpers.classCallCheck(this, B), _super.apply(this, arguments);
+        return _class_call_check(this, B), _super.apply(this, arguments);
     }
     return B;
 }(A), AA = function() {
     "use strict";
     function AA() {
-        swcHelpers.classCallCheck(this, AA);
+        _class_call_check(this, AA);
     }
     return AA.prototype.foo = function() {}, AA;
 }(), BB = function(AA) {
     "use strict";
-    swcHelpers.inherits(BB, AA);
-    var _super = swcHelpers.createSuper(BB);
+    _inherits(BB, AA);
+    var _super = _create_super(BB);
     function BB() {
-        return swcHelpers.classCallCheck(this, BB), _super.apply(this, arguments);
+        return _class_call_check(this, BB), _super.apply(this, arguments);
     }
     return BB.prototype.bar = function() {}, BB;
 }(AA), CC = function(BB) {
     "use strict";
-    swcHelpers.inherits(CC, BB);
-    var _super = swcHelpers.createSuper(CC);
+    _inherits(CC, BB);
+    var _super = _create_super(CC);
     function CC() {
-        return swcHelpers.classCallCheck(this, CC), _super.apply(this, arguments);
+        return _class_call_check(this, CC), _super.apply(this, arguments);
     }
     return CC;
 }(BB), DD = function(BB) {
     "use strict";
-    swcHelpers.inherits(DD, BB);
-    var _super = swcHelpers.createSuper(DD);
+    _inherits(DD, BB);
+    var _super = _create_super(DD);
     function DD() {
-        return swcHelpers.classCallCheck(this, DD), _super.apply(this, arguments);
+        return _class_call_check(this, DD), _super.apply(this, arguments);
     }
     return DD.prototype.foo = function() {}, DD;
 }(BB);

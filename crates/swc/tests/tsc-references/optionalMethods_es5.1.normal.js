@@ -1,4 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 function test1(x) {
     x.a;
     x.b;
@@ -12,7 +14,7 @@ var Bar = /*#__PURE__*/ function() {
     "use strict";
     function Bar(d) {
         var e = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 10;
-        swcHelpers.classCallCheck(this, Bar);
+        _class_call_check(this, Bar);
         this.d = d;
         this.e = e;
         this.c = 2;
@@ -42,14 +44,14 @@ function test2(x) {
 }
 var Base = function Base() {
     "use strict";
-    swcHelpers.classCallCheck(this, Base);
+    _class_call_check(this, Base);
 };
 var Derived = /*#__PURE__*/ function(Base) {
     "use strict";
-    swcHelpers.inherits(Derived, Base);
-    var _super = swcHelpers.createSuper(Derived);
+    _inherits(Derived, Base);
+    var _super = _create_super(Derived);
     function Derived() {
-        swcHelpers.classCallCheck(this, Derived);
+        _class_call_check(this, Derived);
         var _this;
         _this = _super.apply(this, arguments);
         _this.a = 1;

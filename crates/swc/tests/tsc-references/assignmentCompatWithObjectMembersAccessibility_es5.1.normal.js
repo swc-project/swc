@@ -1,11 +1,11 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // members N and M of types S and T have the same name, same accessibility, same optionality, and N is assignable M
 var TargetIsPublic;
 (function(TargetIsPublic) {
     // targets
     var Base = function Base() {
         "use strict";
-        swcHelpers.classCallCheck(this, Base);
+        _class_call_check(this, Base);
     };
     var a;
     var b;
@@ -13,11 +13,11 @@ var TargetIsPublic;
     // sources
     var D = function D() {
         "use strict";
-        swcHelpers.classCallCheck(this, D);
+        _class_call_check(this, D);
     };
     var E = function E() {
         "use strict";
-        swcHelpers.classCallCheck(this, E);
+        _class_call_check(this, E);
     };
     var d;
     var e;
@@ -47,7 +47,7 @@ var TargetIsPublic;
     // targets
     var Base = function Base() {
         "use strict";
-        swcHelpers.classCallCheck(this, Base);
+        _class_call_check(this, Base);
     };
     var a;
     var b;
@@ -55,11 +55,11 @@ var TargetIsPublic;
     // sources
     var D = function D() {
         "use strict";
-        swcHelpers.classCallCheck(this, D);
+        _class_call_check(this, D);
     };
     var E = function E() {
         "use strict";
-        swcHelpers.classCallCheck(this, E);
+        _class_call_check(this, E);
     };
     var d;
     var e;

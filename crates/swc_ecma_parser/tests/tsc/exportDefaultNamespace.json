@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 23,
-    "end": 109,
+    "start": 24,
+    "end": 110,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDefaultDeclaration",
       "span": {
-        "start": 23,
-        "end": 82,
+        "start": 24,
+        "end": 83,
         "ctxt": 0
       },
       "decl": {
@@ -18,8 +18,8 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 47,
-            "end": 55,
+            "start": 48,
+            "end": 56,
             "ctxt": 0
           },
           "value": "someFunc",
@@ -28,30 +28,30 @@
         "params": [],
         "decorators": [],
         "span": {
-          "start": 38,
-          "end": 82,
+          "start": 39,
+          "end": 83,
           "ctxt": 0
         },
         "body": {
           "type": "BlockStatement",
           "span": {
-            "start": 58,
-            "end": 82,
+            "start": 59,
+            "end": 83,
             "ctxt": 0
           },
           "stmts": [
             {
               "type": "ReturnStatement",
               "span": {
-                "start": 64,
-                "end": 80,
+                "start": 65,
+                "end": 81,
                 "ctxt": 0
               },
               "argument": {
                 "type": "StringLiteral",
                 "span": {
-                  "start": 71,
-                  "end": 79,
+                  "start": 72,
+                  "end": 80,
                   "ctxt": 0
                 },
                 "value": "hello!",
@@ -69,30 +69,30 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 84,
-        "end": 109,
+        "start": 85,
+        "end": 110,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 84,
-          "end": 108,
+          "start": 85,
+          "end": 109,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
-            "start": 84,
-            "end": 101,
+            "start": 85,
+            "end": 102,
             "ctxt": 0
           },
           "object": {
             "type": "Identifier",
             "span": {
-              "start": 84,
-              "end": 92,
+              "start": 85,
+              "end": 93,
               "ctxt": 0
             },
             "value": "someFunc",
@@ -101,8 +101,8 @@
           "property": {
             "type": "Identifier",
             "span": {
-              "start": 93,
-              "end": 101,
+              "start": 94,
+              "end": 102,
               "ctxt": 0
             },
             "value": "someProp",
@@ -112,8 +112,8 @@
         "right": {
           "type": "StringLiteral",
           "span": {
-            "start": 104,
-            "end": 108,
+            "start": 105,
+            "end": 109,
             "ctxt": 0
           },
           "value": "yo",

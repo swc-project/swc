@@ -82,9 +82,9 @@
     `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/class/input.html:1:1]
- 1 | <!doctype html>
-   : ^
+   ,-[$DIR/tests/fixture/attribute/class/input.html:2:1]
+ 2 | <html lang="en">
+   :       ^^^^^^^^^
    `----
 
   x Child
@@ -227,6 +227,12 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/class/input.html:7:5]
+ 7 | <a class="0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z"></a>
+   :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
   x Child
    ,-[$DIR/tests/fixture/attribute/class/input.html:7:5]
  7 | ,-> <a class="0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z"></a>
@@ -249,6 +255,12 @@
    ,-[$DIR/tests/fixture/attribute/class/input.html:8:5]
  8 | <a class="add sort keys createSorter"></a>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/class/input.html:8:5]
+ 8 | <a class="add sort keys createSorter"></a>
+   :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -275,6 +287,12 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
+  x Attribute
+   ,-[$DIR/tests/fixture/attribute/class/input.html:9:5]
+ 9 | <span class="sprite sprite-{{sprite}}"></span>
+   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
   x Child
     ,-[$DIR/tests/fixture/attribute/class/input.html:9:5]
   9 | ,-> <span class="sprite sprite-{{sprite}}"></span>
@@ -297,6 +315,12 @@
     ,-[$DIR/tests/fixture/attribute/class/input.html:10:5]
  10 | <span class="{{sprite}}-sprite sprite"></span>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/attribute/class/input.html:10:5]
+ 10 | <span class="{{sprite}}-sprite sprite"></span>
+    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -323,6 +347,12 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
+  x Attribute
+    ,-[$DIR/tests/fixture/attribute/class/input.html:11:5]
+ 11 | <span class="sprite-{{sprite}}-sprite"></span>
+    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
   x Child
     ,-[$DIR/tests/fixture/attribute/class/input.html:11:5]
  11 | ,-> <span class="sprite-{{sprite}}-sprite"></span>
@@ -345,6 +375,12 @@
     ,-[$DIR/tests/fixture/attribute/class/input.html:12:5]
  12 | <span class="{{sprite}}"></span>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/attribute/class/input.html:12:5]
+ 12 | <span class="{{sprite}}"></span>
+    :       ^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -371,6 +407,12 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
+  x Attribute
+    ,-[$DIR/tests/fixture/attribute/class/input.html:13:5]
+ 13 | <span class={{sprite}}></span>
+    :       ^^^^^^^^^^^^^^^^
+    `----
+
   x Child
     ,-[$DIR/tests/fixture/attribute/class/input.html:13:5]
  13 | ,-> <span class={{sprite}}></span>
@@ -393,6 +435,12 @@
     ,-[$DIR/tests/fixture/attribute/class/input.html:14:5]
  14 | <div class></div>
     : ^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/attribute/class/input.html:14:5]
+ 14 | <div class></div>
+    :      ^^^^^
     `----
 
   x Child
@@ -419,6 +467,12 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
+  x Attribute
+    ,-[$DIR/tests/fixture/attribute/class/input.html:15:5]
+ 15 | <div class="nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar"></div>
+    :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
   x Child
     ,-[$DIR/tests/fixture/attribute/class/input.html:15:5]
  15 | ,-> <div class="nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar"></div>
@@ -441,6 +495,12 @@
     ,-[$DIR/tests/fixture/attribute/class/input.html:16:5]
  16 | <a class="moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"></a>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/attribute/class/input.html:16:5]
+ 16 | <a class="moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"></a>
+    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -467,6 +527,12 @@
     : ^^^^^^^^^^^^^^^
     `----
 
+  x Attribute
+    ,-[$DIR/tests/fixture/attribute/class/input.html:17:5]
+ 17 | <div class="="></div>
+    :      ^^^^^^^^^
+    `----
+
   x Child
     ,-[$DIR/tests/fixture/attribute/class/input.html:17:5]
  17 | ,-> <div class="="></div>
@@ -489,6 +555,12 @@
     ,-[$DIR/tests/fixture/attribute/class/input.html:18:5]
  18 | <div class="= = = ="></div>
     : ^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/attribute/class/input.html:18:5]
+ 18 | <div class="= = = ="></div>
+    :      ^^^^^^^^^^^^^^^
     `----
 
   x Child

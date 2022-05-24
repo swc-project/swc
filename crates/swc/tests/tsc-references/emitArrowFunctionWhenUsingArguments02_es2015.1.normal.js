@@ -1,3 +1,2 @@
 // @target: es5
-var a = ()=>arguments
-;
+var a = ()=>arguments;

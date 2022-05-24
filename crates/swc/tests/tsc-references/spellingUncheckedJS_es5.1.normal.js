@@ -1,4 +1,8 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _get from "@swc/helpers/lib/_get.js";
+import _get_prototype_of from "@swc/helpers/lib/_get_prototype_of.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 // @noEmit: true
 // @allowJs: true
 // @filename: spellingUncheckedJS.js
@@ -15,7 +19,7 @@ function f() {
 var Classe = /*#__PURE__*/ function() {
     "use strict";
     function Classe() {
-        swcHelpers.classCallCheck(this, Classe);
+        _class_call_check(this, Classe);
         this.non = "oui";
     }
     var _proto = Classe.prototype;
@@ -27,16 +31,16 @@ var Classe = /*#__PURE__*/ function() {
 }();
 var Derivee = /*#__PURE__*/ function(Classe) {
     "use strict";
-    swcHelpers.inherits(Derivee, Classe);
-    var _super = swcHelpers.createSuper(Derivee);
+    _inherits(Derivee, Classe);
+    var _super = _create_super(Derivee);
     function Derivee() {
-        swcHelpers.classCallCheck(this, Derivee);
+        _class_call_check(this, Derivee);
         return _super.apply(this, arguments);
     }
     var _proto = Derivee.prototype;
     _proto.methode = function methode() {
         // no error on 'super' references
-        return swcHelpers.get(swcHelpers.getPrototypeOf(Derivee.prototype), "none", this);
+        return _get(_get_prototype_of(Derivee.prototype), "none", this);
     };
     return Derivee;
 }(Classe);

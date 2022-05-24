@@ -1,14 +1,14 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 //@target: ES6
 var Foo = function Foo() {
     "use strict";
-    swcHelpers.classCallCheck(this, Foo);
+    _class_call_check(this, Foo);
 };
 var _iterator = Symbol.iterator;
 var FooIterator = /*#__PURE__*/ function() {
     "use strict";
     function FooIterator() {
-        swcHelpers.classCallCheck(this, FooIterator);
+        _class_call_check(this, FooIterator);
     }
     var _proto = FooIterator.prototype;
     _proto.next = function next() {

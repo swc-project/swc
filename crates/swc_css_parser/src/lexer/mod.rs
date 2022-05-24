@@ -1014,12 +1014,12 @@ where
             Some('+') | Some('-') => {
                 match maybe_second.or_else(|| self.next()) {
                     // If the second code point is a digit, return true.
-                    Some(second) if second.is_digit(10) => return Ok(true),
+                    Some(second) if second.is_ascii_digit() => return Ok(true),
                     // Otherwise, if the second code point is a U+002E FULL STOP (.) and the
                     // third code point is a digit, return true.
                     Some('.') => {
                         if let Some(third) = maybe_third.or_else(|| self.next_next()) {
-                            if third.is_digit(10) {
+                            if third.is_ascii_digit() {
                                 return Ok(true);
                             }
                         }
@@ -1034,7 +1034,7 @@ where
             Some('.') => {
                 // If the second code point is a digit, return true.
                 if let Some(second) = self.next() {
-                    if second.is_digit(10) {
+                    if second.is_ascii_digit() {
                         return Ok(true);
                     }
                 }
@@ -1044,7 +1044,7 @@ where
             }
             // digit
             // Return true.
-            Some(first) if first.is_digit(10) => Ok(true),
+            Some(first) if first.is_ascii_digit() => Ok(true),
             // anything else
             // Return false.
             _ => Ok(false),
@@ -1112,7 +1112,7 @@ where
 
         // While the next input code point is a digit, consume it and append it to repr.
         while let Some(c) = self.next() {
-            if c.is_digit(10) {
+            if c.is_ascii_digit() {
                 self.consume();
 
                 repr.push(c);
@@ -1127,7 +1127,7 @@ where
 
         if next == Some('.') {
             if let Some(n) = self.next_next() {
-                if n.is_digit(10) {
+                if n.is_ascii_digit() {
                     // Consume them.
                     self.consume();
                     self.consume();
@@ -1142,7 +1142,7 @@ where
                     // While the next input code point is a digit, consume it and append it to
                     // repr.
                     while let Some(c) = self.next() {
-                        if c.is_digit(10) {
+                        if c.is_ascii_digit() {
                             self.consume();
 
                             repr.push(c);
@@ -1166,8 +1166,8 @@ where
             if (next_next == Some('-')
                 || next_next == Some('+')
                     && next_next_next.is_some()
-                    && next_next_next.unwrap().is_digit(10))
-                || next_next.is_some() && next_next.unwrap().is_digit(10)
+                    && next_next_next.unwrap().is_ascii_digit())
+                || next_next.is_some() && next_next.unwrap().is_ascii_digit()
             {
                 // Consume them.
                 self.consume();
@@ -1183,7 +1183,7 @@ where
                 // While the next input code point is a digit, consume it and append it
                 // to repr.
                 while let Some(c) = self.next() {
-                    if c.is_digit(10) {
+                    if c.is_ascii_digit() {
                         self.consume();
 
                         repr.push(c);
@@ -1253,7 +1253,7 @@ where
 
 #[inline(always)]
 fn is_digit(c: char) -> bool {
-    c.is_digit(10)
+    c.is_ascii_digit()
 }
 
 #[inline(always)]
@@ -1293,7 +1293,7 @@ fn is_name_start(c: char) -> bool {
 
 #[inline(always)]
 fn is_name(c: char) -> bool {
-    is_name_start(c) || matches!(c, c if c.is_digit(10) || c == '-')
+    is_name_start(c) || matches!(c, c if c.is_ascii_digit() || c == '-')
 }
 
 #[inline(always)]

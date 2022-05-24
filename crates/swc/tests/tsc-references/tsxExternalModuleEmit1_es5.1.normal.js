@@ -1,14 +1,16 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 //@filename: app.tsx
 import * as React from "react";
 //@filename: button.tsx
 import * as React from "react";
 export var App = /*#__PURE__*/ function(_Component) {
     "use strict";
-    swcHelpers.inherits(App, _Component);
-    var _super = swcHelpers.createSuper(App);
+    _inherits(App, _Component);
+    var _super = _create_super(App);
     function App() {
-        swcHelpers.classCallCheck(this, App);
+        _class_call_check(this, App);
         return _super.apply(this, arguments);
     }
     var _proto = App.prototype;
@@ -19,10 +21,10 @@ export var App = /*#__PURE__*/ function(_Component) {
 }(React.Component);
 export var Button = /*#__PURE__*/ function(_Component) {
     "use strict";
-    swcHelpers.inherits(Button, _Component);
-    var _super = swcHelpers.createSuper(Button);
+    _inherits(Button, _Component);
+    var _super = _create_super(Button);
     function Button() {
-        swcHelpers.classCallCheck(this, Button);
+        _class_call_check(this, Button);
         return _super.apply(this, arguments);
     }
     var _proto = Button.prototype;

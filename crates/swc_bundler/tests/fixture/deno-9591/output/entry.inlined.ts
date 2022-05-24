@@ -32,8 +32,7 @@ function hasKey(obj, keys) {
     const key1 = keys[keys.length - 1];
     return key1 in o;
 }
-function parse(args, { "--": doubleDash = false , alias: alias3 = {} , boolean: __boolean = false , default: defaults = {} , stopEarly =false , string =[] , unknown =(i1)=>i1
-  } = {}) {
+function parse(args, { "--": doubleDash = false , alias: alias3 = {} , boolean: __boolean = false , default: defaults = {} , stopEarly =false , string =[] , unknown =(i1)=>i1  } = {}) {
     const flags = {
         bools: {},
         strings: {},
@@ -66,8 +65,7 @@ function parse(args, { "--": doubleDash = false , alias: alias3 = {} , boolean: 
             for (const alias1 of getForce(aliases, key)){
                 aliases[alias1] = [
                     key
-                ].concat(aliases[key].filter((y)=>alias1 !== y
-                ));
+                ].concat(aliases[key].filter((y)=>alias1 !== y));
             }
         }
     }
@@ -125,8 +123,7 @@ function parse(args, { "--": doubleDash = false , alias: alias3 = {} , boolean: 
         }
     }
     function aliasIsBoolean(key) {
-        return getForce(aliases, key).some((x)=>typeof get(flags.bools, x) === "boolean"
-        );
+        return getForce(aliases, key).some((x)=>typeof get(flags.bools, x) === "boolean");
     }
     for (const key3 of Object.keys(flags.bools)){
         setArg(key3, defaults[key3] === undefined ? false : defaults[key3]);
@@ -1623,8 +1620,7 @@ var LogLevels;
     LogLevels1[LogLevels1["ERROR"] = 40] = "ERROR";
     LogLevels1[LogLevels1["CRITICAL"] = 50] = "CRITICAL";
 })(LogLevels || (LogLevels = {}));
-Object.keys(LogLevels).filter((key)=>isNaN(Number(key))
-);
+Object.keys(LogLevels).filter((key)=>isNaN(Number(key)));
 const byLevel = {
     [String(LogLevels.NOTSET)]: "NOTSET",
     [String(LogLevels.DEBUG)]: "DEBUG",
@@ -2235,8 +2231,7 @@ class WriterHandler extends BaseHandler {
 }
 class FileHandler extends WriterHandler {
     _encoder = new TextEncoder();
-    #unloadCallback = ()=>this.destroy()
-    ;
+    #unloadCallback = ()=>this.destroy();
     constructor(levelName, options){
         super(levelName, options);
         this._filename = options.filename;
@@ -2521,8 +2516,7 @@ function isSubdir(src2, dest, sep6 = sep2) {
     }
     const srcArray = src2.split(sep6);
     const destArray = dest.split(sep6);
-    return srcArray.every((current, i25)=>destArray[i25] === current
-    );
+    return srcArray.every((current, i25)=>destArray[i25] === current);
 }
 function getFileInfoType(fileInfo) {
     return fileInfo.isFile ? "file" : fileInfo.isDirectory ? "dir" : fileInfo.isSymlink ? "symlink" : undefined;
@@ -2678,16 +2672,13 @@ async function _createWalkEntry(path27) {
     };
 }
 function include(path28, exts, match, skip) {
-    if (exts && !exts.some((ext)=>path28.endsWith(ext)
-    )) {
+    if (exts && !exts.some((ext)=>path28.endsWith(ext))) {
         return false;
     }
-    if (match && !match.some((pattern)=>!!path28.match(pattern)
-    )) {
+    if (match && !match.some((pattern)=>!!path28.match(pattern))) {
         return false;
     }
-    if (skip && skip.some((pattern)=>!!path28.match(pattern)
-    )) {
+    if (skip && skip.some((pattern)=>!!path28.match(pattern))) {
         return false;
     }
     return true;
@@ -2806,13 +2797,9 @@ async function* expandGlob(glob, { root =Deno.cwd() , exclude =[] , includeDirs 
     const resolveFromRoot = (path32)=>isAbsolute2(path32) ? normalize2(path32) : joinGlobs([
             absRoot,
             path32
-        ], globOptions)
-    ;
-    const excludePatterns = exclude.map(resolveFromRoot).map((s)=>globToRegExp(s, globOptions)
-    );
-    const shouldInclude = (path33)=>!excludePatterns.some((p)=>!!path33.match(p)
-        )
-    ;
+        ], globOptions);
+    const excludePatterns = exclude.map(resolveFromRoot).map((s)=>globToRegExp(s, globOptions));
+    const shouldInclude = (path33)=>!excludePatterns.some((p)=>!!path33.match(p));
     const { segments , hasTrailingSep , winRoot  } = split(resolveFromRoot(glob));
     let fixedRoot = winRoot != undefined ? winRoot : "/";
     while(segments.length > 0 && !isGlob(segments[0])){
@@ -2877,12 +2864,10 @@ async function* expandGlob(glob, { root =Deno.cwd() , exclude =[] , includeDirs 
         ].sort(comparePath);
     }
     if (hasTrailingSep) {
-        currentMatches = currentMatches.filter((entry)=>entry.isDirectory
-        );
+        currentMatches = currentMatches.filter((entry)=>entry.isDirectory);
     }
     if (!includeDirs) {
-        currentMatches = currentMatches.filter((entry)=>!entry.isDirectory
-        );
+        currentMatches = currentMatches.filter((entry)=>!entry.isDirectory);
     }
     yield* currentMatches;
 }
@@ -2898,13 +2883,9 @@ function* expandGlobSync(glob, { root =Deno.cwd() , exclude =[] , includeDirs =t
     const resolveFromRoot = (path34)=>isAbsolute2(path34) ? normalize2(path34) : joinGlobs([
             absRoot,
             path34
-        ], globOptions)
-    ;
-    const excludePatterns = exclude.map(resolveFromRoot).map((s)=>globToRegExp(s, globOptions)
-    );
-    const shouldInclude = (path35)=>!excludePatterns.some((p)=>!!path35.match(p)
-        )
-    ;
+        ], globOptions);
+    const excludePatterns = exclude.map(resolveFromRoot).map((s)=>globToRegExp(s, globOptions));
+    const shouldInclude = (path35)=>!excludePatterns.some((p)=>!!path35.match(p));
     const { segments , hasTrailingSep , winRoot  } = split(resolveFromRoot(glob));
     let fixedRoot = winRoot != undefined ? winRoot : "/";
     while(segments.length > 0 && !isGlob(segments[0])){
@@ -2969,12 +2950,10 @@ function* expandGlobSync(glob, { root =Deno.cwd() , exclude =[] , includeDirs =t
         ].sort(comparePath);
     }
     if (hasTrailingSep) {
-        currentMatches = currentMatches.filter((entry)=>entry.isDirectory
-        );
+        currentMatches = currentMatches.filter((entry)=>entry.isDirectory);
     }
     if (!includeDirs) {
-        currentMatches = currentMatches.filter((entry)=>!entry.isDirectory
-        );
+        currentMatches = currentMatches.filter((entry)=>!entry.isDirectory);
     }
     yield* currentMatches;
 }
@@ -3204,8 +3183,7 @@ function detect(content) {
     if (!d || d.length === 0) {
         return null;
     }
-    const crlf = d.filter((x)=>x === EOL.CRLF
-    );
+    const crlf = d.filter((x)=>x === EOL.CRLF);
     if (crlf.length > 0) {
         return EOL.CRLF;
     } else {
@@ -4188,8 +4166,7 @@ class Range {
         this.loose = !!optionsOrLoose.loose;
         this.includePrerelease = !!optionsOrLoose.includePrerelease;
         this.raw = range1;
-        this.set = range1.split(/\s*\|\|\s*/).map((range)=>this.parseRange(range.trim())
-        ).filter((c)=>{
+        this.set = range1.split(/\s*\|\|\s*/).map((range)=>this.parseRange(range.trim())).filter((c)=>{
             return c.length;
         });
         if (!this.set.length) {
@@ -4198,8 +4175,7 @@ class Range {
         this.format();
     }
     format() {
-        this.range = this.set.map((comps)=>comps.join(" ").trim()
-        ).join("||").trim();
+        this.range = this.set.map((comps)=>comps.join(" ").trim()).join("||").trim();
         return this.range;
     }
     parseRange(range) {
@@ -4212,15 +4188,13 @@ class Range {
         range = range.replace(re[CARETTRIM], caretTrimReplace);
         range = range.split(/\s+/).join(" ");
         const compRe = loose ? re[COMPARATORLOOSE] : re[COMPARATOR];
-        let set = range.split(" ").map((comp)=>parseComparator(comp, this.options)
-        ).join(" ").split(/\s+/);
+        let set = range.split(" ").map((comp)=>parseComparator(comp, this.options)).join(" ").split(/\s+/);
         if (this.options.loose) {
             set = set.filter((comp)=>{
                 return !!comp.match(compRe);
             });
         }
-        return set.map((comp)=>new Comparator(comp, this.options)
-        );
+        return set.map((comp)=>new Comparator(comp, this.options));
     }
     test(version7) {
         if (typeof version7 === "string") {
@@ -4287,8 +4261,7 @@ function isSatisfiable(comparators, options) {
 }
 function toComparators(range, optionsOrLoose) {
     return new Range(range, optionsOrLoose).set.map((comp)=>{
-        return comp.map((c)=>c.value
-        ).join(" ").trim().split(" ");
+        return comp.map((c)=>c.value).join(" ").trim().split(" ");
     });
 }
 function parseComparator(comp, options) {
@@ -4302,8 +4275,7 @@ function isX(id) {
     return !id || id.toLowerCase() === "x" || id === "*";
 }
 function replaceTildes(comp1, options) {
-    return comp1.trim().split(/\s+/).map((comp)=>replaceTilde(comp, options)
-    ).join(" ");
+    return comp1.trim().split(/\s+/).map((comp)=>replaceTilde(comp, options)).join(" ");
 }
 function replaceTilde(comp, options) {
     const r = options.loose ? re[TILDELOOSE] : re[TILDE];
@@ -4324,8 +4296,7 @@ function replaceTilde(comp, options) {
     });
 }
 function replaceCarets(comp2, options) {
-    return comp2.trim().split(/\s+/).map((comp)=>replaceCaret(comp, options)
-    ).join(" ");
+    return comp2.trim().split(/\s+/).map((comp)=>replaceCaret(comp, options)).join(" ");
 }
 function replaceCaret(comp, options) {
     const r = options.loose ? re[CARETLOOSE] : re[CARET];
@@ -4366,8 +4337,7 @@ function replaceCaret(comp, options) {
     });
 }
 function replaceXRanges(comp3, options) {
-    return comp3.split(/\s+/).map((comp)=>replaceXRange(comp, options)
-    ).join(" ");
+    return comp3.split(/\s+/).map((comp)=>replaceXRange(comp, options)).join(" ");
 }
 function replaceXRange(comp, options) {
     comp = comp.trim();
@@ -5058,50 +5028,35 @@ function buildJsonBinding(dresolver, texpr, boundTypeParams) {
 }
 function primitiveJsonBinding(dresolver, ptype, params, boundTypeParams) {
     if (ptype === "String") {
-        return identityJsonBinding("a string", (v)=>typeof v === 'string'
-        );
+        return identityJsonBinding("a string", (v)=>typeof v === 'string');
     } else if (ptype === "Int8") {
-        return identityJsonBinding("a number", (v)=>typeof v === 'number'
-        );
+        return identityJsonBinding("a number", (v)=>typeof v === 'number');
     } else if (ptype === "Void") {
-        return identityJsonBinding("a null", (v)=>v === null
-        );
+        return identityJsonBinding("a null", (v)=>v === null);
     } else if (ptype === "Bool") {
-        return identityJsonBinding("a bool", (v)=>typeof v === 'boolean'
-        );
+        return identityJsonBinding("a bool", (v)=>typeof v === 'boolean');
     } else if (ptype === "Int8") {
-        return identityJsonBinding("a number", (v)=>typeof v === 'number'
-        );
+        return identityJsonBinding("a number", (v)=>typeof v === 'number');
     } else if (ptype === "Int16") {
-        return identityJsonBinding("a number", (v)=>typeof v === 'number'
-        );
+        return identityJsonBinding("a number", (v)=>typeof v === 'number');
     } else if (ptype === "Int32") {
-        return identityJsonBinding("a number", (v)=>typeof v === 'number'
-        );
+        return identityJsonBinding("a number", (v)=>typeof v === 'number');
     } else if (ptype === "Int64") {
-        return identityJsonBinding("a number", (v)=>typeof v === 'number'
-        );
+        return identityJsonBinding("a number", (v)=>typeof v === 'number');
     } else if (ptype === "Word8") {
-        return identityJsonBinding("a number", (v)=>typeof v === 'number'
-        );
+        return identityJsonBinding("a number", (v)=>typeof v === 'number');
     } else if (ptype === "Word16") {
-        return identityJsonBinding("a number", (v)=>typeof v === 'number'
-        );
+        return identityJsonBinding("a number", (v)=>typeof v === 'number');
     } else if (ptype === "Word32") {
-        return identityJsonBinding("a number", (v)=>typeof v === 'number'
-        );
+        return identityJsonBinding("a number", (v)=>typeof v === 'number');
     } else if (ptype === "Word64") {
-        return identityJsonBinding("a number", (v)=>typeof v === 'number'
-        );
+        return identityJsonBinding("a number", (v)=>typeof v === 'number');
     } else if (ptype === "Float") {
-        return identityJsonBinding("a number", (v)=>typeof v === 'number'
-        );
+        return identityJsonBinding("a number", (v)=>typeof v === 'number');
     } else if (ptype === "Double") {
-        return identityJsonBinding("a number", (v)=>typeof v === 'number'
-        );
+        return identityJsonBinding("a number", (v)=>typeof v === 'number');
     } else if (ptype === "Json") {
-        return identityJsonBinding("a json value", (_v)=>true
-        );
+        return identityJsonBinding("a json value", (_v)=>true);
     } else if (ptype === "Bytes") {
         return bytesJsonBinding();
     } else if (ptype === "Vector") {
@@ -5143,8 +5098,7 @@ function bytesJsonBinding() {
     };
 }
 function vectorJsonBinding(dresolver, texpr, boundTypeParams) {
-    const elementBinding = once(()=>buildJsonBinding(dresolver, texpr, boundTypeParams)
-    );
+    const elementBinding = once(()=>buildJsonBinding(dresolver, texpr, boundTypeParams));
     function toJson(v) {
         return v.map(elementBinding().toJson);
     }
@@ -5172,8 +5126,7 @@ function vectorJsonBinding(dresolver, texpr, boundTypeParams) {
     };
 }
 function stringMapJsonBinding(dresolver, texpr, boundTypeParams) {
-    const elementBinding = once(()=>buildJsonBinding(dresolver, texpr, boundTypeParams)
-    );
+    const elementBinding = once(()=>buildJsonBinding(dresolver, texpr, boundTypeParams));
     function toJson(v) {
         const result = {};
         for(let k in v){
@@ -5204,8 +5157,7 @@ function stringMapJsonBinding(dresolver, texpr, boundTypeParams) {
     };
 }
 function nullableJsonBinding(dresolver, texpr, boundTypeParams) {
-    const elementBinding = once(()=>buildJsonBinding(dresolver, texpr, boundTypeParams)
-    );
+    const elementBinding = once(()=>buildJsonBinding(dresolver, texpr, boundTypeParams));
     function toJson(v) {
         if (v === null) {
             return null;
@@ -5239,8 +5191,7 @@ function structJsonBinding(dresolver, struct, params, boundTypeParams) {
         });
         fieldDetails.push({
             field: field,
-            jsonBinding: once(()=>buildJsonBinding(dresolver, field.typeExpr, newBoundTypeParams)
-            ),
+            jsonBinding: once(()=>buildJsonBinding(dresolver, field.typeExpr, newBoundTypeParams)),
             buildDefault: buildDefault
         });
     });
@@ -5317,8 +5268,7 @@ function unionJsonBinding(dresolver, union, params, boundTypeParams) {
         const details = {
             field: field,
             isVoid: isVoid(field.typeExpr),
-            jsonBinding: once(()=>buildJsonBinding(dresolver, field.typeExpr, newBoundTypeParams)
-            )
+            jsonBinding: once(()=>buildJsonBinding(dresolver, field.typeExpr, newBoundTypeParams))
         };
         detailsByName[field.name] = details;
         detailsBySerializedName[field.serializedName] = details;
@@ -5814,35 +5764,29 @@ class ADLMap {
         return this;
     }
     keys() {
-        return this.data.map((p)=>p.v1
-        );
+        return this.data.map((p)=>p.v1);
     }
     values() {
-        return this.data.map((p)=>p.v2
-        );
+        return this.data.map((p)=>p.v2);
     }
     entries() {
         return this.data.map((p)=>[
                 p.v1,
                 p.v2
-            ]
-        );
+            ]);
     }
     toData() {
         return this.data;
     }
     findIndex(k) {
-        return this.data.findIndex((p)=>this.isEqual(p.v1, k)
-        );
+        return this.data.findIndex((p)=>this.isEqual(p.v1, k));
     }
 }
 class TaskManifest {
     lastExecution = null;
-    trackedFiles = new ADLMap([], (k1, k2)=>k1 === k2
-    );
+    trackedFiles = new ADLMap([], (k1, k2)=>k1 === k2);
     constructor(data){
-        this.trackedFiles = new ADLMap(data.trackedFiles, (k1, k2)=>k1 === k2
-        );
+        this.trackedFiles = new ADLMap(data.trackedFiles, (k1, k2)=>k1 === k2);
         this.lastExecution = data.lastExecution;
     }
     getFileData(fn) {
@@ -5989,11 +5933,8 @@ class Task {
         ctx.inprogressTasks.delete(this);
     }
     async targetsExist(ctx) {
-        const tex = await Promise.all(Array.from(this.targets).map(async (tf)=>ctx.asyncQueue.schedule(()=>tf.exists()
-            )
-        ));
-        return !tex.some((t)=>!t
-        );
+        const tex = await Promise.all(Array.from(this.targets).map(async (tf)=>ctx.asyncQueue.schedule(()=>tf.exists())));
+        return !tex.some((t)=>!t);
     }
     async checkFileDeps(ctx) {
         let fileDepsUpToDate = true;

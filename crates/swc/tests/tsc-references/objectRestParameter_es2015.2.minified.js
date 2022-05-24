@@ -1,13 +1,13 @@
-import * as swcHelpers from "@swc/helpers";
+import _object_without_properties from "@swc/helpers/lib/_object_without_properties.js";
 function foobar(_param = {}) {
     var { bar ={}  } = _param;
-    swcHelpers.objectWithoutProperties(_param, [
+    _object_without_properties(_param, [
         "bar"
     ]);
 }
 suddenly((_param)=>{
     var { x: a  } = _param;
-    return swcHelpers.objectWithoutProperties(_param, [
+    return _object_without_properties(_param, [
         "x"
     ]).y;
 }), suddenly((_param = {
@@ -17,9 +17,9 @@ suddenly((_param)=>{
     },
     y: 'noo'
 })=>{
-    var { x: { z =12  }  } = _param, nested = swcHelpers.objectWithoutProperties(_param.x, [
+    var { x: { z =12  }  } = _param, nested = _object_without_properties(_param.x, [
         "z"
-    ]), rest = swcHelpers.objectWithoutProperties(_param, [
+    ]), rest = _object_without_properties(_param, [
         "x"
     ]);
     return rest.y + nested.ka;

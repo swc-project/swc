@@ -1,11 +1,13 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 // @target: es6
 var C = /*#__PURE__*/ function(_superClass) {
     "use strict";
-    swcHelpers.inherits(_class, _superClass);
-    var _super = swcHelpers.createSuper(_class);
+    _inherits(_class, _superClass);
+    var _super = _create_super(_class);
     function _class() {
-        swcHelpers.classCallCheck(this, _class);
+        _class_call_check(this, _class);
         var _this;
         _this = _super.apply(this, arguments);
         _this.c = 3;
@@ -14,10 +16,10 @@ var C = /*#__PURE__*/ function(_superClass) {
     return _class;
 }(/*#__PURE__*/ function(_superClass) {
     "use strict";
-    swcHelpers.inherits(_class, _superClass);
-    var _super = swcHelpers.createSuper(_class);
+    _inherits(_class, _superClass);
+    var _super = _create_super(_class);
     function _class() {
-        swcHelpers.classCallCheck(this, _class);
+        _class_call_check(this, _class);
         var _this;
         _this = _super.apply(this, arguments);
         _this.b = 2;
@@ -26,7 +28,7 @@ var C = /*#__PURE__*/ function(_superClass) {
     return _class;
 }(function _class() {
     "use strict";
-    swcHelpers.classCallCheck(this, _class);
+    _class_call_check(this, _class);
     this.a = 1;
 }));
 var c = new C();

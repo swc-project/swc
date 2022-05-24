@@ -41,8 +41,7 @@ var anObjectLiteral = {
 var anOtherObjectLiteral = new C();
 var aFunction = F2;
 var anOtherFunction = F2;
-var aLambda = (x)=>'a string'
-;
+var aLambda = (x)=>'a string';
 var aModule = N;
 var aClassInModule = new N.A();
 var aFunctionInModule = F2;

@@ -2,13 +2,13 @@
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), exports.default = void 0;
-var c = require("@swc/helpers"), e = require("react/jsx-runtime"), d = c.interopRequireWildcard(require("react")), a = c.interopRequireDefault(require("prop-types")), b = function(d) {
+var f = require("@swc/helpers/lib/_class_call_check.js").default, g = require("@swc/helpers/lib/_inherits.js").default, c = require("@swc/helpers/lib/_interop_require_default.js").default, d = require("@swc/helpers/lib/_interop_require_wildcard.js").default, h = require("@swc/helpers/lib/_object_spread.js").default, i = require("@swc/helpers/lib/_create_super.js").default, j = require("react/jsx-runtime"), e = d(require("react")), a = c(require("prop-types")), b = function(c) {
     "use strict";
-    c.inherits(b, d);
-    var f = c.createSuper(b);
+    g(b, c);
+    var d = i(b);
     function b() {
         var a;
-        return c.classCallCheck(this, b), a = f.apply(this, arguments), a.storeHighlightedItemReference = function(b) {
+        return f(this, b), a = d.apply(this, arguments), a.storeHighlightedItemReference = function(b) {
             a.props.onHighlightedItemChange(null === b ? null : b.item);
         }, a;
     }
@@ -16,21 +16,21 @@ var c = require("@swc/helpers"), e = require("react/jsx-runtime"), d = c.interop
     return a.shouldComponentUpdate = function(a) {
         return !0;
     }, a.render = function() {
-        var j = this, a = this.props, f = a.items, g = a.itemProps, k = a.renderItem, l = a.renderItemData, b = a.sectionIndex, m = a.highlightedItemIndex, n = a.getItemId, h = a.theme, d = a.keyPrefix, i = null === b ? d : "".concat(d, "section-").concat(b, "-"), o = "function" == typeof g;
-        return e.jsx("ul", c.objectSpread({
+        var i = this, a = this.props, d = a.items, e = a.itemProps, k = a.renderItem, l = a.renderItemData, b = a.sectionIndex, m = a.highlightedItemIndex, n = a.getItemId, f = a.theme, c = a.keyPrefix, g = null === b ? c : "".concat(c, "section-").concat(b, "-"), o = "function" == typeof e;
+        return j.jsx("ul", h({
             role: "listbox"
-        }, h("".concat(i, "items-list"), "itemsList"), {
-            children: f.map(function(p, a) {
-                var d = a === m, q = "".concat(i, "item-").concat(a), r = o ? g({
+        }, f("".concat(g, "items-list"), "itemsList"), {
+            children: d.map(function(p, a) {
+                var c = a === m, q = "".concat(g, "item-").concat(a), r = o ? e({
                     sectionIndex: b,
                     itemIndex: a
-                }) : g, f = c.objectSpread({
+                }) : e, d = h({
                     id: n(b, a),
-                    "aria-selected": d
-                }, h(q, "item", 0 === a && "itemFirst", d && "itemHighlighted"), r);
-                return d && (f.ref = j.storeHighlightedItemReference), e.jsx(Item, c.objectSpread({}, f, {
+                    "aria-selected": c
+                }, f(q, "item", 0 === a && "itemFirst", c && "itemHighlighted"), r);
+                return c && (d.ref = i.storeHighlightedItemReference), j.jsx(Item, h({}, d, {
                     sectionIndex: b,
-                    isHighlighted: d,
+                    isHighlighted: c,
                     itemIndex: a,
                     item: p,
                     renderItem: k,
@@ -39,7 +39,7 @@ var c = require("@swc/helpers"), e = require("react/jsx-runtime"), d = c.interop
             })
         }));
     }, b;
-}(d.Component);
+}(e.Component);
 b.propTypes = {
     items: a.default.array.isRequired,
     itemProps: a.default.oneOfType([

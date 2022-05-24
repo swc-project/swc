@@ -1,23 +1,23 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 0,
-    "end": 25,
+    "start": 1,
+    "end": 26,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
-        "start": 0,
-        "end": 25,
+        "start": 1,
+        "end": 26,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 1,
-          "end": 10,
+          "start": 2,
+          "end": 11,
           "ctxt": 0
         },
         "value": "namespace",
@@ -26,15 +26,15 @@
       "prelude": {
         "type": "NamespacePrelude",
         "span": {
-          "start": 11,
-          "end": 24,
+          "start": 12,
+          "end": 25,
           "ctxt": 0
         },
         "prefix": {
           "type": "Ident",
           "span": {
-            "start": 11,
-            "end": 15,
+            "start": 12,
+            "end": 16,
             "ctxt": 0
           },
           "value": ",s",
@@ -43,8 +43,8 @@
         "uri": {
           "type": "String",
           "span": {
-            "start": 16,
-            "end": 24,
+            "start": 17,
+            "end": 25,
             "ctxt": 0
           },
           "value": "path",

@@ -12,15 +12,13 @@ exports.test = test;
 const test2 = {};
 exports.test2 = test2;
 Object.defineProperty(test, "warn", {
-    get: ()=>warn
-    ,
+    get: ()=>warn,
     set: (v)=>{
         exports.warn = warn = v;
     }
 });
 Object.defineProperty(test2, "work", {
-    get: ()=>warn
-    ,
+    get: ()=>warn,
     set: (v)=>{
         exports.warn = warn = v;
     }

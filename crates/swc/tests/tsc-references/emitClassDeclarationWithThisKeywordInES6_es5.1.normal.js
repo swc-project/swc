@@ -1,9 +1,10 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _create_class from "@swc/helpers/lib/_create_class.js";
 // @target: es6
 var B = /*#__PURE__*/ function() {
     "use strict";
     function B() {
-        swcHelpers.classCallCheck(this, B);
+        _class_call_check(this, B);
         this.x = 10;
         this.x = 10;
     }
@@ -12,7 +13,7 @@ var B = /*#__PURE__*/ function() {
         B.log(this.x);
     };
     B.log = function log(a) {};
-    swcHelpers.createClass(B, [
+    _create_class(B, [
         {
             key: "X",
             get: function get() {

@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_static_private_field_destructure from "@swc/helpers/lib/_class_static_private_field_destructure.js";
 // @target: esnext, es2022, es2015
 // @useDefineForClassFields: false
 class A {
@@ -15,32 +15,32 @@ class A {
         ];
     }
     static test(_a) {
-        [swcHelpers.classStaticPrivateFieldDestructureSet(_a, A, _field).value] = [
+        [_class_static_private_field_destructure(_a, A, _field).value] = [
             2
         ];
     }
     constructor(){
         this.otherClass = A;
         let y;
-        ({ x: swcHelpers.classStaticPrivateFieldDestructureSet(A, A, _field).value , y  } = this.testObject());
-        [swcHelpers.classStaticPrivateFieldDestructureSet(A, A, _field).value, y] = this.testArray();
-        ({ a: swcHelpers.classStaticPrivateFieldDestructureSet(A, A, _field).value , b: [swcHelpers.classStaticPrivateFieldDestructureSet(A, A, _field).value]  } = {
+        ({ x: _class_static_private_field_destructure(A, A, _field).value , y  } = this.testObject());
+        [_class_static_private_field_destructure(A, A, _field).value, y] = this.testArray();
+        ({ a: _class_static_private_field_destructure(A, A, _field).value , b: [_class_static_private_field_destructure(A, A, _field).value]  } = {
             a: 1,
             b: [
                 2
             ]
         });
-        [swcHelpers.classStaticPrivateFieldDestructureSet(A, A, _field).value, [swcHelpers.classStaticPrivateFieldDestructureSet(A, A, _field).value]] = [
+        [_class_static_private_field_destructure(A, A, _field).value, [_class_static_private_field_destructure(A, A, _field).value]] = [
             1,
             [
                 2
             ]
         ];
-        ({ a: swcHelpers.classStaticPrivateFieldDestructureSet(A, A, _field).value = 1 , b: [swcHelpers.classStaticPrivateFieldDestructureSet(A, A, _field).value = 1]  } = {
+        ({ a: _class_static_private_field_destructure(A, A, _field).value = 1 , b: [_class_static_private_field_destructure(A, A, _field).value = 1]  } = {
             b: []
         });
-        [swcHelpers.classStaticPrivateFieldDestructureSet(A, A, _field).value = 2] = [];
-        [swcHelpers.classStaticPrivateFieldDestructureSet(this.otherClass, A, _field).value = 2] = [];
+        [_class_static_private_field_destructure(A, A, _field).value = 2] = [];
+        [_class_static_private_field_destructure(this.otherClass, A, _field).value = 2] = [];
     }
 }
 var _field = {

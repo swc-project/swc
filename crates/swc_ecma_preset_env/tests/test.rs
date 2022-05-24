@@ -158,7 +158,10 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
                 let mut buf = vec![];
                 {
                     let mut emitter = Emitter {
-                        cfg: swc_ecma_codegen::Config { minify: false },
+                        cfg: swc_ecma_codegen::Config {
+                            minify: false,
+                            ..Default::default()
+                        },
                         comments: None,
                         cm: cm.clone(),
                         wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(

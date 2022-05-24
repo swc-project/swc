@@ -17,8 +17,11 @@ use crate::{
 
 mod ctx;
 pub(crate) mod storage;
-#[cfg(test)]
-mod tests;
+
+#[derive(Debug)]
+struct TestSnapshot {
+    vars: Vec<(Id, VarUsageInfo)>,
+}
 
 pub(crate) fn analyze<N>(n: &N, marks: Option<Marks>) -> ProgramData
 where
@@ -371,6 +374,19 @@ where
         n.right.visit_with(&mut *self.with_ctx(ctx));
     }
 
+    fn visit_assign_pat(&mut self, p: &AssignPat) {
+        p.left.visit_with(self);
+
+        {
+            let ctx = Ctx {
+                in_pat_of_param: false,
+                var_decl_kind_of_pat: None,
+                ..self.ctx
+            };
+            p.right.visit_with(&mut *self.with_ctx(ctx))
+        }
+    }
+
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_await_expr(&mut self, n: &AwaitExpr) {
         let ctx = Ctx {
@@ -605,7 +621,16 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, e)))]
     fn visit_expr(&mut self, e: &Expr) {
-        e.visit_children_with(self);
+        let ctx = Ctx {
+            in_pat_of_var_decl: false,
+            in_pat_of_param: false,
+            in_catch_param: false,
+            var_decl_kind_of_pat: None,
+            in_pat_of_var_decl_with_init: false,
+            ..self.ctx
+        };
+
+        e.visit_children_with(&mut *self.with_ctx(ctx));
 
         if let Expr::Ident(i) = e {
             if cfg!(feature = "debug") {
@@ -618,17 +643,22 @@ where
             }
 
             if self.ctx.in_update_arg {
-                self.report_usage(i, true);
-                self.report_usage(i, false);
+                self.with_ctx(ctx).report_usage(i, true);
+                self.with_ctx(ctx).report_usage(i, false);
             } else {
-                self.report_usage(i, self.ctx.in_update_arg || self.ctx.in_assign_lhs);
+                let is_assign = self.ctx.in_update_arg || self.ctx.in_assign_lhs;
+                self.with_ctx(ctx).report_usage(i, is_assign);
             }
         }
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_fn_decl(&mut self, n: &FnDecl) {
-        self.declare_decl(&n.ident, true, None, true);
+        let ctx = Ctx {
+            in_decl_with_no_side_effect_for_member_access: true,
+            ..self.ctx
+        };
+        self.with_ctx(ctx).declare_decl(&n.ident, true, None, true);
 
         if n.function.body.is_empty() {
             self.data.var_or_default(n.ident.to_id()).mark_as_pure_fn();
@@ -877,7 +907,7 @@ where
             }
             _ => {
                 let ctx = Ctx {
-                    in_var_decl_with_no_side_effect_for_member_access: false,
+                    in_decl_with_no_side_effect_for_member_access: false,
                     ..self.ctx
                 };
                 n.visit_children_with(&mut *self.with_ctx(ctx));
@@ -1042,7 +1072,7 @@ where
                 inline_prevented: self.ctx.inline_prevented || prevent_inline,
                 in_pat_of_var_decl: true,
                 in_pat_of_var_decl_with_init: e.init.is_some(),
-                in_var_decl_with_no_side_effect_for_member_access: e
+                in_decl_with_no_side_effect_for_member_access: e
                     .init
                     .as_deref()
                     .map(is_safe_to_access_prop)
@@ -1099,4 +1129,30 @@ where
     used_idents
         .into_iter()
         .filter(move |id| !excluded.contains(id))
+}
+
+/// This is **NOT** a public api.
+#[doc(hidden)]
+pub fn dump_snapshot(program: &Module) -> String {
+    let marks = Marks::new();
+
+    let data = analyze(program, Some(marks));
+
+    // Iteration order of hashmap is not deterministic
+    let mut snapshot = TestSnapshot {
+        vars: data
+            .vars
+            .into_iter()
+            .map(|(id, mut v)| {
+                v.infects = Default::default();
+                v.accessed_props = Default::default();
+
+                (id, v)
+            })
+            .collect(),
+    };
+
+    snapshot.vars.sort_by(|a, b| a.0.cmp(&b.0));
+
+    format!("{:#?}", snapshot)
 }

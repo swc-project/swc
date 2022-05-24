@@ -64,9 +64,9 @@
     `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/element/script/input.html:1:1]
- 1 | <!doctype html>
-   : ^
+   ,-[$DIR/tests/fixture/element/script/input.html:2:1]
+ 2 | <html lang="en">
+   :       ^^^^^^^^^
    `----
 
   x Child
@@ -204,6 +204,12 @@
  11 | |           <!-- aa -->\n
  12 | `->     </script>
     `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/element/script/input.html:7:5]
+ 7 | <script type="text/html">
+   :         ^^^^^^^^^^^^^^^^
+   `----
 
   x Child
     ,-[$DIR/tests/fixture/element/script/input.html:7:5]

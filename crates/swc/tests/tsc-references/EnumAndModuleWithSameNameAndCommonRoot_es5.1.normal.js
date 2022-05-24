@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var enumdule;
 (function(enumdule) {
     enumdule[enumdule["Red"] = 0] = "Red";
@@ -7,7 +7,7 @@ var enumdule;
 (function(enumdule) {
     var Point = function Point(x1, y1) {
         "use strict";
-        swcHelpers.classCallCheck(this, Point);
+        _class_call_check(this, Point);
         this.x = x1;
         this.y = y1;
     };

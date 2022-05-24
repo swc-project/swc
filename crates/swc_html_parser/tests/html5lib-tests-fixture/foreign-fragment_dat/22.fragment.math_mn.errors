@@ -1,0 +1,2 @@
+51: Self-closing syntax (“/>”) used on a non-void HTML element. Ignoring the slash and treating as a start tag.
+52: End of file seen and there were open elements.

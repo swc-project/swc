@@ -1,10 +1,10 @@
-import * as swcHelpers from "@swc/helpers";
+import _instanceof from "@swc/helpers/lib/_instanceof.js";
 function foo(staticToString) {
-    return swcHelpers._instanceof(staticToString, StaticToString);
+    return _instanceof(staticToString, StaticToString);
 }
 function bar(staticToNumber) {
-    return swcHelpers._instanceof(staticToNumber, StaticToNumber);
+    return _instanceof(staticToNumber, StaticToNumber);
 }
 function baz(normal) {
-    return swcHelpers._instanceof(normal, NormalToString);
+    return _instanceof(normal, NormalToString);
 }

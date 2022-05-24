@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // ++ operator on number type
 var NUMBER;
 var NUMBER1 = [
@@ -7,7 +7,7 @@ var NUMBER1 = [
 ];
 var A = function A() {
     "use strict";
-    swcHelpers.classCallCheck(this, A);
+    _class_call_check(this, A);
 };
 var M;
 (function(M1) {

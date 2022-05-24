@@ -1,8 +1,12 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _get from "@swc/helpers/lib/_get.js";
+import _get_prototype_of from "@swc/helpers/lib/_get_prototype_of.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var A = /*#__PURE__*/ function() {
     "use strict";
     function A() {
-        swcHelpers.classCallCheck(this, A);
+        _class_call_check(this, A);
     }
     var _proto = A.prototype;
     _proto.foo = function foo() {
@@ -12,15 +16,15 @@ var A = /*#__PURE__*/ function() {
 }();
 var B = /*#__PURE__*/ function(A) {
     "use strict";
-    swcHelpers.inherits(B, A);
-    var _super = swcHelpers.createSuper(B);
+    _inherits(B, A);
+    var _super = _create_super(B);
     function B() {
-        swcHelpers.classCallCheck(this, B);
+        _class_call_check(this, B);
         return _super.apply(this, arguments);
     }
     var _proto = B.prototype;
     _proto.bar = function bar() {
-        swcHelpers.get(swcHelpers.getPrototypeOf(B.prototype), "foo", this).call(this);
+        _get(_get_prototype_of(B.prototype), "foo", this).call(this);
     };
     _proto.baz = function baz() {
         return this.foo;
@@ -29,10 +33,10 @@ var B = /*#__PURE__*/ function(A) {
 }(A);
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     var _proto = C.prototype;
@@ -41,17 +45,17 @@ var C = /*#__PURE__*/ function(B) {
     };
     _proto.qux // 2 errors, foo is abstract
      = function qux() {
-        return swcHelpers.get(swcHelpers.getPrototypeOf(C.prototype), "foo", this).call(this) || swcHelpers.get(swcHelpers.getPrototypeOf(C.prototype), "foo", this);
+        return _get(_get_prototype_of(C.prototype), "foo", this).call(this) || _get(_get_prototype_of(C.prototype), "foo", this);
     };
     _proto.norf = function norf() {
-        return swcHelpers.get(swcHelpers.getPrototypeOf(C.prototype), "bar", this).call(this);
+        return _get(_get_prototype_of(C.prototype), "bar", this).call(this);
     };
     return C;
 }(B);
 var AA = /*#__PURE__*/ function() {
     "use strict";
     function AA() {
-        swcHelpers.classCallCheck(this, AA);
+        _class_call_check(this, AA);
     }
     var _proto = AA.prototype;
     _proto.foo = function foo() {
@@ -64,10 +68,10 @@ var AA = /*#__PURE__*/ function() {
 }();
 var BB = /*#__PURE__*/ function(AA) {
     "use strict";
-    swcHelpers.inherits(BB, AA);
-    var _super = swcHelpers.createSuper(BB);
+    _inherits(BB, AA);
+    var _super = _create_super(BB);
     function BB() {
-        swcHelpers.classCallCheck(this, BB);
+        _class_call_check(this, BB);
         return _super.apply(this, arguments);
     }
     return BB;

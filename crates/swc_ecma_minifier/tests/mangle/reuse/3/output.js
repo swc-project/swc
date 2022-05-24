@@ -88,8 +88,7 @@ function A(a, b) {
     const c = b && z[b];
     a = a == null ? "" : String(a);
     if (c) {
-        a = a.replace(c.regexp, (a)=>c.map[a]
-        );
+        a = a.replace(c.regexp, (a)=>c.map[a]);
     }
     return a.toLowerCase();
 }
@@ -187,8 +186,7 @@ function G(g) {
     function h(a) {
         const c = a.slice(1).split("");
         if (isNaN(a[a.length - 1])) {
-            c.forEach((a)=>b.push(`-${a}`)
-            );
+            c.forEach((a)=>b.push(`-${a}`));
         } else {
             b.push(`-${c.shift()}`);
             b.push(c.join(""));
@@ -257,16 +255,14 @@ function J(h, d, l, i) {
     const g = e.map((a)=>({
             name: a,
             option: I(h, F(a))
-        })
-    );
+        }));
     for (const { name: k , option: a  } of g){
         if (!a) {
             throw new Error("Unknown option: --" + k);
         }
         if (a.standalone) {
             if (e.length > 1) {
-                if (g.every(({ option: b  })=>b && (a === b || j[b.name])
-                )) {
+                if (g.every(({ option: b  })=>b && (a === b || j[b.name]))) {
                     return;
                 }
                 throw new Error(`Option --${a.name} cannot be combined with other options.`);
@@ -296,10 +292,7 @@ function J(h, d, l, i) {
     }
     for (const c of h){
         if (c.required && !(E(c.name) in d)) {
-            if ((!c.conflicts || !c.conflicts.find((a)=>!!d[a]
-            )) && !g.find((a)=>a.option?.conflicts?.find((a)=>a === c.name
-                )
-            )) {
+            if ((!c.conflicts || !c.conflicts.find((a)=>!!d[a])) && !g.find((a)=>a.option?.conflicts?.find((a)=>a === c.name))) {
                 throw new Error(`Missing required option: --${c.name}`);
             }
         }
@@ -342,8 +335,7 @@ function K(q, d = {}) {
             continue;
         }
         const s = c.length > 1 && c[0] === "-";
-        const u = ()=>i[g + 1]
-        ;
+        const u = ()=>i[g + 1];
         if (s && !m) {
             if (c[2] === "-" || (c[1] === "-" && c.length === 3)) {
                 throw new Error(`Invalid flag name: ${c}`);
@@ -639,8 +631,7 @@ class d {
         if (!a) {
             return "";
         }
-        return this.parseArgumentsDefinition(a).map((a)=>this.highlightArgumentDetails(a)
-        ).join(" ");
+        return this.parseArgumentsDefinition(a).map((a)=>this.highlightArgumentDetails(a)).join(" ");
     }
     static highlightArgumentDetails(b) {
         let a = "";
@@ -744,8 +735,7 @@ class W extends Array {
         return b;
     }
     clone() {
-        const a = new W(...this.map((a)=>(a instanceof V ? a.clone() : a)
-        ));
+        const a = new W(...this.map((a)=>(a instanceof V ? a.clone() : a)));
         a.options = Object.assign({}, this.options);
         return a;
     }
@@ -759,8 +749,7 @@ class W extends Array {
         return this.options.border === true;
     }
     hasBorder() {
-        return (this.getBorder() || this.some((a)=>a instanceof V && a.getBorder()
-        ));
+        return (this.getBorder() || this.some((a)=>a instanceof V && a.getBorder()));
     }
     constructor(...a){
         super(...a);
@@ -798,8 +787,7 @@ function $(b, a, c) {
     return Math.max(...a.map((a)=>(a[b] instanceof V && a[b].getColSpan() > 1 ? "" : a[b]?.toString() || "").split("\n").map((a)=>{
             const b = typeof c === "undefined" ? a : X(c, a);
             return Z(b).length || 0;
-        })
-    ).flat());
+        })).flat());
 }
 class _ {
     constructor(a, b){
@@ -824,8 +812,7 @@ class _ {
             g,
             ...this.table
         ] : this.table.slice());
-        const c = Math.max(...b.map((a)=>a.length
-        ));
+        const c = Math.max(...b.map((a)=>a.length));
         for (const d of b){
             const h = d.length;
             if (h < c) {
@@ -856,8 +843,7 @@ class _ {
     }
     spanRows(f, c = 0, a = 0, d = [], e = 1) {
         const b = f;
-        if (c >= b.length && d.every((a)=>a === 1
-        )) {
+        if (c >= b.length && d.every((a)=>a === 1)) {
             return b;
         } else if (b[c] && a >= b[c].length && a >= d.length && e === 1) {
             return this.spanRows(b, ++c, 0, d, 1);
@@ -1026,10 +1012,8 @@ class _ {
         const m = !!f?.getBorder();
         const c = !!g?.getBorder();
         const d = !!h?.getBorder();
-        const i = (a)=>(a?.getColSpan() ?? 1) > 1
-        ;
-        const n = (a)=>(a?.getRowSpan() ?? 1) > 1
-        ;
+        const i = (a)=>(a?.getColSpan() ?? 1) > 1;
+        const n = (a)=>(a?.getRowSpan() ?? 1) > 1;
         let a = "";
         if (b === 0) {
             if (o[b] > 1) {
@@ -1162,8 +1146,7 @@ class aa extends Array {
     }
     fromJson(a) {
         this.header(Object.keys(a[0]));
-        this.body(a.map((a)=>Object.values(a)
-        ));
+        this.body(a.map((a)=>Object.values(a)));
         return this;
     }
     header(a) {
@@ -1176,8 +1159,7 @@ class aa extends Array {
         return this;
     }
     clone() {
-        const a = new aa(...this.map((a)=>a instanceof W ? a.clone() : W.from(a).clone()
-        ));
+        const a = new aa(...this.map((a)=>a instanceof W ? a.clone() : W.from(a).clone()));
         a.options = Object.assign({}, this.options);
         a.headerRow = this.headerRow?.clone();
         return a;
@@ -1248,9 +1230,7 @@ class aa extends Array {
         return (this.getBorder() || (this.headerRow instanceof W && this.headerRow.hasBorder()));
     }
     hasBodyBorder() {
-        return (this.getBorder() || this.some((a)=>a instanceof W ? a.hasBorder() : a.some((a)=>a instanceof V ? a.getBorder : false
-            )
-        ));
+        return (this.getBorder() || this.some((a)=>a instanceof W ? a.hasBorder() : a.some((a)=>a instanceof V ? a.getBorder : false)));
     }
     hasBorder() {
         return this.hasHeaderBorder() || this.hasBodyBorder();
@@ -1305,18 +1285,15 @@ class ab {
         if (!a.length) {
             return "";
         }
-        const b = !!a.find((a)=>!!a.typeDefinition
-        );
+        const b = !!a.find((a)=>!!a.typeDefinition);
         if (b) {
             return (this.label("Options") + aa.from([
                 ...a.map((a)=>[
-                        a.flags.split(/,? +/g).map((a)=>u(a)
-                        ).join(", "),
+                        a.flags.split(/,? +/g).map((a)=>u(a)).join(", "),
                         d.highlightArguments(a.typeDefinition || ""),
                         r(p("-")) + " " + a.description.split("\n").shift(),
                         this.generateHints(a), 
-                    ]
-                ), 
+                    ]), 
             ]).padding([
                 2,
                 2,
@@ -1330,12 +1307,10 @@ class ab {
         }
         return (this.label("Options") + aa.from([
             ...a.map((a)=>[
-                    a.flags.split(/,? +/g).map((a)=>u(a)
-                    ).join(", "),
+                    a.flags.split(/,? +/g).map((a)=>u(a)).join(", "),
                     r(p("-")) + " " + a.description.split("\n").shift(),
                     this.generateHints(a), 
-                ]
-            ), 
+                ]), 
         ]).padding([
             2,
             2
@@ -1350,20 +1325,17 @@ class ab {
         if (!a.length) {
             return "";
         }
-        const b = !!a.find((a)=>!!a.getArgsDefinition()
-        );
+        const b = !!a.find((a)=>!!a.getArgsDefinition());
         if (b) {
             return (this.label("Commands") + aa.from([
                 ...a.map((a)=>[
                         [
                             a.getName(),
                             ...a.getAliases()
-                        ].map((a)=>u(a)
-                        ).join(", "),
+                        ].map((a)=>u(a)).join(", "),
                         d.highlightArguments(a.getArgsDefinition() || ""),
                         r(p("-")) + " " + a.getDescription().split("\n").shift(), 
-                    ]
-                ), 
+                    ]), 
             ]).padding([
                 2,
                 2,
@@ -1375,11 +1347,9 @@ class ab {
                     [
                         a.getName(),
                         ...a.getAliases()
-                    ].map((a)=>u(a)
-                    ).join(", "),
+                    ].map((a)=>u(a)).join(", "),
                     r(p("-")) + " " + a.getDescription().split("\n").shift(), 
-                ]
-            ), 
+                ]), 
         ]).padding([
             2,
             2
@@ -1392,12 +1362,10 @@ class ab {
         }
         return (this.label("Environment variables") + aa.from([
             ...a.map((a)=>[
-                    a.names.map((a)=>u(a)
-                    ).join(", "),
+                    a.names.map((a)=>u(a)).join(", "),
                     d.highlightArgumentDetails(a.details),
                     `${r(p("-"))} ${a.description}`, 
-                ]
-            ), 
+                ]), 
         ]).padding(2).indent(this.indent * 2).toString() + "\n");
     }
     generateExamples() {
@@ -1408,17 +1376,14 @@ class ab {
         return (this.label("Examples") + aa.from(a.map((a)=>[
                 q(p(`${ac(a.name)}:`)),
                 `\n${a.description}`, 
-            ]
-        )).padding(1).indent(this.indent * 2).maxCellWidth(150).toString() + "\n");
+            ])).padding(1).indent(this.indent * 2).maxCellWidth(150).toString() + "\n");
     }
     generateHints(a) {
         const b = [];
         a.required && b.push(t(`required`));
         typeof a.default !== "undefined" && b.push(u(p(`Default: `)) + u(Q(a.default)));
-        a.depends && a.depends.length && b.push(r(p(`depends: `)) + a.depends.map((a)=>r(a)
-        ).join(", "));
-        a.conflicts && a.conflicts.length && b.push(r(p(`conflicts: `)) + a.conflicts.map((a)=>r(a)
-        ).join(", "));
+        a.depends && a.depends.length && b.push(r(p(`depends: `)) + a.depends.map((a)=>r(a)).join(", "));
+        a.conflicts && a.conflicts.length && b.push(r(p(`conflicts: `)) + a.conflicts.map((a)=>r(a)).join(", "));
         if (b.length) {
             return `(${b.join(", ")})`;
         }
@@ -1489,8 +1454,7 @@ class j {
         if (e.typeDefinition) {
             b.arguments(e.typeDefinition);
         }
-        i.forEach((a)=>b.aliases.push(a)
-        );
+        i.forEach((a)=>b.aliases.push(a));
         this.commands.set(a, b);
         this.select(a);
         return this;
@@ -1570,8 +1534,7 @@ class j {
             handler: c
         });
         if (c instanceof b && typeof c.complete !== "undefined") {
-            this.complete(a, (a, b)=>c.complete?.(a, b) || []
-            , d);
+            this.complete(a, (a, b)=>c.complete?.(a, b) || [], d);
         }
         return this;
     }
@@ -1701,8 +1664,7 @@ class j {
         if (!c.typeDefinition) {
             c.typeDefinition = "<value:boolean>";
         }
-        if (c.args.some((a)=>this.cmd.getBaseEnvVar(a, true)
-        )) {
+        if (c.args.some((a)=>this.cmd.getBaseEnvVar(a, true))) {
             throw this.error(new Error(`Environment variable already exists: ${b}`));
         }
         const a = d.parseArgumentsDefinition(c.typeDefinition);
@@ -1889,8 +1851,7 @@ class j {
         }
         if (af) {
             a.forEach((a)=>{
-                const b = a.names.find((a)=>!!Deno.env.get(a)
-                );
+                const b = a.names.find((a)=>!!Deno.env.get(a));
                 if (b) {
                     const c = Deno.env.get(b);
                     try {
@@ -1917,13 +1878,10 @@ class j {
             }
         } else {
             if (!a.length) {
-                const e = this.getArguments().filter((a)=>!a.optionalValue
-                ).map((a)=>a.name
-                );
+                const e = this.getArguments().filter((a)=>!a.optionalValue).map((a)=>a.name);
                 if (e.length) {
                     const g = Object.keys(f);
-                    const h = !!g.find((a)=>this.getOption(a, true)?.standalone
-                    );
+                    const h = !!g.find((a)=>this.getOption(a, true)?.standalone);
                     if (!h) {
                         throw this.error(new Error("Missing argument(s): " + e.join(", ")));
                     }
@@ -1982,8 +1940,7 @@ class j {
         return this.argsDefinition;
     }
     getArgument(a) {
-        return this.getArguments().find((b)=>b.name === a
-        );
+        return this.getArguments().find((b)=>b.name === a);
     }
     getArguments() {
         if (!this.args.length && this.argsDefinition) {
@@ -2013,16 +1970,14 @@ class j {
         if (!this.options.length) {
             return [];
         }
-        return a ? this.options.slice(0) : this.options.filter((a)=>!a.hidden
-        );
+        return a ? this.options.slice(0) : this.options.filter((a)=>!a.hidden);
     }
     getGlobalOptions(b) {
         const a = (c, d = [], e = [])=>{
             if (c) {
                 if (c.options.length) {
                     c.options.forEach((a)=>{
-                        if (a.global && !this.options.find((b)=>b.name === a.name
-                        ) && e.indexOf(a.name) === -1 && (b || !a.hidden)) {
+                        if (a.global && !this.options.find((b)=>b.name === a.name) && e.indexOf(a.name) === -1 && (b || !a.hidden)) {
                             e.push(a.name);
                             d.push(a);
                         }
@@ -2041,8 +1996,7 @@ class j {
         return (this.getBaseOption(a, b) ?? this.getGlobalOption(a, b));
     }
     getBaseOption(c, b) {
-        const a = this.options.find((a)=>a.name === c
-        );
+        const a = this.options.find((a)=>a.name === c);
         return a && (b || !a.hidden) ? a : undefined;
     }
     getGlobalOption(b, c) {
@@ -2056,8 +2010,7 @@ class j {
         return a;
     }
     removeOption(b) {
-        const a = this.options.findIndex((a)=>a.name === b
-        );
+        const a = this.options.findIndex((a)=>a.name === b);
         if (a === -1) {
             return;
         }
@@ -2071,8 +2024,7 @@ class j {
     }
     getBaseCommands(b) {
         const a = Array.from(this.commands.values());
-        return b ? a : a.filter((a)=>!a.isHidden
-        );
+        return b ? a : a.filter((a)=>!a.isHidden);
     }
     getGlobalCommands(b) {
         const a = (c, d = [], e = [])=>{
@@ -2167,16 +2119,14 @@ class j {
         if (!this.envVars.length) {
             return [];
         }
-        return a ? this.envVars.slice(0) : this.envVars.filter((a)=>!a.hidden
-        );
+        return a ? this.envVars.slice(0) : this.envVars.filter((a)=>!a.hidden);
     }
     getGlobalEnvVars(b) {
         const a = (c, d = [], e = [])=>{
             if (c) {
                 if (c.envVars.length) {
                     c.envVars.forEach((a)=>{
-                        if (a.global && !this.envVars.find((b)=>b.names[0] === a.names[0]
-                        ) && e.indexOf(a.names[0]) === -1 && (b || !a.hidden)) {
+                        if (a.global && !this.envVars.find((b)=>b.names[0] === a.names[0]) && e.indexOf(a.names[0]) === -1 && (b || !a.hidden)) {
                             e.push(a.names[0]);
                             d.push(a);
                         }
@@ -2195,8 +2145,7 @@ class j {
         return (this.getBaseEnvVar(a, b) ?? this.getGlobalEnvVar(a, b));
     }
     getBaseEnvVar(c, b) {
-        const a = this.envVars.find((a)=>a.names.indexOf(c) !== -1
-        );
+        const a = this.envVars.find((a)=>a.names.indexOf(c) !== -1);
         return a && (b || !a.hidden) ? a : undefined;
     }
     getGlobalEnvVar(a, b) {
@@ -2219,8 +2168,7 @@ class j {
         return !!this.getExample(a);
     }
     getExample(a) {
-        return this.examples.find((b)=>b.name === a
-        );
+        return this.examples.find((b)=>b.name === a);
     }
     getRawArgs() {
         return this.rawArgs;
@@ -2368,14 +2316,11 @@ compdef _${ag(this.cmd.getPath())} ${this.cmd.getPath()}
         }
         b = (b ? b + " " : "") + a.getName();
         return (`(( $+functions[_${ag(b)}] )) ||
-function _${ag(b)}() {` + (!a.getParent() ? `\n\n    local context state state_descr line\n    typeset -A opt_args` : "") + this.generateCommandCompletions(a, b) + this.generateSubCommandCompletions(a, b) + this.generateArgumentCompletions(a, b) + this.generateActions(a) + `\n}\n\n` + a.getCommands(false).filter((b)=>b !== a
-        ).map((a)=>this.generateCompletions(a, b)
-        ).join(""));
+function _${ag(b)}() {` + (!a.getParent() ? `\n\n    local context state state_descr line\n    typeset -A opt_args` : "") + this.generateCommandCompletions(a, b) + this.generateSubCommandCompletions(a, b) + this.generateArgumentCompletions(a, b) + this.generateActions(a) + `\n}\n\n` + a.getCommands(false).filter((b)=>b !== a).map((a)=>this.generateCompletions(a, b)).join(""));
     }
     generateCommandCompletions(c, d) {
         const e = c.getCommands(false);
-        let a = e.map((a)=>`'${a.getName()}:${a.getShortDescription()}'`
-        ).join("\n            ");
+        let a = e.map((a)=>`'${a.getName()}:${a.getShortDescription()}'`).join("\n            ");
         if (a) {
             a = `
         local -a commands
@@ -2399,8 +2344,7 @@ function _${ag(b)}() {` + (!a.getParent() ? `\n\n    local context state state_d
     }
     generateSubCommandCompletions(a, c) {
         if (a.hasCommands(false)) {
-            const b = a.getCommands(false).map((a)=>`${a.getName()}) _${ag(c + " " + a.getName())} ;;`
-            ).join("\n            ");
+            const b = a.getCommands(false).map((a)=>`${a.getName()}) _${ag(c + " " + a.getName())} ;;`).join("\n            ");
             return `\n
     function _command_args() {
         case "$words[1]" in\n            ${b}\n        esac
@@ -2426,8 +2370,7 @@ function _${ag(b)}() {` + (!a.getParent() ? `\n\n    local context state state_d
                 const i = this.addAction(f, h);
                 e.push(`${++d}${f.optionalValue ? "::" : ":"}${i.name}`);
             }
-            b += e.map((a)=>`\\\n        '${a}'`
-            ).join("");
+            b += e.map((a)=>`\\\n        '${a}'`).join("");
             if (a.hasCommands(false)) {
                 b += ` \\\n        '*:: :->command_args'`;
             }
@@ -2439,9 +2382,7 @@ function _${ag(b)}() {` + (!a.getParent() ? `\n\n    local context state state_d
         const c = d.split(" ");
         c.shift();
         const e = c.join(" ");
-        const f = a.getOptions(false).map((a)=>a.standalone ? a.flags.split(/[, ] */g) : false
-        ).flat().filter((a)=>typeof a === "string"
-        );
+        const f = a.getOptions(false).map((a)=>a.standalone ? a.flags.split(/[, ] */g) : false).flat().filter((a)=>typeof a === "string");
         for (const g of a.getOptions(false)){
             b.push(this.generateOption(g, e, f));
         }
@@ -2490,8 +2431,7 @@ function _${ag(b)}() {` + (!a.getParent() ? `\n\n    local context state state_d
     generateActions(b) {
         let a = [];
         if (this.actions.size) {
-            a = Array.from(this.actions).map(([b, a])=>`${b}) __${ag(this.cmd.getName())}_complete ${a.arg.name} ${a.arg.action} ${a.cmd} ;;`
-            );
+            a = Array.from(this.actions).map(([b, a])=>`${b}) __${ag(this.cmd.getName())}_complete ${a.arg.name} ${a.arg.action} ${a.cmd} ;;`);
         }
         if (b.hasCommands(false)) {
             a.unshift(`command_args) _command_args ;;`);

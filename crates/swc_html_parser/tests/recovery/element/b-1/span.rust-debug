@@ -49,9 +49,9 @@
    `----
 
   x Attribute
-   ,-[$DIR/tests/recovery/element/b-1/input.html:1:1]
- 1 | <!doctype html>
-   : ^
+   ,-[$DIR/tests/recovery/element/b-1/input.html:2:1]
+ 2 | <html lang="en">
+   :       ^^^^^^^^^
    `----
 
   x Child

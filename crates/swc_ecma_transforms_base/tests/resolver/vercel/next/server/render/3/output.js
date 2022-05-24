@@ -7,8 +7,7 @@ function top__1() {
                 const drainHandler__4 = ()=>{
                     const prevCallbacks__5 = underlyingStream.queuedCallbacks;
                     underlyingStream.queuedCallbacks = [];
-                    prevCallbacks__5.forEach((callback__6)=>callback__6()
-                    );
+                    prevCallbacks__5.forEach((callback__6)=>callback__6());
                 };
                 res__4.on("drain", drainHandler__4);
                 underlyingStream = {

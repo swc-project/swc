@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _create_class from "@swc/helpers/lib/_create_class.js";
 // @allowJs: true
 // @checkJs: true
 // @noEmit: true
@@ -37,9 +38,9 @@ import * as swcHelpers from "@swc/helpers";
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
     }
-    swcHelpers.createClass(C, [
+    _create_class(C, [
         {
             key: "x",
             get: function get() {

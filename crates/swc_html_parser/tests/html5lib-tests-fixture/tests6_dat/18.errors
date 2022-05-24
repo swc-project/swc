@@ -1,0 +1,3 @@
+(1,7): expected-doctype-but-got-start-tag
+(1,31): expected-one-end-tag-but-got-another
+(1,31): eof-in-table

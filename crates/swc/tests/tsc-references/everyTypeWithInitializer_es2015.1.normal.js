@@ -28,8 +28,7 @@ var anObjectLiteral = {
     id: 12
 };
 var aFunction = F;
-var aLambda = (x)=>2
-;
+var aLambda = (x)=>2;
 var aModule = M;
 var aClassInModule = new M.A();
 var aFunctionInModule = M.F2;

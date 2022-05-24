@@ -5,9 +5,12 @@
     color: rgb(100, "test", 100);
     color: rgb(100, 100, "test");
     color: rgb(100, 100, 100, "test");
-    
+
     color: rgb("test" 100 100);
     color: rgb(100 "test" 100);
     color: rgb(100 100 "test");
     color: rgb(100 100 100 / "test");
+
+    color: rgb(var(--red));
+    color: rgb(var(--red) var(--green));
 }

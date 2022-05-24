@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 0,
-    "end": 69,
+    "start": 1,
+    "end": 70,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 0,
-        "end": 69,
+        "start": 1,
+        "end": 70,
         "ctxt": 0
       },
       "declaration": {
@@ -18,8 +18,8 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 21,
-            "end": 30,
+            "start": 22,
+            "end": 31,
             "ctxt": 0
           },
           "value": "EventInit",
@@ -27,8 +27,8 @@
         },
         "declare": true,
         "span": {
-          "start": 7,
-          "end": 69,
+          "start": 8,
+          "end": 70,
           "ctxt": 0
         },
         "decorators": [],
@@ -36,15 +36,15 @@
           {
             "type": "Constructor",
             "span": {
-              "start": 37,
-              "end": 67,
+              "start": 38,
+              "end": 68,
               "ctxt": 0
             },
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 37,
-                "end": 48,
+                "start": 38,
+                "end": 49,
                 "ctxt": 0
               },
               "value": "constructor",
@@ -54,24 +54,24 @@
               {
                 "type": "Parameter",
                 "span": {
-                  "start": 49,
-                  "end": 65,
+                  "start": 50,
+                  "end": 66,
                   "ctxt": 0
                 },
                 "decorators": [],
                 "pat": {
                   "type": "ArrayPattern",
                   "span": {
-                    "start": 49,
-                    "end": 65,
+                    "start": 50,
+                    "end": 66,
                     "ctxt": 0
                   },
                   "elements": [
                     {
                       "type": "Identifier",
                       "span": {
-                        "start": 51,
-                        "end": 52,
+                        "start": 52,
+                        "end": 53,
                         "ctxt": 0
                       },
                       "value": "t",
@@ -83,22 +83,22 @@
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
-                      "start": 55,
-                      "end": 65,
+                      "start": 56,
+                      "end": 66,
                       "ctxt": 0
                     },
                     "typeAnnotation": {
                       "type": "TsArrayType",
                       "span": {
-                        "start": 57,
-                        "end": 65,
+                        "start": 58,
+                        "end": 66,
                         "ctxt": 0
                       },
                       "elemType": {
                         "type": "TsKeywordType",
                         "span": {
-                          "start": 57,
-                          "end": 63,
+                          "start": 58,
+                          "end": 64,
                           "ctxt": 0
                         },
                         "kind": "string"

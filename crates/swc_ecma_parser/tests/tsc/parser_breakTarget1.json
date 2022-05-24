@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 23,
+    "start": 1,
+    "end": 24,
     "ctxt": 0
   },
   "body": [
     {
       "type": "LabeledStatement",
       "span": {
-        "start": 0,
-        "end": 23,
+        "start": 1,
+        "end": 24,
         "ctxt": 0
       },
       "label": {
         "type": "Identifier",
         "span": {
-          "start": 0,
-          "end": 6,
+          "start": 1,
+          "end": 7,
           "ctxt": 0
         },
         "value": "target",
@@ -26,15 +26,15 @@
       "body": {
         "type": "BreakStatement",
         "span": {
-          "start": 10,
-          "end": 23,
+          "start": 11,
+          "end": 24,
           "ctxt": 0
         },
         "label": {
           "type": "Identifier",
           "span": {
-            "start": 16,
-            "end": 22,
+            "start": 17,
+            "end": 23,
             "ctxt": 0
           },
           "value": "target",

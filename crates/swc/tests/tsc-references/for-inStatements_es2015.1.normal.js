@@ -22,8 +22,7 @@ for(var x in 42 ? c : d){}
 for(var x in '' ? c : d){}
 for(var x in 42 ? d[x] : c[x]){}
 for(var x in c[d]){}
-for(var x in (x1)=>x1
-){}
+for(var x in (x1)=>x1){}
 for(var x in function(x2, y) {
     return x2 + y;
 }){}

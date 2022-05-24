@@ -1,62 +1,62 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 0,
-    "end": 39,
+    "start": 1,
+    "end": 40,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
-        "start": 0,
-        "end": 38,
+        "start": 1,
+        "end": 39,
         "ctxt": 0
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
-          "start": 0,
-          "end": 3,
+          "start": 1,
+          "end": 4,
           "ctxt": 0
         },
         "children": [
           {
             "type": "ComplexSelector",
             "span": {
-              "start": 0,
-              "end": 3,
+              "start": 1,
+              "end": 4,
               "ctxt": 0
             },
             "children": [
               {
                 "type": "CompoundSelector",
                 "span": {
-                  "start": 0,
-                  "end": 3,
+                  "start": 1,
+                  "end": 4,
                   "ctxt": 0
                 },
                 "nestingSelector": null,
                 "typeSelector": {
                   "type": "TagNameSelector",
                   "span": {
-                    "start": 0,
-                    "end": 3,
+                    "start": 1,
+                    "end": 4,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "WqName",
                     "span": {
-                      "start": 0,
-                      "end": 3,
+                      "start": 1,
+                      "end": 4,
                       "ctxt": 0
                     },
                     "prefix": null,
                     "value": {
                       "type": "Ident",
                       "span": {
-                        "start": 0,
-                        "end": 3,
+                        "start": 1,
+                        "end": 4,
                         "ctxt": 0
                       },
                       "value": "div",
@@ -73,8 +73,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 4,
-          "end": 38,
+          "start": 5,
+          "end": 39,
           "ctxt": 0
         },
         "name": "{",
@@ -82,15 +82,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 10,
-              "end": 19,
+              "start": 11,
+              "end": 20,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 10,
-                "end": 14,
+                "start": 11,
+                "end": 15,
                 "ctxt": 0
               },
               "value": "prop",
@@ -100,15 +100,15 @@
               {
                 "type": "Frequency",
                 "span": {
-                  "start": 16,
-                  "end": 19,
+                  "start": 17,
+                  "end": 20,
                   "ctxt": 0
                 },
                 "value": {
                   "type": "Number",
                   "span": {
-                    "start": 16,
-                    "end": 17,
+                    "start": 17,
+                    "end": 18,
                     "ctxt": 0
                   },
                   "value": 1.0,
@@ -117,8 +117,8 @@
                 "unit": {
                   "type": "Ident",
                   "span": {
-                    "start": 17,
-                    "end": 19,
+                    "start": 18,
+                    "end": 20,
                     "ctxt": 0
                   },
                   "value": "Hz",
@@ -131,15 +131,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 25,
-              "end": 35,
+              "start": 26,
+              "end": 36,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 25,
-                "end": 29,
+                "start": 26,
+                "end": 30,
                 "ctxt": 0
               },
               "value": "prop",
@@ -149,15 +149,15 @@
               {
                 "type": "Frequency",
                 "span": {
-                  "start": 31,
-                  "end": 35,
+                  "start": 32,
+                  "end": 36,
                   "ctxt": 0
                 },
                 "value": {
                   "type": "Number",
                   "span": {
-                    "start": 31,
-                    "end": 32,
+                    "start": 32,
+                    "end": 33,
                     "ctxt": 0
                   },
                   "value": 1.0,
@@ -166,8 +166,8 @@
                 "unit": {
                   "type": "Ident",
                   "span": {
-                    "start": 32,
-                    "end": 35,
+                    "start": 33,
+                    "end": 36,
                     "ctxt": 0
                   },
                   "value": "kHz",

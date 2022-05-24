@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 0,
-    "end": 63,
+    "start": 1,
+    "end": 64,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -10,8 +10,8 @@
     {
       "type": "DocumentType",
       "span": {
-        "start": 0,
-        "end": 15,
+        "start": 1,
+        "end": 16,
         "ctxt": 0
       },
       "name": "html",
@@ -21,8 +21,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 15,
-        "end": 35,
+        "start": 16,
+        "end": 36,
         "ctxt": 0
       },
       "tagName": "html",
@@ -31,8 +31,8 @@
         {
           "type": "Attribute",
           "span": {
-            "start": 0,
-            "end": 0,
+            "start": 22,
+            "end": 25,
             "ctxt": 0
           },
           "namespace": null,
@@ -43,8 +43,8 @@
         {
           "type": "Attribute",
           "span": {
-            "start": 0,
-            "end": 0,
+            "start": 60,
+            "end": 63,
             "ctxt": 0
           },
           "namespace": null,
@@ -58,7 +58,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 35,
+            "end": 36,
             "ctxt": 0
           },
           "tagName": "head",
@@ -70,8 +70,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 25,
-            "end": 35,
+            "start": 26,
+            "end": 36,
             "ctxt": 0
           },
           "tagName": "frameset",

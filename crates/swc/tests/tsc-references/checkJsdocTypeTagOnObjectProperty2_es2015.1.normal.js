@@ -9,10 +9,8 @@ const obj = {
     /** @type {function(number): number} */ method1 (n1) {
         return "42";
     },
-    /** @type {function(number): number} */ method2: (n1)=>"lol"
-    ,
-    /** @type {function(number): number} */ arrowFunc: (num = "0")=>num + 42
-    ,
+    /** @type {function(number): number} */ method2: (n1)=>"lol",
+    /** @type {function(number): number} */ arrowFunc: (num = "0")=>num + 42,
     /** @type {string} */ lol
 };
 lol = "string";

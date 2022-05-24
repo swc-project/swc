@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 55,
+    "start": 1,
+    "end": 56,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 0,
-        "end": 55,
+        "start": 1,
+        "end": 56,
         "ctxt": 0
       },
       "kind": "let",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 4,
-            "end": 54,
+            "start": 5,
+            "end": 55,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 4,
-              "end": 5,
+              "start": 5,
+              "end": 6,
               "ctxt": 0
             },
             "value": "f",
@@ -35,23 +35,23 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 5,
-                "end": 54,
+                "start": 6,
+                "end": 55,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsFunctionType",
                 "span": {
-                  "start": 7,
-                  "end": 54,
+                  "start": 8,
+                  "end": 55,
                   "ctxt": 0
                 },
                 "params": [
                   {
                     "type": "Identifier",
                     "span": {
-                      "start": 8,
-                      "end": 17,
+                      "start": 9,
+                      "end": 18,
                       "ctxt": 0
                     },
                     "value": "a",
@@ -59,15 +59,15 @@
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
-                        "start": 9,
-                        "end": 17,
+                        "start": 10,
+                        "end": 18,
                         "ctxt": 0
                       },
                       "typeAnnotation": {
                         "type": "TsKeywordType",
                         "span": {
-                          "start": 11,
-                          "end": 17,
+                          "start": 12,
+                          "end": 18,
                           "ctxt": 0
                         },
                         "kind": "number"
@@ -77,8 +77,8 @@
                   {
                     "type": "Identifier",
                     "span": {
-                      "start": 19,
-                      "end": 29,
+                      "start": 20,
+                      "end": 30,
                       "ctxt": 0
                     },
                     "value": "b",
@@ -86,15 +86,15 @@
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
-                        "start": 21,
-                        "end": 29,
+                        "start": 22,
+                        "end": 30,
                         "ctxt": 0
                       },
                       "typeAnnotation": {
                         "type": "TsKeywordType",
                         "span": {
-                          "start": 23,
-                          "end": 29,
+                          "start": 24,
+                          "end": 30,
                           "ctxt": 0
                         },
                         "kind": "number"
@@ -104,20 +104,20 @@
                   {
                     "type": "RestElement",
                     "span": {
-                      "start": 31,
-                      "end": 45,
+                      "start": 32,
+                      "end": 46,
                       "ctxt": 0
                     },
                     "rest": {
-                      "start": 31,
-                      "end": 34,
+                      "start": 32,
+                      "end": 35,
                       "ctxt": 0
                     },
                     "argument": {
                       "type": "Identifier",
                       "span": {
-                        "start": 34,
-                        "end": 35,
+                        "start": 35,
+                        "end": 36,
                         "ctxt": 0
                       },
                       "value": "c",
@@ -127,22 +127,22 @@
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
-                        "start": 35,
-                        "end": 45,
+                        "start": 36,
+                        "end": 46,
                         "ctxt": 0
                       },
                       "typeAnnotation": {
                         "type": "TsArrayType",
                         "span": {
-                          "start": 37,
-                          "end": 45,
+                          "start": 38,
+                          "end": 46,
                           "ctxt": 0
                         },
                         "elemType": {
                           "type": "TsKeywordType",
                           "span": {
-                            "start": 37,
-                            "end": 43,
+                            "start": 38,
+                            "end": 44,
                             "ctxt": 0
                           },
                           "kind": "number"
@@ -155,15 +155,15 @@
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
-                    "start": 47,
-                    "end": 54,
+                    "start": 48,
+                    "end": 55,
                     "ctxt": 0
                   },
                   "typeAnnotation": {
                     "type": "TsKeywordType",
                     "span": {
-                      "start": 50,
-                      "end": 54,
+                      "start": 51,
+                      "end": 55,
                       "ctxt": 0
                     },
                     "kind": "void"

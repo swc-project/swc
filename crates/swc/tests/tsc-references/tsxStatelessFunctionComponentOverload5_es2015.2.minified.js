@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 require('react');
 let obj0 = {
     to: "world"
@@ -8,23 +8,23 @@ let obj0 = {
 export function MainButton(props) {
     return props.to ? this._buildMainLink(props) : this._buildMainButton(props);
 }
-swcHelpers.extends({
+_extends({
     onClick (e) {}
-}, obj0), swcHelpers.extends({}, {
+}, obj0), _extends({}, {
     to: "10000"
-}, obj2), swcHelpers.extends({}, {
+}, obj2), _extends({}, {
     to: "10000"
 }, {
     onClick (k) {}
-}), swcHelpers.extends({}, obj3, {
+}), _extends({}, obj3, {
     to: !0
-}), swcHelpers.extends({}, {
+}), _extends({}, {
     onClick (e) {}
-}, obj0), swcHelpers.extends({}, {
+}, obj0), _extends({}, {
     onClick (e) {}
 }, {
     children: 10
-}), swcHelpers.extends({}, {
+}), _extends({}, {
     onClick (e) {}
 }, {
     children: "hello",

@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
 import regeneratorRuntime from "regenerator-runtime";
 // @allowJs: true
 // @checkJs: true
@@ -11,7 +11,7 @@ import regeneratorRuntime from "regenerator-runtime";
 };
 // Error (good)
 /** @type {function(): string} */ var b = function() {
-    var _ref = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    var _ref = _async_to_generator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
@@ -28,7 +28,7 @@ import regeneratorRuntime from "regenerator-runtime";
 }();
 // No error (bad)
 /** @type {function(): string} */ var c = function() {
-    var _ref = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    var _ref = _async_to_generator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
@@ -45,7 +45,7 @@ import regeneratorRuntime from "regenerator-runtime";
 }();
 /** @type {function(function(): string): void} */ var f = function(p) {};
 // Error (good)
-f(swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+f(_async_to_generator(regeneratorRuntime.mark(function _callee() {
     return regeneratorRuntime.wrap(function _callee$(_ctx) {
         while(1)switch(_ctx.prev = _ctx.next){
             case 0:

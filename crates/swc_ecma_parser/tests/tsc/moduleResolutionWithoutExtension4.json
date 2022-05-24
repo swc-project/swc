@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 95,
-    "end": 249,
+    "start": 96,
+    "end": 250,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 95,
-        "end": 135,
+        "start": 96,
+        "end": 136,
         "ctxt": 0
       },
       "declaration": {
@@ -18,8 +18,8 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 111,
-            "end": 114,
+            "start": 112,
+            "end": 115,
             "ctxt": 0
           },
           "value": "foo",
@@ -29,30 +29,30 @@
         "params": [],
         "decorators": [],
         "span": {
-          "start": 102,
-          "end": 135,
+          "start": 103,
+          "end": 136,
           "ctxt": 0
         },
         "body": {
           "type": "BlockStatement",
           "span": {
-            "start": 117,
-            "end": 135,
+            "start": 118,
+            "end": 136,
             "ctxt": 0
           },
           "stmts": [
             {
               "type": "ReturnStatement",
               "span": {
-                "start": 123,
-                "end": 133,
+                "start": 124,
+                "end": 134,
                 "ctxt": 0
               },
               "argument": {
                 "type": "StringLiteral",
                 "span": {
-                  "start": 130,
-                  "end": 132,
+                  "start": 131,
+                  "end": 133,
                   "ctxt": 0
                 },
                 "value": "",
@@ -70,23 +70,23 @@
     {
       "type": "ImportDeclaration",
       "span": {
-        "start": 221,
-        "end": 249,
+        "start": 222,
+        "end": 250,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ImportSpecifier",
           "span": {
-            "start": 230,
-            "end": 233,
+            "start": 231,
+            "end": 234,
             "ctxt": 0
           },
           "local": {
             "type": "Identifier",
             "span": {
-              "start": 230,
-              "end": 233,
+              "start": 231,
+              "end": 234,
               "ctxt": 0
             },
             "value": "foo",
@@ -99,8 +99,8 @@
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 241,
-          "end": 248,
+          "start": 242,
+          "end": 249,
           "ctxt": 0
         },
         "value": "./foo",

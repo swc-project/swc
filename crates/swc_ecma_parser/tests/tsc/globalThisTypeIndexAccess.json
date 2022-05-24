@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 53,
+    "start": 2,
+    "end": 54,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 1,
-        "end": 53,
+        "start": 2,
+        "end": 54,
         "ctxt": 0
       },
       "kind": "const",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 15,
-            "end": 53,
+            "start": 16,
+            "end": 54,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 15,
-              "end": 18,
+              "start": 16,
+              "end": 19,
               "ctxt": 0
             },
             "value": "w_e",
@@ -35,37 +35,37 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 18,
-                "end": 53,
+                "start": 19,
+                "end": 54,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsIndexedAccessType",
                 "span": {
-                  "start": 20,
-                  "end": 53,
+                  "start": 21,
+                  "end": 54,
                   "ctxt": 0
                 },
                 "readonly": false,
                 "objectType": {
                   "type": "TsParenthesizedType",
                   "span": {
-                    "start": 20,
-                    "end": 39,
+                    "start": 21,
+                    "end": 40,
                     "ctxt": 0
                   },
                   "typeAnnotation": {
                     "type": "TsTypeQuery",
                     "span": {
-                      "start": 21,
-                      "end": 38,
+                      "start": 22,
+                      "end": 39,
                       "ctxt": 0
                     },
                     "exprName": {
                       "type": "Identifier",
                       "span": {
-                        "start": 28,
-                        "end": 38,
+                        "start": 29,
+                        "end": 39,
                         "ctxt": 0
                       },
                       "value": "globalThis",
@@ -77,15 +77,15 @@
                 "indexType": {
                   "type": "TsLiteralType",
                   "span": {
-                    "start": 40,
-                    "end": 52,
+                    "start": 41,
+                    "end": 53,
                     "ctxt": 0
                   },
                   "literal": {
                     "type": "StringLiteral",
                     "span": {
-                      "start": 40,
-                      "end": 52,
+                      "start": 41,
+                      "end": 53,
                       "ctxt": 0
                     },
                     "value": "globalThis",

@@ -440,7 +440,9 @@ macro_rules! typed_ref {
     ($name:ident, $T:ty) => {
         fn $name(&mut self, node: &mut $T) {
             if self.config.handle_types {
+                let ident_type = self.ident_type;
                 node.visit_mut_children_with(self);
+                self.ident_type = ident_type;
             }
         }
     };
@@ -451,9 +453,11 @@ macro_rules! typed_ref_init {
         fn $name(&mut self, node: &mut $T) {
             if self.config.handle_types {
                 let in_type = self.in_type;
+                let ident_type = self.ident_type;
                 self.ident_type = IdentType::Ref;
                 self.in_type = true;
                 node.visit_mut_children_with(self);
+                self.ident_type = ident_type;
                 self.in_type = in_type;
             }
         }
@@ -1023,7 +1027,7 @@ impl<'a> VisitMut for Resolver<'a> {
                 catch_param_decls: Default::default(),
                 excluded_from_catch: Default::default(),
             };
-            stmts.visit_mut_children_with(&mut hoister)
+            stmts.visit_mut_with(&mut hoister)
         }
 
         // Phase 2.
@@ -1056,6 +1060,21 @@ impl<'a> VisitMut for Resolver<'a> {
 
     fn visit_mut_pat(&mut self, p: &mut Pat) {
         p.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_assign_pat(&mut self, node: &mut AssignPat) {
+        // visit the type first so that it doesn't resolve any
+        // identifiers from the others
+        node.type_ann.visit_mut_with(self);
+        node.left.visit_mut_with(self);
+        node.right.visit_mut_with(self);
+    }
+
+    fn visit_mut_rest_pat(&mut self, node: &mut RestPat) {
+        // visit the type first so that it doesn't resolve any
+        // identifiers from the arg
+        node.type_ann.visit_mut_with(self);
+        node.arg.visit_mut_with(self);
     }
 
     fn visit_mut_private_method(&mut self, m: &mut PrivateMethod) {
@@ -1117,7 +1136,7 @@ impl<'a> VisitMut for Resolver<'a> {
                 catch_param_decls: Default::default(),
                 excluded_from_catch: Default::default(),
             };
-            stmts.visit_mut_children_with(&mut hoister)
+            stmts.visit_mut_with(&mut hoister)
         }
 
         // Phase 2.
@@ -1803,5 +1822,61 @@ impl VisitMut for Hoister<'_, '_> {
     #[inline]
     fn visit_mut_var_declarator(&mut self, node: &mut VarDeclarator) {
         node.name.visit_mut_with(self);
+    }
+
+    /// should visit var decls first, cause var decl may appear behind the
+    /// usage. this can deal with code below:
+    /// ```js
+    /// try {} catch (Ic) {
+    ///   throw Ic;
+    /// }
+    /// var Ic;
+    /// ```
+    /// the `Ic` defined by catch param and the `Ic` defined by `var Ic` are
+    /// different variables.
+    /// If we deal with the `var Ic` first, we can know
+    /// that there is already an global declaration of Ic when deal with the try
+    /// block.
+    fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
+        let mut other_items = vec![];
+
+        for item in items {
+            match item {
+                ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl)))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: Decl::Var(decl),
+                    ..
+                })) if decl.kind == VarDeclKind::Var => {
+                    item.visit_mut_with(self);
+                }
+                _ => {
+                    other_items.push(item);
+                }
+            }
+        }
+
+        for other_item in other_items {
+            other_item.visit_mut_with(self);
+        }
+    }
+
+    /// see docs for `self.visit_mut_module_items`
+    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        let mut other_stmts = vec![];
+
+        for item in stmts {
+            match item {
+                Stmt::Decl(Decl::Var(decl)) if decl.kind == VarDeclKind::Var => {
+                    item.visit_mut_with(self);
+                }
+                _ => {
+                    other_stmts.push(item);
+                }
+            }
+        }
+
+        for other_stmt in other_stmts {
+            other_stmt.visit_mut_with(self);
+        }
     }
 }

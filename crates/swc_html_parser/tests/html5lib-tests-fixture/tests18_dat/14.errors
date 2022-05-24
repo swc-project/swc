@@ -1,0 +1,4 @@
+30: Start tag “select” seen in “table”.
+41: Stray start tag “plaintext”.
+51: “caption” start tag with “select” open.
+52: End of file seen and there were open elements.

@@ -1,9 +1,9 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // No errors expected for basic overloads of construct signatures with merged declarations
 // clodules
 var C = function C(x) {
     "use strict";
-    swcHelpers.classCallCheck(this, C);
+    _class_call_check(this, C);
 };
 (function(C) {
     var x = C.x = 1;
@@ -11,7 +11,7 @@ var C = function C(x) {
 var r1 = new C(1, "");
 var C2 = function C2(x) {
     "use strict";
-    swcHelpers.classCallCheck(this, C2);
+    _class_call_check(this, C2);
 };
 (function(C2) {
     var x = C2.x = 1;

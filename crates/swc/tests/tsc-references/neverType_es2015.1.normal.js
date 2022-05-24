@@ -66,12 +66,9 @@ function test(cb) {
     let s = cb();
     return s;
 }
-let errorCallback = ()=>error("Error callback")
-;
-test(()=>"hello"
-);
-test(()=>fail()
-);
+let errorCallback = ()=>error("Error callback");
+test(()=>"hello");
+test(()=>fail());
 test(()=>{
     throw new Error();
 });

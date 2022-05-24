@@ -1,8 +1,9 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _create_class from "@swc/helpers/lib/_create_class.js";
 var MyTestClass = function() {
     "use strict";
     function MyTestClass() {
-        swcHelpers.classCallCheck(this, MyTestClass), this.someFunc = function() {}, this.canary, this.canary = 3;
+        _class_call_check(this, MyTestClass), this.someFunc = function() {}, this.canary, this.canary = 3;
     }
     return MyTestClass.prototype.memberFunc = function() {
         arguments.length > 0 && void 0 !== arguments[0] && arguments[0];
@@ -11,7 +12,7 @@ var MyTestClass = function() {
         t.staticCanary;
         var p = MyTestClass;
         p.staticCanary;
-    }, swcHelpers.createClass(MyTestClass, [
+    }, _create_class(MyTestClass, [
         {
             key: "prop",
             get: function() {
@@ -33,7 +34,7 @@ var MyTestClass = function() {
 }(), MyGenericTestClass = function() {
     "use strict";
     function MyGenericTestClass() {
-        swcHelpers.classCallCheck(this, MyGenericTestClass), this.someFunc = function() {}, this.canary, this.canary = 3;
+        _class_call_check(this, MyGenericTestClass), this.someFunc = function() {}, this.canary, this.canary = 3;
     }
     return MyGenericTestClass.prototype.memberFunc = function() {
         arguments.length > 0 && void 0 !== arguments[0] && arguments[0];
@@ -42,7 +43,7 @@ var MyTestClass = function() {
         t.staticCanary;
         var p = MyGenericTestClass;
         p.staticCanary;
-    }, swcHelpers.createClass(MyGenericTestClass, [
+    }, _create_class(MyGenericTestClass, [
         {
             key: "prop",
             get: function() {

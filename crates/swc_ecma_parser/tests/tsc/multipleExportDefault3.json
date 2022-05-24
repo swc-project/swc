@@ -1,23 +1,23 @@
 {
   "type": "Module",
   "span": {
-    "start": 0,
-    "end": 76,
+    "start": 1,
+    "end": 77,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDefaultExpression",
       "span": {
-        "start": 0,
-        "end": 48,
+        "start": 1,
+        "end": 49,
         "ctxt": 0
       },
       "expression": {
         "type": "ObjectExpression",
         "span": {
-          "start": 15,
-          "end": 47,
+          "start": 16,
+          "end": 48,
           "ctxt": 0
         },
         "properties": [
@@ -26,8 +26,8 @@
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 21,
-                "end": 25,
+                "start": 22,
+                "end": 26,
                 "ctxt": 0
               },
               "value": "uhoh",
@@ -36,8 +36,8 @@
             "value": {
               "type": "StringLiteral",
               "span": {
-                "start": 27,
-                "end": 44,
+                "start": 28,
+                "end": 45,
                 "ctxt": 0
               },
               "value": "another default",
@@ -50,8 +50,8 @@
     {
       "type": "ExportDefaultDeclaration",
       "span": {
-        "start": 50,
-        "end": 76,
+        "start": 51,
+        "end": 77,
         "ctxt": 0
       },
       "decl": {
@@ -59,16 +59,16 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 71,
-            "end": 72,
+            "start": 72,
+            "end": 73,
             "ctxt": 0
           },
           "value": "C",
           "optional": false
         },
         "span": {
-          "start": 65,
-          "end": 76,
+          "start": 66,
+          "end": 77,
           "ctxt": 0
         },
         "decorators": [],

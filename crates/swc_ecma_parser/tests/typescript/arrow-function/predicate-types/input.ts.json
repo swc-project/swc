@@ -1,31 +1,31 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 30,
+    "start": 1,
+    "end": 31,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 0,
-        "end": 30,
+        "start": 1,
+        "end": 31,
         "ctxt": 0
       },
       "expression": {
         "type": "ArrowFunctionExpression",
         "span": {
-          "start": 0,
-          "end": 29,
+          "start": 1,
+          "end": 30,
           "ctxt": 0
         },
         "params": [
           {
             "type": "Identifier",
             "span": {
-              "start": 1,
-              "end": 7,
+              "start": 2,
+              "end": 8,
               "ctxt": 0
             },
             "value": "x",
@@ -33,15 +33,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 2,
-                "end": 7,
+                "start": 3,
+                "end": 8,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 4,
-                  "end": 7,
+                  "start": 5,
+                  "end": 8,
                   "ctxt": 0
                 },
                 "kind": "any"
@@ -52,8 +52,8 @@
         "body": {
           "type": "BooleanLiteral",
           "span": {
-            "start": 25,
-            "end": 29,
+            "start": 26,
+            "end": 30,
             "ctxt": 0
           },
           "value": true
@@ -64,23 +64,23 @@
         "returnType": {
           "type": "TsTypeAnnotation",
           "span": {
-            "start": 8,
-            "end": 21,
+            "start": 9,
+            "end": 22,
             "ctxt": 0
           },
           "typeAnnotation": {
             "type": "TsTypePredicate",
             "span": {
-              "start": 10,
-              "end": 21,
+              "start": 11,
+              "end": 22,
               "ctxt": 0
             },
             "asserts": false,
             "paramName": {
               "type": "Identifier",
               "span": {
-                "start": 10,
-                "end": 11,
+                "start": 11,
+                "end": 12,
                 "ctxt": 0
               },
               "value": "x",
@@ -89,15 +89,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 15,
-                "end": 21,
+                "start": 16,
+                "end": 22,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 15,
-                  "end": 21,
+                  "start": 16,
+                  "end": 22,
                   "ctxt": 0
                 },
                 "kind": "string"

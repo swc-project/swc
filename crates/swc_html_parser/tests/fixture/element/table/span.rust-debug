@@ -313,9 +313,9 @@
     `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/element/table/input.html:1:1]
- 1 | <!doctype html>
-   : ^
+   ,-[$DIR/tests/fixture/element/table/input.html:2:1]
+ 2 | <html lang="en">
+   :       ^^^^^^^^^
    `----
 
   x Child
@@ -364,6 +364,12 @@
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
+  x Attribute
+   ,-[$DIR/tests/fixture/element/table/input.html:4:5]
+ 4 | <meta charset="UTF-8">
+   :       ^^^^^^^^^^^^^^^
+   `----
+
   x Child
    ,-[$DIR/tests/fixture/element/table/input.html:4:5]
  4 | ,-> <meta charset="UTF-8">
@@ -388,6 +394,18 @@
  6 | `->           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
    `----
 
+  x Attribute
+   ,-[$DIR/tests/fixture/element/table/input.html:5:5]
+ 5 | <meta name="viewport"
+   :       ^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/element/table/input.html:6:11]
+ 6 | content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
   x Child
    ,-[$DIR/tests/fixture/element/table/input.html:6:11]
  6 | ,-> content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -410,6 +428,18 @@
    ,-[$DIR/tests/fixture/element/table/input.html:7:5]
  7 | <meta http-equiv="X-UA-Compatible" content="ie=edge">
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/element/table/input.html:7:5]
+ 7 | <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/element/table/input.html:7:5]
+ 7 | <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   :                                    ^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -767,106 +797,8 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/table/input.html:1:1]
-  1 | ,-> <!doctype html>
-  2 | |   <html lang="en">
-  3 | |   <head>
-  4 | |       <meta charset="UTF-8">
-  5 | |       <meta name="viewport"
-  6 | |             content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  7 | |       <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  8 | |       <title>Document</title>
-  9 | |   </head>
- 10 | |   <body>
- 11 | |       <table>
- 12 | |           <tr>
- 13 | |               <td>&nbsp;</td>
- 14 | |               <td>Knocky</td>
- 15 | |               <td>Flor</td>
- 16 | |               <td>Ella</td>
- 17 | |               <td>Juan</td>
- 18 | |           </tr>
- 19 | |           <tr>
- 20 | |               <td>Breed</td>
- 21 | |               <td>Jack Russell</td>
- 22 | |               <td>Poodle</td>
- 23 | |               <td>Streetdog</td>
- 24 | |               <td>Cocker Spaniel</td>
- 25 | |           </tr>
- 26 | |           <tr>
- 27 | |               <td>Age</td>
- 28 | |               <td>16</td>
- 29 | |               <td>9</td>
- 30 | |               <td>10</td>
- 31 | |               <td>5</td>
- 32 | |           </tr>
- 33 | |           <tr>
- 34 | |               <td>Owner</td>
- 35 | |               <td>Mother-in-law</td>
- 36 | |               <td>Me</td>
- 37 | |               <td>Me</td>
- 38 | |               <td>Sister-in-law</td>
- 39 | |           </tr>
- 40 | |           <tr>
- 41 | |               <td>Eating Habits</td>
- 42 | |               <td>Eats everyone's leftovers</td>
- 43 | |               <td>Nibbles at food</td>
- 44 | |               <td>Hearty eater</td>
- 45 | |               <td>Will eat till he explodes</td>
- 46 | |           </tr>
- 47 | `->     </table>
-    `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/table/input.html:1:1]
-  1 | ,-> <!doctype html>
-  2 | |   <html lang="en">
-  3 | |   <head>
-  4 | |       <meta charset="UTF-8">
-  5 | |       <meta name="viewport"
-  6 | |             content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  7 | |       <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  8 | |       <title>Document</title>
-  9 | |   </head>
- 10 | |   <body>
- 11 | |       <table>
- 12 | |           <tr>
- 13 | |               <td>&nbsp;</td>
- 14 | |               <td>Knocky</td>
- 15 | |               <td>Flor</td>
- 16 | |               <td>Ella</td>
- 17 | |               <td>Juan</td>
- 18 | |           </tr>
- 19 | |           <tr>
- 20 | |               <td>Breed</td>
- 21 | |               <td>Jack Russell</td>
- 22 | |               <td>Poodle</td>
- 23 | |               <td>Streetdog</td>
- 24 | |               <td>Cocker Spaniel</td>
- 25 | |           </tr>
- 26 | |           <tr>
- 27 | |               <td>Age</td>
- 28 | |               <td>16</td>
- 29 | |               <td>9</td>
- 30 | |               <td>10</td>
- 31 | |               <td>5</td>
- 32 | |           </tr>
- 33 | |           <tr>
- 34 | |               <td>Owner</td>
- 35 | |               <td>Mother-in-law</td>
- 36 | |               <td>Me</td>
- 37 | |               <td>Me</td>
- 38 | |               <td>Sister-in-law</td>
- 39 | |           </tr>
- 40 | |           <tr>
- 41 | |               <td>Eating Habits</td>
- 42 | |               <td>Eats everyone's leftovers</td>
- 43 | |               <td>Nibbles at food</td>
- 44 | |               <td>Hearty eater</td>
- 45 | |               <td>Will eat till he explodes</td>
- 46 | |           </tr>
- 47 | `->     </table>
-    `----
 
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:12:9]
@@ -2374,6 +2306,12 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
+  x Attribute
+    ,-[$DIR/tests/fixture/element/table/input.html:58:13]
+ 58 | <th colspan="2">Computer Science</th>
+    :     ^^^^^^^^^^^
+    `----
+
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:58:13]
  58 | <th colspan="2">Computer Science</th>
@@ -2834,6 +2772,12 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
+  x Attribute
+    ,-[$DIR/tests/fixture/element/table/input.html:75:13]
+ 75 | <th colspan="2">Russian Literature</th>
+    :     ^^^^^^^^^^^
+    `----
+
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:75:13]
  75 | <th colspan="2">Russian Literature</th>
@@ -3076,6 +3020,12 @@
     ,-[$DIR/tests/fixture/element/table/input.html:84:13]
  84 | <th colspan="2">Astrophysics</th>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/element/table/input.html:84:13]
+ 84 | <th colspan="2">Astrophysics</th>
+    :     ^^^^^^^^^^^
     `----
 
   x Child

@@ -64,9 +64,9 @@
     `----
 
   x Attribute
-   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:1:1]
- 1 | <!doctype html>
-   : ^
+   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:2:1]
+ 2 | <html lang="en">
+   :       ^^^^^^^^^
    `----
 
   x Child
@@ -115,6 +115,12 @@
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
+  x Attribute
+   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:4:5]
+ 4 | <meta charset="UTF-8">
+   :       ^^^^^^^^^^^^^^^
+   `----
+
   x Child
    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:4:5]
  4 | ,-> <meta charset="UTF-8">
@@ -139,6 +145,18 @@
  6 | `->           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
    `----
 
+  x Attribute
+   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:5:5]
+ 5 | <meta name="viewport"
+   :       ^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:6:11]
+ 6 | content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
   x Child
    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:6:11]
  6 | ,-> content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -161,6 +179,18 @@
    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:7:5]
  7 | <meta http-equiv="X-UA-Compatible" content="ie=edge">
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:7:5]
+ 7 | <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:7:5]
+ 7 | <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   :                                    ^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -258,34 +288,8 @@
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:1:1]
-  1 | ,-> <!doctype html>
-  2 | |   <html lang="en">
-  3 | |   <head>
-  4 | |       <meta charset="UTF-8">
-  5 | |       <meta name="viewport"
-  6 | |             content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  7 | |       <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  8 | |       <title>Document</title>
-  9 | |   </head>
- 10 | |   <body>
- 11 | `->     test</br>test
-    `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:1:1]
-  1 | ,-> <!doctype html>
-  2 | |   <html lang="en">
-  3 | |   <head>
-  4 | |       <meta charset="UTF-8">
-  5 | |       <meta name="viewport"
-  6 | |             content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  7 | |       <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  8 | |       <title>Document</title>
-  9 | |   </head>
- 10 | |   <body>
- 11 | `->     test</br>test
-    `----
 
   x Child
     ,-[$DIR/tests/recovery/element/br/self-closing/input.html:11:5]
@@ -300,36 +304,8 @@
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:1:1]
-  1 | ,-> <!doctype html>
-  2 | |   <html lang="en">
-  3 | |   <head>
-  4 | |       <meta charset="UTF-8">
-  5 | |       <meta name="viewport"
-  6 | |             content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  7 | |       <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  8 | |       <title>Document</title>
-  9 | |   </head>
- 10 | |   <body>
- 11 | |       test</br>test
- 12 | `->     test</br/>test
-    `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:1:1]
-  1 | ,-> <!doctype html>
-  2 | |   <html lang="en">
-  3 | |   <head>
-  4 | |       <meta charset="UTF-8">
-  5 | |       <meta name="viewport"
-  6 | |             content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  7 | |       <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  8 | |       <title>Document</title>
-  9 | |   </head>
- 10 | |   <body>
- 11 | |       test</br>test
- 12 | `->     test</br/>test
-    `----
 
   x Child
     ,-[$DIR/tests/recovery/element/br/self-closing/input.html:12:5]

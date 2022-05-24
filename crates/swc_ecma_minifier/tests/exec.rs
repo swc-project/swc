@@ -82,7 +82,10 @@ fn print<N: swc_ecma_codegen::Node>(
         }
 
         let mut emitter = Emitter {
-            cfg: swc_ecma_codegen::Config { minify },
+            cfg: swc_ecma_codegen::Config {
+                minify,
+                ..Default::default()
+            },
             cm,
             comments: None,
             wr,
@@ -9210,6 +9213,7 @@ g = 42;
 }
 
 #[test]
+#[ignore]
 fn terser_pure_funcs_issue_3065_4() {
     let src = r###"var debug = function (msg) {
     console.log(msg);
@@ -9232,6 +9236,7 @@ debug(
 }
 
 #[test]
+#[ignore]
 fn terser_pure_funcs_issue_3065_3() {
     let src = r###"function debug(msg) {
     console.log(msg);
@@ -9853,6 +9858,76 @@ fn issue_4444_1() {
         "unsafe_undefined": false,
         "unused": true
       }
+    "###;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
+fn terser_insane_1() {
+    let src = r###"
+    function f() {
+        a--;
+        try {
+            a++;
+            x();
+        } catch (a) {
+            if (a) var a;
+            var a = 10;
+        }
+        console.log(a)
+    }
+    f();
+    "###;
+
+    let config = r###"
+    {
+        "conditionals": true,
+        "negate_iife": true,
+        "passes": 2,
+        "reduce_funcs": true,
+        "reduce_vars": true,
+        "side_effects": true,
+        "toplevel": true,
+        "unused": true
+    }
+    "###;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
+fn terser_insane_2() {
+    let src = r###"
+    function f() {
+        console.log(a)
+        a--;
+        console.log(a)
+        try {
+            console.log(a)
+            a++;
+            console.log(a)
+            x();
+        } catch (a) {
+            if (a) var a;
+            var a = 10;
+        }
+        console.log(a)
+    }
+    f();
+    "###;
+
+    let config = r###"
+    {
+        "conditionals": true,
+        "negate_iife": true,
+        "passes": 2,
+        "reduce_funcs": true,
+        "reduce_vars": true,
+        "side_effects": true,
+        "toplevel": true,
+        "unused": true
+    }
     "###;
 
     run_exec_test(src, config, false);

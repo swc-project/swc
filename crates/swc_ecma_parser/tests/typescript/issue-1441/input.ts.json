@@ -1,37 +1,37 @@
 {
   "type": "Module",
   "span": {
-    "start": 2,
-    "end": 25,
+    "start": 3,
+    "end": 26,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 2,
-        "end": 13,
+        "start": 3,
+        "end": 14,
         "ctxt": 0
       },
       "expression": {
         "type": "AwaitExpression",
         "span": {
-          "start": 2,
-          "end": 13,
+          "start": 3,
+          "end": 14,
           "ctxt": 0
         },
         "argument": {
           "type": "CallExpression",
           "span": {
-            "start": 8,
-            "end": 13,
+            "start": 9,
+            "end": 14,
             "ctxt": 0
           },
           "callee": {
             "type": "Identifier",
             "span": {
-              "start": 8,
-              "end": 11,
+              "start": 9,
+              "end": 12,
               "ctxt": 0
             },
             "value": "foo",
@@ -45,8 +45,8 @@
     {
       "type": "ExportNamedDeclaration",
       "span": {
-        "start": 15,
-        "end": 25,
+        "start": 16,
+        "end": 26,
         "ctxt": 0
       },
       "specifiers": [],

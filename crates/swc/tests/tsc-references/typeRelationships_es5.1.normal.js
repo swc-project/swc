@@ -1,8 +1,11 @@
-import * as swcHelpers from "@swc/helpers";
+import _assert_this_initialized from "@swc/helpers/lib/_assert_this_initialized.js";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         this.self = this;
         this.c = new C();
     }
@@ -35,13 +38,13 @@ var C = /*#__PURE__*/ function() {
 }();
 var D = /*#__PURE__*/ function(C) {
     "use strict";
-    swcHelpers.inherits(D, C);
-    var _super = swcHelpers.createSuper(D);
+    _inherits(D, C);
+    var _super = _create_super(D);
     function D() {
-        swcHelpers.classCallCheck(this, D);
+        _class_call_check(this, D);
         var _this;
         _this = _super.apply(this, arguments);
-        _this.self1 = swcHelpers.assertThisInitialized(_this);
+        _this.self1 = _assert_this_initialized(_this);
         _this.self2 = _this.self;
         _this.self3 = _this.foo();
         _this.d = new D();

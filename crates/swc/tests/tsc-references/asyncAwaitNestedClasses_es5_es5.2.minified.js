@@ -1,13 +1,14 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 import regeneratorRuntime from "regenerator-runtime";
 var _B, A = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, A);
+    _class_call_check(this, A);
 };
 A.B = ((_B = function() {
     "use strict";
     function B() {
-        swcHelpers.classCallCheck(this, B);
+        _class_call_check(this, B);
     }
     return B.func2 = function() {
         return new Promise(function(resolve) {
@@ -17,10 +18,10 @@ A.B = ((_B = function() {
 }()).C = function() {
     "use strict";
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
     }
     return C.func = function() {
-        return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function(_ctx) {
                 for(;;)switch(_ctx.prev = _ctx.next){
                     case 0:

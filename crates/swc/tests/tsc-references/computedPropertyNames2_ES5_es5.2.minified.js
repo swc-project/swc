@@ -1,10 +1,11 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _create_class from "@swc/helpers/lib/_create_class.js";
 var methodName = "method", accessorName = "accessor", _methodName = methodName, _methodName1 = methodName, _accessorName = accessorName, _accessorName1 = accessorName, _accessorName2 = accessorName, _accessorName3 = accessorName, C = function() {
     "use strict";
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
     }
-    return C.prototype[_methodName] = function() {}, C[_methodName1] = function() {}, swcHelpers.createClass(C, [
+    return C.prototype[_methodName] = function() {}, C[_methodName1] = function() {}, _create_class(C, [
         {
             key: _accessorName,
             get: function() {}

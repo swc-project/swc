@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _create_class from "@swc/helpers/lib/_create_class.js";
 // not allowed when emitting declarations
 export var obj = {
     method1: function method1(p) {
@@ -11,7 +12,7 @@ export var obj = {
 export var classExpression = /*#__PURE__*/ function() {
     "use strict";
     function _class() {
-        swcHelpers.classCallCheck(this, _class);
+        _class_call_check(this, _class);
     }
     var _proto = _class.prototype;
     _proto.method1 = function method1(p) {
@@ -27,13 +28,13 @@ export function funcInferredReturnType(obj1) {
 }
 export var ClassWithPrivateNamedProperties = function ClassWithPrivateNamedProperties() {
     "use strict";
-    swcHelpers.classCallCheck(this, ClassWithPrivateNamedProperties);
+    _class_call_check(this, ClassWithPrivateNamedProperties);
 };
 var _s = s, _s1 = s;
 export var ClassWithPrivateNamedMethods = /*#__PURE__*/ function() {
     "use strict";
     function ClassWithPrivateNamedMethods() {
-        swcHelpers.classCallCheck(this, ClassWithPrivateNamedMethods);
+        _class_call_check(this, ClassWithPrivateNamedMethods);
     }
     var _proto = ClassWithPrivateNamedMethods.prototype;
     _proto[_s] = function() {};
@@ -44,9 +45,9 @@ var _s2 = s, _s3 = s, _s4 = s, _s5 = s;
 export var ClassWithPrivateNamedAccessors = /*#__PURE__*/ function() {
     "use strict";
     function ClassWithPrivateNamedAccessors() {
-        swcHelpers.classCallCheck(this, ClassWithPrivateNamedAccessors);
+        _class_call_check(this, ClassWithPrivateNamedAccessors);
     }
-    swcHelpers.createClass(ClassWithPrivateNamedAccessors, [
+    _create_class(ClassWithPrivateNamedAccessors, [
         {
             key: _s2,
             get: function get() {

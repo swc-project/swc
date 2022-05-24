@@ -214,18 +214,8 @@
     `----
 
   x Child
-   ,-[$DIR/tests/fixture/text/entity/input.html:1:1]
- 1 | ,-> <!DOCTYPE html>
- 2 | |   <html>
- 3 | `-> <body>
-   `----
 
   x Element
-   ,-[$DIR/tests/fixture/text/entity/input.html:1:1]
- 1 | ,-> <!DOCTYPE html>
- 2 | |   <html>
- 3 | `-> <body>
-   `----
 
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:3:1]
@@ -1602,10 +1592,10 @@
     `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/text/entity/input.html:1:1]
- 1 | <!DOCTYPE html>
-   : ^
-   `----
+    ,-[$DIR/tests/fixture/text/entity/input.html:44:1]
+ 44 | <a href="http://lmgtfy.com/?l=1&amp;q=rick+roll">tired meme</a>
+    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
 
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:44:1]
@@ -1645,6 +1635,18 @@
  45 | ,-> <a href="#" onclick="window.location='?l=1&amp;q=rick+roll';return false">
  46 | `->     kablammo!
  47 |     </a>
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/text/entity/input.html:45:1]
+ 45 | <a href="#" onclick="window.location='?l=1&amp;q=rick+roll';return false">
+    :    ^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/text/entity/input.html:45:1]
+ 45 | <a href="#" onclick="window.location='?l=1&amp;q=rick+roll';return false">
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child

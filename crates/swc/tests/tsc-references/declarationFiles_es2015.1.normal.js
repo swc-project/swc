@@ -28,8 +28,7 @@ class C4 {
         ];
     }
     f4() {
-        return ()=>this
-        ;
+        return ()=>this;
     }
     constructor(){
         this.x1 = {
@@ -43,7 +42,6 @@ class C4 {
                 a: this
             }
         ];
-        this.x4 = ()=>this
-        ;
+        this.x4 = ()=>this;
     }
 }

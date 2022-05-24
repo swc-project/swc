@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _define_property from "@swc/helpers/lib/_define_property.js";
 // @allowJs: true
 // @checkJs: true
 // @target: es5
@@ -9,10 +10,10 @@ import * as swcHelpers from "@swc/helpers";
 var TopLevelSym = Symbol();
 var InnerSym = Symbol();
 var _obj;
-module.exports = (_obj = {}, swcHelpers.defineProperty(_obj, TopLevelSym, function() {
+module.exports = (_obj = {}, _define_property(_obj, TopLevelSym, function() {
     var x = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 12;
     return x;
-}), swcHelpers.defineProperty(_obj, "items", swcHelpers.defineProperty({}, InnerSym, function() {
+}), _define_property(_obj, "items", _define_property({}, InnerSym, function() {
     var arg = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {
         x: 12
     };
@@ -25,7 +26,7 @@ var _InnerSym = InnerSym;
 export var MyClass = function MyClass() {
     "use strict";
     var _p = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : InnerSym;
-    swcHelpers.classCallCheck(this, MyClass);
+    _class_call_check(this, MyClass);
     this[_InnerSym] = "ok";
 };
 MyClass[TopLevelSym] = 12;

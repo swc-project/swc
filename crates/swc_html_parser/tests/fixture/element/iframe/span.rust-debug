@@ -49,9 +49,9 @@
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/element/iframe/input.html:1:1]
- 1 | <!doctype html>
-   : ^
+   ,-[$DIR/tests/fixture/element/iframe/input.html:2:1]
+ 2 | <html lang="en">
+   :       ^^^^^^^^^
    `----
 
   x Child
@@ -172,6 +172,18 @@
    ,-[$DIR/tests/fixture/element/iframe/input.html:7:1]
  7 | <iframe src="test.html" frameborder="0"></iframe>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/element/iframe/input.html:7:1]
+ 7 | <iframe src="test.html" frameborder="0"></iframe>
+   :         ^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/element/iframe/input.html:7:1]
+ 7 | <iframe src="test.html" frameborder="0"></iframe>
+   :                         ^^^^^^^^^^^^^^^
    `----
 
   x Child

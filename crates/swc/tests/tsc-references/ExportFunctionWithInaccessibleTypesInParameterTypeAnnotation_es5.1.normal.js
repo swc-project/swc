@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var A;
 (function(A1) {
     var fromOrigin = function fromOrigin(p) {
@@ -9,11 +9,11 @@ var A;
     };
     var Point = function Point() {
         "use strict";
-        swcHelpers.classCallCheck(this, Point);
+        _class_call_check(this, Point);
     };
     var Line = function Line(start, end) {
         "use strict";
-        swcHelpers.classCallCheck(this, Line);
+        _class_call_check(this, Line);
         this.start = start;
         this.end = end;
     };

@@ -52,20 +52,16 @@ function call(f, ...args) {
 function callr(args, f) {
     return f(...args);
 }
-let x20 = call((x, y)=>x + y
-, 10, 20); // number
-let x21 = call((x, y)=>x + y
-, 10, "hello"); // string
+let x20 = call((x, y)=>x + y, 10, 20); // number
+let x21 = call((x, y)=>x + y, 10, "hello"); // string
 let x22 = call(f15, "hello", 42); // string | number
 let x23 = call(f16, "hello", 42); // unknown
 let x24 = call(f16, "hello", 42); // string | number
-let x30 = callr(sn, (x, y)=>x + y
-); // string
+let x30 = callr(sn, (x, y)=>x + y); // string
 let x31 = callr(sn, f15); // string | number
 let x32 = callr(sn, f16); // string | number
 function bind(f, x) {
-    return (...rest)=>f(x, ...rest)
-    ;
+    return (...rest)=>f(x, ...rest);
 }
 const f21 = bind(f20, 42); // (y: string, z: boolean) => string[]
 const f22 = bind(f21, "hello"); // (z: boolean) => string[]
@@ -86,9 +82,7 @@ g21();
 g22(true);
 g22();
 g23();
-const c30 = f30(42, (x)=>"" + x
-, (x)=>x + 1
-); // [(x: number) => string, (x: number) => number]
+const c30 = f30(42, (x)=>"" + x, (x)=>x + 1); // [(x: number) => string, (x: number) => number]
 events.emit('move', 10, 'left');
 events.emit('jump', 20, 'up');
 events.emit('stop', 'Bye!');

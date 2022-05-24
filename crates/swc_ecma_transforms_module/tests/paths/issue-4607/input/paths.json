@@ -1,0 +1,8 @@
+{
+    "shared/*": [
+        "./src/shared/*"
+      ],
+      "utils/*": [
+        "./src/utils/*"
+      ]
+}

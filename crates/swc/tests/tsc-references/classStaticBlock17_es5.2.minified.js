@@ -1,27 +1,30 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_private_field_get from "@swc/helpers/lib/_class_private_field_get.js";
+import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
+import _class_private_field_set from "@swc/helpers/lib/_class_private_field_set.js";
 var friendA, _x = new WeakMap(), A = function() {
     "use strict";
     function A(v) {
-        swcHelpers.classCallCheck(this, A), swcHelpers.classPrivateFieldInit(this, _x, {
+        _class_call_check(this, A), _class_private_field_init(this, _x, {
             writable: !0,
             value: void 0
-        }), swcHelpers.classPrivateFieldSet(this, _x, v);
+        }), _class_private_field_set(this, _x, v);
     }
     return A.prototype.getX = function() {
-        return swcHelpers.classPrivateFieldGet(this, _x);
+        return _class_private_field_get(this, _x);
     }, A;
 }();
 friendA = {
     getX: function(obj) {
-        return swcHelpers.classPrivateFieldGet(obj, _x);
+        return _class_private_field_get(obj, _x);
     },
     setX: function(obj, value) {
-        swcHelpers.classPrivateFieldSet(obj, _x, value);
+        _class_private_field_set(obj, _x, value);
     }
 };
 var B = function(a1) {
     "use strict";
-    swcHelpers.classCallCheck(this, B);
+    _class_call_check(this, B);
     var x = friendA.getX(a1);
     friendA.setX(a1, x + 1);
 }, a = new A(41);

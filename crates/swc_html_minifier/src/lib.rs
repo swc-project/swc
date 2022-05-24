@@ -1,5 +1,6 @@
 #![deny(clippy::all)]
 
+use serde_json::Value;
 use swc_atoms::JsWord;
 use swc_common::collections::AHashSet;
 use swc_html_ast::*;
@@ -51,6 +52,8 @@ static BOOLEAN_ATTRIBUTES: &[&str] = &[
 
 static EVENT_HANDLER_ATTRIBUTES: &[&str] = &[
     "onabort",
+    "onautocomplete",
+    "onautocompleteerror",
     "onauxclick",
     "onbeforematch",
     "oncancel",
@@ -80,9 +83,7 @@ static EVENT_HANDLER_ATTRIBUTES: &[&str] = &[
     "onkeydown",
     "onkeypress",
     "onkeyup",
-    "onloadeddata",
-    "onloadedmetadata",
-    "onloadstart",
+    "onmousewheel",
     "onmousedown",
     "onmouseenter",
     "onmouseleave",
@@ -117,6 +118,9 @@ static EVENT_HANDLER_ATTRIBUTES: &[&str] = &[
     "onerror",
     "onfocus",
     "onload",
+    "onloadeddata",
+    "onloadedmetadata",
+    "onloadstart",
     "onresize",
     "onscroll",
     "onafterprint",
@@ -140,12 +144,11 @@ static EVENT_HANDLER_ATTRIBUTES: &[&str] = &[
     "onpaste",
     "onreadystatechange",
     "onvisibilitychange",
+    "onshow",
+    "onsort",
 ];
 
-// TODO improve list - event handlers + remove multiple whitespace from class +
-// test for custom elements
 static ALLOW_TO_TRIM_ATTRIBUTES: &[&str] = &[
-    "id",
     "class",
     "style",
     "tabindex",
@@ -158,7 +161,21 @@ static ALLOW_TO_TRIM_ATTRIBUTES: &[&str] = &[
     "colspan",
 ];
 
-struct Minifier {}
+static COMMA_SEPARATED_ATTRIBUTES: &[&str] = &["srcset", "sizes"];
+
+static SPACE_SEPARATED_ATTRIBUTES: &[&str] = &[
+    "class",
+    "rel",
+    "aria-describedby",
+    "aria-labelledby",
+    "aria-owns",
+    "autocomplete",
+];
+
+struct Minifier {
+    current_element_namespace: Option<Namespace>,
+    is_script_json_ld: bool,
+}
 
 impl Minifier {
     fn is_boolean_attribute(&self, name: &str) -> bool {
@@ -169,8 +186,12 @@ impl Minifier {
         EVENT_HANDLER_ATTRIBUTES.contains(&name)
     }
 
-    fn allow_to_trim(&self, name: &str) -> bool {
-        ALLOW_TO_TRIM_ATTRIBUTES.contains(&name)
+    fn is_comma_separated_attribute(&self, name: &str) -> bool {
+        COMMA_SEPARATED_ATTRIBUTES.contains(&name)
+    }
+
+    fn is_space_separated_attribute(&self, name: &str) -> bool {
+        SPACE_SEPARATED_ATTRIBUTES.contains(&name)
     }
 
     fn is_default_attribute_value(
@@ -215,6 +236,12 @@ impl Minifier {
                 )
                 | (Namespace::HTML, "form", "method", "get")
                 | (Namespace::HTML, "form", "target", "_self")
+                | (
+                    Namespace::HTML,
+                    "form",
+                    "enctype",
+                    "application/x-www-form-urlencoded"
+                )
                 | (Namespace::HTML, "input", "type", "text")
                 | (Namespace::HTML, "input", "size", "20")
                 | (Namespace::HTML, "track", "kind", "subtitles")
@@ -263,6 +290,12 @@ impl Minifier {
                 | (Namespace::HTML, "base", "target", "_self")
                 | (Namespace::HTML, "canvas", "height", "150")
                 | (Namespace::HTML, "canvas", "width", "300")
+                | (Namespace::HTML, "col", "span", "1")
+                | (Namespace::HTML, "colgroup", "span", "1")
+                | (Namespace::HTML, "td", "colspan", "1")
+                | (Namespace::HTML, "td", "rowspan", "1")
+                | (Namespace::HTML, "th", "colspan", "1")
+                | (Namespace::HTML, "th", "rowspan", "1")
         )
     }
 
@@ -275,13 +308,45 @@ impl Minifier {
 
         false
     }
+
+    fn allow_to_trim(&self, name: &str) -> bool {
+        ALLOW_TO_TRIM_ATTRIBUTES.contains(&name) || EVENT_HANDLER_ATTRIBUTES.contains(&name)
+    }
 }
 
 impl VisitMut for Minifier {
     fn visit_mut_element(&mut self, n: &mut Element) {
+        let old_current_element_namespace = self.current_element_namespace.take();
+        let old_value_is_script_json_ld = self.is_script_json_ld;
+
+        self.current_element_namespace = Some(n.namespace);
+        self.is_script_json_ld = n.namespace == Namespace::HTML
+            && &*n.tag_name == "script"
+            && n.attributes.iter().any(|attribute| match &*attribute.name {
+                "type"
+                    if attribute.value.is_some()
+                        && matches!(
+                            &**attribute.value.as_ref().unwrap(),
+                            "application/ld+json" | "importmap" | "speculationrules"
+                        ) =>
+                {
+                    true
+                }
+                _ => false,
+            });
+
         n.visit_mut_children_with(self);
 
-        n.children.retain(|child| !matches!(child, Child::Comment(comment) if !self.is_conditional_comment(&comment.data)));
+        self.current_element_namespace = old_current_element_namespace;
+        self.is_script_json_ld = old_value_is_script_json_ld;
+
+        let allow_to_remove_spaces = &*n.tag_name == "head" && n.namespace == Namespace::HTML;
+
+        n.children.retain(|child| match child {
+            Child::Comment(comment) if !self.is_conditional_comment(&comment.data) => false,
+            Child::Text(_) if allow_to_remove_spaces => false,
+            _ => true,
+        });
 
         let mut already_seen: AHashSet<JsWord> = Default::default();
 
@@ -296,14 +361,19 @@ impl VisitMut for Minifier {
                 return true;
             }
 
+            let is_empty_value = (&*attribute.value.as_ref().unwrap()).trim().is_empty();
+
             if self.is_default_attribute_value(
                 n.namespace,
                 &n.tag_name,
                 &attribute.name,
                 attribute.value.as_ref().unwrap(),
-            ) || (matches!(&*attribute.name, "id" | "class" | "style")
-                && (&*attribute.value.as_ref().unwrap()).trim().is_empty())
+            ) || (matches!(&*attribute.name, "id" | "class" | "style") && is_empty_value)
             {
+                return false;
+            }
+
+            if self.is_event_handler_attribute(&attribute.name) && is_empty_value {
                 return false;
             }
 
@@ -318,38 +388,85 @@ impl VisitMut for Minifier {
             return;
         }
 
-        let value = n.value.as_ref().unwrap();
+        let is_element_html_namespace = self.current_element_namespace == Some(Namespace::HTML);
 
-        match &n.name {
-            name if self.is_boolean_attribute(name) => {
-                n.value = None;
-            }
-            name if self.is_event_handler_attribute(name)
-                && value.to_lowercase().starts_with("javascript:") =>
-            {
-                let new_value: String = value.as_ref().chars().skip(11).collect();
-
-                n.value = Some(new_value.into());
-            }
-            _ => {}
-        }
-
-        if self.is_boolean_attribute(&n.name) {
+        if is_element_html_namespace && self.is_boolean_attribute(&n.name) {
             n.value = None;
 
             return;
         }
 
-        let mut value: &str = &*(n.value.as_ref().unwrap().clone());
+        let mut value = match &n.value {
+            Some(value) => value.to_string(),
+            _ => {
+                unreachable!();
+            }
+        };
+
+        if is_element_html_namespace {
+            if &n.name == "contenteditable" && value == "true" {
+                n.value = Some("".into());
+
+                return;
+            }
+
+            if self.is_comma_separated_attribute(&n.name) {
+                let values = value.split(',');
+
+                let mut new_values = vec![];
+
+                for value in values {
+                    new_values.push(value.trim());
+                }
+
+                n.value = Some(new_values.join(",").into());
+
+                return;
+            }
+
+            if self.is_space_separated_attribute(&n.name) {
+                value = value.split_whitespace().collect::<Vec<_>>().join(" ");
+
+                n.value = Some(value.into());
+
+                return;
+            }
+        }
 
         if self.allow_to_trim(&n.name) {
-            value = value.trim();
+            value = value.trim().to_string();
+        }
+
+        if self.is_event_handler_attribute(&n.name)
+            && value.to_lowercase().starts_with("javascript:")
+        {
+            value = value.chars().skip(11).collect();
         }
 
         n.value = Some(value.into());
     }
+
+    fn visit_mut_text(&mut self, n: &mut Text) {
+        n.visit_mut_children_with(self);
+
+        if self.is_script_json_ld {
+            let json = match serde_json::from_str::<Value>(&*n.value) {
+                Ok(json) => json,
+                _ => return,
+            };
+            let minified_json = match serde_json::to_string(&json) {
+                Ok(minified_json) => minified_json,
+                _ => return,
+            };
+
+            n.value = minified_json.into()
+        }
+    }
 }
 
 pub fn minify(document: &mut Document) {
-    document.visit_mut_with(&mut Minifier {});
+    document.visit_mut_with(&mut Minifier {
+        current_element_namespace: None,
+        is_script_json_ld: false,
+    });
 }

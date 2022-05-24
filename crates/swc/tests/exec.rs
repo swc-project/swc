@@ -100,6 +100,7 @@ fn create_matrix(entry: &Path) -> Vec<Options> {
                                 source_map: Default::default(),
                                 output_path: Default::default(),
                                 inline_sources_content: Default::default(),
+                                emit_source_map_columns: Default::default(),
                             })
                         } else {
                             None

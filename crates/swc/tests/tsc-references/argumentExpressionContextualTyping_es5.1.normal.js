@@ -1,10 +1,11 @@
-import * as swcHelpers from "@swc/helpers";
+import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
+import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
 // In a typed function call, argument expressions are contextually typed by their corresponding parameter types.
 function foo(param) {
-    var _x = swcHelpers.slicedToArray(param.x, 2), a = _x[0], b = _x[1], _y = param.y, c = _y.c, d = _y.d, e = _y.e;
+    var _x = _sliced_to_array(param.x, 2), a = _x[0], b = _x[1], _y = param.y, c = _y.c, d = _y.d, e = _y.e;
 }
 function bar(param) {
-    var _x = swcHelpers.slicedToArray(param.x, 2), a = _x[0], tmp = _x[1], b = tmp === void 0 ? 10 : tmp, _y = param.y, c = _y.c, d = _y.d, _e = _y.e, e = _e === void 0 ? {
+    var _x = _sliced_to_array(param.x, 2), a = _x[0], tmp = _x[1], b = tmp === void 0 ? 10 : tmp, _y = param.y, c = _y.c, d = _y.d, _e = _y.e, e = _e === void 0 ? {
         f: 1
     } : _e;
 }
@@ -64,5 +65,5 @@ baz([
     "string",
     1,
     true
-].concat(swcHelpers.toConsumableArray(array))); // Error
+].concat(_to_consumable_array(array))); // Error
 foo(o); // Error because x has an array type namely (string|number)[]

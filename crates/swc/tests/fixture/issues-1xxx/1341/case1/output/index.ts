@@ -1,12 +1,12 @@
 "use strict";
-var swcHelpers = require("@swc/helpers");
+var _async_to_generator = require("@swc/helpers/lib/_async_to_generator.js").default;
 class A {
     foo() {
         var _this = this;
-        return swcHelpers.asyncToGenerator(function*() {
+        return _async_to_generator(function*() {
             try {
                 return yield (function() {
-                    var _ref = swcHelpers.asyncToGenerator(function*(x) {
+                    var _ref = _async_to_generator(function*(x) {
                         return x + _this.val;
                     });
                     return function(x) {

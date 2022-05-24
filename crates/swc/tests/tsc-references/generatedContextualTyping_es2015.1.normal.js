@@ -9,8 +9,7 @@ var b = new Base(), d1 = new Derived1(), d2 = new Derived2();
 var x1 = ()=>[
         d1,
         d2
-    ]
-;
+    ];
 var x2 = function() {
     return [
         d1,
@@ -26,8 +25,7 @@ var x3 = function named() {
 var x4 = ()=>[
         d1,
         d2
-    ]
-;
+    ];
 var x5 = function() {
     return [
         d1,
@@ -75,8 +73,7 @@ class x13 {
         this.member = ()=>[
                 d1,
                 d2
-            ]
-        ;
+            ];
     }
 }
 class x14 {
@@ -104,8 +101,7 @@ class x16 {
         this.member = ()=>[
                 d1,
                 d2
-            ]
-        ;
+            ];
     }
 }
 class x17 {
@@ -187,8 +183,7 @@ class x25 {
         this.member = ()=>[
                 d1,
                 d2
-            ]
-        ;
+            ];
     }
 }
 class x26 {
@@ -216,8 +211,7 @@ class x28 {
         this.member = ()=>[
                 d1,
                 d2
-            ]
-        ;
+            ];
     }
 }
 class x29 {
@@ -299,8 +293,7 @@ class x37 {
         this.member = ()=>[
                 d1,
                 d2
-            ]
-        ;
+            ];
     }
 }
 class x38 {
@@ -328,8 +321,7 @@ class x40 {
         this.member = ()=>[
                 d1,
                 d2
-            ]
-        ;
+            ];
     }
 }
 class x41 {
@@ -411,8 +403,7 @@ class x49 {
 x49.member = ()=>[
         d1,
         d2
-    ]
-;
+    ];
 class x50 {
 }
 x50.member = function() {
@@ -434,8 +425,7 @@ class x52 {
 x52.member = ()=>[
         d1,
         d2
-    ]
-;
+    ];
 class x53 {
 }
 x53.member = function() {
@@ -499,8 +489,7 @@ class x61 {
 x61.member = ()=>[
         d1,
         d2
-    ]
-;
+    ];
 class x62 {
 }
 x62.member = function() {
@@ -522,8 +511,7 @@ class x64 {
 x64.member = ()=>[
         d1,
         d2
-    ]
-;
+    ];
 class x65 {
 }
 x65.member = function() {
@@ -587,8 +575,7 @@ class x73 {
 x73.member = ()=>[
         d1,
         d2
-    ]
-;
+    ];
 class x74 {
 }
 x74.member = function() {
@@ -610,8 +597,7 @@ class x76 {
 x76.member = ()=>[
         d1,
         d2
-    ]
-;
+    ];
 class x77 {
 }
 x77.member = function() {
@@ -674,8 +660,7 @@ class x85 {
     constructor(parm = ()=>[
             d1,
             d2
-        ]
-    ){}
+        ]){}
 }
 class x86 {
     constructor(parm = function() {
@@ -697,8 +682,7 @@ class x88 {
     constructor(parm = ()=>[
             d1,
             d2
-        ]
-    ){}
+        ]){}
 }
 class x89 {
     constructor(parm = function() {
@@ -762,8 +746,7 @@ class x97 {
     constructor(parm = ()=>[
             d1,
             d2
-        ]
-    ){
+        ]){
         this.parm = parm;
     }
 }
@@ -791,8 +774,7 @@ class x100 {
     constructor(parm = ()=>[
             d1,
             d2
-        ]
-    ){
+        ]){
         this.parm = parm;
     }
 }
@@ -874,8 +856,7 @@ class x109 {
     constructor(parm = ()=>[
             d1,
             d2
-        ]
-    ){
+        ]){
         this.parm = parm;
     }
 }
@@ -903,8 +884,7 @@ class x112 {
     constructor(parm = ()=>[
             d1,
             d2
-        ]
-    ){
+        ]){
         this.parm = parm;
     }
 }
@@ -985,8 +965,7 @@ class x120 {
 function x121(parm = ()=>[
         d1,
         d2
-    ]
-) {}
+    ]) {}
 function x122(parm = function() {
     return [
         d1,
@@ -1002,8 +981,7 @@ function x123(parm = function named() {
 function x124(parm = ()=>[
         d1,
         d2
-    ]
-) {}
+    ]) {}
 function x125(parm = function() {
     return [
         d1,
@@ -1050,8 +1028,7 @@ function x133() {
     return ()=>[
             d1,
             d2
-        ]
-    ;
+        ];
 }
 function x134() {
     return function() {
@@ -1073,8 +1050,7 @@ function x136() {
     return ()=>[
             d1,
             d2
-        ]
-    ;
+        ];
 }
 function x137() {
     return function() {
@@ -1138,13 +1114,11 @@ function x145() {
     return ()=>[
             d1,
             d2
-        ]
-    ;
+        ];
     return ()=>[
             d1,
             d2
-        ]
-    ;
+        ];
 }
 function x146() {
     return function() {
@@ -1178,13 +1152,11 @@ function x148() {
     return ()=>[
             d1,
             d2
-        ]
-    ;
+        ];
     return ()=>[
             d1,
             d2
-        ]
-    ;
+        ];
 }
 function x149() {
     return function() {
@@ -1290,8 +1262,7 @@ var x157 = ()=>{
     return ()=>[
             d1,
             d2
-        ]
-    ;
+        ];
 };
 var x158 = ()=>{
     return function() {
@@ -1313,8 +1284,7 @@ var x160 = ()=>{
     return ()=>[
             d1,
             d2
-        ]
-    ;
+        ];
 };
 var x161 = ()=>{
     return function() {
@@ -1378,8 +1348,7 @@ var x169 = function() {
     return ()=>[
             d1,
             d2
-        ]
-    ;
+        ];
 };
 var x170 = function() {
     return function() {
@@ -1401,8 +1370,7 @@ var x172 = function() {
     return ()=>[
             d1,
             d2
-        ]
-    ;
+        ];
 };
 var x173 = function() {
     return function() {
@@ -1467,8 +1435,7 @@ var x181;
     var t = ()=>[
             d1,
             d2
-        ]
-    ;
+        ];
 })(x181 || (x181 = {}));
 var x182;
 (function(x182) {
@@ -1493,8 +1460,7 @@ var x184;
     var t = ()=>[
             d1,
             d2
-        ]
-    ;
+        ];
 })(x184 || (x184 = {}));
 var x185;
 (function(x185) {
@@ -1567,8 +1533,7 @@ var x193;
     var t = x1931.t = ()=>[
             d1,
             d2
-        ]
-    ;
+        ];
 })(x193 || (x193 = {}));
 var x194;
 (function(x1941) {
@@ -1593,8 +1558,7 @@ var x196;
     var t = x1961.t = ()=>[
             d1,
             d2
-        ]
-    ;
+        ];
 })(x196 || (x196 = {}));
 var x197;
 (function(x1971) {
@@ -1758,8 +1722,7 @@ var x225;
 x225 = ()=>[
         d1,
         d2
-    ]
-;
+    ];
 var x226;
 x226 = function() {
     return [
@@ -1778,8 +1741,7 @@ var x228;
 x228 = ()=>[
         d1,
         d2
-    ]
-;
+    ];
 var x229;
 x229 = function() {
     return [
@@ -2137,12 +2099,10 @@ var x284 = {
 var x285 = true ? ()=>[
         d1,
         d2
-    ]
- : ()=>[
+    ] : ()=>[
         d1,
         d2
-    ]
-;
+    ];
 var x286 = true ? function() {
     return [
         d1,
@@ -2168,12 +2128,10 @@ var x287 = true ? function named() {
 var x288 = true ? ()=>[
         d1,
         d2
-    ]
- : ()=>[
+    ] : ()=>[
         d1,
         d2
-    ]
-;
+    ];
 var x289 = true ? function() {
     return [
         d1,
@@ -2253,8 +2211,7 @@ var x296 = true ? {
 var x297 = true ? undefined : ()=>[
         d1,
         d2
-    ]
-;
+    ];
 var x298 = true ? undefined : function() {
     return [
         d1,
@@ -2270,8 +2227,7 @@ var x299 = true ? undefined : function named() {
 var x300 = true ? undefined : ()=>[
         d1,
         d2
-    ]
-;
+    ];
 var x301 = true ? undefined : function() {
     return [
         d1,
@@ -2317,8 +2273,7 @@ var x308 = true ? undefined : {
 var x309 = true ? ()=>[
         d1,
         d2
-    ]
- : undefined;
+    ] : undefined;
 var x310 = true ? function() {
     return [
         d1,
@@ -2334,8 +2289,7 @@ var x311 = true ? function named() {
 var x312 = true ? ()=>[
         d1,
         d2
-    ]
- : undefined;
+    ] : undefined;
 var x313 = true ? function() {
     return [
         d1,
@@ -2382,8 +2336,7 @@ function x321(n) {}
 x321(()=>[
         d1,
         d2
-    ]
-);
+    ]);
 function x322(n) {}
 x322(function() {
     return [
@@ -2402,8 +2355,7 @@ function x324(n) {}
 x324(()=>[
         d1,
         d2
-    ]
-);
+    ]);
 function x325(n) {}
 x325(function() {
     return [
@@ -2454,86 +2406,72 @@ x332({
         ];
     }
 });
-var x333 = (n)=>n
-;
+var x333 = (n)=>n;
 x333(()=>[
         d1,
         d2
-    ]
-);
-var x334 = (n)=>n
-;
+    ]);
+var x334 = (n)=>n;
 x334(function() {
     return [
         d1,
         d2
     ];
 });
-var x335 = (n)=>n
-;
+var x335 = (n)=>n;
 x335(function named() {
     return [
         d1,
         d2
     ];
 });
-var x336 = (n)=>n
-;
+var x336 = (n)=>n;
 x336(()=>[
         d1,
         d2
-    ]
-);
-var x337 = (n)=>n
-;
+    ]);
+var x337 = (n)=>n;
 x337(function() {
     return [
         d1,
         d2
     ];
 });
-var x338 = (n)=>n
-;
+var x338 = (n)=>n;
 x338(function named() {
     return [
         d1,
         d2
     ];
 });
-var x339 = (n)=>n
-;
+var x339 = (n)=>n;
 x339([
     d1,
     d2
 ]);
-var x340 = (n)=>n
-;
+var x340 = (n)=>n;
 x340([
     d1,
     d2
 ]);
-var x341 = (n)=>n
-;
+var x341 = (n)=>n;
 x341([
     d1,
     d2
 ]);
-var x342 = (n)=>n
-;
+var x342 = (n)=>n;
 x342({
     n: [
         d1,
         d2
     ]
 });
-var x343 = (n)=>n
-;
+var x343 = (n)=>n;
 x343((n)=>{
     var n;
     return null;
 });
-var x344 = (n)=>n
-;
+var x344 = (n)=>n;
 x344({
     func: (n)=>{
         return [
@@ -2546,8 +2484,7 @@ var x345 = function(n) {};
 x345(()=>[
         d1,
         d2
-    ]
-);
+    ]);
 var x346 = function(n) {};
 x346(function() {
     return [
@@ -2566,8 +2503,7 @@ var x348 = function(n) {};
 x348(()=>[
         d1,
         d2
-    ]
-);
+    ]);
 var x349 = function(n) {};
 x349(function() {
     return [

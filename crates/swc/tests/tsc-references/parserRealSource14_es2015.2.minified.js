@@ -16,8 +16,7 @@ var TypeScript;
         }
         clone() {
             var clone = new AstPath();
-            return clone.asts = this.asts.map((value)=>value
-            ), clone.top = this.top, clone;
+            return clone.asts = this.asts.map((value)=>value), clone.top = this.top, clone;
         }
         pop() {
             var head = this.ast();
@@ -237,8 +236,7 @@ var TypeScript;
         }, ctx = new AstPathContext();
         return TypeScript.getAstWalkerFactory().walk(script, pre, null, null, ctx), ctx.path;
     }, TypeScript1.getTokenizationOffset = function(script, position) {
-        var bestOffset = 0, pre = (cur, parent, walker)=>(TypeScript.isValidAstNode(cur) && (cur.minChar <= position && (bestOffset = max(bestOffset, cur.minChar)), (cur.minChar > position || cur.limChar < bestOffset) && (walker.options.goChildren = !1)), cur)
-        ;
+        var bestOffset = 0, pre = (cur, parent, walker)=>(TypeScript.isValidAstNode(cur) && (cur.minChar <= position && (bestOffset = max(bestOffset, cur.minChar)), (cur.minChar > position || cur.limChar < bestOffset) && (walker.options.goChildren = !1)), cur);
         return TypeScript.getAstWalkerFactory().walk(script, pre), bestOffset;
     }, TypeScript1.walkAST = function(ast, callback) {
         var path1 = new AstPath();

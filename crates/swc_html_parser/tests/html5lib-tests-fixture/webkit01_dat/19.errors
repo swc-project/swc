@@ -1,0 +1,4 @@
+(1,6): expected-doctype-but-got-start-tag
+(1,28): attributes-in-end-tag
+(1,28): unexpected-end-tag-after-body
+(1,28): unexpected-end-tag-treated-as

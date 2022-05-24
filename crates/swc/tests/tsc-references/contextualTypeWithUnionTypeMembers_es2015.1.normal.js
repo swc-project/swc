@@ -6,35 +6,25 @@ var i1Ori2 = i1;
 var i1Ori2 = i2;
 var i1Ori2 = {
     commonPropertyType: "hello",
-    commonMethodType: (a)=>a
-    ,
-    commonMethodWithTypeParameter: (a)=>a
-    ,
-    methodOnlyInI1: (a)=>a
-    ,
+    commonMethodType: (a)=>a,
+    commonMethodWithTypeParameter: (a)=>a,
+    methodOnlyInI1: (a)=>a,
     propertyOnlyInI1: "Hello"
 };
 var i1Ori2 = {
     commonPropertyType: "hello",
-    commonMethodType: (a)=>a
-    ,
-    commonMethodWithTypeParameter: (a)=>a
-    ,
-    methodOnlyInI2: (a)=>a
-    ,
+    commonMethodType: (a)=>a,
+    commonMethodWithTypeParameter: (a)=>a,
+    methodOnlyInI2: (a)=>a,
     propertyOnlyInI2: "Hello"
 };
 var i1Ori2 = {
     commonPropertyType: "hello",
-    commonMethodType: (a)=>a
-    ,
-    commonMethodWithTypeParameter: (a)=>a
-    ,
-    methodOnlyInI1: (a)=>a
-    ,
+    commonMethodType: (a)=>a,
+    commonMethodWithTypeParameter: (a)=>a,
+    methodOnlyInI1: (a)=>a,
     propertyOnlyInI1: "Hello",
-    methodOnlyInI2: (a)=>a
-    ,
+    methodOnlyInI2: (a)=>a,
     propertyOnlyInI2: "Hello"
 };
 var arrayI1OrI2 = [
@@ -42,35 +32,25 @@ var arrayI1OrI2 = [
     i2,
     {
         commonPropertyType: "hello",
-        commonMethodType: (a)=>a
-        ,
-        commonMethodWithTypeParameter: (a)=>a
-        ,
-        methodOnlyInI1: (a)=>a
-        ,
+        commonMethodType: (a)=>a,
+        commonMethodWithTypeParameter: (a)=>a,
+        methodOnlyInI1: (a)=>a,
         propertyOnlyInI1: "Hello"
     },
     {
         commonPropertyType: "hello",
-        commonMethodType: (a)=>a
-        ,
-        commonMethodWithTypeParameter: (a)=>a
-        ,
-        methodOnlyInI2: (a)=>a
-        ,
+        commonMethodType: (a)=>a,
+        commonMethodWithTypeParameter: (a)=>a,
+        methodOnlyInI2: (a)=>a,
         propertyOnlyInI2: "Hello"
     },
     {
         commonPropertyType: "hello",
-        commonMethodType: (a)=>a
-        ,
-        commonMethodWithTypeParameter: (a)=>a
-        ,
-        methodOnlyInI1: (a)=>a
-        ,
+        commonMethodType: (a)=>a,
+        commonMethodWithTypeParameter: (a)=>a,
+        methodOnlyInI1: (a)=>a,
         propertyOnlyInI1: "Hello",
-        methodOnlyInI2: (a)=>a
-        ,
+        methodOnlyInI2: (a)=>a,
         propertyOnlyInI2: "Hello"
     }
 ];

@@ -1723,8 +1723,7 @@ class PartReader {
         assert(cd != null, "content-disposition must be set");
         const comps = decodeURI(cd).split(";");
         this.contentDisposition = comps[0];
-        comps.slice(1).map((v)=>v.trim()
-        ).map((kv)=>{
+        comps.slice(1).map((v)=>v.trim()).map((kv)=>{
             const [k, v] = kv.split("=");
             if (v) {
                 const s = v.charAt(0);

@@ -1,8 +1,10 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var BaseClass = /*#__PURE__*/ function() {
     "use strict";
     function BaseClass() {
-        swcHelpers.classCallCheck(this, BaseClass);
+        _class_call_check(this, BaseClass);
     }
     var _proto = BaseClass.prototype;
     _proto.baseMethod = function baseMethod() {};
@@ -10,10 +12,10 @@ var BaseClass = /*#__PURE__*/ function() {
 }();
 var Child = /*#__PURE__*/ function(BaseClass) {
     "use strict";
-    swcHelpers.inherits(Child, BaseClass);
-    var _super = swcHelpers.createSuper(Child);
+    _inherits(Child, BaseClass);
+    var _super = _create_super(Child);
     function Child() {
-        swcHelpers.classCallCheck(this, Child);
+        _class_call_check(this, Child);
         return _super.apply(this, arguments);
     }
     var _proto = Child.prototype;
@@ -23,7 +25,7 @@ var Child = /*#__PURE__*/ function(BaseClass) {
 var ChildNoBaseClass = /*#__PURE__*/ function() {
     "use strict";
     function ChildNoBaseClass() {
-        swcHelpers.classCallCheck(this, ChildNoBaseClass);
+        _class_call_check(this, ChildNoBaseClass);
     }
     var _proto = ChildNoBaseClass.prototype;
     _proto.method2 = function method2() {};
@@ -31,10 +33,10 @@ var ChildNoBaseClass = /*#__PURE__*/ function() {
 }();
 var Grandchild = /*#__PURE__*/ function(ChildNoBaseClass) {
     "use strict";
-    swcHelpers.inherits(Grandchild, ChildNoBaseClass);
-    var _super = swcHelpers.createSuper(Grandchild);
+    _inherits(Grandchild, ChildNoBaseClass);
+    var _super = _create_super(Grandchild);
     function Grandchild() {
-        swcHelpers.classCallCheck(this, Grandchild);
+        _class_call_check(this, Grandchild);
         return _super.apply(this, arguments);
     }
     return Grandchild;

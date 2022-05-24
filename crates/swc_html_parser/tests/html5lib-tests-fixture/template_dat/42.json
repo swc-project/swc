@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 0,
-    "end": 81,
+    "start": 1,
+    "end": 82,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 56,
+        "end": 57,
         "ctxt": 0
       },
       "tagName": "html",
@@ -22,7 +22,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 6,
+            "end": 7,
             "ctxt": 0
           },
           "tagName": "head",
@@ -34,8 +34,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 0,
-            "end": 56,
+            "start": 1,
+            "end": 57,
             "ctxt": 0
           },
           "tagName": "body",
@@ -45,56 +45,64 @@
             {
               "type": "Element",
               "span": {
-                "start": 6,
-                "end": 56,
+                "start": 7,
+                "end": 57,
                 "ctxt": 0
               },
               "tagName": "template",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
-              "children": [
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 16,
-                    "end": 37,
-                    "ctxt": 0
-                  },
-                  "tagName": "div",
-                  "namespace": "http://www.w3.org/1999/xhtml",
-                  "attributes": [],
-                  "children": [
-                    {
-                      "type": "Element",
-                      "span": {
-                        "start": 31,
-                        "end": 37,
-                        "ctxt": 0
-                      },
-                      "tagName": "span",
-                      "namespace": "http://www.w3.org/1999/xhtml",
-                      "attributes": [],
-                      "children": [],
-                      "content": null
-                    }
-                  ],
-                  "content": null
+              "children": [],
+              "content": {
+                "type": "DocumentFragment",
+                "span": {
+                  "start": 7,
+                  "end": 57,
+                  "ctxt": 0
                 },
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 50,
-                    "end": 56,
-                    "ctxt": 0
+                "children": [
+                  {
+                    "type": "Element",
+                    "span": {
+                      "start": 17,
+                      "end": 38,
+                      "ctxt": 0
+                    },
+                    "tagName": "div",
+                    "namespace": "http://www.w3.org/1999/xhtml",
+                    "attributes": [],
+                    "children": [
+                      {
+                        "type": "Element",
+                        "span": {
+                          "start": 32,
+                          "end": 38,
+                          "ctxt": 0
+                        },
+                        "tagName": "span",
+                        "namespace": "http://www.w3.org/1999/xhtml",
+                        "attributes": [],
+                        "children": [],
+                        "content": null
+                      }
+                    ],
+                    "content": null
                   },
-                  "tagName": "span",
-                  "namespace": "http://www.w3.org/1999/xhtml",
-                  "attributes": [],
-                  "children": [],
-                  "content": null
-                }
-              ],
-              "content": null
+                  {
+                    "type": "Element",
+                    "span": {
+                      "start": 51,
+                      "end": 57,
+                      "ctxt": 0
+                    },
+                    "tagName": "span",
+                    "namespace": "http://www.w3.org/1999/xhtml",
+                    "attributes": [],
+                    "children": [],
+                    "content": null
+                  }
+                ]
+              }
             }
           ],
           "content": null

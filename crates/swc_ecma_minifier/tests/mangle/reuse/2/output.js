@@ -13,8 +13,7 @@ function h(a) {
     }
 }
 function i(a) {
-    return a.find((a)=>a === h
-    ) ? true : false;
+    return a.find((a)=>a === h) ? true : false;
 }
 function j(a) {
     return a === undefined || a === null || a === "";
@@ -25,8 +24,7 @@ function a(a) {
     }, true) : undefined;
 }
 function k(b) {
-    return b.find((b)=>b === a
-    ) ? false : true;
+    return b.find((b)=>b === a) ? false : true;
 }
 const l = (a, b, d, e)=>{
     b.attr = d;
@@ -101,8 +99,7 @@ const r = (a, b)=>{
 };
 const s = (a)=>{
     return {
-        getValue: (b)=>q(a, b)
-        ,
+        getValue: (b)=>q(a, b),
         hasValue: (b)=>r(a, b)
     };
 };
@@ -141,13 +138,11 @@ const v = new Set([
 const w = async (d, b, f)=>{
     const e = [];
     if (j(d) && k(b)) {
-        const g = b.filter((a)=>v.has(a.name)
-        );
+        const g = b.filter((a)=>v.has(a.name));
         if (g.length === 0) {
             return [];
         }
-        for (let h of b.filter((a)=>v.has(a.name)
-        )){
+        for (let h of b.filter((a)=>v.has(a.name))){
             let a = h(d, f);
             if (a instanceof Promise) {
                 a = await a;
@@ -162,8 +157,7 @@ const w = async (d, b, f)=>{
                 }
             }
         }
-        b = b.filter((a)=>!v.has(a.name)
-        );
+        b = b.filter((a)=>!v.has(a.name));
     }
     if (typeof d === "object" && d === null && i(b)) {
         return [];

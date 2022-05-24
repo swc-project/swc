@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 0,
-    "end": 51,
+    "start": 1,
+    "end": 52,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -10,8 +10,8 @@
     {
       "type": "DocumentType",
       "span": {
-        "start": 0,
-        "end": 15,
+        "start": 1,
+        "end": 16,
         "ctxt": 0
       },
       "name": "html",
@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 43,
+        "end": 44,
         "ctxt": 0
       },
       "tagName": "html",
@@ -33,7 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 22,
+            "end": 23,
             "ctxt": 0
           },
           "tagName": "head",
@@ -46,7 +46,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 43,
+            "end": 44,
             "ctxt": 0
           },
           "tagName": "body",
@@ -56,8 +56,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 15,
-                "end": 43,
+                "start": 16,
+                "end": 44,
                 "ctxt": 0
               },
               "tagName": "table",
@@ -67,8 +67,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 22,
-                    "end": 43,
+                    "start": 23,
+                    "end": 44,
                     "ctxt": 0
                   },
                   "value": "  "
@@ -76,8 +76,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 24,
-                    "end": 43,
+                    "start": 25,
+                    "end": 44,
                     "ctxt": 0
                   },
                   "tagName": "input",
@@ -86,8 +86,8 @@
                     {
                       "type": "Attribute",
                       "span": {
-                        "start": 0,
-                        "end": 0,
+                        "start": 32,
+                        "end": 43,
                         "ctxt": 0
                       },
                       "namespace": null,

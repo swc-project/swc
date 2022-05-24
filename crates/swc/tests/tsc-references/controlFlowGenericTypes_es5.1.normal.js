@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @strict: true
 function f1(x, y, z) {
     if (x) {
@@ -85,7 +85,7 @@ function get(key, obj) {
 var EventEmitter = /*#__PURE__*/ function() {
     "use strict";
     function EventEmitter() {
-        swcHelpers.classCallCheck(this, EventEmitter);
+        _class_call_check(this, EventEmitter);
     }
     var _proto = EventEmitter.prototype;
     _proto.off = function off() {
@@ -118,7 +118,7 @@ function fx3(obj, key) {
 var TableBaseEnum = /*#__PURE__*/ function() {
     "use strict";
     function TableBaseEnum() {
-        swcHelpers.classCallCheck(this, TableBaseEnum);
+        _class_call_check(this, TableBaseEnum);
     }
     var _proto = TableBaseEnum.prototype;
     _proto.m = function m() {
@@ -140,7 +140,7 @@ function f10(x, y) {
 var SqlTable = /*#__PURE__*/ function() {
     "use strict";
     function SqlTable() {
-        swcHelpers.classCallCheck(this, SqlTable);
+        _class_call_check(this, SqlTable);
     }
     var _proto = SqlTable.prototype;
     _proto.validateRow = function validateRow(_row) {};

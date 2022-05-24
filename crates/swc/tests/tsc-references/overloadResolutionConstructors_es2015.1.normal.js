@@ -48,7 +48,5 @@ new fn4(null, null); // Error
 new fn4(true, null); // Error
 new fn4(null, true); // Error
 var fn5;
-var n = new fn5((n1)=>n1.toFixed()
-);
-var s = new fn5((n2)=>n2.substr(0)
-);
+var n = new fn5((n1)=>n1.toFixed());
+var s = new fn5((n2)=>n2.substr(0));

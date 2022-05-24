@@ -1,6 +1,11 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_private_field_get from "@swc/helpers/lib/_class_private_field_get.js";
+import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
+import _class_private_method_get from "@swc/helpers/lib/_class_private_method_get.js";
+import _class_private_method_init from "@swc/helpers/lib/_class_private_method_init.js";
+import _tagged_template_literal from "@swc/helpers/lib/_tagged_template_literal.js";
 function _templateObject() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         "tagged template"
     ]);
     _templateObject = function _templateObject() {
@@ -9,7 +14,7 @@ function _templateObject() {
     return data;
 }
 function _templateObject1() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         "tagged template"
     ]);
     _templateObject1 = function _templateObject1() {
@@ -20,15 +25,15 @@ function _templateObject1() {
 var _tag = /*#__PURE__*/ new WeakSet(), _tag2 = /*#__PURE__*/ new WeakMap();
 var Foo = function Foo() {
     "use strict";
-    swcHelpers.classCallCheck(this, Foo);
-    swcHelpers.classPrivateMethodInit(this, _tag);
-    swcHelpers.classPrivateFieldInit(this, _tag2, {
+    _class_call_check(this, Foo);
+    _class_private_method_init(this, _tag);
+    _class_private_field_init(this, _tag2, {
         writable: true,
-        value: swcHelpers.classPrivateMethodGet(this, _tag, tag)
+        value: _class_private_method_get(this, _tag, tag)
     });
-    var receiver = swcHelpers.classPrivateMethodGet(this, _tag, tag).bind(this)(_templateObject());
+    var receiver = _class_private_method_get(this, _tag, tag).bind(this)(_templateObject());
     console.log(receiver === this);
-    var receiver2 = swcHelpers.classPrivateFieldGet(this, _tag2).bind(this)(_templateObject1());
+    var receiver2 = _class_private_field_get(this, _tag2).bind(this)(_templateObject1());
     console.log(receiver2 === this);
 };
 function tag() {

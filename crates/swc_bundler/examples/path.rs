@@ -46,7 +46,10 @@ fn main() {
 
     let wr = stdout();
     let mut emitter = Emitter {
-        cfg: swc_ecma_codegen::Config { minify: false },
+        cfg: swc_ecma_codegen::Config {
+            minify: false,
+            ..Default::default()
+        },
         cm: cm.clone(),
         comments: None,
         wr: Box::new(JsWriter::new(cm, "\n", wr.lock(), None)),

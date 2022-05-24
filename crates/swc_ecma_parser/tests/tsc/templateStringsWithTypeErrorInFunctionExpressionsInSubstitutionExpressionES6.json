@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 16,
-    "end": 58,
+    "start": 17,
+    "end": 59,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 16,
-        "end": 58,
+        "start": 17,
+        "end": 59,
         "ctxt": 0
       },
       "expression": {
         "type": "TemplateLiteral",
         "span": {
-          "start": 16,
-          "end": 57,
+          "start": 17,
+          "end": 58,
           "ctxt": 0
         },
         "expressions": [
@@ -28,16 +28,16 @@
               {
                 "type": "Parameter",
                 "span": {
-                  "start": 29,
-                  "end": 38,
+                  "start": 30,
+                  "end": 39,
                   "ctxt": 0
                 },
                 "decorators": [],
                 "pat": {
                   "type": "Identifier",
                   "span": {
-                    "start": 29,
-                    "end": 38,
+                    "start": 30,
+                    "end": 39,
                     "ctxt": 0
                   },
                   "value": "x",
@@ -45,15 +45,15 @@
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
-                      "start": 30,
-                      "end": 38,
+                      "start": 31,
+                      "end": 39,
                       "ctxt": 0
                     },
                     "typeAnnotation": {
                       "type": "TsKeywordType",
                       "span": {
-                        "start": 32,
-                        "end": 38,
+                        "start": 33,
+                        "end": 39,
                         "ctxt": 0
                       },
                       "kind": "number"
@@ -64,38 +64,38 @@
             ],
             "decorators": [],
             "span": {
-              "start": 19,
-              "end": 54,
+              "start": 20,
+              "end": 55,
               "ctxt": 0
             },
             "body": {
               "type": "BlockStatement",
               "span": {
-                "start": 40,
-                "end": 54,
+                "start": 41,
+                "end": 55,
                 "ctxt": 0
               },
               "stmts": [
                 {
                   "type": "ExpressionStatement",
                   "span": {
-                    "start": 42,
-                    "end": 52,
+                    "start": 43,
+                    "end": 53,
                     "ctxt": 0
                   },
                   "expression": {
                     "type": "AssignmentExpression",
                     "span": {
-                      "start": 42,
-                      "end": 51,
+                      "start": 43,
+                      "end": 52,
                       "ctxt": 0
                     },
                     "operator": "=",
                     "left": {
                       "type": "Identifier",
                       "span": {
-                        "start": 42,
-                        "end": 43,
+                        "start": 43,
+                        "end": 44,
                         "ctxt": 0
                       },
                       "value": "x",
@@ -105,8 +105,8 @@
                     "right": {
                       "type": "StringLiteral",
                       "span": {
-                        "start": 46,
-                        "end": 51,
+                        "start": 47,
+                        "end": 52,
                         "ctxt": 0
                       },
                       "value": "bad",
@@ -126,8 +126,8 @@
           {
             "type": "TemplateElement",
             "span": {
-              "start": 17,
-              "end": 17,
+              "start": 18,
+              "end": 18,
               "ctxt": 0
             },
             "tail": false,
@@ -137,8 +137,8 @@
           {
             "type": "TemplateElement",
             "span": {
-              "start": 56,
-              "end": 56,
+              "start": 57,
+              "end": 57,
               "ctxt": 0
             },
             "tail": true,

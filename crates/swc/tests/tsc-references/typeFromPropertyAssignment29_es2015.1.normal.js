@@ -20,8 +20,7 @@ ExpandoExpr.m = function(n4) {
     return n4 + 1;
 };
 var n = (ExpandoExpr.prop.x || 0) + ExpandoExpr.m(12) + ExpandoExpr(101).length;
-const ExpandoArrow = (n5)=>n5.toString()
-;
+const ExpandoArrow = (n5)=>n5.toString();
 ExpandoArrow.prop = 2;
 ExpandoArrow.m = function(n6) {
     return n6 + 1;
@@ -30,7 +29,7 @@ function ExpandoNested(n7) {
     const nested = function(m) {
         return n7 + m;
     };
-    nested.total = n7 + 1_000_000;
+    nested.total = n7 + 1000000;
     return nested;
 }
 ExpandoNested.also = -1;

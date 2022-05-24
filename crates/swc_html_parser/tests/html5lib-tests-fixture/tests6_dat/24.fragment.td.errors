@@ -1,0 +1,6 @@
+(1,8): unexpected-end-tag
+(1,16): unexpected-end-tag
+(1,24): unexpected-end-tag
+(1,32): unexpected-end-tag
+(1,37): unexpected-end-tag
+(1,42): expected-closing-tag-but-got-eof

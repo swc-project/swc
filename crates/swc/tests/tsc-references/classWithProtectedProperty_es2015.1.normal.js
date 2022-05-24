@@ -9,12 +9,10 @@ class C {
     constructor(){
         this.a = '';
         this.b = '';
-        this.d = ()=>''
-        ;
+        this.d = ()=>'';
     }
 }
-C.g = ()=>''
-;
+C.g = ()=>'';
 class D extends C {
     method() {
         // No errors

@@ -1,5 +1,5 @@
 // @filename: t3.ts
-import { I, N, T } from "./t1";
+import { I, T } from "./t1";
 // @target: es6
 // @module: commonjs
 // @filename: t1.ts
@@ -25,7 +25,7 @@ var M;
     M1.x = x;
 })(M || (M = {}));
 var a = M.x;
-export { v, f, C, E, D, a };
+export { v, f, C, E, D, M, N, a };
 // @filename: t2.ts
 export { v, f, C, I, E, D, M, N, T, a } from "./t1";
-export { v, f, C, E, D, a };
+export { v, f, C, E, D, M, N, a };

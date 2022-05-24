@@ -31,9 +31,7 @@ for(var anObjectLiteral = {
 for(var anOtherObjectLiteral = new C();;){}
 for(var aFunction = F;;){}
 for(var anOtherFunction = F;;){}
-for(var aLambda = (x)=>2
-;;){}
+for(var aLambda = (x)=>2;;){}
 for(var aModule = M;;){}
 for(var aClassInModule = new M.A();;){}
-for(var aFunctionInModule = (x)=>'this is a string'
-;;){}
+for(var aFunctionInModule = (x)=>'this is a string';;){}

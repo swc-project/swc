@@ -6,8 +6,7 @@
 // @skipLibCheck: true
 // @libFiles: react.d.ts,lib.d.ts
 const React = require('react');
-const Foo = (props)=>undefined
-;
+const Foo = (props)=>undefined;
 function Greet(x) {
     return undefined;
 }

@@ -20,6 +20,7 @@ where
     E: Emit<T>,
     T: Spanned,
 {
+    #[allow(clippy::only_used_in_recursion)]
     #[inline]
     fn emit(&mut self, node: &&'_ T) -> Result {
         self.emit(&**node)

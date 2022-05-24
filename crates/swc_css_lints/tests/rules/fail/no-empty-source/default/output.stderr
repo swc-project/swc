@@ -1,2 +1,6 @@
 
   x Unexpected empty source.
+   ,-[$DIR/tests/rules/fail/no-empty-source/default/input.css:1:1]
+ 1 |  
+   : ^
+   `----

@@ -1,8 +1,8 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var Button = /*#__PURE__*/ function() {
     "use strict";
     function Button() {
-        swcHelpers.classCallCheck(this, Button);
+        _class_call_check(this, Button);
     }
     var _proto = Button.prototype;
     _proto.render = function render() {

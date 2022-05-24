@@ -161,6 +161,15 @@ pub struct Scope {
 }
 
 impl Scope {
+    /// insert exported bindings without duplication
+    pub(crate) fn insert_exported_bindings(&mut self, id: Id) {
+        let bindings = self.exported_bindings.entry(id.clone()).or_default();
+
+        if !bindings.contains(&id) {
+            bindings.push(id);
+        }
+    }
+
     ///
     /// ```js
     /// Object.keys(_foo).forEach(function (key) {
@@ -374,27 +383,8 @@ impl Scope {
                     )
                 });
 
-            if &*import.src.value != "@swc/helpers" {
-                self.import_types.insert(import.src.value, true);
-            }
+            self.import_types.insert(import.src.value, true);
         } else {
-            self.imports
-                .entry(import.src.value.clone())
-                .and_modify(|(span, opt)| {
-                    if opt.is_none() {
-                        *span = import.src.span;
-
-                        let ident =
-                            private_ident!(import.src.span, local_name_for_src(&import.src.value));
-                        *opt = Some((ident.sym, ident.span));
-                    }
-                })
-                .or_insert_with(|| {
-                    let ident =
-                        private_ident!(import.src.span, local_name_for_src(&import.src.value));
-                    (import.src.span, Some((ident.sym, ident.span)))
-                });
-
             let mut has_non_default = false;
             for s in import.specifiers {
                 match s {
@@ -418,18 +408,34 @@ impl Scope {
                                 (import.src.span, Some((ns.local.sym.clone(), ns.local.span)))
                             });
 
-                        if &*import.src.value != "@swc/helpers" {
-                            self.import_types.insert(import.src.value.clone(), true);
-                        }
+                        self.import_types.insert(import.src.value.clone(), true);
                     }
                     ImportSpecifier::Default(i) => {
-                        self.idents.insert(
-                            i.local.to_id(),
-                            (import.src.value.clone(), js_word!("default")),
-                        );
-                        self.import_types
-                            .entry(import.src.value.clone())
-                            .or_insert(false);
+                        // Helpers are special.
+                        if import.src.value.starts_with("@swc/helpers/lib") {
+                            let ident = i.local.clone();
+
+                            self.imports
+                                .entry(import.src.value.clone())
+                                .and_modify(|(span, opt)| {
+                                    if opt.is_none() {
+                                        *span = import.src.span;
+
+                                        *opt = Some((ident.sym.clone(), ident.span));
+                                    }
+                                })
+                                .or_insert_with(|| {
+                                    (import.src.span, Some((ident.sym, ident.span)))
+                                });
+                        } else {
+                            self.idents.insert(
+                                i.local.to_id(),
+                                (import.src.value.clone(), js_word!("default")),
+                            );
+                            self.import_types
+                                .entry(import.src.value.clone())
+                                .or_insert(false);
+                        }
                     }
                     ImportSpecifier::Named(i) => {
                         let ImportNamedSpecifier {
@@ -460,6 +466,23 @@ impl Scope {
                     }
                 }
             }
+
+            self.imports
+                .entry(import.src.value.clone())
+                .and_modify(|(span, opt)| {
+                    if opt.is_none() {
+                        *span = import.src.span;
+
+                        let ident =
+                            private_ident!(import.src.span, local_name_for_src(&import.src.value));
+                        *opt = Some((ident.sym, ident.span));
+                    }
+                })
+                .or_insert_with(|| {
+                    let ident =
+                        private_ident!(import.src.span, local_name_for_src(&import.src.value));
+                    (import.src.span, Some((ident.sym, ident.span)))
+                });
         }
     }
 

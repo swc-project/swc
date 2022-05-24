@@ -2,7 +2,6 @@ use std::io::{self, Write};
 
 use rustc_hash::FxHashSet;
 use swc_common::{sync::Lrc, BytePos, LineCol, SourceMap, Span};
-use swc_ecma_ast::EsVersion;
 
 use super::{Result, WriteJs};
 
@@ -23,25 +22,14 @@ pub struct JsWriter<'a, W: Write> {
     /// Used to avoid including whitespaces created by indention.
     pending_srcmap: Option<BytePos>,
     wr: W,
-    target: EsVersion,
 }
 
 impl<'a, W: Write> JsWriter<'a, W> {
     pub fn new(
-        cm: Lrc<SourceMap>,
-        new_line: &'a str,
-        wr: W,
-        srcmap: Option<&'a mut Vec<(BytePos, LineCol)>>,
-    ) -> Self {
-        Self::with_target(cm, new_line, wr, srcmap, EsVersion::Es2020)
-    }
-
-    pub fn with_target(
         _: Lrc<SourceMap>,
         new_line: &'a str,
         wr: W,
         srcmap: Option<&'a mut Vec<(BytePos, LineCol)>>,
-        target: EsVersion,
     ) -> Self {
         JsWriter {
             indent: Default::default(),
@@ -51,7 +39,6 @@ impl<'a, W: Write> JsWriter<'a, W> {
             new_line,
             srcmap,
             wr,
-            target,
             pending_srcmap: Default::default(),
             srcmap_done: Default::default(),
         }
@@ -106,6 +93,10 @@ impl<'a, W: Write> JsWriter<'a, W> {
     }
 
     fn srcmap(&mut self, byte_pos: BytePos) {
+        if byte_pos.is_dummy() {
+            return;
+        }
+
         if let Some(ref mut srcmap) = self.srcmap {
             if self
                 .srcmap_done
@@ -122,10 +113,6 @@ impl<'a, W: Write> JsWriter<'a, W> {
 }
 
 impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
-    fn target(&self) -> EsVersion {
-        self.target
-    }
-
     fn increase_indent(&mut self) -> Result {
         self.indent += 1;
         Ok(())

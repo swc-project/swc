@@ -1,23 +1,25 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var BaseClass = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, BaseClass);
+    _class_call_check(this, BaseClass);
 }, Broken = function(BaseClass1) {
     "use strict";
-    swcHelpers.inherits(Broken, BaseClass1);
-    var _super = swcHelpers.createSuper(Broken);
+    _inherits(Broken, BaseClass1);
+    var _super = _create_super(Broken);
     function Broken() {
-        return swcHelpers.classCallCheck(this, Broken), _super.apply(this, arguments);
+        return _class_call_check(this, Broken), _super.apply(this, arguments);
     }
     return Broken;
 }(BaseClass);
 new Broken().bar;
 var IncorrectlyExtends = function(BaseClass2) {
     "use strict";
-    swcHelpers.inherits(IncorrectlyExtends, BaseClass2);
-    var _super = swcHelpers.createSuper(IncorrectlyExtends);
+    _inherits(IncorrectlyExtends, BaseClass2);
+    var _super = _create_super(IncorrectlyExtends);
     function IncorrectlyExtends() {
-        return swcHelpers.classCallCheck(this, IncorrectlyExtends), _super.apply(this, arguments);
+        return _class_call_check(this, IncorrectlyExtends), _super.apply(this, arguments);
     }
     return IncorrectlyExtends;
 }(BaseClass);

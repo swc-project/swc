@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // all errors imported modules conflict with local variables
 var A;
 (function(A1) {
@@ -18,7 +18,7 @@ var X;
 (function(X1) {
     var Y = function Y() {
         "use strict";
-        swcHelpers.classCallCheck(this, Y);
+        _class_call_check(this, Y);
     };
     X1.Y = Y;
 })(X || (X = {}));

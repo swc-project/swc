@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 !function(X1) {
     var Y, Point;
     (Point = (Y = X1.Y || (X1.Y = {})).Point || (Y.Point = {})).Origin = new Point(0, 0);
@@ -6,10 +6,10 @@ import * as swcHelpers from "@swc/helpers";
     var Y, Point;
     Y = X2.Y || (X2.Y = {}), Point = function(x, y) {
         "use strict";
-        swcHelpers.classCallCheck(this, Point), this.x = x, this.y = y;
+        _class_call_check(this, Point), this.x = x, this.y = y;
     }, Y.Point = Point;
 }(X || (X = {})), (A || (A = {})).Instance = new A();
 var X, A = function A() {
     "use strict";
-    swcHelpers.classCallCheck(this, A);
+    _class_call_check(this, A);
 };

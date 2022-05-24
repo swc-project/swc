@@ -1,2 +1,2 @@
-import * as swcHelpers from "@swc/helpers";
-var x = "abc".concat(swcHelpers._instanceof("hello", String), "def");
+import _instanceof from "@swc/helpers/lib/_instanceof.js";
+var x = "abc".concat(_instanceof("hello", String), "def");

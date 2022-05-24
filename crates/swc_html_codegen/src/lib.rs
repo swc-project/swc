@@ -133,6 +133,7 @@ where
         doctype.push('>');
 
         write_raw!(self, n.span, &doctype);
+        formatting_newline!(self);
     }
 
     #[emitter]
@@ -147,6 +148,10 @@ where
         }
 
         write_raw!(self, ">");
+
+        if !self.config.minify && n.namespace == Namespace::HTML && &*n.tag_name == "html" {
+            newline!(self);
+        }
 
         let no_children = n.namespace == Namespace::HTML
             && matches!(
@@ -177,14 +182,17 @@ where
 
         self.is_plaintext = matches!(&*n.tag_name, "plaintext");
 
-        if !n.children.is_empty() {
+        if let Some(content) = &n.content {
+            emit!(self, content);
+        } else if !n.children.is_empty() {
             let skip_escape_text = match &*n.tag_name {
                 "style" | "script" | "xmp" | "iframe" | "noembed" | "noframes" => true,
                 "noscript" => self.config.scripting_enabled,
                 _ if self.is_plaintext => true,
                 _ => false,
             };
-            let need_extra_newline_in_text = matches!(&*n.tag_name, "textarea" | "pre");
+            let need_extra_newline_in_text =
+                n.namespace == Namespace::HTML && matches!(&*n.tag_name, "textarea" | "pre");
 
             let ctx = Ctx {
                 skip_escape_text,

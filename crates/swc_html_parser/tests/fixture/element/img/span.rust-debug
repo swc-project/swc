@@ -55,18 +55,8 @@
     `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/img/input.html:1:1]
- 1 | ,-> <!DOCTYPE html>
- 2 | |   <html>
- 3 | `-> <body>
-   `----
 
   x Element
-   ,-[$DIR/tests/fixture/element/img/input.html:1:1]
- 1 | ,-> <!DOCTYPE html>
- 2 | |   <html>
- 3 | `-> <body>
-   `----
 
   x Child
     ,-[$DIR/tests/fixture/element/img/input.html:3:1]
@@ -197,9 +187,27 @@
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/element/img/input.html:1:1]
- 1 | <!DOCTYPE html>
-   : ^
+   ,-[$DIR/tests/fixture/element/img/input.html:8:1]
+ 8 | <img src="w3schools.jpg" alt="W3Schools.com" width="104" height="142">
+   :      ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/element/img/input.html:8:1]
+ 8 | <img src="w3schools.jpg" alt="W3Schools.com" width="104" height="142">
+   :                          ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/element/img/input.html:8:1]
+ 8 | <img src="w3schools.jpg" alt="W3Schools.com" width="104" height="142">
+   :                                              ^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/element/img/input.html:8:1]
+ 8 | <img src="w3schools.jpg" alt="W3Schools.com" width="104" height="142">
+   :                                                          ^^^^^^^^^^^^
    `----
 
   x Child

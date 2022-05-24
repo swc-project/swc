@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _instanceof from "@swc/helpers/lib/_instanceof.js";
 function C(x) {
     this.x = x;
 }
@@ -7,7 +7,7 @@ C.prototype.m = function() {
 };
 var c = new C(1);
 function A(x) {
-    if (!swcHelpers._instanceof(this, A)) return new A(x);
+    if (!_instanceof(this, A)) return new A(x);
     this.x = x;
 }
 c.x = void 0, c.y = void 0;

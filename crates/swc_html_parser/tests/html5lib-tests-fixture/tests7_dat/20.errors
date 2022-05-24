@@ -1,0 +1,3 @@
+(1,30): unexpected-start-tag-implies-table-voodoo
+(1,35): unexpected-table-element-start-tag-in-select-in-table
+(1,35): eof-in-table

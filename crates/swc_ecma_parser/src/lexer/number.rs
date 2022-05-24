@@ -136,7 +136,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
             if starts_with_dot {
                 debug_assert!(self.cur().is_some());
-                debug_assert!(self.cur().unwrap().is_digit(10));
+                debug_assert!(self.cur().unwrap().is_ascii_digit());
             }
 
             let mut raw = Raw(Some(String::new()));

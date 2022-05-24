@@ -37,8 +37,7 @@ var openClosed5 = /*#__PURE__*/ React.createElement("div", {
 }, p > p);
 class SomeClass {
     f() {
-        var rewrites1 = /*#__PURE__*/ React.createElement("div", null, ()=>this
-        );
+        var rewrites1 = /*#__PURE__*/ React.createElement("div", null, ()=>this);
         var rewrites2 = /*#__PURE__*/ React.createElement("div", null, [
             p,
             ...p,

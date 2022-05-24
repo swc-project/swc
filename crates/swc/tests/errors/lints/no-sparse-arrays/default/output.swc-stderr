@@ -1,0 +1,12 @@
+
+  x Unexpected comma in middle of array
+   ,----
+ 1 | var a = [,];
+   :         ^^^
+   `----
+
+  x Unexpected comma in middle of array
+   ,----
+ 2 | var a = [1, , 2];
+   :         ^^^^^^^^
+   `----

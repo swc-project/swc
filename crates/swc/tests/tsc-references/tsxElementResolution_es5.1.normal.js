@@ -1,17 +1,17 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var foundFirst = function foundFirst() {
     "use strict";
-    swcHelpers.classCallCheck(this, foundFirst);
+    _class_call_check(this, foundFirst);
 };
 var Other = function Other() {
     "use strict";
-    swcHelpers.classCallCheck(this, Other);
+    _class_call_check(this, Other);
 };
 var Dotted;
 (function(Dotted1) {
     var Name = function Name() {
         "use strict";
-        swcHelpers.classCallCheck(this, Name);
+        _class_call_check(this, Name);
     };
     Dotted1.Name = Name;
 })(Dotted || (Dotted = {}));

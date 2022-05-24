@@ -4,3 +4,5 @@
  1 | <div test="test'></div>
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
+
+  x End of file seen without seeing a doctype first, expected "<!DOCTYPE html>"

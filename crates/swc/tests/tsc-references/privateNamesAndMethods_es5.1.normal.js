@@ -1,4 +1,15 @@
-import * as swcHelpers from "@swc/helpers";
+import _assert_this_initialized from "@swc/helpers/lib/_assert_this_initialized.js";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_private_field_get from "@swc/helpers/lib/_class_private_field_get.js";
+import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
+import _class_private_field_set from "@swc/helpers/lib/_class_private_field_set.js";
+import _class_private_field_update from "@swc/helpers/lib/_class_private_field_update.js";
+import _class_private_method_get from "@swc/helpers/lib/_class_private_method_get.js";
+import _class_private_method_init from "@swc/helpers/lib/_class_private_method_init.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _wrap_async_generator from "@swc/helpers/lib/_wrap_async_generator.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 import regeneratorRuntime from "regenerator-runtime";
 var _foo = /*#__PURE__*/ new WeakSet(), _bar = /*#__PURE__*/ new WeakSet(), _baz = /*#__PURE__*/ new WeakSet(), __quux = /*#__PURE__*/ new WeakMap(), _quux = /*#__PURE__*/ new WeakMap();
 // @target: esnext, es2022
@@ -6,30 +17,30 @@ var _foo = /*#__PURE__*/ new WeakSet(), _bar = /*#__PURE__*/ new WeakSet(), _baz
 // @useDefineForClassFields: false
 var A = function A() {
     "use strict";
-    swcHelpers.classCallCheck(this, A);
-    swcHelpers.classPrivateMethodInit(this, _foo);
-    swcHelpers.classPrivateMethodInit(this, _bar);
-    swcHelpers.classPrivateMethodInit(this, _baz);
-    swcHelpers.classPrivateFieldInit(this, _quux, {
+    _class_call_check(this, A);
+    _class_private_method_init(this, _foo);
+    _class_private_method_init(this, _bar);
+    _class_private_method_init(this, _baz);
+    _class_private_field_init(this, _quux, {
         get: get_quux,
         set: set_quux
     });
-    swcHelpers.classPrivateFieldInit(this, __quux, {
+    _class_private_field_init(this, __quux, {
         writable: true,
         value: void 0
     });
-    swcHelpers.classPrivateMethodGet(this, _foo, foo).call(this, 30);
-    swcHelpers.classPrivateMethodGet(this, _bar, bar).call(this, 30);
-    swcHelpers.classPrivateMethodGet(this, _baz, baz).call(this, 30);
-    swcHelpers.classPrivateFieldSet(this, _quux, swcHelpers.classPrivateFieldGet(this, _quux) + 1);
-    swcHelpers.classPrivateFieldUpdate(this, _quux).value++;
+    _class_private_method_get(this, _foo, foo).call(this, 30);
+    _class_private_method_get(this, _bar, bar).call(this, 30);
+    _class_private_method_get(this, _baz, baz).call(this, 30);
+    _class_private_field_set(this, _quux, _class_private_field_get(this, _quux) + 1);
+    _class_private_field_update(this, _quux).value++;
 };
 function foo(a) {}
 function bar(a) {
     return _bar1.apply(this, arguments);
 }
 function _bar1() {
-    _bar1 = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee(a) {
+    _bar1 = _async_to_generator(regeneratorRuntime.mark(function _callee(a) {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
@@ -44,7 +55,7 @@ function baz(a) {
     return _baz1.apply(this, arguments);
 }
 function _baz1() {
-    _baz1 = swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee(a) {
+    _baz1 = _wrap_async_generator(regeneratorRuntime.mark(function _callee(a) {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
@@ -58,22 +69,22 @@ function _baz1() {
     return _baz1.apply(this, arguments);
 }
 function get_quux() {
-    return swcHelpers.classPrivateFieldGet(this, __quux);
+    return _class_private_field_get(this, __quux);
 }
 function set_quux(val) {
-    swcHelpers.classPrivateFieldSet(this, __quux, val);
+    _class_private_field_set(this, __quux, val);
 }
 var _foo1 = /*#__PURE__*/ new WeakSet();
 var B = /*#__PURE__*/ function(A) {
     "use strict";
-    swcHelpers.inherits(B, A);
-    var _super = swcHelpers.createSuper(B);
+    _inherits(B, A);
+    var _super = _create_super(B);
     function B() {
-        swcHelpers.classCallCheck(this, B);
+        _class_call_check(this, B);
         var _this;
         _this = _super.call(this);
-        swcHelpers.classPrivateMethodInit(swcHelpers.assertThisInitialized(_this), _foo1);
-        swcHelpers.classPrivateMethodGet(_this, _foo1, foo1).call(swcHelpers.assertThisInitialized(_this), "str");
+        _class_private_method_init(_assert_this_initialized(_this), _foo1);
+        _class_private_method_get(_this, _foo1, foo1).call(_assert_this_initialized(_this), "str");
         return _this;
     }
     return B;

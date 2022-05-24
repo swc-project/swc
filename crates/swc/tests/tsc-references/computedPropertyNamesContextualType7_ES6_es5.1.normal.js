@@ -1,8 +1,8 @@
-import * as swcHelpers from "@swc/helpers";
+import _define_property from "@swc/helpers/lib/_define_property.js";
 var _obj;
 foo((_obj = {
     0: function() {}
-}, swcHelpers.defineProperty(_obj, "hi" + "bye", true), swcHelpers.defineProperty(_obj, 0 + 1, 0), swcHelpers.defineProperty(_obj, +"hi", [
+}, _define_property(_obj, "hi" + "bye", true), _define_property(_obj, 0 + 1, 0), _define_property(_obj, +"hi", [
     0
 ]), _obj));
 g({

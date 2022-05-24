@@ -1,8 +1,12 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _get from "@swc/helpers/lib/_get.js";
+import _get_prototype_of from "@swc/helpers/lib/_get_prototype_of.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var Test = function() {
     "use strict";
     function Test() {
-        swcHelpers.classCallCheck(this, Test);
+        _class_call_check(this, Test);
     }
     var _proto = Test.prototype;
     return _proto.fail = function(message) {
@@ -46,21 +50,21 @@ registerComponent("test-component", {
 var MyThrowable = function() {
     "use strict";
     function MyThrowable() {
-        swcHelpers.classCallCheck(this, MyThrowable);
+        _class_call_check(this, MyThrowable);
     }
     return MyThrowable.prototype.throw = function() {
         throw new Error();
     }, MyThrowable;
 }(), SuperThrowable = function(MyThrowable) {
     "use strict";
-    swcHelpers.inherits(SuperThrowable, MyThrowable);
-    var _super = swcHelpers.createSuper(SuperThrowable);
+    _inherits(SuperThrowable, MyThrowable);
+    var _super = _create_super(SuperThrowable);
     function SuperThrowable() {
-        return swcHelpers.classCallCheck(this, SuperThrowable), _super.apply(this, arguments);
+        return _class_call_check(this, SuperThrowable), _super.apply(this, arguments);
     }
     var _proto = SuperThrowable.prototype;
     return _proto.err = function(msg) {
-        swcHelpers.get(swcHelpers.getPrototypeOf(SuperThrowable.prototype), "throw", this).call(this);
+        _get(_get_prototype_of(SuperThrowable.prototype), "throw", this).call(this);
     }, _proto.ok = function() {
         this.throw();
     }, SuperThrowable;

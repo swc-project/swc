@@ -20,6 +20,7 @@ pub(crate) mod non_critical_lints {
     pub mod eqeqeq;
     pub mod no_alert;
     pub mod no_bitwise;
+    pub mod no_compare_neg_zero;
     pub mod no_console;
     pub mod no_debugger;
     pub mod no_empty_function;
@@ -30,6 +31,7 @@ pub(crate) mod non_critical_lints {
     pub mod no_obj_calls;
     pub mod no_param_reassign;
     pub mod no_restricted_syntax;
+    pub mod no_sparse_arrays;
     pub mod no_throw_literal;
     pub mod no_use_before_define;
     pub mod no_var;
@@ -166,6 +168,14 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         rules.extend(no_var::no_var(&lint_config.no_var));
 
         rules.extend(prefer_const::prefer_const(&lint_config.prefer_const));
+
+        rules.extend(no_compare_neg_zero::no_compare_neg_zero(
+            &lint_config.no_compare_neg_zero,
+        ));
+
+        rules.extend(no_sparse_arrays::no_sparse_arrays(
+            &lint_config.no_sparse_arrays,
+        ));
     }
 
     rules

@@ -1,24 +1,24 @@
 {
   "type": "Module",
   "span": {
-    "start": 54,
-    "end": 126,
+    "start": 55,
+    "end": 127,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDefaultDeclaration",
       "span": {
-        "start": 54,
-        "end": 77,
+        "start": 55,
+        "end": 78,
         "ctxt": 0
       },
       "decl": {
         "type": "ClassExpression",
         "identifier": null,
         "span": {
-          "start": 69,
-          "end": 77,
+          "start": 70,
+          "end": 78,
           "ctxt": 0
         },
         "decorators": [],
@@ -33,8 +33,8 @@
     {
       "type": "ExportDefaultDeclaration",
       "span": {
-        "start": 98,
-        "end": 126,
+        "start": 99,
+        "end": 127,
         "ctxt": 0
       },
       "decl": {
@@ -43,15 +43,15 @@
         "params": [],
         "decorators": [],
         "span": {
-          "start": 113,
-          "end": 126,
+          "start": 114,
+          "end": 127,
           "ctxt": 0
         },
         "body": {
           "type": "BlockStatement",
           "span": {
-            "start": 124,
-            "end": 126,
+            "start": 125,
+            "end": 127,
             "ctxt": 0
           },
           "stmts": []

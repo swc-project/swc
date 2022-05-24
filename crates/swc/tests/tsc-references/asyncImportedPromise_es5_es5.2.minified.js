@@ -1,21 +1,25 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _wrap_native_super from "@swc/helpers/lib/_wrap_native_super.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 import regeneratorRuntime from "regenerator-runtime";
 export var Task = function(Promise) {
     "use strict";
-    swcHelpers.inherits(Task, Promise);
-    var _super = swcHelpers.createSuper(Task);
+    _inherits(Task, Promise);
+    var _super = _create_super(Task);
     function Task() {
-        return swcHelpers.classCallCheck(this, Task), _super.apply(this, arguments);
+        return _class_call_check(this, Task), _super.apply(this, arguments);
     }
     return Task;
-}(swcHelpers.wrapNativeSuper(Promise));
+}(_wrap_native_super(Promise));
 var Test = function() {
     "use strict";
     function Test() {
-        swcHelpers.classCallCheck(this, Test);
+        _class_call_check(this, Test);
     }
     return Test.prototype.example = function() {
-        return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function(_ctx) {
                 for(;;)switch(_ctx.prev = _ctx.next){
                     case 0:

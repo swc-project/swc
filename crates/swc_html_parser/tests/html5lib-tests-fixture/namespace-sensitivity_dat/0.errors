@@ -1,0 +1,6 @@
+(1,6): expected-doctype-but-got-start-tag
+(1,56): unexpected-end-tag
+(1,60): foster-parenting-character
+(1,60): foster-parenting-character
+(1,60): foster-parenting-character
+(1,60): expected-closing-tag-but-got-eof
