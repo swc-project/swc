@@ -370,6 +370,40 @@ where
                         None => true,
                         _ => false,
                     },
+                    // The end tag can be omitted if the element is immediately followed by an <rt>,
+                    // <rtc>, or <rp> element or another <rb> element, or if there is no more
+                    // content in the parent element.
+                    "rb" => match next {
+                        Some(Child::Element(Element {
+                            namespace,
+                            tag_name,
+                            ..
+                        })) if *namespace == Namespace::HTML
+                            && (tag_name == "rt"
+                                || tag_name == "rtc"
+                                || tag_name == "rp"
+                                || tag_name == "rb") =>
+                        {
+                            true
+                        }
+                        None => true,
+                        _ => false,
+                    },
+                    // 	The closing tag can be omitted if it is immediately followed by a <rb>, <rtc>
+                    // or <rt> element opening tag or by its parent closing tag.
+                    "rtc" => match next {
+                        Some(Child::Element(Element {
+                            namespace,
+                            tag_name,
+                            ..
+                        })) if *namespace == Namespace::HTML
+                            && (tag_name == "rb" || tag_name == "rtc" || tag_name == "rt") =>
+                        {
+                            true
+                        }
+                        None => true,
+                        _ => false,
+                    },
                     // An optgroup element's end tag can be omitted if the optgroup element is
                     // immediately followed by another optgroup element, or if there is no more
                     // content in the parent element.
