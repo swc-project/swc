@@ -165,6 +165,42 @@ where
                 // template element.
                 // TODO improve me
                 "body" if n.children.is_empty() => true,
+                // A colgroup element's start tag can be omitted if the first thing inside the
+                // colgroup element is a col element, and if the element is not immediately preceded
+                // by another colgroup element whose end tag has been omitted. (It can't be omitted
+                // if the element is empty.)
+                // TODO improve me
+                "colgroup"
+                    if match n.children.get(0) {
+                        Some(Child::Element(element))
+                            if element.namespace == Namespace::HTML
+                                && &*element.tag_name == "col" =>
+                        {
+                            true
+                        }
+                        _ => false,
+                    } =>
+                {
+                    true
+                }
+                // A tbody element's start tag can be omitted if the first thing inside the tbody
+                // element is a tr element, and if the element is not immediately preceded by a
+                // tbody, thead, or tfoot element whose end tag has been omitted. (It can't be
+                // omitted if the element is empty.)
+                // TODO improve me
+                "tbody"
+                    if match n.children.get(0) {
+                        Some(Child::Element(element))
+                            if element.namespace == Namespace::HTML
+                                && &*element.tag_name == "tr" =>
+                        {
+                            true
+                        }
+                        _ => false,
+                    } =>
+                {
+                    true
+                }
                 _ => false,
             };
 
