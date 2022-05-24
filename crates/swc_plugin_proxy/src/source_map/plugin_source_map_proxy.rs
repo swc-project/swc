@@ -19,6 +19,12 @@ extern "C" {
         rhs_ctxt: u32,
         allocated_ptr: i32,
     ) -> i32;
+    fn __span_to_string_proxy(
+        span_lo: u32,
+        span_hi: u32,
+        span_ctxt: u32,
+        allocated_ret_ptr: i32,
+    ) -> i32;
 }
 
 #[cfg(feature = "plugin-mode")]
@@ -46,7 +52,14 @@ impl SourceMapper for PluginSourceMapProxy {
     }
 
     fn span_to_string(&self, sp: Span) -> String {
-        unimplemented!("Not implemented yet");
+        #[cfg(target_arch = "wasm32")]
+        return read_returned_result_from_host_fallible(|serialized_ptr| unsafe {
+            __span_to_string_proxy(sp.lo.0, sp.hi.0, sp.ctxt.as_u32(), serialized_ptr)
+        })
+        .expect("Host should return String");
+
+        #[cfg(not(target_arch = "wasm32"))]
+        unimplemented!("Sourcemap proxy cannot be called in this context")
     }
 
     fn span_to_filename(&self, sp: Span) -> FileName {
