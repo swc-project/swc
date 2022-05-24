@@ -422,10 +422,14 @@ impl VisitMut for Minifier {
                 n.value = Some(new_values.join(",").into());
 
                 return;
-            }
+            } else if self.is_space_separated_attribute(&n.name) {
+                let mut values = value.split_whitespace().collect::<Vec<_>>();
 
-            if self.is_space_separated_attribute(&n.name) {
-                value = value.split_whitespace().collect::<Vec<_>>().join(" ");
+                if &*n.name == "class" {
+                    values.sort_unstable();
+                }
+
+                value = values.join(" ");
 
                 n.value = Some(value.into());
 
