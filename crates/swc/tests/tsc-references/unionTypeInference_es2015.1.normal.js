@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
 const a1 = f1(1, 2); // 1 | 2
 const a2 = f1(1, "hello"); // 1
 const a3 = f1(1, sn); // number
@@ -29,7 +29,7 @@ function fun(deepPromised) {
     return _fun.apply(this, arguments);
 }
 function _fun() {
-    _fun = swcHelpers.asyncToGenerator(function*(deepPromised) {
+    _fun = _async_to_generator(function*(deepPromised) {
         const deepPromisedWithIndexer = deepPromised;
         for (const value of Object.values(deepPromisedWithIndexer)){
             const awaitedValue = yield value;

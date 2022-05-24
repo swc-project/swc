@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _object_without_properties from "@swc/helpers/lib/_object_without_properties.js";
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
@@ -47,7 +47,7 @@ export default function Home() {
         },
         __self: this
     }), icon.map(function(_param) /*#__PURE__*/ {
-        var href = _param.href, linkProps = swcHelpers.objectWithoutProperties(_param, [
+        var href = _param.href, linkProps = _object_without_properties(_param, [
             "href"
         ]);
         return React.createElement("link", Object.assign({

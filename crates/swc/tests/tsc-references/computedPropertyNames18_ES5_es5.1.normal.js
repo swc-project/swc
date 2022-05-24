@@ -1,5 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _define_property from "@swc/helpers/lib/_define_property.js";
 // @target: es5
 function foo() {
-    var obj = swcHelpers.defineProperty({}, this.bar, 0);
+    var obj = _define_property({}, this.bar, 0);
 }

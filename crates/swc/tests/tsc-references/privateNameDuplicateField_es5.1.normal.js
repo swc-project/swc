@@ -1,4 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
+import _class_private_method_init from "@swc/helpers/lib/_class_private_method_init.js";
 // @strict: true
 // @target: es6
 function Field() {
@@ -16,12 +18,12 @@ function Field() {
     // Error
     var A_Field_Field = function A_Field_Field() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_Field_Field);
-        swcHelpers.classPrivateFieldInit(this, _foo, {
+        _class_call_check(this, A_Field_Field);
+        _class_private_field_init(this, _foo, {
             writable: true,
             value: "foo"
         });
-        swcHelpers.classPrivateFieldInit(this, _foo, {
+        _class_private_field_init(this, _foo, {
             writable: true,
             value: "foo"
         });
@@ -30,9 +32,9 @@ function Field() {
     // Error
     var A_Field_Method = function A_Field_Method() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_Field_Method);
-        swcHelpers.classPrivateMethodInit(this, _foo1);
-        swcHelpers.classPrivateFieldInit(this, _foo1, {
+        _class_call_check(this, A_Field_Method);
+        _class_private_method_init(this, _foo1);
+        _class_private_field_init(this, _foo1, {
             writable: true,
             value: "foo"
         });
@@ -41,12 +43,12 @@ function Field() {
     // Error
     var A_Field_Getter = function A_Field_Getter() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_Field_Getter);
-        swcHelpers.classPrivateFieldInit(this, _foo2, {
+        _class_call_check(this, A_Field_Getter);
+        _class_private_field_init(this, _foo2, {
             get: get_foo,
             set: void 0
         });
-        swcHelpers.classPrivateFieldInit(this, _foo2, {
+        _class_private_field_init(this, _foo2, {
             writable: true,
             value: "foo"
         });
@@ -55,12 +57,12 @@ function Field() {
     // Error
     var A_Field_Setter = function A_Field_Setter() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_Field_Setter);
-        swcHelpers.classPrivateFieldInit(this, _foo3, {
+        _class_call_check(this, A_Field_Setter);
+        _class_private_field_init(this, _foo3, {
             get: void 0,
             set: set_foo
         });
-        swcHelpers.classPrivateFieldInit(this, _foo3, {
+        _class_private_field_init(this, _foo3, {
             writable: true,
             value: "foo"
         });
@@ -69,8 +71,8 @@ function Field() {
     // Error
     var A_Field_StaticField = function A_Field_StaticField() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_Field_StaticField);
-        swcHelpers.classPrivateFieldInit(this, _foo4, {
+        _class_call_check(this, A_Field_StaticField);
+        _class_private_field_init(this, _foo4, {
             writable: true,
             value: "foo"
         });
@@ -83,8 +85,8 @@ function Field() {
     // Error
     var A_Field_StaticMethod = function A_Field_StaticMethod() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_Field_StaticMethod);
-        swcHelpers.classPrivateFieldInit(this, _foo5, {
+        _class_call_check(this, A_Field_StaticMethod);
+        _class_private_field_init(this, _foo5, {
             writable: true,
             value: "foo"
         });
@@ -93,8 +95,8 @@ function Field() {
     // Error
     var A_Field_StaticGetter = function A_Field_StaticGetter() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_Field_StaticGetter);
-        swcHelpers.classPrivateFieldInit(this, _foo6, {
+        _class_call_check(this, A_Field_StaticGetter);
+        _class_private_field_init(this, _foo6, {
             writable: true,
             value: "foo"
         });
@@ -107,8 +109,8 @@ function Field() {
     // Error
     var A_Field_StaticSetter = function A_Field_StaticSetter() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_Field_StaticSetter);
-        swcHelpers.classPrivateFieldInit(this, _foo7, {
+        _class_call_check(this, A_Field_StaticSetter);
+        _class_private_field_init(this, _foo7, {
             writable: true,
             value: "foo"
         });
@@ -141,9 +143,9 @@ function Method() {
     // Error
     var A_Method_Field = function A_Method_Field() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_Method_Field);
-        swcHelpers.classPrivateMethodInit(this, _foo);
-        swcHelpers.classPrivateFieldInit(this, _foo, {
+        _class_call_check(this, A_Method_Field);
+        _class_private_method_init(this, _foo);
+        _class_private_field_init(this, _foo, {
             writable: true,
             value: "foo"
         });
@@ -152,17 +154,17 @@ function Method() {
     // Error
     var A_Method_Method = function A_Method_Method() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_Method_Method);
-        swcHelpers.classPrivateMethodInit(this, _foo8);
-        swcHelpers.classPrivateMethodInit(this, _foo8);
+        _class_call_check(this, A_Method_Method);
+        _class_private_method_init(this, _foo8);
+        _class_private_method_init(this, _foo8);
     };
     var _foo9 = /*#__PURE__*/ new WeakSet(), _foo9 = /*#__PURE__*/ new WeakMap();
     // Error
     var A_Method_Getter = function A_Method_Getter() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_Method_Getter);
-        swcHelpers.classPrivateMethodInit(this, _foo9);
-        swcHelpers.classPrivateFieldInit(this, _foo9, {
+        _class_call_check(this, A_Method_Getter);
+        _class_private_method_init(this, _foo9);
+        _class_private_field_init(this, _foo9, {
             get: get_foo,
             set: void 0
         });
@@ -171,9 +173,9 @@ function Method() {
     // Error
     var A_Method_Setter = function A_Method_Setter() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_Method_Setter);
-        swcHelpers.classPrivateMethodInit(this, _foo10);
-        swcHelpers.classPrivateFieldInit(this, _foo10, {
+        _class_call_check(this, A_Method_Setter);
+        _class_private_method_init(this, _foo10);
+        _class_private_field_init(this, _foo10, {
             get: void 0,
             set: set_foo
         });
@@ -182,8 +184,8 @@ function Method() {
     // Error
     var A_Method_StaticField = function A_Method_StaticField() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_Method_StaticField);
-        swcHelpers.classPrivateMethodInit(this, _foo11);
+        _class_call_check(this, A_Method_StaticField);
+        _class_private_method_init(this, _foo11);
     };
     var _foo11 = {
         writable: true,
@@ -193,15 +195,15 @@ function Method() {
     // Error
     var A_Method_StaticMethod = function A_Method_StaticMethod() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_Method_StaticMethod);
-        swcHelpers.classPrivateMethodInit(this, _foo12);
+        _class_call_check(this, A_Method_StaticMethod);
+        _class_private_method_init(this, _foo12);
     };
     var _foo13 = /*#__PURE__*/ new WeakSet();
     // Error
     var A_Method_StaticGetter = function A_Method_StaticGetter() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_Method_StaticGetter);
-        swcHelpers.classPrivateMethodInit(this, _foo13);
+        _class_call_check(this, A_Method_StaticGetter);
+        _class_private_method_init(this, _foo13);
     };
     var _foo13 = {
         get: get_foo2,
@@ -211,8 +213,8 @@ function Method() {
     // Error
     var A_Method_StaticSetter = function A_Method_StaticSetter() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_Method_StaticSetter);
-        swcHelpers.classPrivateMethodInit(this, _foo14);
+        _class_call_check(this, A_Method_StaticSetter);
+        _class_private_method_init(this, _foo14);
     };
     var _foo14 = {
         get: void 0,
@@ -259,12 +261,12 @@ function Getter() {
     // Error
     var A_Getter_Field = function A_Getter_Field() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_Getter_Field);
-        swcHelpers.classPrivateFieldInit(this, _foo, {
+        _class_call_check(this, A_Getter_Field);
+        _class_private_field_init(this, _foo, {
             get: get_foo,
             set: void 0
         });
-        swcHelpers.classPrivateFieldInit(this, _foo, {
+        _class_private_field_init(this, _foo, {
             writable: true,
             value: "foo"
         });
@@ -273,19 +275,19 @@ function Getter() {
     // Error
     var A_Getter_Method = function A_Getter_Method() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_Getter_Method);
-        swcHelpers.classPrivateFieldInit(this, _foo15, {
+        _class_call_check(this, A_Getter_Method);
+        _class_private_field_init(this, _foo15, {
             get: get_foo3,
             set: void 0
         });
-        swcHelpers.classPrivateMethodInit(this, _foo15);
+        _class_private_method_init(this, _foo15);
     };
     var _foo16 = /*#__PURE__*/ new WeakMap();
     // Error
     var A_Getter_Getter = function A_Getter_Getter() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_Getter_Getter);
-        swcHelpers.classPrivateFieldInit(this, _foo16, {
+        _class_call_check(this, A_Getter_Getter);
+        _class_private_field_init(this, _foo16, {
             get: get_foo4,
             set: void 0
         });
@@ -294,8 +296,8 @@ function Getter() {
     //OK
     var A_Getter_Setter = function A_Getter_Setter() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_Getter_Setter);
-        swcHelpers.classPrivateFieldInit(this, _foo17, {
+        _class_call_check(this, A_Getter_Setter);
+        _class_private_field_init(this, _foo17, {
             get: get_foo5,
             set: set_foo
         });
@@ -304,8 +306,8 @@ function Getter() {
     // Error
     var A_Getter_StaticField = function A_Getter_StaticField() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_Getter_StaticField);
-        swcHelpers.classPrivateFieldInit(this, _foo18, {
+        _class_call_check(this, A_Getter_StaticField);
+        _class_private_field_init(this, _foo18, {
             get: get_foo6,
             set: void 0
         });
@@ -314,8 +316,8 @@ function Getter() {
     // Error
     var A_Getter_StaticMethod = function A_Getter_StaticMethod() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_Getter_StaticMethod);
-        swcHelpers.classPrivateFieldInit(this, _foo19, {
+        _class_call_check(this, A_Getter_StaticMethod);
+        _class_private_field_init(this, _foo19, {
             get: get_foo7,
             set: void 0
         });
@@ -324,8 +326,8 @@ function Getter() {
     // Error
     var A_Getter_StaticGetter = function A_Getter_StaticGetter() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_Getter_StaticGetter);
-        swcHelpers.classPrivateFieldInit(this, _foo20, {
+        _class_call_check(this, A_Getter_StaticGetter);
+        _class_private_field_init(this, _foo20, {
             get: get_foo8,
             set: void 0
         });
@@ -338,8 +340,8 @@ function Getter() {
     // Error
     var A_Getter_StaticSetter = function A_Getter_StaticSetter() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_Getter_StaticSetter);
-        swcHelpers.classPrivateFieldInit(this, _foo21, {
+        _class_call_check(this, A_Getter_StaticSetter);
+        _class_private_field_init(this, _foo21, {
             get: get_foo9,
             set: void 0
         });
@@ -372,12 +374,12 @@ function Setter() {
     // Error
     var A_Setter_Field = function A_Setter_Field() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_Setter_Field);
-        swcHelpers.classPrivateFieldInit(this, _foo, {
+        _class_call_check(this, A_Setter_Field);
+        _class_private_field_init(this, _foo, {
             get: void 0,
             set: set_foo
         });
-        swcHelpers.classPrivateFieldInit(this, _foo, {
+        _class_private_field_init(this, _foo, {
             writable: true,
             value: "foo"
         });
@@ -386,19 +388,19 @@ function Setter() {
     // Error
     var A_Setter_Method = function A_Setter_Method() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_Setter_Method);
-        swcHelpers.classPrivateFieldInit(this, _foo22, {
+        _class_call_check(this, A_Setter_Method);
+        _class_private_field_init(this, _foo22, {
             get: void 0,
             set: set_foo4
         });
-        swcHelpers.classPrivateMethodInit(this, _foo22);
+        _class_private_method_init(this, _foo22);
     };
     var _foo23 = /*#__PURE__*/ new WeakMap();
     // OK
     var A_Setter_Getter = function A_Setter_Getter() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_Setter_Getter);
-        swcHelpers.classPrivateFieldInit(this, _foo23, {
+        _class_call_check(this, A_Setter_Getter);
+        _class_private_field_init(this, _foo23, {
             get: get_foo,
             set: set_foo5
         });
@@ -407,8 +409,8 @@ function Setter() {
     // Error
     var A_Setter_Setter = function A_Setter_Setter() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_Setter_Setter);
-        swcHelpers.classPrivateFieldInit(this, _foo24, {
+        _class_call_check(this, A_Setter_Setter);
+        _class_private_field_init(this, _foo24, {
             get: void 0,
             set: set_foo6
         });
@@ -417,8 +419,8 @@ function Setter() {
     // Error
     var A_Setter_StaticField = function A_Setter_StaticField() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_Setter_StaticField);
-        swcHelpers.classPrivateFieldInit(this, _foo25, {
+        _class_call_check(this, A_Setter_StaticField);
+        _class_private_field_init(this, _foo25, {
             get: void 0,
             set: set_foo7
         });
@@ -431,8 +433,8 @@ function Setter() {
     // Error
     var A_Setter_StaticMethod = function A_Setter_StaticMethod() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_Setter_StaticMethod);
-        swcHelpers.classPrivateFieldInit(this, _foo26, {
+        _class_call_check(this, A_Setter_StaticMethod);
+        _class_private_field_init(this, _foo26, {
             get: void 0,
             set: set_foo8
         });
@@ -441,8 +443,8 @@ function Setter() {
     // Error
     var A_Setter_StaticGetter = function A_Setter_StaticGetter() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_Setter_StaticGetter);
-        swcHelpers.classPrivateFieldInit(this, _foo27, {
+        _class_call_check(this, A_Setter_StaticGetter);
+        _class_private_field_init(this, _foo27, {
             get: void 0,
             set: set_foo9
         });
@@ -455,8 +457,8 @@ function Setter() {
     // Error
     var A_Setter_StaticSetter = function A_Setter_StaticSetter() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_Setter_StaticSetter);
-        swcHelpers.classPrivateFieldInit(this, _foo28, {
+        _class_call_check(this, A_Setter_StaticSetter);
+        _class_private_field_init(this, _foo28, {
             get: void 0,
             set: set_foo10
         });
@@ -481,8 +483,8 @@ function StaticField() {
     // Error
     var A_StaticField_Field = function A_StaticField_Field() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_StaticField_Field);
-        swcHelpers.classPrivateFieldInit(this, _foo, {
+        _class_call_check(this, A_StaticField_Field);
+        _class_private_field_init(this, _foo, {
             writable: true,
             value: "foo"
         });
@@ -495,8 +497,8 @@ function StaticField() {
     // Error
     var A_StaticField_Method = function A_StaticField_Method() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_StaticField_Method);
-        swcHelpers.classPrivateMethodInit(this, _foo29);
+        _class_call_check(this, A_StaticField_Method);
+        _class_private_method_init(this, _foo29);
     };
     var _foo29 = {
         writable: true,
@@ -506,8 +508,8 @@ function StaticField() {
     // Error
     var A_StaticField_Getter = function A_StaticField_Getter() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_StaticField_Getter);
-        swcHelpers.classPrivateFieldInit(this, _foo30, {
+        _class_call_check(this, A_StaticField_Getter);
+        _class_private_field_init(this, _foo30, {
             get: get_foo,
             set: void 0
         });
@@ -520,8 +522,8 @@ function StaticField() {
     // Error
     var A_StaticField_Setter = function A_StaticField_Setter() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_StaticField_Setter);
-        swcHelpers.classPrivateFieldInit(this, _foo31, {
+        _class_call_check(this, A_StaticField_Setter);
+        _class_private_field_init(this, _foo31, {
             get: void 0,
             set: set_foo
         });
@@ -533,7 +535,7 @@ function StaticField() {
     // Error
     var A_StaticField_StaticField = function A_StaticField_StaticField() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_StaticField_StaticField);
+        _class_call_check(this, A_StaticField_StaticField);
     };
     var _foo32 = {
         writable: true,
@@ -546,7 +548,7 @@ function StaticField() {
     // Error
     var A_StaticField_StaticMethod = function A_StaticField_StaticMethod() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_StaticField_StaticMethod);
+        _class_call_check(this, A_StaticField_StaticMethod);
     };
     var _foo33 = {
         writable: true,
@@ -555,7 +557,7 @@ function StaticField() {
     // Error
     var A_StaticField_StaticGetter = function A_StaticField_StaticGetter() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_StaticField_StaticGetter);
+        _class_call_check(this, A_StaticField_StaticGetter);
     };
     var _foo34 = {
         get: get_foo11,
@@ -568,7 +570,7 @@ function StaticField() {
     // Error
     var A_StaticField_StaticSetter = function A_StaticField_StaticSetter() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_StaticField_StaticSetter);
+        _class_call_check(this, A_StaticField_StaticSetter);
     };
     var _foo35 = {
         get: void 0,
@@ -602,8 +604,8 @@ function StaticMethod() {
     // Error
     var A_StaticMethod_Field = function A_StaticMethod_Field() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_StaticMethod_Field);
-        swcHelpers.classPrivateFieldInit(this, _foo, {
+        _class_call_check(this, A_StaticMethod_Field);
+        _class_private_field_init(this, _foo, {
             writable: true,
             value: "foo"
         });
@@ -612,15 +614,15 @@ function StaticMethod() {
     // Error
     var A_StaticMethod_Method = function A_StaticMethod_Method() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_StaticMethod_Method);
-        swcHelpers.classPrivateMethodInit(this, _foo36);
+        _class_call_check(this, A_StaticMethod_Method);
+        _class_private_method_init(this, _foo36);
     };
     var _foo37 = /*#__PURE__*/ new WeakMap();
     // Error
     var A_StaticMethod_Getter = function A_StaticMethod_Getter() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_StaticMethod_Getter);
-        swcHelpers.classPrivateFieldInit(this, _foo37, {
+        _class_call_check(this, A_StaticMethod_Getter);
+        _class_private_field_init(this, _foo37, {
             get: get_foo,
             set: void 0
         });
@@ -629,8 +631,8 @@ function StaticMethod() {
     // Error
     var A_StaticMethod_Setter = function A_StaticMethod_Setter() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_StaticMethod_Setter);
-        swcHelpers.classPrivateFieldInit(this, _foo38, {
+        _class_call_check(this, A_StaticMethod_Setter);
+        _class_private_field_init(this, _foo38, {
             get: void 0,
             set: set_foo
         });
@@ -638,7 +640,7 @@ function StaticMethod() {
     // Error
     var A_StaticMethod_StaticField = function A_StaticMethod_StaticField() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_StaticMethod_StaticField);
+        _class_call_check(this, A_StaticMethod_StaticField);
     };
     var _foo39 = {
         writable: true,
@@ -647,12 +649,12 @@ function StaticMethod() {
     // Error
     var A_StaticMethod_StaticMethod = function A_StaticMethod_StaticMethod() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_StaticMethod_StaticMethod);
+        _class_call_check(this, A_StaticMethod_StaticMethod);
     };
     // Error
     var A_StaticMethod_StaticGetter = function A_StaticMethod_StaticGetter() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_StaticMethod_StaticGetter);
+        _class_call_check(this, A_StaticMethod_StaticGetter);
     };
     var _foo40 = {
         get: get_foo12,
@@ -661,7 +663,7 @@ function StaticMethod() {
     // Error
     var A_StaticMethod_StaticSetter = function A_StaticMethod_StaticSetter() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_StaticMethod_StaticSetter);
+        _class_call_check(this, A_StaticMethod_StaticSetter);
     };
     var _foo41 = {
         get: void 0,
@@ -708,8 +710,8 @@ function StaticGetter() {
     // Error
     var A_StaticGetter_Field = function A_StaticGetter_Field() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_StaticGetter_Field);
-        swcHelpers.classPrivateFieldInit(this, _foo, {
+        _class_call_check(this, A_StaticGetter_Field);
+        _class_private_field_init(this, _foo, {
             writable: true,
             value: "foo"
         });
@@ -722,8 +724,8 @@ function StaticGetter() {
     // Error
     var A_StaticGetter_Method = function A_StaticGetter_Method() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_StaticGetter_Method);
-        swcHelpers.classPrivateMethodInit(this, _foo42);
+        _class_call_check(this, A_StaticGetter_Method);
+        _class_private_method_init(this, _foo42);
     };
     var _foo42 = {
         get: get_foo13,
@@ -733,8 +735,8 @@ function StaticGetter() {
     // Error
     var A_StaticGetter_Getter = function A_StaticGetter_Getter() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_StaticGetter_Getter);
-        swcHelpers.classPrivateFieldInit(this, _foo43, {
+        _class_call_check(this, A_StaticGetter_Getter);
+        _class_private_field_init(this, _foo43, {
             get: get_foo14,
             set: void 0
         });
@@ -747,8 +749,8 @@ function StaticGetter() {
     // Error
     var A_StaticGetter_Setter = function A_StaticGetter_Setter() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_StaticGetter_Setter);
-        swcHelpers.classPrivateFieldInit(this, _foo44, {
+        _class_call_check(this, A_StaticGetter_Setter);
+        _class_private_field_init(this, _foo44, {
             get: void 0,
             set: set_foo
         });
@@ -760,7 +762,7 @@ function StaticGetter() {
     // Error
     var A_StaticGetter_StaticField = function A_StaticGetter_StaticField() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_StaticGetter_StaticField);
+        _class_call_check(this, A_StaticGetter_StaticField);
     };
     var _foo45 = {
         get: get_foo16,
@@ -769,7 +771,7 @@ function StaticGetter() {
     // Error
     var A_StaticGetter_StaticMethod = function A_StaticGetter_StaticMethod() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_StaticGetter_StaticMethod);
+        _class_call_check(this, A_StaticGetter_StaticMethod);
     };
     var _foo46 = {
         get: get_foo17,
@@ -778,7 +780,7 @@ function StaticGetter() {
     // Error
     var A_StaticGetter_StaticGetter = function A_StaticGetter_StaticGetter() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_StaticGetter_StaticGetter);
+        _class_call_check(this, A_StaticGetter_StaticGetter);
     };
     var _foo47 = {
         get: get_foo18,
@@ -787,7 +789,7 @@ function StaticGetter() {
     // OK
     var A_StaticGetter_StaticSetter = function A_StaticGetter_StaticSetter() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_StaticGetter_StaticSetter);
+        _class_call_check(this, A_StaticGetter_StaticSetter);
     };
     var _foo48 = {
         get: get_foo19,
@@ -817,8 +819,8 @@ function StaticSetter() {
     // Error
     var A_StaticSetter_Field = function A_StaticSetter_Field() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_StaticSetter_Field);
-        swcHelpers.classPrivateFieldInit(this, _foo, {
+        _class_call_check(this, A_StaticSetter_Field);
+        _class_private_field_init(this, _foo, {
             writable: true,
             value: "foo"
         });
@@ -831,8 +833,8 @@ function StaticSetter() {
     // Error
     var A_StaticSetter_Method = function A_StaticSetter_Method() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_StaticSetter_Method);
-        swcHelpers.classPrivateMethodInit(this, _foo49);
+        _class_call_check(this, A_StaticSetter_Method);
+        _class_private_method_init(this, _foo49);
     };
     var _foo49 = {
         get: void 0,
@@ -842,8 +844,8 @@ function StaticSetter() {
     // Error
     var A_StaticSetter_Getter = function A_StaticSetter_Getter() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_StaticSetter_Getter);
-        swcHelpers.classPrivateFieldInit(this, _foo50, {
+        _class_call_check(this, A_StaticSetter_Getter);
+        _class_private_field_init(this, _foo50, {
             get: get_foo,
             set: void 0
         });
@@ -856,8 +858,8 @@ function StaticSetter() {
     // Error
     var A_StaticSetter_Setter = function A_StaticSetter_Setter() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_StaticSetter_Setter);
-        swcHelpers.classPrivateFieldInit(this, _foo51, {
+        _class_call_check(this, A_StaticSetter_Setter);
+        _class_private_field_init(this, _foo51, {
             get: void 0,
             set: set_foo16
         });
@@ -869,7 +871,7 @@ function StaticSetter() {
     // Error
     var A_StaticSetter_StaticField = function A_StaticSetter_StaticField() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_StaticSetter_StaticField);
+        _class_call_check(this, A_StaticSetter_StaticField);
     };
     var _foo52 = {
         get: void 0,
@@ -882,7 +884,7 @@ function StaticSetter() {
     // Error
     var A_StaticSetter_StaticMethod = function A_StaticSetter_StaticMethod() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_StaticSetter_StaticMethod);
+        _class_call_check(this, A_StaticSetter_StaticMethod);
     };
     var _foo53 = {
         get: void 0,
@@ -891,7 +893,7 @@ function StaticSetter() {
     // OK
     var A_StaticSetter_StaticGetter = function A_StaticSetter_StaticGetter() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_StaticSetter_StaticGetter);
+        _class_call_check(this, A_StaticSetter_StaticGetter);
     };
     var _foo54 = {
         get: get_foo20,
@@ -900,7 +902,7 @@ function StaticSetter() {
     // Error
     var A_StaticSetter_StaticSetter = function A_StaticSetter_StaticSetter() {
         "use strict";
-        swcHelpers.classCallCheck(this, A_StaticSetter_StaticSetter);
+        _class_call_check(this, A_StaticSetter_StaticSetter);
     };
     var _foo55 = {
         get: void 0,

@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
+import _wrap_async_generator from "@swc/helpers/lib/_wrap_async_generator.js";
 let constCall = Symbol();
 Symbol(), Symbol(), Symbol();
 class C {
@@ -12,12 +13,12 @@ class C0 {
         return s;
     }
     method2() {
-        return swcHelpers.asyncToGenerator(function*() {
+        return _async_to_generator(function*() {
             return s;
         })();
     }
     method3() {
-        return swcHelpers.wrapAsyncGenerator(function*() {
+        return _wrap_async_generator(function*() {
             yield s;
         })();
     }

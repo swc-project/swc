@@ -1,10 +1,10 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var _iterator = Symbol.iterator;
 //@target: ES6
 var NumberIterator = /*#__PURE__*/ function() {
     "use strict";
     function NumberIterator() {
-        swcHelpers.classCallCheck(this, NumberIterator);
+        _class_call_check(this, NumberIterator);
     }
     var _proto = NumberIterator.prototype;
     _proto.next = function next() {

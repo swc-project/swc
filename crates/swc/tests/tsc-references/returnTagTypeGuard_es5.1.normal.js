@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
@@ -7,7 +7,7 @@ import * as swcHelpers from "@swc/helpers";
 var Entry = /*#__PURE__*/ function() {
     "use strict";
     function Entry() {
-        swcHelpers.classCallCheck(this, Entry);
+        _class_call_check(this, Entry);
         this.c = 1;
     }
     var _proto = Entry.prototype;
@@ -22,7 +22,7 @@ var Entry = /*#__PURE__*/ function() {
 var Group = /*#__PURE__*/ function() {
     "use strict";
     function Group() {
-        swcHelpers.classCallCheck(this, Group);
+        _class_call_check(this, Group);
         this.d = "no";
     }
     var _proto = Group.prototype;

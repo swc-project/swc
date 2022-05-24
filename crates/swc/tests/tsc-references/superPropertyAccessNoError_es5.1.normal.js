@@ -1,4 +1,10 @@
-import * as swcHelpers from "@swc/helpers";
+import _assert_this_initialized from "@swc/helpers/lib/_assert_this_initialized.js";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _create_class from "@swc/helpers/lib/_create_class.js";
+import _get from "@swc/helpers/lib/_get.js";
+import _get_prototype_of from "@swc/helpers/lib/_get_prototype_of.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 // @target: es5
 //super.publicInstanceMemberFunction in constructor of derived class
 //super.publicInstanceMemberFunction in instance member function of derived class
@@ -9,7 +15,7 @@ import * as swcHelpers from "@swc/helpers";
 var SomeBaseClass = /*#__PURE__*/ function() {
     "use strict";
     function SomeBaseClass() {
-        swcHelpers.classCallCheck(this, SomeBaseClass);
+        _class_call_check(this, SomeBaseClass);
     }
     var _proto = SomeBaseClass.prototype;
     _proto.func = function func() {
@@ -25,41 +31,41 @@ var SomeBaseClass = /*#__PURE__*/ function() {
 }();
 var SomeDerivedClass = /*#__PURE__*/ function(SomeBaseClass) {
     "use strict";
-    swcHelpers.inherits(SomeDerivedClass, SomeBaseClass);
-    var _super = swcHelpers.createSuper(SomeDerivedClass);
+    _inherits(SomeDerivedClass, SomeBaseClass);
+    var _super = _create_super(SomeDerivedClass);
     function SomeDerivedClass() {
-        swcHelpers.classCallCheck(this, SomeDerivedClass);
+        _class_call_check(this, SomeDerivedClass);
         var _this = _super.call(this);
-        var x = swcHelpers.get((swcHelpers.assertThisInitialized(_this), swcHelpers.getPrototypeOf(SomeDerivedClass.prototype)), "func", _this).call(_this);
+        var x = _get((_assert_this_initialized(_this), _get_prototype_of(SomeDerivedClass.prototype)), "func", _this).call(_this);
         var x;
         return _this;
     }
     var _proto = SomeDerivedClass.prototype;
     _proto.fn = function fn() {
         var _this = this;
-        var x = swcHelpers.get(swcHelpers.getPrototypeOf(SomeDerivedClass.prototype), "func", this).call(this);
+        var x = _get(_get_prototype_of(SomeDerivedClass.prototype), "func", this).call(this);
         var x;
         var y = function() {
-            return swcHelpers.get(swcHelpers.getPrototypeOf(SomeDerivedClass.prototype), "func", _this).call(_this);
+            return _get(_get_prototype_of(SomeDerivedClass.prototype), "func", _this).call(_this);
         };
     };
     _proto.returnThis = function returnThis() {
-        return swcHelpers.get(swcHelpers.getPrototypeOf(SomeDerivedClass.prototype), "returnThis", this).call(this);
+        return _get(_get_prototype_of(SomeDerivedClass.prototype), "returnThis", this).call(this);
     };
     SomeDerivedClass.fn = function fn() {
-        var x = swcHelpers.get(swcHelpers.getPrototypeOf(SomeDerivedClass), "func", this).call(this);
+        var x = _get(_get_prototype_of(SomeDerivedClass), "func", this).call(this);
         var x;
     };
-    swcHelpers.createClass(SomeDerivedClass, [
+    _create_class(SomeDerivedClass, [
         {
             key: "a",
             get: function get() {
-                var x = swcHelpers.get(swcHelpers.getPrototypeOf(SomeDerivedClass.prototype), "func", this).call(this);
+                var x = _get(_get_prototype_of(SomeDerivedClass.prototype), "func", this).call(this);
                 var x;
                 return null;
             },
             set: function set(n) {
-                var x = swcHelpers.get(swcHelpers.getPrototypeOf(SomeDerivedClass.prototype), "func", this).call(this);
+                var x = _get(_get_prototype_of(SomeDerivedClass.prototype), "func", this).call(this);
                 var x;
             }
         }
@@ -67,12 +73,12 @@ var SomeDerivedClass = /*#__PURE__*/ function(SomeBaseClass) {
         {
             key: "a",
             get: function get() {
-                var x = swcHelpers.get(swcHelpers.getPrototypeOf(SomeDerivedClass), "func", this).call(this);
+                var x = _get(_get_prototype_of(SomeDerivedClass), "func", this).call(this);
                 var x;
                 return null;
             },
             set: function set(n) {
-                var x = swcHelpers.get(swcHelpers.getPrototypeOf(SomeDerivedClass), "func", this).call(this);
+                var x = _get(_get_prototype_of(SomeDerivedClass), "func", this).call(this);
                 var x;
             }
         }

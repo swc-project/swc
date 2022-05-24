@@ -1,5 +1,5 @@
 var Root, otherRoot;
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 !function(Root1) {
     var A;
     ((A = Root1.A || (Root1.A = {})).Utils || (A.Utils = {})).mirror = function(p) {
@@ -15,6 +15,6 @@ import * as swcHelpers from "@swc/helpers";
         y: 0
     }, Utils = A.Utils || (A.Utils = {}), Plane = function(tl, br) {
         "use strict";
-        swcHelpers.classCallCheck(this, Plane), this.tl = tl, this.br = br;
+        _class_call_check(this, Plane), this.tl = tl, this.br = br;
     }, Utils.Plane = Plane;
 }(otherRoot || (otherRoot = {}));

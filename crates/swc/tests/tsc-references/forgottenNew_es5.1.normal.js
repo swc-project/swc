@@ -1,9 +1,9 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var Tools;
 (function(Tools1) {
     var NullLogger = function NullLogger() {
         "use strict";
-        swcHelpers.classCallCheck(this, NullLogger);
+        _class_call_check(this, NullLogger);
     };
     Tools1.NullLogger = NullLogger;
 })(Tools || (Tools = {}));

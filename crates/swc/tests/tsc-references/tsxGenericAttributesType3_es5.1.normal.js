@@ -1,4 +1,7 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _extends from "@swc/helpers/lib/_extends.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 // @filename: file.tsx
 // @jsx: preserve
 // @noLib: true
@@ -7,10 +10,10 @@ import * as swcHelpers from "@swc/helpers";
 var React = require("react");
 var B1 = /*#__PURE__*/ function(_Component) {
     "use strict";
-    swcHelpers.inherits(B1, _Component);
-    var _super = swcHelpers.createSuper(B1);
+    _inherits(B1, _Component);
+    var _super = _create_super(B1);
     function B1() {
-        swcHelpers.classCallCheck(this, B1);
+        _class_call_check(this, B1);
         return _super.apply(this, arguments);
     }
     var _proto = B1.prototype;
@@ -21,15 +24,15 @@ var B1 = /*#__PURE__*/ function(_Component) {
 }(React.Component);
 var B = /*#__PURE__*/ function(_Component) {
     "use strict";
-    swcHelpers.inherits(B, _Component);
-    var _super = swcHelpers.createSuper(B);
+    _inherits(B, _Component);
+    var _super = _create_super(B);
     function B() {
-        swcHelpers.classCallCheck(this, B);
+        _class_call_check(this, B);
         return _super.apply(this, arguments);
     }
     var _proto = B.prototype;
     _proto.render = function render() {
-        return /*#__PURE__*/ React.createElement(B1, swcHelpers.extends({}, this.props, {
+        return /*#__PURE__*/ React.createElement(B1, _extends({}, this.props, {
             x: "hi"
         }));
     };

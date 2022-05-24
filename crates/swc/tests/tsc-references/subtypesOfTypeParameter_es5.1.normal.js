@@ -1,15 +1,17 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 // checking whether other types are subtypes of type parameters
 var C3 = function C3() {
     "use strict";
-    swcHelpers.classCallCheck(this, C3);
+    _class_call_check(this, C3);
 };
 var D1 = /*#__PURE__*/ function(C3) {
     "use strict";
-    swcHelpers.inherits(D1, C3);
-    var _super = swcHelpers.createSuper(D1);
+    _inherits(D1, C3);
+    var _super = _create_super(D1);
     function D1() {
-        swcHelpers.classCallCheck(this, D1);
+        _class_call_check(this, D1);
         return _super.apply(this, arguments);
     }
     return D1;
@@ -20,11 +22,11 @@ function f1(x, y) {
 }
 var C1 = function C1() {
     "use strict";
-    swcHelpers.classCallCheck(this, C1);
+    _class_call_check(this, C1);
 };
 var C2 = function C2() {
     "use strict";
-    swcHelpers.classCallCheck(this, C2);
+    _class_call_check(this, C2);
 };
 var E;
 (function(E) {
@@ -36,7 +38,7 @@ function f() {}
 })(f || (f = {}));
 var c = function c() {
     "use strict";
-    swcHelpers.classCallCheck(this, c);
+    _class_call_check(this, c);
 };
 (function(c) {
     var bar = c.bar = 1;

@@ -1,31 +1,33 @@
 var Errors, WithGenericSignaturesInBaseType;
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 !function(Errors) {
     var r1arg1, r2arg1, r3arg1, r4arg1, r5arg1, r6arg1, r7arg1, r7arg3, r8arg, r9arg, Base1 = function() {
         "use strict";
-        swcHelpers.classCallCheck(this, Base1);
+        _class_call_check(this, Base1);
     }, Derived = function(Base) {
         "use strict";
-        swcHelpers.inherits(Derived, Base);
-        var _super = swcHelpers.createSuper(Derived);
+        _inherits(Derived, Base);
+        var _super = _create_super(Derived);
         function Derived() {
-            return swcHelpers.classCallCheck(this, Derived), _super.apply(this, arguments);
+            return _class_call_check(this, Derived), _super.apply(this, arguments);
         }
         return Derived;
     }(Base1), Derived2 = function(Derived) {
         "use strict";
-        swcHelpers.inherits(Derived2, Derived);
-        var _super = swcHelpers.createSuper(Derived2);
+        _inherits(Derived2, Derived);
+        var _super = _create_super(Derived2);
         function Derived2() {
-            return swcHelpers.classCallCheck(this, Derived2), _super.apply(this, arguments);
+            return _class_call_check(this, Derived2), _super.apply(this, arguments);
         }
         return Derived2;
     }(Derived), OtherDerived = function(Base) {
         "use strict";
-        swcHelpers.inherits(OtherDerived, Base);
-        var _super = swcHelpers.createSuper(OtherDerived);
+        _inherits(OtherDerived, Base);
+        var _super = _create_super(OtherDerived);
         function OtherDerived() {
-            return swcHelpers.classCallCheck(this, OtherDerived), _super.apply(this, arguments);
+            return _class_call_check(this, OtherDerived), _super.apply(this, arguments);
         }
         return OtherDerived;
     }(Base1);

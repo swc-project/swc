@@ -1,8 +1,14 @@
-import * as swcHelpers from "@swc/helpers";
+import _assert_this_initialized from "@swc/helpers/lib/_assert_this_initialized.js";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _create_class from "@swc/helpers/lib/_create_class.js";
+import _get from "@swc/helpers/lib/_get.js";
+import _get_prototype_of from "@swc/helpers/lib/_get_prototype_of.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var c1 = /*#__PURE__*/ function() {
     "use strict";
     function c1() {
-        swcHelpers.classCallCheck(this, c1);
+        _class_call_check(this, c1);
     }
     var _proto = c1.prototype;
     _proto.i1_f1 = function i1_f1() {};
@@ -42,7 +48,7 @@ i1_i.nc_l1();
 var c2 = /*#__PURE__*/ function() {
     "use strict";
     function c2(a) {
-        swcHelpers.classCallCheck(this, c2);
+        _class_call_check(this, c2);
         this.c2_p1 = a;
     }
     var _proto = c2.prototype;
@@ -50,7 +56,7 @@ var c2 = /*#__PURE__*/ function() {
     _proto.c2_nc_f1 = function c2_nc_f1() {};
     /** c2 f1*/ _proto.f1 = function f1() {};
     _proto.nc_f1 = function nc_f1() {};
-    swcHelpers.createClass(c2, [
+    _create_class(c2, [
         {
             key: "c2_prop",
             get: /** c2 c2_prop*/ function get() {
@@ -80,19 +86,19 @@ var c2 = /*#__PURE__*/ function() {
 }();
 var c3 = /*#__PURE__*/ function(c2) {
     "use strict";
-    swcHelpers.inherits(c3, c2);
-    var _super = swcHelpers.createSuper(c3);
+    _inherits(c3, c2);
+    var _super = _create_super(c3);
     function c3() {
-        swcHelpers.classCallCheck(this, c3);
+        _class_call_check(this, c3);
         var _this;
         _this = _super.call(this, 10);
-        _this.p1 = swcHelpers.get((swcHelpers.assertThisInitialized(_this), swcHelpers.getPrototypeOf(c3.prototype)), "c2_p1", _this);
+        _this.p1 = _get((_assert_this_initialized(_this), _get_prototype_of(c3.prototype)), "c2_p1", _this);
         return _this;
     }
     var _proto = c3.prototype;
     /** c3 f1*/ _proto.f1 = function f1() {};
     _proto.nc_f1 = function nc_f1() {};
-    swcHelpers.createClass(c3, [
+    _create_class(c3, [
         {
             key: "prop",
             get: /** c3 prop*/ function get() {
@@ -126,10 +132,10 @@ c2_i.f1();
 c2_i.nc_f1();
 var c4 = /*#__PURE__*/ function(c2) {
     "use strict";
-    swcHelpers.inherits(c4, c2);
-    var _super = swcHelpers.createSuper(c4);
+    _inherits(c4, c2);
+    var _super = _create_super(c4);
     function c4() {
-        swcHelpers.classCallCheck(this, c4);
+        _class_call_check(this, c4);
         return _super.apply(this, arguments);
     }
     return c4;
@@ -165,17 +171,17 @@ i2_i.l1();
 i2_i.nc_l1();
 /**c5 class*/ var c5 = function c5() {
     "use strict";
-    swcHelpers.classCallCheck(this, c5);
+    _class_call_check(this, c5);
 };
 var c6 = /*#__PURE__*/ function(c5) {
     "use strict";
-    swcHelpers.inherits(c6, c5);
-    var _super = swcHelpers.createSuper(c6);
+    _inherits(c6, c5);
+    var _super = _create_super(c6);
     function c6() {
-        swcHelpers.classCallCheck(this, c6);
+        _class_call_check(this, c6);
         var _this;
         _this = _super.call(this);
-        _this.d = swcHelpers.get((swcHelpers.assertThisInitialized(_this), swcHelpers.getPrototypeOf(c6.prototype)), "b", _this);
+        _this.d = _get((_assert_this_initialized(_this), _get_prototype_of(c6.prototype)), "b", _this);
         return _this;
     }
     return c6;

@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _create_class from "@swc/helpers/lib/_create_class.js";
 var _this = this;
 // @target: esnext
 // @useDefineForClassFields: false
@@ -6,7 +7,7 @@ var MyTestClass = /*#__PURE__*/ function() {
     "use strict";
     function MyTestClass() {
         var _this1 = this;
-        swcHelpers.classCallCheck(this, MyTestClass);
+        _class_call_check(this, MyTestClass);
         this.someFunc = function() {
             //type of 'this' in member variable initializer is the class instance type
             var t = _this1;
@@ -38,7 +39,7 @@ var MyTestClass = /*#__PURE__*/ function() {
         var p = MyTestClass;
         p.staticCanary;
     };
-    swcHelpers.createClass(MyTestClass, [
+    _create_class(MyTestClass, [
         {
             key: "prop",
             get: //type of 'this' in member accessor(get and set) body is the class instance type
@@ -80,7 +81,7 @@ var MyGenericTestClass = /*#__PURE__*/ function() {
     "use strict";
     function MyGenericTestClass() {
         var _this2 = this;
-        swcHelpers.classCallCheck(this, MyGenericTestClass);
+        _class_call_check(this, MyGenericTestClass);
         this.someFunc = function() {
             //type of 'this' in member variable initializer is the class instance type
             var t = _this2;
@@ -112,7 +113,7 @@ var MyGenericTestClass = /*#__PURE__*/ function() {
         var p = MyGenericTestClass;
         p.staticCanary;
     };
-    swcHelpers.createClass(MyGenericTestClass, [
+    _create_class(MyGenericTestClass, [
         {
             key: "prop",
             get: //type of 'this' in member accessor(get and set) body is the class instance type

@@ -1,32 +1,33 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _instanceof from "@swc/helpers/lib/_instanceof.js";
 var A = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, A);
+    _class_call_check(this, A);
 }, B = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, B);
+    _class_call_check(this, B);
 }, C = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, C);
+    _class_call_check(this, C);
 }, D = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, D);
+    _class_call_check(this, D);
 }, AWithOptionalProp = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, AWithOptionalProp);
+    _class_call_check(this, AWithOptionalProp);
 }, BWithOptionalProp = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, BWithOptionalProp);
+    _class_call_check(this, BWithOptionalProp);
 }, ClassWithUnionProp = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, ClassWithUnionProp);
+    _class_call_check(this, ClassWithUnionProp);
 }, NestedClassWithProp = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, NestedClassWithProp);
+    _class_call_check(this, NestedClassWithProp);
 }, InMemberOfClass = function() {
     "use strict";
     function InMemberOfClass() {
-        swcHelpers.classCallCheck(this, InMemberOfClass);
+        _class_call_check(this, InMemberOfClass);
     }
     return InMemberOfClass.prototype.inThis = function() {
         "a" in this.prop ? this.prop.a : this.prop.b;
@@ -34,7 +35,7 @@ var A = function() {
 }(), SelfAssert = function() {
     "use strict";
     function SelfAssert() {
-        swcHelpers.classCallCheck(this, SelfAssert);
+        _class_call_check(this, SelfAssert);
     }
     return SelfAssert.prototype.inThis = function() {
         "a" in this && this.a;

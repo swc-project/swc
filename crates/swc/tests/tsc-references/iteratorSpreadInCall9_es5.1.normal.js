@@ -1,17 +1,19 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _construct from "@swc/helpers/lib/_construct.js";
+import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
 //@target: ES6
 var Foo = function Foo() {
     "use strict";
     for(var _len = arguments.length, s = new Array(_len), _key = 0; _key < _len; _key++){
         s[_key] = arguments[_key];
     }
-    swcHelpers.classCallCheck(this, Foo);
+    _class_call_check(this, Foo);
 };
 var _iterator = Symbol.iterator;
 var SymbolIterator = /*#__PURE__*/ function() {
     "use strict";
     function SymbolIterator() {
-        swcHelpers.classCallCheck(this, SymbolIterator);
+        _class_call_check(this, SymbolIterator);
     }
     var _proto = SymbolIterator.prototype;
     _proto.next = function next() {
@@ -29,7 +31,7 @@ var _iterator1 = Symbol.iterator;
 var _StringIterator = /*#__PURE__*/ function() {
     "use strict";
     function _StringIterator() {
-        swcHelpers.classCallCheck(this, _StringIterator);
+        _class_call_check(this, _StringIterator);
     }
     var _proto = _StringIterator.prototype;
     _proto.next = function next() {
@@ -43,4 +45,4 @@ var _StringIterator = /*#__PURE__*/ function() {
     };
     return _StringIterator;
 }();
-swcHelpers.construct(Foo, swcHelpers.toConsumableArray(new SymbolIterator).concat(swcHelpers.toConsumableArray(swcHelpers.toConsumableArray(new _StringIterator))));
+_construct(Foo, _to_consumable_array(new SymbolIterator).concat(_to_consumable_array(_to_consumable_array(new _StringIterator))));

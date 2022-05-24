@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @allowJs: true
 // @checkJs: true
 // @strict: true
@@ -7,7 +7,7 @@ import * as swcHelpers from "@swc/helpers";
 export var Crunch = /*#__PURE__*/ function() {
     "use strict";
     function Crunch(n) {
-        swcHelpers.classCallCheck(this, Crunch);
+        _class_call_check(this, Crunch);
         this.n = n;
     }
     var _proto = Crunch.prototype;

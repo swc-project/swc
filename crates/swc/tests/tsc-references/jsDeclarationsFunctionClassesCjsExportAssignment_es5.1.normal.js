@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _instanceof from "@swc/helpers/lib/_instanceof.js";
 // @allowJs: true
 // @checkJs: true
 // @target: es5
@@ -45,7 +45,7 @@ module.exports = Hook;
  * @class
  * @param {Input} input
  */ function Context(input) {
-    if (!swcHelpers._instanceof(this, Context)) {
+    if (!_instanceof(this, Context)) {
         return new Context(input);
     }
     this.state = this.construct(input);

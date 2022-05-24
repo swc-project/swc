@@ -1,16 +1,18 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var a, subType, union, union2, A = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, A);
+    _class_call_check(this, A);
 }, B = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, B);
+    _class_call_check(this, B);
 }, C = function(A1) {
     "use strict";
-    swcHelpers.inherits(C, A1);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, A1);
+    var _super = _create_super(C);
     function C() {
-        return swcHelpers.classCallCheck(this, C), _super.apply(this, arguments);
+        return _class_call_check(this, C), _super.apply(this, arguments);
     }
     return C;
 }(A);
@@ -18,7 +20,7 @@ isC(a) && a.propC, isA(subType) && subType.propC, isA(union) && union.propA, isC
 var D = function() {
     "use strict";
     function D() {
-        swcHelpers.classCallCheck(this, D);
+        _class_call_check(this, D);
     }
     return D.prototype.method1 = function(p1) {
         return !0;

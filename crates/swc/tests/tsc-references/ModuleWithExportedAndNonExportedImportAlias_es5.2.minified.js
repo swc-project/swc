@@ -1,9 +1,9 @@
 var B, Geometry;
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 !function(B1) {
     var Line = function(start, end) {
         "use strict";
-        swcHelpers.classCallCheck(this, Line), this.start = start, this.end = end;
+        _class_call_check(this, Line), this.start = start, this.end = end;
     };
     B1.Line = Line;
 }(B || (B = {})), function(Geometry1) {

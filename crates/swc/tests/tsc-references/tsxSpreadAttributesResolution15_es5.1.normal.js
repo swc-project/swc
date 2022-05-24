@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 // @filename: file.tsx
 // @jsx: preserve
 // @noLib: true
@@ -6,7 +6,7 @@ import * as swcHelpers from "@swc/helpers";
 // @libFiles: react.d.ts,lib.d.ts
 var React = require("react");
 export default function Component(props) {
-    return /*#__PURE__*/ React.createElement(AnotherComponent, swcHelpers.extends({}, props, {
+    return /*#__PURE__*/ React.createElement(AnotherComponent, _extends({}, props, {
         property2: true,
         AnotherProperty1: "hi"
     }));

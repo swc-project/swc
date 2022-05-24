@@ -1,5 +1,6 @@
 "use strict";
-var swcHelpers = require("@swc/helpers");
+var _ts_decorate = require("@swc/helpers/lib/_ts_decorate.js").default;
+var _ts_metadata = require("@swc/helpers/lib/_ts_metadata.js").default;
 var MyEnum;
 (function(MyEnum) {
     MyEnum["x"] = "xxx";
@@ -7,9 +8,9 @@ var MyEnum;
 })(MyEnum || (MyEnum = {}));
 class Xpto {
 }
-swcHelpers.__decorate([
+_ts_decorate([
     Decorator(),
-    swcHelpers.__metadata("design:type", String)
+    _ts_metadata("design:type", String)
 ], Xpto.prototype, "value", void 0);
 function Decorator() {
     return function(...args) {};

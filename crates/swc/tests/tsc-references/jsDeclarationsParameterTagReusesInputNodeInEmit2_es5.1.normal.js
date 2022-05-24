@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @allowJs: true
 // @checkJs: true
 // @target: es6
@@ -7,7 +7,7 @@ import * as swcHelpers from "@swc/helpers";
 // @filename: base.js
 var Base = function Base() {
     "use strict";
-    swcHelpers.classCallCheck(this, Base);
+    _class_call_check(this, Base);
 };
 var BaseFactory = function() {
     return new Base();

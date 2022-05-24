@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
 var _B;
 // @target: ES5
 // @lib: es5,es2015.promise
@@ -14,7 +14,7 @@ A.B = (_B = class B {
     }
 }, _B.C = class C {
     static func() {
-        return swcHelpers.asyncToGenerator(function*() {
+        return _async_to_generator(function*() {
             yield _B.func2();
         })();
     }

@@ -1,16 +1,16 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var M;
 (function(M1) {
     var Foo = function Foo() {
         "use strict";
-        swcHelpers.classCallCheck(this, Foo);
+        _class_call_check(this, Foo);
     };
     M1.Foo = Foo;
     var S1;
     (function(S) {
         var Bar = function Bar() {
             "use strict";
-            swcHelpers.classCallCheck(this, Bar);
+            _class_call_check(this, Bar);
         };
         S.Bar = Bar;
     })(S1 = M1.S || (M1.S = {}));

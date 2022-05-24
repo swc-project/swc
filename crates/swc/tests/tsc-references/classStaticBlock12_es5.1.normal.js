@@ -1,9 +1,10 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_static_private_field_spec_get from "@swc/helpers/lib/_class_static_private_field_spec_get.js";
 // @useDefineForClassFields: false
 // @target: es2015
 var C = function C() {
     "use strict";
-    swcHelpers.classCallCheck(this, C);
+    _class_call_check(this, C);
 };
 var _x = {
     writable: true,
@@ -12,6 +13,6 @@ var _x = {
 var __ = {
     writable: true,
     value: function() {
-        swcHelpers.classStaticPrivateFieldSpecGet(C, C, _x);
+        _class_static_private_field_spec_get(C, C, _x);
     }()
 };

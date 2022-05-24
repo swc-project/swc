@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
+import _to_array from "@swc/helpers/lib/_to_array.js";
 // @target:es6
 var f1 = function() {};
 var f2 = function(x, y) {};
@@ -19,19 +20,19 @@ foo(function() {
 });
 // Binding patterns in arrow functions
 var p1 = function(param) {
-    var _param = swcHelpers.slicedToArray(param, 1), a = _param[0];
+    var _param = _sliced_to_array(param, 1), a = _param[0];
 };
 var p2 = function(param) {
-    var _param = swcHelpers.toArray(param), a = _param.slice(0);
+    var _param = _to_array(param), a = _param.slice(0);
 };
 var p3 = function(param) {
-    var _param = swcHelpers.slicedToArray(param, 2), a = _param[1];
+    var _param = _sliced_to_array(param, 2), a = _param[1];
 };
 var p4 = function(param) {
-    var _param = swcHelpers.toArray(param), a = _param.slice(1);
+    var _param = _to_array(param), a = _param.slice(1);
 };
 var p5 = function(param) {
-    var _param = swcHelpers.slicedToArray(param, 1), tmp = _param[0], a = tmp === void 0 ? 1 : tmp;
+    var _param = _sliced_to_array(param, 1), tmp = _param[0], a = tmp === void 0 ? 1 : tmp;
 };
 var p6 = function(param) {
     var a = param.a;
@@ -48,5 +49,5 @@ var p9 = function(param) {
     } : tmp, _b = ref.b, b = _b === void 0 ? 1 : _b;
 };
 var p10 = function(param) {
-    var _param = swcHelpers.slicedToArray(param, 1), ref = _param[0], value = ref.value, done = ref.done;
+    var _param = _sliced_to_array(param, 1), ref = _param[0], value = ref.value, done = ref.done;
 };

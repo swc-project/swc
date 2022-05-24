@@ -1,62 +1,62 @@
-import * as swcHelpers from "@swc/helpers";
+import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
 function call(f) {
     for(var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)args[_key - 1] = arguments[_key];
-    return f.apply(void 0, swcHelpers.toConsumableArray(args));
+    return f.apply(void 0, _to_consumable_array(args));
 }
 function callr(args, f) {
-    return f.apply(void 0, swcHelpers.toConsumableArray(args));
+    return f.apply(void 0, _to_consumable_array(args));
 }
 function bind(f, x) {
     return function() {
         for(var _len = arguments.length, rest = new Array(_len), _key = 0; _key < _len; _key++)rest[_key] = arguments[_key];
         return f.apply(void 0, [
             x
-        ].concat(swcHelpers.toConsumableArray(rest)));
+        ].concat(_to_consumable_array(rest)));
     };
 }
-f2 = f1 = f2, f1(42, "hello", !0), f1(t3[0], t3[1], t3[2]), f1.apply(void 0, swcHelpers.toConsumableArray(t3)), f1.apply(void 0, [
+f2 = f1 = f2, f1(42, "hello", !0), f1(t3[0], t3[1], t3[2]), f1.apply(void 0, _to_consumable_array(t3)), f1.apply(void 0, [
     42
-].concat(swcHelpers.toConsumableArray(t2))), f1.apply(void 0, [
+].concat(_to_consumable_array(t2))), f1.apply(void 0, [
     42,
     "hello"
-].concat(swcHelpers.toConsumableArray(t1))), f1.apply(void 0, [
+].concat(_to_consumable_array(t1))), f1.apply(void 0, [
     42,
     "hello",
     !0
-].concat(swcHelpers.toConsumableArray(t0))), f1(ns[0], ns[1], !0), f1.apply(void 0, swcHelpers.toConsumableArray(ns).concat([
+].concat(_to_consumable_array(t0))), f1(ns[0], ns[1], !0), f1.apply(void 0, _to_consumable_array(ns).concat([
     !0
-])), f2(42, "hello", !0), f2(t3[0], t3[1], t3[2]), f2.apply(void 0, swcHelpers.toConsumableArray(t3)), f2.apply(void 0, [
+])), f2(42, "hello", !0), f2(t3[0], t3[1], t3[2]), f2.apply(void 0, _to_consumable_array(t3)), f2.apply(void 0, [
     42
-].concat(swcHelpers.toConsumableArray(t2))), f2.apply(void 0, [
+].concat(_to_consumable_array(t2))), f2.apply(void 0, [
     42,
     "hello"
-].concat(swcHelpers.toConsumableArray(t1))), f2.apply(void 0, [
+].concat(_to_consumable_array(t1))), f2.apply(void 0, [
     42,
     "hello",
     !0
-].concat(swcHelpers.toConsumableArray(t0))), f2(ns[0], ns[1], !0), f2.apply(void 0, swcHelpers.toConsumableArray(ns).concat([
+].concat(_to_consumable_array(t0))), f2(ns[0], ns[1], !0), f2.apply(void 0, _to_consumable_array(ns).concat([
     !0
-])), f10(42, "hello", !0), f10(42, "hello"), f10(42), f10(), f10.apply(void 0, swcHelpers.toConsumableArray(t3)), f10.apply(void 0, [
+])), f10(42, "hello", !0), f10(42, "hello"), f10(42), f10(), f10.apply(void 0, _to_consumable_array(t3)), f10.apply(void 0, [
     42
-].concat(swcHelpers.toConsumableArray(t2))), f10.apply(void 0, [
+].concat(_to_consumable_array(t2))), f10.apply(void 0, [
     42,
     "hello"
-].concat(swcHelpers.toConsumableArray(t1))), f10.apply(void 0, [
+].concat(_to_consumable_array(t1))), f10.apply(void 0, [
     42,
     "hello",
     !0
-].concat(swcHelpers.toConsumableArray(t0))), f10.apply(void 0, swcHelpers.toConsumableArray(ns).concat([
+].concat(_to_consumable_array(t0))), f10.apply(void 0, _to_consumable_array(ns).concat([
     !0
-])), f11(42, "hello", !0), f11(42, "hello"), f11(42), f11(), f11.apply(void 0, swcHelpers.toConsumableArray(t3)), f11.apply(void 0, [
+])), f11(42, "hello", !0), f11(42, "hello"), f11(42), f11(), f11.apply(void 0, _to_consumable_array(t3)), f11.apply(void 0, [
     42
-].concat(swcHelpers.toConsumableArray(t2))), f11.apply(void 0, [
+].concat(_to_consumable_array(t2))), f11.apply(void 0, [
     42,
     "hello"
-].concat(swcHelpers.toConsumableArray(t1))), f11.apply(void 0, [
+].concat(_to_consumable_array(t1))), f11.apply(void 0, [
     42,
     "hello",
     !0
-].concat(swcHelpers.toConsumableArray(t0))), f11.apply(void 0, swcHelpers.toConsumableArray(ns).concat([
+].concat(_to_consumable_array(t0))), f11.apply(void 0, _to_consumable_array(ns).concat([
     !0
 ])), call(function(x, y) {
     return x + y;

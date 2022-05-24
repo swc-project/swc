@@ -1,4 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _construct from "@swc/helpers/lib/_construct.js";
+import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
 function f(x, y) {
     for(var _len = arguments.length, z = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
         z[_key - 2] = arguments[_key];
@@ -14,7 +16,7 @@ var B = function B(x, y) {
     for(var _len = arguments.length, z = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
         z[_key - 2] = arguments[_key];
     }
-    swcHelpers.classCallCheck(this, B);
+    _class_call_check(this, B);
 };
 var a;
 var b;
@@ -26,151 +28,151 @@ var h;
 var i;
 // Basic expression
 new f(1, 2, "string");
-swcHelpers.construct(f, [
+_construct(f, [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a)));
-swcHelpers.construct(f, [
+].concat(_to_consumable_array(a)));
+_construct(f, [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a), [
+].concat(_to_consumable_array(a), [
     "string"
 ]));
 // Multiple spreads arguments
-swcHelpers.construct(f2, swcHelpers.toConsumableArray(a).concat(swcHelpers.toConsumableArray(a)));
-swcHelpers.construct(f, [
+_construct(f2, _to_consumable_array(a).concat(_to_consumable_array(a)));
+_construct(f, [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a), swcHelpers.toConsumableArray(a)));
+].concat(_to_consumable_array(a), _to_consumable_array(a)));
 // Call expression
 new f(1, 2, "string")();
-swcHelpers.construct(f, [
+_construct(f, [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a)))();
-swcHelpers.construct(f, [
+].concat(_to_consumable_array(a)))();
+_construct(f, [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a), [
+].concat(_to_consumable_array(a), [
     "string"
 ]))();
 // Property access expression
 new b.f(1, 2, "string");
-swcHelpers.construct(b.f, [
+_construct(b.f, [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a)));
-swcHelpers.construct(b.f, [
+].concat(_to_consumable_array(a)));
+_construct(b.f, [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a), [
+].concat(_to_consumable_array(a), [
     "string"
 ]));
 // Parenthesised expression
 new b.f(1, 2, "string");
-swcHelpers.construct(b.f, [
+_construct(b.f, [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a)));
-swcHelpers.construct(b.f, [
+].concat(_to_consumable_array(a)));
+_construct(b.f, [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a), [
+].concat(_to_consumable_array(a), [
     "string"
 ]));
 // Element access expression
 new d[1].f(1, 2, "string");
-swcHelpers.construct(d[1].f, [
+_construct(d[1].f, [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a)));
-swcHelpers.construct(d[1].f, [
+].concat(_to_consumable_array(a)));
+_construct(d[1].f, [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a), [
+].concat(_to_consumable_array(a), [
     "string"
 ]));
 // Element access expression with a punctuated key
 new e["a-b"].f(1, 2, "string");
-swcHelpers.construct(e["a-b"].f, [
+_construct(e["a-b"].f, [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a)));
-swcHelpers.construct(e["a-b"].f, [
+].concat(_to_consumable_array(a)));
+_construct(e["a-b"].f, [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a), [
+].concat(_to_consumable_array(a), [
     "string"
 ]));
 // Basic expression
 new B(1, 2, "string");
-swcHelpers.construct(B, [
+_construct(B, [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a)));
-swcHelpers.construct(B, [
+].concat(_to_consumable_array(a)));
+_construct(B, [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a), [
+].concat(_to_consumable_array(a), [
     "string"
 ]));
 // Property access expression
 new c["a-b"](1, 2, "string");
-swcHelpers.construct(c["a-b"], [
+_construct(c["a-b"], [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a)));
-swcHelpers.construct(c["a-b"], [
+].concat(_to_consumable_array(a)));
+_construct(c["a-b"], [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a), [
+].concat(_to_consumable_array(a), [
     "string"
 ]));
 // Parenthesised expression
 new c["a-b"](1, 2, "string");
-swcHelpers.construct(c["a-b"], [
+_construct(c["a-b"], [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a)));
-swcHelpers.construct(c["a-b"], [
+].concat(_to_consumable_array(a)));
+_construct(c["a-b"], [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a), [
+].concat(_to_consumable_array(a), [
     "string"
 ]));
 // Element access expression
 new g[1]["a-b"](1, 2, "string");
-swcHelpers.construct(g[1]["a-b"], [
+_construct(g[1]["a-b"], [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a)));
-swcHelpers.construct(g[1]["a-b"], [
+].concat(_to_consumable_array(a)));
+_construct(g[1]["a-b"], [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a), [
+].concat(_to_consumable_array(a), [
     "string"
 ]));
 // Element access expression with a punctuated key
 new h["a-b"]["a-b"](1, 2, "string");
-swcHelpers.construct(h["a-b"]["a-b"], [
+_construct(h["a-b"]["a-b"], [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a)));
-swcHelpers.construct(h["a-b"]["a-b"], [
+].concat(_to_consumable_array(a)));
+_construct(h["a-b"]["a-b"], [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a), [
+].concat(_to_consumable_array(a), [
     "string"
 ]));
 // Element access expression with a number
 new i["a-b"][1](1, 2, "string");
-swcHelpers.construct(i["a-b"][1], [
+_construct(i["a-b"][1], [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a)));
-swcHelpers.construct(i["a-b"][1], [
+].concat(_to_consumable_array(a)));
+_construct(i["a-b"][1], [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a), [
+].concat(_to_consumable_array(a), [
     "string"
 ]));

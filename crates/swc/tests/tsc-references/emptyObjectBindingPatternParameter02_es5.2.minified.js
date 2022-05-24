@@ -1,1 +1,1 @@
-import * as swcHelpers from "@swc/helpers";
+import _throw from "@swc/helpers/lib/_throw.js";

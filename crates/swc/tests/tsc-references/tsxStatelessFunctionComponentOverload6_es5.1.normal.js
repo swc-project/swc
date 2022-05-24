@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 // @filename: file.tsx
 // @jsx: preserve
 // @module: amd
@@ -28,21 +28,21 @@ var b0 = /*#__PURE__*/ React.createElement(MainButton, {
 var b1 = /*#__PURE__*/ React.createElement(MainButton, {
     onClick: function(e) {}
 }, "Hello world");
-var b2 = /*#__PURE__*/ React.createElement(MainButton, swcHelpers.extends({}, obj));
-var b3 = /*#__PURE__*/ React.createElement(MainButton, swcHelpers.extends({}, {
+var b2 = /*#__PURE__*/ React.createElement(MainButton, _extends({}, obj));
+var b3 = /*#__PURE__*/ React.createElement(MainButton, _extends({}, {
     to: 10000
 }, obj));
-var b4 = /*#__PURE__*/ React.createElement(MainButton, swcHelpers.extends({}, obj1)); // any; just pick the first overload
-var b5 = /*#__PURE__*/ React.createElement(MainButton, swcHelpers.extends({}, obj1, {
+var b4 = /*#__PURE__*/ React.createElement(MainButton, _extends({}, obj1)); // any; just pick the first overload
+var b5 = /*#__PURE__*/ React.createElement(MainButton, _extends({}, obj1, {
     to: "/to/somewhere"
 })); // should pick the second overload
-var b6 = /*#__PURE__*/ React.createElement(MainButton, swcHelpers.extends({}, obj2));
-var b7 = /*#__PURE__*/ React.createElement(MainButton, swcHelpers.extends({}, {
+var b6 = /*#__PURE__*/ React.createElement(MainButton, _extends({}, obj2));
+var b7 = /*#__PURE__*/ React.createElement(MainButton, _extends({}, {
     onClick: function() {
         console.log("hi");
     }
 }));
-var b8 = /*#__PURE__*/ React.createElement(MainButton, swcHelpers.extends({}, {
+var b8 = /*#__PURE__*/ React.createElement(MainButton, _extends({}, {
     onClick: function onClick() {}
 })); // OK; method declaration get retained (See GitHub #13365)
 var b9 = /*#__PURE__*/ React.createElement(MainButton, {

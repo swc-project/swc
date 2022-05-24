@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
 var a0 = [
     ,
     ,
@@ -9,11 +9,11 @@ var a0 = [
 [
     ,
     ,
-].concat(swcHelpers.toConsumableArray(a0), [
+].concat(_to_consumable_array(a0), [
     "hello"
 ]), [
     ,
-].concat(swcHelpers.toConsumableArray(a0)), swcHelpers.toConsumableArray(a0).concat([
+].concat(_to_consumable_array(a0)), _to_consumable_array(a0).concat([
     , 
 ]);
 var ref = [
@@ -34,12 +34,12 @@ var temp = [
 [
     1,
     !0, 
-].concat(swcHelpers.toConsumableArray(temp)), swcHelpers.toConsumableArray(temp), swcHelpers.toConsumableArray(temp1), swcHelpers.toConsumableArray(temp1), swcHelpers.toConsumableArray(temp).concat(swcHelpers.toConsumableArray(temp1)), swcHelpers.toConsumableArray([
+].concat(_to_consumable_array(temp)), _to_consumable_array(temp), _to_consumable_array(temp1), _to_consumable_array(temp1), _to_consumable_array(temp).concat(_to_consumable_array(temp1)), _to_consumable_array([
     void 0,
     null,
     void 0
-]), swcHelpers.toConsumableArray([]), swcHelpers.toConsumableArray(swcHelpers.toConsumableArray(temp1)), swcHelpers.toConsumableArray(temp1), [
-    swcHelpers.toConsumableArray(temp1)
-].concat(swcHelpers.toConsumableArray([
+]), _to_consumable_array([]), _to_consumable_array(_to_consumable_array(temp1)), _to_consumable_array(temp1), [
+    _to_consumable_array(temp1)
+].concat(_to_consumable_array([
     "hello"
 ]));

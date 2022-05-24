@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @target: ES6
 // @filename: class.ts
 var X;
@@ -7,7 +7,7 @@ var X;
     (function(Y) {
         var Point = function Point(x, y) {
             "use strict";
-            swcHelpers.classCallCheck(this, Point);
+            _class_call_check(this, Point);
             this.x = x;
             this.y = y;
         };
@@ -30,7 +30,7 @@ var cl = X.Y.Point.Origin; // error not expected here same as bug 83996 ?
 // @filename: simple.ts
 var A = function A() {
     "use strict";
-    swcHelpers.classCallCheck(this, A);
+    _class_call_check(this, A);
 };
 (function(A1) {
     var Instance = A1.Instance = new A();

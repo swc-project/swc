@@ -191,7 +191,8 @@ where
                 _ if self.is_plaintext => true,
                 _ => false,
             };
-            let need_extra_newline_in_text = matches!(&*n.tag_name, "textarea" | "pre");
+            let need_extra_newline_in_text =
+                n.namespace == Namespace::HTML && matches!(&*n.tag_name, "textarea" | "pre");
 
             let ctx = Ctx {
                 skip_escape_text,

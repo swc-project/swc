@@ -1,10 +1,10 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @target: es5
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C(t, z, x) {
         var y = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : "hello";
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
     }
     var _proto = C.prototype;
     _proto.foo = function foo(x) {
@@ -30,7 +30,7 @@ var C = /*#__PURE__*/ function() {
 var D = function D() {
     "use strict";
     var y = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : "hello";
-    swcHelpers.classCallCheck(this, D);
+    _class_call_check(this, D);
 };
 var E = function E() {
     "use strict";
@@ -38,5 +38,5 @@ var E = function E() {
     for(var _len = arguments.length, rest = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
         rest[_key - 1] = arguments[_key];
     }
-    swcHelpers.classCallCheck(this, E);
+    _class_call_check(this, E);
 };

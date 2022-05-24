@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _get from "@swc/helpers/lib/_get.js";
+import _get_prototype_of from "@swc/helpers/lib/_get_prototype_of.js";
 class C extends B {
     constructor(...args){
         super(...args);
@@ -14,5 +15,5 @@ C.y2 = C.x();
 C.y3 = C === null || C === void 0 ? void 0 : C.x();
 C.y4 = C["x"]();
 C.y5 = C === null || C === void 0 ? void 0 : C["x"]();
-C.z3 = swcHelpers.get(swcHelpers.getPrototypeOf(C), "f", C).call(C);
-C.z4 = swcHelpers.get(swcHelpers.getPrototypeOf(C), "f", C).call(C);
+C.z3 = _get(_get_prototype_of(C), "f", C).call(C);
+C.z4 = _get(_get_prototype_of(C), "f", C).call(C);

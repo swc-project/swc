@@ -1,12 +1,13 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _create_class from "@swc/helpers/lib/_create_class.js";
 var strOrNum, c1, obj1, C1 = function() {
     "use strict";
     function C1() {
-        swcHelpers.classCallCheck(this, C1);
+        _class_call_check(this, C1);
     }
     return C1.prototype.method = function() {
         strOrNum = "string" == typeof this.pp1 && this.pp1, strOrNum = "string" == typeof this.pp2 && this.pp2, strOrNum = "string" == typeof this.pp3 && this.pp3;
-    }, swcHelpers.createClass(C1, [
+    }, _create_class(C1, [
         {
             key: "pp3",
             get: function() {

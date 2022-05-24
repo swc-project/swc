@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
+import _object_without_properties from "@swc/helpers/lib/_object_without_properties.js";
 let [s1] = strArray;
 s1.toString();
 let [...s2] = strArray;
@@ -7,13 +8,13 @@ let [, , ...s3] = strArray;
 s3.push(void 0);
 let { t1  } = strMap;
 t1.toString();
-let t2 = swcHelpers.extends({}, strMap);
+let t2 = _extends({}, strMap);
 t2.z.toString();
 {
     let { x , y , z  } = numMapPoint;
     x.toFixed(), y.toFixed(), z.toFixed();
 }{
-    let { x  } = numMapPoint, q = swcHelpers.objectWithoutProperties(numMapPoint, [
+    let { x  } = numMapPoint, q = _object_without_properties(numMapPoint, [
         "x"
     ]);
     x.toFixed(), q.y.toFixed(), q.z.toFixed();

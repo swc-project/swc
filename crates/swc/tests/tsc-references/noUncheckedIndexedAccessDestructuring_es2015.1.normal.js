@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
+import _object_without_properties from "@swc/helpers/lib/_object_without_properties.js";
 // Declaration forms for array destructuring
 // Destructuring from a simple array -> include undefined
 const [s1] = strArray;
@@ -11,7 +12,7 @@ const [, , ...s3] = strArray;
 s3.push(undefined); // Should error, 'undefined' not part of s2's element type
 const { t1  } = strMap;
 t1.toString(); // Should error, t1 possibly undefined
-const t2 = swcHelpers.extends({}, strMap);
+const t2 = _extends({}, strMap);
 t2.z.toString(); // Should error
 {
     const { x , y , z  } = numMapPoint;
@@ -19,7 +20,7 @@ t2.z.toString(); // Should error
     y.toFixed(); // Should OK
     z.toFixed(); // Should error
 }{
-    const { x  } = numMapPoint, q = swcHelpers.objectWithoutProperties(numMapPoint, [
+    const { x  } = numMapPoint, q = _object_without_properties(numMapPoint, [
         "x"
     ]);
     x.toFixed(); // Should OK

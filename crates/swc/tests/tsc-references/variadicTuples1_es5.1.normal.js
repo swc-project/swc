@@ -1,11 +1,12 @@
-import * as swcHelpers from "@swc/helpers";
+import _to_array from "@swc/helpers/lib/_to_array.js";
+import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
 // Variadics in array literals
 function tup2(t, u) {
     return [
         1
-    ].concat(swcHelpers.toConsumableArray(t), [
+    ].concat(_to_consumable_array(t), [
         2
-    ], swcHelpers.toConsumableArray(u), [
+    ], _to_consumable_array(u), [
         3
     ]);
 }
@@ -16,7 +17,7 @@ var t2 = tup2([
     true
 ]);
 function concat(t, u) {
-    return swcHelpers.toConsumableArray(t).concat(swcHelpers.toConsumableArray(u));
+    return _to_consumable_array(t).concat(_to_consumable_array(u));
 }
 var tc1 = concat([], []);
 var tc2 = concat([
@@ -35,7 +36,7 @@ var tc4 = concat(sa, [
     3
 ]); // Ideally would be [...string[], number, number, number]
 function concat2(t, u) {
-    return swcHelpers.toConsumableArray(t).concat(swcHelpers.toConsumableArray(u)); // (T[number] | U[number])[]
+    return _to_consumable_array(t).concat(_to_consumable_array(u)); // (T[number] | U[number])[]
 }
 var tc5 = concat2([
     1,
@@ -48,20 +49,20 @@ var tc5 = concat2([
 ]); // (1 | 2 | 3 | 4 | 5 | 6)[]
 function foo2(t1, t21, a1) {
     foo1(1, "abc", true, 42, 43, 44);
-    foo1.apply(void 0, swcHelpers.toConsumableArray(t1).concat([
+    foo1.apply(void 0, _to_consumable_array(t1).concat([
         true,
         42,
         43,
         44
     ]));
-    foo1.apply(void 0, swcHelpers.toConsumableArray(t1).concat(swcHelpers.toConsumableArray(t21), [
+    foo1.apply(void 0, _to_consumable_array(t1).concat(_to_consumable_array(t21), [
         42,
         43,
         44
     ]));
-    foo1.apply(void 0, swcHelpers.toConsumableArray(t1).concat(swcHelpers.toConsumableArray(t21), swcHelpers.toConsumableArray(a1)));
-    foo1.apply(void 0, swcHelpers.toConsumableArray(t1)); // Error
-    foo1.apply(void 0, swcHelpers.toConsumableArray(t1).concat([
+    foo1.apply(void 0, _to_consumable_array(t1).concat(_to_consumable_array(t21), _to_consumable_array(a1)));
+    foo1.apply(void 0, _to_consumable_array(t1)); // Error
+    foo1.apply(void 0, _to_consumable_array(t1).concat([
         45
     ])); // Error
 }
@@ -70,7 +71,7 @@ function foo4(u) {
     foo3(1, "hello", true, 2);
     foo3.apply(void 0, [
         1
-    ].concat(swcHelpers.toConsumableArray(u), [
+    ].concat(_to_consumable_array(u), [
         "hi",
         2
     ]));
@@ -107,14 +108,14 @@ function f1(t, n) {
 }
 // Destructuring variadic tuple types
 function f2(t) {
-    var _t = swcHelpers.toArray(t), ax = _t.slice(0); // [string, ...T]
-    var _t1 = swcHelpers.toArray(t), b1 = _t1[0], bx = _t1.slice(1); // string, [...T]
-    var _t2 = swcHelpers.toArray(t), c1 = _t2[0], c2 = _t2[1], cx = _t2.slice(2); // string, [string, ...T][1], T[number][]
+    var _t = _to_array(t), ax = _t.slice(0); // [string, ...T]
+    var _t1 = _to_array(t), b1 = _t1[0], bx = _t1.slice(1); // string, [...T]
+    var _t2 = _to_array(t), c1 = _t2[0], c2 = _t2[1], cx = _t2.slice(2); // string, [string, ...T][1], T[number][]
 }
 function f3(t) {
-    var _t = swcHelpers.toArray(t), ax = _t.slice(0); // [string, ...T, number]
-    var _t3 = swcHelpers.toArray(t), b1 = _t3[0], bx = _t3.slice(1); // string, [...T, number]
-    var _t4 = swcHelpers.toArray(t), c1 = _t4[0], c2 = _t4[1], cx = _t4.slice(2); // string, [string, ...T, number][1], (number | T[number])[]
+    var _t = _to_array(t), ax = _t.slice(0); // [string, ...T, number]
+    var _t3 = _to_array(t), b1 = _t3[0], bx = _t3.slice(1); // string, [...T, number]
+    var _t4 = _to_array(t), c1 = _t4[0], c2 = _t4[1], cx = _t4.slice(2); // string, [string, ...T, number][1], (number | T[number])[]
 }
 var tm1 = fm1([
     [
@@ -134,31 +135,31 @@ function gx1(u, v) {
     fx1("abc"); // []
     fx1.apply(void 0, [
         "abc"
-    ].concat(swcHelpers.toConsumableArray(u))); // U
+    ].concat(_to_consumable_array(u))); // U
     fx1.apply(void 0, [
         "abc"
-    ].concat(swcHelpers.toConsumableArray(v))); // [...V]
+    ].concat(_to_consumable_array(v))); // [...V]
     fx1.apply(void 0, [
         "abc"
-    ].concat(swcHelpers.toConsumableArray(u))); // U
+    ].concat(_to_consumable_array(u))); // U
     fx1.apply(void 0, [
         "abc"
-    ].concat(swcHelpers.toConsumableArray(v))); // Error
+    ].concat(_to_consumable_array(v))); // Error
 }
 function gx2(u, v) {
     fx2("abc"); // []
     fx2.apply(void 0, [
         "abc"
-    ].concat(swcHelpers.toConsumableArray(u))); // U
+    ].concat(_to_consumable_array(u))); // U
     fx2.apply(void 0, [
         "abc"
-    ].concat(swcHelpers.toConsumableArray(v))); // [...V]
+    ].concat(_to_consumable_array(v))); // [...V]
     fx2.apply(void 0, [
         "abc"
-    ].concat(swcHelpers.toConsumableArray(u))); // U
+    ].concat(_to_consumable_array(u))); // U
     fx2.apply(void 0, [
         "abc"
-    ].concat(swcHelpers.toConsumableArray(v))); // V
+    ].concat(_to_consumable_array(v))); // V
 }
 // Relations involving variadic tuple types
 function f10(x, y, z) {
@@ -223,7 +224,7 @@ function curry(f) {
         for(var _len = arguments.length, b2 = new Array(_len), _key = 0; _key < _len; _key++){
             b2[_key] = arguments[_key];
         }
-        return f.apply(void 0, swcHelpers.toConsumableArray(_$a).concat(swcHelpers.toConsumableArray(b2)));
+        return f.apply(void 0, _to_consumable_array(_$a).concat(_to_consumable_array(b2)));
     };
 }
 var fn1 = function(a, b, c, d) {
@@ -257,10 +258,10 @@ var c20 = curry(fn3); // (...args: string[]) => number
 var c21 = curry(fn3, "abc", "def"); // (...args: string[]) => number
 var c22 = curry.apply(void 0, [
     fn3
-].concat(swcHelpers.toConsumableArray(sa))); // (...args: string[]) => number
+].concat(_to_consumable_array(sa))); // (...args: string[]) => number
 // No inference to [...T, ...U] when there is no implied arity
 function curry2(f, t, u) {
-    return f.apply(void 0, swcHelpers.toConsumableArray(t).concat(swcHelpers.toConsumableArray(u)));
+    return f.apply(void 0, _to_consumable_array(t).concat(_to_consumable_array(u)));
 }
 curry2(fn10, [
     "hello",
@@ -309,7 +310,7 @@ ft([
 call("hello", 32, function(a, b) {
     return 42;
 });
-call.apply(void 0, swcHelpers.toConsumableArray(sa).concat([
+call.apply(void 0, _to_consumable_array(sa).concat([
     function() {
         for(var _len = arguments.length, x = new Array(_len), _key = 0; _key < _len; _key++){
             x[_key] = arguments[_key];
@@ -345,7 +346,7 @@ function callApi(method) {
         for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
             args[_key] = arguments[_key];
         }
-        return method.apply(void 0, swcHelpers.toConsumableArray(args).concat([
+        return method.apply(void 0, _to_consumable_array(args).concat([
             {}
         ]));
     };

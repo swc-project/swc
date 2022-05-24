@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var // enums assignable to number, any, Object, errors unless otherwise noted
 E;
 (function(E) {
@@ -28,7 +28,7 @@ var Others;
     var a = e; // ok
     var C = function C() {
         "use strict";
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
     };
     var ac;
     var ai;

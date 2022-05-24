@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
 // @allowJs: true
 // @checkJs: true
 // @target: es6
@@ -13,7 +13,7 @@ class X {
       * @param {string?} error.code the error code to send the cancellation with
       * @returns {Promise.<*>} resolves when the event has been sent.
       */ cancel({ reason , code  }) {
-        return swcHelpers.asyncToGenerator(function*() {})();
+        return _async_to_generator(function*() {})();
     }
 }
 class Y {
@@ -26,6 +26,6 @@ class Y {
       * @param {string?} error.suberr.code the error code to send the cancellation with
       * @returns {Promise.<*>} resolves when the event has been sent.
       */ cancel({ reason , suberr  }) {
-        return swcHelpers.asyncToGenerator(function*() {})();
+        return _async_to_generator(function*() {})();
     }
 }

@@ -1,4 +1,9 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _get from "@swc/helpers/lib/_get.js";
+import _get_prototype_of from "@swc/helpers/lib/_get_prototype_of.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var _obj, _obj1, _obj2, _obj3, _instance, _obj4, _instance1, _instance2, _instance3;
 function foo(x, y) {
     for(var _len = arguments.length, z1 = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
@@ -13,84 +18,84 @@ foo(1, 2, "abc");
 foo.apply(void 0, [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a)));
+].concat(_to_consumable_array(a)));
 foo.apply(void 0, [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a), [
+].concat(_to_consumable_array(a), [
     "abc"
 ]));
 obj.foo(1, 2, "abc");
 (_obj = obj).foo.apply(_obj, [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a)));
+].concat(_to_consumable_array(a)));
 (_obj1 = obj).foo.apply(_obj1, [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a), [
+].concat(_to_consumable_array(a), [
     "abc"
 ]));
 (_obj2 = obj).foo.apply(_obj2, [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a))).foo(1, 2, "abc");
+].concat(_to_consumable_array(a))).foo(1, 2, "abc");
 (_instance = (_obj3 = obj).foo.apply(_obj3, [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a)))).foo.apply(_instance, [
+].concat(_to_consumable_array(a)))).foo.apply(_instance, [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a)));
+].concat(_to_consumable_array(a)));
 (_instance1 = (_obj4 = obj).foo.apply(_obj4, [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a)))).foo.apply(_instance1, [
+].concat(_to_consumable_array(a)))).foo.apply(_instance1, [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a), [
+].concat(_to_consumable_array(a), [
     "abc"
 ]));
 obj.foo(1, 2, "abc");
 obj.foo.apply(this, [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a)));
+].concat(_to_consumable_array(a)));
 obj.foo.apply(this, [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a), [
+].concat(_to_consumable_array(a), [
     "abc"
 ]));
 obj.foo.apply(this, [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a))).foo(1, 2, "abc");
+].concat(_to_consumable_array(a))).foo(1, 2, "abc");
 obj.foo.apply(this, [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a))).foo.apply(this, [
+].concat(_to_consumable_array(a))).foo.apply(this, [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a)));
+].concat(_to_consumable_array(a)));
 obj.foo.apply(this, [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a))).foo.apply(this, [
+].concat(_to_consumable_array(a))).foo.apply(this, [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a), [
+].concat(_to_consumable_array(a), [
     "abc"
 ]));
 xa[1].foo(1, 2, "abc");
 (_instance2 = xa[1]).foo.apply(_instance2, [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a)));
+].concat(_to_consumable_array(a)));
 (_instance3 = xa[1]).foo.apply(_instance3, [
     1,
     2
-].concat(swcHelpers.toConsumableArray(a), [
+].concat(_to_consumable_array(a), [
     "abc"
 ]));
 xa[1].foo.apply(this, [
@@ -104,12 +109,12 @@ var C = /*#__PURE__*/ function() {
         for(var _len = arguments.length, z2 = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
             z2[_key - 2] = arguments[_key];
         }
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         this.foo(x, y);
         this.foo.apply(this, [
             x,
             y
-        ].concat(swcHelpers.toConsumableArray(z2)));
+        ].concat(_to_consumable_array(z2)));
     }
     var _proto = C.prototype;
     _proto.foo = function foo(x, y) {
@@ -121,26 +126,26 @@ var C = /*#__PURE__*/ function() {
 }();
 var D = /*#__PURE__*/ function(C) {
     "use strict";
-    swcHelpers.inherits(D, C);
-    var _super = swcHelpers.createSuper(D);
+    _inherits(D, C);
+    var _super = _create_super(D);
     function D() {
-        swcHelpers.classCallCheck(this, D);
+        _class_call_check(this, D);
         return _super.call(this, 1, 2);
         return _super.call.apply(_super, [
             this,
             1,
             2
-        ].concat(swcHelpers.toConsumableArray(a)));
+        ].concat(_to_consumable_array(a)));
     }
     var _proto = D.prototype;
     _proto.foo = function foo() {
         var _instance4;
-        swcHelpers.get(swcHelpers.getPrototypeOf(D.prototype), "foo", this).call(this, 1, 2);
-        (_instance4 = swcHelpers.get(swcHelpers.getPrototypeOf(D.prototype), "foo", this)).call.apply(_instance4, [
+        _get(_get_prototype_of(D.prototype), "foo", this).call(this, 1, 2);
+        (_instance4 = _get(_get_prototype_of(D.prototype), "foo", this)).call.apply(_instance4, [
             this,
             1,
             2
-        ].concat(swcHelpers.toConsumableArray(a)));
+        ].concat(_to_consumable_array(a)));
     };
     return D;
 }(C);

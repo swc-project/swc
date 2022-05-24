@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // Copyright (c) Microsoft. All rights reserved. Licensed under the Apache License, Version 2.0. 
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
@@ -116,7 +116,7 @@ var TypeScript;
     };
     var TypeCollectionContext = function TypeCollectionContext(scopeChain, checker) {
         "use strict";
-        swcHelpers.classCallCheck(this, TypeCollectionContext);
+        _class_call_check(this, TypeCollectionContext);
         this.scopeChain = scopeChain;
         this.checker = checker;
         this.script = null;
@@ -124,7 +124,7 @@ var TypeScript;
     TypeScript1.TypeCollectionContext = TypeCollectionContext;
     var MemberScopeContext = function MemberScopeContext(flow, pos, matchFlag) {
         "use strict";
-        swcHelpers.classCallCheck(this, MemberScopeContext);
+        _class_call_check(this, MemberScopeContext);
         this.flow = flow;
         this.pos = pos;
         this.matchFlag = matchFlag;
@@ -136,7 +136,7 @@ var TypeScript;
     var EnclosingScopeContext = /*#__PURE__*/ function() {
         "use strict";
         function EnclosingScopeContext(logger, script, text, pos, isMemberCompletion) {
-            swcHelpers.classCallCheck(this, EnclosingScopeContext);
+            _class_call_check(this, EnclosingScopeContext);
             this.logger = logger;
             this.script = script;
             this.text = text;

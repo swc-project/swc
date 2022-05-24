@@ -1,8 +1,8 @@
-import * as swcHelpers from "@swc/helpers";
+import _instanceof from "@swc/helpers/lib/_instanceof.js";
 var x = {
     p: 0
 };
-if (swcHelpers._instanceof(x, Object)) {
+if (_instanceof(x, Object)) {
     x.p; // No error, type any unaffected by instanceof type guard
 } else {
     x.p; // No error, type any unaffected by instanceof type guard

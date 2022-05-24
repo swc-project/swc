@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // null is a subtype of any other types except undefined
 var r0 = true ? null : null;
 var r0 = true ? null : null;
@@ -34,14 +34,14 @@ var r9 = true ? i1 : null;
 var r9 = true ? null : i1;
 var C1 = function C1() {
     "use strict";
-    swcHelpers.classCallCheck(this, C1);
+    _class_call_check(this, C1);
 };
 var c1;
 var r10 = true ? c1 : null;
 var r10 = true ? null : c1;
 var C2 = function C2() {
     "use strict";
-    swcHelpers.classCallCheck(this, C2);
+    _class_call_check(this, C2);
 };
 var c2;
 var r12 = true ? c2 : null;
@@ -63,7 +63,7 @@ var r15 = true ? af : null;
 var r15 = true ? null : af;
 var c = function c() {
     "use strict";
-    swcHelpers.classCallCheck(this, c);
+    _class_call_check(this, c);
 };
 (function(c) {
     var bar = c.bar = 1;

@@ -1,23 +1,25 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 import regeneratorRuntime from "regenerator-runtime";
 //@target: ES6
 var Foo = function Foo() {
     "use strict";
-    swcHelpers.classCallCheck(this, Foo);
+    _class_call_check(this, Foo);
 };
 var Bar = /*#__PURE__*/ function(Foo) {
     "use strict";
-    swcHelpers.inherits(Bar, Foo);
-    var _super = swcHelpers.createSuper(Bar);
+    _inherits(Bar, Foo);
+    var _super = _create_super(Bar);
     function Bar() {
-        swcHelpers.classCallCheck(this, Bar);
+        _class_call_check(this, Bar);
         return _super.apply(this, arguments);
     }
     return Bar;
 }(Foo);
 var Baz = function Baz() {
     "use strict";
-    swcHelpers.classCallCheck(this, Baz);
+    _class_call_check(this, Baz);
 };
 var g3 = regeneratorRuntime.mark(function g3() {
     return regeneratorRuntime.wrap(function g3$(_ctx) {

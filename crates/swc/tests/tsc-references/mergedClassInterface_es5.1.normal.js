@@ -1,11 +1,11 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var C3 = function C3() {
     "use strict";
-    swcHelpers.classCallCheck(this, C3);
+    _class_call_check(this, C3);
 };
 var C4 = function C4() {
     "use strict";
-    swcHelpers.classCallCheck(this, C4);
+    _class_call_check(this, C4);
 };
 // checks if properties actually were merged
 var c5;

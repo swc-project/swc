@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @declaration: true
 function ExpandoDecl(n1) {
     return n1.toString();
@@ -68,7 +68,7 @@ var n = ExpandoExpr2.prop + ExpandoExpr2.m(12) + ExpandoExpr2(101).length;
 // Should not work in typescript -- classes already have statics
 var ExpandoClass = function ExpandoClass() {
     "use strict";
-    swcHelpers.classCallCheck(this, ExpandoClass);
+    _class_call_check(this, ExpandoClass);
     this.n = 1001;
 };
 ExpandoClass.prop = 2;
@@ -79,7 +79,7 @@ var n = ExpandoClass.prop + ExpandoClass.m(12) + new ExpandoClass().n;
 // Class expressions shouldn't work in typescript either
 var ExpandoExpr3 = function _class() {
     "use strict";
-    swcHelpers.classCallCheck(this, _class);
+    _class_call_check(this, _class);
     this.n = 10001;
 };
 ExpandoExpr3.prop = 3;

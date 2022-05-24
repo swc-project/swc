@@ -1,7 +1,7 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var A, Point = function(x, y) {
     "use strict";
-    swcHelpers.classCallCheck(this, Point), this.x = x, this.y = y;
+    _class_call_check(this, Point), this.x = x, this.y = y;
 };
 Point.Origin = {
     x: 0,
@@ -9,7 +9,7 @@ Point.Origin = {
 }, Point || (Point = {}), function(A1) {
     var Point1 = function(x, y) {
         "use strict";
-        swcHelpers.classCallCheck(this, Point1), this.x = x, this.y = y;
+        _class_call_check(this, Point1), this.x = x, this.y = y;
     };
     Point1.Origin = {
         x: 0,

@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @strict: true
 // @target: esnext
 function f1(obj, k0, k1, k2) {
@@ -93,7 +93,7 @@ function fn4() {
 // Repro from #31439 and #31691
 export var c = function c() {
     "use strict";
-    swcHelpers.classCallCheck(this, c);
+    _class_call_check(this, c);
     this.a = "b";
     this["a"] = "b";
 };

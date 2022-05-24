@@ -1,4 +1,7 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _type_of from "@swc/helpers/lib/_type_of.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var M;
 (function(M1) {
     var fn = function fn(x) {
@@ -24,8 +27,8 @@ switch(x){
     case [
         "a"
     ]:
-    case typeof x === "undefined" ? "undefined" : swcHelpers.typeOf(x):
-    case typeof M === "undefined" ? "undefined" : swcHelpers.typeOf(M):
+    case typeof x === "undefined" ? "undefined" : _type_of(x):
+    case typeof M === "undefined" ? "undefined" : _type_of(M):
     case M.fn(1):
     case function(x) {
         return "";
@@ -38,14 +41,14 @@ switch(x){
 // basic assignable check, rest covered in tests for 'assignment compatibility'
 var C = function C() {
     "use strict";
-    swcHelpers.classCallCheck(this, C);
+    _class_call_check(this, C);
 };
 var D = /*#__PURE__*/ function(C) {
     "use strict";
-    swcHelpers.inherits(D, C);
-    var _super = swcHelpers.createSuper(D);
+    _inherits(D, C);
+    var _super = _create_super(D);
     function D() {
-        swcHelpers.classCallCheck(this, D);
+        _class_call_check(this, D);
         return _super.apply(this, arguments);
     }
     return D;

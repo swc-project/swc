@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var foo = {
     prop: true
 };
@@ -9,7 +9,7 @@ var z = x;
 var Bar = /*#__PURE__*/ function() {
     "use strict";
     function Bar() {
-        swcHelpers.classCallCheck(this, Bar);
+        _class_call_check(this, Bar);
     }
     var _proto = Bar.prototype;
     _proto.cast = function cast(_name) {};
