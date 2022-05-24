@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 function f1(a, b) {
     a = b;
     b = a; // Error
@@ -50,7 +50,7 @@ function f21(x, y, z) {
 var Opt = /*#__PURE__*/ function() {
     "use strict";
     function Opt() {
-        swcHelpers.classCallCheck(this, Opt);
+        _class_call_check(this, Opt);
     }
     var _proto = Opt.prototype;
     _proto.toVector = function toVector() {
@@ -61,7 +61,7 @@ var Opt = /*#__PURE__*/ function() {
 var Vector = /*#__PURE__*/ function() {
     "use strict";
     function Vector() {
-        swcHelpers.classCallCheck(this, Vector);
+        _class_call_check(this, Vector);
     }
     var _proto = Vector.prototype;
     _proto.tail = function tail() {

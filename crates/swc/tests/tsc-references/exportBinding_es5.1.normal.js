@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @filename: exportConsts.ts
 // @strict: true
 export { x };
@@ -8,7 +8,7 @@ var x = "x";
 export { Y as Z };
 var Y = function Y() {
     "use strict";
-    swcHelpers.classCallCheck(this, Y);
+    _class_call_check(this, Y);
 };
 // @filename: exportVars.ts
 // @strict: true

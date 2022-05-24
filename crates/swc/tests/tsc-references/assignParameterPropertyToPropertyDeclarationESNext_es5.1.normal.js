@@ -1,10 +1,12 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 // @useDefineForClassFields: true
 // @target: esnext
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C(foo) {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         this.foo = foo;
         this.qux = this.bar // should error
         ;
@@ -36,10 +38,10 @@ var C = /*#__PURE__*/ function() {
 }();
 var D = /*#__PURE__*/ function(C) {
     "use strict";
-    swcHelpers.inherits(D, C);
-    var _super = swcHelpers.createSuper(D);
+    _inherits(D, C);
+    var _super = _create_super(D);
     function D() {
-        swcHelpers.classCallCheck(this, D);
+        _class_call_check(this, D);
         var _this;
         _this = _super.apply(this, arguments);
         _this.quill = _this.foo // ok
@@ -51,7 +53,7 @@ var D = /*#__PURE__*/ function(C) {
 var E = function E(foo2) {
     "use strict";
     var _this = this;
-    swcHelpers.classCallCheck(this, E);
+    _class_call_check(this, E);
     this.foo2 = foo2;
     this.bar = function() {
         return _this.foo1 + _this.foo2;
@@ -60,12 +62,12 @@ var E = function E(foo2) {
 };
 var F1 = function F1() {
     "use strict";
-    swcHelpers.classCallCheck(this, F1);
+    _class_call_check(this, F1);
     this.Inner = /*#__PURE__*/ function(F2) {
-        swcHelpers.inherits(_class, F2);
-        var _super = swcHelpers.createSuper(_class);
+        _inherits(_class, F2);
+        var _super = _create_super(_class);
         function _class() {
-            swcHelpers.classCallCheck(this, _class);
+            _class_call_check(this, _class);
             var _this;
             _this = _super.apply(this, arguments);
             _this.p2 = _this.p1;
@@ -77,13 +79,13 @@ var F1 = function F1() {
 };
 var G1 = function G1(p1) {
     "use strict";
-    swcHelpers.classCallCheck(this, G1);
+    _class_call_check(this, G1);
     this.p1 = p1;
     this.Inner = /*#__PURE__*/ function(G2) {
-        swcHelpers.inherits(_class, G2);
-        var _super = swcHelpers.createSuper(_class);
+        _inherits(_class, G2);
+        var _super = _create_super(_class);
         function _class() {
-            swcHelpers.classCallCheck(this, _class);
+            _class_call_check(this, _class);
             var _this;
             _this = _super.apply(this, arguments);
             _this.p2 = _this.p1;
@@ -95,7 +97,7 @@ var G1 = function G1(p1) {
 var H = function H(p1) {
     "use strict";
     var _this = this;
-    swcHelpers.classCallCheck(this, H);
+    _class_call_check(this, H);
     this.p1 = p1;
     this.p2 = function() {
         return _this.p1.foo;

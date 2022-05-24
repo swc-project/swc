@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // satisfaction of a constraint to Function, no errors expected
 function foo(x) {
     return x;
@@ -6,7 +6,7 @@ function foo(x) {
 var i;
 var C = function C() {
     "use strict";
-    swcHelpers.classCallCheck(this, C);
+    _class_call_check(this, C);
 };
 var a;
 var b;
@@ -28,7 +28,7 @@ var r8 = foo(c);
 var i2;
 var C2 = function C2() {
     "use strict";
-    swcHelpers.classCallCheck(this, C2);
+    _class_call_check(this, C2);
 };
 var a2;
 var b2;

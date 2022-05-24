@@ -1,7 +1,7 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var Shape = function Shape() {
     "use strict";
-    swcHelpers.classCallCheck(this, Shape);
+    _class_call_check(this, Shape);
 };
 function getProperty(obj, key) {
     return obj[key];

@@ -1,16 +1,18 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_private_field_get from "@swc/helpers/lib/_class_private_field_get.js";
+import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
+import _class_private_field_set from "@swc/helpers/lib/_class_private_field_set.js";
 var _value = new WeakMap();
 new class {
     get value() {
-        return swcHelpers.classPrivateFieldGet(this, _value);
+        return _class_private_field_get(this, _value);
     }
     set value(value) {
-        swcHelpers.classPrivateFieldSet(this, _value, value);
+        _class_private_field_set(this, _value, value);
     }
     constructor(initialValue){
-        swcHelpers.classPrivateFieldInit(this, _value, {
+        _class_private_field_init(this, _value, {
             writable: !0,
             value: void 0
-        }), swcHelpers.classPrivateFieldSet(this, _value, initialValue);
+        }), _class_private_field_set(this, _value, initialValue);
     }
 }(3).value = 3;

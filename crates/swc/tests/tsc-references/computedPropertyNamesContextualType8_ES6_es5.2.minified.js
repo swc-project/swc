@@ -1,3 +1,3 @@
 var _obj;
-import * as swcHelpers from "@swc/helpers";
-_obj = {}, swcHelpers.defineProperty(_obj, "foo", ""), swcHelpers.defineProperty(_obj, "bar", 0);
+import _define_property from "@swc/helpers/lib/_define_property.js";
+_define_property(_obj = {}, "foo", ""), _define_property(_obj, "bar", 0);

@@ -1,3 +1,3 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 import Main from 'mod';
-swcHelpers.extends({}, Main);
+_extends({}, Main);

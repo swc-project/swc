@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @allowJs: true
 // @checkJs: true
 // @moduleResolution: node
@@ -7,7 +7,7 @@ import * as swcHelpers from "@swc/helpers";
 // @filename: rectangle.js
 var Rectangle = function Rectangle() {
     "use strict";
-    swcHelpers.classCallCheck(this, Rectangle);
+    _class_call_check(this, Rectangle);
     console.log("I'm a rectangle!");
 };
 module.exports = {
@@ -18,7 +18,7 @@ var Rectangle = require("./rectangle").Rectangle;
 var Render = /*#__PURE__*/ function() {
     "use strict";
     function Render() {
-        swcHelpers.classCallCheck(this, Render);
+        _class_call_check(this, Render);
         /**
          * Object list
          * @type {Rectangle[]}

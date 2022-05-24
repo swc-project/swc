@@ -1,8 +1,8 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // type parameters are not assignable to one another unless directly or indirectly constrained to one another
 var Foo = function Foo() {
     "use strict";
-    swcHelpers.classCallCheck(this, Foo);
+    _class_call_check(this, Foo);
 };
 function foo(t, u) {
     var a;
@@ -17,7 +17,7 @@ function foo(t, u) {
 var C = function C() {
     "use strict";
     var _this = this;
-    swcHelpers.classCallCheck(this, C);
+    _class_call_check(this, C);
     this.r = function() {
         _this.t = _this.u; // error
         _this.u = _this.t; // error

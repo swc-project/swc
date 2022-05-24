@@ -1,4 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var _class, _class1;
 // @target: esnext
 // @noTypesAndSymbols: true
@@ -7,15 +9,15 @@ var _class, _class1;
 // https://github.com/microsoft/TypeScript/issues/36295
 var C = function C() {
     "use strict";
-    swcHelpers.classCallCheck(this, C);
+    _class_call_check(this, C);
 };
 (function(param) {
     var tmp = param[/*#__PURE__*/ (_class = function(C) {
         "use strict";
-        swcHelpers.inherits(_class2, C);
-        var _super = swcHelpers.createSuper(_class2);
+        _inherits(_class2, C);
+        var _super = _create_super(_class2);
         function _class2() {
-            swcHelpers.classCallCheck(this, _class2);
+            _class_call_check(this, _class2);
             return _super.apply(this, arguments);
         }
         return _class2;
@@ -26,10 +28,10 @@ var x = "";
 (function(param) {
     var tmp = param[/*#__PURE__*/ (_class1 = function(C) {
         "use strict";
-        swcHelpers.inherits(_class2, C);
-        var _super = swcHelpers.createSuper(_class2);
+        _inherits(_class2, C);
+        var _super = _create_super(_class2);
         function _class2() {
-            swcHelpers.classCallCheck(this, _class2);
+            _class_call_check(this, _class2);
             return _super.apply(this, arguments);
         }
         return _class2;

@@ -1,4 +1,7 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _create_class from "@swc/helpers/lib/_create_class.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 // @target: es5
 function f1() {
     var E;
@@ -9,7 +12,7 @@ function f1() {
     })(E || (E = {}));
     var C = function C() {
         "use strict";
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
     };
     var a = [
         new C()
@@ -27,7 +30,7 @@ function f2() {
         })(E || (E = {}));
         var C = function C() {
             "use strict";
-            swcHelpers.classCallCheck(this, C);
+            _class_call_check(this, C);
         };
         var a = [
             new C()
@@ -48,7 +51,7 @@ function f3(b) {
         if (b) {
             var C = function C() {
                 "use strict";
-                swcHelpers.classCallCheck(this, C);
+                _class_call_check(this, C);
             };
             var a = [
                 new C()
@@ -58,7 +61,7 @@ function f3(b) {
         } else {
             var A1 = function A1() {
                 "use strict";
-                swcHelpers.classCallCheck(this, A1);
+                _class_call_check(this, A1);
             };
             var c = [
                 new A1()
@@ -78,7 +81,7 @@ function f5() {
         })(E || (E = {}));
         var C = function C() {
             "use strict";
-            swcHelpers.classCallCheck(this, C);
+            _class_call_check(this, C);
         };
         return new C();
     };
@@ -91,7 +94,7 @@ function f5() {
         })(E || (E = {}));
         var C = function C() {
             "use strict";
-            swcHelpers.classCallCheck(this, C);
+            _class_call_check(this, C);
         };
         return new C();
     };
@@ -99,7 +102,7 @@ function f5() {
 var A = /*#__PURE__*/ function() {
     "use strict";
     function A() {
-        swcHelpers.classCallCheck(this, A);
+        _class_call_check(this, A);
         var E;
         (function(E) {
             E[E["A"] = 0] = "A";
@@ -107,7 +110,7 @@ var A = /*#__PURE__*/ function() {
             E[E["C"] = 2] = "C";
         })(E || (E = {}));
         var C = function C() {
-            swcHelpers.classCallCheck(this, C);
+            _class_call_check(this, C);
         };
     }
     var _proto = A.prototype;
@@ -119,11 +122,11 @@ var A = /*#__PURE__*/ function() {
             E[E["C"] = 2] = "C";
         })(E || (E = {}));
         var C = function C() {
-            swcHelpers.classCallCheck(this, C);
+            _class_call_check(this, C);
         };
         return new C();
     };
-    swcHelpers.createClass(A, [
+    _create_class(A, [
         {
             key: "p",
             get: function get() {
@@ -134,7 +137,7 @@ var A = /*#__PURE__*/ function() {
                     E[E["C"] = 2] = "C";
                 })(E || (E = {}));
                 var C = function C() {
-                    swcHelpers.classCallCheck(this, C);
+                    _class_call_check(this, C);
                 };
                 return new C();
             }
@@ -146,10 +149,10 @@ function f6() {
     var g = function g() {
         var B = /*#__PURE__*/ function(A) {
             "use strict";
-            swcHelpers.inherits(B, A);
-            var _super = swcHelpers.createSuper(B);
+            _inherits(B, A);
+            var _super = _create_super(B);
             function B() {
-                swcHelpers.classCallCheck(this, B);
+                _class_call_check(this, B);
                 return _super.apply(this, arguments);
             }
             return B;
@@ -157,10 +160,10 @@ function f6() {
         function h() {
             var C = /*#__PURE__*/ function(B) {
                 "use strict";
-                swcHelpers.inherits(C, B);
-                var _super = swcHelpers.createSuper(C);
+                _inherits(C, B);
+                var _super = _create_super(C);
                 function C() {
-                    swcHelpers.classCallCheck(this, C);
+                    _class_call_check(this, C);
                     return _super.apply(this, arguments);
                 }
                 return C;
@@ -175,7 +178,7 @@ function f6() {
     };
     var A2 = function A2() {
         "use strict";
-        swcHelpers.classCallCheck(this, A2);
+        _class_call_check(this, A2);
     };
     return g();
 }

@@ -1,10 +1,11 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _create_class from "@swc/helpers/lib/_create_class.js";
 var Handler = function() {
     "use strict";
     function Handler() {
-        swcHelpers.classCallCheck(this, Handler);
+        _class_call_check(this, Handler);
     }
-    return Handler.prototype.process = function() {}, swcHelpers.createClass(Handler, null, [
+    return Handler.prototype.process = function() {}, _create_class(Handler, null, [
         {
             key: "OPTIONS",
             get: function() {

@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 // @filename: file.tsx
 // @jsx: preserve
 // @noLib: true
@@ -15,7 +15,7 @@ const obj = {
     y: 2
 };
 // OK
-let p = /*#__PURE__*/ React.createElement(Poisoned, swcHelpers.extends({}, obj));
+let p = /*#__PURE__*/ React.createElement(Poisoned, _extends({}, obj));
 class EmptyProp extends React.Component {
     render() {
         return /*#__PURE__*/ React.createElement("div", null, "Default hi");
@@ -23,9 +23,9 @@ class EmptyProp extends React.Component {
 }
 // OK
 let j;
-let e1 = /*#__PURE__*/ React.createElement(EmptyProp, swcHelpers.extends({}, {}));
-let e2 = /*#__PURE__*/ React.createElement(EmptyProp, swcHelpers.extends({}, j));
-let e3 = /*#__PURE__*/ React.createElement(EmptyProp, swcHelpers.extends({}, {
+let e1 = /*#__PURE__*/ React.createElement(EmptyProp, _extends({}, {}));
+let e2 = /*#__PURE__*/ React.createElement(EmptyProp, _extends({}, j));
+let e3 = /*#__PURE__*/ React.createElement(EmptyProp, _extends({}, {
     ref: (input)=>{
         this.textInput = input;
     }
@@ -33,7 +33,7 @@ let e3 = /*#__PURE__*/ React.createElement(EmptyProp, swcHelpers.extends({}, {
 let e4 = /*#__PURE__*/ React.createElement(EmptyProp, {
     "data-prop": true
 });
-let e5 = /*#__PURE__*/ React.createElement(EmptyProp, swcHelpers.extends({}, {
+let e5 = /*#__PURE__*/ React.createElement(EmptyProp, _extends({}, {
     "data-prop": true
 }));
 export { };

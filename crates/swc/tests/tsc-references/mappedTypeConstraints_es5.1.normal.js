@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _object_without_properties from "@swc/helpers/lib/_object_without_properties.js";
 // @strict: true
 function f0(obj) {
     obj.b;
@@ -19,7 +19,7 @@ function f4(obj) {
     obj.c;
 }
 var modifier = function(targetProps) {
-    var bar = targetProps.bar, rest = swcHelpers.objectWithoutProperties(targetProps, [
+    var bar = targetProps.bar, rest = _object_without_properties(targetProps, [
         "bar"
     ]);
     rest.foo;

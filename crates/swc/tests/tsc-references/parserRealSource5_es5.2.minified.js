@@ -1,10 +1,10 @@
 var TypeScript;
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 !function(TypeScript1) {
     var PrintContext = function() {
         "use strict";
         function PrintContext(outfile, parser) {
-            swcHelpers.classCallCheck(this, PrintContext), this.outfile = outfile, this.parser = parser, this.builder = "", this.indent1 = "  ", this.indentStrings = [], this.indentAmt = 0;
+            _class_call_check(this, PrintContext), this.outfile = outfile, this.parser = parser, this.builder = "", this.indent1 = "  ", this.indentStrings = [], this.indentAmt = 0;
         }
         var _proto = PrintContext.prototype;
         return _proto.increaseIndent = function() {

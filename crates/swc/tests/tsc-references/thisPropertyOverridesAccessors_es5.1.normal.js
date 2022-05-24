@@ -1,4 +1,7 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _create_class from "@swc/helpers/lib/_create_class.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 // @target: esnext
 // @allowjs: true
 // @noemit: true
@@ -7,9 +10,9 @@ import * as swcHelpers from "@swc/helpers";
 var Foo = /*#__PURE__*/ function() {
     "use strict";
     function Foo() {
-        swcHelpers.classCallCheck(this, Foo);
+        _class_call_check(this, Foo);
     }
-    swcHelpers.createClass(Foo, [
+    _create_class(Foo, [
         {
             key: "p",
             get: function get() {
@@ -23,10 +26,10 @@ var Foo = /*#__PURE__*/ function() {
 // @Filename: bar.js
 var Bar = /*#__PURE__*/ function(Foo) {
     "use strict";
-    swcHelpers.inherits(Bar, Foo);
-    var _super = swcHelpers.createSuper(Bar);
+    _inherits(Bar, Foo);
+    var _super = _create_super(Bar);
     function Bar() {
-        swcHelpers.classCallCheck(this, Bar);
+        _class_call_check(this, Bar);
         var _this;
         _this = _super.call(this);
         _this.p = 2;

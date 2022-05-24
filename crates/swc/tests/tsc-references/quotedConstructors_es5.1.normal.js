@@ -1,18 +1,18 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var C = function C() {
     "use strict";
-    swcHelpers.classCallCheck(this, C);
+    _class_call_check(this, C);
     console.log(this);
 };
 var D = function D() {
     "use strict";
-    swcHelpers.classCallCheck(this, D);
+    _class_call_check(this, D);
     console.log(this);
 };
 var E = /*#__PURE__*/ function() {
     "use strict";
     function E() {
-        swcHelpers.classCallCheck(this, E);
+        _class_call_check(this, E);
     }
     var _proto = E.prototype;
     _proto["constructor"] = function() {
@@ -22,7 +22,7 @@ var E = /*#__PURE__*/ function() {
 }();
 new function _class() {
     "use strict";
-    swcHelpers.classCallCheck(this, _class);
+    _class_call_check(this, _class);
     console.log(this);
 };
 var o = {
@@ -30,6 +30,6 @@ var o = {
 };
 var F = function F() {
     "use strict";
-    swcHelpers.classCallCheck(this, F);
+    _class_call_check(this, F);
     console.log(this);
 };

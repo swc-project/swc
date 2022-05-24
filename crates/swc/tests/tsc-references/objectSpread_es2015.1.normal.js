@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _object_spread from "@swc/helpers/lib/_object_spread.js";
 // @strictNullChecks: true
 // @target: es5
 let o = {
@@ -13,16 +13,16 @@ let swap = {
     a: 'yes',
     b: -1
 };
-let addAfter = swcHelpers.objectSpread({}, o, {
+let addAfter = _object_spread({}, o, {
     c: false
 });
-let addBefore = swcHelpers.objectSpread({
+let addBefore = _object_spread({
     c: false
 }, o);
-let override = swcHelpers.objectSpread({}, o, {
+let override = _object_spread({}, o, {
     b: 'override'
 });
-let nested = swcHelpers.objectSpread({}, swcHelpers.objectSpread({
+let nested = _object_spread({}, _object_spread({
     a: 3
 }, {
     b: false,
@@ -30,11 +30,11 @@ let nested = swcHelpers.objectSpread({}, swcHelpers.objectSpread({
 }), {
     c: 'whatever'
 });
-let combined = swcHelpers.objectSpread({}, o, o2);
-let combinedAfter = swcHelpers.objectSpread({}, o, o2, {
+let combined = _object_spread({}, o, o2);
+let combinedAfter = _object_spread({}, o, o2, {
     b: 'ok'
 });
-let combinedNestedChangeType = swcHelpers.objectSpread({}, swcHelpers.objectSpread({
+let combinedNestedChangeType = _object_spread({}, _object_spread({
     a: 1
 }, {
     b: false,
@@ -43,7 +43,7 @@ let combinedNestedChangeType = swcHelpers.objectSpread({}, swcHelpers.objectSpre
     c: -1
 });
 let propertyNested = {
-    a: swcHelpers.objectSpread({}, o)
+    a: _object_spread({}, o)
 };
 // accessors don't copy the descriptor
 // (which means that readonly getters become read/write properties)
@@ -52,14 +52,14 @@ let op = {
         return 6;
     }
 };
-let getter = swcHelpers.objectSpread({}, op, {
+let getter = _object_spread({}, op, {
     c: 7
 });
 getter.a = 12;
 // functions result in { }
-let spreadFunc = swcHelpers.objectSpread({}, function() {});
+let spreadFunc = _object_spread({}, function() {});
 function from16326(header, authToken) {
-    return swcHelpers.objectSpread({}, this.header, header, authToken && {
+    return _object_spread({}, this.header, header, authToken && {
         authToken
     });
 }
@@ -69,10 +69,10 @@ function conditionalSpreadBoolean(b) {
         x: 12,
         y: 13
     };
-    o1 = swcHelpers.objectSpread({}, o1, b && {
+    o1 = _object_spread({}, o1, b && {
         x: 14
     });
-    let o2 = swcHelpers.objectSpread({}, b && {
+    let o2 = _object_spread({}, b && {
         x: 21
     });
     return o1;
@@ -82,10 +82,10 @@ function conditionalSpreadNumber(nt) {
         x: 15,
         y: 16
     };
-    o3 = swcHelpers.objectSpread({}, o3, nt && {
+    o3 = _object_spread({}, o3, nt && {
         x: nt
     });
-    let o2 = swcHelpers.objectSpread({}, nt && {
+    let o2 = _object_spread({}, nt && {
         x: nt
     });
     return o3;
@@ -95,17 +95,17 @@ function conditionalSpreadString(st) {
         x: 'hi',
         y: 17
     };
-    o4 = swcHelpers.objectSpread({}, o4, st && {
+    o4 = _object_spread({}, o4, st && {
         x: st
     });
-    let o2 = swcHelpers.objectSpread({}, st && {
+    let o2 = _object_spread({}, st && {
         x: st
     });
     return o4;
 }
 // any results in any
 let anything;
-let spreadAny = swcHelpers.objectSpread({}, anything);
+let spreadAny = _object_spread({}, anything);
 // methods are not enumerable
 class C {
     m() {}
@@ -114,45 +114,45 @@ class C {
     }
 }
 let c = new C();
-let spreadC = swcHelpers.objectSpread({}, c);
+let spreadC = _object_spread({}, c);
 // own methods are enumerable
-let cplus = swcHelpers.objectSpread({}, c, {
+let cplus = _object_spread({}, c, {
     plus () {
         return this.p + 1;
     }
 });
 cplus.plus();
 // new field's type conflicting with existing field is OK
-let changeTypeAfter = swcHelpers.objectSpread({}, o, {
+let changeTypeAfter = _object_spread({}, o, {
     a: 'wrong type?'
 });
-let changeTypeBoth = swcHelpers.objectSpread({}, o, swap);
+let changeTypeBoth = _object_spread({}, o, swap);
 // optional
 function container(definiteBoolean, definiteString, optionalString, optionalNumber) {
-    let optionalUnionStops = swcHelpers.objectSpread({}, definiteBoolean, definiteString, optionalNumber);
-    let optionalUnionDuplicates = swcHelpers.objectSpread({}, definiteBoolean, definiteString, optionalString, optionalNumber);
-    let allOptional = swcHelpers.objectSpread({}, optionalString, optionalNumber);
+    let optionalUnionStops = _object_spread({}, definiteBoolean, definiteString, optionalNumber);
+    let optionalUnionDuplicates = _object_spread({}, definiteBoolean, definiteString, optionalString, optionalNumber);
+    let allOptional = _object_spread({}, optionalString, optionalNumber);
     // computed property
-    let computedFirst = swcHelpers.objectSpread({
+    let computedFirst = _object_spread({
         ['before everything']: 12
     }, o, {
         b: 'yes'
     });
-    let computedAfter = swcHelpers.objectSpread({}, o, {
+    let computedAfter = _object_spread({}, o, {
         b: 'yeah',
         ['at the end']: 14
     });
 }
 // shortcut syntax
 let a = 12;
-let shortCutted = swcHelpers.objectSpread({}, o, {
+let shortCutted = _object_spread({}, o, {
     a
 });
 // non primitive
-let spreadNonPrimitive = swcHelpers.objectSpread({}, {});
+let spreadNonPrimitive = _object_spread({}, {});
 // generic spreads
 function f(t, u) {
-    return swcHelpers.objectSpread({}, t, u, {
+    return _object_spread({}, t, u, {
         id: 'id'
     });
 }
@@ -182,41 +182,41 @@ let overwriteId = f({
     d: 'no'
 });
 function genericSpread(t, u, v, w, obj) {
-    let x01 = swcHelpers.objectSpread({}, t);
-    let x02 = swcHelpers.objectSpread({}, t, t);
-    let x03 = swcHelpers.objectSpread({}, t, u);
-    let x04 = swcHelpers.objectSpread({}, u, t);
-    let x05 = swcHelpers.objectSpread({
+    let x01 = _object_spread({}, t);
+    let x02 = _object_spread({}, t, t);
+    let x03 = _object_spread({}, t, u);
+    let x04 = _object_spread({}, u, t);
+    let x05 = _object_spread({
         a: 5,
         b: 'hi'
     }, t);
-    let x06 = swcHelpers.objectSpread({}, t, {
+    let x06 = _object_spread({}, t, {
         a: 5,
         b: 'hi'
     });
-    let x07 = swcHelpers.objectSpread({
+    let x07 = _object_spread({
         a: 5,
         b: 'hi'
     }, t, {
         c: true
     }, obj);
-    let x09 = swcHelpers.objectSpread({
+    let x09 = _object_spread({
         a: 5
     }, t, {
         b: 'hi',
         c: true
     }, obj);
-    let x10 = swcHelpers.objectSpread({
+    let x10 = _object_spread({
         a: 5
     }, t, {
         b: 'hi'
     }, u, obj);
-    let x11 = swcHelpers.objectSpread({}, v);
-    let x12 = swcHelpers.objectSpread({}, v, obj);
-    let x13 = swcHelpers.objectSpread({}, w);
-    let x14 = swcHelpers.objectSpread({}, w, obj);
-    let x15 = swcHelpers.objectSpread({}, t, v);
-    let x16 = swcHelpers.objectSpread({}, t, w);
-    let x17 = swcHelpers.objectSpread({}, t, w, obj);
-    let x18 = swcHelpers.objectSpread({}, t, v, w);
+    let x11 = _object_spread({}, v);
+    let x12 = _object_spread({}, v, obj);
+    let x13 = _object_spread({}, w);
+    let x14 = _object_spread({}, w, obj);
+    let x15 = _object_spread({}, t, v);
+    let x16 = _object_spread({}, t, w);
+    let x17 = _object_spread({}, t, w, obj);
+    let x18 = _object_spread({}, t, v, w);
 }

@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.ServiceError = void 0;
-var swcHelpers = require("@swc/helpers");
+var _ts_decorate = require("@swc/helpers/lib/_ts_decorate.js").default;
 const CD = ()=>{};
 const PD = ()=>{};
 let ServiceError = class ServiceError extends Error {
@@ -14,10 +14,10 @@ let ServiceError = class ServiceError extends Error {
     name = "ServiceError.BadResponse";
 };
 exports.ServiceError = ServiceError;
-swcHelpers.__decorate([
+_ts_decorate([
     PD
 ], ServiceError.prototype, "code", void 0);
-exports.ServiceError = ServiceError = swcHelpers.__decorate([
+exports.ServiceError = ServiceError = _ts_decorate([
     CD
 ], ServiceError);
 (function(ServiceError1) {

@@ -1,8 +1,8 @@
-import * as swcHelpers from "@swc/helpers";
+import _object_spread from "@swc/helpers/lib/_object_spread.js";
 // @strict: true
 function f(cnd) {
     // Type is a union of 2^(n-1) members, where n is the number of spread objects
-    return swcHelpers.objectSpread({}, cnd[1] && cnd[2] && {
+    return _object_spread({}, cnd[1] && cnd[2] && {
         prop0: 0
     }, cnd[3] && {
         prop3a: 1,

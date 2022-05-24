@@ -1,15 +1,20 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
+import _class_static_private_field_spec_get from "@swc/helpers/lib/_class_static_private_field_spec_get.js";
+import _class_static_private_field_spec_set from "@swc/helpers/lib/_class_static_private_field_spec_set.js";
+import _class_static_private_field_update from "@swc/helpers/lib/_class_static_private_field_update.js";
+import _wrap_async_generator from "@swc/helpers/lib/_wrap_async_generator.js";
+import _class_static_private_method_get from "@swc/helpers/lib/_class_static_private_method_get.js";
 class A {
     constructor(){
-        swcHelpers.classStaticPrivateMethodGet(A, A, function(a) {}).call(A, 30), swcHelpers.classStaticPrivateMethodGet(A, A, bar).call(A, 30), swcHelpers.classStaticPrivateMethodGet(A, A, bar).call(A, 30), swcHelpers.classStaticPrivateFieldSpecSet(A, A, _quux, swcHelpers.classStaticPrivateFieldSpecGet(A, A, _quux) + 1), swcHelpers.classStaticPrivateFieldUpdate(A, A, _quux).value++;
+        _class_static_private_method_get(A, A, function(a) {}).call(A, 30), _class_static_private_method_get(A, A, bar).call(A, 30), _class_static_private_method_get(A, A, bar).call(A, 30), _class_static_private_field_spec_set(A, A, _quux, _class_static_private_field_spec_get(A, A, _quux) + 1), _class_static_private_field_update(A, A, _quux).value++;
     }
 }
 var _quux = {
     get: function() {
-        return swcHelpers.classStaticPrivateFieldSpecGet(this, A, __quux);
+        return _class_static_private_field_spec_get(this, A, __quux);
     },
     set: function(val) {
-        swcHelpers.classStaticPrivateFieldSpecSet(this, A, __quux, val);
+        _class_static_private_field_spec_set(this, A, __quux, val);
     }
 }, __quux = {
     writable: !0,
@@ -19,10 +24,10 @@ function bar(a) {
     return _bar.apply(this, arguments);
 }
 function _bar() {
-    return (_bar = swcHelpers.asyncToGenerator(function*(a) {})).apply(this, arguments);
+    return (_bar = _async_to_generator(function*(a) {})).apply(this, arguments);
 }
 class B extends A {
     constructor(){
-        super(), swcHelpers.classStaticPrivateMethodGet(B, B, function(a) {}).call(B, "str");
+        super(), _class_static_private_method_get(B, B, function(a) {}).call(B, "str");
     }
 }

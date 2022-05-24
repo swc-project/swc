@@ -5,7 +5,7 @@ use swc_atoms::js_word;
 use swc_common::{pass::Either, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    contains_arguments, contains_this_expr, find_pat_ids, undefined, ExprFactory,
+    contains_arguments, contains_this_expr, find_pat_ids, undefined, ExprFactory, IdentUsageFinder,
 };
 use swc_ecma_visit::VisitMutWith;
 
@@ -489,7 +489,7 @@ where
                 }
 
                 if let Some(i) = &f.ident {
-                    if idents_used_by(&f.function.body).contains(&i.to_id()) {
+                    if IdentUsageFinder::find(&i.to_id(), &f.function.body) {
                         log_abort!("iife: [x] Recursive?");
                         return;
                     }
@@ -648,7 +648,22 @@ where
 
                 // TODO: Check if parameter is used and inline if call is not related to parameters.
                 Expr::Call(e) => {
+                    if let Some(..) = e.callee.as_expr().and_then(|e| e.as_ident()) {
+                        return true;
+                    }
+
                     let used = idents_used_by(&e.callee);
+
+                    if used.iter().all(|id| {
+                        self.data
+                            .vars
+                            .get(id)
+                            .map(|usage| usage.ref_count == 1 && usage.used_as_callee)
+                            .unwrap_or(false)
+                    }) {
+                        return true;
+                    }
+
                     param_ids.iter().all(|param| !used.contains(&param.to_id()))
                 }
 

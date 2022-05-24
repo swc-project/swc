@@ -1,7 +1,7 @@
-import * as swcHelpers from "@swc/helpers";
+import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
 // @declaration: true
 function f() {
-    var ref = swcHelpers.slicedToArray(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : [
+    var ref = _sliced_to_array(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : [
         1,
         2,
         3,

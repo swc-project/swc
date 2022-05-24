@@ -1,12 +1,13 @@
-import * as swcHelpers from "@swc/helpers";
+import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
+import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
 //@target: ES6
 function takeFirstTwoEntries() {
     for(var _len = arguments.length, _tmp = new Array(_len), _key = 0; _key < _len; _key++){
         _tmp[_key] = arguments[_key];
     }
-    var __tmp = swcHelpers.slicedToArray(_tmp, 2), ref = swcHelpers.slicedToArray(__tmp[0], 2), k1 = ref[0], v1 = ref[1], ref1 = swcHelpers.slicedToArray(__tmp[1], 2), k2 = ref1[0], v2 = ref1[1];
+    var __tmp = _sliced_to_array(_tmp, 2), ref = _sliced_to_array(__tmp[0], 2), k1 = ref[0], v1 = ref[1], ref1 = _sliced_to_array(__tmp[1], 2), k2 = ref1[0], v2 = ref1[1];
 }
-takeFirstTwoEntries.apply(void 0, swcHelpers.toConsumableArray(new Map([
+takeFirstTwoEntries.apply(void 0, _to_consumable_array(new Map([
     [
         "",
         0

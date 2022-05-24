@@ -1,2 +1,2 @@
-import * as swcHelpers from "@swc/helpers";
-swcHelpers.extends({}, {}), swcHelpers.extends({}, {});
+import _extends from "@swc/helpers/lib/_extends.js";
+_extends({}, {}), _extends({}, {});

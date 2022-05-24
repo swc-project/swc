@@ -1,16 +1,19 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var Base = function Base(x, y) {
     "use strict";
-    swcHelpers.classCallCheck(this, Base);
+    _class_call_check(this, Base);
     this.x = x;
     this.y = y;
 };
 var Derived = /*#__PURE__*/ function(Base) {
     "use strict";
-    swcHelpers.inherits(Derived, Base);
-    var _super = swcHelpers.createSuper(Derived);
+    _inherits(Derived, Base);
+    var _super = _create_super(Derived);
     function Derived(x, y, z) {
-        swcHelpers.classCallCheck(this, Derived);
+        _class_call_check(this, Derived);
         var _this;
         _this = _super.call(this, x, y);
         _this.z = z;
@@ -21,10 +24,10 @@ var Derived = /*#__PURE__*/ function(Base) {
 var Printable = function(superClass1) {
     var _class = /*#__PURE__*/ function(superClass) {
         "use strict";
-        swcHelpers.inherits(_class, superClass);
-        var _super = swcHelpers.createSuper(_class);
+        _inherits(_class, superClass);
+        var _super = _create_super(_class);
         function _class() {
-            swcHelpers.classCallCheck(this, _class);
+            _class_call_check(this, _class);
             return _super.apply(this, arguments);
         }
         var _proto = _class.prototype;
@@ -39,17 +42,17 @@ var Printable = function(superClass1) {
 function Tagged(superClass2) {
     var C = /*#__PURE__*/ function(superClass) {
         "use strict";
-        swcHelpers.inherits(C, superClass);
-        var _super = swcHelpers.createSuper(C);
+        _inherits(C, superClass);
+        var _super = _create_super(C);
         function C() {
             for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
                 args[_key] = arguments[_key];
             }
-            swcHelpers.classCallCheck(this, C);
+            _class_call_check(this, C);
             var _this;
             _this = _super.call.apply(_super, [
                 this
-            ].concat(swcHelpers.toConsumableArray(args)));
+            ].concat(_to_consumable_array(args)));
             _this._tag = "hello";
             return _this;
         }
@@ -73,10 +76,10 @@ function f2() {
 }
 var Thing3 = /*#__PURE__*/ function(Thing21) {
     "use strict";
-    swcHelpers.inherits(Thing3, Thing21);
-    var _super = swcHelpers.createSuper(Thing3);
+    _inherits(Thing3, Thing21);
+    var _super = _create_super(Thing3);
     function Thing3(tag) {
-        swcHelpers.classCallCheck(this, Thing3);
+        _class_call_check(this, Thing3);
         var _this;
         _this = _super.call(this, 10, 20, 30);
         _this._tag = tag;
@@ -92,10 +95,10 @@ var Thing3 = /*#__PURE__*/ function(Thing21) {
 var Timestamped = function(Base1) {
     return /*#__PURE__*/ function(Base) {
         "use strict";
-        swcHelpers.inherits(_class, Base);
-        var _super = swcHelpers.createSuper(_class);
+        _inherits(_class, Base);
+        var _super = _create_super(_class);
         function _class() {
-            swcHelpers.classCallCheck(this, _class);
+            _class_call_check(this, _class);
             var _this;
             _this = _super.apply(this, arguments);
             _this.timestamp = new Date();

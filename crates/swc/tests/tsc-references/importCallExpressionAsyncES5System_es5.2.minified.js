@@ -1,10 +1,11 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 import regeneratorRuntime from "regenerator-runtime";
 export function fn() {
     return _fn.apply(this, arguments);
 }
 function _fn() {
-    return (_fn = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    return (_fn = _async_to_generator(regeneratorRuntime.mark(function _callee() {
         var req;
         return regeneratorRuntime.wrap(function(_ctx) {
             for(;;)switch(_ctx.prev = _ctx.next){
@@ -22,10 +23,10 @@ function _fn() {
 export var cl1 = function() {
     "use strict";
     function cl1() {
-        swcHelpers.classCallCheck(this, cl1);
+        _class_call_check(this, cl1);
     }
     return cl1.prototype.m = function() {
-        return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
             var req;
             return regeneratorRuntime.wrap(function(_ctx) {
                 for(;;)switch(_ctx.prev = _ctx.next){
@@ -42,7 +43,7 @@ export var cl1 = function() {
     }, cl1;
 }();
 export var obj = {
-    m: swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    m: _async_to_generator(regeneratorRuntime.mark(function _callee() {
         var req;
         return regeneratorRuntime.wrap(function(_ctx) {
             for(;;)switch(_ctx.prev = _ctx.next){
@@ -59,8 +60,8 @@ export var obj = {
 };
 export var cl2 = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, cl2), this.p = {
-        m: swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    _class_call_check(this, cl2), this.p = {
+        m: _async_to_generator(regeneratorRuntime.mark(function _callee() {
             var req;
             return regeneratorRuntime.wrap(function(_ctx) {
                 for(;;)switch(_ctx.prev = _ctx.next){
@@ -77,7 +78,7 @@ export var cl2 = function() {
     };
 };
 export var l = function() {
-    var _ref = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    var _ref = _async_to_generator(regeneratorRuntime.mark(function _callee() {
         var req;
         return regeneratorRuntime.wrap(function(_ctx) {
             for(;;)switch(_ctx.prev = _ctx.next){

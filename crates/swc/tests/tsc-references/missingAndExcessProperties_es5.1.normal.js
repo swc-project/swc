@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _throw from "@swc/helpers/lib/_throw.js";
 // Missing properties
 function f1() {
     var ref = {}, x = ref.x, y = ref.y;
@@ -23,7 +23,7 @@ function f3() {
     var ref = {
         x: 0,
         y: 0
-    }, ref = ref !== null ? ref : swcHelpers._throw(new TypeError("Cannot destructure undefined"));
+    }, ref = ref !== null ? ref : _throw(new TypeError("Cannot destructure undefined"));
     var x = {
         x: 0,
         y: 0

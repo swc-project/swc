@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _instanceof from "@swc/helpers/lib/_instanceof.js";
 !function(define, undefined) {
     define(function() {
         "use strict";
@@ -381,7 +381,7 @@ import * as swcHelpers from "@swc/helpers";
                 return containsIC(this.userAgents(), key) || equalIC(key, this.os()) || equalIC(key, this.phone()) || equalIC(key, this.tablet()) || containsIC(impl.findMatches(impl.mobileDetectRules.utils, this.ua), key);
             },
             match: function(pattern) {
-                return swcHelpers._instanceof(pattern, RegExp) || (pattern = new RegExp(pattern, "i")), pattern.test(this.ua);
+                return _instanceof(pattern, RegExp) || (pattern = new RegExp(pattern, "i")), pattern.test(this.ua);
             },
             isPhoneSized: function(maxPhoneWidth) {
                 return MobileDetect.isPhoneSized(maxPhoneWidth || this.maxPhoneWidth);

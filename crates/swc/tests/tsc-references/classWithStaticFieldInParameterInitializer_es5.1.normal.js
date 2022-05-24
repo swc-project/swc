@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var _class;
 // @target: esnext,es2015,es5
 // @noTypesAndSymbols: true
@@ -6,6 +6,6 @@ var _class;
 (function() {
     var b = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : (_class = function _class1() {
         "use strict";
-        swcHelpers.classCallCheck(this, _class1);
+        _class_call_check(this, _class1);
     }, _class.x = 1, _class);
 })();

@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 let React = require('react'), obj1 = {
     x: 2
 };
@@ -7,10 +7,10 @@ class OverWriteAttr extends React.Component {
         return React.createElement("div", null, "Hello");
     }
 }
-swcHelpers.extends({}, {}, {
+_extends({}, {}, {
     y: !0,
     overwrite: "hi"
-}, obj1), swcHelpers.extends({}, obj1, {
+}, obj1), _extends({}, obj1, {
     y: !0,
     overwrite: "hi"
 });

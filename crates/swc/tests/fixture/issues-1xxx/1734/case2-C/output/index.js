@@ -1,4 +1,4 @@
 "use strict";
-var swcHelpers = require("@swc/helpers");
-var _a = swcHelpers.interopRequireWildcard(require("./A"));
+var _interop_require_wildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
+var _a = _interop_require_wildcard(require("./A"));
 console.log(_a.default, _a.foo); // <-- baz foo

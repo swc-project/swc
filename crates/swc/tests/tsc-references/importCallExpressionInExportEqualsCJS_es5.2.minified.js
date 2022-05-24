@@ -1,6 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
 import regeneratorRuntime from "regenerator-runtime";
-module.exports = 42, module.exports = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+module.exports = 42, module.exports = _async_to_generator(regeneratorRuntime.mark(function _callee() {
     var something;
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){

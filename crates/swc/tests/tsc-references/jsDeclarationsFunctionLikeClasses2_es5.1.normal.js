@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _instanceof from "@swc/helpers/lib/_instanceof.js";
 // @allowJs: true
 // @checkJs: true
 // @target: es5
@@ -37,7 +37,7 @@ Vec.prototype = {
  * @param {number} x
  * @param {number} y
  */ export function Point2D(x, y) {
-    if (!swcHelpers._instanceof(this, Point2D)) {
+    if (!_instanceof(this, Point2D)) {
         return new Point2D(x, y);
     }
     Vec.call(this, 2);

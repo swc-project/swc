@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _instanceof from "@swc/helpers/lib/_instanceof.js";
+import _type_of from "@swc/helpers/lib/_type_of.js";
 /*
  Copyright (c) 2018-2020 Xiamen Yaji Software Co., Ltd.
 
@@ -39,7 +40,7 @@ function _assertThisInitialized(self) {
     return self;
 }
 function _classCallCheck(instance, Constructor) {
-    if (!swcHelpers._instanceof(instance, Constructor)) {
+    if (!_instanceof(instance, Constructor)) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
@@ -90,7 +91,7 @@ function _setPrototypeOf(o2, p1) {
     return _setPrototypeOf(o2, p1);
 }
 var _typeof = function _typeof(obj) {
-    return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj === "undefined" ? "undefined" : swcHelpers.typeOf(obj);
+    return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj === "undefined" ? "undefined" : _type_of(obj);
 };
 export var preTransforms = Object.freeze([
     Object.freeze([

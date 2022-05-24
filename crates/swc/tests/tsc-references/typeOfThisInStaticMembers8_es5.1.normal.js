@@ -1,8 +1,8 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @target: esnext, es2022, es6, es5
 var C = function C() {
     "use strict";
-    swcHelpers.classCallCheck(this, C);
+    _class_call_check(this, C);
 };
 C.f = 1;
 C.arrowFunctionBoundary = function() {
@@ -13,7 +13,7 @@ C.functionExprBoundary = function() {
 };
 C.classExprBoundary = function _class() {
     "use strict";
-    swcHelpers.classCallCheck(this, _class);
+    _class_call_check(this, _class);
     this.a = this.f + 3;
 };
 C.functionAndClassDeclBoundary = function() {
@@ -23,7 +23,7 @@ C.functionAndClassDeclBoundary = function() {
     var CC = /*#__PURE__*/ function() {
         "use strict";
         function CC() {
-            swcHelpers.classCallCheck(this, CC);
+            _class_call_check(this, CC);
             this.a = this.f + 5;
         }
         var _proto = CC.prototype;

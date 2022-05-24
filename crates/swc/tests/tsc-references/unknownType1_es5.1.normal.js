@@ -1,4 +1,7 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _extends from "@swc/helpers/lib/_extends.js";
+import _instanceof from "@swc/helpers/lib/_instanceof.js";
+import _object_spread from "@swc/helpers/lib/_object_spread.js";
 // Only equality operators are allowed with unknown
 function f10(x) {
     x == 5;
@@ -23,7 +26,7 @@ function f20(x) {
     if (typeof x === "string" || typeof x === "number") {
         x; // string | number
     }
-    if (swcHelpers._instanceof(x, Error)) {
+    if (_instanceof(x, Error)) {
         x; // Error
     }
     if (isFunction(x)) {
@@ -80,16 +83,16 @@ function f25() {
 }
 // Spread of unknown causes result to be unknown
 function f26(x, y, z) {
-    var o1 = swcHelpers.objectSpread({
+    var o1 = _object_spread({
         a: 42
     }, x); // { a: number }
-    var o2 = swcHelpers.objectSpread({
+    var o2 = _object_spread({
         a: 42
     }, x, y); // unknown
-    var o3 = swcHelpers.objectSpread({
+    var o3 = _object_spread({
         a: 42
     }, x, y, z); // any
-    var o4 = swcHelpers.objectSpread({
+    var o4 = _object_spread({
         a: 42
     }, z); // any
 }
@@ -97,12 +100,12 @@ function f26(x, y, z) {
 function f27() {}
 // Rest type cannot be created from unknown
 function f28(x) {
-    var a = swcHelpers.extends({}, x); // Error
+    var a = _extends({}, x); // Error
 }
 // Class properties of type unknown don't need definite assignment
 var C1 = function C1() {
     "use strict";
-    swcHelpers.classCallCheck(this, C1);
+    _class_call_check(this, C1);
 };
 // Type parameter with explicit 'unknown' constraint not assignable to '{}'
 function f30(t, u) {

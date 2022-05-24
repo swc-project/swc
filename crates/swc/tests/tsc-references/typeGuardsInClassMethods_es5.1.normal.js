@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // Note that type guards affect types of variables and parameters only and 
 // have no effect on members of objects such as properties. 
 // variables in global
@@ -7,7 +7,7 @@ var var1;
 var C1 = /*#__PURE__*/ function() {
     "use strict";
     function C1(param) {
-        swcHelpers.classCallCheck(this, C1);
+        _class_call_check(this, C1);
         // global vars in function declaration
         num = typeof var1 === "string" && var1.length; // string
         // variables in function declaration

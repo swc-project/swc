@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_static_private_field_spec_get from "@swc/helpers/lib/_class_static_private_field_spec_get.js";
 // @useDefineForClassFields: false
 // @target: es2015
 class C {
@@ -10,6 +10,6 @@ var _x = {
 var __ = {
     writable: true,
     value: (()=>{
-        swcHelpers.classStaticPrivateFieldSpecGet(C, C, _x);
+        _class_static_private_field_spec_get(C, C, _x);
     })()
 };

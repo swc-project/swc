@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _define_property from "@swc/helpers/lib/_define_property.js";
 // @target: es5,esnext
 var K = {
     a: "a",
@@ -6,6 +6,6 @@ var K = {
 };
 var ref = function() {
     var _obj;
-    return _obj = {}, swcHelpers.defineProperty(_obj, K.a, 1), swcHelpers.defineProperty(_obj, K.b, 1), _obj;
+    return _obj = {}, _define_property(_obj, K.a, 1), _define_property(_obj, K.b, 1), _obj;
 }(), aVal = ref[K.a], bVal = ref[K.b];
 console.log(aVal, bVal);

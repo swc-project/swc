@@ -1,25 +1,27 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 // @allowUnreachableCode: true
 var Base = function Base() {
     "use strict";
-    swcHelpers.classCallCheck(this, Base);
+    _class_call_check(this, Base);
 };
 var Derived1 = /*#__PURE__*/ function(Base) {
     "use strict";
-    swcHelpers.inherits(Derived1, Base);
-    var _super = swcHelpers.createSuper(Derived1);
+    _inherits(Derived1, Base);
+    var _super = _create_super(Derived1);
     function Derived1() {
-        swcHelpers.classCallCheck(this, Derived1);
+        _class_call_check(this, Derived1);
         return _super.apply(this, arguments);
     }
     return Derived1;
 }(Base);
 var Derived2 = /*#__PURE__*/ function(Base) {
     "use strict";
-    swcHelpers.inherits(Derived2, Base);
-    var _super = swcHelpers.createSuper(Derived2);
+    _inherits(Derived2, Base);
+    var _super = _create_super(Derived2);
     function Derived2() {
-        swcHelpers.classCallCheck(this, Derived2);
+        _class_call_check(this, Derived2);
         return _super.apply(this, arguments);
     }
     return Derived2;
@@ -93,7 +95,7 @@ var x12 = {
 };
 var x13 = function x13() {
     "use strict";
-    swcHelpers.classCallCheck(this, x13);
+    _class_call_check(this, x13);
     this.member = function() {
         return [
             d1,
@@ -103,7 +105,7 @@ var x13 = function x13() {
 };
 var x14 = function x14() {
     "use strict";
-    swcHelpers.classCallCheck(this, x14);
+    _class_call_check(this, x14);
     this.member = function() {
         return [
             d1,
@@ -113,7 +115,7 @@ var x14 = function x14() {
 };
 var x15 = function x15() {
     "use strict";
-    swcHelpers.classCallCheck(this, x15);
+    _class_call_check(this, x15);
     this.member = function named() {
         return [
             d1,
@@ -123,7 +125,7 @@ var x15 = function x15() {
 };
 var x16 = function x16() {
     "use strict";
-    swcHelpers.classCallCheck(this, x16);
+    _class_call_check(this, x16);
     this.member = function() {
         return [
             d1,
@@ -133,7 +135,7 @@ var x16 = function x16() {
 };
 var x17 = function x17() {
     "use strict";
-    swcHelpers.classCallCheck(this, x17);
+    _class_call_check(this, x17);
     this.member = function() {
         return [
             d1,
@@ -143,7 +145,7 @@ var x17 = function x17() {
 };
 var x18 = function x18() {
     "use strict";
-    swcHelpers.classCallCheck(this, x18);
+    _class_call_check(this, x18);
     this.member = function named() {
         return [
             d1,
@@ -153,7 +155,7 @@ var x18 = function x18() {
 };
 var x19 = function x19() {
     "use strict";
-    swcHelpers.classCallCheck(this, x19);
+    _class_call_check(this, x19);
     this.member = [
         d1,
         d2
@@ -161,7 +163,7 @@ var x19 = function x19() {
 };
 var x20 = function x20() {
     "use strict";
-    swcHelpers.classCallCheck(this, x20);
+    _class_call_check(this, x20);
     this.member = [
         d1,
         d2
@@ -169,7 +171,7 @@ var x20 = function x20() {
 };
 var x21 = function x21() {
     "use strict";
-    swcHelpers.classCallCheck(this, x21);
+    _class_call_check(this, x21);
     this.member = [
         d1,
         d2
@@ -177,7 +179,7 @@ var x21 = function x21() {
 };
 var x22 = function x22() {
     "use strict";
-    swcHelpers.classCallCheck(this, x22);
+    _class_call_check(this, x22);
     this.member = {
         n: [
             d1,
@@ -187,7 +189,7 @@ var x22 = function x22() {
 };
 var x23 = function x23() {
     "use strict";
-    swcHelpers.classCallCheck(this, x23);
+    _class_call_check(this, x23);
     this.member = function(n) {
         var n;
         return null;
@@ -195,7 +197,7 @@ var x23 = function x23() {
 };
 var x24 = function x24() {
     "use strict";
-    swcHelpers.classCallCheck(this, x24);
+    _class_call_check(this, x24);
     this.member = {
         func: function(n) {
             return [
@@ -207,7 +209,7 @@ var x24 = function x24() {
 };
 var x25 = function x25() {
     "use strict";
-    swcHelpers.classCallCheck(this, x25);
+    _class_call_check(this, x25);
     this.member = function() {
         return [
             d1,
@@ -217,7 +219,7 @@ var x25 = function x25() {
 };
 var x26 = function x26() {
     "use strict";
-    swcHelpers.classCallCheck(this, x26);
+    _class_call_check(this, x26);
     this.member = function() {
         return [
             d1,
@@ -227,7 +229,7 @@ var x26 = function x26() {
 };
 var x27 = function x27() {
     "use strict";
-    swcHelpers.classCallCheck(this, x27);
+    _class_call_check(this, x27);
     this.member = function named() {
         return [
             d1,
@@ -237,7 +239,7 @@ var x27 = function x27() {
 };
 var x28 = function x28() {
     "use strict";
-    swcHelpers.classCallCheck(this, x28);
+    _class_call_check(this, x28);
     this.member = function() {
         return [
             d1,
@@ -247,7 +249,7 @@ var x28 = function x28() {
 };
 var x29 = function x29() {
     "use strict";
-    swcHelpers.classCallCheck(this, x29);
+    _class_call_check(this, x29);
     this.member = function() {
         return [
             d1,
@@ -257,7 +259,7 @@ var x29 = function x29() {
 };
 var x30 = function x30() {
     "use strict";
-    swcHelpers.classCallCheck(this, x30);
+    _class_call_check(this, x30);
     this.member = function named() {
         return [
             d1,
@@ -267,7 +269,7 @@ var x30 = function x30() {
 };
 var x31 = function x31() {
     "use strict";
-    swcHelpers.classCallCheck(this, x31);
+    _class_call_check(this, x31);
     this.member = [
         d1,
         d2
@@ -275,7 +277,7 @@ var x31 = function x31() {
 };
 var x32 = function x32() {
     "use strict";
-    swcHelpers.classCallCheck(this, x32);
+    _class_call_check(this, x32);
     this.member = [
         d1,
         d2
@@ -283,7 +285,7 @@ var x32 = function x32() {
 };
 var x33 = function x33() {
     "use strict";
-    swcHelpers.classCallCheck(this, x33);
+    _class_call_check(this, x33);
     this.member = [
         d1,
         d2
@@ -291,7 +293,7 @@ var x33 = function x33() {
 };
 var x34 = function x34() {
     "use strict";
-    swcHelpers.classCallCheck(this, x34);
+    _class_call_check(this, x34);
     this.member = {
         n: [
             d1,
@@ -301,7 +303,7 @@ var x34 = function x34() {
 };
 var x35 = function x35() {
     "use strict";
-    swcHelpers.classCallCheck(this, x35);
+    _class_call_check(this, x35);
     this.member = function(n) {
         var n;
         return null;
@@ -309,7 +311,7 @@ var x35 = function x35() {
 };
 var x36 = function x36() {
     "use strict";
-    swcHelpers.classCallCheck(this, x36);
+    _class_call_check(this, x36);
     this.member = {
         func: function(n) {
             return [
@@ -321,7 +323,7 @@ var x36 = function x36() {
 };
 var x37 = function x37() {
     "use strict";
-    swcHelpers.classCallCheck(this, x37);
+    _class_call_check(this, x37);
     this.member = function() {
         return [
             d1,
@@ -331,7 +333,7 @@ var x37 = function x37() {
 };
 var x38 = function x38() {
     "use strict";
-    swcHelpers.classCallCheck(this, x38);
+    _class_call_check(this, x38);
     this.member = function() {
         return [
             d1,
@@ -341,7 +343,7 @@ var x38 = function x38() {
 };
 var x39 = function x39() {
     "use strict";
-    swcHelpers.classCallCheck(this, x39);
+    _class_call_check(this, x39);
     this.member = function named() {
         return [
             d1,
@@ -351,7 +353,7 @@ var x39 = function x39() {
 };
 var x40 = function x40() {
     "use strict";
-    swcHelpers.classCallCheck(this, x40);
+    _class_call_check(this, x40);
     this.member = function() {
         return [
             d1,
@@ -361,7 +363,7 @@ var x40 = function x40() {
 };
 var x41 = function x41() {
     "use strict";
-    swcHelpers.classCallCheck(this, x41);
+    _class_call_check(this, x41);
     this.member = function() {
         return [
             d1,
@@ -371,7 +373,7 @@ var x41 = function x41() {
 };
 var x42 = function x42() {
     "use strict";
-    swcHelpers.classCallCheck(this, x42);
+    _class_call_check(this, x42);
     this.member = function named() {
         return [
             d1,
@@ -381,7 +383,7 @@ var x42 = function x42() {
 };
 var x43 = function x43() {
     "use strict";
-    swcHelpers.classCallCheck(this, x43);
+    _class_call_check(this, x43);
     this.member = [
         d1,
         d2
@@ -389,7 +391,7 @@ var x43 = function x43() {
 };
 var x44 = function x44() {
     "use strict";
-    swcHelpers.classCallCheck(this, x44);
+    _class_call_check(this, x44);
     this.member = [
         d1,
         d2
@@ -397,7 +399,7 @@ var x44 = function x44() {
 };
 var x45 = function x45() {
     "use strict";
-    swcHelpers.classCallCheck(this, x45);
+    _class_call_check(this, x45);
     this.member = [
         d1,
         d2
@@ -405,7 +407,7 @@ var x45 = function x45() {
 };
 var x46 = function x46() {
     "use strict";
-    swcHelpers.classCallCheck(this, x46);
+    _class_call_check(this, x46);
     this.member = {
         n: [
             d1,
@@ -415,7 +417,7 @@ var x46 = function x46() {
 };
 var x47 = function x47() {
     "use strict";
-    swcHelpers.classCallCheck(this, x47);
+    _class_call_check(this, x47);
     this.member = function(n) {
         var n;
         return null;
@@ -423,7 +425,7 @@ var x47 = function x47() {
 };
 var x48 = function x48() {
     "use strict";
-    swcHelpers.classCallCheck(this, x48);
+    _class_call_check(this, x48);
     this.member = {
         func: function(n) {
             return [
@@ -435,7 +437,7 @@ var x48 = function x48() {
 };
 var x49 = function x49() {
     "use strict";
-    swcHelpers.classCallCheck(this, x49);
+    _class_call_check(this, x49);
 };
 x49.member = function() {
     return [
@@ -445,7 +447,7 @@ x49.member = function() {
 };
 var x50 = function x50() {
     "use strict";
-    swcHelpers.classCallCheck(this, x50);
+    _class_call_check(this, x50);
 };
 x50.member = function() {
     return [
@@ -455,7 +457,7 @@ x50.member = function() {
 };
 var x51 = function x51() {
     "use strict";
-    swcHelpers.classCallCheck(this, x51);
+    _class_call_check(this, x51);
 };
 x51.member = function named() {
     return [
@@ -465,7 +467,7 @@ x51.member = function named() {
 };
 var x52 = function x52() {
     "use strict";
-    swcHelpers.classCallCheck(this, x52);
+    _class_call_check(this, x52);
 };
 x52.member = function() {
     return [
@@ -475,7 +477,7 @@ x52.member = function() {
 };
 var x53 = function x53() {
     "use strict";
-    swcHelpers.classCallCheck(this, x53);
+    _class_call_check(this, x53);
 };
 x53.member = function() {
     return [
@@ -485,7 +487,7 @@ x53.member = function() {
 };
 var x54 = function x54() {
     "use strict";
-    swcHelpers.classCallCheck(this, x54);
+    _class_call_check(this, x54);
 };
 x54.member = function named() {
     return [
@@ -495,7 +497,7 @@ x54.member = function named() {
 };
 var x55 = function x55() {
     "use strict";
-    swcHelpers.classCallCheck(this, x55);
+    _class_call_check(this, x55);
 };
 x55.member = [
     d1,
@@ -503,7 +505,7 @@ x55.member = [
 ];
 var x56 = function x56() {
     "use strict";
-    swcHelpers.classCallCheck(this, x56);
+    _class_call_check(this, x56);
 };
 x56.member = [
     d1,
@@ -511,7 +513,7 @@ x56.member = [
 ];
 var x57 = function x57() {
     "use strict";
-    swcHelpers.classCallCheck(this, x57);
+    _class_call_check(this, x57);
 };
 x57.member = [
     d1,
@@ -519,7 +521,7 @@ x57.member = [
 ];
 var x58 = function x58() {
     "use strict";
-    swcHelpers.classCallCheck(this, x58);
+    _class_call_check(this, x58);
 };
 x58.member = {
     n: [
@@ -529,7 +531,7 @@ x58.member = {
 };
 var x59 = function x59() {
     "use strict";
-    swcHelpers.classCallCheck(this, x59);
+    _class_call_check(this, x59);
 };
 x59.member = function(n) {
     var n;
@@ -537,7 +539,7 @@ x59.member = function(n) {
 };
 var x60 = function x60() {
     "use strict";
-    swcHelpers.classCallCheck(this, x60);
+    _class_call_check(this, x60);
 };
 x60.member = {
     func: function(n) {
@@ -549,7 +551,7 @@ x60.member = {
 };
 var x61 = function x61() {
     "use strict";
-    swcHelpers.classCallCheck(this, x61);
+    _class_call_check(this, x61);
 };
 x61.member = function() {
     return [
@@ -559,7 +561,7 @@ x61.member = function() {
 };
 var x62 = function x62() {
     "use strict";
-    swcHelpers.classCallCheck(this, x62);
+    _class_call_check(this, x62);
 };
 x62.member = function() {
     return [
@@ -569,7 +571,7 @@ x62.member = function() {
 };
 var x63 = function x63() {
     "use strict";
-    swcHelpers.classCallCheck(this, x63);
+    _class_call_check(this, x63);
 };
 x63.member = function named() {
     return [
@@ -579,7 +581,7 @@ x63.member = function named() {
 };
 var x64 = function x64() {
     "use strict";
-    swcHelpers.classCallCheck(this, x64);
+    _class_call_check(this, x64);
 };
 x64.member = function() {
     return [
@@ -589,7 +591,7 @@ x64.member = function() {
 };
 var x65 = function x65() {
     "use strict";
-    swcHelpers.classCallCheck(this, x65);
+    _class_call_check(this, x65);
 };
 x65.member = function() {
     return [
@@ -599,7 +601,7 @@ x65.member = function() {
 };
 var x66 = function x66() {
     "use strict";
-    swcHelpers.classCallCheck(this, x66);
+    _class_call_check(this, x66);
 };
 x66.member = function named() {
     return [
@@ -609,7 +611,7 @@ x66.member = function named() {
 };
 var x67 = function x67() {
     "use strict";
-    swcHelpers.classCallCheck(this, x67);
+    _class_call_check(this, x67);
 };
 x67.member = [
     d1,
@@ -617,7 +619,7 @@ x67.member = [
 ];
 var x68 = function x68() {
     "use strict";
-    swcHelpers.classCallCheck(this, x68);
+    _class_call_check(this, x68);
 };
 x68.member = [
     d1,
@@ -625,7 +627,7 @@ x68.member = [
 ];
 var x69 = function x69() {
     "use strict";
-    swcHelpers.classCallCheck(this, x69);
+    _class_call_check(this, x69);
 };
 x69.member = [
     d1,
@@ -633,7 +635,7 @@ x69.member = [
 ];
 var x70 = function x70() {
     "use strict";
-    swcHelpers.classCallCheck(this, x70);
+    _class_call_check(this, x70);
 };
 x70.member = {
     n: [
@@ -643,7 +645,7 @@ x70.member = {
 };
 var x71 = function x71() {
     "use strict";
-    swcHelpers.classCallCheck(this, x71);
+    _class_call_check(this, x71);
 };
 x71.member = function(n) {
     var n;
@@ -651,7 +653,7 @@ x71.member = function(n) {
 };
 var x72 = function x72() {
     "use strict";
-    swcHelpers.classCallCheck(this, x72);
+    _class_call_check(this, x72);
 };
 x72.member = {
     func: function(n) {
@@ -663,7 +665,7 @@ x72.member = {
 };
 var x73 = function x73() {
     "use strict";
-    swcHelpers.classCallCheck(this, x73);
+    _class_call_check(this, x73);
 };
 x73.member = function() {
     return [
@@ -673,7 +675,7 @@ x73.member = function() {
 };
 var x74 = function x74() {
     "use strict";
-    swcHelpers.classCallCheck(this, x74);
+    _class_call_check(this, x74);
 };
 x74.member = function() {
     return [
@@ -683,7 +685,7 @@ x74.member = function() {
 };
 var x75 = function x75() {
     "use strict";
-    swcHelpers.classCallCheck(this, x75);
+    _class_call_check(this, x75);
 };
 x75.member = function named() {
     return [
@@ -693,7 +695,7 @@ x75.member = function named() {
 };
 var x76 = function x76() {
     "use strict";
-    swcHelpers.classCallCheck(this, x76);
+    _class_call_check(this, x76);
 };
 x76.member = function() {
     return [
@@ -703,7 +705,7 @@ x76.member = function() {
 };
 var x77 = function x77() {
     "use strict";
-    swcHelpers.classCallCheck(this, x77);
+    _class_call_check(this, x77);
 };
 x77.member = function() {
     return [
@@ -713,7 +715,7 @@ x77.member = function() {
 };
 var x78 = function x78() {
     "use strict";
-    swcHelpers.classCallCheck(this, x78);
+    _class_call_check(this, x78);
 };
 x78.member = function named() {
     return [
@@ -723,7 +725,7 @@ x78.member = function named() {
 };
 var x79 = function x79() {
     "use strict";
-    swcHelpers.classCallCheck(this, x79);
+    _class_call_check(this, x79);
 };
 x79.member = [
     d1,
@@ -731,7 +733,7 @@ x79.member = [
 ];
 var x80 = function x80() {
     "use strict";
-    swcHelpers.classCallCheck(this, x80);
+    _class_call_check(this, x80);
 };
 x80.member = [
     d1,
@@ -739,7 +741,7 @@ x80.member = [
 ];
 var x81 = function x81() {
     "use strict";
-    swcHelpers.classCallCheck(this, x81);
+    _class_call_check(this, x81);
 };
 x81.member = [
     d1,
@@ -747,7 +749,7 @@ x81.member = [
 ];
 var x82 = function x82() {
     "use strict";
-    swcHelpers.classCallCheck(this, x82);
+    _class_call_check(this, x82);
 };
 x82.member = {
     n: [
@@ -757,7 +759,7 @@ x82.member = {
 };
 var x83 = function x83() {
     "use strict";
-    swcHelpers.classCallCheck(this, x83);
+    _class_call_check(this, x83);
 };
 x83.member = function(n) {
     var n;
@@ -765,7 +767,7 @@ x83.member = function(n) {
 };
 var x84 = function x84() {
     "use strict";
-    swcHelpers.classCallCheck(this, x84);
+    _class_call_check(this, x84);
 };
 x84.member = {
     func: function(n) {
@@ -783,7 +785,7 @@ var x85 = function x85() {
             d2
         ];
     };
-    swcHelpers.classCallCheck(this, x85);
+    _class_call_check(this, x85);
 };
 var x86 = function x86() {
     "use strict";
@@ -793,7 +795,7 @@ var x86 = function x86() {
             d2
         ];
     };
-    swcHelpers.classCallCheck(this, x86);
+    _class_call_check(this, x86);
 };
 var x87 = function x87() {
     "use strict";
@@ -803,7 +805,7 @@ var x87 = function x87() {
             d2
         ];
     };
-    swcHelpers.classCallCheck(this, x87);
+    _class_call_check(this, x87);
 };
 var x88 = function x88() {
     "use strict";
@@ -813,7 +815,7 @@ var x88 = function x88() {
             d2
         ];
     };
-    swcHelpers.classCallCheck(this, x88);
+    _class_call_check(this, x88);
 };
 var x89 = function x89() {
     "use strict";
@@ -823,7 +825,7 @@ var x89 = function x89() {
             d2
         ];
     };
-    swcHelpers.classCallCheck(this, x89);
+    _class_call_check(this, x89);
 };
 var x90 = function x90() {
     "use strict";
@@ -833,7 +835,7 @@ var x90 = function x90() {
             d2
         ];
     };
-    swcHelpers.classCallCheck(this, x90);
+    _class_call_check(this, x90);
 };
 var x91 = function x91() {
     "use strict";
@@ -841,7 +843,7 @@ var x91 = function x91() {
         d1,
         d2
     ];
-    swcHelpers.classCallCheck(this, x91);
+    _class_call_check(this, x91);
 };
 var x92 = function x92() {
     "use strict";
@@ -849,7 +851,7 @@ var x92 = function x92() {
         d1,
         d2
     ];
-    swcHelpers.classCallCheck(this, x92);
+    _class_call_check(this, x92);
 };
 var x93 = function x93() {
     "use strict";
@@ -857,7 +859,7 @@ var x93 = function x93() {
         d1,
         d2
     ];
-    swcHelpers.classCallCheck(this, x93);
+    _class_call_check(this, x93);
 };
 var x94 = function x94() {
     "use strict";
@@ -867,7 +869,7 @@ var x94 = function x94() {
             d2
         ]
     };
-    swcHelpers.classCallCheck(this, x94);
+    _class_call_check(this, x94);
 };
 var x95 = function x95() {
     "use strict";
@@ -875,7 +877,7 @@ var x95 = function x95() {
         var n;
         return null;
     };
-    swcHelpers.classCallCheck(this, x95);
+    _class_call_check(this, x95);
 };
 var x96 = function x96() {
     "use strict";
@@ -887,7 +889,7 @@ var x96 = function x96() {
             ];
         }
     };
-    swcHelpers.classCallCheck(this, x96);
+    _class_call_check(this, x96);
 };
 var x97 = function x97() {
     "use strict";
@@ -897,7 +899,7 @@ var x97 = function x97() {
             d2
         ];
     };
-    swcHelpers.classCallCheck(this, x97);
+    _class_call_check(this, x97);
     this.parm = parm;
 };
 var x98 = function x98() {
@@ -908,7 +910,7 @@ var x98 = function x98() {
             d2
         ];
     };
-    swcHelpers.classCallCheck(this, x98);
+    _class_call_check(this, x98);
     this.parm = parm;
 };
 var x99 = function x99() {
@@ -919,7 +921,7 @@ var x99 = function x99() {
             d2
         ];
     };
-    swcHelpers.classCallCheck(this, x99);
+    _class_call_check(this, x99);
     this.parm = parm;
 };
 var x100 = function x100() {
@@ -930,7 +932,7 @@ var x100 = function x100() {
             d2
         ];
     };
-    swcHelpers.classCallCheck(this, x100);
+    _class_call_check(this, x100);
     this.parm = parm;
 };
 var x101 = function x101() {
@@ -941,7 +943,7 @@ var x101 = function x101() {
             d2
         ];
     };
-    swcHelpers.classCallCheck(this, x101);
+    _class_call_check(this, x101);
     this.parm = parm;
 };
 var x102 = function x102() {
@@ -952,7 +954,7 @@ var x102 = function x102() {
             d2
         ];
     };
-    swcHelpers.classCallCheck(this, x102);
+    _class_call_check(this, x102);
     this.parm = parm;
 };
 var x103 = function x103() {
@@ -961,7 +963,7 @@ var x103 = function x103() {
         d1,
         d2
     ];
-    swcHelpers.classCallCheck(this, x103);
+    _class_call_check(this, x103);
     this.parm = parm;
 };
 var x104 = function x104() {
@@ -970,7 +972,7 @@ var x104 = function x104() {
         d1,
         d2
     ];
-    swcHelpers.classCallCheck(this, x104);
+    _class_call_check(this, x104);
     this.parm = parm;
 };
 var x105 = function x105() {
@@ -979,7 +981,7 @@ var x105 = function x105() {
         d1,
         d2
     ];
-    swcHelpers.classCallCheck(this, x105);
+    _class_call_check(this, x105);
     this.parm = parm;
 };
 var x106 = function x106() {
@@ -990,7 +992,7 @@ var x106 = function x106() {
             d2
         ]
     };
-    swcHelpers.classCallCheck(this, x106);
+    _class_call_check(this, x106);
     this.parm = parm;
 };
 var x107 = function x107() {
@@ -999,7 +1001,7 @@ var x107 = function x107() {
         var n;
         return null;
     };
-    swcHelpers.classCallCheck(this, x107);
+    _class_call_check(this, x107);
     this.parm = parm;
 };
 var x108 = function x108() {
@@ -1012,7 +1014,7 @@ var x108 = function x108() {
             ];
         }
     };
-    swcHelpers.classCallCheck(this, x108);
+    _class_call_check(this, x108);
     this.parm = parm;
 };
 var x109 = function x109() {
@@ -1023,7 +1025,7 @@ var x109 = function x109() {
             d2
         ];
     };
-    swcHelpers.classCallCheck(this, x109);
+    _class_call_check(this, x109);
     this.parm = parm;
 };
 var x110 = function x110() {
@@ -1034,7 +1036,7 @@ var x110 = function x110() {
             d2
         ];
     };
-    swcHelpers.classCallCheck(this, x110);
+    _class_call_check(this, x110);
     this.parm = parm;
 };
 var x111 = function x111() {
@@ -1045,7 +1047,7 @@ var x111 = function x111() {
             d2
         ];
     };
-    swcHelpers.classCallCheck(this, x111);
+    _class_call_check(this, x111);
     this.parm = parm;
 };
 var x112 = function x112() {
@@ -1056,7 +1058,7 @@ var x112 = function x112() {
             d2
         ];
     };
-    swcHelpers.classCallCheck(this, x112);
+    _class_call_check(this, x112);
     this.parm = parm;
 };
 var x113 = function x113() {
@@ -1067,7 +1069,7 @@ var x113 = function x113() {
             d2
         ];
     };
-    swcHelpers.classCallCheck(this, x113);
+    _class_call_check(this, x113);
     this.parm = parm;
 };
 var x114 = function x114() {
@@ -1078,7 +1080,7 @@ var x114 = function x114() {
             d2
         ];
     };
-    swcHelpers.classCallCheck(this, x114);
+    _class_call_check(this, x114);
     this.parm = parm;
 };
 var x115 = function x115() {
@@ -1087,7 +1089,7 @@ var x115 = function x115() {
         d1,
         d2
     ];
-    swcHelpers.classCallCheck(this, x115);
+    _class_call_check(this, x115);
     this.parm = parm;
 };
 var x116 = function x116() {
@@ -1096,7 +1098,7 @@ var x116 = function x116() {
         d1,
         d2
     ];
-    swcHelpers.classCallCheck(this, x116);
+    _class_call_check(this, x116);
     this.parm = parm;
 };
 var x117 = function x117() {
@@ -1105,7 +1107,7 @@ var x117 = function x117() {
         d1,
         d2
     ];
-    swcHelpers.classCallCheck(this, x117);
+    _class_call_check(this, x117);
     this.parm = parm;
 };
 var x118 = function x118() {
@@ -1116,7 +1118,7 @@ var x118 = function x118() {
             d2
         ]
     };
-    swcHelpers.classCallCheck(this, x118);
+    _class_call_check(this, x118);
     this.parm = parm;
 };
 var x119 = function x119() {
@@ -1125,7 +1127,7 @@ var x119 = function x119() {
         var n;
         return null;
     };
-    swcHelpers.classCallCheck(this, x119);
+    _class_call_check(this, x119);
     this.parm = parm;
 };
 var x120 = function x120() {
@@ -1138,7 +1140,7 @@ var x120 = function x120() {
             ];
         }
     };
-    swcHelpers.classCallCheck(this, x120);
+    _class_call_check(this, x120);
     this.parm = parm;
 };
 function x121() {

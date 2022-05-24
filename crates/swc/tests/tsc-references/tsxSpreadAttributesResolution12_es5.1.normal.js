@@ -1,4 +1,7 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _extends from "@swc/helpers/lib/_extends.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 // @filename: file.tsx
 // @jsx: preserve
 // @noLib: true
@@ -15,10 +18,10 @@ var obj3 = {
 };
 var OverWriteAttr = /*#__PURE__*/ function(_Component) {
     "use strict";
-    swcHelpers.inherits(OverWriteAttr, _Component);
-    var _super = swcHelpers.createSuper(OverWriteAttr);
+    _inherits(OverWriteAttr, _Component);
+    var _super = _create_super(OverWriteAttr);
     function OverWriteAttr() {
-        swcHelpers.classCallCheck(this, OverWriteAttr);
+        _class_call_check(this, OverWriteAttr);
         return _super.apply(this, arguments);
     }
     var _proto = OverWriteAttr.prototype;
@@ -29,21 +32,21 @@ var OverWriteAttr = /*#__PURE__*/ function(_Component) {
 }(React.Component);
 var anyobj;
 // Error
-var x = /*#__PURE__*/ React.createElement(OverWriteAttr, swcHelpers.extends({}, obj, {
+var x = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({}, obj, {
     y: true,
     overwrite: "hi"
 }, obj1));
-var x1 = /*#__PURE__*/ React.createElement(OverWriteAttr, swcHelpers.extends({
+var x1 = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({
     overwrite: "hi"
 }, obj1, {
     x: 3
 }, {
     y: true
 }));
-var x2 = /*#__PURE__*/ React.createElement(OverWriteAttr, swcHelpers.extends({}, anyobj, {
+var x2 = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({}, anyobj, {
     x: 3
 }));
-var x3 = /*#__PURE__*/ React.createElement(OverWriteAttr, swcHelpers.extends({
+var x3 = /*#__PURE__*/ React.createElement(OverWriteAttr, _extends({
     overwrite: "hi"
 }, obj1, {
     y: true

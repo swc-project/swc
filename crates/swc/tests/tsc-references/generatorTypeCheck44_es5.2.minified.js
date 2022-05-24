@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _define_enumerable_properties from "@swc/helpers/lib/_define_enumerable_properties.js";
 import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(function() {
     var _obj, _mutatorMap, x;
@@ -19,7 +19,7 @@ var _marked = regeneratorRuntime.mark(function() {
             case 14:
                 _ctx.t3 = _ctx.sent, _mutatorMap[_ctx.t3].get = function() {
                     return 0;
-                }, swcHelpers.defineEnumerableProperties(_obj, _mutatorMap), x = _obj;
+                }, _define_enumerable_properties(_obj, _mutatorMap), x = _obj;
             case 18:
             case "end":
                 return _ctx.stop();

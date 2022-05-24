@@ -1,6 +1,6 @@
 "use strict";
-var swcHelpers = require("@swc/helpers");
-var _regeneratorRuntime = swcHelpers.interopRequireDefault(require("regenerator-runtime"));
+var _interop_require_default = require("@swc/helpers/lib/_interop_require_default.js").default;
+var _regeneratorRuntime = _interop_require_default(require("regenerator-runtime"));
 var _marked = _regeneratorRuntime.default.mark(foo);
 function foo() {
     return _regeneratorRuntime.default.wrap(function foo$(_ctx) {

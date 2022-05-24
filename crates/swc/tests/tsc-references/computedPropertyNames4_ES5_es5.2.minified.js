@@ -1,3 +1,3 @@
 var s, n, a, _obj;
-import * as swcHelpers from "@swc/helpers";
-_obj = {}, swcHelpers.defineProperty(_obj, s, 0), swcHelpers.defineProperty(_obj, n, n), swcHelpers.defineProperty(_obj, s + s, 1), swcHelpers.defineProperty(_obj, s + n, 2), swcHelpers.defineProperty(_obj, +s, s), swcHelpers.defineProperty(_obj, "", 0), swcHelpers.defineProperty(_obj, 0, 0), swcHelpers.defineProperty(_obj, a, 1), swcHelpers.defineProperty(_obj, !0, 0), swcHelpers.defineProperty(_obj, "hello bye", 0), swcHelpers.defineProperty(_obj, "hello ".concat(a, " bye"), 0);
+import _define_property from "@swc/helpers/lib/_define_property.js";
+_define_property(_obj = {}, s, 0), _define_property(_obj, n, n), _define_property(_obj, s + s, 1), _define_property(_obj, s + n, 2), _define_property(_obj, +s, s), _define_property(_obj, "", 0), _define_property(_obj, 0, 0), _define_property(_obj, a, 1), _define_property(_obj, !0, 0), _define_property(_obj, "hello bye", 0), _define_property(_obj, "hello ".concat(a, " bye"), 0);

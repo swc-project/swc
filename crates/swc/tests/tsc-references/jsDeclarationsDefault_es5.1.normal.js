@@ -1,4 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 // @filename: index4.js
 import Fab from "./index3";
 // @allowJs: true
@@ -16,7 +18,7 @@ export var x = foo;
 export { foo as bar };
 var Foo = function Foo() {
     "use strict";
-    swcHelpers.classCallCheck(this, Foo);
+    _class_call_check(this, Foo);
     this.a = /** @type {Foo} */ (null);
 };
 // @filename: index3.js
@@ -25,10 +27,10 @@ export var X = Foo;
 export { Foo as Bar };
 var Bar = /*#__PURE__*/ function(Fab1) {
     "use strict";
-    swcHelpers.inherits(Bar, Fab1);
-    var _super = swcHelpers.createSuper(Bar);
+    _inherits(Bar, Fab1);
+    var _super = _create_super(Bar);
     function Bar() {
-        swcHelpers.classCallCheck(this, Bar);
+        _class_call_check(this, Bar);
         var _this;
         _this = _super.apply(this, arguments);
         _this.x = /** @type {Bar} */ (null);

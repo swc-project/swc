@@ -1,16 +1,16 @@
 var A, X;
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 !function(A1) {
     var Point = function() {
         "use strict";
-        swcHelpers.classCallCheck(this, Point);
+        _class_call_check(this, Point);
     };
     A1.Point = Point;
 }(A || (A = {})), function(A) {
     var Point = function() {
         "use strict";
         function Point() {
-            swcHelpers.classCallCheck(this, Point);
+            _class_call_check(this, Point);
         }
         return Point.prototype.fromCarthesian = function(p) {
             return {
@@ -23,12 +23,12 @@ import * as swcHelpers from "@swc/helpers";
     var Y, Z, Line;
     Z = (Y = X1.Y || (X1.Y = {})).Z || (Y.Z = {}), Line = function() {
         "use strict";
-        swcHelpers.classCallCheck(this, Line);
+        _class_call_check(this, Line);
     }, Z.Line = Line;
 }(X || (X = {})), function(X2) {
     var Y, Line;
     (Y = X2.Y || (X2.Y = {})).Z || (Y.Z = {}), Line = function() {
         "use strict";
-        swcHelpers.classCallCheck(this, Line);
+        _class_call_check(this, Line);
     };
 }(X || (X = {}));

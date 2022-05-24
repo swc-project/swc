@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
@@ -6,7 +6,7 @@ import * as swcHelpers from "@swc/helpers";
 var Outer = /*#__PURE__*/ function() {
     "use strict";
     function O() {
-        swcHelpers.classCallCheck(this, O);
+        _class_call_check(this, O);
     }
     var _proto = O.prototype;
     _proto.m = function m(x, y) {};
@@ -15,7 +15,7 @@ var Outer = /*#__PURE__*/ function() {
 Outer.Inner = /*#__PURE__*/ function() {
     "use strict";
     function I() {
-        swcHelpers.classCallCheck(this, I);
+        _class_call_check(this, I);
     }
     var _proto = I.prototype;
     _proto.n = function n(a, b) {};

@@ -1,4 +1,7 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _extends from "@swc/helpers/lib/_extends.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 // @filename: file.tsx
 // @jsx: preserve
 // @noLib: true
@@ -7,10 +10,10 @@ import * as swcHelpers from "@swc/helpers";
 var React = require("react");
 var Opt = /*#__PURE__*/ function(_Component) {
     "use strict";
-    swcHelpers.inherits(Opt, _Component);
-    var _super = swcHelpers.createSuper(Opt);
+    _inherits(Opt, _Component);
+    var _super = _create_super(Opt);
     function Opt() {
-        swcHelpers.classCallCheck(this, Opt);
+        _class_call_check(this, Opt);
         return _super.apply(this, arguments);
     }
     var _proto = Opt.prototype;
@@ -24,13 +27,13 @@ var obj1 = {
     x: 2
 };
 // Error
-var y = /*#__PURE__*/ React.createElement(Opt, swcHelpers.extends({}, obj, {
+var y = /*#__PURE__*/ React.createElement(Opt, _extends({}, obj, {
     x: 3
 }));
-var y1 = /*#__PURE__*/ React.createElement(Opt, swcHelpers.extends({}, obj1, {
+var y1 = /*#__PURE__*/ React.createElement(Opt, _extends({}, obj1, {
     x: "Hi"
 }));
-var y2 = /*#__PURE__*/ React.createElement(Opt, swcHelpers.extends({}, obj1, {
+var y2 = /*#__PURE__*/ React.createElement(Opt, _extends({}, obj1, {
     x: 3
 }));
 var y3 = /*#__PURE__*/ React.createElement(Opt, {

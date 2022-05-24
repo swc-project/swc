@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // valid uses of arrays of function types
 var x = [
     function() {
@@ -9,7 +9,7 @@ var x = [
 var r2 = x[0]();
 var C = function C() {
     "use strict";
-    swcHelpers.classCallCheck(this, C);
+    _class_call_check(this, C);
 };
 var y = [
     C,

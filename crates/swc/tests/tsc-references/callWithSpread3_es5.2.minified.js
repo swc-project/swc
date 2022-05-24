@@ -1,23 +1,23 @@
-import * as swcHelpers from "@swc/helpers";
+import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
 fs2.apply(void 0, [
     "a"
-].concat(swcHelpers.toConsumableArray(s2))), fs2.apply(void 0, [
+].concat(_to_consumable_array(s2))), fs2.apply(void 0, [
     "a",
     "b",
     "c"
-].concat(swcHelpers.toConsumableArray(s2))), fs2.apply(void 0, [
+].concat(_to_consumable_array(s2))), fs2.apply(void 0, [
     "a",
     "b"
-].concat(swcHelpers.toConsumableArray(s2), [
+].concat(_to_consumable_array(s2), [
     "c"
 ])), fs2.apply(void 0, [
     "a",
     "b",
     "c"
-].concat(swcHelpers.toConsumableArray(s2), [
+].concat(_to_consumable_array(s2), [
     "d"
-])), fs2.apply(void 0, swcHelpers.toConsumableArray(s2).concat([
+])), fs2.apply(void 0, _to_consumable_array(s2).concat([
     "a"
-])), fs2.apply(void 0, swcHelpers.toConsumableArray(s3)), fs2_.apply(void 0, swcHelpers.toConsumableArray(s_)), fs2_.apply(void 0, swcHelpers.toConsumableArray(s2n_)), fs2_.apply(void 0, swcHelpers.toConsumableArray(s_).concat(swcHelpers.toConsumableArray(s_))), fs2_.apply(void 0, swcHelpers.toConsumableArray(s_).concat(swcHelpers.toConsumableArray(s_), swcHelpers.toConsumableArray(s_))), fs2n_.apply(void 0, swcHelpers.toConsumableArray(s2_)), fs2_.apply(void 0, swcHelpers.toConsumableArray(s2_)), fs2_.apply(void 0, swcHelpers.toConsumableArray(s2_).concat(swcHelpers.toConsumableArray(s_))), fs2_.apply(void 0, swcHelpers.toConsumableArray(s2_).concat(swcHelpers.toConsumableArray(s2_))), fs2_.apply(void 0, swcHelpers.toConsumableArray(s_).concat(swcHelpers.toConsumableArray(s2_))), fs2n_.apply(void 0, swcHelpers.toConsumableArray(s2n_)), fs2n_.apply(void 0, swcHelpers.toConsumableArray(s2)), fs5.apply(void 0, swcHelpers.toConsumableArray(s2).concat([
+])), fs2.apply(void 0, _to_consumable_array(s3)), fs2_.apply(void 0, _to_consumable_array(s_)), fs2_.apply(void 0, _to_consumable_array(s2n_)), fs2_.apply(void 0, _to_consumable_array(s_).concat(_to_consumable_array(s_))), fs2_.apply(void 0, _to_consumable_array(s_).concat(_to_consumable_array(s_), _to_consumable_array(s_))), fs2n_.apply(void 0, _to_consumable_array(s2_)), fs2_.apply(void 0, _to_consumable_array(s2_)), fs2_.apply(void 0, _to_consumable_array(s2_).concat(_to_consumable_array(s_))), fs2_.apply(void 0, _to_consumable_array(s2_).concat(_to_consumable_array(s2_))), fs2_.apply(void 0, _to_consumable_array(s_).concat(_to_consumable_array(s2_))), fs2n_.apply(void 0, _to_consumable_array(s2n_)), fs2n_.apply(void 0, _to_consumable_array(s2)), fs5.apply(void 0, _to_consumable_array(s2).concat([
     "foo"
-], swcHelpers.toConsumableArray(s2)));
+], _to_consumable_array(s2)));

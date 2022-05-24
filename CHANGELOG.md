@@ -5,6 +5,9 @@
 
 
 
+- **(css/parser)** Allow `var()` call in color functions (#4713) ([07d31aa](https://github.com/swc-project/swc/commit/07d31aa50ab8420ee2e8e2751833385470337eae))
+
+
 - **(es/loader)** Fix `jsc.paths` on windows (#4739) ([417b218](https://github.com/swc-project/swc/commit/417b2182cead074c9ebf9358d53f353157637a8d))
 
 
@@ -20,6 +23,9 @@
 - **(es/typescript)** Mark namespaces as concrete (#4736) ([41d4437](https://github.com/swc-project/swc/commit/41d443767147f97909e6b1004cb4be6dcea207c1))
 
 
+- **(es/typescript)** Preserve referenced imports for namespace (#4759) ([065b2a5](https://github.com/swc-project/swc/commit/065b2a514ff4429e52e244a9f090048f5f764d83))
+
+
 - **(html/parser)** Fix error reporting in the foreign context (#4725) ([4df0637](https://github.com/swc-project/swc/commit/4df06378179bc27562e84e0814c0878b8edf29f5))
 
 
@@ -29,10 +35,16 @@
 
 
 
+- **(es/helpers)** Import only used helpers (#4767) ([b8d2fb8](https://github.com/swc-project/swc/commit/b8d2fb85461aba2dfd3ee599fbe6a2a42ff34f32))
+
+
 - **(es/minifier)** Implement `pure_funcs` (#4710) ([9e42382](https://github.com/swc-project/swc/commit/9e423820916ab847731b8b484a165169174b80df))
 
 
 - **(es/minifier)** Handle prefix update expressions with sequential inliner (#4741) ([a51816a](https://github.com/swc-project/swc/commit/a51816a577cb13a8af6e8086c5aab41b6ac79a58))
+
+
+- **(es/minifier)** Implement more rules (#4763) ([20b724d](https://github.com/swc-project/swc/commit/20b724d3cd184ce6bc82e244a9e6ef1d1f21cb96))
 
 
 - **(es/modules/amd)** Support local-scoped amd requires (#4727) ([886585b](https://github.com/swc-project/swc/commit/886585b90e2f240e4d72091629bc547ab74f7e2e))

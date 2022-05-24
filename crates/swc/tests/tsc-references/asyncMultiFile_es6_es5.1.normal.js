@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
 import regeneratorRuntime from "regenerator-runtime";
 function f() {
     return _f.apply(this, arguments);
@@ -6,7 +6,7 @@ function f() {
 function _f() {
     _f = // @target: es6
     // @filename: a.ts
-    swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    _async_to_generator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:

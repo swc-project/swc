@@ -1,2 +1,2 @@
-import * as swcHelpers from "@swc/helpers";
-swcHelpers._instanceof(Symbol(), Symbol), swcHelpers._instanceof(Symbol, Symbol()), swcHelpers._instanceof(Symbol() || {}, Object), swcHelpers._instanceof(Symbol, Symbol() || {});
+import _instanceof from "@swc/helpers/lib/_instanceof.js";
+_instanceof(Symbol(), Symbol), _instanceof(Symbol, Symbol()), _instanceof(Symbol() || {}, Object), _instanceof(Symbol, Symbol() || {});

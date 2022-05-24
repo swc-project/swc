@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var // enums are only subtypes of number, any and no other types
 E;
 (function(E) {
@@ -6,11 +6,11 @@ E;
 })(E || (E = {}));
 var A = function A() {
     "use strict";
-    swcHelpers.classCallCheck(this, A);
+    _class_call_check(this, A);
 };
 var A2 = function A2() {
     "use strict";
-    swcHelpers.classCallCheck(this, A2);
+    _class_call_check(this, A2);
 };
 var E2;
 (function(E2) {
@@ -22,7 +22,7 @@ function f() {}
 })(f || (f = {}));
 var c = function c() {
     "use strict";
-    swcHelpers.classCallCheck(this, c);
+    _class_call_check(this, c);
 };
 (function(c) {
     var bar = c.bar = 1;

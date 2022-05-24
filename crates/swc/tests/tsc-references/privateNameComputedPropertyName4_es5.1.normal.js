@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @target: esnext, es2022, es2015
 // @useDefineForClassFields: true
 // @noTypesAndSymbols: true
@@ -6,7 +6,7 @@ import * as swcHelpers from "@swc/helpers";
 var C1 = /*#__PURE__*/ function() {
     "use strict";
     function C1() {
-        swcHelpers.classCallCheck(this, C1);
+        _class_call_check(this, C1);
     }
     var _proto = C1.prototype;
     _proto["bar"] = function() {};
@@ -19,7 +19,7 @@ var _qux = {
 var C2 = /*#__PURE__*/ function() {
     "use strict";
     function C2() {
-        swcHelpers.classCallCheck(this, C2);
+        _class_call_check(this, C2);
     }
     C2["bar"] = function() {};
     return C2;
@@ -30,7 +30,7 @@ var _qux1 = {
 };
 var C3 = function C3() {
     "use strict";
-    swcHelpers.classCallCheck(this, C3);
+    _class_call_check(this, C3);
 };
 var _qux2 = {
     writable: true,

@@ -1,6 +1,11 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_private_method_get from "@swc/helpers/lib/_class_private_method_get.js";
+import _class_private_method_init from "@swc/helpers/lib/_class_private_method_init.js";
+import _construct from "@swc/helpers/lib/_construct.js";
+import _tagged_template_literal from "@swc/helpers/lib/_tagged_template_literal.js";
+import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
 function _templateObject() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         "head",
         "middle",
         "tail"
@@ -10,7 +15,7 @@ function _templateObject() {
     }, data;
 }
 function _templateObject1() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         "test",
         "and",
         ""
@@ -20,7 +25,7 @@ function _templateObject1() {
     }, data;
 }
 function _templateObject2() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         "head",
         "middle",
         "tail"
@@ -32,34 +37,34 @@ function _templateObject2() {
 var _method = new WeakSet(), _method2 = new WeakSet(), AA = function() {
     "use strict";
     function AA() {
-        swcHelpers.classCallCheck(this, AA), swcHelpers.classPrivateMethodInit(this, _method), swcHelpers.classPrivateMethodInit(this, _method2), this.x = 1;
+        _class_call_check(this, AA), _class_private_method_init(this, _method), _class_private_method_init(this, _method2), this.x = 1;
     }
     var _proto = AA.prototype;
     return _proto.test = function() {
-        swcHelpers.classPrivateMethodGet(this, _method, method).call(this), swcHelpers.classPrivateMethodGet(this, _method, method)(), new (swcHelpers.classPrivateMethodGet(this, _method, method))();
+        _class_private_method_get(this, _method, method).call(this), _class_private_method_get(this, _method, method)(), new (_class_private_method_get(this, _method, method))();
         var _instance, _instance1, _ref, _ref1, _ref2, arr = [
             1,
             2
         ];
-        (_instance = swcHelpers.classPrivateMethodGet(this, _method2, method2)).call.apply(_instance, [
+        (_instance = _class_private_method_get(this, _method2, method2)).call.apply(_instance, [
             this,
             0
-        ].concat(swcHelpers.toConsumableArray(arr), [
+        ].concat(_to_consumable_array(arr), [
             3
-        ])), swcHelpers.construct(swcHelpers.classPrivateMethodGet(this, _method2, method2), [
+        ])), _construct(_class_private_method_get(this, _method2, method2), [
             0
-        ].concat(swcHelpers.toConsumableArray(arr), [
+        ].concat(_to_consumable_array(arr), [
             3
-        ])), swcHelpers.classPrivateMethodGet(this, _method2, method2).bind(this)(_templateObject(), 1, 2), swcHelpers.classPrivateMethodGet(_ref = this.getInstance(), _method2, method2).bind(_ref)(_templateObject1(), 1, 2), (_instance1 = swcHelpers.classPrivateMethodGet(_ref1 = this.getInstance(), _method2, method2)).call.apply(_instance1, [
+        ])), _class_private_method_get(this, _method2, method2).bind(this)(_templateObject(), 1, 2), _class_private_method_get(_ref = this.getInstance(), _method2, method2).bind(_ref)(_templateObject1(), 1, 2), (_instance1 = _class_private_method_get(_ref1 = this.getInstance(), _method2, method2)).call.apply(_instance1, [
             _ref1,
             0
-        ].concat(swcHelpers.toConsumableArray(arr), [
+        ].concat(_to_consumable_array(arr), [
             3
-        ])), swcHelpers.construct(swcHelpers.classPrivateMethodGet(this.getInstance(), _method2, method2), [
+        ])), _construct(_class_private_method_get(this.getInstance(), _method2, method2), [
             0
-        ].concat(swcHelpers.toConsumableArray(arr), [
+        ].concat(_to_consumable_array(arr), [
             3
-        ])), swcHelpers.classPrivateMethodGet(_ref2 = this.getInstance(), _method2, method2).bind(_ref2)(_templateObject2(), 1, 2);
+        ])), _class_private_method_get(_ref2 = this.getInstance(), _method2, method2).bind(_ref2)(_templateObject2(), 1, 2);
     }, _proto.getInstance = function() {
         return new AA();
     }, AA;

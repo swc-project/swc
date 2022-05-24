@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _object_spread from "@swc/helpers/lib/_object_spread.js";
 let k = new class {
     m() {}
     get g() {
@@ -7,7 +7,7 @@ let k = new class {
     constructor(){
         this.p = 12;
     }
-}(), sk = swcHelpers.objectSpread({}, k), ssk = swcHelpers.objectSpread({}, k, k);
+}(), sk = _object_spread({}, k), ssk = _object_spread({}, k, k);
 sk.p, sk.m(), sk.g, ssk.p, ssk.m(), ssk.g;
 let i = {
     p: 12,
@@ -15,7 +15,7 @@ let i = {
     get g () {
         return 0;
     }
-}, si = swcHelpers.objectSpread({}, i), ssi = swcHelpers.objectSpread({}, i, i);
+}, si = _object_spread({}, i), ssi = _object_spread({}, i, i);
 si.p, si.m(), si.g, ssi.p, ssi.m(), ssi.g;
 let o = {
     p: 12,
@@ -23,5 +23,5 @@ let o = {
     get g () {
         return 0;
     }
-}, so = swcHelpers.objectSpread({}, o), sso = swcHelpers.objectSpread({}, o, o);
+}, so = _object_spread({}, o), sso = _object_spread({}, o, o);
 so.p, so.m(), so.g, sso.p, sso.m(), sso.g;

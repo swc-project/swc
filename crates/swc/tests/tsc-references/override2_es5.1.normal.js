@@ -1,36 +1,38 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 // @declaration: true
 // @noImplicitOverride: true
 var AB = function AB() {
     "use strict";
-    swcHelpers.classCallCheck(this, AB);
+    _class_call_check(this, AB);
 };
 var AD1 = /*#__PURE__*/ function(AB) {
     "use strict";
-    swcHelpers.inherits(AD1, AB);
-    var _super = swcHelpers.createSuper(AD1);
+    _inherits(AD1, AB);
+    var _super = _create_super(AD1);
     function AD1() {
-        swcHelpers.classCallCheck(this, AD1);
+        _class_call_check(this, AD1);
         return _super.apply(this, arguments);
     }
     return AD1;
 }(AB);
 var AD2 = /*#__PURE__*/ function(AB) {
     "use strict";
-    swcHelpers.inherits(AD2, AB);
-    var _super = swcHelpers.createSuper(AD2);
+    _inherits(AD2, AB);
+    var _super = _create_super(AD2);
     function AD2() {
-        swcHelpers.classCallCheck(this, AD2);
+        _class_call_check(this, AD2);
         return _super.apply(this, arguments);
     }
     return AD2;
 }(AB);
 var AD3 = /*#__PURE__*/ function(AB) {
     "use strict";
-    swcHelpers.inherits(AD3, AB);
-    var _super = swcHelpers.createSuper(AD3);
+    _inherits(AD3, AB);
+    var _super = _create_super(AD3);
     function AD3() {
-        swcHelpers.classCallCheck(this, AD3);
+        _class_call_check(this, AD3);
         return _super.apply(this, arguments);
     }
     var _proto = AD3.prototype;
@@ -41,10 +43,10 @@ var AD3 = /*#__PURE__*/ function(AB) {
 }(AB);
 var D4 = /*#__PURE__*/ function(AB) {
     "use strict";
-    swcHelpers.inherits(D4, AB);
-    var _super = swcHelpers.createSuper(D4);
+    _inherits(D4, AB);
+    var _super = _create_super(D4);
     function D4() {
-        swcHelpers.classCallCheck(this, D4);
+        _class_call_check(this, D4);
         return _super.apply(this, arguments);
     }
     var _proto = D4.prototype;

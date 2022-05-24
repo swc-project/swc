@@ -1,25 +1,25 @@
-import * as swcHelpers from "@swc/helpers";
-swcHelpers.extends({}, {
+import _extends from "@swc/helpers/lib/_extends.js";
+_extends({}, {
     x: 'foo'
-}), swcHelpers.extends({}, {
+}), _extends({}, {
     x: 32
-}), swcHelpers.extends({}, {
+}), _extends({}, {
     y: 32
-}), swcHelpers.extends({}, {
+}), _extends({}, {
     x: 32,
     y: 32
 }, {
     x: "ok"
-}), swcHelpers.extends({
+}), _extends({
     x: "ok"
 }, {
     x: 32,
     y: 32
-}), swcHelpers.extends({}, {
+}), _extends({}, {
     x: 'ok',
     y: 32,
     extra: 100
-}), swcHelpers.extends({
+}), _extends({
     x: 32
 }, {
     x: 'foo'

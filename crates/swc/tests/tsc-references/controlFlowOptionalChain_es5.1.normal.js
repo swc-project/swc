@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _instanceof from "@swc/helpers/lib/_instanceof.js";
+import _type_of from "@swc/helpers/lib/_type_of.js";
 var ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8;
 var a;
 o === null || o === void 0 ? void 0 : o[a = 1];
@@ -326,7 +327,7 @@ function f20(o) {
     if (typeof (o === null || o === void 0 ? void 0 : o.bar()) === "number") {
         o.bar;
     }
-    if (swcHelpers._instanceof(o === null || o === void 0 ? void 0 : o.baz, Error)) {
+    if (_instanceof(o === null || o === void 0 ? void 0 : o.baz, Error)) {
         o.baz;
     }
 }
@@ -340,7 +341,7 @@ function f21(o) {
     if (typeof (o === null || o === void 0 ? void 0 : o.bar()) === "number") {
         o.bar;
     }
-    if (swcHelpers._instanceof(o === null || o === void 0 ? void 0 : o.baz, Error)) {
+    if (_instanceof(o === null || o === void 0 ? void 0 : o.baz, Error)) {
         o.baz;
     }
 }
@@ -423,7 +424,7 @@ function f40(o) {
     }
 }
 function f41(o) {
-    switch(swcHelpers.typeOf(o === null || o === void 0 ? void 0 : o.foo)){
+    switch(_type_of(o === null || o === void 0 ? void 0 : o.foo)){
         case "string":
             o.foo;
             break;
