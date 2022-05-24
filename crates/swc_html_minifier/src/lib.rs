@@ -368,8 +368,6 @@ impl VisitMut for Minifier {
                 return true;
             }
 
-            let is_empty_value = (&*attribute.value.as_ref().unwrap()).trim().is_empty();
-
             if self.is_default_attribute_value(
                 n.namespace,
                 &n.tag_name,
@@ -388,10 +386,17 @@ impl VisitMut for Minifier {
                 },
             ) || (matches!(&*attribute.name, "id" | "class" | "style") && is_empty_value)
             {
+                attribute.value.as_ref().unwrap(),
+            ) {
                 return false;
             }
 
-            if self.is_event_handler_attribute(&attribute.name) && is_empty_value {
+            let value = &*attribute.value.as_ref().unwrap();
+
+            if (matches!(&*attribute.name, "id") && value.is_empty())
+                || (matches!(&*attribute.name, "class" | "style") && value.trim().is_empty())
+                || self.is_event_handler_attribute(&attribute.name) && value.trim().is_empty()
+            {
                 return false;
             }
 
