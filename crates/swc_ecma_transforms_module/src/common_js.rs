@@ -828,7 +828,11 @@ impl Fold for CommonJs {
 
             match import {
                 Some(import) => {
-                    let ty = scope.import_types.get(&src);
+                    let ty = if !src.starts_with("@swc/helpers") {
+                        scope.import_types.get(&src)
+                    } else {
+                        None
+                    };
                     let rhs = match ty {
                         Some(true) if !self.config.no_interop => Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
