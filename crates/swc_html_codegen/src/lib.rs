@@ -675,7 +675,11 @@ where
                 data.push('\n');
             }
 
-            data.push_str(&escape_string(&n.value, false));
+            if self.config.minify {
+                data.push_str(&minify_text(&n.value));
+            } else {
+                data.push_str(&escape_string(&n.value, false));
+            }
 
             write_str!(self, n.span, &data);
         }
@@ -1015,6 +1019,11 @@ fn minify_attribute_value(value: &str) -> String {
 
     for c in value.chars() {
         match c {
+            '&' => {
+                minified.push_str("&amp;");
+
+                continue;
+            }
             c if c.is_ascii_whitespace() => {
                 unquoted = false;
             }
@@ -1188,6 +1197,24 @@ fn normalize_attribute_value(value: &str) -> String {
     normalized.push('"');
 
     normalized
+}
+
+fn minify_text(value: &str) -> String {
+    let mut result = String::new();
+
+    for c in value.chars() {
+        match c {
+            '&' => {
+                result.push_str(&String::from("&amp;"));
+            }
+            '<' => {
+                result.push_str(&String::from("&lt;"));
+            }
+            _ => result.push(c),
+        }
+    }
+
+    result
 }
 
 // Escaping a string (for the purposes of the algorithm above) consists of
