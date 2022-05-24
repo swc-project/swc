@@ -86,7 +86,7 @@ impl Visit for ImportAnalyzer {
         } else if import.specifiers.len() == 1
             && matches!(import.specifiers[0], ImportSpecifier::Namespace(..))
         {
-            if &*import.src.value != "@swc/helpers" {
+            if !import.src.value.starts_with("@swc/helpers") {
                 scope.import_types.insert(import.src.value.clone(), true);
             }
         } else {
@@ -95,7 +95,7 @@ impl Visit for ImportAnalyzer {
             for s in &import.specifiers {
                 match *s {
                     ImportSpecifier::Namespace(ref _ns) => {
-                        if &*import.src.value != "@swc/helpers" {
+                        if !import.src.value.starts_with("@swc/helpers") {
                             scope.import_types.insert(import.src.value.clone(), true);
                         }
                     }

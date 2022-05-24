@@ -383,7 +383,7 @@ impl Scope {
                     )
                 });
 
-            if &*import.src.value != "@swc/helpers" {
+            if !import.src.value.starts_with("@swc/helpers") {
                 self.import_types.insert(import.src.value, true);
             }
         } else {
@@ -427,7 +427,7 @@ impl Scope {
                                 (import.src.span, Some((ns.local.sym.clone(), ns.local.span)))
                             });
 
-                        if &*import.src.value != "@swc/helpers" {
+                        if !import.src.value.starts_with("@swc/helpers") {
                             self.import_types.insert(import.src.value.clone(), true);
                         }
                     }
