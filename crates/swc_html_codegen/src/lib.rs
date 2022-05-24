@@ -291,6 +291,19 @@ where
                         _ => false,
                     },
 
+                    // A tr element's end tag can be omitted if the tr element is immediately
+                    // followed by another tr element, or if there is no more content in the parent
+                    // element.
+                    "tr" => match next {
+                        Some(Child::Element(Element {
+                            namespace,
+                            tag_name,
+                            ..
+                        })) if *namespace == Namespace::HTML && tag_name == "tr" => true,
+                        None => true,
+                        _ => false,
+                    },
+
                     // A th element's end tag can be omitted if the th element is immediately
                     // followed by a td or th element, or if there is no more content in the parent
                     // element.
