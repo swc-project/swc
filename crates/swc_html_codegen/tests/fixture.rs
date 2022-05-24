@@ -463,7 +463,6 @@ fn parser_recovery_verify(input: PathBuf) {
     );
 }
 
-// TODO minified verification
 // TODO - remove exclude when we implement `raw`, `context_element` and etc
 #[testing::fixture(
     "../swc_html_parser/tests/html5lib-tests-fixture/**/*.html",
@@ -525,6 +524,10 @@ fn html5lib_tests_verify(input: PathBuf) {
         minify: false,
         scripting_enabled,
     };
+    let minified_codegen_config = CodegenConfig {
+        minify: true,
+        scripting_enabled,
+    };
 
     if file_stem.contains("fragment") {
         let mut context_element_namespace = Namespace::HTML;
@@ -565,10 +568,18 @@ fn html5lib_tests_verify(input: PathBuf) {
 
         verify_document_fragment(
             &input,
-            context_element,
+            context_element.clone(),
             Some(parser_config),
             None,
             Some(codegen_config),
+            true,
+        );
+        verify_document_fragment(
+            &input,
+            context_element,
+            Some(parser_config),
+            None,
+            Some(minified_codegen_config),
             true,
         );
     } else {
@@ -577,6 +588,13 @@ fn html5lib_tests_verify(input: PathBuf) {
             Some(parser_config),
             None,
             Some(codegen_config),
+            true,
+        );
+        verify_document(
+            &input,
+            Some(parser_config),
+            None,
+            Some(minified_codegen_config),
             true,
         );
     }
