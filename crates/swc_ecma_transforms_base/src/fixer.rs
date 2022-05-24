@@ -478,6 +478,13 @@ impl VisitMut for Fixer<'_> {
         }
     }
 
+    fn visit_mut_spread_element(&mut self, e: &mut SpreadElement) {
+        let old = self.ctx;
+        self.ctx = Context::ForcedExpr;
+        e.visit_mut_children_with(self);
+        self.ctx = old;
+    }
+
     fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
         n.obj.visit_mut_with(self);
         n.prop.visit_mut_with(self);
@@ -998,12 +1005,13 @@ fn will_eat_else_token(s: &Stmt) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use super::fixer;
+    use crate::pass::noop;
 
     fn run_test(from: &str, to: &str) {
         crate::tests::test_transform(
             Default::default(),
-            |_| fixer(None),
+            // test_transform has alreay included fixer
+            |_| noop(),
             from,
             to,
             true,
@@ -1577,4 +1585,6 @@ var store = global[SHARED] || (global[SHARED] = {});
     test_fixer!(issue_2550_1, "(1 && { a: 1 })", "1 && { a:1 }");
 
     identical!(issue_2550_2, "({ isNewPrefsActive } && { a: 1 })");
+
+    identical!(issue_4761, "x = { ...(0, foo) }");
 }
