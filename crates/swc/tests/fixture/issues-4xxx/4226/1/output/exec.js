@@ -1,8 +1,8 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
 import regeneratorRuntime from "regenerator-runtime";
 import "reflect-metadata";
 var v0 = function() {
-    var _ref = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee(v1) {
+    var _ref = _async_to_generator(regeneratorRuntime.mark(function _callee(v1) {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:

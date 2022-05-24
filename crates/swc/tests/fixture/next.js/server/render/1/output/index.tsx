@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 import { Writable } from "stream";
 import React from "react";
 import * as ReactDOMServer from "react-dom/server";
@@ -234,14 +234,14 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
         locales: renderOpts.locales,
         defaultLocale: renderOpts.defaultLocale,
         AppTree: (props)=>{
-            return /*#__PURE__*/ React.createElement(AppContainer, null, /*#__PURE__*/ React.createElement(App, swcHelpers.extends({}, props, {
+            return /*#__PURE__*/ React.createElement(AppContainer, null, /*#__PURE__*/ React.createElement(App, _extends({}, props, {
                 Component: Component,
                 router: router
             })));
         },
         defaultGetInitialProps: async (docCtx)=>{
             const enhanceApp = (AppComp)=>{
-                return (props)=>/*#__PURE__*/ React.createElement(AppComp, swcHelpers.extends({}, props));
+                return (props)=>/*#__PURE__*/ React.createElement(AppComp, _extends({}, props));
             };
             const { html , head  } = await docCtx.renderPage({
                 enhanceApp
@@ -544,7 +544,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
                     throw new Error(`'router' and 'Component' can not be returned in getInitialProps from _app.js https://nextjs.org/docs/messages/cant-override-next-props`);
                 }
                 const { App: EnhancedApp , Component: EnhancedComponent  } = enhanceComponents(options, App, Component);
-                const html = ReactDOMServer.renderToString(/*#__PURE__*/ React.createElement(AppContainer, null, /*#__PURE__*/ React.createElement(EnhancedApp, swcHelpers.extends({
+                const html = ReactDOMServer.renderToString(/*#__PURE__*/ React.createElement(AppContainer, null, /*#__PURE__*/ React.createElement(EnhancedApp, _extends({
                     Component: EnhancedComponent,
                     router: router
                 }, props1))));
@@ -568,7 +568,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
                 bodyResult: piperFromArray([
                     docProps.html
                 ]),
-                documentElement: (htmlProps)=>/*#__PURE__*/ React.createElement(Document, swcHelpers.extends({}, htmlProps, docProps)),
+                documentElement: (htmlProps)=>/*#__PURE__*/ React.createElement(Document, _extends({}, htmlProps, docProps)),
                 head: docProps.head,
                 headTags: await headTags(documentCtx),
                 styles: docProps.styles
@@ -576,7 +576,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
         } else {
             const content = ctx.err && ErrorDebug ? /*#__PURE__*/ React.createElement(ErrorDebug, {
                 error: ctx.err
-            }) : /*#__PURE__*/ React.createElement(AppContainer, null, /*#__PURE__*/ React.createElement(App, swcHelpers.extends({}, props1, {
+            }) : /*#__PURE__*/ React.createElement(AppContainer, null, /*#__PURE__*/ React.createElement(App, _extends({}, props1, {
                 Component: Component,
                 router: router
             })));

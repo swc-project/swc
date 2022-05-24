@@ -1,4 +1,4 @@
-import * as a from "@swc/helpers";
+import a from "@swc/helpers/lib/_instanceof.js";
 import { timeDay as b, timeSunday as c, timeMonday as d, timeThursday as e, timeYear as f, utcDay as g, utcSunday as h, utcMonday as i, utcThursday as j, utcYear as k } from "d3-time";
 function l(a) {
     if (0 <= a.y && a.y < 100) {
@@ -29,7 +29,7 @@ export default function o(c) {
     var e = function(b, c) {
         return function(f) {
             var e, h, j, g = [], d = -1, i = 0, k = b.length;
-            for(a._instanceof(f, Date) || (f = new Date(+f)); ++d < k;)37 === b.charCodeAt(d) && (g.push(b.slice(i, d)), null != (h = p[e = b.charAt(++d)]) ? e = b.charAt(++d) : h = "e" === e ? " " : "0", (j = c[e]) && (e = j(f, h)), g.push(e), i = d + 1);
+            for(a(f, Date) || (f = new Date(+f)); ++d < k;)37 === b.charCodeAt(d) && (g.push(b.slice(i, d)), null != (h = p[e = b.charAt(++d)]) ? e = b.charAt(++d) : h = "e" === e ? " " : "0", (j = c[e]) && (e = j(f, h)), g.push(e), i = d + 1);
             return g.push(b.slice(i, d)), g.join("");
         };
     }, aa = function(a, c) {

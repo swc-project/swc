@@ -1,6 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
 import regeneratorRuntime from "regenerator-runtime";
-var handleSubmit = useMutation(swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+var handleSubmit = useMutation(_async_to_generator(regeneratorRuntime.mark(function _callee() {
     var res, errors;
     return regeneratorRuntime.wrap(function _callee$(_ctx) {
         while(1)switch(_ctx.prev = _ctx.next){

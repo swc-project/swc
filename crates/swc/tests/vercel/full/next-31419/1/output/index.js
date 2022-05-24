@@ -1,7 +1,7 @@
-import * as a from "@swc/helpers";
+import a from "@swc/helpers/lib/_async_to_generator.js";
 import b from "regenerator-runtime";
 Promise.all(assignAll).then(function() {
-    var c = a.asyncToGenerator(b.mark(function a(c) {
+    var c = a(b.mark(function a(c) {
         var d, e, f, g;
         return b.wrap(function(a) {
             for(;;)switch(a.prev = a.next){
@@ -30,7 +30,7 @@ Promise.all(assignAll).then(function() {
 }());
 export var listOfUser = function(d) {
     var c;
-    return new Promise((c = a.asyncToGenerator(b.mark(function a(c, e) {
+    return new Promise((c = a(b.mark(function a(c, e) {
         var f;
         return b.wrap(function(a) {
             for(;;)switch(a.prev = a.next){
