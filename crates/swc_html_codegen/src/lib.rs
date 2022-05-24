@@ -219,9 +219,24 @@ where
                 && match &*n.tag_name {
                     // Tag omission in text/html:
 
+                    // An html element's end tag can be omitted if the html element is not
+                    // immediately followed by a comment.
+                    //
                     // A body element's end tag can be omitted if the body element is not
                     // immediately followed by a comment.
-                    "body" => match next {
+                    "html" | "body" => match next {
+                        Some(Child::Comment(..)) => false,
+                        _ => true,
+                    },
+
+                    // A head element's end tag can be omitted if the head element is not
+                    // immediately followed by ASCII whitespace or a comment.
+                    "head" => match next {
+                        Some(Child::Text(text))
+                            if text.value.chars().nth(0).unwrap().is_ascii_whitespace() =>
+                        {
+                            false
+                        }
                         Some(Child::Comment(..)) => false,
                         _ => true,
                     },
