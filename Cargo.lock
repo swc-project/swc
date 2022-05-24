@@ -3639,6 +3639,7 @@ dependencies = [
  "ahash",
  "anyhow",
  "indexmap",
+ "path-clean",
  "pathdiff",
  "serde",
  "serde_json",
