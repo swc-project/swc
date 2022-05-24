@@ -425,10 +425,19 @@ fn test_indent_type_option(input: PathBuf) {
     );
 }
 
-// TODO minified verification
 #[testing::fixture("../swc_html_parser/tests/fixture/**/*.html")]
 fn parser_verify(input: PathBuf) {
     verify_document(&input, None, None, None, false);
+    verify_document(
+        &input,
+        None,
+        None,
+        Some(CodegenConfig {
+            scripting_enabled: false,
+            minify: true,
+        }),
+        false,
+    );
 }
 
 #[testing::fixture(
@@ -442,8 +451,19 @@ fn parser_verify(input: PathBuf) {
 )]
 fn parser_recovery_verify(input: PathBuf) {
     verify_document(&input, None, None, None, true);
+    verify_document(
+        &input,
+        None,
+        None,
+        Some(CodegenConfig {
+            scripting_enabled: false,
+            minify: true,
+        }),
+        false,
+    );
 }
 
+// TODO minified verification
 // TODO - remove exclude when we implement `raw`, `context_element` and etc
 #[testing::fixture(
     "../swc_html_parser/tests/html5lib-tests-fixture/**/*.html",
