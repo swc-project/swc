@@ -425,6 +425,7 @@ fn test_indent_type_option(input: PathBuf) {
     );
 }
 
+// TODO minified verification
 #[testing::fixture("../swc_html_parser/tests/fixture/**/*.html")]
 fn parser_verify(input: PathBuf) {
     verify_document(&input, None, None, None, false);
