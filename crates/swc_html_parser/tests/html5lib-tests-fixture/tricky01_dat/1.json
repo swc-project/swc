@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 0,
-    "end": 288,
+    "start": 1,
+    "end": 289,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -10,8 +10,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 0,
-        "end": 288,
+        "start": 1,
+        "end": 289,
         "ctxt": 0
       },
       "tagName": "html",
@@ -22,7 +22,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 23,
+            "end": 24,
             "ctxt": 0
           },
           "tagName": "head",
@@ -35,7 +35,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 288,
+            "end": 289,
             "ctxt": 0
           },
           "tagName": "body",
@@ -45,8 +45,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 7,
-                "end": 40,
+                "start": 8,
+                "end": 41,
                 "ctxt": 0
               },
               "tagName": "font",
@@ -55,8 +55,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 14,
+                    "end": 23,
                     "ctxt": 0
                   },
                   "namespace": null,
@@ -69,8 +69,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 23,
-                    "end": 40,
+                    "start": 24,
+                    "end": 41,
                     "ctxt": 0
                   },
                   "tagName": "i",
@@ -80,8 +80,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 26,
-                        "end": 40,
+                        "start": 27,
+                        "end": 41,
                         "ctxt": 0
                       },
                       "value": "Italic and Red"
@@ -95,8 +95,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 23,
-                "end": 95,
+                "start": 24,
+                "end": 96,
                 "ctxt": 0
               },
               "tagName": "i",
@@ -106,8 +106,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 40,
-                    "end": 78,
+                    "start": 41,
+                    "end": 79,
                     "ctxt": 0
                   },
                   "tagName": "p",
@@ -117,8 +117,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 7,
-                        "end": 58,
+                        "start": 8,
+                        "end": 59,
                         "ctxt": 0
                       },
                       "tagName": "font",
@@ -127,8 +127,8 @@
                         {
                           "type": "Attribute",
                           "span": {
-                            "start": 0,
-                            "end": 0,
+                            "start": 14,
+                            "end": 23,
                             "ctxt": 0
                           },
                           "namespace": null,
@@ -141,8 +141,8 @@
                         {
                           "type": "Text",
                           "span": {
-                            "start": 43,
-                            "end": 58,
+                            "start": 44,
+                            "end": 59,
                             "ctxt": 0
                           },
                           "value": "Italic and Red "
@@ -153,8 +153,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 65,
-                        "end": 78,
+                        "start": 66,
+                        "end": 79,
                         "ctxt": 0
                       },
                       "value": " Just italic."
@@ -165,8 +165,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 82,
-                    "end": 95,
+                    "start": 83,
+                    "end": 96,
                     "ctxt": 0
                   },
                   "value": " Italic only."
@@ -177,8 +177,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 99,
-                "end": 106,
+                "start": 100,
+                "end": 107,
                 "ctxt": 0
               },
               "value": " Plain\n"
@@ -186,8 +186,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 106,
-                "end": 169,
+                "start": 107,
+                "end": 170,
                 "ctxt": 0
               },
               "tagName": "p",
@@ -197,8 +197,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 109,
-                    "end": 130,
+                    "start": 110,
+                    "end": 131,
                     "ctxt": 0
                   },
                   "value": "I should not be red. "
@@ -206,8 +206,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 130,
-                    "end": 169,
+                    "start": 131,
+                    "end": 170,
                     "ctxt": 0
                   },
                   "tagName": "font",
@@ -216,8 +216,8 @@
                     {
                       "type": "Attribute",
                       "span": {
-                        "start": 0,
-                        "end": 0,
+                        "start": 137,
+                        "end": 146,
                         "ctxt": 0
                       },
                       "namespace": null,
@@ -230,8 +230,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 146,
-                        "end": 151,
+                        "start": 147,
+                        "end": 152,
                         "ctxt": 0
                       },
                       "value": "Red. "
@@ -239,8 +239,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 151,
-                        "end": 169,
+                        "start": 152,
+                        "end": 170,
                         "ctxt": 0
                       },
                       "tagName": "i",
@@ -250,8 +250,8 @@
                         {
                           "type": "Text",
                           "span": {
-                            "start": 154,
-                            "end": 169,
+                            "start": 155,
+                            "end": 170,
                             "ctxt": 0
                           },
                           "value": "Italic and red."
@@ -268,8 +268,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 130,
-                "end": 174,
+                "start": 131,
+                "end": 175,
                 "ctxt": 0
               },
               "tagName": "font",
@@ -278,8 +278,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 137,
+                    "end": 146,
                     "ctxt": 0
                   },
                   "namespace": null,
@@ -292,8 +292,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 151,
-                    "end": 174,
+                    "start": 152,
+                    "end": 175,
                     "ctxt": 0
                   },
                   "tagName": "i",
@@ -303,8 +303,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 173,
-                        "end": 174,
+                        "start": 174,
+                        "end": 175,
                         "ctxt": 0
                       },
                       "value": "\n"
@@ -318,8 +318,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 174,
-                "end": 230,
+                "start": 175,
+                "end": 231,
                 "ctxt": 0
               },
               "tagName": "p",
@@ -329,8 +329,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 130,
-                    "end": 202,
+                    "start": 131,
+                    "end": 203,
                     "ctxt": 0
                   },
                   "tagName": "font",
@@ -339,8 +339,8 @@
                     {
                       "type": "Attribute",
                       "span": {
-                        "start": 0,
-                        "end": 0,
+                        "start": 137,
+                        "end": 146,
                         "ctxt": 0
                       },
                       "namespace": null,
@@ -353,8 +353,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 151,
-                        "end": 193,
+                        "start": 152,
+                        "end": 194,
                         "ctxt": 0
                       },
                       "tagName": "i",
@@ -364,8 +364,8 @@
                         {
                           "type": "Text",
                           "span": {
-                            "start": 177,
-                            "end": 193,
+                            "start": 178,
+                            "end": 194,
                             "ctxt": 0
                           },
                           "value": "Italic and red. "
@@ -376,8 +376,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 197,
-                        "end": 202,
+                        "start": 198,
+                        "end": 203,
                         "ctxt": 0
                       },
                       "value": " Red."
@@ -388,8 +388,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 209,
-                    "end": 230,
+                    "start": 210,
+                    "end": 231,
                     "ctxt": 0
                   },
                   "value": " I should not be red."
@@ -400,8 +400,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 234,
-                "end": 235,
+                "start": 235,
+                "end": 236,
                 "ctxt": 0
               },
               "value": "\n"
@@ -409,8 +409,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 235,
-                "end": 261,
+                "start": 236,
+                "end": 262,
                 "ctxt": 0
               },
               "tagName": "b",
@@ -420,8 +420,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 238,
-                    "end": 243,
+                    "start": 239,
+                    "end": 244,
                     "ctxt": 0
                   },
                   "value": "Bold "
@@ -429,8 +429,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 243,
-                    "end": 261,
+                    "start": 244,
+                    "end": 262,
                     "ctxt": 0
                   },
                   "tagName": "i",
@@ -440,8 +440,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 246,
-                        "end": 261,
+                        "start": 247,
+                        "end": 262,
                         "ctxt": 0
                       },
                       "value": "Bold and italic"
@@ -455,8 +455,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 243,
-                "end": 278,
+                "start": 244,
+                "end": 279,
                 "ctxt": 0
               },
               "tagName": "i",
@@ -466,8 +466,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 265,
-                    "end": 278,
+                    "start": 266,
+                    "end": 279,
                     "ctxt": 0
                   },
                   "value": " Only Italic "
@@ -478,8 +478,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 282,
-                "end": 288,
+                "start": 283,
+                "end": 289,
                 "ctxt": 0
               },
               "value": " Plain"

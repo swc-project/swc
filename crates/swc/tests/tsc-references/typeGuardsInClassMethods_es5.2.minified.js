@@ -1,9 +1,9 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var num, var1, C1 = function() {
     "use strict";
     function C1(param) {
         var var2;
-        swcHelpers.classCallCheck(this, C1), num = "string" == typeof var1 && var1.length, num = "string" == typeof var2 && var2.length, num = "string" == typeof param && param.length;
+        _class_call_check(this, C1), num = "string" == typeof var1 && var1.length, num = "string" == typeof var2 && var2.length, num = "string" == typeof param && param.length;
     }
     var _proto = C1.prototype;
     return _proto.p1 = function(param) {

@@ -1,0 +1,36 @@
+| <!DOCTYPE html>
+| <html>
+|   lang="en"
+|   <head>
+|     "
+    "
+|     <title>
+|       "Document"
+|     "
+"
+|   "
+"
+|   <body>
+|     "
+"
+|     <object>
+|       data="image.svg"
+|       type="image/svg+xml"
+|       <div>
+|         "[fallback image]"
+|     "
+
+"
+|     <object>
+|       data="horse.wav"
+|       "
+    "
+|       <param>
+|         name="autoplay"
+|         value="true"
+|       "
+"
+|     "
+
+
+"

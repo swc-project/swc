@@ -1,0 +1,10 @@
+(1,7): expected-doctype-but-got-start-tag
+(3,8): unexpected-start-tag-implies-table-voodoo
+(3,16): unexpected-start-tag-implies-table-voodoo
+(4,6): unexpected-start-tag-implies-table-voodoo
+(4,6): unexpected character token in table (the newline)
+(5,7): unexpected-start-tag-implies-end-tag
+(6,4): unexpected p end tag
+(7,10): adoption-agency-1.3
+(7,20): adoption-agency-1.3
+(8,57): expected-closing-tag-but-got-eof

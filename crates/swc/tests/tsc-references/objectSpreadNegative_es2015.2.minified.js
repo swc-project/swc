@@ -1,19 +1,19 @@
-import * as swcHelpers from "@swc/helpers";
+import _object_spread from "@swc/helpers/lib/_object_spread.js";
 let o = {
     a: 1,
     b: 'no'
-}, o2 = swcHelpers.objectSpread({}, publicX, privateOptionalX);
-o2.x, swcHelpers.objectSpread({}, optionalString, optionalNumber), swcHelpers.objectSpread({}, {
+}, o2 = _object_spread({}, publicX, privateOptionalX);
+o2.x, _object_spread({}, optionalString, optionalNumber), _object_spread({}, {
     b: !0
 }, {
     s: "foo"
-}), swcHelpers.objectSpread({
+}), _object_spread({
     b: 'bad'
 }, o, {
     b: 'bad'
 }, o2, {
     b: 'bad'
-}), swcHelpers.objectSpread({}, o, o), swcHelpers.objectSpread({
+}), _object_spread({}, o, o), _object_spread({
     b: 'ignored'
 }, o);
 let o3 = {
@@ -23,11 +23,11 @@ let o3 = {
     b: 'yes',
     c: !0
 };
-swcHelpers.objectSpread({
+_object_spread({
     b: 'ok'
-}, o3, o4), swcHelpers.objectSpread({}, o3, {
+}, o3, o4), _object_spread({}, o3, {
     b: 'ok'
-}, o4), swcHelpers.objectSpread({}, swcHelpers.objectSpread({
+}, o4), _object_spread({}, _object_spread({
     a: 4
 }, {
     b: !1,
@@ -37,22 +37,20 @@ swcHelpers.objectSpread({
 }, {
     a: 5,
     d: 'maybe new'
-}), swcHelpers.objectSpread({
+}), _object_spread({
     a: 'wrong type?'
-}, o3), swcHelpers.objectSpread({}, o3, {
-    ['in the middle']: 13,
+}, o3), _object_spread({}, o3, {
+    'in the middle': 13,
     b: 'maybe?'
-}, o4), swcHelpers.objectSpread({}, 12), swcHelpers.objectSpread({}, 2), swcHelpers.objectSpread({}, 0).toFixed(), swcHelpers.objectSpread({}, !0).valueOf();
-let spreadStr = swcHelpers.objectSpread({}, 'foo');
-spreadStr.length, spreadStr.charAt(1), swcHelpers.objectSpread({}, function() {})(), swcHelpers.objectSpread({}, {
+}, o4), _object_spread({}, 12), _object_spread({}, 2), _object_spread({}, 0).toFixed(), _object_spread({}, !0).valueOf();
+let spreadStr = _object_spread({}, 'foo');
+spreadStr.length, spreadStr.charAt(1), _object_spread({}, function() {})(), _object_spread({}, {
     set b (bad){}
-}).b = 12;
-let c = new class {
+}).b = 12, _object_spread({}, new class {
     m() {}
     constructor(){
         this.p = 1;
     }
-}();
-swcHelpers.objectSpread({}, c).m(), swcHelpers.objectSpread({}, {
+}()).m(), _object_spread({}, {
     a: 123
 }).a;

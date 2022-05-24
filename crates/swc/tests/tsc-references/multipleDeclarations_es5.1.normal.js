@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @filename: input.js
 // @out: output.js
 // @allowJs: true
@@ -11,7 +11,7 @@ C.prototype.m = function() {
 var X = /*#__PURE__*/ function() {
     "use strict";
     function X() {
-        swcHelpers.classCallCheck(this, X);
+        _class_call_check(this, X);
         this.m = this.m.bind(this);
         this.mistake = "frankly, complete nonsense";
     }
@@ -27,7 +27,7 @@ x.mistake;
 var Y = /*#__PURE__*/ function() {
     "use strict";
     function Y() {
-        swcHelpers.classCallCheck(this, Y);
+        _class_call_check(this, Y);
         this.m = this.m.bind(this);
         this.mistake = "even more nonsense";
     }

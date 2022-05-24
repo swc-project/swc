@@ -1,7 +1,9 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var A = function A() {
     "use strict";
-    swcHelpers.classCallCheck(this, A);
+    _class_call_check(this, A);
 };
 var a;
 var b;
@@ -9,10 +11,10 @@ a = b; // error
 b = a; // ok
 var B2 = /*#__PURE__*/ function(A) {
     "use strict";
-    swcHelpers.inherits(B2, A);
-    var _super = swcHelpers.createSuper(B2);
+    _inherits(B2, A);
+    var _super = _create_super(B2);
     function B2() {
-        swcHelpers.classCallCheck(this, B2);
+        _class_call_check(this, B2);
         return _super.apply(this, arguments);
     }
     return B2;
@@ -33,6 +35,6 @@ var Generics;
     };
     var A = function A() {
         "use strict";
-        swcHelpers.classCallCheck(this, A);
+        _class_call_check(this, A);
     };
 })(Generics || (Generics = {}));

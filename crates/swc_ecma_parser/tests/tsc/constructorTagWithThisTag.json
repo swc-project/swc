@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 199,
-    "end": 239,
+    "start": 200,
+    "end": 240,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 208,
-          "end": 209,
+          "start": 209,
+          "end": 210,
           "ctxt": 0
         },
         "value": "C",
@@ -22,53 +22,53 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 199,
-        "end": 239,
+        "start": 200,
+        "end": 240,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 212,
-          "end": 239,
+          "start": 213,
+          "end": 240,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
-              "start": 218,
-              "end": 237,
+              "start": 219,
+              "end": 238,
               "ctxt": 0
             },
             "expression": {
               "type": "AssignmentExpression",
               "span": {
-                "start": 218,
-                "end": 237,
+                "start": 219,
+                "end": 238,
                 "ctxt": 0
               },
               "operator": "=",
               "left": {
                 "type": "MemberExpression",
                 "span": {
-                  "start": 218,
-                  "end": 224,
+                  "start": 219,
+                  "end": 225,
                   "ctxt": 0
                 },
                 "object": {
                   "type": "ThisExpression",
                   "span": {
-                    "start": 218,
-                    "end": 222,
+                    "start": 219,
+                    "end": 223,
                     "ctxt": 0
                   }
                 },
                 "property": {
                   "type": "Identifier",
                   "span": {
-                    "start": 223,
-                    "end": 224,
+                    "start": 224,
+                    "end": 225,
                     "ctxt": 0
                   },
                   "value": "e",
@@ -78,31 +78,31 @@
               "right": {
                 "type": "BinaryExpression",
                 "span": {
-                  "start": 227,
-                  "end": 237,
+                  "start": 228,
+                  "end": 238,
                   "ctxt": 0
                 },
                 "operator": "+",
                 "left": {
                   "type": "MemberExpression",
                   "span": {
-                    "start": 227,
-                    "end": 233,
+                    "start": 228,
+                    "end": 234,
                     "ctxt": 0
                   },
                   "object": {
                     "type": "ThisExpression",
                     "span": {
-                      "start": 227,
-                      "end": 231,
+                      "start": 228,
+                      "end": 232,
                       "ctxt": 0
                     }
                   },
                   "property": {
                     "type": "Identifier",
                     "span": {
-                      "start": 232,
-                      "end": 233,
+                      "start": 233,
+                      "end": 234,
                       "ctxt": 0
                     },
                     "value": "m",
@@ -112,8 +112,8 @@
                 "right": {
                   "type": "NumericLiteral",
                   "span": {
-                    "start": 236,
-                    "end": 237,
+                    "start": 237,
+                    "end": 238,
                     "ctxt": 0
                   },
                   "value": 1.0,

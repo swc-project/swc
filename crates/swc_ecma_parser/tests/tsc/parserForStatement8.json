@@ -1,31 +1,31 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 19,
+    "start": 1,
+    "end": 20,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ForInStatement",
       "span": {
-        "start": 0,
-        "end": 19,
+        "start": 1,
+        "end": 20,
         "ctxt": 0
       },
       "left": {
         "type": "ThisExpression",
         "span": {
-          "start": 5,
-          "end": 9,
+          "start": 6,
+          "end": 10,
           "ctxt": 0
         }
       },
       "right": {
         "type": "Identifier",
         "span": {
-          "start": 13,
-          "end": 14,
+          "start": 14,
+          "end": 15,
           "ctxt": 0
         },
         "value": "b",
@@ -34,8 +34,8 @@
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 16,
-          "end": 19,
+          "start": 17,
+          "end": 20,
           "ctxt": 0
         },
         "stmts": []

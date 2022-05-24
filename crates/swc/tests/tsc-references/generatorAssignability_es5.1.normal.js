@@ -1,25 +1,33 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_generator_delegate from "@swc/helpers/lib/_async_generator_delegate.js";
+import _async_iterator from "@swc/helpers/lib/_async_iterator.js";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
+import _await_async_generator from "@swc/helpers/lib/_await_async_generator.js";
+import _define_property from "@swc/helpers/lib/_define_property.js";
+import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
+import _to_array from "@swc/helpers/lib/_to_array.js";
+import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
+import _wrap_async_generator from "@swc/helpers/lib/_wrap_async_generator.js";
 import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(f1);
 // spread iterable
-swcHelpers.toConsumableArray(g1); // error
-swcHelpers.toConsumableArray(g2); // ok
+_to_consumable_array(g1); // error
+_to_consumable_array(g2); // ok
 // binding pattern over iterable
-var _g1 = swcHelpers.slicedToArray(g1, 1), x1 = _g1[0]; // error
-var _g2 = swcHelpers.slicedToArray(g2, 1), x2 = _g2[0]; // ok
+var _g1 = _sliced_to_array(g1, 1), x1 = _g1[0]; // error
+var _g2 = _sliced_to_array(g2, 1), x2 = _g2[0]; // ok
 // binding rest pattern over iterable
-var _g11 = swcHelpers.toArray(g1), y1 = _g11.slice(0); // error
-var _g21 = swcHelpers.toArray(g2), y2 = _g21.slice(0); // ok
+var _g11 = _to_array(g1), y1 = _g11.slice(0); // error
+var _g21 = _to_array(g2), y2 = _g21.slice(0); // ok
 var ref;
 // assignment pattern over iterable
-ref = swcHelpers.slicedToArray(g1, 1), _ = ref[0], ref; // error
+ref = _sliced_to_array(g1, 1), _ = ref[0], ref; // error
 var ref1;
-ref1 = swcHelpers.slicedToArray(g2, 1), _ = ref1[0], ref1; // ok
+ref1 = _sliced_to_array(g2, 1), _ = ref1[0], ref1; // ok
 var ref2;
 // assignment rest pattern over iterable
-ref2 = swcHelpers.toArray(g1), _ = ref2.slice(0), ref2; // error
+ref2 = _to_array(g1), _ = ref2.slice(0), ref2; // error
 var ref3;
-ref3 = swcHelpers.toArray(g2), _ = ref3.slice(0), ref3; // ok
+ref3 = _to_array(g2), _ = ref3.slice(0), ref3; // ok
 var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
 try {
     // for-of over iterable
@@ -65,14 +73,14 @@ function asyncfn() {
     return _asyncfn.apply(this, arguments);
 }
 function _asyncfn() {
-    _asyncfn = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    _asyncfn = _async_to_generator(regeneratorRuntime.mark(function _callee() {
         var _iteratorAbruptCompletion, _didIteratorError5, _iteratorError5, _iterator, _step, _value, _iteratorAbruptCompletion1, _didIteratorError2, _iteratorError2, _iterator2, _step2, _value1, _iteratorAbruptCompletion2, _didIteratorError3, _iteratorError3, _iterator3, _step3, _value2, _iteratorAbruptCompletion3, _didIteratorError4, _iteratorError4, _iterator4, _step4, _value3;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
                     _iteratorAbruptCompletion = false, _didIteratorError5 = false;
                     _ctx.prev = 1;
-                    _iterator = swcHelpers.asyncIterator(g1);
+                    _iterator = _async_iterator(g1);
                 case 3:
                     _ctx.next = 5;
                     return _iterator.next();
@@ -106,7 +114,7 @@ function _asyncfn() {
                         break;
                     }
                     _ctx.next = 21;
-                    return _iteratorError5.return();
+                    return _iterator.return();
                 case 21:
                     _ctx.prev = 21;
                     if (!_didIteratorError5) {
@@ -121,7 +129,7 @@ function _asyncfn() {
                 case 26:
                     _iteratorAbruptCompletion1 = false, _didIteratorError2 = false;
                     _ctx.prev = 27;
-                    _iterator2 = swcHelpers.asyncIterator(g2);
+                    _iterator2 = _async_iterator(g2);
                 case 29:
                     _ctx.next = 31;
                     return _iterator2.next();
@@ -155,7 +163,7 @@ function _asyncfn() {
                         break;
                     }
                     _ctx.next = 47;
-                    return _iteratorError2.return();
+                    return _iterator2.return();
                 case 47:
                     _ctx.prev = 47;
                     if (!_didIteratorError2) {
@@ -170,7 +178,7 @@ function _asyncfn() {
                 case 52:
                     _iteratorAbruptCompletion2 = false, _didIteratorError3 = false;
                     _ctx.prev = 53;
-                    _iterator3 = swcHelpers.asyncIterator(g4);
+                    _iterator3 = _async_iterator(g4);
                 case 55:
                     _ctx.next = 57;
                     return _iterator3.next();
@@ -204,7 +212,7 @@ function _asyncfn() {
                         break;
                     }
                     _ctx.next = 73;
-                    return _iteratorError3.return();
+                    return _iterator3.return();
                 case 73:
                     _ctx.prev = 73;
                     if (!_didIteratorError3) {
@@ -219,7 +227,7 @@ function _asyncfn() {
                 case 78:
                     _iteratorAbruptCompletion3 = false, _didIteratorError4 = false;
                     _ctx.prev = 79;
-                    _iterator4 = swcHelpers.asyncIterator(g5);
+                    _iterator4 = _async_iterator(g5);
                 case 81:
                     _ctx.next = 83;
                     return _iterator4.next();
@@ -253,7 +261,7 @@ function _asyncfn() {
                         break;
                     }
                     _ctx.next = 99;
-                    return _iteratorError4.return();
+                    return _iterator4.return();
                 case 99:
                     _ctx.prev = 99;
                     if (!_didIteratorError4) {
@@ -340,19 +348,19 @@ function f2() {
     return _f2.apply(this, arguments);
 }
 function _f2() {
-    _f2 = swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+    _f2 = _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
                     // yield* over iterable
-                    return _ctx.delegateYield(swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator(g1), swcHelpers.awaitAsyncGenerator), "t0", 1);
+                    return _ctx.delegateYield(_async_generator_delegate(_async_iterator(g1), _await_async_generator), "t0", 1);
                 case 1:
-                    return _ctx.delegateYield(swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator(g3), swcHelpers.awaitAsyncGenerator), "t1", 2);
+                    return _ctx.delegateYield(_async_generator_delegate(_async_iterator(g3), _await_async_generator), "t1", 2);
                 case 2:
                     // yield* over asynciterable
-                    return _ctx.delegateYield(swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator(g4), swcHelpers.awaitAsyncGenerator), "t2", 3);
+                    return _ctx.delegateYield(_async_generator_delegate(_async_iterator(g4), _await_async_generator), "t2", 3);
                 case 3:
-                    return _ctx.delegateYield(swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator(g6), swcHelpers.awaitAsyncGenerator), "t3", 4);
+                    return _ctx.delegateYield(_async_generator_delegate(_async_iterator(g6), _await_async_generator), "t3", 4);
                 case 4:
                 case "end":
                     return _ctx.stop();
@@ -365,7 +373,7 @@ function f3() {
     return _f3.apply(this, arguments);
 }
 function _f3() {
-    _f3 = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    _f3 = _async_to_generator(regeneratorRuntime.mark(function _callee() {
         var syncGenerator, o, _iteratorAbruptCompletion, _didIteratorError6, _iteratorError6, _iterator, _step, _value, x;
         return regeneratorRuntime.wrap(function _callee$(_ctx1) {
             while(1)switch(_ctx1.prev = _ctx1.next){
@@ -385,10 +393,10 @@ function _f3() {
                             }
                         }, syncGenerator);
                     });
-                    o = swcHelpers.defineProperty({}, Symbol.asyncIterator, syncGenerator);
+                    o = _define_property({}, Symbol.asyncIterator, syncGenerator);
                     _iteratorAbruptCompletion = false, _didIteratorError6 = false;
                     _ctx1.prev = 3;
-                    _iterator = swcHelpers.asyncIterator(o);
+                    _iterator = _async_iterator(o);
                 case 5:
                     _ctx1.next = 7;
                     return _iterator.next();
@@ -421,7 +429,7 @@ function _f3() {
                         break;
                     }
                     _ctx1.next = 23;
-                    return _iteratorError6.return();
+                    return _iterator.return();
                 case 23:
                     _ctx1.prev = 23;
                     if (!_didIteratorError6) {

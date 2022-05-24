@@ -22,11 +22,11 @@ use swc_html_parser::{
 use swc_html_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 use testing::NormalizedOutput;
 
-fn test_pass(input: PathBuf, config: ParserConfig) {
+fn document_test(input: PathBuf, config: ParserConfig) {
     testing::run_test2(false, |cm, handler| {
         let json_path = input.parent().unwrap().join("output.json");
         let fm = cm.load_file(&input).unwrap();
-        let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
+        let lexer = Lexer::new(SourceFileInput::from(&*fm));
         let mut parser = Parser::new(lexer, config);
         let document: PResult<Document> = parser.parse_document();
         let errors = parser.take_errors();
@@ -62,7 +62,7 @@ fn test_pass(input: PathBuf, config: ParserConfig) {
     .unwrap();
 }
 
-fn test_recovery(input: PathBuf, config: ParserConfig) {
+fn document_recovery_test(input: PathBuf, config: ParserConfig) {
     let stderr_path = input.parent().unwrap().join("output.stderr");
     let mut recovered = false;
 
@@ -74,7 +74,7 @@ fn test_recovery(input: PathBuf, config: ParserConfig) {
 
         let json_path = input.parent().unwrap().join("output.json");
         let fm = cm.load_file(&input).unwrap();
-        let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
+        let lexer = Lexer::new(SourceFileInput::from(&*fm));
         let mut parser = Parser::new(lexer, config);
         let document: PResult<Document> = parser.parse_document();
         let errors = parser.take_errors();
@@ -120,7 +120,7 @@ fn test_recovery(input: PathBuf, config: ParserConfig) {
     stderr.compare_to_file(&stderr_path).unwrap();
 }
 
-fn test_span_visualizer(input: PathBuf, config: ParserConfig) {
+fn document_span_visualizer(input: PathBuf, config: ParserConfig) {
     let dir = input.parent().unwrap().to_path_buf();
 
     let output = testing::run_test2(false, |cm, handler| {
@@ -130,7 +130,7 @@ fn test_span_visualizer(input: PathBuf, config: ParserConfig) {
         }
 
         let fm = cm.load_file(&input).unwrap();
-        let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
+        let lexer = Lexer::new(SourceFileInput::from(&*fm));
         let mut parser = Parser::new(lexer, config);
 
         let document: PResult<Document> = parser.parse_document();
@@ -158,6 +158,49 @@ fn test_span_visualizer(input: PathBuf, config: ParserConfig) {
         .unwrap();
 }
 
+fn document_dom_visualizer(input: PathBuf, config: ParserConfig) {
+    let dir = input.parent().unwrap().to_path_buf();
+
+    testing::run_test2(false, |cm, handler| {
+        // Type annotation
+        if false {
+            return Ok(());
+        }
+
+        let fm = cm.load_file(&input).unwrap();
+        let lexer = Lexer::new(SourceFileInput::from(&*fm));
+        let mut parser = Parser::new(lexer, config);
+
+        let document: PResult<Document> = parser.parse_document();
+
+        match document {
+            Ok(mut document) => {
+                let mut dom_buf = String::new();
+
+                document.visit_mut_with(&mut DomVisualizer {
+                    dom_buf: &mut dom_buf,
+                    indent: 0,
+                });
+
+                NormalizedOutput::from(dom_buf)
+                    .compare_to_file(&dir.join("dom.rust-debug"))
+                    .unwrap();
+
+                Ok(())
+            }
+            Err(err) => {
+                let mut d = err.to_diagnostics(&handler);
+
+                d.note(&format!("current token = {}", parser.dump_cur()));
+                d.emit();
+
+                panic!();
+            }
+        }
+    })
+    .unwrap();
+}
+
 struct SpanVisualizer<'a> {
     handler: &'a Handler,
 }
@@ -165,9 +208,14 @@ struct SpanVisualizer<'a> {
 macro_rules! mtd {
     ($T:ty,$name:ident) => {
         fn $name(&mut self, n: &$T) {
-            self.handler
-                .struct_span_err(n.span(), stringify!($T))
-                .emit();
+            let span = n.span();
+
+            // We should not have dummy span in original parsing
+            if span.lo == BytePos(0) && span.hi == BytePos(0) {
+                panic!("Broken span");
+            }
+
+            self.handler.struct_span_err(span, stringify!($T)).emit();
 
             n.visit_children_with(self);
         }
@@ -364,7 +412,7 @@ impl VisitMut for DomVisualizer<'_> {
 
 #[testing::fixture("tests/fixture/**/*.html")]
 fn pass(input: PathBuf) {
-    test_pass(
+    document_test(
         input,
         ParserConfig {
             ..Default::default()
@@ -372,9 +420,20 @@ fn pass(input: PathBuf) {
     )
 }
 
+#[testing::fixture("tests/iframe_srcdoc/**/*.html")]
+fn pass_iframe_srcdoc(input: PathBuf) {
+    document_test(
+        input,
+        ParserConfig {
+            iframe_srcdoc: true,
+            ..Default::default()
+        },
+    )
+}
+
 #[testing::fixture("tests/recovery/**/*.html")]
 fn recovery(input: PathBuf) {
-    test_recovery(
+    document_recovery_test(
         input,
         ParserConfig {
             ..Default::default()
@@ -384,8 +443,9 @@ fn recovery(input: PathBuf) {
 
 #[testing::fixture("tests/fixture/**/*.html")]
 #[testing::fixture("tests/recovery/**/*.html")]
+#[testing::fixture("tests/iframe_srcdoc/**/*.html")]
 fn span_visualizer(input: PathBuf) {
-    test_span_visualizer(
+    document_span_visualizer(
         input,
         ParserConfig {
             ..Default::default()
@@ -393,7 +453,18 @@ fn span_visualizer(input: PathBuf) {
     )
 }
 
-// TODO add dom visualizer for fixtures and recovery tests
+#[testing::fixture("tests/fixture/**/*.html")]
+#[testing::fixture("tests/recovery/**/*.html")]
+#[testing::fixture("tests/iframe_srcdoc/**/*.html")]
+fn dom_visualizer(input: PathBuf) {
+    document_dom_visualizer(
+        input,
+        ParserConfig {
+            ..Default::default()
+        },
+    )
+}
+
 // TODO add span visualizer for html5test_lib tests
 
 fn unescape(s: &str) -> Option<String> {
@@ -502,16 +573,8 @@ fn html5lib_test_tokenizer(input: PathBuf) {
 
             eprintln!("==== ==== Output ==== ====\n{}\n", output);
 
-            // TODO keep `\r` in raw when we implement them in AST or implement an option
-            let lexer_input = input.replace("\r\n", "\n").replace('\r', "\n");
-            let lexer_str_input =
-                StringInput::new(&lexer_input, BytePos(0), BytePos(input.len() as u32));
-            let mut lexer = Lexer::new(
-                lexer_str_input,
-                ParserConfig {
-                    ..Default::default()
-                },
-            );
+            let lexer_str_input = StringInput::new(&input, BytePos(0), BytePos(input.len() as u32));
+            let mut lexer = Lexer::new(lexer_str_input);
 
             lexer.set_input_state(state.clone());
 
@@ -519,7 +582,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                 let last_start_tag: String = serde_json::from_value(last_start_tag.clone())
                     .expect("failed to get lastStartTag in test");
 
-                lexer.last_start_tag_token = Some(Token::StartTag {
+                lexer.set_last_start_tag_token(Token::StartTag {
                     tag_name: last_start_tag.into(),
                     raw_tag_name: None,
                     self_closing: false,
@@ -530,85 +593,80 @@ fn html5lib_test_tokenizer(input: PathBuf) {
             let mut actual_tokens = vec![];
 
             loop {
-                match lexer.next() {
-                    Ok(TokenAndSpan { token, .. }) => {
-                        let mut new_token = token.clone();
+                let token_and_span = lexer.next();
 
-                        match new_token {
-                            Token::Doctype {
-                                ref mut raw_keyword,
-                                ref mut raw_name,
-                                ref mut public_quote,
-                                ref mut raw_public_keyword,
-                                ref mut system_quote,
-                                ref mut raw_system_keyword,
-                                ..
-                            } => {
-                                *raw_keyword = None;
-                                *raw_name = None;
-                                *public_quote = None;
-                                *raw_public_keyword = None;
-                                *system_quote = None;
-                                *raw_system_keyword = None;
-                            }
-                            Token::StartTag {
-                                ref mut raw_tag_name,
-                                ref mut attributes,
-                                ..
-                            } => {
-                                *raw_tag_name = None;
+                if token_and_span.is_none() {
+                    break;
+                }
 
-                                let mut new_attributes = vec![];
-                                let mut already_seen: AHashSet<JsWord> = Default::default();
+                let mut new_token = token_and_span.unwrap().token.clone();
 
-                                for mut attribute in take(attributes) {
-                                    if already_seen.contains(&attribute.name) {
-                                        continue;
-                                    }
-
-                                    already_seen.insert(attribute.name.clone());
-
-                                    if attribute.value.is_none() {
-                                        attribute.value = Some("".into());
-                                    }
-
-                                    attribute.raw_name = None;
-                                    attribute.raw_value = None;
-
-                                    new_attributes.push(attribute);
-                                }
-
-                                new_attributes.sort_by(|a, b| a.name.partial_cmp(&b.name).unwrap());
-
-                                *attributes = new_attributes;
-                            }
-                            Token::EndTag {
-                                ref mut raw_tag_name,
-                                ref mut attributes,
-                                ref mut self_closing,
-                                ..
-                            } => {
-                                *raw_tag_name = None;
-                                *self_closing = false;
-                                *attributes = vec![];
-                            }
-                            Token::Character { ref mut raw, .. } => {
-                                *raw = None;
-                            }
-                            _ => {}
-                        }
-
-                        actual_tokens.push(new_token);
+                match new_token {
+                    Token::Doctype {
+                        ref mut raw_keyword,
+                        ref mut raw_name,
+                        ref mut public_quote,
+                        ref mut raw_public_keyword,
+                        ref mut system_quote,
+                        ref mut raw_system_keyword,
+                        ..
+                    } => {
+                        *raw_keyword = None;
+                        *raw_name = None;
+                        *public_quote = None;
+                        *raw_public_keyword = None;
+                        *system_quote = None;
+                        *raw_system_keyword = None;
                     }
-                    Err(error) => match error.kind() {
-                        ErrorKind::Eof => {
-                            break;
+                    Token::StartTag {
+                        ref mut raw_tag_name,
+                        ref mut attributes,
+                        ..
+                    } => {
+                        *raw_tag_name = None;
+
+                        let mut new_attributes = vec![];
+                        let mut already_seen: AHashSet<JsWord> = Default::default();
+
+                        for mut attribute in take(attributes) {
+                            if already_seen.contains(&attribute.name) {
+                                continue;
+                            }
+
+                            already_seen.insert(attribute.name.clone());
+
+                            if attribute.value.is_none() {
+                                attribute.value = Some("".into());
+                            }
+
+                            attribute.span = Default::default();
+                            attribute.raw_name = None;
+                            attribute.raw_value = None;
+
+                            new_attributes.push(attribute);
                         }
-                        _ => {
-                            unreachable!();
-                        }
-                    },
-                };
+
+                        new_attributes.sort_by(|a, b| a.name.partial_cmp(&b.name).unwrap());
+
+                        *attributes = new_attributes;
+                    }
+                    Token::EndTag {
+                        ref mut raw_tag_name,
+                        ref mut attributes,
+                        ref mut self_closing,
+                        ..
+                    } => {
+                        *raw_tag_name = None;
+                        *self_closing = false;
+                        *attributes = vec![];
+                    }
+                    Token::Character { ref mut raw, .. } => {
+                        *raw = None;
+                    }
+                    _ => {}
+                }
+
+                actual_tokens.push(new_token);
             }
 
             let mut expected_tokens: Vec<Token> = vec![];
@@ -667,6 +725,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                                                             .expect("failed to deserialize");
 
                                                     attributes.push(AttributeToken {
+                                                        span: Default::default(),
                                                         name: key.clone().into(),
                                                         raw_name: None,
                                                         value: value.map(|v| v.into()),
@@ -930,6 +989,11 @@ enum TestState {
     NewErrors,
 }
 
+enum DocumentOrDocumentFragment {
+    Document(PResult<Document>),
+    DocumentFragment(PResult<DocumentFragment>),
+}
+
 #[testing::fixture("tests/html5lib-tests/tree-construction/**/*.dat")]
 #[testing::fixture("tests/html5lib-tests-fixture/**/*.html")]
 fn html5lib_test_tree_construction(input: PathBuf) {
@@ -1066,7 +1130,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
             fs::write(html_path, data.join("\n"))
                 .expect("Something went wrong when writing to the file");
 
-            let dom_snapshot_path = dir.join(file_stem + ".dom");
+            let dom_snapshot_path = dir.join(file_stem.clone() + ".dom");
 
             let mut dom = document.join("\n");
 
@@ -1075,7 +1139,13 @@ fn html5lib_test_tree_construction(input: PathBuf) {
             }
 
             fs::write(dom_snapshot_path, dom)
-                .expect("Something went wrong when writingto the file");
+                .expect("Something went wrong when writing to the file");
+
+            let errors = errors.join("\n");
+            let errors_snapshot_path = dir.join(file_stem + ".errors");
+
+            fs::write(errors_snapshot_path, errors)
+                .expect("Something went wrong when writing to the file");
 
             counter += 1;
         }
@@ -1083,8 +1153,6 @@ fn html5lib_test_tree_construction(input: PathBuf) {
         return;
     }
 
-    // TODO improve errors tests
-    // TODO improve test for parsing `<template>`
     testing::run_test2(false, |cm, handler| {
         // Type annotation
         if false {
@@ -1097,11 +1165,13 @@ fn html5lib_test_tree_construction(input: PathBuf) {
         let json_path = input.parent().unwrap().join(file_stem.clone() + ".json");
         let fm = cm.load_file(&input).unwrap();
 
-        let lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default());
-        let config = ParserConfig { scripting_enabled };
+        let lexer = Lexer::new(SourceFileInput::from(&*fm));
+        let config = ParserConfig {
+            scripting_enabled,
+            iframe_srcdoc: false,
+        };
         let mut parser = Parser::new(lexer, config);
-
-        if file_stem.contains("fragment") {
+        let document_or_document_fragment = if file_stem.contains("fragment") {
             let mut context_element_namespace = Namespace::HTML;
             let mut context_element_tag_name = "unknown";
 
@@ -1139,92 +1209,107 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                 content: None,
             };
 
-            let document_fragment = parser.parse_document_fragment(context_element);
-
-            match document_fragment {
-                Ok(mut document_fragment) => {
-                    let actual_json = serde_json::to_string_pretty(&document_fragment)
-                        .map(NormalizedOutput::from)
-                        .expect("failed to serialize document");
-
-                    actual_json.compare_to_file(&json_path).unwrap();
-
-                    let mut dom_buf = String::new();
-
-                    document_fragment.visit_mut_with(&mut DomVisualizer {
-                        dom_buf: &mut dom_buf,
-                        indent: 0,
-                    });
-
-                    let dir = input.parent().unwrap().to_path_buf();
-
-                    NormalizedOutput::from(dom_buf)
-                        .compare_to_file(&dir.join(file_stem + ".dom"))
-                        .unwrap();
-
-                    Ok(())
-                }
-                Err(err) => {
-                    let mut d = err.to_diagnostics(&handler);
-
-                    d.note(&format!("current token = {}", parser.dump_cur()));
-                    d.emit();
-
-                    panic!();
-                }
-            }
+            DocumentOrDocumentFragment::DocumentFragment(
+                parser.parse_document_fragment(context_element),
+            )
         } else {
-            let document = parser.parse_document();
+            DocumentOrDocumentFragment::Document(parser.parse_document())
+        };
 
-            match document {
-                Ok(mut document) => {
-                    let actual_json = serde_json::to_string_pretty(&document)
-                        .map(NormalizedOutput::from)
-                        .expect("failed to serialize document");
+        let parent_name = input.parent().unwrap().to_string_lossy();
+        // `scripted` for browser tests with JS
+        // `search` proposed, but not merged in spec
+        let need_skip_tests = parent_name.contains("scripted") || parent_name.contains("search");
 
-                    actual_json.compare_to_file(&json_path).unwrap();
+        if !need_skip_tests {
+            let errors = parser.take_errors();
+            let errors_path = input.parent().unwrap().join(file_stem.clone() + ".errors");
+            let contents =
+                fs::read_to_string(errors_path).expect("Something went wrong reading the file");
 
-                    let parent_name = input.parent().unwrap().to_string_lossy();
+            // TODO bug in tests - https://github.com/html5lib/html5lib-tests/issues/138
+            let actual_number_of_errors =
+                if parent_name.contains("tests19_dat") && file_stem.contains("84") {
+                    errors.len() + 1
+                } else if (parent_name.contains("math_dat") || parent_name.contains("svg_dat"))
+                    && (file_stem.contains("5.fragment.tbody")
+                        || file_stem.contains("6.fragment.tbody")
+                        || file_stem.contains("7.fragment.tbody"))
+                {
+                    errors.len() - 1
+                } else if parent_name.contains("foreign-fragment_dat")
+                    && file_stem.contains("3.fragment.svg_path")
+                {
+                    errors.len() - 1
+                } else {
+                    errors.len()
+                };
+            let expected_number_of_errors = contents.lines().count();
 
-                    // Skip scripted test, because we don't support ECMA execution
-                    // Skip `search` due https://github.com/whatwg/html/pull/7320, we should uncomment and fix logic it after it was merged
-                    if parent_name.contains("scripted") || parent_name.contains("search") {
-                        return Ok(());
-                    }
+            assert_eq!(actual_number_of_errors, expected_number_of_errors);
+        }
 
-                    let path = input.to_string_lossy();
+        match document_or_document_fragment {
+            DocumentOrDocumentFragment::Document(Ok(mut document)) => {
+                let actual_json = serde_json::to_string_pretty(&document)
+                    .map(NormalizedOutput::from)
+                    .expect("failed to serialize document");
 
-                    // TODO remove me when we will implement `raw` and keep original newlines in
-                    // `raw`
-                    if (path.contains("domjs-unsafe_dat") && path.contains("1.html"))
-                        || (path.contains("plain-text-unsafe_dat") && path.contains("24.html"))
-                    {
-                        return Ok(());
-                    }
+                actual_json.compare_to_file(&json_path).unwrap();
 
-                    let mut dom_buf = String::new();
-
-                    document.visit_mut_with(&mut DomVisualizer {
-                        dom_buf: &mut dom_buf,
-                        indent: 0,
-                    });
-
-                    let dir = input.parent().unwrap().to_path_buf();
-
-                    NormalizedOutput::from(dom_buf)
-                        .compare_to_file(&dir.join(file_stem + ".dom"))
-                        .unwrap();
-
-                    Ok(())
+                if parent_name.contains("scripted") || parent_name.contains("search") {
+                    return Ok(());
                 }
-                Err(err) => {
-                    let mut d = err.to_diagnostics(&handler);
 
-                    d.note(&format!("current token = {}", parser.dump_cur()));
-                    d.emit();
+                let mut dom_buf = String::new();
 
-                    panic!();
+                document.visit_mut_with(&mut DomVisualizer {
+                    dom_buf: &mut dom_buf,
+                    indent: 0,
+                });
+
+                let dir = input.parent().unwrap().to_path_buf();
+
+                NormalizedOutput::from(dom_buf)
+                    .compare_to_file(&dir.join(file_stem + ".dom"))
+                    .unwrap();
+
+                Ok(())
+            }
+            DocumentOrDocumentFragment::DocumentFragment(Ok(mut document_fragment)) => {
+                let actual_json = serde_json::to_string_pretty(&document_fragment)
+                    .map(NormalizedOutput::from)
+                    .expect("failed to serialize document");
+
+                actual_json.compare_to_file(&json_path).unwrap();
+
+                if need_skip_tests {
+                    return Ok(());
                 }
+
+                let mut dom_buf = String::new();
+
+                document_fragment.visit_mut_with(&mut DomVisualizer {
+                    dom_buf: &mut dom_buf,
+                    indent: 0,
+                });
+
+                let dir = input.parent().unwrap().to_path_buf();
+
+                NormalizedOutput::from(dom_buf)
+                    .compare_to_file(&dir.join(file_stem + ".dom"))
+                    .unwrap();
+
+                Ok(())
+            }
+            DocumentOrDocumentFragment::Document(Err(err))
+            | DocumentOrDocumentFragment::DocumentFragment(Err(err)) => {
+                let mut d = err.to_diagnostics(&handler);
+
+                d.note(&format!("current token = {}", parser.dump_cur()));
+                d.emit();
+
+                panic!();
             }
         }
     })

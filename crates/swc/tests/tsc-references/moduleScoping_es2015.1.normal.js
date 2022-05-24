@@ -2,8 +2,7 @@
 var v1 = "sausages"; // Global scope
 // @Filename: file2.ts
 var v2 = 42; // Global scope
-var v4 = ()=>5
-;
+var v4 = ()=>5;
 // @Filename: file3.ts
 export var v3 = true;
 var v2 = [

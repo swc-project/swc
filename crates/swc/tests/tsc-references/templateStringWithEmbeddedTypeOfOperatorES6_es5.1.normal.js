@@ -1,3 +1,3 @@
-import * as swcHelpers from "@swc/helpers";
+import _type_of from "@swc/helpers/lib/_type_of.js";
 // @target: ES6
-var x = "abc".concat(swcHelpers.typeOf("hi"), "def");
+var x = "abc".concat(_type_of("hi"), "def");

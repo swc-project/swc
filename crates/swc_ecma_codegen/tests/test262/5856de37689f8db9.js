@@ -1,2 +1,1 @@
-(a)=>a * yield
-;
+(a)=>a * yield;

@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 var _exportNames = {};
-var swcHelpers = require("@swc/helpers");
-var _appConfig = swcHelpers.interopRequireWildcard(require("./app.config"));
+var _interop_require_wildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
+var _appConfig = _interop_require_wildcard(require("./app.config"));
 Object.keys(_appConfig).forEach(function(key) {
     if (key === "default" || key === "__esModule") return;
     if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
@@ -16,7 +16,7 @@ Object.keys(_appConfig).forEach(function(key) {
         }
     });
 });
-var _databaseConfig = swcHelpers.interopRequireWildcard(require("./database.config"));
+var _databaseConfig = _interop_require_wildcard(require("./database.config"));
 Object.keys(_databaseConfig).forEach(function(key) {
     if (key === "default" || key === "__esModule") return;
     if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;

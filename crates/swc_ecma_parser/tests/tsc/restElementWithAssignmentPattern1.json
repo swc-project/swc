@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 15,
-    "end": 67,
+    "start": 16,
+    "end": 68,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 15,
-        "end": 40,
+        "start": 16,
+        "end": 41,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 19,
-            "end": 28,
+            "start": 20,
+            "end": 29,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 19,
-              "end": 20,
+              "start": 20,
+              "end": 21,
               "ctxt": 0
             },
             "value": "a",
@@ -35,15 +35,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 20,
-                "end": 28,
+                "start": 21,
+                "end": 29,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 22,
-                  "end": 28,
+                  "start": 23,
+                  "end": 29,
                   "ctxt": 0
                 },
                 "kind": "string"
@@ -56,15 +56,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 30,
-            "end": 39,
+            "start": 31,
+            "end": 40,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 30,
-              "end": 31,
+              "start": 31,
+              "end": 32,
               "ctxt": 0
             },
             "value": "b",
@@ -72,15 +72,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 31,
-                "end": 39,
+                "start": 32,
+                "end": 40,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 33,
-                  "end": 39,
+                  "start": 34,
+                  "end": 40,
                   "ctxt": 0
                 },
                 "kind": "number"
@@ -95,51 +95,51 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 41,
-        "end": 67,
+        "start": 42,
+        "end": 68,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 41,
-          "end": 66,
+          "start": 42,
+          "end": 67,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "ArrayPattern",
           "span": {
-            "start": 41,
-            "end": 56,
+            "start": 42,
+            "end": 57,
             "ctxt": 0
           },
           "elements": [
             {
               "type": "RestElement",
               "span": {
-                "start": 45,
-                "end": 55,
+                "start": 46,
+                "end": 56,
                 "ctxt": 0
               },
               "rest": {
-                "start": 42,
-                "end": 45,
+                "start": 43,
+                "end": 46,
                 "ctxt": 0
               },
               "argument": {
                 "type": "ArrayPattern",
                 "span": {
-                  "start": 45,
-                  "end": 55,
+                  "start": 46,
+                  "end": 56,
                   "ctxt": 0
                 },
                 "elements": [
                   {
                     "type": "Identifier",
                     "span": {
-                      "start": 46,
-                      "end": 47,
+                      "start": 47,
+                      "end": 48,
                       "ctxt": 0
                     },
                     "value": "a",
@@ -149,15 +149,15 @@
                   {
                     "type": "AssignmentPattern",
                     "span": {
-                      "start": 49,
-                      "end": 54,
+                      "start": 50,
+                      "end": 55,
                       "ctxt": 0
                     },
                     "left": {
                       "type": "Identifier",
                       "span": {
-                        "start": 49,
-                        "end": 50,
+                        "start": 50,
+                        "end": 51,
                         "ctxt": 0
                       },
                       "value": "b",
@@ -167,8 +167,8 @@
                     "right": {
                       "type": "NumericLiteral",
                       "span": {
-                        "start": 53,
-                        "end": 54,
+                        "start": 54,
+                        "end": 55,
                         "ctxt": 0
                       },
                       "value": 0.0,
@@ -189,8 +189,8 @@
         "right": {
           "type": "ArrayExpression",
           "span": {
-            "start": 59,
-            "end": 66,
+            "start": 60,
+            "end": 67,
             "ctxt": 0
           },
           "elements": [
@@ -199,8 +199,8 @@
               "expression": {
                 "type": "StringLiteral",
                 "span": {
-                  "start": 60,
-                  "end": 62,
+                  "start": 61,
+                  "end": 63,
                   "ctxt": 0
                 },
                 "value": "",
@@ -212,8 +212,8 @@
               "expression": {
                 "type": "NumericLiteral",
                 "span": {
-                  "start": 64,
-                  "end": 65,
+                  "start": 65,
+                  "end": 66,
                   "ctxt": 0
                 },
                 "value": 1.0,

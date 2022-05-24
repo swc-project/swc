@@ -1,10 +1,12 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_iterator from "@swc/helpers/lib/_async_iterator.js";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
+import _wrap_async_generator from "@swc/helpers/lib/_wrap_async_generator.js";
 import regeneratorRuntime from "regenerator-runtime";
 function lol() {
     return _lol.apply(this, arguments);
 }
 function _lol() {
-    _lol = swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+    _lol = _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
@@ -25,14 +27,14 @@ function main() {
     return _main.apply(this, arguments);
 }
 function _main() {
-    _main = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+    _main = _async_to_generator(regeneratorRuntime.mark(function _callee() {
         var _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, x;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
                     _iteratorAbruptCompletion = false, _didIteratorError = false;
                     _ctx.prev = 1;
-                    _iterator = swcHelpers.asyncIterator(lol());
+                    _iterator = _async_iterator(lol());
                 case 3:
                     _ctx.next = 5;
                     return _iterator.next();
@@ -66,7 +68,7 @@ function _main() {
                         break;
                     }
                     _ctx.next = 21;
-                    return _iteratorError.return();
+                    return _iterator.return();
                 case 21:
                     _ctx.prev = 21;
                     if (!_didIteratorError) {

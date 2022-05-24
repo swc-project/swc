@@ -135,11 +135,11 @@ pub struct CompressOptions {
     #[serde(alias = "comparisons")]
     pub comparisons: bool,
 
-    #[serde(default)]
+    #[serde(default = "true_by_default")]
     #[serde(alias = "computed_props")]
     pub computed_props: bool,
 
-    #[serde(default)]
+    #[serde(default = "true_by_default")]
     #[serde(alias = "conditionals")]
     pub conditionals: bool,
 
@@ -147,7 +147,7 @@ pub struct CompressOptions {
     #[serde(alias = "dead_code")]
     pub dead_code: bool,
 
-    #[serde(default)]
+    #[serde(default = "true_by_default")]
     #[serde(alias = "directives")]
     pub directives: bool,
 
@@ -250,10 +250,13 @@ pub struct CompressOptions {
     pub props: bool,
 
     #[serde(default)]
-    #[serde(alias = "properties")]
+    #[serde(alias = "pure_getters")]
     pub pure_getters: PureGetterOption,
 
-    // pure_funcs    : null,
+    #[serde(default)]
+    #[serde(alias = "pure_funcs")]
+    pub pure_funcs: Vec<Box<Expr>>,
+
     #[serde(default)]
     #[serde(alias = "reduce_funcs")]
     pub reduce_fns: bool,

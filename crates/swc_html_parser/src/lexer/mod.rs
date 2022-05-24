@@ -8,63 +8,8 @@ use swc_html_ast::{AttributeToken, Token, TokenAndSpan};
 
 use crate::{
     error::{Error, ErrorKind},
-    parser::{input::ParserInput, PResult, ParserConfig},
+    parser::input::ParserInput,
 };
-
-pub(crate) type LexResult<T> = Result<T, ErrorKind>;
-
-pub struct Lexer<I>
-where
-    I: Input,
-{
-    input: I,
-    cur: Option<char>,
-    cur_pos: BytePos,
-    start_pos: BytePos,
-    /// Used to override last_pos
-    last_pos: Option<BytePos>,
-    finished: bool,
-    state: State,
-    return_state: State,
-    errors: Vec<Error>,
-    pub last_start_tag_token: Option<Token>,
-    pending_tokens: Vec<TokenAndSpan>,
-    cur_token: Option<Token>,
-    character_reference_code: Option<Vec<(u8, u32)>>,
-    temporary_buffer: Option<String>,
-    is_adjusted_current_node_is_element_in_html_namespace: Option<bool>,
-    doctype_keyword: Option<String>,
-    last_emitted_error_pos: Option<BytePos>,
-}
-
-impl<I> Lexer<I>
-where
-    I: Input,
-{
-    pub fn new(input: I, _config: ParserConfig) -> Self {
-        let start_pos = input.last_pos();
-
-        Lexer {
-            input,
-            cur: None,
-            cur_pos: start_pos,
-            start_pos,
-            last_pos: None,
-            finished: false,
-            state: State::Data,
-            return_state: State::Data,
-            errors: vec![],
-            last_start_tag_token: None,
-            pending_tokens: vec![],
-            cur_token: None,
-            character_reference_code: None,
-            temporary_buffer: None,
-            is_adjusted_current_node_is_element_in_html_namespace: None,
-            doctype_keyword: None,
-            last_emitted_error_pos: None,
-        }
-    }
-}
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Entity {
@@ -162,49 +107,95 @@ pub enum State {
     NumericCharacterReferenceEnd,
 }
 
-#[derive(Debug, Clone, Copy)]
-pub struct LexerState {
-    pos: BytePos,
+pub(crate) type LexResult<T> = Result<T, ErrorKind>;
+
+#[derive(Clone)]
+pub struct Lexer<I>
+where
+    I: Input,
+{
+    input: I,
+    cur: Option<char>,
+    cur_pos: BytePos,
+    start_pos: BytePos,
+    /// Used to override last_pos
+    last_pos: Option<BytePos>,
+    finished: bool,
+    state: State,
+    return_state: State,
+    errors: Vec<Error>,
+    last_start_tag_token: Option<Token>,
+    pending_tokens: Vec<TokenAndSpan>,
+    cur_token: Option<Token>,
+    attribute_start_position: Option<BytePos>,
+    character_reference_code: Option<Vec<(u8, u32, Option<char>)>>,
+    temporary_buffer: Option<String>,
+    is_adjusted_current_node_is_element_in_html_namespace: Option<bool>,
+    doctype_keyword: Option<String>,
+    last_emitted_error_pos: Option<BytePos>,
+}
+
+impl<I> Lexer<I>
+where
+    I: Input,
+{
+    pub fn new(input: I) -> Self {
+        let start_pos = input.last_pos();
+
+        Lexer {
+            input,
+            cur: None,
+            cur_pos: start_pos,
+            start_pos,
+            last_pos: None,
+            finished: false,
+            state: State::Data,
+            return_state: State::Data,
+            errors: vec![],
+            last_start_tag_token: None,
+            pending_tokens: vec![],
+            cur_token: None,
+            attribute_start_position: None,
+            character_reference_code: None,
+            temporary_buffer: None,
+            is_adjusted_current_node_is_element_in_html_namespace: None,
+            doctype_keyword: None,
+            last_emitted_error_pos: None,
+        }
+    }
+}
+
+impl<I: Input> Iterator for Lexer<I> {
+    type Item = TokenAndSpan;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        let token_and_span = self.read_token_and_span();
+
+        match token_and_span {
+            Ok(token_and_span) => {
+                return Some(token_and_span);
+            }
+            Err(..) => {
+                return None;
+            }
+        }
+    }
 }
 
 impl<I> ParserInput for Lexer<I>
 where
     I: Input,
 {
-    type State = LexerState;
-
-    fn next(&mut self) -> PResult<TokenAndSpan> {
-        let token_and_span = self.read_token_and_span();
-
-        match token_and_span {
-            Ok(token_and_span) => {
-                return Ok(token_and_span);
-            }
-            Err(kind) => {
-                let end = self.last_pos.take().unwrap_or_else(|| self.input.cur_pos());
-                let span = Span::new(self.start_pos, end, Default::default());
-
-                return Err(Error::new(span, kind));
-            }
-        }
-    }
-
     fn start_pos(&mut self) -> swc_common::BytePos {
         self.input.cur_pos()
     }
 
-    fn state(&mut self) -> Self::State {
-        LexerState {
-            pos: self.input.cur_pos(),
-        }
-    }
-
-    fn reset(&mut self, state: &Self::State) {
-        self.input.reset_to(state.pos);
-    }
-
     fn take_errors(&mut self) -> Vec<Error> {
         take(&mut self.errors)
+    }
+
+    fn set_last_start_tag_token(&mut self, token: Token) {
+        self.last_start_tag_token = Some(token);
     }
 
     fn set_adjusted_current_node_to_html_namespace(&mut self, value: bool) {
@@ -303,6 +294,32 @@ where
         self.pending_tokens.push(token_and_span);
     }
 
+    fn update_attribute_span(&mut self) {
+        if let Some(attribute_start_position) = self.attribute_start_position {
+            if let Some(mut token) = self.cur_token.take() {
+                match token {
+                    Token::StartTag {
+                        ref mut attributes, ..
+                    }
+                    | Token::EndTag {
+                        ref mut attributes, ..
+                    } => {
+                        if let Some(last) = attributes.last_mut() {
+                            last.span = Span::new(
+                                attribute_start_position,
+                                self.cur_pos,
+                                Default::default(),
+                            );
+                        }
+
+                        self.cur_token = Some(token);
+                    }
+                    _ => {}
+                }
+            }
+        }
+    }
+
     fn leave_attribute_name_state(&mut self) {
         if let Some(Token::StartTag { attributes, .. } | Token::EndTag { attributes, .. }) =
             &self.cur_token
@@ -330,34 +347,6 @@ where
 
             if has_duplicate {
                 self.emit_error(ErrorKind::DuplicateAttribute);
-            }
-        }
-    }
-
-    fn emit_cur_token(&mut self) {
-        let token = self.cur_token.take();
-
-        match token {
-            Some(token) => {
-                if let Token::EndTag {
-                    attributes,
-                    self_closing,
-                    ..
-                } = &token
-                {
-                    if !attributes.is_empty() {
-                        self.emit_error(ErrorKind::EndTagWithAttributes);
-                    }
-
-                    if *self_closing {
-                        self.emit_error(ErrorKind::EndTagWithTrailingSolidus);
-                    }
-                }
-
-                self.emit_token(token);
-            }
-            _ => {
-                unreachable!();
             }
         }
     }
@@ -393,27 +382,37 @@ where
         false
     }
 
-    fn flush_code_point_consumed_as_character_reference(&mut self, c: char, raw: &str) {
+    fn emit_temporary_buffer_as_character_tokens(&mut self) {
+        if let Some(temporary_buffer) = self.temporary_buffer.take() {
+            for c in temporary_buffer.chars() {
+                self.emit_character_token(c, Some(c));
+            }
+        }
+    }
+
+    fn flush_code_points_consumed_as_character_reference(&mut self, _raw: Option<String>) {
         if self.is_consumed_as_part_of_an_attribute() {
             if let Some(ref mut token) = self.cur_token {
                 match token {
                     Token::StartTag { attributes, .. } | Token::EndTag { attributes, .. } => {
                         if let Some(attribute) = attributes.last_mut() {
                             let mut new_value = String::new();
+                            let mut raw_new_value = String::new();
 
                             if let Some(value) = &attribute.value {
                                 new_value.push_str(value);
                             }
 
-                            new_value.push(c);
-
-                            let mut raw_new_value = String::new();
-
                             if let Some(raw_value) = &attribute.raw_value {
                                 raw_new_value.push_str(raw_value);
                             }
 
-                            raw_new_value.push(c);
+                            if let Some(mut temporary_buffer) = self.temporary_buffer.take() {
+                                for c in temporary_buffer.drain(..) {
+                                    new_value.push(c);
+                                    raw_new_value.push(c);
+                                }
+                            }
 
                             attribute.value = Some(new_value.into());
                             attribute.raw_value = Some(raw_new_value.into());
@@ -422,17 +421,8 @@ where
                     _ => {}
                 }
             }
-        } else {
-            self.emit_token(Token::Character {
-                value: c,
-                raw: Some(raw.into()),
-            });
-        }
-    }
-
-    fn emit_temporary_buffer_as_character_tokens(&mut self) {
-        if let Some(temporary_buffer) = self.temporary_buffer.take() {
-            for c in temporary_buffer.chars() {
+        } else if let Some(mut temporary_buffer) = self.temporary_buffer.take() {
+            for c in temporary_buffer.drain(..) {
                 self.emit_token(Token::Character {
                     value: c,
                     raw: Some(c.to_string().into()),
@@ -441,10 +431,83 @@ where
         }
     }
 
-    fn flush_code_points_consumed_as_character_reference(&mut self) {
-        if let Some(mut temporary_buffer) = self.temporary_buffer.take() {
-            for c in temporary_buffer.drain(..) {
-                self.flush_code_point_consumed_as_character_reference(c, &c.to_string());
+    fn append_character_to_token_comment(&mut self, c: char, _raw_c: Option<char>) {
+        if let Some(Token::Comment { data, .. }) = &mut self.cur_token {
+            let mut new_data = String::new();
+
+            new_data.push_str(data);
+
+            let mut normalized_c = c;
+            let is_cr = c == '\r';
+
+            if is_cr {
+                normalized_c = '\n';
+
+                if self.input.cur() == Some('\n') {
+                    self.input.bump();
+                }
+            }
+
+            new_data.push(normalized_c);
+
+            *data = new_data.into();
+        }
+    }
+
+    fn emit_character_token(&mut self, c: char, raw_c: Option<char>) {
+        let mut raw = if raw_c.is_some() {
+            String::with_capacity(1)
+        } else {
+            String::new()
+        };
+
+        if let Some(raw_c) = raw_c {
+            raw.push(raw_c);
+        }
+
+        let mut normalized_c = c;
+        let is_cr = c == '\r';
+
+        if is_cr {
+            normalized_c = '\n';
+
+            if self.input.cur() == Some('\n') {
+                self.input.bump();
+
+                raw.push('\n');
+            }
+        }
+
+        self.emit_token(Token::Character {
+            value: normalized_c,
+            raw: Some(raw.into()),
+        });
+    }
+
+    fn emit_cur_token(&mut self) {
+        let token = self.cur_token.take();
+
+        match token {
+            Some(token) => {
+                if let Token::EndTag {
+                    attributes,
+                    self_closing,
+                    ..
+                } = &token
+                {
+                    if !attributes.is_empty() {
+                        self.emit_error(ErrorKind::EndTagWithAttributes);
+                    }
+
+                    if *self_closing {
+                        self.emit_error(ErrorKind::EndTagWithTrailingSolidus);
+                    }
+                }
+
+                self.emit_token(token);
+            }
+            _ => {
+                unreachable!();
             }
         }
     }
@@ -495,10 +558,7 @@ where
                     // character as a character token.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.emit_token(Token::Character {
-                            value: c,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(c, Some(c));
                     }
                     // EOF
                     // Emit an end-of-file token.
@@ -510,10 +570,7 @@ where
                     // Anything else
                     // Emit the current input character as a character token.
                     Some(c) => {
-                        self.emit_token(Token::Character {
-                            value: c,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(c, Some(c));
                     }
                 }
             }
@@ -538,10 +595,7 @@ where
                     // REPLACEMENT CHARACTER character token.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.emit_token(Token::Character {
-                            value: REPLACEMENT_CHARACTER,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(REPLACEMENT_CHARACTER, Some(c));
                     }
                     // EOF
                     // Emit an end-of-file token.
@@ -553,10 +607,7 @@ where
                     // Anything else
                     // Emit the current input character as a character token.
                     Some(c) => {
-                        self.emit_token(Token::Character {
-                            value: c,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(c, Some(c));
                     }
                 }
             }
@@ -572,10 +623,7 @@ where
                     // REPLACEMENT CHARACTER character token.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.emit_token(Token::Character {
-                            value: REPLACEMENT_CHARACTER,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(REPLACEMENT_CHARACTER, Some(c));
                     }
                     // EOF
                     // Emit an end-of-file token.
@@ -587,10 +635,7 @@ where
                     // Anything else
                     // Emit the current input character as a character token.
                     Some(c) => {
-                        self.emit_token(Token::Character {
-                            value: c,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(c, Some(c));
                     }
                 }
             }
@@ -606,10 +651,7 @@ where
                     // REPLACEMENT CHARACTER character token.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.emit_token(Token::Character {
-                            value: REPLACEMENT_CHARACTER,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(REPLACEMENT_CHARACTER, Some(c));
                     }
                     // EOF
                     // Emit an end-of-file token.
@@ -621,10 +663,7 @@ where
                     // Anything else
                     // Emit the current input character as a character token.
                     Some(c) => {
-                        self.emit_token(Token::Character {
-                            value: c,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(c, Some(c));
                     }
                 }
             }
@@ -637,10 +676,7 @@ where
                     // REPLACEMENT CHARACTER character token.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.emit_token(Token::Character {
-                            value: REPLACEMENT_CHARACTER,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(REPLACEMENT_CHARACTER, Some(c));
                     }
                     // EOF
                     // Emit an end-of-file token.
@@ -652,10 +688,7 @@ where
                     // Anything else
                     // Emit the current input character as a character token.
                     Some(c) => {
-                        self.emit_token(Token::Character {
-                            value: c,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(c, Some(c));
                     }
                 }
             }
@@ -700,10 +733,7 @@ where
                     // character token and an end-of-file token.
                     None => {
                         self.emit_error(ErrorKind::EofBeforeTagName);
-                        self.emit_token(Token::Character {
-                            value: '<',
-                            raw: None,
-                        });
+                        self.emit_character_token('<', None);
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -713,10 +743,7 @@ where
                     // LESS-THAN SIGN character token. Reconsume in the data state.
                     _ => {
                         self.emit_error(ErrorKind::InvalidFirstCharacterOfTagName);
-                        self.emit_token(Token::Character {
-                            value: '<',
-                            raw: None,
-                        });
+                        self.emit_character_token('<', None);
                         self.reconsume_in_state(State::Data);
                     }
                 }
@@ -749,14 +776,8 @@ where
                     // token.
                     None => {
                         self.emit_error(ErrorKind::EofBeforeTagName);
-                        self.emit_token(Token::Character {
-                            value: '<',
-                            raw: None,
-                        });
-                        self.emit_token(Token::Character {
-                            value: '/',
-                            raw: None,
-                        });
+                        self.emit_character_token('<', None);
+                        self.emit_character_token('/', None);
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -905,10 +926,7 @@ where
                     // Emit a U+003C LESS-THAN SIGN character token. Reconsume in the RCDATA
                     // state.
                     _ => {
-                        self.emit_token(Token::Character {
-                            value: '<',
-                            raw: None,
-                        });
+                        self.emit_character_token('<', None);
                         self.reconsume_in_state(State::Rcdata);
                     }
                 }
@@ -933,14 +951,8 @@ where
                     // Emit a U+003C LESS-THAN SIGN character token and a U+002F SOLIDUS
                     // character token. Reconsume in the RCDATA state.
                     _ => {
-                        self.emit_token(Token::Character {
-                            value: '<',
-                            raw: None,
-                        });
-                        self.emit_token(Token::Character {
-                            value: '/',
-                            raw: None,
-                        });
+                        self.emit_character_token('<', None);
+                        self.emit_character_token('/', None);
                         self.reconsume_in_state(State::Rcdata);
                     }
                 }
@@ -948,14 +960,8 @@ where
             // https://html.spec.whatwg.org/multipage/parsing.html#rcdata-end-tag-name-state
             State::RcdataEndTagName => {
                 let anything_else = |lexer: &mut Lexer<I>| {
-                    lexer.emit_token(Token::Character {
-                        value: '<',
-                        raw: None,
-                    });
-                    lexer.emit_token(Token::Character {
-                        value: '/',
-                        raw: None,
-                    });
+                    lexer.emit_character_token('<', None);
+                    lexer.emit_character_token('/', None);
                     lexer.emit_temporary_buffer_as_character_tokens();
                     lexer.reconsume_in_state(State::Rcdata);
                 };
@@ -1093,10 +1099,7 @@ where
                     // Emit a U+003C LESS-THAN SIGN character token. Reconsume in the RAWTEXT
                     // state.
                     _ => {
-                        self.emit_token(Token::Character {
-                            value: '<',
-                            raw: None,
-                        });
+                        self.emit_character_token('<', None);
                         self.reconsume_in_state(State::Rawtext);
                     }
                 }
@@ -1121,14 +1124,8 @@ where
                     // Emit a U+003C LESS-THAN SIGN character token and a U+002F SOLIDUS
                     // character token. Reconsume in the RAWTEXT state.
                     _ => {
-                        self.emit_token(Token::Character {
-                            value: '<',
-                            raw: None,
-                        });
-                        self.emit_token(Token::Character {
-                            value: '/',
-                            raw: None,
-                        });
+                        self.emit_character_token('<', None);
+                        self.emit_character_token('/', None);
                         self.reconsume_in_state(State::Rawtext);
                     }
                 }
@@ -1136,14 +1133,8 @@ where
             // https://html.spec.whatwg.org/multipage/parsing.html#rawtext-end-tag-name-state
             State::RawtextEndTagName => {
                 let anything_else = |lexer: &mut Lexer<I>| {
-                    lexer.emit_token(Token::Character {
-                        value: '<',
-                        raw: None,
-                    });
-                    lexer.emit_token(Token::Character {
-                        value: '/',
-                        raw: None,
-                    });
+                    lexer.emit_character_token('<', None);
+                    lexer.emit_character_token('/', None);
                     lexer.emit_temporary_buffer_as_character_tokens();
                     lexer.reconsume_in_state(State::Rawtext);
                 };
@@ -1282,23 +1273,14 @@ where
                     // SIGN character token and a U+0021 EXCLAMATION MARK character token.
                     Some('!') => {
                         self.state = State::ScriptDataEscapeStart;
-                        self.emit_token(Token::Character {
-                            value: '<',
-                            raw: None,
-                        });
-                        self.emit_token(Token::Character {
-                            value: '!',
-                            raw: None,
-                        });
+                        self.emit_character_token('<', None);
+                        self.emit_character_token('!', None);
                     }
                     // Anything else
                     // Emit a U+003C LESS-THAN SIGN character token. Reconsume in the script
                     // data state.
                     _ => {
-                        self.emit_token(Token::Character {
-                            value: '<',
-                            raw: None,
-                        });
+                        self.emit_character_token('<', None);
                         self.reconsume_in_state(State::ScriptData);
                     }
                 }
@@ -1323,14 +1305,8 @@ where
                     // Emit a U+003C LESS-THAN SIGN character token and a U+002F SOLIDUS
                     // character token. Reconsume in the script data state.
                     _ => {
-                        self.emit_token(Token::Character {
-                            value: '<',
-                            raw: None,
-                        });
-                        self.emit_token(Token::Character {
-                            value: '/',
-                            raw: None,
-                        });
+                        self.emit_character_token('<', None);
+                        self.emit_character_token('/', None);
                         self.reconsume_in_state(State::ScriptData);
                     }
                 }
@@ -1338,14 +1314,8 @@ where
             // https://html.spec.whatwg.org/multipage/parsing.html#script-data-end-tag-name-state
             State::ScriptDataEndTagName => {
                 let anything_else = |lexer: &mut Lexer<I>| {
-                    lexer.emit_token(Token::Character {
-                        value: '<',
-                        raw: None,
-                    });
-                    lexer.emit_token(Token::Character {
-                        value: '/',
-                        raw: None,
-                    });
+                    lexer.emit_character_token('<', None);
+                    lexer.emit_character_token('/', None);
                     lexer.emit_temporary_buffer_as_character_tokens();
                     lexer.reconsume_in_state(State::ScriptData);
                 };
@@ -1477,10 +1447,7 @@ where
                     // HYPHEN-MINUS character token.
                     Some(c @ '-') => {
                         self.state = State::ScriptDataEscapeStartDash;
-                        self.emit_token(Token::Character {
-                            value: c,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(c, Some(c));
                     }
                     // Anything else
                     // Reconsume in the script data state.
@@ -1498,10 +1465,7 @@ where
                     // HYPHEN-MINUS character token.
                     Some(c @ '-') => {
                         self.state = State::ScriptDataEscapedDashDash;
-                        self.emit_token(Token::Character {
-                            value: c,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(c, Some(c));
                     }
                     // Anything else
                     // Reconsume in the script data state.
@@ -1519,10 +1483,7 @@ where
                     // character token.
                     Some(c @ '-') => {
                         self.state = State::ScriptDataEscapedDash;
-                        self.emit_token(Token::Character {
-                            value: c,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(c, Some(c));
                     }
                     // U+003C LESS-THAN SIGN (<)
                     // Switch to the script data escaped less-than sign state.
@@ -1534,10 +1495,7 @@ where
                     // REPLACEMENT CHARACTER character token.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.emit_token(Token::Character {
-                            value: REPLACEMENT_CHARACTER,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(REPLACEMENT_CHARACTER, Some(c));
                     }
                     // EOF
                     // This is an eof-in-script-html-comment-like-text parse error. Emit an
@@ -1551,10 +1509,7 @@ where
                     // Anything else
                     // Emit the current input character as a character token.
                     Some(c) => {
-                        self.emit_token(Token::Character {
-                            value: c,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(c, Some(c));
                     }
                 }
             }
@@ -1567,10 +1522,7 @@ where
                     // HYPHEN-MINUS character token.
                     Some(c @ '-') => {
                         self.state = State::ScriptDataEscapedDashDash;
-                        self.emit_token(Token::Character {
-                            value: c,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(c, Some(c));
                     }
                     // U+003C LESS-THAN SIGN (<)
                     // Switch to the script data escaped less-than sign state.
@@ -1583,10 +1535,7 @@ where
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
                         self.state = State::ScriptDataEscaped;
-                        self.emit_token(Token::Character {
-                            value: REPLACEMENT_CHARACTER,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(REPLACEMENT_CHARACTER, Some(c));
                     }
                     // EOF
                     // This is an eof-in-script-html-comment-like-text parse error. Emit an
@@ -1602,10 +1551,7 @@ where
                     // as a character token.
                     Some(c) => {
                         self.state = State::ScriptDataEscaped;
-                        self.emit_token(Token::Character {
-                            value: c,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(c, Some(c));
                     }
                 }
             }
@@ -1616,10 +1562,7 @@ where
                     // U+002D HYPHEN-MINUS (-)
                     // Emit a U+002D HYPHEN-MINUS character token.
                     Some(c @ '-') => {
-                        self.emit_token(Token::Character {
-                            value: c,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(c, Some(c));
                     }
                     // U+003C LESS-THAN SIGN (<)
                     // Switch to the script data escaped less-than sign state.
@@ -1631,10 +1574,7 @@ where
                     // character token.
                     Some(c @ '>') => {
                         self.state = State::ScriptData;
-                        self.emit_token(Token::Character {
-                            value: c,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(c, Some(c));
                     }
                     // U+0000 NULL
                     // This is an unexpected-null-character parse error. Switch to the script
@@ -1642,10 +1582,7 @@ where
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
                         self.state = State::ScriptDataEscaped;
-                        self.emit_token(Token::Character {
-                            value: REPLACEMENT_CHARACTER,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(REPLACEMENT_CHARACTER, Some(c));
                     }
                     // EOF
                     // This is an eof-in-script-html-comment-like-text parse error. Emit an
@@ -1661,10 +1598,7 @@ where
                     // as a character token.
                     Some(c) => {
                         self.state = State::ScriptDataEscaped;
-                        self.emit_token(Token::Character {
-                            value: c,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(c, Some(c));
                     }
                 }
             }
@@ -1685,20 +1619,14 @@ where
                     // state.
                     Some(c) if is_ascii_alpha(c) => {
                         self.temporary_buffer = Some("".into());
-                        self.emit_token(Token::Character {
-                            value: '<',
-                            raw: None,
-                        });
+                        self.emit_character_token('<', None);
                         self.reconsume_in_state(State::ScriptDataDoubleEscapeStart);
                     }
                     // Anything else
                     // Emit a U+003C LESS-THAN SIGN character token. Reconsume in the script
                     // data escaped state.
                     _ => {
-                        self.emit_token(Token::Character {
-                            value: '<',
-                            raw: None,
-                        });
+                        self.emit_character_token('<', None);
                         self.reconsume_in_state(State::ScriptDataEscaped);
                     }
                 }
@@ -1723,14 +1651,8 @@ where
                     // Emit a U+003C LESS-THAN SIGN character token and a U+002F SOLIDUS
                     // character token. Reconsume in the script data escaped state.
                     _ => {
-                        self.emit_token(Token::Character {
-                            value: '<',
-                            raw: None,
-                        });
-                        self.emit_token(Token::Character {
-                            value: '/',
-                            raw: None,
-                        });
+                        self.emit_character_token('<', None);
+                        self.emit_character_token('/', None);
                         self.reconsume_in_state(State::ScriptDataEscaped);
                     }
                 }
@@ -1738,14 +1660,8 @@ where
             // https://html.spec.whatwg.org/multipage/parsing.html#script-data-escaped-end-tag-name-state
             State::ScriptDataEscapedEndTagName => {
                 let anything_else = |lexer: &mut Lexer<I>| {
-                    lexer.emit_token(Token::Character {
-                        value: '<',
-                        raw: None,
-                    });
-                    lexer.emit_token(Token::Character {
-                        value: '/',
-                        raw: None,
-                    });
+                    lexer.emit_character_token('<', None);
+                    lexer.emit_character_token('/', None);
                     lexer.emit_temporary_buffer_as_character_tokens();
                     lexer.reconsume_in_state(State::ScriptDataEscaped);
                 };
@@ -1882,8 +1798,6 @@ where
                     // data double escaped state. Otherwise, switch to the script data escaped
                     // state. Emit the current input character as a character token.
                     Some(c) if is_spacy(c) => {
-                        self.skip_next_lf(c);
-
                         let is_script =
                             matches!(&self.temporary_buffer, Some(tmp) if tmp == "script");
 
@@ -1893,10 +1807,7 @@ where
                             self.state = State::ScriptDataEscaped;
                         }
 
-                        self.emit_token(Token::Character {
-                            value: c,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(c, Some(c));
                     }
                     Some(c @ '/' | c @ '>') => {
                         let is_script =
@@ -1908,10 +1819,7 @@ where
                             self.state = State::ScriptDataEscaped;
                         }
 
-                        self.emit_token(Token::Character {
-                            value: c,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(c, Some(c));
                     }
                     // ASCII upper alpha
                     // Append the lowercase version of the current input character (add 0x0020
@@ -1922,10 +1830,7 @@ where
                             temporary_buffer.push(c.to_ascii_lowercase());
                         }
 
-                        self.emit_token(Token::Character {
-                            value: c,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(c, Some(c));
                     }
                     // ASCII lower alpha
                     // Append the current input character to the temporary buffer. Emit the
@@ -1935,10 +1840,7 @@ where
                             temporary_buffer.push(c);
                         }
 
-                        self.emit_token(Token::Character {
-                            value: c,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(c, Some(c));
                     }
                     // Anything else
                     // Reconsume in the script data escaped state.
@@ -1956,30 +1858,21 @@ where
                     // HYPHEN-MINUS character token.
                     Some(c @ '-') => {
                         self.state = State::ScriptDataDoubleEscapedDash;
-                        self.emit_token(Token::Character {
-                            value: c,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(c, Some(c));
                     }
                     // U+003C LESS-THAN SIGN (<)
                     // Switch to the script data double escaped less-than sign state. Emit a
                     // U+003C LESS-THAN SIGN character token.
                     Some(c @ '<') => {
                         self.state = State::ScriptDataDoubleEscapedLessThanSign;
-                        self.emit_token(Token::Character {
-                            value: c,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(c, Some(c));
                     }
                     // U+0000 NULL
                     // This is an unexpected-null-character parse error. Emit a U+FFFD
                     // REPLACEMENT CHARACTER character token.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.emit_token(Token::Character {
-                            value: REPLACEMENT_CHARACTER,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(REPLACEMENT_CHARACTER, Some(c));
                     }
                     // EOF
                     // This is an eof-in-script-html-comment-like-text parse error. Emit an
@@ -1993,10 +1886,7 @@ where
                     // Anything else
                     // Emit the current input character as a character token.
                     Some(c) => {
-                        self.emit_token(Token::Character {
-                            value: c,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(c, Some(c));
                     }
                 }
             }
@@ -2009,20 +1899,14 @@ where
                     // HYPHEN-MINUS character token.
                     Some(c @ '-') => {
                         self.state = State::ScriptDataDoubleEscapedDashDash;
-                        self.emit_token(Token::Character {
-                            value: c,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(c, Some(c));
                     }
                     // U+003C LESS-THAN SIGN (<)
                     // Switch to the script data double escaped less-than sign state. Emit a
                     // U+003C LESS-THAN SIGN character token.
                     Some(c @ '<') => {
                         self.state = State::ScriptDataDoubleEscapedLessThanSign;
-                        self.emit_token(Token::Character {
-                            value: c,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(c, Some(c));
                     }
                     // U+0000 NULL
                     // This is an unexpected-null-character parse error. Switch to the script
@@ -2031,10 +1915,7 @@ where
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
                         self.state = State::ScriptDataDoubleEscaped;
-                        self.emit_token(Token::Character {
-                            value: REPLACEMENT_CHARACTER,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(REPLACEMENT_CHARACTER, Some(c));
                     }
                     // EOF
                     // This is an eof-in-script-html-comment-like-text parse error. Emit an
@@ -2050,10 +1931,7 @@ where
                     // character as a character token.
                     Some(c) => {
                         self.state = State::ScriptDataDoubleEscaped;
-                        self.emit_token(Token::Character {
-                            value: c,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(c, Some(c));
                     }
                 }
             }
@@ -2064,30 +1942,21 @@ where
                     // U+002D HYPHEN-MINUS (-)
                     // Emit a U+002D HYPHEN-MINUS character token.
                     Some(c @ '-') => {
-                        self.emit_token(Token::Character {
-                            value: c,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(c, Some(c));
                     }
                     // U+003C LESS-THAN SIGN (<)
                     // Switch to the script data double escaped less-than sign state. Emit a
                     // U+003C LESS-THAN SIGN character token.
                     Some(c @ '<') => {
                         self.state = State::ScriptDataDoubleEscapedLessThanSign;
-                        self.emit_token(Token::Character {
-                            value: c,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(c, Some(c));
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // Switch to the script data state. Emit a U+003E GREATER-THAN SIGN
                     // character token.
                     Some(c @ '>') => {
                         self.state = State::ScriptData;
-                        self.emit_token(Token::Character {
-                            value: c,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(c, Some(c));
                     }
                     // U+0000 NULL
                     // This is an unexpected-null-character parse error. Switch to the script
@@ -2096,10 +1965,7 @@ where
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
                         self.state = State::ScriptDataDoubleEscaped;
-                        self.emit_token(Token::Character {
-                            value: REPLACEMENT_CHARACTER,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(REPLACEMENT_CHARACTER, Some(c));
                     }
                     // EOF
                     // This is an eof-in-script-html-comment-like-text parse error. Emit an
@@ -2115,10 +1981,7 @@ where
                     // character as a character token.
                     Some(c) => {
                         self.state = State::ScriptDataDoubleEscaped;
-                        self.emit_token(Token::Character {
-                            value: c,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(c, Some(c));
                     }
                 }
             }
@@ -2132,10 +1995,7 @@ where
                     Some(c @ '/') => {
                         self.temporary_buffer = Some("".into());
                         self.state = State::ScriptDataDoubleEscapeEnd;
-                        self.emit_token(Token::Character {
-                            value: c,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(c, Some(c));
                     }
                     // Anything else
                     // Reconsume in the script data double escaped state.
@@ -2158,8 +2018,6 @@ where
                     // data escaped state. Otherwise, switch to the script data double escaped
                     // state. Emit the current input character as a character token.
                     Some(c) if is_spacy(c) => {
-                        self.skip_next_lf(c);
-
                         let is_script =
                             matches!(&self.temporary_buffer, Some(tmp) if tmp == "script");
 
@@ -2169,10 +2027,7 @@ where
                             self.state = State::ScriptDataDoubleEscaped;
                         }
 
-                        self.emit_token(Token::Character {
-                            value: c,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(c, Some(c));
                     }
                     Some(c @ '/' | c @ '>') => {
                         let is_script =
@@ -2184,10 +2039,7 @@ where
                             self.state = State::ScriptDataDoubleEscaped;
                         }
 
-                        self.emit_token(Token::Character {
-                            value: c,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(c, Some(c));
                     }
                     // ASCII upper alpha
                     // Append the lowercase version of the current input character (add 0x0020
@@ -2198,10 +2050,7 @@ where
                             temporary_buffer.push(c.to_ascii_lowercase());
                         }
 
-                        self.emit_token(Token::Character {
-                            value: c,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(c, Some(c));
                     }
                     // ASCII lower alpha
                     // Append the current input character to the temporary buffer. Emit the
@@ -2211,10 +2060,7 @@ where
                             temporary_buffer.push(c);
                         }
 
-                        self.emit_token(Token::Character {
-                            value: c,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(c, Some(c));
                     }
                     // Anything else
                     // Reconsume in the script data double escaped state.
@@ -2256,11 +2102,14 @@ where
                                 Token::StartTag { attributes, .. }
                                 | Token::EndTag { attributes, .. } => {
                                     attributes.push(AttributeToken {
+                                        span: Default::default(),
                                         name: c.to_string().into(),
                                         raw_name: Some(c.to_string().into()),
                                         value: None,
                                         raw_value: None,
                                     });
+
+                                    self.attribute_start_position = Some(self.cur_pos);
                                 }
                                 _ => {}
                             }
@@ -2278,11 +2127,14 @@ where
                                 Token::StartTag { attributes, .. }
                                 | Token::EndTag { attributes, .. } => {
                                     attributes.push(AttributeToken {
+                                        span: Default::default(),
                                         name: "".into(),
                                         raw_name: Some("".into()),
                                         value: None,
                                         raw_value: None,
                                     });
+
+                                    self.attribute_start_position = Some(self.cur_pos);
                                 }
                                 _ => {}
                             }
@@ -2329,11 +2181,13 @@ where
                     // Reconsume in the after attribute name state.
                     Some(c) if is_spacy(c) => {
                         self.leave_attribute_name_state();
+                        self.update_attribute_span();
                         self.skip_next_lf(c);
                         self.reconsume_in_state(State::AfterAttributeName);
                     }
                     Some('/' | '>') | None => {
                         self.leave_attribute_name_state();
+                        self.update_attribute_span();
                         self.reconsume_in_state(State::AfterAttributeName);
                     }
                     // U+003D EQUALS SIGN (=)
@@ -2465,11 +2319,14 @@ where
                                 Token::StartTag { attributes, .. }
                                 | Token::EndTag { attributes, .. } => {
                                     attributes.push(AttributeToken {
+                                        span: Default::default(),
                                         name: "".into(),
                                         raw_name: Some("".into()),
                                         value: None,
                                         raw_value: None,
                                     });
+
+                                    self.attribute_start_position = Some(self.cur_pos);
                                 }
                                 _ => {}
                             }
@@ -2818,8 +2675,8 @@ where
                     // U+0020 SPACE
                     // Switch to the before attribute name state.
                     Some(c) if is_spacy(c) => {
+                        self.update_attribute_span();
                         self.skip_next_lf(c);
-
                         self.state = State::BeforeAttributeName;
                     }
                     // U+0026 AMPERSAND (&)
@@ -2832,6 +2689,7 @@ where
                     // U+003E GREATER-THAN SIGN (>)
                     // Switch to the data state. Emit the current tag token.
                     Some('>') => {
+                        self.update_attribute_span();
                         self.state = State::Data;
                         self.emit_cur_token();
                     }
@@ -2886,6 +2744,7 @@ where
                     // EOF
                     // This is an eof-in-tag parse error. Emit an end-of-file token.
                     None => {
+                        self.update_attribute_span();
                         self.emit_error(ErrorKind::EofInTag);
                         self.emit_token(Token::Eof);
 
@@ -2908,24 +2767,27 @@ where
                     // U+0020 SPACE
                     // Switch to the before attribute name state.
                     Some(c) if is_spacy(c) => {
+                        self.update_attribute_span();
                         self.skip_next_lf(c);
-
                         self.state = State::BeforeAttributeName;
                     }
                     // U+002F SOLIDUS (/)
                     // Switch to the self-closing start tag state.
                     Some('/') => {
+                        self.update_attribute_span();
                         self.state = State::SelfClosingStartTag;
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // Switch to the data state. Emit the current tag token.
                     Some('>') => {
+                        self.update_attribute_span();
                         self.state = State::Data;
                         self.emit_cur_token();
                     }
                     // EOF
                     // This is an eof-in-tag parse error. Emit an end-of-file token.
                     None => {
+                        self.update_attribute_span();
                         self.emit_error(ErrorKind::EofInTag);
                         self.emit_token(Token::Eof);
 
@@ -2935,6 +2797,7 @@ where
                     // This is a missing-whitespace-between-attributes parse error. Reconsume in
                     // the before attribute name state.
                     _ => {
+                        self.update_attribute_span();
                         self.emit_error(ErrorKind::MissingWhitespaceBetweenAttributes);
                         self.reconsume_in_state(State::BeforeAttributeName);
                     }
@@ -2997,29 +2860,14 @@ where
                     // U+0000 NULL
                     // This is an unexpected-null-character parse error. Append a U+FFFD
                     // REPLACEMENT CHARACTER character to the comment token's data.
-                    Some('\x00') => {
+                    Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-
-                        if let Some(Token::Comment { data, .. }) = &mut self.cur_token {
-                            let mut new_data = String::new();
-
-                            new_data.push_str(data);
-                            new_data.push(REPLACEMENT_CHARACTER);
-
-                            *data = new_data.into();
-                        }
+                        self.append_character_to_token_comment(REPLACEMENT_CHARACTER, Some(c));
                     }
                     // Anything else
                     // Append the current input character to the comment token's data.
                     Some(c) => {
-                        if let Some(Token::Comment { data, .. }) = &mut self.cur_token {
-                            let mut new_data = String::new();
-
-                            new_data.push_str(data);
-                            new_data.push(c);
-
-                            *data = new_data.into();
-                        }
+                        self.append_character_to_token_comment(c, Some(c));
                     }
                 }
             }
@@ -3221,15 +3069,7 @@ where
                     // Append a U+002D HYPHEN-MINUS character (-) to the comment token's data.
                     // Reconsume in the comment state.
                     _ => {
-                        if let Some(Token::Comment { data, .. }) = &mut self.cur_token {
-                            let mut new_data = String::new();
-
-                            new_data.push_str(data);
-                            new_data.push('-');
-
-                            *data = new_data.into();
-                        }
-
+                        self.append_character_to_token_comment('-', None);
                         self.reconsume_in_state(State::Comment);
                     }
                 }
@@ -3241,16 +3081,8 @@ where
                     // U+003C LESS-THAN SIGN (<)
                     // Append the current input character to the comment token's data. Switch to
                     // the comment less-than sign state.
-                    Some('<') => {
-                        if let Some(Token::Comment { data, .. }) = &mut self.cur_token {
-                            let mut new_data = String::new();
-
-                            new_data.push_str(data);
-                            new_data.push('<');
-
-                            *data = new_data.into();
-                        }
-
+                    Some(c @ '<') => {
+                        self.append_character_to_token_comment(c, Some(c));
                         self.state = State::CommentLessThanSign;
                     }
                     // U+002D HYPHEN-MINUS (-)
@@ -3261,17 +3093,9 @@ where
                     // U+0000 NULL
                     // This is an unexpected-null-character parse error. Append a U+FFFD
                     // REPLACEMENT CHARACTER character to the comment token's data.
-                    Some('\x00') => {
+                    Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-
-                        if let Some(Token::Comment { data, .. }) = &mut self.cur_token {
-                            let mut new_data = String::new();
-
-                            new_data.push_str(data);
-                            new_data.push(REPLACEMENT_CHARACTER);
-
-                            *data = new_data.into();
-                        }
+                        self.append_character_to_token_comment(REPLACEMENT_CHARACTER, Some(c));
                     }
                     // EOF
                     // This is an eof-in-comment parse error. Emit the current comment token.
@@ -3286,14 +3110,7 @@ where
                     // Anything else
                     // Append the current input character to the comment token's data.
                     Some(c) => {
-                        if let Some(Token::Comment { data, .. }) = &mut self.cur_token {
-                            let mut new_data = String::new();
-
-                            new_data.push_str(data);
-                            new_data.push(c);
-
-                            *data = new_data.into();
-                        }
+                        self.append_character_to_token_comment(c, Some(c));
                     }
                 }
             }
@@ -3305,28 +3122,13 @@ where
                     // Append the current input character to the comment token's data. Switch to
                     // the comment less-than sign bang state.
                     Some(c @ '!') => {
-                        if let Some(Token::Comment { data, .. }) = &mut self.cur_token {
-                            let mut new_data = String::new();
-
-                            new_data.push_str(data);
-                            new_data.push(c);
-
-                            *data = new_data.into();
-                        }
-
+                        self.append_character_to_token_comment(c, Some(c));
                         self.state = State::CommentLessThanSignBang;
                     }
                     // U+003C LESS-THAN SIGN (<)
                     // Append the current input character to the comment token's data.
                     Some(c @ '<') => {
-                        if let Some(Token::Comment { data, .. }) = &mut self.cur_token {
-                            let mut new_data = String::new();
-
-                            new_data.push_str(data);
-                            new_data.push(c);
-
-                            *data = new_data.into();
-                        }
+                        self.append_character_to_token_comment(c, Some(c));
                     }
                     // Anything else
                     // Reconsume in the comment state.
@@ -3408,15 +3210,7 @@ where
                     // Append a U+002D HYPHEN-MINUS character (-) to the comment token's data.
                     // Reconsume in the comment state.
                     _ => {
-                        if let Some(Token::Comment { data, .. }) = &mut self.cur_token {
-                            let mut new_data = String::new();
-
-                            new_data.push_str(data);
-                            new_data.push('-');
-
-                            *data = new_data.into();
-                        }
-
+                        self.append_character_to_token_comment('-', None);
                         self.reconsume_in_state(State::Comment);
                     }
                 }
@@ -3438,15 +3232,8 @@ where
                     }
                     // U+002D HYPHEN-MINUS (-)
                     // Append a U+002D HYPHEN-MINUS character (-) to the comment token's data.
-                    Some('-') => {
-                        if let Some(Token::Comment { data, .. }) = &mut self.cur_token {
-                            let mut new_data = String::new();
-
-                            new_data.push_str(data);
-                            new_data.push('-');
-
-                            *data = new_data.into();
-                        }
+                    Some(c @ '-') => {
+                        self.append_character_to_token_comment(c, Some(c));
                     }
                     // EOF
                     // This is an eof-in-comment parse error. Emit the current comment token.
@@ -3462,16 +3249,8 @@ where
                     // Append two U+002D HYPHEN-MINUS characters (-) to the comment token's
                     // data. Reconsume in the comment state.
                     _ => {
-                        if let Some(Token::Comment { data, .. }) = &mut self.cur_token {
-                            let mut new_data = String::new();
-
-                            new_data.push_str(data);
-                            new_data.push('-');
-                            new_data.push('-');
-
-                            *data = new_data.into();
-                        }
-
+                        self.append_character_to_token_comment('-', None);
+                        self.append_character_to_token_comment('-', None);
                         self.reconsume_in_state(State::Comment);
                     }
                 }
@@ -3484,18 +3263,10 @@ where
                     // Append two U+002D HYPHEN-MINUS characters (-) and a U+0021 EXCLAMATION
                     // MARK character (!) to the comment token's data. Switch to the comment end
                     // dash state.
-                    Some('-') => {
-                        if let Some(Token::Comment { data, .. }) = &mut self.cur_token {
-                            let mut new_data = String::new();
-
-                            new_data.push_str(data);
-                            new_data.push('-');
-                            new_data.push('-');
-                            new_data.push('!');
-
-                            *data = new_data.into();
-                        }
-
+                    Some(c @ '-') => {
+                        self.append_character_to_token_comment(c, Some(c));
+                        self.append_character_to_token_comment('-', None);
+                        self.append_character_to_token_comment('!', None);
                         self.state = State::CommentEndDash;
                     }
                     // U+003E GREATER-THAN SIGN (>)
@@ -3521,17 +3292,9 @@ where
                     // MARK character (!) to the comment token's data. Reconsume in the comment
                     // state.
                     _ => {
-                        if let Some(Token::Comment { data, .. }) = &mut self.cur_token {
-                            let mut new_data = String::new();
-
-                            new_data.push_str(data);
-                            new_data.push('-');
-                            new_data.push('-');
-                            new_data.push('!');
-
-                            *data = new_data.into();
-                        }
-
+                        self.append_character_to_token_comment('-', None);
+                        self.append_character_to_token_comment('-', None);
+                        self.append_character_to_token_comment('!', None);
                         self.reconsume_in_state(State::Comment);
                     }
                 }
@@ -3713,7 +3476,6 @@ where
                     // Switch to the after DOCTYPE name state.
                     Some(c) if is_spacy(c) => {
                         self.skip_next_lf(c);
-
                         self.state = State::AfterDoctypeName;
                     }
                     // U+003E GREATER-THAN SIGN (>)
@@ -3923,7 +3685,6 @@ where
                     // Switch to the before DOCTYPE public identifier state.
                     Some(c) if is_spacy(c) => {
                         self.skip_next_lf(c);
-
                         self.state = State::BeforeDoctypePublicIdentifier;
                     }
                     // U+0022 QUOTATION MARK (")
@@ -4270,7 +4031,6 @@ where
                     // Switch to the between DOCTYPE public and system identifiers state.
                     Some(c) if is_spacy(c) => {
                         self.skip_next_lf(c);
-
                         self.state = State::BetweenDoctypePublicAndSystemIdentifiers;
                     }
                     // U+003E GREATER-THAN SIGN (>)
@@ -4448,7 +4208,6 @@ where
                     // Switch to the before DOCTYPE system identifier state.
                     Some(c) if is_spacy(c) => {
                         self.skip_next_lf(c);
-
                         self.state = State::BeforeDoctypeSystemIdentifier;
                     }
                     // U+0022 QUOTATION MARK (")
@@ -4876,10 +4635,7 @@ where
                     // Anything else
                     // Emit the current input character as a character token.
                     Some(c) => {
-                        self.emit_token(Token::Character {
-                            value: c,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(c, Some(c));
                     }
                 }
             }
@@ -4896,10 +4652,7 @@ where
                     // Emit a U+005D RIGHT SQUARE BRACKET character token. Reconsume in the
                     // CDATA section state.
                     _ => {
-                        self.emit_token(Token::Character {
-                            value: ']',
-                            raw: None,
-                        });
+                        self.emit_character_token(']', None);
                         self.reconsume_in_state(State::CdataSection);
                     }
                 }
@@ -4911,10 +4664,7 @@ where
                     // U+005D RIGHT SQUARE BRACKET (])
                     // Emit a U+005D RIGHT SQUARE BRACKET character token.
                     Some(c @ ']') => {
-                        self.emit_token(Token::Character {
-                            value: c,
-                            raw: Some(c.to_string().into()),
-                        });
+                        self.emit_character_token(']', Some(c));
                     }
                     // U+003E GREATER-THAN SIGN character
                     // Switch to the data state.
@@ -4925,14 +4675,8 @@ where
                     // Emit two U+005D RIGHT SQUARE BRACKET character tokens. Reconsume in the
                     // CDATA section state.
                     _ => {
-                        self.emit_token(Token::Character {
-                            value: ']',
-                            raw: None,
-                        });
-                        self.emit_token(Token::Character {
-                            value: ']',
-                            raw: None,
-                        });
+                        self.emit_character_token(']', None);
+                        self.emit_character_token(']', None);
                         self.reconsume_in_state(State::CdataSection);
                     }
                 }
@@ -4964,7 +4708,7 @@ where
                     // Flush code points consumed as a character reference. Reconsume in the
                     // return state.
                     _ => {
-                        self.flush_code_points_consumed_as_character_reference();
+                        self.flush_code_points_consumed_as_character_reference(None);
                         self.reconsume_in_state(self.return_state.clone());
                     }
                 }
@@ -5038,15 +4782,7 @@ where
                             && !is_last_semicolon
                             && is_next_equals_sign_or_ascii_alphanumeric
                         {
-                            if let Some(mut temporary_buffer) = self.temporary_buffer.take() {
-                                for c in temporary_buffer.drain(..) {
-                                    self.flush_code_point_consumed_as_character_reference(
-                                        c,
-                                        &c.to_string(),
-                                    );
-                                }
-                            }
-
+                            self.flush_code_points_consumed_as_character_reference(None);
                             self.state = self.return_state.clone();
                         }
                         // Otherwise:
@@ -5073,7 +4809,9 @@ where
                                 temporary_buffer.push_str(&entity.characters);
                             }
 
-                            self.flush_code_points_consumed_as_character_reference();
+                            self.flush_code_points_consumed_as_character_reference(
+                                self.temporary_buffer.clone(),
+                            );
                             self.state = self.return_state.clone();
                         }
                     }
@@ -5081,7 +4819,7 @@ where
                     // Flush code points consumed as a character reference. Switch to the
                     // ambiguous ampersand state.
                     _ => {
-                        self.flush_code_points_consumed_as_character_reference();
+                        self.flush_code_points_consumed_as_character_reference(None);
                         self.state = State::AmbiguousAmpersand;
                     }
                 }
@@ -5125,10 +4863,7 @@ where
                                 }
                             }
                         } else {
-                            self.emit_token(Token::Character {
-                                value: c,
-                                raw: Some(c.to_string().into()),
-                            });
+                            self.emit_character_token(c, Some(c));
                         }
                     }
                     // U+003B SEMICOLON (;)
@@ -5147,7 +4882,7 @@ where
             }
             // https://html.spec.whatwg.org/multipage/parsing.html#numeric-character-reference-state
             State::NumericCharacterReference => {
-                self.character_reference_code = Some(vec![(0, 0)]);
+                self.character_reference_code = Some(vec![(0, 0, None)]);
 
                 // Consume the next input character:
                 match self.consume_next_char() {
@@ -5184,7 +4919,7 @@ where
                     // return state.
                     _ => {
                         self.emit_error(ErrorKind::AbsenceOfDigitsInNumericCharacterReference);
-                        self.flush_code_points_consumed_as_character_reference();
+                        self.flush_code_points_consumed_as_character_reference(None);
                         self.reconsume_in_state(self.return_state.clone());
                     }
                 }
@@ -5204,7 +4939,7 @@ where
                     // return state.
                     _ => {
                         self.emit_error(ErrorKind::AbsenceOfDigitsInNumericCharacterReference);
-                        self.flush_code_points_consumed_as_character_reference();
+                        self.flush_code_points_consumed_as_character_reference(None);
                         self.reconsume_in_state(self.return_state.clone());
                     }
                 }
@@ -5219,7 +4954,7 @@ where
                     // to the character reference code.
                     Some(c) if c.is_ascii_digit() => match &mut self.character_reference_code {
                         Some(character_reference_code) => {
-                            character_reference_code.push((16, c as u32 - 0x30));
+                            character_reference_code.push((16, c as u32 - 0x30, Some(c)));
                         }
                         _ => {
                             unreachable!();
@@ -5231,7 +4966,7 @@ where
                     // character's code point) to the character reference code.
                     Some(c) if is_upper_hex_digit(c) => match &mut self.character_reference_code {
                         Some(character_reference_code) => {
-                            character_reference_code.push((16, c as u32 - 0x37));
+                            character_reference_code.push((16, c as u32 - 0x37, Some(c)));
                         }
                         _ => {
                             unreachable!();
@@ -5243,7 +4978,7 @@ where
                     // character's code point) to the character reference code.
                     Some(c) if is_lower_hex_digit(c) => match &mut self.character_reference_code {
                         Some(character_reference_code) => {
-                            character_reference_code.push((16, c as u32 - 0x57));
+                            character_reference_code.push((16, c as u32 - 0x57, Some(c)));
                         }
                         _ => {
                             unreachable!();
@@ -5273,7 +5008,7 @@ where
                     // to the character reference code.
                     Some(c) if c.is_ascii_digit() => match &mut self.character_reference_code {
                         Some(character_reference_code) => {
-                            character_reference_code.push((10, c as u32 - 0x30));
+                            character_reference_code.push((10, c as u32 - 0x30, Some(c)));
                         }
                         _ => {
                             unreachable!();
@@ -5293,28 +5028,36 @@ where
             }
             // https://html.spec.whatwg.org/multipage/parsing.html#numeric-character-reference-end-state
             State::NumericCharacterReferenceEnd => {
-                let value = if let Some(chars) = self.character_reference_code.take() {
+                let (value, raw) = if let Some(chars) = self.character_reference_code.take() {
+                    let mut raw = String::with_capacity(1);
                     let mut i: u32 = 0;
+                    let mut overflowed = false;
 
-                    for (base, value) in chars.iter() {
-                        if let Some(result) = i.checked_mul(*base as u32) {
-                            i = result;
+                    for (base, value, c) in chars.iter() {
+                        if let Some(c) = c {
+                            raw.push(*c);
+                        }
 
-                            if let Some(result) = i.checked_add(*value) {
+                        if !overflowed {
+                            if let Some(result) = i.checked_mul(*base as u32) {
                                 i = result;
+
+                                if let Some(result) = i.checked_add(*value) {
+                                    i = result;
+                                } else {
+                                    i = 0x110000;
+
+                                    overflowed = true;
+                                }
                             } else {
                                 i = 0x110000;
 
-                                break;
+                                overflowed = true;
                             }
-                        } else {
-                            i = 0x110000;
-
-                            break;
                         }
                     }
 
-                    i
+                    (i, raw)
                 } else {
                     unreachable!();
                 };
@@ -5443,7 +5186,7 @@ where
                     temporary_buffer.push(c);
                 }
 
-                self.flush_code_points_consumed_as_character_reference();
+                self.flush_code_points_consumed_as_character_reference(Some(raw));
                 self.state = self.return_state.clone();
             }
         }

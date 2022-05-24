@@ -1,4 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 // @allowUnreachableCode: true
 // FunctionExpression with no return type annotation and no return statement returns void
 var v = function() {}();
@@ -67,14 +69,14 @@ var n = function() {
 // FunctionExpression with no return type annotation with multiple return statements with subtype relation between returns
 var Base = function Base() {
     "use strict";
-    swcHelpers.classCallCheck(this, Base);
+    _class_call_check(this, Base);
 };
 var Derived = /*#__PURE__*/ function(Base) {
     "use strict";
-    swcHelpers.inherits(Derived, Base);
-    var _super = swcHelpers.createSuper(Derived);
+    _inherits(Derived, Base);
+    var _super = _create_super(Derived);
     function Derived() {
-        swcHelpers.classCallCheck(this, Derived);
+        _class_call_check(this, Derived);
         return _super.apply(this, arguments);
     }
     return Derived;
@@ -128,17 +130,17 @@ function f6() {
 }
 var Derived2 = /*#__PURE__*/ function(Base) {
     "use strict";
-    swcHelpers.inherits(Derived2, Base);
-    var _super = swcHelpers.createSuper(Derived2);
+    _inherits(Derived2, Base);
+    var _super = _create_super(Derived2);
     function Derived2() {
-        swcHelpers.classCallCheck(this, Derived2);
+        _class_call_check(this, Derived2);
         return _super.apply(this, arguments);
     }
     return Derived2;
 }(Base);
 var AnotherClass = function AnotherClass() {
     "use strict";
-    swcHelpers.classCallCheck(this, AnotherClass);
+    _class_call_check(this, AnotherClass);
 };
 // if f is a contextually typed function expression, the inferred return type is the union type
 // of the types of the return statement expressions in the function body, 

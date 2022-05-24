@@ -1,4 +1,8 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_generator_delegate from "@swc/helpers/lib/_async_generator_delegate.js";
+import _async_iterator from "@swc/helpers/lib/_async_iterator.js";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
+import _await_async_generator from "@swc/helpers/lib/_await_async_generator.js";
+import _wrap_async_generator from "@swc/helpers/lib/_wrap_async_generator.js";
 // spread iterable
 [
     ...g1
@@ -25,12 +29,12 @@ function asyncfn() {
     return _asyncfn.apply(this, arguments);
 }
 function _asyncfn() {
-    _asyncfn = swcHelpers.asyncToGenerator(function*() {
+    _asyncfn = _async_to_generator(function*() {
         // for-await-of over iterable
         {
             var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError;
             try {
-                for(var _iterator = swcHelpers.asyncIterator(g1), _step; _iteratorAbruptCompletion = !(_step = yield _iterator.next()).done; _iteratorAbruptCompletion = false){
+                for(var _iterator = _async_iterator(g1), _step; _iteratorAbruptCompletion = !(_step = yield _iterator.next()).done; _iteratorAbruptCompletion = false){
                     let _value = _step.value;
                     _ = _value;
                     ; // error
@@ -41,7 +45,7 @@ function _asyncfn() {
             } finally{
                 try {
                     if (_iteratorAbruptCompletion && _iterator.return != null) {
-                        yield _iteratorError.return();
+                        yield _iterator.return();
                     }
                 } finally{
                     if (_didIteratorError) {
@@ -53,7 +57,7 @@ function _asyncfn() {
         {
             var _iteratorAbruptCompletion1 = false, _didIteratorError1 = false, _iteratorError1;
             try {
-                for(var _iterator1 = swcHelpers.asyncIterator(g2), _step1; _iteratorAbruptCompletion1 = !(_step1 = yield _iterator1.next()).done; _iteratorAbruptCompletion1 = false){
+                for(var _iterator1 = _async_iterator(g2), _step1; _iteratorAbruptCompletion1 = !(_step1 = yield _iterator1.next()).done; _iteratorAbruptCompletion1 = false){
                     let _value = _step1.value;
                     _ = _value;
                     ; // ok
@@ -64,7 +68,7 @@ function _asyncfn() {
             } finally{
                 try {
                     if (_iteratorAbruptCompletion1 && _iterator1.return != null) {
-                        yield _iteratorError1.return();
+                        yield _iterator1.return();
                     }
                 } finally{
                     if (_didIteratorError1) {
@@ -77,7 +81,7 @@ function _asyncfn() {
         {
             var _iteratorAbruptCompletion2 = false, _didIteratorError2 = false, _iteratorError2;
             try {
-                for(var _iterator2 = swcHelpers.asyncIterator(g4), _step2; _iteratorAbruptCompletion2 = !(_step2 = yield _iterator2.next()).done; _iteratorAbruptCompletion2 = false){
+                for(var _iterator2 = _async_iterator(g4), _step2; _iteratorAbruptCompletion2 = !(_step2 = yield _iterator2.next()).done; _iteratorAbruptCompletion2 = false){
                     let _value = _step2.value;
                     _ = _value;
                     ; // error
@@ -88,7 +92,7 @@ function _asyncfn() {
             } finally{
                 try {
                     if (_iteratorAbruptCompletion2 && _iterator2.return != null) {
-                        yield _iteratorError2.return();
+                        yield _iterator2.return();
                     }
                 } finally{
                     if (_didIteratorError2) {
@@ -100,7 +104,7 @@ function _asyncfn() {
         {
             var _iteratorAbruptCompletion3 = false, _didIteratorError3 = false, _iteratorError3;
             try {
-                for(var _iterator3 = swcHelpers.asyncIterator(g5), _step3; _iteratorAbruptCompletion3 = !(_step3 = yield _iterator3.next()).done; _iteratorAbruptCompletion3 = false){
+                for(var _iterator3 = _async_iterator(g5), _step3; _iteratorAbruptCompletion3 = !(_step3 = yield _iterator3.next()).done; _iteratorAbruptCompletion3 = false){
                     let _value = _step3.value;
                     _ = _value;
                     ; // ok
@@ -111,7 +115,7 @@ function _asyncfn() {
             } finally{
                 try {
                     if (_iteratorAbruptCompletion3 && _iterator3.return != null) {
-                        yield _iteratorError3.return();
+                        yield _iterator3.return();
                     }
                 } finally{
                     if (_didIteratorError3) {
@@ -132,13 +136,13 @@ function f2() {
     return _f2.apply(this, arguments);
 }
 function _f2() {
-    _f2 = swcHelpers.wrapAsyncGenerator(function*() {
+    _f2 = _wrap_async_generator(function*() {
         // yield* over iterable
-        yield* swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator(g1), swcHelpers.awaitAsyncGenerator); // error
-        yield* swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator(g3), swcHelpers.awaitAsyncGenerator); // ok
+        yield* _async_generator_delegate(_async_iterator(g1), _await_async_generator); // error
+        yield* _async_generator_delegate(_async_iterator(g3), _await_async_generator); // ok
         // yield* over asynciterable
-        yield* swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator(g4), swcHelpers.awaitAsyncGenerator); // error
-        yield* swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator(g6), swcHelpers.awaitAsyncGenerator); // ok
+        yield* _async_generator_delegate(_async_iterator(g4), _await_async_generator); // error
+        yield* _async_generator_delegate(_async_iterator(g6), _await_async_generator); // ok
     });
     return _f2.apply(this, arguments);
 }
@@ -146,7 +150,7 @@ function f3() {
     return _f3.apply(this, arguments);
 }
 function _f3() {
-    _f3 = swcHelpers.asyncToGenerator(function*() {
+    _f3 = _async_to_generator(function*() {
         const syncGenerator = function*() {
             yield 1;
             yield 2;
@@ -157,7 +161,7 @@ function _f3() {
         {
             var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError;
             try {
-                for(var _iterator = swcHelpers.asyncIterator(o), _step; _iteratorAbruptCompletion = !(_step = yield _iterator.next()).done; _iteratorAbruptCompletion = false){
+                for(var _iterator = _async_iterator(o), _step; _iteratorAbruptCompletion = !(_step = yield _iterator.next()).done; _iteratorAbruptCompletion = false){
                     let _value = _step.value;
                     const x = _value;
                 }
@@ -167,7 +171,7 @@ function _f3() {
             } finally{
                 try {
                     if (_iteratorAbruptCompletion && _iterator.return != null) {
-                        yield _iteratorError.return();
+                        yield _iterator.return();
                     }
                 } finally{
                     if (_didIteratorError) {

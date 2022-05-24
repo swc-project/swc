@@ -1,15 +1,18 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 //@target: ES6
 var Bar = function Bar() {
     "use strict";
-    swcHelpers.classCallCheck(this, Bar);
+    _class_call_check(this, Bar);
 };
 var Foo = /*#__PURE__*/ function(Bar) {
     "use strict";
-    swcHelpers.inherits(Foo, Bar);
-    var _super = swcHelpers.createSuper(Foo);
+    _inherits(Foo, Bar);
+    var _super = _create_super(Foo);
     function Foo() {
-        swcHelpers.classCallCheck(this, Foo);
+        _class_call_check(this, Foo);
         return _super.apply(this, arguments);
     }
     return Foo;
@@ -18,7 +21,7 @@ var _iterator = Symbol.iterator;
 var FooArrayIterator = /*#__PURE__*/ function() {
     "use strict";
     function FooArrayIterator() {
-        swcHelpers.classCallCheck(this, FooArrayIterator);
+        _class_call_check(this, FooArrayIterator);
     }
     var _proto = FooArrayIterator.prototype;
     _proto.next = function next() {
@@ -35,6 +38,6 @@ var FooArrayIterator = /*#__PURE__*/ function() {
     return FooArrayIterator;
 }();
 function fun(param) {
-    var _param = swcHelpers.slicedToArray(param, 2), ref = swcHelpers.slicedToArray(_param[0], 1), a = ref[0], b = _param[1];
+    var _param = _sliced_to_array(param, 2), ref = _sliced_to_array(_param[0], 1), a = ref[0], b = _param[1];
 }
 fun(new FooArrayIterator);

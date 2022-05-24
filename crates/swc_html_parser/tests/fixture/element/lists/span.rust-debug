@@ -115,18 +115,8 @@
     `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/lists/input.html:1:1]
- 1 | ,-> <!DOCTYPE html>
- 2 | |   <html>
- 3 | `-> <body>
-   `----
 
   x Element
-   ,-[$DIR/tests/fixture/element/lists/input.html:1:1]
- 1 | ,-> <!DOCTYPE html>
- 2 | |   <html>
- 3 | `-> <body>
-   `----
 
   x Child
     ,-[$DIR/tests/fixture/element/lists/input.html:3:1]
@@ -221,9 +211,9 @@
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/element/lists/input.html:1:1]
- 1 | <!DOCTYPE html>
-   : ^
+   ,-[$DIR/tests/fixture/element/lists/input.html:5:1]
+ 5 | <h2 data-test="test">An Unordered HTML List</h2>
+   :     ^^^^^^^^^^^^^^^^
    `----
 
   x Child

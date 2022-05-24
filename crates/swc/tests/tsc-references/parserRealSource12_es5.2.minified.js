@@ -1,10 +1,10 @@
 var TypeScript;
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 !function(TypeScript1) {
     var globalAstWalkerFactory, ChildrenWalkers1, AstWalkOptions = function() {
         "use strict";
         function AstWalkOptions() {
-            swcHelpers.classCallCheck(this, AstWalkOptions), this.goChildren = !0, this.goNextSibling = !0, this.reverseSiblings = !1;
+            _class_call_check(this, AstWalkOptions), this.goChildren = !0, this.goNextSibling = !0, this.reverseSiblings = !1;
         }
         return AstWalkOptions.prototype.stopWalk = function() {
             var stop = !(arguments.length > 0) || void 0 === arguments[0] || arguments[0];
@@ -15,7 +15,7 @@ import * as swcHelpers from "@swc/helpers";
     var AstWalker = function() {
         "use strict";
         function AstWalker(childrenWalkers, pre, post, options, state) {
-            swcHelpers.classCallCheck(this, AstWalker), this.childrenWalkers = childrenWalkers, this.pre = pre, this.post = post, this.options = options, this.state = state;
+            _class_call_check(this, AstWalker), this.childrenWalkers = childrenWalkers, this.pre = pre, this.post = post, this.options = options, this.state = state;
         }
         return AstWalker.prototype.walk = function(ast, parent) {
             var preAst = this.pre(ast, parent, this);
@@ -30,7 +30,7 @@ import * as swcHelpers from "@swc/helpers";
     }(), AstWalkerFactory = function() {
         "use strict";
         function AstWalkerFactory() {
-            swcHelpers.classCallCheck(this, AstWalkerFactory), this.childrenWalkers = [], this.initChildrenWalkers();
+            _class_call_check(this, AstWalkerFactory), this.childrenWalkers = [], this.initChildrenWalkers();
         }
         var _proto = AstWalkerFactory.prototype;
         return _proto.walk = function(ast, pre, post, options, state) {

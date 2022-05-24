@@ -1,11 +1,13 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 function Mixin(baseClass1) {
     var MixinClass = /*#__PURE__*/ function(baseClass) {
         "use strict";
-        swcHelpers.inherits(MixinClass, baseClass);
-        var _super = swcHelpers.createSuper(MixinClass);
+        _inherits(MixinClass, baseClass);
+        var _super = _create_super(MixinClass);
         function MixinClass() {
-            swcHelpers.classCallCheck(this, MixinClass);
+            _class_call_check(this, MixinClass);
             return _super.apply(this, arguments);
         }
         var _proto = MixinClass.prototype;
@@ -17,7 +19,7 @@ function Mixin(baseClass1) {
 var ConcreteBase = /*#__PURE__*/ function() {
     "use strict";
     function ConcreteBase() {
-        swcHelpers.classCallCheck(this, ConcreteBase);
+        _class_call_check(this, ConcreteBase);
     }
     var _proto = ConcreteBase.prototype;
     _proto.baseMethod = function baseMethod() {};
@@ -25,14 +27,14 @@ var ConcreteBase = /*#__PURE__*/ function() {
 }();
 var AbstractBase = function AbstractBase() {
     "use strict";
-    swcHelpers.classCallCheck(this, AbstractBase);
+    _class_call_check(this, AbstractBase);
 };
 var DerivedFromConcrete = /*#__PURE__*/ function(_superClass) {
     "use strict";
-    swcHelpers.inherits(DerivedFromConcrete, _superClass);
-    var _super = swcHelpers.createSuper(DerivedFromConcrete);
+    _inherits(DerivedFromConcrete, _superClass);
+    var _super = _create_super(DerivedFromConcrete);
     function DerivedFromConcrete() {
-        swcHelpers.classCallCheck(this, DerivedFromConcrete);
+        _class_call_check(this, DerivedFromConcrete);
         return _super.apply(this, arguments);
     }
     return DerivedFromConcrete;
@@ -42,10 +44,10 @@ wasConcrete.baseMethod();
 wasConcrete.mixinMethod();
 var DerivedFromAbstract = /*#__PURE__*/ function(_superClass) {
     "use strict";
-    swcHelpers.inherits(DerivedFromAbstract, _superClass);
-    var _super = swcHelpers.createSuper(DerivedFromAbstract);
+    _inherits(DerivedFromAbstract, _superClass);
+    var _super = _create_super(DerivedFromAbstract);
     function DerivedFromAbstract() {
-        swcHelpers.classCallCheck(this, DerivedFromAbstract);
+        _class_call_check(this, DerivedFromAbstract);
         return _super.apply(this, arguments);
     }
     var _proto = DerivedFromAbstract.prototype;

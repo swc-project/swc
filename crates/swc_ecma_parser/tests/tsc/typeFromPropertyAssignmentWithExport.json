@@ -1,23 +1,23 @@
 {
   "type": "Module",
   "span": {
-    "start": 105,
-    "end": 222,
+    "start": 106,
+    "end": 223,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 105,
-        "end": 131,
+        "start": 106,
+        "end": 132,
         "ctxt": 0
       },
       "declaration": {
         "type": "VariableDeclaration",
         "span": {
-          "start": 112,
-          "end": 131,
+          "start": 113,
+          "end": 132,
           "ctxt": 0
         },
         "kind": "const",
@@ -26,15 +26,15 @@
           {
             "type": "VariableDeclarator",
             "span": {
-              "start": 118,
-              "end": 130,
+              "start": 119,
+              "end": 131,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 118,
-                "end": 125,
+                "start": 119,
+                "end": 126,
                 "ctxt": 0
               },
               "value": "Adapter",
@@ -44,8 +44,8 @@
             "init": {
               "type": "ObjectExpression",
               "span": {
-                "start": 128,
-                "end": 130,
+                "start": 129,
+                "end": 131,
                 "ctxt": 0
               },
               "properties": []
@@ -58,30 +58,30 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 133,
-        "end": 151,
+        "start": 134,
+        "end": 152,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 133,
-          "end": 150,
+          "start": 134,
+          "end": 151,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
-            "start": 133,
-            "end": 145,
+            "start": 134,
+            "end": 146,
             "ctxt": 0
           },
           "object": {
             "type": "Identifier",
             "span": {
-              "start": 133,
-              "end": 140,
+              "start": 134,
+              "end": 141,
               "ctxt": 0
             },
             "value": "Adapter",
@@ -90,8 +90,8 @@
           "property": {
             "type": "Identifier",
             "span": {
-              "start": 141,
-              "end": 145,
+              "start": 142,
+              "end": 146,
               "ctxt": 0
             },
             "value": "prop",
@@ -101,8 +101,8 @@
         "right": {
           "type": "ObjectExpression",
           "span": {
-            "start": 148,
-            "end": 150,
+            "start": 149,
+            "end": 151,
             "ctxt": 0
           },
           "properties": []
@@ -112,30 +112,30 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 187,
-        "end": 222,
+        "start": 188,
+        "end": 223,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 187,
-          "end": 222,
+          "start": 188,
+          "end": 223,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
-            "start": 187,
-            "end": 206,
+            "start": 188,
+            "end": 207,
             "ctxt": 0
           },
           "object": {
             "type": "Identifier",
             "span": {
-              "start": 187,
-              "end": 194,
+              "start": 188,
+              "end": 195,
               "ctxt": 0
             },
             "value": "Adapter",
@@ -144,8 +144,8 @@
           "property": {
             "type": "Identifier",
             "span": {
-              "start": 195,
-              "end": 206,
+              "start": 196,
+              "end": 207,
               "ctxt": 0
             },
             "value": "asyncMethod",
@@ -158,15 +158,15 @@
           "params": [],
           "decorators": [],
           "span": {
-            "start": 209,
-            "end": 222,
+            "start": 210,
+            "end": 223,
             "ctxt": 0
           },
           "body": {
             "type": "BlockStatement",
             "span": {
-              "start": 220,
-              "end": 222,
+              "start": 221,
+              "end": 223,
               "ctxt": 0
             },
             "stmts": []

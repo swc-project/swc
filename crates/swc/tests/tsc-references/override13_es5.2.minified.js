@@ -1,51 +1,53 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var Foo = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, Foo), this.property = 1;
+    _class_call_check(this, Foo), this.property = 1;
 };
 Foo.staticProperty = 2;
 var SubFoo = function(Foo1) {
     "use strict";
-    swcHelpers.inherits(SubFoo, Foo1);
-    var _super = swcHelpers.createSuper(SubFoo);
+    _inherits(SubFoo, Foo1);
+    var _super = _create_super(SubFoo);
     function SubFoo() {
         var _this;
-        return swcHelpers.classCallCheck(this, SubFoo), _this = _super.apply(this, arguments), _this.property = 42, _this.staticProperty = 42, _this;
+        return _class_call_check(this, SubFoo), _this = _super.apply(this, arguments), _this.property = 42, _this.staticProperty = 42, _this;
     }
     return SubFoo;
 }(Foo), StaticSubFoo = function(Foo2) {
     "use strict";
-    swcHelpers.inherits(StaticSubFoo, Foo2);
-    var _super = swcHelpers.createSuper(StaticSubFoo);
+    _inherits(StaticSubFoo, Foo2);
+    var _super = _create_super(StaticSubFoo);
     function StaticSubFoo() {
-        return swcHelpers.classCallCheck(this, StaticSubFoo), _super.apply(this, arguments);
+        return _class_call_check(this, StaticSubFoo), _super.apply(this, arguments);
     }
     return StaticSubFoo;
 }(Foo);
 StaticSubFoo.property = 42, StaticSubFoo.staticProperty = 42;
 var Intermediate = function(Foo3) {
     "use strict";
-    swcHelpers.inherits(Intermediate, Foo3);
-    var _super = swcHelpers.createSuper(Intermediate);
+    _inherits(Intermediate, Foo3);
+    var _super = _create_super(Intermediate);
     function Intermediate() {
-        return swcHelpers.classCallCheck(this, Intermediate), _super.apply(this, arguments);
+        return _class_call_check(this, Intermediate), _super.apply(this, arguments);
     }
     return Intermediate;
 }(Foo), Derived = function(Intermediate) {
     "use strict";
-    swcHelpers.inherits(Derived, Intermediate);
-    var _super = swcHelpers.createSuper(Derived);
+    _inherits(Derived, Intermediate);
+    var _super = _create_super(Derived);
     function Derived() {
         var _this;
-        return swcHelpers.classCallCheck(this, Derived), _this = _super.apply(this, arguments), _this.property = 42, _this.staticProperty = 42, _this;
+        return _class_call_check(this, Derived), _this = _super.apply(this, arguments), _this.property = 42, _this.staticProperty = 42, _this;
     }
     return Derived;
 }(Intermediate), StaticDerived = function(Intermediate) {
     "use strict";
-    swcHelpers.inherits(StaticDerived, Intermediate);
-    var _super = swcHelpers.createSuper(StaticDerived);
+    _inherits(StaticDerived, Intermediate);
+    var _super = _create_super(StaticDerived);
     function StaticDerived() {
-        return swcHelpers.classCallCheck(this, StaticDerived), _super.apply(this, arguments);
+        return _class_call_check(this, StaticDerived), _super.apply(this, arguments);
     }
     return StaticDerived;
 }(Intermediate);

@@ -1,4 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var _this = this;
 // @noEmit: true
 // @checkJs: true
@@ -7,7 +9,7 @@ var _this = this;
 var B = /*#__PURE__*/ function() {
     "use strict";
     function B() {
-        swcHelpers.classCallCheck(this, B);
+        _class_call_check(this, B);
         this.n = 1;
     }
     var _proto = B.prototype;
@@ -16,10 +18,10 @@ var B = /*#__PURE__*/ function() {
 }();
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
@@ -28,10 +30,10 @@ var C = /*#__PURE__*/ function(B) {
 C.prototype.foo = function() {};
 var D = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(D, B);
-    var _super = swcHelpers.createSuper(D);
+    _inherits(D, B);
+    var _super = _create_super(D);
     function D() {
-        swcHelpers.classCallCheck(this, D);
+        _class_call_check(this, D);
         return _super.apply(this, arguments);
     }
     return D;
@@ -42,16 +44,16 @@ D.prototype.foo = function() {
 // post-class prototype assignments are trying to show that these properties are abstract
 var Module = function Module() {
     "use strict";
-    swcHelpers.classCallCheck(this, Module);
+    _class_call_check(this, Module);
 };
 Module.prototype.identifier = undefined;
 Module.prototype.size = null;
 var NormalModule = /*#__PURE__*/ function(Module) {
     "use strict";
-    swcHelpers.inherits(NormalModule, Module);
-    var _super = swcHelpers.createSuper(NormalModule);
+    _inherits(NormalModule, Module);
+    var _super = _create_super(NormalModule);
     function NormalModule() {
-        swcHelpers.classCallCheck(this, NormalModule);
+        _class_call_check(this, NormalModule);
         return _super.apply(this, arguments);
     }
     var _proto = NormalModule.prototype;

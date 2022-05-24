@@ -250,8 +250,7 @@ function cons(hs1) {
                 hs.shift(),
                 cons(hs)
             ]
-        ])
-    , []);
+        ]), []);
 }
 function level(h) {
     assert(isFinite(+h.tagName[1]));

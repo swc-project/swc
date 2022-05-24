@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 // @filename: file.tsx
 // @jsx: preserve
 // @module: amd
@@ -8,13 +8,13 @@ import * as swcHelpers from "@swc/helpers";
 var React = require("react");
 // Error
 function Bar(arg) {
-    var a1 = /*#__PURE__*/ React.createElement(ComponentSpecific1, swcHelpers.extends({}, arg, {
+    var a1 = /*#__PURE__*/ React.createElement(ComponentSpecific1, _extends({}, arg, {
         "ignore-prop": 10
     }));
 }
 // Error
 function Baz(arg) {
-    var a0 = /*#__PURE__*/ React.createElement(ComponentSpecific1, swcHelpers.extends({}, arg));
+    var a0 = /*#__PURE__*/ React.createElement(ComponentSpecific1, _extends({}, arg));
 }
 // Error
 function createLink(func) {

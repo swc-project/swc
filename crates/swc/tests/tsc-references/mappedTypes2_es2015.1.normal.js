@@ -38,8 +38,7 @@ function f4() {
         bar: "world",
         baz: "bye"
     };
-    const lengths = mapObject(rec, (s)=>s.length
-    ); // { foo: number, bar: number, baz: number }
+    const lengths = mapObject(rec, (s)=>s.length); // { foo: number, bar: number, baz: number }
 }
 function f5(shape) {
     const p = proxify(shape);

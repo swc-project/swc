@@ -1,4 +1,8 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _get from "@swc/helpers/lib/_get.js";
+import _get_prototype_of from "@swc/helpers/lib/_get_prototype_of.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 function Wagon(numberOxen) {
     this.numberOxen = numberOxen;
 }
@@ -11,24 +15,24 @@ Wagon.circle = function(wagons) {
 };
 var Sql = function(Wagon1) {
     "use strict";
-    swcHelpers.inherits(Sql, Wagon1);
-    var _super = swcHelpers.createSuper(Sql);
+    _inherits(Sql, Wagon1);
+    var _super = _create_super(Sql);
     function Sql() {
         var _this;
-        return swcHelpers.classCallCheck(this, Sql), (_this = _super.call(this)).foonly = 12, _this;
+        return _class_call_check(this, Sql), (_this = _super.call(this)).foonly = 12, _this;
     }
     return Sql.prototype.load = function(files, format) {
         if ("xmlolololol" === format) throw new Error("please do not use XML. It was a joke.");
-        swcHelpers.get(swcHelpers.getPrototypeOf(Sql.prototype), "speed", this).call(this), swcHelpers.get(swcHelpers.getPrototypeOf(Sql.prototype), "weight", this).call(this);
+        _get(_get_prototype_of(Sql.prototype), "speed", this).call(this), _get(_get_prototype_of(Sql.prototype), "weight", this).call(this);
     }, Sql;
 }(Wagon), db = new Sql();
 db.numberOxen = db.foonly;
 var Drakkhen = function(Dragon1) {
     "use strict";
-    swcHelpers.inherits(Drakkhen, Dragon1);
-    var _super = swcHelpers.createSuper(Drakkhen);
+    _inherits(Drakkhen, Dragon1);
+    var _super = _create_super(Drakkhen);
     function Drakkhen() {
-        return swcHelpers.classCallCheck(this, Drakkhen), _super.apply(this, arguments);
+        return _class_call_check(this, Drakkhen), _super.apply(this, arguments);
     }
     return Drakkhen;
 }(Dragon);
@@ -37,19 +41,19 @@ function Dragon(numberEaten) {
 }
 var Firedrake = function(Dragon2) {
     "use strict";
-    swcHelpers.inherits(Firedrake, Dragon2);
-    var _super = swcHelpers.createSuper(Firedrake);
+    _inherits(Firedrake, Dragon2);
+    var _super = _create_super(Firedrake);
     function Firedrake() {
-        return swcHelpers.classCallCheck(this, Firedrake), _super.call(this);
+        return _class_call_check(this, Firedrake), _super.call(this);
     }
     return Firedrake;
 }(Dragon), Conestoga = function(Wagon2) {
     "use strict";
-    swcHelpers.inherits(Conestoga, Wagon2);
-    var _super = swcHelpers.createSuper(Conestoga);
+    _inherits(Conestoga, Wagon2);
+    var _super = _create_super(Conestoga);
     function Conestoga(drunkOO) {
         var _this;
-        return swcHelpers.classCallCheck(this, Conestoga), (_this = _super.call(this, "nope")).drunkOO = drunkOO, _this;
+        return _class_call_check(this, Conestoga), (_this = _super.call(this, "nope")).drunkOO = drunkOO, _this;
     }
     return Conestoga.circle = function(others) {
         return others.length;
@@ -61,10 +65,10 @@ function Soup(flavour) {
 c.drunkOO, c.numberOxen;
 var Chowder = function(Soup1) {
     "use strict";
-    swcHelpers.inherits(Chowder, Soup1);
-    var _super = swcHelpers.createSuper(Chowder);
+    _inherits(Chowder, Soup1);
+    var _super = _create_super(Chowder);
     function Chowder() {
-        return swcHelpers.classCallCheck(this, Chowder), _super.apply(this, arguments);
+        return _class_call_check(this, Chowder), _super.apply(this, arguments);
     }
     return Chowder.prototype.log = function() {
         return this.flavour;

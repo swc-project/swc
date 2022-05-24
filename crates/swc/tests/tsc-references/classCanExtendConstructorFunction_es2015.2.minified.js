@@ -3,8 +3,7 @@ function Wagon(numberOxen) {
 }
 Wagon.circle = function(wagons) {
     return wagons ? wagons.length : 3.14;
-}, Wagon.prototype.load = function(supplies) {}, Wagon.prototype.weight = (supplies)=>supplies ? supplies.length : -1
-, Wagon.prototype.speed = function() {
+}, Wagon.prototype.load = function(supplies) {}, Wagon.prototype.weight = (supplies)=>supplies ? supplies.length : -1, Wagon.prototype.speed = function() {
     return this.numberOxen / this.weight();
 };
 var db = new class extends Wagon {

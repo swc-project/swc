@@ -13,5 +13,4 @@ var b2 = !!b2;
 var b3 = !b3 || b3; // expected boolean here. actually 'any'
 var b4 = !b4 && b4; // expected boolean here. actually 'any'
 // (x:string) => any
-var f = (x)=>f(x)
-;
+var f = (x)=>f(x);

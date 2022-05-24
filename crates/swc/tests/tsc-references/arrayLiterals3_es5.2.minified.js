@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
 var ref = [
     1,
     2,
@@ -11,7 +11,7 @@ var temp1 = [
     2,
     3
 ];
-swcHelpers.toConsumableArray([
+_to_consumable_array([
     [
         1,
         2,
@@ -21,7 +21,7 @@ swcHelpers.toConsumableArray([
         "hello",
         "string"
     ]
-]), swcHelpers.toConsumableArray(temp1), swcHelpers.toConsumableArray(temp1).concat(swcHelpers.toConsumableArray([
+]), _to_consumable_array(temp1), _to_consumable_array(temp1).concat(_to_consumable_array([
     "s",
     "t",
     "r"

@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 43,
-    "end": 67,
+    "start": 44,
+    "end": 68,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 43,
-        "end": 67,
+        "start": 44,
+        "end": 68,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 47,
-            "end": 67,
+            "start": 48,
+            "end": 68,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 47,
-              "end": 48,
+              "start": 48,
+              "end": 49,
               "ctxt": 0
             },
             "value": "v",
@@ -37,8 +37,8 @@
           "init": {
             "type": "ObjectExpression",
             "span": {
-              "start": 51,
-              "end": 67,
+              "start": 52,
+              "end": 68,
               "ctxt": 0
             },
             "properties": [
@@ -47,15 +47,15 @@
                 "key": {
                   "type": "Computed",
                   "span": {
-                    "start": 53,
-                    "end": 60,
+                    "start": 54,
+                    "end": 61,
                     "ctxt": 0
                   },
                   "expression": {
                     "type": "Identifier",
                     "span": {
-                      "start": 54,
-                      "end": 59,
+                      "start": 55,
+                      "end": 60,
                       "ctxt": 0
                     },
                     "value": "await",
@@ -65,8 +65,8 @@
                 "value": {
                   "type": "Identifier",
                   "span": {
-                    "start": 62,
-                    "end": 65,
+                    "start": 63,
+                    "end": 66,
                     "ctxt": 0
                   },
                   "value": "foo",

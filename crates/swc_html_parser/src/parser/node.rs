@@ -4,7 +4,15 @@ use std::{
     rc::{Rc, Weak},
 };
 
+use swc_common::Span;
 use swc_html_ast::*;
+
+#[derive(Debug, Clone)]
+pub struct TokenAndInfo {
+    pub span: Span,
+    pub acknowledged: bool,
+    pub token: Token,
+}
 
 #[derive(Debug, Clone)]
 pub enum Data {
@@ -15,6 +23,7 @@ pub enum Data {
     Comment(Comment),
 }
 
+// TODO `<template>` and reduce memory usage for `children` in token
 pub struct Node {
     pub parent: Cell<Option<WeakNode>>,
     pub children: RefCell<Vec<RcNode>>,

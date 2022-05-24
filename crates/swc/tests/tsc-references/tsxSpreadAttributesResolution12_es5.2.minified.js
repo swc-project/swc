@@ -1,29 +1,32 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _extends from "@swc/helpers/lib/_extends.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var anyobj, React = require("react"), obj1 = {
     x: 2
 }, OverWriteAttr = function(_Component) {
     "use strict";
-    swcHelpers.inherits(OverWriteAttr, _Component);
-    var _super = swcHelpers.createSuper(OverWriteAttr);
+    _inherits(OverWriteAttr, _Component);
+    var _super = _create_super(OverWriteAttr);
     function OverWriteAttr() {
-        return swcHelpers.classCallCheck(this, OverWriteAttr), _super.apply(this, arguments);
+        return _class_call_check(this, OverWriteAttr), _super.apply(this, arguments);
     }
     return OverWriteAttr.prototype.render = function() {
         return React.createElement("div", null, "Hello");
     }, OverWriteAttr;
 }(React.Component);
-swcHelpers.extends({}, {}, {
+_extends({}, {}, {
     y: !0,
     overwrite: "hi"
-}, obj1), swcHelpers.extends({
+}, obj1), _extends({
     overwrite: "hi"
 }, obj1, {
     x: 3
 }, {
     y: !0
-}), swcHelpers.extends({}, anyobj, {
+}), _extends({}, anyobj, {
     x: 3
-}), swcHelpers.extends({
+}), _extends({
     overwrite: "hi"
 }, obj1, {
     y: !0

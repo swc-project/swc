@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 68,
-    "end": 97,
+    "start": 69,
+    "end": 98,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 77,
-          "end": 78,
+          "start": 78,
+          "end": 79,
           "ctxt": 0
         },
         "value": "f",
@@ -23,23 +23,23 @@
         {
           "type": "Parameter",
           "span": {
-            "start": 79,
-            "end": 92,
+            "start": 80,
+            "end": 93,
             "ctxt": 0
           },
           "decorators": [],
           "pat": {
             "type": "AssignmentPattern",
             "span": {
-              "start": 79,
-              "end": 92,
+              "start": 80,
+              "end": 93,
               "ctxt": 0
             },
             "left": {
               "type": "Identifier",
               "span": {
-                "start": 79,
-                "end": 84,
+                "start": 80,
+                "end": 85,
                 "ctxt": 0
               },
               "value": "await",
@@ -49,8 +49,8 @@
             "right": {
               "type": "Identifier",
               "span": {
-                "start": 87,
-                "end": 92,
+                "start": 88,
+                "end": 93,
                 "ctxt": 0
               },
               "value": "await",
@@ -62,15 +62,15 @@
       ],
       "decorators": [],
       "span": {
-        "start": 68,
-        "end": 97,
+        "start": 69,
+        "end": 98,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 94,
-          "end": 97,
+          "start": 95,
+          "end": 98,
           "ctxt": 0
         },
         "stmts": []

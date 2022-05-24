@@ -1,9 +1,11 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 // accessing any protected outside the class is an error
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         this.a = "";
         this.b = "";
         this.d = function() {
@@ -24,10 +26,10 @@ C.g = function() {
 };
 var D = /*#__PURE__*/ function(C1) {
     "use strict";
-    swcHelpers.inherits(D, C1);
-    var _super = swcHelpers.createSuper(D);
+    _inherits(D, C1);
+    var _super = _create_super(D);
     function D() {
-        swcHelpers.classCallCheck(this, D);
+        _class_call_check(this, D);
         return _super.apply(this, arguments);
     }
     var _proto = D.prototype;

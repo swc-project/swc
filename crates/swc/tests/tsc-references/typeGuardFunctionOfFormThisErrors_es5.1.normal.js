@@ -1,25 +1,28 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _instanceof from "@swc/helpers/lib/_instanceof.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 // @declaration: true
 var RoyalGuard = /*#__PURE__*/ function() {
     "use strict";
     function RoyalGuard() {
-        swcHelpers.classCallCheck(this, RoyalGuard);
+        _class_call_check(this, RoyalGuard);
     }
     var _proto = RoyalGuard.prototype;
     _proto.isLeader = function isLeader() {
-        return swcHelpers._instanceof(this, LeadGuard);
+        return _instanceof(this, LeadGuard);
     };
     _proto.isFollower = function isFollower() {
-        return swcHelpers._instanceof(this, FollowerGuard);
+        return _instanceof(this, FollowerGuard);
     };
     return RoyalGuard;
 }();
 var LeadGuard = /*#__PURE__*/ function(RoyalGuard) {
     "use strict";
-    swcHelpers.inherits(LeadGuard, RoyalGuard);
-    var _super = swcHelpers.createSuper(LeadGuard);
+    _inherits(LeadGuard, RoyalGuard);
+    var _super = _create_super(LeadGuard);
     function LeadGuard() {
-        swcHelpers.classCallCheck(this, LeadGuard);
+        _class_call_check(this, LeadGuard);
         return _super.apply(this, arguments);
     }
     var _proto = LeadGuard.prototype;
@@ -28,10 +31,10 @@ var LeadGuard = /*#__PURE__*/ function(RoyalGuard) {
 }(RoyalGuard);
 var FollowerGuard = /*#__PURE__*/ function(RoyalGuard) {
     "use strict";
-    swcHelpers.inherits(FollowerGuard, RoyalGuard);
-    var _super = swcHelpers.createSuper(FollowerGuard);
+    _inherits(FollowerGuard, RoyalGuard);
+    var _super = _create_super(FollowerGuard);
     function FollowerGuard() {
-        swcHelpers.classCallCheck(this, FollowerGuard);
+        _class_call_check(this, FollowerGuard);
         return _super.apply(this, arguments);
     }
     var _proto = FollowerGuard.prototype;

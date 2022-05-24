@@ -1,6 +1,5 @@
 // ArrowFormalParameters => AssignmentExpression is equivalent to ArrowFormalParameters => { return AssignmentExpression; }
-var a = (p)=>p.length
-;
+var a = (p)=>p.length;
 var a = (p)=>{
     return p.length;
 };
@@ -13,10 +12,8 @@ var b = (j)=>{
 };
 // Identifier => AssignmentExpression is equivalent to(Identifier) => AssignmentExpression
 var c;
-var d = (n)=>c = n
-;
-var d = (n)=>c = n
-;
+var d = (n)=>c = n;
+var d = (n)=>c = n;
 var d;
 // Binding patterns in arrow functions
 var p1 = ([a])=>{};
@@ -35,33 +32,26 @@ var p10 = ([{ value , done  }])=>{};
 // Arrow function used in class member function
 class MyClass {
     fn() {
-        var m = (n)=>n + 1
-        ;
-        var p = (n)=>n && this
-        ;
+        var m = (n)=>n + 1;
+        var p = (n)=>n && this;
     }
     constructor(){
-        this.m = (n)=>n + 1
-        ;
-        this.p = (n)=>n && this
-        ;
+        this.m = (n)=>n + 1;
+        this.p = (n)=>n && this;
     }
 }
 // Arrow function used in arrow function
-var arrrr = ()=>(m)=>()=>(n)=>m + n
-;
+var arrrr = ()=>(m)=>()=>(n)=>m + n;
 var e = arrrr()(3)()(4);
 var e;
 // Arrow function used in arrow function used in function
 function someFn() {
-    var arr = (n)=>(p)=>p * n
-    ;
+    var arr = (n)=>(p)=>p * n;
     arr(3)(4).toExponential();
 }
 // Arrow function used in function
 function someOtherFn() {
-    var arr = (n)=>'' + n
-    ;
+    var arr = (n)=>'' + n;
     arr(4).charAt(0);
 }
 // Arrow function used in nested function in function
@@ -75,8 +65,7 @@ function outerFn() {
 // Arrow function used in nested function in arrow function
 var f = (n)=>{
     function fn(x) {
-        return ()=>n + x
-        ;
+        return ()=>n + x;
     }
     return fn(4);
 };
@@ -86,8 +75,7 @@ var g;
 function someOuterFn() {
     var arr = (n)=>{
         function innerFn() {
-            return ()=>n.length
-            ;
+            return ()=>n.length;
         }
         return innerFn;
     };
@@ -98,13 +86,10 @@ h.toExponential();
 // Arrow function used in try/catch/finally in function
 function tryCatchFn() {
     try {
-        var x = ()=>this
-        ;
+        var x = ()=>this;
     } catch (e1) {
-        var t = ()=>e1 + this
-        ;
+        var t = ()=>e1 + this;
     } finally{
-        var m = ()=>this + ''
-        ;
+        var m = ()=>this + '';
     }
 }

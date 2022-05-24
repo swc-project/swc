@@ -1,5 +1,11 @@
 
-  x Unexpected token
+  x Start tag seen without seeing a doctype firs, expected "<!DOCTYPE html>"
+   ,-[$DIR/tests/recovery/element/select-1/input.html:1:1]
+ 1 | <select>
+   : ^^^^^^^^
+   `----
+
+  x Stray end tag "option"
    ,-[$DIR/tests/recovery/element/select-1/input.html:7:5]
  7 | </option>
    : ^^^^^^^^^

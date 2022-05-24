@@ -1,30 +1,30 @@
 {
   "type": "Module",
   "span": {
-    "start": 0,
-    "end": 31,
+    "start": 1,
+    "end": 32,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDefaultDeclaration",
       "span": {
-        "start": 0,
-        "end": 31,
+        "start": 1,
+        "end": 32,
         "ctxt": 0
       },
       "decl": {
         "type": "TsInterfaceDeclaration",
         "span": {
-          "start": 15,
-          "end": 31,
+          "start": 16,
+          "end": 32,
           "ctxt": 0
         },
         "id": {
           "type": "Identifier",
           "span": {
-            "start": 25,
-            "end": 28,
+            "start": 26,
+            "end": 29,
             "ctxt": 0
           },
           "value": "Foo",
@@ -36,8 +36,8 @@
         "body": {
           "type": "TsInterfaceBody",
           "span": {
-            "start": 29,
-            "end": 31,
+            "start": 30,
+            "end": 32,
             "ctxt": 0
           },
           "body": []

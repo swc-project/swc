@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
 function f10(param) {
     var kind = param.kind, payload = param.payload;
     if (kind === "A") {
@@ -99,7 +99,7 @@ function f40() {
     for(var _len = arguments.length, _tmp = new Array(_len), _key = 0; _key < _len; _key++){
         _tmp[_key] = arguments[_key];
     }
-    var __tmp = swcHelpers.slicedToArray(_tmp, 2), kind = __tmp[0], data = __tmp[1];
+    var __tmp = _sliced_to_array(_tmp, 2), kind = __tmp[0], data = __tmp[1];
     if (kind === "A") {
         data.toFixed();
     }

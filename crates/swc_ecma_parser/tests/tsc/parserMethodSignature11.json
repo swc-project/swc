@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 25,
+    "start": 1,
+    "end": 26,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsInterfaceDeclaration",
       "span": {
-        "start": 0,
-        "end": 25,
+        "start": 1,
+        "end": 26,
         "ctxt": 0
       },
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 10,
-          "end": 11,
+          "start": 11,
+          "end": 12,
           "ctxt": 0
         },
         "value": "I",
@@ -29,24 +29,24 @@
       "body": {
         "type": "TsInterfaceBody",
         "span": {
-          "start": 12,
-          "end": 25,
+          "start": 13,
+          "end": 26,
           "ctxt": 0
         },
         "body": [
           {
             "type": "TsMethodSignature",
             "span": {
-              "start": 16,
-              "end": 23,
+              "start": 17,
+              "end": 24,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "NumericLiteral",
               "span": {
-                "start": 16,
-                "end": 17,
+                "start": 17,
+                "end": 18,
                 "ctxt": 0
               },
               "value": 2.0,
@@ -59,23 +59,23 @@
             "typeParams": {
               "type": "TsTypeParameterDeclaration",
               "span": {
-                "start": 17,
-                "end": 20,
+                "start": 18,
+                "end": 21,
                 "ctxt": 0
               },
               "parameters": [
                 {
                   "type": "TsTypeParameter",
                   "span": {
-                    "start": 18,
-                    "end": 19,
+                    "start": 19,
+                    "end": 20,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Identifier",
                     "span": {
-                      "start": 18,
-                      "end": 19,
+                      "start": 19,
+                      "end": 20,
                       "ctxt": 0
                     },
                     "value": "T",

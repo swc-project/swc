@@ -2,8 +2,7 @@ function getProps(obj, list) {
     return {};
 }
 applySpec({
-    sum: (a)=>3
-    ,
+    sum: (a)=>3,
     nested: {
         mul: (b)=>"n"
     }

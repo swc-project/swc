@@ -1,7 +1,6 @@
 // valid uses of arrays of function types
 var x = [
-    ()=>1
-    ,
+    ()=>1,
     ()=>{}
 ];
 var r2 = x[0]();

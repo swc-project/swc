@@ -1,7 +1,6 @@
 import { predom } from "./renderer2";
 import prerendered from "./component";
-export const MySFC = (props)=>predom("p", null, props.x, " + ", props.y, " = ", props.x + props.y)
-;
+export const MySFC = (props)=>predom("p", null, props.x, " + ", props.y, " = ", props.x + props.y);
 export class MyClass {
     render() {
         return predom("p", null, this.props.x, " + ", this.props.y, " = ", this.props.x + this.props.y);

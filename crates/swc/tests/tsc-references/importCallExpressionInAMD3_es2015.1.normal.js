@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
 // @module: amd
 // @target: esnext
 // @filename: 0.ts
@@ -12,7 +12,7 @@ function foo() {
 }
 function _foo() {
     _foo = // @filename: 2.ts
-    swcHelpers.asyncToGenerator(function*() {
+    _async_to_generator(function*() {
         class C extends (yield import("./0")).B {
         }
         var c = new C();

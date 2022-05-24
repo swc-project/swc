@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 // @filename: file.tsx
 // @jsx: preserve
 // @noLib: true
@@ -15,7 +15,7 @@ const obj = {
     y: 2
 };
 // OK
-let p = /*#__PURE__*/ React.createElement(Poisoned, swcHelpers.extends({}, obj));
+let p = /*#__PURE__*/ React.createElement(Poisoned, _extends({}, obj));
 let y = /*#__PURE__*/ React.createElement(Poisoned, {
     x: "hi",
     y: 2

@@ -1,74 +1,77 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_private_field_get from "@swc/helpers/lib/_class_private_field_get.js";
+import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
+import _class_private_field_set from "@swc/helpers/lib/_class_private_field_set.js";
 var _f = new WeakMap(), _g = new WeakMap(), _h = new WeakMap(), _i = new WeakMap(), C1 = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, C1), swcHelpers.classPrivateFieldInit(this, _f, {
+    _class_call_check(this, C1), _class_private_field_init(this, _f, {
         writable: !0,
         value: void 0
-    }), swcHelpers.classPrivateFieldInit(this, _g, {
+    }), _class_private_field_init(this, _g, {
         writable: !0,
         value: void 0
-    }), swcHelpers.classPrivateFieldInit(this, _h, {
+    }), _class_private_field_init(this, _h, {
         writable: !0,
         value: void 0
-    }), swcHelpers.classPrivateFieldInit(this, _i, {
+    }), _class_private_field_init(this, _i, {
         writable: !0,
         value: void 0
     });
 }, C3 = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, C3);
+    _class_call_check(this, C3);
 }, _d = new WeakMap(), _e = new WeakMap(), _f1 = new WeakMap(), C4 = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, C4), this.a = 0, this.b = 0, this.c = "abc", swcHelpers.classPrivateFieldInit(this, _d, {
+    _class_call_check(this, C4), this.a = 0, this.b = 0, this.c = "abc", _class_private_field_init(this, _d, {
         writable: !0,
         value: 0
-    }), swcHelpers.classPrivateFieldInit(this, _e, {
+    }), _class_private_field_init(this, _e, {
         writable: !0,
         value: 0
-    }), swcHelpers.classPrivateFieldInit(this, _f1, {
+    }), _class_private_field_init(this, _f1, {
         writable: !0,
         value: "abc"
     });
 }, _b = new WeakMap(), C5 = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, C5), swcHelpers.classPrivateFieldInit(this, _b, {
+    _class_call_check(this, C5), _class_private_field_init(this, _b, {
         writable: !0,
         value: void 0
-    }), this.a = 0, swcHelpers.classPrivateFieldSet(this, _b, 0);
+    }), this.a = 0, _class_private_field_set(this, _b, 0);
 }, _b1 = new WeakMap(), C6 = function(cond) {
     "use strict";
-    swcHelpers.classCallCheck(this, C6), swcHelpers.classPrivateFieldInit(this, _b1, {
+    _class_call_check(this, C6), _class_private_field_init(this, _b1, {
         writable: !0,
         value: void 0
-    }), cond || (this.a = 0, swcHelpers.classPrivateFieldSet(this, _b1, 0));
+    }), cond || (this.a = 0, _class_private_field_set(this, _b1, 0));
 }, _b2 = new WeakMap(), C7 = function(cond) {
     "use strict";
-    if (swcHelpers.classCallCheck(this, C7), swcHelpers.classPrivateFieldInit(this, _b2, {
+    if (_class_call_check(this, C7), _class_private_field_init(this, _b2, {
         writable: !0,
         value: void 0
     }), cond) {
-        this.a = 1, swcHelpers.classPrivateFieldSet(this, _b2, 1);
+        this.a = 1, _class_private_field_set(this, _b2, 1);
         return;
     }
-    this.a = 0, swcHelpers.classPrivateFieldSet(this, _b2, 1);
+    this.a = 0, _class_private_field_set(this, _b2, 1);
 }, C8 = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, C8);
+    _class_call_check(this, C8);
 }, C9 = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, C9);
+    _class_call_check(this, C9);
 }, _d1 = new WeakMap(), C10 = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, C10), swcHelpers.classPrivateFieldInit(this, _d1, {
+    _class_call_check(this, C10), _class_private_field_init(this, _d1, {
         writable: !0,
         value: void 0
     });
     var x = this.a;
-    this.a = this.b, this.b = swcHelpers.classPrivateFieldGet(this, _d1), this.b = x, swcHelpers.classPrivateFieldSet(this, _d1, x), this.c;
+    this.a = this.b, this.b = _class_private_field_get(this, _d1), this.b = x, _class_private_field_set(this, _d1, x), this.c;
 }, _b3 = new WeakMap(), C11 = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, C11), swcHelpers.classPrivateFieldInit(this, _b3, {
+    _class_call_check(this, C11), _class_private_field_init(this, _b3, {
         writable: !0,
         value: void 0
-    }), this.a = someValue(), swcHelpers.classPrivateFieldSet(this, _b3, someValue());
+    }), this.a = someValue(), _class_private_field_set(this, _b3, someValue());
 };

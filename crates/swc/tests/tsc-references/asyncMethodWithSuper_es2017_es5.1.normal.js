@@ -1,11 +1,17 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _get from "@swc/helpers/lib/_get.js";
+import _get_prototype_of from "@swc/helpers/lib/_get_prototype_of.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _set from "@swc/helpers/lib/_set.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 import regeneratorRuntime from "regenerator-runtime";
 // @target: es2017
 // @noEmitHelpers: true
 var A = /*#__PURE__*/ function() {
     "use strict";
     function A() {
-        swcHelpers.classCallCheck(this, A);
+        _class_call_check(this, A);
     }
     var _proto = A.prototype;
     _proto.x = function x() {};
@@ -14,10 +20,10 @@ var A = /*#__PURE__*/ function() {
 }();
 var B = /*#__PURE__*/ function(A) {
     "use strict";
-    swcHelpers.inherits(B, A);
-    var _super = swcHelpers.createSuper(B);
+    _inherits(B, A);
+    var _super = _create_super(B);
     function B() {
-        swcHelpers.classCallCheck(this, B);
+        _class_call_check(this, B);
         return _super.apply(this, arguments);
     }
     var _proto = B.prototype;
@@ -26,15 +32,15 @@ var B = /*#__PURE__*/ function(A) {
         var _this = this;
         var _this1 = this, // call with property access
         _superprop_get_x = function() {
-            return swcHelpers.get(swcHelpers.getPrototypeOf(B.prototype), "x", _this);
+            return _get(_get_prototype_of(B.prototype), "x", _this);
         }, // call additional property.
         _superprop_get_y = function() {
-            return swcHelpers.get(swcHelpers.getPrototypeOf(B.prototype), "y", _this);
+            return _get(_get_prototype_of(B.prototype), "y", _this);
         }, // call with element access
         _superprop_get = function(_prop) {
-            return swcHelpers.get(swcHelpers.getPrototypeOf(B.prototype), _prop, _this);
+            return _get(_get_prototype_of(B.prototype), _prop, _this);
         };
-        return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
             var a, b;
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
@@ -56,18 +62,18 @@ var B = /*#__PURE__*/ function(A) {
         var _this = this;
         var _this2 = this, // call with property access
         _superprop_get_x = function() {
-            return swcHelpers.get(swcHelpers.getPrototypeOf(B.prototype), "x", _this);
+            return _get(_get_prototype_of(B.prototype), "x", _this);
         }, // call with element access
         _superprop_get = function(_prop) {
-            return swcHelpers.get(swcHelpers.getPrototypeOf(B.prototype), _prop, _this);
+            return _get(_get_prototype_of(B.prototype), _prop, _this);
         }, // property access (assign)
         _superprop_set_x = function(_value) {
-            return swcHelpers.set(swcHelpers.getPrototypeOf(B.prototype), "x", _value, _this, true);
+            return _set(_get_prototype_of(B.prototype), "x", _value, _this, true);
         }, // element access (assign)
         _superprop_set = function(_prop, _value) {
-            return swcHelpers.set(swcHelpers.getPrototypeOf(B.prototype), _prop, _value, _this, true);
+            return _set(_get_prototype_of(B.prototype), _prop, _value, _this, true);
         };
-        return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
             var f, a, b, ref, ref1;
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){

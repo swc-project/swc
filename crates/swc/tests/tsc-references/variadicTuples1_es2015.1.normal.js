@@ -189,11 +189,9 @@ function f15(k0, k1, k2, k3) {
 }
 // Inference to [...T, ...U] with implied arity for T
 function curry(f, ...a) {
-    return (...b2)=>f(...a, ...b2)
-    ;
+    return (...b2)=>f(...a, ...b2);
 }
-const fn1 = (a, b, c, d)=>0
-;
+const fn1 = (a, b, c, d)=>0;
 const c0 = curry(fn1); // (a: number, b: string, c: boolean, d: string[]) => number
 const c1 = curry(fn1, 1); // (b: string, c: boolean, d: string[]) => number
 const c2 = curry(fn1, 1, 'abc'); // (c: boolean, d: string[]) => number
@@ -202,14 +200,12 @@ const c4 = curry(fn1, 1, 'abc', true, [
     'x',
     'y'
 ]); // () => number
-const fn2 = (x, b, ...args)=>0
-;
+const fn2 = (x, b, ...args)=>0;
 const c10 = curry(fn2); // (x: number, b: boolean, ...args: string[]) => number
 const c11 = curry(fn2, 1); // (b: boolean, ...args: string[]) => number
 const c12 = curry(fn2, 1, true); // (...args: string[]) => number
 const c13 = curry(fn2, 1, true, 'abc', 'def'); // (...args: string[]) => number
-const fn3 = (...args)=>0
-;
+const fn3 = (...args)=>0;
 const c20 = curry(fn3); // (...args: string[]) => number
 const c21 = curry(fn3, 'abc', 'def'); // (...args: string[]) => number
 const c22 = curry(fn3, ...sa); // (...args: string[]) => number
@@ -261,10 +257,8 @@ ft([
     'd',
     42
 ]);
-call('hello', 32, (a, b)=>42
-);
-call(...sa, (...x)=>42
-);
+call('hello', 32, (a, b)=>42);
+call(...sa, (...x)=>42);
 function f21(args) {
     let v1 = f20(args); // U
     let v2 = f20([
@@ -289,8 +283,7 @@ function f23(args) {
 }
 const b = a.bind("", 1); // Desc<[boolean], object>
 function callApi(method) {
-    return (...args)=>method(...args, {})
-    ;
+    return (...args)=>method(...args, {});
 }
 callApi(getUser);
 callApi(getOrgUser);

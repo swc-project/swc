@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
 import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(function() {
     return regeneratorRuntime.wrap(function(_ctx1) {
@@ -29,10 +29,10 @@ var _marked = regeneratorRuntime.mark(function() {
     return regeneratorRuntime.wrap(function(_ctx) {
         for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
-                _ctx.t0 = swcHelpers, _ctx.next = 3;
+                _ctx.t0 = _sliced_to_array, _ctx.next = 3;
                 return;
             case 3:
-                _ctx.t1 = _ctx.sent, a = void 0 === (tmp = (ref = _ctx.t0.slicedToArray.call(_ctx.t0, _ctx.t1, 2))[0]) ? 1 : tmp, tmp1 = ref[1], b = void 0 === tmp1 ? 2 : tmp1;
+                _ctx.t1 = _ctx.sent, a = void 0 === (tmp = (ref = (0, _ctx.t0)(_ctx.t1, 2))[0]) ? 1 : tmp, tmp1 = ref[1], b = void 0 === tmp1 ? 2 : tmp1;
             case 9:
             case "end":
                 return _ctx.stop();

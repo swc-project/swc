@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 42,
+    "start": 1,
+    "end": 43,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 6,
-          "end": 13,
+          "start": 7,
+          "end": 14,
           "ctxt": 0
         },
         "value": "CtorTag",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 0,
-        "end": 17,
+        "start": 1,
+        "end": 18,
         "ctxt": 0
       },
       "decorators": [],
@@ -35,22 +35,22 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 19,
-        "end": 42,
+        "start": 20,
+        "end": 43,
         "ctxt": 0
       },
       "expression": {
         "type": "TaggedTemplateExpression",
         "span": {
-          "start": 19,
-          "end": 41,
+          "start": 20,
+          "end": 42,
           "ctxt": 0
         },
         "tag": {
           "type": "Identifier",
           "span": {
-            "start": 19,
-            "end": 26,
+            "start": 20,
+            "end": 27,
             "ctxt": 0
           },
           "value": "CtorTag",
@@ -60,8 +60,8 @@
         "template": {
           "type": "TemplateLiteral",
           "span": {
-            "start": 27,
-            "end": 41,
+            "start": 28,
+            "end": 42,
             "ctxt": 0
           },
           "expressions": [],
@@ -69,8 +69,8 @@
             {
               "type": "TemplateElement",
               "span": {
-                "start": 28,
-                "end": 40,
+                "start": 29,
+                "end": 41,
                 "ctxt": 0
               },
               "tail": true,

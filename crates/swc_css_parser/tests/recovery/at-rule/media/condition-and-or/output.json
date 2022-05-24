@@ -1,23 +1,23 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 0,
-    "end": 63,
+    "start": 1,
+    "end": 64,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
-        "start": 0,
-        "end": 62,
+        "start": 1,
+        "end": 63,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 1,
-          "end": 6,
+          "start": 2,
+          "end": 7,
           "ctxt": 0
         },
         "value": "media",
@@ -26,16 +26,16 @@
       "prelude": {
         "type": "MediaQueryList",
         "span": {
-          "start": 40,
-          "end": 59,
+          "start": 41,
+          "end": 60,
           "ctxt": 0
         },
         "queries": [
           {
             "type": "MediaQuery",
             "span": {
-              "start": 40,
-              "end": 59,
+              "start": 41,
+              "end": 60,
               "ctxt": 0
             },
             "modifier": null,
@@ -44,23 +44,23 @@
             "condition": {
               "type": "MediaCondition",
               "span": {
-                "start": 40,
-                "end": 59,
+                "start": 41,
+                "end": 60,
                 "ctxt": 0
               },
               "conditions": [
                 {
                   "type": "MediaFeaturePlain",
                   "span": {
-                    "start": 40,
-                    "end": 59,
+                    "start": 41,
+                    "end": 60,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
-                      "start": 41,
-                      "end": 50,
+                      "start": 42,
+                      "end": 51,
                       "ctxt": 0
                     },
                     "value": "min-width",
@@ -69,15 +69,15 @@
                   "value": {
                     "type": "Length",
                     "span": {
-                      "start": 52,
-                      "end": 58,
+                      "start": 53,
+                      "end": 59,
                       "ctxt": 0
                     },
                     "value": {
                       "type": "Number",
                       "span": {
-                        "start": 52,
-                        "end": 56,
+                        "start": 53,
+                        "end": 57,
                         "ctxt": 0
                       },
                       "value": 1200.0,
@@ -86,8 +86,8 @@
                     "unit": {
                       "type": "Ident",
                       "span": {
-                        "start": 56,
-                        "end": 58,
+                        "start": 57,
+                        "end": 59,
                         "ctxt": 0
                       },
                       "value": "px",
@@ -103,8 +103,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 60,
-          "end": 62,
+          "start": 61,
+          "end": 63,
           "ctxt": 0
         },
         "name": "{",

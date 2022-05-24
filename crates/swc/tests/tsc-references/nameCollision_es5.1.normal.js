@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var A;
 (function(A) {
     // these 2 statements force an underscore before the 'A' 
@@ -15,7 +15,7 @@ var B;
     // this should add an underscore.
     var B1 = function B1() {
         "use strict";
-        swcHelpers.classCallCheck(this, B1);
+        _class_call_check(this, B1);
     };
 })(B || (B = {}));
 var X;

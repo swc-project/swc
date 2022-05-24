@@ -3,12 +3,15 @@ use std::{fmt::Write, num::FpCategory};
 use swc_atoms::js_word;
 use swc_common::{iter::IdentifyLast, util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::ExprExt;
+use swc_ecma_utils::{
+    ExprExt, Type,
+    Value::{self, Known},
+};
 
 use super::Pure;
 use crate::compress::{
     pure::strings::{convert_str_value_to_tpl_cooked, convert_str_value_to_tpl_raw},
-    util::{is_global_var, is_pure_undefined},
+    util::{is_global_var_with_pure_property_access, is_pure_undefined},
 };
 
 impl Pure<'_> {
@@ -516,7 +519,7 @@ impl Pure<'_> {
                 if self.options.side_effects
                     || (self.options.unused && opts.drop_global_refs_if_unused)
                 {
-                    if is_global_var(&i.sym) {
+                    if is_global_var_with_pure_property_access(&i.sym) {
                         report_change!("Dropping a reference to a global variable");
                         *e = Expr::Invalid(Invalid { span: DUMMY_SP });
                         return;
@@ -706,12 +709,14 @@ impl Pure<'_> {
 
         match e {
             Expr::Lit(Lit::Str(s)) => {
-                if opts.drop_str_lit
+                if (self.options.directives && !matches!(&*s.value, "use strict" | "use asm"))
+                    || opts.drop_str_lit
                     || (s.value.starts_with("@swc/helpers")
                         || s.value.starts_with("@babel/helpers"))
                 {
                     self.changed = true;
                     *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+
                     return;
                 }
             }
@@ -755,25 +760,129 @@ impl Pure<'_> {
         }
 
         if self.options.side_effects && self.options.pristine_globals {
-            if let Expr::New(NewExpr { callee, args, .. }) = e {
-                if let Expr::Ident(i) = &**callee {
-                    match &*i.sym {
-                        "Map" | "Set" | "Array" | "Object" | "Boolean" | "Number" => {
-                            if i.span.ctxt.outer() == self.marks.unresolved_mark {
-                                report_change!("Dropping a pure new expression");
+            match e {
+                Expr::New(NewExpr { callee, args, .. }) => {
+                    if let Expr::Ident(i) = &**callee {
+                        match &*i.sym {
+                            "Map" | "Set" | "Array" | "Object" | "Boolean" | "Number" => {
+                                if i.span.ctxt.outer() == self.marks.unresolved_mark {
+                                    report_change!("Dropping a pure new expression");
 
-                                self.changed = true;
+                                    self.changed = true;
+                                    *e = self
+                                        .make_ignored_expr(
+                                            args.iter_mut().flatten().map(|arg| arg.expr.take()),
+                                        )
+                                        .unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
+                                    return;
+                                }
+                            }
+                            _ => {}
+                        }
+                    }
+                }
+
+                Expr::Object(obj) => {
+                    if obj.props.iter().all(|p| match p {
+                        PropOrSpread::Spread(_) => false,
+                        PropOrSpread::Prop(p) => matches!(
+                            &**p,
+                            Prop::Shorthand(_) | Prop::KeyValue(_) | Prop::Method(..)
+                        ),
+                    }) {
+                        let mut exprs = vec![];
+
+                        for prop in obj.props.take() {
+                            if let PropOrSpread::Prop(p) = prop {
+                                match *p {
+                                    Prop::Shorthand(p) => {
+                                        exprs.push(Box::new(Expr::Ident(p)));
+                                    }
+                                    Prop::KeyValue(p) => {
+                                        if let PropName::Computed(e) = p.key {
+                                            exprs.push(e.expr);
+                                        }
+
+                                        exprs.push(p.value);
+                                    }
+                                    Prop::Method(p) => {
+                                        if let PropName::Computed(e) = p.key {
+                                            exprs.push(e.expr);
+                                        }
+                                    }
+
+                                    _ => unreachable!(),
+                                }
+                            }
+                        }
+
+                        *e = self
+                            .make_ignored_expr(exprs.into_iter())
+                            .unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
+                        report_change!("Ignored an object literal");
+                        self.changed = true;
+                        return;
+                    }
+                }
+
+                Expr::Array(arr) => {
+                    let mut exprs = vec![];
+
+                    //
+
+                    for ExprOrSpread { mut expr, .. } in arr.elems.take().into_iter().flatten() {
+                        self.ignore_return_value(
+                            &mut expr,
+                            DropOpts {
+                                drop_str_lit: true,
+                                drop_zero: true,
+                                drop_global_refs_if_unused: true,
+                                ..opts
+                            },
+                        );
+                        if !expr.is_invalid() {
+                            exprs.push(expr);
+                        }
+                    }
+
+                    *e = self
+                        .make_ignored_expr(exprs.into_iter())
+                        .unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
+                    report_change!("Ignored an array literal");
+                    self.changed = true;
+                    return;
+                }
+
+                // terser compiles
+                //
+                //  [1,foo(),...bar()][{foo}]
+                //
+                // as
+                //
+                //  foo(),basr(),foo;
+                Expr::Member(MemberExpr {
+                    obj,
+                    prop: MemberProp::Computed(prop),
+                    ..
+                }) => match &**obj {
+                    Expr::Object(..) | Expr::Array(..) => {
+                        self.ignore_return_value(obj, opts);
+
+                        match &**obj {
+                            Expr::Object(..) => {}
+                            _ => {
                                 *e = self
                                     .make_ignored_expr(
-                                        args.iter_mut().flatten().map(|arg| arg.expr.take()),
+                                        vec![obj.take(), prop.expr.take()].into_iter(),
                                     )
                                     .unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
                                 return;
                             }
-                        }
-                        _ => {}
+                        };
                     }
-                }
+                    _ => {}
+                },
+                _ => {}
             }
         }
 
@@ -790,6 +899,115 @@ impl Pure<'_> {
                     }
                 }
             }
+        }
+    }
+
+    ///
+    /// - `!(x == y)` => `x != y`
+    /// - `!(x === y)` => `x !== y`
+    pub(super) fn compress_negated_bin_eq(&self, e: &mut Expr) {
+        let unary = match e {
+            Expr::Unary(e @ UnaryExpr { op: op!("!"), .. }) => e,
+            _ => return,
+        };
+
+        match &mut *unary.arg {
+            Expr::Bin(BinExpr {
+                op: op @ op!("=="),
+                left,
+                right,
+                ..
+            })
+            | Expr::Bin(BinExpr {
+                op: op @ op!("==="),
+                left,
+                right,
+                ..
+            }) => {
+                *e = Expr::Bin(BinExpr {
+                    span: unary.span,
+                    op: if *op == op!("==") {
+                        op!("!=")
+                    } else {
+                        op!("!==")
+                    },
+                    left: left.take(),
+                    right: right.take(),
+                })
+            }
+            _ => {}
+        }
+    }
+
+    pub(super) fn optimize_nullish_coalescing(&mut self, e: &mut Expr) {
+        let (l, r) = match e {
+            Expr::Bin(BinExpr {
+                op: op!("??"),
+                left,
+                right,
+                ..
+            }) => (&mut **left, &mut **right),
+            _ => return,
+        };
+
+        match l {
+            Expr::Lit(Lit::Null(..)) => {
+                report_change!("Removing null from lhs of ??");
+                self.changed = true;
+                *e = r.take();
+            }
+            Expr::Lit(Lit::Num(..))
+            | Expr::Lit(Lit::Str(..))
+            | Expr::Lit(Lit::BigInt(..))
+            | Expr::Lit(Lit::Bool(..))
+            | Expr::Lit(Lit::Regex(..)) => {
+                report_change!("Removing rhs of ?? as lhs cannot be null nor undefined");
+                self.changed = true;
+                *e = l.take();
+            }
+            _ => {}
+        }
+    }
+
+    ///
+    /// - `a ? true : false` => `!!a`
+    pub(super) fn compress_useless_cond_expr(&mut self, expr: &mut Expr) {
+        let cond = match expr {
+            Expr::Cond(c) => c,
+            _ => return,
+        };
+
+        let lt = cond.cons.get_type();
+        let rt = cond.alt.get_type();
+        match (lt, rt) {
+            (Known(Type::Bool), Known(Type::Bool)) => {}
+            _ => return,
+        }
+
+        let lb = cond.cons.as_pure_bool(&self.expr_ctx);
+        let rb = cond.alt.as_pure_bool(&self.expr_ctx);
+
+        let lb = match lb {
+            Value::Known(v) => v,
+            Value::Unknown => return,
+        };
+        let rb = match rb {
+            Value::Known(v) => v,
+            Value::Unknown => return,
+        };
+
+        // `cond ? true : false` => !!cond
+        if lb && !rb {
+            self.negate(&mut cond.test, false, false);
+            self.negate(&mut cond.test, false, false);
+            *expr = *cond.test.take();
+            return;
+        }
+
+        // `cond ? false : true` => !cond
+        if !lb && rb {
+            self.negate(&mut cond.test, false, false);
+            *expr = *cond.test.take();
         }
     }
 }

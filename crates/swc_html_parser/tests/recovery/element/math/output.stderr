@@ -1,35 +1,53 @@
 
-  x Unexpected token
+  x Stray start tag "html"
     ,-[$DIR/tests/recovery/element/math/input.html:36:13]
  36 | <html xmlns="http://www.w3.org/1999/xhtml">
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x Unexpected token
+  x Stray start tag "head"
     ,-[$DIR/tests/recovery/element/math/input.html:37:13]
  37 | <head><title>INNER HTML TITLE</title></head>
     : ^^^^^^
     `----
 
-  x Unexpected token
+  x End tag "head" did not match the name of the current open element ("annotation-xml")
     ,-[$DIR/tests/recovery/element/math/input.html:37:13]
  37 | <head><title>INNER HTML TITLE</title></head>
     :                                      ^^^^^^^
     `----
 
-  x Unexpected token
+  x Stray end tag "head"
+    ,-[$DIR/tests/recovery/element/math/input.html:37:13]
+ 37 | <head><title>INNER HTML TITLE</title></head>
+    :                                      ^^^^^^^
+    `----
+
+  x Start tag "body" seen but an element of the same type was already open
     ,-[$DIR/tests/recovery/element/math/input.html:38:13]
  38 | <body>
     : ^^^^^^
     `----
 
-  x Unexpected token
+  x End tag "body" did not match the name of the current open element ("annotation-xml")
     ,-[$DIR/tests/recovery/element/math/input.html:40:13]
  40 | </body>
     : ^^^^^^^
     `----
 
-  x Unexpected token
+  x Stray end tag "body"
+    ,-[$DIR/tests/recovery/element/math/input.html:40:13]
+ 40 | </body>
+    : ^^^^^^^
+    `----
+
+  x End tag "html" did not match the name of the current open element ("annotation-xml")
+    ,-[$DIR/tests/recovery/element/math/input.html:41:13]
+ 41 | </html>
+    : ^^^^^^^
+    `----
+
+  x Stray end tag "html"
     ,-[$DIR/tests/recovery/element/math/input.html:41:13]
  41 | </html>
     : ^^^^^^^

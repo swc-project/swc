@@ -3,8 +3,7 @@ class Base {
 class Derived extends Base {
     constructor(...args){
         super(...args);
-        this.bing = ()=>Base.foo
-         // error
+        this.bing = ()=>Base.foo // error
         ;
     }
 }

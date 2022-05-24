@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 74,
-    "end": 136,
+    "start": 75,
+    "end": 137,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 80,
-          "end": 81,
+          "start": 81,
+          "end": 82,
           "ctxt": 0
         },
         "value": "A",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 74,
-        "end": 84,
+        "start": 75,
+        "end": 85,
         "ctxt": 0
       },
       "decorators": [],
@@ -37,8 +37,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 91,
-          "end": 92,
+          "start": 92,
+          "end": 93,
           "ctxt": 0
         },
         "value": "B",
@@ -46,8 +46,8 @@
       },
       "declare": false,
       "span": {
-        "start": 85,
-        "end": 95,
+        "start": 86,
+        "end": 96,
         "ctxt": 0
       },
       "decorators": [],
@@ -63,8 +63,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 122,
-          "end": 123,
+          "start": 123,
+          "end": 124,
           "ctxt": 0
         },
         "value": "C",
@@ -72,8 +72,8 @@
       },
       "declare": false,
       "span": {
-        "start": 116,
-        "end": 136,
+        "start": 117,
+        "end": 137,
         "ctxt": 0
       },
       "decorators": [],
@@ -81,8 +81,8 @@
       "superClass": {
         "type": "Identifier",
         "span": {
-          "start": 132,
-          "end": 133,
+          "start": 133,
+          "end": 134,
           "ctxt": 0
         },
         "value": "B",

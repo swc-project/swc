@@ -1587,10 +1587,10 @@
     `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/element/math/input.html:1:1]
- 1 | <!DOCTYPE html>
-   : ^
-   `----
+    ,-[$DIR/tests/fixture/element/math/input.html:29:1]
+ 29 | <math xmlns="http://www.w3.org/1998/Math/MathML">
+    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
 
   x Child
     ,-[$DIR/tests/fixture/element/math/input.html:29:1]
@@ -2124,6 +2124,12 @@
  43 | ,-> <math xmlns="http://www.w3.org/1998/Math/MathML">
  44 | `->     <infinity/>
  45 |     </math>
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/element/math/input.html:43:1]
+ 43 | <math xmlns="http://www.w3.org/1998/Math/MathML">
+    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -2672,6 +2678,12 @@
  71 | `->         </annotation-xml>
     `----
 
+  x Attribute
+    ,-[$DIR/tests/fixture/element/math/input.html:61:9]
+ 61 | <annotation-xml encoding="MathML-Content">
+    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
   x Child
     ,-[$DIR/tests/fixture/element/math/input.html:61:9]
  61 | ,-> <annotation-xml encoding="MathML-Content">
@@ -2848,6 +2860,12 @@
     : ^^^^^^^^^^^^^^^^^^^^
     `----
 
+  x Attribute
+    ,-[$DIR/tests/fixture/element/math/input.html:67:21]
+ 67 | <cn type="integer">2</cn>
+    :     ^^^^^^^^^^^^^^
+    `----
+
   x Child
     ,-[$DIR/tests/fixture/element/math/input.html:67:21]
  67 | <cn type="integer">2</cn>
@@ -2982,6 +3000,18 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
+  x Attribute
+    ,-[$DIR/tests/fixture/element/math/input.html:74:9]
+ 74 | <annotation encoding="image/png" src="some/path/formula.png"/>
+    :             ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/element/math/input.html:74:9]
+ 74 | <annotation encoding="image/png" src="some/path/formula.png"/>
+    :                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
   x Child
     ,-[$DIR/tests/fixture/element/math/input.html:74:9]
  74 | ,-> <annotation encoding="image/png" src="some/path/formula.png"/>
@@ -3032,6 +3062,12 @@
  77 | ,-> <annotation encoding="application/x-tex">
  78 | |               x^{2} + y
  79 | `->         </annotation>
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/element/math/input.html:77:9]
+ 77 | <annotation encoding="application/x-tex">
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -3284,6 +3320,12 @@
  97 | |                   </mrow>
  98 | |               </mtd>
  99 | `->         </mtr>
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/element/math/input.html:86:9]
+ 86 | <mtr groupalign="{left}">
+    :      ^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -4662,6 +4704,12 @@
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
+  x Attribute
+     ,-[$DIR/tests/fixture/element/math/input.html:134:13]
+ 134 | <malignmark edge="right"/>
+     :             ^^^^^^^^^^^^
+     `----
+
   x Child
      ,-[$DIR/tests/fixture/element/math/input.html:134:13]
  134 | ,-> <malignmark edge="right"/>
@@ -4936,6 +4984,30 @@
  162 | `->         </svg>
      `----
 
+  x Attribute
+     ,-[$DIR/tests/fixture/element/math/input.html:142:9]
+ 142 | <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
+     :      ^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Attribute
+     ,-[$DIR/tests/fixture/element/math/input.html:142:9]
+ 142 | <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
+     :                              ^^^^^^^^^^^^^
+     `----
+
+  x Attribute
+     ,-[$DIR/tests/fixture/element/math/input.html:142:9]
+ 142 | <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
+     :                                            ^^^^^^^^^^^^^^
+     `----
+
+  x Attribute
+     ,-[$DIR/tests/fixture/element/math/input.html:142:9]
+ 142 | <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
+     :                                                           ^^^^^^^^^^^^^^^^^^^^^
+     `----
+
   x Child
      ,-[$DIR/tests/fixture/element/math/input.html:142:9]
  142 | ,-> <svg style="font-size: 20px" width="400px" height="220px" viewBox="0 0 200 110">
@@ -4994,6 +5066,12 @@
  161 | `->             </g>
      `----
 
+  x Attribute
+     ,-[$DIR/tests/fixture/element/math/input.html:143:13]
+ 143 | <g transform="translate(10,80)">
+     :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
   x Child
      ,-[$DIR/tests/fixture/element/math/input.html:143:13]
  143 | ,-> <g transform="translate(10,80)">
@@ -5020,6 +5098,24 @@
  146 | `->                       fill="none" stroke="black"></path>
      `----
 
+  x Attribute
+     ,-[$DIR/tests/fixture/element/math/input.html:144:17]
+ 144 | ,-> <path d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
+ 145 | `->              M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
+     `----
+
+  x Attribute
+     ,-[$DIR/tests/fixture/element/math/input.html:146:23]
+ 146 | fill="none" stroke="black"></path>
+     : ^^^^^^^^^^^
+     `----
+
+  x Attribute
+     ,-[$DIR/tests/fixture/element/math/input.html:146:23]
+ 146 | fill="none" stroke="black"></path>
+     :             ^^^^^^^^^^^^^^
+     `----
+
   x Child
      ,-[$DIR/tests/fixture/element/math/input.html:146:23]
  146 | ,-> fill="none" stroke="black"></path>
@@ -5042,6 +5138,12 @@
      ,-[$DIR/tests/fixture/element/math/input.html:147:17]
  147 | <text transform="translate(10,20)">1</text>
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Attribute
+     ,-[$DIR/tests/fixture/element/math/input.html:147:17]
+ 147 | <text transform="translate(10,20)">1</text>
+     :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x Child
@@ -5102,6 +5204,12 @@
  160 | `->                 </switch>
      `----
 
+  x Attribute
+     ,-[$DIR/tests/fixture/element/math/input.html:148:17]
+ 148 | <switch transform="translate(35,-40)">
+     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
   x Child
      ,-[$DIR/tests/fixture/element/math/input.html:148:17]
  148 | ,-> <switch transform="translate(35,-40)">
@@ -5140,6 +5248,24 @@
  156 | |                               </msqrt>
  157 | |                           </math>
  158 | `->                     </foreignObject>
+     `----
+
+  x Attribute
+     ,-[$DIR/tests/fixture/element/math/input.html:149:21]
+ 149 | <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
+     :                ^^^^^^^^^^^
+     `----
+
+  x Attribute
+     ,-[$DIR/tests/fixture/element/math/input.html:149:21]
+ 149 | <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
+     :                            ^^^^^^^^^^^
+     `----
+
+  x Attribute
+     ,-[$DIR/tests/fixture/element/math/input.html:149:21]
+ 149 | <foreignObject width="200" height="50" requiredExtensions="http://www.w3.org/1998/Math/MathML">
+     :                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x Child

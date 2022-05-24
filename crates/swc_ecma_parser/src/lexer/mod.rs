@@ -163,53 +163,14 @@ impl<'a, I: Input> Lexer<'a, I> {
                 return Ok(None);
             }
         };
-        let start = self.cur_pos();
 
         let token = match c {
             '#' => return self.read_token_number_sign(),
-            // Identifier or keyword. '\uXXXX' sequences are allowed in
-            // identifiers, so '\' also dispatches to that.
-            c if c == '\\' || c.is_ident_start() => return self.read_ident_or_keyword().map(Some),
 
             //
-            '.' => {
-                // Check for eof
-                let next = match self.input.peek() {
-                    Some(next) => next,
-                    None => {
-                        self.input.bump();
-                        return Ok(Some(tok!('.')));
-                    }
-                };
-                if ('0'..='9').contains(&next) {
-                    return self
-                        .read_number(true)
-                        .map(|v| match v {
-                            Left((value, raw)) => Num {
-                                value,
-                                raw: raw.into(),
-                            },
-                            Right((value, raw)) => BigInt {
-                                value,
-                                raw: raw.into(),
-                            },
-                        })
-                        .map(Some);
-                }
+            '.' => return self.read_token_dot().map(Some),
 
-                self.input.bump(); // 1st `.`
-
-                if next == '.' && self.input.peek() == Some('.') {
-                    self.input.bump(); // 2nd `.`
-                    self.input.bump(); // 3rd `.`
-
-                    return Ok(Some(tok!("...")));
-                }
-
-                return Ok(Some(tok!('.')));
-            }
-
-            '(' | ')' | ';' | ',' | '[' | ']' | '{' | '}' | '@' => {
+            '(' | ')' | ';' | ',' | '[' | ']' | '{' | '}' | '@' | '`' | '~' => {
                 // These tokens are emitted directly.
                 self.input.bump();
                 return Ok(Some(match c {
@@ -222,84 +183,18 @@ impl<'a, I: Input> Lexer<'a, I> {
                     '{' => LBrace,
                     '}' => RBrace,
                     '@' => At,
+                    '`' => tok!('`'),
+                    '~' => tok!('~'),
+
                     _ => unreachable!(),
                 }));
             }
 
-            '?' => match self.input.peek() {
-                Some('?') => {
-                    self.input.bump();
-                    self.input.bump();
-                    if self.input.cur() == Some('=') {
-                        self.input.bump();
-                        return Ok(Some(tok!("??=")));
-                    }
-                    return Ok(Some(tok!("??")));
-                }
-                _ => {
-                    self.input.bump();
-                    return Ok(Some(tok!('?')));
-                }
-            },
+            '?' => return self.read_token_question_mark().map(Some),
 
-            '`' => {
-                self.bump();
-                return Ok(Some(tok!('`')));
-            }
+            ':' => return self.read_token_colon().map(Some),
 
-            ':' => {
-                self.input.bump();
-
-                if self.syntax.fn_bind() && self.input.cur() == Some(':') {
-                    self.input.bump();
-                    return Ok(Some(tok!("::")));
-                }
-
-                return Ok(Some(tok!(':')));
-            }
-
-            '0' => {
-                let next = self.input.peek();
-
-                let bigint = match next {
-                    Some('x') | Some('X') => self
-                        .read_radix_number::<16, { lexical::NumberFormatBuilder::hexadecimal() }>(),
-                    Some('o') | Some('O') => {
-                        self.read_radix_number::<8, { lexical::NumberFormatBuilder::octal() }>()
-                    }
-                    Some('b') | Some('B') => {
-                        self.read_radix_number::<2, { lexical::NumberFormatBuilder::binary() }>()
-                    }
-                    _ => {
-                        return self
-                            .read_number(false)
-                            .map(|v| match v {
-                                Left((value, raw)) => Num {
-                                    value,
-                                    raw: raw.into(),
-                                },
-                                Right((value, raw)) => BigInt {
-                                    value,
-                                    raw: raw.into(),
-                                },
-                            })
-                            .map(Some);
-                    }
-                };
-
-                return bigint
-                    .map(|v| match v {
-                        Left((value, raw)) => Num {
-                            value,
-                            raw: raw.into(),
-                        },
-                        Right((value, raw)) => BigInt {
-                            value,
-                            raw: raw.into(),
-                        },
-                    })
-                    .map(Some);
-            }
+            '0' => return self.read_token_zero().map(Some),
 
             '1'..='9' => {
                 return self
@@ -321,67 +216,10 @@ impl<'a, I: Input> Lexer<'a, I> {
 
             '/' => return self.read_slash(),
 
-            c @ '%' | c @ '*' => {
-                let is_mul = c == '*';
-                self.input.bump();
-                let mut token = if is_mul { BinOp(Mul) } else { BinOp(Mod) };
-
-                // check for **
-                if is_mul && self.input.cur() == Some('*') {
-                    self.input.bump();
-                    token = BinOp(Exp)
-                }
-
-                if self.input.cur() == Some('=') {
-                    self.input.bump();
-                    token = match token {
-                        BinOp(Mul) => AssignOp(MulAssign),
-                        BinOp(Mod) => AssignOp(ModAssign),
-                        BinOp(Exp) => AssignOp(ExpAssign),
-                        _ => unreachable!(),
-                    }
-                }
-
-                token
-            }
+            '%' | '*' => return self.read_token_mul_mod(c).map(Some),
 
             // Logical operators
-            c @ '|' | c @ '&' => {
-                self.input.bump();
-                let token = if c == '&' { BitAnd } else { BitOr };
-
-                // '|=', '&='
-                if self.input.cur() == Some('=') {
-                    self.input.bump();
-                    return Ok(Some(AssignOp(match token {
-                        BitAnd => BitAndAssign,
-                        BitOr => BitOrAssign,
-                        _ => unreachable!(),
-                    })));
-                }
-
-                // '||', '&&'
-                if self.input.cur() == Some(c) {
-                    self.input.bump();
-
-                    if self.input.cur() == Some('=') {
-                        self.input.bump();
-                        return Ok(Some(AssignOp(match token {
-                            BitAnd => op!("&&="),
-                            BitOr => op!("||="),
-                            _ => unreachable!(),
-                        })));
-                    }
-
-                    return Ok(Some(BinOp(match token {
-                        BitAnd => LogicalAnd,
-                        BitOr => LogicalOr,
-                        _ => unreachable!(),
-                    })));
-                }
-
-                BinOp(token)
-            }
+            '|' | '&' => return self.read_token_logical(c).map(Some),
             '^' => {
                 // Bitwise xor
                 self.input.bump();
@@ -394,6 +232,8 @@ impl<'a, I: Input> Lexer<'a, I> {
             }
 
             '+' | '-' => {
+                let start = self.cur_pos();
+
                 self.input.bump();
 
                 // '++', '--'
@@ -453,13 +293,16 @@ impl<'a, I: Input> Lexer<'a, I> {
                     AssignOp(Assign)
                 }
             }
-            '~' => {
-                self.input.bump();
-                tok!('~')
-            }
 
             // unexpected character
             c => {
+                // Identifier or keyword. '\uXXXX' sequences are allowed in
+                // identifiers, so '\' also dispatches to that.
+                if c == '\\' || c.is_ident_start() {
+                    return self.read_ident_or_keyword().map(Some);
+                }
+
+                let start = self.cur_pos();
                 self.input.bump();
                 self.error_span(pos_span(start), SyntaxError::UnexpectedChar { c })?
             }
@@ -480,6 +323,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         Ok(Some(Token::Hash))
     }
 
+    #[inline(never)]
     fn read_token_interpreter(&mut self) -> LexResult<bool> {
         if !self.input.is_at_start() {
             return Ok(false);
@@ -500,6 +344,193 @@ impl<'a, I: Input> Lexer<'a, I> {
             self.input.reset_to(start);
             Ok(false)
         }
+    }
+
+    /// Read a token given `.`.
+    ///
+    /// This is extracted as a method to reduce size of `read_token`.
+    #[inline(never)]
+    fn read_token_dot(&mut self) -> LexResult<Token> {
+        // Check for eof
+        let next = match self.input.peek() {
+            Some(next) => next,
+            None => {
+                self.input.bump();
+                return Ok(tok!('.'));
+            }
+        };
+        if ('0'..='9').contains(&next) {
+            return self.read_number(true).map(|v| match v {
+                Left((value, raw)) => Num {
+                    value,
+                    raw: raw.into(),
+                },
+                Right((value, raw)) => BigInt {
+                    value,
+                    raw: raw.into(),
+                },
+            });
+        }
+
+        self.input.bump(); // 1st `.`
+
+        if next == '.' && self.input.peek() == Some('.') {
+            self.input.bump(); // 2nd `.`
+            self.input.bump(); // 3rd `.`
+
+            return Ok(tok!("..."));
+        }
+
+        Ok(tok!('.'))
+    }
+
+    /// Read a token given `?`.
+    ///
+    /// This is extracted as a method to reduce size of `read_token`.
+    #[inline(never)]
+    fn read_token_question_mark(&mut self) -> LexResult<Token> {
+        match self.input.peek() {
+            Some('?') => {
+                self.input.bump();
+                self.input.bump();
+                if self.input.cur() == Some('=') {
+                    self.input.bump();
+                    return Ok(tok!("??="));
+                }
+                Ok(tok!("??"))
+            }
+            _ => {
+                self.input.bump();
+                Ok(tok!('?'))
+            }
+        }
+    }
+
+    /// Read a token given `:`.
+    ///
+    /// This is extracted as a method to reduce size of `read_token`.
+    #[inline(never)]
+    fn read_token_colon(&mut self) -> LexResult<Token> {
+        self.input.bump();
+
+        if self.syntax.fn_bind() && self.input.cur() == Some(':') {
+            self.input.bump();
+            return Ok(tok!("::"));
+        }
+
+        Ok(tok!(':'))
+    }
+
+    /// Read a token given `0`.
+    ///
+    /// This is extracted as a method to reduce size of `read_token`.
+    #[inline(never)]
+    fn read_token_zero(&mut self) -> LexResult<Token> {
+        let next = self.input.peek();
+
+        let bigint = match next {
+            Some('x') | Some('X') => {
+                self.read_radix_number::<16, { lexical::NumberFormatBuilder::hexadecimal() }>()
+            }
+            Some('o') | Some('O') => {
+                self.read_radix_number::<8, { lexical::NumberFormatBuilder::octal() }>()
+            }
+            Some('b') | Some('B') => {
+                self.read_radix_number::<2, { lexical::NumberFormatBuilder::binary() }>()
+            }
+            _ => {
+                return self.read_number(false).map(|v| match v {
+                    Left((value, raw)) => Num {
+                        value,
+                        raw: raw.into(),
+                    },
+                    Right((value, raw)) => BigInt {
+                        value,
+                        raw: raw.into(),
+                    },
+                });
+            }
+        };
+
+        bigint.map(|v| match v {
+            Left((value, raw)) => Num {
+                value,
+                raw: raw.into(),
+            },
+            Right((value, raw)) => BigInt {
+                value,
+                raw: raw.into(),
+            },
+        })
+    }
+
+    /// Read a token given `|` or `&`.
+    ///
+    /// This is extracted as a method to reduce size of `read_token`.
+    #[inline(never)]
+    fn read_token_logical(&mut self, c: char) -> LexResult<Token> {
+        self.input.bump();
+        let token = if c == '&' { BitAnd } else { BitOr };
+
+        // '|=', '&='
+        if self.input.cur() == Some('=') {
+            self.input.bump();
+            return Ok(AssignOp(match token {
+                BitAnd => BitAndAssign,
+                BitOr => BitOrAssign,
+                _ => unreachable!(),
+            }));
+        }
+
+        // '||', '&&'
+        if self.input.cur() == Some(c) {
+            self.input.bump();
+
+            if self.input.cur() == Some('=') {
+                self.input.bump();
+                return Ok(AssignOp(match token {
+                    BitAnd => op!("&&="),
+                    BitOr => op!("||="),
+                    _ => unreachable!(),
+                }));
+            }
+
+            return Ok(BinOp(match token {
+                BitAnd => LogicalAnd,
+                BitOr => LogicalOr,
+                _ => unreachable!(),
+            }));
+        }
+
+        Ok(BinOp(token))
+    }
+
+    /// Read a token given `*` or `%`.
+    ///
+    /// This is extracted as a method to reduce size of `read_token`.
+    #[inline(never)]
+    fn read_token_mul_mod(&mut self, c: char) -> LexResult<Token> {
+        let is_mul = c == '*';
+        self.input.bump();
+        let mut token = if is_mul { BinOp(Mul) } else { BinOp(Mod) };
+
+        // check for **
+        if is_mul && self.input.cur() == Some('*') {
+            self.input.bump();
+            token = BinOp(Exp)
+        }
+
+        if self.input.cur() == Some('=') {
+            self.input.bump();
+            token = match token {
+                BinOp(Mul) => AssignOp(MulAssign),
+                BinOp(Mod) => AssignOp(ModAssign),
+                BinOp(Exp) => AssignOp(ExpAssign),
+                _ => unreachable!(),
+            }
+        }
+
+        Ok(token)
     }
 
     /// Read an escaped character for string literal.
@@ -651,6 +682,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 }
 
 impl<'a, I: Input> Lexer<'a, I> {
+    #[inline(never)]
     fn read_slash(&mut self) -> LexResult<Option<Token>> {
         debug_assert_eq!(self.cur(), Some('/'));
         // let start = self.cur_pos();
@@ -670,6 +702,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         }))
     }
 
+    #[inline(never)]
     fn read_token_lt_gt(&mut self) -> LexResult<Option<Token>> {
         debug_assert!(self.cur() == Some('<') || self.cur() == Some('>'));
 

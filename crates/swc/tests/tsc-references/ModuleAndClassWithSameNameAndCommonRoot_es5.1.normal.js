@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @Filename: module.ts
 var X;
 (function(X1) {
@@ -15,7 +15,7 @@ var X;
     (function(Y) {
         var Point = function Point(x, y) {
             "use strict";
-            swcHelpers.classCallCheck(this, Point);
+            _class_call_check(this, Point);
             this.x = x;
             this.y = y;
         };
@@ -28,5 +28,5 @@ var X;
 // duplicate identifier
 var A = function A() {
     "use strict";
-    swcHelpers.classCallCheck(this, A);
+    _class_call_check(this, A);
 };

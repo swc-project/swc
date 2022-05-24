@@ -1,9 +1,9 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 let obj2;
-swcHelpers.extends({}, obj2), swcHelpers.extends({
+_extends({}, obj2), _extends({
     yy: 1000
-}, obj2), swcHelpers.extends({}, obj2, {
+}, obj2), _extends({}, obj2, {
     yy: 1000
-}), swcHelpers.extends({}, obj2, {
+}), _extends({}, obj2, {
     y2: 10
 });

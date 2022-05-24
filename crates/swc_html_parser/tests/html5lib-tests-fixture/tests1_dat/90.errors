@@ -1,0 +1,10 @@
+(1,3): expected-doctype-but-got-start-tag
+(1,13): unexpected-start-tag-implies-table-voodoo
+(1,13): unexpected-start-tag-implies-end-tag
+(1,13): adoption-agency-1.3
+(1,27): unexpected-start-tag-implies-end-tag
+(1,27): adoption-agency-1.2
+(1,32): unexpected-end-tag
+(1,35): unexpected-start-tag-implies-end-tag
+(1,35): adoption-agency-1.2
+(1,35): expected-closing-tag-but-got-eof

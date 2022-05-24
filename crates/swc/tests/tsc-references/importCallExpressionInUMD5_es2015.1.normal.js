@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
 // @module: umd
 // @target: es2015
 // @filename: 0.ts
@@ -11,7 +11,7 @@ function func() {
 function _func() {
     _func = // @filename: 1.ts
     // https://github.com/microsoft/TypeScript/issues/36780
-    swcHelpers.asyncToGenerator(function*() {
+    _async_to_generator(function*() {
         const packageName = '.';
         const packageJson = yield import(packageName + '/package.json');
     });

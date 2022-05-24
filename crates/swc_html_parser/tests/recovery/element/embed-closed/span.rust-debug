@@ -61,9 +61,9 @@
     `----
 
   x Attribute
-   ,-[$DIR/tests/recovery/element/embed-closed/input.html:1:1]
- 1 | <!doctype html>
-   : ^
+   ,-[$DIR/tests/recovery/element/embed-closed/input.html:2:1]
+ 2 | <html lang="en">
+   :       ^^^^^^^^^
    `----
 
   x Child
@@ -190,6 +190,30 @@
    ,-[$DIR/tests/recovery/element/embed-closed/input.html:7:5]
  7 | <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/recovery/element/embed-closed/input.html:7:5]
+ 7 | <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
+   :        ^^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/recovery/element/embed-closed/input.html:7:5]
+ 7 | <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
+   :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/recovery/element/embed-closed/input.html:7:5]
+ 7 | <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
+   :                                                          ^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/recovery/element/embed-closed/input.html:7:5]
+ 7 | <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
+   :                                                                      ^^^^^^^^^^^^
    `----
 
   x Child

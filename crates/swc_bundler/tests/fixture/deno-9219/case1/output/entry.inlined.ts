@@ -32,8 +32,7 @@ function hasKey(obj, keys) {
     const key1 = keys[keys.length - 1];
     return key1 in o;
 }
-function parse(args1, { "--": doubleDash = false , alias: alias3 = {} , boolean: __boolean = false , default: defaults = {} , stopEarly =false , string =[] , unknown =(i)=>i
-  } = {}) {
+function parse(args1, { "--": doubleDash = false , alias: alias3 = {} , boolean: __boolean = false , default: defaults = {} , stopEarly =false , string =[] , unknown =(i)=>i  } = {}) {
     const flags = {
         bools: {},
         strings: {},
@@ -66,8 +65,7 @@ function parse(args1, { "--": doubleDash = false , alias: alias3 = {} , boolean:
             for (const alias1 of getForce(aliases, key)){
                 aliases[alias1] = [
                     key
-                ].concat(aliases[key].filter((y)=>alias1 !== y
-                ));
+                ].concat(aliases[key].filter((y)=>alias1 !== y));
             }
         }
     }
@@ -125,8 +123,7 @@ function parse(args1, { "--": doubleDash = false , alias: alias3 = {} , boolean:
         }
     }
     function aliasIsBoolean(key) {
-        return getForce(aliases, key).some((x)=>typeof get(flags.bools, x) === "boolean"
-        );
+        return getForce(aliases, key).some((x)=>typeof get(flags.bools, x) === "boolean");
     }
     for (const key3 of Object.keys(flags.bools)){
         setArg(key3, defaults[key3] === undefined ? false : defaults[key3]);

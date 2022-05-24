@@ -72,7 +72,9 @@ mod span;
 use handler::*;
 use hygiene::*;
 
-use self::source_map::{lookup_char_pos_proxy, SourceMapHostEnvironment};
+use self::source_map::{
+    doctest_offset_line_proxy, lookup_char_pos_proxy, merge_spans_proxy, SourceMapHostEnvironment,
+};
 
 /// Create an ImportObject includes functions to be imported from host to the
 /// plugins.
@@ -213,6 +215,18 @@ pub(crate) fn build_import_object(
         lookup_char_pos_proxy,
     );
 
+    let doctest_offset_line_fn_decl = Function::new_native_with_env(
+        wasmer_store,
+        SourceMapHostEnvironment::new(&source_map, &source_map_buffer),
+        doctest_offset_line_proxy,
+    );
+
+    let merge_spans_fn_decl = Function::new_native_with_env(
+        wasmer_store,
+        SourceMapHostEnvironment::new(&source_map, &source_map_buffer),
+        merge_spans_proxy,
+    );
+
     imports! {
         "env" => {
             // transform
@@ -248,6 +262,8 @@ pub(crate) fn build_import_object(
             "__add_pure_comment_proxy" => add_pure_comment_fn_decl,
             // source_map
             "__lookup_char_pos_source_map_proxy" =>lookup_char_pos_source_map_fn_decl,
+            "__doctest_offset_line_proxy" => doctest_offset_line_fn_decl,
+            "__merge_spans_proxy" => merge_spans_fn_decl,
         }
     }
 }

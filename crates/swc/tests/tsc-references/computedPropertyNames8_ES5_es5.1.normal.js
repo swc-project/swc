@@ -1,8 +1,8 @@
-import * as swcHelpers from "@swc/helpers";
+import _define_property from "@swc/helpers/lib/_define_property.js";
 // @target: es5
 function f() {
     var t;
     var u;
     var _obj;
-    var v = (_obj = {}, swcHelpers.defineProperty(_obj, t, 0), swcHelpers.defineProperty(_obj, u, 1), _obj);
+    var v = (_obj = {}, _define_property(_obj, t, 0), _define_property(_obj, u, 1), _obj);
 }

@@ -1,5 +1,6 @@
 "use strict";
-var swcHelpers = require("@swc/helpers");
+var _ts_decorate = require("@swc/helpers/lib/_ts_decorate.js").default;
+var _ts_metadata = require("@swc/helpers/lib/_ts_metadata.js").default;
 function MyDecorator(klass) {
     return ()=>{
         // do something
@@ -8,8 +9,8 @@ function MyDecorator(klass) {
 }
 class MyClass {
 }
-swcHelpers.__decorate([
+_ts_decorate([
     MyDecorator(MyClass),
-    swcHelpers.__metadata("design:type", String)
+    _ts_metadata("design:type", String)
 ], MyClass.prototype, "prop", void 0);
 console.log(new MyClass());

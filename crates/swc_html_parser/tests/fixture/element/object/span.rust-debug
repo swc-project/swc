@@ -64,9 +64,9 @@
     `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/element/object/input.html:1:1]
- 1 | <!doctype html>
-   : ^
+   ,-[$DIR/tests/fixture/element/object/input.html:2:1]
+ 2 | <html lang="en">
+   :       ^^^^^^^^^
    `----
 
   x Child
@@ -199,6 +199,18 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
+  x Attribute
+   ,-[$DIR/tests/fixture/element/object/input.html:7:1]
+ 7 | <object type="image/svg+xml" data="image.svg"><div>[fallback image]</div></object>
+   :         ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/element/object/input.html:7:1]
+ 7 | <object type="image/svg+xml" data="image.svg"><div>[fallback image]</div></object>
+   :                              ^^^^^^^^^^^^^^^^
+   `----
+
   x Child
    ,-[$DIR/tests/fixture/element/object/input.html:7:1]
  7 | <object type="image/svg+xml" data="image.svg"><div>[fallback image]</div></object>
@@ -251,6 +263,12 @@
  11 |     </object>
     `----
 
+  x Attribute
+   ,-[$DIR/tests/fixture/element/object/input.html:9:1]
+ 9 | <object data="horse.wav">
+   :         ^^^^^^^^^^^^^^^^
+   `----
+
   x Child
     ,-[$DIR/tests/fixture/element/object/input.html:9:1]
   9 | ,-> <object data="horse.wav">
@@ -273,6 +291,18 @@
     ,-[$DIR/tests/fixture/element/object/input.html:10:5]
  10 | <param name="autoplay" value="true">
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/element/object/input.html:10:5]
+ 10 | <param name="autoplay" value="true">
+    :        ^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/element/object/input.html:10:5]
+ 10 | <param name="autoplay" value="true">
+    :                        ^^^^^^^^^^^^
     `----
 
   x Child

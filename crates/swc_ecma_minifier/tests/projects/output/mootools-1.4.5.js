@@ -1948,7 +1948,7 @@ Elements.prototype = {
             return inserter(document.id(el, !0), this), this;
         }, Element.implement(methods);
     });
-    var propertyGetters = {}, propertySetters = {}, properties = {};
+    var types, propertyGetters = {}, propertySetters = {}, properties = {};
     Array.forEach([
         "type",
         "value",
@@ -1970,7 +1970,8 @@ Elements.prototype = {
             return node[real];
         };
     });
-    var bools = [
+    var booleans = {};
+    Array.forEach([
         "compact",
         "nowrap",
         "ismap",
@@ -1988,8 +1989,7 @@ Elements.prototype = {
         "controls",
         "autoplay",
         "loop", 
-    ], booleans = {};
-    Array.forEach(bools, function(bool) {
+    ], function(bool) {
         var lower = bool.toLowerCase();
         booleans[lower] = bool, propertySetters[lower] = function(node, value) {
             node[bool] = !!value;
@@ -2019,7 +2019,7 @@ Elements.prototype = {
     "button" != el1.type && (propertySetters.type = function(node, value) {
         node.setAttribute("type", value);
     }), el1 = null;
-    var types, div, input = document.createElement("input");
+    var div, input = document.createElement("input");
     input.value = "t", input.type = "submit", "t" != input.value && (propertySetters.type = function(node, type) {
         var value = node.value;
         node.type = type, node.value = value;
@@ -2121,14 +2121,11 @@ Elements.prototype = {
             var queryString = [];
             return this.getElements("input, select, textarea").each(function(el) {
                 var type = el.type;
-                if (el.name && !el.disabled && "submit" != type && "reset" != type && "file" != type && "image" != type) {
-                    var value = "select" == el.get("tag") ? el.getSelected().map(function(opt) {
-                        return document.id(opt).get("value");
-                    }) : "radio" != type && "checkbox" != type || el.checked ? el.get("value") : null;
-                    Array.from(value).each(function(val) {
-                        void 0 !== val && queryString.push(encodeURIComponent(el.name) + "=" + encodeURIComponent(val));
-                    });
-                }
+                el.name && !el.disabled && "submit" != type && "reset" != type && "file" != type && "image" != type && Array.from("select" == el.get("tag") ? el.getSelected().map(function(opt) {
+                    return document.id(opt).get("value");
+                }) : "radio" != type && "checkbox" != type || el.checked ? el.get("value") : null).each(function(val) {
+                    void 0 !== val && queryString.push(encodeURIComponent(el.name) + "=" + encodeURIComponent(val));
+                });
             }), queryString.join("&");
         }
     });
@@ -2144,8 +2141,7 @@ Elements.prototype = {
     };
     Element.implement({
         destroy: function() {
-            var children = clean(this).getElementsByTagName("*");
-            return Array.each(children, clean), Element.dispose(this), null;
+            return Array.each(clean(this).getElementsByTagName("*"), clean), Element.dispose(this), null;
         },
         empty: function() {
             return Array.from(this.childNodes).each(Element.dispose), this;
@@ -3077,19 +3073,16 @@ Elements.prototype = {
         var to = {}, selectorTest = new RegExp("^" + selector.escapeRegExp() + "$");
         return Array.each(document.styleSheets, function(sheet, j) {
             var href = sheet.href;
-            if (!(href && href.contains("://")) || href.contains(document.domain)) {
-                var rules = sheet.rules || sheet.cssRules;
-                Array.each(rules, function(rule, i) {
-                    if (rule.style) {
-                        var selectorText = rule.selectorText ? rule.selectorText.replace(/^\w+/, function(m) {
-                            return m.toLowerCase();
-                        }) : null;
-                        selectorText && selectorTest.test(selectorText) && Object.each(Element.Styles, function(value, style) {
-                            rule.style[style] && !Element.ShortStyles[style] && (value = String(rule.style[style]), to[style] = /^rgb/.test(value) ? value.rgbToHex() : value);
-                        });
-                    }
-                });
-            }
+            (!(href && href.contains("://")) || href.contains(document.domain)) && Array.each(sheet.rules || sheet.cssRules, function(rule, i) {
+                if (rule.style) {
+                    var selectorText = rule.selectorText ? rule.selectorText.replace(/^\w+/, function(m) {
+                        return m.toLowerCase();
+                    }) : null;
+                    selectorText && selectorTest.test(selectorText) && Object.each(Element.Styles, function(value, style) {
+                        rule.style[style] && !Element.ShortStyles[style] && (value = String(rule.style[style]), to[style] = /^rgb/.test(value) ? value.rgbToHex() : value);
+                    });
+                }
+            });
         }), Fx.CSS.Cache[selector] = to;
     }
 }), Fx.CSS.Cache = {}, Fx.CSS.Parsers = {

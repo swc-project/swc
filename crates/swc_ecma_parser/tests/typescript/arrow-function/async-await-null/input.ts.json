@@ -1,38 +1,38 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 26,
+    "start": 1,
+    "end": 27,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 0,
-        "end": 26,
+        "start": 1,
+        "end": 27,
         "ctxt": 0
       },
       "expression": {
         "type": "ArrowFunctionExpression",
         "span": {
-          "start": 0,
-          "end": 25,
+          "start": 1,
+          "end": 26,
           "ctxt": 0
         },
         "params": [],
         "body": {
           "type": "AwaitExpression",
           "span": {
-            "start": 15,
-            "end": 25,
+            "start": 16,
+            "end": 26,
             "ctxt": 0
           },
           "argument": {
             "type": "NullLiteral",
             "span": {
-              "start": 21,
-              "end": 25,
+              "start": 22,
+              "end": 26,
               "ctxt": 0
             }
           }
@@ -42,23 +42,23 @@
         "typeParameters": {
           "type": "TsTypeParameterDeclaration",
           "span": {
-            "start": 6,
-            "end": 9,
+            "start": 7,
+            "end": 10,
             "ctxt": 0
           },
           "parameters": [
             {
               "type": "TsTypeParameter",
               "span": {
-                "start": 7,
-                "end": 8,
+                "start": 8,
+                "end": 9,
                 "ctxt": 0
               },
               "name": {
                 "type": "Identifier",
                 "span": {
-                  "start": 7,
-                  "end": 8,
+                  "start": 8,
+                  "end": 9,
                   "ctxt": 0
                 },
                 "value": "T",

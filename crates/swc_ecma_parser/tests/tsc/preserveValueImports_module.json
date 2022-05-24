@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 98,
-    "end": 108,
+    "start": 99,
+    "end": 109,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportNamedDeclaration",
       "span": {
-        "start": 98,
-        "end": 108,
+        "start": 99,
+        "end": 109,
         "ctxt": 0
       },
       "specifiers": [],

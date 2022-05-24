@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
 var ref = it.next();
 ref.value, ref.done, f50(function(kind, data) {
     "A" === kind && data.toFixed(), "B" === kind && data.toUpperCase();

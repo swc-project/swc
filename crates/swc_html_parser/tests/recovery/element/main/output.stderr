@@ -1,6 +1,2 @@
 
-  x Unexpected token
-   ,-[$DIR/tests/recovery/element/main/input.html:1:1]
- 1 | <!doctype html><p>foo<main>bar<p>baz
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
+  x End of file seen and there were open elements

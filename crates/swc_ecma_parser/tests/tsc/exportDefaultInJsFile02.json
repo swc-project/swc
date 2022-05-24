@@ -1,23 +1,23 @@
 {
   "type": "Module",
   "span": {
-    "start": 83,
-    "end": 106,
+    "start": 84,
+    "end": 107,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDefaultExpression",
       "span": {
-        "start": 83,
-        "end": 106,
+        "start": 84,
+        "end": 107,
         "ctxt": 0
       },
       "expression": {
         "type": "StringLiteral",
         "span": {
-          "start": 98,
-          "end": 105,
+          "start": 99,
+          "end": 106,
           "ctxt": 0
         },
         "value": "hello",

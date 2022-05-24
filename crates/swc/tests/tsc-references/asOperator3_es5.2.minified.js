@@ -1,6 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
+import _tagged_template_literal from "@swc/helpers/lib/_tagged_template_literal.js";
 function _templateObject() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         "Hello ",
         " World"
     ]);
@@ -9,7 +9,7 @@ function _templateObject() {
     }, data;
 }
 function _templateObject1() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         "Hello"
     ]);
     return _templateObject1 = function _templateObject1() {

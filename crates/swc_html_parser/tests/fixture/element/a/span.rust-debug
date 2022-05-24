@@ -55,9 +55,9 @@
     `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/element/a/input.html:1:1]
- 1 | <!doctype html>
-   : ^
+   ,-[$DIR/tests/fixture/element/a/input.html:2:1]
+ 2 | <html lang="en">
+   :       ^^^^^^^^^
    `----
 
   x Child
@@ -182,6 +182,12 @@
    ,-[$DIR/tests/fixture/element/a/input.html:8:1]
  8 | <a href="https://example.com">First</a>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/element/a/input.html:8:1]
+ 8 | <a href="https://example.com">First</a>
+   :    ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child

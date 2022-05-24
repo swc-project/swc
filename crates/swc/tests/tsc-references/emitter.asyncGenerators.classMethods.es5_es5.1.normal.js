@@ -1,4 +1,12 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_generator_delegate from "@swc/helpers/lib/_async_generator_delegate.js";
+import _async_iterator from "@swc/helpers/lib/_async_iterator.js";
+import _await_async_generator from "@swc/helpers/lib/_await_async_generator.js";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _get from "@swc/helpers/lib/_get.js";
+import _get_prototype_of from "@swc/helpers/lib/_get_prototype_of.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _wrap_async_generator from "@swc/helpers/lib/_wrap_async_generator.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 import regeneratorRuntime from "regenerator-runtime";
 // @target: es5
 // @lib: esnext
@@ -6,11 +14,11 @@ import regeneratorRuntime from "regenerator-runtime";
 var C1 = /*#__PURE__*/ function() {
     "use strict";
     function C1() {
-        swcHelpers.classCallCheck(this, C1);
+        _class_call_check(this, C1);
     }
     var _proto = C1.prototype;
     _proto.f = function f() {
-        return swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+        return _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
@@ -26,11 +34,11 @@ var C1 = /*#__PURE__*/ function() {
 var C2 = /*#__PURE__*/ function() {
     "use strict";
     function C2() {
-        swcHelpers.classCallCheck(this, C2);
+        _class_call_check(this, C2);
     }
     var _proto = C2.prototype;
     _proto.f = function f() {
-        return swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+        return _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
             var x;
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
@@ -52,11 +60,11 @@ var C2 = /*#__PURE__*/ function() {
 var C3 = /*#__PURE__*/ function() {
     "use strict";
     function C3() {
-        swcHelpers.classCallCheck(this, C3);
+        _class_call_check(this, C3);
     }
     var _proto = C3.prototype;
     _proto.f = function f() {
-        return swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+        return _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
             var x;
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
@@ -78,18 +86,18 @@ var C3 = /*#__PURE__*/ function() {
 var C4 = /*#__PURE__*/ function() {
     "use strict";
     function C4() {
-        swcHelpers.classCallCheck(this, C4);
+        _class_call_check(this, C4);
     }
     var _proto = C4.prototype;
     _proto.f = function f() {
-        return swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+        return _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
             var x;
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
-                        return _ctx.delegateYield(swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator([
+                        return _ctx.delegateYield(_async_generator_delegate(_async_iterator([
                             1
-                        ]), swcHelpers.awaitAsyncGenerator), "t0", 1);
+                        ]), _await_async_generator), "t0", 1);
                     case 1:
                         x = _ctx.t0;
                     case 2:
@@ -105,16 +113,16 @@ var C4 = /*#__PURE__*/ function() {
 var C5 = /*#__PURE__*/ function() {
     "use strict";
     function C5() {
-        swcHelpers.classCallCheck(this, C5);
+        _class_call_check(this, C5);
     }
     var _proto = C5.prototype;
     _proto.f = function f() {
-        return swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee1() {
+        return _wrap_async_generator(regeneratorRuntime.mark(function _callee1() {
             var x;
             return regeneratorRuntime.wrap(function _callee$(_ctx1) {
                 while(1)switch(_ctx1.prev = _ctx1.next){
                     case 0:
-                        return _ctx1.delegateYield(swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator(swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+                        return _ctx1.delegateYield(_async_generator_delegate(_async_iterator(_wrap_async_generator(regeneratorRuntime.mark(function _callee() {
                             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                                 while(1)switch(_ctx.prev = _ctx.next){
                                     case 0:
@@ -125,7 +133,7 @@ var C5 = /*#__PURE__*/ function() {
                                         return _ctx.stop();
                                 }
                             }, _callee);
-                        }))()), swcHelpers.awaitAsyncGenerator), "t0", 1);
+                        }))()), _await_async_generator), "t0", 1);
                     case 1:
                         x = _ctx1.t0;
                     case 2:
@@ -141,17 +149,17 @@ var C5 = /*#__PURE__*/ function() {
 var C6 = /*#__PURE__*/ function() {
     "use strict";
     function C6() {
-        swcHelpers.classCallCheck(this, C6);
+        _class_call_check(this, C6);
     }
     var _proto = C6.prototype;
     _proto.f = function f() {
-        return swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+        return _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
             var x;
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
                         _ctx.next = 2;
-                        return swcHelpers.awaitAsyncGenerator(1);
+                        return _await_async_generator(1);
                     case 2:
                         x = _ctx.sent;
                     case 3:
@@ -167,11 +175,11 @@ var C6 = /*#__PURE__*/ function() {
 var C7 = /*#__PURE__*/ function() {
     "use strict";
     function C7() {
-        swcHelpers.classCallCheck(this, C7);
+        _class_call_check(this, C7);
     }
     var _proto = C7.prototype;
     _proto.f = function f() {
-        return swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+        return _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
@@ -189,13 +197,13 @@ var C7 = /*#__PURE__*/ function() {
 var C8 = /*#__PURE__*/ function() {
     "use strict";
     function C8() {
-        swcHelpers.classCallCheck(this, C8);
+        _class_call_check(this, C8);
     }
     var _proto = C8.prototype;
     _proto.g = function g() {};
     _proto.f = function f() {
         var _this = this;
-        return swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+        return _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
@@ -213,7 +221,7 @@ var C8 = /*#__PURE__*/ function() {
 var B9 = /*#__PURE__*/ function() {
     "use strict";
     function B9() {
-        swcHelpers.classCallCheck(this, B9);
+        _class_call_check(this, B9);
     }
     var _proto = B9.prototype;
     _proto.g = function g() {};
@@ -221,19 +229,19 @@ var B9 = /*#__PURE__*/ function() {
 }();
 var C9 = /*#__PURE__*/ function(B9) {
     "use strict";
-    swcHelpers.inherits(C9, B9);
-    var _super = swcHelpers.createSuper(C9);
+    _inherits(C9, B9);
+    var _super = _create_super(C9);
     function C9() {
-        swcHelpers.classCallCheck(this, C9);
+        _class_call_check(this, C9);
         return _super.apply(this, arguments);
     }
     var _proto = C9.prototype;
     _proto.f = function f() {
         var _this = this;
         var _this1 = this, _superprop_get_g = function() {
-            return swcHelpers.get(swcHelpers.getPrototypeOf(C9.prototype), "g", _this);
+            return _get(_get_prototype_of(C9.prototype), "g", _this);
         };
-        return swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+        return _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:

@@ -4,10 +4,8 @@ function foo(x) {
 var f = function foo(x) {
     return x;
 };
-var f2 = (x)=>x
-;
-var f3 = (x)=>x
-;
+var f2 = (x)=>x;
+var f3 = (x)=>x;
 class C {
     foo(x) {
         return x;

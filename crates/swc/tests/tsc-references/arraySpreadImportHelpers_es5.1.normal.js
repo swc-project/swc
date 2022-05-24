@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
 var k = [
     1,
     ,
@@ -6,7 +6,7 @@ var k = [
 ];
 var o = [
     3
-].concat(swcHelpers.toConsumableArray(k), [
+].concat(_to_consumable_array(k), [
     4
 ]);
 // @target: es5

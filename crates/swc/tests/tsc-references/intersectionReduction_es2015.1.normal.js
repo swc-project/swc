@@ -22,14 +22,10 @@ s2 = s1;
 t1 = t2;
 t2 = t1;
 // Repro from #36736
-const f1 = (t)=>t
-;
-const f2 = (t)=>t
-;
-const f3 = (t)=>t
-;
-const f4 = (t)=>t
-;
+const f1 = (t)=>t;
+const f2 = (t)=>t;
+const f3 = (t)=>t;
+const f4 = (t)=>t;
 const b = shouldBeB; // works
 function inGeneric(alsoShouldBeB) {
     const b = alsoShouldBeB;

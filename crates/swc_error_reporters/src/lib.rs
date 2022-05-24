@@ -83,11 +83,8 @@ impl SourceCode for MietteSourceCode<'_> {
 
         let mut src = self
             .0
-            .with_snippet_of_span(span, |s| {
-                // Safety: SourceMap does not deallocate strings
-                unsafe { transmute::<&str, &str>(s) }
-            })
-            .map_err(|_| MietteError::OutOfBounds)?;
+            .with_snippet_of_span(span, |s| unsafe { transmute::<&str, &str>(s) })
+            .unwrap_or(" ");
 
         if span.lo == span.hi {
             src = " ";
@@ -172,7 +169,8 @@ impl miette::Diagnostic for MietteDiagnostic<'_> {
             .children
             .iter()
             .filter(|s| s.level == Level::Help)
-            .find_map(|s| Some(Box::new(&s.message[0].0) as Box<_>))
+            .map(|s| Box::new(&s.message[0].0) as Box<_>)
+            .next()
     }
 
     fn url<'a>(&'a self) -> Option<Box<dyn fmt::Display + 'a>> {
@@ -182,12 +180,11 @@ impl miette::Diagnostic for MietteDiagnostic<'_> {
     fn source_code(&self) -> Option<&dyn SourceCode> {
         // empty file
         if let Some(span) = self.d.span.primary_span() {
-            if span.lo == span.hi {
-                let loc = self.source_code.0.lookup_byte_offset(span.lo);
-                if loc.sf.start_pos == loc.sf.end_pos {
-                    return None;
-                }
+            if span.lo.is_dummy() || span.hi.is_dummy() {
+                return None;
             }
+        } else {
+            return None;
         }
 
         Some(&self.source_code as &dyn SourceCode)

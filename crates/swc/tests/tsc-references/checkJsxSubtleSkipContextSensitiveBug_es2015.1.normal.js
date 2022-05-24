@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
 // @strict: true
 // @jsx: react
 // @lib: es6
@@ -14,7 +14,7 @@ function load() {
     return _load.apply(this, arguments);
 }
 function _load() {
-    _load = swcHelpers.asyncToGenerator(function*() {
+    _load = _async_to_generator(function*() {
         return {
             success: true
         };

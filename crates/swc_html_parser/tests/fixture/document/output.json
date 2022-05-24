@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 0,
-    "end": 102,
+    "start": 1,
+    "end": 103,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -10,8 +10,8 @@
     {
       "type": "DocumentType",
       "span": {
-        "start": 0,
-        "end": 15,
+        "start": 1,
+        "end": 16,
         "ctxt": 0
       },
       "name": "html",
@@ -21,8 +21,8 @@
     {
       "type": "Element",
       "span": {
-        "start": 16,
-        "end": 102,
+        "start": 17,
+        "end": 103,
         "ctxt": 0
       },
       "tagName": "html",
@@ -33,7 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 29,
+            "end": 30,
             "ctxt": 0
           },
           "tagName": "head",
@@ -45,8 +45,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 23,
-            "end": 102,
+            "start": 24,
+            "end": 103,
             "ctxt": 0
           },
           "tagName": "body",
@@ -56,8 +56,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 29,
-                "end": 31,
+                "start": 30,
+                "end": 32,
                 "ctxt": 0
               },
               "value": "\n\n"
@@ -65,8 +65,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 31,
-                "end": 51,
+                "start": 32,
+                "end": 52,
                 "ctxt": 0
               },
               "tagName": "h1",
@@ -76,8 +76,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 35,
-                    "end": 51,
+                    "start": 36,
+                    "end": 52,
                     "ctxt": 0
                   },
                   "value": "My First Heading"
@@ -88,8 +88,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 56,
-                "end": 58,
+                "start": 57,
+                "end": 59,
                 "ctxt": 0
               },
               "value": "\n\n"
@@ -97,8 +97,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 58,
-                "end": 80,
+                "start": 59,
+                "end": 81,
                 "ctxt": 0
               },
               "tagName": "p",
@@ -108,8 +108,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 61,
-                    "end": 80,
+                    "start": 62,
+                    "end": 81,
                     "ctxt": 0
                   },
                   "value": "My first paragraph."
@@ -120,8 +120,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 84,
-                "end": 102,
+                "start": 85,
+                "end": 103,
                 "ctxt": 0
               },
               "value": "\n\n\n\n"

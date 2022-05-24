@@ -1,9 +1,9 @@
-import * as swcHelpers from "@swc/helpers";
+import _type_of from "@swc/helpers/lib/_type_of.js";
 //@target: ES6
 var s = Symbol();
 delete Symbol.iterator;
 void Symbol.toPrimitive;
-swcHelpers.typeOf(Symbol.toStringTag);
+_type_of(Symbol.toStringTag);
 ++s;
 --s;
 +Symbol();

@@ -1,8 +1,8 @@
 {
   "type": "Document",
   "span": {
-    "start": 0,
-    "end": 41,
+    "start": 1,
+    "end": 42,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 41,
+        "end": 42,
         "ctxt": 0
       },
       "tagName": "html",
@@ -21,8 +21,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 0,
-            "end": 30,
+            "start": 1,
+            "end": 31,
             "ctxt": 0
           },
           "tagName": "head",
@@ -32,8 +32,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 6,
-                "end": 30,
+                "start": 7,
+                "end": 31,
                 "ctxt": 0
               },
               "tagName": "noscript",
@@ -43,8 +43,8 @@
                 {
                   "type": "Comment",
                   "span": {
-                    "start": 20,
-                    "end": 30,
+                    "start": 21,
+                    "end": 31,
                     "ctxt": 0
                   },
                   "data": "foo"
@@ -59,7 +59,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 41,
+            "end": 42,
             "ctxt": 0
           },
           "tagName": "body",

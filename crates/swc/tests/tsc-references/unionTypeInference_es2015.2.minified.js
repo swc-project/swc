@@ -1,9 +1,9 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
 function fun(deepPromised) {
     return _fun.apply(this, arguments);
 }
 function _fun() {
-    return (_fun = swcHelpers.asyncToGenerator(function*(deepPromised) {
+    return (_fun = _async_to_generator(function*(deepPromised) {
         for (let value of Object.values(deepPromised)){
             let awaitedValue = yield value;
             awaitedValue && (yield fun(awaitedValue));

@@ -1,41 +1,116 @@
 {
   "type": "Document",
   "span": {
-    "start": 0,
-    "end": 58,
+    "start": 1,
+    "end": 161,
     "ctxt": 0
   },
-  "mode": "quirks",
+  "mode": "no-quirks",
   "children": [
+    {
+      "type": "DocumentType",
+      "span": {
+        "start": 1,
+        "end": 16,
+        "ctxt": 0
+      },
+      "name": "html",
+      "publicId": null,
+      "systemId": null
+    },
     {
       "type": "Element",
       "span": {
-        "start": 0,
-        "end": 49,
+        "start": 17,
+        "end": 161,
         "ctxt": 0
       },
       "tagName": "html",
       "namespace": "http://www.w3.org/1999/xhtml",
-      "attributes": [],
+      "attributes": [
+        {
+          "type": "Attribute",
+          "span": {
+            "start": 23,
+            "end": 32,
+            "ctxt": 0
+          },
+          "namespace": null,
+          "prefix": null,
+          "name": "lang",
+          "value": "en"
+        }
+      ],
       "children": [
         {
           "type": "Element",
           "span": {
-            "start": 0,
-            "end": 13,
+            "start": 34,
+            "end": 69,
             "ctxt": 0
           },
           "tagName": "head",
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
-          "children": [],
+          "children": [
+            {
+              "type": "Text",
+              "span": {
+                "start": 40,
+                "end": 45,
+                "ctxt": 0
+              },
+              "value": "\n    "
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 45,
+                "end": 60,
+                "ctxt": 0
+              },
+              "tagName": "title",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 52,
+                    "end": 60,
+                    "ctxt": 0
+                  },
+                  "value": "Document"
+                }
+              ],
+              "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 68,
+                "end": 69,
+                "ctxt": 0
+              },
+              "value": "\n"
+            }
+          ],
           "content": null
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 76,
+            "end": 77,
+            "ctxt": 0
+          },
+          "value": "\n"
         },
         {
           "type": "Element",
           "span": {
-            "start": 0,
-            "end": 49,
+            "start": 77,
+            "end": 161,
             "ctxt": 0
           },
           "tagName": "body",
@@ -43,10 +118,19 @@
           "attributes": [],
           "children": [
             {
+              "type": "Text",
+              "span": {
+                "start": 83,
+                "end": 85,
+                "ctxt": 0
+              },
+              "value": "\n\n"
+            },
+            {
               "type": "Element",
               "span": {
-                "start": 0,
-                "end": 49,
+                "start": 85,
+                "end": 134,
                 "ctxt": 0
               },
               "tagName": "dialog",
@@ -55,8 +139,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 93,
+                    "end": 97,
                     "ctxt": 0
                   },
                   "namespace": null,
@@ -69,8 +153,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 13,
-                    "end": 18,
+                    "start": 98,
+                    "end": 103,
                     "ctxt": 0
                   },
                   "value": "\n    "
@@ -78,8 +162,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 18,
-                    "end": 44,
+                    "start": 103,
+                    "end": 129,
                     "ctxt": 0
                   },
                   "tagName": "p",
@@ -89,8 +173,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 21,
-                        "end": 44,
+                        "start": 106,
+                        "end": 129,
                         "ctxt": 0
                       },
                       "value": "Greetings, one and all!"
@@ -101,14 +185,23 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 48,
-                    "end": 49,
+                    "start": 133,
+                    "end": 134,
                     "ctxt": 0
                   },
                   "value": "\n"
                 }
               ],
               "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 143,
+                "end": 161,
+                "ctxt": 0
+              },
+              "value": "\n\n\n\n"
             }
           ],
           "content": null

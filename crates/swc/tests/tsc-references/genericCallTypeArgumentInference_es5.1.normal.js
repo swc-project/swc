@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // Basic type inference with generic calls, no errors expected
 function foo(t) {
     return t;
@@ -16,7 +16,7 @@ var r3 = foo2b(1); // {}
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C(t, u) {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         this.t = t;
         this.u = u;
     }

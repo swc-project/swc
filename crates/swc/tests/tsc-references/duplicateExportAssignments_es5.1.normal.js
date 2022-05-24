@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @Filename: foo1.ts
 var x = 10;
 var y = 20;
@@ -8,7 +8,7 @@ module.exports = y;
 var x = 10;
 var y = function y() {
     "use strict";
-    swcHelpers.classCallCheck(this, y);
+    _class_call_check(this, y);
 };
 module.exports = x;
 module.exports = y;
@@ -17,7 +17,7 @@ module.exports = y;
 })(x || (x = {}));
 var y = function y() {
     "use strict";
-    swcHelpers.classCallCheck(this, y);
+    _class_call_check(this, y);
 };
 module.exports = x;
 module.exports = y;

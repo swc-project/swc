@@ -1,11 +1,11 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var C = function C() {
     "use strict";
-    swcHelpers.classCallCheck(this, C);
+    _class_call_check(this, C);
 };
 var D = function D() {
     "use strict";
-    swcHelpers.classCallCheck(this, D);
+    _class_call_check(this, D);
 };
 function F(x) {
     return 42;
@@ -20,7 +20,7 @@ var M;
     };
     var A = function A() {
         "use strict";
-        swcHelpers.classCallCheck(this, A);
+        _class_call_check(this, A);
     };
     M1.A = A;
     M1.F2 = _$F2;
@@ -32,7 +32,7 @@ var N;
     };
     var A = function A() {
         "use strict";
-        swcHelpers.classCallCheck(this, A);
+        _class_call_check(this, A);
     };
     N1.A = A;
     N1.F2 = _$F2;

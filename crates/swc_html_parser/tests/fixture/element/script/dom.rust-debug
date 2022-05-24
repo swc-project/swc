@@ -1,0 +1,26 @@
+| <!DOCTYPE html>
+| <html>
+|   lang="en"
+|   <head>
+|     "
+    "
+|     <title>
+|       "Document"
+|     "
+"
+|   "
+"
+|   <body>
+|     "
+    "
+|     <script>
+|       type="text/html"
+|       "
+        <div>
+            test
+        </div>
+        <!-- aa -->\n
+    "
+|     "
+
+"

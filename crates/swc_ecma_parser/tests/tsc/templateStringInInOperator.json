@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 44,
+    "start": 1,
+    "end": 45,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 0,
-        "end": 44,
+        "start": 1,
+        "end": 45,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 4,
-            "end": 43,
+            "start": 5,
+            "end": 44,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 4,
-              "end": 5,
+              "start": 5,
+              "end": 6,
               "ctxt": 0
             },
             "value": "x",
@@ -37,24 +37,24 @@
           "init": {
             "type": "BinaryExpression",
             "span": {
-              "start": 8,
-              "end": 43,
+              "start": 9,
+              "end": 44,
               "ctxt": 0
             },
             "operator": "in",
             "left": {
               "type": "TemplateLiteral",
               "span": {
-                "start": 8,
-                "end": 19,
+                "start": 9,
+                "end": 20,
                 "ctxt": 0
               },
               "expressions": [
                 {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 12,
-                    "end": 16,
+                    "start": 13,
+                    "end": 17,
                     "ctxt": 0
                   },
                   "value": "hi",
@@ -65,8 +65,8 @@
                 {
                   "type": "TemplateElement",
                   "span": {
-                    "start": 9,
-                    "end": 9,
+                    "start": 10,
+                    "end": 10,
                     "ctxt": 0
                   },
                   "tail": false,
@@ -76,8 +76,8 @@
                 {
                   "type": "TemplateElement",
                   "span": {
-                    "start": 18,
-                    "end": 18,
+                    "start": 19,
+                    "end": 19,
                     "ctxt": 0
                   },
                   "tail": true,
@@ -89,8 +89,8 @@
             "right": {
               "type": "ObjectExpression",
               "span": {
-                "start": 23,
-                "end": 43,
+                "start": 24,
+                "end": 44,
                 "ctxt": 0
               },
               "properties": [
@@ -99,8 +99,8 @@
                   "key": {
                     "type": "Identifier",
                     "span": {
-                      "start": 25,
-                      "end": 27,
+                      "start": 26,
+                      "end": 28,
                       "ctxt": 0
                     },
                     "value": "hi",
@@ -109,8 +109,8 @@
                   "value": {
                     "type": "NumericLiteral",
                     "span": {
-                      "start": 29,
-                      "end": 31,
+                      "start": 30,
+                      "end": 32,
                       "ctxt": 0
                     },
                     "value": 10.0,
@@ -122,8 +122,8 @@
                   "key": {
                     "type": "Identifier",
                     "span": {
-                      "start": 33,
-                      "end": 38,
+                      "start": 34,
+                      "end": 39,
                       "ctxt": 0
                     },
                     "value": "hello",
@@ -132,8 +132,8 @@
                   "value": {
                     "type": "NumericLiteral",
                     "span": {
-                      "start": 40,
-                      "end": 42,
+                      "start": 41,
+                      "end": 43,
                       "ctxt": 0
                     },
                     "value": 20.0,

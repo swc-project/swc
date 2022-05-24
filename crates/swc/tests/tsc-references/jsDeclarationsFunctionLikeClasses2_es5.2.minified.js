@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _instanceof from "@swc/helpers/lib/_instanceof.js";
 export function Vec(len) {
     this.storage = new Array(len);
 }
@@ -14,7 +14,7 @@ Vec.prototype = {
     }
 };
 export function Point2D(x, y) {
-    if (!swcHelpers._instanceof(this, Point2D)) return new Point2D(x, y);
+    if (!_instanceof(this, Point2D)) return new Point2D(x, y);
     Vec.call(this, 2), this.x = x, this.y = y;
 }
 Point2D.prototype = {

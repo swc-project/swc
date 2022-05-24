@@ -31,8 +31,7 @@ class D {
     }
 }
 // Arrow function
-let f1 = (p1)=>false
-;
+let f1 = (p1)=>false;
 // Function expressions
 f2(function(p1) {
     return true;

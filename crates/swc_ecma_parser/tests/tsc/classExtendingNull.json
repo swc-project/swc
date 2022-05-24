@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 121,
+    "start": 1,
+    "end": 122,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 6,
-          "end": 8,
+          "start": 7,
+          "end": 9,
           "ctxt": 0
         },
         "value": "C1",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 0,
-        "end": 25,
+        "start": 1,
+        "end": 26,
         "ctxt": 0
       },
       "decorators": [],
@@ -29,8 +29,8 @@
       "superClass": {
         "type": "NullLiteral",
         "span": {
-          "start": 17,
-          "end": 21,
+          "start": 18,
+          "end": 22,
           "ctxt": 0
         }
       },
@@ -44,8 +44,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 32,
-          "end": 34,
+          "start": 33,
+          "end": 35,
           "ctxt": 0
         },
         "value": "C2",
@@ -53,8 +53,8 @@
       },
       "declare": false,
       "span": {
-        "start": 26,
-        "end": 53,
+        "start": 27,
+        "end": 54,
         "ctxt": 0
       },
       "decorators": [],
@@ -62,15 +62,15 @@
       "superClass": {
         "type": "ParenthesisExpression",
         "span": {
-          "start": 43,
-          "end": 49,
+          "start": 44,
+          "end": 50,
           "ctxt": 0
         },
         "expression": {
           "type": "NullLiteral",
           "span": {
-            "start": 44,
-            "end": 48,
+            "start": 45,
+            "end": 49,
             "ctxt": 0
           }
         }
@@ -85,8 +85,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 60,
-          "end": 62,
+          "start": 61,
+          "end": 63,
           "ctxt": 0
         },
         "value": "C3",
@@ -94,8 +94,8 @@
       },
       "declare": false,
       "span": {
-        "start": 54,
-        "end": 86,
+        "start": 55,
+        "end": 87,
         "ctxt": 0
       },
       "decorators": [],
@@ -103,15 +103,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 78,
-            "end": 84,
+            "start": 79,
+            "end": 85,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 78,
-              "end": 79,
+              "start": 79,
+              "end": 80,
               "ctxt": 0
             },
             "value": "x",
@@ -120,8 +120,8 @@
           "value": {
             "type": "NumericLiteral",
             "span": {
-              "start": 82,
-              "end": 83,
+              "start": 83,
+              "end": 84,
               "ctxt": 0
             },
             "value": 1.0,
@@ -142,8 +142,8 @@
       "superClass": {
         "type": "NullLiteral",
         "span": {
-          "start": 71,
-          "end": 75,
+          "start": 72,
+          "end": 76,
           "ctxt": 0
         }
       },
@@ -157,8 +157,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 93,
-          "end": 95,
+          "start": 94,
+          "end": 96,
           "ctxt": 0
         },
         "value": "C4",
@@ -166,8 +166,8 @@
       },
       "declare": false,
       "span": {
-        "start": 87,
-        "end": 121,
+        "start": 88,
+        "end": 122,
         "ctxt": 0
       },
       "decorators": [],
@@ -175,15 +175,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 113,
-            "end": 119,
+            "start": 114,
+            "end": 120,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 113,
-              "end": 114,
+              "start": 114,
+              "end": 115,
               "ctxt": 0
             },
             "value": "x",
@@ -192,8 +192,8 @@
           "value": {
             "type": "NumericLiteral",
             "span": {
-              "start": 117,
-              "end": 118,
+              "start": 118,
+              "end": 119,
               "ctxt": 0
             },
             "value": 1.0,
@@ -214,15 +214,15 @@
       "superClass": {
         "type": "ParenthesisExpression",
         "span": {
-          "start": 104,
-          "end": 110,
+          "start": 105,
+          "end": 111,
           "ctxt": 0
         },
         "expression": {
           "type": "NullLiteral",
           "span": {
-            "start": 105,
-            "end": 109,
+            "start": 106,
+            "end": 110,
             "ctxt": 0
           }
         }

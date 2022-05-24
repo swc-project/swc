@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
 var tup = [
     1,
     2,
@@ -9,7 +9,7 @@ var tup = [
     1,
     2,
     3
-].concat(swcHelpers.toConsumableArray([
+].concat(_to_consumable_array([
     1,
     2,
     3
@@ -17,8 +17,8 @@ var tup = [
     1,
     2,
     3
-].concat(swcHelpers.toConsumableArray(tup)), [
+].concat(_to_consumable_array(tup)), [
     1,
     2,
     3
-].concat(swcHelpers.toConsumableArray(tup));
+].concat(_to_consumable_array(tup));

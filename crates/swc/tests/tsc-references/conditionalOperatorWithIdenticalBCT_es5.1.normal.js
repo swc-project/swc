@@ -1,25 +1,27 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 //Cond ? Expr1 : Expr2,  Expr1 and Expr2 have identical best common type
 var X = function X() {
     "use strict";
-    swcHelpers.classCallCheck(this, X);
+    _class_call_check(this, X);
 };
 var A = /*#__PURE__*/ function(X) {
     "use strict";
-    swcHelpers.inherits(A, X);
-    var _super = swcHelpers.createSuper(A);
+    _inherits(A, X);
+    var _super = _create_super(A);
     function A() {
-        swcHelpers.classCallCheck(this, A);
+        _class_call_check(this, A);
         return _super.apply(this, arguments);
     }
     return A;
 }(X);
 var B = /*#__PURE__*/ function(X) {
     "use strict";
-    swcHelpers.inherits(B, X);
-    var _super = swcHelpers.createSuper(B);
+    _inherits(B, X);
+    var _super = _create_super(B);
     function B() {
-        swcHelpers.classCallCheck(this, B);
+        _class_call_check(this, B);
         return _super.apply(this, arguments);
     }
     return B;

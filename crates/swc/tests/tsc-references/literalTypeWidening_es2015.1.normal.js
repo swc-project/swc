@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _object_spread from "@swc/helpers/lib/_object_spread.js";
+import _object_without_properties from "@swc/helpers/lib/_object_without_properties.js";
 // Widening vs. non-widening literal types
 function f1() {
     const c1 = "hello"; // Widening type "hello"
@@ -86,8 +87,7 @@ let x = onMouseOver();
 // Repro from #23649
 export function Set(...keys1) {
     const result3 = {};
-    keys1.forEach((key)=>result3[key] = true
-    );
+    keys1.forEach((key)=>result3[key] = true);
     return result3;
 }
 export function keys(obj) {
@@ -97,14 +97,13 @@ const langCodeSet = Set('fr', 'en', 'es', 'it', 'nl');
 export const langCodes = keys(langCodeSet);
 const arr = langCodes.map((code)=>({
         code
-    })
-);
+    }));
 // Repro from #29081
 function test(obj) {
-    let { a  } = obj, rest = swcHelpers.objectWithoutProperties(obj, [
+    let { a  } = obj, rest = _object_without_properties(obj, [
         "a"
     ]);
-    return swcHelpers.objectSpread({
+    return _object_spread({
         a: 'hello'
     }, rest);
 }

@@ -1,8 +1,8 @@
 "use strict";
-var swcHelpers = require("@swc/helpers");
+var _define_property = require("@swc/helpers/lib/_define_property.js").default;
 class Item extends Component {
     constructor(props){
         super(props);
-        swcHelpers.defineProperty(this, "input", this.props.item);
+        _define_property(this, "input", this.props.item);
     }
 }

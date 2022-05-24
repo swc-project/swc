@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @allowJs: true
 // @checkJs: true
 // @target: es5
@@ -8,7 +8,7 @@ import * as swcHelpers from "@swc/helpers";
 export var Z = /*#__PURE__*/ function() {
     "use strict";
     function Z() {
-        swcHelpers.classCallCheck(this, Z);
+        _class_call_check(this, Z);
     }
     var _proto = Z.prototype;
     _proto.f = function f() {

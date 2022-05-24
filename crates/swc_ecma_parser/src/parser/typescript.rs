@@ -2149,14 +2149,14 @@ impl<I: Tokens> Parser<I> {
         while !self.input.had_line_break_before_cur() && eat!(self, '[') {
             if eat!(self, ']') {
                 ty = Box::new(TsType::TsArrayType(TsArrayType {
-                    span: span!(self, ty.span().lo()),
+                    span: span!(self, ty.span_lo()),
                     elem_type: ty,
                 }));
             } else {
                 let index_type = self.parse_ts_type()?;
                 expect!(self, ']');
                 ty = Box::new(TsType::TsIndexedAccessType(TsIndexedAccessType {
-                    span: span!(self, ty.span().lo()),
+                    span: span!(self, ty.span_lo()),
                     readonly,
                     obj_type: ty,
                     index_type,
@@ -2259,7 +2259,7 @@ impl<I: Tokens> Parser<I> {
             return Ok(Default::default());
         }
 
-        let start = expr.span().lo();
+        let start = expr.span_lo();
 
         match &*expr.sym {
             "declare" => {

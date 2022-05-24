@@ -37,8 +37,8 @@ impl Parse for Config {
                         ($inner:expr) => {{
                             panic!(
                                 "{}\nnote: exclude() expects one or more comma-separated regular \
-             expressions, like exclude(\".*\\\\.d\\\\.ts\") or \
-             exclude(\".*\\\\.d\\\\.ts\", \".*\\\\.tsx\")",
+                                 expressions, like exclude(\".*\\\\.d\\\\.ts\") or \
+                                 exclude(\".*\\\\.d\\\\.ts\", \".*\\\\.tsx\")",
                                 $inner
                             )
                         }};
@@ -142,6 +142,8 @@ pub fn expand(callee: &Ident, attr: Config) -> Result<Vec<ItemFn>, Error> {
                 .to_string_lossy()
                 .replace('\\', "__")
                 .replace(' ', "_")
+                .replace('[', "_")
+                .replace(']', "_")
                 .replace('/', "__")
                 .replace('.', "_")
                 .replace('-', "_")

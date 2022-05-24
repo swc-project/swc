@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @filename: usage.js
 import { default as Fooa } from "./cls";
 // @allowJs: true
@@ -10,7 +10,7 @@ import { default as Fooa } from "./cls";
 // @filename: cls.js
 var Foo = function Foo() {
     "use strict";
-    swcHelpers.classCallCheck(this, Foo);
+    _class_call_check(this, Foo);
 };
 module.exports = Foo;
 export var x = new Fooa();

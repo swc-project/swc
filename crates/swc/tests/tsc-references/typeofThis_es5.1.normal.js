@@ -1,15 +1,16 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _instanceof from "@swc/helpers/lib/_instanceof.js";
 // @noImplicitThis: true
 // @strict: true
 var Test = function Test() {
     "use strict";
-    swcHelpers.classCallCheck(this, Test);
+    _class_call_check(this, Test);
     this.data = {};
     var copy = {};
 };
 var Test1 = function Test1() {
     "use strict";
-    swcHelpers.classCallCheck(this, Test1);
+    _class_call_check(this, Test1);
     this.data = {
         foo: ""
     };
@@ -33,7 +34,7 @@ function Test4() {
 }
 var Test5 = function Test5() {
     "use strict";
-    swcHelpers.classCallCheck(this, Test5);
+    _class_call_check(this, Test5);
     this.no = 1;
     this.f = function() {
         // should not capture this.
@@ -58,17 +59,17 @@ var Test8 = function() {
 var Test9 = /*#__PURE__*/ function() {
     "use strict";
     function Test9() {
-        swcHelpers.classCallCheck(this, Test9);
+        _class_call_check(this, Test9);
         this.no = 0;
         this.this = 0;
     }
     var _proto = Test9.prototype;
     _proto.f = function f() {
-        if (swcHelpers._instanceof(this, Test9D1)) {
+        if (_instanceof(this, Test9D1)) {
             var d1 = this;
             d1.f1();
         }
-        if (swcHelpers._instanceof(this, Test9D2)) {
+        if (_instanceof(this, Test9D2)) {
             var d2 = this;
             d2.f2();
         }
@@ -86,7 +87,7 @@ var Test9 = /*#__PURE__*/ function() {
 var Test9D1 = /*#__PURE__*/ function() {
     "use strict";
     function Test9D1() {
-        swcHelpers.classCallCheck(this, Test9D1);
+        _class_call_check(this, Test9D1);
     }
     var _proto = Test9D1.prototype;
     _proto.f1 = function f1() {};
@@ -95,7 +96,7 @@ var Test9D1 = /*#__PURE__*/ function() {
 var Test9D2 = /*#__PURE__*/ function() {
     "use strict";
     function Test9D2() {
-        swcHelpers.classCallCheck(this, Test9D2);
+        _class_call_check(this, Test9D2);
     }
     var _proto = Test9D2.prototype;
     _proto.f2 = function f2() {};
@@ -104,7 +105,7 @@ var Test9D2 = /*#__PURE__*/ function() {
 var Test10 = /*#__PURE__*/ function() {
     "use strict";
     function Test10() {
-        swcHelpers.classCallCheck(this, Test10);
+        _class_call_check(this, Test10);
     }
     var _proto = Test10.prototype;
     _proto.foo = function foo() {
@@ -122,7 +123,7 @@ var Test10 = /*#__PURE__*/ function() {
 var Test11 = /*#__PURE__*/ function() {
     "use strict";
     function Test11() {
-        swcHelpers.classCallCheck(this, Test11);
+        _class_call_check(this, Test11);
     }
     var _proto = Test11.prototype;
     _proto.foo = function foo() {
@@ -137,7 +138,7 @@ var Test11 = /*#__PURE__*/ function() {
 var Tests12 = /*#__PURE__*/ function() {
     "use strict";
     function Tests12() {
-        swcHelpers.classCallCheck(this, Tests12);
+        _class_call_check(this, Tests12);
     }
     var _proto = Tests12.prototype;
     _proto.test1 = function test1() {};

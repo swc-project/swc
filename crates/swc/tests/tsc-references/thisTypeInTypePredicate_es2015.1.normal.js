@@ -1,2 +1,1 @@
-const numbers = filter((x)=>'number' == typeof x
-);
+const numbers = filter((x)=>'number' == typeof x);

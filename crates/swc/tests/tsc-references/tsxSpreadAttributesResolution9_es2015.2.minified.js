@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 let React = require('react');
 class Opt extends React.Component {
     render() {
@@ -8,6 +8,6 @@ class Opt extends React.Component {
 let obj1 = {
     x: 2
 };
-swcHelpers.extends({}, {}), swcHelpers.extends({}, obj1), swcHelpers.extends({}, obj1, {
+_extends({}, {}), _extends({}, obj1), _extends({}, obj1, {
     y: !0
 });

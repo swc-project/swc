@@ -1,13 +1,14 @@
-import * as swcHelpers from "@swc/helpers";
-(function(a, b, c) {}).apply(this, swcHelpers.toConsumableArray(t1)), (function() {
+import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
+import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
+(function(a, b, c) {}).apply(this, _to_consumable_array(t1)), (function() {
     for(var _len = arguments.length, x = new Array(_len), _key = 0; _key < _len; _key++)x[_key] = arguments[_key];
-}).apply(this, swcHelpers.toConsumableArray(t1)), (function(a) {
+}).apply(this, _to_consumable_array(t1)), (function(a) {
     for(var _len = arguments.length, x = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)x[_key - 1] = arguments[_key];
-}).apply(this, swcHelpers.toConsumableArray(t1)), (function(a, b) {
+}).apply(this, _to_consumable_array(t1)), (function(a, b) {
     for(var _len = arguments.length, x = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)x[_key - 2] = arguments[_key];
-}).apply(this, swcHelpers.toConsumableArray(t1)), (function(a, b, c) {
+}).apply(this, _to_consumable_array(t1)), (function(a, b, c) {
     for(var _len = arguments.length, x = new Array(_len > 3 ? _len - 3 : 0), _key = 3; _key < _len; _key++)x[_key - 3] = arguments[_key];
-}).apply(this, swcHelpers.toConsumableArray(t1)), f1(function(a, b, c) {}), f1(function() {
+}).apply(this, _to_consumable_array(t1)), f1(function(a, b, c) {}), f1(function() {
     for(var _len = arguments.length, x = new Array(_len), _key = 0; _key < _len; _key++)x[_key] = arguments[_key];
 }), f1(function(a) {
     for(var _len = arguments.length, x = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)x[_key - 1] = arguments[_key];
@@ -15,15 +16,15 @@ import * as swcHelpers from "@swc/helpers";
     for(var _len = arguments.length, x = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)x[_key - 2] = arguments[_key];
 }), f1(function(a, b, c) {
     for(var _len = arguments.length, x = new Array(_len > 3 ? _len - 3 : 0), _key = 3; _key < _len; _key++)x[_key - 3] = arguments[_key];
-}), (function(a, b, c) {}).apply(this, swcHelpers.toConsumableArray(t2)), (function() {
+}), (function(a, b, c) {}).apply(this, _to_consumable_array(t2)), (function() {
     for(var _len = arguments.length, x = new Array(_len), _key = 0; _key < _len; _key++)x[_key] = arguments[_key];
-}).apply(this, swcHelpers.toConsumableArray(t2)), (function(a) {
+}).apply(this, _to_consumable_array(t2)), (function(a) {
     for(var _len = arguments.length, x = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)x[_key - 1] = arguments[_key];
-}).apply(this, swcHelpers.toConsumableArray(t2)), (function(a, b) {
+}).apply(this, _to_consumable_array(t2)), (function(a, b) {
     for(var _len = arguments.length, x = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)x[_key - 2] = arguments[_key];
-}).apply(this, swcHelpers.toConsumableArray(t2)), (function(a, b, c) {
+}).apply(this, _to_consumable_array(t2)), (function(a, b, c) {
     for(var _len = arguments.length, x = new Array(_len > 3 ? _len - 3 : 0), _key = 3; _key < _len; _key++)x[_key - 3] = arguments[_key];
-}).apply(this, swcHelpers.toConsumableArray(t2)), f2(function(a, b, c) {}), f2(function() {
+}).apply(this, _to_consumable_array(t2)), f2(function(a, b, c) {}), f2(function() {
     for(var _len = arguments.length, x = new Array(_len), _key = 0; _key < _len; _key++)x[_key] = arguments[_key];
 }), f2(function(a) {
     for(var _len = arguments.length, x = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)x[_key - 1] = arguments[_key];
@@ -33,23 +34,23 @@ import * as swcHelpers from "@swc/helpers";
     for(var _len = arguments.length, x = new Array(_len > 3 ? _len - 3 : 0), _key = 3; _key < _len; _key++)x[_key - 3] = arguments[_key];
 }), (function(a, b, c) {}).apply(this, [
     1
-].concat(swcHelpers.toConsumableArray(t3))), (function() {
+].concat(_to_consumable_array(t3))), (function() {
     for(var _len = arguments.length, x = new Array(_len), _key = 0; _key < _len; _key++)x[_key] = arguments[_key];
 }).apply(this, [
     1
-].concat(swcHelpers.toConsumableArray(t3))), (function(a) {
+].concat(_to_consumable_array(t3))), (function(a) {
     for(var _len = arguments.length, x = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)x[_key - 1] = arguments[_key];
 }).apply(this, [
     1
-].concat(swcHelpers.toConsumableArray(t3))), (function(a, b) {
+].concat(_to_consumable_array(t3))), (function(a, b) {
     for(var _len = arguments.length, x = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)x[_key - 2] = arguments[_key];
 }).apply(this, [
     1
-].concat(swcHelpers.toConsumableArray(t3))), (function(a, b, c) {
+].concat(_to_consumable_array(t3))), (function(a, b, c) {
     for(var _len = arguments.length, x = new Array(_len > 3 ? _len - 3 : 0), _key = 3; _key < _len; _key++)x[_key - 3] = arguments[_key];
 }).apply(this, [
     1
-].concat(swcHelpers.toConsumableArray(t3))), f3(function(a, b, c) {}), f3(function() {
+].concat(_to_consumable_array(t3))), f3(function(a, b, c) {}), f3(function() {
     for(var _len = arguments.length, x = new Array(_len), _key = 0; _key < _len; _key++)x[_key] = arguments[_key];
 }), f3(function(a) {
     for(var _len = arguments.length, x = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)x[_key - 1] = arguments[_key];
@@ -84,7 +85,7 @@ import * as swcHelpers from "@swc/helpers";
     return 42;
 }, function(x) {
     return "" + x;
-}), (function(a, b) {}).apply(this, swcHelpers.toConsumableArray(tuple)), function() {
+}), (function(a, b) {}).apply(this, _to_consumable_array(tuple)), function() {
     for(var _len = arguments.length, rest = new Array(_len), _key = 0; _key < _len; _key++)rest[_key] = arguments[_key];
 }(1, ""), take(function() {
     for(var _len = arguments.length, rest = new Array(_len), _key = 0; _key < _len; _key++)rest[_key] = arguments[_key];

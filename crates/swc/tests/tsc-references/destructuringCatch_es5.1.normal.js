@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
 // @noImplicitAny: true
 try {
     throw [
@@ -6,7 +6,7 @@ try {
         1
     ];
 } catch (param) {
-    var _param = swcHelpers.slicedToArray(param, 2), a = _param[0], b = _param[1];
+    var _param = _sliced_to_array(param, 2), a = _param[0], b = _param[1];
     a + b;
 }
 try {
@@ -28,10 +28,10 @@ try {
         }
     ];
 } catch (param2) {
-    var _param1 = swcHelpers.slicedToArray(param2, 1), ref = _param1[0], _x = swcHelpers.slicedToArray(ref.x, 1), y = _x[0], z = ref.z;
+    var _param1 = _sliced_to_array(param2, 1), ref = _param1[0], _x = _sliced_to_array(ref.x, 1), y = _x[0], z = ref.z;
     y + z;
 }
 // Test of comment ranges. A fix to GH#11755 should update this.
 try {} catch (param3) {
-    var _param2 = swcHelpers.slicedToArray(param3, 1), /*a*/ a2 = _param2[0];
+    var _param2 = _sliced_to_array(param3, 1), /*a*/ a2 = _param2[0];
 }

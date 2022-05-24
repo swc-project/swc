@@ -27,7 +27,7 @@ impl Error {
         }
     }
 
-    pub fn message(&self) -> Cow<str> {
+    pub fn message(&self) -> Cow<'static, str> {
         match &self.inner.1 {
             ErrorKind::Eof => "Unexpected end of file".into(),
             ErrorKind::Ignore => "Not an error".into(),

@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _create_class from "@swc/helpers/lib/_create_class.js";
 // @allowJs: true
 // @checkJs: true
 // @outDir: ./out
@@ -8,9 +9,9 @@ import * as swcHelpers from "@swc/helpers";
 export var A = /*#__PURE__*/ function() {
     "use strict";
     function A() {
-        swcHelpers.classCallCheck(this, A);
+        _class_call_check(this, A);
     }
-    swcHelpers.createClass(A, [
+    _create_class(A, [
         {
             key: "x",
             get: function get() {
@@ -23,9 +24,9 @@ export var A = /*#__PURE__*/ function() {
 export var B = /*#__PURE__*/ function() {
     "use strict";
     function B() {
-        swcHelpers.classCallCheck(this, B);
+        _class_call_check(this, B);
     }
-    swcHelpers.createClass(B, [
+    _create_class(B, [
         {
             key: "x",
             set: /**
@@ -38,9 +39,9 @@ export var B = /*#__PURE__*/ function() {
 export var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
     }
-    swcHelpers.createClass(C, [
+    _create_class(C, [
         {
             key: "x",
             get: function get() {
@@ -53,7 +54,7 @@ export var C = /*#__PURE__*/ function() {
 }();
 export var D = function D() {
     "use strict";
-    swcHelpers.classCallCheck(this, D);
+    _class_call_check(this, D);
 };
 Object.defineProperty(D.prototype, "x", {
     get: function get() {
@@ -62,7 +63,7 @@ Object.defineProperty(D.prototype, "x", {
 });
 export var E = function E() {
     "use strict";
-    swcHelpers.classCallCheck(this, E);
+    _class_call_check(this, E);
 };
 Object.defineProperty(E.prototype, "x", {
     /**
@@ -71,7 +72,7 @@ Object.defineProperty(E.prototype, "x", {
 });
 export var F = function F() {
     "use strict";
-    swcHelpers.classCallCheck(this, F);
+    _class_call_check(this, F);
 };
 Object.defineProperty(F.prototype, "x", {
     get: function get() {

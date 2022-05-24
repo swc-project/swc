@@ -1,31 +1,31 @@
 {
   "type": "Module",
   "span": {
-    "start": 0,
-    "end": 14,
+    "start": 1,
+    "end": 15,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 0,
-        "end": 14,
+        "start": 1,
+        "end": 15,
         "ctxt": 0
       },
       "expression": {
         "type": "TemplateLiteral",
         "span": {
-          "start": 0,
-          "end": 14,
+          "start": 1,
+          "end": 15,
           "ctxt": 0
         },
         "expressions": [
           {
             "type": "Identifier",
             "span": {
-              "start": 3,
-              "end": 6,
+              "start": 4,
+              "end": 7,
               "ctxt": 0
             },
             "value": "foo",
@@ -36,8 +36,8 @@
           {
             "type": "TemplateElement",
             "span": {
-              "start": 1,
-              "end": 1,
+              "start": 2,
+              "end": 2,
               "ctxt": 0
             },
             "tail": false,
@@ -47,8 +47,8 @@
           {
             "type": "TemplateElement",
             "span": {
-              "start": 7,
-              "end": 13,
+              "start": 8,
+              "end": 14,
               "ctxt": 0
             },
             "tail": true,

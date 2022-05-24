@@ -132,8 +132,7 @@ export async function renderToHTML__1(req__8, res__8, pathname__8, query__8, ren
         }
         return results__10;
     };
-    const headTags__8 = (...args__13)=>callMiddleware__8("headTags", args__13)
-    ;
+    const headTags__8 = (...args__13)=>callMiddleware__8("headTags", args__13);
     const isFallback__8 = !!query__8.__nextFallback;
     delete query__8.__nextFallback;
     delete query__8.__nextLocale;
@@ -230,8 +229,7 @@ export async function renderToHTML__1(req__8, res__8, pathname__8, query__8, ren
         },
         defaultGetInitialProps: async (docCtx__17)=>{
             const enhanceApp__17 = (AppComp__18)=>{
-                return (props__19)=><AppComp__18 {...props__19}/>
-                ;
+                return (props__19)=><AppComp__18 {...props__19}/>;
             };
             const { html__17 , head__17  } = await docCtx__17.renderPage({
                 enhanceApp__17
@@ -270,8 +268,7 @@ export async function renderToHTML__1(req__8, res__8, pathname__8, query__8, ren
             mountedInstances: new Set()
         }}>
 
-                    <LoadableContext__1.Provider value__0={(moduleName__23)=>reactLoadableModules__8.push(moduleName__23)
-        }>
+                    <LoadableContext__1.Provider value__0={(moduleName__23)=>reactLoadableModules__8.push(moduleName__23)}>
 
                         <StyleRegistry__1 registry__0={jsxStyleRegistry__8}>
 
@@ -285,8 +282,7 @@ export async function renderToHTML__1(req__8, res__8, pathname__8, query__8, ren
 
             </AmpStateContext__1.Provider>
 
-        </RouterContext__1.Provider>
-    ;
+        </RouterContext__1.Provider>;
     props__8 = await loadGetInitialProps__1(App__8, {
         AppTree: ctx__8.AppTree,
         Component__8,
@@ -323,8 +319,7 @@ export async function renderToHTML__1(req__8, res__8, pathname__8, query__8, ren
         if (data__24 == null) {
             throw new Error(GSP_NO_RETURNED_VALUE__1);
         }
-        const invalidKeys__24 = Object.keys(data__24).filter((key__26)=>key__26 !== "revalidate" && key__26 !== "props" && key__26 !== "redirect" && key__26 !== "notFound"
-        );
+        const invalidKeys__24 = Object.keys(data__24).filter((key__26)=>key__26 !== "revalidate" && key__26 !== "props" && key__26 !== "redirect" && key__26 !== "notFound");
         if (invalidKeys__24.includes("unstable_revalidate")) {
             throw new Error(UNSTABLE_REVALIDATE_RENAME_ERROR__1);
         }
@@ -429,8 +424,7 @@ export async function renderToHTML__1(req__8, res__8, pathname__8, query__8, ren
         if (data__27 == null) {
             throw new Error(GSSP_NO_RETURNED_VALUE__1);
         }
-        const invalidKeys__27 = Object.keys(data__27).filter((key__30)=>key__30 !== "props" && key__30 !== "redirect" && key__30 !== "notFound"
-        );
+        const invalidKeys__27 = Object.keys(data__27).filter((key__30)=>key__30 !== "props" && key__30 !== "redirect" && key__30 !== "notFound");
         if (data__27.unstable_notFound) {
             throw new Error(`unstable_notFound has been renamed to notFound, please update the field to continue. Page: ${pathname__8}`);
         }
@@ -487,12 +481,10 @@ export async function renderToHTML__1(req__8, res__8, pathname__8, query__8, ren
                     ...filteredBuildManifest__8.pages,
                     [page__31]: [
                         ...filteredBuildManifest__8.pages[page__31],
-                        ...filteredBuildManifest__8.lowPriorityFiles.filter((f__32)=>f__32.includes("_buildManifest")
-                        ), 
+                        ...filteredBuildManifest__8.lowPriorityFiles.filter((f__32)=>f__32.includes("_buildManifest")), 
                     ]
                 },
-                lowPriorityFiles: filteredBuildManifest__8.lowPriorityFiles.filter((f__33)=>!f__33.includes("_buildManifest")
-                )
+                lowPriorityFiles: filteredBuildManifest__8.lowPriorityFiles.filter((f__33)=>!f__33.includes("_buildManifest"))
             };
         }
     }
@@ -535,8 +527,7 @@ export async function renderToHTML__1(req__8, res__8, pathname__8, query__8, ren
                 bodyResult: piperFromArray__1([
                     docProps__34.html
                 ]),
-                documentElement: (htmlProps__38)=><Document__8 {...htmlProps__38} {...docProps__34}/>
-                ,
+                documentElement: (htmlProps__38)=><Document__8 {...htmlProps__38} {...docProps__34}/>,
                 head: docProps__34.head,
                 headTags: await headTags__8(documentCtx__34),
                 styles: docProps__34.styles
@@ -552,8 +543,7 @@ export async function renderToHTML__1(req__8, res__8, pathname__8, query__8, ren
             ]);
             return {
                 bodyResult__39,
-                documentElement: ()=>Document__8()
-                ,
+                documentElement: ()=>Document__8(),
                 head__8,
                 headTags: [],
                 styles: jsxStyleRegistry__8.styles()
@@ -647,8 +637,7 @@ export async function renderToHTML__1(req__8, res__8, pathname__8, query__8, ren
         }
         const plural__43 = nonRenderedComponents__43.length !== 1 ? "s" : "";
         if (nonRenderedComponents__43.length) {
-            const missingComponentList__45 = nonRenderedComponents__43.map((e__46)=>`<${e__46} />`
-            ).join(", ");
+            const missingComponentList__45 = nonRenderedComponents__43.map((e__46)=>`<${e__46} />`).join(", ");
             warn__1(`Your custom Document (pages/_document) did not render all the required subcomponent${plural__43}.\n` + `Missing component${plural__43}: ${missingComponentList__45}\n` + "Read how to fix here: https://nextjs.org/docs/messages/missing-document-component");
         }
     }
@@ -738,8 +727,7 @@ function renderToStream__1(element__55, generateStaticHTML__55) {
                     throw new Error("invariant: write called without an underlying stream. This is a bug in Next.js");
                 }
                 if (!underlyingStream__56.writable.write(chunk__57, encoding__57)) {
-                    underlyingStream__56.queuedCallbacks.push(()=>callback__57()
-                    );
+                    underlyingStream__56.queuedCallbacks.push(()=>callback__57());
                 } else {
                     callback__57();
                 }
@@ -776,8 +764,7 @@ function renderToStream__1(element__55, generateStaticHTML__55) {
                     const drainHandler__59 = ()=>{
                         const prevCallbacks__60 = underlyingStream__56.queuedCallbacks;
                         underlyingStream__56.queuedCallbacks = [];
-                        prevCallbacks__60.forEach((callback__61)=>callback__61()
-                        );
+                        prevCallbacks__60.forEach((callback__61)=>callback__61());
                     };
                     res__59.on("drain", drainHandler__59);
                     underlyingStream__56 = {
@@ -814,10 +801,8 @@ function renderToStream__1(element__55, generateStaticHTML__55) {
 }
 function chainPipers__1(pipers__64) {
     return pipers__64.reduceRight((lhs__65, rhs__65)=>(res__66, next__66)=>{
-            rhs__65(res__66, (err__67)=>err__67 ? next__66(err__67) : lhs__65(res__66, next__66)
-            );
-        }
-    , (res__68, next__68)=>{
+            rhs__65(res__66, (err__67)=>err__67 ? next__66(err__67) : lhs__65(res__66, next__66));
+        }, (res__68, next__68)=>{
         res__68.end();
         next__68();
     });
@@ -827,8 +812,7 @@ function piperFromArray__1(chunks__69) {
         if (typeof res__70.cork === "function") {
             res__70.cork();
         }
-        chunks__69.forEach((chunk__71)=>res__70.write(chunk__71)
-        );
+        chunks__69.forEach((chunk__71)=>res__70.write(chunk__71));
         if (typeof res__70.uncork === "function") {
             res__70.uncork();
         }
@@ -840,8 +824,7 @@ function piperToString__1(input__72) {
         const bufferedChunks__73 = [];
         const stream__73 = new Writable__1({
             writev (chunks__74, callback__74) {
-                chunks__74.forEach((chunk__75)=>bufferedChunks__73.push(chunk__75.chunk)
-                );
+                chunks__74.forEach((chunk__75)=>bufferedChunks__73.push(chunk__75.chunk));
                 callback__74();
             }
         });

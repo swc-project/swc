@@ -2,7 +2,6 @@ use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{undefined, ExprExt, IsEmpty, Value};
-use swc_ecma_visit::VisitMutWith;
 
 use super::Pure;
 use crate::compress::util::{eval_as_number, is_pure_undefined_or_null};
@@ -71,26 +70,46 @@ impl Pure<'_> {
             ..
         }) = &mut *es.expr
         {
-            if let Expr::Fn(FnExpr {
-                function:
-                    Function {
-                        params,
-                        body: Some(body),
-                        is_async: false,
-                        ..
-                    },
-                ..
-            }) = &mut **callee
-            {
-                if body.stmts.iter().any(|s| !is_fine_to_move(s)) {
-                    return;
+            match &mut **callee {
+                Expr::Fn(FnExpr {
+                    function:
+                        Function {
+                            params,
+                            body: Some(body),
+                            is_async: false,
+                            is_generator: false,
+                            ..
+                        },
+                    ..
+                }) => {
+                    if args.is_empty()
+                        && params.is_empty()
+                        && body.stmts.iter().all(is_fine_to_move)
+                    {
+                        self.changed = true;
+                        report_change!("Flattening iife");
+                        *s = Stmt::Block(body.take());
+                    }
                 }
 
-                if args.is_empty() && params.is_empty() {
-                    self.changed = true;
-                    report_change!("Flattening iife");
-                    *s = Stmt::Block(body.take());
+                Expr::Arrow(ArrowExpr {
+                    params,
+                    is_async: false,
+                    is_generator: false,
+                    body: BlockStmtOrExpr::BlockStmt(body),
+                    ..
+                }) => {
+                    if args.is_empty()
+                        && params.is_empty()
+                        && body.stmts.iter().all(is_fine_to_move)
+                    {
+                        self.changed = true;
+                        report_change!("Flattening iife");
+                        *s = Stmt::Block(body.take());
+                    }
                 }
+
+                _ => {}
             }
         }
     }
@@ -450,7 +469,6 @@ impl Pure<'_> {
                         span: bin_expr.span,
                         exprs: vec![bin_expr.left.clone(), bin_expr.right.clone()],
                     });
-                    e.visit_mut_with(self);
                 } else {
                     self.changed = true;
                     report_change!("evaluate: `foo || false` => `foo` (bool ctx)");
@@ -484,7 +502,6 @@ impl Pure<'_> {
                         span: bin_expr.span,
                         exprs: vec![bin_expr.left.clone(), bin_expr.right.clone()],
                     });
-                    e.visit_mut_with(self);
                 }
                 return;
             }

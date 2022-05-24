@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 0,
-    "end": 22,
+    "start": 1,
+    "end": 23,
     "ctxt": 0
   },
   "body": [
     {
       "type": "DoWhileStatement",
       "span": {
-        "start": 0,
-        "end": 17,
+        "start": 1,
+        "end": 18,
         "ctxt": 0
       },
       "test": {
         "type": "BooleanLiteral",
         "span": {
-          "start": 11,
-          "end": 16,
+          "start": 12,
+          "end": 17,
           "ctxt": 0
         },
         "value": false
@@ -25,16 +25,16 @@
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 2,
-          "end": 5,
+          "start": 3,
+          "end": 6,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "EmptyStatement",
             "span": {
-              "start": 3,
-              "end": 4,
+              "start": 4,
+              "end": 5,
               "ctxt": 0
             }
           }
@@ -44,15 +44,15 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 17,
-        "end": 22,
+        "start": 18,
+        "end": 23,
         "ctxt": 0
       },
       "expression": {
         "type": "BooleanLiteral",
         "span": {
-          "start": 17,
-          "end": 22,
+          "start": 18,
+          "end": 23,
           "ctxt": 0
         },
         "value": false

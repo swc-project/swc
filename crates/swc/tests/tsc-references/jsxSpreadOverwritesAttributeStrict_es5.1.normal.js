@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 // @filename: file.tsx
 // @jsx: preserve
 // @strict: true
@@ -14,25 +14,25 @@ var Foo = function(props1) {
     return /*#__PURE__*/ React.createElement("div", null, props1.a);
 };
 // ok
-var a1 = /*#__PURE__*/ React.createElement(Foo, swcHelpers.extends({}, props));
-var a2 = /*#__PURE__*/ React.createElement(Foo, swcHelpers.extends({
+var a1 = /*#__PURE__*/ React.createElement(Foo, _extends({}, props));
+var a2 = /*#__PURE__*/ React.createElement(Foo, _extends({
     d: 1
 }, props));
 // error
-var b1 = /*#__PURE__*/ React.createElement(Foo, swcHelpers.extends({
+var b1 = /*#__PURE__*/ React.createElement(Foo, _extends({
     a: 1
 }, props));
-var b2 = /*#__PURE__*/ React.createElement(Foo, swcHelpers.extends({
+var b2 = /*#__PURE__*/ React.createElement(Foo, _extends({
     a: 1,
     b: 2
 }, props));
-var b3 = /*#__PURE__*/ React.createElement(Foo, swcHelpers.extends({
+var b3 = /*#__PURE__*/ React.createElement(Foo, _extends({
     a: 1,
     d: 1
 }, props, {
     d: 1
 }));
-var b4 = /*#__PURE__*/ React.createElement(Foo, swcHelpers.extends({
+var b4 = /*#__PURE__*/ React.createElement(Foo, _extends({
     a: 1,
     d: 1
 }, props, {

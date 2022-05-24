@@ -8,8 +8,7 @@ function renderToStream__1(element__2, generateStaticHTML__2) {
                     throw new Error("invariant: write called without an underlying stream. This is a bug in Next.js");
                 }
                 if (!underlyingStream__4.writable.write(chunk__5, encoding__5)) {
-                    underlyingStream__4.queuedCallbacks.push(()=>callback__5()
-                    );
+                    underlyingStream__4.queuedCallbacks.push(()=>callback__5());
                 } else {
                     callback__5();
                 }
@@ -46,8 +45,7 @@ function renderToStream__1(element__2, generateStaticHTML__2) {
                     const drainHandler__7 = ()=>{
                         const prevCallbacks__8 = underlyingStream__4.queuedCallbacks;
                         underlyingStream__4.queuedCallbacks = [];
-                        prevCallbacks__8.forEach((callback__9)=>callback__9()
-                        );
+                        prevCallbacks__8.forEach((callback__9)=>callback__9());
                     };
                     res__7.on("drain", drainHandler__7);
                     underlyingStream__4 = {

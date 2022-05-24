@@ -1,0 +1,4 @@
+(1,7): expected-doctype-but-got-start-tag
+(1,20): unexpected-end-tag-implies-table-voodoo
+(1,20): end-tag-too-early
+(1,20): eof-in-table

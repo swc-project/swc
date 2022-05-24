@@ -1,8 +1,7 @@
 function createCommonjsModule(fn) {
     return fn();
 }
-const isFile = (config)=>!0
-, pkgBrowserslist = {}, config = {};
+const isFile = (config)=>!0, pkgBrowserslist = {}, config = {};
 createCommonjsModule(function(module, exports) {
     Object.defineProperty(exports, "__esModule", {
         value: !0

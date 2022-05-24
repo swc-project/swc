@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
 // @strict: true
 function f1(obj) {
     if (obj.a) {
@@ -10,15 +10,15 @@ function f1(obj) {
 function f2(obj) {
     var a0 = obj[0]; // number | null
     var a1 = obj[1]; // string | null
-    var _obj = swcHelpers.slicedToArray(obj, 2), b0 = _obj[0], b1 = _obj[1];
+    var _obj = _sliced_to_array(obj, 2), b0 = _obj[0], b1 = _obj[1];
     var ref2;
-    ref2 = swcHelpers.slicedToArray(obj, 2), a0 = ref2[0], a1 = ref2[1], ref2;
+    ref2 = _sliced_to_array(obj, 2), a0 = ref2[0], a1 = ref2[1], ref2;
     if (obj[0] && obj[1]) {
         var c0 = obj[0]; // number
         var c1 = obj[1]; // string
-        var _obj1 = swcHelpers.slicedToArray(obj, 2), d0 = _obj1[0], d1 = _obj1[1];
+        var _obj1 = _sliced_to_array(obj, 2), d0 = _obj1[0], d1 = _obj1[1];
         var ref1;
-        ref1 = swcHelpers.slicedToArray(obj, 2), c0 = ref1[0], c1 = ref1[1], ref1;
+        ref1 = _sliced_to_array(obj, 2), c0 = ref1[0], c1 = ref1[1], ref1;
     }
 }
 function f3(obj) {

@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _wrap_async_generator from "@swc/helpers/lib/_wrap_async_generator.js";
 // @target: esnext
 // @strict: true
 // #35995
@@ -11,7 +11,7 @@ function f2() {
     return _f2.apply(this, arguments);
 }
 function _f2() {
-    _f2 = swcHelpers.wrapAsyncGenerator(function*() {
+    _f2 = _wrap_async_generator(function*() {
         return {
             x: 'x'
         };
@@ -22,7 +22,7 @@ function f3() {
     return _f3.apply(this, arguments);
 }
 function _f3() {
-    _f3 = swcHelpers.wrapAsyncGenerator(function*() {
+    _f3 = _wrap_async_generator(function*() {
         return Promise.resolve({
             x: 'x'
         });
@@ -33,7 +33,7 @@ function f4() {
     return _f4.apply(this, arguments);
 }
 function _f4() {
-    _f4 = swcHelpers.wrapAsyncGenerator(function*() {
+    _f4 = _wrap_async_generator(function*() {
         const ret = {
             x: 'x'
         };

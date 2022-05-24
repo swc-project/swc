@@ -1,4 +1,6 @@
+#![allow(clippy::let_unit_value)]
 #![deny(non_snake_case)]
+
 use std::ops::{Deref, DerefMut};
 
 use swc_atoms::JsWord;

@@ -1,9 +1,10 @@
-import * as swcHelpers from "@swc/helpers";
-var ref = [], ref1 = (swcHelpers.slicedToArray(ref[0], 1)[0], swcHelpers.slicedToArray(ref[1], 1)), ref2 = swcHelpers.slicedToArray(ref1[0], 1);
+import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
+import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
+var ref = [], ref1 = (_sliced_to_array(ref[0], 1)[0], _sliced_to_array(ref[1], 1)), ref2 = _sliced_to_array(ref1[0], 1);
 ref2[0];
-var _undefined = swcHelpers.slicedToArray(void 0, 2), ref3 = swcHelpers.slicedToArray(_undefined[0], 1), ref4 = (ref3[0], swcHelpers.slicedToArray(_undefined[1], 1)), ref5 = swcHelpers.slicedToArray(ref4[0], 1);
+var _undefined = _sliced_to_array(void 0, 2), ref3 = _sliced_to_array(_undefined[0], 1), ref4 = (ref3[0], _sliced_to_array(_undefined[1], 1)), ref5 = _sliced_to_array(ref4[0], 1);
 ref5[0];
-var ref6 = swcHelpers.slicedToArray([
+var ref6 = _sliced_to_array([
     1,
     2,
     3
@@ -13,11 +14,11 @@ var temp = [
     1,
     2,
     3
-], ref7 = swcHelpers.slicedToArray(swcHelpers.toConsumableArray(temp), 2);
+], ref7 = _sliced_to_array(_to_consumable_array(temp), 2);
 ref7[0], ref7[1];
-var ref8 = swcHelpers.slicedToArray(swcHelpers.toConsumableArray(temp), 2);
+var ref8 = _sliced_to_array(_to_consumable_array(temp), 2);
 ref8[0], ref8[1];
-var ref9 = swcHelpers.slicedToArray({
+var ref9 = _sliced_to_array({
     2: !0
 }, 3);
 ref9[0], ref9[1], ref9[2];

@@ -40,8 +40,7 @@ other.puuuce // OK, from another file
 new Date().getGMTDate() // OK, from another file
 ;
 // No suggestions for globals from other files
-const atoc = setIntegral(()=>console.log('ok')
-, 500);
+const atoc = setIntegral(()=>console.log('ok'), 500);
 AudioBuffin // etc
 ;
 Jimmy;

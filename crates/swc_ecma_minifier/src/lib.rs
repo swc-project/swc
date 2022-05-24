@@ -34,6 +34,7 @@ use swc_ecma_visit::{FoldWith, VisitMutWith};
 use swc_timer::timer;
 use timing::Timings;
 
+pub use self::analyzer::dump_snapshot;
 pub use crate::pass::unique_scope::unique_scope;
 use crate::{
     compress::compressor,
@@ -105,7 +106,12 @@ pub fn optimize(
     }
 
     if options.compress.is_some() {
-        m.visit_mut_with(&mut info_marker(comments, marks, extra.unresolved_mark));
+        m.visit_mut_with(&mut info_marker(
+            options.compress.as_ref(),
+            comments,
+            marks,
+            extra.unresolved_mark,
+        ));
     }
     m.visit_mut_with(&mut unique_scope());
 

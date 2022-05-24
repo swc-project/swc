@@ -1,2 +1,1 @@
-(eval)=>"use strict"
-;
+(eval)=>"use strict";

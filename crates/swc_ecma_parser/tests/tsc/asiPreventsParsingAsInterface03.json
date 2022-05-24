@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 212,
+    "start": 2,
+    "end": 213,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 1,
-        "end": 34,
+        "start": 2,
+        "end": 35,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 5,
-            "end": 22,
+            "start": 6,
+            "end": 23,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 5,
-              "end": 14,
+              "start": 6,
+              "end": 15,
               "ctxt": 0
             },
             "value": "interface",
@@ -35,15 +35,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 14,
-                "end": 22,
+                "start": 15,
+                "end": 23,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 16,
-                  "end": 22,
+                  "start": 17,
+                  "end": 23,
                   "ctxt": 0
                 },
                 "kind": "number"
@@ -56,15 +56,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 24,
-            "end": 33,
+            "start": 25,
+            "end": 34,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 24,
-              "end": 25,
+              "start": 25,
+              "end": 26,
               "ctxt": 0
             },
             "value": "I",
@@ -72,15 +72,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 25,
-                "end": 33,
+                "start": 26,
+                "end": 34,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 27,
-                  "end": 33,
+                  "start": 28,
+                  "end": 34,
                   "ctxt": 0
                 },
                 "kind": "string"
@@ -95,8 +95,8 @@
     {
       "type": "TsModuleDeclaration",
       "span": {
-        "start": 36,
-        "end": 212,
+        "start": 37,
+        "end": 213,
         "ctxt": 0
       },
       "declare": false,
@@ -104,8 +104,8 @@
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 46,
-          "end": 47,
+          "start": 47,
+          "end": 48,
           "ctxt": 0
         },
         "value": "n",
@@ -114,23 +114,23 @@
       "body": {
         "type": "TsModuleBlock",
         "span": {
-          "start": 48,
-          "end": 212,
+          "start": 49,
+          "end": 213,
           "ctxt": 0
         },
         "body": [
           {
             "type": "ExpressionStatement",
             "span": {
-              "start": 54,
-              "end": 63,
+              "start": 55,
+              "end": 64,
               "ctxt": 0
             },
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 54,
-                "end": 63,
+                "start": 55,
+                "end": 64,
                 "ctxt": 0
               },
               "value": "interface",
@@ -140,15 +140,15 @@
           {
             "type": "ExpressionStatement",
             "span": {
-              "start": 115,
-              "end": 116,
+              "start": 116,
+              "end": 117,
               "ctxt": 0
             },
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 115,
-                "end": 116,
+                "start": 116,
+                "end": 117,
                 "ctxt": 0
               },
               "value": "I",
@@ -158,8 +158,8 @@
           {
             "type": "BlockStatement",
             "span": {
-              "start": 168,
-              "end": 170,
+              "start": 169,
+              "end": 171,
               "ctxt": 0
             },
             "stmts": []

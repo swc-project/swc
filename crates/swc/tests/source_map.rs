@@ -279,6 +279,7 @@ fn issue_4112() {
                     &Options {
                         config: Config {
                             module: Some(ModuleConfig::CommonJs(Default::default())),
+                            emit_source_map_columns: true.into(),
                             ..Default::default()
                         },
                         source_maps: Some(SourceMapsConfig::Bool(true)),
@@ -298,4 +299,89 @@ fn issue_4112() {
             );
         })
         .unwrap()
+}
+
+#[test]
+fn should_work_with_emit_source_map_columns() {
+    Tester::new().print_errors(|cm, handler| {
+        let c = Compiler::new(cm.clone());
+        let fm = cm.new_source_file(
+            swc_common::FileName::Real("./app.js".into()),
+            r#"import { createElement } from "react";
+      
+  createElement('div', null, {});"#
+                .to_string(),
+        );
+        let result = c.process_js_file(
+            fm.clone(),
+            &handler,
+            &Options {
+                swcrc: false,
+                is_module: IsModule::Bool(true),
+                source_maps: Some(SourceMapsConfig::Bool(true)),
+                config: Config {
+                    inline_sources_content: true.into(),
+                    emit_source_map_columns: true.into(),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        );
+
+        match result {
+            Ok(result) => {
+                assert!(result.map.is_some());
+                let map = result.map.unwrap();
+                let source_map = sourcemap::SourceMap::from_slice(map.as_bytes())
+                    .expect("failed to deserialize sourcemap");
+                let token = source_map
+                    .lookup_token(1, 14)
+                    .expect("failed to find token");
+                assert_eq!(token.get_dst_line(), 1);
+                assert_eq!(token.get_dst_col(), 14);
+                assert_eq!(token.get_src_line(), 2);
+                assert_eq!(token.get_src_col(), 16);
+            }
+            Err(err) => {
+                panic!("Error: {:#?}", err);
+            }
+        }
+
+        let result2 = c.process_js_file(
+            fm,
+            &handler,
+            &Options {
+                swcrc: false,
+                is_module: IsModule::Bool(true),
+                source_maps: Some(SourceMapsConfig::Bool(true)),
+                config: Config {
+                    inline_sources_content: true.into(),
+                    emit_source_map_columns: false.into(),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        );
+
+        match result2 {
+            Ok(result) => {
+                assert!(result.map.is_some());
+                let map = result.map.unwrap();
+                let source_map = sourcemap::SourceMap::from_slice(map.as_bytes())
+                    .expect("failed to deserialize sourcemap");
+                let token = source_map
+                    .lookup_token(1, 14)
+                    .expect("failed to find token");
+                assert_eq!(token.get_dst_line(), 1);
+                assert_eq!(token.get_dst_col(), 0);
+                assert_eq!(token.get_src_line(), 2);
+                assert_eq!(token.get_src_col(), 2);
+            }
+            Err(err) => {
+                panic!("Error: {:#?}", err);
+            }
+        }
+
+        Ok(())
+    });
 }

@@ -6,7 +6,7 @@
     `----
 
   x Unexpected end of file
-   ,-[$DIR/tests/recovery/vercel/001/input.css:1:1]
- 1 | @media (min-width: 935px) {
-   : ^
-   `----
+    ,-[$DIR/tests/recovery/vercel/001/input.css:15:3]
+ 15 |  
+    : ^
+    `----

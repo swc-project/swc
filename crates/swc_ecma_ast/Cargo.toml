@@ -6,7 +6,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_ecma_ast"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.77.2"
+version = "0.78.1"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -25,10 +25,11 @@ arbitrary = { version = "1", optional = true, features = ["derive"] }
 is-macro = "0.2.0"
 num-bigint = { version = "0.4", features = ["serde"] }
 rkyv = { version = "0.7.37", optional = true }
+scoped-tls = "1.0.0"
 serde = { version = "1.0.133", features = ["derive"] }
 string_enum = { version = "0.3.1", path = "../string_enum" }
 swc_atoms = { version = "0.2", path = "../swc_atoms" }
-swc_common = { version = "0.17.23", path = "../swc_common" }
+swc_common = { version = "0.18.0", path = "../swc_common" }
 unicode-id = "0.3"
 
 [dev-dependencies]

@@ -1,31 +1,31 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 0,
-    "end": 11,
+    "start": 1,
+    "end": 12,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "QualifiedRule",
       "span": {
-        "start": 0,
-        "end": 10,
+        "start": 1,
+        "end": 11,
         "ctxt": 0
       },
       "prelude": {
         "type": "Tokens",
         "span": {
-          "start": 0,
-          "end": 6,
+          "start": 1,
+          "end": 7,
           "ctxt": 0
         },
         "tokens": [
           {
             "type": "PreservedToken",
             "span": {
-              "start": 0,
-              "end": 5,
+              "start": 1,
+              "end": 6,
               "ctxt": 0
             },
             "token": {
@@ -39,8 +39,8 @@
           {
             "type": "PreservedToken",
             "span": {
-              "start": 5,
-              "end": 6,
+              "start": 6,
+              "end": 7,
               "ctxt": 0
             },
             "token": {
@@ -54,8 +54,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 6,
-          "end": 10,
+          "start": 7,
+          "end": 11,
           "ctxt": 0
         },
         "name": "{",

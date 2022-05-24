@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 16,
-    "end": 85,
+    "start": 17,
+    "end": 86,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 22,
-          "end": 26,
+          "start": 23,
+          "end": 27,
           "ctxt": 0
         },
         "value": "Base",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 16,
-        "end": 30,
+        "start": 17,
+        "end": 31,
         "ctxt": 0
       },
       "decorators": [],
@@ -37,8 +37,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 37,
-          "end": 38,
+          "start": 38,
+          "end": 39,
           "ctxt": 0
         },
         "value": "C",
@@ -46,8 +46,8 @@
       },
       "declare": false,
       "span": {
-        "start": 31,
-        "end": 85,
+        "start": 32,
+        "end": 86,
         "ctxt": 0
       },
       "decorators": [],
@@ -55,44 +55,44 @@
         {
           "type": "ClassMethod",
           "span": {
-            "start": 58,
-            "end": 83,
+            "start": 59,
+            "end": 84,
             "ctxt": 0
           },
           "key": {
             "type": "Computed",
             "span": {
-              "start": 58,
-              "end": 77,
+              "start": 59,
+              "end": 78,
               "ctxt": 0
             },
             "expression": {
               "type": "ParenthesisExpression",
               "span": {
-                "start": 59,
-                "end": 76,
+                "start": 60,
+                "end": 77,
                 "ctxt": 0
               },
               "expression": {
                 "type": "SequenceExpression",
                 "span": {
-                  "start": 60,
-                  "end": 75,
+                  "start": 61,
+                  "end": 76,
                   "ctxt": 0
                 },
                 "expressions": [
                   {
                     "type": "CallExpression",
                     "span": {
-                      "start": 60,
-                      "end": 67,
+                      "start": 61,
+                      "end": 68,
                       "ctxt": 0
                     },
                     "callee": {
                       "type": "Super",
                       "span": {
-                        "start": 60,
-                        "end": 65,
+                        "start": 61,
+                        "end": 66,
                         "ctxt": 0
                       }
                     },
@@ -102,8 +102,8 @@
                   {
                     "type": "StringLiteral",
                     "span": {
-                      "start": 69,
-                      "end": 75,
+                      "start": 70,
+                      "end": 76,
                       "ctxt": 0
                     },
                     "value": "prop",
@@ -117,15 +117,15 @@
             "params": [],
             "decorators": [],
             "span": {
-              "start": 58,
-              "end": 83,
+              "start": 59,
+              "end": 84,
               "ctxt": 0
             },
             "body": {
               "type": "BlockStatement",
               "span": {
-                "start": 80,
-                "end": 83,
+                "start": 81,
+                "end": 84,
                 "ctxt": 0
               },
               "stmts": []
@@ -146,8 +146,8 @@
       "superClass": {
         "type": "Identifier",
         "span": {
-          "start": 47,
-          "end": 51,
+          "start": 48,
+          "end": 52,
           "ctxt": 0
         },
         "value": "Base",

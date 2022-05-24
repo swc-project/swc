@@ -62,9 +62,9 @@
     `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/comment/after-body/input.html:1:1]
- 1 | <!doctype html>
-   : ^
+   ,-[$DIR/tests/fixture/comment/after-body/input.html:2:1]
+ 2 | <html lang="en">
+   :       ^^^^^^^^^
    `----
 
   x Child
@@ -113,6 +113,12 @@
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
+  x Attribute
+   ,-[$DIR/tests/fixture/comment/after-body/input.html:4:5]
+ 4 | <meta charset="UTF-8">
+   :       ^^^^^^^^^^^^^^^
+   `----
+
   x Child
    ,-[$DIR/tests/fixture/comment/after-body/input.html:4:5]
  4 | ,-> <meta charset="UTF-8">
@@ -137,6 +143,18 @@
  6 | `->           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
    `----
 
+  x Attribute
+   ,-[$DIR/tests/fixture/comment/after-body/input.html:5:5]
+ 5 | <meta name="viewport"
+   :       ^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/comment/after-body/input.html:6:11]
+ 6 | content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
   x Child
    ,-[$DIR/tests/fixture/comment/after-body/input.html:6:11]
  6 | ,-> content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -159,6 +177,18 @@
    ,-[$DIR/tests/fixture/comment/after-body/input.html:7:5]
  7 | <meta http-equiv="X-UA-Compatible" content="ie=edge">
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/comment/after-body/input.html:7:5]
+ 7 | <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/comment/after-body/input.html:7:5]
+ 7 | <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   :                                    ^^^^^^^^^^^^^^^^^
    `----
 
   x Child

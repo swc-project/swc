@@ -1,19 +1,19 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var Class, Interface, C = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, C);
+    _class_call_check(this, C);
 }, D = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, D);
+    _class_call_check(this, D);
 }, X = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, X);
+    _class_call_check(this, X);
 };
 !function(Class) {
     var g, g2, G = function() {
         "use strict";
         function G() {
-            swcHelpers.classCallCheck(this, G);
+            _class_call_check(this, G);
         }
         return G.prototype.foo = function(t, t2) {}, G;
     }(), c1 = new X(), d1 = new X();
@@ -21,7 +21,7 @@ var Class, Interface, C = function() {
     var G2 = function() {
         "use strict";
         function G2() {
-            swcHelpers.classCallCheck(this, G2);
+            _class_call_check(this, G2);
         }
         return G2.prototype.foo2 = function(t, t2) {}, G2;
     }();

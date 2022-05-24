@@ -4,42 +4,24 @@ var ClassTypeParam;
     class Base {
         constructor(){
             this.init = ()=>{
-                this.a = ()=>null
-                ; // ok, same T of required params
-                this.a = (x)=>null
-                ; // ok, same T of required params
-                this.a = (x)=>null
-                ; // error, too many required params
-                this.a2 = ()=>null
-                ; // ok, same T of required params
-                this.a2 = (x)=>null
-                ; // ok, same T of required params
-                this.a2 = (x)=>null
-                ; // ok, same number of params
-                this.a3 = ()=>null
-                ; // ok, fewer required params
-                this.a3 = (x)=>null
-                ; // ok, fewer required params
-                this.a3 = (x)=>null
-                ; // ok, same T of required params
-                this.a3 = (x, y)=>null
-                ; // error, too many required params
-                this.a4 = ()=>null
-                ; // ok, fewer required params
-                this.a4 = (x, y)=>null
-                ; // ok, fewer required params
-                this.a4 = (x)=>null
-                ; // ok, same T of required params
-                this.a4 = (x, y)=>null
-                ; // ok, same number of params
-                this.a5 = ()=>null
-                ; // ok, fewer required params
-                this.a5 = (x, y)=>null
-                ; // ok, fewer required params
-                this.a5 = (x)=>null
-                ; // ok, all present params match
-                this.a5 = (x, y)=>null
-                ; // ok, same number of params
+                this.a = ()=>null; // ok, same T of required params
+                this.a = (x)=>null; // ok, same T of required params
+                this.a = (x)=>null; // error, too many required params
+                this.a2 = ()=>null; // ok, same T of required params
+                this.a2 = (x)=>null; // ok, same T of required params
+                this.a2 = (x)=>null; // ok, same number of params
+                this.a3 = ()=>null; // ok, fewer required params
+                this.a3 = (x)=>null; // ok, fewer required params
+                this.a3 = (x)=>null; // ok, same T of required params
+                this.a3 = (x, y)=>null; // error, too many required params
+                this.a4 = ()=>null; // ok, fewer required params
+                this.a4 = (x, y)=>null; // ok, fewer required params
+                this.a4 = (x)=>null; // ok, same T of required params
+                this.a4 = (x, y)=>null; // ok, same number of params
+                this.a5 = ()=>null; // ok, fewer required params
+                this.a5 = (x, y)=>null; // ok, fewer required params
+                this.a5 = (x)=>null; // ok, all present params match
+                this.a5 = (x, y)=>null; // ok, same number of params
             };
         }
     }
@@ -86,42 +68,24 @@ var GenericSignaturesValid;
     class Base2 {
         constructor(){
             this.init = ()=>{
-                this.a = ()=>null
-                ; // ok, same T of required params
-                this.a = (x)=>null
-                ; // ok, same T of required params
-                this.a = (x)=>null
-                ; // error, too many required params
-                this.a2 = ()=>null
-                ; // ok, same T of required params
-                this.a2 = (x)=>null
-                ; // ok, same T of required params
-                this.a2 = (x)=>null
-                ; // ok, same number of params
-                this.a3 = ()=>null
-                ; // ok, fewer required params
-                this.a3 = (x)=>null
-                ; // ok, fewer required params
-                this.a3 = (x)=>null
-                ; // ok, same T of required params
-                this.a3 = (x, y)=>null
-                ; // error, too many required params
-                this.a4 = ()=>null
-                ; // ok, fewer required params
-                this.a4 = (x, y)=>null
-                ; // ok, fewer required params
-                this.a4 = (x)=>null
-                ; // ok, same T of required params
-                this.a4 = (x, y)=>null
-                ; // ok, same number of params
-                this.a5 = ()=>null
-                ; // ok, fewer required params
-                this.a5 = (x, y)=>null
-                ; // ok, fewer required params
-                this.a5 = (x)=>null
-                ; // ok, all present params match
-                this.a5 = (x, y)=>null
-                ; // ok, same number of params
+                this.a = ()=>null; // ok, same T of required params
+                this.a = (x)=>null; // ok, same T of required params
+                this.a = (x)=>null; // error, too many required params
+                this.a2 = ()=>null; // ok, same T of required params
+                this.a2 = (x)=>null; // ok, same T of required params
+                this.a2 = (x)=>null; // ok, same number of params
+                this.a3 = ()=>null; // ok, fewer required params
+                this.a3 = (x)=>null; // ok, fewer required params
+                this.a3 = (x)=>null; // ok, same T of required params
+                this.a3 = (x, y)=>null; // error, too many required params
+                this.a4 = ()=>null; // ok, fewer required params
+                this.a4 = (x, y)=>null; // ok, fewer required params
+                this.a4 = (x)=>null; // ok, same T of required params
+                this.a4 = (x, y)=>null; // ok, same number of params
+                this.a5 = ()=>null; // ok, fewer required params
+                this.a5 = (x, y)=>null; // ok, fewer required params
+                this.a5 = (x)=>null; // ok, all present params match
+                this.a5 = (x, y)=>null; // ok, same number of params
             };
         }
     }

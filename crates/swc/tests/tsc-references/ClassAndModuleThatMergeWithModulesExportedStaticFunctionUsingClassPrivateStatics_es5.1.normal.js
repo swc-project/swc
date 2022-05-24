@@ -1,8 +1,8 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var clodule = /*#__PURE__*/ function() {
     "use strict";
     function clodule() {
-        swcHelpers.classCallCheck(this, clodule);
+        _class_call_check(this, clodule);
     }
     clodule.sfn = function sfn(id) {
         return 42;

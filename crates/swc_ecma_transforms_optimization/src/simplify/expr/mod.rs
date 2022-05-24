@@ -1202,36 +1202,55 @@ impl VisitMut for SimplifyExpr {
         self.in_callee = true;
         match &mut n.callee {
             Callee::Super(..) | Callee::Import(..) => {}
-            Callee::Expr(e) => match &mut **e {
-                Expr::Seq(seq) => {
-                    if seq.exprs.len() == 1 {
-                        let mut expr = seq.exprs.take().into_iter().next().unwrap();
-                        expr.visit_mut_with(self);
-                        *e = expr;
-                    } else if let Some(
-                        Expr::Member(..)
-                        | Expr::Ident(Ident {
-                            sym: js_word!("eval"),
-                            ..
-                        }),
-                    ) = seq.exprs.last().map(|v| &**v)
-                    {
-                        match seq.exprs.get(0).map(|v| &**v) {
-                            Some(Expr::Lit(..) | Expr::Ident(..)) => {}
-                            _ => {
-                                tracing::debug!("Injecting `0` to preserve `this = undefined`");
-                                seq.exprs.insert(0, 0.0.into());
-                            }
-                        }
+            Callee::Expr(e) => {
+                let may_inject_zero = !need_zero_for_this(e);
 
-                        seq.visit_mut_with(self);
+                match &mut **e {
+                    Expr::Seq(seq) => {
+                        if seq.exprs.len() == 1 {
+                            let mut expr = seq.exprs.take().into_iter().next().unwrap();
+                            expr.visit_mut_with(self);
+                            *e = expr;
+                        } else if let Some(
+                            Expr::Member(..)
+                            | Expr::Ident(Ident {
+                                sym: js_word!("eval"),
+                                ..
+                            }),
+                        ) = seq.exprs.last().map(|v| &**v)
+                        {
+                            match seq.exprs.get(0).map(|v| &**v) {
+                                Some(Expr::Lit(..) | Expr::Ident(..)) => {}
+                                _ => {
+                                    tracing::debug!("Injecting `0` to preserve `this = undefined`");
+                                    seq.exprs.insert(0, 0.0.into());
+                                }
+                            }
+
+                            seq.visit_mut_with(self);
+                        }
+                    }
+
+                    _ => {
+                        e.visit_mut_with(self);
                     }
                 }
 
-                _ => {
-                    e.visit_mut_with(self);
+                if may_inject_zero && need_zero_for_this(e) {
+                    match &mut **e {
+                        Expr::Seq(seq) => {
+                            seq.exprs.insert(0, 0.into());
+                        }
+                        _ => {
+                            let seq = SeqExpr {
+                                span: DUMMY_SP,
+                                exprs: vec![0.0.into(), e.take()],
+                            };
+                            **e = Expr::Seq(seq);
+                        }
+                    }
                 }
-            },
+            }
         }
 
         self.in_callee = false;
@@ -1335,7 +1354,12 @@ impl VisitMut for SimplifyExpr {
                         }) if expr.is_array() => {
                             self.changed = true;
 
-                            e.extend(expr.array().unwrap().elems)
+                            e.extend(expr.array().unwrap().elems.into_iter().map(|elem| {
+                                Some(elem.unwrap_or_else(|| ExprOrSpread {
+                                    spread: None,
+                                    expr: undefined(DUMMY_SP),
+                                }))
+                            }));
                         }
 
                         _ => e.push(elem),
@@ -1356,7 +1380,24 @@ impl VisitMut for SimplifyExpr {
 
                 for p in props.take() {
                     match p {
-                        PropOrSpread::Spread(SpreadElement { expr, .. }) if expr.is_object() => {
+                        PropOrSpread::Spread(SpreadElement {
+                            dot3_token, expr, ..
+                        }) if expr.is_object() => {
+                            if let Expr::Object(obj) = &*expr {
+                                if obj.props.iter().any(|p| match p {
+                                    PropOrSpread::Spread(..) => true,
+                                    PropOrSpread::Prop(p) => !matches!(
+                                        &**p,
+                                        Prop::Shorthand(_) | Prop::KeyValue(_) | Prop::Method(_)
+                                    ),
+                                }) {
+                                    ps.push(PropOrSpread::Spread(SpreadElement {
+                                        dot3_token,
+                                        expr,
+                                    }));
+                                    continue;
+                                }
+                            }
                             let props = expr.object().unwrap().props;
                             ps.extend(props);
                             self.changed = true;
@@ -1610,4 +1651,15 @@ fn nth_char(s: &str, mut idx: usize) -> Cow<str> {
     }
 
     unreachable!("string is too short")
+}
+
+fn need_zero_for_this(e: &Expr) -> bool {
+    matches!(
+        e,
+        Expr::Ident(Ident {
+            sym: js_word!("eval"),
+            ..
+        }) | Expr::Member(..)
+            | Expr::Seq(..)
+    )
 }

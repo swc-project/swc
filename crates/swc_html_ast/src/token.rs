@@ -13,6 +13,7 @@ pub struct TokenAndSpan {
     Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize, EqIgnoreSpan,
 )]
 pub struct AttributeToken {
+    pub span: Span,
     pub name: JsWord,
     pub raw_name: Option<JsWord>,
     pub value: Option<JsWord>,

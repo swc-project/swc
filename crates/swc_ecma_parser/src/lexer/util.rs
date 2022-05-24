@@ -8,8 +8,8 @@ use swc_common::{
     comments::{Comment, CommentKind},
     BytePos, Span, SyntaxContext,
 };
+use swc_ecma_ast::Ident;
 use tracing::warn;
-use unicode_id::UnicodeID;
 
 use super::{comments_buffer::BufferedComment, input::Input, Char, LexResult, Lexer};
 use crate::{
@@ -351,13 +351,7 @@ pub trait CharExt: Copy {
             Some(c) => c,
             None => return false,
         };
-        c == '$' || c == '_' || c.is_ascii_alphabetic() || {
-            if c.is_ascii() {
-                false
-            } else {
-                UnicodeID::is_id_start(c)
-            }
-        }
+        Ident::is_valid_start(c)
     }
 
     /// Test whether a given character is part of an identifier.
@@ -367,13 +361,7 @@ pub trait CharExt: Copy {
             Some(c) => c,
             None => return false,
         };
-        c == '$' || c == '_' || c == '\u{200c}' || c == '\u{200d}' || c.is_ascii_alphanumeric() || {
-            if c.is_ascii() {
-                false
-            } else {
-                UnicodeID::is_id_continue(c)
-            }
-        }
+        Ident::is_valid_continue(c)
     }
 
     /// See https://tc39.github.io/ecma262/#sec-line-terminators

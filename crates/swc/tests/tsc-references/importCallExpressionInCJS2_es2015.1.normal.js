@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
 // @module: commonjs
 // @target: esnext
 // @filename: 0.ts
@@ -14,7 +14,7 @@ function compute(promise) {
 }
 function _compute() {
     _compute = // @filename: 2.ts
-    swcHelpers.asyncToGenerator(function*(promise) {
+    _async_to_generator(function*(promise) {
         let j = yield promise;
         if (!j) {
             j = yield import("./1");

@@ -1,23 +1,23 @@
 {
   "type": "Stylesheet",
   "span": {
-    "start": 0,
-    "end": 26,
+    "start": 1,
+    "end": 27,
     "ctxt": 0
   },
   "rules": [
     {
       "type": "AtRule",
       "span": {
-        "start": 0,
-        "end": 26,
+        "start": 1,
+        "end": 27,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 1,
-          "end": 9,
+          "start": 2,
+          "end": 10,
           "ctxt": 0
         },
         "value": "viewport",
@@ -27,8 +27,8 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 10,
-          "end": 26,
+          "start": 11,
+          "end": 27,
           "ctxt": 0
         },
         "name": "{",
@@ -36,15 +36,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 12,
-              "end": 24,
+              "start": 13,
+              "end": 25,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 12,
-                "end": 17,
+                "start": 13,
+                "end": 18,
                 "ctxt": 0
               },
               "value": "width",
@@ -54,15 +54,15 @@
               {
                 "type": "Length",
                 "span": {
-                  "start": 19,
-                  "end": 24,
+                  "start": 20,
+                  "end": 25,
                   "ctxt": 0
                 },
                 "value": {
                   "type": "Number",
                   "span": {
-                    "start": 19,
-                    "end": 22,
+                    "start": 20,
+                    "end": 23,
                     "ctxt": 0
                   },
                   "value": 100.0,
@@ -71,8 +71,8 @@
                 "unit": {
                   "type": "Ident",
                   "span": {
-                    "start": 22,
-                    "end": 24,
+                    "start": 23,
+                    "end": 25,
                     "ctxt": 0
                   },
                   "value": "vw",

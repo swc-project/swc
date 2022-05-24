@@ -69,13 +69,21 @@ fn terser_exec(input: PathBuf) {
             return Ok(());
         }
 
-        let expected_src = read_to_string(&dir.join("output.terser.js")).map_err(|_| {
-            eprintln!("This test does not have `output.terser.js`");
-        })?;
+        let mut expected_src = None;
 
-        let expected_stdout =
-            stdout_of(&expected_src, Duration::from_millis(500)).map_err(|_| {
-                eprintln!("This test is not executable test");
+        let expected_stdout = read_to_string(&dir.join("expected.stdout"))
+            .or_else(|_| {
+                let src = read_to_string(&dir.join("output.terser.js"))
+                    .context("This test does not have `output.terser.js`")?;
+
+                expected_src = Some(src.clone());
+
+                stdout_of(&src, Duration::from_millis(500))
+                    .context("This test is not executable test")
+            })
+            .context("This test is not an excutable test")
+            .map_err(|err| {
+                eprintln!("{}", err);
             })?;
 
         if input_stdout != expected_stdout {
@@ -94,11 +102,13 @@ fn terser_exec(input: PathBuf) {
         let actual = print(cm, &[output_module], false, false);
         let actual_stdout = stdout_of(&actual, Duration::from_secs(5)).unwrap();
 
-        eprintln!(
-            "---- {} -----\n{}",
-            Color::Green.paint("Expected"),
-            expected_src
-        );
+        if let Some(expected_src) = expected_src {
+            eprintln!(
+                "---- {} -----\n{}",
+                Color::Green.paint("Expected"),
+                expected_src
+            );
+        }
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Actual"), actual);
 
@@ -284,7 +294,10 @@ fn print<N: swc_ecma_codegen::Node>(
         }
 
         let mut emitter = Emitter {
-            cfg: swc_ecma_codegen::Config { minify },
+            cfg: swc_ecma_codegen::Config {
+                minify,
+                ..Default::default()
+            },
             cm,
             comments: None,
             wr,

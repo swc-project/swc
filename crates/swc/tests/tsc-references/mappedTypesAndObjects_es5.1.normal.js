@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @strictNullChecks: true
 // @declaration: true
 function f1(x, y) {
@@ -17,6 +17,6 @@ function f3(x) {
 // Repro from #13747
 var Form = function Form() {
     "use strict";
-    swcHelpers.classCallCheck(this, Form);
+    _class_call_check(this, Form);
     this.values = {};
 };

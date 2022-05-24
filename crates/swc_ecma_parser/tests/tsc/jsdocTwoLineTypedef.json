@@ -1,24 +1,24 @@
 {
   "type": "Script",
   "span": {
-    "start": 79,
-    "end": 104,
+    "start": 80,
+    "end": 105,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsTypeAliasDeclaration",
       "span": {
-        "start": 79,
-        "end": 104,
+        "start": 80,
+        "end": 105,
         "ctxt": 0
       },
       "declare": false,
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 84,
-          "end": 96,
+          "start": 85,
+          "end": 97,
           "ctxt": 0
         },
         "value": "LoadCallback",
@@ -28,8 +28,8 @@
       "typeAnnotation": {
         "type": "TsKeywordType",
         "span": {
-          "start": 99,
-          "end": 103,
+          "start": 100,
+          "end": 104,
           "ctxt": 0
         },
         "kind": "void"
