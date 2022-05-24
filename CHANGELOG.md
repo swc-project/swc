@@ -13,6 +13,9 @@
 
 - **(html/parser)** Improve public api (#4762) ([c07780f](https://github.com/swc-project/swc/commit/c07780fab3bda752f43353871e5e69c5c4df0e84))
 
+
+- **(plugin)** Implement more `SourceMap` apis (#4769) ([3298cb7](https://github.com/swc-project/swc/commit/3298cb790682524f740d3f6bff20ec4d07ed7075))
+
 ## [1.2.190] - 2022-05-24
 
 ### Bug Fixes
