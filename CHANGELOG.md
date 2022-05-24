@@ -5,6 +5,14 @@
 
 
 
+- **(es/compat)** Handle nested for loops with `break`/`continue` (#4777) ([4f00914](https://github.com/swc-project/swc/commit/4f00914c1af6e2dee7116c09dd6e63b5883cf8b5))
+
+## [1.2.191] - 2022-05-24
+
+### Bug Fixes
+
+
+
 - **(css/parser)** Allow `var()` call in color functions (#4713) ([07d31aa](https://github.com/swc-project/swc/commit/07d31aa50ab8420ee2e8e2751833385470337eae))
 
 
