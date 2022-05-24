@@ -217,6 +217,7 @@ where
                 && n.namespace == Namespace::HTML
                 && match &*n.tag_name {
                     // Tag omission in text/html:
+
                     // An li element's end tag can be omitted if the li element is immediately
                     // followed by another li element or if there is no more content in the parent
                     // element.
@@ -229,6 +230,38 @@ where
                         None => true,
                         _ => false,
                     },
+                    // A dt element's end tag can be omitted if the dt element is immediately
+                    // followed by another dt element or a dd element.
+                    "dt" => match next {
+                        Some(Child::Element(Element {
+                            namespace,
+                            tag_name,
+                            ..
+                        })) if *namespace == Namespace::HTML
+                            && (tag_name == "dt" || tag_name == "dd") =>
+                        {
+                            true
+                        }
+                        _ => false,
+                    },
+
+                    // A dd element's end tag can be omitted if the dd element is immediately
+                    // followed by another dd element or a dt element, or if there is no more
+                    // content in the parent element.
+                    "dd" => match next {
+                        Some(Child::Element(Element {
+                            namespace,
+                            tag_name,
+                            ..
+                        })) if *namespace == Namespace::HTML
+                            && (tag_name == "dd" || tag_name == "dt") =>
+                        {
+                            true
+                        }
+                        None => true,
+                        _ => false,
+                    },
+
                     _ => false,
                 });
 
