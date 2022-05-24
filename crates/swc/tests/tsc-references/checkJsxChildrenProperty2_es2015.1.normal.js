@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 // @filename: file.tsx
 // @jsx: preserve
 // @noLib: true
@@ -22,7 +22,7 @@ let k0 = /*#__PURE__*/ React.createElement(Comp, {
 let o = {
     children: "Random"
 };
-let k1 = /*#__PURE__*/ React.createElement(Comp, swcHelpers.extends({
+let k1 = /*#__PURE__*/ React.createElement(Comp, _extends({
     a: 10,
     b: "hi"
 }, o), "hi hi hi!");

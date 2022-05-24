@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // ok
 var a = "/bin";
 // not ok
@@ -131,12 +131,12 @@ function ff1(x) {
 }
 export var AA = function AA() {
     "use strict";
-    swcHelpers.classCallCheck(this, AA);
+    _class_call_check(this, AA);
 };
 export var BB = /*#__PURE__*/ function() {
     "use strict";
     function BB() {
-        swcHelpers.classCallCheck(this, BB);
+        _class_call_check(this, BB);
     }
     var _proto = BB.prototype;
     _proto.update = function update(id) {

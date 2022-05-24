@@ -1,18 +1,18 @@
-import * as swcHelpers from "@swc/helpers";
-all.apply(void 0, swcHelpers.toConsumableArray(ns)), weird.apply(void 0, swcHelpers.toConsumableArray(ns)), weird.apply(void 0, swcHelpers.toConsumableArray(mixed)), weird.apply(void 0, swcHelpers.toConsumableArray(tuple)), prefix.apply(void 0, [
+import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
+all.apply(void 0, _to_consumable_array(ns)), weird.apply(void 0, _to_consumable_array(ns)), weird.apply(void 0, _to_consumable_array(mixed)), weird.apply(void 0, _to_consumable_array(tuple)), prefix.apply(void 0, [
     "a"
-].concat(swcHelpers.toConsumableArray(ns))), rest.apply(void 0, [
+].concat(_to_consumable_array(ns))), rest.apply(void 0, [
     "d"
-].concat(swcHelpers.toConsumableArray(ns))), normal.apply(void 0, [
+].concat(_to_consumable_array(ns))), normal.apply(void 0, [
     "g"
-].concat(swcHelpers.toConsumableArray(ns))), thunk.apply(void 0, swcHelpers.toConsumableArray(ns)), all.apply(void 0, swcHelpers.toConsumableArray(mixed)), all.apply(void 0, swcHelpers.toConsumableArray(tuple)), prefix.apply(void 0, [
+].concat(_to_consumable_array(ns))), thunk.apply(void 0, _to_consumable_array(ns)), all.apply(void 0, _to_consumable_array(mixed)), all.apply(void 0, _to_consumable_array(tuple)), prefix.apply(void 0, [
     "b"
-].concat(swcHelpers.toConsumableArray(mixed))), prefix.apply(void 0, [
+].concat(_to_consumable_array(mixed))), prefix.apply(void 0, [
     "c"
-].concat(swcHelpers.toConsumableArray(tuple))), rest.apply(void 0, [
+].concat(_to_consumable_array(tuple))), rest.apply(void 0, [
     "e"
-].concat(swcHelpers.toConsumableArray(mixed))), rest.apply(void 0, [
+].concat(_to_consumable_array(mixed))), rest.apply(void 0, [
     "f"
-].concat(swcHelpers.toConsumableArray(tuple))), prefix.apply(void 0, swcHelpers.toConsumableArray(ns)), prefix.apply(void 0, swcHelpers.toConsumableArray(mixed)), prefix.apply(void 0, swcHelpers.toConsumableArray(tuple)), prefix2.apply(void 0, [
+].concat(_to_consumable_array(tuple))), prefix.apply(void 0, _to_consumable_array(ns)), prefix.apply(void 0, _to_consumable_array(mixed)), prefix.apply(void 0, _to_consumable_array(tuple)), prefix2.apply(void 0, [
     "g"
-].concat(swcHelpers.toConsumableArray(ns)));
+].concat(_to_consumable_array(ns)));

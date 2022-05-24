@@ -1,22 +1,24 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var A1 = function() {
     "use strict";
     function A1() {
-        swcHelpers.classCallCheck(this, A1);
+        _class_call_check(this, A1);
     }
     return A1.prototype.method = function() {
         var B = function() {
             function B() {
-                swcHelpers.classCallCheck(this, B);
+                _class_call_check(this, B);
             }
             return B.prototype.method = function() {
                 new A1();
             }, B;
         }(), C = function(A2) {
-            swcHelpers.inherits(C, A2);
-            var _super = swcHelpers.createSuper(C);
+            _inherits(C, A2);
+            var _super = _create_super(C);
             function C() {
-                return swcHelpers.classCallCheck(this, C), _super.apply(this, arguments);
+                return _class_call_check(this, C), _super.apply(this, arguments);
             }
             return C;
         }(A1);
@@ -24,21 +26,21 @@ var A1 = function() {
 }(), D1 = function() {
     "use strict";
     function D1() {
-        swcHelpers.classCallCheck(this, D1);
+        _class_call_check(this, D1);
     }
     return D1.prototype.method = function() {
         var E = function() {
             function E() {
-                swcHelpers.classCallCheck(this, E);
+                _class_call_check(this, E);
             }
             return E.prototype.method = function() {
                 new D1();
             }, E;
         }(), F = function(D2) {
-            swcHelpers.inherits(F, D2);
-            var _super = swcHelpers.createSuper(F);
+            _inherits(F, D2);
+            var _super = _create_super(F);
             function F() {
-                return swcHelpers.classCallCheck(this, F), _super.apply(this, arguments);
+                return _class_call_check(this, F), _super.apply(this, arguments);
             }
             return F;
         }(D1);

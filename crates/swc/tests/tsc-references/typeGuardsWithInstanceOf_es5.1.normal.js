@@ -1,13 +1,14 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _instanceof from "@swc/helpers/lib/_instanceof.js";
 var result;
 var result2;
-if (!swcHelpers._instanceof(result, RegExp)) {
+if (!_instanceof(result, RegExp)) {
     result = result2;
 } else if (!result.global) {}
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
     }
     var _proto = C.prototype;
     _proto.validate = function validate() {
@@ -17,7 +18,7 @@ var C = /*#__PURE__*/ function() {
 }();
 function foo() {
     var v = null;
-    if (swcHelpers._instanceof(v, C)) {
+    if (_instanceof(v, C)) {
         v // Validator & Partial<OnChanges> & C
         ;
     }

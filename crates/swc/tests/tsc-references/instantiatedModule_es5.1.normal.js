@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // adding the var makes this an instantiated module
 var M;
 (function(M1) {
@@ -19,7 +19,7 @@ var M2;
     var Point = /*#__PURE__*/ function() {
         "use strict";
         function Point() {
-            swcHelpers.classCallCheck(this, Point);
+            _class_call_check(this, Point);
         }
         Point.Origin = function Origin() {
             return {

@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // Note that type guards affect types of variables and parameters only and 
 // have no effect on members of objects such as properties. 
 // Note that the class's property must be copied to a local variable for
@@ -6,7 +6,7 @@ import * as swcHelpers from "@swc/helpers";
 var D = /*#__PURE__*/ function() {
     "use strict";
     function D() {
-        swcHelpers.classCallCheck(this, D);
+        _class_call_check(this, D);
     }
     var _proto = D.prototype;
     _proto.getData = function getData() {

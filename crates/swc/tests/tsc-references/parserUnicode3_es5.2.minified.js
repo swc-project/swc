@@ -1,5 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var 剩下 = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, 剩下);
+    _class_call_check(this, 剩下);
 };

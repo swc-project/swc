@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
 // @module: commonjs
 // @target: es6
 // @filename: test.ts
@@ -6,7 +6,7 @@ export function fn() {
     return _fn.apply(this, arguments);
 }
 function _fn() {
-    _fn = swcHelpers.asyncToGenerator(function*() {
+    _fn = _async_to_generator(function*() {
         const req = yield import('./test') // ONE
         ;
     });
@@ -14,14 +14,14 @@ function _fn() {
 }
 export class cl1 {
     m() {
-        return swcHelpers.asyncToGenerator(function*() {
+        return _async_to_generator(function*() {
             const req = yield import('./test') // TWO
             ;
         })();
     }
 }
 export const obj = {
-    m: swcHelpers.asyncToGenerator(function*() {
+    m: _async_to_generator(function*() {
         const req = yield import('./test') // THREE
         ;
     })
@@ -29,7 +29,7 @@ export const obj = {
 export class cl2 {
     constructor(){
         this.p = {
-            m: swcHelpers.asyncToGenerator(function*() {
+            m: _async_to_generator(function*() {
                 const req = yield import('./test') // FOUR
                 ;
             })
@@ -37,7 +37,7 @@ export class cl2 {
     }
 }
 export const l = function() {
-    var _ref = swcHelpers.asyncToGenerator(function*() {
+    var _ref = _async_to_generator(function*() {
         const req = yield import('./test') // FIVE
         ;
     });

@@ -1,12 +1,16 @@
 var Generic;
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_private_field_get from "@swc/helpers/lib/_class_private_field_get.js";
+import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
+import _class_private_field_set from "@swc/helpers/lib/_class_private_field_set.js";
+import _create_class from "@swc/helpers/lib/_create_class.js";
 !function(Generic) {
     var C = function() {
         "use strict";
         function C() {
-            swcHelpers.classCallCheck(this, C);
+            _class_call_check(this, C);
         }
-        return swcHelpers.createClass(C, [
+        return _create_class(C, [
             {
                 key: "y",
                 get: function() {
@@ -20,19 +24,19 @@ import * as swcHelpers from "@swc/helpers";
     var _value = new WeakMap(), Box = function() {
         "use strict";
         function Box() {
-            swcHelpers.classCallCheck(this, Box), swcHelpers.classPrivateFieldInit(this, _value, {
+            _class_call_check(this, Box), _class_private_field_init(this, _value, {
                 writable: !0,
                 value: void 0
             });
         }
-        return swcHelpers.createClass(Box, [
+        return _create_class(Box, [
             {
                 key: "value",
                 get: function() {
-                    return swcHelpers.classPrivateFieldGet(this, _value);
+                    return _class_private_field_get(this, _value);
                 },
                 set: function(value) {
-                    swcHelpers.classPrivateFieldSet(this, _value, value);
+                    _class_private_field_set(this, _value, value);
                 }
             }
         ]), Box;

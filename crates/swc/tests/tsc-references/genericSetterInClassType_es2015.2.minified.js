@@ -1,5 +1,7 @@
 var Generic;
-import * as swcHelpers from "@swc/helpers";
+import _class_private_field_get from "@swc/helpers/lib/_class_private_field_get.js";
+import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
+import _class_private_field_set from "@swc/helpers/lib/_class_private_field_set.js";
 !function(Generic) {
     var c = new class {
         get y() {
@@ -11,13 +13,13 @@ import * as swcHelpers from "@swc/helpers";
     var _value = new WeakMap();
     new class {
         get value() {
-            return swcHelpers.classPrivateFieldGet(this, _value);
+            return _class_private_field_get(this, _value);
         }
         set value(value) {
-            swcHelpers.classPrivateFieldSet(this, _value, value);
+            _class_private_field_set(this, _value, value);
         }
         constructor(){
-            swcHelpers.classPrivateFieldInit(this, _value, {
+            _class_private_field_init(this, _value, {
                 writable: !0,
                 value: void 0
             });

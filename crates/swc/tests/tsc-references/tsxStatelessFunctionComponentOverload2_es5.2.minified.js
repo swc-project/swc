@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 require("react");
 var defaultObj, obj = {
     yy: 10,
@@ -6,18 +6,18 @@ var defaultObj, obj = {
 }, obj1 = {
     yy: !0
 };
-swcHelpers.extends({}, obj), swcHelpers.extends({}, {}), swcHelpers.extends({}, obj1, obj), swcHelpers.extends({}, obj1, {
+_extends({}, obj), _extends({}, {}), _extends({}, obj1, obj), _extends({}, obj1, {
     yy: 42
 }, {
     yy1: "hi"
-}), swcHelpers.extends({}, obj1, {
+}), _extends({}, obj1, {
     yy: 10000,
     yy1: "true"
-}), swcHelpers.extends({}, defaultObj, {
+}), _extends({}, defaultObj, {
     yy: !0
-}, obj), swcHelpers.extends({}, {
+}, obj), _extends({}, {
     "ignore-prop": 200
-}), swcHelpers.extends({}, {
+}), _extends({}, {
     yy: 500,
     "ignore-prop": "hello"
 }, {

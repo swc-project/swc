@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 // @filename: file.tsx
 // @jsx: preserve
 // @noLib: true
@@ -12,22 +12,22 @@ class Poisoned extends React.Component {
 }
 const obj = {};
 // OK
-/*#__PURE__*/ React.createElement(Poisoned, swcHelpers.extends({}, {
+/*#__PURE__*/ React.createElement(Poisoned, _extends({}, {
     x: "ok",
     y: "2"
 }));
 // Error
-let p = /*#__PURE__*/ React.createElement(Poisoned, swcHelpers.extends({}, obj));
+let p = /*#__PURE__*/ React.createElement(Poisoned, _extends({}, obj));
 let y = /*#__PURE__*/ React.createElement(Poisoned, null);
 let z = /*#__PURE__*/ React.createElement(Poisoned, {
     x: true,
     y: true
 });
-let w = /*#__PURE__*/ React.createElement(Poisoned, swcHelpers.extends({}, {
+let w = /*#__PURE__*/ React.createElement(Poisoned, _extends({}, {
     x: 5,
     y: "2"
 }));
-let w1 = /*#__PURE__*/ React.createElement(Poisoned, swcHelpers.extends({}, {
+let w1 = /*#__PURE__*/ React.createElement(Poisoned, _extends({}, {
     x: 5,
     y: "2"
 }, {

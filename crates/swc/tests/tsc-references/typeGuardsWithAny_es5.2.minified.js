@@ -1,5 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _instanceof from "@swc/helpers/lib/_instanceof.js";
 var x = {
     p: 0
 };
-swcHelpers._instanceof(x, Object), x.p, x.p, x.p, x.p, x.p;
+_instanceof(x, Object), x.p, x.p, x.p, x.p, x.p;

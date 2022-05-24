@@ -1,9 +1,9 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 export function foo() {}
 export var Aleph = function() {
     "use strict";
     function Aleph(a, b) {
-        swcHelpers.classCallCheck(this, Aleph), this.field = b;
+        _class_call_check(this, Aleph), this.field = b;
     }
     return Aleph.prototype.doIt = function() {}, Aleph;
 }();

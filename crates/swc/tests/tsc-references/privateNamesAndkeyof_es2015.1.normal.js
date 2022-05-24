@@ -1,15 +1,16 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
+import _class_private_method_init from "@swc/helpers/lib/_class_private_method_init.js";
 var _fooField = /*#__PURE__*/ new WeakMap(), _fooMethod = /*#__PURE__*/ new WeakSet(), _fooProp = /*#__PURE__*/ new WeakMap();
 // @strict: true
 // @target: es6
 class A {
     constructor(){
-        swcHelpers.classPrivateMethodInit(this, _fooMethod);
-        swcHelpers.classPrivateFieldInit(this, _fooProp, {
+        _class_private_method_init(this, _fooMethod);
+        _class_private_field_init(this, _fooProp, {
             get: get_fooProp,
             set: set_fooProp
         });
-        swcHelpers.classPrivateFieldInit(this, _fooField, {
+        _class_private_field_init(this, _fooField, {
             writable: true,
             value: 3
         });

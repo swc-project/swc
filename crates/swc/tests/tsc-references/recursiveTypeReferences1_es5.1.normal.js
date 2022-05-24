@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
+import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
 var a0 = 1;
 var a1 = [
     1,
@@ -218,8 +219,8 @@ var x2 = foo2(ra2); // Boom!
 function parse(node) {
     var index = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : [];
     return html("ul", node.map(function(param, i) {
-        var _param = swcHelpers.slicedToArray(param, 2), el = _param[0], children = _param[1];
-        var idx = swcHelpers.toConsumableArray(index).concat([
+        var _param = _sliced_to_array(param, 2), el = _param[0], children = _param[1];
+        var idx = _to_consumable_array(index).concat([
             i + 1
         ]);
         return html("li", [

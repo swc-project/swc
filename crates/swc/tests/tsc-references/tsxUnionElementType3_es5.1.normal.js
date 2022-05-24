@@ -1,4 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 // @filename: file.tsx
 // @jsx: react
 // @noLib: true
@@ -7,10 +9,10 @@ import * as swcHelpers from "@swc/helpers";
 var React = require("react");
 var RC1 = /*#__PURE__*/ function(_Component) {
     "use strict";
-    swcHelpers.inherits(RC1, _Component);
-    var _super = swcHelpers.createSuper(RC1);
+    _inherits(RC1, _Component);
+    var _super = _create_super(RC1);
     function RC1() {
-        swcHelpers.classCallCheck(this, RC1);
+        _class_call_check(this, RC1);
         return _super.apply(this, arguments);
     }
     var _proto = RC1.prototype;
@@ -21,10 +23,10 @@ var RC1 = /*#__PURE__*/ function(_Component) {
 }(React.Component);
 var RC2 = /*#__PURE__*/ function(_Component) {
     "use strict";
-    swcHelpers.inherits(RC2, _Component);
-    var _super = swcHelpers.createSuper(RC2);
+    _inherits(RC2, _Component);
+    var _super = _create_super(RC2);
     function RC2() {
-        swcHelpers.classCallCheck(this, RC2);
+        _class_call_check(this, RC2);
         return _super.apply(this, arguments);
     }
     var _proto = RC2.prototype;
@@ -36,10 +38,10 @@ var RC2 = /*#__PURE__*/ function(_Component) {
 }(React.Component);
 var RC3 = /*#__PURE__*/ function(_Component) {
     "use strict";
-    swcHelpers.inherits(RC3, _Component);
-    var _super = swcHelpers.createSuper(RC3);
+    _inherits(RC3, _Component);
+    var _super = _create_super(RC3);
     function RC3() {
-        swcHelpers.classCallCheck(this, RC3);
+        _class_call_check(this, RC3);
         return _super.apply(this, arguments);
     }
     var _proto = RC3.prototype;
@@ -50,10 +52,10 @@ var RC3 = /*#__PURE__*/ function(_Component) {
 }(React.Component);
 var RC4 = /*#__PURE__*/ function(_Component) {
     "use strict";
-    swcHelpers.inherits(RC4, _Component);
-    var _super = swcHelpers.createSuper(RC4);
+    _inherits(RC4, _Component);
+    var _super = _create_super(RC4);
     function RC4() {
-        swcHelpers.classCallCheck(this, RC4);
+        _class_call_check(this, RC4);
         return _super.apply(this, arguments);
     }
     var _proto = RC4.prototype;

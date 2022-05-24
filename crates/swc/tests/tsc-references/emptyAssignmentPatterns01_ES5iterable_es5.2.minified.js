@@ -1,3 +1,3 @@
 var a;
-import * as swcHelpers from "@swc/helpers";
-swcHelpers.slicedToArray(a, 0);
+import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
+_sliced_to_array(a, 0);

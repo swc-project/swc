@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @allowJs: true
 // @checkJs: true
 // @target: es5
@@ -7,17 +7,17 @@ import * as swcHelpers from "@swc/helpers";
 // @filename: index.js
 var A = function A() {
     "use strict";
-    swcHelpers.classCallCheck(this, A);
+    _class_call_check(this, A);
     this.member = new Q();
 };
 var Q = function Q() {
     "use strict";
-    swcHelpers.classCallCheck(this, Q);
+    _class_call_check(this, Q);
     this.x = 42;
 };
 module.exports = function Q() {
     "use strict";
-    swcHelpers.classCallCheck(this, Q);
+    _class_call_check(this, Q);
     this.x = new A();
 };
 module.exports.Another = Q;

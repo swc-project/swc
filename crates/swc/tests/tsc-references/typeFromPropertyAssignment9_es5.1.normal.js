@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
@@ -28,7 +28,7 @@ my.predicate.query.result = "none";
 my.predicate.type = /*#__PURE__*/ function() {
     "use strict";
     function _class() {
-        swcHelpers.classCallCheck(this, _class);
+        _class_call_check(this, _class);
     }
     var _proto = _class.prototype;
     _proto.m = function m() {
@@ -41,6 +41,6 @@ var min = window.min || {};
 min.nest = this.min.nest || function() {};
 min.nest.other = self.min.nest.other || function _class() {
     "use strict";
-    swcHelpers.classCallCheck(this, _class);
+    _class_call_check(this, _class);
 };
 min.property = global.min.property || {};

@@ -1,13 +1,10 @@
 var M;
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 !function(M1) {
     var React;
     M1.React = React;
-}(M || (M = {})), function(M) {
-    var foo;
-    swcHelpers.extends({
-        x: ""
-    }, foo, {
-        y: ""
-    });
-}(M || (M = {}));
+}(M || (M = {})), M || (M = {}), _extends({
+    x: ""
+}, void 0, {
+    y: ""
+});

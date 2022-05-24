@@ -1,10 +1,10 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @strict: true
 // From #4260
 var X = /*#__PURE__*/ function() {
     "use strict";
     function X() {
-        swcHelpers.classCallCheck(this, X);
+        _class_call_check(this, X);
     }
     var _proto = X.prototype;
     _proto.f = function f(t) {
@@ -29,7 +29,7 @@ xNever.f() // error, never still expects an argument
 // Promise has previously been updated to work without arguments, but to show this fixes the issue too.
 var MyPromise = function MyPromise(executor) {
     "use strict";
-    swcHelpers.classCallCheck(this, MyPromise);
+    _class_call_check(this, MyPromise);
 };
 new MyPromise(function(resolve) {
     return resolve();

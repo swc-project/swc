@@ -1,26 +1,28 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var Generics, A = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, A);
+    _class_call_check(this, A);
 };
 !function(Generics) {
     var A1 = function() {
         "use strict";
-        swcHelpers.classCallCheck(this, A1);
+        _class_call_check(this, A1);
     }, B = function(A2) {
         "use strict";
-        swcHelpers.inherits(B, A2);
-        var _super = swcHelpers.createSuper(B);
+        _inherits(B, A2);
+        var _super = _create_super(B);
         function B() {
-            return swcHelpers.classCallCheck(this, B), _super.apply(this, arguments);
+            return _class_call_check(this, B), _super.apply(this, arguments);
         }
         return B;
     }(A1), B2 = function(A3) {
         "use strict";
-        swcHelpers.inherits(B2, A3);
-        var _super = swcHelpers.createSuper(B2);
+        _inherits(B2, A3);
+        var _super = _create_super(B2);
         function B2() {
-            return swcHelpers.classCallCheck(this, B2), _super.apply(this, arguments);
+            return _class_call_check(this, B2), _super.apply(this, arguments);
         }
         return B2;
     }(A1);

@@ -1,4 +1,8 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _get from "@swc/helpers/lib/_get.js";
+import _get_prototype_of from "@swc/helpers/lib/_get_prototype_of.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
@@ -22,10 +26,10 @@ Wagon.prototype.speed = function() {
 // ok
 var Sql = /*#__PURE__*/ function(Wagon1) {
     "use strict";
-    swcHelpers.inherits(Sql, Wagon1);
-    var _super = swcHelpers.createSuper(Sql);
+    _inherits(Sql, Wagon1);
+    var _super = _create_super(Sql);
     function Sql() {
-        swcHelpers.classCallCheck(this, Sql);
+        _class_call_check(this, Sql);
         var _this;
         _this = _super.call(this); // error: not enough arguments
         _this.foonly = 12;
@@ -40,8 +44,8 @@ var Sql = /*#__PURE__*/ function(Wagon1) {
         if (format === "xmlolololol") {
             throw new Error("please do not use XML. It was a joke.");
         } else {
-            swcHelpers.get(swcHelpers.getPrototypeOf(Sql.prototype), "speed", this).call(this); // run faster
-            if (swcHelpers.get(swcHelpers.getPrototypeOf(Sql.prototype), "weight", this).call(this) < 0) {
+            _get(_get_prototype_of(Sql.prototype), "speed", this).call(this); // run faster
+            if (_get(_get_prototype_of(Sql.prototype), "weight", this).call(this) < 0) {
             // ????????????????????????
             }
         }
@@ -53,10 +57,10 @@ db.numberOxen = db.foonly;
 // error, can't extend a TS constructor function
 var Drakkhen = /*#__PURE__*/ function(Dragon1) {
     "use strict";
-    swcHelpers.inherits(Drakkhen, Dragon1);
-    var _super = swcHelpers.createSuper(Drakkhen);
+    _inherits(Drakkhen, Dragon1);
+    var _super = _create_super(Drakkhen);
     function Drakkhen() {
-        swcHelpers.classCallCheck(this, Drakkhen);
+        _class_call_check(this, Drakkhen);
         return _super.apply(this, arguments);
     }
     return Drakkhen;
@@ -70,10 +74,10 @@ var Drakkhen = /*#__PURE__*/ function(Dragon1) {
 // error!
 var Firedrake = /*#__PURE__*/ function(Dragon2) {
     "use strict";
-    swcHelpers.inherits(Firedrake, Dragon2);
-    var _super = swcHelpers.createSuper(Firedrake);
+    _inherits(Firedrake, Dragon2);
+    var _super = _create_super(Firedrake);
     function Firedrake() {
-        swcHelpers.classCallCheck(this, Firedrake);
+        _class_call_check(this, Firedrake);
         return _super.call(this);
     }
     return Firedrake;
@@ -81,10 +85,10 @@ var Firedrake = /*#__PURE__*/ function(Dragon2) {
 // ok
 var Conestoga = /*#__PURE__*/ function(Wagon2) {
     "use strict";
-    swcHelpers.inherits(Conestoga, Wagon2);
-    var _super = swcHelpers.createSuper(Conestoga);
+    _inherits(Conestoga, Wagon2);
+    var _super = _create_super(Conestoga);
     function Conestoga(drunkOO) {
-        swcHelpers.classCallCheck(this, Conestoga);
+        _class_call_check(this, Conestoga);
         var _this;
         _this = _super.call(this, "nope");
         _this.drunkOO = drunkOO;
@@ -108,10 +112,10 @@ c.numberOxen;
 }
 /** @extends {Soup<{ claim: "ignorant" | "malicious" }>} */ var Chowder = /*#__PURE__*/ function(Soup1) {
     "use strict";
-    swcHelpers.inherits(Chowder, Soup1);
-    var _super = swcHelpers.createSuper(Chowder);
+    _inherits(Chowder, Soup1);
+    var _super = _create_super(Chowder);
     function Chowder() {
-        swcHelpers.classCallCheck(this, Chowder);
+        _class_call_check(this, Chowder);
         return _super.apply(this, arguments);
     }
     var _proto = Chowder.prototype;

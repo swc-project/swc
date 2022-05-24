@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @allowJs: true
 // @noEmit: true
 // @checkJs: true
@@ -10,6 +10,6 @@ new SomeClass();
 // @Filename: file2.js
 var SomeClass = function SomeClass() {
     "use strict";
-    swcHelpers.classCallCheck(this, SomeClass);
+    _class_call_check(this, SomeClass);
 };
 SomeClass.prop = 0;

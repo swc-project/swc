@@ -1,34 +1,37 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _extends from "@swc/helpers/lib/_extends.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var j, _this = this, React = require("react"), Poisoned = function(_Component) {
     "use strict";
-    swcHelpers.inherits(Poisoned, _Component);
-    var _super = swcHelpers.createSuper(Poisoned);
+    _inherits(Poisoned, _Component);
+    var _super = _create_super(Poisoned);
     function Poisoned() {
-        return swcHelpers.classCallCheck(this, Poisoned), _super.apply(this, arguments);
+        return _class_call_check(this, Poisoned), _super.apply(this, arguments);
     }
     return Poisoned.prototype.render = function() {
         return React.createElement("div", null, "Hello");
     }, Poisoned;
 }(React.Component);
-swcHelpers.extends({}, {
+_extends({}, {
     x: "hello world",
     y: 2
 });
 var EmptyProp = function(_Component) {
     "use strict";
-    swcHelpers.inherits(EmptyProp, _Component);
-    var _super = swcHelpers.createSuper(EmptyProp);
+    _inherits(EmptyProp, _Component);
+    var _super = _create_super(EmptyProp);
     function EmptyProp() {
-        return swcHelpers.classCallCheck(this, EmptyProp), _super.apply(this, arguments);
+        return _class_call_check(this, EmptyProp), _super.apply(this, arguments);
     }
     return EmptyProp.prototype.render = function() {
         return React.createElement("div", null, "Default hi");
     }, EmptyProp;
 }(React.Component);
-swcHelpers.extends({}, {}), swcHelpers.extends({}, j), swcHelpers.extends({}, {
+_extends({}, {}), _extends({}, j), _extends({}, {
     ref: function(input) {
         _this.textInput = input;
     }
-}), swcHelpers.extends({}, {
+}), _extends({}, {
     "data-prop": !0
 });

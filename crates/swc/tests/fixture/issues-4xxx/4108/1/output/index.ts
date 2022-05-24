@@ -1,9 +1,11 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
+import _instanceof from "@swc/helpers/lib/_instanceof.js";
+import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
 import regeneratorRuntime from "regenerator-runtime";
 import { Transaction } from "@solana/web3.js";
 import { WalletNotConnectedError } from "@solana/wallet-adapter-base";
 export var getErrorForTransaction = function() {
-    var _ref = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee(connection, txid) {
+    var _ref = _async_to_generator(regeneratorRuntime.mark(function _callee(connection, txid) {
         var tx, errors;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -52,7 +54,7 @@ export function sendTransactionsWithManualRetry(connection, wallet, instructions
     return _sendTransactionsWithManualRetry.apply(this, arguments);
 }
 function _sendTransactionsWithManualRetry() {
-    _sendTransactionsWithManualRetry = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee(connection, wallet, instructions, signers) {
+    _sendTransactionsWithManualRetry = _async_to_generator(regeneratorRuntime.mark(function _callee(connection, wallet, instructions, signers) {
         var stopPoint, tries, lastInstructionsLength, toRemoveSigners, ids, filteredSigners, id, txs;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -131,7 +133,7 @@ function _sendTransactionsWithManualRetry() {
     return _sendTransactionsWithManualRetry.apply(this, arguments);
 }
 export var sendTransactions = function() {
-    var _ref = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee(connection, wallet, instructionSet, signersSet) {
+    var _ref = _async_to_generator(regeneratorRuntime.mark(function _callee(connection, wallet, instructionSet, signersSet) {
         var sequenceType, commitment, successCallback, failCallback, block, beforeTransactions, afterTransactions, _unsignedTxns, unsignedTxns, i, _transaction, instructions, signers, transaction, _transaction1, partiallySignedTransactions, fullySignedTransactions, signedTxns, pendingTxns, i1, signedTxnPromise, result, _args = arguments;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -179,12 +181,12 @@ export var sendTransactions = function() {
                     (_transaction = transaction).setSigners.apply(_transaction, [
                         // fee payed by the wallet owner
                         wallet.publicKey
-                    ].concat(swcHelpers.toConsumableArray(signers.map(function(s) {
+                    ].concat(_to_consumable_array(signers.map(function(s) {
                         return s.publicKey;
                     }))));
                     if (signers.length > 0) {
                         ;
-                        (_transaction1 = transaction).partialSign.apply(_transaction1, swcHelpers.toConsumableArray(signers));
+                        (_transaction1 = transaction).partialSign.apply(_transaction1, _to_consumable_array(signers));
                     }
                     unsignedTxns.push(transaction);
                 case 22:
@@ -192,7 +194,7 @@ export var sendTransactions = function() {
                     _ctx.next = 10;
                     break;
                 case 25:
-                    (_unsignedTxns = unsignedTxns).push.apply(_unsignedTxns, swcHelpers.toConsumableArray(afterTransactions));
+                    (_unsignedTxns = unsignedTxns).push.apply(_unsignedTxns, _to_consumable_array(afterTransactions));
                     partiallySignedTransactions = unsignedTxns.filter(function(t) {
                         return t.signatures.find(function(sig) {
                             return sig.publicKey.equals(wallet.publicKey);
@@ -303,7 +305,7 @@ export var sendTransactions = function() {
     };
 }();
 export var sendTransaction = function() {
-    var _ref = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee(connection, wallet, instructions, signers) {
+    var _ref = _async_to_generator(regeneratorRuntime.mark(function _callee(connection, wallet, instructions, signers) {
         var awaitConfirmation, commitment, includesFeePayer, block, transaction, _transaction, _transaction2, _transaction3, rawTransaction, options, txid, slot, confirmation, errors, _args = arguments;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -316,7 +318,7 @@ export var sendTransaction = function() {
                     throw new WalletNotConnectedError();
                 case 3:
                     ;
-                    if (!swcHelpers._instanceof(instructions, Transaction)) {
+                    if (!_instanceof(instructions, Transaction)) {
                         _ctx.next = 8;
                         break;
                     }
@@ -343,7 +345,7 @@ export var sendTransaction = function() {
                     transaction.recentBlockhash = _ctx.t0.blockhash;
                     if (includesFeePayer) {
                         ;
-                        (_transaction = transaction).setSigners.apply(_transaction, swcHelpers.toConsumableArray(signers.map(function(s) {
+                        (_transaction = transaction).setSigners.apply(_transaction, _to_consumable_array(signers.map(function(s) {
                             return s.publicKey;
                         })));
                     } else {
@@ -351,13 +353,13 @@ export var sendTransaction = function() {
                         (_transaction2 = transaction).setSigners.apply(_transaction2, [
                             // fee payed by the wallet owner
                             wallet.publicKey
-                        ].concat(swcHelpers.toConsumableArray(signers.map(function(s) {
+                        ].concat(_to_consumable_array(signers.map(function(s) {
                             return s.publicKey;
                         }))));
                     }
                     if (signers.length > 0) {
                         ;
-                        (_transaction3 = transaction).partialSign.apply(_transaction3, swcHelpers.toConsumableArray(signers));
+                        (_transaction3 = transaction).partialSign.apply(_transaction3, _to_consumable_array(signers));
                     }
                     if (includesFeePayer) {
                         _ctx.next = 22;
@@ -419,7 +421,7 @@ export var sendTransaction = function() {
     };
 }();
 export var sendTransactionWithRetry = function() {
-    var _ref = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee(connection, wallet, instructions, signers) {
+    var _ref = _async_to_generator(regeneratorRuntime.mark(function _callee(connection, wallet, instructions, signers) {
         var commitment, includesFeePayer, block, beforeSend, transaction, _transaction, _transaction4, _transaction5, ref, txid, slot, _args = arguments;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -448,7 +450,7 @@ export var sendTransactionWithRetry = function() {
                     transaction.recentBlockhash = _ctx.t0.blockhash;
                     if (includesFeePayer) {
                         ;
-                        (_transaction = transaction).setSigners.apply(_transaction, swcHelpers.toConsumableArray(signers.map(function(s) {
+                        (_transaction = transaction).setSigners.apply(_transaction, _to_consumable_array(signers.map(function(s) {
                             return s.publicKey;
                         })));
                     } else {
@@ -456,13 +458,13 @@ export var sendTransactionWithRetry = function() {
                         (_transaction4 = transaction).setSigners.apply(_transaction4, [
                             // fee payed by the wallet owner
                             wallet.publicKey
-                        ].concat(swcHelpers.toConsumableArray(signers.map(function(s) {
+                        ].concat(_to_consumable_array(signers.map(function(s) {
                             return s.publicKey;
                         }))));
                     }
                     if (signers.length > 0) {
                         ;
-                        (_transaction5 = transaction).partialSign.apply(_transaction5, swcHelpers.toConsumableArray(signers));
+                        (_transaction5 = transaction).partialSign.apply(_transaction5, _to_consumable_array(signers));
                     }
                     if (includesFeePayer) {
                         _ctx.next = 17;
@@ -507,7 +509,7 @@ export function sendSignedTransaction(_) {
     return _sendSignedTransaction.apply(this, arguments);
 }
 function _sendSignedTransaction() {
-    _sendSignedTransaction = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee1(param) {
+    _sendSignedTransaction = _async_to_generator(regeneratorRuntime.mark(function _callee1(param) {
         var signedTransaction, connection, _timeout, timeout, rawTransaction, startTime, slot, txid, done, confirmation, simulateResult, i, line;
         return regeneratorRuntime.wrap(function _callee$(_ctx1) {
             while(1)switch(_ctx1.prev = _ctx1.next){
@@ -524,7 +526,7 @@ function _sendSignedTransaction() {
                     txid = _ctx1.sent;
                     console.log("Started awaiting confirmation for", txid);
                     done = false;
-                    swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+                    _async_to_generator(regeneratorRuntime.mark(function _callee() {
                         return regeneratorRuntime.wrap(function _callee$(_ctx) {
                             while(1)switch(_ctx.prev = _ctx.next){
                                 case 0:
@@ -648,7 +650,7 @@ function simulateTransaction(connection, transaction, commitment) {
     return _simulateTransaction.apply(this, arguments);
 }
 function _simulateTransaction() {
-    _simulateTransaction = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee(connection, transaction, commitment) {
+    _simulateTransaction = _async_to_generator(regeneratorRuntime.mark(function _callee(connection, transaction, commitment) {
         var signData, wireTransaction, encodedTransaction, config, args, res;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
@@ -693,7 +695,7 @@ function awaitTransactionSignatureConfirmation(txid, timeout, connection) {
     return _awaitTransactionSignatureConfirmation.apply(this, arguments);
 }
 function _awaitTransactionSignatureConfirmation() {
-    _awaitTransactionSignatureConfirmation = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee2(txid, timeout, connection) {
+    _awaitTransactionSignatureConfirmation = _async_to_generator(regeneratorRuntime.mark(function _callee2(txid, timeout, connection) {
         var commitment, queryStatus, done, status, subId, _args = arguments;
         return regeneratorRuntime.wrap(function _callee$(_ctx2) {
             while(1)switch(_ctx2.prev = _ctx2.next){
@@ -708,7 +710,7 @@ function _awaitTransactionSignatureConfirmation() {
                     subId = 0;
                     _ctx2.next = 6;
                     return new Promise(function() {
-                        var _ref = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee3(resolve, reject) {
+                        var _ref = _async_to_generator(regeneratorRuntime.mark(function _callee3(resolve, reject) {
                             return regeneratorRuntime.wrap(function _callee$(_ctx3) {
                                 while(1)switch(_ctx3.prev = _ctx3.next){
                                     case 0:
@@ -748,7 +750,7 @@ function _awaitTransactionSignatureConfirmation() {
                                             break;
                                         }
                                         // eslint-disable-next-line no-loop-func
-                                        swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+                                        _async_to_generator(regeneratorRuntime.mark(function _callee() {
                                             var signatureStatuses;
                                             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                                                 while(1)switch(_ctx.prev = _ctx.next){

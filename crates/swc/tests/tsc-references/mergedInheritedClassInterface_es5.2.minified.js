@@ -1,30 +1,32 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var child, grandchild, BaseClass = function() {
     "use strict";
     function BaseClass() {
-        swcHelpers.classCallCheck(this, BaseClass);
+        _class_call_check(this, BaseClass);
     }
     return BaseClass.prototype.baseMethod = function() {}, BaseClass;
 }(), Child = function(BaseClass) {
     "use strict";
-    swcHelpers.inherits(Child, BaseClass);
-    var _super = swcHelpers.createSuper(Child);
+    _inherits(Child, BaseClass);
+    var _super = _create_super(Child);
     function Child() {
-        return swcHelpers.classCallCheck(this, Child), _super.apply(this, arguments);
+        return _class_call_check(this, Child), _super.apply(this, arguments);
     }
     return Child.prototype.method = function() {}, Child;
 }(BaseClass), ChildNoBaseClass = function() {
     "use strict";
     function ChildNoBaseClass() {
-        swcHelpers.classCallCheck(this, ChildNoBaseClass);
+        _class_call_check(this, ChildNoBaseClass);
     }
     return ChildNoBaseClass.prototype.method2 = function() {}, ChildNoBaseClass;
 }(), Grandchild = function(ChildNoBaseClass) {
     "use strict";
-    swcHelpers.inherits(Grandchild, ChildNoBaseClass);
-    var _super = swcHelpers.createSuper(Grandchild);
+    _inherits(Grandchild, ChildNoBaseClass);
+    var _super = _create_super(Grandchild);
     function Grandchild() {
-        return swcHelpers.classCallCheck(this, Grandchild), _super.apply(this, arguments);
+        return _class_call_check(this, Grandchild), _super.apply(this, arguments);
     }
     return Grandchild;
 }(ChildNoBaseClass);

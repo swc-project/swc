@@ -1,7 +1,7 @@
-import * as swcHelpers from "@swc/helpers";
+import _define_property from "@swc/helpers/lib/_define_property.js";
 // @target: es5
 var s;
 var n;
 var a;
 var _obj;
-var v = (_obj = {}, swcHelpers.defineProperty(_obj, s, 0), swcHelpers.defineProperty(_obj, n, n), swcHelpers.defineProperty(_obj, s + s, 1), swcHelpers.defineProperty(_obj, s + n, 2), swcHelpers.defineProperty(_obj, +s, s), swcHelpers.defineProperty(_obj, "", 0), swcHelpers.defineProperty(_obj, 0, 0), swcHelpers.defineProperty(_obj, a, 1), swcHelpers.defineProperty(_obj, true, 0), swcHelpers.defineProperty(_obj, "hello bye", 0), swcHelpers.defineProperty(_obj, "hello ".concat(a, " bye"), 0), _obj);
+var v = (_obj = {}, _define_property(_obj, s, 0), _define_property(_obj, n, n), _define_property(_obj, s + s, 1), _define_property(_obj, s + n, 2), _define_property(_obj, +s, s), _define_property(_obj, "", 0), _define_property(_obj, 0, 0), _define_property(_obj, a, 1), _define_property(_obj, true, 0), _define_property(_obj, "hello bye", 0), _define_property(_obj, "hello ".concat(a, " bye"), 0), _obj);

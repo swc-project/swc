@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // Initializers
 var varInit = varInit; // any
 var pInit;
@@ -9,7 +9,7 @@ function fn() {
 var InitClass = /*#__PURE__*/ function() {
     "use strict";
     function InitClass() {
-        swcHelpers.classCallCheck(this, InitClass);
+        _class_call_check(this, InitClass);
         this.x = this.x;
     }
     var _proto = InitClass.prototype;
@@ -82,7 +82,7 @@ var t = fnArg2(); // t: should be 'any', but is 'string'
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
     }
     var _proto = C.prototype;
     _proto.fn1 = function fn1() {
@@ -117,7 +117,7 @@ var M2;
 // Property access of class instance type
 var C2 = function C2() {
     "use strict";
-    swcHelpers.classCallCheck(this, C2);
+    _class_call_check(this, C2);
     this.n = this.n // n: any
     ;
 };
@@ -126,7 +126,7 @@ var c2inst;
 // Constructor function property access
 var C3 = function C3() {
     "use strict";
-    swcHelpers.classCallCheck(this, C3);
+    _class_call_check(this, C3);
 };
 C3.q = C3.q;
 var qq = C3.q;

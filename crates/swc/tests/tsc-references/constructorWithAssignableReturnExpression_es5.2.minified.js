@@ -1,18 +1,18 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var C = function() {
-    return swcHelpers.classCallCheck(this, C), 1;
+    return _class_call_check(this, C), 1;
 }, D = function() {
-    return swcHelpers.classCallCheck(this, D), 1;
+    return _class_call_check(this, D), 1;
 }, E = function() {
-    return swcHelpers.classCallCheck(this, E), {
+    return _class_call_check(this, E), {
         x: 1
     };
 }, F = function() {
-    return swcHelpers.classCallCheck(this, F), {
+    return _class_call_check(this, F), {
         x: 1
     };
 }, G = function() {
-    return swcHelpers.classCallCheck(this, G), {
+    return _class_call_check(this, G), {
         x: null
     };
 };

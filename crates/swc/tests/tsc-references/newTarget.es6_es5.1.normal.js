@@ -1,29 +1,32 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _instanceof from "@swc/helpers/lib/_instanceof.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 // @target: es6
 var A = function A() {
     "use strict";
-    var _newtarget = swcHelpers._instanceof(this, A) ? this.constructor : void 0;
-    swcHelpers.classCallCheck(this, A);
+    var _newtarget = _instanceof(this, A) ? this.constructor : void 0;
+    _class_call_check(this, A);
     this.d = function _target() {
-        return swcHelpers._instanceof(this, _target) ? this.constructor : void 0;
+        return _instanceof(this, _target) ? this.constructor : void 0;
     };
-    var a = swcHelpers._instanceof(this, A) ? this.constructor : void 0;
+    var a = _instanceof(this, A) ? this.constructor : void 0;
     var b = function() {
         return _newtarget;
     };
 };
 A.c = function _target() {
-    return swcHelpers._instanceof(this, _target) ? this.constructor : void 0;
+    return _instanceof(this, _target) ? this.constructor : void 0;
 };
 var B = /*#__PURE__*/ function _target(A) {
     "use strict";
-    swcHelpers.inherits(B, A);
-    var _super = swcHelpers.createSuper(B);
+    _inherits(B, A);
+    var _super = _create_super(B);
     function B() {
-        var _newtarget = swcHelpers._instanceof(this, B) ? this.constructor : void 0;
-        swcHelpers.classCallCheck(this, B);
+        var _newtarget = _instanceof(this, B) ? this.constructor : void 0;
+        _class_call_check(this, B);
         var _this = _super.call(this);
-        var e = swcHelpers._instanceof(this, B) ? this.constructor : void 0;
+        var e = _instanceof(this, B) ? this.constructor : void 0;
         var f = function() {
             return _newtarget;
         };
@@ -32,21 +35,21 @@ var B = /*#__PURE__*/ function _target(A) {
     return B;
 }(A);
 function f1() {
-    var _newtarget = swcHelpers._instanceof(this, f1) ? this.constructor : void 0;
-    var g = swcHelpers._instanceof(this, f1) ? this.constructor : void 0;
+    var _newtarget = _instanceof(this, f1) ? this.constructor : void 0;
+    var g = _instanceof(this, f1) ? this.constructor : void 0;
     var h = function() {
         return _newtarget;
     };
 }
 var f2 = function _target() {
-    var _newtarget = swcHelpers._instanceof(this, _target) ? this.constructor : void 0;
-    var i = swcHelpers._instanceof(this, _target) ? this.constructor : void 0;
+    var _newtarget = _instanceof(this, _target) ? this.constructor : void 0;
+    var i = _instanceof(this, _target) ? this.constructor : void 0;
     var j = function() {
         return _newtarget;
     };
 };
 var O = {
     k: function _target() {
-        return swcHelpers._instanceof(this, _target) ? this.constructor : void 0;
+        return _instanceof(this, _target) ? this.constructor : void 0;
     }
 };

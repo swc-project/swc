@@ -1,5 +1,5 @@
 var M;
-import * as swcHelpers from "@swc/helpers";
+import _define_property from "@swc/helpers/lib/_define_property.js";
 !function(M) {
-    swcHelpers.defineProperty({}, this.bar, 0);
+    _define_property({}, this.bar, 0);
 }(M || (M = {}));

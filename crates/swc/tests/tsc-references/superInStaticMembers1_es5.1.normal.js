@@ -1,4 +1,8 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _get from "@swc/helpers/lib/_get.js";
+import _get_prototype_of from "@swc/helpers/lib/_get_prototype_of.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var _this = this, _superprop_get_w = ()=>super.w;
 var _Reflect, __, _Reflect1, __1;
 // @target: es5, es2015, es2021, es2022, esnext
@@ -6,21 +10,21 @@ var _Reflect, __, _Reflect1, __1;
 // @filename: external.ts
 export var Reflect = function Reflect() {
     "use strict";
-    swcHelpers.classCallCheck(this, Reflect);
+    _class_call_check(this, Reflect);
 };
 export var Baz;
 (function(Baz) {})(Baz || (Baz = {}));
 var _class = function _class() {
     "use strict";
-    swcHelpers.classCallCheck(this, _class);
+    _class_call_check(this, _class);
 };
 export { _class as default };
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
@@ -28,59 +32,59 @@ var C = /*#__PURE__*/ function(B) {
 C._ = [
     function() {
         var Reflect; // collision (es2015-es2021 only)
-        swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }(),
     function() {
         var Reflect = {
             Reflect: null
         }.Reflect; // collision (es2015-es2021 only)
-        swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }(),
     function() {
         var Reflect = null; // collision (es2015-es2021 only)
-        swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }(),
     function() {
         var Reflect = function Reflect() {
             "use strict";
-            swcHelpers.classCallCheck(this, Reflect);
+            _class_call_check(this, Reflect);
         } // collision (es2015-es2021 only)
         ;
-        swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }(),
     function() {
         var Reflect = function Reflect() {} // collision (es2015-es2021 only)
         ;
-        swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }(),
     function() {
         var Reflect// collision (es2015-es2021 only)
         ;
         (function(Reflect) {})(Reflect || (Reflect = {}));
-        swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }(),
     function() {
         var Reflect// collision (es2015-es2021 only)
         ;
         (function(Reflect) {})(Reflect || (Reflect = {}));
-        swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }(),
     function() {
-        swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }(),
     function() {
-        swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }(),
     function() {
         (function Reflect() {
             "use strict";
-            swcHelpers.classCallCheck(this, Reflect);
+            _class_call_check(this, Reflect);
         }); // no collision
-        swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }(),
     function() {
         (function Reflect() {}); // no collision
-        swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }(), 
 ];
 var __2 = {
@@ -111,7 +115,7 @@ var __3 = {
     value: function() {
         var Reflect = function Reflect() {
             "use strict";
-            swcHelpers.classCallCheck(this, Reflect);
+            _class_call_check(this, Reflect);
         } // collision (es2015-es2021 only)
         ;
         _superprop_get_w().call(_this);
@@ -160,7 +164,7 @@ var __9 = {
     value: function() {
         (function Reflect() {
             "use strict";
-            swcHelpers.classCallCheck(this, Reflect);
+            _class_call_check(this, Reflect);
         }) // no collision
         ;
         _superprop_get_w().call(_this);
@@ -177,48 +181,48 @@ var __10 = {
 var Reflect = null; // collision (es2015-es2021 only)
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
 }(B);
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 var Reflect = {
     Reflect: null
 }.Reflect; // collision (es2015-es2021 only)
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
 }(B);
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 var Reflect = null; // collision (es2015-es2021 only)
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
 }(B);
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 var Reflect = null; // collision (es2015-es2021 only)
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
@@ -234,10 +238,10 @@ var Reflect = {
 }.Reflect; // collision (es2015-es2021 only)
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
@@ -251,10 +255,10 @@ var __12 = {
 var Reflect = null; // collision (es2015-es2021 only)
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
@@ -267,31 +271,31 @@ var __13 = {
 };
 var Reflect = function Reflect() {
     "use strict";
-    swcHelpers.classCallCheck(this, Reflect);
+    _class_call_check(this, Reflect);
 } // collision (es2015-es2021 only)
 ;
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
 }(B);
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 var Reflect = function Reflect() {
     "use strict";
-    swcHelpers.classCallCheck(this, Reflect);
+    _class_call_check(this, Reflect);
 } // collision (es2015-es2021 only)
 ;
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
@@ -305,22 +309,22 @@ var __14 = {
 function Reflect() {} // collision (es2015-es2021 only)
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
 }(B);
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 function Reflect() {} // collision (es2015-es2021 only)
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
@@ -333,21 +337,21 @@ var __15 = {
 };
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
 }(B);
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
@@ -361,22 +365,22 @@ var __16 = {
 (function(Reflect) {})(Reflect || (Reflect = {}));
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
 }(B);
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 (function(Reflect) {})(Reflect || (Reflect = {}));
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
@@ -390,22 +394,22 @@ var __17 = {
 (function(Reflect) {})(Reflect || (Reflect = {}));
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
 }(B);
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 (function(Reflect) {})(Reflect || (Reflect = {}));
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
@@ -418,21 +422,21 @@ var __18 = {
 };
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
 }(B);
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
@@ -445,21 +449,21 @@ var __19 = {
 };
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
 }(B);
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
@@ -472,21 +476,21 @@ var __20 = {
 };
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
 }(B);
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
@@ -499,21 +503,21 @@ var __21 = {
 };
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
 }(B);
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
@@ -526,21 +530,21 @@ var __22 = {
 };
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
 }(B);
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
@@ -553,21 +557,21 @@ var __23 = {
 };
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
 }(B);
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
@@ -580,21 +584,21 @@ var __24 = {
 };
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
 }(B);
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
@@ -607,21 +611,21 @@ var __25 = {
 };
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
 }(B);
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
@@ -634,21 +638,21 @@ var __26 = {
 };
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
 }(B);
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
@@ -661,21 +665,21 @@ var __27 = {
 };
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
 }(B);
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
@@ -688,21 +692,21 @@ var __28 = {
 };
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
 }(B);
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
@@ -715,29 +719,29 @@ var __29 = {
 };
 (function Reflect() {
     "use strict";
-    swcHelpers.classCallCheck(this, Reflect);
+    _class_call_check(this, Reflect);
 }); // no collision
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
 }(B);
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 (function Reflect() {
     "use strict";
-    swcHelpers.classCallCheck(this, Reflect);
+    _class_call_check(this, Reflect);
 }); // no collision
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
@@ -750,36 +754,36 @@ var __30 = {
 };
 _Reflect = function Reflect() {
     "use strict";
-    swcHelpers.classCallCheck(this, Reflect);
+    _class_call_check(this, Reflect);
 }, __ = {
     writable: true,
     value: function() {
         var C = /*#__PURE__*/ function(B) {
             "use strict";
-            swcHelpers.inherits(C, B);
-            var _super = swcHelpers.createSuper(C);
+            _inherits(C, B);
+            var _super = _create_super(C);
             function C() {
-                swcHelpers.classCallCheck(this, C);
+                _class_call_check(this, C);
                 return _super.apply(this, arguments);
             }
             return C;
         }(B);
-        C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+        C._ = _get(_get_prototype_of(C), "w", C).call(C);
     }()
 }, _Reflect;
 _Reflect1 = function Reflect() {
     "use strict";
-    swcHelpers.classCallCheck(this, Reflect);
+    _class_call_check(this, Reflect);
 }, __1 = {
     writable: true,
     value: function() {
         var _this1 = _this, _superprop_get_w1 = ()=>_superprop_get_w();
         var C = /*#__PURE__*/ function(B) {
             "use strict";
-            swcHelpers.inherits(C, B);
-            var _super = swcHelpers.createSuper(C);
+            _inherits(C, B);
+            var _super = _create_super(C);
             function C() {
-                swcHelpers.classCallCheck(this, C);
+                _class_call_check(this, C);
                 return _super.apply(this, arguments);
             }
             return C;
@@ -795,22 +799,22 @@ _Reflect1 = function Reflect() {
 (function Reflect() {}); // no collision
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
 }(B);
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 (function Reflect() {}); // no collision
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
     return C;
@@ -824,24 +828,24 @@ var __31 = {
 (function Reflect() {
     var C = /*#__PURE__*/ function(B) {
         "use strict";
-        swcHelpers.inherits(C, B);
-        var _super = swcHelpers.createSuper(C);
+        _inherits(C, B);
+        var _super = _create_super(C);
         function C() {
-            swcHelpers.classCallCheck(this, C);
+            _class_call_check(this, C);
             return _super.apply(this, arguments);
         }
         return C;
     }(B);
-    C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+    C._ = _get(_get_prototype_of(C), "w", C).call(C);
 });
 (function Reflect() {
     var _this2 = this, _superprop_get_w2 = ()=>super.w;
     var C = /*#__PURE__*/ function(B) {
         "use strict";
-        swcHelpers.inherits(C, B);
-        var _super = swcHelpers.createSuper(C);
+        _inherits(C, B);
+        var _super = _create_super(C);
         function C() {
-            swcHelpers.classCallCheck(this, C);
+            _class_call_check(this, C);
             return _super.apply(this, arguments);
         }
         return C;

@@ -1,19 +1,19 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 require('react');
 let obj = {
     yy: 10,
     yy1: "hello"
 }, obj2;
-swcHelpers.extends({}, obj, {
+_extends({}, obj, {
     yy1: !0
-}), swcHelpers.extends({}, obj, {
+}), _extends({}, obj, {
     extra: "extra attr"
-}), swcHelpers.extends({}, obj, {
+}), _extends({}, obj, {
     y1: 10000
-}), swcHelpers.extends({}, obj, {
+}), _extends({}, obj, {
     yy: !0
-}), swcHelpers.extends({}, obj2, {
+}), _extends({}, obj2, {
     extra: "extra attr"
-}), swcHelpers.extends({}, obj2, {
+}), _extends({}, obj2, {
     yy: !0
 });

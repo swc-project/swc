@@ -1,23 +1,23 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var A;
 (function(A1) {
     var _$A = function _$A() {
         "use strict";
-        swcHelpers.classCallCheck(this, _$A);
+        _class_call_check(this, _$A);
     };
     A1.A = _$A;
     var AG1 = function AG1() {
         "use strict";
-        swcHelpers.classCallCheck(this, AG1);
+        _class_call_check(this, AG1);
     };
     A1.AG = AG1;
     var A2 = function A2() {
         "use strict";
-        swcHelpers.classCallCheck(this, A2);
+        _class_call_check(this, A2);
     };
     var AG2 = function AG2() {
         "use strict";
-        swcHelpers.classCallCheck(this, AG2);
+        _class_call_check(this, AG2);
     };
 })(A || (A = {}));
 // no errors expected, these are all exported

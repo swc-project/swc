@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @allowJs: true
 // @checkJs: true
 // @target: es5
@@ -15,7 +15,7 @@ import * as swcHelpers from "@swc/helpers";
  */ export var Aleph = /*#__PURE__*/ function() {
     "use strict";
     function Aleph(a, b) {
-        swcHelpers.classCallCheck(this, Aleph);
+        _class_call_check(this, Aleph);
         /**
          * Field is always null
          */ this.field = b;

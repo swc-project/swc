@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // type parameter lists must exactly match type argument lists
 // all of these invocations are errors
 function f(x, y) {
@@ -17,7 +17,7 @@ var r3b = f3(1, "");
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
     }
     var _proto = C.prototype;
     _proto.f = function f(x, y) {
@@ -33,7 +33,7 @@ var r5b = i.f(1, "");
 var C2 = /*#__PURE__*/ function() {
     "use strict";
     function C2() {
-        swcHelpers.classCallCheck(this, C2);
+        _class_call_check(this, C2);
     }
     var _proto = C2.prototype;
     _proto.f = function f(x, y) {

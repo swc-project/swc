@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // should replace all refs to 'x' in the body,
 // with fully qualified
 var A;
@@ -42,7 +42,7 @@ var E;
     E1.fn = fn;
     var C1 = function C1() {
         "use strict";
-        swcHelpers.classCallCheck(this, C1);
+        _class_call_check(this, C1);
     };
     E1.C = C1;
     var M1;
@@ -61,7 +61,7 @@ var F;
     })(Color || (Color = {}));
     var C2 = function C2() {
         "use strict";
-        swcHelpers.classCallCheck(this, C2);
+        _class_call_check(this, C2);
     };
     var M;
     (function(M) {

@@ -1,10 +1,10 @@
 var ImmediatelyFix, WithCandidates;
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 !function(ImmediatelyFix) {
     var C = function() {
         "use strict";
         function C() {
-            swcHelpers.classCallCheck(this, C);
+            _class_call_check(this, C);
         }
         return C.prototype.foo = function(x) {
             return x(null);
@@ -20,7 +20,7 @@ import * as swcHelpers from "@swc/helpers";
     var C2 = function() {
         "use strict";
         function C2() {
-            swcHelpers.classCallCheck(this, C2);
+            _class_call_check(this, C2);
         }
         return C2.prototype.foo = function(x) {
             return x(null);
@@ -35,7 +35,7 @@ import * as swcHelpers from "@swc/helpers";
     var c, c2, C = function() {
         "use strict";
         function C() {
-            swcHelpers.classCallCheck(this, C);
+            _class_call_check(this, C);
         }
         return C.prototype.foo2 = function(x, cb) {
             return cb(x);
@@ -51,7 +51,7 @@ import * as swcHelpers from "@swc/helpers";
     var C2 = function() {
         "use strict";
         function C2() {
-            swcHelpers.classCallCheck(this, C2);
+            _class_call_check(this, C2);
         }
         return C2.prototype.foo3 = function(x, cb, y) {
             return cb(x);
@@ -65,7 +65,7 @@ import * as swcHelpers from "@swc/helpers";
     var C3 = function() {
         "use strict";
         function C3() {
-            swcHelpers.classCallCheck(this, C3);
+            _class_call_check(this, C3);
         }
         return C3.prototype.foo3 = function(x, cb, y) {
             return cb(x);

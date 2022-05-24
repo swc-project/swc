@@ -1,13 +1,15 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var b, d1, d2, d3, d4, Base = function() {
     "use strict";
     function Base() {
-        swcHelpers.classCallCheck(this, Base);
+        _class_call_check(this, Base);
     }
     return Base.prototype.method = function() {
         var A = function() {
             function A() {
-                swcHelpers.classCallCheck(this, A);
+                _class_call_check(this, A);
             }
             return A.prototype.methoda = function() {
                 var d11, d21, d31, d41;
@@ -17,15 +19,15 @@ var b, d1, d2, d3, d4, Base = function() {
     }, Base;
 }(), Derived1 = function(Base) {
     "use strict";
-    swcHelpers.inherits(Derived1, Base);
-    var _super = swcHelpers.createSuper(Derived1);
+    _inherits(Derived1, Base);
+    var _super = _create_super(Derived1);
     function Derived1() {
-        return swcHelpers.classCallCheck(this, Derived1), _super.apply(this, arguments);
+        return _class_call_check(this, Derived1), _super.apply(this, arguments);
     }
     return Derived1.prototype.method1 = function() {
         var B = function() {
             function B() {
-                swcHelpers.classCallCheck(this, B);
+                _class_call_check(this, B);
             }
             return B.prototype.method1b = function() {
                 var d12, d22, d32, d42;
@@ -35,15 +37,15 @@ var b, d1, d2, d3, d4, Base = function() {
     }, Derived1;
 }(Base), Derived2 = function(Base) {
     "use strict";
-    swcHelpers.inherits(Derived2, Base);
-    var _super = swcHelpers.createSuper(Derived2);
+    _inherits(Derived2, Base);
+    var _super = _create_super(Derived2);
     function Derived2() {
-        return swcHelpers.classCallCheck(this, Derived2), _super.apply(this, arguments);
+        return _class_call_check(this, Derived2), _super.apply(this, arguments);
     }
     return Derived2.prototype.method2 = function() {
         var C = function() {
             function C() {
-                swcHelpers.classCallCheck(this, C);
+                _class_call_check(this, C);
             }
             return C.prototype.method2c = function() {
                 var d13, d23, d33, d43;
@@ -53,15 +55,15 @@ var b, d1, d2, d3, d4, Base = function() {
     }, Derived2;
 }(Base), Derived3 = function(Derived1) {
     "use strict";
-    swcHelpers.inherits(Derived3, Derived1);
-    var _super = swcHelpers.createSuper(Derived3);
+    _inherits(Derived3, Derived1);
+    var _super = _create_super(Derived3);
     function Derived3() {
-        return swcHelpers.classCallCheck(this, Derived3), _super.apply(this, arguments);
+        return _class_call_check(this, Derived3), _super.apply(this, arguments);
     }
     return Derived3.prototype.method3 = function() {
         var D = function() {
             function D() {
-                swcHelpers.classCallCheck(this, D);
+                _class_call_check(this, D);
             }
             return D.prototype.method3d = function() {
                 var d14, d24, d34, d44;
@@ -71,15 +73,15 @@ var b, d1, d2, d3, d4, Base = function() {
     }, Derived3;
 }(Derived1), Derived4 = function(Derived2) {
     "use strict";
-    swcHelpers.inherits(Derived4, Derived2);
-    var _super = swcHelpers.createSuper(Derived4);
+    _inherits(Derived4, Derived2);
+    var _super = _create_super(Derived4);
     function Derived4() {
-        return swcHelpers.classCallCheck(this, Derived4), _super.apply(this, arguments);
+        return _class_call_check(this, Derived4), _super.apply(this, arguments);
     }
     return Derived4.prototype.method4 = function() {
         var E = function() {
             function E() {
-                swcHelpers.classCallCheck(this, E);
+                _class_call_check(this, E);
             }
             return E.prototype.method4e = function() {
                 var d15, d25, d35, d45;

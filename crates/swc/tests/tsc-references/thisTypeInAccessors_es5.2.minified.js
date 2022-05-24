@@ -1,10 +1,11 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _create_class from "@swc/helpers/lib/_create_class.js";
 var Explicit = function() {
     "use strict";
     function Explicit() {
-        swcHelpers.classCallCheck(this, Explicit), this.n = 17;
+        _class_call_check(this, Explicit), this.n = 17;
     }
-    return swcHelpers.createClass(Explicit, [
+    return _create_class(Explicit, [
         {
             key: "x",
             get: function() {
@@ -18,9 +19,9 @@ var Explicit = function() {
 }(), Contextual = function() {
     "use strict";
     function Contextual() {
-        swcHelpers.classCallCheck(this, Contextual), this.n = 21;
+        _class_call_check(this, Contextual), this.n = 21;
     }
-    return swcHelpers.createClass(Contextual, [
+    return _create_class(Contextual, [
         {
             key: "x",
             get: function() {

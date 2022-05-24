@@ -27,17 +27,17 @@ it("should work", async () => {
         },
     });
     expect(code).toMatchInlineSnapshot(`
-        "\\"use strict\\";
-        var swcHelpers = require(\\"@swc/helpers\\");
-        var _b = require(\\"../packages/b/src/index\\");
-        async function display() {
-            const displayA = await Promise.resolve().then(function() {
-                return swcHelpers.interopRequireWildcard(require(\\"../packages/a/src/index\\"));
-            }).then((c)=>c.displayA);
-            console.log(displayA());
-            console.log((0, _b).displayB());
-        }
-        display();
-        "
-    `);
+"\\"use strict\\";
+var _interop_require_wildcard = require(\\"@swc/helpers/lib/_interop_require_wildcard.js\\").default;
+var _b = require(\\"../packages/b/src/index\\");
+async function display() {
+    const displayA = await Promise.resolve().then(function() {
+        return _interop_require_wildcard(require(\\"../packages/a/src/index\\"));
+    }).then((c)=>c.displayA);
+    console.log(displayA());
+    console.log((0, _b).displayB());
+}
+display();
+"
+`);
 });

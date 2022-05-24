@@ -1,6 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
+import _tagged_template_literal from "@swc/helpers/lib/_tagged_template_literal.js";
 function _templateObject() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         "",
         ""
     ]);
@@ -9,7 +9,7 @@ function _templateObject() {
     }, data;
 }
 function _templateObject1() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         "",
         ""
     ]);
@@ -18,7 +18,7 @@ function _templateObject1() {
     }, data;
 }
 function _templateObject2() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         "",
         "",
         ""
@@ -28,7 +28,7 @@ function _templateObject2() {
     }, data;
 }
 function _templateObject3() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         "",
         "",
         ""
@@ -38,7 +38,7 @@ function _templateObject3() {
     }, data;
 }
 function _templateObject4() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         "",
         "",
         ""
@@ -48,7 +48,7 @@ function _templateObject4() {
     }, data;
 }
 function _templateObject5() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         "",
         "",
         ""
@@ -58,7 +58,7 @@ function _templateObject5() {
     }, data;
 }
 function _templateObject6() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         "",
         ""
     ]);
@@ -67,7 +67,7 @@ function _templateObject6() {
     }, data;
 }
 function _templateObject7() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         "",
         "",
         "",
@@ -78,7 +78,7 @@ function _templateObject7() {
     }, data;
 }
 function _templateObject8() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         "",
         "",
         "",
@@ -89,7 +89,7 @@ function _templateObject8() {
     }, data;
 }
 function _templateObject9() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         "",
         ""
     ]);
@@ -98,7 +98,7 @@ function _templateObject9() {
     }, data;
 }
 function _templateObject10() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         "",
         "",
         "",
@@ -109,7 +109,7 @@ function _templateObject10() {
     }, data;
 }
 function _templateObject11() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         "",
         "",
         "",
@@ -120,7 +120,7 @@ function _templateObject11() {
     }, data;
 }
 function _templateObject12() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         ""
     ]);
     return _templateObject12 = function _templateObject12() {
@@ -128,7 +128,7 @@ function _templateObject12() {
     }, data;
 }
 function _templateObject13() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         "",
         "",
         ""
@@ -138,7 +138,7 @@ function _templateObject13() {
     }, data;
 }
 function _templateObject14() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         "",
         "",
         ""
@@ -148,7 +148,7 @@ function _templateObject14() {
     }, data;
 }
 function _templateObject15() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         "",
         "",
         ""
@@ -158,7 +158,7 @@ function _templateObject15() {
     }, data;
 }
 function _templateObject16() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         "",
         "",
         ""
@@ -168,7 +168,7 @@ function _templateObject16() {
     }, data;
 }
 function _templateObject17() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         "",
         "",
         ""
@@ -178,7 +178,7 @@ function _templateObject17() {
     }, data;
 }
 function _templateObject18() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         "",
         "",
         ""
@@ -188,7 +188,7 @@ function _templateObject18() {
     }, data;
 }
 function _templateObject19() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         "",
         "",
         ""
@@ -198,7 +198,7 @@ function _templateObject19() {
     }, data;
 }
 function _templateObject20() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         "",
         ""
     ]);
@@ -207,7 +207,7 @@ function _templateObject20() {
     }, data;
 }
 function _templateObject21() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         "",
         ""
     ]);

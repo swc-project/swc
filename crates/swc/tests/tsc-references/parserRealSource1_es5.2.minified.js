@@ -1,5 +1,5 @@
 var TypeScript;
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 !function(TypeScript1) {
     !function(CompilerDiagnostics) {
         var debug = CompilerDiagnostics.debug = !1, diagnosticWriter = CompilerDiagnostics.diagnosticWriter = null;
@@ -15,7 +15,7 @@ import * as swcHelpers from "@swc/helpers";
     var NullLogger = function() {
         "use strict";
         function NullLogger() {
-            swcHelpers.classCallCheck(this, NullLogger);
+            _class_call_check(this, NullLogger);
         }
         var _proto = NullLogger.prototype;
         return _proto.information = function() {
@@ -34,7 +34,7 @@ import * as swcHelpers from "@swc/helpers";
     var LoggerAdapter = function() {
         "use strict";
         function LoggerAdapter(logger) {
-            swcHelpers.classCallCheck(this, LoggerAdapter), this.logger = logger, this._information = this.logger.information(), this._debug = this.logger.debug(), this._warning = this.logger.warning(), this._error = this.logger.error(), this._fatal = this.logger.fatal();
+            _class_call_check(this, LoggerAdapter), this.logger = logger, this._information = this.logger.information(), this._debug = this.logger.debug(), this._warning = this.logger.warning(), this._error = this.logger.error(), this._fatal = this.logger.fatal();
         }
         var _proto = LoggerAdapter.prototype;
         return _proto.information = function() {
@@ -55,7 +55,7 @@ import * as swcHelpers from "@swc/helpers";
     var BufferedLogger = function() {
         "use strict";
         function BufferedLogger() {
-            swcHelpers.classCallCheck(this, BufferedLogger), this.logContents = [];
+            _class_call_check(this, BufferedLogger), this.logContents = [];
         }
         var _proto = BufferedLogger.prototype;
         return _proto.information = function() {

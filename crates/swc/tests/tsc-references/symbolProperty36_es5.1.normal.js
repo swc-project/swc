@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _define_property from "@swc/helpers/lib/_define_property.js";
 var _obj;
 //@target: ES6
-var x = (_obj = {}, swcHelpers.defineProperty(_obj, Symbol.isConcatSpreadable, 0), swcHelpers.defineProperty(_obj, Symbol.isConcatSpreadable, 1), _obj);
+var x = (_obj = {}, _define_property(_obj, Symbol.isConcatSpreadable, 0), _define_property(_obj, Symbol.isConcatSpreadable, 1), _obj);

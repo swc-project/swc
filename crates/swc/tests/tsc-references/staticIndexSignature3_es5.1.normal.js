@@ -1,35 +1,37 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 // @strict: true
 var B = function B() {
     "use strict";
-    swcHelpers.classCallCheck(this, B);
+    _class_call_check(this, B);
 };
 var D = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(D, B);
-    var _super = swcHelpers.createSuper(D);
+    _inherits(D, B);
+    var _super = _create_super(D);
     function D() {
-        swcHelpers.classCallCheck(this, D);
+        _class_call_check(this, D);
         return _super.apply(this, arguments);
     }
     return D;
 }(B);
 var ED = /*#__PURE__*/ function(D) {
     "use strict";
-    swcHelpers.inherits(ED, D);
-    var _super = swcHelpers.createSuper(ED);
+    _inherits(ED, D);
+    var _super = _create_super(ED);
     function ED() {
-        swcHelpers.classCallCheck(this, ED);
+        _class_call_check(this, ED);
         return _super.apply(this, arguments);
     }
     return ED;
 }(D);
 var DD = /*#__PURE__*/ function(D) {
     "use strict";
-    swcHelpers.inherits(DD, D);
-    var _super = swcHelpers.createSuper(DD);
+    _inherits(DD, D);
+    var _super = _create_super(DD);
     function DD() {
-        swcHelpers.classCallCheck(this, DD);
+        _class_call_check(this, DD);
         return _super.apply(this, arguments);
     }
     return DD;

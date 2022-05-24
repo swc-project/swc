@@ -1,19 +1,19 @@
 var JustStrings, NumbersAndStrings;
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 !function(JustStrings) {
     var S = function() {
         "use strict";
-        swcHelpers.classCallCheck(this, S);
+        _class_call_check(this, S);
     }, T = function() {
         "use strict";
-        swcHelpers.classCallCheck(this, T);
+        _class_call_check(this, T);
     };
 }(JustStrings || (JustStrings = {})), function(NumbersAndStrings) {
     var S = function() {
         "use strict";
-        swcHelpers.classCallCheck(this, S);
+        _class_call_check(this, S);
     }, T = function() {
         "use strict";
-        swcHelpers.classCallCheck(this, T);
+        _class_call_check(this, T);
     };
 }(NumbersAndStrings || (NumbersAndStrings = {}));

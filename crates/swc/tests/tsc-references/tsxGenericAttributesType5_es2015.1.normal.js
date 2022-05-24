@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 // @filename: file.tsx
 // @jsx: preserve
 // @noLib: true
@@ -12,7 +12,7 @@ class B1 extends React.Component {
 }
 class B extends React.Component {
     render() {
-        return /*#__PURE__*/ React.createElement(B1, swcHelpers.extends({}, this.props, {
+        return /*#__PURE__*/ React.createElement(B1, _extends({}, this.props, {
             x: "hi"
         }));
     }

@@ -1,11 +1,11 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
 function scanUser(groups) {
     return _scanUser.apply(this, arguments);
 }
 function _scanUser() {
-    _scanUser = swcHelpers.asyncToGenerator(function*(groups) {
+    _scanUser = _async_to_generator(function*(groups) {
         yield Promise.all(groups.map(function() {
-            var _ref = swcHelpers.asyncToGenerator(function*({ users  }) {
+            var _ref = _async_to_generator(function*({ users  }) {
                 for (const user of users){
                     console.log("user", user);
                     yield new Promise((resolve)=>setTimeout(resolve, 30));

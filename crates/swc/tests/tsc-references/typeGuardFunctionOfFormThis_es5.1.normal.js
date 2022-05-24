@@ -1,25 +1,28 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _instanceof from "@swc/helpers/lib/_instanceof.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 // @declaration: true
 var RoyalGuard = /*#__PURE__*/ function() {
     "use strict";
     function RoyalGuard() {
-        swcHelpers.classCallCheck(this, RoyalGuard);
+        _class_call_check(this, RoyalGuard);
     }
     var _proto = RoyalGuard.prototype;
     _proto.isLeader = function isLeader() {
-        return swcHelpers._instanceof(this, LeadGuard);
+        return _instanceof(this, LeadGuard);
     };
     _proto.isFollower = function isFollower() {
-        return swcHelpers._instanceof(this, FollowerGuard);
+        return _instanceof(this, FollowerGuard);
     };
     return RoyalGuard;
 }();
 var LeadGuard = /*#__PURE__*/ function(RoyalGuard) {
     "use strict";
-    swcHelpers.inherits(LeadGuard, RoyalGuard);
-    var _super = swcHelpers.createSuper(LeadGuard);
+    _inherits(LeadGuard, RoyalGuard);
+    var _super = _create_super(LeadGuard);
     function LeadGuard() {
-        swcHelpers.classCallCheck(this, LeadGuard);
+        _class_call_check(this, LeadGuard);
         return _super.apply(this, arguments);
     }
     var _proto = LeadGuard.prototype;
@@ -28,10 +31,10 @@ var LeadGuard = /*#__PURE__*/ function(RoyalGuard) {
 }(RoyalGuard);
 var FollowerGuard = /*#__PURE__*/ function(RoyalGuard) {
     "use strict";
-    swcHelpers.inherits(FollowerGuard, RoyalGuard);
-    var _super = swcHelpers.createSuper(FollowerGuard);
+    _inherits(FollowerGuard, RoyalGuard);
+    var _super = _create_super(FollowerGuard);
     function FollowerGuard() {
-        swcHelpers.classCallCheck(this, FollowerGuard);
+        _class_call_check(this, FollowerGuard);
         return _super.apply(this, arguments);
     }
     var _proto = FollowerGuard.prototype;
@@ -73,20 +76,20 @@ if (holder2.a.isLeader()) {
 var ArrowGuard = function ArrowGuard() {
     "use strict";
     var _this = this;
-    swcHelpers.classCallCheck(this, ArrowGuard);
+    _class_call_check(this, ArrowGuard);
     this.isElite = function() {
-        return swcHelpers._instanceof(_this, ArrowElite);
+        return _instanceof(_this, ArrowElite);
     };
     this.isMedic = function() {
-        return swcHelpers._instanceof(_this, ArrowMedic);
+        return _instanceof(_this, ArrowMedic);
     };
 };
 var ArrowElite = /*#__PURE__*/ function(ArrowGuard) {
     "use strict";
-    swcHelpers.inherits(ArrowElite, ArrowGuard);
-    var _super = swcHelpers.createSuper(ArrowElite);
+    _inherits(ArrowElite, ArrowGuard);
+    var _super = _create_super(ArrowElite);
     function ArrowElite() {
-        swcHelpers.classCallCheck(this, ArrowElite);
+        _class_call_check(this, ArrowElite);
         return _super.apply(this, arguments);
     }
     var _proto = ArrowElite.prototype;
@@ -95,10 +98,10 @@ var ArrowElite = /*#__PURE__*/ function(ArrowGuard) {
 }(ArrowGuard);
 var ArrowMedic = /*#__PURE__*/ function(ArrowGuard) {
     "use strict";
-    swcHelpers.inherits(ArrowMedic, ArrowGuard);
-    var _super = swcHelpers.createSuper(ArrowMedic);
+    _inherits(ArrowMedic, ArrowGuard);
+    var _super = _create_super(ArrowMedic);
     function ArrowMedic() {
-        swcHelpers.classCallCheck(this, ArrowMedic);
+        _class_call_check(this, ArrowMedic);
         return _super.apply(this, arguments);
     }
     var _proto = ArrowMedic.prototype;
@@ -123,23 +126,23 @@ a.isLeader = b.isLeader;
 var MimicGuard = /*#__PURE__*/ function() {
     "use strict";
     function MimicGuard() {
-        swcHelpers.classCallCheck(this, MimicGuard);
+        _class_call_check(this, MimicGuard);
     }
     var _proto = MimicGuard.prototype;
     _proto.isLeader = function isLeader() {
-        return swcHelpers._instanceof(this, MimicLeader);
+        return _instanceof(this, MimicLeader);
     };
     _proto.isFollower = function isFollower() {
-        return swcHelpers._instanceof(this, MimicFollower);
+        return _instanceof(this, MimicFollower);
     };
     return MimicGuard;
 }();
 var MimicLeader = /*#__PURE__*/ function(MimicGuard) {
     "use strict";
-    swcHelpers.inherits(MimicLeader, MimicGuard);
-    var _super = swcHelpers.createSuper(MimicLeader);
+    _inherits(MimicLeader, MimicGuard);
+    var _super = _create_super(MimicLeader);
     function MimicLeader() {
-        swcHelpers.classCallCheck(this, MimicLeader);
+        _class_call_check(this, MimicLeader);
         return _super.apply(this, arguments);
     }
     var _proto = MimicLeader.prototype;
@@ -148,10 +151,10 @@ var MimicLeader = /*#__PURE__*/ function(MimicGuard) {
 }(MimicGuard);
 var MimicFollower = /*#__PURE__*/ function(MimicGuard) {
     "use strict";
-    swcHelpers.inherits(MimicFollower, MimicGuard);
-    var _super = swcHelpers.createSuper(MimicFollower);
+    _inherits(MimicFollower, MimicGuard);
+    var _super = _create_super(MimicFollower);
     function MimicFollower() {
-        swcHelpers.classCallCheck(this, MimicFollower);
+        _class_call_check(this, MimicFollower);
         return _super.apply(this, arguments);
     }
     var _proto = MimicFollower.prototype;

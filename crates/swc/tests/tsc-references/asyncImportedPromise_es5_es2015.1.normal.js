@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
 // @target: es5
 // @lib: es5,es2015.promise
 // @module: commonjs
@@ -7,7 +7,7 @@ export class Task extends Promise {
 }
 class Test {
     example() {
-        return swcHelpers.asyncToGenerator(function*() {
+        return _async_to_generator(function*() {
             return;
         })();
     }
