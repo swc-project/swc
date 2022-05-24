@@ -5,6 +5,9 @@
 
 
 
+- **(es/resolver)** Handle `var` after catch with the same name (#4772) ([e2da3dd](https://github.com/swc-project/swc/commit/e2da3ddc03a6386e308a1b68ffee0e6bc786c16b))
+
+
 - **(html/codegen)** Emit `textarea` and `pre` in foreign context (#4766) ([8662665](https://github.com/swc-project/swc/commit/86626659b148fa8d76a433385eea4818c58ac031))
 
 ### Features
