@@ -425,16 +425,15 @@ impl Scope {
                                 (import.src.span, Some((ns.local.sym.clone(), ns.local.span)))
                             });
 
-                        if !import.src.value.starts_with("@swc/helpers") {
-                            self.import_types.insert(import.src.value.clone(), true);
-                        }
+                        self.import_types.insert(import.src.value.clone(), true);
                     }
                     ImportSpecifier::Default(i) => {
+                        self.idents.insert(
+                            i.local.to_id(),
+                            (import.src.value.clone(), js_word!("default")),
+                        );
+
                         if !import.src.value.starts_with("@swc/helpers") {
-                            self.idents.insert(
-                                i.local.to_id(),
-                                (import.src.value.clone(), js_word!("default")),
-                            );
                             self.import_types
                                 .entry(import.src.value.clone())
                                 .or_insert(false);
