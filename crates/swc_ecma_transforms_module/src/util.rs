@@ -385,6 +385,23 @@ impl Scope {
 
             self.import_types.insert(import.src.value, true);
         } else {
+            self.imports
+                .entry(import.src.value.clone())
+                .and_modify(|(span, opt)| {
+                    if opt.is_none() {
+                        *span = import.src.span;
+
+                        let ident =
+                            private_ident!(import.src.span, local_name_for_src(&import.src.value));
+                        *opt = Some((ident.sym, ident.span));
+                    }
+                })
+                .or_insert_with(|| {
+                    let ident =
+                        private_ident!(import.src.span, local_name_for_src(&import.src.value));
+                    (import.src.span, Some((ident.sym, ident.span)))
+                });
+
             let mut has_non_default = false;
             for s in import.specifiers {
                 match s {
@@ -411,19 +428,6 @@ impl Scope {
                         self.import_types.insert(import.src.value.clone(), true);
                     }
                     ImportSpecifier::Default(i) => {
-                        let ident = i.local.clone();
-
-                        self.imports
-                            .entry(import.src.value.clone())
-                            .and_modify(|(span, opt)| {
-                                if opt.is_none() {
-                                    *span = import.src.span;
-
-                                    *opt = Some((ident.sym.clone(), ident.span));
-                                }
-                            })
-                            .or_insert_with(|| (import.src.span, Some((ident.sym, ident.span))));
-
                         if !import.src.value.starts_with("@swc/helpers") {
                             self.idents.insert(
                                 i.local.to_id(),
@@ -464,23 +468,6 @@ impl Scope {
                     }
                 }
             }
-
-            self.imports
-                .entry(import.src.value.clone())
-                .and_modify(|(span, opt)| {
-                    if opt.is_none() {
-                        *span = import.src.span;
-
-                        let ident =
-                            private_ident!(import.src.span, local_name_for_src(&import.src.value));
-                        *opt = Some((ident.sym, ident.span));
-                    }
-                })
-                .or_insert_with(|| {
-                    let ident =
-                        private_ident!(import.src.span, local_name_for_src(&import.src.value));
-                    (import.src.span, Some((ident.sym, ident.span)))
-                });
         }
     }
 
