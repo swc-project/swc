@@ -36,7 +36,7 @@ export default 1;
     "
 foo, bar;
 
-var a = 1;
+const a = 1;
 
 function foo() {}
 class bar {}
