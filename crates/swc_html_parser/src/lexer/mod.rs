@@ -465,6 +465,12 @@ where
         }
     }
 
+    fn set_force_quirks(&mut self) {
+        if let Some(Token::Doctype { force_quirks, .. }) = &mut self.cur_token {
+            *force_quirks = true;
+        }
+    }
+
     fn start_new_attribute(&mut self, c: Option<char>) {
         if let Some(ref mut token) = self.cur_token {
             match token {
@@ -3138,11 +3144,7 @@ where
                     // end-of-file token.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
-
-                        if let Some(Token::Doctype { force_quirks, .. }) = &mut self.cur_token {
-                            *force_quirks = true;
-                        }
-
+                        self.set_force_quirks();
                         self.emit_cur_token();
                         self.emit_token(Token::Eof);
 
@@ -3197,11 +3199,7 @@ where
                     // end-of-file token.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
-
-                        if let Some(Token::Doctype { force_quirks, .. }) = &mut self.cur_token {
-                            *force_quirks = true;
-                        }
-
+                        self.set_force_quirks();
                         self.emit_cur_token();
                         self.emit_token(Token::Eof);
 
@@ -3263,13 +3261,7 @@ where
                                 self.emit_error(
                                     ErrorKind::InvalidCharacterSequenceAfterDoctypeName,
                                 );
-
-                                if let Some(Token::Doctype { force_quirks, .. }) =
-                                    &mut self.cur_token
-                                {
-                                    *force_quirks = true;
-                                }
-
+                                self.set_force_quirks();
                                 self.reconsume_in_state(State::BogusDoctype);
                             }
                         }
@@ -3335,11 +3327,7 @@ where
                     // the current DOCTYPE token.
                     Some('>') => {
                         self.emit_error(ErrorKind::MissingDoctypePublicIdentifier);
-
-                        if let Some(Token::Doctype { force_quirks, .. }) = &mut self.cur_token {
-                            *force_quirks = true;
-                        }
-
+                        self.set_force_quirks();
                         self.state = State::Data;
                         self.emit_cur_token();
                     }
@@ -3349,11 +3337,7 @@ where
                     // end-of-file token.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
-
-                        if let Some(Token::Doctype { force_quirks, .. }) = &mut self.cur_token {
-                            *force_quirks = true;
-                        }
-
+                        self.set_force_quirks();
                         self.emit_cur_token();
                         self.emit_token(Token::Eof);
 
@@ -3365,11 +3349,7 @@ where
                     // bogus DOCTYPE state.
                     _ => {
                         self.emit_error(ErrorKind::MissingQuoteBeforeDoctypePublicIdentifier);
-
-                        if let Some(Token::Doctype { force_quirks, .. }) = &mut self.cur_token {
-                            *force_quirks = true;
-                        }
-
+                        self.set_force_quirks();
                         self.reconsume_in_state(State::BogusDoctype);
                     }
                 }
@@ -3426,13 +3406,8 @@ where
                     // the current DOCTYPE token.
                     Some('>') => {
                         self.emit_error(ErrorKind::MissingDoctypePublicIdentifier);
-
-                        if let Some(Token::Doctype { force_quirks, .. }) = &mut self.cur_token {
-                            *force_quirks = true;
-                        }
-
+                        self.set_force_quirks();
                         self.state = State::Data;
-
                         self.emit_cur_token();
                     }
                     // EOF
@@ -3441,11 +3416,7 @@ where
                     // end-of-file token.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
-
-                        if let Some(Token::Doctype { force_quirks, .. }) = &mut self.cur_token {
-                            *force_quirks = true;
-                        }
-
+                        self.set_force_quirks();
                         self.emit_cur_token();
                         self.emit_token(Token::Eof);
 
@@ -3457,11 +3428,7 @@ where
                     // bogus DOCTYPE state.
                     _ => {
                         self.emit_error(ErrorKind::MissingQuoteBeforeDoctypePublicIdentifier);
-
-                        if let Some(Token::Doctype { force_quirks, .. }) = &mut self.cur_token {
-                            *force_quirks = true;
-                        }
-
+                        self.set_force_quirks();
                         self.reconsume_in_state(State::BogusDoctype);
                     }
                 }
@@ -3501,11 +3468,7 @@ where
                     // the current DOCTYPE token.
                     Some('>') => {
                         self.emit_error(ErrorKind::AbruptDoctypePublicIdentifier);
-
-                        if let Some(Token::Doctype { force_quirks, .. }) = &mut self.cur_token {
-                            *force_quirks = true;
-                        }
-
+                        self.set_force_quirks();
                         self.state = State::Data;
                         self.emit_cur_token();
                     }
@@ -3515,11 +3478,7 @@ where
                     // end-of-file token.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
-
-                        if let Some(Token::Doctype { force_quirks, .. }) = &mut self.cur_token {
-                            *force_quirks = true;
-                        }
-
+                        self.set_force_quirks();
                         self.emit_cur_token();
                         self.emit_token(Token::Eof);
 
@@ -3579,11 +3538,7 @@ where
                     // the current DOCTYPE token.
                     Some('>') => {
                         self.emit_error(ErrorKind::AbruptDoctypePublicIdentifier);
-
-                        if let Some(Token::Doctype { force_quirks, .. }) = &mut self.cur_token {
-                            *force_quirks = true;
-                        }
-
+                        self.set_force_quirks();
                         self.state = State::Data;
                         self.emit_cur_token();
                     }
@@ -3593,11 +3548,7 @@ where
                     // end-of-file token.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
-
-                        if let Some(Token::Doctype { force_quirks, .. }) = &mut self.cur_token {
-                            *force_quirks = true;
-                        }
-
+                        self.set_force_quirks();
                         self.emit_cur_token();
                         self.emit_token(Token::Eof);
 
@@ -3691,11 +3642,7 @@ where
                     // end-of-file token.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
-
-                        if let Some(Token::Doctype { force_quirks, .. }) = &mut self.cur_token {
-                            *force_quirks = true;
-                        }
-
+                        self.set_force_quirks();
                         self.emit_cur_token();
                         self.emit_token(Token::Eof);
 
@@ -3707,11 +3654,7 @@ where
                     // bogus DOCTYPE state.
                     _ => {
                         self.emit_error(ErrorKind::MissingQuoteBeforeDoctypeSystemIdentifier);
-
-                        if let Some(Token::Doctype { force_quirks, .. }) = &mut self.cur_token {
-                            *force_quirks = true;
-                        }
-
+                        self.set_force_quirks();
                         self.reconsume_in_state(State::BogusDoctype);
                     }
                 }
@@ -3774,11 +3717,7 @@ where
                     // end-of-file token.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
-
-                        if let Some(Token::Doctype { force_quirks, .. }) = &mut self.cur_token {
-                            *force_quirks = true;
-                        }
-
+                        self.set_force_quirks();
                         self.emit_cur_token();
                         self.emit_token(Token::Eof);
 
@@ -3790,11 +3729,7 @@ where
                     // bogus DOCTYPE state
                     _ => {
                         self.emit_error(ErrorKind::MissingQuoteBeforeDoctypeSystemIdentifier);
-
-                        if let Some(Token::Doctype { force_quirks, .. }) = &mut self.cur_token {
-                            *force_quirks = true;
-                        }
-
+                        self.set_force_quirks();
                         self.reconsume_in_state(State::BogusDoctype);
                     }
                 }
@@ -3858,11 +3793,7 @@ where
                     // the current DOCTYPE token.
                     Some('>') => {
                         self.emit_error(ErrorKind::MissingDoctypeSystemIdentifier);
-
-                        if let Some(Token::Doctype { force_quirks, .. }) = &mut self.cur_token {
-                            *force_quirks = true;
-                        }
-
+                        self.set_force_quirks();
                         self.state = State::Data;
                         self.emit_cur_token();
                     }
@@ -3872,11 +3803,7 @@ where
                     // end-of-file token.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
-
-                        if let Some(Token::Doctype { force_quirks, .. }) = &mut self.cur_token {
-                            *force_quirks = true;
-                        }
-
+                        self.set_force_quirks();
                         self.emit_cur_token();
                         self.emit_token(Token::Eof);
 
@@ -3888,11 +3815,7 @@ where
                     // bogus DOCTYPE state.
                     _ => {
                         self.emit_error(ErrorKind::MissingQuoteBeforeDoctypeSystemIdentifier);
-
-                        if let Some(Token::Doctype { force_quirks, .. }) = &mut self.cur_token {
-                            *force_quirks = true;
-                        }
-
+                        self.set_force_quirks();
                         self.reconsume_in_state(State::BogusDoctype);
                     }
                 }
@@ -3949,11 +3872,7 @@ where
                     // the current DOCTYPE token.
                     Some('>') => {
                         self.emit_error(ErrorKind::EofInDoctype);
-
-                        if let Some(Token::Doctype { force_quirks, .. }) = &mut self.cur_token {
-                            *force_quirks = true;
-                        }
-
+                        self.set_force_quirks();
                         self.state = State::Data;
                         self.emit_cur_token();
                     }
@@ -3963,11 +3882,7 @@ where
                     // end-of-file token.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
-
-                        if let Some(Token::Doctype { force_quirks, .. }) = &mut self.cur_token {
-                            *force_quirks = true;
-                        }
-
+                        self.set_force_quirks();
                         self.emit_cur_token();
                         self.emit_token(Token::Eof);
 
@@ -3979,11 +3894,7 @@ where
                     // bogus DOCTYPE state.
                     _ => {
                         self.emit_error(ErrorKind::MissingQuoteBeforeDoctypeSystemIdentifier);
-
-                        if let Some(Token::Doctype { force_quirks, .. }) = &mut self.cur_token {
-                            *force_quirks = true;
-                        }
-
+                        self.set_force_quirks();
                         self.reconsume_in_state(State::BogusDoctype);
                     }
                 }
@@ -4011,11 +3922,7 @@ where
                     // the current DOCTYPE token.
                     Some('>') => {
                         self.emit_error(ErrorKind::AbruptDoctypeSystemIdentifier);
-
-                        if let Some(Token::Doctype { force_quirks, .. }) = &mut self.cur_token {
-                            *force_quirks = true;
-                        }
-
+                        self.set_force_quirks();
                         self.state = State::Data;
                         self.emit_cur_token();
                     }
@@ -4025,11 +3932,7 @@ where
                     // end-of-file token.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
-
-                        if let Some(Token::Doctype { force_quirks, .. }) = &mut self.cur_token {
-                            *force_quirks = true;
-                        }
-
+                        self.set_force_quirks();
                         self.emit_cur_token();
                         self.emit_token(Token::Eof);
 
@@ -4066,11 +3969,7 @@ where
                     // the current DOCTYPE token.
                     Some('>') => {
                         self.emit_error(ErrorKind::AbruptDoctypeSystemIdentifier);
-
-                        if let Some(Token::Doctype { force_quirks, .. }) = &mut self.cur_token {
-                            *force_quirks = true;
-                        }
-
+                        self.set_force_quirks();
                         self.state = State::Data;
                         self.emit_cur_token();
                     }
@@ -4080,11 +3979,7 @@ where
                     // end-of-file token.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
-
-                        if let Some(Token::Doctype { force_quirks, .. }) = &mut self.cur_token {
-                            *force_quirks = true;
-                        }
-
+                        self.set_force_quirks();
                         self.emit_cur_token();
                         self.emit_token(Token::Eof);
 
@@ -4122,11 +4017,7 @@ where
                     // end-of-file token.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
-
-                        if let Some(Token::Doctype { force_quirks, .. }) = &mut self.cur_token {
-                            *force_quirks = true;
-                        }
-
+                        self.set_force_quirks();
                         self.emit_cur_token();
                         self.emit_token(Token::Eof);
 
