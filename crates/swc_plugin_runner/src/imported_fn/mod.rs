@@ -73,7 +73,8 @@ use handler::*;
 use hygiene::*;
 
 use self::source_map::{
-    doctest_offset_line_proxy, lookup_char_pos_proxy, merge_spans_proxy, SourceMapHostEnvironment,
+    doctest_offset_line_proxy, lookup_char_pos_proxy, merge_spans_proxy, span_to_filename_proxy,
+    span_to_lines_proxy, span_to_string_proxy, SourceMapHostEnvironment,
 };
 
 /// Create an ImportObject includes functions to be imported from host to the
@@ -227,6 +228,24 @@ pub(crate) fn build_import_object(
         merge_spans_proxy,
     );
 
+    let span_to_string_fn_decl = Function::new_native_with_env(
+        wasmer_store,
+        SourceMapHostEnvironment::new(&source_map, &source_map_buffer),
+        span_to_string_proxy,
+    );
+
+    let span_to_filename_fn_decl = Function::new_native_with_env(
+        wasmer_store,
+        SourceMapHostEnvironment::new(&source_map, &source_map_buffer),
+        span_to_filename_proxy,
+    );
+
+    let span_to_lines_fn_decl = Function::new_native_with_env(
+        wasmer_store,
+        SourceMapHostEnvironment::new(&source_map, &source_map_buffer),
+        span_to_lines_proxy,
+    );
+
     imports! {
         "env" => {
             // transform
@@ -264,6 +283,9 @@ pub(crate) fn build_import_object(
             "__lookup_char_pos_source_map_proxy" =>lookup_char_pos_source_map_fn_decl,
             "__doctest_offset_line_proxy" => doctest_offset_line_fn_decl,
             "__merge_spans_proxy" => merge_spans_fn_decl,
+            "__span_to_string_proxy" => span_to_string_fn_decl,
+            "__span_to_filename_proxy" => span_to_filename_fn_decl,
+            "__span_to_lines_proxy" =>span_to_lines_fn_decl
         }
     }
 }
