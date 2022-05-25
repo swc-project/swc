@@ -16,5 +16,5 @@ bench = false
 [target.'cfg(not(target_os = "linux"))'.dependencies]
 mimalloc-rust = { version = "0.1" }
 
-[target.'cfg(all(target_os = "linux", target_env = "gnu", all(target_arch = "x86_64", target_arch = "aarch64")))'.dependencies]
+[target.'cfg(target_os = "linux")'.dependencies]
 tikv-jemallocator = { version = "0.4", features = ["disable_initial_exec_tls"] }
