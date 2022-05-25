@@ -133,7 +133,16 @@ struct Tag {
     tag_name: String,
     raw_tag_name: Option<String>,
     self_closing: bool,
-    attributes: Vec<AttributeToken>,
+    attributes: Vec<Attribute>,
+}
+
+#[derive(PartialEq, Eq, Clone, Debug)]
+struct Attribute {
+    span: Span,
+    name: String,
+    raw_name: Option<String>,
+    value: Option<String>,
+    raw_value: Option<String>,
 }
 
 pub(crate) type LexResult<T> = Result<T, ErrorKind>;
@@ -379,26 +388,15 @@ where
         if self.is_consumed_as_part_of_an_attribute() {
             if let Some(Tag { attributes, .. }) = &mut self.current_tag_token {
                 if let Some(attribute) = attributes.last_mut() {
-                    let mut new_value = String::new();
-                    let mut raw_new_value = String::new();
-
-                    if let Some(value) = &attribute.value {
-                        new_value.push_str(value);
-                    }
-
-                    if let Some(raw_value) = &attribute.raw_value {
-                        raw_new_value.push_str(raw_value);
-                    }
-
                     if let Some(mut temporary_buffer) = self.temporary_buffer.take() {
                         for c in temporary_buffer.drain(..) {
-                            new_value.push(c);
-                            raw_new_value.push(c);
+                            attribute.name.push(c);
+
+                            if let Some(raw_name) = &mut attribute.raw_name {
+                                raw_name.push(c);
+                            }
                         }
                     }
-
-                    attribute.value = Some(new_value.into());
-                    attribute.raw_value = Some(raw_new_value.into());
                 }
             }
         } else if let Some(mut temporary_buffer) = self.temporary_buffer.take() {
@@ -569,7 +567,7 @@ where
     fn start_new_attribute(&mut self, c: Option<char>) {
         if let Some(Tag { attributes, .. }) = &mut self.current_tag_token {
             if let Some(c) = c {
-                attributes.push(AttributeToken {
+                attributes.push(Attribute {
                     span: Default::default(),
                     name: c.to_string().into(),
                     raw_name: Some(c.to_string().into()),
@@ -577,7 +575,7 @@ where
                     raw_value: None,
                 });
             } else {
-                attributes.push(AttributeToken {
+                attributes.push(Attribute {
                     span: Default::default(),
                     name: "".into(),
                     raw_name: Some("".into()),
@@ -598,41 +596,21 @@ where
         if let Some(Tag { attributes, .. }) = &mut self.current_tag_token {
             if let Some(attribute) = attributes.last_mut() {
                 if let Some(name) = name {
-                    let mut new_name = String::new();
+                    attribute.name.push(name.0);
 
-                    new_name.push_str(&attribute.name);
-                    new_name.push(name.0);
-
-                    attribute.name = new_name.into();
-
-                    let mut raw_new_name = String::new();
-
-                    raw_new_name.push_str(attribute.raw_name.as_ref().unwrap());
-                    raw_new_name.push(name.1);
-
-                    attribute.raw_name = Some(raw_new_name.into());
+                    if let Some(raw_name) = &mut attribute.raw_name {
+                        raw_name.push(name.1);
+                    }
                 }
 
                 if let Some(value) = value {
-                    let mut new_value = String::new();
-
-                    if let Some(value) = &attribute.value {
-                        new_value.push_str(value);
+                    if let Some(old_value) = &mut attribute.value {
+                        old_value.push(value.0);
                     }
 
-                    new_value.push(value.0);
-
-                    attribute.value = Some(new_value.into());
-
-                    let mut raw_new_value = String::new();
-
-                    if let Some(raw_value) = &attribute.raw_value {
-                        raw_new_value.push_str(raw_value);
+                    if let Some(raw_value) = &mut attribute.raw_value {
+                        raw_value.push(value.1);
                     }
-
-                    raw_new_value.push(value.1);
-
-                    attribute.raw_value = Some(raw_new_value.into());
                 }
             }
         }
@@ -641,11 +619,11 @@ where
     fn append_raw_to_attribute_value(&mut self, before: bool, c: char) {
         if let Some(Tag { attributes, .. }) = &mut self.current_tag_token {
             if let Some(attribute) = attributes.last_mut() {
+                attribute.value = Some("".into());
+
                 let mut raw_new_value = String::new();
 
                 if before {
-                    attribute.value = Some("".into());
-
                     raw_new_value.push(c);
                 }
 
@@ -706,14 +684,24 @@ where
     }
 
     fn emit_current_tag_token(&mut self) {
-        if let Some(current_tag_token) = self.current_tag_token.take() {
+        if let Some(mut current_tag_token) = self.current_tag_token.take() {
             match current_tag_token.kind {
                 TagKind::Start => {
                     let start_tag_token = Token::StartTag {
                         tag_name: current_tag_token.tag_name.into(),
                         raw_tag_name: current_tag_token.raw_tag_name.map(JsWord::from),
                         self_closing: current_tag_token.self_closing,
-                        attributes: current_tag_token.attributes,
+                        attributes: current_tag_token
+                            .attributes
+                            .drain(..)
+                            .map(|attribute| AttributeToken {
+                                span: attribute.span,
+                                name: attribute.name.into(),
+                                raw_name: attribute.raw_name.map(JsWord::from),
+                                value: attribute.value.map(JsWord::from),
+                                raw_value: attribute.raw_value.map(JsWord::from),
+                            })
+                            .collect(),
                     };
 
                     self.last_start_tag_token = Some(start_tag_token.clone());
@@ -733,7 +721,17 @@ where
                         tag_name: current_tag_token.tag_name.into(),
                         raw_tag_name: current_tag_token.raw_tag_name.map(JsWord::from),
                         self_closing: current_tag_token.self_closing,
-                        attributes: current_tag_token.attributes,
+                        attributes: current_tag_token
+                            .attributes
+                            .drain(..)
+                            .map(|attribute| AttributeToken {
+                                span: attribute.span,
+                                name: attribute.name.into(),
+                                raw_name: attribute.raw_name.map(JsWord::from),
+                                value: attribute.value.map(JsWord::from),
+                                raw_value: attribute.raw_value.map(JsWord::from),
+                            })
+                            .collect(),
                     };
 
                     self.emit_token(end_tag_token);
@@ -3182,7 +3180,7 @@ where
                     // error. Set the current DOCTYPE token's force-quirks flag to on. Reconsume
                     // in the bogus DOCTYPE state.
                     Some(c) => {
-                        let mut first_six_chars = String::new();
+                        let mut first_six_chars = String::with_capacity(5);
 
                         first_six_chars.push(c);
 
