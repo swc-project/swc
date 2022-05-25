@@ -294,59 +294,60 @@ where
         self.pending_tokens.push(token_and_span);
     }
 
-    fn update_attribute_span(&mut self) {
-        if let Some(attribute_start_position) = self.attribute_start_position {
-            if let Some(mut token) = self.cur_token.take() {
-                match token {
-                    Token::StartTag {
-                        ref mut attributes, ..
-                    }
-                    | Token::EndTag {
-                        ref mut attributes, ..
-                    } => {
-                        if let Some(last) = attributes.last_mut() {
-                            last.span = Span::new(
-                                attribute_start_position,
-                                self.cur_pos,
-                                Default::default(),
-                            );
-                        }
+    fn emit_character_token(&mut self, c: char, raw_c: Option<char>) {
+        let mut raw = if raw_c.is_some() {
+            String::with_capacity(1)
+        } else {
+            String::new()
+        };
 
-                        self.cur_token = Some(token);
-                    }
-                    _ => {}
-                }
+        if let Some(raw_c) = raw_c {
+            raw.push(raw_c);
+        }
+
+        let mut normalized_c = c;
+        let is_cr = c == '\r';
+
+        if is_cr {
+            normalized_c = '\n';
+
+            if self.input.cur() == Some('\n') {
+                self.input.bump();
+
+                raw.push('\n');
             }
         }
+
+        self.emit_token(Token::Character {
+            value: normalized_c,
+            raw: Some(raw.into()),
+        });
     }
 
-    fn leave_attribute_name_state(&mut self) {
-        if let Some(Token::StartTag { attributes, .. } | Token::EndTag { attributes, .. }) =
-            &self.cur_token
-        {
-            let last_attribute = match attributes.last() {
-                Some(attribute) => attribute,
-                _ => {
-                    return;
+    fn emit_cur_token(&mut self) {
+        let token = self.cur_token.take();
+
+        match token {
+            Some(token) => {
+                if let Token::EndTag {
+                    attributes,
+                    self_closing,
+                    ..
+                } = &token
+                {
+                    if !attributes.is_empty() {
+                        self.emit_error(ErrorKind::EndTagWithAttributes);
+                    }
+
+                    if *self_closing {
+                        self.emit_error(ErrorKind::EndTagWithTrailingSolidus);
+                    }
                 }
-            };
 
-            let mut has_duplicate = false;
-
-            for (i, attribute) in attributes.iter().enumerate() {
-                if i == attributes.len() - 1 {
-                    continue;
-                }
-
-                if attribute.name == last_attribute.name {
-                    has_duplicate = true;
-
-                    break;
-                }
+                self.emit_token(token);
             }
-
-            if has_duplicate {
-                self.emit_error(ErrorKind::DuplicateAttribute);
+            _ => {
+                unreachable!();
             }
         }
     }
@@ -427,118 +428,6 @@ where
         }
     }
 
-    fn append_to_comment_token(&mut self, c: char, _raw_c: Option<char>) {
-        if let Some(Token::Comment { data, .. }) = &mut self.cur_token {
-            let mut new_data = String::new();
-
-            new_data.push_str(data);
-
-            let mut normalized_c = c;
-            let is_cr = c == '\r';
-
-            if is_cr {
-                normalized_c = '\n';
-
-                if self.input.cur() == Some('\n') {
-                    self.input.bump();
-                }
-            }
-
-            new_data.push(normalized_c);
-
-            *data = new_data.into();
-        }
-    }
-
-    fn append_to_doctype_token(
-        &mut self,
-        raw_keyword: Option<String>,
-        name: Option<(char, char)>,
-        public_id: Option<(char, char)>,
-        system_id: Option<(char, char)>,
-    ) {
-        if let Some(Token::Doctype {
-            raw_public_keyword: Some(raw_public_keyword),
-            name: Some(old_name),
-            raw_name: Some(old_raw_name),
-            public_id: Some(old_public_id),
-            system_id: Some(old_system_id),
-            ..
-        }) = &mut self.cur_token
-        {
-            if let Some(raw_keyword) = raw_keyword {
-                *raw_public_keyword = raw_keyword.into();
-            }
-
-            if let Some(name) = name {
-                let mut new_name = String::new();
-                let mut new_raw_name = String::new();
-
-                new_name.push_str(old_name);
-                new_name.push(name.0);
-
-                new_raw_name.push_str(old_raw_name);
-                new_raw_name.push(name.1);
-
-                *old_name = new_name.into();
-                *old_raw_name = new_raw_name.into();
-            }
-
-            if let Some(public_id) = public_id {
-                let mut new_public_id = String::new();
-
-                new_public_id.push_str(old_public_id);
-                new_public_id.push(public_id.0);
-
-                *old_public_id = new_public_id.into();
-            }
-
-            if let Some(system_id) = system_id {
-                let mut new_system_id = String::new();
-
-                new_system_id.push_str(old_system_id);
-                new_system_id.push(system_id.0);
-
-                *old_system_id = new_system_id.into();
-            }
-        }
-    }
-
-    fn set_force_quirks(&mut self) {
-        if let Some(Token::Doctype { force_quirks, .. }) = &mut self.cur_token {
-            *force_quirks = true;
-        }
-    }
-
-    fn start_new_attribute(&mut self, c: Option<char>) {
-        if let Some(ref mut token) = self.cur_token {
-            match token {
-                Token::StartTag { attributes, .. } | Token::EndTag { attributes, .. } => {
-                    if let Some(c) = c {
-                        attributes.push(AttributeToken {
-                            span: Default::default(),
-                            name: c.to_string().into(),
-                            raw_name: Some(c.to_string().into()),
-                            value: None,
-                            raw_value: None,
-                        });
-                    } else {
-                        attributes.push(AttributeToken {
-                            span: Default::default(),
-                            name: "".into(),
-                            raw_name: Some("".into()),
-                            value: None,
-                            raw_value: None,
-                        });
-                    };
-
-                    self.attribute_start_position = Some(self.cur_pos);
-                }
-                _ => {}
-            }
-        }
-    }
-
     fn create_doctype_token(&mut self, keyword: Option<String>, name: Option<(char, char)>) {
         self.cur_token = Some(Token::Doctype {
             raw_keyword: keyword.map(JsWord::from),
@@ -552,6 +441,85 @@ where
             raw_system_keyword: None,
             system_id: None,
         });
+    }
+
+    fn append_to_doctype_token(
+        &mut self,
+        raw_keyword: Option<String>,
+        name: Option<(char, char)>,
+        public_id: Option<(char, char)>,
+        system_id: Option<(char, char)>,
+    ) {
+        if let Some(ref mut token) = self.cur_token {
+            if let Some(raw_keyword) = raw_keyword {
+                if let Token::Doctype {
+                    raw_keyword: Some(old_raw_keyword),
+                    ..
+                } = token
+                {
+                    *old_raw_keyword = raw_keyword.into();
+                }
+            }
+
+            if let Some(name) = name {
+                if let Token::Doctype {
+                    name: Some(old_name),
+                    raw_name: Some(old_raw_name),
+                    ..
+                } = token
+                {
+                    let mut new_name = String::new();
+
+                    new_name.push_str(old_name);
+                    new_name.push(name.0);
+
+                    *old_name = new_name.into();
+
+                    let mut new_raw_name = String::new();
+
+                    new_raw_name.push_str(old_raw_name);
+                    new_raw_name.push(name.1);
+
+                    *old_raw_name = new_raw_name.into();
+                }
+            }
+
+            if let Some(public_id) = public_id {
+                if let Token::Doctype {
+                    public_id: Some(old_public_id),
+                    ..
+                } = token
+                {
+                    let mut new_public_id = String::new();
+
+                    new_public_id.push_str(old_public_id);
+                    new_public_id.push(public_id.0);
+
+                    *old_public_id = new_public_id.into();
+                }
+            }
+
+            if let Some(system_id) = system_id {
+                if let Token::Doctype {
+                    system_id: Some(old_system_id),
+                    ..
+                } = token
+                {
+                    let mut new_system_id = String::new();
+
+                    new_system_id.push_str(old_system_id);
+                    new_system_id.push(system_id.0);
+
+                    *old_system_id = new_system_id.into();
+                }
+            }
+        }
+    }
+
+    fn set_force_quirks(&mut self) {
+        if let Some(Token::Doctype { force_quirks, .. }) = &mut self.cur_token {
+            *force_quirks = true;
+        }
     }
 
     fn set_doctype_token_public_id(&mut self, quote: char) {
@@ -578,16 +546,6 @@ where
         }
     }
 
-    fn create_comment_token(&mut self, data: Option<String>) {
-        self.cur_token = Some(Token::Comment {
-            data: if let Some(data) = data {
-                data.into()
-            } else {
-                "".into()
-            },
-        });
-    }
-
     fn create_start_tag_token(&mut self) {
         self.cur_token = Some(Token::StartTag {
             tag_name: "".into(),
@@ -606,7 +564,7 @@ where
         });
     }
 
-    fn append_to_current_token(&mut self, c: char, raw_c: char) {
+    fn append_to_current_tag_token(&mut self, c: char, raw_c: char) {
         match &mut self.cur_token {
             Some(Token::StartTag {
                 tag_name,
@@ -643,6 +601,35 @@ where
                 *self_closing = true;
             }
             _ => {}
+        }
+    }
+
+    fn start_new_attribute(&mut self, c: Option<char>) {
+        if let Some(ref mut token) = self.cur_token {
+            match token {
+                Token::StartTag { attributes, .. } | Token::EndTag { attributes, .. } => {
+                    if let Some(c) = c {
+                        attributes.push(AttributeToken {
+                            span: Default::default(),
+                            name: c.to_string().into(),
+                            raw_name: Some(c.to_string().into()),
+                            value: None,
+                            raw_value: None,
+                        });
+                    } else {
+                        attributes.push(AttributeToken {
+                            span: Default::default(),
+                            name: "".into(),
+                            raw_name: Some("".into()),
+                            value: None,
+                            raw_value: None,
+                        });
+                    };
+
+                    self.attribute_start_position = Some(self.cur_pos);
+                }
+                _ => {}
+            }
         }
     }
 
@@ -707,6 +694,8 @@ where
                         let mut raw_new_value = String::new();
 
                         if before {
+                            attribute.value = Some("".into());
+
                             raw_new_value.push(c);
                         }
 
@@ -726,61 +715,93 @@ where
         }
     }
 
-    fn emit_character_token(&mut self, c: char, raw_c: Option<char>) {
-        let mut raw = if raw_c.is_some() {
-            String::with_capacity(1)
-        } else {
-            String::new()
-        };
+    fn update_attribute_span(&mut self) {
+        if let Some(attribute_start_position) = self.attribute_start_position {
+            if let Some(mut token) = self.cur_token.take() {
+                match token {
+                    Token::StartTag {
+                        ref mut attributes, ..
+                    }
+                    | Token::EndTag {
+                        ref mut attributes, ..
+                    } => {
+                        if let Some(last) = attributes.last_mut() {
+                            last.span = Span::new(
+                                attribute_start_position,
+                                self.cur_pos,
+                                Default::default(),
+                            );
+                        }
 
-        if let Some(raw_c) = raw_c {
-            raw.push(raw_c);
-        }
-
-        let mut normalized_c = c;
-        let is_cr = c == '\r';
-
-        if is_cr {
-            normalized_c = '\n';
-
-            if self.input.cur() == Some('\n') {
-                self.input.bump();
-
-                raw.push('\n');
+                        self.cur_token = Some(token);
+                    }
+                    _ => {}
+                }
             }
         }
+    }
 
-        self.emit_token(Token::Character {
-            value: normalized_c,
-            raw: Some(raw.into()),
+    fn leave_attribute_name_state(&mut self) {
+        if let Some(Token::StartTag { attributes, .. } | Token::EndTag { attributes, .. }) =
+            &self.cur_token
+        {
+            let last_attribute = match attributes.last() {
+                Some(attribute) => attribute,
+                _ => {
+                    return;
+                }
+            };
+
+            let mut has_duplicate = false;
+
+            for (i, attribute) in attributes.iter().enumerate() {
+                if i == attributes.len() - 1 {
+                    continue;
+                }
+
+                if attribute.name == last_attribute.name {
+                    has_duplicate = true;
+
+                    break;
+                }
+            }
+
+            if has_duplicate {
+                self.emit_error(ErrorKind::DuplicateAttribute);
+            }
+        }
+    }
+
+    fn create_comment_token(&mut self, data: Option<String>) {
+        self.cur_token = Some(Token::Comment {
+            data: if let Some(data) = data {
+                data.into()
+            } else {
+                "".into()
+            },
         });
     }
 
-    fn emit_cur_token(&mut self) {
-        let token = self.cur_token.take();
+    fn append_to_comment_token(&mut self, c: char, _raw_c: Option<char>) {
+        if let Some(Token::Comment { data, .. }) = &mut self.cur_token {
+            let mut new_data = String::new();
 
-        match token {
-            Some(token) => {
-                if let Token::EndTag {
-                    attributes,
-                    self_closing,
-                    ..
-                } = &token
-                {
-                    if !attributes.is_empty() {
-                        self.emit_error(ErrorKind::EndTagWithAttributes);
-                    }
+            new_data.push_str(data);
 
-                    if *self_closing {
-                        self.emit_error(ErrorKind::EndTagWithTrailingSolidus);
-                    }
+            let mut normalized_c = c;
+            let is_cr = c == '\r';
+
+            if is_cr {
+                normalized_c = '\n';
+
+                if self.input.cur() == Some('\n') {
+                    self.input.bump();
                 }
+            }
 
-                self.emit_token(token);
-            }
-            _ => {
-                unreachable!();
-            }
+            new_data.push(normalized_c);
+
+            *data = new_data.into();
         }
     }
 
@@ -1082,14 +1103,14 @@ where
                     // Append the lowercase version of the current input character (add 0x0020
                     // to the character's code point) to the current tag token's tag name.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        self.append_to_current_token(c.to_ascii_lowercase(), c);
+                        self.append_to_current_tag_token(c.to_ascii_lowercase(), c);
                     }
                     // U+0000 NULL
                     // This is an unexpected-null-character parse error. Append a U+FFFD
                     // REPLACEMENT CHARACTER character to the current tag token's tag name.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_to_current_token(REPLACEMENT_CHARACTER, c);
+                        self.append_to_current_tag_token(REPLACEMENT_CHARACTER, c);
                     }
                     // EOF
                     // This is an eof-in-tag parse error. Emit an end-of-file token.
@@ -1102,7 +1123,7 @@ where
                     // Anything else
                     // Append the current input character to the current tag token's tag name.
                     Some(c) => {
-                        self.append_to_current_token(c, c);
+                        self.append_to_current_tag_token(c, c);
                     }
                 }
             }
@@ -1202,7 +1223,7 @@ where
                     // to the character's code point) to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        self.append_to_current_token(c.to_ascii_lowercase(), c);
+                        self.append_to_current_tag_token(c.to_ascii_lowercase(), c);
 
                         if let Some(ref mut temporary_buffer) = self.temporary_buffer {
                             temporary_buffer.push(c);
@@ -1212,7 +1233,7 @@ where
                     // Append the current input character to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_lower_alpha(c) => {
-                        self.append_to_current_token(c, c);
+                        self.append_to_current_tag_token(c, c);
 
                         if let Some(ref mut temporary_buffer) = self.temporary_buffer {
                             temporary_buffer.push(c);
@@ -1324,7 +1345,7 @@ where
                     // to the character's code point) to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        self.append_to_current_token(c.to_ascii_lowercase(), c);
+                        self.append_to_current_tag_token(c.to_ascii_lowercase(), c);
 
                         if let Some(ref mut temporary_buffer) = self.temporary_buffer {
                             temporary_buffer.push(c);
@@ -1334,7 +1355,7 @@ where
                     // Append the current input character to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_lower_alpha(c) => {
-                        self.append_to_current_token(c, c);
+                        self.append_to_current_tag_token(c, c);
 
                         if let Some(ref mut temporary_buffer) = self.temporary_buffer {
                             temporary_buffer.push(c);
@@ -1454,7 +1475,7 @@ where
                     // to the character's code point) to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        self.append_to_current_token(c.to_ascii_lowercase(), c);
+                        self.append_to_current_tag_token(c.to_ascii_lowercase(), c);
 
                         if let Some(ref mut temporary_buffer) = self.temporary_buffer {
                             temporary_buffer.push(c);
@@ -1464,7 +1485,7 @@ where
                     // Append the current input character to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_lower_alpha(c) => {
-                        self.append_to_current_token(c, c);
+                        self.append_to_current_tag_token(c, c);
 
                         if let Some(ref mut temporary_buffer) = self.temporary_buffer {
                             temporary_buffer.push(c);
@@ -1749,7 +1770,7 @@ where
                     // to the character's code point) to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        self.append_to_current_token(c.to_ascii_lowercase(), c);
+                        self.append_to_current_tag_token(c.to_ascii_lowercase(), c);
 
                         if let Some(ref mut temporary_buffer) = self.temporary_buffer {
                             temporary_buffer.push(c);
@@ -1759,7 +1780,7 @@ where
                     // Append the current input character to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_lower_alpha(c) => {
-                        self.append_to_current_token(c, c);
+                        self.append_to_current_tag_token(c, c);
 
                         if let Some(ref mut temporary_buffer) = self.temporary_buffer {
                             temporary_buffer.push(c);
