@@ -2,10 +2,8 @@
 
 extern crate swc_node_base;
 
-use std::process::Command;
-
 use ansi_term::Color;
-use anyhow::{bail, Context, Error};
+use anyhow::Error;
 use serde::Deserialize;
 use swc_common::{
     comments::SingleThreadedComments, errors::Handler, sync::Lrc, FileName, Mark, SourceMap,
@@ -23,6 +21,7 @@ use swc_ecma_minifier::{
     },
 };
 use swc_ecma_parser::{parse_file_as_module, EsConfig, Syntax};
+use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
 use swc_ecma_visit::{FoldWith, VisitMutWith};
 use testing::DebugUsingDisplay;
@@ -46,21 +45,13 @@ fn parse_compressor_config(cm: Lrc<SourceMap>, s: &str) -> (bool, CompressOption
 }
 
 fn stdout_of(code: &str) -> Result<String, Error> {
-    let actual_output = Command::new("node")
-        .arg("-e")
-        .arg(&code)
-        .output()
-        .context("failed to execute output of minifier")?;
-
-    if !actual_output.status.success() {
-        bail!(
-            "failed to execute:\n{}\n{}",
-            String::from_utf8_lossy(&actual_output.stdout),
-            String::from_utf8_lossy(&actual_output.stderr)
-        )
-    }
-
-    let stdout = String::from_utf8_lossy(&actual_output.stdout).to_string();
+    let stdout = exec_node_js(
+        code,
+        JsExecOptions {
+            cache: true,
+            module: false,
+        },
+    )?;
 
     info!("Stdout: {}", stdout);
 

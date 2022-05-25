@@ -1,0 +1,22 @@
+[package]
+authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+description = "Testing utilities for ecmascript"
+documentation = "https://rustdoc.swc.rs/swc_ecma_testing/"
+edition = "2021"
+license = "Apache-2.0"
+name = "swc_ecma_testing"
+repository = "https://github.com/swc-project/swc.git"
+version = "0.1.0"
+
+[lib]
+bench = false
+
+[dependencies]
+anyhow = "1"
+hex = "0.4"
+sha-1 = "0.10"
+swc_atoms = { version = "0.2.11", path = "../swc_atoms" }
+swc_common = { version = "0.18.7", path = "../swc_common" }
+swc_ecma_ast = { version = "0.78.1", path = "../swc_ecma_ast" }
+swc_ecma_codegen = { version = "0.108.5", path = "../swc_ecma_codegen" }
+testing = { version = "0.20.0", path = "../testing" }
