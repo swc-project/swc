@@ -390,10 +390,16 @@ where
                 if let Some(attribute) = attributes.last_mut() {
                     if let Some(mut temporary_buffer) = self.temporary_buffer.take() {
                         for c in temporary_buffer.drain(..) {
-                            attribute.name.push(c);
+                            if let Some(old_value) = &mut attribute.value {
+                                old_value.push(c);
+                            } else {
+                                attribute.value = Some(c.to_string());
+                            }
 
-                            if let Some(raw_name) = &mut attribute.raw_name {
-                                raw_name.push(c);
+                            if let Some(raw_value) = &mut attribute.raw_value {
+                                raw_value.push(c);
+                            } else {
+                                attribute.raw_value = Some(c.to_string());
                             }
                         }
                     }
@@ -606,10 +612,14 @@ where
                 if let Some(value) = value {
                     if let Some(old_value) = &mut attribute.value {
                         old_value.push(value.0);
+                    } else {
+                        attribute.value = Some(value.0.to_string());
                     }
 
                     if let Some(raw_value) = &mut attribute.raw_value {
                         raw_value.push(value.1);
+                    } else {
+                        attribute.raw_value = Some(value.1.to_string());
                     }
                 }
             }
@@ -619,11 +629,13 @@ where
     fn append_raw_to_attribute_value(&mut self, before: bool, c: char) {
         if let Some(Tag { attributes, .. }) = &mut self.current_tag_token {
             if let Some(attribute) = attributes.last_mut() {
-                attribute.value = Some("".into());
-
-                let mut raw_new_value = String::new();
+                let mut raw_new_value = String::with_capacity(2);
 
                 if before {
+                    if attribute.value.is_none() {
+                        attribute.value = Some(String::new());
+                    }
+
                     raw_new_value.push(c);
                 }
 
@@ -635,7 +647,7 @@ where
                     raw_new_value.push(c);
                 }
 
-                attribute.raw_value = Some(raw_new_value.into());
+                attribute.raw_value = Some(raw_new_value);
             }
         }
     }
