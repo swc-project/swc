@@ -11,7 +11,7 @@ pub trait ParserInput: Clone + Iterator<Item = TokenAndSpan> {
 
     fn take_errors(&mut self) -> Vec<Error>;
 
-    fn set_last_start_tag_token(&mut self, token: Token);
+    fn set_last_start_tag_name(&mut self, tag_name: &str);
 
     fn set_input_state(&mut self, state: State);
 
