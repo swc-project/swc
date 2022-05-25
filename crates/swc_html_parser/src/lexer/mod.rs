@@ -450,31 +450,6 @@ where
         }
     }
 
-    fn append_to_current_attribute_name(&mut self, c: char, raw_c: char) {
-        if let Some(ref mut token) = self.cur_token {
-            match token {
-                Token::StartTag { attributes, .. } | Token::EndTag { attributes, .. } => {
-                    if let Some(attribute) = attributes.last_mut() {
-                        let mut new_name = String::new();
-
-                        new_name.push_str(&attribute.name);
-                        new_name.push(c);
-
-                        attribute.name = new_name.into();
-
-                        let mut raw_new_name = String::new();
-
-                        raw_new_name.push_str(attribute.raw_name.as_ref().unwrap());
-                        raw_new_name.push(raw_c);
-
-                        attribute.raw_name = Some(raw_new_name.into());
-                    }
-                }
-                _ => {}
-            }
-        }
-    }
-
     fn append_to_current_tag_token_name(&mut self, c: char, raw_c: char) {
         match &mut self.cur_token {
             Some(Token::StartTag {
@@ -502,6 +477,62 @@ where
                 *raw_tag_name = new_raw_tag_name.into();
             }
             _ => {}
+        }
+    }
+
+    fn append_to_current_attribute_name(&mut self, c: char, raw_c: char) {
+        if let Some(ref mut token) = self.cur_token {
+            match token {
+                Token::StartTag { attributes, .. } | Token::EndTag { attributes, .. } => {
+                    if let Some(attribute) = attributes.last_mut() {
+                        let mut new_name = String::new();
+
+                        new_name.push_str(&attribute.name);
+                        new_name.push(c);
+
+                        attribute.name = new_name.into();
+
+                        let mut raw_new_name = String::new();
+
+                        raw_new_name.push_str(attribute.raw_name.as_ref().unwrap());
+                        raw_new_name.push(raw_c);
+
+                        attribute.raw_name = Some(raw_new_name.into());
+                    }
+                }
+                _ => {}
+            }
+        }
+    }
+
+    fn append_to_current_attribute_value(&mut self, c: char, raw_c: char) {
+        if let Some(ref mut token) = self.cur_token {
+            match token {
+                Token::StartTag { attributes, .. } | Token::EndTag { attributes, .. } => {
+                    if let Some(attribute) = attributes.last_mut() {
+                        let mut new_value = String::new();
+
+                        if let Some(value) = &attribute.value {
+                            new_value.push_str(value);
+                        }
+
+                        new_value.push(c);
+
+                        attribute.value = Some(new_value.into());
+
+                        let mut raw_new_value = String::new();
+
+                        if let Some(raw_value) = &attribute.raw_value {
+                            raw_new_value.push_str(raw_value);
+                        }
+
+                        raw_new_value.push(raw_c);
+
+                        attribute.raw_value = Some(raw_new_value.into());
+                    }
+                }
+                _ => {}
+            }
         }
     }
 
@@ -2174,35 +2205,7 @@ where
                     // REPLACEMENT CHARACTER character to the current attribute's value.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-
-                        if let Some(ref mut token) = self.cur_token {
-                            match token {
-                                Token::StartTag { attributes, .. }
-                                | Token::EndTag { attributes, .. } => {
-                                    if let Some(attribute) = attributes.last_mut() {
-                                        let mut new_value = String::new();
-
-                                        if let Some(value) = &attribute.value {
-                                            new_value.push_str(value);
-                                        }
-
-                                        new_value.push(REPLACEMENT_CHARACTER);
-
-                                        let mut raw_new_value = String::new();
-
-                                        if let Some(raw_value) = &attribute.raw_value {
-                                            raw_new_value.push_str(raw_value);
-                                        }
-
-                                        raw_new_value.push(c);
-
-                                        attribute.value = Some(new_value.into());
-                                        attribute.raw_value = Some(raw_new_value.into());
-                                    }
-                                }
-                                _ => {}
-                            }
-                        }
+                        self.append_to_current_attribute_value(REPLACEMENT_CHARACTER, c);
                     }
                     // EOF
                     // This is an eof-in-tag parse error. Emit an end-of-file token.
@@ -2215,34 +2218,7 @@ where
                     // Anything else
                     // Append the current input character to the current attribute's value.
                     Some(c) => {
-                        if let Some(ref mut token) = self.cur_token {
-                            match token {
-                                Token::StartTag { attributes, .. }
-                                | Token::EndTag { attributes, .. } => {
-                                    if let Some(attribute) = attributes.last_mut() {
-                                        let mut new_value = String::new();
-
-                                        if let Some(value) = &attribute.value {
-                                            new_value.push_str(value);
-                                        }
-
-                                        new_value.push(c);
-
-                                        let mut raw_new_value = String::new();
-
-                                        if let Some(raw_value) = &attribute.raw_value {
-                                            raw_new_value.push_str(raw_value);
-                                        }
-
-                                        raw_new_value.push(c);
-
-                                        attribute.value = Some(new_value.into());
-                                        attribute.raw_value = Some(raw_new_value.into());
-                                    }
-                                }
-                                _ => {}
-                            }
-                        }
+                        self.append_to_current_attribute_value(c, c);
                     }
                 }
             }
@@ -2305,35 +2281,7 @@ where
                     // REPLACEMENT CHARACTER character to the current attribute's value.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-
-                        if let Some(ref mut token) = self.cur_token {
-                            match token {
-                                Token::StartTag { attributes, .. }
-                                | Token::EndTag { attributes, .. } => {
-                                    if let Some(attribute) = attributes.last_mut() {
-                                        let mut new_value = String::new();
-
-                                        if let Some(value) = &attribute.value {
-                                            new_value.push_str(value);
-                                        }
-
-                                        new_value.push(REPLACEMENT_CHARACTER);
-
-                                        let mut raw_new_value = String::new();
-
-                                        if let Some(raw_value) = &attribute.raw_value {
-                                            raw_new_value.push_str(raw_value);
-                                        }
-
-                                        raw_new_value.push(c);
-
-                                        attribute.value = Some(new_value.into());
-                                        attribute.raw_value = Some(raw_new_value.into());
-                                    }
-                                }
-                                _ => {}
-                            }
-                        }
+                        self.append_to_current_attribute_value(REPLACEMENT_CHARACTER, c);
                     }
                     // EOF
                     // This is an eof-in-tag parse error. Emit an end-of-file token.
@@ -2346,68 +2294,14 @@ where
                     // Anything else
                     // Append the current input character to the current attribute's value.
                     Some(c) => {
-                        if let Some(ref mut token) = self.cur_token {
-                            match token {
-                                Token::StartTag { attributes, .. }
-                                | Token::EndTag { attributes, .. } => {
-                                    if let Some(attribute) = attributes.last_mut() {
-                                        let mut new_value = String::new();
-
-                                        if let Some(value) = &attribute.value {
-                                            new_value.push_str(value);
-                                        }
-
-                                        new_value.push(c);
-
-                                        let mut raw_new_value = String::new();
-
-                                        if let Some(raw_value) = &attribute.raw_value {
-                                            raw_new_value.push_str(raw_value);
-                                        }
-
-                                        raw_new_value.push(c);
-
-                                        attribute.value = Some(new_value.into());
-                                        attribute.raw_value = Some(raw_new_value.into());
-                                    }
-                                }
-                                _ => {}
-                            }
-                        }
+                        self.append_to_current_attribute_value(c, c);
                     }
                 }
             }
             // https://html.spec.whatwg.org/multipage/parsing.html#attribute-value-(unquoted)-state
             State::AttributeValueUnquoted => {
                 let anything_else = |lexer: &mut Lexer<I>, c: char| {
-                    if let Some(ref mut token) = lexer.cur_token {
-                        match token {
-                            Token::StartTag { attributes, .. }
-                            | Token::EndTag { attributes, .. } => {
-                                if let Some(attribute) = attributes.last_mut() {
-                                    let mut new_value = String::new();
-
-                                    if let Some(value) = &attribute.value {
-                                        new_value.push_str(value);
-                                    }
-
-                                    new_value.push(c);
-
-                                    let mut raw_new_value = String::new();
-
-                                    if let Some(raw_value) = &attribute.raw_value {
-                                        raw_new_value.push_str(raw_value);
-                                    }
-
-                                    raw_new_value.push(c);
-
-                                    attribute.value = Some(new_value.into());
-                                    attribute.raw_value = Some(raw_new_value.into());
-                                }
-                            }
-                            _ => {}
-                        }
-                    }
+                    lexer.append_to_current_attribute_value(c, c);
                 };
 
                 // Consume the next input character:
@@ -2441,35 +2335,7 @@ where
                     // REPLACEMENT CHARACTER character to the current attribute's value.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-
-                        if let Some(ref mut token) = self.cur_token {
-                            match token {
-                                Token::StartTag { attributes, .. }
-                                | Token::EndTag { attributes, .. } => {
-                                    if let Some(attribute) = attributes.last_mut() {
-                                        let mut new_value = String::new();
-
-                                        if let Some(value) = &attribute.value {
-                                            new_value.push_str(value);
-                                        }
-
-                                        new_value.push(REPLACEMENT_CHARACTER);
-
-                                        let mut raw_new_value = String::new();
-
-                                        if let Some(raw_value) = &attribute.raw_value {
-                                            raw_new_value.push_str(raw_value);
-                                        }
-
-                                        raw_new_value.push(c);
-
-                                        attribute.value = Some(new_value.into());
-                                        attribute.raw_value = Some(raw_new_value.into());
-                                    }
-                                }
-                                _ => {}
-                            }
-                        }
+                        self.append_to_current_attribute_value(REPLACEMENT_CHARACTER, c);
                     }
                     // U+0022 QUOTATION MARK (")
                     // U+0027 APOSTROPHE (')
@@ -4577,34 +4443,7 @@ where
                     // Otherwise, emit the current input character as a character token.
                     Some(c) if c.is_ascii_alphanumeric() => {
                         if self.is_consumed_as_part_of_an_attribute() {
-                            if let Some(ref mut token) = self.cur_token {
-                                match token {
-                                    Token::StartTag { attributes, .. }
-                                    | Token::EndTag { attributes, .. } => {
-                                        if let Some(attribute) = attributes.last_mut() {
-                                            let mut new_value = String::new();
-
-                                            if let Some(value) = &attribute.value {
-                                                new_value.push_str(value);
-                                            }
-
-                                            new_value.push(c);
-
-                                            let mut raw_new_value = String::new();
-
-                                            if let Some(raw_value) = &attribute.raw_value {
-                                                raw_new_value.push_str(raw_value);
-                                            }
-
-                                            raw_new_value.push(c);
-
-                                            attribute.value = Some(new_value.into());
-                                            attribute.raw_value = Some(raw_new_value.into());
-                                        }
-                                    }
-                                    _ => {}
-                                }
-                            }
+                            self.append_to_current_attribute_value(c, c);
                         } else {
                             self.emit_character_token(c, Some(c));
                         }
