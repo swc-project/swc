@@ -1,9 +1,10 @@
+#![deny(warnings)]
 #![allow(clippy::if_same_then_else)]
 #![allow(clippy::needless_update)]
 #![allow(clippy::redundant_clone)]
 #![allow(clippy::while_let_on_iterator)]
 
-use std::{fs, mem::take, path::PathBuf, time::Instant};
+use std::{fs, mem::take, path::PathBuf};
 
 use serde_json::Value;
 use swc_atoms::JsWord;
@@ -26,19 +27,7 @@ fn document_test(input: PathBuf, config: ParserConfig) {
     testing::run_test2(false, |cm, handler| {
         let json_path = input.parent().unwrap().join("output.json");
         let fm = cm.load_file(&input).unwrap();
-
-        let start = Instant::now();
-
         let lexer = Lexer::new(SourceFileInput::from(&*fm));
-
-        for t in lexer {}
-
-        let elapsed = start.elapsed();
-
-        println!("Debug: {:?}", elapsed);
-
-        unreachable!();
-
         let mut parser = Parser::new(lexer, config);
         let document: PResult<Document> = parser.parse_document();
         let errors = parser.take_errors();
@@ -422,7 +411,7 @@ impl VisitMut for DomVisualizer<'_> {
     }
 }
 
-#[testing::fixture("tests/fixture/pages/**/*.html")]
+#[testing::fixture("tests/fixture/**/*.html")]
 fn pass(input: PathBuf) {
     document_test(
         input,
@@ -595,6 +584,12 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                     .expect("failed to get lastStartTag in test");
 
                 lexer.set_last_start_tag_name(&last_start_tag);
+                lexer.set_last_start_tag_token(Token::StartTag {
+                    tag_name: last_start_tag.into(),
+                    raw_tag_name: None,
+                    self_closing: false,
+                    attributes: vec![],
+                });
             }
 
             let mut actual_tokens = vec![];

@@ -121,6 +121,21 @@ struct Doctype {
     system_id: Option<String>,
 }
 
+#[derive(PartialEq, Eq, Hash, Copy, Clone, Debug)]
+enum TagKind {
+    Start,
+    End,
+}
+
+#[derive(PartialEq, Eq, Clone, Debug)]
+struct Tag {
+    kind: TagKind,
+    tag_name: String,
+    raw_tag_name: Option<String>,
+    self_closing: bool,
+    attributes: Vec<AttributeToken>,
+}
+
 pub(crate) type LexResult<T> = Result<T, ErrorKind>;
 
 #[derive(Clone)]
@@ -142,7 +157,7 @@ where
     pending_tokens: Vec<TokenAndSpan>,
     current_doctype_token: Option<Doctype>,
     current_comment_token: Option<String>,
-    current_tag_token: Option<Token>,
+    current_tag_token: Option<Tag>,
     attribute_start_position: Option<BytePos>,
     character_reference_code: Option<Vec<(u8, u32, Option<char>)>>,
     temporary_buffer: Option<String>,
@@ -329,10 +344,18 @@ where
         if let Some(last_start_tag_name) = &self.last_start_tag_name {
             if let Some(Token::EndTag {
                 tag_name: end_tag_name,
+        if let Some(Token::StartTag {
+            tag_name: last_start_tag_name,
+            ..
+        }) = &self.last_start_tag_token
+        {
+            if let Some(Tag {
+                kind: TagKind::End,
+                tag_name,
                 ..
             }) = &self.current_tag_token
             {
-                return last_start_tag_name == end_tag_name;
+                return last_start_tag_name == tag_name;
             }
         }
 
@@ -354,33 +377,28 @@ where
 
     fn flush_code_points_consumed_as_character_reference(&mut self, _raw: Option<String>) {
         if self.is_consumed_as_part_of_an_attribute() {
-            if let Some(ref mut token) = self.current_tag_token {
-                match token {
-                    Token::StartTag { attributes, .. } | Token::EndTag { attributes, .. } => {
-                        if let Some(attribute) = attributes.last_mut() {
-                            let mut new_value = String::new();
-                            let mut raw_new_value = String::new();
+            if let Some(Tag { attributes, .. }) = &mut self.current_tag_token {
+                if let Some(attribute) = attributes.last_mut() {
+                    let mut new_value = String::new();
+                    let mut raw_new_value = String::new();
 
-                            if let Some(value) = &attribute.value {
-                                new_value.push_str(value);
-                            }
+                    if let Some(value) = &attribute.value {
+                        new_value.push_str(value);
+                    }
 
-                            if let Some(raw_value) = &attribute.raw_value {
-                                raw_new_value.push_str(raw_value);
-                            }
+                    if let Some(raw_value) = &attribute.raw_value {
+                        raw_new_value.push_str(raw_value);
+                    }
 
-                            if let Some(mut temporary_buffer) = self.temporary_buffer.take() {
-                                for c in temporary_buffer.drain(..) {
-                                    new_value.push(c);
-                                    raw_new_value.push(c);
-                                }
-                            }
-
-                            attribute.value = Some(new_value.into());
-                            attribute.raw_value = Some(raw_new_value.into());
+                    if let Some(mut temporary_buffer) = self.temporary_buffer.take() {
+                        for c in temporary_buffer.drain(..) {
+                            new_value.push(c);
+                            raw_new_value.push(c);
                         }
                     }
-                    _ => {}
+
+                    attribute.value = Some(new_value.into());
+                    attribute.raw_value = Some(raw_new_value.into());
                 }
             }
         } else if let Some(mut temporary_buffer) = self.temporary_buffer.take() {
@@ -511,89 +529,64 @@ where
     }
 
     fn create_start_tag_token(&mut self) {
-        self.current_tag_token = Some(Token::StartTag {
-            tag_name: "".into(),
-            raw_tag_name: Some("".into()),
+        self.current_tag_token = Some(Tag {
+            kind: TagKind::Start,
+            tag_name: String::with_capacity(1),
+            raw_tag_name: Some(String::with_capacity(1)),
             self_closing: false,
             attributes: vec![],
         });
     }
 
     fn create_end_tag_token(&mut self) {
-        self.current_tag_token = Some(Token::EndTag {
-            tag_name: "".into(),
-            raw_tag_name: Some("".into()),
+        self.current_tag_token = Some(Tag {
+            kind: TagKind::End,
+            tag_name: String::with_capacity(1),
+            raw_tag_name: Some(String::with_capacity(1)),
             self_closing: false,
             attributes: vec![],
         });
     }
 
     fn append_to_current_tag_token(&mut self, c: char, raw_c: char) {
-        match &mut self.current_tag_token {
-            Some(Token::StartTag {
-                tag_name,
-                raw_tag_name: Some(raw_tag_name),
-                ..
-            })
-            | Some(Token::EndTag {
-                tag_name,
-                raw_tag_name: Some(raw_tag_name),
-                ..
-            }) => {
-                let mut new_tag_name = String::new();
-
-                new_tag_name.push_str(tag_name);
-                new_tag_name.push(c);
-
-                *tag_name = new_tag_name.into();
-
-                let mut new_raw_tag_name = String::new();
-
-                new_raw_tag_name.push_str(raw_tag_name);
-                new_raw_tag_name.push(raw_c);
-
-                *raw_tag_name = new_raw_tag_name.into();
-            }
-            _ => {}
+        if let Some(Tag {
+            tag_name,
+            raw_tag_name: Some(raw_tag_name),
+            ..
+        }) = &mut self.current_tag_token
+        {
+            tag_name.push(c);
+            raw_tag_name.push(raw_c);
         }
     }
 
     fn set_self_closing_flag(&mut self) {
-        match &mut self.current_tag_token {
-            Some(Token::StartTag { self_closing, .. })
-            | Some(Token::EndTag { self_closing, .. }) => {
-                *self_closing = true;
-            }
-            _ => {}
+        if let Some(current_tag_token) = &mut self.current_tag_token {
+            current_tag_token.self_closing = true;
         }
     }
 
     fn start_new_attribute(&mut self, c: Option<char>) {
-        if let Some(ref mut token) = self.current_tag_token {
-            match token {
-                Token::StartTag { attributes, .. } | Token::EndTag { attributes, .. } => {
-                    if let Some(c) = c {
-                        attributes.push(AttributeToken {
-                            span: Default::default(),
-                            name: c.to_string().into(),
-                            raw_name: Some(c.to_string().into()),
-                            value: None,
-                            raw_value: None,
-                        });
-                    } else {
-                        attributes.push(AttributeToken {
-                            span: Default::default(),
-                            name: "".into(),
-                            raw_name: Some("".into()),
-                            value: None,
-                            raw_value: None,
-                        });
-                    };
+        if let Some(Tag { attributes, .. }) = &mut self.current_tag_token {
+            if let Some(c) = c {
+                attributes.push(AttributeToken {
+                    span: Default::default(),
+                    name: c.to_string().into(),
+                    raw_name: Some(c.to_string().into()),
+                    value: None,
+                    raw_value: None,
+                });
+            } else {
+                attributes.push(AttributeToken {
+                    span: Default::default(),
+                    name: "".into(),
+                    raw_name: Some("".into()),
+                    value: None,
+                    raw_value: None,
+                });
+            };
 
-                    self.attribute_start_position = Some(self.cur_pos);
-                }
-                _ => {}
-            }
+            self.attribute_start_position = Some(self.cur_pos);
         }
     }
 
@@ -602,113 +595,89 @@ where
         name: Option<(char, char)>,
         value: Option<(char, char)>,
     ) {
-        if let Some(ref mut token) = self.current_tag_token {
-            match token {
-                Token::StartTag { attributes, .. } | Token::EndTag { attributes, .. } => {
-                    if let Some(attribute) = attributes.last_mut() {
-                        if let Some(name) = name {
-                            let mut new_name = String::new();
+        if let Some(Tag { attributes, .. }) = &mut self.current_tag_token {
+            if let Some(attribute) = attributes.last_mut() {
+                if let Some(name) = name {
+                    let mut new_name = String::new();
 
-                            new_name.push_str(&attribute.name);
-                            new_name.push(name.0);
+                    new_name.push_str(&attribute.name);
+                    new_name.push(name.0);
 
-                            attribute.name = new_name.into();
+                    attribute.name = new_name.into();
 
-                            let mut raw_new_name = String::new();
+                    let mut raw_new_name = String::new();
 
-                            raw_new_name.push_str(attribute.raw_name.as_ref().unwrap());
-                            raw_new_name.push(name.1);
+                    raw_new_name.push_str(attribute.raw_name.as_ref().unwrap());
+                    raw_new_name.push(name.1);
 
-                            attribute.raw_name = Some(raw_new_name.into());
-                        }
-
-                        if let Some(value) = value {
-                            let mut new_value = String::new();
-
-                            if let Some(value) = &attribute.value {
-                                new_value.push_str(value);
-                            }
-
-                            new_value.push(value.0);
-
-                            attribute.value = Some(new_value.into());
-
-                            let mut raw_new_value = String::new();
-
-                            if let Some(raw_value) = &attribute.raw_value {
-                                raw_new_value.push_str(raw_value);
-                            }
-
-                            raw_new_value.push(value.1);
-
-                            attribute.raw_value = Some(raw_new_value.into());
-                        }
-                    }
+                    attribute.raw_name = Some(raw_new_name.into());
                 }
-                _ => {}
+
+                if let Some(value) = value {
+                    let mut new_value = String::new();
+
+                    if let Some(value) = &attribute.value {
+                        new_value.push_str(value);
+                    }
+
+                    new_value.push(value.0);
+
+                    attribute.value = Some(new_value.into());
+
+                    let mut raw_new_value = String::new();
+
+                    if let Some(raw_value) = &attribute.raw_value {
+                        raw_new_value.push_str(raw_value);
+                    }
+
+                    raw_new_value.push(value.1);
+
+                    attribute.raw_value = Some(raw_new_value.into());
+                }
             }
         }
     }
 
     fn append_raw_to_attribute_value(&mut self, before: bool, c: char) {
-        if let Some(ref mut token) = self.current_tag_token {
-            match token {
-                Token::StartTag { attributes, .. } | Token::EndTag { attributes, .. } => {
-                    if let Some(attribute) = attributes.last_mut() {
-                        let mut raw_new_value = String::new();
+        if let Some(Tag { attributes, .. }) = &mut self.current_tag_token {
+            if let Some(attribute) = attributes.last_mut() {
+                let mut raw_new_value = String::new();
 
-                        if before {
-                            attribute.value = Some("".into());
+                if before {
+                    attribute.value = Some("".into());
 
-                            raw_new_value.push(c);
-                        }
-
-                        if let Some(raw_value) = &attribute.raw_value {
-                            raw_new_value.push_str(raw_value);
-                        }
-
-                        if !before {
-                            raw_new_value.push(c);
-                        }
-
-                        attribute.raw_value = Some(raw_new_value.into());
-                    }
+                    raw_new_value.push(c);
                 }
-                _ => {}
+
+                if let Some(raw_value) = &attribute.raw_value {
+                    raw_new_value.push_str(raw_value);
+                }
+
+                if !before {
+                    raw_new_value.push(c);
+                }
+
+                attribute.raw_value = Some(raw_new_value.into());
             }
         }
     }
 
     fn update_attribute_span(&mut self) {
         if let Some(attribute_start_position) = self.attribute_start_position {
-            if let Some(mut token) = self.current_tag_token.take() {
-                match token {
-                    Token::StartTag {
-                        ref mut attributes, ..
-                    }
-                    | Token::EndTag {
-                        ref mut attributes, ..
-                    } => {
-                        if let Some(last) = attributes.last_mut() {
-                            last.span = Span::new(
-                                attribute_start_position,
-                                self.cur_pos,
-                                Default::default(),
-                            );
-                        }
-
-                        self.current_tag_token = Some(token);
-                    }
-                    _ => {}
+            if let Some(Tag {
+                ref mut attributes, ..
+            }) = self.current_tag_token
+            {
+                if let Some(last) = attributes.last_mut() {
+                    last.span =
+                        Span::new(attribute_start_position, self.cur_pos, Default::default());
                 }
             }
         }
     }
 
     fn leave_attribute_name_state(&mut self) {
-        if let Some(Token::StartTag { attributes, .. } | Token::EndTag { attributes, .. }) =
-            &self.current_tag_token
-        {
+        if let Some(Tag { attributes, .. }) = &self.current_tag_token {
             let last_attribute = match attributes.last() {
                 Some(attribute) => attribute,
                 _ => {
@@ -737,33 +706,38 @@ where
     }
 
     fn emit_current_tag_token(&mut self) {
-        let token = self.current_tag_token.take();
+        if let Some(current_tag_token) = self.current_tag_token.take() {
+            match current_tag_token.kind {
+                TagKind::Start => {
+                    let start_tag_token = Token::StartTag {
+                        tag_name: current_tag_token.tag_name.into(),
+                        raw_tag_name: current_tag_token.raw_tag_name.map(JsWord::from),
+                        self_closing: current_tag_token.self_closing,
+                        attributes: current_tag_token.attributes,
+                    };
 
-        match token {
-            Some(token) => {
-                if let Token::StartTag { .. } = token {
-                    self.last_start_tag_token = Some(token.clone());
+                    self.last_start_tag_token = Some(start_tag_token.clone());
+
+                    self.emit_token(start_tag_token);
                 }
-
-                if let Token::EndTag {
-                    attributes,
-                    self_closing,
-                    ..
-                } = &token
-                {
-                    if !attributes.is_empty() {
+                TagKind::End => {
+                    if !current_tag_token.attributes.is_empty() {
                         self.emit_error(ErrorKind::EndTagWithAttributes);
                     }
 
-                    if *self_closing {
+                    if current_tag_token.self_closing {
                         self.emit_error(ErrorKind::EndTagWithTrailingSolidus);
                     }
-                }
 
-                self.emit_token(token);
-            }
-            _ => {
-                unreachable!();
+                    let end_tag_token = Token::EndTag {
+                        tag_name: current_tag_token.tag_name.into(),
+                        raw_tag_name: current_tag_token.raw_tag_name.map(JsWord::from),
+                        self_closing: current_tag_token.self_closing,
+                        attributes: current_tag_token.attributes,
+                    };
+
+                    self.emit_token(end_tag_token);
+                }
             }
         }
     }
