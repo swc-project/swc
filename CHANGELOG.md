@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(html/codegen)** Omit start and end tags if it is possible (#4780) ([c6ec9f9](https://github.com/swc-project/swc/commit/c6ec9f9cf20e149ce9cb8364403a031e3547741c))
+
+## [1.2.194] - 2022-05-25
+
 ### Bug Fixes
 
 
