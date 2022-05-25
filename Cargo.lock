@@ -3944,7 +3944,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_codegen"
-version = "0.9.2"
+version = "0.9.3"
 dependencies = [
  "auto_impl",
  "bitflags",

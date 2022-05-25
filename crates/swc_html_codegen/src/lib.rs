@@ -139,22 +139,133 @@ where
     fn basic_emit_element(
         &mut self,
         n: &Element,
-        _parent: Option<&Element>,
+        parent: Option<&Element>,
+        prev: Option<&Child>,
         next: Option<&Child>,
     ) -> Result {
-        write_raw!(self, "<");
-        write_raw!(self, &n.tag_name);
+        let has_attributes = !n.attributes.is_empty();
+        let can_omit_start_tag = self.config.minify
+            && !has_attributes
+            && n.namespace == Namespace::HTML
+            && match &*n.tag_name {
+                // Tag omission in text/html:
+                // An html element's start tag can be omitted if the first thing inside the html
+                // element is not a comment.
+                "html" if matches!(n.children.get(0), Some(Child::Comment(..))) => true,
+                // A head element's start tag can be omitted if the element is empty, or if the
+                // first thing inside the head element is an element.
+                "head"
+                    if n.children.is_empty()
+                        || matches!(n.children.get(0), Some(Child::Element(..))) =>
+                {
+                    true
+                }
+                // A body element's start tag can be omitted if the element is empty, or if the
+                // first thing inside the body element is not ASCII whitespace or a comment, except
+                // if the first thing inside the body element is a meta, link, script, style, or
+                // template element.
+                // TODO improve me
+                "body"
+                    if n.children.is_empty()
+                        || (match n.children.get(0) {
+                            Some(Child::Text(text))
+                                if text.value.chars().next().unwrap().is_ascii_whitespace() =>
+                            {
+                                false
+                            }
+                            Some(Child::Comment(..)) => false,
+                            Some(Child::Element(Element {
+                                namespace,
+                                tag_name,
+                                ..
+                            })) if *namespace == Namespace::HTML
+                                && matches!(
+                                    &**tag_name,
+                                    "meta" | "link" | "script" | "style" | "template"
+                                ) =>
+                            {
+                                false
+                            }
+                            _ => true,
+                        }) =>
+                {
+                    true
+                }
+                // A colgroup element's start tag can be omitted if the first thing inside the
+                // colgroup element is a col element, and if the element is not immediately preceded
+                // by another colgroup element whose end tag has been omitted. (It can't be omitted
+                // if the element is empty.)
+                "colgroup"
+                    if match n.children.get(0) {
+                        Some(Child::Element(element))
+                            if element.namespace == Namespace::HTML
+                                && &*element.tag_name == "col" =>
+                        {
+                            match prev {
+                                // We don't need to check on omitted end tag, because we always
+                                // omit an end tag
+                                Some(Child::Element(element))
+                                    if element.namespace == Namespace::HTML
+                                        && &*element.tag_name == "colgroup" =>
+                                {
+                                    false
+                                }
+                                _ => true,
+                            }
+                        }
+                        _ => false,
+                    } =>
+                {
+                    true
+                }
+                // A tbody element's start tag can be omitted if the first thing inside the tbody
+                // element is a tr element, and if the element is not immediately preceded by a
+                // tbody, thead, or tfoot element whose end tag has been omitted. (It can't be
+                // omitted if the element is empty.)
+                "tbody"
+                    if match n.children.get(0) {
+                        Some(Child::Element(element))
+                            if element.namespace == Namespace::HTML
+                                && &*element.tag_name == "tr" =>
+                        {
+                            match prev {
+                                // We don't need to check on omitted end tag, because we always
+                                // omit an end tag
+                                Some(Child::Element(element))
+                                    if element.namespace == Namespace::HTML
+                                        && matches!(
+                                            &*element.tag_name,
+                                            "tbody" | "thead" | "tfoot"
+                                        ) =>
+                                {
+                                    false
+                                }
+                                _ => true,
+                            }
+                        }
+                        _ => false,
+                    } =>
+                {
+                    true
+                }
+                _ => false,
+            };
 
-        if !n.attributes.is_empty() {
-            space!(self);
+        if !can_omit_start_tag {
+            write_raw!(self, "<");
+            write_raw!(self, &n.tag_name);
 
-            self.emit_list(&n.attributes, ListFormat::SpaceDelimited)?;
-        }
+            if has_attributes {
+                space!(self);
 
-        write_raw!(self, ">");
+                self.emit_list(&n.attributes, ListFormat::SpaceDelimited)?;
+            }
 
-        if !self.config.minify && n.namespace == Namespace::HTML && &*n.tag_name == "html" {
-            newline!(self);
+            write_raw!(self, ">");
+
+            if !self.config.minify && n.namespace == Namespace::HTML && &*n.tag_name == "html" {
+                newline!(self);
+            }
         }
 
         let no_children = n.namespace == Namespace::HTML
@@ -219,6 +330,92 @@ where
                 && match &*n.tag_name {
                     // Tag omission in text/html:
 
+                    // An html element's end tag can be omitted if the html element is not
+                    // immediately followed by a comment.
+                    //
+                    // A body element's end tag can be omitted if the body element is not
+                    // immediately followed by a comment.
+                    "html" | "body" => !matches!(next, Some(Child::Comment(..))),
+                    // A head element's end tag can be omitted if the head element is not
+                    // immediately followed by ASCII whitespace or a comment.
+                    "head" => match next {
+                        Some(Child::Text(text))
+                            if text.value.chars().next().unwrap().is_ascii_whitespace() =>
+                        {
+                            false
+                        }
+                        Some(Child::Comment(..)) => false,
+                        _ => true,
+                    },
+                    // A p element's end tag can be omitted if the p element is immediately followed
+                    // by an address, article, aside, blockquote, details, div, dl, fieldset,
+                    // figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, hr,
+                    // main, menu, nav, ol, p, pre, section, table, or ul element, or if there is no
+                    // more content in the parent element and the parent element is an HTML element
+                    // that is not an a, audio, del, ins, map, noscript, or video element, or an
+                    // autonomous custom element.
+                    "p" => match next {
+                        Some(Child::Element(Element {
+                            namespace,
+                            tag_name,
+                            ..
+                        })) if *namespace == Namespace::HTML
+                            && matches!(
+                                &**tag_name,
+                                "address"
+                                    | "article"
+                                    | "aside"
+                                    | "blockquote"
+                                    | "details"
+                                    | "div"
+                                    | "dl"
+                                    | "fieldset"
+                                    | "figcaption"
+                                    | "figure"
+                                    | "footer"
+                                    | "form"
+                                    | "h1"
+                                    | "h2"
+                                    | "h3"
+                                    | "h4"
+                                    | "h5"
+                                    | "h6"
+                                    | "header"
+                                    | "hgroup"
+                                    | "hr"
+                                    | "main"
+                                    | "menu"
+                                    | "nav"
+                                    | "ol"
+                                    | "p"
+                                    | "pre"
+                                    | "section"
+                                    | "table"
+                                    | "ul"
+                            ) =>
+                        {
+                            true
+                        }
+                        None if match parent {
+                            Some(Element {
+                                namespace,
+                                tag_name,
+                                ..
+                            }) if is_html_tag_name(*namespace, &**tag_name)
+                                && !matches!(
+                                    &**tag_name,
+                                    "a" | "audio" | "del" | "ins" | "map" | "noscript" | "video"
+                                ) =>
+                            {
+                                true
+                            }
+                            _ => false,
+                        } =>
+                        {
+                            true
+                        }
+                        _ => false,
+                    },
                     // An li element's end tag can be omitted if the li element is immediately
                     // followed by another li element or if there is no more content in the parent
                     // element.
@@ -245,7 +442,6 @@ where
                         }
                         _ => false,
                     },
-
                     // A dd element's end tag can be omitted if the dd element is immediately
                     // followed by another dd element or a dt element, or if there is no more
                     // content in the parent element.
@@ -262,7 +458,164 @@ where
                         None => true,
                         _ => false,
                     },
-
+                    // An rt element's end tag can be omitted if the rt element is immediately
+                    // followed by an rt or rp element, or if there is no more content in the parent
+                    // element.
+                    //
+                    // An rp element's end tag can be omitted if the rp element is immediately
+                    // followed by an rt or rp element, or if there is no more content in the parent
+                    // element.
+                    "rt" | "rp" => match next {
+                        Some(Child::Element(Element {
+                            namespace,
+                            tag_name,
+                            ..
+                        })) if *namespace == Namespace::HTML
+                            && (tag_name == "rt" || tag_name == "rp") =>
+                        {
+                            true
+                        }
+                        None => true,
+                        _ => false,
+                    },
+                    // The end tag can be omitted if the element is immediately followed by an <rt>,
+                    // <rtc>, or <rp> element or another <rb> element, or if there is no more
+                    // content in the parent element.
+                    "rb" => match next {
+                        Some(Child::Element(Element {
+                            namespace,
+                            tag_name,
+                            ..
+                        })) if *namespace == Namespace::HTML
+                            && (tag_name == "rt"
+                                || tag_name == "rtc"
+                                || tag_name == "rp"
+                                || tag_name == "rb") =>
+                        {
+                            true
+                        }
+                        None => true,
+                        _ => false,
+                    },
+                    // 	The closing tag can be omitted if it is immediately followed by a <rb>, <rtc>
+                    // or <rt> element opening tag or by its parent closing tag.
+                    "rtc" => match next {
+                        Some(Child::Element(Element {
+                            namespace,
+                            tag_name,
+                            ..
+                        })) if *namespace == Namespace::HTML
+                            && (tag_name == "rb" || tag_name == "rtc" || tag_name == "rt") =>
+                        {
+                            true
+                        }
+                        None => true,
+                        _ => false,
+                    },
+                    // An optgroup element's end tag can be omitted if the optgroup element is
+                    // immediately followed by another optgroup element, or if there is no more
+                    // content in the parent element.
+                    "optgroup" => match next {
+                        Some(Child::Element(Element {
+                            namespace,
+                            tag_name,
+                            ..
+                        })) if *namespace == Namespace::HTML && tag_name == "optgroup" => true,
+                        None => true,
+                        _ => false,
+                    },
+                    // An option element's end tag can be omitted if the option element is
+                    // immediately followed by another option element, or if it is immediately
+                    // followed by an optgroup element, or if there is no more content in the parent
+                    // element.
+                    "option" => match next {
+                        Some(Child::Element(Element {
+                            namespace,
+                            tag_name,
+                            ..
+                        })) if *namespace == Namespace::HTML
+                            && (tag_name == "option" || tag_name == "optgroup") =>
+                        {
+                            true
+                        }
+                        None => true,
+                        _ => false,
+                    },
+                    // A caption element's end tag can be omitted if the caption element is not
+                    // immediately followed by ASCII whitespace or a comment.
+                    //
+                    // A colgroup element's end tag can be omitted if the colgroup element is not
+                    // immediately followed by ASCII whitespace or a comment.
+                    "caption" | "colgroup" => match next {
+                        Some(Child::Text(text))
+                            if text.value.chars().next().unwrap().is_ascii_whitespace() =>
+                        {
+                            false
+                        }
+                        Some(Child::Comment(..)) => false,
+                        _ => true,
+                    },
+                    // A tbody element's end tag can be omitted if the tbody element is immediately
+                    // followed by a tbody or tfoot element, or if there is no more content in the
+                    // parent element.
+                    "tbody" => match next {
+                        Some(Child::Element(Element {
+                            namespace,
+                            tag_name,
+                            ..
+                        })) if *namespace == Namespace::HTML
+                            && (tag_name == "tbody" || tag_name == "tfoot") =>
+                        {
+                            true
+                        }
+                        None => true,
+                        _ => false,
+                    },
+                    // A thead element's end tag can be omitted if the thead element is immediately
+                    // followed by a tbody or tfoot element.
+                    "thead" => match next {
+                        Some(Child::Element(Element {
+                            namespace,
+                            tag_name,
+                            ..
+                        })) if *namespace == Namespace::HTML
+                            && (tag_name == "tbody" || tag_name == "tfoot") =>
+                        {
+                            true
+                        }
+                        _ => false,
+                    },
+                    // A tfoot element's end tag can be omitted if there is no more content in the
+                    // parent element.
+                    "tfoot" => matches!(next, None),
+                    // A tr element's end tag can be omitted if the tr element is immediately
+                    // followed by another tr element, or if there is no more content in the parent
+                    // element.
+                    "tr" => match next {
+                        Some(Child::Element(Element {
+                            namespace,
+                            tag_name,
+                            ..
+                        })) if *namespace == Namespace::HTML && tag_name == "tr" => true,
+                        None => true,
+                        _ => false,
+                    },
+                    // A th element's end tag can be omitted if the th element is immediately
+                    // followed by a td or th element, or if there is no more content in the parent
+                    // element.
+                    "td" | "th" => match next {
+                        Some(Child::Element(Element {
+                            namespace,
+                            tag_name,
+                            ..
+                        })) if *namespace == Namespace::HTML
+                            && (tag_name == "td" || tag_name == "th") =>
+                        {
+                            true
+                        }
+                        None => true,
+                        _ => false,
+                    },
                     _ => false,
                 });
 
@@ -280,7 +633,7 @@ where
 
     #[emitter]
     fn emit_element(&mut self, n: &Element) -> Result {
-        self.basic_emit_element(n, None, None)?;
+        self.basic_emit_element(n, None, None, None)?;
     }
 
     #[emitter]
@@ -638,9 +991,10 @@ where
         for (idx, node) in nodes.iter().enumerate() {
             match node {
                 Child::Element(element) => {
+                    let prev = if idx > 0 { nodes.get(idx - 1) } else { None };
                     let next = nodes.get(idx + 1);
 
-                    self.basic_emit_element(element, Some(parent), next)?;
+                    self.basic_emit_element(element, Some(parent), prev, next)?;
                 }
                 _ => {
                     emit!(self, node)
@@ -707,4 +1061,135 @@ fn minify_attribute_value(value: &str) -> String {
     } else {
         format!("\"{}\"", minified)
     }
+}
+
+fn is_html_tag_name(namespace: Namespace, tag_name: &str) -> bool {
+    if namespace != Namespace::HTML {
+        return false;
+    }
+
+    matches!(
+        tag_name,
+        "a" | "abbr"
+            | "address"
+            | "applet"
+            | "area"
+            | "article"
+            | "aside"
+            | "audio"
+            | "b"
+            | "base"
+            | "bdi"
+            | "bdo"
+            | "blockquote"
+            | "body"
+            | "br"
+            | "button"
+            | "canvas"
+            | "caption"
+            | "center"
+            | "cite"
+            | "code"
+            | "col"
+            | "colgroup"
+            | "data"
+            | "datalist"
+            | "dd"
+            | "del"
+            | "details"
+            | "dfn"
+            | "dialog"
+            | "dir"
+            | "div"
+            | "dl"
+            | "dt"
+            | "em"
+            | "embed"
+            | "fieldset"
+            | "figcaption"
+            | "figure"
+            | "footer"
+            | "form"
+            | "h1"
+            | "h2"
+            | "h3"
+            | "h4"
+            | "h5"
+            | "h6"
+            | "head"
+            | "header"
+            | "hgroup"
+            | "hr"
+            | "html"
+            | "i"
+            | "iframe"
+            | "image"
+            | "img"
+            | "input"
+            | "ins"
+            | "label"
+            | "legend"
+            | "li"
+            | "link"
+            | "listing"
+            | "main"
+            | "map"
+            | "mark"
+            | "marquee"
+            | "menu"
+            | "menuitem"
+            | "meta"
+            | "meter"
+            | "nav"
+            | "nobr"
+            | "noembed"
+            | "noscript"
+            | "object"
+            | "ol"
+            | "optgroup"
+            | "option"
+            | "output"
+            | "p"
+            | "param"
+            | "picture"
+            | "pre"
+            | "progress"
+            | "q"
+            | "rb"
+            | "rp"
+            | "rt"
+            | "rtc"
+            | "ruby"
+            | "s"
+            | "samp"
+            | "script"
+            | "section"
+            | "select"
+            | "small"
+            | "source"
+            | "span"
+            | "strong"
+            | "style"
+            | "sub"
+            | "summary"
+            | "sup"
+            | "table"
+            | "tbody"
+            | "td"
+            | "template"
+            | "textarea"
+            | "tfoot"
+            | "th"
+            | "thead"
+            | "time"
+            | "title"
+            | "tr"
+            | "track"
+            | "u"
+            | "ul"
+            | "var"
+            | "video"
+            | "wbr"
+            | "xmp"
+    )
 }
