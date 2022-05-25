@@ -142,8 +142,7 @@ where
     pending_tokens: Vec<TokenAndSpan>,
     current_doctype_token: Option<Doctype>,
     current_comment_token: Option<String>,
-
-    cur_token: Option<Token>,
+    current_tag_token: Option<Token>,
     attribute_start_position: Option<BytePos>,
     character_reference_code: Option<Vec<(u8, u32, Option<char>)>>,
     temporary_buffer: Option<String>,
@@ -173,7 +172,7 @@ where
             pending_tokens: vec![],
             current_doctype_token: None,
             current_comment_token: None,
-            cur_token: None,
+            current_tag_token: None,
             attribute_start_position: None,
             character_reference_code: None,
             temporary_buffer: None,
@@ -331,7 +330,7 @@ where
             if let Some(Token::EndTag {
                 tag_name: end_tag_name,
                 ..
-            }) = &self.cur_token
+            }) = &self.current_tag_token
             {
                 return last_start_tag_name == end_tag_name;
             }
@@ -355,7 +354,7 @@ where
 
     fn flush_code_points_consumed_as_character_reference(&mut self, _raw: Option<String>) {
         if self.is_consumed_as_part_of_an_attribute() {
-            if let Some(ref mut token) = self.cur_token {
+            if let Some(ref mut token) = self.current_tag_token {
                 match token {
                     Token::StartTag { attributes, .. } | Token::EndTag { attributes, .. } => {
                         if let Some(attribute) = attributes.last_mut() {
@@ -512,7 +511,7 @@ where
     }
 
     fn create_start_tag_token(&mut self) {
-        self.cur_token = Some(Token::StartTag {
+        self.current_tag_token = Some(Token::StartTag {
             tag_name: "".into(),
             raw_tag_name: Some("".into()),
             self_closing: false,
@@ -521,7 +520,7 @@ where
     }
 
     fn create_end_tag_token(&mut self) {
-        self.cur_token = Some(Token::EndTag {
+        self.current_tag_token = Some(Token::EndTag {
             tag_name: "".into(),
             raw_tag_name: Some("".into()),
             self_closing: false,
@@ -530,7 +529,7 @@ where
     }
 
     fn append_to_current_tag_token(&mut self, c: char, raw_c: char) {
-        match &mut self.cur_token {
+        match &mut self.current_tag_token {
             Some(Token::StartTag {
                 tag_name,
                 raw_tag_name: Some(raw_tag_name),
@@ -560,7 +559,7 @@ where
     }
 
     fn set_self_closing_flag(&mut self) {
-        match &mut self.cur_token {
+        match &mut self.current_tag_token {
             Some(Token::StartTag { self_closing, .. })
             | Some(Token::EndTag { self_closing, .. }) => {
                 *self_closing = true;
@@ -570,7 +569,7 @@ where
     }
 
     fn start_new_attribute(&mut self, c: Option<char>) {
-        if let Some(ref mut token) = self.cur_token {
+        if let Some(ref mut token) = self.current_tag_token {
             match token {
                 Token::StartTag { attributes, .. } | Token::EndTag { attributes, .. } => {
                     if let Some(c) = c {
@@ -603,7 +602,7 @@ where
         name: Option<(char, char)>,
         value: Option<(char, char)>,
     ) {
-        if let Some(ref mut token) = self.cur_token {
+        if let Some(ref mut token) = self.current_tag_token {
             match token {
                 Token::StartTag { attributes, .. } | Token::EndTag { attributes, .. } => {
                     if let Some(attribute) = attributes.last_mut() {
@@ -652,7 +651,7 @@ where
     }
 
     fn append_raw_to_attribute_value(&mut self, before: bool, c: char) {
-        if let Some(ref mut token) = self.cur_token {
+        if let Some(ref mut token) = self.current_tag_token {
             match token {
                 Token::StartTag { attributes, .. } | Token::EndTag { attributes, .. } => {
                     if let Some(attribute) = attributes.last_mut() {
@@ -682,7 +681,7 @@ where
 
     fn update_attribute_span(&mut self) {
         if let Some(attribute_start_position) = self.attribute_start_position {
-            if let Some(mut token) = self.cur_token.take() {
+            if let Some(mut token) = self.current_tag_token.take() {
                 match token {
                     Token::StartTag {
                         ref mut attributes, ..
@@ -698,7 +697,7 @@ where
                             );
                         }
 
-                        self.cur_token = Some(token);
+                        self.current_tag_token = Some(token);
                     }
                     _ => {}
                 }
@@ -708,7 +707,7 @@ where
 
     fn leave_attribute_name_state(&mut self) {
         if let Some(Token::StartTag { attributes, .. } | Token::EndTag { attributes, .. }) =
-            &self.cur_token
+            &self.current_tag_token
         {
             let last_attribute = match attributes.last() {
                 Some(attribute) => attribute,
@@ -737,8 +736,8 @@ where
         }
     }
 
-    fn emit_cur_token(&mut self) {
-        let token = self.cur_token.take();
+    fn emit_current_tag_token(&mut self) {
+        let token = self.current_tag_token.take();
 
         match token {
             Some(token) => {
@@ -1122,7 +1121,7 @@ where
                     // Switch to the data state. Emit the current tag token.
                     Some('>') => {
                         self.state = State::Data;
-                        self.emit_cur_token();
+                        self.emit_current_tag_token();
                     }
                     // ASCII upper alpha
                     // Append the lowercase version of the current input character (add 0x0020
@@ -1238,7 +1237,7 @@ where
                     Some('>') => {
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.state = State::Data;
-                            self.emit_cur_token();
+                            self.emit_current_tag_token();
                         } else {
                             anything_else(self);
                         }
@@ -1360,7 +1359,7 @@ where
                     Some('>') => {
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.state = State::Data;
-                            self.emit_cur_token();
+                            self.emit_current_tag_token();
                         } else {
                             anything_else(self);
                         }
@@ -1490,7 +1489,7 @@ where
                     Some('>') => {
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.state = State::Data;
-                            self.emit_cur_token();
+                            self.emit_current_tag_token();
                         } else {
                             anything_else(self);
                         }
@@ -1785,7 +1784,7 @@ where
                     Some('>') => {
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.state = State::Data;
-                            self.emit_cur_token();
+                            self.emit_current_tag_token();
                         } else {
                             anything_else(self);
                         }
@@ -2243,7 +2242,7 @@ where
                     // Switch to the data state. Emit the current tag token.
                     Some('>') => {
                         self.state = State::Data;
-                        self.emit_cur_token();
+                        self.emit_current_tag_token();
                     }
                     // EOF
                     // This is an eof-in-tag parse error. Emit an end-of-file token.
@@ -2293,7 +2292,7 @@ where
                     Some('>') => {
                         self.emit_error(ErrorKind::MissingAttributeValue);
                         self.state = State::Data;
-                        self.emit_cur_token();
+                        self.emit_current_tag_token();
                     }
                     // Anything else
                     // Reconsume in the attribute value (unquoted) state.
@@ -2412,7 +2411,7 @@ where
                     Some('>') => {
                         self.update_attribute_span();
                         self.state = State::Data;
-                        self.emit_cur_token();
+                        self.emit_current_tag_token();
                     }
                     // U+0000 NULL
                     // This is an unexpected-null-character parse error. Append a U+FFFD
@@ -2475,7 +2474,7 @@ where
                     Some('>') => {
                         self.update_attribute_span();
                         self.state = State::Data;
-                        self.emit_cur_token();
+                        self.emit_current_tag_token();
                     }
                     // EOF
                     // This is an eof-in-tag parse error. Emit an end-of-file token.
@@ -2506,7 +2505,7 @@ where
                     Some('>') => {
                         self.set_self_closing_flag();
                         self.state = State::Data;
-                        self.emit_cur_token();
+                        self.emit_current_tag_token();
                     }
                     // EOF
                     // This is an eof-in-tag parse error. Emit an end-of-file token.
