@@ -450,6 +450,61 @@ where
         }
     }
 
+    fn append_to_current_attribute_name(&mut self, c: char, raw_c: char) {
+        if let Some(ref mut token) = self.cur_token {
+            match token {
+                Token::StartTag { attributes, .. } | Token::EndTag { attributes, .. } => {
+                    if let Some(attribute) = attributes.last_mut() {
+                        let mut new_name = String::new();
+
+                        new_name.push_str(&attribute.name);
+                        new_name.push(c);
+
+                        attribute.name = new_name.into();
+
+                        let mut raw_new_name = String::new();
+
+                        raw_new_name.push_str(attribute.raw_name.as_ref().unwrap());
+                        raw_new_name.push(raw_c);
+
+                        attribute.raw_name = Some(raw_new_name.into());
+                    }
+                }
+                _ => {}
+            }
+        }
+    }
+
+    fn append_to_current_tag_token_name(&mut self, c: char, raw_c: char) {
+        match &mut self.cur_token {
+            Some(Token::StartTag {
+                tag_name,
+                raw_tag_name: Some(raw_tag_name),
+                ..
+            })
+            | Some(Token::EndTag {
+                tag_name,
+                raw_tag_name: Some(raw_tag_name),
+                ..
+            }) => {
+                let mut new_tag_name = String::new();
+
+                new_tag_name.push_str(tag_name);
+                new_tag_name.push(c);
+
+                *tag_name = new_tag_name.into();
+
+                let mut new_raw_tag_name = String::new();
+
+                new_raw_tag_name.push_str(raw_tag_name);
+                new_raw_tag_name.push(raw_c);
+
+                *raw_tag_name = new_raw_tag_name.into();
+            }
+            _ => {}
+        }
+    }
+
     fn emit_character_token(&mut self, c: char, raw_c: Option<char>) {
         let mut raw = if raw_c.is_some() {
             String::with_capacity(1)
@@ -816,60 +871,15 @@ where
                     // ASCII upper alpha
                     // Append the lowercase version of the current input character (add 0x0020
                     // to the character's code point) to the current tag token's tag name.
-                    Some(c) if is_ascii_upper_alpha(c) => match &mut self.cur_token {
-                        Some(Token::StartTag {
-                            tag_name,
-                            raw_tag_name: Some(raw_tag_name),
-                            ..
-                        })
-                        | Some(Token::EndTag {
-                            tag_name,
-                            raw_tag_name: Some(raw_tag_name),
-                            ..
-                        }) => {
-                            let mut new_tag_name = String::new();
-                            let mut new_raw_tag_name = String::new();
-
-                            new_tag_name.push_str(tag_name);
-                            new_raw_tag_name.push_str(raw_tag_name);
-                            new_tag_name.push(c.to_ascii_lowercase());
-                            new_raw_tag_name.push(c);
-
-                            *tag_name = new_tag_name.into();
-                            *raw_tag_name = new_raw_tag_name.into();
-                        }
-                        _ => {}
-                    },
+                    Some(c) if is_ascii_upper_alpha(c) => {
+                        self.append_to_current_tag_token_name(c.to_ascii_lowercase(), c);
+                    }
                     // U+0000 NULL
                     // This is an unexpected-null-character parse error. Append a U+FFFD
                     // REPLACEMENT CHARACTER character to the current tag token's tag name.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-
-                        match &mut self.cur_token {
-                            Some(Token::StartTag {
-                                tag_name,
-                                raw_tag_name: Some(raw_tag_name),
-                                ..
-                            })
-                            | Some(Token::EndTag {
-                                tag_name,
-                                raw_tag_name: Some(raw_tag_name),
-                                ..
-                            }) => {
-                                let mut new_tag_name = String::new();
-                                let mut new_raw_tag_name = String::new();
-
-                                new_tag_name.push_str(tag_name);
-                                new_raw_tag_name.push_str(raw_tag_name);
-                                new_tag_name.push(REPLACEMENT_CHARACTER);
-                                new_raw_tag_name.push(c);
-
-                                *tag_name = new_tag_name.into();
-                                *raw_tag_name = new_raw_tag_name.into();
-                            }
-                            _ => {}
-                        }
+                        self.append_to_current_tag_token_name(REPLACEMENT_CHARACTER, c);
                     }
                     // EOF
                     // This is an eof-in-tag parse error. Emit an end-of-file token.
@@ -881,30 +891,9 @@ where
                     }
                     // Anything else
                     // Append the current input character to the current tag token's tag name.
-                    Some(c) => match &mut self.cur_token {
-                        Some(Token::StartTag {
-                            tag_name,
-                            raw_tag_name: Some(raw_tag_name),
-                            ..
-                        })
-                        | Some(Token::EndTag {
-                            tag_name,
-                            raw_tag_name: Some(raw_tag_name),
-                            ..
-                        }) => {
-                            let mut new_tag_name = String::new();
-                            let mut new_raw_tag_name = String::new();
-
-                            new_tag_name.push_str(tag_name);
-                            new_raw_tag_name.push_str(raw_tag_name);
-                            new_tag_name.push(c.to_ascii_lowercase());
-                            new_raw_tag_name.push(c);
-
-                            *tag_name = new_tag_name.into();
-                            *raw_tag_name = new_raw_tag_name.into();
-                        }
-                        _ => {}
-                    },
+                    Some(c) => {
+                        self.append_to_current_tag_token_name(c, c);
+                    }
                 }
             }
             // https://html.spec.whatwg.org/multipage/parsing.html#rcdata-less-than-sign-state
@@ -1008,30 +997,7 @@ where
                     // to the character's code point) to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        match &mut self.cur_token {
-                            Some(Token::StartTag {
-                                tag_name,
-                                raw_tag_name: Some(raw_tag_name),
-                                ..
-                            })
-                            | Some(Token::EndTag {
-                                tag_name,
-                                raw_tag_name: Some(raw_tag_name),
-                                ..
-                            }) => {
-                                let mut new_tag_name = String::new();
-                                let mut new_raw_tag_name = String::new();
-
-                                new_tag_name.push_str(tag_name);
-                                new_raw_tag_name.push_str(tag_name);
-                                new_tag_name.push(c.to_ascii_lowercase());
-                                new_raw_tag_name.push(c);
-
-                                *tag_name = new_tag_name.into();
-                                *raw_tag_name = new_raw_tag_name.into();
-                            }
-                            _ => {}
-                        };
+                        self.append_to_current_tag_token_name(c.to_ascii_lowercase(), c);
 
                         if let Some(ref mut temporary_buffer) = self.temporary_buffer {
                             temporary_buffer.push(c);
@@ -1041,30 +1007,7 @@ where
                     // Append the current input character to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_lower_alpha(c) => {
-                        match &mut self.cur_token {
-                            Some(Token::StartTag {
-                                tag_name,
-                                raw_tag_name: Some(raw_tag_name),
-                                ..
-                            })
-                            | Some(Token::EndTag {
-                                tag_name,
-                                raw_tag_name: Some(raw_tag_name),
-                                ..
-                            }) => {
-                                let mut new_tag_name = String::new();
-                                let mut new_raw_tag_name = String::new();
-
-                                new_tag_name.push_str(tag_name);
-                                new_raw_tag_name.push_str(tag_name);
-                                new_tag_name.push(c.to_ascii_lowercase());
-                                new_raw_tag_name.push(c);
-
-                                *tag_name = new_tag_name.into();
-                                *raw_tag_name = new_raw_tag_name.into();
-                            }
-                            _ => {}
-                        };
+                        self.append_to_current_tag_token_name(c, c);
 
                         if let Some(ref mut temporary_buffer) = self.temporary_buffer {
                             temporary_buffer.push(c);
@@ -1181,30 +1124,7 @@ where
                     // to the character's code point) to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        match &mut self.cur_token {
-                            Some(Token::StartTag {
-                                tag_name,
-                                raw_tag_name: Some(raw_tag_name),
-                                ..
-                            })
-                            | Some(Token::EndTag {
-                                tag_name,
-                                raw_tag_name: Some(raw_tag_name),
-                                ..
-                            }) => {
-                                let mut new_tag_name = String::new();
-                                let mut new_raw_tag_name = String::new();
-
-                                new_tag_name.push_str(tag_name);
-                                new_raw_tag_name.push_str(tag_name);
-                                new_tag_name.push(c.to_ascii_lowercase());
-                                new_raw_tag_name.push(c);
-
-                                *tag_name = new_tag_name.into();
-                                *raw_tag_name = new_raw_tag_name.into();
-                            }
-                            _ => {}
-                        };
+                        self.append_to_current_tag_token_name(c.to_ascii_lowercase(), c);
 
                         if let Some(ref mut temporary_buffer) = self.temporary_buffer {
                             temporary_buffer.push(c);
@@ -1214,30 +1134,7 @@ where
                     // Append the current input character to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_lower_alpha(c) => {
-                        match &mut self.cur_token {
-                            Some(Token::StartTag {
-                                tag_name,
-                                raw_tag_name: Some(raw_tag_name),
-                                ..
-                            })
-                            | Some(Token::EndTag {
-                                tag_name,
-                                raw_tag_name: Some(raw_tag_name),
-                                ..
-                            }) => {
-                                let mut new_tag_name = String::new();
-                                let mut new_raw_tag_name = String::new();
-
-                                new_tag_name.push_str(tag_name);
-                                new_raw_tag_name.push_str(tag_name);
-                                new_tag_name.push(c.to_ascii_lowercase());
-                                new_raw_tag_name.push(c);
-
-                                *tag_name = new_tag_name.into();
-                                *raw_tag_name = new_raw_tag_name.into();
-                            }
-                            _ => {}
-                        };
+                        self.append_to_current_tag_token_name(c, c);
 
                         if let Some(ref mut temporary_buffer) = self.temporary_buffer {
                             temporary_buffer.push(c);
@@ -1362,30 +1259,7 @@ where
                     // to the character's code point) to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        match &mut self.cur_token {
-                            Some(Token::StartTag {
-                                tag_name,
-                                raw_tag_name: Some(raw_tag_name),
-                                ..
-                            })
-                            | Some(Token::EndTag {
-                                tag_name,
-                                raw_tag_name: Some(raw_tag_name),
-                                ..
-                            }) => {
-                                let mut new_tag_name = String::new();
-                                let mut new_raw_tag_name = String::new();
-
-                                new_tag_name.push_str(tag_name);
-                                new_raw_tag_name.push_str(tag_name);
-                                new_tag_name.push(c.to_ascii_lowercase());
-                                new_raw_tag_name.push(c);
-
-                                *tag_name = new_tag_name.into();
-                                *raw_tag_name = new_raw_tag_name.into();
-                            }
-                            _ => {}
-                        };
+                        self.append_to_current_tag_token_name(c.to_ascii_lowercase(), c);
 
                         if let Some(ref mut temporary_buffer) = self.temporary_buffer {
                             temporary_buffer.push(c);
@@ -1395,30 +1269,7 @@ where
                     // Append the current input character to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_lower_alpha(c) => {
-                        match &mut self.cur_token {
-                            Some(Token::StartTag {
-                                tag_name,
-                                raw_tag_name: Some(raw_tag_name),
-                                ..
-                            })
-                            | Some(Token::EndTag {
-                                tag_name,
-                                raw_tag_name: Some(raw_tag_name),
-                                ..
-                            }) => {
-                                let mut new_tag_name = String::new();
-                                let mut new_raw_tag_name = String::new();
-
-                                new_tag_name.push_str(tag_name);
-                                new_raw_tag_name.push_str(tag_name);
-                                new_tag_name.push(c.to_ascii_lowercase());
-                                new_raw_tag_name.push(c);
-
-                                *tag_name = new_tag_name.into();
-                                *raw_tag_name = new_raw_tag_name.into();
-                            }
-                            _ => {}
-                        };
+                        self.append_to_current_tag_token_name(c, c);
 
                         if let Some(ref mut temporary_buffer) = self.temporary_buffer {
                             temporary_buffer.push(c);
@@ -1708,30 +1559,7 @@ where
                     // to the character's code point) to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        match &mut self.cur_token {
-                            Some(Token::StartTag {
-                                tag_name,
-                                raw_tag_name: Some(raw_tag_name),
-                                ..
-                            })
-                            | Some(Token::EndTag {
-                                tag_name,
-                                raw_tag_name: Some(raw_tag_name),
-                                ..
-                            }) => {
-                                let mut new_tag_name = String::new();
-                                let mut new_raw_tag_name = String::new();
-
-                                new_tag_name.push_str(tag_name);
-                                new_raw_tag_name.push_str(tag_name);
-                                new_tag_name.push(c.to_ascii_lowercase());
-                                new_raw_tag_name.push(c);
-
-                                *tag_name = new_tag_name.into();
-                                *raw_tag_name = new_raw_tag_name.into();
-                            }
-                            _ => {}
-                        };
+                        self.append_to_current_tag_token_name(c.to_ascii_lowercase(), c);
 
                         if let Some(ref mut temporary_buffer) = self.temporary_buffer {
                             temporary_buffer.push(c);
@@ -1741,30 +1569,7 @@ where
                     // Append the current input character to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_lower_alpha(c) => {
-                        match &mut self.cur_token {
-                            Some(Token::StartTag {
-                                tag_name,
-                                raw_tag_name: Some(raw_tag_name),
-                                ..
-                            })
-                            | Some(Token::EndTag {
-                                tag_name,
-                                raw_tag_name: Some(raw_tag_name),
-                                ..
-                            }) => {
-                                let mut new_tag_name = String::new();
-                                let mut new_raw_tag_name = String::new();
-
-                                new_tag_name.push_str(tag_name);
-                                new_raw_tag_name.push_str(tag_name);
-                                new_tag_name.push(c.to_ascii_lowercase());
-                                new_raw_tag_name.push(c);
-
-                                *tag_name = new_tag_name.into();
-                                *raw_tag_name = new_raw_tag_name.into();
-                            }
-                            _ => {}
-                        };
+                        self.append_to_current_tag_token_name(c, c);
 
                         if let Some(ref mut temporary_buffer) = self.temporary_buffer {
                             temporary_buffer.push(c);
@@ -2143,26 +1948,7 @@ where
             // https://html.spec.whatwg.org/multipage/parsing.html#attribute-name-state
             State::AttributeName => {
                 let anything_else = |lexer: &mut Lexer<I>, c: char| {
-                    if let Some(ref mut token) = lexer.cur_token {
-                        match token {
-                            Token::StartTag { attributes, .. }
-                            | Token::EndTag { attributes, .. } => {
-                                if let Some(attribute) = attributes.last_mut() {
-                                    let mut new_name = String::new();
-                                    let mut raw_new_name = String::new();
-
-                                    new_name.push_str(&attribute.name);
-                                    raw_new_name.push_str(attribute.raw_name.as_ref().unwrap());
-                                    new_name.push(c);
-                                    raw_new_name.push(c);
-
-                                    attribute.name = new_name.into();
-                                    attribute.raw_name = Some(raw_new_name.into());
-                                }
-                            }
-                            _ => {}
-                        }
-                    }
+                    lexer.append_to_current_attribute_name(c, c);
                 };
 
                 // Consume the next input character:
@@ -2196,53 +1982,14 @@ where
                     // Append the lowercase version of the current input character (add 0x0020
                     // to the character's code point) to the current attribute's name.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        if let Some(ref mut token) = self.cur_token {
-                            match token {
-                                Token::StartTag { attributes, .. }
-                                | Token::EndTag { attributes, .. } => {
-                                    if let Some(attribute) = attributes.last_mut() {
-                                        let mut new_name = String::new();
-                                        let mut raw_new_name = String::new();
-
-                                        new_name.push_str(&attribute.name);
-                                        raw_new_name.push_str(attribute.raw_name.as_ref().unwrap());
-                                        new_name.push(c.to_ascii_lowercase());
-                                        raw_new_name.push(c);
-
-                                        attribute.name = new_name.into();
-                                        attribute.raw_name = Some(raw_new_name.into());
-                                    }
-                                }
-                                _ => {}
-                            }
-                        }
+                        self.append_to_current_attribute_name(c.to_ascii_lowercase(), c);
                     }
                     // U+0000 NULL
                     // This is an unexpected-null-character parse error. Append a U+FFFD
                     // REPLACEMENT CHARACTER character to the current attribute's name.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-
-                        if let Some(ref mut token) = self.cur_token {
-                            match token {
-                                Token::StartTag { attributes, .. }
-                                | Token::EndTag { attributes, .. } => {
-                                    if let Some(attribute) = attributes.last_mut() {
-                                        let mut new_name = String::new();
-                                        let mut raw_new_name = String::new();
-
-                                        new_name.push_str(&attribute.name);
-                                        raw_new_name.push_str(attribute.raw_name.as_ref().unwrap());
-                                        new_name.push(REPLACEMENT_CHARACTER);
-                                        raw_new_name.push(c);
-
-                                        attribute.name = new_name.into();
-                                        attribute.raw_name = Some(raw_new_name.into());
-                                    }
-                                }
-                                _ => {}
-                            }
-                        }
+                        self.append_to_current_attribute_name(REPLACEMENT_CHARACTER, c);
                     }
                     // U+0022 QUOTATION MARK (")
                     // U+0027 APOSTROPHE (')
