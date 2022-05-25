@@ -669,7 +669,7 @@ where
         if self.ctx.skip_escape_text {
             write_str!(self, n.span, &n.value);
         } else {
-            let mut data = String::new();
+            let mut data = String::with_capacity(n.value.len());
 
             if self.ctx.need_extra_newline_in_text && n.value.contains('\n') {
                 data.push('\n');
@@ -687,7 +687,7 @@ where
 
     #[emitter]
     fn emit_comment(&mut self, n: &Comment) -> Result {
-        let mut comment = String::new();
+        let mut comment = String::with_capacity(n.data.len() + 7);
 
         comment.push_str("<!--");
         comment.push_str(&n.data);
@@ -1011,7 +1011,7 @@ fn minify_attribute_value(value: &str) -> String {
         return "\"\"".to_string();
     }
 
-    let mut minified = String::new();
+    let mut minified = String::with_capacity(value.len());
 
     let mut unquoted = true;
     let mut dq = 0;
@@ -1190,7 +1190,7 @@ fn normalize_attribute_value(value: &str) -> String {
         return "\"\"".to_string();
     }
 
-    let mut normalized = String::new();
+    let mut normalized = String::with_capacity(value.len() + 2);
 
     normalized.push('"');
     normalized.push_str(&escape_string(value, true));
@@ -1200,15 +1200,15 @@ fn normalize_attribute_value(value: &str) -> String {
 }
 
 fn minify_text(value: &str) -> String {
-    let mut result = String::new();
+    let mut result = String::with_capacity(value.len());
 
     for c in value.chars() {
         match c {
             '&' => {
-                result.push_str(&String::from("&amp;"));
+                result.push_str("&amp;");
             }
             '<' => {
-                result.push_str(&String::from("&lt;"));
+                result.push_str("&lt;");
             }
             _ => result.push(c),
         }
@@ -1232,20 +1232,20 @@ fn minify_text(value: &str) -> String {
 // occurrences of the "<" character by the string "&lt;", and any occurrences of
 // the ">" character by the string "&gt;".
 fn escape_string(value: &str, is_attribute_mode: bool) -> String {
-    let mut result = String::new();
+    let mut result = String::with_capacity(value.len());
 
     for c in value.chars() {
         match c {
             '&' => {
-                result.push_str(&String::from("&amp;"));
+                result.push_str("&amp;");
             }
-            '\u{00A0}' => result.push_str(&String::from("&nbsp;")),
-            '"' if is_attribute_mode => result.push_str(&String::from("&quot;")),
+            '\u{00A0}' => result.push_str("&nbsp;"),
+            '"' if is_attribute_mode => result.push_str("&quot;"),
             '<' if !is_attribute_mode => {
-                result.push_str(&String::from("&lt;"));
+                result.push_str("&lt;");
             }
             '>' if !is_attribute_mode => {
-                result.push_str(&String::from("&gt;"));
+                result.push_str("&gt;");
             }
             _ => result.push(c),
         }
