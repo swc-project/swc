@@ -450,6 +450,31 @@ where
         }
     }
 
+    fn start_new_attribute(&mut self, c: Option<char>) {
+        if let Some(ref mut token) = self.cur_token {
+            match token {
+                Token::StartTag { attributes, .. } | Token::EndTag { attributes, .. } => {
+                    let initial = if let Some(c) = c {
+                        c.to_string()
+                    } else {
+                        "".to_string()
+                    };
+
+                    attributes.push(AttributeToken {
+                        span: Default::default(),
+                        name: initial.clone().into(),
+                        raw_name: Some(initial.into()),
+                        value: None,
+                        raw_value: None,
+                    });
+
+                    self.attribute_start_position = Some(self.cur_pos);
+                }
+                _ => {}
+            }
+        }
+    }
+
     fn append_to_current_tag_token_name(&mut self, c: char, raw_c: char) {
         match &mut self.cur_token {
             Some(Token::StartTag {
@@ -1928,25 +1953,7 @@ where
                     // We set `None` for `value` to support boolean attributes in AST
                     Some(c @ '=') => {
                         self.emit_error(ErrorKind::UnexpectedEqualsSignBeforeAttributeName);
-
-                        if let Some(ref mut token) = self.cur_token {
-                            match token {
-                                Token::StartTag { attributes, .. }
-                                | Token::EndTag { attributes, .. } => {
-                                    attributes.push(AttributeToken {
-                                        span: Default::default(),
-                                        name: c.to_string().into(),
-                                        raw_name: Some(c.to_string().into()),
-                                        value: None,
-                                        raw_value: None,
-                                    });
-
-                                    self.attribute_start_position = Some(self.cur_pos);
-                                }
-                                _ => {}
-                            }
-                        }
-
+                        self.start_new_attribute(Some(c));
                         self.state = State::AttributeName;
                     }
                     // Anything else
@@ -1954,24 +1961,7 @@ where
                     // and value to the empty string. Reconsume in the attribute name state.
                     // We set `None` for `value` to support boolean attributes in AST
                     _ => {
-                        if let Some(ref mut token) = self.cur_token {
-                            match token {
-                                Token::StartTag { attributes, .. }
-                                | Token::EndTag { attributes, .. } => {
-                                    attributes.push(AttributeToken {
-                                        span: Default::default(),
-                                        name: "".into(),
-                                        raw_name: Some("".into()),
-                                        value: None,
-                                        raw_value: None,
-                                    });
-
-                                    self.attribute_start_position = Some(self.cur_pos);
-                                }
-                                _ => {}
-                            }
-                        }
-
+                        self.start_new_attribute(None);
                         self.reconsume_in_state(State::AttributeName);
                     }
                 }
@@ -2088,23 +2078,7 @@ where
                     // and value to the empty string. Reconsume in the attribute name state.
                     // We set `None` for `value` to support boolean attributes in AST
                     _ => {
-                        if let Some(ref mut token) = self.cur_token {
-                            match token {
-                                Token::StartTag { attributes, .. }
-                                | Token::EndTag { attributes, .. } => {
-                                    attributes.push(AttributeToken {
-                                        span: Default::default(),
-                                        name: "".into(),
-                                        raw_name: Some("".into()),
-                                        value: None,
-                                        raw_value: None,
-                                    });
-
-                                    self.attribute_start_position = Some(self.cur_pos);
-                                }
-                                _ => {}
-                            }
-                        }
+                        self.start_new_attribute(None);
                         self.reconsume_in_state(State::AttributeName);
                     }
                 }
