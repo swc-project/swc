@@ -427,7 +427,7 @@ where
         }
     }
 
-    fn append_character_to_token_comment(&mut self, c: char, _raw_c: Option<char>) {
+    fn append_to_comment_token(&mut self, c: char, _raw_c: Option<char>) {
         if let Some(Token::Comment { data, .. }) = &mut self.cur_token {
             let mut new_data = String::new();
 
@@ -452,11 +452,13 @@ where
 
     fn append_to_doctype_token(
         &mut self,
+        raw_keyword: Option<String>,
         name: Option<(char, char)>,
         public_id: Option<(char, char)>,
         system_id: Option<(char, char)>,
     ) {
         if let Some(Token::Doctype {
+            raw_public_keyword: Some(raw_public_keyword),
             name: Some(old_name),
             raw_name: Some(old_raw_name),
             public_id: Some(old_public_id),
@@ -464,6 +466,10 @@ where
             ..
         }) = &mut self.cur_token
         {
+            if let Some(raw_keyword) = raw_keyword {
+                *raw_public_keyword = raw_keyword.into();
+            }
+
             if let Some(name) = name {
                 let mut new_name = String::new();
                 let mut new_raw_name = String::new();
@@ -2503,12 +2509,12 @@ where
                     // REPLACEMENT CHARACTER character to the comment token's data.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_character_to_token_comment(REPLACEMENT_CHARACTER, Some(c));
+                        self.append_to_comment_token(REPLACEMENT_CHARACTER, Some(c));
                     }
                     // Anything else
                     // Append the current input character to the comment token's data.
                     Some(c) => {
-                        self.append_character_to_token_comment(c, Some(c));
+                        self.append_to_comment_token(c, Some(c));
                     }
                 }
             }
@@ -2710,7 +2716,7 @@ where
                     // Append a U+002D HYPHEN-MINUS character (-) to the comment token's data.
                     // Reconsume in the comment state.
                     _ => {
-                        self.append_character_to_token_comment('-', None);
+                        self.append_to_comment_token('-', None);
                         self.reconsume_in_state(State::Comment);
                     }
                 }
@@ -2723,7 +2729,7 @@ where
                     // Append the current input character to the comment token's data. Switch to
                     // the comment less-than sign state.
                     Some(c @ '<') => {
-                        self.append_character_to_token_comment(c, Some(c));
+                        self.append_to_comment_token(c, Some(c));
                         self.state = State::CommentLessThanSign;
                     }
                     // U+002D HYPHEN-MINUS (-)
@@ -2736,7 +2742,7 @@ where
                     // REPLACEMENT CHARACTER character to the comment token's data.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_character_to_token_comment(REPLACEMENT_CHARACTER, Some(c));
+                        self.append_to_comment_token(REPLACEMENT_CHARACTER, Some(c));
                     }
                     // EOF
                     // This is an eof-in-comment parse error. Emit the current comment token.
@@ -2751,7 +2757,7 @@ where
                     // Anything else
                     // Append the current input character to the comment token's data.
                     Some(c) => {
-                        self.append_character_to_token_comment(c, Some(c));
+                        self.append_to_comment_token(c, Some(c));
                     }
                 }
             }
@@ -2763,13 +2769,13 @@ where
                     // Append the current input character to the comment token's data. Switch to
                     // the comment less-than sign bang state.
                     Some(c @ '!') => {
-                        self.append_character_to_token_comment(c, Some(c));
+                        self.append_to_comment_token(c, Some(c));
                         self.state = State::CommentLessThanSignBang;
                     }
                     // U+003C LESS-THAN SIGN (<)
                     // Append the current input character to the comment token's data.
                     Some(c @ '<') => {
-                        self.append_character_to_token_comment(c, Some(c));
+                        self.append_to_comment_token(c, Some(c));
                     }
                     // Anything else
                     // Reconsume in the comment state.
@@ -2851,7 +2857,7 @@ where
                     // Append a U+002D HYPHEN-MINUS character (-) to the comment token's data.
                     // Reconsume in the comment state.
                     _ => {
-                        self.append_character_to_token_comment('-', None);
+                        self.append_to_comment_token('-', None);
                         self.reconsume_in_state(State::Comment);
                     }
                 }
@@ -2874,7 +2880,7 @@ where
                     // U+002D HYPHEN-MINUS (-)
                     // Append a U+002D HYPHEN-MINUS character (-) to the comment token's data.
                     Some(c @ '-') => {
-                        self.append_character_to_token_comment(c, Some(c));
+                        self.append_to_comment_token(c, Some(c));
                     }
                     // EOF
                     // This is an eof-in-comment parse error. Emit the current comment token.
@@ -2890,8 +2896,8 @@ where
                     // Append two U+002D HYPHEN-MINUS characters (-) to the comment token's
                     // data. Reconsume in the comment state.
                     _ => {
-                        self.append_character_to_token_comment('-', None);
-                        self.append_character_to_token_comment('-', None);
+                        self.append_to_comment_token('-', None);
+                        self.append_to_comment_token('-', None);
                         self.reconsume_in_state(State::Comment);
                     }
                 }
@@ -2905,9 +2911,9 @@ where
                     // MARK character (!) to the comment token's data. Switch to the comment end
                     // dash state.
                     Some(c @ '-') => {
-                        self.append_character_to_token_comment(c, Some(c));
-                        self.append_character_to_token_comment('-', None);
-                        self.append_character_to_token_comment('!', None);
+                        self.append_to_comment_token(c, Some(c));
+                        self.append_to_comment_token('-', None);
+                        self.append_to_comment_token('!', None);
                         self.state = State::CommentEndDash;
                     }
                     // U+003E GREATER-THAN SIGN (>)
@@ -2933,9 +2939,9 @@ where
                     // MARK character (!) to the comment token's data. Reconsume in the comment
                     // state.
                     _ => {
-                        self.append_character_to_token_comment('-', None);
-                        self.append_character_to_token_comment('-', None);
-                        self.append_character_to_token_comment('!', None);
+                        self.append_to_comment_token('-', None);
+                        self.append_to_comment_token('-', None);
+                        self.append_to_comment_token('!', None);
                         self.reconsume_in_state(State::Comment);
                     }
                 }
@@ -3129,7 +3135,12 @@ where
                     // Append the lowercase version of the current input character (add 0x0020
                     // to the character's code point) to the current DOCTYPE token's name.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        self.append_to_doctype_token(Some((c.to_ascii_lowercase(), c)), None, None);
+                        self.append_to_doctype_token(
+                            None,
+                            Some((c.to_ascii_lowercase(), c)),
+                            None,
+                            None,
+                        );
                     }
                     // U+0000 NULL
                     // This is an unexpected-null-character parse error. Append a U+FFFD
@@ -3254,23 +3265,21 @@ where
                         match &*first_six_chars.to_lowercase() {
                             "public" => {
                                 self.state = State::AfterDoctypePublicKeyword;
-
-                                if let Some(Token::Doctype {
-                                    raw_public_keyword, ..
-                                }) = &mut self.cur_token
-                                {
-                                    *raw_public_keyword = Some(first_six_chars.into());
-                                }
+                                self.append_to_doctype_token(
+                                    Some(first_six_chars),
+                                    None,
+                                    None,
+                                    None,
+                                );
                             }
                             "system" => {
                                 self.state = State::AfterDoctypeSystemKeyword;
-
-                                if let Some(Token::Doctype {
-                                    raw_system_keyword, ..
-                                }) = &mut self.cur_token
-                                {
-                                    *raw_system_keyword = Some(first_six_chars.into());
-                                }
+                                self.append_to_doctype_token(
+                                    Some(first_six_chars),
+                                    None,
+                                    None,
+                                    None,
+                                );
                             }
                             _ => {
                                 self.cur_pos = cur_pos;
@@ -3465,7 +3474,12 @@ where
                     // identifier.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_to_doctype_token(None, Some((REPLACEMENT_CHARACTER, c)), None);
+                        self.append_to_doctype_token(
+                            None,
+                            None,
+                            Some((REPLACEMENT_CHARACTER, c)),
+                            None,
+                        );
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // This is an abrupt-doctype-public-identifier parse error. Set the current
@@ -3493,7 +3507,7 @@ where
                     // Append the current input character to the current DOCTYPE token's public
                     // identifier.
                     Some(c) => {
-                        self.append_to_doctype_token(None, Some((c, c)), None);
+                        self.append_to_doctype_token(None, None, Some((c, c)), None);
                     }
                 }
             }
@@ -3512,7 +3526,12 @@ where
                     // identifier.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_to_doctype_token(None, Some((REPLACEMENT_CHARACTER, c)), None);
+                        self.append_to_doctype_token(
+                            None,
+                            None,
+                            Some((REPLACEMENT_CHARACTER, c)),
+                            None,
+                        );
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // This is an abrupt-doctype-public-identifier parse error. Set the current
@@ -3540,7 +3559,7 @@ where
                     // Append the current input character to the current DOCTYPE token's public
                     // identifier.
                     Some(c) => {
-                        self.append_to_doctype_token(None, Some((c, c)), None);
+                        self.append_to_doctype_token(None, None, Some((c, c)), None);
                     }
                 }
             }
@@ -3885,7 +3904,12 @@ where
                     // identifier.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_to_doctype_token(None, None, Some((REPLACEMENT_CHARACTER, c)));
+                        self.append_to_doctype_token(
+                            None,
+                            None,
+                            None,
+                            Some((REPLACEMENT_CHARACTER, c)),
+                        );
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // This is an abrupt-doctype-system-identifier parse error. Set the current
@@ -3913,7 +3937,7 @@ where
                     // Append the current input character to the current DOCTYPE token's system
                     // identifier.
                     Some(c) => {
-                        self.append_to_doctype_token(None, None, Some((c, c)));
+                        self.append_to_doctype_token(None, None, None, Some((c, c)));
                     }
                 }
             }
@@ -3932,7 +3956,12 @@ where
                     // identifier.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_to_doctype_token(None, None, Some((REPLACEMENT_CHARACTER, c)));
+                        self.append_to_doctype_token(
+                            None,
+                            None,
+                            None,
+                            Some((REPLACEMENT_CHARACTER, c)),
+                        );
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // This is an abrupt-doctype-system-identifier parse error. Set the current
@@ -3960,7 +3989,7 @@ where
                     // Append the current input character to the current DOCTYPE token's system
                     // identifier.
                     Some(c) => {
-                        self.append_to_doctype_token(None, None, Some((c, c)));
+                        self.append_to_doctype_token(None, None, None, Some((c, c)));
                     }
                 }
             }
