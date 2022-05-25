@@ -583,12 +583,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                 let last_start_tag: String = serde_json::from_value(last_start_tag.clone())
                     .expect("failed to get lastStartTag in test");
 
-                lexer.set_last_start_tag_token(Token::StartTag {
-                    tag_name: last_start_tag.into(),
-                    raw_tag_name: None,
-                    self_closing: false,
-                    attributes: vec![],
-                });
+                lexer.set_last_start_tag_name(&last_start_tag);
             }
 
             let mut actual_tokens = vec![];
