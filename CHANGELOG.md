@@ -13,6 +13,12 @@
 
 - **(plugin)** Implement `SourceMap.span_to_*` (#4781) ([a937357](https://github.com/swc-project/swc/commit/a937357d47471222db4e62021ec507cd96597d9c))
 
+### Performance
+
+
+
+- **(common)** Use `jemalloc` for linux (#4791) ([6f04e84](https://github.com/swc-project/swc/commit/6f04e846394df4bcf1e82748cd5df739b7df7a96))
+
 ### Testing
 
 
