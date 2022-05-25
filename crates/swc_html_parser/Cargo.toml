@@ -10,7 +10,7 @@ include = ["Cargo.toml", "src/**/*.rs", "src/**/*.json"]
 license = "Apache-2.0"
 name = "swc_html_parser"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.9.0"
+version = "0.10.0"
 
 [lib]
 bench = false

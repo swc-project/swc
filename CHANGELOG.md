@@ -7,6 +7,12 @@
 
 - **(html/codegen)** Omit start and end tags if it is possible (#4780) ([c6ec9f9](https://github.com/swc-project/swc/commit/c6ec9f9cf20e149ce9cb8364403a031e3547741c))
 
+### Performance
+
+
+
+- **(html/parser)** Improve lexer (#4796) ([8894e77](https://github.com/swc-project/swc/commit/8894e77bc15d63080c5d91048734b33a8f299369))
+
 ## [1.2.194] - 2022-05-25
 
 ### Bug Fixes

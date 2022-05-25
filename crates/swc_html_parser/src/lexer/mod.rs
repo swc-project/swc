@@ -124,7 +124,7 @@ where
     state: State,
     return_state: State,
     errors: Vec<Error>,
-    last_start_tag_token: Option<Token>,
+    last_start_tag_name: Option<JsWord>,
     pending_tokens: Vec<TokenAndSpan>,
     cur_token: Option<Token>,
     attribute_start_position: Option<BytePos>,
@@ -152,7 +152,7 @@ where
             state: State::Data,
             return_state: State::Data,
             errors: vec![],
-            last_start_tag_token: None,
+            last_start_tag_name: None,
             pending_tokens: vec![],
             cur_token: None,
             attribute_start_position: None,
@@ -194,8 +194,8 @@ where
         take(&mut self.errors)
     }
 
-    fn set_last_start_tag_token(&mut self, token: Token) {
-        self.last_start_tag_token = Some(token);
+    fn set_last_start_tag_name(&mut self, tag_name: &str) {
+        self.last_start_tag_name = Some(tag_name.into());
     }
 
     fn set_adjusted_current_node_to_html_namespace(&mut self, value: bool) {
@@ -285,8 +285,8 @@ where
 
         self.start_pos = end;
 
-        if let Token::StartTag { .. } = token {
-            self.last_start_tag_token = Some(token.clone());
+        if let Token::StartTag { tag_name, .. } = &token {
+            self.last_start_tag_name = Some(tag_name.clone());
         }
 
         let token_and_span = TokenAndSpan { span, token };
@@ -365,11 +365,7 @@ where
     // any. If no start tag has been emitted from this tokenizer, then no end tag
     // token is appropriate.
     fn current_end_tag_token_is_an_appropriate_end_tag_token(&mut self) -> bool {
-        if let Some(Token::StartTag {
-            tag_name: last_start_tag_name,
-            ..
-        }) = &self.last_start_tag_token
-        {
+        if let Some(last_start_tag_name) = &self.last_start_tag_name {
             if let Some(Token::EndTag {
                 tag_name: end_tag_name,
                 ..
