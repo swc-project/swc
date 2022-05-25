@@ -33,7 +33,7 @@ test!(
     "import bar from 'bar';
 
 obj[bar('bas')] = '123'",
-    "define([\"bar\"], function(_bar) {
+    "define([\"require\", \"bar\"], function(require, _bar) {
     \"use strict\";
     _bar = _interopRequireDefault(_bar);
     obj[(0, _bar).default('bas')] = '123';
@@ -122,12 +122,34 @@ define([
   "exports",
 ], function(require, _exports) {
   "use strict";
-  Object.defineProperty(_exports, "__esModule", {
-      value: true
-  });
   _exports.DefaultIconPath = void 0;
   const DefaultIconPath = FileAccess.asBrowserUri('./media/defaultIcon.png', require).toString(true);
   _exports.DefaultIconPath = DefaultIconPath;
+});
+"#
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        config: util::Config {
+            strict: true,
+            ..Default::default()
+        },
+        ..Default::default()
+    }),
+    inner_scoped_local_require_non_export_module,
+    r#"
+    import { getPathFromAmdModule } from 'vs/base/test/node/testUtils';
+    const fixturesFolder = getPathFromAmdModule(require, './fixtures');
+    "#,
+    r#"
+  define([
+    "require",
+    "vs/base/test/node/testUtils"
+], function(require, _testUtils) {
+    "use strict";
+    const fixturesFolder = (0, _testUtils).getPathFromAmdModule(require, './fixtures');
 });
 "#
 );
@@ -167,7 +189,7 @@ test!(
     r#"import * as foo from 'foo';
     import bar from 'bar';"#,
     r#"
-define(["foo", "bar"], function(foo, _bar) {
+define(["require", "foo", "bar"], function(require, foo, _bar) {
     "use strict";
 });
 "#
@@ -184,7 +206,7 @@ import React from 'react'
 window.React = React;
   "#,
     r#"
-define(["react"], function(_react) {
+define(["require", "react"], function(require, _react) {
     "use strict";
     _react = _interopRequireDefault(_react);
     window.React = _react.default;
@@ -309,7 +331,7 @@ foo2;
 
 "#,
     r#"
-define(["foo"], function (_foo) {
+define(["require", "foo"], function (require, _foo) {
   "use strict";
 
   _foo = _interopRequireDefault(_foo);
@@ -333,7 +355,7 @@ xyz;
 
 "#,
     r#"
-define(["foo"], function (_foo) {
+define(["require", "foo"], function (require, _foo) {
   "use strict";
 
   _foo = _interopRequireWildcard(_foo);
@@ -567,7 +589,7 @@ foo;
 
 "#,
     r#"
-define(["foo"], function (foo) {
+define(["require", "foo"], function (require, foo) {
   "use strict";
 
   foo = _interopRequireWildcard(foo);
@@ -655,7 +677,7 @@ import "./directory/foo-bar";
 
 "#,
     r#"
-define(["foo", "foo-bar", "./directory/foo-bar"], function (_foo, _fooBar, _fooBar1) {
+define(["require", "foo", "foo-bar", "./directory/foo-bar"], function (require, _foo, _fooBar, _fooBar1) {
   "use strict";
 });
 
@@ -991,7 +1013,7 @@ import { qux } from './qux';
 
 "#,
     r#"
-define(["./foo", "./bar", "./derp", "./qux"], function (_foo, _bar, _derp, _qux) {
+define(["require", "./foo", "./bar", "./derp", "./qux"], function (require, _foo, _bar, _derp, _qux) {
   "use strict";
 
   _bar = _interopRequireDefault(_bar);
@@ -1100,7 +1122,7 @@ xyz;
 
 "#,
     r#"
-define(["foo"], function (_foo) {
+define(["require", "foo"], function (require, _foo) {
   "use strict";
 
   _foo.bar;
@@ -1266,7 +1288,7 @@ console.log(elm);
 
 "#,
     r#"
-define(["foo"], function (_foo) {
+define(["require", "foo"], function (require, _foo) {
 "use strict";
 
 for(let _i = 0; _i < _foo.array.length; _i++){

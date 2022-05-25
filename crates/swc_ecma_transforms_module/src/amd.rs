@@ -514,13 +514,19 @@ impl Fold for Amd {
         let mut scope_ref_mut = self.scope.borrow_mut();
         let scope = &mut *scope_ref_mut;
         let mut factory_params = Vec::with_capacity(scope.imports.len() + 1);
-        if has_export {
+
+        // inject local scoped `require` regardless of having exports or not, as long as
+        // it can be considered as module (either having import or export)
+        if !scope.imports.is_empty() || has_export {
             define_deps_arg.elems.push(Some("require".as_arg()));
             factory_params.push(Param {
                 span: DUMMY_SP,
                 decorators: Default::default(),
                 pat: scoped_local_require_ident.into(),
             });
+        }
+
+        if has_export {
             define_deps_arg.elems.push(Some("exports".as_arg()));
             factory_params.push(Param {
                 span: DUMMY_SP,
