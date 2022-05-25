@@ -454,19 +454,23 @@ where
         if let Some(ref mut token) = self.cur_token {
             match token {
                 Token::StartTag { attributes, .. } | Token::EndTag { attributes, .. } => {
-                    let initial = if let Some(c) = c {
-                        c.to_string()
+                    if let Some(c) = c {
+                        attributes.push(AttributeToken {
+                            span: Default::default(),
+                            name: c.to_string().into(),
+                            raw_name: Some(c.to_string().into()),
+                            value: None,
+                            raw_value: None,
+                        });
                     } else {
-                        "".to_string()
+                        attributes.push(AttributeToken {
+                            span: Default::default(),
+                            name: "".into(),
+                            raw_name: Some("".into()),
+                            value: None,
+                            raw_value: None,
+                        });
                     };
-
-                    attributes.push(AttributeToken {
-                        span: Default::default(),
-                        name: initial.clone().into(),
-                        raw_name: Some(initial.into()),
-                        value: None,
-                        raw_value: None,
-                    });
 
                     self.attribute_start_position = Some(self.cur_pos);
                 }
