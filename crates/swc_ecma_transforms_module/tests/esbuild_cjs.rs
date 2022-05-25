@@ -32,6 +32,10 @@ export default class {}
 
 export default foo;
 export default 1;
+
+export { x };
+export { x as y } from './x';
+export * from './x';
 ",
     "
 foo, bar;

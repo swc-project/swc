@@ -1,6 +1,10 @@
 use std::mem::swap;
 
-use swc_common::{collections::AHashMap, util::take::Take, DUMMY_SP};
+use swc_common::{
+    collections::{AHashMap, AHashSet},
+    util::take::Take,
+    DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, private_ident, quote_ident};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
@@ -16,6 +20,7 @@ pub struct ModuleDeclStrip {
     pub import: AHashMap<Str, Vec<ImportSpecifier>>,
     /// Map<exported, orig>
     pub export: AHashMap<ModuleExportName, ModuleExportName>,
+    pub export_all: AHashSet<Str>,
 
     export_src: Option<Str>,
 }
@@ -102,7 +107,7 @@ impl VisitMut for ModuleDeclStrip {
     ///
     /// split re-export
     /// ```javascript
-    /// export { orig } from "src"
+    /// export { foo as bae } from "x"
     /// export { "1" as "2" } from "y";
     /// ```
     /// ->
@@ -221,5 +226,9 @@ impl VisitMut for ModuleDeclStrip {
         };
 
         self.set_stmt(Stmt::Decl(var_decl.into()));
+    }
+
+    fn visit_mut_export_all(&mut self, n: &mut ExportAll) {
+        self.export_all.insert(n.src.take());
     }
 }
