@@ -539,7 +539,74 @@ where
         }
     }
 
-    fn append_to_current_tag_token_name(&mut self, c: char, raw_c: char) {
+    fn create_doctype_token(&mut self, keyword: Option<String>, name: Option<(char, char)>) {
+        self.cur_token = Some(Token::Doctype {
+            raw_keyword: keyword.map(JsWord::from),
+            name: name.map(|value| JsWord::from(value.0.to_string())),
+            raw_name: name.map(|value| JsWord::from(value.1.to_string())),
+            force_quirks: false,
+            public_quote: None,
+            raw_public_keyword: None,
+            public_id: None,
+            system_quote: None,
+            raw_system_keyword: None,
+            system_id: None,
+        });
+    }
+
+    fn set_doctype_token_public_id(&mut self, quote: char) {
+        if let Some(Token::Doctype {
+            public_id,
+            public_quote,
+            ..
+        }) = &mut self.cur_token
+        {
+            *public_id = Some("".into());
+            *public_quote = Some(quote);
+        }
+    }
+
+    fn set_doctype_token_system_id(&mut self, quote: char) {
+        if let Some(Token::Doctype {
+            system_id,
+            system_quote,
+            ..
+        }) = &mut self.cur_token
+        {
+            *system_id = Some("".into());
+            *system_quote = Some(quote);
+        }
+    }
+
+    fn create_comment_token(&mut self, data: Option<String>) {
+        self.cur_token = Some(Token::Comment {
+            data: if let Some(data) = data {
+                data.into()
+            } else {
+                "".into()
+            },
+        });
+    }
+
+    fn create_start_tag_token(&mut self) {
+        self.cur_token = Some(Token::StartTag {
+            tag_name: "".into(),
+            raw_tag_name: Some("".into()),
+            self_closing: false,
+            attributes: vec![],
+        });
+    }
+
+    fn create_end_tag_token(&mut self) {
+        self.cur_token = Some(Token::EndTag {
+            tag_name: "".into(),
+            raw_tag_name: Some("".into()),
+            self_closing: false,
+            attributes: vec![],
+        });
+    }
+
+    fn append_to_current_token(&mut self, c: char, raw_c: char) {
         match &mut self.cur_token {
             Some(Token::StartTag {
                 tag_name,
@@ -569,24 +636,62 @@ where
         }
     }
 
-    fn append_to_current_attribute_name(&mut self, c: char, raw_c: char) {
+    fn set_self_closing_flag(&mut self) {
+        match &mut self.cur_token {
+            Some(Token::StartTag { self_closing, .. })
+            | Some(Token::EndTag { self_closing, .. }) => {
+                *self_closing = true;
+            }
+            _ => {}
+        }
+    }
+
+    fn append_to_current_attribute(
+        &mut self,
+        name: Option<(char, char)>,
+        value: Option<(char, char)>,
+    ) {
         if let Some(ref mut token) = self.cur_token {
             match token {
                 Token::StartTag { attributes, .. } | Token::EndTag { attributes, .. } => {
                     if let Some(attribute) = attributes.last_mut() {
-                        let mut new_name = String::new();
+                        if let Some(name) = name {
+                            let mut new_name = String::new();
 
-                        new_name.push_str(&attribute.name);
-                        new_name.push(c);
+                            new_name.push_str(&attribute.name);
+                            new_name.push(name.0);
 
-                        attribute.name = new_name.into();
+                            attribute.name = new_name.into();
 
-                        let mut raw_new_name = String::new();
+                            let mut raw_new_name = String::new();
 
-                        raw_new_name.push_str(attribute.raw_name.as_ref().unwrap());
-                        raw_new_name.push(raw_c);
+                            raw_new_name.push_str(attribute.raw_name.as_ref().unwrap());
+                            raw_new_name.push(name.1);
 
-                        attribute.raw_name = Some(raw_new_name.into());
+                            attribute.raw_name = Some(raw_new_name.into());
+                        }
+
+                        if let Some(value) = value {
+                            let mut new_value = String::new();
+
+                            if let Some(value) = &attribute.value {
+                                new_value.push_str(value);
+                            }
+
+                            new_value.push(value.0);
+
+                            attribute.value = Some(new_value.into());
+
+                            let mut raw_new_value = String::new();
+
+                            if let Some(raw_value) = &attribute.raw_value {
+                                raw_new_value.push_str(raw_value);
+                            }
+
+                            raw_new_value.push(value.1);
+
+                            attribute.raw_value = Some(raw_new_value.into());
+                        }
                     }
                 }
                 _ => {}
@@ -594,28 +699,24 @@ where
         }
     }
 
-    fn append_to_current_attribute_value(&mut self, c: char, raw_c: char) {
+    fn append_raw_to_attribute_value(&mut self, before: bool, c: char) {
         if let Some(ref mut token) = self.cur_token {
             match token {
                 Token::StartTag { attributes, .. } | Token::EndTag { attributes, .. } => {
                     if let Some(attribute) = attributes.last_mut() {
-                        let mut new_value = String::new();
-
-                        if let Some(value) = &attribute.value {
-                            new_value.push_str(value);
-                        }
-
-                        new_value.push(c);
-
-                        attribute.value = Some(new_value.into());
-
                         let mut raw_new_value = String::new();
+
+                        if before {
+                            raw_new_value.push(c);
+                        }
 
                         if let Some(raw_value) = &attribute.raw_value {
                             raw_new_value.push_str(raw_value);
                         }
 
-                        raw_new_value.push(raw_c);
+                        if !before {
+                            raw_new_value.push(c);
+                        }
 
                         attribute.raw_value = Some(raw_new_value.into());
                     }
@@ -881,13 +982,7 @@ where
                     // Create a new start tag token, set its tag name to the empty string.
                     // Reconsume in the tag name state.
                     Some(c) if is_ascii_alpha(c) => {
-                        self.cur_token = Some(Token::StartTag {
-                            tag_name: "".into(),
-                            raw_tag_name: Some("".into()),
-                            self_closing: false,
-                            attributes: vec![],
-                        });
-
+                        self.create_start_tag_token();
                         self.reconsume_in_state(State::TagName);
                     }
                     // U+003F QUESTION MARK (?)
@@ -896,7 +991,7 @@ where
                     // bogus comment state.
                     Some('?') => {
                         self.emit_error(ErrorKind::UnexpectedQuestionMarkInsteadOfTagName);
-                        self.cur_token = Some(Token::Comment { data: "".into() });
+                        self.create_comment_token(None);
                         self.reconsume_in_state(State::BogusComment);
                     }
                     // EOF
@@ -927,12 +1022,7 @@ where
                     // Create a new end tag token, set its tag name to the empty string.
                     // Reconsume in the tag name state.
                     Some(c) if is_ascii_alpha(c) => {
-                        self.cur_token = Some(Token::EndTag {
-                            tag_name: "".into(),
-                            raw_tag_name: Some("".into()),
-                            self_closing: false,
-                            attributes: vec![],
-                        });
+                        self.create_end_tag_token();
                         self.reconsume_in_state(State::TagName);
                     }
                     // U+003E GREATER-THAN SIGN (>)
@@ -959,7 +1049,7 @@ where
                     // comment state.
                     _ => {
                         self.emit_error(ErrorKind::InvalidFirstCharacterOfTagName);
-                        self.cur_token = Some(Token::Comment { data: "".into() });
+                        self.create_comment_token(None);
                         self.reconsume_in_state(State::BogusComment);
                     }
                 }
@@ -992,14 +1082,14 @@ where
                     // Append the lowercase version of the current input character (add 0x0020
                     // to the character's code point) to the current tag token's tag name.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        self.append_to_current_tag_token_name(c.to_ascii_lowercase(), c);
+                        self.append_to_current_token(c.to_ascii_lowercase(), c);
                     }
                     // U+0000 NULL
                     // This is an unexpected-null-character parse error. Append a U+FFFD
                     // REPLACEMENT CHARACTER character to the current tag token's tag name.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_to_current_tag_token_name(REPLACEMENT_CHARACTER, c);
+                        self.append_to_current_token(REPLACEMENT_CHARACTER, c);
                     }
                     // EOF
                     // This is an eof-in-tag parse error. Emit an end-of-file token.
@@ -1012,7 +1102,7 @@ where
                     // Anything else
                     // Append the current input character to the current tag token's tag name.
                     Some(c) => {
-                        self.append_to_current_tag_token_name(c, c);
+                        self.append_to_current_token(c, c);
                     }
                 }
             }
@@ -1044,12 +1134,7 @@ where
                     // Create a new end tag token, set its tag name to the empty string.
                     // Reconsume in the RCDATA end tag name state.
                     Some(c) if is_ascii_alpha(c) => {
-                        self.cur_token = Some(Token::EndTag {
-                            tag_name: "".into(),
-                            raw_tag_name: Some("".into()),
-                            self_closing: false,
-                            attributes: vec![],
-                        });
+                        self.create_end_tag_token();
                         self.reconsume_in_state(State::RcdataEndTagName);
                     }
                     // Anything else
@@ -1117,7 +1202,7 @@ where
                     // to the character's code point) to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        self.append_to_current_tag_token_name(c.to_ascii_lowercase(), c);
+                        self.append_to_current_token(c.to_ascii_lowercase(), c);
 
                         if let Some(ref mut temporary_buffer) = self.temporary_buffer {
                             temporary_buffer.push(c);
@@ -1127,7 +1212,7 @@ where
                     // Append the current input character to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_lower_alpha(c) => {
-                        self.append_to_current_tag_token_name(c, c);
+                        self.append_to_current_token(c, c);
 
                         if let Some(ref mut temporary_buffer) = self.temporary_buffer {
                             temporary_buffer.push(c);
@@ -1171,12 +1256,7 @@ where
                     // Create a new end tag token, set its tag name to the empty string.
                     // Reconsume in the RAWTEXT end tag name state.
                     Some(c) if is_ascii_alpha(c) => {
-                        self.cur_token = Some(Token::EndTag {
-                            tag_name: "".into(),
-                            raw_tag_name: Some("".into()),
-                            self_closing: false,
-                            attributes: vec![],
-                        });
+                        self.create_end_tag_token();
                         self.reconsume_in_state(State::RawtextEndTagName);
                     }
                     // Anything else
@@ -1244,7 +1324,7 @@ where
                     // to the character's code point) to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        self.append_to_current_tag_token_name(c.to_ascii_lowercase(), c);
+                        self.append_to_current_token(c.to_ascii_lowercase(), c);
 
                         if let Some(ref mut temporary_buffer) = self.temporary_buffer {
                             temporary_buffer.push(c);
@@ -1254,7 +1334,7 @@ where
                     // Append the current input character to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_lower_alpha(c) => {
-                        self.append_to_current_tag_token_name(c, c);
+                        self.append_to_current_token(c, c);
 
                         if let Some(ref mut temporary_buffer) = self.temporary_buffer {
                             temporary_buffer.push(c);
@@ -1306,12 +1386,7 @@ where
                     // Create a new end tag token, set its tag name to the empty string.
                     // Reconsume in the script data end tag name state.
                     Some(c) if is_ascii_alpha(c) => {
-                        self.cur_token = Some(Token::EndTag {
-                            tag_name: "".into(),
-                            raw_tag_name: Some("".into()),
-                            self_closing: false,
-                            attributes: vec![],
-                        });
+                        self.create_end_tag_token();
                         self.reconsume_in_state(State::ScriptDataEndTagName);
                     }
                     // Anything else
@@ -1379,7 +1454,7 @@ where
                     // to the character's code point) to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        self.append_to_current_tag_token_name(c.to_ascii_lowercase(), c);
+                        self.append_to_current_token(c.to_ascii_lowercase(), c);
 
                         if let Some(ref mut temporary_buffer) = self.temporary_buffer {
                             temporary_buffer.push(c);
@@ -1389,7 +1464,7 @@ where
                     // Append the current input character to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_lower_alpha(c) => {
-                        self.append_to_current_tag_token_name(c, c);
+                        self.append_to_current_token(c, c);
 
                         if let Some(ref mut temporary_buffer) = self.temporary_buffer {
                             temporary_buffer.push(c);
@@ -1606,12 +1681,7 @@ where
                     // Create a new end tag token, set its tag name to the empty string.
                     // Reconsume in the script data escaped end tag name state.
                     Some(c) if is_ascii_alpha(c) => {
-                        self.cur_token = Some(Token::EndTag {
-                            tag_name: "".into(),
-                            raw_tag_name: Some("".into()),
-                            self_closing: false,
-                            attributes: vec![],
-                        });
+                        self.create_end_tag_token();
                         self.reconsume_in_state(State::ScriptDataEscapedEndTagName);
                     }
                     // Anything else
@@ -1679,7 +1749,7 @@ where
                     // to the character's code point) to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        self.append_to_current_tag_token_name(c.to_ascii_lowercase(), c);
+                        self.append_to_current_token(c.to_ascii_lowercase(), c);
 
                         if let Some(ref mut temporary_buffer) = self.temporary_buffer {
                             temporary_buffer.push(c);
@@ -1689,7 +1759,7 @@ where
                     // Append the current input character to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_lower_alpha(c) => {
-                        self.append_to_current_tag_token_name(c, c);
+                        self.append_to_current_token(c, c);
 
                         if let Some(ref mut temporary_buffer) = self.temporary_buffer {
                             temporary_buffer.push(c);
@@ -2033,7 +2103,7 @@ where
             // https://html.spec.whatwg.org/multipage/parsing.html#attribute-name-state
             State::AttributeName => {
                 let anything_else = |lexer: &mut Lexer<I>, c: char| {
-                    lexer.append_to_current_attribute_name(c, c);
+                    lexer.append_to_current_attribute(Some((c, c)), None);
                 };
 
                 // Consume the next input character:
@@ -2067,14 +2137,14 @@ where
                     // Append the lowercase version of the current input character (add 0x0020
                     // to the character's code point) to the current attribute's name.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        self.append_to_current_attribute_name(c.to_ascii_lowercase(), c);
+                        self.append_to_current_attribute(Some((c.to_ascii_lowercase(), c)), None);
                     }
                     // U+0000 NULL
                     // This is an unexpected-null-character parse error. Append a U+FFFD
                     // REPLACEMENT CHARACTER character to the current attribute's name.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_to_current_attribute_name(REPLACEMENT_CHARACTER, c);
+                        self.append_to_current_attribute(Some((REPLACEMENT_CHARACTER, c)), None);
                     }
                     // U+0022 QUOTATION MARK (")
                     // U+0027 APOSTROPHE (')
@@ -2161,12 +2231,14 @@ where
                     }
                     // U+0022 QUOTATION MARK (")
                     // Switch to the attribute value (double-quoted) state.
-                    Some('"') => {
+                    Some(c @ '"') => {
+                        self.append_raw_to_attribute_value(true, c);
                         self.state = State::AttributeValueDoubleQuoted;
                     }
                     // U+0027 APOSTROPHE (')
                     // Switch to the attribute value (single-quoted) state.
-                    Some('\'') => {
+                    Some(c @ '\'') => {
+                        self.append_raw_to_attribute_value(true, c);
                         self.state = State::AttributeValueSingleQuoted;
                     }
                     // U+003E GREATER-THAN SIGN (>)
@@ -2186,49 +2258,13 @@ where
             }
             // https://html.spec.whatwg.org/multipage/parsing.html#attribute-value-(double-quoted)-state
             State::AttributeValueDoubleQuoted => {
-                let mut is_before_value = true;
-
                 // Consume the next input character:
                 match self.consume_next_char() {
                     // U+0022 QUOTATION MARK (")
                     // Switch to the after attribute value (quoted) state.
                     // We set value to support empty attributes (i.e. `attr=""`)
                     Some(c @ '"') => {
-                        if let Some(ref mut token) = self.cur_token {
-                            match token {
-                                Token::StartTag { attributes, .. }
-                                | Token::EndTag { attributes, .. } => {
-                                    if let Some(attribute) = attributes.last_mut() {
-                                        let mut new_value = String::new();
-
-                                        if let Some(value) = &attribute.value {
-                                            new_value.push_str(value);
-                                        }
-
-                                        let mut raw_new_value = String::new();
-
-                                        if is_before_value {
-                                            raw_new_value.push(c);
-
-                                            is_before_value = false;
-                                        }
-
-                                        if let Some(raw_value) = &attribute.raw_value {
-                                            raw_new_value.push_str(raw_value);
-                                        }
-
-                                        if !is_before_value {
-                                            raw_new_value.push(c);
-                                        }
-
-                                        attribute.value = Some(new_value.into());
-                                        attribute.raw_value = Some(raw_new_value.into());
-                                    }
-                                }
-                                _ => {}
-                            }
-                        }
-
+                        self.append_raw_to_attribute_value(false, c);
                         self.state = State::AfterAttributeValueQuoted;
                     }
                     // U+0026 AMPERSAND (&)
@@ -2243,7 +2279,7 @@ where
                     // REPLACEMENT CHARACTER character to the current attribute's value.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_to_current_attribute_value(REPLACEMENT_CHARACTER, c);
+                        self.append_to_current_attribute(None, Some((REPLACEMENT_CHARACTER, c)));
                     }
                     // EOF
                     // This is an eof-in-tag parse error. Emit an end-of-file token.
@@ -2256,55 +2292,19 @@ where
                     // Anything else
                     // Append the current input character to the current attribute's value.
                     Some(c) => {
-                        self.append_to_current_attribute_value(c, c);
+                        self.append_to_current_attribute(None, Some((c, c)));
                     }
                 }
             }
             // https://html.spec.whatwg.org/multipage/parsing.html#attribute-value-(single-quoted)-state
             State::AttributeValueSingleQuoted => {
-                let mut is_before_value = true;
-
                 // Consume the next input character:
                 match self.consume_next_char() {
                     // U+0027 APOSTROPHE (')
                     // Switch to the after attribute value (quoted) state.
                     // We set value to support empty attributes (i.e. `attr=''`)
                     Some(c @ '\'') => {
-                        if let Some(ref mut token) = self.cur_token {
-                            match token {
-                                Token::StartTag { attributes, .. }
-                                | Token::EndTag { attributes, .. } => {
-                                    if let Some(attribute) = attributes.last_mut() {
-                                        let mut new_value = String::new();
-
-                                        if let Some(value) = &attribute.value {
-                                            new_value.push_str(value);
-                                        }
-
-                                        let mut raw_new_value = String::new();
-
-                                        if is_before_value {
-                                            raw_new_value.push(c);
-
-                                            is_before_value = false;
-                                        }
-
-                                        if let Some(raw_value) = &attribute.raw_value {
-                                            raw_new_value.push_str(raw_value);
-                                        }
-
-                                        if !is_before_value {
-                                            raw_new_value.push(c);
-                                        }
-
-                                        attribute.value = Some(new_value.into());
-                                        attribute.raw_value = Some(raw_new_value.into());
-                                    }
-                                }
-                                _ => {}
-                            }
-                        }
-
+                        self.append_raw_to_attribute_value(false, c);
                         self.state = State::AfterAttributeValueQuoted;
                     }
                     // U+0026 AMPERSAND (&)
@@ -2319,7 +2319,7 @@ where
                     // REPLACEMENT CHARACTER character to the current attribute's value.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_to_current_attribute_value(REPLACEMENT_CHARACTER, c);
+                        self.append_to_current_attribute(None, Some((REPLACEMENT_CHARACTER, c)));
                     }
                     // EOF
                     // This is an eof-in-tag parse error. Emit an end-of-file token.
@@ -2332,14 +2332,14 @@ where
                     // Anything else
                     // Append the current input character to the current attribute's value.
                     Some(c) => {
-                        self.append_to_current_attribute_value(c, c);
+                        self.append_to_current_attribute(None, Some((c, c)));
                     }
                 }
             }
             // https://html.spec.whatwg.org/multipage/parsing.html#attribute-value-(unquoted)-state
             State::AttributeValueUnquoted => {
                 let anything_else = |lexer: &mut Lexer<I>, c: char| {
-                    lexer.append_to_current_attribute_value(c, c);
+                    lexer.append_to_current_attribute(None, Some((c, c)));
                 };
 
                 // Consume the next input character:
@@ -2373,7 +2373,7 @@ where
                     // REPLACEMENT CHARACTER character to the current attribute's value.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_to_current_attribute_value(REPLACEMENT_CHARACTER, c);
+                        self.append_to_current_attribute(None, Some((REPLACEMENT_CHARACTER, c)));
                     }
                     // U+0022 QUOTATION MARK (")
                     // U+0027 APOSTROPHE (')
@@ -2458,14 +2458,7 @@ where
                     // Set the self-closing flag of the current tag token. Switch to the data
                     // state. Emit the current tag token.
                     Some('>') => {
-                        match &mut self.cur_token {
-                            Some(Token::StartTag { self_closing, .. })
-                            | Some(Token::EndTag { self_closing, .. }) => {
-                                *self_closing = true;
-                            }
-                            _ => {}
-                        }
-
+                        self.set_self_closing_flag();
                         self.state = State::Data;
                         self.emit_cur_token();
                     }
@@ -2523,7 +2516,7 @@ where
                 let cur_pos = self.input.cur_pos();
                 let anything_else = |lexer: &mut Lexer<I>| {
                     lexer.emit_error(ErrorKind::IncorrectlyOpenedComment);
-                    lexer.cur_token = Some(Token::Comment { data: "".into() });
+                    lexer.create_comment_token(None);
                     lexer.state = State::BogusComment;
                     lexer.cur_pos = cur_pos;
                     lexer.input.reset_to(cur_pos);
@@ -2536,7 +2529,7 @@ where
                     // is the empty string, and switch to the comment start state.
                     Some('-') => match self.consume_next_char() {
                         Some('-') => {
-                            self.cur_token = Some(Token::Comment { data: "".into() });
+                            self.create_comment_token(None);
                             self.state = State::CommentStart;
                         }
                         _ => {
@@ -2621,9 +2614,7 @@ where
                                                         data.push(a2);
                                                         data.push('[');
 
-                                                        self.cur_token = Some(Token::Comment {
-                                                            data: data.into(),
-                                                        });
+                                                        self.create_comment_token(Some(data));
                                                         self.state = State::BogusComment;
                                                     }
                                                 }
@@ -2971,18 +2962,11 @@ where
                     // token.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
-                        self.cur_token = Some(Token::Doctype {
-                            raw_keyword: self.doctype_keyword.take().map(JsWord::from),
-                            name: None,
-                            raw_name: None,
-                            force_quirks: true,
-                            public_quote: None,
-                            raw_public_keyword: None,
-                            public_id: None,
-                            system_quote: None,
-                            raw_system_keyword: None,
-                            system_id: None,
-                        });
+
+                        let doctype_keyword = self.doctype_keyword.take();
+
+                        self.create_doctype_token(doctype_keyword, None);
+                        self.set_force_quirks();
                         self.emit_cur_token();
                         self.emit_token(Token::Eof);
 
@@ -3014,38 +2998,27 @@ where
                     // of the current input character (add 0x0020 to the character's code
                     // point). Switch to the DOCTYPE name state.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        self.cur_token = Some(Token::Doctype {
-                            raw_keyword: self.doctype_keyword.take().map(JsWord::from),
-                            name: Some(c.to_ascii_lowercase().to_string().into()),
-                            raw_name: Some(c.to_string().into()),
-                            force_quirks: false,
-                            raw_public_keyword: None,
-                            public_quote: None,
-                            public_id: None,
-                            raw_system_keyword: None,
-                            system_quote: None,
-                            system_id: None,
-                        });
+                        let doctype_keyword = self.doctype_keyword.take();
+
+                        self.create_doctype_token(
+                            doctype_keyword,
+                            Some((c.to_ascii_lowercase(), c)),
+                        );
                         self.state = State::DoctypeName;
                     }
                     // U+0000 NULL
                     // This is an unexpected-null-character parse error. Create a new DOCTYPE
                     // token. Set the token's name to a U+FFFD REPLACEMENT CHARACTER character.
                     // Switch to the DOCTYPE name state.
-                    Some('\x00') => {
+                    Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.cur_token = Some(Token::Doctype {
-                            raw_keyword: self.doctype_keyword.take().map(JsWord::from),
-                            name: Some(REPLACEMENT_CHARACTER.to_string().into()),
-                            raw_name: None,
-                            force_quirks: true,
-                            raw_public_keyword: None,
-                            public_quote: None,
-                            public_id: None,
-                            raw_system_keyword: None,
-                            system_quote: None,
-                            system_id: None,
-                        });
+
+                        let doctype_keyword = self.doctype_keyword.take();
+
+                        self.create_doctype_token(
+                            doctype_keyword,
+                            Some((REPLACEMENT_CHARACTER, c)),
+                        );
                         self.state = State::DoctypeName;
                     }
                     // U+003E GREATER-THAN SIGN (>)
@@ -3054,18 +3027,8 @@ where
                     // current token.
                     Some('>') => {
                         self.emit_error(ErrorKind::MissingDoctypeName);
-                        self.cur_token = Some(Token::Doctype {
-                            raw_keyword: None,
-                            name: None,
-                            raw_name: None,
-                            force_quirks: true,
-                            raw_public_keyword: None,
-                            public_quote: None,
-                            public_id: None,
-                            raw_system_keyword: None,
-                            system_quote: None,
-                            system_id: None,
-                        });
+                        self.create_doctype_token(None, None);
+                        self.set_force_quirks();
                         self.state = State::Data;
                         self.emit_cur_token();
                     }
@@ -3075,18 +3038,8 @@ where
                     // token.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
-                        self.cur_token = Some(Token::Doctype {
-                            raw_keyword: None,
-                            name: None,
-                            raw_name: None,
-                            force_quirks: true,
-                            raw_public_keyword: None,
-                            public_quote: None,
-                            public_id: None,
-                            raw_system_keyword: None,
-                            system_quote: None,
-                            system_id: None,
-                        });
+                        self.create_doctype_token(None, None);
+                        self.set_force_quirks();
                         self.emit_cur_token();
                         self.emit_token(Token::Eof);
 
@@ -3096,18 +3049,9 @@ where
                     // Create a new DOCTYPE token. Set the token's name to the current input
                     // character. Switch to the DOCTYPE name state.
                     Some(c) => {
-                        self.cur_token = Some(Token::Doctype {
-                            raw_keyword: self.doctype_keyword.take().map(JsWord::from),
-                            name: Some(c.to_string().into()),
-                            raw_name: Some(c.to_string().into()),
-                            force_quirks: false,
-                            raw_public_keyword: None,
-                            public_quote: None,
-                            public_id: None,
-                            raw_system_keyword: None,
-                            system_quote: None,
-                            system_id: None,
-                        });
+                        let doctype_keyword = self.doctype_keyword.take();
+
+                        self.create_doctype_token(doctype_keyword, Some((c, c)));
                         self.state = State::DoctypeName;
                     }
                 }
@@ -3147,24 +3091,12 @@ where
                     // REPLACEMENT CHARACTER character to the current DOCTYPE token's name.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-
-                        if let Some(Token::Doctype {
-                            name: Some(name),
-                            raw_name: Some(raw_name),
-                            ..
-                        }) = &mut self.cur_token
-                        {
-                            let mut new_name = String::new();
-                            let mut new_raw_name = String::new();
-
-                            new_name.push_str(name);
-                            new_raw_name.push_str(raw_name);
-                            new_name.push(REPLACEMENT_CHARACTER);
-                            new_raw_name.push(c);
-
-                            *name = new_name.into();
-                            *raw_name = new_raw_name.into();
-                        }
+                        self.append_to_doctype_token(
+                            None,
+                            Some((REPLACEMENT_CHARACTER, c)),
+                            None,
+                            None,
+                        );
                     }
                     // EOF
                     // This is an eof-in-doctype parse error. Set the current DOCTYPE token's
@@ -3181,23 +3113,7 @@ where
                     // Anything else
                     // Append the current input character to the current DOCTYPE token's name.
                     Some(c) => {
-                        if let Some(Token::Doctype {
-                            name: Some(name),
-                            raw_name: Some(raw_name),
-                            ..
-                        }) = &mut self.cur_token
-                        {
-                            let mut new_name = String::new();
-                            let mut new_raw_name = String::new();
-
-                            new_name.push_str(name);
-                            new_raw_name.push_str(raw_name);
-                            new_name.push(c);
-                            new_raw_name.push(c);
-
-                            *name = new_name.into();
-                            *raw_name = new_raw_name.into();
-                        }
+                        self.append_to_doctype_token(None, Some((c, c)), None, None);
                     }
                 }
             }
@@ -3314,17 +3230,7 @@ where
                     // (double-quoted) state.
                     Some('"') => {
                         self.emit_error(ErrorKind::MissingWhitespaceAfterDoctypePublicKeyword);
-
-                        if let Some(Token::Doctype {
-                            public_id,
-                            public_quote,
-                            ..
-                        }) = &mut self.cur_token
-                        {
-                            *public_id = Some("".into());
-                            *public_quote = Some('"');
-                        }
-
+                        self.set_doctype_token_public_id('"');
                         self.state = State::DoctypePublicIdentifierDoubleQuoted;
                     }
                     // U+0027 APOSTROPHE (')
@@ -3334,17 +3240,7 @@ where
                     // (single-quoted) state.
                     Some('\'') => {
                         self.emit_error(ErrorKind::MissingWhitespaceAfterDoctypePublicKeyword);
-
-                        if let Some(Token::Doctype {
-                            public_id,
-                            public_quote,
-                            ..
-                        }) = &mut self.cur_token
-                        {
-                            *public_id = Some("".into());
-                            *public_quote = Some('\'');
-                        }
-
+                        self.set_doctype_token_public_id('\'');
                         self.state = State::DoctypePublicIdentifierSingleQuoted;
                     }
                     // U+003E GREATER-THAN SIGN (>)
@@ -3397,16 +3293,7 @@ where
                     // (not missing), then switch to the DOCTYPE public identifier
                     // (double-quoted) state.
                     Some('"') => {
-                        if let Some(Token::Doctype {
-                            public_id,
-                            public_quote,
-                            ..
-                        }) = &mut self.cur_token
-                        {
-                            *public_id = Some("".into());
-                            *public_quote = Some('"');
-                        }
-
+                        self.set_doctype_token_public_id('"');
                         self.state = State::DoctypePublicIdentifierDoubleQuoted;
                     }
                     // U+0027 APOSTROPHE (')
@@ -3414,16 +3301,7 @@ where
                     // (not missing), then switch to the DOCTYPE public identifier
                     // (single-quoted) state.
                     Some('\'') => {
-                        if let Some(Token::Doctype {
-                            public_id,
-                            public_quote,
-                            ..
-                        }) = &mut self.cur_token
-                        {
-                            *public_id = Some("".into());
-                            *public_quote = Some('\'');
-                        }
-
+                        self.set_doctype_token_public_id('\'');
                         self.state = State::DoctypePublicIdentifierSingleQuoted;
                     }
                     // U+003E GREATER-THAN SIGN (>)
@@ -3591,17 +3469,7 @@ where
                         self.emit_error(
                             ErrorKind::MissingWhitespaceBetweenDoctypePublicAndSystemIdentifiers,
                         );
-
-                        if let Some(Token::Doctype {
-                            system_id,
-                            system_quote,
-                            ..
-                        }) = &mut self.cur_token
-                        {
-                            *system_id = Some("".into());
-                            *system_quote = Some('"');
-                        }
-
+                        self.set_doctype_token_system_id('"');
                         self.state = State::DoctypeSystemIdentifierDoubleQuoted;
                     }
                     // U+0027 APOSTROPHE (')
@@ -3613,17 +3481,7 @@ where
                         self.emit_error(
                             ErrorKind::MissingWhitespaceBetweenDoctypePublicAndSystemIdentifiers,
                         );
-
-                        if let Some(Token::Doctype {
-                            system_id,
-                            system_quote,
-                            ..
-                        }) = &mut self.cur_token
-                        {
-                            *system_id = Some("".into());
-                            *system_quote = Some('\'');
-                        }
-
+                        self.set_doctype_token_system_id('\'');
                         self.state = State::DoctypeSystemIdentifierSingleQuoted;
                     }
                     // EOF
@@ -3672,16 +3530,7 @@ where
                     // (not missing), then switch to the DOCTYPE system identifier
                     // (double-quoted) state.
                     Some('"') => {
-                        if let Some(Token::Doctype {
-                            system_id,
-                            system_quote,
-                            ..
-                        }) = &mut self.cur_token
-                        {
-                            *system_id = Some("".into());
-                            *system_quote = Some('"');
-                        }
-
+                        self.set_doctype_token_system_id('"');
                         self.state = State::DoctypeSystemIdentifierDoubleQuoted;
                     }
                     // U+0027 APOSTROPHE (')
@@ -3689,16 +3538,7 @@ where
                     // (not missing), then switch to the DOCTYPE system identifier
                     // (single-quoted) state.
                     Some('\'') => {
-                        if let Some(Token::Doctype {
-                            system_id,
-                            system_quote,
-                            ..
-                        }) = &mut self.cur_token
-                        {
-                            *system_id = Some("".into());
-                            *system_quote = Some('\'');
-                        }
-
+                        self.set_doctype_token_system_id('\'');
                         self.state = State::DoctypeSystemIdentifierSingleQuoted;
                     }
                     // EOF
@@ -3744,17 +3584,7 @@ where
                     // (double-quoted) state.
                     Some('"') => {
                         self.emit_error(ErrorKind::MissingWhitespaceAfterDoctypeSystemKeyword);
-
-                        if let Some(Token::Doctype {
-                            system_id,
-                            system_quote,
-                            ..
-                        }) = &mut self.cur_token
-                        {
-                            *system_id = Some("".into());
-                            *system_quote = Some('"');
-                        }
-
+                        self.set_doctype_token_system_id('"');
                         self.state = State::DoctypeSystemIdentifierDoubleQuoted;
                     }
                     // U+0027 APOSTROPHE (')
@@ -3764,17 +3594,7 @@ where
                     // (single-quoted) state.
                     Some('\'') => {
                         self.emit_error(ErrorKind::MissingWhitespaceAfterDoctypeSystemKeyword);
-
-                        if let Some(Token::Doctype {
-                            system_id,
-                            system_quote,
-                            ..
-                        }) = &mut self.cur_token
-                        {
-                            *system_id = Some("".into());
-                            *system_quote = Some('\'');
-                        }
-
+                        self.set_doctype_token_system_id('\'');
                         self.state = State::DoctypeSystemIdentifierSingleQuoted;
                     }
                     // U+003E GREATER-THAN SIGN (>)
@@ -3827,16 +3647,7 @@ where
                     // (not missing), then switch to the DOCTYPE system identifier
                     // (double-quoted) state.
                     Some('"') => {
-                        if let Some(Token::Doctype {
-                            system_id,
-                            system_quote,
-                            ..
-                        }) = &mut self.cur_token
-                        {
-                            *system_id = Some("".into());
-                            *system_quote = Some('"');
-                        }
-
+                        self.set_doctype_token_system_id('"');
                         self.state = State::DoctypeSystemIdentifierDoubleQuoted;
                     }
                     // U+0027 APOSTROPHE (')
@@ -3844,16 +3655,7 @@ where
                     // (not missing), then switch to the DOCTYPE system identifier
                     // (single-quoted) state.
                     Some('\'') => {
-                        if let Some(Token::Doctype {
-                            system_id,
-                            system_quote,
-                            ..
-                        }) = &mut self.cur_token
-                        {
-                            *system_id = Some("".into());
-                            *system_quote = Some('\'');
-                        }
-
+                        self.set_doctype_token_system_id('\'');
                         self.state = State::DoctypeSystemIdentifierSingleQuoted;
                     }
                     // U+003E GREATER-THAN SIGN (>)
@@ -4281,7 +4083,7 @@ where
                     // Otherwise, emit the current input character as a character token.
                     Some(c) if c.is_ascii_alphanumeric() => {
                         if self.is_consumed_as_part_of_an_attribute() {
-                            self.append_to_current_attribute_value(c, c);
+                            self.append_to_current_attribute(None, Some((c, c)));
                         } else {
                             self.emit_character_token(c, Some(c));
                         }
