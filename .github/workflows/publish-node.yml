@@ -85,6 +85,7 @@ jobs:
               rustup target add aarch64-unknown-linux-gnu &&
               RUSTFLAGS='-Z new-llvm-pass-manager=no' cargo build -p swc_cli --release --features plugin --target aarch64-unknown-linux-gnu &&
               cp ./target/aarch64-unknown-linux-gnu/release/swc . && chmod +x ./swc &&
+              export CC_aarch64_unknown_linux_gnu=/usr/aarch64-unknown-linux-gnu/bin/aarch64-unknown-linux-gnu-gcc &&
               yarn build --target aarch64-unknown-linux-gnu &&
               llvm-strip -x swc.linux-arm64-gnu.node
           - host: ubuntu-18.04
