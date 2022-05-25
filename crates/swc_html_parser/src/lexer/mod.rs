@@ -450,18 +450,34 @@ where
         }
     }
 
-    fn append_to_doctype_token(&mut self, system_id: (char, char)) {
+    fn append_to_doctype_token(
+        &mut self,
+        public_id: Option<(char, char)>,
+        system_id: Option<(char, char)>,
+    ) {
         if let Some(Token::Doctype {
+            public_id: Some(old_public_id),
             system_id: Some(old_system_id),
             ..
         }) = &mut self.cur_token
         {
-            let mut new_system_id = String::new();
+            if let Some(public_id) = public_id {
+                let mut new_public_id = String::new();
 
-            new_system_id.push_str(old_system_id);
-            new_system_id.push(system_id.0);
+                new_public_id.push_str(old_public_id);
+                new_public_id.push(public_id.0);
 
-            *old_system_id = new_system_id.into();
+                *old_public_id = new_public_id.into();
+            }
+
+            if let Some(system_id) = system_id {
+                let mut new_system_id = String::new();
+
+                new_system_id.push_str(old_system_id);
+                new_system_id.push(system_id.0);
+
+                *old_system_id = new_system_id.into();
+            }
         }
     }
 
@@ -3446,21 +3462,9 @@ where
                     // This is an unexpected-null-character parse error. Append a U+FFFD
                     // REPLACEMENT CHARACTER character to the current DOCTYPE token's public
                     // identifier.
-                    Some('\x00') => {
+                    Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-
-                        if let Some(Token::Doctype {
-                            public_id: Some(public_id),
-                            ..
-                        }) = &mut self.cur_token
-                        {
-                            let mut new_public_id = String::new();
-
-                            new_public_id.push_str(public_id);
-                            new_public_id.push(REPLACEMENT_CHARACTER);
-
-                            *public_id = new_public_id.into();
-                        }
+                        self.append_to_doctype_token(Some((REPLACEMENT_CHARACTER, c)), None);
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // This is an abrupt-doctype-public-identifier parse error. Set the current
@@ -3488,18 +3492,7 @@ where
                     // Append the current input character to the current DOCTYPE token's public
                     // identifier.
                     Some(c) => {
-                        if let Some(Token::Doctype {
-                            public_id: Some(public_id),
-                            ..
-                        }) = &mut self.cur_token
-                        {
-                            let mut new_public_id = String::new();
-
-                            new_public_id.push_str(public_id);
-                            new_public_id.push(c);
-
-                            *public_id = new_public_id.into();
-                        }
+                        self.append_to_doctype_token(Some((c, c)), None);
                     }
                 }
             }
@@ -3516,21 +3509,9 @@ where
                     // This is an unexpected-null-character parse error. Append a U+FFFD
                     // REPLACEMENT CHARACTER character to the current DOCTYPE token's public
                     // identifier.
-                    Some('\x00') => {
+                    Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-
-                        if let Some(Token::Doctype {
-                            public_id: Some(public_id),
-                            ..
-                        }) = &mut self.cur_token
-                        {
-                            let mut new_public_id = String::new();
-
-                            new_public_id.push_str(public_id);
-                            new_public_id.push(REPLACEMENT_CHARACTER);
-
-                            *public_id = new_public_id.into();
-                        }
+                        self.append_to_doctype_token(Some((REPLACEMENT_CHARACTER, c)), None);
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // This is an abrupt-doctype-public-identifier parse error. Set the current
@@ -3558,18 +3539,7 @@ where
                     // Append the current input character to the current DOCTYPE token's public
                     // identifier.
                     Some(c) => {
-                        if let Some(Token::Doctype {
-                            public_id: Some(public_id),
-                            ..
-                        }) = &mut self.cur_token
-                        {
-                            let mut new_public_id = String::new();
-
-                            new_public_id.push_str(public_id);
-                            new_public_id.push(c);
-
-                            *public_id = new_public_id.into();
-                        }
+                        self.append_to_doctype_token(Some((c, c)), None);
                     }
                 }
             }
@@ -3914,7 +3884,7 @@ where
                     // identifier.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_to_doctype_token((REPLACEMENT_CHARACTER, c));
+                        self.append_to_doctype_token(None, Some((REPLACEMENT_CHARACTER, c)));
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // This is an abrupt-doctype-system-identifier parse error. Set the current
@@ -3942,7 +3912,7 @@ where
                     // Append the current input character to the current DOCTYPE token's system
                     // identifier.
                     Some(c) => {
-                        self.append_to_doctype_token((c, c));
+                        self.append_to_doctype_token(None, Some((c, c)));
                     }
                 }
             }
@@ -3961,7 +3931,7 @@ where
                     // identifier.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_to_doctype_token((REPLACEMENT_CHARACTER, c));
+                        self.append_to_doctype_token(None, Some((REPLACEMENT_CHARACTER, c)));
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // This is an abrupt-doctype-system-identifier parse error. Set the current
@@ -3989,7 +3959,7 @@ where
                     // Append the current input character to the current DOCTYPE token's system
                     // identifier.
                     Some(c) => {
-                        self.append_to_doctype_token((c, c));
+                        self.append_to_doctype_token(None, Some((c, c)));
                     }
                 }
             }
