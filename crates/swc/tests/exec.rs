@@ -1,7 +1,6 @@
 use std::{
     fs::{create_dir_all, rename},
     path::{Component, Path, PathBuf},
-    process::Command,
     sync::Arc,
 };
 
@@ -13,6 +12,7 @@ use swc::{
 use swc_common::{errors::ColorConfig, SourceMap};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
+use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use testing::assert_eq;
 use tracing::{span, Level};
 
@@ -294,27 +294,14 @@ enum NodeModuleType {
 }
 
 fn stdout_of(code: &str, module_type: NodeModuleType) -> Result<String, Error> {
-    let module_type = match module_type {
-        NodeModuleType::CommonJs => "--input-type=commonjs",
-        NodeModuleType::Module => "--input-type=module",
-    };
-    let actual_output = Command::new("node")
-        .arg(module_type)
-        .arg("-e")
-        .arg(&code)
-        .output()
-        .context("failed to execute output of minifier")?;
+    let s = exec_node_js(
+        code,
+        JsExecOptions {
+            cache: true,
+            module: matches!(module_type, NodeModuleType::Module),
+        },
+    )?;
 
-    if !actual_output.status.success() {
-        bail!(
-            "failed to execute:\n{}\n{}\n{}",
-            code,
-            String::from_utf8_lossy(&actual_output.stdout),
-            String::from_utf8_lossy(&actual_output.stderr)
-        )
-    }
-
-    let s = String::from_utf8_lossy(&actual_output.stdout).to_string();
     if s.trim().is_empty() {
         bail!("empty stdout");
     }
