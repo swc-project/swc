@@ -109,6 +109,33 @@ test!(
     syntax(),
     |_| tr(Config {
         config: util::Config {
+            strict: true,
+            ..Default::default()
+        },
+        ..Default::default()
+    }),
+    inner_scoped_local_require_member_expr,
+    r#"export const DefaultIconPath = FileAccess.asBrowserUri('./media/defaultIcon.png', require).toString(true);"#,
+    r#"
+define([
+  "require",
+  "exports",
+], function(require, _exports) {
+  "use strict";
+  Object.defineProperty(_exports, "__esModule", {
+      value: true
+  });
+  _exports.DefaultIconPath = void 0;
+  const DefaultIconPath = FileAccess.asBrowserUri('./media/defaultIcon.png', require).toString(true);
+  _exports.DefaultIconPath = DefaultIconPath;
+});
+"#
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        config: util::Config {
             strict_mode: false,
             ..Default::default()
         },

@@ -63,28 +63,10 @@ impl LocalScopedRequireVisitor {
 }
 
 impl Visit for LocalScopedRequireVisitor {
-    fn visit_call_expr(&mut self, call_expr: &CallExpr) {
-        let callee = &call_expr.callee;
-        if let Callee::Expr(expr) = callee {
-            match &**expr {
-                Expr::Ident(ident) => {
-                    if self.require_ident.is_none() && &*ident.sym == "require" {
-                        self.require_ident = Some(ident.clone());
-                    }
-                }
-                Expr::Member(MemberExpr { obj, .. }) => {
-                    let expr = &**obj;
-                    if let Expr::Ident(ident) = expr {
-                        if self.require_ident.is_none() && &*ident.sym == "require" {
-                            self.require_ident = Some(ident.clone());
-                        }
-                    }
-                }
-                _ => {}
-            }
+    fn visit_ident(&mut self, ident: &Ident) {
+        if self.require_ident.is_none() && &*ident.sym == "require" {
+            self.require_ident = Some(ident.clone());
         }
-
-        call_expr.visit_children_with(self);
     }
 }
 
