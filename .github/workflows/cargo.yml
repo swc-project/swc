@@ -380,7 +380,17 @@ jobs:
       - name: Configure execution cache
         shell: bash
         run: |
+          mkdir -p .swc-exec-cache
           echo "SWC_ECMA_TESTING_CACHE_DIR=$(pwd)/.swc-exec-cache" >> $GITHUB_ENV
+
+      - name: Cache execution results
+        uses: actions/cache@v3
+        with:
+          path: |
+            .swc-exec-cache
+          key: swc-exec-cache-${{ runner.os }}-${{ matrix.settings.crate }}-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            swc-exec-cache-${{ runner.os }}-${{ matrix.settings.crate }}
 
       - name: Run cargo test
         run: |
