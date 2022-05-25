@@ -384,9 +384,6 @@ impl VisitMut for Minifier {
                     }
                     _ => attribute.value.as_ref().unwrap(),
                 },
-            ) || (matches!(&*attribute.name, "id" | "class" | "style") && is_empty_value)
-            {
-                attribute.value.as_ref().unwrap(),
             ) {
                 return false;
             }
