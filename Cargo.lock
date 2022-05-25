@@ -3534,6 +3534,8 @@ name = "swc_ecma_testing"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "hex",
+ "sha-1",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
