@@ -1,16 +1,16 @@
 # Changelog
 ## [unreleased]
 
-### Bug Fixes
+### Features
 
 
 
-- **(es/compat)** Handle nested for loops with `break`/`continue` (#4777) ([4f00914](https://github.com/swc-project/swc/commit/4f00914c1af6e2dee7116c09dd6e63b5883cf8b5))
+- **(html/minifier)** Improve script type compression (#4785) ([b5e481c](https://github.com/swc-project/swc/commit/b5e481c114bba00c4f69f8df2a6309cd46ba8962))
 
 
-- **(es/compat)** Handle nested `break`/`continue` in `block_scoping` (#4778) ([db1698e](https://github.com/swc-project/swc/commit/db1698e0129c80e32211d4c5545b11541445a471))
+- **(plugin)** Implement `SourceMap.span_to_*` (#4781) ([a937357](https://github.com/swc-project/swc/commit/a937357d47471222db4e62021ec507cd96597d9c))
 
-## [1.2.191] - 2022-05-24
+## [1.2.192] - 2022-05-24
 
 ### Bug Fixes
 
@@ -20,6 +20,15 @@
 
 
 - **(es/compat)** Fix span of `instanceof` (#4757) ([8720f9a](https://github.com/swc-project/swc/commit/8720f9a948687d5851cb1cfc18961ac61d6406a2))
+
+
+- **(es/compat)** Handle nested for loops with `break`/`continue` (#4777) ([4f00914](https://github.com/swc-project/swc/commit/4f00914c1af6e2dee7116c09dd6e63b5883cf8b5))
+
+
+- **(es/compat)** Handle nested `break`/`continue` in `block_scoping` (#4778) ([db1698e](https://github.com/swc-project/swc/commit/db1698e0129c80e32211d4c5545b11541445a471))
+
+
+- **(es/compat)** Escape keywords in class method names (#4775) ([a3e4c20](https://github.com/swc-project/swc/commit/a3e4c201ded1b5b0cd021a4735e5dcae36284d5b))
 
 
 - **(es/fixer)** Preserve the paren in a spread element (#4771) ([65b7c4b](https://github.com/swc-project/swc/commit/65b7c4b69510d75065f79701020b8331ee3f88e4))
@@ -79,6 +88,9 @@
 - **(es/modules/amd)** Support local-scoped amd requires (#4727) ([886585b](https://github.com/swc-project/swc/commit/886585b90e2f240e4d72091629bc547ab74f7e2e))
 
 
+- **(html/codegen)** Omit end tags (#4770) ([07c197f](https://github.com/swc-project/swc/commit/07c197f51c7935f3825b79c8af4fca7baf18285c))
+
+
 - **(html/parser)** Improve error reporting for misplaced non-space characters inside a table (#4723) ([e9b2ebf](https://github.com/swc-project/swc/commit/e9b2ebfc3bffb7d28b7ca0e50f8570aaed2f35e5))
 
 
@@ -98,6 +110,9 @@
 
 
 - **(ci)** Fix CI (#4747) ([0f85f7b](https://github.com/swc-project/swc/commit/0f85f7b9de970648509aff8ac466fe25ab004cdb))
+
+
+- **(ci)** Fix CI (#4779) ([c31b0a3](https://github.com/swc-project/swc/commit/c31b0a38ea16b784489bb4125403c1625d3895f1))
 
 
 - **(es/minifier)** Add `#[doc(hidden)]` (#4751) ([22bf5f0](https://github.com/swc-project/swc/commit/22bf5f014e35ac4994d70660ae7e25cfb4659caf))

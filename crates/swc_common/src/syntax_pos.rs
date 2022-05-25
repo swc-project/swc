@@ -1146,6 +1146,10 @@ pub struct SourceFileAndBytePos {
 }
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 pub struct LineInfo {
     /// Index of line, starting from 0.
     pub line_index: usize,
@@ -1164,6 +1168,10 @@ pub struct LineCol {
     pub col: u32,
 }
 
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 pub struct FileLines {
     pub file: Lrc<SourceFile>,
     pub lines: Vec<LineInfo>,
@@ -1177,6 +1185,10 @@ pub struct FileLines {
 pub type FileLinesResult = Result<FileLines, SpanLinesError>;
 
 #[derive(Clone, PartialEq, Eq, Debug)]
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 pub enum SpanLinesError {
     IllFormedSpan(Span),
     DistinctSources(DistinctSources),
@@ -1192,6 +1204,10 @@ pub enum SpanSnippetError {
 }
 
 #[derive(Clone, PartialEq, Eq, Debug)]
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 pub struct DistinctSources {
     pub begin: (FileName, BytePos),
     pub end: (FileName, BytePos),
