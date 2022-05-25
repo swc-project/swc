@@ -107,6 +107,20 @@ pub enum State {
     NumericCharacterReferenceEnd,
 }
 
+#[derive(PartialEq, Eq, Clone, Debug)]
+struct Doctype {
+    raw_keyword: Option<String>,
+    name: Option<String>,
+    raw_name: Option<String>,
+    force_quirks: bool,
+    raw_public_keyword: Option<String>,
+    public_quote: Option<char>,
+    public_id: Option<String>,
+    raw_system_keyword: Option<String>,
+    system_quote: Option<char>,
+    system_id: Option<String>,
+}
+
 pub(crate) type LexResult<T> = Result<T, ErrorKind>;
 
 #[derive(Clone)]
@@ -126,7 +140,8 @@ where
     errors: Vec<Error>,
     last_start_tag_name: Option<JsWord>,
     pending_tokens: Vec<TokenAndSpan>,
-    current_comment: Option<String>,
+    current_doctype_token: Option<Doctype>,
+    current_comment_token: Option<String>,
 
     cur_token: Option<Token>,
     attribute_start_position: Option<BytePos>,
@@ -156,7 +171,8 @@ where
             errors: vec![],
             last_start_tag_name: None,
             pending_tokens: vec![],
-            current_comment: None,
+            current_doctype_token: None,
+            current_comment_token: None,
             cur_token: None,
             attribute_start_position: None,
             character_reference_code: None,
@@ -297,64 +313,6 @@ where
         self.pending_tokens.push(token_and_span);
     }
 
-    fn emit_character_token(&mut self, c: char, raw_c: Option<char>) {
-        let mut raw = if raw_c.is_some() {
-            String::with_capacity(1)
-        } else {
-            String::new()
-        };
-
-        if let Some(raw_c) = raw_c {
-            raw.push(raw_c);
-        }
-
-        let mut normalized_c = c;
-        let is_cr = c == '\r';
-
-        if is_cr {
-            normalized_c = '\n';
-
-            if self.input.cur() == Some('\n') {
-                self.input.bump();
-
-                raw.push('\n');
-            }
-        }
-
-        self.emit_token(Token::Character {
-            value: normalized_c,
-            raw: Some(raw.into()),
-        });
-    }
-
-    fn emit_cur_token(&mut self) {
-        let token = self.cur_token.take();
-
-        match token {
-            Some(token) => {
-                if let Token::EndTag {
-                    attributes,
-                    self_closing,
-                    ..
-                } = &token
-                {
-                    if !attributes.is_empty() {
-                        self.emit_error(ErrorKind::EndTagWithAttributes);
-                    }
-
-                    if *self_closing {
-                        self.emit_error(ErrorKind::EndTagWithTrailingSolidus);
-                    }
-                }
-
-                self.emit_token(token);
-            }
-            _ => {
-                unreachable!();
-            }
-        }
-    }
-
     fn is_consumed_as_part_of_an_attribute(&mut self) -> bool {
         matches!(
             self.return_state,
@@ -385,7 +343,12 @@ where
     fn emit_temporary_buffer_as_character_tokens(&mut self) {
         if let Some(temporary_buffer) = self.temporary_buffer.take() {
             for c in temporary_buffer.chars() {
-                self.emit_character_token(c, Some(c));
+                let raw = c.to_string();
+
+                self.emit_token(Token::Character {
+                    value: c,
+                    raw: Some(raw.into()),
+                });
             }
         }
     }
@@ -423,19 +386,21 @@ where
             }
         } else if let Some(mut temporary_buffer) = self.temporary_buffer.take() {
             for c in temporary_buffer.drain(..) {
+                let raw = c.to_string();
+
                 self.emit_token(Token::Character {
                     value: c,
-                    raw: Some(c.to_string().into()),
+                    raw: Some(raw.into()),
                 });
             }
         }
     }
 
     fn create_doctype_token(&mut self, keyword: Option<String>, name: Option<(char, char)>) {
-        self.cur_token = Some(Token::Doctype {
-            raw_keyword: keyword.map(JsWord::from),
-            name: name.map(|value| JsWord::from(value.0.to_string())),
-            raw_name: name.map(|value| JsWord::from(value.1.to_string())),
+        self.current_doctype_token = Some(Doctype {
+            raw_keyword: keyword,
+            name: name.map(|value| value.0.to_string()),
+            raw_name: name.map(|value| value.1.to_string()),
             force_quirks: false,
             public_quote: None,
             raw_public_keyword: None,
@@ -453,100 +418,97 @@ where
         public_id: Option<(char, char)>,
         system_id: Option<(char, char)>,
     ) {
-        if let Some(ref mut token) = self.cur_token {
+        if let Some(ref mut token) = self.current_doctype_token {
             if let Some(raw_keyword) = raw_keyword {
-                if let Token::Doctype {
+                if let Doctype {
                     raw_keyword: Some(old_raw_keyword),
                     ..
                 } = token
                 {
-                    *old_raw_keyword = raw_keyword.into();
+                    *old_raw_keyword = raw_keyword;
                 }
             }
 
             if let Some(name) = name {
-                if let Token::Doctype {
+                if let Doctype {
                     name: Some(old_name),
                     raw_name: Some(old_raw_name),
                     ..
                 } = token
                 {
-                    let mut new_name = String::new();
-
-                    new_name.push_str(old_name);
-                    new_name.push(name.0);
-
-                    *old_name = new_name.into();
-
-                    let mut new_raw_name = String::new();
-
-                    new_raw_name.push_str(old_raw_name);
-                    new_raw_name.push(name.1);
-
-                    *old_raw_name = new_raw_name.into();
+                    old_name.push(name.0);
+                    old_raw_name.push(name.1);
                 }
             }
 
             if let Some(public_id) = public_id {
-                if let Token::Doctype {
+                if let Doctype {
                     public_id: Some(old_public_id),
                     ..
                 } = token
                 {
-                    let mut new_public_id = String::new();
-
-                    new_public_id.push_str(old_public_id);
-                    new_public_id.push(public_id.0);
-
-                    *old_public_id = new_public_id.into();
+                    old_public_id.push(public_id.0);
                 }
             }
 
             if let Some(system_id) = system_id {
-                if let Token::Doctype {
+                if let Doctype {
                     system_id: Some(old_system_id),
                     ..
                 } = token
                 {
-                    let mut new_system_id = String::new();
-
-                    new_system_id.push_str(old_system_id);
-                    new_system_id.push(system_id.0);
-
-                    *old_system_id = new_system_id.into();
+                    old_system_id.push(system_id.0);
                 }
             }
         }
     }
 
     fn set_force_quirks(&mut self) {
-        if let Some(Token::Doctype { force_quirks, .. }) = &mut self.cur_token {
+        if let Some(Doctype { force_quirks, .. }) = &mut self.current_doctype_token {
             *force_quirks = true;
         }
     }
 
     fn set_doctype_token_public_id(&mut self, quote: char) {
-        if let Some(Token::Doctype {
+        if let Some(Doctype {
             public_id,
             public_quote,
             ..
-        }) = &mut self.cur_token
+        }) = &mut self.current_doctype_token
         {
-            *public_id = Some("".into());
+            *public_id = Some("".to_string());
             *public_quote = Some(quote);
         }
     }
 
     fn set_doctype_token_system_id(&mut self, quote: char) {
-        if let Some(Token::Doctype {
+        if let Some(Doctype {
             system_id,
             system_quote,
             ..
-        }) = &mut self.cur_token
+        }) = &mut self.current_doctype_token
         {
-            *system_id = Some("".into());
+            *system_id = Some("".to_string());
             *system_quote = Some(quote);
         }
+    }
+
+    fn emit_current_doctype_token(&mut self) {
+        let current_doctype_token = self.current_doctype_token.take().unwrap();
+        let token = Token::Doctype {
+            raw_keyword: current_doctype_token.raw_keyword.map(JsWord::from),
+            name: current_doctype_token.name.map(JsWord::from),
+            raw_name: current_doctype_token.raw_name.map(JsWord::from),
+            force_quirks: current_doctype_token.force_quirks,
+            raw_public_keyword: current_doctype_token.raw_public_keyword.map(JsWord::from),
+            public_quote: current_doctype_token.public_quote,
+            public_id: current_doctype_token.public_id.map(JsWord::from),
+            raw_system_keyword: current_doctype_token.raw_system_keyword.map(JsWord::from),
+            system_quote: current_doctype_token.system_quote,
+            system_id: current_doctype_token.system_id.map(JsWord::from),
+        };
+
+        self.emit_token(token);
     }
 
     fn create_start_tag_token(&mut self) {
@@ -775,16 +737,48 @@ where
         }
     }
 
+    fn emit_cur_token(&mut self) {
+        let token = self.cur_token.take();
+
+        match token {
+            Some(token) => {
+                if let Token::StartTag { .. } = token {
+                    self.last_start_tag_token = Some(token.clone());
+                }
+
+                if let Token::EndTag {
+                    attributes,
+                    self_closing,
+                    ..
+                } = &token
+                {
+                    if !attributes.is_empty() {
+                        self.emit_error(ErrorKind::EndTagWithAttributes);
+                    }
+
+                    if *self_closing {
+                        self.emit_error(ErrorKind::EndTagWithTrailingSolidus);
+                    }
+                }
+
+                self.emit_token(token);
+            }
+            _ => {
+                unreachable!();
+            }
+        }
+    }
+
     fn create_comment_token(&mut self, data: Option<String>) {
         if let Some(data) = data {
-            self.current_comment = Some(data);
+            self.current_comment_token = Some(data);
         } else {
-            self.current_comment = Some("".into());
+            self.current_comment_token = Some("".into());
         };
     }
 
     fn append_to_comment_token(&mut self, c: char, _raw_c: Option<char>) {
-        if let Some(current_comment) = &mut self.current_comment {
+        if let Some(current_comment_token) = &mut self.current_comment_token {
             let mut normalized_c = c;
             let is_cr = c == '\r';
 
@@ -796,22 +790,44 @@ where
                 }
             }
 
-            current_comment.push(normalized_c);
+            current_comment_token.push(normalized_c);
         }
     }
 
     fn emit_comment_token(&mut self) {
-        let token = Token::Comment {
-            data: self.current_comment.take().unwrap().into(),
+        let data = self.current_comment_token.take().unwrap();
+
+        self.emit_token(Token::Comment { data: data.into() });
+    }
+
+    fn emit_character_token(&mut self, c: char, raw_c: Option<char>) {
+        let mut raw = if raw_c.is_some() {
+            String::with_capacity(1)
+        } else {
+            String::new()
         };
-        let end = self.last_pos.take().unwrap_or_else(|| self.input.cur_pos());
-        let span = Span::new(self.start_pos, end, Default::default());
 
-        self.start_pos = end;
+        if let Some(raw_c) = raw_c {
+            raw.push(raw_c);
+        }
 
-        let token_and_span = TokenAndSpan { span, token };
+        let mut normalized_c = c;
+        let is_cr = c == '\r';
 
-        self.pending_tokens.push(token_and_span);
+        if is_cr {
+            normalized_c = '\n';
+
+            if self.input.cur() == Some('\n') {
+                self.input.bump();
+
+                raw.push('\n');
+            }
+        }
+
+        self.emit_token(Token::Character {
+            value: normalized_c,
+            raw: Some(raw.into()),
+        });
     }
 
     fn read_token_and_span(&mut self) -> LexResult<TokenAndSpan> {
@@ -2997,7 +3013,7 @@ where
 
                         self.create_doctype_token(doctype_keyword, None);
                         self.set_force_quirks();
-                        self.emit_cur_token();
+                        self.emit_current_doctype_token();
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -3060,7 +3076,7 @@ where
                         self.create_doctype_token(None, None);
                         self.set_force_quirks();
                         self.state = State::Data;
-                        self.emit_cur_token();
+                        self.emit_current_doctype_token();
                     }
                     // EOF
                     // This is an eof-in-doctype parse error. Create a new DOCTYPE token. Set
@@ -3070,7 +3086,7 @@ where
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.create_doctype_token(None, None);
                         self.set_force_quirks();
-                        self.emit_cur_token();
+                        self.emit_current_doctype_token();
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -3103,7 +3119,7 @@ where
                     // Switch to the data state. Emit the current DOCTYPE token.
                     Some('>') => {
                         self.state = State::Data;
-                        self.emit_cur_token();
+                        self.emit_current_doctype_token();
                     }
                     // ASCII upper alpha
                     // Append the lowercase version of the current input character (add 0x0020
@@ -3135,7 +3151,7 @@ where
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.set_force_quirks();
-                        self.emit_cur_token();
+                        self.emit_current_doctype_token();
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -3165,7 +3181,7 @@ where
                     // Switch to the data state. Emit the current DOCTYPE token.
                     Some('>') => {
                         self.state = State::Data;
-                        self.emit_cur_token();
+                        self.emit_current_doctype_token();
                     }
                     // EOF
                     // This is an eof-in-doctype parse error. Set the current DOCTYPE token's
@@ -3174,7 +3190,7 @@ where
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.set_force_quirks();
-                        self.emit_cur_token();
+                        self.emit_current_doctype_token();
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -3281,7 +3297,7 @@ where
                         self.emit_error(ErrorKind::MissingDoctypePublicIdentifier);
                         self.set_force_quirks();
                         self.state = State::Data;
-                        self.emit_cur_token();
+                        self.emit_current_doctype_token();
                     }
                     // EOF
                     // This is an eof-in-doctype parse error. Set the current DOCTYPE token's
@@ -3290,7 +3306,7 @@ where
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.set_force_quirks();
-                        self.emit_cur_token();
+                        self.emit_current_doctype_token();
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -3342,7 +3358,7 @@ where
                         self.emit_error(ErrorKind::MissingDoctypePublicIdentifier);
                         self.set_force_quirks();
                         self.state = State::Data;
-                        self.emit_cur_token();
+                        self.emit_current_doctype_token();
                     }
                     // EOF
                     // This is an eof-in-doctype parse error. Set the current DOCTYPE token's
@@ -3351,7 +3367,7 @@ where
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.set_force_quirks();
-                        self.emit_cur_token();
+                        self.emit_current_doctype_token();
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -3397,7 +3413,7 @@ where
                         self.emit_error(ErrorKind::AbruptDoctypePublicIdentifier);
                         self.set_force_quirks();
                         self.state = State::Data;
-                        self.emit_cur_token();
+                        self.emit_current_doctype_token();
                     }
                     // EOF
                     // This is an eof-in-doctype parse error. Set the current DOCTYPE token's
@@ -3406,7 +3422,7 @@ where
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.set_force_quirks();
-                        self.emit_cur_token();
+                        self.emit_current_doctype_token();
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -3449,7 +3465,7 @@ where
                         self.emit_error(ErrorKind::AbruptDoctypePublicIdentifier);
                         self.set_force_quirks();
                         self.state = State::Data;
-                        self.emit_cur_token();
+                        self.emit_current_doctype_token();
                     }
                     // EOF
                     // This is an eof-in-doctype parse error. Set the current DOCTYPE token's
@@ -3458,7 +3474,7 @@ where
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.set_force_quirks();
-                        self.emit_cur_token();
+                        self.emit_current_doctype_token();
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -3488,7 +3504,7 @@ where
                     // Switch to the data state. Emit the current DOCTYPE token.
                     Some('>') => {
                         self.state = State::Data;
-                        self.emit_cur_token();
+                        self.emit_current_doctype_token();
                     }
                     // U+0022 QUOTATION MARK (")
                     // This is a missing-whitespace-between-doctype-public-and-system-identifiers
@@ -3521,7 +3537,7 @@ where
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.set_force_quirks();
-                        self.emit_cur_token();
+                        self.emit_current_doctype_token();
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -3553,7 +3569,7 @@ where
                     // Switch to the data state. Emit the current DOCTYPE token.
                     Some('>') => {
                         self.state = State::Data;
-                        self.emit_cur_token();
+                        self.emit_current_doctype_token();
                     }
                     // U+0022 QUOTATION MARK (")
                     // Set the current DOCTYPE token's system identifier to the empty string
@@ -3578,7 +3594,7 @@ where
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.set_force_quirks();
-                        self.emit_cur_token();
+                        self.emit_current_doctype_token();
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -3635,7 +3651,7 @@ where
                         self.emit_error(ErrorKind::MissingDoctypeSystemIdentifier);
                         self.set_force_quirks();
                         self.state = State::Data;
-                        self.emit_cur_token();
+                        self.emit_current_doctype_token();
                     }
                     // EOF
                     // This is an eof-in-doctype parse error. Set the current DOCTYPE token's
@@ -3644,7 +3660,7 @@ where
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.set_force_quirks();
-                        self.emit_cur_token();
+                        self.emit_current_doctype_token();
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -3696,7 +3712,7 @@ where
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.set_force_quirks();
                         self.state = State::Data;
-                        self.emit_cur_token();
+                        self.emit_current_doctype_token();
                     }
                     // EOF
                     // This is an eof-in-doctype parse error. Set the current DOCTYPE token's
@@ -3705,7 +3721,7 @@ where
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.set_force_quirks();
-                        self.emit_cur_token();
+                        self.emit_current_doctype_token();
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -3751,7 +3767,7 @@ where
                         self.emit_error(ErrorKind::AbruptDoctypeSystemIdentifier);
                         self.set_force_quirks();
                         self.state = State::Data;
-                        self.emit_cur_token();
+                        self.emit_current_doctype_token();
                     }
                     // EOF
                     // This is an eof-in-doctype parse error. Set the current DOCTYPE token's
@@ -3760,7 +3776,7 @@ where
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.set_force_quirks();
-                        self.emit_cur_token();
+                        self.emit_current_doctype_token();
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -3803,7 +3819,7 @@ where
                         self.emit_error(ErrorKind::AbruptDoctypeSystemIdentifier);
                         self.set_force_quirks();
                         self.state = State::Data;
-                        self.emit_cur_token();
+                        self.emit_current_doctype_token();
                     }
                     // EOF
                     // This is an eof-in-doctype parse error. Set the current DOCTYPE token's
@@ -3812,7 +3828,7 @@ where
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.set_force_quirks();
-                        self.emit_cur_token();
+                        self.emit_current_doctype_token();
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -3841,7 +3857,7 @@ where
                     // Switch to the data state. Emit the current DOCTYPE token.
                     Some('>') => {
                         self.state = State::Data;
-                        self.emit_cur_token();
+                        self.emit_current_doctype_token();
                     }
                     // EOF
                     // This is an eof-in-doctype parse error. Set the current DOCTYPE token's
@@ -3850,7 +3866,7 @@ where
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.set_force_quirks();
-                        self.emit_cur_token();
+                        self.emit_current_doctype_token();
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -3874,7 +3890,7 @@ where
                     // Switch to the data state. Emit the DOCTYPE token.
                     Some('>') => {
                         self.state = State::Data;
-                        self.emit_cur_token();
+                        self.emit_current_doctype_token();
                     }
                     // U+0000 NULL
                     // This is an unexpected-null-character parse error. Ignore the character.
@@ -3884,7 +3900,7 @@ where
                     // EOF
                     // Emit the DOCTYPE token. Emit an end-of-file token.
                     None => {
-                        self.emit_cur_token();
+                        self.emit_current_doctype_token();
                         self.emit_token(Token::Eof);
 
                         return Ok(());
