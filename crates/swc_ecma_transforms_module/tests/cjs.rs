@@ -1,5 +1,5 @@
 use swc_ecma_parser::Syntax;
-use swc_ecma_transforms_module::esbuild_cjs::cjs;
+use swc_ecma_transforms_module::cjs::cjs;
 use swc_ecma_transforms_testing::test;
 use swc_ecma_visit::Fold;
 

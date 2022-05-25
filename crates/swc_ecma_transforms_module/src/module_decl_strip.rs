@@ -7,11 +7,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, private_ident, quote_ident};
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
-
-pub fn cjs() -> impl Fold + VisitMut {
-    as_folder(ModuleDeclStrip::default())
-}
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 #[derive(Default)]
 pub struct ModuleDeclStrip {
