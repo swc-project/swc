@@ -452,15 +452,32 @@ where
 
     fn append_to_doctype_token(
         &mut self,
+        name: Option<(char, char)>,
         public_id: Option<(char, char)>,
         system_id: Option<(char, char)>,
     ) {
         if let Some(Token::Doctype {
+            name: Some(old_name),
+            raw_name: Some(old_raw_name),
             public_id: Some(old_public_id),
             system_id: Some(old_system_id),
             ..
         }) = &mut self.cur_token
         {
+            if let Some(name) = name {
+                let mut new_name = String::new();
+                let mut new_raw_name = String::new();
+
+                new_name.push_str(old_name);
+                new_name.push(name.0);
+
+                new_raw_name.push_str(old_raw_name);
+                new_raw_name.push(name.1);
+
+                *old_name = new_name.into();
+                *old_raw_name = new_raw_name.into();
+            }
+
             if let Some(public_id) = public_id {
                 let mut new_public_id = String::new();
 
@@ -3112,23 +3129,7 @@ where
                     // Append the lowercase version of the current input character (add 0x0020
                     // to the character's code point) to the current DOCTYPE token's name.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        if let Some(Token::Doctype {
-                            name: Some(name),
-                            raw_name: Some(raw_name),
-                            ..
-                        }) = &mut self.cur_token
-                        {
-                            let mut new_name = String::new();
-                            let mut new_raw_name = String::new();
-
-                            new_name.push_str(name);
-                            new_raw_name.push_str(raw_name);
-                            new_name.push(c.to_ascii_lowercase());
-                            new_raw_name.push(c);
-
-                            *name = new_name.into();
-                            *raw_name = new_raw_name.into();
-                        }
+                        self.append_to_doctype_token(Some((c.to_ascii_lowercase(), c)), None, None);
                     }
                     // U+0000 NULL
                     // This is an unexpected-null-character parse error. Append a U+FFFD
@@ -3464,7 +3465,7 @@ where
                     // identifier.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_to_doctype_token(Some((REPLACEMENT_CHARACTER, c)), None);
+                        self.append_to_doctype_token(None, Some((REPLACEMENT_CHARACTER, c)), None);
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // This is an abrupt-doctype-public-identifier parse error. Set the current
@@ -3492,7 +3493,7 @@ where
                     // Append the current input character to the current DOCTYPE token's public
                     // identifier.
                     Some(c) => {
-                        self.append_to_doctype_token(Some((c, c)), None);
+                        self.append_to_doctype_token(None, Some((c, c)), None);
                     }
                 }
             }
@@ -3511,7 +3512,7 @@ where
                     // identifier.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_to_doctype_token(Some((REPLACEMENT_CHARACTER, c)), None);
+                        self.append_to_doctype_token(None, Some((REPLACEMENT_CHARACTER, c)), None);
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // This is an abrupt-doctype-public-identifier parse error. Set the current
@@ -3539,7 +3540,7 @@ where
                     // Append the current input character to the current DOCTYPE token's public
                     // identifier.
                     Some(c) => {
-                        self.append_to_doctype_token(Some((c, c)), None);
+                        self.append_to_doctype_token(None, Some((c, c)), None);
                     }
                 }
             }
@@ -3884,7 +3885,7 @@ where
                     // identifier.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_to_doctype_token(None, Some((REPLACEMENT_CHARACTER, c)));
+                        self.append_to_doctype_token(None, None, Some((REPLACEMENT_CHARACTER, c)));
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // This is an abrupt-doctype-system-identifier parse error. Set the current
@@ -3912,7 +3913,7 @@ where
                     // Append the current input character to the current DOCTYPE token's system
                     // identifier.
                     Some(c) => {
-                        self.append_to_doctype_token(None, Some((c, c)));
+                        self.append_to_doctype_token(None, None, Some((c, c)));
                     }
                 }
             }
@@ -3931,7 +3932,7 @@ where
                     // identifier.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_to_doctype_token(None, Some((REPLACEMENT_CHARACTER, c)));
+                        self.append_to_doctype_token(None, None, Some((REPLACEMENT_CHARACTER, c)));
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // This is an abrupt-doctype-system-identifier parse error. Set the current
@@ -3959,7 +3960,7 @@ where
                     // Append the current input character to the current DOCTYPE token's system
                     // identifier.
                     Some(c) => {
-                        self.append_to_doctype_token(None, Some((c, c)));
+                        self.append_to_doctype_token(None, None, Some((c, c)));
                     }
                 }
             }
