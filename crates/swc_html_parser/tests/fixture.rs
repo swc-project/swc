@@ -1,4 +1,5 @@
 #![deny(warnings)]
+#![allow(clippy::if_same_then_else)]
 #![allow(clippy::needless_update)]
 #![allow(clippy::redundant_clone)]
 #![allow(clippy::while_let_on_iterator)]
