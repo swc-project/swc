@@ -126,6 +126,8 @@ where
     errors: Vec<Error>,
     last_start_tag_name: Option<JsWord>,
     pending_tokens: Vec<TokenAndSpan>,
+    current_comment: Option<String>,
+
     cur_token: Option<Token>,
     attribute_start_position: Option<BytePos>,
     character_reference_code: Option<Vec<(u8, u32, Option<char>)>>,
@@ -154,6 +156,7 @@ where
             errors: vec![],
             last_start_tag_name: None,
             pending_tokens: vec![],
+            current_comment: None,
             cur_token: None,
             attribute_start_position: None,
             character_reference_code: None,
@@ -773,21 +776,15 @@ where
     }
 
     fn create_comment_token(&mut self, data: Option<String>) {
-        self.cur_token = Some(Token::Comment {
-            data: if let Some(data) = data {
-                data.into()
-            } else {
-                "".into()
-            },
-        });
+        if let Some(data) = data {
+            self.current_comment = Some(data);
+        } else {
+            self.current_comment = Some("".into());
+        };
     }
 
     fn append_to_comment_token(&mut self, c: char, _raw_c: Option<char>) {
-        if let Some(Token::Comment { data, .. }) = &mut self.cur_token {
-            let mut new_data = String::new();
-
-            new_data.push_str(data);
-
+        if let Some(current_comment) = &mut self.current_comment {
             let mut normalized_c = c;
             let is_cr = c == '\r';
 
@@ -799,10 +796,22 @@ where
                 }
             }
 
-            new_data.push(normalized_c);
-
-            *data = new_data.into();
+            current_comment.push(normalized_c);
         }
+    }
+
+    fn emit_comment_token(&mut self) {
+        let token = Token::Comment {
+            data: self.current_comment.take().unwrap().into(),
+        };
+        let end = self.last_pos.take().unwrap_or_else(|| self.input.cur_pos());
+        let span = Span::new(self.start_pos, end, Default::default());
+
+        self.start_pos = end;
+
+        let token_and_span = TokenAndSpan { span, token };
+
+        self.pending_tokens.push(token_and_span);
     }
 
     fn read_token_and_span(&mut self) -> LexResult<TokenAndSpan> {
@@ -2508,12 +2517,12 @@ where
                     // Switch to the data state. Emit the current comment token.
                     Some('>') => {
                         self.state = State::Data;
-                        self.emit_cur_token();
+                        self.emit_comment_token();
                     }
                     // EOF
                     // Emit the comment. Emit an end-of-file token.
                     None => {
-                        self.emit_cur_token();
+                        self.emit_comment_token();
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -2688,7 +2697,7 @@ where
                     Some('>') => {
                         self.emit_error(ErrorKind::AbruptClosingOfEmptyComment);
                         self.state = State::Data;
-                        self.emit_cur_token();
+                        self.emit_comment_token();
                     }
                     // Anything else
                     // Reconsume in the comment state.
@@ -2712,14 +2721,14 @@ where
                     Some('>') => {
                         self.emit_error(ErrorKind::AbruptClosingOfEmptyComment);
                         self.state = State::Data;
-                        self.emit_cur_token();
+                        self.emit_comment_token();
                     }
                     // EOF
                     // This is an eof-in-comment parse error. Emit the current comment token.
                     // Emit an end-of-file token.
                     None => {
                         self.emit_error(ErrorKind::EofInComment);
-                        self.emit_cur_token();
+                        self.emit_comment_token();
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -2761,7 +2770,7 @@ where
                     // Emit an end-of-file token.
                     None => {
                         self.emit_error(ErrorKind::EofInComment);
-                        self.emit_cur_token();
+                        self.emit_comment_token();
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -2860,7 +2869,7 @@ where
                     // Emit an end-of-file token.
                     None => {
                         self.emit_error(ErrorKind::EofInComment);
-                        self.emit_cur_token();
+                        self.emit_comment_token();
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -2882,7 +2891,7 @@ where
                     // Switch to the data state. Emit the current comment token.
                     Some('>') => {
                         self.state = State::Data;
-                        self.emit_cur_token();
+                        self.emit_comment_token();
                     }
                     // U+0021 EXCLAMATION MARK (!)
                     // Switch to the comment end bang state.
@@ -2899,7 +2908,7 @@ where
                     // Emit an end-of-file token.
                     None => {
                         self.emit_error(ErrorKind::EofInComment);
-                        self.emit_cur_token();
+                        self.emit_comment_token();
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -2934,14 +2943,14 @@ where
                     Some('>') => {
                         self.emit_error(ErrorKind::IncorrectlyClosedComment);
                         self.state = State::Data;
-                        self.emit_cur_token();
+                        self.emit_comment_token();
                     }
                     // EOF
                     // This is an eof-in-comment parse error. Emit the current comment token.
                     // Emit an end-of-file token.
                     None => {
                         self.emit_error(ErrorKind::EofInComment);
-                        self.emit_cur_token();
+                        self.emit_comment_token();
                         self.emit_token(Token::Eof);
 
                         return Ok(());
