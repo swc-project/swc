@@ -3530,6 +3530,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_ecma_testing"
+version = "0.1.0"
+
+[[package]]
 name = "swc_ecma_transforms"
 version = "0.154.0"
 dependencies = [
@@ -3753,6 +3757,7 @@ dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
  "swc_ecma_parser",
+ "swc_ecma_testing",
  "swc_ecma_transforms_base",
  "swc_ecma_utils",
  "swc_ecma_visit",
