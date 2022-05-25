@@ -450,6 +450,21 @@ where
         }
     }
 
+    fn append_to_doctype_token(&mut self, system_id: (char, char)) {
+        if let Some(Token::Doctype {
+            system_id: Some(old_system_id),
+            ..
+        }) = &mut self.cur_token
+        {
+            let mut new_system_id = String::new();
+
+            new_system_id.push_str(old_system_id);
+            new_system_id.push(system_id.0);
+
+            *old_system_id = new_system_id.into();
+        }
+    }
+
     fn start_new_attribute(&mut self, c: Option<char>) {
         if let Some(ref mut token) = self.cur_token {
             match token {
@@ -3986,21 +4001,9 @@ where
                     // This is an unexpected-null-character parse error. Append a U+FFFD
                     // REPLACEMENT CHARACTER character to the current DOCTYPE token's system
                     // identifier.
-                    Some('\x00') => {
+                    Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-
-                        if let Some(Token::Doctype {
-                            system_id: Some(system_id),
-                            ..
-                        }) = &mut self.cur_token
-                        {
-                            let mut new_system_id = String::new();
-
-                            new_system_id.push_str(system_id);
-                            new_system_id.push(REPLACEMENT_CHARACTER);
-
-                            *system_id = new_system_id.into();
-                        }
+                        self.append_to_doctype_token((REPLACEMENT_CHARACTER, c));
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // This is an abrupt-doctype-system-identifier parse error. Set the current
@@ -4036,18 +4039,7 @@ where
                     // Append the current input character to the current DOCTYPE token's system
                     // identifier.
                     Some(c) => {
-                        if let Some(Token::Doctype {
-                            system_id: Some(system_id),
-                            ..
-                        }) = &mut self.cur_token
-                        {
-                            let mut new_system_id = String::new();
-
-                            new_system_id.push_str(system_id);
-                            new_system_id.push(c);
-
-                            *system_id = new_system_id.into();
-                        }
+                        self.append_to_doctype_token((c, c));
                     }
                 }
             }
@@ -4064,21 +4056,9 @@ where
                     // This is an unexpected-null-character parse error. Append a U+FFFD
                     // REPLACEMENT CHARACTER character to the current DOCTYPE token's system
                     // identifier.
-                    Some('\x00') => {
+                    Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-
-                        if let Some(Token::Doctype {
-                            system_id: Some(system_id),
-                            ..
-                        }) = &mut self.cur_token
-                        {
-                            let mut new_system_id = String::new();
-
-                            new_system_id.push_str(system_id);
-                            new_system_id.push(REPLACEMENT_CHARACTER);
-
-                            *system_id = new_system_id.into();
-                        }
+                        self.append_to_doctype_token((REPLACEMENT_CHARACTER, c));
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // This is an abrupt-doctype-system-identifier parse error. Set the current
@@ -4114,18 +4094,7 @@ where
                     // Append the current input character to the current DOCTYPE token's system
                     // identifier.
                     Some(c) => {
-                        if let Some(Token::Doctype {
-                            system_id: Some(system_id),
-                            ..
-                        }) = &mut self.cur_token
-                        {
-                            let mut new_system_id = String::new();
-
-                            new_system_id.push_str(system_id);
-                            new_system_id.push(c);
-
-                            *system_id = new_system_id.into();
-                        }
+                        self.append_to_doctype_token((c, c));
                     }
                 }
             }
