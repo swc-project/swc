@@ -327,10 +327,6 @@ where
 
         self.start_pos = end;
 
-        if let Token::StartTag { tag_name, .. } = &token {
-            self.last_start_tag_name = Some(tag_name.clone());
-        }
-
         let token_and_span = TokenAndSpan { span, token };
 
         self.pending_tokens.push(token_and_span);
@@ -351,20 +347,13 @@ where
     // token is appropriate.
     fn current_end_tag_token_is_an_appropriate_end_tag_token(&mut self) -> bool {
         if let Some(last_start_tag_name) = &self.last_start_tag_name {
-            if let Some(Token::EndTag {
-                tag_name: end_tag_name,
-        if let Some(Token::StartTag {
-            tag_name: last_start_tag_name,
-            ..
-        }) = &self.last_start_tag_token
-        {
             if let Some(Tag {
                 kind: TagKind::End,
                 tag_name,
                 ..
             }) = &self.current_tag_token
             {
-                return last_start_tag_name == tag_name;
+                return &*last_start_tag_name == tag_name;
             }
         }
 
@@ -575,8 +564,8 @@ where
             if let Some(c) = c {
                 attributes.push(Attribute {
                     span: Default::default(),
-                    name: c.to_string().into(),
-                    raw_name: Some(c.to_string().into()),
+                    name: c.to_string(),
+                    raw_name: Some(c.to_string()),
                     value: None,
                     raw_value: None,
                 });
@@ -699,6 +688,8 @@ where
         if let Some(mut current_tag_token) = self.current_tag_token.take() {
             match current_tag_token.kind {
                 TagKind::Start => {
+                    self.last_start_tag_name = Some(current_tag_token.tag_name.clone().into());
+
                     let start_tag_token = Token::StartTag {
                         tag_name: current_tag_token.tag_name.into(),
                         raw_tag_name: current_tag_token.raw_tag_name.map(JsWord::from),
@@ -715,8 +706,6 @@ where
                             })
                             .collect(),
                     };
-
-                    self.last_start_tag_token = Some(start_tag_token.clone());
 
                     self.emit_token(start_tag_token);
                 }

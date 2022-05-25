@@ -584,12 +584,6 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                     .expect("failed to get lastStartTag in test");
 
                 lexer.set_last_start_tag_name(&last_start_tag);
-                lexer.set_last_start_tag_token(Token::StartTag {
-                    tag_name: last_start_tag.into(),
-                    raw_tag_name: None,
-                    self_closing: false,
-                    attributes: vec![],
-                });
             }
 
             let mut actual_tokens = vec![];
