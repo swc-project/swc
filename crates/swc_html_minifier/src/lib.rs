@@ -268,6 +268,13 @@ impl Minifier {
                     "strict-origin-when-cross-origin"
                 )
                 | (Namespace::HTML, "style", "type", "text/css")
+                | (Namespace::HTML, "script", "language", "javascript")
+                | (Namespace::HTML, "script", "language", "javascript1.2")
+                | (Namespace::HTML, "script", "language", "javascript1.3")
+                | (Namespace::HTML, "script", "language", "javascript1.4")
+                | (Namespace::HTML, "script", "language", "javascript1.5")
+                | (Namespace::HTML, "script", "language", "javascript1.6")
+                | (Namespace::HTML, "script", "language", "javascript1.7")
                 | (Namespace::HTML, "script", "type", "text/javascript")
                 | (Namespace::HTML, "script", "type", "text/ecmascript")
                 | (Namespace::HTML, "script", "type", "text/jscript")
@@ -367,7 +374,18 @@ impl VisitMut for Minifier {
                 n.namespace,
                 &n.tag_name,
                 &attribute.name,
-                attribute.value.as_ref().unwrap(),
+                match &*n.tag_name {
+                    "script" if n.namespace == Namespace::HTML => {
+                        let original_value = attribute.value.as_ref().unwrap();
+
+                        if let Some(next) = original_value.split(';').next() {
+                            next
+                        } else {
+                            original_value
+                        }
+                    }
+                    _ => attribute.value.as_ref().unwrap(),
+                },
             ) || (matches!(&*attribute.name, "id" | "class" | "style") && is_empty_value)
             {
                 return false;
