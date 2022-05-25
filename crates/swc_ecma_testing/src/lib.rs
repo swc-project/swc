@@ -13,6 +13,9 @@ pub struct JsExecOptions {
     ///
     /// Note that this cache is stored in cargo target directory and will be
     /// removed by `cargo clean`.
+    ///
+    /// You can change the cache directory name by setting the
+    /// `SWC_ECMA_TESTING_CACHE_DIR`
     pub cache: bool,
 
     /// If true, `--input-type=module` will be added.
@@ -23,19 +26,23 @@ fn cargo_manifest_dir() -> PathBuf {
     env::var("CARGO_MANIFEST_DIR").unwrap().into()
 }
 
-fn cargo_target_dir() -> PathBuf {
-    env::var("TARGET").map(PathBuf::from).unwrap_or_else(|_| {
-        let mut target_dir = cargo_manifest_dir();
-        target_dir.push("target");
-        target_dir
-    })
+fn cargo_cache_root() -> PathBuf {
+    env::var("SWC_ECMA_TESTING_CACHE_DIR")
+        .map(PathBuf::from)
+        .unwrap_or_else(|_| {
+            env::var("TARGET").map(PathBuf::from).unwrap_or_else(|_| {
+                let mut target_dir = cargo_manifest_dir();
+                target_dir.push("target");
+                target_dir
+            })
+        })
 }
 
 /// Executes `js_code` and capture thw output.
 pub fn exec_node_js(js_code: &str, opts: JsExecOptions) -> Result<String> {
     if opts.cache {
         let hash = calc_hash(js_code);
-        let cache_dir = cargo_target_dir().join(".swc-node-exec-cache");
+        let cache_dir = cargo_cache_root().join(".swc-node-exec-cache");
         let cache_path = cache_dir.join(format!("{}.stdout", hash));
 
         if let Ok(s) = fs::read_to_string(&cache_path) {
