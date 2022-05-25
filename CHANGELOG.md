@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(common)** Fix jemalloc (#4794) ([adf70f6](https://github.com/swc-project/swc/commit/adf70f6c0747e5a61d79897e11c70be0b41680d4))
+
 ### Features
 
 
