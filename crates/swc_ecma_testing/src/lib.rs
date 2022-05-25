@@ -16,7 +16,7 @@ pub struct JsExecOptions {
     pub cache: bool,
 
     /// If true, `--input-type=module` will be added.
-    pub is_module: bool,
+    pub module: bool,
 }
 
 fn cargo_manifest_dir() -> PathBuf {
@@ -59,7 +59,7 @@ pub fn exec_node_js(js_code: &str, opts: JsExecOptions) -> Result<String> {
 
     let mut c = Command::new("node");
 
-    if opts.is_module {
+    if opts.module {
         c.arg("--input-type=module");
     } else {
         c.arg("--input-type=commonjs");
