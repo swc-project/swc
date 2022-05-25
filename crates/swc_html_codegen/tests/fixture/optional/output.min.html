@@ -1,4 +1,4 @@
-<!doctype html><html lang=en><head><title>Document</title></head><body>
+<!doctype html><html lang=en><title>Document</title><body>
 <ul><li>test</ul>
 <ul> <li>test</li> </ul>
 <ul> <li>test</li> <li>test</li> </ul>
@@ -11,6 +11,400 @@
     <dl><dt>What do we want?<dd>Our data.<dt>When do we want it?<dd>Now.<dt>Where is it?<dd>We are not sure.</dl>
 </article>
 
+<form action=courseselector.dll method=get>
+    <p>Which course would you like to watch today?
+    <p><label>Course:
+        <select name=c>
+            <optgroup label="8.01 Physics I: Classical Mechanics">
+                <option value=8.01.1>Lecture 01: Powers of Ten
+                <option value=8.01.2>Lecture 02: 1D Kinematics
+                <option value=8.01.3>Lecture 03: Vectors
+            <optgroup label="8.02 Electricity and Magnetism">
+                <option value=8.02.1>Lecture 01: What holds our world together?
+                <option value=8.02.2>Lecture 02: Electric Field
+                <option value=8.02.3>Lecture 03: Electric Flux
+            </optgroup>
+            <optgroup label="8.03 Physics III: Vibrations and Waves">
+                <option value=8.03.1>Lecture 01: Periodic Phenomenon
+                <option value=8.03.2>Lecture 02: Beats
+                <option value=8.03.3>Lecture 03: Forced Oscillations with Damping
+            </optgroup>
+        </select>
+    </label>
+    <p><input type=submit value="▶ Play">
+</form>
+
+<table>
+    <tr>
+        <th>Month<th>Savings</th>
+    </tr>
+    <tr>
+        <td>January</td>
+        <td>$100</td>
+    </tr>
+    <tr>
+        <td>February</td>
+        <td>$80</td>
+    </tr>
+</table>
+
+<table>
+    <tr><th>Month<th>Savings</tr>
+    <tr>
+        <td>January</td>
+        <td>$100</td>
+    </tr>
+    <tr>
+        <td>February</td>
+        <td>$80</td>
+    </tr>
+</table>
+
+<table width=100% cellspacing=0 border=1>
+    <tr>
+        <th>One</th>
+        <th>Two</th>
+    </tr>
+    <tr>
+        <th>Three<td>5.5</td>
+        <td>6.0</td>
+    </tr>
+</table>
+
+<table width=100% cellspacing=0 border=1>
+    <tr>
+        <th>One</th>
+        <th>Two</th>
+    </tr>
+    <tr><th>Three<td>5.5<td>6.0</tr>
+</table>
+
+<table><tr><th>Month<th>Savings<tr>
+        <td>January</td>
+        <td>$100</td>
+    <tr>
+        <td>February</td>
+        <td>$80</td>
+    </table>
+
+<table><thead>
+    <tr>
+        <th>Items</th>
+        <th scope=col>Expenditure</th>
+    </tr>
+<tbody>
+    <tr>
+        <th scope=row>Donuts</th>
+        <td>3,000</td>
+    </tr>
+    <tr>
+        <th scope=row>Stationery</th>
+        <td>18,000</td>
+    </tr>
+<tfoot>
+    <tr>
+        <th scope=row>Totals</th>
+        <td>21,000</td>
+    </tr>
+</table>
+
+<table><thead>
+<tr>
+    <th>Items</th>
+    <th scope=col>Expenditure</th>
+</tr>
+<tfoot>
+<tr>
+    <th scope=row>Totals</th>
+    <td>21,000</td>
+</tr>
+</table>
+
+<table><thead>
+<tr>
+    <th>Items</th>
+    <th scope=col>Expenditure</th>
+</tr>
+</thead></table>
+
+<table><tbody>
+<tr>
+    <th scope=row>Donuts</th>
+    <td>3,000</td>
+</tr>
+<tr>
+    <th scope=row>Stationery</th>
+    <td>18,000</td>
+</tr>
+</table>
+
+<table>
+    <caption>Superheros and sidekicks</caption>
+    <colgroup>
+        <col>
+        <col span=2 class=batman>
+        <col span=2 class=flash>
+    </colgroup>
+    <tr>
+        <td>&nbsp;</td>
+        <th scope=col>Batman</th>
+        <th scope=col>Robin</th>
+        <th scope=col>The Flash</th>
+        <th scope=col>Kid Flash</th>
+    </tr>
+    <tr>
+        <th scope=row>Skill</th>
+        <td>Smarts</td>
+        <td>Dex, acrobat</td>
+        <td>Super speed</td>
+        <td>Super speed</td>
+    </tr>
+</table>
+
+<table>
+    <caption>Superheros and sidekicks</caption>
+    <colgroup>
+        <col>
+        <col span=2 class=batman>
+        <col span=2 class=flash>
+    <tr>
+        <td>&nbsp;</td>
+        <th scope=col>Batman</th>
+        <th scope=col>Robin</th>
+        <th scope=col>The Flash</th>
+        <th scope=col>Kid Flash</th>
+    </tr>
+</table>
+
+<table>
+    <caption>Superheros and sidekicks</caption>
+    <colgroup>
+        <col>
+        <col span=2 class=batman>
+        <col span=2 class=flash>
+    </colgroup><!-- comment -->
+    <tr>
+        <td>&nbsp;</td>
+        <th scope=col>Batman</th>
+        <th scope=col>Robin</th>
+        <th scope=col>The Flash</th>
+        <th scope=col>Kid Flash</th>
+    </tr>
+</table>
+
+<table><caption>Superheros and sidekicks</caption>
+    <colgroup>
+        <col>
+        <col span=2 class=batman>
+        <col span=2 class=flash>
+    </table>
+
+<table><caption>Superheros and sidekicks</caption>
+<colgroup>
+<col>
+<col span=2 class=batman>
+<col span=2 class=flash>
+</colgroup> <tbody>
+    <tr>
+        <td>&nbsp;</td>
+        <th scope=col>Batman</th>
+        <th scope=col>Robin</th>
+        <th scope=col>The Flash</th>
+        <th scope=col>Kid Flash</th>
+    </tr>
+    </tbody>
+</table>
+
+<table>
+    <caption>He-Man and Skeletor facts</caption>
+    <tr>
+        <td>&nbsp;</td>
+        <th scope=col class=heman>He-Man</th>
+        <th scope=col class=skeletor>Skeletor</th>
+    </tr>
+    <tr>
+        <th scope=row>Role</th>
+        <td>Hero</td>
+        <td>Villain</td>
+    </tr>
+</table>
+
+<table>
+    <caption>He-Man and Skeletor facts<tr>
+        <td>&nbsp;</td>
+        <th scope=col class=heman>He-Man</th>
+        <th scope=col class=skeletor>Skeletor</th>
+    </tr>
+    <tr>
+        <th scope=row>Role</th>
+        <td>Hero</td>
+        <td>Villain</td>
+    </tr>
+</table>
+
+<table>
+    <caption>He-Man and Skeletor facts</caption><!-- comment --> <tr>
+    <td>&nbsp;</td>
+    <th scope=col class=heman>He-Man</th>
+    <th scope=col class=skeletor>Skeletor</th>
+</tr>
+    <tr>
+        <th scope=row>Role</th>
+        <td>Hero</td>
+        <td>Villain</td>
+    </tr>
+</table>
+
+<ruby>
+    漢 <rp>(<rt>kan<rp>)</rp>
+    字 <rp>(<rt>ji<rp>)</rp>
+</ruby>
+
+<ruby>漢 <rp>(<rt>kan<rp>)</rp>字 <rp>(<rt>ji<rp>)</ruby>
+
+<div>
+    <p>test</p>
+    <p>test
+    <p>test</p> <p>test</p>
+    <p>test<p>test</p>
+    <p>test<div>test</div>
+    <p>test<div>test</div>
+    <p>test</p><img>
+</div>
+
+<div><p>test</div>
+<a><p>test</p></a>
+
+<my-element><p>Test</p></my-element>
+
+<unknown><p>test</p></unknown>
+
+<spacer><p>test</p></spacer>
+
+<div>
+    <p>test</p><svg></svg>
+</div>
+
+<acronym><p>test</p></acronym>
+
+<applet code=game.class align=left archive=game.zip height=250 width=350>
+    <param name=difficulty value=easy>
+    <p>Sorry, you need Java to play this game.</applet>
+
+<big><p>test</p></big>
+
+<blink><p>test</p></blink>
+
+<center><p>test</center>
+
+<command><p>test</p></command>
+
+<content><p>test</p></content>
+
+<dir><p>test</dir>
+
+<element><p>test</p></element>
+
+<font><p>test</p></font>
+
+<kbd><p>test</p></kbd>
+
+<listing><p>test</listing>
+
+<marquee behavior=test direction=test><p>test</marquee>
+
+<multicol><p>test</p></multicol>
+
+<noembed><p>test</p></noembed>
+
+<shadow><p>test</p></shadow>
+
+<strike><p>test</p></strike>
+
+<tt><p>test</p></tt>
+
+<xmp><p>test</p></xmp>
+
+<div><p>test</p><svg>test</svg></div>
+
+<ruby>
+    <rb>漢<rb>字
+    <rp>(<rt>kan<rt>ji<rp>)</rp>
+</ruby>
+
+<ruby>
+    <rb>漢<rb><rp>(<rt>kan<rt>ji<rp>)</rp>
+</ruby>
+
+<div class=info><ruby>
+        <rbc>
+            <rb>旧<rt>jiù</rt>
+            <rb>金<rt>jīn</rt>
+            <rb>山<rt>shān</rt>
+        </rbc>
+        <rtc>San Francisco</ruby>
+</div>
+
+<table><thead>
+    <tr><th>Customer<th>Order<th>Month</tr>
+    <tbody>
+    <tr><td>Customer 1<td>#1<td>January</tr>
+    <tr><td>Customer 1<td>#2<td>April</tr>
+    <tr><td>Customer 1<td>#3<td>March</tr>
+    <tbody>
+    <tr><td>Customer 2<td>#1<td>January</tr>
+    <tr><td>Customer 2<td>#2<td>April</tr>
+    <tr><td>Customer 2<td>#3<td>March</tr>
+    <tbody>
+    <tr><td>Customer 3<td>#1<td>January</tr>
+    <tr><td>Customer 3<td>#2<td>April</tr>
+    <tr><td>Customer 3<td>#3<td>March</tr>
+    </table>
+
+<table><colgroup>
+    <col class="">
+    <col class="">
+    <col class="">
+<colgroup>
+    <col class="">
+    <col class="">
+    <col class="">
+<tr>
+    <td>Cell</td>
+    <td>Cell</td>
+    <td>Cell</td>
+</tr>
+</table>
+
+<table>
+    <col class=""><col class=""><col class=""></colgroup>
+    <tr>
+        <td>Cell</td>
+        <td>Cell</td>
+        <td>Cell</td>
+    </tr>
+</table>
+
+<table>
+    <col class=""><col class=""><col class=""><tr>
+        <td>Cell</td>
+        <td>Cell</td>
+        <td>Cell</td>
+    </tr>
+</table>
+
+<table>
+    <col class=""><col class=""><col class=""><colgroup><col class=""><col class=""><col class=""></colgroup>
+    <tr>
+        <td>Cell</td>
+        <td>Cell</td>
+        <td>Cell</td>
+    </tr>
+</table>
+
+<table><tr><td>test<tbody><tr><td>test<tbody><tr><td>test</table>
+<table><thead><tr><td>test<tbody><tr><td>test<tbody><tr><td>test</table>
+<table><tfoot><tr><td>test</tfoot><tbody><tr><td>test<tbody><tr><td>test</table>
 
 
-</body></html>
+

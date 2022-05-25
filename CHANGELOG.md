@@ -5,6 +5,20 @@
 
 
 
+- **(html/codegen)** Omit start and end tags if it is possible (#4780) ([c6ec9f9](https://github.com/swc-project/swc/commit/c6ec9f9cf20e149ce9cb8364403a031e3547741c))
+
+## [1.2.194] - 2022-05-25
+
+### Bug Fixes
+
+
+
+- **(common)** Fix jemalloc (#4794) ([adf70f6](https://github.com/swc-project/swc/commit/adf70f6c0747e5a61d79897e11c70be0b41680d4))
+
+### Features
+
+
+
 - **(html/minifier)** Improve script type compression (#4785) ([b5e481c](https://github.com/swc-project/swc/commit/b5e481c114bba00c4f69f8df2a6309cd46ba8962))
 
 

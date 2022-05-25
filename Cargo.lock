@@ -213,7 +213,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.2.193"
+version = "1.2.194"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -3944,7 +3944,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_codegen"
-version = "0.9.2"
+version = "0.9.3"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -4022,7 +4022,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_base"
-version = "0.5.4"
+version = "0.5.5"
 dependencies = [
  "mimalloc-rust",
  "tikv-jemallocator",
