@@ -13,6 +13,12 @@
 
 - **(plugin)** Implement `SourceMap.span_to_*` (#4781) ([a937357](https://github.com/swc-project/swc/commit/a937357d47471222db4e62021ec507cd96597d9c))
 
+### Testing
+
+
+
+- **(es)** Make execution tests faster (#4789) ([38a866a](https://github.com/swc-project/swc/commit/38a866a900ff979b070bc2152459d41d75f414df))
+
 ## [1.2.192] - 2022-05-24
 
 ### Bug Fixes
