@@ -129,6 +129,12 @@ impl Visit for Preserver {
         }
     }
 
+    fn visit_ident(&mut self, n: &Ident) {
+        if self.unresolved_ctxt == n.span.ctxt {
+            self.unresolved.insert(n.sym.clone());
+        }
+    }
+
     fn visit_module_items(&mut self, n: &[ModuleItem]) {
         for n in n {
             self.in_top_level = true;
