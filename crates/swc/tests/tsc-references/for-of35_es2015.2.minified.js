@@ -1,12 +1,12 @@
-let _iterator = Symbol.iterator;
-for (var v of new class {
+class StringIterator {
     next() {
         return {
             done: !0,
             value: v
         };
     }
-    [_iterator]() {
+    [Symbol.iterator]() {
         return this;
     }
-});
+}
+for (var v of new StringIterator);

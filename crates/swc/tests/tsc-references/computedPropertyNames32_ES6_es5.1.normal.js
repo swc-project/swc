@@ -3,7 +3,6 @@ import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 function foo() {
     return "";
 }
-var tmp = foo();
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
@@ -13,6 +12,6 @@ var C = /*#__PURE__*/ function() {
     _proto.bar = function bar() {
         return 0;
     };
-    _proto[tmp] = function() {};
+    _proto[foo()] = function() {};
     return C;
 }();

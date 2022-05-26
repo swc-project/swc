@@ -6,7 +6,6 @@ function foo() {
         s[_key] = arguments[_key];
     }
 }
-var _iterator = Symbol.iterator;
 var SymbolIterator = /*#__PURE__*/ function() {
     "use strict";
     function SymbolIterator() {
@@ -19,7 +18,7 @@ var SymbolIterator = /*#__PURE__*/ function() {
             done: false
         };
     };
-    _proto[_iterator] = function() {
+    _proto[Symbol.iterator] = function() {
         return this;
     };
     return SymbolIterator;

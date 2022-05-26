@@ -13,7 +13,7 @@ var Bar = function() {
         return _class_call_check(this, Foo), _super.apply(this, arguments);
     }
     return Foo;
-}(Bar), _iterator = Symbol.iterator, FooArrayIterator = function() {
+}(Bar), FooArrayIterator = function() {
     "use strict";
     function FooArrayIterator() {
         _class_call_check(this, FooArrayIterator);
@@ -26,7 +26,7 @@ var Bar = function() {
             ],
             done: !1
         };
-    }, _proto[_iterator] = function() {
+    }, _proto[Symbol.iterator] = function() {
         return this;
     }, FooArrayIterator;
 }();

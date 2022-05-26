@@ -1,7 +1,6 @@
-let _iterator = Symbol.iterator;
 //@target: ES6
 class SymbolIterator {
-    [_iterator]() {
+    [Symbol.iterator]() {
         return this;
     }
 }

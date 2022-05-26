@@ -1,7 +1,7 @@
 var x;
-let _iterator = Symbol.iterator;
-for (var v of new class {
-    [_iterator]() {
+class StringIterator {
+    [Symbol.iterator]() {
         return x;
     }
-});
+}
+for (var v of new StringIterator);
