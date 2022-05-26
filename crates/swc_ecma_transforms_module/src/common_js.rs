@@ -245,7 +245,7 @@ impl Fold for CommonJs {
             }
         }
 
-        // Map all top-level identifiers that match imported specifiers, and blacklist
+        // Map all top-level identifiers that match imported specifiers, and denylist
         // them from lazy imports.
         let mut visitor = LazyIdentifierVisitor::new(self.scope.clone());
         items.visit_with(&mut visitor);
