@@ -89,41 +89,13 @@ imported specifier name.
 impl Visit for LazyIdentifierVisitor {
     noop_visit_type!();
 
-    fn visit_import_decl(&mut self, _: &ImportDecl) {}
-
-    fn visit_export_decl(&mut self, _: &ExportDecl) {}
-
-    fn visit_named_export(&mut self, _: &NamedExport) {}
-
-    fn visit_export_default_decl(&mut self, _: &ExportDefaultDecl) {}
-
-    fn visit_export_default_expr(&mut self, _: &ExportDefaultExpr) {}
-
-    fn visit_export_all(&mut self, export: &ExportAll) {
-        self.denied_sources.insert(export.src.value.clone());
-    }
-
-    fn visit_labeled_stmt(&mut self, _: &LabeledStmt) {}
-
-    fn visit_continue_stmt(&mut self, _: &ContinueStmt) {}
-
     fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
-
-    fn visit_function(&mut self, _: &Function) {}
-
-    fn visit_constructor(&mut self, _: &Constructor) {}
-
-    fn visit_setter_prop(&mut self, _: &SetterProp) {}
-
-    fn visit_getter_prop(&mut self, _: &GetterProp) {}
 
     fn visit_class_prop(&mut self, _: &ClassProp) {}
 
-    fn visit_prop_name(&mut self, prop_name: &PropName) {
-        if let PropName::Computed(n) = prop_name {
-            n.visit_with(self)
-        }
-    }
+    fn visit_constructor(&mut self, _: &Constructor) {}
+
+    fn visit_continue_stmt(&mut self, _: &ContinueStmt) {}
 
     fn visit_decl(&mut self, decl: &Decl) {
         if let Decl::Class(ref c) = decl {
@@ -132,12 +104,46 @@ impl Visit for LazyIdentifierVisitor {
         }
     }
 
+    fn visit_export_all(&mut self, export: &ExportAll) {
+        self.denied_sources.insert(export.src.value.clone());
+    }
+
+    fn visit_export_decl(&mut self, _: &ExportDecl) {}
+
+    fn visit_export_default_decl(&mut self, _: &ExportDefaultDecl) {}
+
+    fn visit_export_default_expr(&mut self, _: &ExportDefaultExpr) {}
+
+    fn visit_export_default_specifier(&mut self, _: &ExportDefaultSpecifier) {}
+
+    fn visit_export_named_specifier(&mut self, _: &ExportNamedSpecifier) {}
+
+    fn visit_export_namespace_specifier(&mut self, _: &ExportNamespaceSpecifier) {}
+
+    fn visit_function(&mut self, _: &Function) {}
+
+    fn visit_getter_prop(&mut self, _: &GetterProp) {}
+
     fn visit_ident(&mut self, ident: &Ident) {
         let v = self.scope.borrow().idents.get(&ident.to_id()).cloned();
         if let Some((src, _)) = v {
             self.denied_sources.insert(src);
         }
     }
+
+    fn visit_import_decl(&mut self, _: &ImportDecl) {}
+
+    fn visit_labeled_stmt(&mut self, _: &LabeledStmt) {}
+
+    fn visit_named_export(&mut self, _: &NamedExport) {}
+
+    fn visit_prop_name(&mut self, prop_name: &PropName) {
+        if let PropName::Computed(n) = prop_name {
+            n.visit_with(self)
+        }
+    }
+
+    fn visit_setter_prop(&mut self, _: &SetterProp) {}
 }
 
 struct CommonJs {
