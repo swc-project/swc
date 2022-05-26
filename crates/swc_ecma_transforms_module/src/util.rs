@@ -157,7 +157,7 @@ pub struct Scope {
 
     /// This is required to handle
     /// `export * from 'foo';`
-    pub(crate) lazy_blacklist: AHashSet<JsWord>,
+    pub(crate) lazy_denylist: AHashSet<JsWord>,
 }
 
 impl Scope {
@@ -504,7 +504,7 @@ impl Scope {
         match v {
             None => Err(i),
             Some((src, prop)) => {
-                let lazy = if folder.scope().lazy_blacklist.contains(&src) {
+                let lazy = if folder.scope().lazy_denylist.contains(&src) {
                     false
                 } else {
                     folder.config().lazy.is_lazy(&src)

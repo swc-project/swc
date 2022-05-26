@@ -250,7 +250,7 @@ impl Fold for CommonJs {
         let mut visitor = LazyIdentifierVisitor::new(self.scope.clone());
         items.visit_with(&mut visitor);
         for ident in visitor.top_level_idents {
-            self.scope.borrow_mut().lazy_blacklist.insert(ident);
+            self.scope.borrow_mut().lazy_denylist.insert(ident);
         }
 
         for item in items {
@@ -638,7 +638,7 @@ impl Fold for CommonJs {
                                         }
 
                                         let lazy = if let Some(ref src) = export.src {
-                                            if scope.lazy_blacklist.contains(&src.value) {
+                                            if scope.lazy_denylist.contains(&src.value) {
                                                 false
                                             } else {
                                                 self.config.lazy.is_lazy(&src.value)
@@ -649,7 +649,7 @@ impl Fold for CommonJs {
                                                 .get(&(orig.sym.clone(), orig.span.ctxt()))
                                             {
                                                 Some((ref src, _)) => {
-                                                    if scope.lazy_blacklist.contains(src) {
+                                                    if scope.lazy_denylist.contains(src) {
                                                         false
                                                     } else {
                                                         self.config.lazy.is_lazy(src)
@@ -816,7 +816,7 @@ impl Fold for CommonJs {
 
         let scope = &mut *scope;
         for (src, (src_span, import)) in scope.imports.drain(..) {
-            let lazy = if scope.lazy_blacklist.contains(&src) {
+            let lazy = if scope.lazy_denylist.contains(&src) {
                 false
             } else {
                 self.config.lazy.is_lazy(&src)
