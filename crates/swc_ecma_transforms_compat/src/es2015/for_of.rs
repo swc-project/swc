@@ -464,50 +464,7 @@ fn make_finally_block(
     })
 }
 
-impl Parallel for ForOf {
-    fn create(&self) -> Self {
-        ForOf {
-            c: self.c,
-            top_level_vars: Default::default(),
-        }
-    }
-
-    fn merge(&mut self, other: Self) {
-        self.top_level_vars.extend(other.top_level_vars);
-    }
-}
-
 #[swc_trace]
-impl ParExplode for ForOf {
-    fn after_one_stmt(&mut self, stmts: &mut Vec<Stmt>) {
-        // Add variable declaration
-        // e.g. var ref
-        if !self.top_level_vars.is_empty() {
-            stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Var,
-                decls: take(&mut self.top_level_vars),
-                declare: false,
-            })));
-        }
-    }
-
-    fn after_one_module_item(&mut self, stmts: &mut Vec<ModuleItem>) {
-        // Add variable declaration
-        // e.g. var ref
-        if !self.top_level_vars.is_empty() {
-            stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Var,
-                decls: take(&mut self.top_level_vars),
-                declare: false,
-            }))));
-        }
-    }
-}
-
-#[swc_trace]
-#[parallel(explode)]
 impl VisitMut for ForOf {
     noop_visit_mut_type!();
 
