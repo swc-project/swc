@@ -1,3 +1,5 @@
+use std::mem::take;
+
 use serde::Deserialize;
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Mark, Spanned, DUMMY_SP};
@@ -488,5 +490,52 @@ impl VisitMut for ForOf {
             }
             _ => s.visit_mut_children_with(self),
         }
+    }
+
+    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        let mut new = vec![];
+
+        for s in stmts.take() {
+            stmts.visit_mut_children_with(self);
+            new.push(s);
+
+            // Add variable declaration
+            // e.g. var ref
+            if !self.top_level_vars.is_empty() {
+                new.push(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    decls: take(&mut self.top_level_vars),
+                    declare: false,
+                })));
+            }
+        }
+
+        *stmts = new;
+    }
+
+    fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
+        let mut new = vec![];
+
+        for s in stmts.take() {
+            stmts.visit_mut_children_with(self);
+            new.push(s);
+
+            // Add variable declaration
+            // e.g. var ref
+            if !self.top_level_vars.is_empty() {
+                new.push(
+                    Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: take(&mut self.top_level_vars),
+                        declare: false,
+                    }))
+                    .into(),
+                );
+            }
+        }
+
+        *stmts = new;
     }
 }
