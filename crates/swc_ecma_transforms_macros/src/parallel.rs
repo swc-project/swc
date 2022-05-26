@@ -91,6 +91,10 @@ fn make_par_visit_method(
     explode: bool,
     threshold: usize,
 ) -> ImplItemMethod {
+    if !explode {
+        panic!("#[parallel] is deparecated and currently explode is only supported")
+    }
+
     let method_name = Ident::new(&format!("{}_{}", mode.prefix(), suffix), Span::call_site());
     let hook = post_visit_hook(mode, suffix);
     let explode_method_name = explode_hook_method_name(explode, suffix);
