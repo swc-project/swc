@@ -9923,3 +9923,33 @@ fn terser_insane_2() {
 
     run_exec_test(src, config, false);
 }
+
+#[test]
+fn issue_4788_1() {
+    let src = r###"
+    let id = 0;
+
+    const obj = {
+        get foo() {
+            console.log("foo", id++);
+        },
+    };
+
+    obj.foo;
+
+    const obj2 = {
+        ...obj,
+    };
+
+    obj2.foo;
+
+    const obj3 = {
+        ...obj,
+        foo: 1,
+    };
+
+    obj3.foo;
+    "###;
+
+    run_default_exec_test(src);
+}
