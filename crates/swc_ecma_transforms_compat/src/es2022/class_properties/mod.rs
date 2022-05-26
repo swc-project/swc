@@ -516,10 +516,12 @@ impl<C: Comments> ClassProperties<C> {
 
         let should_create_vars_for_method_names = class.body.iter().any(|m| match m {
             ClassMember::Constructor(_)
-            | ClassMember::Method(_)
             | ClassMember::PrivateMethod(_)
             | ClassMember::TsIndexSignature(_)
             | ClassMember::Empty(_) => false,
+
+            ClassMember::Method(m) => contains_super(&m.key),
+
             ClassMember::ClassProp(_)
             | ClassMember::PrivateProp(_)
             | ClassMember::StaticBlock(_) => true,
@@ -1016,4 +1018,55 @@ impl Check for ShouldWork {
     fn should_handle(&self) -> bool {
         self.found
     }
+}
+
+// TODO: remove
+struct SuperVisitor {
+    found: bool,
+}
+
+impl Visit for SuperVisitor {
+    noop_visit_type!();
+
+    /// Don't recurse into constructor
+    fn visit_constructor(&mut self, _: &Constructor) {}
+
+    /// Don't recurse into fn
+    fn visit_fn_decl(&mut self, _: &FnDecl) {}
+
+    /// Don't recurse into fn
+    fn visit_fn_expr(&mut self, _: &FnExpr) {}
+
+    /// Don't recurse into fn
+    fn visit_function(&mut self, _: &Function) {}
+
+    /// Don't recurse into fn
+    fn visit_getter_prop(&mut self, n: &GetterProp) {
+        n.key.visit_with(self);
+    }
+
+    /// Don't recurse into fn
+    fn visit_method_prop(&mut self, n: &MethodProp) {
+        n.key.visit_with(self);
+        n.function.visit_with(self);
+    }
+
+    /// Don't recurse into fn
+    fn visit_setter_prop(&mut self, n: &SetterProp) {
+        n.key.visit_with(self);
+        n.param.visit_with(self);
+    }
+
+    fn visit_super(&mut self, _: &Super) {
+        self.found = true;
+    }
+}
+
+fn contains_super<N>(body: &N) -> bool
+where
+    N: VisitWith<SuperVisitor>,
+{
+    let mut visitor = SuperVisitor { found: false };
+    body.visit_with(&mut visitor);
+    visitor.found
 }
