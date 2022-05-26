@@ -1,8 +1,6 @@
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashSet, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::Parallel;
-use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::quote_str;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
@@ -13,16 +11,7 @@ pub fn duplicate_keys() -> impl Fold + VisitMut {
 
 struct DuplicateKeys;
 
-impl Parallel for DuplicateKeys {
-    fn merge(&mut self, _: Self) {}
-
-    fn create(&self) -> Self {
-        Self
-    }
-}
-
 #[swc_trace]
-#[parallel]
 impl VisitMut for DuplicateKeys {
     noop_visit_mut_type!();
 

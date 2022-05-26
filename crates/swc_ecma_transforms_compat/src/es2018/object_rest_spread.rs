@@ -3,11 +3,8 @@ use std::{iter, mem};
 use serde::Deserialize;
 use swc_common::{chain, util::take::Take, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{
-    helper, helper_expr,
-    perf::{Check, Parallel},
-};
-use swc_ecma_transforms_macros::{fast_path, parallel};
+use swc_ecma_transforms_base::{helper, helper_expr, perf::Check};
+use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
     alias_ident_for, alias_if_required, is_literal, private_ident, quote_ident, var::VarCollector,
     ExprFactory, StmtLike,
@@ -1061,16 +1058,7 @@ struct ObjectSpread {
     c: Config,
 }
 
-impl Parallel for ObjectSpread {
-    fn create(&self) -> Self {
-        ObjectSpread { c: self.c }
-    }
-
-    fn merge(&mut self, _: Self) {}
-}
-
 #[swc_trace]
-#[parallel]
 impl VisitMut for ObjectSpread {
     noop_visit_mut_type!();
 
