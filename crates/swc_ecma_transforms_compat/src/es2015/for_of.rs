@@ -4,6 +4,8 @@ use serde::Deserialize;
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::perf::{ParExplode, Parallel};
+use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{
     alias_if_required, member_expr, prepend_stmt, private_ident, quote_ident, ExprFactory,
 };
@@ -464,7 +466,50 @@ fn make_finally_block(
     })
 }
 
+impl Parallel for ForOf {
+    fn create(&self) -> Self {
+        ForOf {
+            c: self.c,
+            top_level_vars: Default::default(),
+        }
+    }
+
+    fn merge(&mut self, other: Self) {
+        self.top_level_vars.extend(other.top_level_vars);
+    }
+}
+
 #[swc_trace]
+impl ParExplode for ForOf {
+    fn after_one_stmt(&mut self, stmts: &mut Vec<Stmt>) {
+        // Add variable declaration
+        // e.g. var ref
+        if !self.top_level_vars.is_empty() {
+            stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Var,
+                decls: take(&mut self.top_level_vars),
+                declare: false,
+            })));
+        }
+    }
+
+    fn after_one_module_item(&mut self, stmts: &mut Vec<ModuleItem>) {
+        // Add variable declaration
+        // e.g. var ref
+        if !self.top_level_vars.is_empty() {
+            stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Var,
+                decls: take(&mut self.top_level_vars),
+                declare: false,
+            }))));
+        }
+    }
+}
+
+#[swc_trace]
+#[parallel(explode)]
 impl VisitMut for ForOf {
     noop_visit_mut_type!();
 
@@ -490,52 +535,5 @@ impl VisitMut for ForOf {
             }
             _ => s.visit_mut_children_with(self),
         }
-    }
-
-    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
-        let mut new = vec![];
-
-        for mut s in stmts.take() {
-            s.visit_mut_with(self);
-            new.push(s);
-
-            // Add variable declaration
-            // e.g. var ref
-            if !self.top_level_vars.is_empty() {
-                new.push(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    decls: take(&mut self.top_level_vars),
-                    declare: false,
-                })));
-            }
-        }
-
-        *stmts = new;
-    }
-
-    fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
-        let mut new = vec![];
-
-        for mut s in stmts.take() {
-            s.visit_mut_with(self);
-            new.push(s);
-
-            // Add variable declaration
-            // e.g. var ref
-            if !self.top_level_vars.is_empty() {
-                new.push(
-                    Stmt::Decl(Decl::Var(VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        decls: take(&mut self.top_level_vars),
-                        declare: false,
-                    }))
-                    .into(),
-                );
-            }
-        }
-
-        *stmts = new;
     }
 }
