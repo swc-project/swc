@@ -2151,6 +2151,7 @@ dependencies = [
  "semver 1.0.4",
  "serde",
  "st-map",
+ "tracing",
 ]
 
 [[package]]
