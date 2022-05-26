@@ -36,16 +36,7 @@ pub fn instance_of() -> impl Fold + VisitMut {
 }
 struct InstanceOf;
 
-impl Parallel for InstanceOf {
-    fn merge(&mut self, _: Self) {}
-
-    fn create(&self) -> Self {
-        InstanceOf
-    }
-}
-
 #[swc_trace]
-#[parallel]
 impl VisitMut for InstanceOf {
     noop_visit_mut_type!();
 
