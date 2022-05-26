@@ -229,6 +229,7 @@ where
                                         | "basefont"
                                         | "base"
                                         | "title"
+                                    "title" | "meta" | "link" | "script" | "style" | "template"
                                 ) =>
                             {
                                 false
