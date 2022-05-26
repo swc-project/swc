@@ -495,8 +495,8 @@ impl VisitMut for ForOf {
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
         let mut new = vec![];
 
-        for s in stmts.take() {
-            stmts.visit_mut_children_with(self);
+        for mut s in stmts.take() {
+            s.visit_mut_with(self);
             new.push(s);
 
             // Add variable declaration
@@ -517,8 +517,8 @@ impl VisitMut for ForOf {
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         let mut new = vec![];
 
-        for s in stmts.take() {
-            stmts.visit_mut_children_with(self);
+        for mut s in stmts.take() {
+            s.visit_mut_with(self);
             new.push(s);
 
             // Add variable declaration
