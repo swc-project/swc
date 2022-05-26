@@ -1,7 +1,5 @@
 use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::{ParExplode, Parallel};
-use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{member_expr, private_ident, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
@@ -35,43 +33,7 @@ struct Exponentiation {
     vars: Vec<VarDeclarator>,
 }
 
-impl Parallel for Exponentiation {
-    fn create(&self) -> Self {
-        Self::default()
-    }
-
-    fn merge(&mut self, other: Self) {
-        self.vars.extend(other.vars);
-    }
-}
-
 #[swc_trace]
-impl ParExplode for Exponentiation {
-    fn after_one_stmt(&mut self, stmts: &mut Vec<Stmt>) {
-        if !self.vars.is_empty() {
-            stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Var,
-                decls: self.vars.take(),
-                declare: false,
-            })));
-        }
-    }
-
-    fn after_one_module_item(&mut self, stmts: &mut Vec<ModuleItem>) {
-        if !self.vars.is_empty() {
-            stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Var,
-                decls: self.vars.take(),
-                declare: false,
-            }))));
-        }
-    }
-}
-
-#[swc_trace]
-#[parallel(explode)]
 impl VisitMut for Exponentiation {
     noop_visit_mut_type!();
 
