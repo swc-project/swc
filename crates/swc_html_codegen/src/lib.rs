@@ -1056,6 +1056,75 @@ fn minify_attribute_value(value: &str) -> String {
     }
 }
 
+fn normalize_attribute_value(value: &str) -> String {
+    if value.is_empty() {
+        return "\"\"".to_string();
+    }
+
+    let mut normalized = String::with_capacity(value.len() + 2);
+
+    normalized.push('"');
+    normalized.push_str(&escape_string(value, true));
+    normalized.push('"');
+
+    normalized
+}
+
+fn minify_text(value: &str) -> String {
+    let mut result = String::with_capacity(value.len());
+
+    for c in value.chars() {
+        match c {
+            '&' => {
+                result.push_str("&amp;");
+            }
+            '<' => {
+                result.push_str("&lt;");
+            }
+            _ => result.push(c),
+        }
+    }
+
+    result
+}
+
+// Escaping a string (for the purposes of the algorithm above) consists of
+// running the following steps:
+//
+// 1. Replace any occurrence of the "&" character by the string "&amp;".
+//
+// 2. Replace any occurrences of the U+00A0 NO-BREAK SPACE character by the
+// string "&nbsp;".
+//
+// 3. If the algorithm was invoked in the attribute mode, replace any
+// occurrences of the """ character by the string "&quot;".
+//
+// 4. If the algorithm was not invoked in the attribute mode, replace any
+// occurrences of the "<" character by the string "&lt;", and any occurrences of
+// the ">" character by the string "&gt;".
+fn escape_string(value: &str, is_attribute_mode: bool) -> String {
+    let mut result = String::with_capacity(value.len());
+
+    for c in value.chars() {
+        match c {
+            '&' => {
+                result.push_str("&amp;");
+            }
+            '\u{00A0}' => result.push_str("&nbsp;"),
+            '"' if is_attribute_mode => result.push_str("&quot;"),
+            '<' if !is_attribute_mode => {
+                result.push_str("&lt;");
+            }
+            '>' if !is_attribute_mode => {
+                result.push_str("&gt;");
+            }
+            _ => result.push(c),
+        }
+    }
+
+    result
+}
+
 fn is_html_tag_name(namespace: Namespace, tag_name: &str) -> bool {
     if namespace != Namespace::HTML {
         return false;
@@ -1185,71 +1254,4 @@ fn is_html_tag_name(namespace: Namespace, tag_name: &str) -> bool {
             | "wbr"
             | "xmp"
     )
-fn normalize_attribute_value(value: &str) -> String {
-    if value.is_empty() {
-        return "\"\"".to_string();
-    }
-
-    let mut normalized = String::with_capacity(value.len() + 2);
-
-    normalized.push('"');
-    normalized.push_str(&escape_string(value, true));
-    normalized.push('"');
-
-    normalized
-}
-
-fn minify_text(value: &str) -> String {
-    let mut result = String::with_capacity(value.len());
-
-    for c in value.chars() {
-        match c {
-            '&' => {
-                result.push_str("&amp;");
-            }
-            '<' => {
-                result.push_str("&lt;");
-            }
-            _ => result.push(c),
-        }
-    }
-
-    result
-}
-
-// Escaping a string (for the purposes of the algorithm above) consists of
-// running the following steps:
-//
-// 1. Replace any occurrence of the "&" character by the string "&amp;".
-//
-// 2. Replace any occurrences of the U+00A0 NO-BREAK SPACE character by the
-// string "&nbsp;".
-//
-// 3. If the algorithm was invoked in the attribute mode, replace any
-// occurrences of the """ character by the string "&quot;".
-//
-// 4. If the algorithm was not invoked in the attribute mode, replace any
-// occurrences of the "<" character by the string "&lt;", and any occurrences of
-// the ">" character by the string "&gt;".
-fn escape_string(value: &str, is_attribute_mode: bool) -> String {
-    let mut result = String::with_capacity(value.len());
-
-    for c in value.chars() {
-        match c {
-            '&' => {
-                result.push_str("&amp;");
-            }
-            '\u{00A0}' => result.push_str("&nbsp;"),
-            '"' if is_attribute_mode => result.push_str("&quot;"),
-            '<' if !is_attribute_mode => {
-                result.push_str("&lt;");
-            }
-            '>' if !is_attribute_mode => {
-                result.push_str("&gt;");
-            }
-            _ => result.push(c),
-        }
-    }
-
-    result
 }
