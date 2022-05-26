@@ -333,8 +333,6 @@ impl VisitMut for Pure<'_> {
 
         self.swap_bin_operands(e);
 
-        self.handle_property_access(e);
-
         self.optimize_bools(e);
 
         self.drop_logical_operands(e);

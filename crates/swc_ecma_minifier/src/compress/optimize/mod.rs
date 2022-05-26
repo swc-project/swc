@@ -1742,6 +1742,8 @@ where
 
         self.inline(e);
 
+        self.handle_property_access(e);
+
         if let Expr::Bin(bin) = e {
             let expr = self.optimize_lit_cmp(bin);
             if let Some(expr) = expr {
