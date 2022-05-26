@@ -2,7 +2,7 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_this_expr, prop_name_eq, ExprExt};
 
-use super::Optimizer;
+use super::{unused::PropertyAccessOpts, Optimizer};
 use crate::{mode::Mode, util::deeply_contains_this_expr};
 
 /// Methods related to the option `hoist_props`.
@@ -274,7 +274,13 @@ where
         }
 
         if obj.props.iter().any(|prop| match prop {
-            PropOrSpread::Spread(_) => false,
+            PropOrSpread::Spread(s) => self.should_preserve_property_access(
+                &s.expr,
+                PropertyAccessOpts {
+                    allow_getter: false,
+                    only_ident: false,
+                },
+            ),
             PropOrSpread::Prop(p) => match &**p {
                 Prop::Shorthand(..) => false,
                 Prop::KeyValue(p) => {
@@ -291,6 +297,7 @@ where
                 Prop::Method(p) => p.key.is_computed(),
             },
         }) {
+            log_abort!("Property accesses should not be inlined to preserve side effects");
             return;
         }
 
