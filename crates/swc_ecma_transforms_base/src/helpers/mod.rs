@@ -283,6 +283,7 @@ define_helpers!(Helpers {
     non_iterable_rest: (),
     non_iterable_spread: (),
     object_spread: (define_property),
+    object_spread_props: (),
     object_without_properties: (object_without_properties_loose),
     object_without_properties_loose: (),
     possible_constructor_return: (type_of, assert_this_initialized),

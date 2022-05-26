@@ -1,6 +1,7 @@
 import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 import _define_property from "@swc/helpers/lib/_define_property.js";
 import _object_spread from "@swc/helpers/lib/_object_spread.js";
+import _object_spread_props from "@swc/helpers/lib/_object_spread_props.js";
 // @strictNullChecks: true
 // @target: es5
 var o = {
@@ -15,33 +16,33 @@ var swap = {
     a: "yes",
     b: -1
 };
-var addAfter = _object_spread({}, o, {
+var addAfter = _object_spread_props(_object_spread({}, o), {
     c: false
 });
 var addBefore = _object_spread({
     c: false
 }, o);
-var override = _object_spread({}, o, {
+var override = _object_spread_props(_object_spread({}, o), {
     b: "override"
 });
-var nested = _object_spread({}, _object_spread({
+var nested = _object_spread_props(_object_spread({}, _object_spread({
     a: 3
 }, {
     b: false,
     c: "overriden"
-}), {
+})), {
     c: "whatever"
 });
 var combined = _object_spread({}, o, o2);
-var combinedAfter = _object_spread({}, o, o2, {
+var combinedAfter = _object_spread_props(_object_spread({}, o, o2), {
     b: "ok"
 });
-var combinedNestedChangeType = _object_spread({}, _object_spread({
+var combinedNestedChangeType = _object_spread_props(_object_spread({}, _object_spread({
     a: 1
 }, {
     b: false,
     c: "overriden"
-}), {
+})), {
     c: -1
 });
 var propertyNested = {
@@ -54,7 +55,7 @@ var op = {
         return 6;
     }
 };
-var getter = _object_spread({}, op, {
+var getter = _object_spread_props(_object_spread({}, op), {
     c: 7
 });
 getter.a = 12;
@@ -122,14 +123,14 @@ var C = /*#__PURE__*/ function() {
 var c = new C();
 var spreadC = _object_spread({}, c);
 // own methods are enumerable
-var cplus = _object_spread({}, c, {
+var cplus = _object_spread_props(_object_spread({}, c), {
     plus: function plus() {
         return this.p + 1;
     }
 });
 cplus.plus();
 // new field's type conflicting with existing field is OK
-var changeTypeAfter = _object_spread({}, o, {
+var changeTypeAfter = _object_spread_props(_object_spread({}, o), {
     a: "wrong type?"
 });
 var changeTypeBoth = _object_spread({}, o, swap);
@@ -139,23 +140,23 @@ function container(definiteBoolean, definiteString, optionalString, optionalNumb
     var optionalUnionDuplicates = _object_spread({}, definiteBoolean, definiteString, optionalString, optionalNumber);
     var allOptional = _object_spread({}, optionalString, optionalNumber);
     // computed property
-    var computedFirst = _object_spread(_define_property({}, "before everything", 12), o, {
+    var computedFirst = _object_spread_props(_object_spread(_define_property({}, "before everything", 12), o), {
         b: "yes"
     });
-    var computedAfter = _object_spread({}, o, _define_property({
+    var computedAfter = _object_spread_props(_object_spread({}, o), _define_property({
         b: "yeah"
     }, "at the end", 14));
 }
 // shortcut syntax
 var a = 12;
-var shortCutted = _object_spread({}, o, {
+var shortCutted = _object_spread_props(_object_spread({}, o), {
     a: a
 });
 // non primitive
 var spreadNonPrimitive = _object_spread({}, {});
 // generic spreads
 function f(t, u) {
-    return _object_spread({}, t, u, {
+    return _object_spread_props(_object_spread({}, t, u), {
         id: "id"
     });
 }
@@ -193,27 +194,27 @@ function genericSpread(t, u, v, w, obj) {
         a: 5,
         b: "hi"
     }, t);
-    var x06 = _object_spread({}, t, {
+    var x06 = _object_spread_props(_object_spread({}, t), {
         a: 5,
         b: "hi"
     });
-    var x07 = _object_spread({
+    var x07 = _object_spread(_object_spread_props(_object_spread({
         a: 5,
         b: "hi"
-    }, t, {
+    }, t), {
         c: true
-    }, obj);
-    var x09 = _object_spread({
+    }), obj);
+    var x09 = _object_spread(_object_spread_props(_object_spread({
         a: 5
-    }, t, {
+    }, t), {
         b: "hi",
         c: true
-    }, obj);
-    var x10 = _object_spread({
+    }), obj);
+    var x10 = _object_spread(_object_spread_props(_object_spread({
         a: 5
-    }, t, {
+    }, t), {
         b: "hi"
-    }, u, obj);
+    }), u, obj);
     var x11 = _object_spread({}, v);
     var x12 = _object_spread({}, v, obj);
     var x13 = _object_spread({}, w);
