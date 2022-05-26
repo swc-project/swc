@@ -5988,7 +5988,7 @@ function a() {
     };
     
     function a() {
-      var b = class Y {
+      const b = class Y {
         x() {}
     
       };
