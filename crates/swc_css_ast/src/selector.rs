@@ -68,7 +68,7 @@ pub struct Combinator {
     pub value: CombinatorValue,
 }
 
-#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
+#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, Is, EqIgnoreSpan)]
 pub enum CombinatorValue {
     /// ` `
     Descendant,
@@ -175,7 +175,7 @@ pub struct AttributeSelector {
     pub modifier: Option<AttributeSelectorModifier>,
 }
 
-#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
+#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, Is, EqIgnoreSpan)]
 pub enum AttributeSelectorMatcherValue {
     /// `=`
     Equals,
