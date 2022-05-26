@@ -69,13 +69,13 @@ pub fn common_js_with_resolver(
 
 struct LazyIdentifierVisitor {
     scope: Rc<RefCell<Scope>>,
-    top_level_idents: AHashSet<JsWord>,
+    denied_sources: AHashSet<JsWord>,
 }
 impl LazyIdentifierVisitor {
     fn new(scope: Rc<RefCell<Scope>>) -> Self {
         LazyIdentifierVisitor {
             scope,
-            top_level_idents: Default::default(),
+            denied_sources: Default::default(),
         }
     }
 }
@@ -100,7 +100,7 @@ impl Visit for LazyIdentifierVisitor {
     fn visit_export_default_expr(&mut self, _: &ExportDefaultExpr) {}
 
     fn visit_export_all(&mut self, export: &ExportAll) {
-        self.top_level_idents.insert(export.src.value.clone());
+        self.denied_sources.insert(export.src.value.clone());
     }
 
     fn visit_labeled_stmt(&mut self, _: &LabeledStmt) {}
@@ -135,7 +135,7 @@ impl Visit for LazyIdentifierVisitor {
     fn visit_ident(&mut self, ident: &Ident) {
         let v = self.scope.borrow().idents.get(&ident.to_id()).cloned();
         if let Some((src, _)) = v {
-            self.top_level_idents.insert(src);
+            self.denied_sources.insert(src);
         }
     }
 }
@@ -249,7 +249,7 @@ impl Fold for CommonJs {
         // them from lazy imports.
         let mut visitor = LazyIdentifierVisitor::new(self.scope.clone());
         items.visit_with(&mut visitor);
-        for ident in visitor.top_level_idents {
+        for ident in visitor.denied_sources {
             self.scope.borrow_mut().lazy_denylist.insert(ident);
         }
 
