@@ -135,6 +135,12 @@ impl Visit for LazyIdentifierVisitor {
 
     fn visit_labeled_stmt(&mut self, _: &LabeledStmt) {}
 
+    fn visit_member_prop(&mut self, n: &MemberProp) {
+        if let MemberProp::Computed(n) = n {
+            n.visit_with(self);
+        }
+    }
+
     fn visit_named_export(&mut self, _: &NamedExport) {}
 
     fn visit_prop_name(&mut self, prop_name: &PropName) {
