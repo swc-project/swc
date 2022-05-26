@@ -1,3 +1,5 @@
+use std::mem::take;
+
 use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{member_expr, private_ident, ExprFactory};
@@ -87,6 +89,53 @@ impl VisitMut for Exponentiation {
             }
             _ => {}
         }
+    }
+
+    fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
+        let mut new = vec![];
+
+        for s in stmts.take() {
+            stmts.visit_mut_children_with(self);
+            new.push(s);
+
+            // Add variable declaration
+            // e.g. var ref
+            if !self.vars.is_empty() {
+                new.push(
+                    Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: take(&mut self.vars),
+                        declare: false,
+                    }))
+                    .into(),
+                );
+            }
+        }
+
+        *stmts = new;
+    }
+
+    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        let mut new = vec![];
+
+        for s in stmts.take() {
+            stmts.visit_mut_children_with(self);
+            new.push(s);
+
+            // Add variable declaration
+            // e.g. var ref
+            if !self.vars.is_empty() {
+                new.push(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    decls: take(&mut self.vars),
+                    declare: false,
+                })));
+            }
+        }
+
+        *stmts = new;
     }
 }
 
