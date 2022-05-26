@@ -1,6 +1,6 @@
 use rustc_hash::FxHashSet;
 use swc_atoms::JsWord;
-use swc_common::collections::AHashMap;
+use swc_common::{collections::AHashMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::hygiene::rename;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
@@ -9,17 +9,22 @@ use tracing::info;
 use super::{analyzer::Analyzer, preserver::idents_to_preserve};
 use crate::{debug::dump, marks::Marks, option::MangleOptions, util::contains_eval};
 
-pub(crate) fn name_mangler(options: MangleOptions, _marks: Marks) -> impl VisitMut {
+pub(crate) fn name_mangler(options: MangleOptions, marks: Marks) -> impl VisitMut {
     Mangler {
         options,
+        unresolved_ctxt: SyntaxContext::empty().apply_mark(marks.unresolved_mark),
         preserved: Default::default(),
+        unresolved: Default::default(),
     }
 }
 
 struct Mangler {
     options: MangleOptions,
 
+    unresolved_ctxt: SyntaxContext,
+
     preserved: FxHashSet<Id>,
+    unresolved: FxHashSet<JsWord>,
 }
 
 impl Mangler {
@@ -75,7 +80,9 @@ impl VisitMut for Mangler {
     unit!(visit_mut_private_method, PrivateMethod);
 
     fn visit_mut_module(&mut self, m: &mut Module) {
-        self.preserved = idents_to_preserve(self.options.clone(), &*m);
+        let v = idents_to_preserve(self.options.clone(), self.unresolved_ctxt, &*m);
+        self.preserved = v.0;
+        self.unresolved = v.1;
 
         if option_env!("DEBUG_MANGLER") == Some("1") {
             info!("Before: {}", dump(&*m, true));
@@ -95,7 +102,9 @@ impl VisitMut for Mangler {
     }
 
     fn visit_mut_script(&mut self, s: &mut Script) {
-        self.preserved = idents_to_preserve(self.options.clone(), &*s);
+        let v = idents_to_preserve(self.options.clone(), self.unresolved_ctxt, &*s);
+        self.preserved = v.0;
+        self.unresolved = v.1;
 
         if contains_eval(s, true) {
             s.visit_mut_children_with(self);

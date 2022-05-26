@@ -1,26 +1,39 @@
 use rustc_hash::FxHashSet;
+use swc_atoms::JsWord;
+use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_pat_ids;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use crate::option::MangleOptions;
 
-pub(super) fn idents_to_preserve<N>(options: MangleOptions, n: &N) -> FxHashSet<Id>
+/// Returns `(preserved, unresolved)`
+pub(super) fn idents_to_preserve<N>(
+    options: MangleOptions,
+    unresolved_ctxt: SyntaxContext,
+    n: &N,
+) -> (FxHashSet<Id>, FxHashSet<JsWord>)
 where
     N: VisitWith<Preserver>,
 {
     let mut v = Preserver {
         options,
+        unresolved_ctxt,
         preserved: Default::default(),
+        unresolved: Default::default(),
         should_preserve: false,
         in_top_level: false,
     };
     n.visit_with(&mut v);
-    v.preserved
+    (v.preserved, v.unresolved)
 }
 pub(super) struct Preserver {
     options: MangleOptions,
+    unresolved_ctxt: SyntaxContext,
+
     preserved: FxHashSet<Id>,
+    unresolved: FxHashSet<JsWord>,
+
     should_preserve: bool,
     in_top_level: bool,
 }
