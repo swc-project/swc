@@ -17,6 +17,9 @@
 - **(es/modules)** Fix local scoped amd require (#4800) ([2b03047](https://github.com/swc-project/swc/commit/2b03047cb088b96e5c054055780b54e4f48ae486))
 
 
+- **(es/modules)** Fix lazy option of common js (#4807) ([f4c6a20](https://github.com/swc-project/swc/commit/f4c6a20654ac172ce84e7fc0e0c5d7c98acbc535))
+
+
 - **(html/minifier)** Avoid removing id with spaces (#4786) ([c35cb59](https://github.com/swc-project/swc/commit/c35cb598f7a95795ea9d11ab7510f540a17d0639))
 
 ### Features
