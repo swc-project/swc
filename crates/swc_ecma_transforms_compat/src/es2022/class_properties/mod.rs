@@ -1,5 +1,3 @@
-#![allow(dead_code)]
-
 use swc_common::{
     collections::{AHashMap, AHashSet},
     comments::Comments,
@@ -516,6 +514,17 @@ impl<C: Comments> ClassProperties<C> {
             private: &self.private,
         });
 
+        let should_create_vars_for_method_names = class.body.iter().any(|m| match m {
+            ClassMember::Constructor(_)
+            | ClassMember::Method(_)
+            | ClassMember::PrivateMethod(_)
+            | ClassMember::TsIndexSignature(_)
+            | ClassMember::Empty(_) => false,
+            ClassMember::ClassProp(_)
+            | ClassMember::PrivateProp(_)
+            | ClassMember::StaticBlock(_) => true,
+        });
+
         for member in class.body {
             match member {
                 ClassMember::Empty(..) | ClassMember::TsIndexSignature(..) => members.push(member),
@@ -526,7 +535,7 @@ impl<C: Comments> ClassProperties<C> {
                         PropName::Computed(ComputedPropName {
                             span: c_span,
                             mut expr,
-                        }) if !is_literal(&*expr) => {
+                        }) if should_create_vars_for_method_names && !is_literal(&*expr) => {
                             vars.extend(visit_private_in_expr(&mut expr, &self.private, self.c));
 
                             expr.visit_mut_with(&mut ClassNameTdzFolder {
