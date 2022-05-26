@@ -213,7 +213,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.2.192"
+version = "1.2.194"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -3649,7 +3649,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.112.7"
+version = "0.112.8"
 dependencies = [
  "Inflector",
  "ahash",
@@ -3922,7 +3922,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.9.0"
+version = "0.10.0"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -3944,7 +3944,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_codegen"
-version = "0.9.2"
+version = "0.10.0"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -3970,7 +3970,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.6.2"
+version = "0.7.1"
 dependencies = [
  "serde_json",
  "swc_atoms",
@@ -3984,7 +3984,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.9.0"
+version = "0.10.1"
 dependencies = [
  "bitflags",
  "criterion",
@@ -4022,7 +4022,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_base"
-version = "0.5.3"
+version = "0.5.5"
 dependencies = [
  "mimalloc-rust",
  "tikv-jemallocator",

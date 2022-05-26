@@ -1,6 +1,38 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/modules)** Fix local scoped amd require (#4800) ([2b03047](https://github.com/swc-project/swc/commit/2b03047cb088b96e5c054055780b54e4f48ae486))
+
+
+- **(html/minifier)** Avoid removing id with spaces (#4786) ([c35cb59](https://github.com/swc-project/swc/commit/c35cb598f7a95795ea9d11ab7510f540a17d0639))
+
+### Features
+
+
+
+- **(html/codegen)** Omit start and end tags if it is possible (#4780) ([c6ec9f9](https://github.com/swc-project/swc/commit/c6ec9f9cf20e149ce9cb8364403a031e3547741c))
+
+### Performance
+
+
+
+- **(html/parser)** Improve lexer (#4796) ([8894e77](https://github.com/swc-project/swc/commit/8894e77bc15d63080c5d91048734b33a8f299369))
+
+
+- **(html/parser)** Improve lexer (#4802) ([f71ef61](https://github.com/swc-project/swc/commit/f71ef61cb7056e602a9ae94f20d0757e795eff18))
+
+## [1.2.194] - 2022-05-25
+
+### Bug Fixes
+
+
+
+- **(common)** Fix jemalloc (#4794) ([adf70f6](https://github.com/swc-project/swc/commit/adf70f6c0747e5a61d79897e11c70be0b41680d4))
+
 ### Features
 
 
@@ -12,6 +44,18 @@
 
 
 - **(plugin)** Implement `SourceMap.span_to_*` (#4781) ([a937357](https://github.com/swc-project/swc/commit/a937357d47471222db4e62021ec507cd96597d9c))
+
+### Performance
+
+
+
+- **(common)** Use `jemalloc` for linux (#4791) ([6f04e84](https://github.com/swc-project/swc/commit/6f04e846394df4bcf1e82748cd5df739b7df7a96))
+
+### Testing
+
+
+
+- **(es)** Make execution tests faster (#4789) ([38a866a](https://github.com/swc-project/swc/commit/38a866a900ff979b070bc2152459d41d75f414df))
 
 ## [1.2.192] - 2022-05-24
 
