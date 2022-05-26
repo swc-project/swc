@@ -6,7 +6,7 @@ edition = "2018"
 license = "Apache-2.0"
 name = "swc_plugin"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.54.0"
+version = "0.55.0"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -24,7 +24,7 @@ swc_common = { version = "0.18.0", path = "../swc_common", features = [
   "plugin-mode",
 ] }
 swc_ecma_quote = { version = "0.17.0", path = "../swc_ecma_quote", optional = true }
-swc_ecmascript = { version = "0.157.0", path = "../swc_ecmascript", features = ["utils", "visit", "rkyv-impl"] }
+swc_ecmascript = { version = "0.158.0", path = "../swc_ecmascript", features = ["utils", "visit", "rkyv-impl"] }
 swc_plugin_proxy = { version = "0.3.0", path = "../swc_plugin_proxy", features = [
   "plugin-mode",
 ] }
