@@ -5,6 +5,9 @@
 
 
 
+- **(es/minifier)** Consider side effects while removing an object spread (#4788) ([1c48a8c](https://github.com/swc-project/swc/commit/1c48a8c8f4ede63661c663cb548345a417c63cf6))
+
+
 - **(es/modules)** Fix local scoped amd require (#4800) ([2b03047](https://github.com/swc-project/swc/commit/2b03047cb088b96e5c054055780b54e4f48ae486))
 
 
