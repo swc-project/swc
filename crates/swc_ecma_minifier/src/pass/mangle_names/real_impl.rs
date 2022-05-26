@@ -38,7 +38,7 @@ impl Mangler {
         };
         node.visit_with(&mut analyzer);
 
-        analyzer.into_rename_map(&self.preserved)
+        analyzer.into_rename_map(&self.preserved, &self.unresolved)
     }
 }
 
