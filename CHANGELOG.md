@@ -23,6 +23,9 @@
 - **(es/modules)** Fix lazy option of common js (#4807) ([f4c6a20](https://github.com/swc-project/swc/commit/f4c6a20654ac172ce84e7fc0e0c5d7c98acbc535))
 
 
+- **(html/codegen)** Handle HTML entities correctly (#4782) ([d833057](https://github.com/swc-project/swc/commit/d833057d7917a376a020fd1ac3d3869b1dce1db7))
+
+
 - **(html/minifier)** Avoid removing id with spaces (#4786) ([c35cb59](https://github.com/swc-project/swc/commit/c35cb598f7a95795ea9d11ab7510f540a17d0639))
 
 
