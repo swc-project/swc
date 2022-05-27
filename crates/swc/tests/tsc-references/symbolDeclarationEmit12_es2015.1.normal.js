@@ -2,16 +2,15 @@
 //@declaration: true
 var M;
 (function(M1) {
-    let _toPrimitive = Symbol.toPrimitive, _isConcatSpreadable = Symbol.isConcatSpreadable, _toPrimitive1 = Symbol.toPrimitive, _toPrimitive2 = Symbol.toPrimitive;
     class C {
-        [_toPrimitive](x) {}
-        [_isConcatSpreadable]() {
+        [Symbol.toPrimitive](x) {}
+        [Symbol.isConcatSpreadable]() {
             return undefined;
         }
-        get [_toPrimitive1]() {
+        get [Symbol.toPrimitive]() {
             return undefined;
         }
-        set [_toPrimitive2](x) {}
+        set [Symbol.toPrimitive](x) {}
     }
     M1.C = C;
 })(M || (M = {}));

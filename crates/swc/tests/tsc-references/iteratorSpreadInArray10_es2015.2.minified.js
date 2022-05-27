@@ -1,5 +1,6 @@
-new class {
+class SymbolIterator {
     [Symbol.iterator]() {
         return this;
     }
-};
+}
+new SymbolIterator;

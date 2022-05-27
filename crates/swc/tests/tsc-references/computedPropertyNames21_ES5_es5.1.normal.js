@@ -1,5 +1,4 @@
 import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-var tmp = this.bar();
 // @target: es5
 var C = /*#__PURE__*/ function() {
     "use strict";
@@ -10,6 +9,6 @@ var C = /*#__PURE__*/ function() {
     _proto.bar = function bar() {
         return 0;
     };
-    _proto[tmp] = function() {};
+    _proto[this.bar()] = function() {};
     return C;
 }();
