@@ -1,12 +1,12 @@
-let _iterator = Symbol.iterator;
-!function(...s) {}(...new class {
+class SymbolIterator {
     next() {
         return {
             value: Symbol(),
             done: !1
         };
     }
-    [_iterator]() {
+    [Symbol.iterator]() {
         return this;
     }
-});
+}
+!function(...s) {}(...new SymbolIterator);

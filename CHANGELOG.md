@@ -5,6 +5,9 @@
 
 
 
+- **(es/codegen)** Handle comments in binary expressions (#4817) ([1db71cc](https://github.com/swc-project/swc/commit/1db71cc3b3b230c09e1661093385f8f39915292c))
+
+
 - **(es/compat)** Use define for non-spread props (#4754) ([573bcb5](https://github.com/swc-project/swc/commit/573bcb5b492da2b27a79876c337aa0268beb706d))
 
 
@@ -22,8 +25,14 @@
 
 - **(html/minifier)** Avoid removing id with spaces (#4786) ([c35cb59](https://github.com/swc-project/swc/commit/c35cb598f7a95795ea9d11ab7510f540a17d0639))
 
+
+- **(preset-env)** Ignore unknown versions (#4809) ([78d4c2c](https://github.com/swc-project/swc/commit/78d4c2c46a767bd2409a2053c9d1f01f2d34c3f4))
+
 ### Features
 
+
+
+- **(es/compat)** Don't create vars for computed class methods if possible (#4805) ([dc911dc](https://github.com/swc-project/swc/commit/dc911dcae630dd1afe9add7c2b2bafcb77705ea7))
 
 
 - **(html/codegen)** Omit start and end tags if it is possible (#4780) ([c6ec9f9](https://github.com/swc-project/swc/commit/c6ec9f9cf20e149ce9cb8364403a031e3547741c))
@@ -36,6 +45,18 @@
 
 
 - **(html/parser)** Improve lexer (#4802) ([f71ef61](https://github.com/swc-project/swc/commit/f71ef61cb7056e602a9ae94f20d0757e795eff18))
+
+### Refactor
+
+
+
+- **(es/transforms)** Remove `concurrent` (#4808) ([a487fc1](https://github.com/swc-project/swc/commit/a487fc1d2827b5922eed0a03227da3e7a1371502))
+
+### Testing
+
+
+
+- **(html/codegen)** Avoid newline at the end of file (#4815) ([a6beda8](https://github.com/swc-project/swc/commit/a6beda81ca9812d95c4ac21b8ff67e672d10f57a))
 
 ## [1.2.194] - 2022-05-25
 

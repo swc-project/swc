@@ -1,5 +1,4 @@
 import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-var _toStringTag = Symbol.toStringTag;
 //@target: ES5
 var C = /*#__PURE__*/ function() {
     "use strict";
@@ -7,6 +6,6 @@ var C = /*#__PURE__*/ function() {
         _class_call_check(this, C);
     }
     var _proto = C.prototype;
-    _proto[_toStringTag] = function() {};
+    _proto[Symbol.toStringTag] = function() {};
     return C;
 }();

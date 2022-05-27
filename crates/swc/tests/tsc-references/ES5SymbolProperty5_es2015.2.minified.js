@@ -1,4 +1,5 @@
 var Symbol;
-(new class {
+class C {
     [Symbol.iterator]() {}
-})[Symbol.iterator](0);
+}
+(new C)[Symbol.iterator](0);

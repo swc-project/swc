@@ -1,10 +1,9 @@
-let _hasInstance = Symbol.hasInstance, _toPrimitive = Symbol.toPrimitive;
 //@target: ES6
 class C {
-    get [_hasInstance]() {
+    get [Symbol.hasInstance]() {
         return "";
     }
-    get [_toPrimitive]() {
+    get [Symbol.toPrimitive]() {
         return "";
     }
 }

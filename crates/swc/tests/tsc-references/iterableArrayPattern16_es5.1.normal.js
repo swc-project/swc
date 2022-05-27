@@ -25,7 +25,6 @@ var Foo = /*#__PURE__*/ function(Bar) {
     }
     return Foo;
 }(Bar);
-var _iterator = Symbol.iterator;
 var FooIterator = /*#__PURE__*/ function() {
     "use strict";
     function FooIterator() {
@@ -38,12 +37,11 @@ var FooIterator = /*#__PURE__*/ function() {
             done: false
         };
     };
-    _proto[_iterator] = function() {
+    _proto[Symbol.iterator] = function() {
         return this;
     };
     return FooIterator;
 }();
-var _iterator1 = Symbol.iterator;
 var FooIteratorIterator = /*#__PURE__*/ function() {
     "use strict";
     function FooIteratorIterator() {
@@ -56,7 +54,7 @@ var FooIteratorIterator = /*#__PURE__*/ function() {
             done: false
         };
     };
-    _proto[_iterator1] = function() {
+    _proto[Symbol.iterator] = function() {
         return this;
     };
     return FooIteratorIterator;

@@ -3,8 +3,6 @@ use std::usize;
 use serde_json::Value;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::Parallel;
-use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{calc_literal_cost, member_expr, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -38,23 +36,12 @@ struct JsonParse {
     pub min_cost: usize,
 }
 
-impl Parallel for JsonParse {
-    fn create(&self) -> Self {
-        JsonParse {
-            min_cost: self.min_cost,
-        }
-    }
-
-    fn merge(&mut self, _: Self) {}
-}
-
 impl Default for JsonParse {
     fn default() -> Self {
         JsonParse { min_cost: 1024 }
     }
 }
 
-#[parallel]
 impl VisitMut for JsonParse {
     noop_visit_mut_type!();
 

@@ -3,6 +3,7 @@
 use std::{cmp, cmp::Ordering, fmt, str::FromStr};
 
 use serde::{de, de::Visitor, Deserialize, Deserializer};
+use tracing::warn;
 
 use crate::Versions;
 
@@ -12,9 +13,9 @@ use crate::Versions;
 /// `alpha`)
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct Version {
-    pub major: u16,
-    pub minor: u16,
-    pub patch: u16,
+    pub major: u32,
+    pub minor: u32,
+    pub patch: u32,
 }
 
 impl FromStr for Version {
@@ -23,9 +24,9 @@ impl FromStr for Version {
     fn from_str(v: &str) -> Result<Self, Self::Err> {
         if !v.contains('.') {
             return Ok(Version {
-                major: v
-                    .parse()
-                    .unwrap_or_else(|err| panic!("failed to parse `{}` as a version: {}", v, err)),
+                major: v.parse().map_err(|err| {
+                    warn!("failed to parse `{}` as a version: {}", v, err);
+                })?,
                 minor: 0,
                 patch: 0,
             });
@@ -40,9 +41,9 @@ impl FromStr for Version {
             });
         }
 
-        let v = v
-            .parse::<semver::Version>()
-            .unwrap_or_else(|err| panic!("failed to parse {} as semver: {}", v, err));
+        let v = v.parse::<semver::Version>().map_err(|err| {
+            warn!("failed to parse `{}` as a version: {}", v, err);
+        })?;
 
         Ok(Version {
             major: v.major as _,

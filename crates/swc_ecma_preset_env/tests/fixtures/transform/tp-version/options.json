@@ -1,0 +1,11 @@
+{
+  "presets": [
+    [
+      "../../../../lib",
+      {
+        "targets": ["supports es6-module-dynamic-import"
+        ,"not dead"]
+      }
+    ]
+  ]
+}
