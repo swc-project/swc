@@ -3174,7 +3174,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_ast"
-version = "0.93.0"
+version = "0.93.1"
 dependencies = [
  "is-macro",
  "serde",

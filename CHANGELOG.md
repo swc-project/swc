@@ -32,6 +32,9 @@
 
 
 
+- **(css/ast)** Add missing `Is` derive (#4810) ([29884b0](https://github.com/swc-project/swc/commit/29884b0caf02d0daea73eeff47b2e6cf93ec3acd))
+
+
 - **(es/compat)** Don't create vars for computed class methods if possible (#4805) ([dc911dc](https://github.com/swc-project/swc/commit/dc911dcae630dd1afe9add7c2b2bafcb77705ea7))
 
 
