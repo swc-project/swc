@@ -1,4 +1,3 @@
 function f() {
-    function noop() {}
-    return noop;
+    return function noop() {};
 }
