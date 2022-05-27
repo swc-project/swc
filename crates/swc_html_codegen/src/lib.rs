@@ -220,7 +220,14 @@ where
                             })) if *namespace == Namespace::HTML
                                 && matches!(
                                     &**tag_name,
-                                    "meta" | "link" | "script" | "style" | "template"
+                                    "meta"
+                                        | "link"
+                                        | "script"
+                                        | "style"
+                                        | "template"
+                                        | "bgsound"
+                                        | "basefont"
+                                        | "base"
                                 ) =>
                             {
                                 false
