@@ -435,9 +435,15 @@ fn parser_recovery_verify(input: PathBuf) {
     );
 }
 
-// Non conforming document (i.e. broken HTML)
-
-// TODO - investigate, exclude some when we implement `raw`, `context_element`
+// Non conforming document (i.e. broken HTML), so restore them how it was
+// originally is impossible ,
+//
+// Example - `<!DOCTYPE html><html><body><!-- Test`
+//
+// Here we have unclosed comment, so serialization will be not the same
+//
+// TODO There is only bugs for `fragment` because we should allow to
+// pass context element for codegen too
 #[testing::fixture(
     "../swc_html_parser/tests/html5lib-tests-fixture/**/*.html",
     exclude(
