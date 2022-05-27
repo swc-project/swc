@@ -1,0 +1,61 @@
+function a(a) {
+    console.log("(" + a + ")");
+    return 10 * a;
+}
+console.log([
+    a(1),
+    a(2)
+][0]);
+console.log([
+    a(1),
+    a(2)
+][1]);
+console.log([
+    a(1),
+    a(2)
+][2]);
+console.log([
+    ...[],
+    a(1),
+    a(2)
+][0]);
+console.log([
+    ...[],
+    a(1),
+    a(2)
+][1]);
+console.log([
+    ...[],
+    a(1),
+    a(2)
+][2]);
+console.log([
+    a(1),
+    ...[],
+    a(2)
+][0]);
+console.log([
+    a(1),
+    ...[],
+    a(2)
+][1]);
+console.log([
+    a(1),
+    ...[],
+    a(2)
+][2]);
+console.log([
+    a(1),
+    a(2),
+    ...[]
+][0]);
+console.log([
+    a(1),
+    a(2),
+    ...[]
+][1]);
+console.log([
+    a(1),
+    a(2),
+    ...[]
+][2]);
