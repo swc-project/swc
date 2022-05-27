@@ -3174,7 +3174,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_ast"
-version = "0.93.0"
+version = "0.93.1"
 dependencies = [
  "is-macro",
  "serde",
@@ -3414,7 +3414,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.116.0"
+version = "0.116.1"
 dependencies = [
  "ahash",
  "ansi_term",
