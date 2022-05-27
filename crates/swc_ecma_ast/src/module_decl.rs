@@ -113,6 +113,16 @@ pub struct ExportAll {
     pub asserts: Option<ObjectLit>,
 }
 
+impl Take for ExportAll {
+    fn dummy() -> Self {
+        Self {
+            span: DUMMY_SP,
+            src: Take::dummy(),
+            asserts: Take::dummy(),
+        }
+    }
+}
+
 /// `export { foo } from 'mod'`
 /// `export { foo as bar } from 'mod'`
 #[ast_node("ExportNamedDeclaration")]
@@ -131,6 +141,18 @@ pub struct NamedExport {
 
     #[serde(default)]
     pub asserts: Option<ObjectLit>,
+}
+
+impl Take for NamedExport {
+    fn dummy() -> Self {
+        Self {
+            span: DUMMY_SP,
+            specifiers: Take::dummy(),
+            src: Take::dummy(),
+            type_only: Default::default(),
+            asserts: Take::dummy(),
+        }
+    }
 }
 
 #[ast_node("ExportDefaultDeclaration")]
