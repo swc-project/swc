@@ -64,7 +64,7 @@ fn parse_fm(handler: &Handler, fm: Lrc<SourceFile>) -> Result<Module, ()> {
 #[testing::fixture("tests/fixture/**/output.js")]
 #[testing::fixture("tests/terser/**/output.js")]
 fn compressed(compressed_file: PathBuf) {
-    testing::run_test2(false, |cm, handler| {
+    let _ = testing::run_test2(false, |cm, handler| {
         let mut m = parse(&handler, cm.clone(), &compressed_file)?;
 
         let unresolved_mark = Mark::new();
@@ -105,8 +105,7 @@ fn compressed(compressed_file: PathBuf) {
         parse_fm(&handler, cm.new_source_file(FileName::Anon, minified))?;
 
         Ok(())
-    })
-    .unwrap();
+    });
 }
 
 #[testing::fixture("tests/fixture/**/input.js")]
