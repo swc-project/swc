@@ -458,6 +458,7 @@ where
                                         | "video"
                                         | "i"
                                         | "b"
+                                        | "u"
                                 ) =>
                             {
                                 true

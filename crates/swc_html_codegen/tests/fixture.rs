@@ -441,18 +441,11 @@ fn parser_recovery_verify(input: PathBuf) {
     exclude(
         "tests1_dat/30.html",
         "tests1_dat/77.html",
-        "tests1_dat/87.html", // Bug
         "tests1_dat/90.html",
         "tests1_dat/103.html",
         "tests2_dat/12.html",
-        "tests2_dat/45.html", // Bug
-        "tests2_dat/46.html", // Bug
         "tests4_dat/3.fragment.style.html",
         "tests4_dat/4.fragment.plaintext.html",
-        "tests7_dat/0.html", // Bug
-        "tests7_dat/1.html", // Bug
-        "tests15_dat/0.html", // Bug
-        "tests15_dat/1.html", // Bug
         "tests16_dat/31.html",
         "tests16_dat/32.html",
         "tests16_dat/33.html",
