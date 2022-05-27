@@ -1,10 +1,10 @@
 var M;
 !function(M1) {
-    let _toPrimitive = Symbol.toPrimitive, _isConcatSpreadable = Symbol.isConcatSpreadable, _toPrimitive1 = Symbol.toPrimitive, _toPrimitive2 = Symbol.toPrimitive;
-    M1.C = class {
-        [_toPrimitive](x) {}
-        [_isConcatSpreadable]() {}
-        get [_toPrimitive1]() {}
-        set [_toPrimitive2](x) {}
-    };
+    class C {
+        [Symbol.toPrimitive](x) {}
+        [Symbol.isConcatSpreadable]() {}
+        get [Symbol.toPrimitive]() {}
+        set [Symbol.toPrimitive](x) {}
+    }
+    M1.C = C;
 }(M || (M = {}));

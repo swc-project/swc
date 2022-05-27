@@ -1,13 +1,13 @@
 var v;
-let _iterator = Symbol.iterator;
-for (v of new class {
+class NumberIterator {
     next() {
         return {
             value: 0,
             done: !1
         };
     }
-    [_iterator]() {
+    [Symbol.iterator]() {
         return this;
     }
-});
+}
+for (v of new NumberIterator);

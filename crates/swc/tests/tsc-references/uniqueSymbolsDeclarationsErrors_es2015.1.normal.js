@@ -20,19 +20,17 @@ export function funcInferredReturnType(obj1) {
 }
 export class ClassWithPrivateNamedProperties {
 }
-let _s = s, _s1 = s;
 export class ClassWithPrivateNamedMethods {
-    [_s]() {}
-    static [_s1]() {}
+    [s]() {}
+    static [s]() {}
 }
-let _s2 = s, _s3 = s, _s4 = s, _s5 = s;
 export class ClassWithPrivateNamedAccessors {
-    get [_s2]() {
+    get [s]() {
         return undefined;
     }
-    set [_s3](v) {}
-    static get [_s4]() {
+    set [s](v) {}
+    static get [s]() {
         return undefined;
     }
-    static set [_s5](v) {}
+    static set [s](v) {}
 }

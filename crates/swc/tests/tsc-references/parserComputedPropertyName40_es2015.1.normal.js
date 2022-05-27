@@ -1,5 +1,4 @@
-let tmp = a ? "" : "";
 //@target: ES6
 class C {
-    [tmp]() {}
+    [a ? "" : ""]() {}
 }

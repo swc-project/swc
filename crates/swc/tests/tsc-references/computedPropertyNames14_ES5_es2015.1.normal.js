@@ -1,11 +1,10 @@
 // @target: es5
 var b;
-let _b = b, _undefined = undefined;
 class C {
-    [_b]() {}
+    [b]() {}
     static [true]() {}
     [[]]() {}
     static [{}]() {}
-    [_undefined]() {}
+    [undefined]() {}
     static [null]() {}
 }

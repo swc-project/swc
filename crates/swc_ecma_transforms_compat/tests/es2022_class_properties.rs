@@ -5982,15 +5982,17 @@ function a() {
 }
 ",
     "
-let _toStringTag;
-var test1 = (_toStringTag = Symbol.toStringTag, class X {
-    [_toStringTag]() {}
-});
-function a() {
-    const b = class Y {
-        x() {}
+    var test1 = class X {
+      [Symbol.toStringTag]() {}
+    
     };
-}
+    
+    function a() {
+      const b = class Y {
+        x() {}
+    
+      };
+    }
 "
 );
 

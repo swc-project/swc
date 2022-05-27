@@ -9,7 +9,6 @@ var Foo2 = function Foo2() {
     "use strict";
     _class_call_check(this, Foo2);
 };
-var tmp = 1 << 6, tmp1 = 1 << 6;
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
@@ -17,14 +16,14 @@ var C = /*#__PURE__*/ function() {
     }
     _create_class(C, [
         {
-            key: tmp,
+            key: 1 << 6,
             get: // Computed properties
             function get() {
                 return new Foo;
             }
         },
         {
-            key: tmp1,
+            key: 1 << 6,
             set: function set(p) {}
         }
     ]);

@@ -2,7 +2,7 @@ class Bar {
 }
 class Foo extends Bar {
 }
-!function(...[a, ...b]) {}(new class {
+class FooIterator {
     next() {
         return {
             value: new Foo,
@@ -12,4 +12,5 @@ class Foo extends Bar {
     [Symbol.iterator]() {
         return this;
     }
-});
+}
+!function(...[a, ...b]) {}(new FooIterator);
