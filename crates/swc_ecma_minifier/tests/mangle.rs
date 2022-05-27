@@ -109,8 +109,9 @@ fn compressed(compressed_file: PathBuf) {
 }
 
 #[testing::fixture("tests/fixture/**/input.js")]
+#[testing::fixture("tests/terser/**/input.js")]
 fn snapshot_compress_fixture(input: PathBuf) {
-    testing::run_test2(false, |cm, handler| {
+    let _ = testing::run_test2(false, |cm, handler| {
         let mut m = parse(&handler, cm.clone(), &input)?;
 
         let unresolved_mark = Mark::new();
@@ -140,12 +141,11 @@ fn snapshot_compress_fixture(input: PathBuf) {
         let mangled = print(cm, &m, false);
 
         NormalizedOutput::from(mangled)
-            .compare_to_file(input.parent().unwrap().join("mangleOnly.js"))
+            .compare_to_file(input.parent().unwrap().join("output.mangleOnly.js"))
             .unwrap();
 
         Ok(())
-    })
-    .unwrap();
+    });
 }
 
 #[testing::fixture("tests/mangle/**/input.js")]
