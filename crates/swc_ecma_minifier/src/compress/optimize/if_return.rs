@@ -1,6 +1,6 @@
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{prepend_stmt, undefined, StmtExt, StmtLike};
+use swc_ecma_utils::{undefined, StmtExt, StmtLike};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Optimizer;
@@ -38,58 +38,6 @@ where
                 right: test.take(),
             }));
             s.cons = cons.take();
-        }
-    }
-
-    pub(super) fn merge_else_if(&mut self, s: &mut IfStmt) {
-        if let Some(Stmt::If(IfStmt {
-            span: span_of_alt,
-            test: test_of_alt,
-            cons: cons_of_alt,
-            alt: Some(alt_of_alt),
-            ..
-        })) = s.alt.as_deref_mut()
-        {
-            match &**cons_of_alt {
-                Stmt::Return(..) | Stmt::Continue(ContinueStmt { label: None, .. }) => {}
-                _ => return,
-            }
-
-            match &mut **alt_of_alt {
-                Stmt::Block(..) => {}
-                Stmt::Expr(..) => {
-                    *alt_of_alt = Box::new(Stmt::Block(BlockStmt {
-                        span: DUMMY_SP,
-                        stmts: vec![*alt_of_alt.take()],
-                    }));
-                }
-                _ => {
-                    return;
-                }
-            }
-
-            self.changed = true;
-            report_change!("if_return: Merging `else if` into `else`");
-
-            match &mut **alt_of_alt {
-                Stmt::Block(alt_of_alt) => {
-                    prepend_stmt(
-                        &mut alt_of_alt.stmts,
-                        Stmt::If(IfStmt {
-                            span: *span_of_alt,
-                            test: test_of_alt.take(),
-                            cons: cons_of_alt.take(),
-                            alt: None,
-                        }),
-                    );
-                }
-
-                _ => {
-                    unreachable!()
-                }
-            }
-
-            s.alt = Some(alt_of_alt.take());
         }
     }
 
