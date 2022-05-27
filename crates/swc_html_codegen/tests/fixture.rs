@@ -439,9 +439,6 @@ fn parser_recovery_verify(input: PathBuf) {
 #[testing::fixture(
     "../swc_html_parser/tests/html5lib-tests-fixture/**/*.html",
     exclude(
-        "adoption01_dat/6.html",
-        "adoption01_dat/7.html",
-        "adoption01_dat/8.html",
         "tests1_dat/30.html",
         "tests1_dat/77.html",
         "tests1_dat/87.html",

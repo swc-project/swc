@@ -409,6 +409,7 @@ where
                                         | "noscript"
                                         | "video"
                                         | "i"
+                                        | "b"
                                 ) =>
                             {
                                 true
