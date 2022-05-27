@@ -65,6 +65,9 @@
 
 
 
+- **(es/minifier)** Add snapshots for the mangler (#4823) ([7f69b9c](https://github.com/swc-project/swc/commit/7f69b9c80f44195164db9a4641642582e5d23979))
+
+
 - **(html/codegen)** Avoid newline at the end of file (#4815) ([a6beda8](https://github.com/swc-project/swc/commit/a6beda81ca9812d95c4ac21b8ff67e672d10f57a))
 
 ## [1.2.194] - 2022-05-25
