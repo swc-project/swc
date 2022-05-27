@@ -40,6 +40,9 @@
 
 - **(html/codegen)** Omit start and end tags if it is possible (#4780) ([c6ec9f9](https://github.com/swc-project/swc/commit/c6ec9f9cf20e149ce9cb8364403a031e3547741c))
 
+
+- **(html/minifier)** Compress more json types (#4813) ([731c59e](https://github.com/swc-project/swc/commit/731c59e9b7df7edd300871db8657e0d49b6b9a80))
+
 ### Performance
 
 
