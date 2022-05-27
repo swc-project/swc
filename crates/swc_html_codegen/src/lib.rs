@@ -151,7 +151,7 @@ where
                 // Tag omission in text/html:
                 // An html element's start tag can be omitted if the first thing inside the html
                 // element is not a comment.
-                "html" if matches!(n.children.get(0), Some(Child::Comment(..))) => true,
+                "html" if !matches!(n.children.get(0), Some(Child::Comment(..))) => true,
                 // A head element's start tag can be omitted if the element is empty, or if the
                 // first thing inside the head element is an element.
                 "head"
