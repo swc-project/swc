@@ -501,11 +501,6 @@ fn parser_recovery_verify(input: PathBuf) {
         "template_dat/107.html",
         "tests_innerHTML_1_dat/82.fragment.html.html",
         "tricky01_dat/6.html",
-        "webkit01_dat/21.html",
-        "webkit01_dat/22.html",
-        "webkit01_dat/24.html",
-        "webkit01_dat/25.html",
-        "webkit01_dat/28.html",
     )
 )]
 fn html5lib_tests_verify(input: PathBuf) {

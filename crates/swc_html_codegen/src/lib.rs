@@ -51,12 +51,52 @@ where
 
     #[emitter]
     fn emit_document(&mut self, n: &Document) -> Result {
-        self.emit_list(&n.children, ListFormat::NotDelimited)?;
+        if self.config.minify {
+            for (idx, node) in n.children.iter().enumerate() {
+                match node {
+                    Child::Element(element) => {
+                        let prev = if idx > 0 {
+                            n.children.get(idx - 1)
+                        } else {
+                            None
+                        };
+                        let next = n.children.get(idx + 1);
+
+                        self.basic_emit_element(element, None, prev, next)?;
+                    }
+                    _ => {
+                        emit!(self, node)
+                    }
+                }
+            }
+        } else {
+            self.emit_list(&n.children, ListFormat::NotDelimited)?;
+        }
     }
 
     #[emitter]
     fn emit_document_fragment(&mut self, n: &DocumentFragment) -> Result {
-        self.emit_list(&n.children, ListFormat::NotDelimited)?;
+        if self.config.minify {
+            for (idx, node) in n.children.iter().enumerate() {
+                match node {
+                    Child::Element(element) => {
+                        let prev = if idx > 0 {
+                            n.children.get(idx - 1)
+                        } else {
+                            None
+                        };
+                        let next = n.children.get(idx + 1);
+
+                        self.basic_emit_element(element, None, prev, next)?;
+                    }
+                    _ => {
+                        emit!(self, node)
+                    }
+                }
+            }
+        } else {
+            self.emit_list(&n.children, ListFormat::NotDelimited)?;
+        }
     }
 
     #[emitter]
