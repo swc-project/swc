@@ -52,7 +52,57 @@ impl fmt::Debug for NormalizedOutput {
     }
 }
 
+fn normalize_input(input: String, skip_last_newline: bool) -> String {
+    let manifest_dirs = vec![
+        adjust_canonicalization(paths::manifest_dir()),
+        paths::manifest_dir().to_string_lossy().to_string(),
+        adjust_canonicalization(paths::manifest_dir()).replace('\\', "\\\\"),
+        paths::manifest_dir()
+            .to_string_lossy()
+            .replace('\\', "\\\\"),
+    ];
+
+    let input = input.replace("\r\n", "\n");
+
+    let mut buf = String::new();
+
+    for line in input.lines() {
+        if manifest_dirs.iter().any(|dir| line.contains(&**dir)) {
+            let mut s = line.to_string();
+
+            for dir in &manifest_dirs {
+                s = s.replace(&**dir, "$DIR");
+            }
+            s = s.replace("\\\\", "\\").replace('\\', "/");
+            let s = if cfg!(target_os = "windows") {
+                s.replace("//?/$DIR", "$DIR").replace("/?/$DIR", "$DIR")
+            } else {
+                s
+            };
+            buf.push_str(&s)
+        } else {
+            buf.push_str(line);
+        }
+
+        buf.push('\n');
+    }
+
+    if skip_last_newline && !matches!(input.chars().last(), Some('\n')) {
+        buf.truncate(buf.len() - 1);
+    }
+
+    buf
+}
+
 impl NormalizedOutput {
+    pub fn new_raw(s: String) -> Self {
+        if s.is_empty() {
+            return NormalizedOutput(s);
+        }
+
+        NormalizedOutput(normalize_input(s, true))
+    }
+
     /// If output differs, prints actual stdout/stderr to
     /// `CARGO_MANIFEST_DIR/target/swc-test-results/ui/$rel_path` where
     /// `$rel_path`: `path.strip_prefix(CARGO_MANIFEST_DIR)`
@@ -126,39 +176,7 @@ impl From<String> for NormalizedOutput {
             return NormalizedOutput(s);
         }
 
-        let manifest_dirs = vec![
-            adjust_canonicalization(paths::manifest_dir()),
-            paths::manifest_dir().to_string_lossy().to_string(),
-            adjust_canonicalization(paths::manifest_dir()).replace('\\', "\\\\"),
-            paths::manifest_dir()
-                .to_string_lossy()
-                .replace('\\', "\\\\"),
-        ];
-
-        let s = s.replace("\r\n", "\n");
-
-        let mut buf = String::new();
-        for line in s.lines() {
-            if manifest_dirs.iter().any(|dir| line.contains(&**dir)) {
-                let mut s = line.to_string();
-
-                for dir in &manifest_dirs {
-                    s = s.replace(&**dir, "$DIR");
-                }
-                s = s.replace("\\\\", "\\").replace('\\', "/");
-                let s = if cfg!(target_os = "windows") {
-                    s.replace("//?/$DIR", "$DIR").replace("/?/$DIR", "$DIR")
-                } else {
-                    s
-                };
-                buf.push_str(&s)
-            } else {
-                buf.push_str(line);
-            }
-            buf.push('\n')
-        }
-
-        NormalizedOutput(buf)
+        NormalizedOutput(normalize_input(s, false))
     }
 }
 
