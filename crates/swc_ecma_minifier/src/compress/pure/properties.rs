@@ -1,10 +1,9 @@
 use swc_atoms::js_word;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
-use swc_ecma_utils::{prop_name_eq, ExprExt};
 
 use super::Pure;
-use crate::{compress::util::is_valid_identifier, util::deeply_contains_this_expr};
+use crate::compress::util::is_valid_identifier;
 
 impl Pure<'_> {
     pub(super) fn optimize_property_of_member_expr(
@@ -93,101 +92,6 @@ impl Pure<'_> {
                     sym: s.value.clone(),
                     optional: false,
                 });
-            }
-        }
-    }
-
-    /// Converts `{ a: 1 }.a` into `1`.
-    pub(super) fn handle_property_access(&mut self, e: &mut Expr) {
-        if !self.options.props {
-            return;
-        }
-
-        if self.ctx.is_update_arg {
-            return;
-        }
-
-        if self.ctx.is_callee {
-            return;
-        }
-
-        let me = match e {
-            Expr::Member(m) => m,
-            _ => return,
-        };
-
-        let key = match &me.prop {
-            MemberProp::Ident(prop) => prop,
-            _ => return,
-        };
-
-        let obj = match &mut *me.obj {
-            Expr::Object(o) => o,
-            _ => return,
-        };
-
-        let duplicate_prop = obj
-            .props
-            .iter()
-            .filter(|prop| match prop {
-                PropOrSpread::Spread(_) => false,
-                PropOrSpread::Prop(p) => match &**p {
-                    Prop::Shorthand(p) => p.sym == key.sym,
-                    Prop::KeyValue(p) => prop_name_eq(&p.key, &key.sym),
-                    Prop::Assign(p) => p.key.sym == key.sym,
-                    Prop::Getter(p) => prop_name_eq(&p.key, &key.sym),
-                    Prop::Setter(p) => prop_name_eq(&p.key, &key.sym),
-                    Prop::Method(p) => prop_name_eq(&p.key, &key.sym),
-                },
-            })
-            .count()
-            != 1;
-        if duplicate_prop {
-            return;
-        }
-
-        if obj.props.iter().any(|prop| match prop {
-            PropOrSpread::Spread(_) => false,
-            PropOrSpread::Prop(p) => match &**p {
-                Prop::Shorthand(..) => false,
-                Prop::KeyValue(p) => {
-                    p.key.is_computed()
-                        || p.value.may_have_side_effects(&self.expr_ctx)
-                        || deeply_contains_this_expr(&p.value)
-                }
-                Prop::Assign(p) => {
-                    p.value.may_have_side_effects(&self.expr_ctx)
-                        || deeply_contains_this_expr(&p.value)
-                }
-                Prop::Getter(p) => p.key.is_computed(),
-                Prop::Setter(p) => p.key.is_computed(),
-                Prop::Method(p) => p.key.is_computed(),
-            },
-        }) {
-            return;
-        }
-
-        for prop in &obj.props {
-            match prop {
-                PropOrSpread::Spread(_) => {}
-                PropOrSpread::Prop(p) => match &**p {
-                    Prop::Shorthand(_) => {}
-                    Prop::KeyValue(p) => {
-                        if prop_name_eq(&p.key, &key.sym) {
-                            report_change!(
-                                "properties: Inlining a key-value property `{}`",
-                                key.sym
-                            );
-                            self.changed = true;
-                            *e = *p.value.clone();
-                            return;
-                        }
-                    }
-                    Prop::Assign(_) => {}
-                    Prop::Getter(_) => {}
-                    Prop::Setter(_) => {}
-                    Prop::Method(_) => {}
-                },
             }
         }
     }

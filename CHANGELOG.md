@@ -5,10 +5,25 @@
 
 
 
+- **(es/compat)** Use define for non-spread props (#4754) ([573bcb5](https://github.com/swc-project/swc/commit/573bcb5b492da2b27a79876c337aa0268beb706d))
+
+
+- **(es/minifier)** Consider side effects while removing an object spread (#4788) ([1c48a8c](https://github.com/swc-project/swc/commit/1c48a8c8f4ede63661c663cb548345a417c63cf6))
+
+
+- **(es/minifier)** Don't create names which is same as an unresolved var (#4806) ([073b146](https://github.com/swc-project/swc/commit/073b1469e6c81a9342bd09394832ee96339f07b4))
+
+
 - **(es/modules)** Fix local scoped amd require (#4800) ([2b03047](https://github.com/swc-project/swc/commit/2b03047cb088b96e5c054055780b54e4f48ae486))
 
 
+- **(es/modules)** Fix lazy option of common js (#4807) ([f4c6a20](https://github.com/swc-project/swc/commit/f4c6a20654ac172ce84e7fc0e0c5d7c98acbc535))
+
+
 - **(html/minifier)** Avoid removing id with spaces (#4786) ([c35cb59](https://github.com/swc-project/swc/commit/c35cb598f7a95795ea9d11ab7510f540a17d0639))
+
+
+- **(preset-env)** Ignore unknown versions (#4809) ([78d4c2c](https://github.com/swc-project/swc/commit/78d4c2c46a767bd2409a2053c9d1f01f2d34c3f4))
 
 ### Features
 
@@ -24,6 +39,12 @@
 
 
 - **(html/parser)** Improve lexer (#4802) ([f71ef61](https://github.com/swc-project/swc/commit/f71ef61cb7056e602a9ae94f20d0757e795eff18))
+
+### Refactor
+
+
+
+- **(es/transforms)** Remove `concurrent` (#4808) ([a487fc1](https://github.com/swc-project/swc/commit/a487fc1d2827b5922eed0a03227da3e7a1371502))
 
 ## [1.2.194] - 2022-05-25
 

@@ -1,9 +1,9 @@
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_utils::contains_this_expr;
+use swc_ecma_utils::{contains_this_expr, prop_name_eq, ExprExt};
 
-use super::Optimizer;
-use crate::mode::Mode;
+use super::{unused::PropertyAccessOpts, Optimizer};
+use crate::{mode::Mode, util::deeply_contains_this_expr};
 
 /// Methods related to the option `hoist_props`.
 impl<M> Optimizer<'_, M>
@@ -215,6 +215,113 @@ where
                 member.obj = value;
                 self.changed = true;
                 report_change!("hoist_props: Inlined a property");
+            }
+        }
+    }
+}
+
+impl<M> Optimizer<'_, M>
+where
+    M: Mode,
+{
+    /// Converts `{ a: 1 }.a` into `1`.
+    pub(super) fn handle_property_access(&mut self, e: &mut Expr) {
+        if !self.options.props {
+            return;
+        }
+
+        if self.ctx.is_update_arg {
+            return;
+        }
+
+        if self.ctx.is_callee {
+            return;
+        }
+
+        let me = match e {
+            Expr::Member(m) => m,
+            _ => return,
+        };
+
+        let key = match &me.prop {
+            MemberProp::Ident(prop) => prop,
+            _ => return,
+        };
+
+        let obj = match &mut *me.obj {
+            Expr::Object(o) => o,
+            _ => return,
+        };
+
+        let duplicate_prop = obj
+            .props
+            .iter()
+            .filter(|prop| match prop {
+                PropOrSpread::Spread(_) => false,
+                PropOrSpread::Prop(p) => match &**p {
+                    Prop::Shorthand(p) => p.sym == key.sym,
+                    Prop::KeyValue(p) => prop_name_eq(&p.key, &key.sym),
+                    Prop::Assign(p) => p.key.sym == key.sym,
+                    Prop::Getter(p) => prop_name_eq(&p.key, &key.sym),
+                    Prop::Setter(p) => prop_name_eq(&p.key, &key.sym),
+                    Prop::Method(p) => prop_name_eq(&p.key, &key.sym),
+                },
+            })
+            .count()
+            != 1;
+        if duplicate_prop {
+            return;
+        }
+
+        if obj.props.iter().any(|prop| match prop {
+            PropOrSpread::Spread(s) => self.should_preserve_property_access(
+                &s.expr,
+                PropertyAccessOpts {
+                    allow_getter: false,
+                    only_ident: false,
+                },
+            ),
+            PropOrSpread::Prop(p) => match &**p {
+                Prop::Shorthand(..) => false,
+                Prop::KeyValue(p) => {
+                    p.key.is_computed()
+                        || p.value.may_have_side_effects(&self.expr_ctx)
+                        || deeply_contains_this_expr(&p.value)
+                }
+                Prop::Assign(p) => {
+                    p.value.may_have_side_effects(&self.expr_ctx)
+                        || deeply_contains_this_expr(&p.value)
+                }
+                Prop::Getter(p) => p.key.is_computed(),
+                Prop::Setter(p) => p.key.is_computed(),
+                Prop::Method(p) => p.key.is_computed(),
+            },
+        }) {
+            log_abort!("Property accesses should not be inlined to preserve side effects");
+            return;
+        }
+
+        for prop in &obj.props {
+            match prop {
+                PropOrSpread::Spread(_) => {}
+                PropOrSpread::Prop(p) => match &**p {
+                    Prop::Shorthand(_) => {}
+                    Prop::KeyValue(p) => {
+                        if prop_name_eq(&p.key, &key.sym) {
+                            report_change!(
+                                "properties: Inlining a key-value property `{}`",
+                                key.sym
+                            );
+                            self.changed = true;
+                            *e = *p.value.clone();
+                            return;
+                        }
+                    }
+                    Prop::Assign(_) => {}
+                    Prop::Getter(_) => {}
+                    Prop::Setter(_) => {}
+                    Prop::Method(_) => {}
+                },
             }
         }
     }

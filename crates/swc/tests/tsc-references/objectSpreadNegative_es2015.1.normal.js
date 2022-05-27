@@ -1,4 +1,5 @@
 import _object_spread from "@swc/helpers/lib/_object_spread.js";
+import _object_spread_props from "@swc/helpers/lib/_object_spread_props.js";
 // @target: es5
 // @strictNullChecks: true
 let o = {
@@ -26,11 +27,11 @@ let b = {
 };
 spread = b; // error, missing 's'
 // literal repeats are not allowed, but spread repeats are fine
-let duplicated = _object_spread({
+let duplicated = _object_spread_props(_object_spread(_object_spread_props(_object_spread({
     b: 'bad'
-}, o, {
+}, o), {
     b: 'bad'
-}, o2, {
+}), o2), {
     b: 'bad'
 });
 let duplicatedSpread = _object_spread({}, o, o);
@@ -49,27 +50,27 @@ let o4 = {
 let combinedBefore = _object_spread({
     b: 'ok'
 }, o3, o4);
-let combinedMid = _object_spread({}, o3, {
+let combinedMid = _object_spread(_object_spread_props(_object_spread({}, o3), {
     b: 'ok'
-}, o4);
-let combinedNested = _object_spread({}, _object_spread({
+}), o4);
+let combinedNested = _object_spread(_object_spread_props(_object_spread({}, _object_spread({
     a: 4
 }, {
     b: false,
     c: 'overriden'
-}), {
+})), {
     d: 'actually new'
-}, {
+}), {
     a: 5,
     d: 'maybe new'
 });
 let changeTypeBefore = _object_spread({
     a: 'wrong type?'
 }, o3);
-let computedMiddle = _object_spread({}, o3, {
+let computedMiddle = _object_spread(_object_spread_props(_object_spread({}, o3), {
     ['in the middle']: 13,
     b: 'maybe?'
-}, o4);
+}), o4);
 // primitives are not allowed, except for falsy ones
 let spreadNum = _object_spread({}, 12);
 let spreadSum = _object_spread({}, 1 + 1);

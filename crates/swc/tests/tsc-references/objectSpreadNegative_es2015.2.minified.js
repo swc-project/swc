@@ -1,4 +1,5 @@
 import _object_spread from "@swc/helpers/lib/_object_spread.js";
+import _object_spread_props from "@swc/helpers/lib/_object_spread_props.js";
 let o = {
     a: 1,
     b: 'no'
@@ -7,11 +8,11 @@ o2.x, _object_spread({}, optionalString, optionalNumber), _object_spread({}, {
     b: !0
 }, {
     s: "foo"
-}), _object_spread({
+}), _object_spread_props(_object_spread(_object_spread_props(_object_spread({
     b: 'bad'
-}, o, {
+}, o), {
     b: 'bad'
-}, o2, {
+}), o2), {
     b: 'bad'
 }), _object_spread({}, o, o), _object_spread({
     b: 'ignored'
@@ -25,24 +26,24 @@ let o3 = {
 };
 _object_spread({
     b: 'ok'
-}, o3, o4), _object_spread({}, o3, {
+}, o3, o4), _object_spread(_object_spread_props(_object_spread({}, o3), {
     b: 'ok'
-}, o4), _object_spread({}, _object_spread({
+}), o4), _object_spread(_object_spread_props(_object_spread({}, _object_spread({
     a: 4
 }, {
     b: !1,
     c: 'overriden'
-}), {
+})), {
     d: 'actually new'
-}, {
+}), {
     a: 5,
     d: 'maybe new'
 }), _object_spread({
     a: 'wrong type?'
-}, o3), _object_spread({}, o3, {
+}, o3), _object_spread(_object_spread_props(_object_spread({}, o3), {
     'in the middle': 13,
     b: 'maybe?'
-}, o4), _object_spread({}, 12), _object_spread({}, 2), _object_spread({}, 0).toFixed(), _object_spread({}, !0).valueOf();
+}), o4), _object_spread({}, 12), _object_spread({}, 2), _object_spread({}, 0).toFixed(), _object_spread({}, !0).valueOf();
 let spreadStr = _object_spread({}, 'foo');
 spreadStr.length, spreadStr.charAt(1), _object_spread({}, function() {})(), _object_spread({}, {
     set b (bad){}

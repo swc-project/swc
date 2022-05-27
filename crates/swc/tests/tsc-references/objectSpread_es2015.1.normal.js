@@ -1,4 +1,5 @@
 import _object_spread from "@swc/helpers/lib/_object_spread.js";
+import _object_spread_props from "@swc/helpers/lib/_object_spread_props.js";
 // @strictNullChecks: true
 // @target: es5
 let o = {
@@ -13,33 +14,33 @@ let swap = {
     a: 'yes',
     b: -1
 };
-let addAfter = _object_spread({}, o, {
+let addAfter = _object_spread_props(_object_spread({}, o), {
     c: false
 });
 let addBefore = _object_spread({
     c: false
 }, o);
-let override = _object_spread({}, o, {
+let override = _object_spread_props(_object_spread({}, o), {
     b: 'override'
 });
-let nested = _object_spread({}, _object_spread({
+let nested = _object_spread_props(_object_spread({}, _object_spread({
     a: 3
 }, {
     b: false,
     c: 'overriden'
-}), {
+})), {
     c: 'whatever'
 });
 let combined = _object_spread({}, o, o2);
-let combinedAfter = _object_spread({}, o, o2, {
+let combinedAfter = _object_spread_props(_object_spread({}, o, o2), {
     b: 'ok'
 });
-let combinedNestedChangeType = _object_spread({}, _object_spread({
+let combinedNestedChangeType = _object_spread_props(_object_spread({}, _object_spread({
     a: 1
 }, {
     b: false,
     c: 'overriden'
-}), {
+})), {
     c: -1
 });
 let propertyNested = {
@@ -52,7 +53,7 @@ let op = {
         return 6;
     }
 };
-let getter = _object_spread({}, op, {
+let getter = _object_spread_props(_object_spread({}, op), {
     c: 7
 });
 getter.a = 12;
@@ -116,14 +117,14 @@ class C {
 let c = new C();
 let spreadC = _object_spread({}, c);
 // own methods are enumerable
-let cplus = _object_spread({}, c, {
+let cplus = _object_spread_props(_object_spread({}, c), {
     plus () {
         return this.p + 1;
     }
 });
 cplus.plus();
 // new field's type conflicting with existing field is OK
-let changeTypeAfter = _object_spread({}, o, {
+let changeTypeAfter = _object_spread_props(_object_spread({}, o), {
     a: 'wrong type?'
 });
 let changeTypeBoth = _object_spread({}, o, swap);
@@ -133,26 +134,26 @@ function container(definiteBoolean, definiteString, optionalString, optionalNumb
     let optionalUnionDuplicates = _object_spread({}, definiteBoolean, definiteString, optionalString, optionalNumber);
     let allOptional = _object_spread({}, optionalString, optionalNumber);
     // computed property
-    let computedFirst = _object_spread({
+    let computedFirst = _object_spread_props(_object_spread({
         ['before everything']: 12
-    }, o, {
+    }, o), {
         b: 'yes'
     });
-    let computedAfter = _object_spread({}, o, {
+    let computedAfter = _object_spread_props(_object_spread({}, o), {
         b: 'yeah',
         ['at the end']: 14
     });
 }
 // shortcut syntax
 let a = 12;
-let shortCutted = _object_spread({}, o, {
+let shortCutted = _object_spread_props(_object_spread({}, o), {
     a
 });
 // non primitive
 let spreadNonPrimitive = _object_spread({}, {});
 // generic spreads
 function f(t, u) {
-    return _object_spread({}, t, u, {
+    return _object_spread_props(_object_spread({}, t, u), {
         id: 'id'
     });
 }
@@ -190,27 +191,27 @@ function genericSpread(t, u, v, w, obj) {
         a: 5,
         b: 'hi'
     }, t);
-    let x06 = _object_spread({}, t, {
+    let x06 = _object_spread_props(_object_spread({}, t), {
         a: 5,
         b: 'hi'
     });
-    let x07 = _object_spread({
+    let x07 = _object_spread(_object_spread_props(_object_spread({
         a: 5,
         b: 'hi'
-    }, t, {
+    }, t), {
         c: true
-    }, obj);
-    let x09 = _object_spread({
+    }), obj);
+    let x09 = _object_spread(_object_spread_props(_object_spread({
         a: 5
-    }, t, {
+    }, t), {
         b: 'hi',
         c: true
-    }, obj);
-    let x10 = _object_spread({
+    }), obj);
+    let x10 = _object_spread(_object_spread_props(_object_spread({
         a: 5
-    }, t, {
+    }, t), {
         b: 'hi'
-    }, u, obj);
+    }), u, obj);
     let x11 = _object_spread({}, v);
     let x12 = _object_spread({}, v, obj);
     let x13 = _object_spread({}, w);

@@ -42,12 +42,12 @@ mod conditionals;
 mod dead_code;
 mod evaluate;
 mod fns;
-mod hoist_props;
 mod if_return;
 mod iife;
 mod inline;
 mod loops;
 mod ops;
+mod props;
 mod sequences;
 mod strings;
 mod switches;
@@ -1741,6 +1741,8 @@ where
         self.compress_logical_exprs_as_bang_bang(e, false);
 
         self.inline(e);
+
+        self.handle_property_access(e);
 
         if let Expr::Bin(bin) = e {
             let expr = self.optimize_lit_cmp(bin);

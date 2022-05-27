@@ -11,6 +11,7 @@ pub(super) struct Ctx {
     /// `true` if we are in `arg` of `++arg` or `--arg`.
     pub is_update_arg: bool,
 
+    #[allow(unused)]
     pub is_callee: bool,
 
     pub _in_try_block: bool,

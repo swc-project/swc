@@ -1,4 +1,5 @@
 import _object_spread from "@swc/helpers/lib/_object_spread.js";
+import _object_spread_props from "@swc/helpers/lib/_object_spread_props.js";
 import _object_without_properties from "@swc/helpers/lib/_object_without_properties.js";
 // @target: es2015
 let array;
@@ -23,7 +24,7 @@ for (var _ref1 of array){
         rrestOff
     ];
 }
-for (const norest of array.map((a)=>_object_spread({}, a, {
+for (const norest of array.map((a)=>_object_spread_props(_object_spread({}, a), {
         x: 'a string'
     }))){
     [

@@ -16,12 +16,21 @@ pub(super) struct Analyzer {
 }
 
 impl Analyzer {
-    pub(super) fn into_rename_map(mut self, preserved: &FxHashSet<Id>) -> AHashMap<Id, JsWord> {
+    pub(super) fn into_rename_map(
+        mut self,
+        preserved: &FxHashSet<Id>,
+        unresolved: &FxHashSet<JsWord>,
+    ) -> AHashMap<Id, JsWord> {
         let mut map = Default::default();
 
         self.scope.prepare_renaming();
 
-        let preserved_symbols = preserved.iter().cloned().map(|v| v.0).collect();
+        let mut preserved_symbols = preserved
+            .iter()
+            .cloned()
+            .map(|v| v.0)
+            .collect::<FxHashSet<_>>();
+        preserved_symbols.extend(unresolved.iter().cloned());
         self.scope
             .rename(&mut map, &Default::default(), preserved, &preserved_symbols);
 

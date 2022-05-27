@@ -162,7 +162,8 @@ where
         ObjectRestSpread,
         es2018::object_rest_spread(es2018::object_rest_spread::Config {
             no_symbol: loose || assumptions.object_rest_no_symbols,
-            set_property: loose || assumptions.set_spread_properties
+            set_property: loose || assumptions.set_spread_properties,
+            pure_getters: loose || assumptions.pure_getters
         })
     );
 

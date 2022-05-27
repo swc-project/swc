@@ -1,6 +1,7 @@
 import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 import _define_property from "@swc/helpers/lib/_define_property.js";
 import _object_spread from "@swc/helpers/lib/_object_spread.js";
+import _object_spread_props from "@swc/helpers/lib/_object_spread_props.js";
 // @target: es5
 // @strictNullChecks: true
 var o = {
@@ -32,11 +33,11 @@ var b = {
 };
 spread = b; // error, missing 's'
 // literal repeats are not allowed, but spread repeats are fine
-var duplicated = _object_spread({
+var duplicated = _object_spread_props(_object_spread(_object_spread_props(_object_spread({
     b: "bad"
-}, o, {
+}, o), {
     b: "bad"
-}, o2, {
+}), o2), {
     b: "bad"
 });
 var duplicatedSpread = _object_spread({}, o, o);
@@ -55,17 +56,17 @@ var o4 = {
 var combinedBefore = _object_spread({
     b: "ok"
 }, o3, o4);
-var combinedMid = _object_spread({}, o3, {
+var combinedMid = _object_spread(_object_spread_props(_object_spread({}, o3), {
     b: "ok"
-}, o4);
-var combinedNested = _object_spread({}, _object_spread({
+}), o4);
+var combinedNested = _object_spread(_object_spread_props(_object_spread({}, _object_spread({
     a: 4
 }, {
     b: false,
     c: "overriden"
-}), {
+})), {
     d: "actually new"
-}, {
+}), {
     a: 5,
     d: "maybe new"
 });
@@ -73,7 +74,7 @@ var changeTypeBefore = _object_spread({
     a: "wrong type?"
 }, o3);
 var _obj;
-var computedMiddle = _object_spread({}, o3, (_obj = {}, _define_property(_obj, "in the middle", 13), _define_property(_obj, "b", "maybe?"), _obj), o4);
+var computedMiddle = _object_spread(_object_spread_props(_object_spread({}, o3), (_obj = {}, _define_property(_obj, "in the middle", 13), _define_property(_obj, "b", "maybe?"), _obj)), o4);
 // primitives are not allowed, except for falsy ones
 var spreadNum = _object_spread({}, 12);
 var spreadSum = _object_spread({}, 1 + 1);

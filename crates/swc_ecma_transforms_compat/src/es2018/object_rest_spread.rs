@@ -3,11 +3,8 @@ use std::{iter, mem};
 use serde::Deserialize;
 use swc_common::{chain, util::take::Take, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{
-    helper, helper_expr,
-    perf::{Check, Parallel},
-};
-use swc_ecma_transforms_macros::{fast_path, parallel};
+use swc_ecma_transforms_base::{helper, helper_expr, perf::Check};
+use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
     alias_ident_for, alias_if_required, is_literal, private_ident, quote_ident, var::VarCollector,
     ExprFactory, StmtLike,
@@ -18,7 +15,7 @@ use swc_ecma_visit::{
 use swc_trace_macro::swc_trace;
 
 // TODO: currently swc behaves like babel with
-// `ignoreFunctionLength` and `pureGetters` on
+// `ignoreFunctionLength` on
 
 /// `@babel/plugin-proposal-object-rest-spread`
 #[tracing::instrument(level = "info", skip_all)]
@@ -50,6 +47,8 @@ pub struct Config {
     pub no_symbol: bool,
     #[serde(default)]
     pub set_property: bool,
+    #[serde(default)]
+    pub pure_getters: bool,
 }
 
 macro_rules! impl_for_for_stmt {
@@ -1059,16 +1058,7 @@ struct ObjectSpread {
     c: Config,
 }
 
-impl Parallel for ObjectSpread {
-    fn create(&self) -> Self {
-        ObjectSpread { c: self.c }
-    }
-
-    fn merge(&mut self, _: Self) {}
-}
-
 #[swc_trace]
-#[parallel]
 impl VisitMut for ObjectSpread {
     noop_visit_mut_type!();
 
@@ -1081,7 +1071,11 @@ impl VisitMut for ObjectSpread {
                 return;
             }
 
-            let mut first = true;
+            let mut callee = if self.c.set_property {
+                helper!(extends, "extends")
+            } else {
+                helper!(object_spread, "objectSpread")
+            };
 
             // { foo, ...x } => ({ foo }, x)
             let args = {
@@ -1090,14 +1084,35 @@ impl VisitMut for ObjectSpread {
                     span: DUMMY_SP,
                     props: vec![],
                 };
+                let mut first = true;
                 for prop in props.take() {
                     match prop {
-                        PropOrSpread::Prop(..) => obj.props.push(prop),
+                        PropOrSpread::Prop(..) => {
+                            // before is spread element
+                            if !first && obj.props.is_empty() && !self.c.pure_getters {
+                                buf = vec![Expr::Call(CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: callee.clone(),
+                                    args: buf.take(),
+                                    type_args: Default::default(),
+                                })
+                                .as_arg()];
+                            }
+                            obj.props.push(prop)
+                        }
                         PropOrSpread::Spread(SpreadElement { expr, .. }) => {
                             // Push object if it's not empty
                             if first || !obj.props.is_empty() {
-                                let obj = obj.take();
-                                buf.push(obj.as_arg());
+                                buf.push(obj.take().as_arg());
+                                if !first && !self.c.pure_getters {
+                                    buf = vec![Expr::Call(CallExpr {
+                                        span: DUMMY_SP,
+                                        callee: helper!(object_spread_props, "objectSpreadProps"),
+                                        args: buf.take(),
+                                        type_args: Default::default(),
+                                    })
+                                    .as_arg()];
+                                }
                                 first = false;
                             }
 
@@ -1107,6 +1122,9 @@ impl VisitMut for ObjectSpread {
                 }
 
                 if !obj.props.is_empty() {
+                    if !self.c.pure_getters {
+                        callee = helper!(object_spread_props, "objectSpreadProps");
+                    }
                     buf.push(obj.as_arg());
                 }
 
@@ -1115,11 +1133,7 @@ impl VisitMut for ObjectSpread {
 
             *expr = Expr::Call(CallExpr {
                 span: *span,
-                callee: if self.c.set_property {
-                    helper!(extends, "extends")
-                } else {
-                    helper!(object_spread, "objectSpread")
-                },
+                callee,
                 args,
                 type_args: Default::default(),
             });

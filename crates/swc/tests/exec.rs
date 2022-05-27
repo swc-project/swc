@@ -74,52 +74,49 @@ fn create_matrix(entry: &Path) -> Vec<Options> {
     })
     .matrix_bool()
     .matrix_bool()
-    .matrix_bool()
     .into_iter()
-    .map(
-        |((((target, syntax), minify), source_map), external_helpers)| {
-            // Actual
-            Options {
-                config: Config {
-                    jsc: JscConfig {
-                        syntax: Some(syntax),
-                        transform: None.into(),
-                        external_helpers: external_helpers.into(),
-                        target: Some(target),
-                        minify: if minify {
-                            Some(JsMinifyOptions {
-                                compress: BoolOrDataConfig::from_bool(true),
-                                mangle: BoolOrDataConfig::from_bool(true),
-                                format: Default::default(),
-                                ecma: Default::default(),
-                                keep_classnames: Default::default(),
-                                keep_fnames: Default::default(),
-                                module: Default::default(),
-                                safari10: Default::default(),
-                                toplevel: Default::default(),
-                                source_map: Default::default(),
-                                output_path: Default::default(),
-                                inline_sources_content: Default::default(),
-                                emit_source_map_columns: Default::default(),
-                            })
-                        } else {
-                            None
-                        },
-                        ..Default::default()
+    .map(|(((target, syntax), minify), source_map)| {
+        // Actual
+        Options {
+            config: Config {
+                jsc: JscConfig {
+                    syntax: Some(syntax),
+                    transform: None.into(),
+                    external_helpers: false.into(),
+                    target: Some(target),
+                    minify: if minify {
+                        Some(JsMinifyOptions {
+                            compress: BoolOrDataConfig::from_bool(true),
+                            mangle: BoolOrDataConfig::from_bool(true),
+                            format: Default::default(),
+                            ecma: Default::default(),
+                            keep_classnames: Default::default(),
+                            keep_fnames: Default::default(),
+                            module: Default::default(),
+                            safari10: Default::default(),
+                            toplevel: Default::default(),
+                            source_map: Default::default(),
+                            output_path: Default::default(),
+                            inline_sources_content: Default::default(),
+                            emit_source_map_columns: Default::default(),
+                        })
+                    } else {
+                        None
                     },
-                    module: Some(ModuleConfig::CommonJs(Default::default())),
-                    minify: minify.into(),
                     ..Default::default()
                 },
-                source_maps: if source_map {
-                    Some(SourceMapsConfig::Str("inline".into()))
-                } else {
-                    None
-                },
+                module: Some(ModuleConfig::CommonJs(Default::default())),
+                minify: minify.into(),
                 ..Default::default()
-            }
-        },
-    )
+            },
+            source_maps: if source_map {
+                Some(SourceMapsConfig::Str("inline".into()))
+            } else {
+                None
+            },
+            ..Default::default()
+        }
+    })
     .collect::<Vec<_>>()
 }
 

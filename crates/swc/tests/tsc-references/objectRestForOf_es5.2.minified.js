@@ -1,4 +1,5 @@
 import _object_spread from "@swc/helpers/lib/_object_spread.js";
+import _object_spread_props from "@swc/helpers/lib/_object_spread_props.js";
 import _object_without_properties from "@swc/helpers/lib/_object_without_properties.js";
 var _iteratorNormalCompletion = !0, _didIteratorError = !1, _iteratorError = void 0;
 try {
@@ -34,7 +35,7 @@ try {
 var _iteratorNormalCompletion2 = !0, _didIteratorError2 = !1, _iteratorError2 = void 0;
 try {
     for(var _step2, _iterator2 = array.map(function(a) {
-        return _object_spread({}, a, {
+        return _object_spread_props(_object_spread({}, a), {
             x: "a string"
         });
     })[Symbol.iterator](); !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = !0){
