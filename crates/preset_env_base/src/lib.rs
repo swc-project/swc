@@ -84,7 +84,12 @@ impl BrowserData<Option<Version>> {
                 .map(|(version, _)| version)
                 .unwrap_or(version)
                 .parse()
-                .unwrap();
+                .ok();
+
+            let version = match version {
+                Some(v) => v,
+                None => continue,
+            };
 
             // lowest version
             if data[&browser].map(|v| v > version).unwrap_or(true) {

@@ -12,6 +12,7 @@ use crate::{version::Version, BrowserData, Versions};
 
 #[derive(Debug, Clone, Deserialize, FromVariant)]
 #[serde(untagged)]
+#[allow(clippy::large_enum_variant)]
 pub enum Targets {
     Query(Query),
     EsModules(EsModules),
