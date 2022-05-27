@@ -110,7 +110,7 @@ impl Scope {
 
         if cfg!(debug_assertions) {
             for (k, _) in iter.clone().into_iter().flatten() {
-                assert!(to.contains_key(&k), "Duplicate entry?");
+                assert!(!to.contains_key(&k), "Duplicate entry?");
             }
         }
 
