@@ -1,0 +1,10 @@
+const b = 3;
+const c = 4;
+const d = "3";
+const e = "4";
+const f = {};
+const g = {};
+const h = true;
+const a = false;
+const i = null;
+console.log(b === c, d === e, f === g, h === a, a === i);
