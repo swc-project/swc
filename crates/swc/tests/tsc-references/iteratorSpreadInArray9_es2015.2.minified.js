@@ -1,11 +1,11 @@
-let _iterator = Symbol.iterator;
-new class {
+class SymbolIterator {
     next() {
         return {
             value: Symbol()
         };
     }
-    [_iterator]() {
+    [Symbol.iterator]() {
         return this;
     }
-};
+}
+new SymbolIterator;

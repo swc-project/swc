@@ -66,7 +66,7 @@ fn print_document(
 
         let fm_output = cm.load_file(&output).unwrap();
 
-        NormalizedOutput::from(html_str)
+        NormalizedOutput::new_raw(html_str)
             .compare_to_file(output)
             .unwrap();
 
@@ -80,8 +80,8 @@ fn print_document(
             error.to_diagnostics(&handler).emit();
         }
 
-        document.visit_mut_with(&mut NormalizeTest);
-        document_parsed_again.visit_mut_with(&mut NormalizeTest);
+        document.visit_mut_with(&mut DropSpan);
+        document_parsed_again.visit_mut_with(&mut DropSpan);
 
         assert_eq!(document, document_parsed_again);
 
@@ -145,7 +145,7 @@ fn print_document_fragment(
 
         let fm_output = cm.load_file(&output).unwrap();
 
-        NormalizedOutput::from(html_str)
+        NormalizedOutput::new_raw(html_str)
             .compare_to_file(output)
             .unwrap();
 
@@ -164,8 +164,8 @@ fn print_document_fragment(
             error.to_diagnostics(&handler).emit();
         }
 
-        document_fragment.visit_mut_with(&mut NormalizeTest);
-        document_fragment_parsed_again.visit_mut_with(&mut NormalizeTest);
+        document_fragment.visit_mut_with(&mut DropSpan);
+        document_fragment_parsed_again.visit_mut_with(&mut DropSpan);
 
         assert_eq!(document_fragment, document_fragment_parsed_again);
 
@@ -316,36 +316,6 @@ fn verify_document_fragment(
 struct DropSpan;
 
 impl VisitMut for DropSpan {
-    fn visit_mut_span(&mut self, n: &mut Span) {
-        *n = Default::default()
-    }
-}
-
-struct NormalizeTest;
-
-impl VisitMut for NormalizeTest {
-    fn visit_mut_document_fragment(&mut self, n: &mut DocumentFragment) {
-        n.visit_mut_children_with(self);
-
-        if let Some(Child::Text(_)) = n.children.last_mut() {
-            // Drop value from the last `Text` node because characters after `</body>`
-            // moved to body tag
-            n.children.remove(n.children.len() - 1);
-        }
-    }
-
-    fn visit_mut_element(&mut self, n: &mut Element) {
-        n.visit_mut_children_with(self);
-
-        if &*n.tag_name == "body" {
-            if let Some(Child::Text(text)) = n.children.last_mut() {
-                // Drop value from the last `Text` node because characters after `</body>`
-                // moved to body tag
-                text.value = "".into();
-            }
-        }
-    }
-
     fn visit_mut_span(&mut self, n: &mut Span) {
         *n = Default::default()
     }

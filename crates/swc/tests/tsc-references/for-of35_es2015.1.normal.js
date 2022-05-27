@@ -1,4 +1,3 @@
-let _iterator = Symbol.iterator;
 //@target: ES6
 //@noImplicitAny: true
 class StringIterator {
@@ -8,7 +7,7 @@ class StringIterator {
             value: v
         };
     }
-    [_iterator]() {
+    [Symbol.iterator]() {
         return this;
     }
 }

@@ -174,7 +174,7 @@ static SPACE_SEPARATED_ATTRIBUTES: &[&str] = &[
 
 struct Minifier {
     current_element_namespace: Option<Namespace>,
-    is_script_json_ld: bool,
+    is_script_with_json: bool,
 }
 
 impl Minifier {
@@ -324,17 +324,20 @@ impl Minifier {
 impl VisitMut for Minifier {
     fn visit_mut_element(&mut self, n: &mut Element) {
         let old_current_element_namespace = self.current_element_namespace.take();
-        let old_value_is_script_json_ld = self.is_script_json_ld;
+        let old_value_is_script_with_json = self.is_script_with_json;
 
         self.current_element_namespace = Some(n.namespace);
-        self.is_script_json_ld = n.namespace == Namespace::HTML
+        self.is_script_with_json = n.namespace == Namespace::HTML
             && &*n.tag_name == "script"
             && n.attributes.iter().any(|attribute| match &*attribute.name {
                 "type"
                     if attribute.value.is_some()
                         && matches!(
                             &**attribute.value.as_ref().unwrap(),
-                            "application/ld+json" | "importmap" | "speculationrules"
+                            "application/json"
+                                | "application/ld+json"
+                                | "importmap"
+                                | "speculationrules"
                         ) =>
                 {
                     true
@@ -345,7 +348,7 @@ impl VisitMut for Minifier {
         n.visit_mut_children_with(self);
 
         self.current_element_namespace = old_current_element_namespace;
-        self.is_script_json_ld = old_value_is_script_json_ld;
+        self.is_script_with_json = old_value_is_script_with_json;
 
         let allow_to_remove_spaces = &*n.tag_name == "head" && n.namespace == Namespace::HTML;
 
@@ -368,8 +371,6 @@ impl VisitMut for Minifier {
                 return true;
             }
 
-            let is_empty_value = (&*attribute.value.as_ref().unwrap()).trim().is_empty();
-
             if self.is_default_attribute_value(
                 n.namespace,
                 &n.tag_name,
@@ -386,12 +387,16 @@ impl VisitMut for Minifier {
                     }
                     _ => attribute.value.as_ref().unwrap(),
                 },
-            ) || (matches!(&*attribute.name, "id" | "class" | "style") && is_empty_value)
-            {
+            ) {
                 return false;
             }
 
-            if self.is_event_handler_attribute(&attribute.name) && is_empty_value {
+            let value = &*attribute.value.as_ref().unwrap();
+
+            if (matches!(&*attribute.name, "id") && value.is_empty())
+                || (matches!(&*attribute.name, "class" | "style") && value.trim().is_empty())
+                || self.is_event_handler_attribute(&attribute.name) && value.trim().is_empty()
+            {
                 return false;
             }
 
@@ -471,7 +476,7 @@ impl VisitMut for Minifier {
     fn visit_mut_text(&mut self, n: &mut Text) {
         n.visit_mut_children_with(self);
 
-        if self.is_script_json_ld {
+        if self.is_script_with_json {
             let json = match serde_json::from_str::<Value>(&*n.value) {
                 Ok(json) => json,
                 _ => return,
@@ -489,6 +494,6 @@ impl VisitMut for Minifier {
 pub fn minify(document: &mut Document) {
     document.visit_mut_with(&mut Minifier {
         current_element_namespace: None,
-        is_script_json_ld: false,
+        is_script_with_json: false,
     });
 }

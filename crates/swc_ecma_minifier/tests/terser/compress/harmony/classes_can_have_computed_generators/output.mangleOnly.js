@@ -1,0 +1,3 @@
+class a {
+    *["constructor"]() {}
+}

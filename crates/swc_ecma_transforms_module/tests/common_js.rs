@@ -5422,6 +5422,31 @@ exports.format = format = '123';
 "#
 );
 
+test!(
+    syntax(),
+    |_| tr(Config {
+        lazy: Lazy::Bool(true),
+        ..Default::default()
+    }),
+    issue_4799,
+    r#"
+    export { createP } from './St';  
+"#,
+    r#"
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    Object.defineProperty(exports, "createP", {
+        enumerable: true,
+        get: function() {
+            return _st.createP;
+        }
+    });
+    var _st = require("./St");
+"#
+);
+
 #[testing::fixture("tests/fixture/commonjs/**/input.js")]
 fn fixture(input: PathBuf) {
     let dir = input.parent().unwrap().to_path_buf();

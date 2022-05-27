@@ -4,7 +4,6 @@ var Foo = function Foo() {
     "use strict";
     _class_call_check(this, Foo);
 };
-var _iterator = Symbol.iterator;
 var FooIterator = /*#__PURE__*/ function() {
     "use strict";
     function FooIterator() {
@@ -17,14 +16,14 @@ var FooIterator = /*#__PURE__*/ function() {
             done: false
         };
     };
-    _proto[_iterator] = function() {
+    _proto[Symbol.iterator] = function() {
         return this;
     };
     return FooIterator;
 }();
 var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
 try {
-    for(var _iterator1 = (new FooIterator)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator1.next()).done); _iteratorNormalCompletion = true){
+    for(var _iterator = (new FooIterator)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
         var v = _step.value;
         var v1 = 0; // new scope
     }
@@ -33,8 +32,8 @@ try {
     _iteratorError = err;
 } finally{
     try {
-        if (!_iteratorNormalCompletion && _iterator1.return != null) {
-            _iterator1.return();
+        if (!_iteratorNormalCompletion && _iterator.return != null) {
+            _iterator.return();
         }
     } finally{
         if (_didIteratorError) {

@@ -1,4 +1,5 @@
 import _object_spread from "@swc/helpers/lib/_object_spread.js";
+import _object_spread_props from "@swc/helpers/lib/_object_spread_props.js";
 var unused1 = _object_spread({
     b: 1
 }, ab) // error
@@ -9,11 +10,11 @@ var unused3 = _object_spread({
     b: 1
 }, abq) // ok, abq might have b: undefined
 ;
-var unused4 = _object_spread({}, ab, {
+var unused4 = _object_spread_props(_object_spread({}, ab), {
     b: 1
 }) // ok, we don't care that b in ab is overwritten
 ;
-var unused5 = _object_spread({}, abq, {
+var unused5 = _object_spread_props(_object_spread({}, abq), {
     b: 1
 }) // ok
 ;
@@ -48,13 +49,13 @@ function j() {
     ;
 }
 function k(t) {
-    return _object_spread({
+    return _object_spread(_object_spread_props(_object_spread({
         command: "hi"
     }, {
         spoiler: true
-    }, {
+    }), {
         spoiler2: true
-    }, t) // error
+    }), t) // error
     ;
 }
 function l(anyrequired) {

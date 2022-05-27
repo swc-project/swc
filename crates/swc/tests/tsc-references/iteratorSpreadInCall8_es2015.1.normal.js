@@ -2,7 +2,6 @@
 class Foo {
     constructor(...s){}
 }
-let _iterator = Symbol.iterator;
 class SymbolIterator {
     next() {
         return {
@@ -10,11 +9,10 @@ class SymbolIterator {
             done: false
         };
     }
-    [_iterator]() {
+    [Symbol.iterator]() {
         return this;
     }
 }
-let _iterator1 = Symbol.iterator;
 class _StringIterator {
     next() {
         return {
@@ -22,7 +20,7 @@ class _StringIterator {
             done: false
         };
     }
-    [_iterator1]() {
+    [Symbol.iterator]() {
         return this;
     }
 }

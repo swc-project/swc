@@ -1,1 +1,3 @@
-foo;
+class C {
+    *[foo]() {}
+}

@@ -232,7 +232,8 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                     compat::es2018(compat::es2018::Config {
                         object_rest_spread: compat::es2018::object_rest_spread::Config {
                             no_symbol: assumptions.object_rest_no_symbols,
-                            set_property: assumptions.set_spread_properties
+                            set_property: assumptions.set_spread_properties,
+                            pure_getters: assumptions.pure_getters
                         }
                     }),
                     should_enable(self.target, EsVersion::Es2018)

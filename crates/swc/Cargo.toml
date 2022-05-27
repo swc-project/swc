@@ -9,7 +9,7 @@ include = ["Cargo.toml", "src/**/*.rs"]
 license = "Apache-2.0"
 name = "swc"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.181.2"
+version = "0.183.0"
 
 [lib]
 bench = false
@@ -52,16 +52,16 @@ swc_config = { version = "0.1.1", path = "../swc_config" }
 swc_ecma_ast = { version = "0.78.0", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "0.108.0", path = "../swc_ecma_codegen" }
 swc_ecma_ext_transforms = { version = "0.71.0", path = "../swc_ecma_ext_transforms" }
-swc_ecma_lints = { version = "0.41.0", path = "../swc_ecma_lints" }
+swc_ecma_lints = { version = "0.42.0", path = "../swc_ecma_lints" }
 swc_ecma_loader = { version = "0.30.0", path = "../swc_ecma_loader", features = [
   "cache",
   "node",
   "tsc",
 ] }
-swc_ecma_minifier = { version = "0.114.0", path = "../swc_ecma_minifier" }
+swc_ecma_minifier = { version = "0.116.0", path = "../swc_ecma_minifier" }
 swc_ecma_parser = { version = "0.104.0", path = "../swc_ecma_parser" }
-swc_ecma_preset_env = { version = "0.129.0", path = "../swc_ecma_preset_env" }
-swc_ecma_transforms = { version = "0.154.0", path = "../swc_ecma_transforms", features = [
+swc_ecma_preset_env = { version = "0.131.0", path = "../swc_ecma_preset_env" }
+swc_ecma_transforms = { version = "0.156.0", path = "../swc_ecma_transforms", features = [
   "compat",
   "module",
   "optimization",
@@ -69,12 +69,12 @@ swc_ecma_transforms = { version = "0.154.0", path = "../swc_ecma_transforms", fe
   "react",
   "typescript",
 ] }
-swc_ecma_transforms_base = { version = "0.85.0", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_compat = { version = "0.99.0", path = "../swc_ecma_transforms_compat" }
-swc_ecma_transforms_optimization = { version = "0.124.0", path = "../swc_ecma_transforms_optimization" }
+swc_ecma_transforms_base = { version = "0.86.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_compat = { version = "0.101.0", path = "../swc_ecma_transforms_compat" }
+swc_ecma_transforms_optimization = { version = "0.126.0", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_utils = { version = "0.85.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "0.64.0", path = "../swc_ecma_visit" }
-swc_ecmascript = { version = "0.157.0", path = "../swc_ecmascript" }
+swc_ecmascript = { version = "0.159.0", path = "../swc_ecmascript" }
 swc_error_reporters = { version = "0.2.0", path = "../swc_error_reporters" }
 swc_node_comments = { version = "0.5.0", path = "../swc_node_comments" }
 swc_plugin_proxy = { version = "0.3.0", path = "../swc_plugin_proxy", optional = true }
@@ -99,7 +99,7 @@ version = "2.0.0"
 ansi_term = "0.12"
 criterion = "0.3"
 rayon = "1.5.1"
-swc_ecma_lints = { version = "0.41.0", path = "../swc_ecma_lints", features = [
+swc_ecma_lints = { version = "0.42.0", path = "../swc_ecma_lints", features = [
   "non_critical_lints",
 ] }
 swc_ecma_testing = { version = "0.1.0", path = "../swc_ecma_testing" }

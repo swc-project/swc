@@ -4,7 +4,6 @@ import _create_class from "@swc/helpers/lib/_create_class.js";
 var s;
 var n;
 var a;
-var _s = s, _n = n, tmp = s + s, tmp1 = s + n, tmp2 = +s, _a = a, tmp3 = "hello ".concat(a, " bye");
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
@@ -12,21 +11,21 @@ var C = /*#__PURE__*/ function() {
     }
     _create_class(C, [
         {
-            key: _s,
+            key: s,
             get: function get() {
                 return 0;
             }
         },
         {
-            key: _n,
+            key: n,
             set: function set(v) {}
         },
         {
-            key: tmp1,
+            key: s + n,
             set: function set(v) {}
         },
         {
-            key: tmp2,
+            key: +s,
             get: function get() {
                 return 0;
             }
@@ -38,7 +37,7 @@ var C = /*#__PURE__*/ function() {
             }
         },
         {
-            key: _a,
+            key: a,
             set: function set(v) {}
         },
         {
@@ -46,14 +45,14 @@ var C = /*#__PURE__*/ function() {
             set: function set(v) {}
         },
         {
-            key: tmp3,
+            key: "hello ".concat(a, " bye"),
             get: function get() {
                 return 0;
             }
         }
     ], [
         {
-            key: tmp,
+            key: s + s,
             get: function get() {
                 return 0;
             }

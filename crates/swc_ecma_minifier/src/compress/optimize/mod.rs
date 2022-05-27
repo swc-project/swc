@@ -42,12 +42,12 @@ mod conditionals;
 mod dead_code;
 mod evaluate;
 mod fns;
-mod hoist_props;
 mod if_return;
 mod iife;
 mod inline;
 mod loops;
 mod ops;
+mod props;
 mod sequences;
 mod strings;
 mod switches;
@@ -1742,6 +1742,8 @@ where
 
         self.inline(e);
 
+        self.handle_property_access(e);
+
         if let Expr::Bin(bin) = e {
             let expr = self.optimize_lit_cmp(bin);
             if let Some(expr) = expr {
@@ -2037,8 +2039,6 @@ where
         self.negate_if_stmt(n);
 
         self.merge_nested_if(n);
-
-        self.merge_else_if(n);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]

@@ -1,14 +1,14 @@
 class Foo {
 }
-let _iterator = Symbol.iterator;
-for (const v of new class {
+class FooIterator {
     next() {
         return {
             value: new Foo,
             done: !1
         };
     }
-    [_iterator]() {
+    [Symbol.iterator]() {
         return this;
     }
-});
+}
+for (const v of new FooIterator);

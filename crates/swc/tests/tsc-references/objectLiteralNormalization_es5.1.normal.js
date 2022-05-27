@@ -1,4 +1,5 @@
 import _object_spread from "@swc/helpers/lib/_object_spread.js";
+import _object_spread_props from "@swc/helpers/lib/_object_spread_props.js";
 // @strict: true
 // @declaration: true
 // Object literals in unions are normalized upon widening
@@ -59,7 +60,7 @@ a2 = {
 a2 = {
     a: 1
 }; // Error
-var b2 = _object_spread({}, b1, {
+var b2 = _object_spread_props(_object_spread({}, b1), {
     z: 55
 });
 var b3 = _object_spread({}, b2);

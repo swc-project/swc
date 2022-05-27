@@ -390,7 +390,7 @@ jobs:
             .swc-exec-cache
           key: swc-exec-cache-${{ runner.os }}-${{ matrix.settings.crate }}-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: |
-            swc-exec-cache-${{ runner.os }}-${{ matrix.settings.crate }}
+            swc-exec-cache-${{ matrix.settings.crate }}-${{ runner.os }}
 
       - name: Run cargo test
         run: |

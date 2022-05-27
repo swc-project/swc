@@ -1,0 +1,9 @@
+foo() in foo();
+foo() instanceof bar();
+foo() < "bar";
+bar() > foo();
+bar() != bar();
+bar() !== "bar";
+"bar" == foo();
+"bar" === bar();
+"bar" >= "bar";

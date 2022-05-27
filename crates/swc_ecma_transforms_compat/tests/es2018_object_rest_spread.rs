@@ -1155,12 +1155,12 @@ test!(
 ({ ...{ get foo () { return 'foo' } } });
 "#,
     r#"
-_objectSpread({
-  x
-}, y, {
-  a
-}, b, {
-  c
+_objectSpreadProps(_objectSpread(_objectSpreadProps(_objectSpread({
+    x
+}, y), {
+    a
+}), b), {
+    c
 });
 
 _objectSpread({}, Object.prototype);
@@ -1173,7 +1173,6 @@ _objectSpread({}, {
   get foo() {
     return 'foo';
   }
-
 });
 "#
 );
@@ -2751,7 +2750,8 @@ test!(
     syntax(),
     |_| tr(Config {
         no_symbol: true,
-        set_property: true
+        set_property: true,
+        pure_getters: true
     }),
     no_symbol_rest_assignment_expression,
     r#"({ a, b, ...c } = obj);"#,
@@ -2768,7 +2768,8 @@ test!(
     syntax(),
     |_| tr(Config {
         no_symbol: true,
-        set_property: true
+        set_property: true,
+        pure_getters: true
     }),
     no_symbol_computed,
     r#"let { [a]: b, ...c } = obj;"#,
@@ -2785,7 +2786,8 @@ test_exec!(
     syntax(),
     |_| tr(Config {
         no_symbol: true,
-        set_property: true
+        set_property: true,
+        pure_getters: true
     }),
     set_property_ignore_symbol_exec,
     r#"
@@ -2803,7 +2805,8 @@ test!(
     syntax(),
     |_| tr(Config {
         no_symbol: true,
-        set_property: true
+        set_property: true,
+        pure_getters: true
     }),
     no_symbol_rest_nested,
     r#"let { a, nested: { b, c, ...d }, e } = obj;"#,
@@ -2824,7 +2827,8 @@ test!(
     syntax(),
     |_| tr(Config {
         no_symbol: true,
-        set_property: true
+        set_property: true,
+        pure_getters: true
     }),
     no_symbol_var_declaration,
     r#"var { a, b, ...c } = obj;"#,
@@ -2841,7 +2845,8 @@ test!(
     syntax(),
     |_| tr(Config {
         no_symbol: true,
-        set_property: true
+        set_property: true,
+        pure_getters: true
     }),
     set_property_assignment,
     r#"
@@ -2871,7 +2876,8 @@ test!(
     syntax(),
     |_| tr(Config {
         no_symbol: true,
-        set_property: true
+        set_property: true,
+        pure_getters: true
     }),
     set_property_expression,
     r#"
@@ -2923,7 +2929,8 @@ test_exec!(
     syntax(),
     |_| tr(Config {
         no_symbol: true,
-        set_property: true
+        set_property: true,
+        pure_getters: true
     }),
     set_property_expression_exec,
     r#"
@@ -2943,7 +2950,8 @@ test_exec!(
     syntax(),
     |_| tr(Config {
         no_symbol: true,
-        set_property: true
+        set_property: true,
+        pure_getters: true
     }),
     set_property_no_get_own_property_exec,
     r#"
@@ -2962,7 +2970,8 @@ test_exec!(
     syntax(),
     |_| tr(Config {
         no_symbol: true,
-        set_property: true
+        set_property: true,
+        pure_getters: true
     }),
     set_property_no_object_assign_exec,
     r#"
@@ -3016,7 +3025,8 @@ test!(
     syntax(),
     |_| tr(Config {
         no_symbol: true,
-        set_property: true
+        set_property: true,
+        pure_getters: true
     }),
     statements_for_of_dstr_obj_rest_to_property,
     r#"
@@ -3052,7 +3062,8 @@ test_exec!(
     syntax(),
     |_| tr(Config {
         no_symbol: true,
-        set_property: true
+        set_property: true,
+        pure_getters: true
     }),
     statements_for_of_dstr_obj_rest_to_property_exec,
     r#"
@@ -3068,5 +3079,25 @@ test_exec!(
     }
 
     expect(counter).toEqual(1);
+"#
+);
+
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_4631,
+    r#"
+let counter = 0
+const b = {}
+const a = {
+	...b,
+	get c() {
+		counter ++
+	}
+}
+
+expect(counter).toEqual(0);
+a.c;a.c;
+expect(counter).toEqual(2);
 "#
 );

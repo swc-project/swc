@@ -1,4 +1,5 @@
 import _object_spread from "@swc/helpers/lib/_object_spread.js";
+import _object_spread_props from "@swc/helpers/lib/_object_spread_props.js";
 import _object_without_properties from "@swc/helpers/lib/_object_without_properties.js";
 import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";
 import { createElement as _createElement } from "react";
@@ -42,9 +43,9 @@ export default function Home() {
                         var href = _param.href, linkProps = _object_without_properties(_param, [
                             "href"
                         ]);
-                        return _createElement("link", _object_spread({
+                        return _createElement("link", _object_spread_props(_object_spread({
                             href: href
-                        }, linkProps, {
+                        }, linkProps), {
                             rel: "icon",
                             key: href,
                             __source: {

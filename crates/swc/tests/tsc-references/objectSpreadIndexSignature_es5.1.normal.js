@@ -1,5 +1,6 @@
 import _object_spread from "@swc/helpers/lib/_object_spread.js";
-var i = _object_spread({}, indexed1, {
+import _object_spread_props from "@swc/helpers/lib/_object_spread_props.js";
+var i = _object_spread_props(_object_spread({}, indexed1), {
     b: 11
 });
 // only indexed has indexer, so i[101]: any
