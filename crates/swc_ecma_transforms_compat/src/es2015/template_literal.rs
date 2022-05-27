@@ -4,8 +4,7 @@ use serde::Deserialize;
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, BytePos, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{helper, perf::Parallel};
-use swc_ecma_transforms_macros::parallel;
+use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
     is_literal, prepend_stmts, private_ident, quote_ident, undefined, ExprFactory, StmtLike,
 };
@@ -35,18 +34,7 @@ pub struct Config {
     pub mutable_template: bool,
 }
 
-impl Parallel for TemplateLiteral {
-    fn create(&self) -> Self {
-        Self::default()
-    }
-
-    fn merge(&mut self, other: Self) {
-        self.added.extend(other.added);
-    }
-}
-
 #[swc_trace]
-#[parallel]
 impl VisitMut for TemplateLiteral {
     noop_visit_mut_type!();
 

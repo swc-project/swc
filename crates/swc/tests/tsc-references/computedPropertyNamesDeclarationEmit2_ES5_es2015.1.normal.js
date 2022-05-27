@@ -1,10 +1,9 @@
-let tmp = "" + "", tmp1 = "" + "", tmp2 = "" + "";
 // @target: es5
 // @declaration: true
 class C {
-    static [tmp]() {}
-    static get [tmp1]() {
+    static ["" + ""]() {}
+    static get ["" + ""]() {
         return 0;
     }
-    static set [tmp2](x) {}
+    static set ["" + ""](x) {}
 }

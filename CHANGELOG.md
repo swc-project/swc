@@ -29,6 +29,9 @@
 
 
 
+- **(es/compat)** Don't create vars for computed class methods if possible (#4805) ([dc911dc](https://github.com/swc-project/swc/commit/dc911dcae630dd1afe9add7c2b2bafcb77705ea7))
+
+
 - **(html/codegen)** Omit start and end tags if it is possible (#4780) ([c6ec9f9](https://github.com/swc-project/swc/commit/c6ec9f9cf20e149ce9cb8364403a031e3547741c))
 
 ### Performance
@@ -39,6 +42,12 @@
 
 
 - **(html/parser)** Improve lexer (#4802) ([f71ef61](https://github.com/swc-project/swc/commit/f71ef61cb7056e602a9ae94f20d0757e795eff18))
+
+### Refactor
+
+
+
+- **(es/transforms)** Remove `concurrent` (#4808) ([a487fc1](https://github.com/swc-project/swc/commit/a487fc1d2827b5922eed0a03227da3e7a1371502))
 
 ## [1.2.194] - 2022-05-25
 

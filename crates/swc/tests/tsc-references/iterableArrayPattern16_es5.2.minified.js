@@ -19,7 +19,7 @@ var Bar = function() {
         return _class_call_check(this, Foo), _super.apply(this, arguments);
     }
     return Foo;
-}(Bar), _iterator = Symbol.iterator, FooIterator = function() {
+}(Bar), FooIterator = function() {
     "use strict";
     function FooIterator() {
         _class_call_check(this, FooIterator);
@@ -30,10 +30,10 @@ var Bar = function() {
             value: new Foo,
             done: !1
         };
-    }, _proto[_iterator] = function() {
+    }, _proto[Symbol.iterator] = function() {
         return this;
     }, FooIterator;
-}(), _iterator1 = Symbol.iterator, FooIteratorIterator = function() {
+}(), FooIteratorIterator = function() {
     "use strict";
     function FooIteratorIterator() {
         _class_call_check(this, FooIteratorIterator);
@@ -44,7 +44,7 @@ var Bar = function() {
             value: new FooIterator,
             done: !1
         };
-    }, _proto[_iterator1] = function() {
+    }, _proto[Symbol.iterator] = function() {
         return this;
     }, FooIteratorIterator;
 }();
