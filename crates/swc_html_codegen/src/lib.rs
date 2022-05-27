@@ -437,6 +437,7 @@ where
                                     | "p"
                                     | "pre"
                                     | "section"
+                                    | "table"
                                     | "ul"
                             ) =>
                         {
@@ -450,15 +451,7 @@ where
                             }) if is_html_tag_name(*namespace, &**tag_name)
                                 && !matches!(
                                     &**tag_name,
-                                    "a" | "audio"
-                                        | "del"
-                                        | "ins"
-                                        | "map"
-                                        | "noscript"
-                                        | "video"
-                                        | "i"
-                                        | "b"
-                                        | "u"
+                                    "a" | "audio" | "del" | "ins" | "map" | "noscript" | "video"
                                 ) =>
                             {
                                 true

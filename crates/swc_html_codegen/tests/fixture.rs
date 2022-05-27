@@ -435,17 +435,30 @@ fn parser_recovery_verify(input: PathBuf) {
     );
 }
 
+// Non conforming document (i.e. broken HTML)
+
 // TODO - investigate, exclude some when we implement `raw`, `context_element`
 #[testing::fixture(
     "../swc_html_parser/tests/html5lib-tests-fixture/**/*.html",
     exclude(
+        "adoption01_dat/5.html",
+        "adoption01_dat/6.html",
+        "adoption01_dat/7.html",
+        "adoption01_dat/8.html",
+        "adoption02_dat/0.html",
         "tests1_dat/30.html",
+        "tests1_dat/68.html",
+        "tests1_dat/69.html",
+        "tests1_dat/70.html",
+        "tests1_dat/71.html",
         "tests1_dat/77.html",
         "tests1_dat/90.html",
         "tests1_dat/103.html",
         "tests2_dat/12.html",
         "tests4_dat/3.fragment.style.html",
         "tests4_dat/4.fragment.plaintext.html",
+        "tests15_dat/0.html",
+        "tests15_dat/1.html",
         "tests16_dat/31.html",
         "tests16_dat/32.html",
         "tests16_dat/33.html",
@@ -484,6 +497,7 @@ fn parser_recovery_verify(input: PathBuf) {
         "tests19_dat/103.html",
         "tests20_dat/41.html",
         "tests26_dat/2.html",
+        "tricky01_dat/6.html",
         "plain-text-unsafe_dat/0.html",
         "template_dat/68.html",
         "template_dat/107.html",
