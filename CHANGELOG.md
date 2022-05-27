@@ -58,6 +58,9 @@
 
 - **(html/parser)** Improve lexer (#4802) ([f71ef61](https://github.com/swc-project/swc/commit/f71ef61cb7056e602a9ae94f20d0757e795eff18))
 
+
+- **(html/parser)** Improve lexer performance even more (#4819) ([759688c](https://github.com/swc-project/swc/commit/759688c412f05032d79d3cdab42f65c83c57c005))
+
 ### Refactor
 
 
