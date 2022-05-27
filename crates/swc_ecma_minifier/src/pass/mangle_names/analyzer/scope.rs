@@ -1,3 +1,6 @@
+use std::collections::HashMap;
+
+use rayon::prelude::*;
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashMap, util::take::Take};
@@ -66,6 +69,7 @@ impl Scope {
     pub(super) fn rename(
         &mut self,
         to: &mut AHashMap<Id, JsWord>,
+        previous: &AHashMap<Id, JsWord>,
         reverse: &FxHashMap<JsWord, Vec<Id>>,
         preserved: &FxHashSet<Id>,
         preserved_symbols: &FxHashSet<JsWord>,
@@ -75,17 +79,39 @@ impl Scope {
 
         let mut cloned_reverse = reverse.clone();
 
-        self.rename_one_scope(to, &mut cloned_reverse, queue, preserved, preserved_symbols);
+        self.rename_one_scope(
+            to,
+            previous,
+            &mut cloned_reverse,
+            queue,
+            preserved,
+            preserved_symbols,
+        );
 
-        for child in self.children.iter_mut() {
-            child.rename(to, &cloned_reverse, preserved, preserved_symbols);
-        }
+        let iter = self
+            .children
+            .par_iter_mut()
+            .map(|child| {
+                let mut new_map = HashMap::default();
+                child.rename(
+                    &mut new_map,
+                    to,
+                    &cloned_reverse,
+                    preserved,
+                    preserved_symbols,
+                );
+                new_map
+            })
+            .collect::<Vec<_>>();
+
+        to.extend(iter.into_iter().flatten());
     }
 
     #[inline(never)]
     fn rename_one_scope(
         &self,
         to: &mut AHashMap<Id, JsWord>,
+        previous: &AHashMap<Id, JsWord>,
         cloned_reverse: &mut FxHashMap<JsWord, Vec<Id>>,
         queue: Vec<(Id, u32)>,
         preserved: &FxHashSet<Id>,
@@ -94,7 +120,11 @@ impl Scope {
         let mut n = 0;
 
         for (id, cnt) in queue {
-            if cnt == 0 || preserved.contains(&id) || to.get(&id).is_some() {
+            if cnt == 0
+                || preserved.contains(&id)
+                || to.get(&id).is_some()
+                || previous.get(&id).is_some()
+            {
                 continue;
             }
 
