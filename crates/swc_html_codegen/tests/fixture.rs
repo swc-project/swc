@@ -321,41 +321,6 @@ impl VisitMut for DropSpan {
     }
 }
 
-struct NormalizeTest;
-
-impl VisitMut for NormalizeTest {
-    fn visit_mut_document_fragment(&mut self, n: &mut DocumentFragment) {
-        n.visit_mut_children_with(self);
-
-        if let Some(Child::Text(_)) = n.children.last_mut() {
-            // Drop value from the last `Text` node because characters after `</body>`
-            // moved to body tag
-            n.children.remove(n.children.len() - 1);
-        }
-    }
-
-    fn visit_mut_element(&mut self, n: &mut Element) {
-        n.visit_mut_children_with(self);
-
-        if &*n.tag_name == "body" {
-            if let Some(Child::Text(text)) = n.children.last_mut() {
-                // Drop value from the last `Text` node because characters after `</body>`
-                // moved to body tag
-                text.value = "".into();
-            } else {
-                n.children.push(Child::Text(Text {
-                    span: Default::default(),
-                    value: "".into(),
-                }))
-            }
-        }
-    }
-
-    fn visit_mut_span(&mut self, n: &mut Span) {
-        *n = Default::default()
-    }
-}
-
 #[testing::fixture("tests/fixture/**/input.html")]
 fn test_document(input: PathBuf) {
     print_document(
