@@ -655,11 +655,9 @@ where
 
                 attribute.push_str(&minifier);
             } else {
-                let quote = if value.contains('"') { '\'' } else { '"' };
+                let normalized = normalize_attribute_value(value);
 
-                attribute.push(quote);
-                attribute.push_str(value);
-                attribute.push(quote);
+                attribute.push_str(&normalized);
             }
         }
 
@@ -671,26 +669,16 @@ where
         if self.ctx.skip_escape_text {
             write_str!(self, n.span, &n.value);
         } else {
-            let mut data = String::new();
+            let mut data = String::with_capacity(n.value.len());
 
             if self.ctx.need_extra_newline_in_text && n.value.contains('\n') {
                 data.push('\n');
             }
 
-            for c in n.value.chars() {
-                match c {
-                    '&' => {
-                        data.push_str(&String::from("&amp;"));
-                    }
-                    '<' => {
-                        data.push_str(&String::from("&lt;"));
-                    }
-                    '>' => {
-                        data.push_str(&String::from("&gt;"));
-                    }
-                    '\u{00A0}' => data.push_str(&String::from("&nbsp;")),
-                    _ => data.push(c),
-                }
+            if self.config.minify {
+                data.push_str(&minify_text(&n.value));
+            } else {
+                data.push_str(&escape_string(&n.value, false));
             }
 
             write_str!(self, n.span, &data);
@@ -699,7 +687,7 @@ where
 
     #[emitter]
     fn emit_comment(&mut self, n: &Comment) -> Result {
-        let mut comment = String::new();
+        let mut comment = String::with_capacity(n.data.len() + 7);
 
         comment.push_str("<!--");
         comment.push_str(&n.data);
@@ -1023,7 +1011,7 @@ fn minify_attribute_value(value: &str) -> String {
         return "\"\"".to_string();
     }
 
-    let mut minified = String::new();
+    let mut minified = String::with_capacity(value.len());
 
     let mut unquoted = true;
     let mut dq = 0;
@@ -1031,6 +1019,11 @@ fn minify_attribute_value(value: &str) -> String {
 
     for c in value.chars() {
         match c {
+            '&' => {
+                minified.push_str("&amp;");
+
+                continue;
+            }
             c if c.is_ascii_whitespace() => {
                 unquoted = false;
             }
@@ -1061,6 +1054,75 @@ fn minify_attribute_value(value: &str) -> String {
     } else {
         format!("\"{}\"", minified)
     }
+}
+
+fn normalize_attribute_value(value: &str) -> String {
+    if value.is_empty() {
+        return "\"\"".to_string();
+    }
+
+    let mut normalized = String::with_capacity(value.len() + 2);
+
+    normalized.push('"');
+    normalized.push_str(&escape_string(value, true));
+    normalized.push('"');
+
+    normalized
+}
+
+fn minify_text(value: &str) -> String {
+    let mut result = String::with_capacity(value.len());
+
+    for c in value.chars() {
+        match c {
+            '&' => {
+                result.push_str("&amp;");
+            }
+            '<' => {
+                result.push_str("&lt;");
+            }
+            _ => result.push(c),
+        }
+    }
+
+    result
+}
+
+// Escaping a string (for the purposes of the algorithm above) consists of
+// running the following steps:
+//
+// 1. Replace any occurrence of the "&" character by the string "&amp;".
+//
+// 2. Replace any occurrences of the U+00A0 NO-BREAK SPACE character by the
+// string "&nbsp;".
+//
+// 3. If the algorithm was invoked in the attribute mode, replace any
+// occurrences of the """ character by the string "&quot;".
+//
+// 4. If the algorithm was not invoked in the attribute mode, replace any
+// occurrences of the "<" character by the string "&lt;", and any occurrences of
+// the ">" character by the string "&gt;".
+fn escape_string(value: &str, is_attribute_mode: bool) -> String {
+    let mut result = String::with_capacity(value.len());
+
+    for c in value.chars() {
+        match c {
+            '&' => {
+                result.push_str("&amp;");
+            }
+            '\u{00A0}' => result.push_str("&nbsp;"),
+            '"' if is_attribute_mode => result.push_str("&quot;"),
+            '<' if !is_attribute_mode => {
+                result.push_str("&lt;");
+            }
+            '>' if !is_attribute_mode => {
+                result.push_str("&gt;");
+            }
+            _ => result.push(c),
+        }
+    }
+
+    result
 }
 
 fn is_html_tag_name(namespace: Namespace, tag_name: &str) -> bool {
