@@ -3,6 +3,7 @@ use std::{
     mem,
 };
 
+use is_macro::Is;
 use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
@@ -21,7 +22,7 @@ pub struct TokenAndSpan {
     pub token: Token,
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash, Serialize, Deserialize, EqIgnoreSpan)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash, Serialize, Deserialize, Is, EqIgnoreSpan)]
 pub enum NumberType {
     #[serde(rename = "integer")]
     Integer,

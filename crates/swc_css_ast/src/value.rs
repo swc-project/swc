@@ -81,7 +81,7 @@ impl EqIgnoreSpan for Str {
     }
 }
 
-#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
+#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, Is, EqIgnoreSpan)]
 pub enum DelimiterValue {
     /// `,`
     Comma,
@@ -311,7 +311,7 @@ pub struct Ratio {
     pub right: Option<Number>,
 }
 
-#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
+#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, Is, EqIgnoreSpan)]
 pub enum BinOp {
     /// `+`
     Add,
@@ -399,7 +399,7 @@ pub struct CalcOperator {
     pub value: CalcOperatorType,
 }
 
-#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
+#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, Is, EqIgnoreSpan)]
 pub enum CalcOperatorType {
     /// `+`
     Add,
