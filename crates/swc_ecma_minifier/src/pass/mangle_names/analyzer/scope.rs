@@ -6,7 +6,7 @@ use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashMap, util::take::Take};
 use swc_ecma_ast::Id;
-use tracing::{debug, error};
+use tracing::debug;
 
 use crate::util::base54;
 
@@ -108,15 +108,9 @@ impl Scope {
             })
             .collect::<Vec<_>>();
 
-        if cfg!(debug_assertions) {
-            for (k, v) in iter.clone().into_iter().flatten() {
-                if to.contains_key(&k) {
-                    error!("Duplicate entry?: {}{:?} => {}", k.0, k.1, v);
-                }
-            }
+        for (k, v) in iter.into_iter().flatten() {
+            to.entry(k).or_insert(v);
         }
-
-        to.extend(iter.into_iter().flatten());
     }
 
     #[inline(never)]
