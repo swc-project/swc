@@ -453,8 +453,6 @@ fn parser_recovery_verify(input: PathBuf) {
         "tests7_dat/1.html", // Bug
         "tests15_dat/0.html", // Bug
         "tests15_dat/1.html", // Bug
-        "tests15_dat/4.html", // Bug
-        "tests15_dat/5.html", // Bug
         "tests16_dat/31.html",
         "tests16_dat/32.html",
         "tests16_dat/33.html",

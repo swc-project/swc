@@ -228,6 +228,7 @@ where
                                         | "bgsound"
                                         | "basefont"
                                         | "base"
+                                        | "title"
                                 ) =>
                             {
                                 false
