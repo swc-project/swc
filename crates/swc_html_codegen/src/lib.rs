@@ -404,7 +404,13 @@ where
                             }) if is_html_tag_name(*namespace, &**tag_name)
                                 && !matches!(
                                     &**tag_name,
-                                    "a" | "audio" | "del" | "ins" | "map" | "noscript" | "video"
+                                    "a" | "audio"
+                                        | "del"
+                                        | "ins"
+                                        | "map"
+                                        | "noscript"
+                                        | "video"
+                                        | "i"
                                 ) =>
                             {
                                 true
