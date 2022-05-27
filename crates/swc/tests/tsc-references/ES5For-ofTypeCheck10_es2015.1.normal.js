@@ -1,4 +1,3 @@
-let _iterator = Symbol.iterator;
 //@target: ES5
 // In ES3/5, you cannot for...of over an arbitrary iterable.
 class StringIterator {
@@ -8,7 +7,7 @@ class StringIterator {
             value: ""
         };
     }
-    [_iterator]() {
+    [Symbol.iterator]() {
         return this;
     }
 }

@@ -1,5 +1,5 @@
 import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-var tmp = this.bar(), C = function() {
+var C = function() {
     "use strict";
     function C() {
         _class_call_check(this, C);
@@ -7,5 +7,5 @@ var tmp = this.bar(), C = function() {
     var _proto = C.prototype;
     return _proto.bar = function() {
         return 0;
-    }, _proto[tmp] = function() {}, C;
+    }, _proto[this.bar()] = function() {}, C;
 }();

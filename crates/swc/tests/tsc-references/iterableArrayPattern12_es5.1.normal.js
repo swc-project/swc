@@ -17,7 +17,6 @@ var Foo = /*#__PURE__*/ function(Bar) {
     }
     return Foo;
 }(Bar);
-var _iterator = Symbol.iterator;
 var FooIterator = /*#__PURE__*/ function() {
     "use strict";
     function FooIterator() {
@@ -30,7 +29,7 @@ var FooIterator = /*#__PURE__*/ function() {
             done: false
         };
     };
-    _proto[_iterator] = function() {
+    _proto[Symbol.iterator] = function() {
         return this;
     };
     return FooIterator;

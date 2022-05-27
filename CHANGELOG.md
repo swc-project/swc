@@ -5,6 +5,9 @@
 
 
 
+- **(es/codegen)** Handle comments in binary expressions (#4817) ([1db71cc](https://github.com/swc-project/swc/commit/1db71cc3b3b230c09e1661093385f8f39915292c))
+
+
 - **(es/compat)** Use define for non-spread props (#4754) ([573bcb5](https://github.com/swc-project/swc/commit/573bcb5b492da2b27a79876c337aa0268beb706d))
 
 
@@ -20,22 +23,55 @@
 - **(es/modules)** Fix lazy option of common js (#4807) ([f4c6a20](https://github.com/swc-project/swc/commit/f4c6a20654ac172ce84e7fc0e0c5d7c98acbc535))
 
 
+- **(html/codegen)** Handle HTML entities correctly (#4782) ([d833057](https://github.com/swc-project/swc/commit/d833057d7917a376a020fd1ac3d3869b1dce1db7))
+
+
 - **(html/minifier)** Avoid removing id with spaces (#4786) ([c35cb59](https://github.com/swc-project/swc/commit/c35cb598f7a95795ea9d11ab7510f540a17d0639))
+
+
+- **(preset-env)** Ignore unknown versions (#4809) ([78d4c2c](https://github.com/swc-project/swc/commit/78d4c2c46a767bd2409a2053c9d1f01f2d34c3f4))
 
 ### Features
 
 
 
+- **(css/ast)** Add missing `Is` derive (#4810) ([29884b0](https://github.com/swc-project/swc/commit/29884b0caf02d0daea73eeff47b2e6cf93ec3acd))
+
+
+- **(es/compat)** Don't create vars for computed class methods if possible (#4805) ([dc911dc](https://github.com/swc-project/swc/commit/dc911dcae630dd1afe9add7c2b2bafcb77705ea7))
+
+
 - **(html/codegen)** Omit start and end tags if it is possible (#4780) ([c6ec9f9](https://github.com/swc-project/swc/commit/c6ec9f9cf20e149ce9cb8364403a031e3547741c))
+
+
+- **(html/minifier)** Compress more json types (#4813) ([731c59e](https://github.com/swc-project/swc/commit/731c59e9b7df7edd300871db8657e0d49b6b9a80))
 
 ### Performance
 
+
+
+- **(es/minifier)** Make more passes parallel (#4821) ([4b27df9](https://github.com/swc-project/swc/commit/4b27df9f123262161e06f242a4d5098364a9844f))
 
 
 - **(html/parser)** Improve lexer (#4796) ([8894e77](https://github.com/swc-project/swc/commit/8894e77bc15d63080c5d91048734b33a8f299369))
 
 
 - **(html/parser)** Improve lexer (#4802) ([f71ef61](https://github.com/swc-project/swc/commit/f71ef61cb7056e602a9ae94f20d0757e795eff18))
+
+### Refactor
+
+
+
+- **(es/transforms)** Remove `concurrent` (#4808) ([a487fc1](https://github.com/swc-project/swc/commit/a487fc1d2827b5922eed0a03227da3e7a1371502))
+
+### Testing
+
+
+
+- **(es/minifier)** Add snapshots for the mangler (#4823) ([7f69b9c](https://github.com/swc-project/swc/commit/7f69b9c80f44195164db9a4641642582e5d23979))
+
+
+- **(html/codegen)** Avoid newline at the end of file (#4815) ([a6beda8](https://github.com/swc-project/swc/commit/a6beda81ca9812d95c4ac21b8ff67e672d10f57a))
 
 ## [1.2.194] - 2022-05-25
 

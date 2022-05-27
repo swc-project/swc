@@ -1,6 +1,5 @@
 //@target: ES6
 function foo(s1, ...s) {}
-let _iterator = Symbol.iterator;
 class SymbolIterator {
     next() {
         return {
@@ -8,7 +7,7 @@ class SymbolIterator {
             done: false
         };
     }
-    [_iterator]() {
+    [Symbol.iterator]() {
         return this;
     }
 }

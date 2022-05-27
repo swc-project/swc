@@ -1,0 +1,13 @@
+var a = 5 ** NaN;
+var b = 42 ** +0;
+var c = 42 ** -0;
+var d = NaN ** 1;
+var e = 2 ** Infinity;
+var f = 2 ** -Infinity;
+var g = (-7) ** 0.5;
+var h = 2324334 ** 34343443;
+var i = (-2324334) ** 34343443;
+var j = 2 ** -3;
+var k = 2 ** -3;
+var l = 2 ** (5 - 7);
+var m = 3 ** -10;

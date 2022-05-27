@@ -1,0 +1,2 @@
+function a() {}
+a`test`;

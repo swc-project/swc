@@ -1,3 +1,4 @@
-(new class {
+class C {
     [Symbol.iterator]() {}
-})[Symbol.iterator];
+}
+(new C)[Symbol.iterator];

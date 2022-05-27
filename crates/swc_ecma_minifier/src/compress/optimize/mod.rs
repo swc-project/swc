@@ -2039,8 +2039,6 @@ where
         self.negate_if_stmt(n);
 
         self.merge_nested_if(n);
-
-        self.merge_else_if(n);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]

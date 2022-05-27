@@ -216,7 +216,6 @@ export/name_cache_mangle_export_default_class/input.js
 export/name_cache_mangle_export_default_function/input.js
 export/name_cache_mangle_local_import_and_export_aliases/input.js
 functions/duplicate_arg_var/input.js
-functions/empty_body/input.js
 functions/hoist_funs/input.js
 functions/hoist_funs_strict/input.js
 functions/inline_1/input.js

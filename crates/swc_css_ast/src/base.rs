@@ -158,7 +158,7 @@ pub struct Declaration {
 }
 
 #[ast_node]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum DeclarationName {
     #[tag("Ident")]
     Ident(Ident),
