@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 
+#[allow(unused)]
 use rayon::prelude::*;
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{js_word, JsWord};
@@ -88,9 +89,12 @@ impl Scope {
             preserved_symbols,
         );
 
-        let iter = self
-            .children
-            .par_iter_mut()
+        #[cfg(not(target_arch = "wasm32"))]
+        let iter = self.children.par_iter_mut();
+        #[cfg(target_arch = "wasm32")]
+        let iter = self.children.iter_mut();
+
+        let iter = iter
             .map(|child| {
                 let mut new_map = HashMap::default();
                 child.rename(
