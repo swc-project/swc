@@ -108,6 +108,12 @@ impl Scope {
             })
             .collect::<Vec<_>>();
 
+        if cfg!(debug_assertions) {
+            for (k, _) in iter.clone().into_iter().flatten() {
+                assert!(to.contains_key(&k), "Duplicate entry?");
+            }
+        }
+
         to.extend(iter.into_iter().flatten());
     }
 
