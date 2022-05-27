@@ -3313,7 +3313,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.108.5"
+version = "0.108.6"
 dependencies = [
  "bitflags",
  "criterion",
