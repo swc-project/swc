@@ -1,6 +1,5 @@
 import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
-var _iterator = Symbol.iterator;
 //@target: ES6
 var SymbolIterator = /*#__PURE__*/ function() {
     "use strict";
@@ -13,7 +12,7 @@ var SymbolIterator = /*#__PURE__*/ function() {
             value: Symbol()
         };
     };
-    _proto[_iterator] = function() {
+    _proto[Symbol.iterator] = function() {
         return this;
     };
     return SymbolIterator;

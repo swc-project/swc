@@ -1,2 +1,6 @@
 var M;
-M || (M = {}), Symbol.iterator;
+!function(M) {
+    class C {
+        [Symbol.iterator]() {}
+    }
+}(M || (M = {}));

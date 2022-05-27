@@ -1,8 +1,7 @@
 // @target: es6
 var b;
-let _b = b, _undefined = undefined;
 class C {
-    get [_b]() {
+    get [b]() {
         return 0;
     }
     static set [true](v) {}
@@ -10,7 +9,7 @@ class C {
         return 0;
     }
     set [{}](v) {}
-    static get [_undefined]() {
+    static get [undefined]() {
         return 0;
     }
     set [null](v) {}
