@@ -3414,7 +3414,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.116.0"
+version = "0.116.1"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3971,7 +3971,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.7.1"
+version = "0.7.2"
 dependencies = [
  "serde_json",
  "swc_atoms",
