@@ -14,7 +14,7 @@ var Bar = function() {
         return _class_call_check(this, Foo), _super.apply(this, arguments);
     }
     return Foo;
-}(Bar), _iterator = Symbol.iterator, FooIterator = function() {
+}(Bar), FooIterator = function() {
     "use strict";
     function FooIterator() {
         _class_call_check(this, FooIterator);
@@ -25,7 +25,7 @@ var Bar = function() {
             value: new Foo,
             done: !1
         };
-    }, _proto[_iterator] = function() {
+    }, _proto[Symbol.iterator] = function() {
         return this;
     }, FooIterator;
 }();

@@ -1,10 +1,10 @@
 var v;
-let _iterator = Symbol.iterator;
-for (v of new class {
+class StringIterator {
     next() {
         return "";
     }
-    [_iterator]() {
+    [Symbol.iterator]() {
         return this;
     }
-});
+}
+for (v of new StringIterator);

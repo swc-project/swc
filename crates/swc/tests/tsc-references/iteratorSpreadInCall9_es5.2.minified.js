@@ -5,7 +5,7 @@ var Foo = function() {
     "use strict";
     for(var _len = arguments.length, s = new Array(_len), _key = 0; _key < _len; _key++)s[_key] = arguments[_key];
     _class_call_check(this, Foo);
-}, _iterator = Symbol.iterator, SymbolIterator = function() {
+}, SymbolIterator = function() {
     "use strict";
     function SymbolIterator() {
         _class_call_check(this, SymbolIterator);
@@ -16,10 +16,10 @@ var Foo = function() {
             value: Symbol(),
             done: !1
         };
-    }, _proto[_iterator] = function() {
+    }, _proto[Symbol.iterator] = function() {
         return this;
     }, SymbolIterator;
-}(), _iterator1 = Symbol.iterator, _StringIterator = function() {
+}(), _StringIterator = function() {
     "use strict";
     function _StringIterator() {
         _class_call_check(this, _StringIterator);
@@ -30,7 +30,7 @@ var Foo = function() {
             value: "",
             done: !1
         };
-    }, _proto[_iterator1] = function() {
+    }, _proto[Symbol.iterator] = function() {
         return this;
     }, _StringIterator;
 }();

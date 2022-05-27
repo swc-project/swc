@@ -3313,7 +3313,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.108.5"
+version = "0.108.6"
 dependencies = [
  "bitflags",
  "criterion",
@@ -3609,7 +3609,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.101.0"
+version = "0.101.1"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -4249,7 +4249,7 @@ dependencies = [
 
 [[package]]
 name = "testing"
-version = "0.20.0"
+version = "0.20.1"
 dependencies = [
  "ansi_term",
  "difference",

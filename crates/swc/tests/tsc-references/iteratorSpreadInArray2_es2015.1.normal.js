@@ -1,4 +1,3 @@
-let _iterator = Symbol.iterator;
 //@target: ES6
 class SymbolIterator {
     next() {
@@ -7,11 +6,10 @@ class SymbolIterator {
             done: false
         };
     }
-    [_iterator]() {
+    [Symbol.iterator]() {
         return this;
     }
 }
-let _iterator1 = Symbol.iterator;
 class NumberIterator {
     next() {
         return {
@@ -19,7 +17,7 @@ class NumberIterator {
             done: false
         };
     }
-    [_iterator1]() {
+    [Symbol.iterator]() {
         return this;
     }
 }

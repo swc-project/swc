@@ -1,9 +1,8 @@
-let _toPrimitive = Symbol.toPrimitive, _toStringTag = Symbol.toStringTag;
 //@target: ES6
 //@declaration: true
 class C {
-    get [_toPrimitive]() {
+    get [Symbol.toPrimitive]() {
         return "";
     }
-    set [_toStringTag](x) {}
+    set [Symbol.toStringTag](x) {}
 }
