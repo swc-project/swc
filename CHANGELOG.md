@@ -29,6 +29,9 @@
 
 
 
+- **(es/compat)** Don't create vars for computed class methods if possible (#4805) ([dc911dc](https://github.com/swc-project/swc/commit/dc911dcae630dd1afe9add7c2b2bafcb77705ea7))
+
+
 - **(html/codegen)** Omit start and end tags if it is possible (#4780) ([c6ec9f9](https://github.com/swc-project/swc/commit/c6ec9f9cf20e149ce9cb8364403a031e3547741c))
 
 ### Performance
