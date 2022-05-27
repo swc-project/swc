@@ -164,7 +164,6 @@ where
                 // first thing inside the body element is not ASCII whitespace or a comment, except
                 // if the first thing inside the body element is a meta, link, script, style, or
                 // template element.
-                // TODO improve me
                 "body"
                     if n.children.is_empty()
                         || (match n.children.get(0) {
@@ -390,7 +389,6 @@ where
                                     | "p"
                                     | "pre"
                                     | "section"
-                                    | "table"
                                     | "ul"
                             ) =>
                         {
