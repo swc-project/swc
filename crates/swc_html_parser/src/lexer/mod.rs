@@ -3,7 +3,11 @@ use std::{char::REPLACEMENT_CHARACTER, mem::take};
 use once_cell::sync::Lazy;
 use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashMap, input::Input, BytePos, Span};
+use swc_common::{
+    collections::{AHashMap, AHashSet},
+    input::Input,
+    BytePos, Span,
+};
 use swc_html_ast::{AttributeToken, Token, TokenAndSpan};
 
 use crate::{
@@ -169,7 +173,7 @@ where
     current_tag_token: Option<Tag>,
     attribute_start_position: Option<BytePos>,
     character_reference_code: Option<Vec<(u8, u32, Option<char>)>>,
-    temporary_buffer: Option<String>,
+    temporary_buffer: String,
     is_adjusted_current_node_is_element_in_html_namespace: Option<bool>,
     doctype_keyword: Option<String>,
     last_emitted_error_pos: Option<BytePos>,
@@ -199,7 +203,8 @@ where
             current_tag_token: None,
             attribute_start_position: None,
             character_reference_code: None,
-            temporary_buffer: None,
+            // Do this without a new allocation.
+            temporary_buffer: String::with_capacity(8),
             is_adjusted_current_node_is_element_in_html_namespace: None,
             doctype_keyword: None,
             last_emitted_error_pos: None,
@@ -253,12 +258,12 @@ impl<I> Lexer<I>
 where
     I: Input,
 {
-    #[inline]
+    #[inline(always)]
     fn next(&mut self) -> Option<char> {
         self.input.cur()
     }
 
-    #[inline]
+    #[inline(always)]
     fn consume(&mut self) {
         self.cur = self.input.cur();
         self.cur_pos = self.input.cur_pos();
@@ -289,18 +294,18 @@ where
         }
     }
 
-    #[inline]
+    #[inline(always)]
     fn reconsume(&mut self) {
         self.input.reset_to(self.cur_pos);
     }
 
-    #[inline]
+    #[inline(always)]
     fn reconsume_in_state(&mut self, state: State) {
         self.state = state;
         self.reconsume();
     }
 
-    #[inline]
+    #[inline(always)]
     fn consume_next_char(&mut self) -> Option<char> {
         // The next input character is the first character in the input stream that has
         // not yet been consumed or explicitly ignored by the requirements in this
@@ -361,15 +366,11 @@ where
     }
 
     fn emit_temporary_buffer_as_character_tokens(&mut self) {
-        if let Some(temporary_buffer) = self.temporary_buffer.take() {
-            for c in temporary_buffer.chars() {
-                let raw = c.to_string();
-
-                self.emit_token(Token::Character {
-                    value: c,
-                    raw: Some(raw.into()),
-                });
-            }
+        for c in self.temporary_buffer.clone().chars() {
+            self.emit_token(Token::Character {
+                value: c,
+                raw: Some(c.to_string().into()),
+            });
         }
     }
 
@@ -377,25 +378,31 @@ where
         if self.is_consumed_as_part_of_an_attribute() {
             if let Some(Tag { attributes, .. }) = &mut self.current_tag_token {
                 if let Some(attribute) = attributes.last_mut() {
-                    if let Some(mut temporary_buffer) = self.temporary_buffer.take() {
-                        for c in temporary_buffer.drain(..) {
-                            if let Some(old_value) = &mut attribute.value {
-                                old_value.push(c);
-                            } else {
-                                attribute.value = Some(c.to_string());
-                            }
+                    for c in self.temporary_buffer.clone().chars() {
+                        if let Some(old_value) = &mut attribute.value {
+                            old_value.push(c);
+                        } else {
+                            let mut new_value = String::with_capacity(255);
 
-                            if let Some(raw_value) = &mut attribute.raw_value {
-                                raw_value.push(c);
-                            } else {
-                                attribute.raw_value = Some(c.to_string());
-                            }
+                            new_value.push(c);
+
+                            attribute.value = Some(new_value);
+                        }
+
+                        if let Some(raw_value) = &mut attribute.raw_value {
+                            raw_value.push(c);
+                        } else {
+                            let mut raw_new_value = String::with_capacity(255);
+
+                            raw_new_value.push(c);
+
+                            attribute.raw_value = Some(raw_new_value);
                         }
                     }
                 }
             }
-        } else if let Some(mut temporary_buffer) = self.temporary_buffer.take() {
-            for c in temporary_buffer.drain(..) {
+        } else {
+            for c in self.temporary_buffer.clone().chars() {
                 let raw = c.to_string();
 
                 self.emit_token(Token::Character {
@@ -406,11 +413,25 @@ where
         }
     }
 
-    fn create_doctype_token(&mut self, keyword: Option<String>, name: Option<(char, char)>) {
+    fn create_doctype_token(&mut self, keyword: Option<String>, name_c: Option<(char, char)>) {
+        let mut new_name = None;
+        let mut new_raw_name = None;
+
+        if let Some(name_c) = name_c {
+            let mut name = String::with_capacity(4);
+            let mut raw_name = String::with_capacity(4);
+
+            name.push(name_c.0);
+            raw_name.push(name_c.1);
+
+            new_name = Some(name);
+            new_raw_name = Some(raw_name);
+        }
+
         self.current_doctype_token = Some(Doctype {
             raw_keyword: keyword,
-            name: name.map(|value| value.0.to_string()),
-            raw_name: name.map(|value| value.1.to_string()),
+            name: new_name,
+            raw_name: new_raw_name,
             force_quirks: false,
             public_quote: None,
             raw_public_keyword: None,
@@ -486,7 +507,9 @@ where
             ..
         }) = &mut self.current_doctype_token
         {
-            *public_id = Some("".to_string());
+            // The Longest public id is `-//softquad software//dtd hotmetal pro
+            // 6.0::19990601::extensions to html 4.0//`
+            *public_id = Some(String::with_capacity(78));
             *public_quote = Some(quote);
         }
     }
@@ -498,7 +521,8 @@ where
             ..
         }) = &mut self.current_doctype_token
         {
-            *system_id = Some("".to_string());
+            // The Longest system id is `http://www.ibm.com/data/dtd/v11/ibmxhtml1-transitional.dtd`
+            *system_id = Some(String::with_capacity(58));
             *system_quote = Some(quote);
         }
     }
@@ -524,8 +548,9 @@ where
     fn create_start_tag_token(&mut self) {
         self.current_tag_token = Some(Tag {
             kind: TagKind::Start,
-            tag_name: String::with_capacity(1),
-            raw_tag_name: Some(String::with_capacity(1)),
+            // Maximum known html tags are `blockquote` and `figcaption`
+            tag_name: String::with_capacity(10),
+            raw_tag_name: Some(String::with_capacity(10)),
             self_closing: false,
             attributes: vec![],
         });
@@ -534,8 +559,9 @@ where
     fn create_end_tag_token(&mut self) {
         self.current_tag_token = Some(Tag {
             kind: TagKind::End,
-            tag_name: String::with_capacity(1),
-            raw_tag_name: Some(String::with_capacity(1)),
+            // Maximum known html tags are `blockquote` and `figcaption`
+            tag_name: String::with_capacity(10),
+            raw_tag_name: Some(String::with_capacity(10)),
             self_closing: false,
             attributes: vec![],
         });
@@ -553,31 +579,24 @@ where
         }
     }
 
-    fn set_self_closing_flag(&mut self) {
-        if let Some(current_tag_token) = &mut self.current_tag_token {
-            current_tag_token.self_closing = true;
-        }
-    }
-
     fn start_new_attribute(&mut self, c: Option<char>) {
         if let Some(Tag { attributes, .. }) = &mut self.current_tag_token {
+            // The longest known HTML attribute is "allowpaymentrequest" for "iframe".
+            let mut name = String::with_capacity(19);
+            let mut raw_name = String::with_capacity(19);
+
             if let Some(c) = c {
-                attributes.push(Attribute {
-                    span: Default::default(),
-                    name: c.to_string(),
-                    raw_name: Some(c.to_string()),
-                    value: None,
-                    raw_value: None,
-                });
-            } else {
-                attributes.push(Attribute {
-                    span: Default::default(),
-                    name: "".into(),
-                    raw_name: Some("".into()),
-                    value: None,
-                    raw_value: None,
-                });
+                name.push(c);
+                raw_name.push(c);
             };
+
+            attributes.push(Attribute {
+                span: Default::default(),
+                name,
+                raw_name: Some(raw_name),
+                value: None,
+                raw_value: None,
+            });
 
             self.attribute_start_position = Some(self.cur_pos);
         }
@@ -602,13 +621,21 @@ where
                     if let Some(old_value) = &mut attribute.value {
                         old_value.push(value.0);
                     } else {
-                        attribute.value = Some(value.0.to_string());
+                        let mut new_value = String::with_capacity(255);
+
+                        new_value.push(value.0);
+
+                        attribute.value = Some(new_value);
                     }
 
                     if let Some(raw_value) = &mut attribute.raw_value {
                         raw_value.push(value.1);
                     } else {
-                        attribute.raw_value = Some(value.1.to_string());
+                        let mut raw_new_value = String::with_capacity(255);
+
+                        raw_new_value.push(value.1);
+
+                        attribute.raw_value = Some(raw_new_value);
                     }
                 }
             }
@@ -618,11 +645,11 @@ where
     fn append_raw_to_attribute_value(&mut self, before: bool, c: char) {
         if let Some(Tag { attributes, .. }) = &mut self.current_tag_token {
             if let Some(attribute) = attributes.last_mut() {
-                let mut raw_new_value = String::with_capacity(2);
+                let mut raw_new_value = String::with_capacity(255);
 
                 if before {
                     if attribute.value.is_none() {
-                        attribute.value = Some(String::new());
+                        attribute.value = Some(String::with_capacity(255));
                     }
 
                     raw_new_value.push(c);
@@ -655,40 +682,13 @@ where
         }
     }
 
-    fn leave_attribute_name_state(&mut self) {
-        if let Some(Tag { attributes, .. }) = &self.current_tag_token {
-            let last_attribute = match attributes.last() {
-                Some(attribute) => attribute,
-                _ => {
-                    return;
-                }
-            };
-
-            let mut has_duplicate = false;
-
-            for (i, attribute) in attributes.iter().enumerate() {
-                if i == attributes.len() - 1 {
-                    continue;
-                }
-
-                if attribute.name == last_attribute.name {
-                    has_duplicate = true;
-
-                    break;
-                }
-            }
-
-            if has_duplicate {
-                self.emit_error(ErrorKind::DuplicateAttribute);
-            }
-        }
-    }
-
     fn emit_current_tag_token(&mut self) {
         if let Some(mut current_tag_token) = self.current_tag_token.take() {
             match current_tag_token.kind {
                 TagKind::Start => {
                     self.last_start_tag_name = Some(current_tag_token.tag_name.clone().into());
+
+                    let mut already_seen: AHashSet<String> = Default::default();
 
                     let start_tag_token = Token::StartTag {
                         tag_name: current_tag_token.tag_name.into(),
@@ -697,12 +697,23 @@ where
                         attributes: current_tag_token
                             .attributes
                             .drain(..)
-                            .map(|attribute| AttributeToken {
-                                span: attribute.span,
-                                name: attribute.name.into(),
-                                raw_name: attribute.raw_name.map(JsWord::from),
-                                value: attribute.value.map(JsWord::from),
-                                raw_value: attribute.raw_value.map(JsWord::from),
+                            .map(|attribute| {
+                                if already_seen.contains(&attribute.name) {
+                                    self.errors.push(Error::new(
+                                        attribute.span,
+                                        ErrorKind::DuplicateAttribute,
+                                    ));
+                                }
+
+                                already_seen.insert(attribute.name.clone());
+
+                                AttributeToken {
+                                    span: attribute.span,
+                                    name: attribute.name.into(),
+                                    raw_name: attribute.raw_name.map(JsWord::from),
+                                    value: attribute.value.map(JsWord::from),
+                                    raw_value: attribute.raw_value.map(JsWord::from),
+                                }
                             })
                             .collect(),
                     };
@@ -718,6 +729,8 @@ where
                         self.emit_error(ErrorKind::EndTagWithTrailingSolidus);
                     }
 
+                    let mut already_seen: AHashSet<String> = Default::default();
+
                     let end_tag_token = Token::EndTag {
                         tag_name: current_tag_token.tag_name.into(),
                         raw_tag_name: current_tag_token.raw_tag_name.map(JsWord::from),
@@ -725,12 +738,23 @@ where
                         attributes: current_tag_token
                             .attributes
                             .drain(..)
-                            .map(|attribute| AttributeToken {
-                                span: attribute.span,
-                                name: attribute.name.into(),
-                                raw_name: attribute.raw_name.map(JsWord::from),
-                                value: attribute.value.map(JsWord::from),
-                                raw_value: attribute.raw_value.map(JsWord::from),
+                            .map(|attribute| {
+                                if already_seen.contains(&attribute.name) {
+                                    self.errors.push(Error::new(
+                                        attribute.span,
+                                        ErrorKind::DuplicateAttribute,
+                                    ));
+                                }
+
+                                already_seen.insert(attribute.name.clone());
+
+                                AttributeToken {
+                                    span: attribute.span,
+                                    name: attribute.name.into(),
+                                    raw_name: attribute.raw_name.map(JsWord::from),
+                                    value: attribute.value.map(JsWord::from),
+                                    raw_value: attribute.raw_value.map(JsWord::from),
+                                }
                             })
                             .collect(),
                     };
@@ -741,12 +765,14 @@ where
         }
     }
 
-    fn create_comment_token(&mut self, data: Option<String>) {
-        if let Some(data) = data {
-            self.current_comment_token = Some(data);
-        } else {
-            self.current_comment_token = Some("".into());
+    fn create_comment_token(&mut self, new_data: Option<String>) {
+        let mut data = String::with_capacity(32);
+
+        if let Some(new_data) = new_data {
+            data.push_str(&new_data);
         };
+
+        self.current_comment_token = Some(data);
     }
 
     fn append_to_comment_token(&mut self, c: char, _raw_c: Option<char>) {
@@ -784,9 +810,8 @@ where
         }
 
         let mut normalized_c = c;
-        let is_cr = c == '\r';
 
-        if is_cr {
+        if c == '\r' {
             normalized_c = '\n';
 
             if self.input.cur() == Some('\n') {
@@ -1132,7 +1157,7 @@ where
                     // Set the temporary buffer to the empty string. Switch to the RCDATA end
                     // tag open state.
                     Some('/') => {
-                        self.temporary_buffer = Some("".into());
+                        self.temporary_buffer.clear();
                         self.state = State::RcdataEndTagOpen;
                     }
                     // Anything else
@@ -1221,20 +1246,14 @@ where
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_upper_alpha(c) => {
                         self.append_to_current_tag_token(c.to_ascii_lowercase(), c);
-
-                        if let Some(ref mut temporary_buffer) = self.temporary_buffer {
-                            temporary_buffer.push(c);
-                        }
+                        self.temporary_buffer.push(c);
                     }
                     // ASCII lower alpha
                     // Append the current input character to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_lower_alpha(c) => {
                         self.append_to_current_tag_token(c, c);
-
-                        if let Some(ref mut temporary_buffer) = self.temporary_buffer {
-                            temporary_buffer.push(c);
-                        }
+                        self.temporary_buffer.push(c);
                     }
                     // Anything else
                     // Emit a U+003C LESS-THAN SIGN character token, a U+002F SOLIDUS character
@@ -1254,7 +1273,7 @@ where
                     // Set the temporary buffer to the empty string. Switch to the RAWTEXT end
                     // tag open state.
                     Some('/') => {
-                        self.temporary_buffer = Some("".into());
+                        self.temporary_buffer.clear();
                         self.state = State::RawtextEndTagOpen;
                     }
                     // Anything else
@@ -1343,20 +1362,14 @@ where
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_upper_alpha(c) => {
                         self.append_to_current_tag_token(c.to_ascii_lowercase(), c);
-
-                        if let Some(ref mut temporary_buffer) = self.temporary_buffer {
-                            temporary_buffer.push(c);
-                        }
+                        self.temporary_buffer.push(c);
                     }
                     // ASCII lower alpha
                     // Append the current input character to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_lower_alpha(c) => {
                         self.append_to_current_tag_token(c, c);
-
-                        if let Some(ref mut temporary_buffer) = self.temporary_buffer {
-                            temporary_buffer.push(c);
-                        }
+                        self.temporary_buffer.push(c);
                     }
                     // Anything else
                     // Emit a U+003C LESS-THAN SIGN character token, a U+002F SOLIDUS character
@@ -1376,7 +1389,7 @@ where
                     // Set the temporary buffer to the empty string. Switch to the script data
                     // end tag open state.
                     Some('/') => {
-                        self.temporary_buffer = Some("".into());
+                        self.temporary_buffer.clear();
                         self.state = State::ScriptDataEndTagOpen;
                     }
                     // U+0021 EXCLAMATION MARK (!)
@@ -1473,20 +1486,14 @@ where
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_upper_alpha(c) => {
                         self.append_to_current_tag_token(c.to_ascii_lowercase(), c);
-
-                        if let Some(ref mut temporary_buffer) = self.temporary_buffer {
-                            temporary_buffer.push(c);
-                        }
+                        self.temporary_buffer.push(c);
                     }
                     // ASCII lower alpha
                     // Append the current input character to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_lower_alpha(c) => {
                         self.append_to_current_tag_token(c, c);
-
-                        if let Some(ref mut temporary_buffer) = self.temporary_buffer {
-                            temporary_buffer.push(c);
-                        }
+                        self.temporary_buffer.push(c);
                     }
                     // Anything else
                     // Emit a U+003C LESS-THAN SIGN character token, a U+002F SOLIDUS character
@@ -1670,7 +1677,7 @@ where
                     // Set the temporary buffer to the empty string. Switch to the script data
                     // escaped end tag open state.
                     Some('/') => {
-                        self.temporary_buffer = Some("".into());
+                        self.temporary_buffer.clear();
                         self.state = State::ScriptDataEscapedEndTagOpen;
                     }
                     // ASCII alpha
@@ -1678,7 +1685,7 @@ where
                     // SIGN character token. Reconsume in the script data double escape start
                     // state.
                     Some(c) if is_ascii_alpha(c) => {
-                        self.temporary_buffer = Some("".into());
+                        self.temporary_buffer.clear();
                         self.emit_character_token('<', None);
                         self.reconsume_in_state(State::ScriptDataDoubleEscapeStart);
                     }
@@ -1768,10 +1775,7 @@ where
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_upper_alpha(c) => {
                         self.append_to_current_tag_token(c.to_ascii_lowercase(), c);
-
-                        if let Some(ref mut temporary_buffer) = self.temporary_buffer {
-                            temporary_buffer.push(c);
-                        }
+                        self.temporary_buffer.push(c);
                     }
                     // ASCII lower alpha
                     // Append the current input character to the current tag token's tag name.
@@ -1779,9 +1783,7 @@ where
                     Some(c) if is_ascii_lower_alpha(c) => {
                         self.append_to_current_tag_token(c, c);
 
-                        if let Some(ref mut temporary_buffer) = self.temporary_buffer {
-                            temporary_buffer.push(c);
-                        }
+                        self.temporary_buffer.push(c);
                     }
                     // Anything else
                     // Emit a U+003C LESS-THAN SIGN character token, a U+002F SOLIDUS character
@@ -1807,8 +1809,7 @@ where
                     // data double escaped state. Otherwise, switch to the script data escaped
                     // state. Emit the current input character as a character token.
                     Some(c) if is_spacy(c) => {
-                        let is_script =
-                            matches!(&self.temporary_buffer, Some(tmp) if tmp == "script");
+                        let is_script = self.temporary_buffer == "script";
 
                         if is_script {
                             self.state = State::ScriptDataDoubleEscaped;
@@ -1819,8 +1820,7 @@ where
                         self.emit_character_token(c, Some(c));
                     }
                     Some(c @ '/' | c @ '>') => {
-                        let is_script =
-                            matches!(&self.temporary_buffer, Some(tmp) if tmp == "script");
+                        let is_script = self.temporary_buffer == "script";
 
                         if is_script {
                             self.state = State::ScriptDataDoubleEscaped;
@@ -1835,20 +1835,14 @@ where
                     // to the character's code point) to the temporary buffer. Emit the current
                     // input character as a character token.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        if let Some(ref mut temporary_buffer) = self.temporary_buffer {
-                            temporary_buffer.push(c.to_ascii_lowercase());
-                        }
-
+                        self.temporary_buffer.push(c.to_ascii_lowercase());
                         self.emit_character_token(c, Some(c));
                     }
                     // ASCII lower alpha
                     // Append the current input character to the temporary buffer. Emit the
                     // current input character as a character token.
                     Some(c) if is_ascii_lower_alpha(c) => {
-                        if let Some(ref mut temporary_buffer) = self.temporary_buffer {
-                            temporary_buffer.push(c);
-                        }
-
+                        self.temporary_buffer.push(c);
                         self.emit_character_token(c, Some(c));
                     }
                     // Anything else
@@ -2002,7 +1996,7 @@ where
                     // Set the temporary buffer to the empty string. Switch to the script data
                     // double escape end state. Emit a U+002F SOLIDUS character token.
                     Some(c @ '/') => {
-                        self.temporary_buffer = Some("".into());
+                        self.temporary_buffer.clear();
                         self.state = State::ScriptDataDoubleEscapeEnd;
                         self.emit_character_token(c, Some(c));
                     }
@@ -2027,8 +2021,7 @@ where
                     // data escaped state. Otherwise, switch to the script data double escaped
                     // state. Emit the current input character as a character token.
                     Some(c) if is_spacy(c) => {
-                        let is_script =
-                            matches!(&self.temporary_buffer, Some(tmp) if tmp == "script");
+                        let is_script = self.temporary_buffer == "script";
 
                         if is_script {
                             self.state = State::ScriptDataEscaped;
@@ -2039,8 +2032,7 @@ where
                         self.emit_character_token(c, Some(c));
                     }
                     Some(c @ '/' | c @ '>') => {
-                        let is_script =
-                            matches!(&self.temporary_buffer, Some(tmp) if tmp == "script");
+                        let is_script = self.temporary_buffer == "script";
 
                         if is_script {
                             self.state = State::ScriptDataEscaped;
@@ -2055,19 +2047,14 @@ where
                     // to the character's code point) to the temporary buffer. Emit the current
                     // input character as a character token.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        if let Some(ref mut temporary_buffer) = self.temporary_buffer {
-                            temporary_buffer.push(c.to_ascii_lowercase());
-                        }
-
+                        self.temporary_buffer.push(c.to_ascii_lowercase());
                         self.emit_character_token(c, Some(c));
                     }
                     // ASCII lower alpha
                     // Append the current input character to the temporary buffer. Emit the
                     // current input character as a character token.
                     Some(c) if is_ascii_lower_alpha(c) => {
-                        if let Some(ref mut temporary_buffer) = self.temporary_buffer {
-                            temporary_buffer.push(c);
-                        }
+                        self.temporary_buffer.push(c);
 
                         self.emit_character_token(c, Some(c));
                     }
@@ -2135,20 +2122,17 @@ where
                     // EOF
                     // Reconsume in the after attribute name state.
                     Some(c) if is_spacy(c) => {
-                        self.leave_attribute_name_state();
                         self.update_attribute_span();
                         self.skip_next_lf(c);
                         self.reconsume_in_state(State::AfterAttributeName);
                     }
                     Some('/' | '>') | None => {
-                        self.leave_attribute_name_state();
                         self.update_attribute_span();
                         self.reconsume_in_state(State::AfterAttributeName);
                     }
                     // U+003D EQUALS SIGN (=)
                     // Switch to the before attribute value state.
                     Some('=') => {
-                        self.leave_attribute_name_state();
                         self.state = State::BeforeAttributeValue;
                     }
                     // ASCII upper alpha
@@ -2188,6 +2172,8 @@ where
                 // attribute on the token with the exact same name, then
                 // this is a duplicate-attribute parse error and the new
                 // attribute must be removed from the token.
+                //
+                // We postpone it when we will emit current tag token
             }
             // https://html.spec.whatwg.org/multipage/parsing.html#after-attribute-name-state
             State::AfterAttributeName => {
@@ -2476,7 +2462,10 @@ where
                     // Set the self-closing flag of the current tag token. Switch to the data
                     // state. Emit the current tag token.
                     Some('>') => {
-                        self.set_self_closing_flag();
+                        if let Some(current_tag_token) = &mut self.current_tag_token {
+                            current_tag_token.self_closing = true;
+                        }
+
                         self.state = State::Data;
                         self.emit_current_tag_token();
                     }
@@ -2565,7 +2554,7 @@ where
                                             Some(e @ 'e' | e @ 'E') => {
                                                 self.state = State::Doctype;
 
-                                                let mut raw_keyword = String::new();
+                                                let mut raw_keyword = String::with_capacity(7);
 
                                                 raw_keyword.push(d);
                                                 raw_keyword.push(o);
@@ -3181,7 +3170,7 @@ where
                     // error. Set the current DOCTYPE token's force-quirks flag to on. Reconsume
                     // in the bogus DOCTYPE state.
                     Some(c) => {
-                        let mut first_six_chars = String::with_capacity(5);
+                        let mut first_six_chars = String::with_capacity(6);
 
                         first_six_chars.push(c);
 
@@ -3952,7 +3941,8 @@ where
             State::CharacterReference => {
                 // Set the temporary buffer to the empty string. Append a U+0026 AMPERSAND (&)
                 // character to the temporary buffer.
-                self.temporary_buffer = Some("&".into());
+                self.temporary_buffer.clear();
+                self.temporary_buffer.push('&');
 
                 // Consume the next input character:
                 match self.consume_next_char() {
@@ -3965,9 +3955,7 @@ where
                     // Append the current input character to the temporary buffer. Switch to the
                     // numeric character reference state.
                     Some(c @ '#') => {
-                        if let Some(ref mut temporary_buffer) = self.temporary_buffer {
-                            temporary_buffer.push(c);
-                        }
+                        self.temporary_buffer.push(c);
 
                         self.state = State::NumericCharacterReference;
                     }
@@ -3995,39 +3983,36 @@ where
                 let mut entity_temporary_buffer = None;
 
                 while let Some(c) = &self.consume_next_char() {
-                    if let Some(ref mut temporary_buffer) = self.temporary_buffer {
-                        temporary_buffer.push(*c);
+                    self.temporary_buffer.push(*c);
 
-                        let found_entity = HTML_ENTITIES.get(temporary_buffer);
+                    let found_entity = HTML_ENTITIES.get(&self.temporary_buffer);
 
-                        if let Some(found_entity) = found_entity {
-                            entity = Some(found_entity);
-                            entity_cur_pos = Some(self.input.cur_pos());
-                            entity_temporary_buffer = Some(temporary_buffer.clone());
-                        }
+                    if let Some(found_entity) = found_entity {
+                        entity = Some(found_entity);
+                        entity_cur_pos = Some(self.input.cur_pos());
+                        entity_temporary_buffer = Some(self.temporary_buffer.clone());
+                    }
 
-                        // We stop when:
-                        //
-                        // - not ascii alphanumeric
-                        // - we consume more characters than the longest entity
-                        if !c.is_ascii_alphanumeric() || temporary_buffer.len() > 32 {
-                            break;
-                        }
+                    // We stop when:
+                    //
+                    // - not ascii alphanumeric
+                    // - we consume more characters than the longest entity
+                    if !c.is_ascii_alphanumeric() || self.temporary_buffer.len() > 32 {
+                        break;
                     }
                 }
 
                 if entity.is_some() {
                     self.cur_pos = entity_cur_pos.unwrap();
                     self.input.reset_to(entity_cur_pos.unwrap());
-                    self.temporary_buffer = Some(entity_temporary_buffer.unwrap());
+                    self.temporary_buffer = entity_temporary_buffer.unwrap();
                 } else {
                     self.cur_pos = initial_cur_pos;
                     self.input.reset_to(initial_cur_pos);
                     self.temporary_buffer = initial_buffer;
                 }
 
-                let is_last_semicolon =
-                    matches!(&self.temporary_buffer, Some(value) if value.ends_with(';'));
+                let is_last_semicolon = self.temporary_buffer.ends_with(';');
 
                 // If there is a match
                 match entity {
@@ -4070,15 +4055,13 @@ where
                                 self.emit_error(ErrorKind::MissingSemicolonAfterCharacterReference);
                             }
 
-                            self.temporary_buffer = Some("".into());
+                            let old_temporary_buffer = self.temporary_buffer.clone();
 
-                            if let Some(ref mut temporary_buffer) = self.temporary_buffer {
-                                temporary_buffer.push_str(&entity.characters);
-                            }
-
-                            self.flush_code_points_consumed_as_character_reference(
-                                self.temporary_buffer.clone(),
-                            );
+                            self.temporary_buffer.clear();
+                            self.temporary_buffer.push_str(&entity.characters);
+                            self.flush_code_points_consumed_as_character_reference(Some(
+                                old_temporary_buffer,
+                            ));
                             self.state = self.return_state.clone();
                         }
                     }
@@ -4131,10 +4114,7 @@ where
                     // Append the current input character to the temporary buffer. Switch to the
                     // hexadecimal character reference start state.
                     Some(c @ 'x' | c @ 'X') => {
-                        if let Some(ref mut temporary_buffer) = self.temporary_buffer {
-                            temporary_buffer.push(c);
-                        }
-
+                        self.temporary_buffer.push(c);
                         self.state = State::HexademicalCharacterReferenceStart;
                     }
                     // Anything else
@@ -4269,7 +4249,7 @@ where
             // https://html.spec.whatwg.org/multipage/parsing.html#numeric-character-reference-end-state
             State::NumericCharacterReferenceEnd => {
                 let (value, raw) = if let Some(chars) = self.character_reference_code.take() {
-                    let mut raw = String::with_capacity(1);
+                    let mut raw = String::with_capacity(8);
                     let mut i: u32 = 0;
                     let mut overflowed = false;
 
@@ -4413,7 +4393,7 @@ where
                 // buffer.
                 // Flush code points consumed as a character reference.
                 // Switch to the return state.
-                self.temporary_buffer = Some("".into());
+                self.temporary_buffer.clear();
 
                 let c = match char::from_u32(cr) {
                     Some(c) => c,
@@ -4422,10 +4402,7 @@ where
                     }
                 };
 
-                if let Some(ref mut temporary_buffer) = self.temporary_buffer {
-                    temporary_buffer.push(c);
-                }
-
+                self.temporary_buffer.push(c);
                 self.flush_code_points_consumed_as_character_reference(Some(raw));
                 self.state = self.return_state.clone();
             }
@@ -4434,6 +4411,7 @@ where
         Ok(())
     }
 
+    #[inline(always)]
     fn skip_next_lf(&mut self, c: char) {
         if c == '\r' && self.input.cur() == Some('\n') {
             self.input.bump();

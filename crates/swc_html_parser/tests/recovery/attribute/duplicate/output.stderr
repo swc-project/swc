@@ -1,0 +1,42 @@
+
+  x Duplicate attribute
+   ,-[$DIR/tests/recovery/attribute/duplicate/input.html:7:1]
+ 7 | <div class="test" class="test-1" class="test-2"></div>
+   :                   ^^^^^^^^^^^^^^
+   `----
+
+  x Duplicate attribute
+   ,-[$DIR/tests/recovery/attribute/duplicate/input.html:7:1]
+ 7 | <div class="test" class="test-1" class="test-2"></div>
+   :                                  ^^^^^^^^^^^^^^
+   `----
+
+  x End tag with attributes
+   ,-[$DIR/tests/recovery/attribute/duplicate/input.html:8:1]
+ 8 | <div></div class="test" class="test-1" class="test-2">
+   :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Duplicate attribute
+   ,-[$DIR/tests/recovery/attribute/duplicate/input.html:8:1]
+ 8 | <div></div class="test" class="test-1" class="test-2">
+   :                         ^^^^^^^^^^^^^^
+   `----
+
+  x Duplicate attribute
+   ,-[$DIR/tests/recovery/attribute/duplicate/input.html:8:1]
+ 8 | <div></div class="test" class="test-1" class="test-2">
+   :                                        ^^^^^^^^^^^^^^
+   `----
+
+  x End tag with trailing solidus
+   ,-[$DIR/tests/recovery/attribute/duplicate/input.html:9:1]
+ 9 | </div/>
+   : ^^^^^^^
+   `----
+
+  x Stray end tag "div"
+   ,-[$DIR/tests/recovery/attribute/duplicate/input.html:9:1]
+ 9 | </div/>
+   : ^^^^^^^
+   `----
