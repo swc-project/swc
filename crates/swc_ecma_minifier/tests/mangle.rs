@@ -108,6 +108,46 @@ fn compressed(compressed_file: PathBuf) {
     .unwrap();
 }
 
+#[testing::fixture("tests/fixture/**/input.js")]
+fn snapshot_compress_fixture(input: PathBuf) {
+    testing::run_test2(false, |cm, handler| {
+        let mut m = parse(&handler, cm.clone(), &input)?;
+
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        m.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
+
+        let m = optimize(
+            m,
+            cm.clone(),
+            None,
+            None,
+            &MinifyOptions {
+                mangle: Some(MangleOptions {
+                    top_level: true,
+                    ..Default::default()
+                }),
+                compress: None,
+                ..Default::default()
+            },
+            &ExtraOptions {
+                unresolved_mark,
+                top_level_mark,
+            },
+        );
+
+        let mangled = print(cm, &m, false);
+
+        NormalizedOutput::from(mangled)
+            .compare_to_file(input.parent().unwrap().join("mangleOnly.js"))
+            .unwrap();
+
+        Ok(())
+    })
+    .unwrap();
+}
+
 #[testing::fixture("tests/mangle/**/input.js")]
 fn fixture(input: PathBuf) {
     testing::run_test2(false, |cm, handler| {
