@@ -49,6 +49,12 @@
 
 - **(es/transforms)** Remove `concurrent` (#4808) ([a487fc1](https://github.com/swc-project/swc/commit/a487fc1d2827b5922eed0a03227da3e7a1371502))
 
+### Testing
+
+
+
+- **(html/codegen)** Avoid newline at the end of file (#4815) ([a6beda8](https://github.com/swc-project/swc/commit/a6beda81ca9812d95c4ac21b8ff67e672d10f57a))
+
 ## [1.2.194] - 2022-05-25
 
 ### Bug Fixes

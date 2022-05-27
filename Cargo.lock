@@ -4249,7 +4249,7 @@ dependencies = [
 
 [[package]]
 name = "testing"
-version = "0.20.0"
+version = "0.20.1"
 dependencies = [
  "ansi_term",
  "difference",
