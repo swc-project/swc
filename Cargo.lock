@@ -1690,9 +1690,8 @@ checksum = "ebd4419172727423cf30351406c54f6cc1b354a2cfb4f1dba3e6cd07f6d5522b"
 
 [[package]]
 name = "napi-derive"
-version = "2.3.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "35d20a0de501d6ca0b007d008fefbdc875bc8947b7ee85964cff4a975c83fafb"
+version = "2.4.1"
+source = "git+https://github.com/kdy1/napi-rs?branch=speedy#c69bf5034dcf3443487dab7fb73d69ac1391f50a"
 dependencies = [
  "convert_case",
  "napi-derive-backend",
@@ -1703,9 +1702,8 @@ dependencies = [
 
 [[package]]
 name = "napi-derive-backend"
-version = "1.0.30"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "11a711157fd22437c2997896210abd4c5707f5e2d9f48de91cb6bb02b4a6cb6c"
+version = "1.0.32"
+source = "git+https://github.com/kdy1/napi-rs?branch=speedy#c69bf5034dcf3443487dab7fb73d69ac1391f50a"
 dependencies = [
  "convert_case",
  "once_cell",
@@ -5317,14 +5315,4 @@ dependencies = [
 [[patch.unused]]
 name = "napi-build"
 version = "2.0.0"
-source = "git+https://github.com/kdy1/napi-rs?branch=speedy#c69bf5034dcf3443487dab7fb73d69ac1391f50a"
-
-[[patch.unused]]
-name = "napi-derive"
-version = "2.4.1"
-source = "git+https://github.com/kdy1/napi-rs?branch=speedy#c69bf5034dcf3443487dab7fb73d69ac1391f50a"
-
-[[patch.unused]]
-name = "napi-derive-backend"
-version = "1.0.32"
 source = "git+https://github.com/kdy1/napi-rs?branch=speedy#c69bf5034dcf3443487dab7fb73d69ac1391f50a"
