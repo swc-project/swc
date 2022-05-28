@@ -5,7 +5,7 @@ const swc = require('../../')
 const Benchmark = require('benchmark');
 var suite = new Benchmark.Suite;
 
-const filename = path.join(__dirname, '..', '..', 'tests', 'integration', 'three-js', 'repo', 'src', 'Three.js');
+const filename = path.join(__dirname, '..', 'input.js');
 
 suite
     .add('js loader (sync)', async () => {
