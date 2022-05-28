@@ -1198,7 +1198,7 @@ pub enum ModuleConfig {
     #[serde(rename = "systemjs")]
     SystemJs(modules::system_js::Config),
     #[serde(rename = "es6")]
-    Es6,
+    Es6(modules::es6::Config),
 }
 
 impl ModuleConfig {
@@ -1219,13 +1219,16 @@ impl ModuleConfig {
         };
 
         match config {
-            None | Some(ModuleConfig::Es6) => {
+            None | Some(ModuleConfig::Es6(config)) => {
                 if paths.is_empty() {
-                    Box::new(noop())
+                    modules::es6::es6(config)
                 } else {
                     let resolver = build_resolver(base_url, paths);
 
-                    Box::new(import_rewriter(base, resolver))
+                    Box::new(chain!(
+                        import_rewriter(base, resolver),
+                        modules::es6::es6(config)
+                    ))
                 }
             }
             Some(ModuleConfig::CommonJs(config)) => {

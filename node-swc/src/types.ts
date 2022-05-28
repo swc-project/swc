@@ -963,6 +963,7 @@ export interface BaseModuleConfig {
 
 export interface Es6Config extends BaseModuleConfig {
   type: "es6";
+  createRequire?: boolean;
 }
 
 export interface CommonJsConfig extends BaseModuleConfig {

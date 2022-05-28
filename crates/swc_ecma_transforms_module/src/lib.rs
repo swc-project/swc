@@ -3,12 +3,13 @@
 #![allow(clippy::needless_lifetimes)]
 #![allow(clippy::vec_box)]
 
-pub use self::{amd::amd, common_js::common_js, system_js::system_js, umd::umd};
+pub use self::{amd::amd, common_js::common_js, es6::es6, system_js::system_js, umd::umd};
 
 #[macro_use]
 pub mod util;
 pub mod amd;
 pub mod common_js;
+pub mod es6;
 pub mod hoist;
 pub mod import_analysis;
 pub mod path;
