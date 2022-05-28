@@ -50,7 +50,13 @@ where
                     Ok(vec![arg, ext])
                 },
                 move |mut cx: ThreadSafeResultContext<Vec<JsUnknown>>| {
-                    let sender = unsafe { cx.return_value.remove(1).cast::<JsExternal>() };
+                    for v in &cx.return_value {
+                        dbg!(v.get_type());
+                    }
+
+                    let external = cx.return_value.remove(1);
+
+                    let sender = unsafe { external.cast::<JsExternal>() };
                     let unknown = cx.return_value.remove(0);
 
                     let output = map_result(&cx.env, unknown);
