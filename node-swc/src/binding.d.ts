@@ -16,6 +16,7 @@ export function parseFileSync(path: string, opts: Buffer): string
 export function parseFile(path: string, options: Buffer, signal?: AbortSignal | undefined | null): Promise<string>
 export function print(programJson: string, options: Buffer, signal?: AbortSignal | undefined | null): Promise<TransformOutput>
 export function printSync(program: string, options: Buffer): TransformOutput
+export function swcpack(inputs: Array<string>, hooks: object): void
 export function transform(src: string, isModule: boolean, options: Buffer, signal?: AbortSignal | undefined | null): Promise<TransformOutput>
 export function transformSync(s: string, isModule: boolean, opts: Buffer): TransformOutput
 export function transformFile(src: string, isModule: boolean, options: Buffer, signal?: AbortSignal | undefined | null): Promise<TransformOutput>
