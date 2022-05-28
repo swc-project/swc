@@ -40,7 +40,7 @@ impl Analyzer {
             &Default::default(),
             preserved,
             &preserved_symbols,
-            cost > 256,
+            cost > 1024,
         );
 
         map
