@@ -56,6 +56,9 @@
 - **(es/minifier)** Make more passes parallel (#4821) ([4b27df9](https://github.com/swc-project/swc/commit/4b27df9f123262161e06f242a4d5098364a9844f))
 
 
+- **(es/minifier)** Make name mangler parallel (#4824) ([58b2427](https://github.com/swc-project/swc/commit/58b24278eeb83ac721aa73634b67849378d61f82))
+
+
 - **(html/parser)** Improve lexer (#4796) ([8894e77](https://github.com/swc-project/swc/commit/8894e77bc15d63080c5d91048734b33a8f299369))
 
 
