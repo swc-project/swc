@@ -1,7 +1,7 @@
 import swc from '../../index.js'
 
 await swc.swcpack(['files'], {
-    esmLoader: (filename) => {
-        return filename;
+    esmLoader: (filename, a) => {
+        return [filename, a];
     }
 })

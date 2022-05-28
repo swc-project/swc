@@ -57,7 +57,7 @@ where
                     let sender = cx
                         .env
                         .get_value_external::<Option<oneshot::Sender<O>>>(&sender)
-                        .unwrap()
+                        .expect("js code should return the sender arg")
                         .take();
                     if let Some(sender) = sender {
                         sender.send(output);
