@@ -1,3 +1,5 @@
+#![allow(unused)]
+
 macro_rules! opt_leading_space {
     ($emitter:expr, $e:expr) => {
         if let Some(ref e) = $e {

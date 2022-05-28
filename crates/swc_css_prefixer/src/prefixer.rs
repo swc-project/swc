@@ -445,7 +445,7 @@ struct Prefixer {
     added_declarations: Vec<Declaration>,
 }
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub enum Prefix {
     Webkit,
     Moz,

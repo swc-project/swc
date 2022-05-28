@@ -1,3 +1,7 @@
+use std::collections::HashMap;
+
+#[allow(unused)]
+use rayon::prelude::*;
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashMap, util::take::Take};
@@ -66,19 +70,61 @@ impl Scope {
     pub(super) fn rename(
         &mut self,
         to: &mut AHashMap<Id, JsWord>,
+        previous: &AHashMap<Id, JsWord>,
         reverse: &FxHashMap<JsWord, Vec<Id>>,
         preserved: &FxHashSet<Id>,
         preserved_symbols: &FxHashSet<JsWord>,
+        parallel: bool,
     ) {
         let mut queue = self.data.queue.take();
         queue.sort_by(|a, b| b.1.cmp(&a.1));
 
         let mut cloned_reverse = reverse.clone();
 
-        self.rename_one_scope(to, &mut cloned_reverse, queue, preserved, preserved_symbols);
+        self.rename_one_scope(
+            to,
+            previous,
+            &mut cloned_reverse,
+            queue,
+            preserved,
+            preserved_symbols,
+        );
 
-        for child in self.children.iter_mut() {
-            child.rename(to, &cloned_reverse, preserved, preserved_symbols);
+        if parallel {
+            #[cfg(not(target_arch = "wasm32"))]
+            let iter = self.children.par_iter_mut();
+            #[cfg(target_arch = "wasm32")]
+            let iter = self.children.iter_mut();
+
+            let iter = iter
+                .map(|child| {
+                    let mut new_map = HashMap::default();
+                    child.rename(
+                        &mut new_map,
+                        to,
+                        &cloned_reverse,
+                        preserved,
+                        preserved_symbols,
+                        parallel,
+                    );
+                    new_map
+                })
+                .collect::<Vec<_>>();
+
+            for (k, v) in iter.into_iter().flatten() {
+                to.entry(k).or_insert(v);
+            }
+        } else {
+            for child in &mut self.children {
+                child.rename(
+                    to,
+                    &Default::default(),
+                    &cloned_reverse,
+                    preserved,
+                    preserved_symbols,
+                    parallel,
+                );
+            }
         }
     }
 
@@ -86,6 +132,7 @@ impl Scope {
     fn rename_one_scope(
         &self,
         to: &mut AHashMap<Id, JsWord>,
+        previous: &AHashMap<Id, JsWord>,
         cloned_reverse: &mut FxHashMap<JsWord, Vec<Id>>,
         queue: Vec<(Id, u32)>,
         preserved: &FxHashSet<Id>,
@@ -94,7 +141,11 @@ impl Scope {
         let mut n = 0;
 
         for (id, cnt) in queue {
-            if cnt == 0 || preserved.contains(&id) || to.get(&id).is_some() {
+            if cnt == 0
+                || preserved.contains(&id)
+                || to.get(&id).is_some()
+                || previous.get(&id).is_some()
+            {
                 continue;
             }
 
@@ -140,5 +191,9 @@ impl Scope {
         }
 
         true
+    }
+
+    pub fn rename_cost(&self) -> usize {
+        self.data.queue.len() + self.children.iter().map(|v| v.rename_cost()).sum::<usize>()
     }
 }

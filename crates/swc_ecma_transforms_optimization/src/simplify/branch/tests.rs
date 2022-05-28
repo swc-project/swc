@@ -32,9 +32,6 @@ macro_rules! test_stmt {
             true,
         )
     };
-    ($l:expr, $r:expr,) => {
-        test_expr!($l, $r);
-    };
 }
 
 fn test(src: &str, expected: &str) {
