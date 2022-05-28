@@ -5167,3 +5167,8 @@ checksum = "0120db82e8a1e0b9fb3345a539c478767c0048d842860994d96113d5b667bd69"
 dependencies = [
  "winapi",
 ]
+
+[[patch.unused]]
+name = "napi"
+version = "2.4.3"
+source = "git+https://github.com/speedy-js/napi-rs?branch=speedy#628b2c500476cd9f70100158236fbdde6c256f7c"
