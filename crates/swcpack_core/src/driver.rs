@@ -167,9 +167,9 @@ impl Worker {
         self: Arc<Self>,
         filename: Arc<FileName>,
         esm_cache: Arc<EsmLoaderCache>,
-    ) -> Result<AnalyzedFile> {
+    ) -> Result<Res<EsModule>> {
         if let Some(cached) = esm_cache.get(&filename).await {
-            return Ok(cached);
+            return Ok(cached.res);
         }
 
         if cfg!(debug_assertions) {
@@ -178,11 +178,11 @@ impl Worker {
 
         yield_now().await;
 
-        if let Some(cached) = esm_cache.get(&filename).await {
-            return Ok(cached);
-        }
-
         let main = self.clone().load_one_esm(filename.clone()).await?;
+
+        if !esm_cache.insert(filename.clone(), main.clone()).await {
+            return Ok(main);
+        }
 
         // Load deps
         let mut deps = collect_deps(&main.ast);
@@ -229,7 +229,7 @@ impl Worker {
 
         for result in results.into_iter().filter_map(Result::ok) {
             let result = result?;
-            deps.push(result.res.id());
+            deps.push(result.id());
         }
 
         // As we loaded an esm and all dependencies, we can now invoke esm processor
@@ -237,16 +237,12 @@ impl Worker {
         let results = spawn(self.apply_esm_processor(main.clone()));
 
         yield_now().await;
-        let record = AnalyzedFile {
-            res: main,
-            deps: Arc::new(deps),
-        };
 
-        let (a, _) = join!(results, esm_cache.insert(filename.clone(), record.clone()));
+        let (a, _) = join!(results, esm_cache.insert_deps(filename.clone(), deps));
 
         a??;
 
-        Ok(record)
+        Ok(main)
     }
 
     async fn apply_esm_processor(self: Arc<Self>, mut module: Res<EsModule>) -> Result<()> {
@@ -279,14 +275,11 @@ impl Worker {
     async fn load_asset_recursively(
         self: Arc<Self>,
         filename: Arc<FileName>,
-    ) -> Result<AnalyzedFile> {
+    ) -> Result<Res<EsModule>> {
         // TODO(kdy1); Pass context to asset loader so it can add dependencies
         let res = self.load_one_asset(filename.clone()).await?;
 
-        Ok(AnalyzedFile {
-            res,
-            deps: Default::default(),
-        })
+        Ok(res)
     }
 
     async fn load_one_asset(self: Arc<Self>, filename: Arc<FileName>) -> Result<Res<EsModule>> {

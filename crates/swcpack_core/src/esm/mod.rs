@@ -1,4 +1,4 @@
-use std::sync::Arc;
+use std::{collections::hash_map::Entry, sync::Arc};
 
 use anyhow::Result;
 use async_trait::async_trait;
@@ -22,7 +22,7 @@ pub struct EsmLoaderCache {
 #[derive(Debug, Clone)]
 pub(crate) struct AnalyzedFile {
     pub res: Res<EsModule>,
-    pub deps: Arc<Vec<ResourceId>>,
+    pub deps: Option<Arc<Vec<ResourceId>>>,
 }
 
 impl EsmLoaderCache {
@@ -31,12 +31,24 @@ impl EsmLoaderCache {
     }
 
     /// Returns true if this is first insert of `filename`.
-    pub(crate) async fn insert(
-        &self,
-        filename: Arc<FileName>,
-        module: AnalyzedFile,
-    ) -> Option<AnalyzedFile> {
-        self.cache.lock().await.insert(filename, module)
+    pub(crate) async fn insert(&self, filename: Arc<FileName>, module: Res<EsModule>) -> bool {
+        match self.cache.lock().await.entry(filename) {
+            Entry::Occupied(_) => false,
+            Entry::Vacant(e) => {
+                e.insert(AnalyzedFile {
+                    res: module,
+                    deps: None,
+                });
+                true
+            }
+        }
+    }
+
+    pub(crate) async fn insert_deps(&self, filename: Arc<FileName>, deps: Vec<ResourceId>) {
+        match self.cache.lock().await.entry(filename) {
+            Entry::Occupied(e) => {}
+            Entry::Vacant(e) => {}
+        }
     }
 }
 
