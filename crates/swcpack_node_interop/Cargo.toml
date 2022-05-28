@@ -9,7 +9,7 @@ version = "0.1.0"
 [dependencies]
 anyhow = "1.0.57"
 async-trait = "0.1.53"
-napi = { version = "2", features = ["napi4"] }
+napi = { version = "2", features = ["napi4", "tokio_rt"] }
 rayon = "1.5.3"
 swc_common = { features = ["concurrent"], path = "../swc_common" }
 swc_ecma_ast = { path = "../swc_ecma_ast" }
