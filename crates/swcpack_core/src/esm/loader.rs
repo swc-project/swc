@@ -20,8 +20,31 @@ where
 {
     cm: Arc<SourceMap>,
     id_gen: ResourceIdGenerator,
-    cache: Mutex<FxHashMap<Arc<FileName>, CacheEntry>>,
+    cache: Option<Mutex<FxHashMap<Arc<FileName>, CacheEntry>>>,
     file_loader: FL,
+}
+
+impl<FL> ParsingEsmLoader<FL>
+where
+    FL: FileLoader,
+{
+    pub fn new(
+        cm: Arc<SourceMap>,
+        id_gen: ResourceIdGenerator,
+        cache: bool,
+        file_loader: FL,
+    ) -> Self {
+        Self {
+            cm,
+            id_gen,
+            cache: if cache {
+                Some(Default::default())
+            } else {
+                None
+            },
+            file_loader,
+        }
+    }
 }
 
 struct CacheEntry {
@@ -41,21 +64,24 @@ where
     ) -> Result<Res<EsModule>> {
         let content = self.file_loader.load_file(filename.clone()).await?;
 
-        match self.cache.lock().await.entry(filename.clone()) {
-            Entry::Occupied(e) => {
-                // If the cache is fresh, return it.
-                if content.ptr_eq(&e.get().prev) {
-                    return Ok(e.get().parsed.clone());
-                }
+        if let Some(cache) = &self.cache {
+            match cache.lock().await.entry(filename.clone()) {
+                Entry::Occupied(e) => {
+                    // If the cache is fresh, return it.
+                    if content.ptr_eq(&e.get().prev) {
+                        return Ok(e.get().parsed.clone());
+                    }
 
-                if **content == **e.get().prev {
-                    warn!(
-                        "File content is not changed, but the file loader created a new Resource"
-                    );
-                    return Ok(e.get().parsed.clone());
+                    if **content == **e.get().prev {
+                        warn!(
+                            "File content is not changed, but the file loader created a new \
+                             Resource"
+                        );
+                        return Ok(e.get().parsed.clone());
+                    }
                 }
+                Entry::Vacant(..) => {}
             }
-            Entry::Vacant(..) => {}
         }
 
         let fm = self.cm.new_source_file(
@@ -82,13 +108,15 @@ where
             },
         );
 
-        self.cache.lock().await.insert(
-            filename.clone(),
-            CacheEntry {
-                prev: content,
-                parsed: result.clone(),
-            },
-        );
+        if let Some(cache) = &self.cache {
+            cache.lock().await.insert(
+                filename.clone(),
+                CacheEntry {
+                    prev: content,
+                    parsed: result.clone(),
+                },
+            );
+        }
 
         Ok(result)
     }
