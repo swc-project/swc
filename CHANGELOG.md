@@ -49,6 +49,12 @@
 
 - **(html/minifier)** Compress more json types (#4813) ([731c59e](https://github.com/swc-project/swc/commit/731c59e9b7df7edd300871db8657e0d49b6b9a80))
 
+### Miscellaneous Tasks
+
+
+
+- **(common)** Update rustc (#4828) ([f847709](https://github.com/swc-project/swc/commit/f84770978719cda6eea689b9dd90259e9c2f05c9))
+
 ### Performance
 
 
