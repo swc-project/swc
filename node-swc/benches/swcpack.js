@@ -7,19 +7,29 @@ var suite = new Benchmark.Suite;
 
 const filename = path.join(__dirname, '..', 'input.js');
 
+function p(fn) {
+    return {
+        defer: true,
+        async fn(deferred) {
+            await fn();
+            deferred.resolve();
+        }
+    }
+}
+
 suite
-    .add('js loader (sync)', async () => {
+    .add('js loader (sync)', p(async () => {
         const res = await swc.swcpack([filename], {
             esmLoader: (_, filename, a) => {
                 const src = fs.readFileSync(filename, 'utf8');
                 return [src, a];
             }
         });
-    })
-    .add('rust loader', async () => {
+    }))
+    .add('rust loader', p(async () => {
         const res = await swc.swcpack([filename], {
         })
-    })
+    }))
     .on('cycle', function (event) {
         console.log(String(event.target));
     })
