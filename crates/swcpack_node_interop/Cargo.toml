@@ -11,8 +11,8 @@ anyhow = "1.0.57"
 async-trait = "0.1.53"
 napi = {version = "2", features = ["napi4"]}
 rayon = "1.5.3"
-swc_common = {version = "0.18.7", features = ["concurrent"]}
-swc_ecma_ast = "0.78.1"
-swc_ecma_parser = "0.104.2"
+swc_common = {features = ["concurrent"], path = "../swc_common"}
+swc_ecma_ast = {path = "../swc_ecma_ast"}
+swc_ecma_parser = {path = "../swc_ecma_parser"}
 swcpack_core = {path = "../swcpack_core"}
 tokio = {version = "1.18.2", features = ["sync"]}
