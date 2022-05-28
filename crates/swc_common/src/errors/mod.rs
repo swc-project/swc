@@ -40,7 +40,7 @@ mod lock;
 mod snippet;
 mod styled_buffer;
 
-#[derive(Copy, Clone, Debug, PartialEq, Hash)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
 #[cfg_attr(
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)
@@ -56,7 +56,7 @@ pub enum Applicability {
     Unspecified,
 }
 
-#[derive(Clone, Debug, PartialEq, Hash)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash)]
 #[cfg_attr(
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)
@@ -106,7 +106,7 @@ pub struct CodeSuggestion {
     pub applicability: Applicability,
 }
 
-#[derive(Clone, Debug, PartialEq, Hash)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash)]
 /// See the docs on `CodeSuggestion::substitutions`
 #[cfg_attr(
     feature = "diagnostic-serde",
@@ -120,7 +120,7 @@ pub struct Substitution {
     pub parts: Vec<SubstitutionPart>,
 }
 
-#[derive(Clone, Debug, PartialEq, Hash)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash)]
 #[cfg_attr(
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)
@@ -866,7 +866,7 @@ impl Handler {
     }
 }
 
-#[derive(Copy, PartialEq, Clone, Hash, Debug)]
+#[derive(Copy, PartialEq, Eq, Clone, Hash, Debug)]
 #[cfg_attr(
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)

@@ -44,6 +44,7 @@ pub struct DiagnosticBuilder<'a> {
 /// `diagnostic`, because the return type would be a `&Diagnostic`
 /// instead of a `&DiagnosticBuilder<'a>`. This `forward!` macro makes
 /// it easy to declare such methods on the builder.
+#[allow(unused)]
 macro_rules! forward {
     // Forward pattern for &self -> &Self
     (pub fn $n:ident(&self, $($name:ident: $ty:ty),* $(,)*) -> &Self) => {
