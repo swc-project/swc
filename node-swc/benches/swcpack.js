@@ -23,6 +23,10 @@ suite
             loadEsm: async (filename) => {
                 const src = await fs.promises.readFile(filename, 'utf8');
                 return src;
+            },
+            preprocessEsm: async (astJson) => {
+                const ast = JSON.parse(astJson);
+                return JSON.stringify(ast);
             }
         });
     }))
