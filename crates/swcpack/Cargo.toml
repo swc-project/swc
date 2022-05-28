@@ -1,0 +1,21 @@
+[package]
+edition = "2021"
+name = "swcpack"
+publish = false
+version = "0.1.0"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0.57"
+async-trait = "0.1.53"
+swc_common = {version = "0.18.7", features = ["concurrent"]}
+swc_ecma_ast = "0.78.1"
+swc_ecma_loader = {version = "0.30.2", features = ["node"]}
+swc_ecma_parser = "0.104.2"
+swcpack_core = {path = "../swcpack_core"}
+swcpack_node_interop = {path = "../swcpack_node_interop"}
+tokio = "1.18.2"
+
+[dev-dependencies]
+testing = "0.20.1"

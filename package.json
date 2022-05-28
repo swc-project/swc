@@ -69,7 +69,7 @@
             "taplo format"
         ],
         "*.rs": [
-            "rustfmt --"
+            "rustfmt --edition 2021 --"
         ],
         "*.js": [
             "prettier --write"

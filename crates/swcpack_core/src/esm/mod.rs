@@ -1,0 +1,87 @@
+use std::sync::Arc;
+
+use anyhow::Result;
+use async_trait::async_trait;
+use swc_common::{collections::AHashMap, FileName};
+use swc_ecma_ast::Module;
+use tokio::sync::Mutex;
+
+use crate::{
+    metadata::Metadata,
+    resource::{Res, ResourceId},
+};
+
+pub(crate) mod deps;
+
+/// Shared between module graphs.
+#[derive(Default)]
+pub struct EsmLoaderCache {
+    cache: Mutex<AHashMap<Arc<FileName>, AnalyzedFile>>,
+}
+
+#[derive(Debug, Clone)]
+pub(crate) struct AnalyzedFile {
+    pub res: Res<EsModule>,
+    pub deps: Arc<Vec<ResourceId>>,
+}
+
+impl EsmLoaderCache {
+    pub(crate) async fn get(&self, filename: &Arc<FileName>) -> Option<AnalyzedFile> {
+        self.cache.lock().await.get(filename).cloned()
+    }
+
+    /// Returns true if this is first insert of `filename`.
+    pub(crate) async fn insert(
+        &self,
+        filename: Arc<FileName>,
+        module: AnalyzedFile,
+    ) -> Option<AnalyzedFile> {
+        self.cache.lock().await.insert(filename, module)
+    }
+}
+
+///
+///  - Applies typescript::strip and `resolver` pass.
+///  - Caches modules.
+#[async_trait]
+pub trait EsmLoader: Send + Sync {
+    async fn load_esm(
+        &self,
+        ctx: &mut EsmLoaderContext,
+        filename: Arc<FileName>,
+    ) -> Result<Res<EsModule>>;
+}
+
+pub struct EsmLoaderContext<'a> {
+    pub file_metadata: &'a mut Metadata,
+    pub driver_metadata: &'a Mutex<Metadata>,
+}
+
+#[derive(Debug)]
+pub struct EsModule {
+    pub name: Arc<FileName>,
+    pub ast: Module,
+}
+
+/// Work on each ES modules and can change imports.
+///
+/// This is called after parsing but before resolving/loading dependencies.
+///
+/// # Caching
+///
+/// The implementor should handle cache. This is because cache
+/// invalidation logic is different per preprocessor.
+///
+/// See the documentation of [Res] to know how cache works with `swcpack`.
+#[async_trait]
+pub trait EsmPreprocessor: Send + Sync {
+    async fn preprocess_esm(&self, m: &mut Res<EsModule>) -> Result<()>;
+}
+
+/// Work on each es modules. Used for applying transforms like babel or swc.
+///
+/// This is invoked after loading all dependencies, including assets.
+#[async_trait]
+pub trait EsmProcessor: Send + Sync {
+    async fn process_esm(&self, m: &mut Res<EsModule>) -> Result<()>;
+}

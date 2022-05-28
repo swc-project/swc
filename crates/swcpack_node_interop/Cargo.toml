@@ -1,0 +1,18 @@
+[package]
+edition = "2021"
+name = "swcpack_node_interop"
+publish = false
+version = "0.1.0"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0.57"
+async-trait = "0.1.53"
+napi = {version = "2", features = ["napi4"]}
+rayon = "1.5.3"
+swc_common = {version = "0.18.7", features = ["concurrent"]}
+swc_ecma_ast = "0.78.1"
+swc_ecma_parser = "0.104.2"
+swcpack_core = {path = "../swcpack_core"}
+tokio = {version = "1.18.2", features = ["sync"]}
