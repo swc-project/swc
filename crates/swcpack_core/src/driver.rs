@@ -8,7 +8,7 @@ use petgraph::graphmap::DiGraphMap;
 use swc_common::{collections::AHashMap, FileName};
 use swc_ecma_loader::resolve::Resolve;
 use tokio::{join, spawn, sync::Mutex, task::yield_now, try_join};
-use tracing::debug;
+use tracing::{debug, info};
 
 use self::private::Sealed;
 use crate::{
@@ -86,7 +86,7 @@ impl Drive for Driver {
         esm_cache: Arc<EsmLoaderCache>,
     ) -> Result<Self::LoadedModule> {
         if cfg!(debug_assertions) {
-            dbg!("Driver::create_module_graph started");
+            info!("Driver::create_module_graph started");
         }
 
         let inputs = self.input.get_inputs().await?;
