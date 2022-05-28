@@ -62,9 +62,9 @@ impl EsmLoaderCache {
 
     pub(crate) async fn get_deps(
         &self,
-        filename: Arc<FileName>,
+        filename: &Arc<FileName>,
     ) -> Option<Arc<Vec<Res<EsModule>>>> {
-        match self.cache.lock().await.get(&filename) {
+        match self.cache.lock().await.get(filename) {
             Some(v) => v.deps.clone(),
             None => None,
         }

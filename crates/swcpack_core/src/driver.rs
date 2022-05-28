@@ -128,17 +128,20 @@ impl Drive for Driver {
         let mut entries = vec![];
         let mut graph = DiGraphMap::default();
 
+        // TODO: Make this recursive
         for entry in entry_modules.into_iter().filter_map(Result::ok) {
             let entry = entry?;
 
-            entries.push(entry.res.id());
+            entries.push(entry.id());
 
-            graph.add_node(entry.res.id());
+            graph.add_node(entry.id());
 
-            for dep in entry.deps.iter().copied() {
-                graph.add_node(dep);
+            if let Some(deps) = esm_cache.get_deps(&entry.name).await {
+                for dep in deps.iter() {
+                    graph.add_node(dep.id());
 
-                graph.add_edge(entry.res.id(), dep, ());
+                    graph.add_edge(entry.id(), dep.id(), ());
+                }
             }
         }
 
