@@ -5,16 +5,14 @@ const swc = require('../../')
 const Benchmark = require('benchmark');
 var suite = new Benchmark.Suite;
 
-const filename = path.join(__dirname, '..', 'input.js');
-
-const SOURCE = fs.readFileSync(filename, 'utf8');
-
+const filename = path.join(__dirname, '..', '..', 'tests', 'integration', 'three-js', 'repo', 'src', 'Three.js');
 
 suite
-    .add('js loader (without fs operation)', async () => {
+    .add('js loader (sync)', async () => {
         const res = await swc.swcpack([filename], {
             esmLoader: (_, filename, a) => {
-                return [SOURCE, a];
+                const src = fs.readFileSync(filename, 'utf8');
+                return [src, a];
             }
         });
     })
