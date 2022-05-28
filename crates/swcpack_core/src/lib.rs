@@ -9,7 +9,7 @@ use self::{
     asset::{AssetGraphPlugin, AssetLoader, AssetProcessor},
     bundle::BundleProcessor,
     driver::Drive,
-    esm::{EsmLoader, EsmLoaderCache, EsmPreprocessor, EsmProcessor},
+    esm::{EsmLoader, EsmLoaderStorage, EsmPreprocessor, EsmProcessor},
 };
 
 pub mod asset;
@@ -31,7 +31,7 @@ where
 
 #[derive(Default)]
 struct BundlerData {
-    esm_loader_cache: Arc<EsmLoaderCache>,
+    esm_loader_cache: Arc<EsmLoaderStorage>,
 }
 
 impl<D> Bundler<D>

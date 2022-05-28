@@ -16,7 +16,7 @@ pub mod loader;
 
 /// Shared between module graphs.
 #[derive(Default)]
-pub struct EsmLoaderCache {
+pub struct EsmLoaderStorage {
     cache: Mutex<AHashMap<Arc<FileName>, AnalyzedFile>>,
 }
 
@@ -26,7 +26,7 @@ pub(crate) struct AnalyzedFile {
     pub deps: Option<Arc<Vec<Res<EsModule>>>>,
 }
 
-impl EsmLoaderCache {
+impl EsmLoaderStorage {
     pub(crate) async fn get(&self, filename: &Arc<FileName>) -> Option<AnalyzedFile> {
         self.cache.lock().await.get(filename).cloned()
     }

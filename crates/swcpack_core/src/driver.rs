@@ -14,7 +14,7 @@ use self::private::Sealed;
 use crate::{
     asset::{AssetLoader, AssetLoaderContext, AssetProcessor},
     esm::{
-        deps::collect_deps, AnalyzedFile, EsModule, EsmLoader, EsmLoaderCache, EsmLoaderContext,
+        deps::collect_deps, AnalyzedFile, EsModule, EsmLoader, EsmLoaderContext, EsmLoaderStorage,
         EsmPreprocessor, EsmPreprocessorContext, EsmProcessor,
     },
     input::BundlerInput,
@@ -42,7 +42,7 @@ pub trait Drive: Sized + Send + Sync + Sealed {
     ///  - Apply processors
     async fn create_module_graph(
         &mut self,
-        esm_cache: Arc<EsmLoaderCache>,
+        esm_cache: Arc<EsmLoaderStorage>,
     ) -> Result<Self::LoadedModule>;
 }
 
@@ -83,7 +83,7 @@ impl Drive for Driver {
 
     async fn create_module_graph(
         &mut self,
-        esm_cache: Arc<EsmLoaderCache>,
+        esm_cache: Arc<EsmLoaderStorage>,
     ) -> Result<Self::LoadedModule> {
         if cfg!(debug_assertions) {
             info!("Driver::create_module_graph started");
@@ -168,7 +168,7 @@ impl Worker {
     async fn load_esm_recursively(
         self: Arc<Self>,
         filename: Arc<FileName>,
-        esm_cache: Arc<EsmLoaderCache>,
+        esm_cache: Arc<EsmLoaderStorage>,
     ) -> Result<Res<EsModule>> {
         if let Some(cached) = esm_cache.get(&filename).await {
             return Ok(cached.res);
@@ -336,7 +336,7 @@ where
 
     async fn create_module_graph(
         &mut self,
-        esm_cache: Arc<EsmLoaderCache>,
+        esm_cache: Arc<EsmLoaderStorage>,
     ) -> Result<Self::LoadedModule> {
         let first = self.first.create_module_graph(esm_cache.clone());
         let second = self.second.create_module_graph(esm_cache);
