@@ -82,30 +82,8 @@ impl JsEsmLoader {
     ) -> napi::Result<Self> {
         fn map_to_js(env: &Env, v: String) -> napi::Result<JsUnknown> {
             dbg!(&v);
-            dbg!(&v);
-            dbg!(&v);
-            dbg!(&v);
-            dbg!(&v);
-            dbg!(&v);
-            dbg!(&v);
-            dbg!(&v);
-            dbg!(&v);
-            dbg!(&v);
-            dbg!(&v);
-            dbg!(&v);
             let s = env.create_string(&v)?.into_unknown();
 
-            dbg!(&v);
-            dbg!(&v);
-            dbg!(&v);
-            dbg!(&v);
-            dbg!(&v);
-            dbg!(&v);
-            dbg!(&v);
-            dbg!(&v);
-            dbg!(&v);
-            dbg!(&v);
-            dbg!(&v);
             dbg!(&v);
             Ok(s)
         }
