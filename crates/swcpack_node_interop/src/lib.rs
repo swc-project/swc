@@ -13,6 +13,7 @@ use swcpack_core::{
         EsModule, EsmLoader, EsmLoaderContext, EsmPreprocessor, EsmPreprocessorContext,
         EsmProcessor,
     },
+    file::FileLoader,
     resource::{Res, ResourceIdGenerator},
 };
 
@@ -68,58 +69,27 @@ impl AssetProcessor for JsAssetProcessor {
     }
 }
 
-pub struct JsEsmLoader {
-    cm: Arc<SourceMap>,
-    res_id_gen: ResourceIdGenerator,
+pub struct JsFileLoader {
+    id_gen: ResourceIdGenerator,
 
     /// `(filename) => (code)`
     f: JsHook<String, String>,
 }
 
-impl JsEsmLoader {
-    pub fn new(
-        cm: Arc<SourceMap>,
-        res_id_gen: ResourceIdGenerator,
-        env: &Env,
-        f: &JsFunction,
-    ) -> napi::Result<Self> {
+impl JsFileLoader {
+    pub fn new(id_gen: ResourceIdGenerator, env: &Env, f: &JsFunction) -> napi::Result<Self> {
         Ok(Self {
-            cm,
-            res_id_gen,
+            id_gen,
             f: JsHook::new(env, f)?,
         })
     }
 }
 
 #[async_trait]
-impl EsmLoader for JsEsmLoader {
-    async fn load_esm(
-        &self,
-        ctx: &mut EsmLoaderContext,
-        filename: Arc<FileName>,
-    ) -> Result<Res<EsModule>> {
-        let code = self.f.call(filename.to_string()).await?;
-
-        // dbg!(&code);
-
-        let fm = self.cm.new_source_file((*filename).clone(), code);
-
-        let m = parse_file_as_module(
-            &fm,
-            Syntax::default(),
-            EsVersion::latest(),
-            None,
-            &mut vec![],
-        )
-        .map_err(|err| anyhow::anyhow!("failed to parse: {:?}", err))?;
-
-        Ok(Res::new(
-            &self.res_id_gen,
-            EsModule {
-                name: filename.clone(),
-                ast: m,
-            },
-        ))
+impl FileLoader for JsFileLoader {
+    async fn load_file(&self, filename: Arc<FileName>) -> Result<Res<Vec<u8>>> {
+        let content = self.f.call(filename.to_string()).await?.into_bytes();
+        Ok(Res::new(&self.id_gen, content))
     }
 }
 

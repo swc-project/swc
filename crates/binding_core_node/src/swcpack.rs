@@ -4,31 +4,37 @@ use napi::{Env, JsFunction, JsObject};
 use swc_common::{FileName, SourceMap};
 use swc_ecma_loader::resolvers::node::NodeModulesResolver;
 use swcpack::{
-    TestAssetGraphPlugin, TestAssetLoader, TestAssetPlugin, TestBundleProcessor, TestEsmLaoder,
-    TestEsmPreprocessor, TestEsmProcessor,
+    TestAssetGraphPlugin, TestAssetLoader, TestAssetPlugin, TestBundleProcessor,
+    TestEsmPreprocessor, TestEsmProcessor, TestFileLoader,
 };
-use swcpack_core::{driver::Driver, esm::EsmLoader, resource::ResourceIdGenerator, Bundler, Mode};
-use swcpack_node_interop::JsEsmLoader;
+use swcpack_core::{
+    driver::Driver,
+    esm::{loader::ParsingEsmLoader, EsmLoader},
+    file::FileLoader,
+    resource::ResourceIdGenerator,
+    Bundler, Mode,
+};
+use swcpack_node_interop::JsFileLoader;
 
 #[napi]
 fn swcpack(env: Env, inputs: Vec<String>, hooks: JsObject) -> napi::Result<JsObject> {
     let cm = Arc::new(SourceMap::default());
     let id_gen = ResourceIdGenerator::default();
 
-    let esm_loader = hooks.get::<_, JsFunction>("esmLoader")?;
+    let file_loader = hooks.get::<_, JsFunction>("esmLoader")?;
+    let file_loader = file_loader
+        .map(|f| JsFileLoader::new(id_gen.clone(), &env, &f))
+        .transpose()?
+        .map(|v| Arc::new(v) as Arc<dyn FileLoader>)
+        .unwrap_or_else(|| {
+            Arc::new(TestFileLoader {
+                id_gen: id_gen.clone(),
+            }) as Arc<dyn FileLoader>
+        });
 
     let mode = Mode {
         resolver: Arc::new(NodeModulesResolver::default()),
-        esm_loader: esm_loader
-            .map(|f| JsEsmLoader::new(cm.clone(), id_gen.clone(), &env, &f))
-            .transpose()?
-            .map(|v| Arc::new(v) as Arc<dyn EsmLoader>)
-            .unwrap_or_else(|| {
-                Arc::new(TestEsmLaoder {
-                    cm: cm.clone(),
-                    id_gen: id_gen.clone(),
-                }) as Arc<dyn EsmLoader>
-            }),
+        esm_loader: Arc::new(ParsingEsmLoader::new(cm, id_gen, true, file_loader)),
         esm_preprocessor: Arc::new(TestEsmPreprocessor {}),
         esm_processor: Arc::new(TestEsmProcessor {}),
         asset_loader: Arc::new(TestAssetLoader {}),

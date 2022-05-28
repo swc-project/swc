@@ -10,3 +10,13 @@ use crate::resource::Res;
 pub trait FileLoader: Send + Sync {
     async fn load_file(&self, filename: Arc<FileName>) -> Result<Res<Vec<u8>>>;
 }
+
+#[async_trait]
+impl<FL: ?Sized> FileLoader for Arc<FL>
+where
+    FL: FileLoader,
+{
+    async fn load_file(&self, filename: Arc<FileName>) -> Result<Res<Vec<u8>>> {
+        self.as_ref().load_file(filename).await
+    }
+}

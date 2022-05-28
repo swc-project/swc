@@ -5,10 +5,12 @@ use std::{fs::read_dir, path::PathBuf, sync::Arc};
 use swc_common::{FileName, SourceMap};
 use swc_ecma_loader::resolvers::node::NodeModulesResolver;
 use swcpack::{
-    TestAssetGraphPlugin, TestAssetLoader, TestAssetPlugin, TestBundleProcessor, TestEsmLaoder,
+    TestAssetGraphPlugin, TestAssetLoader, TestAssetPlugin, TestBundleProcessor,
     TestEsmPreprocessor, TestEsmProcessor,
 };
-use swcpack_core::{driver::Driver, resource::ResourceIdGenerator, Bundler, Mode};
+use swcpack_core::{
+    driver::Driver, esm::loader::ParsingEsmLoader, resource::ResourceIdGenerator, Bundler, Mode,
+};
 
 #[testing::fixture("tests/projects/**/input")]
 fn fixture(input_dir: PathBuf) {
@@ -39,10 +41,7 @@ fn fixture(input_dir: PathBuf) {
         let mut bundler = Bundler::new(Driver::new(
             Mode {
                 resolver: Arc::new(NodeModulesResolver::default()),
-                esm_loader: Arc::new(TestEsmLaoder {
-                    cm: cm.clone(),
-                    id_gen: id_generator,
-                }),
+                esm_loader: Arc::new(ParsingEsmLoader::new()),
                 esm_preprocessor: Arc::new(TestEsmPreprocessor {}),
                 esm_processor: Arc::new(TestEsmProcessor {}),
                 asset_loader: Arc::new(TestAssetLoader {}),

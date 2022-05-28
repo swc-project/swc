@@ -11,47 +11,26 @@ use swcpack_core::{
         EsModule, EsmLoader, EsmLoaderContext, EsmPreprocessor, EsmPreprocessorContext,
         EsmProcessor,
     },
+    file::FileLoader,
     resource::{Res, ResourceIdGenerator},
 };
 
-pub struct TestEsmLaoder {
+pub struct TestFileLoader {
     pub id_gen: ResourceIdGenerator,
-    pub cm: Arc<SourceMap>,
 }
 
 #[async_trait]
-impl EsmLoader for TestEsmLaoder {
-    async fn load_esm(
-        &self,
-        ctx: &mut EsmLoaderContext,
-        file: Arc<FileName>,
-    ) -> Result<Res<EsModule>> {
-        let fm = match &*file {
-            FileName::Real(path) => self.cm.load_file(path).context("failed to load file")?,
-
-            _ => {
-                bail!("TestEsmLoader does not support {:?}", file)
+impl FileLoader for TestFileLoader {
+    async fn load_file(&self, filename: Arc<FileName>) -> Result<Res<Vec<u8>>> {
+        match &*filename {
+            FileName::Real(path) => {
+                let content = std::fs::read(&path)?;
+                return Ok(Res::new(&self.id_gen, content));
             }
-        };
-
-        let m = parse_file_as_module(
-            &fm,
-            Syntax::Es(EsConfig {
-                ..Default::default()
-            }),
-            swc_ecma_ast::EsVersion::latest(),
-            None,
-            &mut vec![],
-        )
-        .map_err(|e| anyhow::anyhow!("failed to parse file: {:?}", e))?;
-
-        Ok(Res::new(
-            &self.id_gen,
-            EsModule {
-                name: file.clone(),
-                ast: m,
-            },
-        ))
+            _ => {
+                unimplemented!()
+            }
+        }
     }
 }
 
