@@ -61,7 +61,7 @@ impl PrivateRecord {
     }
 }
 
-#[derive(Copy, Clone, PartialEq, Default)]
+#[derive(Copy, Clone, PartialEq, Default, Eq)]
 pub(super) struct PrivateKind {
     pub is_static: bool,
     pub is_method: bool,
