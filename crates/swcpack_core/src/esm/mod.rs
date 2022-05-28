@@ -7,7 +7,7 @@ use swc_ecma_ast::Module;
 use tokio::sync::Mutex;
 
 use crate::{
-    metadata::Metadata,
+    metadata::{FileContext, Metadata},
     resource::{Res, ResourceId},
 };
 
@@ -84,8 +84,7 @@ pub trait EsmLoader: Send + Sync {
 }
 
 pub struct EsmLoaderContext<'a> {
-    pub file_metadata: &'a mut Metadata,
-    pub driver_metadata: &'a Mutex<Metadata>,
+    pub base: FileContext<'a>,
 }
 
 #[derive(Debug)]
@@ -106,7 +105,15 @@ pub struct EsModule {
 /// See the documentation of [Res] to know how cache works with `swcpack`.
 #[async_trait]
 pub trait EsmPreprocessor: Send + Sync {
-    async fn preprocess_esm(&self, m: &mut Res<EsModule>) -> Result<()>;
+    async fn preprocess_esm(
+        &self,
+        ctx: &mut EsmPreprocessorContext,
+        m: &mut Res<EsModule>,
+    ) -> Result<()>;
+}
+
+pub struct EsmPreprocessorContext<'a> {
+    pub base: FileContext<'a>,
 }
 
 /// Work on each es modules. Used for applying transforms like babel or swc.

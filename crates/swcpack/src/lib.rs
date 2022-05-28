@@ -7,7 +7,10 @@ use swc_ecma_parser::{parse_file_as_module, EsConfig, Syntax};
 use swcpack_core::{
     asset::{AssetGraphPlugin, AssetLoader, AssetLoaderContext, AssetProcessor},
     bundle::BundleProcessor,
-    esm::{EsModule, EsmLoader, EsmLoaderContext, EsmPreprocessor, EsmProcessor},
+    esm::{
+        EsModule, EsmLoader, EsmLoaderContext, EsmPreprocessor, EsmPreprocessorContext,
+        EsmProcessor,
+    },
     resource::{Res, ResourceIdGenerator},
 };
 
@@ -56,7 +59,11 @@ pub struct TestEsmPreprocessor {}
 
 #[async_trait]
 impl EsmPreprocessor for TestEsmPreprocessor {
-    async fn preprocess_esm(&self, m: &mut Res<EsModule>) -> Result<()> {
+    async fn preprocess_esm(
+        &self,
+        ctx: &mut EsmPreprocessorContext,
+        m: &mut Res<EsModule>,
+    ) -> Result<()> {
         Ok(())
     }
 }

@@ -9,7 +9,10 @@ use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{parse_file_as_module, Syntax};
 use swcpack_core::{
     asset::{AssetLoader, AssetLoaderContext, AssetProcessor},
-    esm::{EsModule, EsmLoader, EsmLoaderContext, EsmPreprocessor, EsmProcessor},
+    esm::{
+        EsModule, EsmLoader, EsmLoaderContext, EsmPreprocessor, EsmPreprocessorContext,
+        EsmProcessor,
+    },
     resource::{Res, ResourceIdGenerator},
 };
 
@@ -127,7 +130,11 @@ pub struct JsEsmPreprocessor {
 
 #[async_trait]
 impl EsmPreprocessor for JsEsmPreprocessor {
-    async fn preprocess_esm(&self, m: &mut Res<EsModule>) -> Result<()> {
+    async fn preprocess_esm(
+        &self,
+        ctx: &mut EsmPreprocessorContext,
+        m: &mut Res<EsModule>,
+    ) -> Result<()> {
         todo!("JsEsmPreprocessor::preprocess_esm");
     }
 }

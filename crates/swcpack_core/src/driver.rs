@@ -15,10 +15,10 @@ use crate::{
     asset::{AssetLoader, AssetLoaderContext, AssetProcessor},
     esm::{
         deps::collect_deps, AnalyzedFile, EsModule, EsmLoader, EsmLoaderCache, EsmLoaderContext,
-        EsmPreprocessor, EsmProcessor,
+        EsmPreprocessor, EsmPreprocessorContext, EsmProcessor,
     },
     input::BundlerInput,
-    metadata::Metadata,
+    metadata::{FileContext, Metadata},
     resource::{Res, ResourceId},
     Mode,
 };
@@ -258,19 +258,31 @@ impl Worker {
     async fn load_one_esm(self: Arc<Self>, filename: Arc<FileName>) -> Result<Res<EsModule>> {
         let mut file_metadata = Metadata::default();
         let mut esm_ctx = EsmLoaderContext {
-            file_metadata: &mut file_metadata,
-            driver_metadata: &self.driver_metadata,
+            base: FileContext {
+                file_metadata: &mut file_metadata,
+                driver_metadata: &self.driver_metadata,
+            },
         };
         let mut m = self
             .esm_loader
             .load_esm(&mut esm_ctx, filename.clone())
             .await?;
+
+        let mut esm_ctx = EsmPreprocessorContext {
+            base: FileContext {
+                file_metadata: &mut file_metadata,
+                driver_metadata: &self.driver_metadata,
+            },
+        };
+
+        self.esm_preprocessor
+            .preprocess_esm(&mut esm_ctx, &mut m)
+            .await?;
+
         self.file_metadata
             .lock()
             .await
             .insert(filename.clone(), file_metadata);
-
-        self.esm_preprocessor.preprocess_esm(&mut m).await?;
 
         Ok(m)
     }
