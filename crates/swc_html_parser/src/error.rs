@@ -1,3 +1,5 @@
+#![allow(clippy::derive_partial_eq_without_eq)]
+
 use std::borrow::Cow;
 
 use swc_atoms::JsWord;

@@ -1,3 +1,5 @@
+#![allow(clippy::derive_partial_eq_without_eq)]
+
 //! Test that `#[span]` and `#[fold]` can be used at same time.
 use serde::{self, Deserialize, Serialize};
 use swc_common::{self, ast_node, Span, Spanned};
