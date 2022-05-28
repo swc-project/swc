@@ -164,7 +164,6 @@ struct Worker {
 }
 
 impl Worker {
-    /// TODO: Return graph based on resource id
     #[async_recursion]
     async fn load_esm_recursively(
         self: Arc<Self>,
@@ -291,7 +290,6 @@ impl Worker {
         self: Arc<Self>,
         filename: Arc<FileName>,
     ) -> Result<Res<EsModule>> {
-        // TODO(kdy1); Pass context to asset loader so it can add dependencies
         let res = self.load_one_asset(filename.clone()).await?;
 
         Ok(res)
