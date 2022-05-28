@@ -4,13 +4,13 @@ use std::{
 };
 
 use anyhow::Context as _;
-use binding_commons::{deserialize_json, get_deserialized, MapErr};
 use napi::{
     bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
     Env, Task,
 };
 use swc::{config::ParseOptions, Compiler};
 use swc_common::{comments::Comments, FileName};
+use swc_nodejs_common::{deserialize_json, get_deserialized, MapErr};
 
 use crate::{get_compiler, util::try_with};
 
@@ -121,7 +121,7 @@ pub fn parse(
     filename: Option<String>,
     signal: Option<AbortSignal>,
 ) -> AsyncTask<ParseTask> {
-    binding_commons::init_default_trace_subscriber();
+    swc_nodejs_common::init_default_trace_subscriber();
 
     let c = get_compiler();
     let options = String::from_utf8_lossy(options.as_ref()).to_string();
@@ -144,7 +144,7 @@ pub fn parse(
 
 #[napi]
 pub fn parse_sync(src: String, opts: Buffer, filename: Option<String>) -> napi::Result<String> {
-    binding_commons::init_default_trace_subscriber();
+    swc_nodejs_common::init_default_trace_subscriber();
     let c = get_compiler();
 
     let options: ParseOptions = get_deserialized(&opts)?;
@@ -181,7 +181,7 @@ pub fn parse_sync(src: String, opts: Buffer, filename: Option<String>) -> napi::
 
 #[napi]
 pub fn parse_file_sync(path: String, opts: Buffer) -> napi::Result<String> {
-    binding_commons::init_default_trace_subscriber();
+    swc_nodejs_common::init_default_trace_subscriber();
     let c = get_compiler();
     let options: ParseOptions = get_deserialized(&opts)?;
 
@@ -218,7 +218,7 @@ pub fn parse_file(
     options: Buffer,
     signal: Option<AbortSignal>,
 ) -> AsyncTask<ParseFileTask> {
-    binding_commons::init_default_trace_subscriber();
+    swc_nodejs_common::init_default_trace_subscriber();
 
     let c = get_compiler();
     let path = PathBuf::from(&path);
