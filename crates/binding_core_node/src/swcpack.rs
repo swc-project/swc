@@ -1,7 +1,7 @@
 use std::sync::Arc;
 
-use napi::{CallContext, Env, JsFunction, JsObject, Task};
-use swc_common::{collections::AHashMap, FileName, SourceFile, SourceMap};
+use napi::{Env, JsFunction, JsObject};
+use swc_common::{FileName, SourceMap};
 use swc_ecma_loader::resolvers::node::NodeModulesResolver;
 use swcpack::{
     TestAssetGraphPlugin, TestAssetLoader, TestAssetPlugin, TestBundleProcessor, TestEsmLaoder,
@@ -9,8 +9,6 @@ use swcpack::{
 };
 use swcpack_core::{driver::Driver, esm::EsmLoader, resource::ResourceIdGenerator, Bundler, Mode};
 use swcpack_node_interop::JsEsmLoader;
-
-use crate::TransformOutput;
 
 #[napi]
 fn swcpack(env: Env, inputs: Vec<String>, hooks: JsObject) -> napi::Result<JsObject> {
