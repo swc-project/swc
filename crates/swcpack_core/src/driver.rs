@@ -229,7 +229,7 @@ impl Worker {
 
         for result in results.into_iter().filter_map(Result::ok) {
             let result = result?;
-            deps.push(result.id());
+            deps.push(result);
         }
 
         // As we loaded an esm and all dependencies, we can now invoke esm processor

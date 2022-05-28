@@ -22,7 +22,7 @@ pub struct EsmLoaderCache {
 #[derive(Debug, Clone)]
 pub(crate) struct AnalyzedFile {
     pub res: Res<EsModule>,
-    pub deps: Option<Arc<Vec<ResourceId>>>,
+    pub deps: Option<Arc<Vec<Res<EsModule>>>>,
 }
 
 impl EsmLoaderCache {
@@ -44,12 +44,23 @@ impl EsmLoaderCache {
         }
     }
 
-    pub(crate) async fn insert_deps(&self, filename: Arc<FileName>, deps: Vec<ResourceId>) {
+    pub(crate) async fn insert_deps(&self, filename: Arc<FileName>, deps: Vec<Res<EsModule>>) {
         match self.cache.lock().await.entry(filename) {
-            Entry::Occupied(e) => {}
-            Entry::Vacant(e) => {}
+            Entry::Occupied(mut e) => {
+                let v = e.get().clone();
+
+                e.insert(AnalyzedFile {
+                    res: v.res,
+                    deps: Some(Arc::new(deps)),
+                });
+            }
+            Entry::Vacant(..) => {
+                unreachable!("insert_deps called before insert")
+            }
         }
     }
+
+    pub(crate) async fn get_deps(&self, filename: Arc<FileName>) -> Option<Vec<Res<EsModule>>> {}
 }
 
 ///
