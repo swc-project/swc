@@ -81,10 +81,10 @@ impl JsEsmLoader {
         f: &JsFunction,
     ) -> napi::Result<Self> {
         fn map_to_js(env: &Env, v: String) -> napi::Result<JsUnknown> {
-            dbg!(&v);
+            // dbg!(&v);
             let s = env.create_string(&v)?.into_unknown();
 
-            dbg!(&v);
+            // dbg!(&v);
             Ok(s)
         }
 
@@ -114,7 +114,7 @@ impl EsmLoader for JsEsmLoader {
     ) -> Result<Res<EsModule>> {
         let code = self.f.call(filename.to_string()).await?;
 
-        dbg!(&code);
+        // dbg!(&code);
 
         let fm = self.cm.new_source_file((*filename).clone(), code);
 
