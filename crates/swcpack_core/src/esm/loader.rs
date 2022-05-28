@@ -6,7 +6,6 @@ use rustc_hash::FxHashMap;
 use swc_common::{FileName, SourceMap};
 use swc_ecma_parser::{parse_file_as_module, EsConfig, Syntax};
 use tokio::sync::Mutex;
-use tracing::log::warn;
 
 use super::{EsModule, EsmLoader, EsmLoaderContext};
 use crate::{
