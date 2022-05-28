@@ -178,11 +178,11 @@ impl Worker {
 
         yield_now().await;
 
-        let main = self.clone().load_one_esm(filename.clone()).await?;
-
         if let Some(cached) = esm_cache.get(&filename).await {
             return Ok(cached);
         }
+
+        let main = self.clone().load_one_esm(filename.clone()).await?;
 
         // Load deps
         let mut deps = collect_deps(&main.ast);
