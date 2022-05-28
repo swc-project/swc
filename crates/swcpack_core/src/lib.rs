@@ -3,6 +3,7 @@ use std::sync::Arc;
 use anyhow::{Context, Result};
 use swc_common::FileName;
 use swc_ecma_loader::resolve::Resolve;
+use tracing::info;
 
 use self::{
     asset::{AssetGraphPlugin, AssetLoader, AssetProcessor},
@@ -51,7 +52,9 @@ where
             .await
             .context("Driver::create_module_graph failed")?;
 
-        dbg!("after: Driver::Driver::create_module_graph");
+        if cfg!(debug_assertions) {
+            info!("Driver::Driver::create_module_graph is done");
+        }
 
         // TODO(kdy1): Run asset graph plugins
 

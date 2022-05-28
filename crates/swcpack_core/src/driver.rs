@@ -85,7 +85,9 @@ impl Drive for Driver {
         &mut self,
         esm_cache: Arc<EsmLoaderCache>,
     ) -> Result<Self::LoadedModule> {
-        dbg!("Driver::create_module_graph");
+        if cfg!(debug_assertions) {
+            dbg!("Driver::create_module_graph started");
+        }
 
         let inputs = self.input.get_inputs().await?;
 
