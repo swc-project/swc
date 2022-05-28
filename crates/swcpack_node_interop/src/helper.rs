@@ -42,6 +42,8 @@ where
 
                     dbg!(&cx.value.0);
 
+                    // TODO: map_to_js seems like erroring, maybe related to move
+
                     let arg = map_to_js(&cx.env, cx.value.0)?.into_unknown();
 
                     dbg!("after map_to_js");
