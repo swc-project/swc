@@ -5,7 +5,11 @@ use async_trait::async_trait;
 use swc_common::FileName;
 use tokio::sync::Mutex;
 
-use crate::{esm::EsModule, metadata::Metadata, resource::Res};
+use crate::{
+    esm::EsModule,
+    metadata::{FileContext, Metadata},
+    resource::Res,
+};
 
 /// TODO: Provide `Context` which can be used to dependency from asset
 /// plugin.
@@ -21,14 +25,13 @@ pub trait AssetLoader: Send + Sync {
     /// The returned [EsModule] works as a virtual module. (e.g. css module)
     async fn load_asset<'a>(
         &'a self,
-        ctx: AssetLoaderContext<'a>,
+        ctx: &mut AssetLoaderContext<'a>,
         filename: Arc<FileName>,
     ) -> Result<Res<EsModule>>;
 }
 
 pub struct AssetLoaderContext<'a> {
-    pub file_metadata: &'a mut Metadata,
-    pub driver_metadata: &'a Mutex<Metadata>,
+    pub base: FileContext<'a>,
 }
 
 /// Plugin that operates on each asset file.

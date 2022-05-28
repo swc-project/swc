@@ -83,7 +83,7 @@ pub struct TestAssetLoader {}
 impl AssetLoader for TestAssetLoader {
     async fn load_asset<'a>(
         &'a self,
-        ctx: AssetLoaderContext<'a>,
+        ctx: &mut AssetLoaderContext<'a>,
         filename: Arc<FileName>,
     ) -> Result<Res<EsModule>> {
         bail!("todo")

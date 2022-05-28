@@ -299,11 +299,16 @@ impl Worker {
 
     async fn load_one_asset(self: Arc<Self>, filename: Arc<FileName>) -> Result<Res<EsModule>> {
         let mut file_metadata = Metadata::default();
-        let ctx = AssetLoaderContext {
-            file_metadata: &mut file_metadata,
-            driver_metadata: &self.driver_metadata,
+        let mut ctx = AssetLoaderContext {
+            base: FileContext {
+                file_metadata: &mut file_metadata,
+                driver_metadata: &self.driver_metadata,
+            },
         };
-        let mut asset = self.asset_loader.load_asset(ctx, filename.clone()).await?;
+        let mut asset = self
+            .asset_loader
+            .load_asset(&mut ctx, filename.clone())
+            .await?;
 
         self.asset_processor.process_asset(&mut asset).await?;
 

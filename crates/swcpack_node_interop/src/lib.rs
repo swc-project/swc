@@ -30,7 +30,7 @@ pub struct JsAssetLoader {
 impl AssetLoader for JsAssetLoader {
     async fn load_asset<'a>(
         &'a self,
-        ctx: AssetLoaderContext<'a>,
+        ctx: &mut AssetLoaderContext<'a>,
         filename: Arc<FileName>,
     ) -> Result<Res<EsModule>> {
         let code = self.f.call(filename.to_string()).await?;
