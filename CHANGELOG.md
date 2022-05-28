@@ -29,6 +29,9 @@
 - **(html/codegen)** Remove optional html start tag (#4811) ([c9d0e37](https://github.com/swc-project/swc/commit/c9d0e37ab97afe71f14877caed69d9371b6af6e7))
 
 
+- **(html/codegen)** Omit on more cases (#4825) ([2b7f4b2](https://github.com/swc-project/swc/commit/2b7f4b2f563a0c55482c0bc052dfd02df42b9eca))
+
+
 - **(html/minifier)** Avoid removing id with spaces (#4786) ([c35cb59](https://github.com/swc-project/swc/commit/c35cb598f7a95795ea9d11ab7510f540a17d0639))
 
 
