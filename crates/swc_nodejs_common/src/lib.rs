@@ -20,6 +20,7 @@ pub fn init_default_trace_subscriber() {
         .with_writer(std::io::stderr)
         .with_ansi(true)
         .with_env_filter(EnvFilter::from_env("SWC_LOG"))
+        .pretty()
         .try_init();
 }
 
