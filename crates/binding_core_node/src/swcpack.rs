@@ -13,7 +13,7 @@ use swcpack_node_interop::JsEsmLoader;
 use crate::TransformOutput;
 
 #[napi]
-fn swcpack(env: Env, inputs: Vec<String>, hooks: JsObject) -> napi::Result<()> {
+fn swcpack(env: Env, inputs: Vec<String>, hooks: JsObject) -> napi::Result<JsObject> {
     let cm = Arc::new(SourceMap::default());
     let id_gen = ResourceIdGenerator::default();
 
@@ -60,7 +60,5 @@ fn swcpack(env: Env, inputs: Vec<String>, hooks: JsObject) -> napi::Result<()> {
             Ok(String::new())
         },
         |&mut env, data| env.create_string(&data),
-    )?;
-
-    Ok(())
+    )
 }
