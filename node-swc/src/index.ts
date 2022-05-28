@@ -348,7 +348,15 @@ export function getBinaryMetadata() {
   };
 }
 
-export function swcpack(input: string[], options: object): Output {
+export function swcpack(input: string[], options: any): Output {
+  if (options.esmLoader) {
+    const orig = options.esmLoader;
+
+    options.esmLoader = (_: any, input: any, ext: any) => {
+      return [orig(input), ext]
+    }
+  }
+
   return bindings.swcpack(input, options)
 }
 

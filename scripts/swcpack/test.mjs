@@ -1,10 +1,9 @@
 import swc from '../../index.js'
 
 const res = await swc.swcpack(['files'], {
-    esmLoader: (_, filename, a) => {
+    esmLoader: async (filename) => {
         console.log(filename);
-        console.log(a);
-        return [filename, a];
+        return filename;
     }
 })
 console.log(`Result:`, res);

@@ -1,7 +1,7 @@
 use std::fmt::Debug;
 
 use napi::{
-    bindgen_prelude::ToNapiValue,
+    bindgen_prelude::{FromNapiValue, Promise, ToNapiValue},
     threadsafe_function::{
         ThreadSafeCallContext, ThreadSafeResultContext, ThreadsafeFunction,
         ThreadsafeFunctionCallMode,
@@ -27,7 +27,7 @@ impl JsInput for Vec<u8> {
     }
 }
 
-pub trait JsOutput: 'static + Send + Debug {
+pub trait JsOutput: 'static + FromNapiValue + Send + Debug {
     fn from_js(env: &Env, v: JsUnknown) -> Self;
 }
 
@@ -53,7 +53,7 @@ where
     I: JsInput,
     O: JsOutput,
 {
-    f: ThreadsafeFunction<(I, oneshot::Sender<O>)>,
+    f: ThreadsafeFunction<(I, oneshot::Sender<Promise<O>>)>,
 }
 
 impl<I, O> JsHook<I, O>
@@ -66,7 +66,7 @@ where
             f: env.create_threadsafe_function(
                 f,
                 0,
-                |cx: ThreadSafeCallContext<(I, oneshot::Sender<O>)>| {
+                |cx: ThreadSafeCallContext<(I, oneshot::Sender<Promise<O>>)>| {
                     // dbg!(&cx.value.0);
                     let ext = cx
                         .env
@@ -94,10 +94,10 @@ where
                     let sender = unsafe { external.cast::<JsExternal>() };
                     let unknown = cx.return_value.remove(0);
 
-                    let output = O::from_js(&cx.env, unknown);
+                    let output = Promise::from_unknown(unknown).unwrap();
                     let sender = cx
                         .env
-                        .get_value_external::<Option<oneshot::Sender<O>>>(&sender)
+                        .get_value_external::<Option<oneshot::Sender<Promise<O>>>>(&sender)
                         .expect("js code should return the sender arg")
                         .take();
                     if let Some(sender) = sender {
@@ -122,6 +122,8 @@ where
         if cfg!(debug_assertions) {
             trace!("Js function returned");
         }
+
+        let res = res.await?;
 
         Ok(res)
     }

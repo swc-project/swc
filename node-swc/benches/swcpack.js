@@ -20,9 +20,9 @@ function p(fn) {
 suite
     .add('js loader (sync)', p(async () => {
         const res = await swc.swcpack([filename], {
-            esmLoader: (_, filename, a) => {
-                const src = fs.readFileSync(filename, 'utf8');
-                return [src, a];
+            esmLoader: async (filename) => {
+                const src = await fs.promises.readFile(filename, 'utf8');
+                return src;
             }
         });
     }))

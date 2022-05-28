@@ -3,13 +3,8 @@ use std::sync::Arc;
 use anyhow::Result;
 use async_trait::async_trait;
 use swc_common::FileName;
-use tokio::sync::Mutex;
 
-use crate::{
-    esm::EsModule,
-    metadata::{FileContext, Metadata},
-    resource::Res,
-};
+use crate::{esm::EsModule, metadata::FileContext, resource::Res};
 
 /// TODO: Provide `Context` which can be used to dependency from asset
 /// plugin.
