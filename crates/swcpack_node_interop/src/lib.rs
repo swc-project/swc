@@ -97,6 +97,15 @@ pub struct JsEsmPreprocessor {
     f: JsHook<String, String>,
 }
 
+impl JsEsmPreprocessor {
+    pub fn new(id_gen: ResourceIdGenerator, env: &Env, f: &JsFunction) -> napi::Result<Self> {
+        Ok(Self {
+            id_gen,
+            f: JsHook::new(env, f)?,
+        })
+    }
+}
+
 #[async_trait]
 impl EsmPreprocessor for JsEsmPreprocessor {
     async fn preprocess_esm(

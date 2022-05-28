@@ -9,12 +9,12 @@ use swcpack::{
 };
 use swcpack_core::{
     driver::Driver,
-    esm::{loader::ParsingEsmLoader, EsmLoader},
+    esm::{loader::ParsingEsmLoader, EsmLoader, EsmPreprocessor},
     file::FileLoader,
     resource::ResourceIdGenerator,
     Bundler, Mode,
 };
-use swcpack_node_interop::JsFileLoader;
+use swcpack_node_interop::{JsEsmPreprocessor, JsFileLoader};
 
 #[napi]
 fn swcpack(env: Env, inputs: Vec<String>, hooks: JsObject) -> napi::Result<JsObject> {
@@ -32,10 +32,21 @@ fn swcpack(env: Env, inputs: Vec<String>, hooks: JsObject) -> napi::Result<JsObj
             }) as Arc<dyn FileLoader>
         });
 
+    let esm_preprocessor = hooks.get::<_, JsFunction>("preprocessEsm")?;
+
     let mode = Mode {
         resolver: Arc::new(NodeModulesResolver::default()),
-        esm_loader: Arc::new(ParsingEsmLoader::new(cm, id_gen, false, file_loader)),
-        esm_preprocessor: Arc::new(TestEsmPreprocessor {}),
+        esm_loader: Arc::new(ParsingEsmLoader::new(
+            cm,
+            id_gen.clone(),
+            false,
+            file_loader,
+        )),
+        esm_preprocessor: esm_preprocessor
+            .map(|f| JsEsmPreprocessor::new(id_gen.clone(), &env, &f))
+            .transpose()?
+            .map(|v| Arc::new(v) as Arc<dyn EsmPreprocessor>)
+            .unwrap_or_else(|| Arc::new(TestEsmPreprocessor {}) as Arc<dyn EsmPreprocessor>),
         esm_processor: Arc::new(TestEsmProcessor {}),
         asset_loader: Arc::new(TestAssetLoader {}),
         asset_processor: Arc::new(TestAssetPlugin {}),

@@ -349,11 +349,13 @@ export function getBinaryMetadata() {
 }
 
 export function swcpack(input: string[], options: any): Output {
-  if (options.loadEsm) {
-    const orig = options.loadEsm;
+  for (const key of ['loadEsm', 'preprocessEsm']) {
+    if (options[key]) {
+      const orig = options[key]
 
-    options.loadEsm = (_: any, input: any, ext: any) => {
-      return [orig(input), ext]
+      options[key] = (_: any, input: any, ext: any) => {
+        return [orig(input), ext]
+      }
     }
   }
 
