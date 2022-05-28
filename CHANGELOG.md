@@ -35,6 +35,9 @@
 - **(html/minifier)** Avoid removing id with spaces (#4786) ([c35cb59](https://github.com/swc-project/swc/commit/c35cb598f7a95795ea9d11ab7510f540a17d0639))
 
 
+- **(node)** Fix logging (#4833) ([c462d4d](https://github.com/swc-project/swc/commit/c462d4d7c6488a01416fcd7ea8759461e2c3a97a))
+
+
 - **(preset-env)** Ignore unknown versions (#4809) ([78d4c2c](https://github.com/swc-project/swc/commit/78d4c2c46a767bd2409a2053c9d1f01f2d34c3f4))
 
 ### Features

@@ -6,7 +6,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_nodejs_common"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.1.0"
+version = "0.0.1"
 
 [lib]
 bench = false
@@ -19,6 +19,6 @@ napi = { version = "2", default-features = false, features = [
 ] }
 serde = { version = "1", features = ["derive"] }
 serde_json = { version = "1", features = ["unbounded_depth"] }
-swc_node_base = { path = "../swc_node_base" }
+swc_node_base = { version = "0.5.5", path = "../swc_node_base" }
 tracing = { version = "0.1.32", features = ["release_max_level_info"] }
 tracing-subscriber = { version = "0.3.9", features = ["env-filter"] }
