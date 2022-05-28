@@ -73,10 +73,10 @@ where
                     }
 
                     if **content == **e.get().prev {
-                        warn!(
-                            "File content is not changed, but the file loader created a new \
-                             Resource"
-                        );
+                        // warn!(
+                        //     "File content is not changed, but the file loader created a new \
+                        //      Resource"
+                        // );
                         return Ok(e.get().parsed.clone());
                     }
                 }
