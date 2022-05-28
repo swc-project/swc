@@ -167,25 +167,11 @@ dependencies = [
 ]
 
 [[package]]
-name = "binding_commons"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "napi",
- "serde",
- "serde_json",
- "swc_node_base",
- "tracing",
- "tracing-subscriber",
-]
-
-[[package]]
 name = "binding_core_node"
 version = "0.1.0"
 dependencies = [
  "anyhow",
  "backtrace",
- "binding_commons",
  "napi",
  "napi-build",
  "napi-derive",
@@ -202,6 +188,7 @@ dependencies = [
  "swc_ecma_loader",
  "swc_ecma_parser",
  "swc_node_bundler",
+ "swc_nodejs_common",
  "swc_plugin_runner",
  "tracing",
  "tracing-chrome",
@@ -232,28 +219,6 @@ dependencies = [
  "wasm-bindgen",
  "wasmer",
  "wasmer-wasi",
-]
-
-[[package]]
-name = "binding_css_node"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "binding_commons",
- "napi",
- "napi-build",
- "napi-derive",
- "node_macro_deps",
- "serde",
- "serde_json",
- "swc_common",
- "swc_css_ast",
- "swc_css_codegen",
- "swc_css_minifier",
- "swc_css_parser",
- "swc_error_reporters",
- "tracing",
- "tracing-subscriber",
 ]
 
 [[package]]
@@ -4065,6 +4030,19 @@ dependencies = [
  "ahash",
  "dashmap",
  "swc_common",
+]
+
+[[package]]
+name = "swc_nodejs_common"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "napi",
+ "serde",
+ "serde_json",
+ "swc_node_base",
+ "tracing",
+ "tracing-subscriber",
 ]
 
 [[package]]

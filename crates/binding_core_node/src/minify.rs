@@ -1,6 +1,5 @@
 use std::sync::Arc;
 
-use binding_commons::{deserialize_json, get_deserialized, MapErr};
 use napi::{
     bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
     Task,
@@ -8,6 +7,7 @@ use napi::{
 use serde::Deserialize;
 use swc::{config::JsMinifyOptions, TransformOutput};
 use swc_common::{collections::AHashMap, sync::Lrc, FileName, SourceFile, SourceMap};
+use swc_nodejs_common::{deserialize_json, get_deserialized, MapErr};
 
 use crate::{get_compiler, util::try_with};
 
@@ -69,7 +69,7 @@ impl Task for MinifyTask {
 
 #[napi]
 fn minify(code: Buffer, opts: Buffer, signal: Option<AbortSignal>) -> AsyncTask<MinifyTask> {
-    binding_commons::init_default_trace_subscriber();
+    swc_nodejs_common::init_default_trace_subscriber();
     let code = String::from_utf8_lossy(code.as_ref()).to_string();
     let options = String::from_utf8_lossy(opts.as_ref()).to_string();
 
@@ -82,7 +82,7 @@ fn minify(code: Buffer, opts: Buffer, signal: Option<AbortSignal>) -> AsyncTask<
 
 #[napi]
 pub fn minify_sync(code: Buffer, opts: Buffer) -> napi::Result<TransformOutput> {
-    binding_commons::init_default_trace_subscriber();
+    swc_nodejs_common::init_default_trace_subscriber();
     let code: MinifyTarget = get_deserialized(code)?;
     let opts = get_deserialized(opts)?;
 
