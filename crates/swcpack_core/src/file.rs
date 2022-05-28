@@ -4,7 +4,9 @@ use anyhow::Result;
 use async_trait::async_trait;
 use swc_common::FileName;
 
+use crate::resource::Res;
+
 #[async_trait]
-pub trait FileLoader {
-    async fn load_file(&self, filename: Arc<FileName>) -> Result<Arc<Vec<u8>>>;
+pub trait FileLoader: Send + Sync {
+    async fn load_file(&self, filename: Arc<FileName>) -> Result<Res<Vec<u8>>>;
 }
