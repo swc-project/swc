@@ -51,12 +51,52 @@ where
 
     #[emitter]
     fn emit_document(&mut self, n: &Document) -> Result {
-        self.emit_list(&n.children, ListFormat::NotDelimited)?;
+        if self.config.minify {
+            for (idx, node) in n.children.iter().enumerate() {
+                match node {
+                    Child::Element(element) => {
+                        let prev = if idx > 0 {
+                            n.children.get(idx - 1)
+                        } else {
+                            None
+                        };
+                        let next = n.children.get(idx + 1);
+
+                        self.basic_emit_element(element, None, prev, next)?;
+                    }
+                    _ => {
+                        emit!(self, node)
+                    }
+                }
+            }
+        } else {
+            self.emit_list(&n.children, ListFormat::NotDelimited)?;
+        }
     }
 
     #[emitter]
     fn emit_document_fragment(&mut self, n: &DocumentFragment) -> Result {
-        self.emit_list(&n.children, ListFormat::NotDelimited)?;
+        if self.config.minify {
+            for (idx, node) in n.children.iter().enumerate() {
+                match node {
+                    Child::Element(element) => {
+                        let prev = if idx > 0 {
+                            n.children.get(idx - 1)
+                        } else {
+                            None
+                        };
+                        let next = n.children.get(idx + 1);
+
+                        self.basic_emit_element(element, None, prev, next)?;
+                    }
+                    _ => {
+                        emit!(self, node)
+                    }
+                }
+            }
+        } else {
+            self.emit_list(&n.children, ListFormat::NotDelimited)?;
+        }
     }
 
     #[emitter]
@@ -164,7 +204,6 @@ where
                 // first thing inside the body element is not ASCII whitespace or a comment, except
                 // if the first thing inside the body element is a meta, link, script, style, or
                 // template element.
-                // TODO improve me
                 "body"
                     if n.children.is_empty()
                         || (match n.children.get(0) {
@@ -181,7 +220,15 @@ where
                             })) if *namespace == Namespace::HTML
                                 && matches!(
                                     &**tag_name,
-                                    "meta" | "link" | "script" | "style" | "template"
+                                    "meta"
+                                        | "link"
+                                        | "script"
+                                        | "style"
+                                        | "template"
+                                        | "bgsound"
+                                        | "basefont"
+                                        | "base"
+                                        | "title"
                                 ) =>
                             {
                                 false
