@@ -21,7 +21,7 @@ fn swcpack(env: Env, inputs: Vec<String>, hooks: JsObject) -> napi::Result<JsObj
     let cm = Arc::new(SourceMap::default());
     let id_gen = ResourceIdGenerator::default();
 
-    let file_loader = hooks.get::<_, JsFunction>("esmLoader")?;
+    let file_loader = hooks.get::<_, JsFunction>("loadEsm")?;
     let file_loader = file_loader
         .map(|f| JsFileLoader::new(id_gen.clone(), &env, &f))
         .transpose()?

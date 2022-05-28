@@ -7,7 +7,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 it("should work", async () => {
     await swc.swcpack(['files'], {
-        esmLoader: (filename) => {
+        loadEsm: (filename) => {
             return filename;
         }
     })
