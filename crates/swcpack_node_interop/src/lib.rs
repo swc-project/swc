@@ -3,16 +3,13 @@ use std::sync::Arc;
 use anyhow::Result;
 use async_trait::async_trait;
 use helper::JsHook;
-use napi::{Env, JsFunction, JsUnknown};
+use napi::{Env, JsFunction};
 use swc_common::{FileName, SourceMap};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{parse_file_as_module, Syntax};
 use swcpack_core::{
     asset::{AssetLoader, AssetLoaderContext, AssetProcessor},
-    esm::{
-        EsModule, EsmLoader, EsmLoaderContext, EsmPreprocessor, EsmPreprocessorContext,
-        EsmProcessor,
-    },
+    esm::{EsModule, EsmPreprocessor, EsmPreprocessorContext, EsmProcessor},
     file::FileLoader,
     resource::{Res, ResourceIdGenerator},
 };
@@ -94,6 +91,8 @@ impl FileLoader for JsFileLoader {
 }
 
 pub struct JsEsmPreprocessor {
+    id_gen: ResourceIdGenerator,
+
     /// `(ast_json) => (ast_json)`
     f: JsHook<String, String>,
 }
@@ -105,7 +104,24 @@ impl EsmPreprocessor for JsEsmPreprocessor {
         ctx: &mut EsmPreprocessorContext,
         m: &mut Res<EsModule>,
     ) -> Result<()> {
-        todo!("JsEsmPreprocessor::preprocess_esm");
+        let ast_json = serde_json::to_string(&m.ast)?;
+
+        let result_json = self.f.call(ast_json.clone()).await?;
+
+        if ast_json == result_json {
+            return Ok(());
+        }
+
+        let ast = serde_json::from_str(&result_json)?;
+
+        *m = Res::new(
+            &self.id_gen,
+            EsModule {
+                name: m.name.clone(),
+                ast,
+            },
+        );
+        Ok(())
     }
 }
 
