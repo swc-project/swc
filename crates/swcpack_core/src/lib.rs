@@ -16,6 +16,7 @@ pub mod asset;
 pub mod bundle;
 pub mod driver;
 pub mod esm;
+pub mod file;
 pub mod input;
 pub mod metadata;
 pub mod resource;
