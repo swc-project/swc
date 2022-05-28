@@ -8,6 +8,7 @@ use napi::{
     },
     Env, JsExternal, JsFunction, JsUnknown,
 };
+use swcpack_core::Timer;
 use tokio::sync::oneshot;
 use tracing::trace;
 
@@ -109,6 +110,8 @@ where
     }
 
     pub async fn call(&self, input: I) -> napi::Result<O> {
+        let _timer = Timer::new("call js function");
+
         let (tx, rx) = oneshot::channel();
 
         if cfg!(debug_assertions) {

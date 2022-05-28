@@ -99,7 +99,7 @@ pub struct Timer {
 
 impl Drop for Timer {
     fn drop(&mut self) {
-        eprintln!("{} :{}ms", self.op, self.start.elapsed().as_millis());
+        info!("{} :{}ms", self.op, self.start.elapsed().as_millis());
     }
 }
 
