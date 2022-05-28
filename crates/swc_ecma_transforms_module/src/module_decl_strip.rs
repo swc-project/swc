@@ -5,7 +5,30 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, private_ident};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
-pub type Link = IndexMap<JsWord, AHashSet<Specifier>>;
+#[derive(Debug, Default)]
+pub struct LinkItem(pub Span, pub AHashSet<Specifier>);
+
+impl Extend<Specifier> for LinkItem {
+    fn extend<T: IntoIterator<Item = Specifier>>(&mut self, iter: T) {
+        self.1.extend(iter);
+    }
+}
+
+impl LinkItem {
+    fn mut_dummy_span(&mut self, span: Span) -> &mut Self {
+        if self.0.is_dummy() {
+            self.0 = span;
+        }
+
+        self
+    }
+
+    fn insert(&mut self, value: Specifier) -> bool {
+        self.1.insert(value)
+    }
+}
+
+pub type Link = IndexMap<JsWord, LinkItem>;
 pub type Export = IndexMap<(JsWord, Span), Ident>;
 
 #[derive(Debug, Default)]
@@ -153,6 +176,7 @@ impl VisitMut for ModuleDeclStrip {
         self.link
             .entry(src.value)
             .or_default()
+            .mut_dummy_span(src.span)
             .extend(specifiers.into_iter().map(Into::into));
     }
 
@@ -194,6 +218,7 @@ impl VisitMut for ModuleDeclStrip {
             self.link
                 .entry(src.value)
                 .or_default()
+                .mut_dummy_span(src.span)
                 .extend(specifiers.into_iter().map(Into::into));
         } else {
             self.export.extend(specifiers.into_iter().map(|e| match e {
@@ -310,9 +335,16 @@ impl VisitMut for ModuleDeclStrip {
     }
 
     fn visit_mut_export_all(&mut self, n: &mut ExportAll) {
+        let Str {
+            value: src_key,
+            span: src_span,
+            ..
+        } = n.take().src;
+
         self.link
-            .entry(n.take().src.value)
+            .entry(src_key)
             .or_default()
+            .mut_dummy_span(src_span)
             .insert(Specifier::ExportStar);
     }
 }

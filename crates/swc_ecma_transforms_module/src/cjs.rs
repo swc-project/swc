@@ -6,7 +6,7 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 
 pub use super::util::Config;
 use crate::{
-    module_decl_strip::{Export, Link, ModuleDeclStrip, Specifier},
+    module_decl_strip::{Export, Link, LinkItem, ModuleDeclStrip, Specifier},
     util::{has_use_strict, local_name_for_src, use_strict},
 };
 
@@ -50,7 +50,7 @@ impl VisitMut for CJS {
 
         // "use strict";
         if self.config.strict_mode && !has_use_strict(n) {
-            stmts.push(ModuleItem::Stmt(use_strict()));
+            stmts.push(use_strict().into());
         }
 
         let ModuleDeclStrip { link, export, .. } = strip;
@@ -61,9 +61,9 @@ impl VisitMut for CJS {
                 .map(Into::into),
         );
 
-        n.visit_mut_children_with(self);
-
         stmts.extend(n.take());
+
+        stmts.visit_mut_children_with(self);
 
         *n = stmts;
     }
@@ -79,7 +79,7 @@ impl CJS {
             .map(|((key, span), ident)| (key, span, ident.into()))
             .collect();
 
-        link.into_iter().for_each(|(src, set)| {
+        link.into_iter().for_each(|(src, LinkItem(src_span, set))| {
             let mut import_ident = None;
             let mut should_wrap_with_to_esm = false;
             let mut should_re_export = false;
@@ -144,12 +144,22 @@ impl CJS {
 
             // require("mod");
             // TODO: use make_require
-            let import_expr =
-                quote_ident!("require").as_call(DUMMY_SP, vec![Expr::Lit(src.into()).as_arg()]);
+            let import_expr = quote_ident!("require").as_call(
+                DUMMY_SP,
+                vec![Expr::Lit(
+                    Str {
+                        span: src_span,
+                        value: src,
+                        raw: None,
+                    }
+                    .into(),
+                )
+                .as_arg()],
+            );
 
             // __reExport(_module_exports, require("mod"), module.exports);
             let import_expr = if should_re_export {
-                let module_export = lazy_module_export_ident(&mut module_export);
+                let module_export = lazy_module_exports_ident(&mut module_export);
 
                 // TODO: use swc helper
                 quote_ident!("__reExport").as_call(
@@ -206,7 +216,7 @@ impl CJS {
                 props,
             };
 
-            let module_export = lazy_module_export_ident(&mut module_export);
+            let module_export = lazy_module_exports_ident(&mut module_export);
 
             // TODO: use swc helper
             quote_ident!("__export")
@@ -259,7 +269,7 @@ fn lazy_ident_from_src(src: &JsWord, ident: &mut Option<Ident>) -> Ident {
     })
 }
 
-fn lazy_module_export_ident(ident: &mut Option<Ident>) -> Ident {
+fn lazy_module_exports_ident(ident: &mut Option<Ident>) -> Ident {
     ident.clone().unwrap_or_else(|| {
         let new_ident = private_ident!("_module_exports");
         *ident = Some(new_ident.clone());
