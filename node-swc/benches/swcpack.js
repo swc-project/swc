@@ -25,8 +25,9 @@ suite
                 return src;
             },
             preprocessEsm: async (astJson) => {
-                const ast = JSON.parse(astJson);
-                return JSON.stringify(ast);
+                // const ast = JSON.parse(astJson);
+                // return JSON.stringify(ast);
+                return astJson
             }
         });
     }))
