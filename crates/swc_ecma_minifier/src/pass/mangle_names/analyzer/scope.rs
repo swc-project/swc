@@ -74,6 +74,7 @@ impl Scope {
         reverse: &FxHashMap<JsWord, Vec<Id>>,
         preserved: &FxHashSet<Id>,
         preserved_symbols: &FxHashSet<JsWord>,
+        parallel: bool,
     ) {
         let mut queue = self.data.queue.take();
         queue.sort_by(|a, b| b.1.cmp(&a.1));
@@ -89,27 +90,41 @@ impl Scope {
             preserved_symbols,
         );
 
-        #[cfg(not(target_arch = "wasm32"))]
-        let iter = self.children.par_iter_mut();
-        #[cfg(target_arch = "wasm32")]
-        let iter = self.children.iter_mut();
+        if parallel {
+            #[cfg(not(target_arch = "wasm32"))]
+            let iter = self.children.par_iter_mut();
+            #[cfg(target_arch = "wasm32")]
+            let iter = self.children.iter_mut();
 
-        let iter = iter
-            .map(|child| {
-                let mut new_map = HashMap::default();
+            let iter = iter
+                .map(|child| {
+                    let mut new_map = HashMap::default();
+                    child.rename(
+                        &mut new_map,
+                        to,
+                        &cloned_reverse,
+                        preserved,
+                        preserved_symbols,
+                        parallel,
+                    );
+                    new_map
+                })
+                .collect::<Vec<_>>();
+
+            for (k, v) in iter.into_iter().flatten() {
+                to.entry(k).or_insert(v);
+            }
+        } else {
+            for child in &mut self.children {
                 child.rename(
-                    &mut new_map,
                     to,
+                    &Default::default(),
                     &cloned_reverse,
                     preserved,
                     preserved_symbols,
+                    parallel,
                 );
-                new_map
-            })
-            .collect::<Vec<_>>();
-
-        for (k, v) in iter.into_iter().flatten() {
-            to.entry(k).or_insert(v);
+            }
         }
     }
 
@@ -176,5 +191,9 @@ impl Scope {
         }
 
         true
+    }
+
+    pub fn rename_cost(&self) -> usize {
+        self.data.queue.len() + self.children.iter().map(|v| v.rename_cost()).sum::<usize>()
     }
 }
