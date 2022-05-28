@@ -14,7 +14,7 @@ use super::{snippet::Style, Applicability, CodeSuggestion, Level, Substitution, 
 use crate::syntax_pos::{MultiSpan, Span};
 
 #[must_use]
-#[derive(Clone, Debug, PartialEq, Hash)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash)]
 #[cfg_attr(
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)
@@ -47,7 +47,7 @@ pub enum DiagnosticId {
 }
 
 /// For example a note attached to an error.
-#[derive(Clone, Debug, PartialEq, Hash)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash)]
 #[cfg_attr(
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)

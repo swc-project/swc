@@ -1,3 +1,4 @@
+#[allow(unused)]
 macro_rules! tok {
     ('`') => {
         crate::token::Token::BackQuote

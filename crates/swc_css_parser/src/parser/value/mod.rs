@@ -2445,7 +2445,7 @@ where
                     }
                 };
 
-                unicode_range.push_str(&number.to_string());
+                unicode_range.push_str(&number);
 
                 match cur!(self) {
                     tok!("?") => {

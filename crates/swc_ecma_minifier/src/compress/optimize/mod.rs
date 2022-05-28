@@ -2884,7 +2884,7 @@ fn is_left_access_to_arguments(l: &PatOrExpr) -> bool {
     }
 }
 
-#[derive(Debug, Default, PartialEq)]
+#[derive(Debug, Default, PartialEq, Eq)]
 struct SynthesizedStmts(Vec<Stmt>);
 
 impl SynthesizedStmts {
