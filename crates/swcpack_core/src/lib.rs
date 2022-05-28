@@ -51,6 +51,8 @@ where
             .await
             .context("Driver::create_module_graph failed")?;
 
+        dbg!("after: Driver::Driver::create_module_graph");
+
         // TODO(kdy1): Run asset graph plugins
 
         // TODO(kdy1): Bundle
