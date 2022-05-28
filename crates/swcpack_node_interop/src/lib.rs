@@ -114,19 +114,28 @@ impl EsmPreprocessor for JsEsmPreprocessor {
         ctx: &mut EsmPreprocessorContext,
         m: &mut Res<EsModule>,
     ) -> Result<()> {
+        let _timer = Timer::new("preprocess_esm");
+
         let ast_json = {
             let _timer = Timer::new("convert ast as json");
 
             serde_json::to_string(&m.ast)?
         };
 
-        let result_json = self.f.call(ast_json.clone()).await?;
+        let result_json = {
+            let _timer = Timer::new("invoke js function");
+
+            self.f.call(ast_json.clone()).await?
+        };
 
         if ast_json == result_json {
             return Ok(());
         }
 
-        let ast = serde_json::from_str(&result_json)?;
+        let ast = {
+            let _timer = Timer::new("deserialize json");
+            serde_json::from_str(&result_json)?
+        };
 
         *m = Res::new(
             &self.id_gen,
