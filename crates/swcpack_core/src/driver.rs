@@ -254,6 +254,7 @@ impl Worker {
     }
 
     /// Load `file` and apply preprocessors.
+    #[tracing::instrument(skip(self))]
     async fn load_one_esm(self: Arc<Self>, filename: Arc<FileName>) -> Result<Res<EsModule>> {
         let _timer = Timer::new(format!("load_one_esm: {}", filename));
 
