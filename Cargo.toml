@@ -47,4 +47,7 @@ opt-level = 3
 cranelift-codegen = { git = "https://github.com/kdy1/wasmtime", branch = "tls" }
 cranelift-entity = { git = "https://github.com/kdy1/wasmtime", branch = "tls" }
 napi = { git = "https://github.com/kdy1/napi-rs", branch = "speedy" }
+napi-build = { git = "https://github.com/kdy1/napi-rs", branch = "speedy" }
 napi-derive = { git = "https://github.com/kdy1/napi-rs", branch = "speedy" }
+napi-derive-backend = { git = "https://github.com/kdy1/napi-rs", branch = "speedy" }
+napi-sys = { git = "https://github.com/kdy1/napi-rs", branch = "speedy" }

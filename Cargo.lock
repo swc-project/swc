@@ -5315,6 +5315,16 @@ dependencies = [
 ]
 
 [[patch.unused]]
+name = "napi-build"
+version = "2.0.0"
+source = "git+https://github.com/kdy1/napi-rs?branch=speedy#c69bf5034dcf3443487dab7fb73d69ac1391f50a"
+
+[[patch.unused]]
 name = "napi-derive"
 version = "2.4.1"
+source = "git+https://github.com/kdy1/napi-rs?branch=speedy#c69bf5034dcf3443487dab7fb73d69ac1391f50a"
+
+[[patch.unused]]
+name = "napi-derive-backend"
+version = "1.0.32"
 source = "git+https://github.com/kdy1/napi-rs?branch=speedy#c69bf5034dcf3443487dab7fb73d69ac1391f50a"
