@@ -1672,7 +1672,7 @@ checksum = "7843ec2de400bcbc6a6328c958dc38e5359da6e93e72e37bc5246bf1ae776389"
 [[package]]
 name = "napi"
 version = "2.4.3"
-source = "git+https://github.com/speedy-js/napi-rs?branch=speedy#628b2c500476cd9f70100158236fbdde6c256f7c"
+source = "git+https://github.com/kdy1/napi-rs?branch=speedy#c69bf5034dcf3443487dab7fb73d69ac1391f50a"
 dependencies = [
  "ctor",
  "lazy_static",
@@ -1718,7 +1718,7 @@ dependencies = [
 [[package]]
 name = "napi-sys"
 version = "2.2.2"
-source = "git+https://github.com/speedy-js/napi-rs?branch=speedy#628b2c500476cd9f70100158236fbdde6c256f7c"
+source = "git+https://github.com/kdy1/napi-rs?branch=speedy#c69bf5034dcf3443487dab7fb73d69ac1391f50a"
 dependencies = [
  "libloading",
 ]
@@ -5313,3 +5313,8 @@ checksum = "0120db82e8a1e0b9fb3345a539c478767c0048d842860994d96113d5b667bd69"
 dependencies = [
  "winapi",
 ]
+
+[[patch.unused]]
+name = "napi-derive"
+version = "2.4.1"
+source = "git+https://github.com/kdy1/napi-rs?branch=speedy#c69bf5034dcf3443487dab7fb73d69ac1391f50a"
