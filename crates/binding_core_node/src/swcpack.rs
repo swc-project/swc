@@ -47,10 +47,12 @@ fn swcpack(env: Env, inputs: Vec<String>, hooks: JsObject) -> napi::Result<()> {
 
         let mut bundler = Bundler::new(Driver::new(
             mode,
-            box inputs
-                .into_iter()
-                .map(|s| Arc::new(FileName::Real(s.into())))
-                .collect::<Vec<_>>(),
+            Box::new(
+                inputs
+                    .into_iter()
+                    .map(|s| Arc::new(FileName::Real(s.into())))
+                    .collect::<Vec<_>>(),
+            ),
         ));
 
         let output = bundler.bundle().await?;

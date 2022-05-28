@@ -53,6 +53,10 @@ swc_ecma_parser = {path = "../swc_ecma_parser"}
 swc_node_bundler = {path = "../swc_node_bundler"}
 swc_nodejs_common = {path = "../swc_nodejs_common"}
 swc_plugin_runner = {path = "../swc_plugin_runner", optional = true, default-features = false}
+swcpack = {path = "../swcpack"}
+swcpack_core = {version = "0.1.0", path = "../swcpack_core"}
+swcpack_node_interop = {version = "0.1.0", path = "../swcpack_node_interop"}
+tokio = {version = "1", features = ["sync"]}
 tracing = {version = "0.1.32", features = ["release_max_level_info"]}
 tracing-chrome = "0.5.0"
 tracing-futures = "0.2.5"
