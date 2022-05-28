@@ -255,7 +255,7 @@ impl Worker {
 
     /// Load `file` and apply preprocessors.
     async fn load_one_esm(self: Arc<Self>, filename: Arc<FileName>) -> Result<Res<EsModule>> {
-        let _timer = Timer::new("load_one_esm");
+        let _timer = Timer::new(format!("load_one_esm: {}", filename));
 
         let mut file_metadata = Metadata::default();
         let mut esm_ctx = EsmLoaderContext {
