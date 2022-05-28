@@ -52,6 +52,9 @@
 
 - **(html/minifier)** Compress more json types (#4813) ([731c59e](https://github.com/swc-project/swc/commit/731c59e9b7df7edd300871db8657e0d49b6b9a80))
 
+
+- **(node)** Split css binding (#4831) ([2e9ab05](https://github.com/swc-project/swc/commit/2e9ab0518a33f3b97541864cb7051a45606904ca))
+
 ### Miscellaneous Tasks
 
 
