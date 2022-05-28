@@ -12,6 +12,7 @@ use crate::{
 };
 
 pub(crate) mod deps;
+pub mod loader;
 
 /// Shared between module graphs.
 #[derive(Default)]
