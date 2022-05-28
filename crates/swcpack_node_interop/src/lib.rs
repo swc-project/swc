@@ -114,6 +114,8 @@ impl EsmLoader for JsEsmLoader {
     ) -> Result<Res<EsModule>> {
         let code = self.f.call(filename.to_string()).await?;
 
+        dbg!(&code);
+
         let fm = self.cm.new_source_file((*filename).clone(), code);
 
         let m = parse_file_as_module(

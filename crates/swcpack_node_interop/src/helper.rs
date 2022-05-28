@@ -79,11 +79,18 @@ where
     pub async fn call(&self, input: I) -> napi::Result<O> {
         let (tx, rx) = oneshot::channel();
 
-        dbg!(&input);
+        if cfg!(debug_assertions) {
+            trace!("Calling js function");
+        }
 
         self.f
             .call(Ok((input, tx)), ThreadsafeFunctionCallMode::NonBlocking);
 
-        Ok(rx.await.unwrap())
+        let res = rx.await.unwrap();
+        if cfg!(debug_assertions) {
+            trace!("Js function returned");
+        }
+
+        Ok(res)
     }
 }
