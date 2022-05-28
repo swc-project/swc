@@ -348,6 +348,10 @@ export function getBinaryMetadata() {
   };
 }
 
+export function swcpack(input: string[], options: object): Output {
+  return bindings.swcpack(input, options)
+}
+
 export const DEFAULT_EXTENSIONS = Object.freeze([
   ".js",
   ".jsx",
