@@ -48,9 +48,9 @@ test!(
     module.exports = __toCJS(_module_exports);
     require("./mod_a");
     var _modB = __toESM(require("./mod_b"));
-    var _modC = require("./mod_c");
+    var _modC = __toESM(require("./mod_c"));
     var _modD = require("./mod_d");
-    var _modE = require("./mod_e");
+    var _modE = __toESM(require("./mod_e"));
     __reExport(_module_exports, require("./mod_f"), module.exports);
     function g() {}
     const h = 42;

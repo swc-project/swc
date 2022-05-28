@@ -111,6 +111,10 @@ impl CJS {
                 Specifier::ImportStarAs(ident) => {
                     let binding_ident = lazy_ident_from_src(&src, &mut import_ident);
 
+                    if !self.config.no_interop {
+                        should_wrap_with_to_esm = true;
+                    }
+
                     self.import_map.insert(ident.to_id(), (binding_ident, None));
                 }
                 Specifier::ExportNamed { orig, exported } => {
@@ -134,6 +138,11 @@ impl CJS {
                 }
                 Specifier::ExportStarAs(key, span) => {
                     let binding_ident = lazy_ident_from_src(&src, &mut import_ident);
+
+                    if !self.config.no_interop {
+                        should_wrap_with_to_esm = true;
+                    }
+
                     let expr = binding_ident.into();
                     export_obj_prop_list.push((key, span, expr))
                 }
