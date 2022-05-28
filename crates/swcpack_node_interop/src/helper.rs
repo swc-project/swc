@@ -67,27 +67,27 @@ where
                 f,
                 0,
                 |cx: ThreadSafeCallContext<(I, oneshot::Sender<O>)>| {
-                    dbg!(&cx.value.0);
+                    // dbg!(&cx.value.0);
                     let ext = cx
                         .env
                         .create_external(Some(cx.value.1), None)?
                         .into_unknown();
 
-                    dbg!(&cx.value.0);
+                    // dbg!(&cx.value.0);
 
                     // TODO: map_to_js seems like erroring, maybe related to move
 
                     let arg = cx.value.0.into_js(&cx.env)?.into_unknown();
 
                     if cfg!(debug_assertions) {
-                        dbg!("after map_to_js");
+                        trace!("after map_to_js");
                     }
                     Ok(vec![arg, ext])
                 },
                 |mut cx: ThreadSafeResultContext<Vec<JsUnknown>>| {
-                    for v in &cx.return_value {
-                        dbg!(v.get_type());
-                    }
+                    // for v in &cx.return_value {
+                    //     dbg!(v.get_type());
+                    // }
 
                     let external = cx.return_value.remove(1);
 
