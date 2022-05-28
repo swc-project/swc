@@ -34,7 +34,7 @@ fn swcpack(env: Env, inputs: Vec<String>, hooks: JsObject) -> napi::Result<JsObj
 
     let mode = Mode {
         resolver: Arc::new(NodeModulesResolver::default()),
-        esm_loader: Arc::new(ParsingEsmLoader::new(cm, id_gen, true, file_loader)),
+        esm_loader: Arc::new(ParsingEsmLoader::new(cm, id_gen, false, file_loader)),
         esm_preprocessor: Arc::new(TestEsmPreprocessor {}),
         esm_processor: Arc::new(TestEsmProcessor {}),
         asset_loader: Arc::new(TestAssetLoader {}),
