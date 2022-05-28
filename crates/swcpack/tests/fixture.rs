@@ -6,7 +6,7 @@ use swc_common::{FileName, SourceMap};
 use swc_ecma_loader::resolvers::node::NodeModulesResolver;
 use swcpack::{
     TestAssetGraphPlugin, TestAssetLoader, TestAssetPlugin, TestBundleProcessor,
-    TestEsmPreprocessor, TestEsmProcessor,
+    TestEsmPreprocessor, TestEsmProcessor, TestFileLoader,
 };
 use swcpack_core::{
     driver::Driver, esm::loader::ParsingEsmLoader, resource::ResourceIdGenerator, Bundler, Mode,
@@ -23,6 +23,7 @@ fn fixture(input_dir: PathBuf) {
 
     rt.block_on(async move {
         let cm = Arc::new(SourceMap::default());
+        let id_gen = ResourceIdGenerator::default();
 
         let entries = read_dir(&input_dir)
             .unwrap()
@@ -36,12 +37,17 @@ fn fixture(input_dir: PathBuf) {
 
         dbg!(&entries);
 
-        let id_generator = ResourceIdGenerator::default();
-
         let mut bundler = Bundler::new(Driver::new(
             Mode {
                 resolver: Arc::new(NodeModulesResolver::default()),
-                esm_loader: Arc::new(ParsingEsmLoader::new()),
+                esm_loader: Arc::new(ParsingEsmLoader::new(
+                    cm.clone(),
+                    id_gen.clone(),
+                    true,
+                    TestFileLoader {
+                        id_gen: id_gen.clone(),
+                    },
+                )),
                 esm_preprocessor: Arc::new(TestEsmPreprocessor {}),
                 esm_processor: Arc::new(TestEsmProcessor {}),
                 asset_loader: Arc::new(TestAssetLoader {}),
