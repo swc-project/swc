@@ -133,6 +133,23 @@ pub trait ExprFactory: Into<Expr> {
         })
     }
 
+    /// Creates a assign expr `$lhs $op $self`
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn make_assign_to<T>(self, op: AssignOp, left: T) -> Expr
+    where
+        T: Into<PatOrExpr>,
+    {
+        let left = left.into();
+        let right = Box::new(self.into());
+
+        Expr::Assign(AssignExpr {
+            span: DUMMY_SP,
+            left,
+            op,
+            right,
+        })
+    }
+
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn make_member<T>(self, prop: T) -> Expr
     where

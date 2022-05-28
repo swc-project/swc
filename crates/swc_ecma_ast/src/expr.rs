@@ -1001,6 +1001,18 @@ pub enum PatOrExpr {
     Pat(Box<Pat>),
 }
 
+impl From<Pat> for PatOrExpr {
+    fn from(p: Pat) -> Self {
+        Self::Pat(Box::new(p))
+    }
+}
+
+impl From<Expr> for PatOrExpr {
+    fn from(e: Expr) -> Self {
+        Self::Expr(Box::new(e))
+    }
+}
+
 impl PatOrExpr {
     /// Returns the [Pat] if this is a pattern, otherwise returns [None].
     pub fn pat(self) -> Option<Box<Pat>> {

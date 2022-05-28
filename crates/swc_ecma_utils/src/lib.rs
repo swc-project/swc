@@ -41,6 +41,7 @@ pub mod constructor;
 mod factory;
 pub mod function;
 pub mod ident;
+pub mod js_word;
 mod value;
 pub mod var;
 

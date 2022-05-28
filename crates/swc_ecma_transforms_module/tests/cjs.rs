@@ -15,43 +15,45 @@ test!(
     syntax(),
     |_| tr(),
     strip,
-    "import foo from 'foo';
-import bar from '../foo';
-foo, bar
+    r#"
+    import "./mod_a";
+    import a, { b, c as d, "1" as e } from "./mod_b";
+    import * as f from "./mod_c";
 
-export const a = 1;
+    export function g() {}
+    export const h = 42;
 
-export function foo () {}
-export class bar {}
+    export default class {}
 
-export default function foo () {}
-export default class bar {}
-
-export default function () {}
-export default class {}
-
-export default foo;
-export default 1;
-
-export { x };
-export { x as y } from './x';
-export * from './x';
-",
-    "
-foo, bar;
-
-const a = 1;
-
-function foo() {}
-class bar {}
-
-function foo() {}
-class bar {}
-
-function _default() {}
-class _default1 {}
-
-var _default2 = foo;
-var _default3 = 1;
-"
+    export { a, b as "1" };
+    export { c as d, e, "2" as f, "3" as "4" } from "./mod_d";
+    export * as c from "./mod_e";
+    export * from "./mod_f";
+"#,
+    r#"
+    "use strict";
+    var _module_exports = {};
+    __export(_module_exports, {
+        "1"() { return b; },
+        "4"() { return _modD["3"]; },
+        a() { return a; },
+        c() { return _modE; },
+        d() { return _modD.c; },
+        default() { return _default; },
+        e() { return _modD.e; },
+        f() { return _modD["2"]; },
+        g() { return g; },
+        h() { return h; }
+    });
+    module.exports = __toCJS(_module_exports);
+    require("./mod_a");
+    var _modB = __toESM(require("./mod_b"));
+    var _modC = require("./mod_c");
+    var _modD = require("./mod_d");
+    var _modE = require("./mod_e");
+    __reExport(_module_exports, require("./mod_f"), module.exports);
+    function g() {}
+    const h = 42;
+    class _default {}
+"#
 );

@@ -5,21 +5,24 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, private_ident};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
-#[derive(Default)]
+pub type Link = IndexMap<JsWord, AHashSet<Specifier>>;
+pub type Export = IndexMap<(JsWord, Span), Ident>;
+
+#[derive(Debug, Default)]
 pub struct ModuleDeclStrip {
     /// all import/export ordered by path
-    pub link: IndexMap<JsWord, AHashSet<Specifier>>,
+    pub link: Link,
 
     /// local exported binding
     ///
     /// `export { foo as "1", bar }`
     /// -> Map("1" => foo, bar => bar)
-    pub export: IndexMap<(JsWord, Span), Ident>,
+    pub export: Export,
 
     stmt: Option<Stmt>,
 }
 
-#[derive(PartialEq, Eq, Hash)]
+#[derive(Debug, PartialEq, Eq, Hash)]
 pub enum Specifier {
     /// ```javascript
     /// import { imported as local, local } from "mod";
