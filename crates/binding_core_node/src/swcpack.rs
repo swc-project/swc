@@ -39,31 +39,28 @@ fn swcpack(env: Env, inputs: Vec<String>, hooks: JsObject) -> napi::Result<()> {
         bundle_processor: Arc::new(TestBundleProcessor {}),
     };
 
-    let rt = tokio::runtime::Builder::new_multi_thread()
-        .enable_all()
-        .build()
-        .unwrap();
+    env.execute_tokio_future(
+        async move {
+            // Type annotation
 
-    let task = rt.spawn(async move {
-        // Type annotation
-        if false {
-            return Err(anyhow::anyhow!(""));
-        }
+            let mut bundler = Bundler::new(Driver::new(
+                mode,
+                Box::new(
+                    inputs
+                        .into_iter()
+                        .map(|s| Arc::new(FileName::Real(s.into())))
+                        .collect::<Vec<_>>(),
+                ),
+            ));
 
-        let mut bundler = Bundler::new(Driver::new(
-            mode,
-            Box::new(
-                inputs
-                    .into_iter()
-                    .map(|s| Arc::new(FileName::Real(s.into())))
-                    .collect::<Vec<_>>(),
-            ),
-        ));
+            let output = bundler.bundle().await.map_err(|e| {
+                napi::Error::new(napi::Status::Unknown, format!("failed to bundle, {}", e))
+            })?;
 
-        let output = bundler.bundle().await?;
-
-        Ok(())
-    });
+            Ok(String::new())
+        },
+        |&mut env, data| env.create_string(&data),
+    )?;
 
     Ok(())
 }
