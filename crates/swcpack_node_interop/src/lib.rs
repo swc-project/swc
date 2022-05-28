@@ -12,6 +12,7 @@ use swcpack_core::{
     esm::{EsModule, EsmPreprocessor, EsmPreprocessorContext, EsmProcessor},
     file::FileLoader,
     resource::{Res, ResourceIdGenerator},
+    Timer,
 };
 
 mod helper;
@@ -113,7 +114,11 @@ impl EsmPreprocessor for JsEsmPreprocessor {
         ctx: &mut EsmPreprocessorContext,
         m: &mut Res<EsModule>,
     ) -> Result<()> {
-        let ast_json = serde_json::to_string(&m.ast)?;
+        let ast_json = {
+            let _timer = Timer::new("convert ast as json");
+
+            serde_json::to_string(&m.ast)?
+        };
 
         let result_json = self.f.call(ast_json.clone()).await?;
 

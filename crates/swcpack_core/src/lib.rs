@@ -1,4 +1,4 @@
-use std::sync::Arc;
+use std::{fmt::Display, sync::Arc, time::Instant};
 
 use anyhow::{Context, Result};
 use swc_common::FileName;
@@ -90,4 +90,24 @@ pub struct Mode {
     pub asset_graph_plugin: Arc<dyn AssetGraphPlugin>,
 
     pub bundle_processor: Arc<dyn BundleProcessor>,
+}
+
+pub struct Timer {
+    op: String,
+    start: Instant,
+}
+
+impl Drop for Timer {
+    fn drop(&mut self) {
+        eprintln!("{} :{}ms", self.op, self.start.elapsed().as_millis());
+    }
+}
+
+impl Timer {
+    pub fn new(op: impl Display) -> Self {
+        Self {
+            op: op.to_string(),
+            start: Instant::now(),
+        }
+    }
 }
