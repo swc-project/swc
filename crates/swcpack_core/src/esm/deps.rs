@@ -15,12 +15,15 @@ struct DepCollector {
     deps: Vec<JsWord>,
 }
 
-/// TODO: export from
 /// TODO: dynamic import
 impl Visit for DepCollector {
     noop_visit_type!();
 
     fn visit_import_decl(&mut self, n: &ImportDecl) {
         self.deps.push(n.src.value.clone());
+    }
+
+    fn visit_named_export(&mut self, n: &NamedExport) {
+        self.deps.extend(n.src.clone().map(|v| v.value));
     }
 }
