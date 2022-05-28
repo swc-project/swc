@@ -63,7 +63,7 @@
         "build:dev": "tsc -d && napi build --platform --cargo-name binding_core_node --js ./node-swc/src/binding.js --dts ./node-swc/src/binding.d.ts -p binding_core_node",
         "test": "cross-env NODE_OPTIONS='--experimental-vm-modules' jest node-swc/__tests__",
         "version": "napi version -p scripts/npm",
-        "test-swcpack": "yarn build:dev && node scripts/swcpack/test.mjs"
+        "test-swcpack": "yarn build:dev && RUST_LOG=trace node scripts/swcpack/test.mjs"
     },
     "lint-staged": {
         "*.toml": [

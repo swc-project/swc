@@ -34,12 +34,17 @@ where
                 f,
                 0,
                 move |cx: ThreadSafeCallContext<(I, oneshot::Sender<O>)>| {
+                    dbg!(&cx.value.0);
                     let ext = cx
                         .env
                         .create_external(Some(cx.value.1), None)?
                         .into_unknown();
 
+                    dbg!(&cx.value.0);
+
                     let arg = map_to_js(&cx.env, cx.value.0)?.into_unknown();
+
+                    dbg!("after map_to_js");
                     Ok(vec![arg, ext])
                 },
                 move |mut cx: ThreadSafeResultContext<Vec<JsUnknown>>| {
@@ -62,6 +67,8 @@ where
 
     pub async fn call(&self, input: I) -> napi::Result<O> {
         let (tx, rx) = oneshot::channel();
+
+        dbg!(&input);
 
         self.f
             .call(Ok((input, tx)), ThreadsafeFunctionCallMode::NonBlocking);
