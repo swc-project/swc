@@ -4279,6 +4279,7 @@ dependencies = [
  "swc_ecma_parser",
  "swcpack_core",
  "tokio",
+ "tracing",
 ]
 
 [[package]]

@@ -9,6 +9,7 @@ use napi::{
     Env, JsExternal, JsFunction, JsUnknown,
 };
 use tokio::sync::oneshot;
+use tracing::trace;
 
 pub(crate) struct JsHook<I, O>
 where
@@ -46,7 +47,9 @@ where
 
                     let arg = map_to_js(&cx.env, cx.value.0)?.into_unknown();
 
-                    dbg!("after map_to_js");
+                    if cfg!(debug_assertions) {
+                        trace!("after map_to_js");
+                    }
                     Ok(vec![arg, ext])
                 },
                 move |mut cx: ThreadSafeResultContext<Vec<JsUnknown>>| {
