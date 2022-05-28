@@ -94,7 +94,7 @@ impl FileLoader for JsFileLoader {
 }
 
 pub struct JsEsmPreprocessor {
-    /// `(code) => (code)`
+    /// `(ast_json) => (ast_json)`
     f: JsHook<String, String>,
 }
 
