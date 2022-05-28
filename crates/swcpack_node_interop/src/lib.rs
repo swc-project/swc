@@ -80,27 +80,10 @@ impl JsEsmLoader {
         env: &Env,
         f: &JsFunction,
     ) -> napi::Result<Self> {
-        fn map_to_js(env: &Env, v: String) -> napi::Result<JsUnknown> {
-            // dbg!(&v);
-            let s = env.create_string(&v)?.into_unknown();
-
-            // dbg!(&v);
-            Ok(s)
-        }
-
-        fn map_result(env: &Env, v: JsUnknown) -> String {
-            v.coerce_to_string()
-                .unwrap()
-                .into_utf8()
-                .unwrap()
-                .into_owned()
-                .unwrap()
-        }
-
         Ok(Self {
             cm,
             res_id_gen,
-            f: JsHook::new(env, f, map_to_js, map_result)?,
+            f: JsHook::new(env, f)?,
         })
     }
 }
