@@ -39,7 +39,12 @@ fn swcpack(env: Env, inputs: Vec<String>, hooks: JsObject) -> napi::Result<()> {
         bundle_processor: Arc::new(TestBundleProcessor {}),
     };
 
-    let task = tokio::spawn(async move {
+    let rt = tokio::runtime::Builder::new_multi_thread()
+        .enable_all()
+        .build()
+        .unwrap();
+
+    let task = rt.spawn(async move {
         // Type annotation
         if false {
             return Err(anyhow::anyhow!(""));
