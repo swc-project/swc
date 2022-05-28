@@ -83,7 +83,7 @@ impl Drive for Driver {
 
     async fn create_module_graph(
         &mut self,
-        esm_cache: Arc<EsmLoaderStorage>,
+        esm_storage: Arc<EsmLoaderStorage>,
     ) -> Result<Self::LoadedModule> {
         if cfg!(debug_assertions) {
             info!("Driver::create_module_graph started");
@@ -113,9 +113,9 @@ impl Drive for Driver {
             // We load all dependencies in parallel
             for input in inputs.iter() {
                 let worker = worker.clone();
-                let esm_cache = esm_cache.clone();
+                let esm_storage = esm_storage.clone();
 
-                let fut = spawn(worker.load_esm_recursively(input.clone(), esm_cache.clone()));
+                let fut = spawn(worker.load_esm_recursively(input.clone(), esm_storage.clone()));
 
                 handles.push(fut);
             }
@@ -136,7 +136,7 @@ impl Drive for Driver {
 
             graph.add_node(entry.id());
 
-            if let Some(deps) = esm_cache.get_deps(&entry.name).await {
+            if let Some(deps) = esm_storage.get_deps(&entry.name).await {
                 for dep in deps.iter() {
                     graph.add_node(dep.id());
 
@@ -168,9 +168,9 @@ impl Worker {
     async fn load_esm_recursively(
         self: Arc<Self>,
         filename: Arc<FileName>,
-        esm_cache: Arc<EsmLoaderStorage>,
+        esm_storage: Arc<EsmLoaderStorage>,
     ) -> Result<Res<EsModule>> {
-        if let Some(cached) = esm_cache.get(&filename).await {
+        if let Some(cached) = esm_storage.get(&filename).await {
             return Ok(cached.res);
         }
 
@@ -182,7 +182,7 @@ impl Worker {
 
         let main = self.clone().load_one_esm(filename.clone()).await?;
 
-        if !esm_cache.insert(filename.clone(), main.clone()).await {
+        if !esm_storage.insert(filename.clone(), main.clone()).await {
             return Ok(main);
         }
 
@@ -201,7 +201,7 @@ impl Worker {
             // We load dependencies in parallel
             handles.push(spawn({
                 let worker = self.clone();
-                let esm_cache = esm_cache.clone();
+                let esm_storage = esm_storage.clone();
 
                 async move {
                     // TODO(kdy1): Check for loader rules.
@@ -214,7 +214,7 @@ impl Worker {
 
                     if is_esm {
                         worker
-                            .load_esm_recursively(dep_path.clone(), esm_cache.clone())
+                            .load_esm_recursively(dep_path.clone(), esm_storage.clone())
                             .await
                     } else {
                         worker.load_asset_recursively(dep_path.clone()).await
@@ -240,7 +240,7 @@ impl Worker {
 
         yield_now().await;
 
-        let (a, _) = join!(results, esm_cache.insert_deps(filename.clone(), deps));
+        let (a, _) = join!(results, esm_storage.insert_deps(filename.clone(), deps));
 
         a??;
 
