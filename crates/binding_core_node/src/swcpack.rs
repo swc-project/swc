@@ -18,6 +18,8 @@ use swcpack_node_interop::{JsEsmPreprocessor, JsFileLoader};
 
 #[napi]
 fn swcpack(env: Env, inputs: Vec<String>, hooks: JsObject) -> napi::Result<JsObject> {
+    swc_nodejs_common::init_default_trace_subscriber();
+
     let cm = Arc::new(SourceMap::default());
     let id_gen = ResourceIdGenerator::default();
 
