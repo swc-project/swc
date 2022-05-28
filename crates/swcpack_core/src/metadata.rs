@@ -1,6 +1,13 @@
 use std::ops::{Deref, DerefMut};
 
+use tokio::sync::Mutex;
 use type_map::concurrent::TypeMap;
+
+/// Base context for each files.
+pub struct FileContext<'a> {
+    pub file_metadata: &'a mut Metadata,
+    pub driver_metadata: &'a Mutex<Metadata>,
+}
 
 /// TypeMap
 ///
