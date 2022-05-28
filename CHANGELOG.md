@@ -38,6 +38,9 @@
 - **(node)** Fix logging (#4833) ([c462d4d](https://github.com/swc-project/swc/commit/c462d4d7c6488a01416fcd7ea8759461e2c3a97a))
 
 
+- **(node/types)** Add `ignoreDynamic` to typescript types (#4832) ([e30449b](https://github.com/swc-project/swc/commit/e30449b097964e1ed883493bc4d0996e175db784))
+
+
 - **(preset-env)** Ignore unknown versions (#4809) ([78d4c2c](https://github.com/swc-project/swc/commit/78d4c2c46a767bd2409a2053c9d1f01f2d34c3f4))
 
 ### Features
