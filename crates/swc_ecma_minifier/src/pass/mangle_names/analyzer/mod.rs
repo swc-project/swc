@@ -31,8 +31,17 @@ impl Analyzer {
             .map(|v| v.0)
             .collect::<FxHashSet<_>>();
         preserved_symbols.extend(unresolved.iter().cloned());
-        self.scope
-            .rename(&mut map, &Default::default(), preserved, &preserved_symbols);
+
+        let cost = self.scope.rename_cost();
+
+        self.scope.rename(
+            &mut map,
+            &Default::default(),
+            &Default::default(),
+            preserved,
+            &preserved_symbols,
+            cost > 1024,
+        );
 
         map
     }
