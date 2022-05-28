@@ -1,3 +1,5 @@
+use std::fmt::Debug;
+
 use napi::{
     bindgen_prelude::ToNapiValue,
     threadsafe_function::{
@@ -10,16 +12,16 @@ use tokio::sync::oneshot;
 
 pub(crate) struct JsHook<I, O>
 where
-    I: 'static + Send,
-    O: 'static + Send,
+    I: 'static + Send + Debug + ToNapiValue,
+    O: 'static + Send + Debug,
 {
     f: ThreadsafeFunction<(I, oneshot::Sender<O>)>,
 }
 
 impl<I, O> JsHook<I, O>
 where
-    I: 'static + Send + ToNapiValue,
-    O: 'static + Send,
+    I: 'static + Send + Debug + ToNapiValue,
+    O: 'static + Send + Debug,
 {
     pub fn new(
         env: &napi::Env,
