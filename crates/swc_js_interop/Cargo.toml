@@ -1,8 +1,11 @@
 [package]
-name = "swc_js_interop"
-version = "0.1.0"
+authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+description = "Support for invoking js codes from rust code"
+documentation = "https://rustdoc.swc.rs/swc_js_interop/"
 edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+license = "Apache-2.0"
+name = "swc_js_interop"
+repository = "https://github.com/swc-project/swc.git"
+version = "0.1.0"
 
 [dependencies]
