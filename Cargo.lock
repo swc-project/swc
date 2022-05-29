@@ -3978,7 +3978,7 @@ dependencies = [
 
 [[package]]
 name = "swc_js_interop"
-version = "0.0.0"
+version = "0.0.1"
 
 [[package]]
 name = "swc_macros_common"
