@@ -9,3 +9,8 @@ repository = "https://github.com/swc-project/swc.git"
 version = "0.0.1"
 
 [dependencies]
+
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+tokio = { version = "1", features = ["process"] }
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
