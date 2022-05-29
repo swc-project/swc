@@ -3970,7 +3970,10 @@ dependencies = [
 name = "swc_js_interop"
 version = "0.0.1"
 dependencies = [
+ "js-sys",
  "tokio",
+ "wasm-bindgen",
+ "web-sys",
 ]
 
 [[package]]

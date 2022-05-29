@@ -17,3 +17,6 @@ napi_rt = []
 tokio = { version = "1", features = ["process"] }
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
+js-sys = "0.3"
+wasm-bindgen = "0.2"
+web-sys = "0.3"
