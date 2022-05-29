@@ -245,18 +245,15 @@ pub enum Specifier {
     /// import { imported as local, local } from "mod";
     /// import { "imported" as local } from "mod";
     /// ```
-    ImportNamed {
-        imported: Option<(JsWord, Span)>,
-        local: Ident,
-    },
+    ImportNamed { imported: Option<JsWord>, local: Id },
     /// ```javascript
     /// import foo from "mod";
     /// ```
-    ImportDefault(Ident),
+    ImportDefault(Id),
     /// ```javascript
     /// import * as foo from "mod";
     /// ```
-    ImportStarAs(Ident),
+    ImportStarAs(Id),
     /// ```javascript
     /// export { orig, orig as exported } from "mod";
     /// export { "orig", "orig" as "exported" } from "mod";
@@ -283,17 +280,20 @@ impl From<ImportSpecifier> for Specifier {
                 local, imported, ..
             }) => {
                 let imported = imported.map(|e| match e {
-                    ModuleExportName::Ident(Ident { span, sym, .. }) => (sym, span),
-                    ModuleExportName::Str(Str { span, value, .. }) => (value, span),
+                    ModuleExportName::Ident(Ident { sym, .. }) => sym,
+                    ModuleExportName::Str(Str { value, .. }) => value,
                 });
 
-                Self::ImportNamed { local, imported }
+                Self::ImportNamed {
+                    local: local.to_id(),
+                    imported,
+                }
             }
             ImportSpecifier::Default(ImportDefaultSpecifier { local, .. }) => {
-                Self::ImportDefault(local)
+                Self::ImportDefault(local.to_id())
             }
             ImportSpecifier::Namespace(ImportStarAsSpecifier { local, .. }) => {
-                Self::ImportStarAs(local)
+                Self::ImportStarAs(local.to_id())
             }
         }
     }

@@ -34,16 +34,16 @@ test!(
     "use strict";
     var _module_exports = {};
     __export(_module_exports, {
-        "1"() { return b; },
-        "4"() { return _modD["3"]; },
-        a() { return a; },
-        c() { return _modE; },
-        d() { return _modD.c; },
-        default() { return _default; },
-        e() { return _modD.e; },
-        f() { return _modD["2"]; },
-        g() { return g; },
-        h() { return h; }
+        "1": function() { return b; },
+        "4": function() { return _modD["3"]; },
+        a: function() { return a; },
+        c: function() { return _modE; },
+        d: function() { return _modD.c; },
+        default: function() { return _default; },
+        e: function() { return _modD.e; },
+        f: function() { return _modD["2"]; },
+        g: function() { return g; },
+        h: function() { return h; }
     });
     module.exports = __toCJS(_module_exports);
     require("./mod_a");

@@ -67,6 +67,48 @@ pub trait ExprFactory: Into<Expr> {
         }
     }
 
+    /// create a ArrowExpr which return self
+    /// - `() => $self`
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn as_lazy_arrow(self) -> ArrowExpr {
+        ArrowExpr {
+            span: DUMMY_SP,
+            params: Default::default(),
+            body: BlockStmtOrExpr::from(self),
+            is_async: false,
+            is_generator: false,
+            type_params: None,
+            return_type: None,
+        }
+    }
+
+    /// create a FnExpr which return self
+    /// - `function() { return $self; }`
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn as_lazy_fn(self) -> FnExpr {
+        let return_stmt = ReturnStmt {
+            span: DUMMY_SP,
+            arg: Some(Box::new(self.into())),
+        };
+
+        FnExpr {
+            ident: None,
+            function: Function {
+                params: Default::default(),
+                decorators: Default::default(),
+                span: DUMMY_SP,
+                body: Some(BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: vec![return_stmt.into()],
+                }),
+                is_generator: Default::default(),
+                is_async: Default::default(),
+                type_params: Default::default(),
+                return_type: Default::default(),
+            },
+        }
+    }
+
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn apply(self, span: Span, this: Box<Expr>, args: Vec<ExprOrSpread>) -> Expr {
         let apply = self.make_member(Ident::new(js_word!("apply"), span));

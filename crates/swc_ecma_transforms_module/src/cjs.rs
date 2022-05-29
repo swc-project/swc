@@ -1,7 +1,7 @@
 use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashMap, util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{js_word::is_valid_prop_ident, private_ident, quote_ident, ExprFactory};
+use swc_ecma_utils::{is_valid_prop_ident, private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub use super::util::Config;
@@ -30,13 +30,13 @@ pub struct CJS {
     /// _x;
     ///
     /// Map(
-    ///     foo => (_mod, Some("default", DUMMY_SP)),
-    ///     b => (_mod, Some("a", #0)),
-    ///     c => (_mod, Some("c", #0)),
+    ///     foo => (_mod, Some("default")),
+    ///     b => (_mod, Some("a")),
+    ///     c => (_mod, Some("c")),
     ///     x => (_x, None),
     /// )
     /// ```
-    import_map: AHashMap<Id, (Ident, Option<(JsWord, Span)>)>,
+    import_map: AHashMap<Id, (Ident, Option<JsWord>)>,
 }
 
 impl VisitMut for CJS {
@@ -84,34 +84,27 @@ impl CJS {
                 Specifier::ImportNamed { imported, local } => {
                     let binding_ident = lazy_ident_from_src(&src, &mut import_ident);
 
-                    self.import_map.insert(
-                        local.to_id(),
-                        (
-                            binding_ident,
-                            imported.or_else(|| Some((local.sym.clone(), local.span))),
-                        ),
-                    );
+                    self.import_map
+                        .insert(local.clone(), (binding_ident, imported.or(Some(local.0))));
                 }
-                Specifier::ImportDefault(ident) => {
+                Specifier::ImportDefault(id) => {
                     let binding_ident = lazy_ident_from_src(&src, &mut import_ident);
 
                     if !self.config.no_interop {
                         should_wrap_with_to_esm = true;
                     }
 
-                    self.import_map.insert(
-                        ident.to_id(),
-                        (binding_ident, Some((js_word!("default"), DUMMY_SP))),
-                    );
+                    self.import_map
+                        .insert(id, (binding_ident, Some(js_word!("default"))));
                 }
-                Specifier::ImportStarAs(ident) => {
+                Specifier::ImportStarAs(id) => {
                     let binding_ident = lazy_ident_from_src(&src, &mut import_ident);
 
                     if !self.config.no_interop {
                         should_wrap_with_to_esm = true;
                     }
 
-                    self.import_map.insert(ident.to_id(), (binding_ident, None));
+                    self.import_map.insert(id, (binding_ident, None));
                 }
                 Specifier::ExportNamed { orig, exported } => {
                     let binding_ident = lazy_ident_from_src(&src, &mut import_ident);
@@ -298,7 +291,7 @@ fn prop_name(key: JsWord, span: Span) -> PropName {
 
 /// ```javascript
 /// {
-///     prop: () => expr,
+///     key: () => expr,
 /// }
 /// ```
 fn _prop_arrow((key, span, expr): (JsWord, Span, Expr)) -> PropOrSpread {
@@ -307,18 +300,7 @@ fn _prop_arrow((key, span, expr): (JsWord, Span, Expr)) -> PropOrSpread {
     PropOrSpread::Prop(Box::new(
         KeyValueProp {
             key,
-            value: Box::new(
-                ArrowExpr {
-                    span: DUMMY_SP,
-                    params: Default::default(),
-                    body: expr.into(),
-                    is_async: false,
-                    is_generator: false,
-                    type_params: None,
-                    return_type: None,
-                }
-                .into(),
-            ),
+            value: Box::new(expr.as_lazy_arrow().into()),
         }
         .into(),
     ))
@@ -326,9 +308,9 @@ fn _prop_arrow((key, span, expr): (JsWord, Span, Expr)) -> PropOrSpread {
 
 /// ```javascript
 /// {
-///     prop() {
+///     key() {
 ///         return expr;
-///     }
+///     },
 /// }
 /// ```
 fn _prop_method((key, span, expr): (JsWord, Span, Expr)) -> PropOrSpread {
@@ -362,41 +344,18 @@ fn _prop_method((key, span, expr): (JsWord, Span, Expr)) -> PropOrSpread {
 
 /// ```javascript
 /// {
-///     prop: function() {
+///     key: function() {
 ///         return expr;
-///     }
+///     },
 /// }
 /// ```
 fn prop_function((key, span, expr): (JsWord, Span, Expr)) -> PropOrSpread {
     let key = prop_name(key, span);
 
-    let return_stmt = ReturnStmt {
-        span,
-        arg: Some(Box::new(expr)),
-    };
-
     PropOrSpread::Prop(Box::new(
         KeyValueProp {
             key,
-            value: Box::new(
-                FnExpr {
-                    ident: None,
-                    function: Function {
-                        params: Default::default(),
-                        decorators: Default::default(),
-                        span: DUMMY_SP,
-                        body: Some(BlockStmt {
-                            span: DUMMY_SP,
-                            stmts: vec![return_stmt.into()],
-                        }),
-                        is_generator: Default::default(),
-                        is_async: Default::default(),
-                        type_params: Default::default(),
-                        return_type: Default::default(),
-                    },
-                }
-                .into(),
-            ),
+            value: Box::new(expr.as_lazy_fn().into()),
         }
         .into(),
     ))

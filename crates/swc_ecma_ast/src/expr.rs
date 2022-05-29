@@ -948,9 +948,12 @@ pub enum BlockStmtOrExpr {
     Expr(Box<Expr>),
 }
 
-impl From<Expr> for BlockStmtOrExpr {
-    fn from(e: Expr) -> Self {
-        Self::Expr(Box::new(e))
+impl<T> From<T> for BlockStmtOrExpr
+where
+    T: Into<Expr>,
+{
+    fn from(e: T) -> Self {
+        Self::Expr(Box::new(e.into()))
     }
 }
 

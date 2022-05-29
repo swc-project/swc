@@ -20,6 +20,7 @@ use swc_ecma_visit::{
     Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use tracing::trace;
+use unicode_id::UnicodeID;
 
 #[allow(deprecated)]
 pub use self::{
@@ -41,7 +42,6 @@ pub mod constructor;
 mod factory;
 pub mod function;
 pub mod ident;
-pub mod js_word;
 mod value;
 pub mod var;
 
@@ -2030,6 +2030,10 @@ pub fn is_valid_ident(s: &JsWord) -> bool {
     }
 
     Ident::verify_symbol(s).is_ok()
+}
+
+pub fn is_valid_prop_ident(s: &str) -> bool {
+    s.starts_with(|c: char| c.is_id_start()) && s.chars().all(|c: char| c.is_id_continue())
 }
 
 pub fn drop_span<T>(mut t: T) -> T
