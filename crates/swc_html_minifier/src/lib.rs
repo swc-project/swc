@@ -175,6 +175,7 @@ static SPACE_SEPARATED_ATTRIBUTES: &[&str] = &[
 struct Minifier {
     current_element_namespace: Option<Namespace>,
     is_script_with_json: bool,
+    is_comma_separated_meta: bool,
 }
 
 impl Minifier {
@@ -327,23 +328,47 @@ impl VisitMut for Minifier {
         let old_value_is_script_with_json = self.is_script_with_json;
 
         self.current_element_namespace = Some(n.namespace);
-        self.is_script_with_json = n.namespace == Namespace::HTML
-            && &*n.tag_name == "script"
-            && n.attributes.iter().any(|attribute| match &*attribute.name {
-                "type"
-                    if attribute.value.is_some()
-                        && matches!(
-                            &**attribute.value.as_ref().unwrap(),
-                            "application/json"
-                                | "application/ld+json"
-                                | "importmap"
-                                | "speculationrules"
-                        ) =>
+
+        if n.namespace == Namespace::HTML {
+            match &*n.tag_name {
+                "meta"
+                    if n.attributes.iter().any(|attribute| match &*attribute.name {
+                        "name"
+                            if attribute.value.is_some()
+                                && &**attribute.value.as_ref().unwrap() == "viewport" =>
+                        {
+                            true
+                        }
+                        _ => false,
+                    }) =>
                 {
-                    true
+                    self.is_comma_separated_meta = true;
                 }
-                _ => false,
-            });
+                "script"
+                    if n.attributes.iter().any(|attribute| match &*attribute.name {
+                        "type"
+                            if attribute.value.is_some()
+                                && matches!(
+                                    &**attribute.value.as_ref().unwrap(),
+                                    "application/json"
+                                        | "application/ld+json"
+                                        | "importmap"
+                                        | "speculationrules"
+                                ) =>
+                        {
+                            true
+                        }
+                        _ => false,
+                    }) =>
+                {
+                    self.is_script_with_json = true;
+                }
+                _ => {
+                    self.is_comma_separated_meta = false;
+                    self.is_script_with_json = false;
+                }
+            }
+        }
 
         n.visit_mut_children_with(self);
 
@@ -426,6 +451,20 @@ impl VisitMut for Minifier {
             }
         };
 
+        if self.is_comma_separated_meta && &n.name == "content" {
+            let values = value.trim().split(',');
+
+            let mut new_values = vec![];
+
+            for value in values {
+                new_values.push(value.trim());
+            }
+
+            n.value = Some(new_values.join(",").into());
+
+            return;
+        }
+
         if is_element_html_namespace {
             if &n.name == "contenteditable" && value == "true" {
                 n.value = Some("".into());
@@ -495,5 +534,6 @@ pub fn minify(document: &mut Document) {
     document.visit_mut_with(&mut Minifier {
         current_element_namespace: None,
         is_script_with_json: false,
+        is_comma_separated_meta: false,
     });
 }
