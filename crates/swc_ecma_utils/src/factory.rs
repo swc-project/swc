@@ -222,18 +222,36 @@ pub trait ExprFactory: Into<Expr> {
 
 impl<T: Into<Expr>> ExprFactory for T {}
 
-pub trait IntoIndirectCall: Into<CallExpr> {
+pub trait IntoIndirectCall
+where
+    Self: std::marker::Sized,
+{
+    type Item;
+    fn into_indirect(self) -> Self::Item;
+}
+
+impl IntoIndirectCall for CallExpr {
+    type Item = CallExpr;
+
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn into_indirect(self) -> CallExpr {
-        let s = self.into();
-
         let callee = Callee::Expr(Box::new(Expr::Seq(SeqExpr {
             span: DUMMY_SP,
-            exprs: vec![0f64.into(), s.callee.expect_expr()],
+            exprs: vec![0f64.into(), self.callee.expect_expr()],
         })));
 
-        CallExpr { callee, ..s }
+        CallExpr { callee, ..self }
     }
 }
 
-impl<T: Into<CallExpr>> IntoIndirectCall for T {}
+impl IntoIndirectCall for Callee {
+    type Item = Callee;
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn into_indirect(self) -> Callee {
+        Callee::Expr(Box::new(Expr::Seq(SeqExpr {
+            span: DUMMY_SP,
+            exprs: vec![0f64.into(), self.expect_expr()],
+        })))
+    }
+}

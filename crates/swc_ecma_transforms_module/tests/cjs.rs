@@ -25,7 +25,14 @@ test!(
 
     export default class {}
 
-    export { a, b as "1" };
+    a(c);
+    a.b(d);
+    f(e(b), a);
+
+    b(e(b));
+    b.c(f);
+
+    export { a, b as "1", e as "2" };
     export { c as d, e, "2" as f, "3" as "4" } from "./mod_d";
     export * as c from "./mod_e";
     export * from "./mod_f";
@@ -34,9 +41,10 @@ test!(
     "use strict";
     var _module_exports = {};
     __export(_module_exports, {
-        "1": function() { return b; },
+        "1": function() { return _modB.b; },
+        "2": function() { return _modB["1"]; },
         "4": function() { return _modD["3"]; },
-        a: function() { return a; },
+        a: function() { return _modB.default; },
         c: function() { return _modE; },
         d: function() { return _modD.c; },
         default: function() { return _default; },
@@ -55,5 +63,10 @@ test!(
     function g() {}
     const h = 42;
     class _default {}
+    (0, _modB.default)(c);
+    _modB.default.b(_modB.c);
+    (0, _modC)((0, _modB["1"])(_modB.b), _modB.default);
+    (0, _modB.b)((0, _modB["1"])(_modB.b));
+    _modB.b.c(_modC);
 "#
 );

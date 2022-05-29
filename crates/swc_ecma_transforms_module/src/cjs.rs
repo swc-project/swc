@@ -1,7 +1,9 @@
 use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashMap, util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{is_valid_prop_ident, private_ident, quote_ident, ExprFactory};
+use swc_ecma_utils::{
+    is_valid_prop_ident, private_ident, quote_ident, ExprFactory, IntoIndirectCall,
+};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub use super::util::Config;
@@ -62,6 +64,49 @@ impl VisitMut for CJS {
         stmts.visit_mut_children_with(self);
 
         *n = stmts;
+    }
+
+    fn visit_mut_expr(&mut self, n: &mut Expr) {
+        match n {
+            Expr::Ident(ref_ident) => {
+                if let Some((mod_ident, mod_prop)) = self.import_map.get(&ref_ident.to_id()) {
+                    if let Some(imported_name) = mod_prop {
+                        let prop = prop_name(imported_name, ref_ident.span).into();
+
+                        *n = MemberExpr {
+                            obj: Box::new(mod_ident.clone().into()),
+                            span: DUMMY_SP,
+                            prop,
+                        }
+                        .into()
+                    } else {
+                        let span = ref_ident.span.with_ctxt(mod_ident.span.ctxt);
+                        *ref_ident = mod_ident.clone();
+                        ref_ident.span = span;
+                    }
+                }
+            }
+
+            _ => n.visit_mut_children_with(self),
+        };
+    }
+
+    fn visit_mut_callee(&mut self, n: &mut Callee) {
+        match n {
+            Callee::Expr(e) if e.is_ident() => {
+                let is_call_imported = e.as_ident().map(|ident| {
+                    let id = ident.to_id();
+                    self.import_map.contains_key(&id)
+                }) == Some(true);
+
+                e.visit_mut_with(self);
+
+                if is_call_imported {
+                    *n = n.take().into_indirect()
+                }
+            }
+            _ => n.visit_mut_children_with(self),
+        }
     }
 }
 
@@ -277,15 +322,41 @@ fn lazy_module_exports_ident(ident: &mut Option<Ident>) -> Ident {
     })
 }
 
-fn prop_name(key: JsWord, span: Span) -> PropName {
-    if is_valid_prop_ident(&key) {
-        PropName::Ident(Ident::new(key, span))
+fn prop_name(key: &str, span: Span) -> IdentOrStr {
+    if is_valid_prop_ident(key) {
+        IdentOrStr::Ident(Ident::new(key.into(), span))
     } else {
-        PropName::Str(Str {
+        IdentOrStr::Str(Str {
             span,
-            value: key,
+            value: key.into(),
             raw: None,
         })
+    }
+}
+
+enum IdentOrStr {
+    Ident(Ident),
+    Str(Str),
+}
+
+impl From<IdentOrStr> for PropName {
+    fn from(val: IdentOrStr) -> Self {
+        match val {
+            IdentOrStr::Ident(i) => Self::Ident(i),
+            IdentOrStr::Str(s) => Self::Str(s),
+        }
+    }
+}
+
+impl From<IdentOrStr> for MemberProp {
+    fn from(val: IdentOrStr) -> Self {
+        match val {
+            IdentOrStr::Ident(i) => Self::Ident(i),
+            IdentOrStr::Str(s) => Self::Computed(ComputedPropName {
+                span: DUMMY_SP,
+                expr: s.into(),
+            }),
+        }
     }
 }
 
@@ -295,7 +366,7 @@ fn prop_name(key: JsWord, span: Span) -> PropName {
 /// }
 /// ```
 fn _prop_arrow((key, span, expr): (JsWord, Span, Expr)) -> PropOrSpread {
-    let key = prop_name(key, span);
+    let key = prop_name(&key, span).into();
 
     PropOrSpread::Prop(Box::new(
         KeyValueProp {
@@ -314,7 +385,7 @@ fn _prop_arrow((key, span, expr): (JsWord, Span, Expr)) -> PropOrSpread {
 /// }
 /// ```
 fn _prop_method((key, span, expr): (JsWord, Span, Expr)) -> PropOrSpread {
-    let key = prop_name(key, span);
+    let key = prop_name(&key, span).into();
 
     let return_stmt = ReturnStmt {
         span,
@@ -350,7 +421,7 @@ fn _prop_method((key, span, expr): (JsWord, Span, Expr)) -> PropOrSpread {
 /// }
 /// ```
 fn prop_function((key, span, expr): (JsWord, Span, Expr)) -> PropOrSpread {
-    let key = prop_name(key, span);
+    let key = prop_name(&key, span).into();
 
     PropOrSpread::Prop(Box::new(
         KeyValueProp {
