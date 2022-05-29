@@ -28,7 +28,7 @@ struct Mangler {
 }
 
 impl Mangler {
-    fn get_map<N>(&self, node: &N) -> AHashMap<Id, JsWord>
+    fn get_map<N>(&self, node: &N, skip_one: bool) -> AHashMap<Id, JsWord>
     where
         N: VisitWith<Analyzer>,
     {
@@ -36,7 +36,11 @@ impl Mangler {
             scope: Default::default(),
             is_pat_decl: Default::default(),
         };
-        node.visit_with(&mut analyzer);
+        if skip_one {
+            node.visit_children_with(&mut analyzer);
+        } else {
+            node.visit_with(&mut analyzer);
+        }
 
         analyzer.into_rename_map(&self.preserved, &self.unresolved)
     }
@@ -52,7 +56,19 @@ macro_rules! unit {
             if contains_eval(n, true) {
                 n.visit_mut_children_with(self);
             } else {
-                let map = self.get_map(n);
+                let map = self.get_map(n, false);
+
+                n.visit_mut_with(&mut rename(&map));
+            }
+        }
+    };
+    ($name:ident, $T:ty, true) => {
+        /// Only called if `eval` exists
+        fn $name(&mut self, n: &mut $T) {
+            if contains_eval(n, true) {
+                n.visit_mut_children_with(self);
+            } else {
+                let map = self.get_map(n, true);
 
                 n.visit_mut_with(&mut rename(&map));
             }
@@ -79,6 +95,10 @@ impl VisitMut for Mangler {
 
     unit!(visit_mut_private_method, PrivateMethod);
 
+    unit!(visit_mut_fn_decl, FnDecl, true);
+
+    unit!(visit_mut_class_decl, ClassDecl, true);
+
     fn visit_mut_module(&mut self, m: &mut Module) {
         let v = idents_to_preserve(self.options.clone(), self.unresolved_ctxt, &*m);
         self.preserved = v.0;
@@ -91,7 +111,7 @@ impl VisitMut for Mangler {
         if contains_eval(m, true) {
             m.visit_mut_children_with(self);
         } else {
-            let map = self.get_map(m);
+            let map = self.get_map(m, false);
 
             m.visit_mut_with(&mut rename(&map));
         }
@@ -111,7 +131,7 @@ impl VisitMut for Mangler {
             return;
         }
 
-        let map = self.get_map(s);
+        let map = self.get_map(s, false);
 
         s.visit_mut_with(&mut rename(&map));
     }

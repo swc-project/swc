@@ -3,7 +3,7 @@ function outer() {
     var unused = {};
     function foo() {
         function not_in_use() {
-            var nested_unused = "foo";
+            var a = "foo";
             return 24;
         }
         var unused = {};
@@ -13,7 +13,7 @@ function outer() {
         doSomething(o);
     }
     function bar() {
-        var unused = {};
+        var a = {};
         doSomethingElse();
     }
     foo();

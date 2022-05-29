@@ -6,7 +6,7 @@ push({
                     return eval(a);
                 } catch (b) {}
             }
-            function Rb(a) {
+            function Rb(b) {
                 return p() ? JSON : za();
             }
             h.get = function(b) {
