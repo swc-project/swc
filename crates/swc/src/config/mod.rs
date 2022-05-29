@@ -1219,9 +1219,18 @@ impl ModuleConfig {
         };
 
         match config {
-            None | Some(ModuleConfig::Es6(config)) => {
+            None => {
                 if paths.is_empty() {
-                    modules::es6::es6(config)
+                    Box::new(noop())
+                } else {
+                    let resolver = build_resolver(base_url, paths);
+
+                    Box::new(import_rewriter(base, resolver))
+                }
+            }
+            Some(ModuleConfig::Es6(config)) => {
+                if paths.is_empty() {
+                    Box::new(modules::es6::es6(config))
                 } else {
                     let resolver = build_resolver(base_url, paths);
 

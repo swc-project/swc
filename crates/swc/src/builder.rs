@@ -180,7 +180,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             Some(ModuleConfig::CommonJs(ref c)) => !c.no_interop,
             Some(ModuleConfig::Amd(ref c)) => !c.config.no_interop,
             Some(ModuleConfig::Umd(ref c)) => !c.config.no_interop,
-            Some(ModuleConfig::SystemJs(_)) | Some(ModuleConfig::Es6) | None => false,
+            Some(ModuleConfig::SystemJs(_)) | Some(ModuleConfig::Es6(_)) | None => false,
         };
 
         // compat
