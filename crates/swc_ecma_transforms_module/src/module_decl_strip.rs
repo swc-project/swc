@@ -5,29 +5,6 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, private_ident};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
-#[derive(Debug, Default)]
-pub struct LinkItem(pub Span, pub AHashSet<Specifier>);
-
-impl Extend<Specifier> for LinkItem {
-    fn extend<T: IntoIterator<Item = Specifier>>(&mut self, iter: T) {
-        self.1.extend(iter);
-    }
-}
-
-impl LinkItem {
-    fn mut_dummy_span(&mut self, span: Span) -> &mut Self {
-        if self.0.is_dummy() {
-            self.0 = span;
-        }
-
-        self
-    }
-
-    fn insert(&mut self, value: Specifier) -> bool {
-        self.1.insert(value)
-    }
-}
-
 pub type Link = IndexMap<JsWord, LinkItem>;
 pub type Export = IndexMap<(JsWord, Span), Ident>;
 
@@ -43,93 +20,6 @@ pub struct ModuleDeclStrip {
     pub export: Export,
 
     stmt: Option<Stmt>,
-}
-
-#[derive(Debug, PartialEq, Eq, Hash)]
-pub enum Specifier {
-    /// ```javascript
-    /// import { imported as local, local } from "mod";
-    /// import { "imported" as local } from "mod";
-    /// ```
-    ImportNamed {
-        imported: Option<(JsWord, Span)>,
-        local: Ident,
-    },
-    /// ```javascript
-    /// import foo from "mod";
-    /// ```
-    ImportDefault(Ident),
-    /// ```javascript
-    /// import * as foo from "mod";
-    /// ```
-    ImportStarAs(Ident),
-    /// ```javascript
-    /// export { orig, orig as exported } from "mod";
-    /// export { "orig", "orig" as "exported" } from "mod";
-    /// ```
-    ExportNamed {
-        orig: (JsWord, Span),
-        exported: Option<(JsWord, Span)>,
-    },
-    /// ```javascript
-    /// export * as foo from "mod";
-    /// export * as "bar" from "mod";
-    /// ```
-    ExportStarAs(JsWord, Span),
-    /// ```javascript
-    /// export * from "mod";
-    /// ```
-    ExportStar,
-}
-
-impl From<ImportSpecifier> for Specifier {
-    fn from(i: ImportSpecifier) -> Self {
-        match i {
-            ImportSpecifier::Named(ImportNamedSpecifier {
-                local, imported, ..
-            }) => {
-                let imported = imported.map(|e| match e {
-                    ModuleExportName::Ident(Ident { span, sym, .. }) => (sym, span),
-                    ModuleExportName::Str(Str { span, value, .. }) => (value, span),
-                });
-
-                Self::ImportNamed { local, imported }
-            }
-            ImportSpecifier::Default(ImportDefaultSpecifier { local, .. }) => {
-                Self::ImportDefault(local)
-            }
-            ImportSpecifier::Namespace(ImportStarAsSpecifier { local, .. }) => {
-                Self::ImportStarAs(local)
-            }
-        }
-    }
-}
-
-impl From<ExportSpecifier> for Specifier {
-    fn from(e: ExportSpecifier) -> Self {
-        match e {
-            ExportSpecifier::Namespace(ExportNamespaceSpecifier { name, .. }) => match name {
-                ModuleExportName::Ident(Ident { span, sym, .. }) => Self::ExportStarAs(sym, span),
-                ModuleExportName::Str(Str { span, value, .. }) => Self::ExportStarAs(value, span),
-            },
-            ExportSpecifier::Default(_) => {
-                unreachable!("`export default` does not support re-export")
-            }
-            ExportSpecifier::Named(ExportNamedSpecifier { orig, exported, .. }) => {
-                let orig = match orig {
-                    ModuleExportName::Ident(Ident { span, sym, .. }) => (sym, span),
-                    ModuleExportName::Str(Str { span, value, .. }) => (value, span),
-                };
-
-                let exported = exported.map(|exported| match exported {
-                    ModuleExportName::Ident(Ident { span, sym, .. }) => (sym, span),
-                    ModuleExportName::Str(Str { span, value, .. }) => (value, span),
-                });
-
-                Self::ExportNamed { orig, exported }
-            }
-        }
-    }
 }
 
 impl ModuleDeclStrip {
@@ -346,5 +236,115 @@ impl VisitMut for ModuleDeclStrip {
             .or_default()
             .mut_dummy_span(src_span)
             .insert(Specifier::ExportStar);
+    }
+}
+
+#[derive(Debug, PartialEq, Eq, Hash)]
+pub enum Specifier {
+    /// ```javascript
+    /// import { imported as local, local } from "mod";
+    /// import { "imported" as local } from "mod";
+    /// ```
+    ImportNamed {
+        imported: Option<(JsWord, Span)>,
+        local: Ident,
+    },
+    /// ```javascript
+    /// import foo from "mod";
+    /// ```
+    ImportDefault(Ident),
+    /// ```javascript
+    /// import * as foo from "mod";
+    /// ```
+    ImportStarAs(Ident),
+    /// ```javascript
+    /// export { orig, orig as exported } from "mod";
+    /// export { "orig", "orig" as "exported" } from "mod";
+    /// ```
+    ExportNamed {
+        orig: (JsWord, Span),
+        exported: Option<(JsWord, Span)>,
+    },
+    /// ```javascript
+    /// export * as foo from "mod";
+    /// export * as "bar" from "mod";
+    /// ```
+    ExportStarAs(JsWord, Span),
+    /// ```javascript
+    /// export * from "mod";
+    /// ```
+    ExportStar,
+}
+
+impl From<ImportSpecifier> for Specifier {
+    fn from(i: ImportSpecifier) -> Self {
+        match i {
+            ImportSpecifier::Named(ImportNamedSpecifier {
+                local, imported, ..
+            }) => {
+                let imported = imported.map(|e| match e {
+                    ModuleExportName::Ident(Ident { span, sym, .. }) => (sym, span),
+                    ModuleExportName::Str(Str { span, value, .. }) => (value, span),
+                });
+
+                Self::ImportNamed { local, imported }
+            }
+            ImportSpecifier::Default(ImportDefaultSpecifier { local, .. }) => {
+                Self::ImportDefault(local)
+            }
+            ImportSpecifier::Namespace(ImportStarAsSpecifier { local, .. }) => {
+                Self::ImportStarAs(local)
+            }
+        }
+    }
+}
+
+impl From<ExportSpecifier> for Specifier {
+    fn from(e: ExportSpecifier) -> Self {
+        match e {
+            ExportSpecifier::Namespace(ExportNamespaceSpecifier { name, .. }) => match name {
+                ModuleExportName::Ident(Ident { span, sym, .. }) => Self::ExportStarAs(sym, span),
+                ModuleExportName::Str(Str { span, value, .. }) => Self::ExportStarAs(value, span),
+            },
+            ExportSpecifier::Default(_) => {
+                unreachable!("`export default` does not support re-export")
+            }
+            ExportSpecifier::Named(ExportNamedSpecifier { orig, exported, .. }) => {
+                let orig = match orig {
+                    ModuleExportName::Ident(Ident { span, sym, .. }) => (sym, span),
+                    ModuleExportName::Str(Str { span, value, .. }) => (value, span),
+                };
+
+                let exported = exported.map(|exported| match exported {
+                    ModuleExportName::Ident(Ident { span, sym, .. }) => (sym, span),
+                    ModuleExportName::Str(Str { span, value, .. }) => (value, span),
+                });
+
+                Self::ExportNamed { orig, exported }
+            }
+        }
+    }
+}
+
+#[derive(Debug, Default)]
+pub struct LinkItem(pub Span, pub AHashSet<Specifier>);
+
+impl Extend<Specifier> for LinkItem {
+    fn extend<T: IntoIterator<Item = Specifier>>(&mut self, iter: T) {
+        self.1.extend(iter);
+    }
+}
+
+impl LinkItem {
+    fn mut_dummy_span(&mut self, span: Span) -> &mut Self {
+        if self.0.is_dummy() {
+            self.0 = span;
+        }
+
+        self
+    }
+
+    fn insert(&mut self, value: Specifier) -> bool {
+        self.1.insert(value)
     }
 }

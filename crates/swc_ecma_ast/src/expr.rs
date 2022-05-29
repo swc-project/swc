@@ -948,6 +948,12 @@ pub enum BlockStmtOrExpr {
     Expr(Box<Expr>),
 }
 
+impl From<Expr> for BlockStmtOrExpr {
+    fn from(e: Expr) -> Self {
+        Self::Expr(Box::new(e))
+    }
+}
+
 impl Take for BlockStmtOrExpr {
     fn dummy() -> Self {
         BlockStmtOrExpr::Expr(Take::dummy())

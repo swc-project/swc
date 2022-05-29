@@ -55,11 +55,7 @@ impl VisitMut for CJS {
 
         let ModuleDeclStrip { link, export, .. } = strip;
 
-        stmts.extend(
-            self.handle_import_export(link, export)
-                .into_iter()
-                .map(Into::into),
-        );
+        stmts.extend(self.handle_import_export(link, export).map(Into::into));
 
         stmts.extend(n.take());
 
@@ -70,7 +66,7 @@ impl VisitMut for CJS {
 }
 
 impl CJS {
-    fn handle_import_export(&mut self, link: Link, export: Export) -> Vec<Stmt> {
+    fn handle_import_export(&mut self, link: Link, export: Export) -> impl Iterator<Item = Stmt> {
         let mut stmts = Vec::with_capacity(link.len());
 
         let mut module_export = None;
@@ -218,7 +214,10 @@ impl CJS {
         let export_call = (!export_obj_prop_list.is_empty()).then(|| {
             export_obj_prop_list.sort_by(|a, b| a.0.cmp(&b.0));
 
-            let props = export_obj_prop_list.into_iter().map(prop_method).collect();
+            let props = export_obj_prop_list
+                .into_iter()
+                .map(prop_function)
+                .collect();
 
             let obj_lit = ObjectLit {
                 span: DUMMY_SP,
@@ -263,10 +262,9 @@ impl CJS {
 
         export_init
             .into_iter()
-            .chain(export_call.into_iter())
-            .chain(to_cjs.into_iter())
+            .chain(export_call)
+            .chain(to_cjs)
             .chain(stmts)
-            .collect()
     }
 }
 
@@ -286,8 +284,8 @@ fn lazy_module_exports_ident(ident: &mut Option<Ident>) -> Ident {
     })
 }
 
-fn prop_method((key, span, expr): (JsWord, Span, Expr)) -> PropOrSpread {
-    let key = if is_valid_prop_ident(&key) {
+fn prop_name(key: JsWord, span: Span) -> PropName {
+    if is_valid_prop_ident(&key) {
         PropName::Ident(Ident::new(key, span))
     } else {
         PropName::Str(Str {
@@ -295,28 +293,111 @@ fn prop_method((key, span, expr): (JsWord, Span, Expr)) -> PropOrSpread {
             value: key,
             raw: None,
         })
-    };
+    }
+}
 
-    let return_stmt: Stmt = ReturnStmt {
+/// ```javascript
+/// {
+///     prop: () => expr,
+/// }
+/// ```
+fn _prop_arrow((key, span, expr): (JsWord, Span, Expr)) -> PropOrSpread {
+    let key = prop_name(key, span);
+
+    PropOrSpread::Prop(Box::new(
+        KeyValueProp {
+            key,
+            value: Box::new(
+                ArrowExpr {
+                    span: DUMMY_SP,
+                    params: Default::default(),
+                    body: expr.into(),
+                    is_async: false,
+                    is_generator: false,
+                    type_params: None,
+                    return_type: None,
+                }
+                .into(),
+            ),
+        }
+        .into(),
+    ))
+}
+
+/// ```javascript
+/// {
+///     prop() {
+///         return expr;
+///     }
+/// }
+/// ```
+fn _prop_method((key, span, expr): (JsWord, Span, Expr)) -> PropOrSpread {
+    let key = prop_name(key, span);
+
+    let return_stmt = ReturnStmt {
         span,
         arg: Some(Box::new(expr)),
-    }
-    .into();
+    };
 
-    PropOrSpread::Prop(Box::new(Prop::Method(MethodProp {
-        key,
-        function: Function {
-            params: Default::default(),
-            decorators: Default::default(),
-            span: DUMMY_SP,
-            body: Some(BlockStmt {
+    PropOrSpread::Prop(Box::new(
+        MethodProp {
+            key,
+            function: Function {
+                params: Default::default(),
+                decorators: Default::default(),
                 span: DUMMY_SP,
-                stmts: vec![return_stmt],
-            }),
-            is_generator: false,
-            is_async: false,
-            type_params: None,
-            return_type: None,
-        },
-    })))
+                body: Some(BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: vec![return_stmt.into()],
+                }),
+                is_generator: false,
+                is_async: false,
+                type_params: None,
+                return_type: None,
+            },
+        }
+        .into(),
+    ))
+}
+
+/// ```javascript
+/// {
+///     prop: function() {
+///         return expr;
+///     }
+/// }
+/// ```
+fn prop_function((key, span, expr): (JsWord, Span, Expr)) -> PropOrSpread {
+    let key = prop_name(key, span);
+
+    let return_stmt = ReturnStmt {
+        span,
+        arg: Some(Box::new(expr)),
+    };
+
+    PropOrSpread::Prop(Box::new(
+        KeyValueProp {
+            key,
+            value: Box::new(
+                FnExpr {
+                    ident: None,
+                    function: Function {
+                        params: Default::default(),
+                        decorators: Default::default(),
+                        span: DUMMY_SP,
+                        body: Some(BlockStmt {
+                            span: DUMMY_SP,
+                            stmts: vec![return_stmt.into()],
+                        }),
+                        is_generator: Default::default(),
+                        is_async: Default::default(),
+                        type_params: Default::default(),
+                        return_type: Default::default(),
+                    },
+                }
+                .into(),
+            ),
+        }
+        .into(),
+    ))
 }
