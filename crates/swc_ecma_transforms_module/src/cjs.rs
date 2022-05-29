@@ -2,7 +2,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashMap, util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    is_valid_prop_ident, private_ident, quote_ident, ExprFactory, IntoIndirectCall,
+    is_valid_prop_ident, private_ident, quote_ident, quote_str, ExprFactory, IntoIndirectCall,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -94,10 +94,8 @@ impl VisitMut for CJS {
     fn visit_mut_callee(&mut self, n: &mut Callee) {
         match n {
             Callee::Expr(e) if e.is_ident() => {
-                let is_call_imported = e.as_ident().map(|ident| {
-                    let id = ident.to_id();
-                    self.import_map.contains_key(&id)
-                }) == Some(true);
+                let is_call_imported =
+                    matches!(e.as_ident(), Some(i) if self.import_map.contains_key(&i.to_id()));
 
                 e.visit_mut_with(self);
 
@@ -187,18 +185,8 @@ impl CJS {
 
             // require("mod");
             // TODO: use make_require
-            let import_expr = quote_ident!("require").as_call(
-                DUMMY_SP,
-                vec![Expr::Lit(
-                    Str {
-                        span: src_span,
-                        value: src,
-                        raw: None,
-                    }
-                    .into(),
-                )
-                .as_arg()],
-            );
+            let import_expr =
+                quote_ident!("require").as_call(DUMMY_SP, vec![quote_str!(src_span, src).as_arg()]);
 
             // __reExport(_module_exports, require("mod"), module.exports);
             let import_expr = if should_re_export {
@@ -324,13 +312,9 @@ fn lazy_module_exports_ident(ident: &mut Option<Ident>) -> Ident {
 
 fn prop_name(key: &str, span: Span) -> IdentOrStr {
     if is_valid_prop_ident(key) {
-        IdentOrStr::Ident(Ident::new(key.into(), span))
+        IdentOrStr::Ident(quote_ident!(span, key))
     } else {
-        IdentOrStr::Str(Str {
-            span,
-            value: key.into(),
-            raw: None,
-        })
+        IdentOrStr::Str(quote_str!(span, key))
     }
 }
 

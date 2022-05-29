@@ -235,10 +235,7 @@ impl IntoIndirectCall for CallExpr {
 
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn into_indirect(self) -> CallExpr {
-        let callee = Callee::Expr(Box::new(Expr::Seq(SeqExpr {
-            span: DUMMY_SP,
-            exprs: vec![0f64.into(), self.callee.expect_expr()],
-        })));
+        let callee = self.callee.into_indirect();
 
         CallExpr { callee, ..self }
     }
@@ -249,9 +246,10 @@ impl IntoIndirectCall for Callee {
 
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn into_indirect(self) -> Callee {
-        Callee::Expr(Box::new(Expr::Seq(SeqExpr {
+        SeqExpr {
             span: DUMMY_SP,
             exprs: vec![0f64.into(), self.expect_expr()],
-        })))
+        }
+        .as_callee()
     }
 }
