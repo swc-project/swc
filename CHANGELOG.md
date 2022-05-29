@@ -5,6 +5,14 @@
 
 
 
+- **(es/minifier)** Apply name mangler for more cases (#4840) ([0567f67](https://github.com/swc-project/swc/commit/0567f67664cc2407d45bf8b17821edc4b828198c))
+
+## [1.2.195] - 2022-05-29
+
+### Bug Fixes
+
+
+
 - **(es/codegen)** Handle comments in binary expressions (#4817) ([1db71cc](https://github.com/swc-project/swc/commit/1db71cc3b3b230c09e1661093385f8f39915292c))
 
 
