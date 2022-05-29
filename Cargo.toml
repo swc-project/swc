@@ -13,6 +13,7 @@ members = [
   "crates/swc_ecma_quote",
   "crates/swc_estree_compat",
   "crates/swc_html",
+  "crates/swc_js_interop",
   "crates/swc_plugin",
   "crates/swc_plugin_macro",
   "crates/swc_plugin_runner",
@@ -44,5 +45,5 @@ opt-level = 3
 opt-level = 3
 
 [patch.crates-io]
-cranelift-codegen = {git = "https://github.com/kdy1/wasmtime", branch = "tls"}
-cranelift-entity = {git = "https://github.com/kdy1/wasmtime", branch = "tls"}
+cranelift-codegen = { git = "https://github.com/kdy1/wasmtime", branch = "tls" }
+cranelift-entity = { git = "https://github.com/kdy1/wasmtime", branch = "tls" }
