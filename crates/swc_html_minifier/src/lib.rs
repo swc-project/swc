@@ -1,7 +1,7 @@
 #![deny(clippy::all)]
 
 use serde_json::Value;
-use swc_atoms::JsWord;
+use swc_atoms::{js_word, JsWord};
 use swc_common::collections::AHashSet;
 use swc_html_ast::*;
 use swc_html_visit::{VisitMut, VisitMutWith};
@@ -594,13 +594,15 @@ impl VisitMut for Minifier {
             value = values.join(" ");
         } else if self.is_global_comma_separated_attribute(&n.name)
             || (is_element_html_namespace
-                && (matches!(
-                    self.meta_element_content_type,
-                    Some(MetaElementContentType::CommaSeparated)
-                ) || self.is_html_comma_separated_attribute(
-                    self.current_element_tag_name.as_ref(),
-                    &n.name,
-                )))
+                && ((&n.name == "content"
+                    && matches!(
+                        self.meta_element_content_type,
+                        Some(MetaElementContentType::CommaSeparated)
+                    ))
+                    || self.is_html_comma_separated_attribute(
+                        self.current_element_tag_name.as_ref(),
+                        &n.name,
+                    )))
         {
             let values = value.trim().split(',');
 
@@ -617,11 +619,15 @@ impl VisitMut for Minifier {
         {
             value = value.trim().to_string();
         } else if is_element_html_namespace && &n.name == "contenteditable" && value == "true" {
-            value = "".to_string();
-        } else if matches!(
-            self.meta_element_content_type,
-            Some(MetaElementContentType::SemiSeparated)
-        ) {
+            n.value = Some(js_word!(""));
+
+            return;
+        } else if &n.name == "content"
+            && matches!(
+                self.meta_element_content_type,
+                Some(MetaElementContentType::SemiSeparated)
+            )
+        {
             let values = value.trim().split(';');
 
             let mut new_values = vec![];
