@@ -186,7 +186,7 @@ where
     pub fn new(input: I) -> Self {
         let start_pos = input.last_pos();
 
-        Lexer {
+        let mut lexer = Lexer {
             input,
             cur: None,
             cur_pos: start_pos,
@@ -208,7 +208,15 @@ where
             is_adjusted_current_node_is_element_in_html_namespace: None,
             doctype_keyword: None,
             last_emitted_error_pos: None,
+        };
+
+        // A leading Byte Order Mark (BOM) causes the character encoding argument to be
+        // ignored and will itself be skipped.
+        if lexer.input.is_at_start() && lexer.input.cur() == Some('\u{feff}') {
+            lexer.input.bump();
         }
+
+        lexer
     }
 }
 
