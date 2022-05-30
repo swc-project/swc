@@ -8,6 +8,7 @@ pub mod fixer;
 #[macro_use]
 pub mod hygiene;
 pub mod assumptions;
+pub mod cross_transform_scope;
 pub mod helpers;
 #[doc(hidden)]
 pub mod native;

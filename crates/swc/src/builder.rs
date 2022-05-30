@@ -20,6 +20,7 @@ use swc_ecma_transforms::{
     hygiene::hygiene_with_config, modules, modules::util::Scope, optimization::const_modules,
     pass::Optional, Assumptions,
 };
+use swc_ecma_transforms_base::cross_transform_scope;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut};
 
 use crate::config::{CompiledPaths, GlobalPassOption, JsMinifyOptions, ModuleConfig};
@@ -44,6 +45,7 @@ pub struct PassBuilder<'a, 'b, P: swc_ecma_visit::Fold> {
     inject_helpers: bool,
     minify: Option<JsMinifyOptions>,
     regenerator: regenerator::Config,
+    cross_transform_scope: Rc<RefCell<cross_transform_scope::Scope>>,
 }
 
 impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
@@ -55,6 +57,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         top_level_mark: Mark,
         unresolved_mark: Mark,
         pass: P,
+        cross_transform_scope: Rc<RefCell<cross_transform_scope::Scope>>,
     ) -> Self {
         PassBuilder {
             cm,
@@ -71,6 +74,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             inject_helpers: true,
             minify: None,
             regenerator: Default::default(),
+            cross_transform_scope,
         }
     }
 
@@ -94,6 +98,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             inject_helpers: self.inject_helpers,
             minify: self.minify,
             regenerator: self.regenerator,
+            cross_transform_scope: self.cross_transform_scope,
         }
     }
 
@@ -319,7 +324,8 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 base,
                 self.unresolved_mark,
                 module,
-                Rc::clone(&module_scope)
+                Rc::clone(&module_scope),
+                Rc::clone(&self.cross_transform_scope),
             ),
             as_folder(MinifierPass {
                 options: self.minify,
