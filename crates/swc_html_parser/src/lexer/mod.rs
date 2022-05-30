@@ -269,42 +269,45 @@ where
         self.input.cur()
     }
 
+    // Any occurrences of surrogates are surrogate-in-input-stream parse errors. Any
+    // occurrences of noncharacters are noncharacter-in-input-stream parse errors
+    // and any occurrences of controls other than ASCII whitespace and U+0000 NULL
+    // characters are control-character-in-input-stream parse errors.
+    fn validate_input_stream_character(&mut self, c: char) {
+        let code = c as u32;
+
+        if (0xd800..=0xdfff).contains(&code) {
+            if self.last_emitted_error_pos.is_none()
+                || self.last_emitted_error_pos < Some(self.cur_pos)
+            {
+                self.emit_error(ErrorKind::SurrogateInInputStream);
+                self.last_emitted_error_pos = Some(self.input.cur_pos());
+            }
+        } else if code != 0x00 && is_control(code) {
+            if self.last_emitted_error_pos.is_none()
+                || self.last_emitted_error_pos < Some(self.cur_pos)
+            {
+                self.emit_error(ErrorKind::ControlCharacterInInputStream);
+                self.last_emitted_error_pos = Some(self.input.cur_pos());
+            }
+        } else if is_noncharacter(code) {
+            if self.last_emitted_error_pos.is_none()
+                || self.last_emitted_error_pos < Some(self.cur_pos)
+            {
+                self.emit_error(ErrorKind::NoncharacterInInputStream);
+                self.last_emitted_error_pos = Some(self.input.cur_pos());
+            }
+        }
+    }
+
     #[inline(always)]
     fn consume(&mut self) {
         self.cur = self.input.cur();
         self.cur_pos = self.input.cur_pos();
 
-        // Any occurrences of surrogates are surrogate-in-input-stream parse errors. Any
-        // occurrences of noncharacters are noncharacter-in-input-stream parse errors
-        // and any occurrences of controls other than ASCII whitespace and U+0000 NULL
-        // characters are control-character-in-input-stream parse errors.
         if let Some(c) = self.cur {
             self.input.bump();
-
-            let code = c as u32;
-
-            if (0xd800..=0xdfff).contains(&code) {
-                if self.last_emitted_error_pos.is_none()
-                    || self.last_emitted_error_pos < Some(self.cur_pos)
-                {
-                    self.emit_error(ErrorKind::SurrogateInInputStream);
-                    self.last_emitted_error_pos = Some(self.input.cur_pos());
-                }
-            } else if code != 0x00 && is_control(code) {
-                if self.last_emitted_error_pos.is_none()
-                    || self.last_emitted_error_pos < Some(self.cur_pos)
-                {
-                    self.emit_error(ErrorKind::ControlCharacterInInputStream);
-                    self.last_emitted_error_pos = Some(self.input.cur_pos());
-                }
-            } else if is_noncharacter(code) {
-                if self.last_emitted_error_pos.is_none()
-                    || self.last_emitted_error_pos < Some(self.cur_pos)
-                {
-                    self.emit_error(ErrorKind::NoncharacterInInputStream);
-                    self.last_emitted_error_pos = Some(self.input.cur_pos());
-                }
-            }
+            self.validate_input_stream_character(c);
         }
     }
 
