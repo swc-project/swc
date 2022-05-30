@@ -281,18 +281,26 @@ where
         if let Some(c) = self.cur {
             self.input.bump();
 
-            if self.last_emitted_error_pos.is_none()
-                || self.last_emitted_error_pos < Some(self.cur_pos)
-            {
-                let code = c as u32;
+            let code = c as u32;
 
-                if (0xd800..=0xdfff).contains(&code) {
+            if (0xd800..=0xdfff).contains(&code) {
+                if self.last_emitted_error_pos.is_none()
+                    || self.last_emitted_error_pos < Some(self.cur_pos)
+                {
                     self.emit_error(ErrorKind::SurrogateInInputStream);
                     self.last_emitted_error_pos = Some(self.input.cur_pos());
-                } else if code != 0x00 && is_control(code) {
+                }
+            } else if code != 0x00 && is_control(code) {
+                if self.last_emitted_error_pos.is_none()
+                    || self.last_emitted_error_pos < Some(self.cur_pos)
+                {
                     self.emit_error(ErrorKind::ControlCharacterInInputStream);
                     self.last_emitted_error_pos = Some(self.input.cur_pos());
-                } else if is_noncharacter(code) {
+                }
+            } else if is_noncharacter(code) {
+                if self.last_emitted_error_pos.is_none()
+                    || self.last_emitted_error_pos < Some(self.cur_pos)
+                {
                     self.emit_error(ErrorKind::NoncharacterInInputStream);
                     self.last_emitted_error_pos = Some(self.input.cur_pos());
                 }
