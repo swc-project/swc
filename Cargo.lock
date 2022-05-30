@@ -3379,7 +3379,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.116.3"
+version = "0.116.4"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3910,7 +3910,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_codegen"
-version = "0.10.3"
+version = "0.10.4"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -3950,7 +3950,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.10.2"
+version = "0.10.3"
 dependencies = [
  "bitflags",
  "criterion",
