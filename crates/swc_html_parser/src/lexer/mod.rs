@@ -276,27 +276,25 @@ where
     fn validate_input_stream_character(&mut self, c: char) {
         let code = c as u32;
 
-        if (0xd800..=0xdfff).contains(&code) {
-            if self.last_emitted_error_pos.is_none()
-                || self.last_emitted_error_pos < Some(self.cur_pos)
-            {
-                self.emit_error(ErrorKind::SurrogateInInputStream);
-                self.last_emitted_error_pos = Some(self.input.cur_pos());
-            }
-        } else if code != 0x00 && is_control(code) {
-            if self.last_emitted_error_pos.is_none()
-                || self.last_emitted_error_pos < Some(self.cur_pos)
-            {
-                self.emit_error(ErrorKind::ControlCharacterInInputStream);
-                self.last_emitted_error_pos = Some(self.input.cur_pos());
-            }
-        } else if is_noncharacter(code) {
-            if self.last_emitted_error_pos.is_none()
-                || self.last_emitted_error_pos < Some(self.cur_pos)
-            {
-                self.emit_error(ErrorKind::NoncharacterInInputStream);
-                self.last_emitted_error_pos = Some(self.input.cur_pos());
-            }
+        if (0xd800..=0xdfff).contains(&code)
+            && (self.last_emitted_error_pos.is_none()
+                || self.last_emitted_error_pos < Some(self.cur_pos))
+        {
+            self.emit_error(ErrorKind::SurrogateInInputStream);
+            self.last_emitted_error_pos = Some(self.input.cur_pos());
+        } else if code != 0x00
+            && is_control(code)
+            && (self.last_emitted_error_pos.is_none()
+                || self.last_emitted_error_pos < Some(self.cur_pos))
+        {
+            self.emit_error(ErrorKind::ControlCharacterInInputStream);
+            self.last_emitted_error_pos = Some(self.input.cur_pos());
+        } else if is_noncharacter(code)
+            && (self.last_emitted_error_pos.is_none()
+                || self.last_emitted_error_pos < Some(self.cur_pos))
+        {
+            self.emit_error(ErrorKind::NoncharacterInInputStream);
+            self.last_emitted_error_pos = Some(self.input.cur_pos());
         }
     }
 
