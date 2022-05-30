@@ -205,7 +205,6 @@ where
             temporary_buffer: String::with_capacity(8),
             is_adjusted_current_node_is_element_in_html_namespace: None,
             doctype_keyword: None,
-            last_emitted_error_pos: None,
         };
 
         // A leading Byte Order Mark (BOM) causes the character encoding argument to be
