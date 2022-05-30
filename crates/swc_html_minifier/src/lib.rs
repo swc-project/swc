@@ -6,7 +6,7 @@ use swc_common::collections::AHashSet;
 use swc_html_ast::*;
 use swc_html_visit::{VisitMut, VisitMutWith};
 
-static BOOLEAN_ATTRIBUTES: &[&str] = &[
+static HTML_BOOLEAN_ATTRIBUTES: &[&str] = &[
     "allowfullscreen",
     "async",
     "autofocus",
@@ -149,60 +149,64 @@ static EVENT_HANDLER_ATTRIBUTES: &[&str] = &[
     "onsort",
 ];
 
-static ALLOW_TO_TRIM_GLOBAL_ATTRIBUTES: &[&str] = &["class", "style", "tabindex", "itemid"];
+static ALLOW_TO_TRIM_GLOBAL_ATTRIBUTES: &[&str] = &["style", "tabindex", "itemid"];
 
-static ALLOW_TO_TRIM_ATTRIBUTES: &[(Namespace, &str, &str)] = &[
-    (Namespace::HTML, "audio", "src"),
-    (Namespace::HTML, "embed", "src"),
-    (Namespace::HTML, "iframe", "src"),
-    (Namespace::HTML, "img", "src"),
-    (Namespace::HTML, "input", "src"),
-    (Namespace::HTML, "script", "src"),
-    (Namespace::HTML, "source", "src"),
-    (Namespace::HTML, "track", "src"),
-    (Namespace::HTML, "video", "src"),
-    (Namespace::HTML, "video", "poster"),
-    (Namespace::HTML, "td", "colspan"),
-    (Namespace::HTML, "td", "rowspan"),
-    (Namespace::HTML, "th", "colspan"),
-    (Namespace::HTML, "th", "rowspan"),
-    (Namespace::HTML, "col", "span"),
-    (Namespace::HTML, "colgroup", "span"),
-    (Namespace::HTML, "textarea", "cols"),
-    (Namespace::HTML, "textarea", "rows"),
-    (Namespace::HTML, "textarea", "maxlength"),
-    (Namespace::HTML, "input", "size"),
-    (Namespace::HTML, "input", "formaction"),
-    (Namespace::HTML, "input", "maxlength"),
-    (Namespace::HTML, "button", "formaction"),
-    (Namespace::HTML, "select", "size"),
-    (Namespace::HTML, "form", "action"),
-    (Namespace::HTML, "object", "data"),
-    (Namespace::HTML, "a", "href"),
-    (Namespace::HTML, "area", "href"),
-    (Namespace::HTML, "link", "href"),
-    (Namespace::HTML, "base", "href"),
-    (Namespace::HTML, "q", "cite"),
-    (Namespace::HTML, "blockquote", "cite"),
+static ALLOW_TO_TRIM_HTML_ATTRIBUTES: &[(&str, &str)] = &[
+    ("audio", "src"),
+    ("embed", "src"),
+    ("iframe", "src"),
+    ("img", "src"),
+    ("input", "src"),
+    ("script", "src"),
+    ("source", "src"),
+    ("track", "src"),
+    ("video", "src"),
+    ("video", "poster"),
+    ("td", "colspan"),
+    ("td", "rowspan"),
+    ("th", "colspan"),
+    ("th", "rowspan"),
+    ("col", "span"),
+    ("colgroup", "span"),
+    ("textarea", "cols"),
+    ("textarea", "rows"),
+    ("textarea", "maxlength"),
+    ("input", "size"),
+    ("input", "formaction"),
+    ("input", "maxlength"),
+    ("button", "formaction"),
+    ("select", "size"),
+    ("form", "action"),
+    ("object", "data"),
+    ("a", "href"),
+    ("area", "href"),
+    ("link", "href"),
+    ("base", "href"),
+    ("q", "cite"),
+    ("blockquote", "cite"),
 ];
 
-static COMMA_SEPARATED_ATTRIBUTES: &[(Namespace, &str, &str)] = &[
-    (Namespace::HTML, "img", "srcset"),
-    (Namespace::HTML, "source", "srcset"),
-    (Namespace::HTML, "img", "sizes"),
-    (Namespace::HTML, "source", "sizes"),
-    (Namespace::HTML, "link", "media"),
-    (Namespace::HTML, "source", "media"),
-    (Namespace::HTML, "style", "media"),
+static COMMA_SEPARATED_GLOBAL_ATTRIBUTES: &[&str] = &["class"];
+
+static COMMA_SEPARATED_HTML_ATTRIBUTES: &[(&str, &str)] = &[
+    ("img", "srcset"),
+    ("source", "srcset"),
+    ("img", "sizes"),
+    ("source", "sizes"),
+    ("link", "media"),
+    ("source", "media"),
+    ("style", "media"),
 ];
 
-static SPACE_SEPARATED_ATTRIBUTES: &[&str] = &[
-    "class",
-    "rel",
-    "aria-describedby",
-    "aria-labelledby",
-    "aria-owns",
-    "autocomplete",
+static SPACE_SEPARATED_GLOBAL_ATTRIBUTES: &[&str] =
+    &["class", "aria-describedby", "aria-labelledby", "aria-owns"];
+
+static SPACE_SEPARATED_HTML_ATTRIBUTES: &[(&str, &str)] = &[
+    ("a", "rel"),
+    ("area", "rel"),
+    ("link", "rel"),
+    ("input", "autocomplete"),
+    ("form", "autocomplete"),
 ];
 
 struct Minifier {
@@ -218,51 +222,58 @@ impl Minifier {
     }
 
     fn is_boolean_attribute(&self, name: &str) -> bool {
-        BOOLEAN_ATTRIBUTES.contains(&name)
+        HTML_BOOLEAN_ATTRIBUTES.contains(&name)
     }
 
     fn is_global_trimable_attribute(&self, name: &str) -> bool {
-        ALLOW_TO_TRIM_GLOBAL_ATTRIBUTES.contains(&name) || EVENT_HANDLER_ATTRIBUTES.contains(&name)
+        ALLOW_TO_TRIM_GLOBAL_ATTRIBUTES.contains(&name)
     }
 
-    fn is_trimable_attribute(
+    fn is_html_trimable_attribute(
         &self,
-        namespace: Option<Namespace>,
         tag_name: Option<&JsWord>,
         attribute_name: &JsWord,
     ) -> bool {
-        let namespace = match namespace {
-            Some(namespace) => namespace,
-            _ => return false,
-        };
         let tag_name = match tag_name {
             Some(tag_name) => tag_name,
             _ => return false,
         };
 
-        ALLOW_TO_TRIM_ATTRIBUTES.contains(&(namespace, tag_name, attribute_name))
+        ALLOW_TO_TRIM_HTML_ATTRIBUTES.contains(&(tag_name, attribute_name))
     }
 
-    fn is_comma_separated_attribute(
+    fn is_global_comma_separated_attribute(&self, name: &str) -> bool {
+        COMMA_SEPARATED_GLOBAL_ATTRIBUTES.contains(&name)
+    }
+
+    fn is_html_comma_separated_attribute(
         &self,
-        namespace: Option<Namespace>,
         tag_name: Option<&JsWord>,
         attribute_name: &JsWord,
     ) -> bool {
-        let namespace = match namespace {
-            Some(namespace) => namespace,
-            _ => return false,
-        };
         let tag_name = match tag_name {
             Some(tag_name) => tag_name,
             _ => return false,
         };
 
-        COMMA_SEPARATED_ATTRIBUTES.contains(&(namespace, tag_name, attribute_name))
+        COMMA_SEPARATED_HTML_ATTRIBUTES.contains(&(tag_name, attribute_name))
     }
 
-    fn is_space_separated_attribute(&self, name: &str) -> bool {
-        SPACE_SEPARATED_ATTRIBUTES.contains(&name)
+    fn is_global_space_separated_attribute(&self, name: &str) -> bool {
+        SPACE_SEPARATED_GLOBAL_ATTRIBUTES.contains(&name)
+    }
+
+    fn is_html_space_separated_attribute(
+        &self,
+        tag_name: Option<&JsWord>,
+        attribute_name: &JsWord,
+    ) -> bool {
+        let tag_name = match tag_name {
+            Some(tag_name) => tag_name,
+            _ => return false,
+        };
+
+        SPACE_SEPARATED_HTML_ATTRIBUTES.contains(&(tag_name, attribute_name))
     }
 
     fn is_default_attribute_value(
@@ -497,14 +508,6 @@ impl VisitMut for Minifier {
             return;
         }
 
-        let is_element_html_namespace = self.current_element_namespace == Some(Namespace::HTML);
-
-        if is_element_html_namespace && self.is_boolean_attribute(&n.name) {
-            n.value = None;
-
-            return;
-        }
-
         let mut value = match &n.value {
             Some(value) => value.to_string(),
             _ => {
@@ -512,60 +515,54 @@ impl VisitMut for Minifier {
             }
         };
 
-        if is_element_html_namespace {
-            if self.is_space_separated_attribute(&n.name) {
-                let mut values = value.split_whitespace().collect::<Vec<_>>();
+        let is_element_html_namespace = self.current_element_namespace == Some(Namespace::HTML);
 
-                if &*n.name == "class" {
-                    values.sort_unstable();
-                }
+        if is_element_html_namespace && self.is_boolean_attribute(&n.name) {
+            n.value = None;
 
-                value = values.join(" ");
-
-                n.value = Some(value.into());
-
-                return;
-            } else if self.is_comma_separated_meta && &n.name == "content"
-                || (self.is_comma_separated_attribute(
-                    self.current_element_namespace,
+            return;
+        } else if self.is_global_space_separated_attribute(&n.name)
+            || (is_element_html_namespace
+                && self.is_html_space_separated_attribute(
                     self.current_element_tag_name.as_ref(),
                     &n.name,
                 ))
-            {
-                let values = value.trim().split(',');
-
-                let mut new_values = vec![];
-
-                for value in values {
-                    new_values.push(value.trim());
-                }
-
-                n.value = Some(new_values.join(",").into());
-
-                return;
-            } else if self.is_trimable_attribute(
-                self.current_element_namespace,
-                self.current_element_tag_name.as_ref(),
-                &n.name,
-            ) {
-                n.value = Some(value.trim().into());
-
-                return;
-            } else if &n.name == "contenteditable" && value == "true" {
-                n.value = Some("".into());
-
-                return;
-            }
-        }
-
-        if self.is_global_trimable_attribute(&n.name) {
-            value = value.trim().to_string();
-        }
-
-        if self.is_event_handler_attribute(&n.name)
-            && value.to_lowercase().starts_with("javascript:")
         {
-            value = value.chars().skip(11).collect();
+            let mut values = value.split_whitespace().collect::<Vec<_>>();
+
+            if &*n.name == "class" {
+                values.sort_unstable();
+            }
+
+            value = values.join(" ");
+        } else if self.is_global_comma_separated_attribute(&n.name)
+            || (is_element_html_namespace
+                && (self.is_comma_separated_meta && &n.name == "content"
+                    || self.is_html_comma_separated_attribute(
+                        self.current_element_tag_name.as_ref(),
+                        &n.name,
+                    )))
+        {
+            let values = value.trim().split(',');
+
+            let mut new_values = vec![];
+
+            for value in values {
+                new_values.push(value.trim());
+            }
+
+            value = new_values.join(",");
+        } else if self.is_global_trimable_attribute(&n.name)
+            || (is_element_html_namespace
+                && self.is_html_trimable_attribute(self.current_element_tag_name.as_ref(), &n.name))
+        {
+            value = value.trim().to_string();
+        } else if is_element_html_namespace && &n.name == "contenteditable" && value == "true" {
+            value = "".to_string();
+        } else if self.is_event_handler_attribute(&n.name)
+            && value.trim().to_lowercase().starts_with("javascript:")
+        {
+            value = value.trim().chars().skip(11).collect();
         }
 
         n.value = Some(value.into());
