@@ -178,6 +178,12 @@ static ALLOW_TO_TRIM_ATTRIBUTES: &[(Namespace, &str, &str)] = &[
     (Namespace::HTML, "select", "size"),
     (Namespace::HTML, "form", "action"),
     (Namespace::HTML, "object", "data"),
+    (Namespace::HTML, "a", "href"),
+    (Namespace::HTML, "area", "href"),
+    (Namespace::HTML, "link", "href"),
+    (Namespace::HTML, "base", "href"),
+    (Namespace::HTML, "q", "cite"),
+    (Namespace::HTML, "blockquote", "cite"),
 ];
 
 static COMMA_SEPARATED_ATTRIBUTES: &[(Namespace, &str, &str)] = &[
@@ -506,33 +512,7 @@ impl VisitMut for Minifier {
             }
         };
 
-        if self.is_comma_separated_meta && &n.name == "content"
-            || (self.is_comma_separated_attribute(
-                self.current_element_namespace,
-                self.current_element_tag_name.as_ref(),
-                &n.name,
-            ))
-        {
-            let values = value.trim().split(',');
-
-            let mut new_values = vec![];
-
-            for value in values {
-                new_values.push(value.trim());
-            }
-
-            n.value = Some(new_values.join(",").into());
-
-            return;
-        }
-
         if is_element_html_namespace {
-            if &n.name == "contenteditable" && value == "true" {
-                n.value = Some("".into());
-
-                return;
-            }
-
             if self.is_space_separated_attribute(&n.name) {
                 let mut values = value.split_whitespace().collect::<Vec<_>>();
 
@@ -545,16 +525,40 @@ impl VisitMut for Minifier {
                 n.value = Some(value.into());
 
                 return;
-            }
-        }
+            } else if self.is_comma_separated_meta && &n.name == "content"
+                || (self.is_comma_separated_attribute(
+                    self.current_element_namespace,
+                    self.current_element_tag_name.as_ref(),
+                    &n.name,
+                ))
+            {
+                let values = value.trim().split(',');
 
-        if self.is_global_trimable_attribute(&n.name)
-            || self.is_trimable_attribute(
+                let mut new_values = vec![];
+
+                for value in values {
+                    new_values.push(value.trim());
+                }
+
+                n.value = Some(new_values.join(",").into());
+
+                return;
+            } else if self.is_trimable_attribute(
                 self.current_element_namespace,
                 self.current_element_tag_name.as_ref(),
                 &n.name,
-            )
-        {
+            ) {
+                n.value = Some(value.trim().into());
+
+                return;
+            } else if &n.name == "contenteditable" && value == "true" {
+                n.value = Some("".into());
+
+                return;
+            }
+        }
+
+        if self.is_global_trimable_attribute(&n.name) {
             value = value.trim().to_string();
         }
 
