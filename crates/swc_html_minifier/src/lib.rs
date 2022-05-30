@@ -50,6 +50,7 @@ static BOOLEAN_ATTRIBUTES: &[&str] = &[
     "visible",
 ];
 
+// Global attributes
 static EVENT_HANDLER_ATTRIBUTES: &[&str] = &[
     "onabort",
     "onautocomplete",
@@ -148,20 +149,42 @@ static EVENT_HANDLER_ATTRIBUTES: &[&str] = &[
     "onsort",
 ];
 
-static ALLOW_TO_TRIM_ATTRIBUTES: &[&str] = &[
-    "class",
-    "style",
-    "tabindex",
-    "maxlength",
-    "size",
-    "rows",
-    "cols",
-    "span",
-    "rowspan",
-    "colspan",
+static ALLOW_TO_TRIM_GLOBAL_ATTRIBUTES: &[&str] = &["class", "style", "tabindex"];
+
+static ALLOW_TO_TRIM_ATTRIBUTES: &[(Namespace, &str, &str)] = &[
+    (Namespace::HTML, "audio", "src"),
+    (Namespace::HTML, "embed", "src"),
+    (Namespace::HTML, "iframe", "src"),
+    (Namespace::HTML, "img", "src"),
+    (Namespace::HTML, "input", "src"),
+    (Namespace::HTML, "script", "src"),
+    (Namespace::HTML, "source", "src"),
+    (Namespace::HTML, "track", "src"),
+    (Namespace::HTML, "video", "src"),
+    (Namespace::HTML, "video", "poster"),
+    (Namespace::HTML, "td", "colspan"),
+    (Namespace::HTML, "th", "colspan"),
+    (Namespace::HTML, "td", "rowspan"),
+    (Namespace::HTML, "th", "rowspan"),
+    (Namespace::HTML, "col", "span"),
+    (Namespace::HTML, "colgroup", "span"),
+    (Namespace::HTML, "textarea", "cols"),
+    (Namespace::HTML, "textarea", "rows"),
+    (Namespace::HTML, "input", "size"),
+    (Namespace::HTML, "select", "size"),
+    (Namespace::HTML, "input", "maxlength"),
+    (Namespace::HTML, "textarea", "maxlength"),
 ];
 
-static COMMA_SEPARATED_ATTRIBUTES: &[&str] = &["srcset", "sizes"];
+static COMMA_SEPARATED_ATTRIBUTES: &[(Namespace, &str, &str)] = &[
+    (Namespace::HTML, "img", "srcset"),
+    (Namespace::HTML, "source", "srcset"),
+    (Namespace::HTML, "img", "sizes"),
+    (Namespace::HTML, "source", "sizes"),
+    (Namespace::HTML, "link", "media"),
+    (Namespace::HTML, "source", "media"),
+    (Namespace::HTML, "style", "media"),
+];
 
 static SPACE_SEPARATED_ATTRIBUTES: &[&str] = &[
     "class",
@@ -174,21 +197,58 @@ static SPACE_SEPARATED_ATTRIBUTES: &[&str] = &[
 
 struct Minifier {
     current_element_namespace: Option<Namespace>,
+    current_element_tag_name: Option<JsWord>,
     is_script_with_json: bool,
     is_comma_separated_meta: bool,
 }
 
 impl Minifier {
-    fn is_boolean_attribute(&self, name: &str) -> bool {
-        BOOLEAN_ATTRIBUTES.contains(&name)
-    }
-
     fn is_event_handler_attribute(&self, name: &str) -> bool {
         EVENT_HANDLER_ATTRIBUTES.contains(&name)
     }
 
-    fn is_comma_separated_attribute(&self, name: &str) -> bool {
-        COMMA_SEPARATED_ATTRIBUTES.contains(&name)
+    fn is_boolean_attribute(&self, name: &str) -> bool {
+        BOOLEAN_ATTRIBUTES.contains(&name)
+    }
+
+    fn is_global_trimable_attribute(&self, name: &str) -> bool {
+        ALLOW_TO_TRIM_GLOBAL_ATTRIBUTES.contains(&name) || EVENT_HANDLER_ATTRIBUTES.contains(&name)
+    }
+
+    fn is_trimable_attribute(
+        &self,
+        namespace: Option<Namespace>,
+        tag_name: Option<&JsWord>,
+        attribute_name: &JsWord,
+    ) -> bool {
+        let namespace = match namespace {
+            Some(namespace) => namespace,
+            _ => return false,
+        };
+        let tag_name = match tag_name {
+            Some(tag_name) => tag_name,
+            _ => return false,
+        };
+
+        ALLOW_TO_TRIM_ATTRIBUTES.contains(&(namespace, tag_name, attribute_name))
+    }
+
+    fn is_comma_separated_attribute(
+        &self,
+        namespace: Option<Namespace>,
+        tag_name: Option<&JsWord>,
+        attribute_name: &JsWord,
+    ) -> bool {
+        let namespace = match namespace {
+            Some(namespace) => namespace,
+            _ => return false,
+        };
+        let tag_name = match tag_name {
+            Some(tag_name) => tag_name,
+            _ => return false,
+        };
+
+        COMMA_SEPARATED_ATTRIBUTES.contains(&(namespace, tag_name, attribute_name))
     }
 
     fn is_space_separated_attribute(&self, name: &str) -> bool {
@@ -316,18 +376,12 @@ impl Minifier {
 
         false
     }
-
-    fn allow_to_trim(&self, name: &str) -> bool {
-        ALLOW_TO_TRIM_ATTRIBUTES.contains(&name) || EVENT_HANDLER_ATTRIBUTES.contains(&name)
-    }
 }
 
 impl VisitMut for Minifier {
     fn visit_mut_element(&mut self, n: &mut Element) {
-        let old_current_element_namespace = self.current_element_namespace.take();
-        let old_value_is_script_with_json = self.is_script_with_json;
-
         self.current_element_namespace = Some(n.namespace);
+        self.current_element_tag_name = Some(n.tag_name.clone());
 
         if n.namespace == Namespace::HTML {
             match &*n.tag_name {
@@ -371,9 +425,6 @@ impl VisitMut for Minifier {
         }
 
         n.visit_mut_children_with(self);
-
-        self.current_element_namespace = old_current_element_namespace;
-        self.is_script_with_json = old_value_is_script_with_json;
 
         let allow_to_remove_spaces = &*n.tag_name == "head" && n.namespace == Namespace::HTML;
 
@@ -451,7 +502,13 @@ impl VisitMut for Minifier {
             }
         };
 
-        if self.is_comma_separated_meta && &n.name == "content" {
+        if self.is_comma_separated_meta && &n.name == "content"
+            || (self.is_comma_separated_attribute(
+                self.current_element_namespace,
+                self.current_element_tag_name.as_ref(),
+                &n.name,
+            ))
+        {
             let values = value.trim().split(',');
 
             let mut new_values = vec![];
@@ -472,19 +529,7 @@ impl VisitMut for Minifier {
                 return;
             }
 
-            if self.is_comma_separated_attribute(&n.name) {
-                let values = value.split(',');
-
-                let mut new_values = vec![];
-
-                for value in values {
-                    new_values.push(value.trim());
-                }
-
-                n.value = Some(new_values.join(",").into());
-
-                return;
-            } else if self.is_space_separated_attribute(&n.name) {
+            if self.is_space_separated_attribute(&n.name) {
                 let mut values = value.split_whitespace().collect::<Vec<_>>();
 
                 if &*n.name == "class" {
@@ -499,7 +544,13 @@ impl VisitMut for Minifier {
             }
         }
 
-        if self.allow_to_trim(&n.name) {
+        if self.is_global_trimable_attribute(&n.name)
+            || self.is_trimable_attribute(
+                self.current_element_namespace,
+                self.current_element_tag_name.as_ref(),
+                &n.name,
+            )
+        {
             value = value.trim().to_string();
         }
 
@@ -533,6 +584,7 @@ impl VisitMut for Minifier {
 pub fn minify(document: &mut Document) {
     document.visit_mut_with(&mut Minifier {
         current_element_namespace: None,
+        current_element_tag_name: None,
         is_script_with_json: false,
         is_comma_separated_meta: false,
     });
