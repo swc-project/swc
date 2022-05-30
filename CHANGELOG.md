@@ -8,6 +8,9 @@
 - **(es/minifier)** Apply name mangler for more cases (#4840) ([0567f67](https://github.com/swc-project/swc/commit/0567f67664cc2407d45bf8b17821edc4b828198c))
 
 
+- **(es/minifier)** Make `if_return` to not drop required returns (#4847) ([8365c3d](https://github.com/swc-project/swc/commit/8365c3d0dff96c195fccebd4269ac279c068a624))
+
+
 - **(html/codegen)** Prevent omitting body for title (#4814) ([7407f21](https://github.com/swc-project/swc/commit/7407f218f8b294d3d7998334bdd908abc519ecb0))
 
 
