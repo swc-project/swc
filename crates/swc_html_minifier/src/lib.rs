@@ -149,7 +149,7 @@ static EVENT_HANDLER_ATTRIBUTES: &[&str] = &[
     "onsort",
 ];
 
-static ALLOW_TO_TRIM_GLOBAL_ATTRIBUTES: &[&str] = &["class", "style", "tabindex"];
+static ALLOW_TO_TRIM_GLOBAL_ATTRIBUTES: &[&str] = &["class", "style", "tabindex", "itemid"];
 
 static ALLOW_TO_TRIM_ATTRIBUTES: &[(Namespace, &str, &str)] = &[
     (Namespace::HTML, "audio", "src"),
@@ -163,17 +163,21 @@ static ALLOW_TO_TRIM_ATTRIBUTES: &[(Namespace, &str, &str)] = &[
     (Namespace::HTML, "video", "src"),
     (Namespace::HTML, "video", "poster"),
     (Namespace::HTML, "td", "colspan"),
-    (Namespace::HTML, "th", "colspan"),
     (Namespace::HTML, "td", "rowspan"),
+    (Namespace::HTML, "th", "colspan"),
     (Namespace::HTML, "th", "rowspan"),
     (Namespace::HTML, "col", "span"),
     (Namespace::HTML, "colgroup", "span"),
     (Namespace::HTML, "textarea", "cols"),
     (Namespace::HTML, "textarea", "rows"),
-    (Namespace::HTML, "input", "size"),
-    (Namespace::HTML, "select", "size"),
-    (Namespace::HTML, "input", "maxlength"),
     (Namespace::HTML, "textarea", "maxlength"),
+    (Namespace::HTML, "input", "size"),
+    (Namespace::HTML, "input", "formaction"),
+    (Namespace::HTML, "input", "maxlength"),
+    (Namespace::HTML, "button", "formaction"),
+    (Namespace::HTML, "select", "size"),
+    (Namespace::HTML, "form", "action"),
+    (Namespace::HTML, "object", "data"),
 ];
 
 static COMMA_SEPARATED_ATTRIBUTES: &[(Namespace, &str, &str)] = &[
