@@ -240,11 +240,16 @@ static SPACE_SEPARATED_HTML_ATTRIBUTES: &[(&str, &str)] = &[
     ("style", "blocking"),
 ];
 
+enum MetaElementContentType {
+    CommaSeparated,
+    SemiSeparated,
+}
+
 struct Minifier {
     current_element_namespace: Option<Namespace>,
     current_element_tag_name: Option<JsWord>,
     is_script_with_json: bool,
-    is_comma_separated_meta: bool,
+    meta_element_content_type: Option<MetaElementContentType>,
 }
 
 impl Minifier {
@@ -438,18 +443,38 @@ impl VisitMut for Minifier {
 
         if n.namespace == Namespace::HTML {
             match &*n.tag_name {
-                "meta"
-                    if n.attributes.iter().any(|attribute| match &*attribute.name {
-                        "name"
-                            if attribute.value.is_some()
-                                && &**attribute.value.as_ref().unwrap() == "viewport" =>
-                        {
-                            true
+                "meta" => {
+                    if n.attributes.iter().any(|attribute| {
+                        match &*attribute.name.to_ascii_lowercase() {
+                            "name"
+                                if attribute.value.is_some()
+                                    && &*attribute.value.as_ref().unwrap().to_ascii_lowercase()
+                                        == "viewport" =>
+                            {
+                                true
+                            }
+                            _ => false,
                         }
-                        _ => false,
-                    }) =>
-                {
-                    self.is_comma_separated_meta = true;
+                    }) {
+                        self.meta_element_content_type =
+                            Some(MetaElementContentType::CommaSeparated);
+                    } else if n.attributes.iter().any(|attribute| {
+                        match &*attribute.name.to_ascii_lowercase() {
+                            "http-equiv"
+                                if attribute.value.is_some()
+                                    && &*attribute.value.as_ref().unwrap().to_ascii_lowercase()
+                                        == "content-security-policy" =>
+                            {
+                                true
+                            }
+                            _ => false,
+                        }
+                    }) {
+                        self.meta_element_content_type =
+                            Some(MetaElementContentType::SemiSeparated);
+                    } else {
+                        self.meta_element_content_type = None;
+                    }
                 }
                 "script"
                     if n.attributes.iter().any(|attribute| match &*attribute.name {
@@ -471,7 +496,7 @@ impl VisitMut for Minifier {
                     self.is_script_with_json = true;
                 }
                 _ => {
-                    self.is_comma_separated_meta = false;
+                    self.meta_element_content_type = None;
                     self.is_script_with_json = false;
                 }
             }
@@ -569,11 +594,13 @@ impl VisitMut for Minifier {
             value = values.join(" ");
         } else if self.is_global_comma_separated_attribute(&n.name)
             || (is_element_html_namespace
-                && (self.is_comma_separated_meta && &n.name == "content"
-                    || self.is_html_comma_separated_attribute(
-                        self.current_element_tag_name.as_ref(),
-                        &n.name,
-                    )))
+                && (matches!(
+                    self.meta_element_content_type,
+                    Some(MetaElementContentType::CommaSeparated)
+                ) || self.is_html_comma_separated_attribute(
+                    self.current_element_tag_name.as_ref(),
+                    &n.name,
+                )))
         {
             let values = value.trim().split(',');
 
@@ -591,6 +618,30 @@ impl VisitMut for Minifier {
             value = value.trim().to_string();
         } else if is_element_html_namespace && &n.name == "contenteditable" && value == "true" {
             value = "".to_string();
+        } else if matches!(
+            self.meta_element_content_type,
+            Some(MetaElementContentType::SemiSeparated)
+        ) {
+            let values = value.trim().split(';');
+
+            let mut new_values = vec![];
+
+            for value in values {
+                new_values.push(
+                    value
+                        .trim()
+                        .split(' ')
+                        .filter(|s| !s.is_empty())
+                        .collect::<Vec<_>>()
+                        .join(" "),
+                );
+            }
+
+            value = new_values.join(";");
+
+            if value.ends_with(';') {
+                value.pop();
+            }
         } else if self.is_event_handler_attribute(&n.name) {
             value = value.trim().into();
 
@@ -625,6 +676,6 @@ pub fn minify(document: &mut Document) {
         current_element_namespace: None,
         current_element_tag_name: None,
         is_script_with_json: false,
-        is_comma_separated_meta: false,
+        meta_element_content_type: None,
     });
 }
