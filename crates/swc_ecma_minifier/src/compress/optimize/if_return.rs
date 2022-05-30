@@ -44,7 +44,7 @@ where
     pub(super) fn merge_if_returns(
         &mut self,
         stmts: &mut Vec<Stmt>,
-        can_work: bool,
+        terminates: bool,
         is_fn_body: bool,
     ) {
         if !self.options.if_return {
@@ -52,10 +52,10 @@ where
         }
 
         for stmt in stmts.iter_mut() {
-            self.merge_nested_if_returns(stmt, can_work);
+            self.merge_nested_if_returns(stmt, terminates);
         }
 
-        if can_work || is_fn_body {
+        if terminates || is_fn_body {
             self.merge_if_returns_inner(stmts);
         }
     }
