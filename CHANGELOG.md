@@ -7,6 +7,9 @@
 
 - **(es/minifier)** Apply name mangler for more cases (#4840) ([0567f67](https://github.com/swc-project/swc/commit/0567f67664cc2407d45bf8b17821edc4b828198c))
 
+
+- **(html/codegen)** Prevent omitting body for title (#4814) ([7407f21](https://github.com/swc-project/swc/commit/7407f218f8b294d3d7998334bdd908abc519ecb0))
+
 ## [1.2.195] - 2022-05-29
 
 ### Bug Fixes
