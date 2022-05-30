@@ -56,7 +56,7 @@ where
         }
 
         if terminates || is_fn_body {
-            self.merge_if_returns_inner(stmts);
+            self.merge_if_returns_inner(stmts, !is_fn_body);
         }
     }
 
@@ -99,7 +99,7 @@ where
     ///     return a ? foo() : bar();
     /// }
     /// ```
-    fn merge_if_returns_inner(&mut self, stmts: &mut Vec<Stmt>) {
+    fn merge_if_returns_inner(&mut self, stmts: &mut Vec<Stmt>, should_preserve_last_return: bool) {
         if !self.options.if_return {
             return;
         }
@@ -366,11 +366,12 @@ where
         if let Some(mut cur) = cur {
             match &*cur {
                 Expr::Seq(seq)
-                    if seq
-                        .exprs
-                        .last()
-                        .map(|v| is_pure_undefined(&self.expr_ctx, v))
-                        .unwrap_or(true) =>
+                    if !should_preserve_last_return
+                        && seq
+                            .exprs
+                            .last()
+                            .map(|v| is_pure_undefined(&self.expr_ctx, v))
+                            .unwrap_or(true) =>
                 {
                     let expr = self.ignore_return_value(&mut cur);
 
