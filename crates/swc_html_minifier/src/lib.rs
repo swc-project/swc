@@ -184,6 +184,8 @@ static ALLOW_TO_TRIM_HTML_ATTRIBUTES: &[(&str, &str)] = &[
     ("base", "href"),
     ("q", "cite"),
     ("blockquote", "cite"),
+    ("del", "cite"),
+    ("ins", "cite"),
 ];
 
 static COMMA_SEPARATED_GLOBAL_ATTRIBUTES: &[&str] = &["class"];
@@ -492,8 +494,8 @@ impl VisitMut for Minifier {
             let value = &*attribute.value.as_ref().unwrap();
 
             if (matches!(&*attribute.name, "id") && value.is_empty())
-                || (matches!(&*attribute.name, "class" | "style") && value.trim().is_empty())
-                || self.is_event_handler_attribute(&attribute.name) && value.trim().is_empty()
+                || (matches!(&*attribute.name, "class" | "style") && value.is_empty())
+                || self.is_event_handler_attribute(&attribute.name) && value.is_empty()
             {
                 return false;
             }
@@ -560,10 +562,12 @@ impl VisitMut for Minifier {
             value = value.trim().to_string();
         } else if is_element_html_namespace && &n.name == "contenteditable" && value == "true" {
             value = "".to_string();
-        } else if self.is_event_handler_attribute(&n.name)
-            && value.trim().to_lowercase().starts_with("javascript:")
-        {
-            value = value.trim().chars().skip(11).collect();
+        } else if self.is_event_handler_attribute(&n.name) {
+            value = value.trim().into();
+
+            if value.trim().to_lowercase().starts_with("javascript:") {
+                value = value.chars().skip(11).collect();
+            }
         }
 
         n.value = Some(value.into());
