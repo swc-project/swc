@@ -16,6 +16,12 @@
 
 - **(html/parser)** Handle BOM (#4843) ([20fee8a](https://github.com/swc-project/swc/commit/20fee8abeee9f8e54082b02b2e83cff7ce72cc8f))
 
+### Features
+
+
+
+- **(html/minifier)** Compress viewport meta (#4844) ([e6ae299](https://github.com/swc-project/swc/commit/e6ae299776d0ad285f2a93ed7371ff8592999ac6))
+
 ## [1.2.195] - 2022-05-29
 
 ### Bug Fixes
