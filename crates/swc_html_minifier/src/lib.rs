@@ -385,6 +385,7 @@ impl Minifier {
                 | (Namespace::HTML, "td", "rowspan", "1")
                 | (Namespace::HTML, "th", "colspan", "1")
                 | (Namespace::HTML, "th", "rowspan", "1")
+                | (Namespace::HTML, "button", "type", "submit")
         )
     }
 
