@@ -155,11 +155,14 @@ static EVENT_HANDLER_ATTRIBUTES: &[&str] = &[
 static ALLOW_TO_TRIM_GLOBAL_ATTRIBUTES: &[&str] = &["style", "tabindex", "itemid"];
 
 static ALLOW_TO_TRIM_HTML_ATTRIBUTES: &[(&str, &str)] = &[
+    ("head", "profile"),
     ("audio", "src"),
     ("embed", "src"),
     ("iframe", "src"),
     ("img", "src"),
     ("input", "src"),
+    ("input", "usemap"),
+    ("input", "longdesc"),
     ("script", "src"),
     ("source", "src"),
     ("track", "src"),
@@ -181,6 +184,9 @@ static ALLOW_TO_TRIM_HTML_ATTRIBUTES: &[(&str, &str)] = &[
     ("select", "size"),
     ("form", "action"),
     ("object", "data"),
+    ("object", "codebase"),
+    ("object", "classid"),
+    ("applet", "codebase"),
     ("a", "href"),
     ("area", "href"),
     ("link", "href"),
@@ -189,6 +195,8 @@ static ALLOW_TO_TRIM_HTML_ATTRIBUTES: &[(&str, &str)] = &[
     ("blockquote", "cite"),
     ("del", "cite"),
     ("ins", "cite"),
+    ("img", "usemap"),
+    ("object", "usemap"),
 ];
 
 static COMMA_SEPARATED_GLOBAL_ATTRIBUTES: &[&str] = &["class"];
