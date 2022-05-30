@@ -961,7 +961,6 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                         }
                     };
 
-                    // TODO validate error positions
                     assert!(actual_errors
                         .iter()
                         .any(|error| *error.kind() == expected_code));
