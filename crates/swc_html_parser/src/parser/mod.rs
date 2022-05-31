@@ -1797,8 +1797,11 @@ where
                                 _ => {}
                             }
 
-                            self.open_elements_stack
-                                .pop_until_tag_name_popped(&["template"], Some(&token_and_info));
+                            let popped = self
+                                .open_elements_stack
+                                .pop_until_tag_name_popped(&["template"]);
+
+                            self.update_end_tag_span(popped.as_ref(), &token_and_info);
                             self.active_formatting_elements.clear_to_last_marker();
                             self.template_insertion_mode_stack.pop();
                             self.reset_insertion_mode();
@@ -2718,8 +2721,7 @@ where
 
                                 // Pop elements from the stack of open elements until an li
                                 // element has been popped from the stack.
-                                self.open_elements_stack
-                                    .pop_until_tag_name_popped(&["li"], None);
+                                self.open_elements_stack.pop_until_tag_name_popped(&["li"]);
 
                                 // Jump to the step labeled done below.
                                 break;
@@ -2813,8 +2815,7 @@ where
 
                                 // Pop elements from the stack of open elements until an dd
                                 // element has been popped from the stack.
-                                self.open_elements_stack
-                                    .pop_until_tag_name_popped(&["dd"], None);
+                                self.open_elements_stack.pop_until_tag_name_popped(&["dd"]);
 
                                 // Jump to the step labeled done below.
                                 break;
@@ -2837,8 +2838,7 @@ where
 
                                 // Pop elements from the stack of open elements until an dt
                                 // element has been popped from the stack.
-                                self.open_elements_stack
-                                    .pop_until_tag_name_popped(&["dt"], None);
+                                self.open_elements_stack.pop_until_tag_name_popped(&["dt"]);
 
                                 // Jump to the step labeled done below.
                                 break;
@@ -2905,7 +2905,7 @@ where
                             ));
                             self.open_elements_stack.generate_implied_end_tags();
                             self.open_elements_stack
-                                .pop_until_tag_name_popped(&["button"], None);
+                                .pop_until_tag_name_popped(&["button"]);
                         }
 
                         self.reconstruct_active_formatting_elements()?;
@@ -2979,8 +2979,11 @@ where
                                 _ => {}
                             }
 
-                            self.open_elements_stack
-                                .pop_until_tag_name_popped(&[tag_name], Some(&token_and_info));
+                            let popped = self
+                                .open_elements_stack
+                                .pop_until_tag_name_popped(&[tag_name]);
+
+                            self.update_end_tag_span(popped.as_ref(), &token_and_info);
                         }
                     }
                     // An end tag whose tag name is "form"
@@ -3082,8 +3085,11 @@ where
                                 _ => {}
                             }
 
-                            self.open_elements_stack
-                                .pop_until_tag_name_popped(&["form"], Some(&token_and_info));
+                            let popped = self
+                                .open_elements_stack
+                                .pop_until_tag_name_popped(&["form"]);
+
+                            self.update_end_tag_span(popped.as_ref(), &token_and_info);
                         }
                     }
                     // An end tag whose tag name is "p"
@@ -3147,8 +3153,10 @@ where
                                 _ => {}
                             }
 
-                            self.open_elements_stack
-                                .pop_until_tag_name_popped(&["li"], Some(&token_and_info));
+                            let popped =
+                                self.open_elements_stack.pop_until_tag_name_popped(&["li"]);
+
+                            self.update_end_tag_span(popped.as_ref(), &token_and_info);
                         }
                     }
                     // An end tag whose tag name is one of: "dd", "dt"
@@ -3187,8 +3195,11 @@ where
                                 _ => {}
                             }
 
-                            self.open_elements_stack
-                                .pop_until_tag_name_popped(&[tag_name], Some(&token_and_info));
+                            let popped = self
+                                .open_elements_stack
+                                .pop_until_tag_name_popped(&[tag_name]);
+
+                            self.update_end_tag_span(popped.as_ref(), &token_and_info);
                         }
                     }
                     // An end tag whose tag name is one of: "h1", "h2", "h3", "h4", "h5", "h6"
@@ -3238,10 +3249,8 @@ where
                                 _ => {}
                             }
 
-                            self.open_elements_stack.pop_until_tag_name_popped(
-                                &["h1", "h2", "h3", "h4", "h5", "h6"],
-                                None,
-                            );
+                            self.open_elements_stack
+                                .pop_until_tag_name_popped(&["h1", "h2", "h3", "h4", "h5", "h6"]);
                         }
                     }
                     // An end tag whose tag name is "sarcasm"
@@ -3453,8 +3462,11 @@ where
                                 _ => {}
                             }
 
-                            self.open_elements_stack
-                                .pop_until_tag_name_popped(&[tag_name], Some(&token_and_info));
+                            let popped = self
+                                .open_elements_stack
+                                .pop_until_tag_name_popped(&[tag_name]);
+
+                            self.update_end_tag_span(popped.as_ref(), &token_and_info);
                             self.active_formatting_elements.clear_to_last_marker();
                         }
                     }
@@ -4401,7 +4413,7 @@ where
                         }
 
                         self.open_elements_stack
-                            .pop_until_tag_name_popped(&["table"], None);
+                            .pop_until_tag_name_popped(&["table"]);
                         self.reset_insertion_mode();
                         self.process_token(token_and_info, None)?;
                     }
@@ -4423,8 +4435,11 @@ where
                                 ErrorKind::StrayEndTag(tag_name.clone()),
                             ));
                         } else {
-                            self.open_elements_stack
-                                .pop_until_tag_name_popped(&["table"], Some(&token_and_info));
+                            let popped = self
+                                .open_elements_stack
+                                .pop_until_tag_name_popped(&["table"]);
+
+                            self.update_end_tag_span(popped.as_ref(), &token_and_info);
                             self.reset_insertion_mode();
                         }
                     }
@@ -4675,8 +4690,11 @@ where
                                 _ => {}
                             }
 
-                            self.open_elements_stack
-                                .pop_until_tag_name_popped(&["caption"], Some(&token_and_info));
+                            let popped = self
+                                .open_elements_stack
+                                .pop_until_tag_name_popped(&["caption"]);
+
+                            self.update_end_tag_span(popped.as_ref(), &token_and_info);
                             self.active_formatting_elements.clear_to_last_marker();
                             self.insertion_mode = InsertionMode::InTable;
                         }
@@ -4737,7 +4755,7 @@ where
                             }
 
                             self.open_elements_stack
-                                .pop_until_tag_name_popped(&["caption"], None);
+                                .pop_until_tag_name_popped(&["caption"]);
                             self.active_formatting_elements.clear_to_last_marker();
                             self.insertion_mode = InsertionMode::InTable;
                             self.process_token(token_and_info, None)?;
@@ -4763,7 +4781,7 @@ where
                             }
 
                             self.open_elements_stack
-                                .pop_until_tag_name_popped(&["caption"], None);
+                                .pop_until_tag_name_popped(&["caption"]);
                             self.active_formatting_elements.clear_to_last_marker();
                             self.insertion_mode = InsertionMode::InTable;
                             self.process_token(token_and_info, None)?;
@@ -5286,8 +5304,11 @@ where
                                 _ => {}
                             }
 
-                            self.open_elements_stack
-                                .pop_until_tag_name_popped(&[tag_name], Some(&token_and_info));
+                            let popped = self
+                                .open_elements_stack
+                                .pop_until_tag_name_popped(&[tag_name]);
+
+                            self.update_end_tag_span(popped.as_ref(), &token_and_info);
                             self.active_formatting_elements.clear_to_last_marker();
                             self.insertion_mode = InsertionMode::InRow;
                         }
@@ -5539,8 +5560,11 @@ where
                                 ErrorKind::StrayEndTag(tag_name.clone()),
                             ));
                         } else {
-                            self.open_elements_stack
-                                .pop_until_tag_name_popped(&["select"], Some(&token_and_info));
+                            let popped = self
+                                .open_elements_stack
+                                .pop_until_tag_name_popped(&["select"]);
+
+                            self.update_end_tag_span(popped.as_ref(), &token_and_info);
                             self.reset_insertion_mode();
                         }
                     }
@@ -5570,7 +5594,7 @@ where
                         }
 
                         self.open_elements_stack
-                            .pop_until_tag_name_popped(&["select"], None);
+                            .pop_until_tag_name_popped(&["select"]);
                         self.reset_insertion_mode();
                     }
                     // A start tag whose tag name is one of: "input", "keygen", "textarea"
@@ -5602,7 +5626,7 @@ where
                         }
 
                         self.open_elements_stack
-                            .pop_until_tag_name_popped(&["select"], None);
+                            .pop_until_tag_name_popped(&["select"]);
                         self.reset_insertion_mode();
                         self.process_token(token_and_info, None)?;
                     }
@@ -5674,7 +5698,7 @@ where
                             ErrorKind::StartTagWithSelectOpen(tag_name.clone()),
                         ));
                         self.open_elements_stack
-                            .pop_until_tag_name_popped(&["select"], None);
+                            .pop_until_tag_name_popped(&["select"]);
                         self.reset_insertion_mode();
                         self.process_token(token_and_info, None)?;
                     }
@@ -5712,7 +5736,7 @@ where
                         }
 
                         self.open_elements_stack
-                            .pop_until_tag_name_popped(&["select"], None);
+                            .pop_until_tag_name_popped(&["select"]);
                         self.reset_insertion_mode();
                         self.process_token(token_and_info, None)?;
                     }
@@ -5887,7 +5911,7 @@ where
                                 ErrorKind::EofWithUnclosedElements,
                             ));
                             self.open_elements_stack
-                                .pop_until_tag_name_popped(&["template"], None);
+                                .pop_until_tag_name_popped(&["template"]);
                             self.active_formatting_elements.clear_to_last_marker();
                             self.template_insertion_mode_stack.pop();
                             self.reset_insertion_mode();
@@ -7417,14 +7441,11 @@ where
 
         // 3. Pop elements from the stack of open elements until a p element has been
         // popped from the stack.
-        self.open_elements_stack.pop_until_tag_name_popped(
-            &["p"],
-            if is_close_p {
-                Some(&token_and_info)
-            } else {
-                None
-            },
-        );
+        let popped = self.open_elements_stack.pop_until_tag_name_popped(&["p"]);
+
+        if is_close_p {
+            self.update_end_tag_span(popped.as_ref(), &token_and_info)
+        }
     }
 
     fn close_the_cell(&mut self) {
@@ -7444,7 +7465,7 @@ where
         // Pop elements from the stack of open elements stack until a td
         // element or a th element has been popped from the stack.
         self.open_elements_stack
-            .pop_until_tag_name_popped(&["td", "th"], None);
+            .pop_until_tag_name_popped(&["td", "th"]);
 
         // Clear the list of active formatting elements up to the last marker.
         self.active_formatting_elements.clear_to_last_marker();

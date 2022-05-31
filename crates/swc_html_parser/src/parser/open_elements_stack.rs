@@ -1,8 +1,7 @@
 use swc_html_ast::*;
 
 use crate::parser::{
-    is_html_integration_point, is_mathml_text_integration_point, is_same_node, node::TokenAndInfo,
-    Data, RcNode,
+    is_html_integration_point, is_mathml_text_integration_point, is_same_node, Data, RcNode,
 };
 
 static IMPLICIT_END_TAG_REQUIRED: &[&str] = &[
@@ -422,22 +421,14 @@ impl OpenElementsStack {
         }
     }
 
-    pub fn pop_until_tag_name_popped(
-        &mut self,
-        tag_name: &[&str],
-        token_and_info: Option<&TokenAndInfo>,
-    ) {
+    pub fn pop_until_tag_name_popped(&mut self, tag_name: &[&str]) -> Option<RcNode> {
         while let Some(node) = self.pop() {
             if tag_name.contains(&get_tag_name!(node)) && get_namespace!(node) == Namespace::HTML {
-                if let Some(token_and_info) = token_and_info {
-                    let mut end_tag_span = node.end_tag_span.borrow_mut();
-
-                    *end_tag_span = Some(token_and_info.span);
-                }
-
-                break;
+                return Some(node);
             }
         }
+
+        None
     }
 
     pub fn pop_until_node(&mut self, until_to_node: &RcNode) -> Option<RcNode> {
