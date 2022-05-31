@@ -4,6 +4,7 @@ use std::sync::Arc;
 
 use anyhow::{Context, Error};
 use once_cell::sync::Lazy;
+use serde::Deserialize;
 use swc::{
     config::{JsMinifyOptions, Options, ParseOptions, SourceMapsConfig},
     try_with_handler, Compiler,
@@ -12,8 +13,29 @@ use swc_common::{comments::Comments, FileName, FilePathMapping, SourceMap};
 use swc_ecmascript::ast::{EsVersion, Program};
 use wasm_bindgen::prelude::*;
 
-fn convert_err(err: Error) -> JsValue {
+fn convert_err(err: Error, f: ErrorFormat) -> JsValue {
     format!("{:?}", err).into()
+}
+
+#[derive(Deserialize)]
+enum ErrorFormat {
+    #[serde(rename = "json")]
+    Json,
+    #[serde(rename = "normal")]
+    Normal,
+}
+
+impl Default for ErrorFormat {
+    fn default() -> Self {
+        Self::Normal
+    }
+}
+
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct ErrorFormatOpt {
+    #[serde(default)]
+    error_format: ErrorFormat,
 }
 
 #[wasm_bindgen(js_name = "minifySync")]
