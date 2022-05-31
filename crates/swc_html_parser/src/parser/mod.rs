@@ -4744,7 +4744,7 @@ where
                             }
 
                             self.open_elements_stack
-                                .pop_until_tag_name_popped(&["caption"], Some(&token_and_info));
+                                .pop_until_tag_name_popped(&["caption"], None);
                             self.active_formatting_elements.clear_to_last_marker();
                             self.insertion_mode = InsertionMode::InTable;
                             self.process_token(token_and_info, None)?;
