@@ -1,0 +1,24 @@
+
+  x Unexpected question mark instead of tag name
+    ,-[$DIR/tests/recovery/comment/question-mark/input.html:10:5]
+ 10 | <?test>
+    :  ^
+    `----
+
+  x Unexpected equals sign before attribute name
+    ,-[$DIR/tests/recovery/comment/question-mark/input.html:11:5]
+ 11 | <div ="test"></div>
+    :      ^
+    `----
+
+  x Unexpected character in attribute name
+    ,-[$DIR/tests/recovery/comment/question-mark/input.html:11:5]
+ 11 | <div ="test"></div>
+    :       ^
+    `----
+
+  x Unexpected character in attribute name
+    ,-[$DIR/tests/recovery/comment/question-mark/input.html:11:5]
+ 11 | <div ="test"></div>
+    :            ^
+    `----

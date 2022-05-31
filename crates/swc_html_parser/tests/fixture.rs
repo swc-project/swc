@@ -211,11 +211,6 @@ macro_rules! mtd {
         fn $name(&mut self, n: &$T) {
             let span = n.span();
 
-            // We should not have dummy span in original parsing
-            if span.lo == BytePos(0) && span.hi == BytePos(0) {
-                panic!("Broken span");
-            }
-
             self.handler.struct_span_err(span, stringify!($T)).emit();
 
             n.visit_children_with(self);
@@ -961,7 +956,6 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                         }
                     };
 
-                    // TODO validate error positions
                     assert!(actual_errors
                         .iter()
                         .any(|error| *error.kind() == expected_code));
