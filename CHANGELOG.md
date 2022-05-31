@@ -5,30 +5,9 @@
 
 
 
-- **(es/minifier)** Apply name mangler for more cases (#4840) ([0567f67](https://github.com/swc-project/swc/commit/0567f67664cc2407d45bf8b17821edc4b828198c))
+- **(html/parser)** Fix span of lexer errors (#4846) ([f830726](https://github.com/swc-project/swc/commit/f83072602725e0357a54bd6a5a0655c9430c7f95))
 
-
-- **(es/minifier)** Make `if_return` to not drop required returns (#4847) ([8365c3d](https://github.com/swc-project/swc/commit/8365c3d0dff96c195fccebd4269ac279c068a624))
-
-
-- **(html/codegen)** Prevent omitting body for title (#4814) ([7407f21](https://github.com/swc-project/swc/commit/7407f218f8b294d3d7998334bdd908abc519ecb0))
-
-
-- **(html/parser)** Handle BOM (#4843) ([20fee8a](https://github.com/swc-project/swc/commit/20fee8abeee9f8e54082b02b2e83cff7ce72cc8f))
-
-### Features
-
-
-
-- **(html/minifier)** Compress viewport meta (#4844) ([e6ae299](https://github.com/swc-project/swc/commit/e6ae299776d0ad285f2a93ed7371ff8592999ac6))
-
-### Miscellaneous Tasks
-
-
-
-- **(ci)** Fix CI (#4852) ([142387b](https://github.com/swc-project/swc/commit/142387b2a307d062ce6c21d4cd3aac05dae8756f))
-
-## [1.2.195] - 2022-05-29
+## [1.2.196] - 2022-05-31
 
 ### Bug Fixes
 
@@ -46,6 +25,12 @@
 - **(es/minifier)** Don't create names which is same as an unresolved var (#4806) ([073b146](https://github.com/swc-project/swc/commit/073b1469e6c81a9342bd09394832ee96339f07b4))
 
 
+- **(es/minifier)** Apply name mangler for more cases (#4840) ([0567f67](https://github.com/swc-project/swc/commit/0567f67664cc2407d45bf8b17821edc4b828198c))
+
+
+- **(es/minifier)** Make `if_return` to not drop required returns (#4847) ([8365c3d](https://github.com/swc-project/swc/commit/8365c3d0dff96c195fccebd4269ac279c068a624))
+
+
 - **(es/modules)** Fix local scoped amd require (#4800) ([2b03047](https://github.com/swc-project/swc/commit/2b03047cb088b96e5c054055780b54e4f48ae486))
 
 
@@ -61,7 +46,13 @@
 - **(html/codegen)** Omit on more cases (#4825) ([2b7f4b2](https://github.com/swc-project/swc/commit/2b7f4b2f563a0c55482c0bc052dfd02df42b9eca))
 
 
+- **(html/codegen)** Prevent omitting body for title (#4814) ([7407f21](https://github.com/swc-project/swc/commit/7407f218f8b294d3d7998334bdd908abc519ecb0))
+
+
 - **(html/minifier)** Avoid removing id with spaces (#4786) ([c35cb59](https://github.com/swc-project/swc/commit/c35cb598f7a95795ea9d11ab7510f540a17d0639))
+
+
+- **(html/parser)** Handle BOM (#4843) ([20fee8a](https://github.com/swc-project/swc/commit/20fee8abeee9f8e54082b02b2e83cff7ce72cc8f))
 
 
 - **(node)** Fix logging (#4833) ([c462d4d](https://github.com/swc-project/swc/commit/c462d4d7c6488a01416fcd7ea8759461e2c3a97a))
@@ -88,10 +79,16 @@
 - **(html/minifier)** Compress more json types (#4813) ([731c59e](https://github.com/swc-project/swc/commit/731c59e9b7df7edd300871db8657e0d49b6b9a80))
 
 
+- **(html/minifier)** Compress viewport meta (#4844) ([e6ae299](https://github.com/swc-project/swc/commit/e6ae299776d0ad285f2a93ed7371ff8592999ac6))
+
+
 - **(node)** Split css binding (#4831) ([2e9ab05](https://github.com/swc-project/swc/commit/2e9ab0518a33f3b97541864cb7051a45606904ca))
 
 ### Miscellaneous Tasks
 
+
+
+- **(ci)** Fix CI (#4852) ([142387b](https://github.com/swc-project/swc/commit/142387b2a307d062ce6c21d4cd3aac05dae8756f))
 
 
 - **(common)** Update rustc (#4828) ([f847709](https://github.com/swc-project/swc/commit/f84770978719cda6eea689b9dd90259e9c2f05c9))
