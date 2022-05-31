@@ -1179,6 +1179,23 @@ pub struct JscExperimental {
     /// and will not be considered as breaking changes.
     #[serde(default)]
     pub cache_root: Option<String>,
+
+    #[serde(default)]
+    pub error_format: Option<ErrorFormat>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum ErrorFormat {
+    #[serde(rename = "json")]
+    Json,
+    #[serde(rename = "normal")]
+    Normal,
+}
+
+impl Default for ErrorFormat {
+    fn default() -> Self {
+        Self::Normal
+    }
 }
 
 /// `paths` section of `tsconfig.json`.
