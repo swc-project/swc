@@ -267,7 +267,7 @@
               "type": "Element",
               "span": {
                 "start": 154,
-                "end": 164,
+                "end": 175,
                 "ctxt": 0
               },
               "tagName": "h:ællæ",
@@ -324,7 +324,7 @@
               "type": "Element",
               "span": {
                 "start": 192,
-                "end": 204,
+                "end": 217,
                 "ctxt": 0
               },
               "tagName": "some-tag-1",
@@ -337,7 +337,7 @@
               "type": "Element",
               "span": {
                 "start": 217,
-                "end": 229,
+                "end": 242,
                 "ctxt": 0
               },
               "tagName": "some-tag-2",
@@ -418,7 +418,7 @@
               "type": "Element",
               "span": {
                 "start": 282,
-                "end": 294,
+                "end": 307,
                 "ctxt": 0
               },
               "tagName": "custom-tag",

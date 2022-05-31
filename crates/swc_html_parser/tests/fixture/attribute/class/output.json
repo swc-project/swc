@@ -200,7 +200,7 @@
               "type": "Element",
               "span": {
                 "start": 227,
-                "end": 266,
+                "end": 273,
                 "ctxt": 0
               },
               "tagName": "span",
@@ -235,7 +235,7 @@
               "type": "Element",
               "span": {
                 "start": 278,
-                "end": 317,
+                "end": 324,
                 "ctxt": 0
               },
               "tagName": "span",
@@ -270,7 +270,7 @@
               "type": "Element",
               "span": {
                 "start": 329,
-                "end": 368,
+                "end": 375,
                 "ctxt": 0
               },
               "tagName": "span",
@@ -305,7 +305,7 @@
               "type": "Element",
               "span": {
                 "start": 380,
-                "end": 405,
+                "end": 412,
                 "ctxt": 0
               },
               "tagName": "span",
@@ -340,7 +340,7 @@
               "type": "Element",
               "span": {
                 "start": 417,
-                "end": 440,
+                "end": 447,
                 "ctxt": 0
               },
               "tagName": "span",

@@ -6459,6 +6459,17 @@ where
                 token_and_info.span,
                 ErrorKind::UnclosedElements(tag_name.clone()),
             ));
+        } else {
+            let node = self
+                .open_elements_stack
+                .items
+                .get(self.open_elements_stack.items.len() - 1);
+
+            if let Some(node) = node {
+                let mut end_tag_span = node.end_tag_span.borrow_mut();
+
+                *end_tag_span = Some(token_and_info.span);
+            }
         }
 
         // 2.- 3.

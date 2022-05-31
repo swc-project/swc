@@ -632,13 +632,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/template/input.html:24:17]
  24 | <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
-    :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/template/input.html:24:17]
  24 | <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
-    :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
@@ -686,13 +686,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/template/input.html:25:17]
  25 | <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/template/input.html:25:17]
  25 | <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
@@ -704,13 +704,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/template/input.html:25:17]
  25 | <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
-    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/template/input.html:25:17]
  25 | <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
-    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
@@ -828,13 +828,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/template/input.html:29:17]
  29 | <slot name="attributes"><p>None</p></slot>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/template/input.html:29:17]
  29 | <slot name="attributes"><p>None</p></slot>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
@@ -1216,13 +1216,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/template/input.html:43:5]
  43 | <tempalte><div>test</div></tempalte>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/template/input.html:43:5]
  43 | <tempalte><div>test</div></tempalte>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child

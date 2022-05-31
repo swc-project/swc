@@ -259,7 +259,7 @@
                       "type": "Element",
                       "span": {
                         "start": 645,
-                        "end": 662,
+                        "end": 671,
                         "ctxt": 0
                       },
                       "tagName": "legend",
@@ -302,7 +302,7 @@
                           "type": "Element",
                           "span": {
                             "start": 683,
-                            "end": 725,
+                            "end": 733,
                             "ctxt": 0
                           },
                           "tagName": "label",
@@ -369,7 +369,7 @@
                           "type": "Element",
                           "span": {
                             "start": 779,
-                            "end": 810,
+                            "end": 817,
                             "ctxt": 0
                           },
                           "tagName": "span",

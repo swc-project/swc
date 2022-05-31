@@ -1140,7 +1140,7 @@
                               "type": "Element",
                               "span": {
                                 "start": 921,
-                                "end": 928,
+                                "end": 935,
                                 "ctxt": 0
                               },
                               "tagName": "span",
@@ -1227,7 +1227,7 @@
                               "type": "Element",
                               "span": {
                                 "start": 991,
-                                "end": 998,
+                                "end": 1005,
                                 "ctxt": 0
                               },
                               "tagName": "span",

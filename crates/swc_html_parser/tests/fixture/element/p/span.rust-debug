@@ -382,25 +382,25 @@
   x Child
     ,-[$DIR/tests/fixture/element/p/input.html:15:1]
  15 | <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
-    :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/p/input.html:15:1]
  15 | <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
-    :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
     ,-[$DIR/tests/fixture/element/p/input.html:15:1]
  15 | <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
-    :                        ^^^^^^^^^^^^^^^^^^^^^^^
+    :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/p/input.html:15:1]
  15 | <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
-    :                        ^^^^^^^^^^^^^^^^^^^^^^^
+    :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child

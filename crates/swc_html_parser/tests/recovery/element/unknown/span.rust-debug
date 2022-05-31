@@ -295,13 +295,13 @@
   x Child
     ,-[$DIR/tests/recovery/element/unknown/input.html:13:5]
  13 | <unknown>Test</test>Test</unknown>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/recovery/element/unknown/input.html:13:5]
  13 | <unknown>Test</test>Test</unknown>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child

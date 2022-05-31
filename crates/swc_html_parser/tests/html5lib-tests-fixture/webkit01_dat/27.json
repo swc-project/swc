@@ -46,7 +46,7 @@
               "type": "Element",
               "span": {
                 "start": 13,
-                "end": 41,
+                "end": 48,
                 "ctxt": 0
               },
               "tagName": "ruby",
@@ -68,7 +68,7 @@
                       "type": "Element",
                       "span": {
                         "start": 24,
-                        "end": 30,
+                        "end": 35,
                         "ctxt": 0
                       },
                       "tagName": "rt",

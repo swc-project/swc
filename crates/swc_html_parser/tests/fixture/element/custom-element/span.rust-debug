@@ -317,13 +317,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/custom-element/input.html:11:1]
  11 | <custom-square l="100" c="red"></custom-square>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/custom-element/input.html:11:1]
  11 | <custom-square l="100" c="red"></custom-square>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
@@ -355,13 +355,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/custom-element/input.html:13:1]
  13 | <app-drawer open disabled></app-drawer>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/custom-element/input.html:13:1]
  13 | <app-drawer open disabled></app-drawer>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
@@ -395,8 +395,8 @@
  15 | ,-> <share-buttons>
  16 | |       <social-button type="twitter"><a href="...">Twitter</a></social-button>
  17 | |       <social-button type="fb"><a href="...">Facebook</a></social-button>
- 18 | `->     <social-button type="plus"><a href="...">G+</a></social-button>
- 19 |     </share-buttons>
+ 18 | |       <social-button type="plus"><a href="...">G+</a></social-button>
+ 19 | `-> </share-buttons>
     `----
 
   x Element
@@ -404,8 +404,8 @@
  15 | ,-> <share-buttons>
  16 | |       <social-button type="twitter"><a href="...">Twitter</a></social-button>
  17 | |       <social-button type="fb"><a href="...">Facebook</a></social-button>
- 18 | `->     <social-button type="plus"><a href="...">G+</a></social-button>
- 19 |     </share-buttons>
+ 18 | |       <social-button type="plus"><a href="...">G+</a></social-button>
+ 19 | `-> </share-buttons>
     `----
 
   x Child
@@ -423,13 +423,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/custom-element/input.html:16:5]
  16 | <social-button type="twitter"><a href="...">Twitter</a></social-button>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/custom-element/input.html:16:5]
  16 | <social-button type="twitter"><a href="...">Twitter</a></social-button>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
@@ -483,13 +483,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/custom-element/input.html:17:5]
  17 | <social-button type="fb"><a href="...">Facebook</a></social-button>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/custom-element/input.html:17:5]
  17 | <social-button type="fb"><a href="...">Facebook</a></social-button>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
@@ -543,13 +543,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/custom-element/input.html:18:5]
  18 | <social-button type="plus"><a href="...">G+</a></social-button>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/custom-element/input.html:18:5]
  18 | <social-button type="plus"><a href="...">G+</a></social-button>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
@@ -619,15 +619,15 @@
   x Child
     ,-[$DIR/tests/fixture/element/custom-element/input.html:21:1]
  21 | ,-> <x-foo-with-markup>
- 22 | `->     <b>I'm an x-foo-with-markup!</b>
- 23 |     </x-foo-with-markup>
+ 22 | |       <b>I'm an x-foo-with-markup!</b>
+ 23 | `-> </x-foo-with-markup>
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/custom-element/input.html:21:1]
  21 | ,-> <x-foo-with-markup>
- 22 | `->     <b>I'm an x-foo-with-markup!</b>
- 23 |     </x-foo-with-markup>
+ 22 | |       <b>I'm an x-foo-with-markup!</b>
+ 23 | `-> </x-foo-with-markup>
     `----
 
   x Child

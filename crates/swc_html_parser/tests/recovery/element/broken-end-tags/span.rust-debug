@@ -197,13 +197,13 @@
   x Child
    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:6:1]
  6 | <h:ællæ></h:ællæ>
-   : ^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:6:1]
  6 | <h:ællæ></h:ællæ>
-   : ^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -255,25 +255,25 @@
   x Child
    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:8:1]
  8 | <some-tag-1></some-tag-1><some-tag-2></some-tag-2>
-   : ^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:8:1]
  8 | <some-tag-1></some-tag-1><some-tag-2></some-tag-2>
-   : ^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:8:1]
  8 | <some-tag-1></some-tag-1><some-tag-2></some-tag-2>
-   :                          ^^^^^^^^^^^^
+   :                          ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:8:1]
  8 | <some-tag-1></some-tag-1><some-tag-2></some-tag-2>
-   :                          ^^^^^^^^^^^^
+   :                          ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -349,13 +349,13 @@
   x Child
     ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:10:1]
  10 | <CUSTOM-TAG></CUSTOM-TAG><div>Hello :)</div>
-    : ^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:10:1]
  10 | <CUSTOM-TAG></CUSTOM-TAG><div>Hello :)</div>
-    : ^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child

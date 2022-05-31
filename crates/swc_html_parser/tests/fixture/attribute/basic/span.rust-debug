@@ -571,13 +571,13 @@
   x Child
     ,-[$DIR/tests/fixture/attribute/basic/input.html:11:1]
  11 | <tag v-ref:vm_pv :imgs=" objpicsurl_ "></tag>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/attribute/basic/input.html:11:1]
  11 | <tag v-ref:vm_pv :imgs=" objpicsurl_ "></tag>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute

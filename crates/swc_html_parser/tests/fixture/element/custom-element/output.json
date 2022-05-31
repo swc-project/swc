@@ -130,7 +130,7 @@
               "type": "Element",
               "span": {
                 "start": 84,
-                "end": 251,
+                "end": 264,
                 "ctxt": 0
               },
               "tagName": "popup-info",
@@ -177,7 +177,7 @@
               "type": "Element",
               "span": {
                 "start": 266,
-                "end": 297,
+                "end": 313,
                 "ctxt": 0
               },
               "tagName": "custom-square",
@@ -224,7 +224,7 @@
               "type": "Element",
               "span": {
                 "start": 315,
-                "end": 341,
+                "end": 354,
                 "ctxt": 0
               },
               "tagName": "app-drawer",
@@ -271,7 +271,7 @@
               "type": "Element",
               "span": {
                 "start": 356,
-                "end": 588,
+                "end": 604,
                 "ctxt": 0
               },
               "tagName": "share-buttons",
@@ -291,7 +291,7 @@
                   "type": "Element",
                   "span": {
                     "start": 376,
-                    "end": 427,
+                    "end": 447,
                     "ctxt": 0
                   },
                   "tagName": "social-button",
@@ -363,7 +363,7 @@
                   "type": "Element",
                   "span": {
                     "start": 452,
-                    "end": 499,
+                    "end": 519,
                     "ctxt": 0
                   },
                   "tagName": "social-button",
@@ -435,7 +435,7 @@
                   "type": "Element",
                   "span": {
                     "start": 524,
-                    "end": 567,
+                    "end": 587,
                     "ctxt": 0
                   },
                   "tagName": "social-button",
@@ -519,7 +519,7 @@
               "type": "Element",
               "span": {
                 "start": 606,
-                "end": 663,
+                "end": 683,
                 "ctxt": 0
               },
               "tagName": "x-foo-with-markup",

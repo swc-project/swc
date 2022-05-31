@@ -52,7 +52,7 @@
                     "type": "Element",
                     "span": {
                       "start": 11,
-                      "end": 19,
+                      "end": 28,
                       "ctxt": 0
                     },
                     "tagName": "option",
@@ -65,7 +65,7 @@
                     "type": "Element",
                     "span": {
                       "start": 37,
-                      "end": 45,
+                      "end": 54,
                       "ctxt": 0
                     },
                     "tagName": "option",

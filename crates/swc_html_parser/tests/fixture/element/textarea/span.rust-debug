@@ -236,13 +236,13 @@
   x Child
    ,-[$DIR/tests/fixture/element/textarea/input.html:8:1]
  8 | <label for="story">Tell us your story:</label>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/textarea/input.html:8:1]
  8 | <label for="story">Tell us your story:</label>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Attribute

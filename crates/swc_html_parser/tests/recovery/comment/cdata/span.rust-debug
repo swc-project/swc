@@ -376,13 +376,13 @@
   x Child
     ,-[$DIR/tests/recovery/comment/cdata/input.html:17:5]
  17 | <abbr title="Extensible HyperText Markup Language">XHTML</abbr> 1.0 Strict document.<br />
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/recovery/comment/cdata/input.html:17:5]
  17 | <abbr title="Extensible HyperText Markup Language">XHTML</abbr> 1.0 Strict document.<br />
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute

@@ -276,7 +276,7 @@
                                 "type": "Element",
                                 "span": {
                                   "start": 777,
-                                  "end": 812,
+                                  "end": 819,
                                   "ctxt": 0
                                 },
                                 "tagName": "slot",
@@ -333,7 +333,7 @@
                             "type": "Element",
                             "span": {
                               "start": 847,
-                              "end": 904,
+                              "end": 911,
                               "ctxt": 0
                             },
                             "tagName": "i",
@@ -357,7 +357,7 @@
                                 "type": "Element",
                                 "span": {
                                   "start": 863,
-                                  "end": 904,
+                                  "end": 911,
                                   "ctxt": 0
                                 },
                                 "tagName": "slot",
@@ -482,7 +482,7 @@
                             "type": "Element",
                             "span": {
                               "start": 1028,
-                              "end": 1063,
+                              "end": 1070,
                               "ctxt": 0
                             },
                             "tagName": "slot",
@@ -876,7 +876,7 @@
               "type": "Element",
               "span": {
                 "start": 1489,
-                "end": 1514,
+                "end": 1525,
                 "ctxt": 0
               },
               "tagName": "tempalte",

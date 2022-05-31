@@ -274,13 +274,13 @@
   x Child
    ,-[$DIR/tests/fixture/attribute/class/input.html:9:5]
  9 | <span class="sprite sprite-{{sprite}}"></span>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/attribute/class/input.html:9:5]
  9 | <span class="sprite sprite-{{sprite}}"></span>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Attribute
@@ -304,13 +304,13 @@
   x Child
     ,-[$DIR/tests/fixture/attribute/class/input.html:10:5]
  10 | <span class="{{sprite}}-sprite sprite"></span>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/attribute/class/input.html:10:5]
  10 | <span class="{{sprite}}-sprite sprite"></span>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
@@ -334,13 +334,13 @@
   x Child
     ,-[$DIR/tests/fixture/attribute/class/input.html:11:5]
  11 | <span class="sprite-{{sprite}}-sprite"></span>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/attribute/class/input.html:11:5]
  11 | <span class="sprite-{{sprite}}-sprite"></span>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
@@ -364,13 +364,13 @@
   x Child
     ,-[$DIR/tests/fixture/attribute/class/input.html:12:5]
  12 | <span class="{{sprite}}"></span>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/attribute/class/input.html:12:5]
  12 | <span class="{{sprite}}"></span>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
@@ -394,13 +394,13 @@
   x Child
     ,-[$DIR/tests/fixture/attribute/class/input.html:13:5]
  13 | <span class={{sprite}}></span>
-    : ^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/attribute/class/input.html:13:5]
  13 | <span class={{sprite}}></span>
-    : ^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute

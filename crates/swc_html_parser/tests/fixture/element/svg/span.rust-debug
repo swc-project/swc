@@ -943,13 +943,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/svg/input.html:21:9]
  21 | <legend>HTML Form</legend>
-    : ^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/svg/input.html:21:9]
  21 | <legend>HTML Form</legend>
-    : ^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -993,13 +993,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/svg/input.html:22:9]
  22 | <p><label>Введите что-нибудь:</label>
-    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/svg/input.html:22:9]
  22 | <p><label>Введите что-нибудь:</label>
-    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1059,13 +1059,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/svg/input.html:24:13]
  24 | <span id="err">Incorrect value!</span></p>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/svg/input.html:24:13]
  24 | <span id="err">Incorrect value!</span></p>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute

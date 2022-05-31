@@ -57,7 +57,7 @@
               "type": "Element",
               "span": {
                 "start": 16,
-                "end": 26,
+                "end": 36,
                 "ctxt": 0
               },
               "tagName": "isindex",

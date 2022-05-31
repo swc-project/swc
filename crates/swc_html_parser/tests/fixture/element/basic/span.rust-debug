@@ -445,13 +445,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/basic/input.html:12:1]
  12 | <h:ællæ></h:ællæ>
-    : ^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/basic/input.html:12:1]
  12 | <h:ællæ></h:ællæ>
-    : ^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -503,25 +503,25 @@
   x Child
     ,-[$DIR/tests/fixture/element/basic/input.html:14:1]
  14 | <some-tag-1></some-tag-1><some-tag-2></some-tag-2>
-    : ^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/basic/input.html:14:1]
  14 | <some-tag-1></some-tag-1><some-tag-2></some-tag-2>
-    : ^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
     ,-[$DIR/tests/fixture/element/basic/input.html:14:1]
  14 | <some-tag-1></some-tag-1><some-tag-2></some-tag-2>
-    :                          ^^^^^^^^^^^^
+    :                          ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/basic/input.html:14:1]
  14 | <some-tag-1></some-tag-1><some-tag-2></some-tag-2>
-    :                          ^^^^^^^^^^^^
+    :                          ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -597,13 +597,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/basic/input.html:16:1]
  16 | <CUSTOM-TAG></CUSTOM-TAG><div>Hello :)</div>
-    : ^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/basic/input.html:16:1]
  16 | <CUSTOM-TAG></CUSTOM-TAG><div>Hello :)</div>
-    : ^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
