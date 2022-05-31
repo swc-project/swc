@@ -31,7 +31,6 @@
  5 | |   <a href=https://www.w3schools.com>This is a link</a>
  6 | |   
  7 | `-> </body>
- 8 |     </html>
    `----
 
   x Element
@@ -42,7 +41,6 @@
  5 | |   <a href=https://www.w3schools.com>This is a link</a>
  6 | |   
  7 | `-> </body>
- 8 |     </html>
    `----
 
   x Child
@@ -56,7 +54,6 @@
  5 | |   <a href=https://www.w3schools.com>This is a link</a>
  6 | |   
  7 | `-> </body>
- 8 |     </html>
    `----
 
   x Element
@@ -66,7 +63,6 @@
  5 | |   <a href=https://www.w3schools.com>This is a link</a>
  6 | |   
  7 | `-> </body>
- 8 |     </html>
    `----
 
   x Child

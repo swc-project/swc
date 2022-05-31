@@ -121,9 +121,7 @@
  49 | |   FOO&#x41BAR
  50 | |   FOO&#x41ZOO
  51 | |   
- 52 | |   </body>
- 53 | |   </html>
- 54 | `-> 
+ 52 | `-> </body>
     `----
 
   x Element
@@ -178,9 +176,7 @@
  49 | |   FOO&#x41BAR
  50 | |   FOO&#x41ZOO
  51 | |   
- 52 | |   </body>
- 53 | |   </html>
- 54 | `-> 
+ 52 | `-> </body>
     `----
 
   x Child
@@ -238,9 +234,7 @@
  49 | |   FOO&#x41BAR
  50 | |   FOO&#x41ZOO
  51 | |   
- 52 | |   </body>
- 53 | |   </html>
- 54 | `-> 
+ 52 | `-> </body>
     `----
 
   x Element
@@ -294,9 +288,7 @@
  49 | |   FOO&#x41BAR
  50 | |   FOO&#x41ZOO
  51 | |   
- 52 | |   </body>
- 53 | |   </html>
- 54 | `-> 
+ 52 | `-> </body>
     `----
 
   x Child

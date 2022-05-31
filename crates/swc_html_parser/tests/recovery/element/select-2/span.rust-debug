@@ -37,7 +37,6 @@
   8 | |       <select name="test-1" id="test-1"></select>
   9 | |   </select>
  10 | `-> </body>
- 11 |     </html>
     `----
 
   x Element
@@ -51,7 +50,6 @@
   8 | |       <select name="test-1" id="test-1"></select>
   9 | |   </select>
  10 | `-> </body>
- 11 |     </html>
     `----
 
   x Attribute
@@ -145,7 +143,6 @@
   8 | |       <select name="test-1" id="test-1"></select>
   9 | |   </select>
  10 | `-> </body>
- 11 |     </html>
     `----
 
   x Element
@@ -155,7 +152,6 @@
   8 | |       <select name="test-1" id="test-1"></select>
   9 | |   </select>
  10 | `-> </body>
- 11 |     </html>
     `----
 
   x Child

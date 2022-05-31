@@ -44,8 +44,7 @@
  11 | |   
  12 | |   <dialog>Test</dialog>
  13 | |   
- 14 | |   </body>
- 15 | `-> </html>
+ 14 | `-> </body>
     `----
 
   x Element
@@ -62,8 +61,7 @@
  11 | |   
  12 | |   <dialog>Test</dialog>
  13 | |   
- 14 | |   </body>
- 15 | `-> </html>
+ 14 | `-> </body>
     `----
 
   x Attribute
@@ -160,8 +158,7 @@
  11 | |   
  12 | |   <dialog>Test</dialog>
  13 | |   
- 14 | |   </body>
- 15 | `-> </html>
+ 14 | `-> </body>
     `----
 
   x Element
@@ -174,8 +171,7 @@
  11 | |   
  12 | |   <dialog>Test</dialog>
  13 | |   
- 14 | |   </body>
- 15 | `-> </html>
+ 14 | `-> </body>
     `----
 
   x Child

@@ -45,7 +45,6 @@
  12 | |   
  13 | |       <unknown>Test</test>Test</unknown>
  14 | `-> </body>
- 15 |     </html>
     `----
 
   x Element
@@ -63,7 +62,6 @@
  12 | |   
  13 | |       <unknown>Test</test>Test</unknown>
  14 | `-> </body>
- 15 |     </html>
     `----
 
   x Attribute
@@ -267,7 +265,6 @@
  12 | |   
  13 | |       <unknown>Test</test>Test</unknown>
  14 | `-> </body>
- 15 |     </html>
     `----
 
   x Element
@@ -277,7 +274,6 @@
  12 | |   
  13 | |       <unknown>Test</test>Test</unknown>
  14 | `-> </body>
- 15 |     </html>
     `----
 
   x Child

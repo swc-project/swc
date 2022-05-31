@@ -75,7 +75,6 @@
  27 | |   </form>
  28 | |   
  29 | `-> </body>
- 30 |     </html>
     `----
 
   x Element
@@ -108,7 +107,6 @@
  27 | |   </form>
  28 | |   
  29 | `-> </body>
- 30 |     </html>
     `----
 
   x Attribute
@@ -221,7 +219,6 @@
  27 | |   </form>
  28 | |   
  29 | `-> </body>
- 30 |     </html>
     `----
 
   x Element
@@ -250,7 +247,6 @@
  27 | |   </form>
  28 | |   
  29 | `-> </body>
- 30 |     </html>
     `----
 
   x Child
@@ -280,8 +276,8 @@
  16 | |       </div>
  17 | |       <div class="form-example">
  18 | |           <input type="submit" value="Subscribe!">
- 19 | `->     </div>
- 20 |     </form>
+ 19 | |       </div>
+ 20 | `-> </form>
     `----
 
   x Element
@@ -297,8 +293,8 @@
  16 | |       </div>
  17 | |       <div class="form-example">
  18 | |           <input type="submit" value="Subscribe!">
- 19 | `->     </div>
- 20 |     </form>
+ 19 | |       </div>
+ 20 | `-> </form>
     `----
 
   x Attribute
@@ -705,8 +701,8 @@
  23 | |       <fieldset>
  24 | |           <legend>Title</legend>
  25 | |           <label><input type="radio" name="radio"> Select me</label>
- 26 | `->     </fieldset>
- 27 |     </form>
+ 26 | |       </fieldset>
+ 27 | `-> </form>
     `----
 
   x Element
@@ -715,8 +711,8 @@
  23 | |       <fieldset>
  24 | |           <legend>Title</legend>
  25 | |           <label><input type="radio" name="radio"> Select me</label>
- 26 | `->     </fieldset>
- 27 |     </form>
+ 26 | |       </fieldset>
+ 27 | `-> </form>
     `----
 
   x Attribute

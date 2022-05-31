@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 17,
-        "end": 714,
+        "end": 713,
         "ctxt": 0
       },
       "tagName": "html",
@@ -110,7 +110,7 @@
           "type": "Element",
           "span": {
             "start": 77,
-            "end": 714,
+            "end": 713,
             "ctxt": 0
           },
           "tagName": "body",
@@ -130,7 +130,7 @@
               "type": "Element",
               "span": {
                 "start": 85,
-                "end": 538,
+                "end": 545,
                 "ctxt": 0
               },
               "tagName": "form",
@@ -613,7 +613,7 @@
               "type": "Element",
               "span": {
                 "start": 547,
-                "end": 697,
+                "end": 704,
                 "ctxt": 0
               },
               "tagName": "form",

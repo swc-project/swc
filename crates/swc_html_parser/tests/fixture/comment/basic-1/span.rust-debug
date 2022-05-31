@@ -38,10 +38,7 @@
   7 | |   <p>This is a paragraph.</p>
   8 | |   <!-- Comments are not displayed in the browser -->
   9 | |   
- 10 | |   </body>
- 11 | |     </html>
- 12 | |   
- 13 | `-> 
+ 10 | `-> </body>
     `----
 
   x Element
@@ -54,10 +51,7 @@
   7 | |   <p>This is a paragraph.</p>
   8 | |   <!-- Comments are not displayed in the browser -->
   9 | |   
- 10 | |   </body>
- 11 | |     </html>
- 12 | |   
- 13 | `-> 
+ 10 | `-> </body>
     `----
 
   x Child
@@ -73,10 +67,7 @@
   7 | |   <p>This is a paragraph.</p>
   8 | |   <!-- Comments are not displayed in the browser -->
   9 | |   
- 10 | |   </body>
- 11 | |     </html>
- 12 | |   
- 13 | `-> 
+ 10 | `-> </body>
     `----
 
   x Element
@@ -88,10 +79,7 @@
   7 | |   <p>This is a paragraph.</p>
   8 | |   <!-- Comments are not displayed in the browser -->
   9 | |   
- 10 | |   </body>
- 11 | |     </html>
- 12 | |   
- 13 | `-> 
+ 10 | `-> </body>
     `----
 
   x Child

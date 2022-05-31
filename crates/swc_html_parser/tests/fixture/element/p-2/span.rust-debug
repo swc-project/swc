@@ -32,8 +32,7 @@
  5 | |   </head>
  6 | |   <body>
  7 | |   <p><table></table>
- 8 | |   </body>
- 9 | `-> </html>
+ 8 | `-> </body>
    `----
 
   x Element
@@ -44,8 +43,7 @@
  5 | |   </head>
  6 | |   <body>
  7 | |   <p><table></table>
- 8 | |   </body>
- 9 | `-> </html>
+ 8 | `-> </body>
    `----
 
   x Attribute
@@ -136,16 +134,14 @@
    ,-[$DIR/tests/fixture/element/p-2/input.html:6:1]
  6 | ,-> <body>
  7 | |   <p><table></table>
- 8 | |   </body>
- 9 | `-> </html>
+ 8 | `-> </body>
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/p-2/input.html:6:1]
  6 | ,-> <body>
  7 | |   <p><table></table>
- 8 | |   </body>
- 9 | `-> </html>
+ 8 | `-> </body>
    `----
 
   x Child

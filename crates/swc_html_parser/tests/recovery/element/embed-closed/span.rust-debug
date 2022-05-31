@@ -41,7 +41,6 @@
  10 | |       </noembed>
  11 | |   </embed>
  12 | `-> </body>
- 13 |     </html>
     `----
 
   x Element
@@ -57,7 +56,6 @@
  10 | |       </noembed>
  11 | |   </embed>
  12 | `-> </body>
- 13 |     </html>
     `----
 
   x Attribute
@@ -153,7 +151,6 @@
  10 | |       </noembed>
  11 | |   </embed>
  12 | `-> </body>
- 13 |     </html>
     `----
 
   x Element
@@ -165,7 +162,6 @@
  10 | |       </noembed>
  11 | |   </embed>
  12 | `-> </body>
- 13 |     </html>
     `----
 
   x Child

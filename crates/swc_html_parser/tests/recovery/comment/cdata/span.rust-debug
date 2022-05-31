@@ -80,8 +80,7 @@
  24 | |               width="100%"
  25 | |               height="500"></object>
  26 | |   </p>
- 27 | |   </body>
- 28 | `-> </html>
+ 27 | `-> </body>
     `----
 
   x Element
@@ -109,8 +108,7 @@
  24 | |               width="100%"
  25 | |               height="500"></object>
  26 | |   </p>
- 27 | |   </body>
- 28 | `-> </html>
+ 27 | `-> </body>
     `----
 
   x Attribute
@@ -293,8 +291,7 @@
  24 | |               width="100%"
  25 | |               height="500"></object>
  26 | |   </p>
- 27 | |   </body>
- 28 | `-> </html>
+ 27 | `-> </body>
     `----
 
   x Element
@@ -311,8 +308,7 @@
  24 | |               width="100%"
  25 | |               height="500"></object>
  26 | |   </p>
- 27 | |   </body>
- 28 | `-> </html>
+ 27 | `-> </body>
     `----
 
   x Attribute

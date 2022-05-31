@@ -141,9 +141,7 @@
  59 | |   
  60 | |   <div>I'm &notin; I tell you</div>
  61 | |   
- 62 | |   </body>
- 63 | |   </html>
- 64 | `-> 
+ 62 | `-> </body>
     `----
 
   x Element
@@ -208,9 +206,7 @@
  59 | |   
  60 | |   <div>I'm &notin; I tell you</div>
  61 | |   
- 62 | |   </body>
- 63 | |   </html>
- 64 | `-> 
+ 62 | `-> </body>
     `----
 
   x Child
@@ -278,9 +274,7 @@
  59 | |   
  60 | |   <div>I'm &notin; I tell you</div>
  61 | |   
- 62 | |   </body>
- 63 | |   </html>
- 64 | `-> 
+ 62 | `-> </body>
     `----
 
   x Element
@@ -344,9 +338,7 @@
  59 | |   
  60 | |   <div>I'm &notin; I tell you</div>
  61 | |   
- 62 | |   </body>
- 63 | |   </html>
- 64 | `-> 
+ 62 | `-> </body>
     `----
 
   x Child

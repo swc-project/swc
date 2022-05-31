@@ -54,8 +54,7 @@
  16 | |       <a class="moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"></a>
  17 | |       <div class="="></div>
  18 | |       <div class="= = = ="></div>
- 19 | |   </body>
- 20 | `-> </html>
+ 19 | `-> </body>
     `----
 
   x Element
@@ -77,8 +76,7 @@
  16 | |       <a class="moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"></a>
  17 | |       <div class="="></div>
  18 | |       <div class="= = = ="></div>
- 19 | |   </body>
- 20 | `-> </html>
+ 19 | `-> </body>
     `----
 
   x Attribute
@@ -180,8 +178,7 @@
  16 | |       <a class="moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"></a>
  17 | |       <div class="="></div>
  18 | |       <div class="= = = ="></div>
- 19 | |   </body>
- 20 | `-> </html>
+ 19 | `-> </body>
     `----
 
   x Element
@@ -199,8 +196,7 @@
  16 | |       <a class="moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"></a>
  17 | |       <div class="="></div>
  18 | |       <div class="= = = ="></div>
- 19 | |   </body>
- 20 | `-> </html>
+ 19 | `-> </body>
     `----
 
   x Child

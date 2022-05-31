@@ -33,7 +33,6 @@
  6 | |   <body>
  7 | |   <frameset></frameset>
  8 | `-> </body>
- 9 |     </html>
    `----
 
   x Element
@@ -45,7 +44,6 @@
  6 | |   <body>
  7 | |   <frameset></frameset>
  8 | `-> </body>
- 9 |     </html>
    `----
 
   x Attribute
@@ -137,7 +135,6 @@
  6 | ,-> <body>
  7 | |   <frameset></frameset>
  8 | `-> </body>
- 9 |     </html>
    `----
 
   x Element
@@ -145,7 +142,6 @@
  6 | ,-> <body>
  7 | |   <frameset></frameset>
  8 | `-> </body>
- 9 |     </html>
    `----
 
   x Child

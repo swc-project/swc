@@ -59,7 +59,6 @@
  19 | |       </tr>
  20 | |   </table>
  21 | `-> </body>
- 22 |     </html>
     `----
 
   x Element
@@ -84,7 +83,6 @@
  19 | |       </tr>
  20 | |   </table>
  21 | `-> </body>
- 22 |     </html>
     `----
 
   x Attribute
@@ -295,7 +293,6 @@
  19 | |       </tr>
  20 | |   </table>
  21 | `-> </body>
- 22 |     </html>
     `----
 
   x Element
@@ -312,7 +309,6 @@
  19 | |       </tr>
  20 | |   </table>
  21 | `-> </body>
- 22 |     </html>
     `----
 
   x Child

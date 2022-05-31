@@ -270,7 +270,6 @@
  124 | |   </svg>
  125 | |   
  126 | `-> </body>
- 127 |     </html>
      `----
 
   x Element
@@ -401,7 +400,6 @@
  124 | |   </svg>
  125 | |   
  126 | `-> </body>
- 127 |     </html>
      `----
 
   x Attribute
@@ -728,7 +726,6 @@
  124 | |   </svg>
  125 | |   
  126 | `-> </body>
- 127 |     </html>
      `----
 
   x Element
@@ -843,7 +840,6 @@
  124 | |   </svg>
  125 | |   
  126 | `-> </body>
- 127 |     </html>
      `----
 
   x Attribute
@@ -881,8 +877,8 @@
  23 | |               <input type="text"/>
  24 | |               <span id="err">Incorrect value!</span></p>
  25 | |           <p><input type="button" value="Activate!" onclick="signalError();" /></p>
- 26 | `->     </fieldset>
- 27 |     </form>
+ 26 | |       </fieldset>
+ 27 | `-> </form>
     `----
 
   x Element
@@ -894,8 +890,8 @@
  23 | |               <input type="text"/>
  24 | |               <span id="err">Incorrect value!</span></p>
  25 | |           <p><input type="button" value="Activate!" onclick="signalError();" /></p>
- 26 | `->     </fieldset>
- 27 |     </form>
+ 26 | |       </fieldset>
+ 27 | `-> </form>
     `----
 
   x Child

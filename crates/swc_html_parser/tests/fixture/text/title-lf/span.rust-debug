@@ -46,8 +46,7 @@
  12 | |   <p>This is a paragraph.</p>
  13 | |   <p>This is another paragraph.</p>
  14 | |   
- 15 | |   </body>
- 16 | `-> </html>
+ 15 | `-> </body>
     `----
 
   x Element
@@ -65,8 +64,7 @@
  12 | |   <p>This is a paragraph.</p>
  13 | |   <p>This is another paragraph.</p>
  14 | |   
- 15 | |   </body>
- 16 | `-> </html>
+ 15 | `-> </body>
     `----
 
   x Child
@@ -174,8 +172,7 @@
  12 | |   <p>This is a paragraph.</p>
  13 | |   <p>This is another paragraph.</p>
  14 | |   
- 15 | |   </body>
- 16 | `-> </html>
+ 15 | `-> </body>
     `----
 
   x Element
@@ -185,8 +182,7 @@
  12 | |   <p>This is a paragraph.</p>
  13 | |   <p>This is another paragraph.</p>
  14 | |   
- 15 | |   </body>
- 16 | `-> </html>
+ 15 | `-> </body>
     `----
 
   x Child

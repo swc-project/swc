@@ -40,8 +40,7 @@
   9 | |   </head>
  10 | |   <body>
  11 | |   Test
- 12 | |   </body>
- 13 | `-> </html>
+ 12 | `-> </body>
     `----
 
   x Element
@@ -56,8 +55,7 @@
   9 | |   </head>
  10 | |   <body>
  11 | |   Test
- 12 | |   </body>
- 13 | `-> </html>
+ 12 | `-> </body>
     `----
 
   x Attribute
@@ -258,16 +256,14 @@
     ,-[$DIR/tests/fixture/document_type/legacy/input.html:10:1]
  10 | ,-> <body>
  11 | |   Test
- 12 | |   </body>
- 13 | `-> </html>
+ 12 | `-> </body>
     `----
 
   x Element
     ,-[$DIR/tests/fixture/document_type/legacy/input.html:10:1]
  10 | ,-> <body>
  11 | |   Test
- 12 | |   </body>
- 13 | `-> </html>
+ 12 | `-> </body>
     `----
 
   x Child

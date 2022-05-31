@@ -37,7 +37,6 @@
   8 | |   <a href="https://example.com">First</a>
   9 | |   
  10 | `-> </body>
- 11 |     </html>
     `----
 
   x Element
@@ -51,7 +50,6 @@
   8 | |   <a href="https://example.com">First</a>
   9 | |   
  10 | `-> </body>
- 11 |     </html>
     `----
 
   x Attribute
@@ -145,7 +143,6 @@
   8 | |   <a href="https://example.com">First</a>
   9 | |   
  10 | `-> </body>
- 11 |     </html>
     `----
 
   x Element
@@ -155,7 +152,6 @@
   8 | |   <a href="https://example.com">First</a>
   9 | |   
  10 | `-> </body>
- 11 |     </html>
     `----
 
   x Child

@@ -30,8 +30,7 @@
  4 | |       <title>Test</title></head>
  5 | |   <body>
  6 | |   <html test="test">
- 7 | |   </body>
- 8 | `-> </html>
+ 7 | `-> </body>
    `----
 
   x Element
@@ -41,8 +40,7 @@
  4 | |       <title>Test</title></head>
  5 | |   <body>
  6 | |   <html test="test">
- 7 | |   </body>
- 8 | `-> </html>
+ 7 | `-> </body>
    `----
 
   x Attribute
@@ -117,16 +115,14 @@
    ,-[$DIR/tests/recovery/element/body/broken/input.html:5:1]
  5 | ,-> <body>
  6 | |   <html test="test">
- 7 | |   </body>
- 8 | `-> </html>
+ 7 | `-> </body>
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/body/broken/input.html:5:1]
  5 | ,-> <body>
  6 | |   <html test="test">
- 7 | |   </body>
- 8 | `-> </html>
+ 7 | `-> </body>
    `----
 
   x Child

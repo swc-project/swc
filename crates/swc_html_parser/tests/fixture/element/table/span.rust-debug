@@ -209,7 +209,6 @@
  94 | |           </tbody>
  95 | |       </table>
  96 | `-> </body>
- 97 |     </html>
     `----
 
   x Element
@@ -309,7 +308,6 @@
  94 | |           </tbody>
  95 | |       </table>
  96 | `-> </body>
- 97 |     </html>
     `----
 
   x Attribute
@@ -595,7 +593,6 @@
  94 | |           </tbody>
  95 | |       </table>
  96 | `-> </body>
- 97 |     </html>
     `----
 
   x Element
@@ -687,7 +684,6 @@
  94 | |           </tbody>
  95 | |       </table>
  96 | `-> </body>
- 97 |     </html>
     `----
 
   x Child

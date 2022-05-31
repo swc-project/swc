@@ -41,7 +41,6 @@
  10 | |   <body>
  11 | |   <div>Test</div>
  12 | `-> </body>
- 13 |     </html>
     `----
 
   x Element
@@ -57,7 +56,6 @@
  10 | |   <body>
  11 | |   <div>Test</div>
  12 | `-> </body>
- 13 |     </html>
     `----
 
   x Attribute
@@ -259,7 +257,6 @@
  10 | ,-> <body>
  11 | |   <div>Test</div>
  12 | `-> </body>
- 13 |     </html>
     `----
 
   x Element
@@ -267,7 +264,6 @@
  10 | ,-> <body>
  11 | |   <div>Test</div>
  12 | `-> </body>
- 13 |     </html>
     `----
 
   x Child

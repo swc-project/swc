@@ -30,8 +30,7 @@
  4 | |   
  5 | |   <a href=https://www.w3schools.com>This is a link</a>
  6 | |   
- 7 | |   </body>
- 8 | `-> </html>
+ 7 | `-> </body>
    `----
 
   x Element
@@ -41,8 +40,7 @@
  4 | |   
  5 | |   <a href=https://www.w3schools.com>This is a link</a>
  6 | |   
- 7 | |   </body>
- 8 | `-> </html>
+ 7 | `-> </body>
    `----
 
   x Child
@@ -55,8 +53,7 @@
  4 | |   
  5 | |   <a href=https://www.w3schools.com>This is a link</a>
  6 | |   
- 7 | |   </body>
- 8 | `-> </html>
+ 7 | `-> </body>
    `----
 
   x Element
@@ -65,8 +62,7 @@
  4 | |   
  5 | |   <a href=https://www.w3schools.com>This is a link</a>
  6 | |   
- 7 | |   </body>
- 8 | `-> </html>
+ 7 | `-> </body>
    `----
 
   x Child

@@ -26,30 +26,28 @@
    `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/body-1/input.html:2:1]
-  2 | ,-> <html lang="en">
-  3 | |   <head>
-  4 | |       <title>Document</title>
-  5 | |   </head>
-  6 | |   <body>
-  7 | |   <ul>
-  8 | |       <li>
-  9 | `-> </body>
- 10 |     </html>
-    `----
+   ,-[$DIR/tests/recovery/element/body-1/input.html:2:1]
+ 2 | ,-> <html lang="en">
+ 3 | |   <head>
+ 4 | |       <title>Document</title>
+ 5 | |   </head>
+ 6 | |   <body>
+ 7 | |   <ul>
+ 8 | |       <li>
+ 9 | `-> </body>
+   `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/body-1/input.html:2:1]
-  2 | ,-> <html lang="en">
-  3 | |   <head>
-  4 | |       <title>Document</title>
-  5 | |   </head>
-  6 | |   <body>
-  7 | |   <ul>
-  8 | |       <li>
-  9 | `-> </body>
- 10 |     </html>
-    `----
+   ,-[$DIR/tests/recovery/element/body-1/input.html:2:1]
+ 2 | ,-> <html lang="en">
+ 3 | |   <head>
+ 4 | |       <title>Document</title>
+ 5 | |   </head>
+ 6 | |   <body>
+ 7 | |   <ul>
+ 8 | |       <li>
+ 9 | `-> </body>
+   `----
 
   x Attribute
    ,-[$DIR/tests/recovery/element/body-1/input.html:2:1]
@@ -136,22 +134,20 @@
    `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/body-1/input.html:6:1]
-  6 | ,-> <body>
-  7 | |   <ul>
-  8 | |       <li>
-  9 | `-> </body>
- 10 |     </html>
-    `----
+   ,-[$DIR/tests/recovery/element/body-1/input.html:6:1]
+ 6 | ,-> <body>
+ 7 | |   <ul>
+ 8 | |       <li>
+ 9 | `-> </body>
+   `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/body-1/input.html:6:1]
-  6 | ,-> <body>
-  7 | |   <ul>
-  8 | |       <li>
-  9 | `-> </body>
- 10 |     </html>
-    `----
+   ,-[$DIR/tests/recovery/element/body-1/input.html:6:1]
+ 6 | ,-> <body>
+ 7 | |   <ul>
+ 8 | |       <li>
+ 9 | `-> </body>
+   `----
 
   x Child
    ,-[$DIR/tests/recovery/element/body-1/input.html:6:1]

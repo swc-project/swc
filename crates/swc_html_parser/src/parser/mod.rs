@@ -2404,6 +2404,16 @@ where
                             ));
 
                             return Ok(());
+                        } else {
+                            // TODO check we always have `body` at first and for other cases too
+                            // `body` is second
+                            let body = self.open_elements_stack.items.get(1);
+
+                            if let Some(body) = body {
+                                let mut end_tag_span = body.end_tag_span.borrow_mut();
+
+                                *end_tag_span = Some(token_and_info.span);
+                            }
                         }
 
                         for node in &self.open_elements_stack.items {
@@ -2461,6 +2471,15 @@ where
                             ));
 
                             return Ok(());
+                        } else {
+                            // `html` is first
+                            let html = self.open_elements_stack.items.get(0);
+
+                            if let Some(html) = html {
+                                let mut end_tag_span = html.end_tag_span.borrow_mut();
+
+                                *end_tag_span = Some(token_and_info.span);
+                            }
                         }
 
                         for node in &self.open_elements_stack.items {
@@ -3031,6 +3050,10 @@ where
                                     token_and_info.span,
                                     ErrorKind::UnclosedElements(tag_name.clone()),
                                 ));
+                            } else {
+                                let mut end_tag_span = node.end_tag_span.borrow_mut();
+
+                                *end_tag_span = Some(token_and_info.span);
                             }
 
                             self.open_elements_stack.remove(&node);

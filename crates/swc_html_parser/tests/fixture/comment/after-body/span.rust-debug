@@ -259,18 +259,14 @@
     ,-[$DIR/tests/fixture/comment/after-body/input.html:10:1]
  10 | ,-> <body>
  11 | |   Test
- 12 | |   </body>
- 13 | `-> <!-- Test -->
- 14 |     </html>
+ 12 | `-> </body>
     `----
 
   x Element
     ,-[$DIR/tests/fixture/comment/after-body/input.html:10:1]
  10 | ,-> <body>
  11 | |   Test
- 12 | |   </body>
- 13 | `-> <!-- Test -->
- 14 |     </html>
+ 12 | `-> </body>
     `----
 
   x Child

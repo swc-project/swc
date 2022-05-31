@@ -21,8 +21,8 @@
  1 | ,-> <body>
  2 | |   <template><col><colgroup></template>
  3 | |   <template><col><colgroup></div></template>
- 4 | `-> <template><col><colgroup>A</template>
- 5 |     </body>
+ 4 | |   <template><col><colgroup>A</template>
+ 5 | `-> </body>
    `----
 
   x Element
@@ -30,8 +30,8 @@
  1 | ,-> <body>
  2 | |   <template><col><colgroup></template>
  3 | |   <template><col><colgroup></div></template>
- 4 | `-> <template><col><colgroup>A</template>
- 5 |     </body>
+ 4 | |   <template><col><colgroup>A</template>
+ 5 | `-> </body>
    `----
 
   x Child

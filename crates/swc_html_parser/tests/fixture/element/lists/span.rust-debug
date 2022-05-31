@@ -76,8 +76,7 @@
  27 | |           <li>item1
  28 | |           <li>item2
  29 | |       </ul>
- 30 | |   </body>
- 31 | `-> </html>
+ 30 | `-> </body>
     `----
 
   x Element
@@ -110,8 +109,7 @@
  27 | |           <li>item1
  28 | |           <li>item2
  29 | |       </ul>
- 30 | |   </body>
- 31 | `-> </html>
+ 30 | `-> </body>
     `----
 
   x Child
@@ -147,8 +145,7 @@
  27 | |           <li>item1
  28 | |           <li>item2
  29 | |       </ul>
- 30 | |   </body>
- 31 | `-> </html>
+ 30 | `-> </body>
     `----
 
   x Element
@@ -180,8 +177,7 @@
  27 | |           <li>item1
  28 | |           <li>item2
  29 | |       </ul>
- 30 | |   </body>
- 31 | `-> </html>
+ 30 | `-> </body>
     `----
 
   x Child

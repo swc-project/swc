@@ -48,8 +48,7 @@
  13 | |   <script>alert('<!--')</script>
  14 | |   <script>alert('<!-- foo -->')</script>
  15 | |   <script>alert('-->')</script>
- 16 | |   </body>
- 17 | `-> </html>
+ 16 | `-> </body>
     `----
 
   x Element
@@ -68,8 +67,7 @@
  13 | |   <script>alert('<!--')</script>
  14 | |   <script>alert('<!-- foo -->')</script>
  15 | |   <script>alert('-->')</script>
- 16 | |   </body>
- 17 | `-> </html>
+ 16 | `-> </body>
     `----
 
   x Attribute
@@ -168,8 +166,7 @@
  13 | |   <script>alert('<!--')</script>
  14 | |   <script>alert('<!-- foo -->')</script>
  15 | |   <script>alert('-->')</script>
- 16 | |   </body>
- 17 | `-> </html>
+ 16 | `-> </body>
     `----
 
   x Element
@@ -184,8 +181,7 @@
  13 | |   <script>alert('<!--')</script>
  14 | |   <script>alert('<!-- foo -->')</script>
  15 | |   <script>alert('-->')</script>
- 16 | |   </body>
- 17 | `-> </html>
+ 16 | `-> </body>
     `----
 
   x Child

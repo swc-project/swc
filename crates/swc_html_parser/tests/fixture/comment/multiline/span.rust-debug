@@ -40,8 +40,7 @@
   9 | |   -->
  10 | |   <p>This is a paragraph too.</p>
  11 | |   
- 12 | |   </body>
- 13 | `-> </html>
+ 12 | `-> </body>
     `----
 
   x Element
@@ -56,8 +55,7 @@
   9 | |   -->
  10 | |   <p>This is a paragraph too.</p>
  11 | |   
- 12 | |   </body>
- 13 | `-> </html>
+ 12 | `-> </body>
     `----
 
   x Child
@@ -75,8 +73,7 @@
   9 | |   -->
  10 | |   <p>This is a paragraph too.</p>
  11 | |   
- 12 | |   </body>
- 13 | `-> </html>
+ 12 | `-> </body>
     `----
 
   x Element
@@ -90,8 +87,7 @@
   9 | |   -->
  10 | |   <p>This is a paragraph too.</p>
  11 | |   
- 12 | |   </body>
- 13 | `-> </html>
+ 12 | `-> </body>
     `----
 
   x Child

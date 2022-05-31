@@ -51,7 +51,6 @@
  15 | |   <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
  16 | |   
  17 | `-> </body>
- 18 |     </html>
     `----
 
   x Element
@@ -72,7 +71,6 @@
  15 | |   <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
  16 | |   
  17 | `-> </body>
- 18 |     </html>
     `----
 
   x Attribute
@@ -173,7 +171,6 @@
  15 | |   <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
  16 | |   
  17 | `-> </body>
- 18 |     </html>
     `----
 
   x Element
@@ -190,7 +187,6 @@
  15 | |   <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
  16 | |   
  17 | `-> </body>
- 18 |     </html>
     `----
 
   x Child

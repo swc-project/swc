@@ -39,7 +39,6 @@
   9 | |   <div><div>Three</div></div>
  10 | |   <div><h1>Test</h1></div>
  11 | `-> </body>
- 12 |     </html>
     `----
 
   x Element
@@ -54,7 +53,6 @@
   9 | |   <div><div>Three</div></div>
  10 | |   <div><h1>Test</h1></div>
  11 | `-> </body>
- 12 |     </html>
     `----
 
   x Attribute
@@ -149,7 +147,6 @@
   9 | |   <div><div>Three</div></div>
  10 | |   <div><h1>Test</h1></div>
  11 | `-> </body>
- 12 |     </html>
     `----
 
   x Element
@@ -160,7 +157,6 @@
   9 | |   <div><div>Three</div></div>
  10 | |   <div><h1>Test</h1></div>
  11 | `-> </body>
- 12 |     </html>
     `----
 
   x Child

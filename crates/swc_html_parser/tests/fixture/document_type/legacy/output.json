@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 46,
-        "end": 360,
+        "end": 351,
         "ctxt": 0
       },
       "tagName": "html",
@@ -239,7 +239,7 @@
           "type": "Element",
           "span": {
             "start": 332,
-            "end": 360,
+            "end": 351,
             "ctxt": 0
           },
           "tagName": "body",
