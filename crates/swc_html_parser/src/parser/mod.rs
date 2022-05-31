@@ -869,9 +869,9 @@ where
                     {
                         token_and_info.acknowledged = true;
 
-                        self.open_elements_stack.pop(None);
+                        self.open_elements_stack.pop();
                     } else {
-                        self.open_elements_stack.pop(None);
+                        self.open_elements_stack.pop();
 
                         token_and_info.acknowledged = true;
                     }
@@ -900,7 +900,9 @@ where
             // restore the insertion point to its previous value. This value might be the
             // "undefined" value.)
             Token::EndTag { tag_name, .. } if tag_name == "script" => {
-                self.open_elements_stack.pop(Some(&token_and_info));
+                let popped = self.open_elements_stack.pop();
+
+                self.update_end_tag_span(popped.as_ref(), &token_and_info);
 
                 // No need to handle other steps
             }
@@ -1536,7 +1538,7 @@ where
             InsertionMode::InHead => {
                 let anything_else =
                     |parser: &mut Parser<I>, token_and_info: &mut TokenAndInfo| -> PResult<()> {
-                        parser.open_elements_stack.pop(None);
+                        parser.open_elements_stack.pop();
                         parser.insertion_mode = InsertionMode::AfterHead;
                         parser.process_token(token_and_info, None)?;
 
@@ -1589,7 +1591,7 @@ where
                         let is_self_closing = *self_closing;
 
                         self.insert_html_element(token_and_info)?;
-                        self.open_elements_stack.pop(None);
+                        self.open_elements_stack.pop();
 
                         if is_self_closing {
                             token_and_info.acknowledged = true;
@@ -1622,7 +1624,7 @@ where
                         let is_self_closing = *self_closing;
 
                         self.insert_html_element(token_and_info)?;
-                        self.open_elements_stack.pop(None);
+                        self.open_elements_stack.pop();
 
                         if is_self_closing {
                             token_and_info.acknowledged = true;
@@ -1723,7 +1725,9 @@ where
                     //
                     // Switch the insertion mode to "after head".
                     Token::EndTag { tag_name, .. } if tag_name == "head" => {
-                        self.open_elements_stack.pop(Some(&token_and_info));
+                        let popped = self.open_elements_stack.pop();
+
+                        self.update_end_tag_span(popped.as_ref(), &token_and_info);
                         self.insertion_mode = InsertionMode::AfterHead;
                     }
                     // An end tag whose tag name is one of: "body", "html", "br"
@@ -1864,7 +1868,7 @@ where
                             }
                         }
 
-                        parser.open_elements_stack.pop(None);
+                        parser.open_elements_stack.pop();
                         parser.insertion_mode = InsertionMode::InHead;
                         parser.process_token(token_and_info, None)?;
 
@@ -1894,7 +1898,9 @@ where
                     //
                     // Switch the insertion mode to "in head".
                     Token::EndTag { tag_name, .. } if tag_name == "noscript" => {
-                        self.open_elements_stack.pop(Some(&token_and_info));
+                        let popped = self.open_elements_stack.pop();
+
+                        self.update_end_tag_span(popped.as_ref(), &token_and_info);
                         self.insertion_mode = InsertionMode::InHead;
                     }
                     // A character token that is one of U+0009 CHARACTER TABULATION, U+000A LINE
@@ -2587,7 +2593,7 @@ where
                                     ErrorKind::HeadingWhenHeadingOpen,
                                 ));
 
-                                self.open_elements_stack.pop(None);
+                                self.open_elements_stack.pop();
                             }
                             _ => {}
                         }
@@ -3500,7 +3506,7 @@ where
                                 attributes: vec![],
                             },
                         })?;
-                        self.open_elements_stack.pop(None);
+                        self.open_elements_stack.pop();
 
                         if is_self_closing {
                             token_and_info.acknowledged = true;
@@ -3532,7 +3538,7 @@ where
 
                         self.reconstruct_active_formatting_elements()?;
                         self.insert_html_element(token_and_info)?;
-                        self.open_elements_stack.pop(None);
+                        self.open_elements_stack.pop();
 
                         if is_self_closing {
                             token_and_info.acknowledged = true;
@@ -3580,7 +3586,7 @@ where
                         }
 
                         self.insert_html_element(token_and_info)?;
-                        self.open_elements_stack.pop(None);
+                        self.open_elements_stack.pop();
 
                         if is_self_closing {
                             token_and_info.acknowledged = true;
@@ -3600,7 +3606,7 @@ where
                         let is_self_closing = *self_closing;
 
                         self.insert_html_element(token_and_info)?;
-                        self.open_elements_stack.pop(None);
+                        self.open_elements_stack.pop();
 
                         if is_self_closing {
                             token_and_info.acknowledged = true;
@@ -3629,7 +3635,7 @@ where
                         }
 
                         self.insert_html_element(token_and_info)?;
-                        self.open_elements_stack.pop(None);
+                        self.open_elements_stack.pop();
 
                         if is_self_closing {
                             token_and_info.acknowledged = true;
@@ -3778,7 +3784,7 @@ where
                     {
                         match self.open_elements_stack.items.last() {
                             Some(node) if is_html_element!(node, "option") => {
-                                self.open_elements_stack.pop(None);
+                                self.open_elements_stack.pop();
                             }
                             _ => {}
                         }
@@ -3886,7 +3892,7 @@ where
                         )?;
 
                         if is_self_closing {
-                            self.open_elements_stack.pop(None);
+                            self.open_elements_stack.pop();
 
                             token_and_info.acknowledged = true;
                         }
@@ -3920,7 +3926,7 @@ where
                         )?;
 
                         if is_self_closing {
-                            self.open_elements_stack.pop(None);
+                            self.open_elements_stack.pop();
 
                             token_and_info.acknowledged = true;
                         }
@@ -4124,7 +4130,7 @@ where
                     Token::Eof => {
                         self.errors
                             .push(Error::new(token_and_info.span, ErrorKind::EofInText));
-                        self.open_elements_stack.pop(None);
+                        self.open_elements_stack.pop();
                         self.insertion_mode = self.original_insertion_mode.clone();
                         self.process_token(token_and_info, None)?;
                     }
@@ -4211,7 +4217,9 @@ where
                     // steps from step 1.
                     Token::EndTag { tag_name, .. } if tag_name == "script" => {
                         // More things can be implemented to intercept script execution
-                        self.open_elements_stack.pop(Some(&token_and_info));
+                        let popped = self.open_elements_stack.pop();
+
+                        self.update_end_tag_span(popped.as_ref(), token_and_info);
                         self.insertion_mode = self.original_insertion_mode.clone();
                     }
                     // Any other end tag
@@ -4230,7 +4238,7 @@ where
                             _ => {}
                         }
 
-                        self.open_elements_stack.pop(None);
+                        self.open_elements_stack.pop();
                         self.insertion_mode = self.original_insertion_mode.clone();
                     }
                 }
@@ -4504,7 +4512,7 @@ where
                             ));
 
                             self.insert_html_element(token_and_info)?;
-                            self.open_elements_stack.pop(None);
+                            self.open_elements_stack.pop();
 
                             if is_self_closing {
                                 token_and_info.acknowledged = true;
@@ -4540,7 +4548,7 @@ where
                         let element = self.insert_html_element(token_and_info)?;
 
                         self.form_element_pointer = Some(element);
-                        self.open_elements_stack.pop(None);
+                        self.open_elements_stack.pop();
                     }
                     // An end-of-file token
                     //
@@ -4841,7 +4849,7 @@ where
                         let is_self_closing = *self_closing;
 
                         self.insert_html_element(token_and_info)?;
-                        self.open_elements_stack.pop(None);
+                        self.open_elements_stack.pop();
 
                         if is_self_closing {
                             token_and_info.acknowledged = true;
@@ -4863,7 +4871,9 @@ where
                                 ));
                             }
                             _ => {
-                                self.open_elements_stack.pop(Some(&token_and_info));
+                                let popped = self.open_elements_stack.pop();
+
+                                self.update_end_tag_span(popped.as_ref(), &token_and_info);
                                 self.insertion_mode = InsertionMode::InTable;
                             }
                         }
@@ -4919,7 +4929,7 @@ where
                             }
                         },
                         _ => {
-                            self.open_elements_stack.pop(None);
+                            self.open_elements_stack.pop();
                             self.insertion_mode = InsertionMode::InTable;
                             self.process_token(token_and_info, None)?;
                         }
@@ -4999,7 +5009,7 @@ where
                                 self.open_elements_stack.items.last(),
                                 token_and_info,
                             );
-                            self.open_elements_stack.pop(None);
+                            self.open_elements_stack.pop();
                             self.insertion_mode = InsertionMode::InTable;
                         }
                     }
@@ -5035,7 +5045,7 @@ where
                             ));
                         } else {
                             self.open_elements_stack.clear_back_to_table_body_context();
-                            self.open_elements_stack.pop(None);
+                            self.open_elements_stack.pop();
                             self.insertion_mode = InsertionMode::InTable;
                             self.process_token(token_and_info, None)?;
                         }
@@ -5051,7 +5061,7 @@ where
                             ));
                         } else {
                             self.open_elements_stack.clear_back_to_table_body_context();
-                            self.open_elements_stack.pop(None);
+                            self.open_elements_stack.pop();
                             self.insertion_mode = InsertionMode::InTable;
                             self.process_token(token_and_info, None)?;
                         }
@@ -5123,7 +5133,7 @@ where
                                 self.open_elements_stack.items.last(),
                                 token_and_info,
                             );
-                            self.open_elements_stack.pop(None);
+                            self.open_elements_stack.pop();
                             self.insertion_mode = InsertionMode::InTableBody;
                         }
                     }
@@ -5156,7 +5166,7 @@ where
                             ));
                         } else {
                             self.open_elements_stack.clear_back_to_table_row_context();
-                            self.open_elements_stack.pop(None);
+                            self.open_elements_stack.pop();
                             self.insertion_mode = InsertionMode::InTableBody;
                             self.process_token(token_and_info, None)?;
                         }
@@ -5169,7 +5179,7 @@ where
                             ));
                         } else {
                             self.open_elements_stack.clear_back_to_table_row_context();
-                            self.open_elements_stack.pop(None);
+                            self.open_elements_stack.pop();
                             self.insertion_mode = InsertionMode::InTableBody;
                             self.process_token(token_and_info, None)?;
                         }
@@ -5205,7 +5215,7 @@ where
                             return Ok(());
                         } else {
                             self.open_elements_stack.clear_back_to_table_row_context();
-                            self.open_elements_stack.pop(None);
+                            self.open_elements_stack.pop();
                             self.insertion_mode = InsertionMode::InTableBody;
                             self.process_token(token_and_info, None)?;
                         }
@@ -5418,7 +5428,7 @@ where
                     Token::StartTag { tag_name, .. } if tag_name == "option" => {
                         match self.open_elements_stack.items.last() {
                             Some(node) if is_html_element!(node, "option") => {
-                                self.open_elements_stack.pop(None);
+                                self.open_elements_stack.pop();
                             }
                             _ => {}
                         }
@@ -5437,14 +5447,14 @@ where
                     Token::StartTag { tag_name, .. } if tag_name == "optgroup" => {
                         match self.open_elements_stack.items.last() {
                             Some(node) if is_html_element!(node, "option") => {
-                                self.open_elements_stack.pop(None);
+                                self.open_elements_stack.pop();
                             }
                             _ => {}
                         }
 
                         match self.open_elements_stack.items.last() {
                             Some(node) if is_html_element!(node, "optgroup") => {
-                                self.open_elements_stack.pop(None);
+                                self.open_elements_stack.pop();
                             }
                             _ => {}
                         }
@@ -5472,7 +5482,9 @@ where
                                     .get(self.open_elements_stack.items.len() - 2)
                                 {
                                     Some(node) if is_html_element!(node, "optgroup") => {
-                                        self.open_elements_stack.pop(Some(&token_and_info));
+                                        let popped = self.open_elements_stack.pop();
+
+                                        self.update_end_tag_span(popped.as_ref(), &token_and_info);
                                     }
                                     _ => {}
                                 }
@@ -5482,7 +5494,9 @@ where
 
                         match self.open_elements_stack.items.last() {
                             Some(node) if is_html_element!(node, "optgroup") => {
-                                self.open_elements_stack.pop(Some(&token_and_info));
+                                let popped = self.open_elements_stack.pop();
+
+                                self.update_end_tag_span(popped.as_ref(), &token_and_info);
                             }
                             _ => self.errors.push(Error::new(
                                 token_and_info.span,
@@ -5497,7 +5511,9 @@ where
                     Token::EndTag { tag_name, .. } if tag_name == "option" => {
                         match self.open_elements_stack.items.last() {
                             Some(node) if is_html_element!(node, "option") => {
-                                self.open_elements_stack.pop(Some(&token_and_info));
+                                let popped = self.open_elements_stack.pop();
+
+                                self.update_end_tag_span(popped.as_ref(), &token_and_info);
                             }
                             _ => self.errors.push(Error::new(
                                 token_and_info.span,
@@ -6044,7 +6060,9 @@ where
                                 ErrorKind::StrayEndTag(tag_name.clone()),
                             ));
                         } else {
-                            self.open_elements_stack.pop(Some(&token_and_info));
+                            let popped = self.open_elements_stack.pop();
+
+                            self.update_end_tag_span(popped.as_ref(), &token_and_info);
 
                             if !self.is_fragment_case {
                                 match self.open_elements_stack.items.last() {
@@ -6070,7 +6088,7 @@ where
                         let is_self_closing = *self_closing;
 
                         self.insert_html_element(token_and_info)?;
-                        self.open_elements_stack.pop(None);
+                        self.open_elements_stack.pop();
 
                         if is_self_closing {
                             token_and_info.acknowledged = true;
@@ -6926,7 +6944,9 @@ where
             if is_html_element_with_tag_name!(last, &*subject)
                 && self.active_formatting_elements.get_position(last).is_none()
             {
-                self.open_elements_stack.pop(Some(&token_and_info));
+                let popped = self.open_elements_stack.pop();
+
+                self.update_end_tag_span(popped.as_ref(), &token_and_info);
 
                 return Ok(());
             }
@@ -7032,7 +7052,7 @@ where
 
             // 8.
             if furthest_block.is_none() {
-                while let Some(node) = self.open_elements_stack.pop(None) {
+                while let Some(node) = self.open_elements_stack.pop() {
                     if is_same_node(&node, &formatting_element.1) {
                         break;
                     }

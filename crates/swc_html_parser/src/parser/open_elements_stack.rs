@@ -110,18 +110,12 @@ impl OpenElementsStack {
         self.items.push(node);
     }
 
-    pub fn pop(&mut self, token_and_info: Option<&TokenAndInfo>) -> Option<RcNode> {
+    pub fn pop(&mut self) -> Option<RcNode> {
         let popped = self.items.pop();
 
         if let Some(node) = &popped {
             if is_html_element!(node, "template") {
                 self.template_element_count -= 1;
-            }
-
-            if let Some(token_and_info) = token_and_info {
-                let mut end_tag_span = node.end_tag_span.borrow_mut();
-
-                *end_tag_span = Some(token_and_info.span);
             }
         }
 
@@ -338,7 +332,7 @@ impl OpenElementsStack {
     pub fn clear_back_to_table_context(&mut self) {
         while let Some(node) = self.items.last() {
             if !is_html_element!(node, "table" | "template" | "html") {
-                self.pop(None);
+                self.pop();
             } else {
                 break;
             }
@@ -351,7 +345,7 @@ impl OpenElementsStack {
     pub fn clear_back_to_table_row_context(&mut self) {
         while let Some(node) = self.items.last() {
             if !is_html_element!(node, "tr" | "template" | "html") {
-                self.pop(None);
+                self.pop();
             } else {
                 break;
             }
@@ -365,7 +359,7 @@ impl OpenElementsStack {
     pub fn clear_back_to_table_body_context(&mut self) {
         while let Some(node) = self.items.last() {
             if !is_html_element!(node, "thead" | "tfoot" | "tbody" | "template" | "html") {
-                self.pop(None);
+                self.pop();
             } else {
                 break;
             }
@@ -386,7 +380,7 @@ impl OpenElementsStack {
             if IMPLICIT_END_TAG_REQUIRED.contains(&get_tag_name!(node))
                 && get_namespace!(node) == Namespace::HTML
             {
-                self.pop(None);
+                self.pop();
             } else {
                 break;
             }
@@ -402,7 +396,7 @@ impl OpenElementsStack {
             if IMPLICIT_END_TAG_REQUIRED.contains(&get_tag_name!(node))
                 && get_namespace!(node) == Namespace::HTML
             {
-                self.pop(None);
+                self.pop();
             } else {
                 break;
             }
@@ -421,7 +415,7 @@ impl OpenElementsStack {
             if IMPLICIT_END_TAG_REQUIRED_THOROUGHLY.contains(&get_tag_name!(node))
                 && get_namespace!(node) == Namespace::HTML
             {
-                self.pop(None);
+                self.pop();
             } else {
                 break;
             }
@@ -433,7 +427,7 @@ impl OpenElementsStack {
         tag_name: &[&str],
         token_and_info: Option<&TokenAndInfo>,
     ) {
-        while let Some(node) = self.pop(None) {
+        while let Some(node) = self.pop() {
             if tag_name.contains(&get_tag_name!(node)) && get_namespace!(node) == Namespace::HTML {
                 if let Some(token_and_info) = token_and_info {
                     let mut end_tag_span = node.end_tag_span.borrow_mut();
@@ -451,7 +445,7 @@ impl OpenElementsStack {
         until_to_node: &RcNode,
         token_and_info: Option<&TokenAndInfo>,
     ) {
-        while let Some(node) = &self.pop(None) {
+        while let Some(node) = &self.pop() {
             if is_same_node(node, until_to_node) {
                 if let Some(token_and_info) = token_and_info {
                     let mut end_tag_span = node.end_tag_span.borrow_mut();
@@ -481,7 +475,7 @@ impl OpenElementsStack {
                 _ => {}
             }
 
-            self.pop(None);
+            self.pop();
         }
     }
 }
