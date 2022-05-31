@@ -3222,18 +3222,24 @@ where
                             self.open_elements_stack.generate_implied_end_tags();
 
                             match self.open_elements_stack.items.last() {
-                                Some(node) if !is_html_element_with_tag_name!(node, tag_name) => {
-                                    self.errors.push(Error::new(
-                                        token_and_info.span,
-                                        ErrorKind::UnclosedElements(tag_name.clone()),
-                                    ));
+                                Some(node) => {
+                                    if !is_html_element_with_tag_name!(node, tag_name) {
+                                        self.errors.push(Error::new(
+                                            token_and_info.span,
+                                            ErrorKind::UnclosedElements(tag_name.clone()),
+                                        ));
+                                    } else {
+                                        let mut end_tag_span = node.end_tag_span.borrow_mut();
+
+                                        *end_tag_span = Some(token_and_info.span);
+                                    }
                                 }
                                 _ => {}
                             }
 
                             self.open_elements_stack.pop_until_tag_name_popped(
                                 &["h1", "h2", "h3", "h4", "h5", "h6"],
-                                Some(&token_and_info),
+                                None,
                             );
                         }
                     }
