@@ -224,13 +224,13 @@
   x Child
    ,-[$DIR/tests/recovery/element/math/input.html:4:5]
  4 | <title>MathML in HTML5</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/math/input.html:4:5]
  4 | <title>MathML in HTML5</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -1286,13 +1286,13 @@
   x Child
     ,-[$DIR/tests/recovery/element/math/input.html:37:13]
  37 | <head><title>INNER HTML TITLE</title></head>
-    :       ^^^^^^^^^^^^^^^^^^^^^^^
+    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/recovery/element/math/input.html:37:13]
  37 | <head><title>INNER HTML TITLE</title></head>
-    :       ^^^^^^^^^^^^^^^^^^^^^^^
+    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child

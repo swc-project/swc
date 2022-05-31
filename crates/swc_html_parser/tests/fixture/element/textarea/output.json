@@ -66,7 +66,7 @@
               "type": "Element",
               "span": {
                 "start": 45,
-                "end": 60,
+                "end": 68,
                 "ctxt": 0
               },
               "tagName": "title",
@@ -175,7 +175,7 @@
               "type": "Element",
               "span": {
                 "start": 133,
-                "end": 230,
+                "end": 241,
                 "ctxt": 0
               },
               "tagName": "textarea",

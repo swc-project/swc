@@ -463,13 +463,13 @@
   x Child
    ,-[$DIR/tests/fixture/element/svg/input.html:3:5]
  3 | <title>XTech SVG Demo</title>
-   : ^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/svg/input.html:3:5]
  3 | <title>XTech SVG Demo</title>
-   : ^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child

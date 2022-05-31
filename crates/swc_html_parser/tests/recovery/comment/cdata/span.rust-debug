@@ -168,13 +168,13 @@
   x Child
    ,-[$DIR/tests/recovery/comment/cdata/input.html:6:5]
  6 | <title>XHTML 1.0 Strict Example</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/comment/cdata/input.html:6:5]
  6 | <title>XHTML 1.0 Strict Example</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child

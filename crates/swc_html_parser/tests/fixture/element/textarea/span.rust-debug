@@ -128,13 +128,13 @@
   x Child
    ,-[$DIR/tests/fixture/element/textarea/input.html:4:5]
  4 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/textarea/input.html:4:5]
  4 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -291,8 +291,8 @@
  17 | |       test
  18 | |   
  19 | |   
- 20 | `-> 
- 21 |     </textarea>
+ 20 | |   
+ 21 | `-> </textarea>
     `----
 
   x Element
@@ -307,8 +307,8 @@
  17 | |       test
  18 | |   
  19 | |   
- 20 | `-> 
- 21 |     </textarea>
+ 20 | |   
+ 21 | `-> </textarea>
     `----
 
   x Attribute

@@ -66,7 +66,7 @@
               "type": "Element",
               "span": {
                 "start": 45,
-                "end": 60,
+                "end": 68,
                 "ctxt": 0
               },
               "tagName": "title",
@@ -171,7 +171,7 @@
                     "type": "Element",
                     "span": {
                       "start": 137,
-                      "end": 689,
+                      "end": 697,
                       "ctxt": 0
                     },
                     "tagName": "style",
@@ -879,35 +879,43 @@
                 "end": 1525,
                 "ctxt": 0
               },
-              "tagName": "tempalte",
+              "tagName": "template",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
-              "children": [
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 1499,
-                    "end": 1514,
-                    "ctxt": 0
-                  },
-                  "tagName": "div",
-                  "namespace": "http://www.w3.org/1999/xhtml",
-                  "attributes": [],
-                  "children": [
-                    {
-                      "type": "Text",
-                      "span": {
-                        "start": 1504,
-                        "end": 1508,
-                        "ctxt": 0
-                      },
-                      "value": "test"
-                    }
-                  ],
-                  "content": null
-                }
-              ],
-              "content": null
+              "children": [],
+              "content": {
+                "type": "DocumentFragment",
+                "span": {
+                  "start": 1489,
+                  "end": 1525,
+                  "ctxt": 0
+                },
+                "children": [
+                  {
+                    "type": "Element",
+                    "span": {
+                      "start": 1499,
+                      "end": 1514,
+                      "ctxt": 0
+                    },
+                    "tagName": "div",
+                    "namespace": "http://www.w3.org/1999/xhtml",
+                    "attributes": [],
+                    "children": [
+                      {
+                        "type": "Text",
+                        "span": {
+                          "start": 1504,
+                          "end": 1508,
+                          "ctxt": 0
+                        },
+                        "value": "test"
+                      }
+                    ],
+                    "content": null
+                  }
+                ]
+              }
             },
             {
               "type": "Text",

@@ -29,13 +29,13 @@
   x Child
    ,-[$DIR/tests/fixture/element/no-basic/input.html:2:1]
  2 | <title>Saving money, saving bytes</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/no-basic/input.html:2:1]
  2 | <title>Saving money, saving bytes</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child

@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 297,
+        "end": 305,
         "ctxt": 0
       },
       "tagName": "html",
@@ -46,7 +46,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 297,
+            "end": 305,
             "ctxt": 0
           },
           "tagName": "body",
@@ -374,7 +374,7 @@
               "type": "Element",
               "span": {
                 "start": 242,
-                "end": 297,
+                "end": 305,
                 "ctxt": 0
               },
               "tagName": "style",

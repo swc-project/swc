@@ -83,13 +83,13 @@
   x Child
    ,-[$DIR/tests/recovery/element/template-3/input.html:4:5]
  4 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/template-3/input.html:4:5]
  4 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child

@@ -551,13 +551,13 @@
   x Child
    ,-[$DIR/tests/fixture/element/math/input.html:4:5]
  4 | <title>MathML in HTML5</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/math/input.html:4:5]
  4 | <title>MathML in HTML5</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child

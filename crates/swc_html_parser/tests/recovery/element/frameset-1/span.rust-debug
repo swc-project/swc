@@ -140,13 +140,13 @@
   x Child
    ,-[$DIR/tests/recovery/element/frameset-1/input.html:6:5]
  6 | <title>Тег FRAMESET</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/frameset-1/input.html:6:5]
  6 | <title>Тег FRAMESET</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child

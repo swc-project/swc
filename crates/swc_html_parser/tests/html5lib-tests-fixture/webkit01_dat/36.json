@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 30,
+        "end": 38,
         "ctxt": 0
       },
       "tagName": "html",
@@ -35,7 +35,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 30,
+            "end": 38,
             "ctxt": 0
           },
           "tagName": "body",
@@ -59,7 +59,7 @@
               "type": "Element",
               "span": {
                 "start": 4,
-                "end": 30,
+                "end": 38,
                 "ctxt": 0
               },
               "tagName": "li",
@@ -70,7 +70,7 @@
                   "type": "Element",
                   "span": {
                     "start": 1,
-                    "end": 30,
+                    "end": 38,
                     "ctxt": 0
                   },
                   "tagName": "a",
@@ -81,7 +81,7 @@
                       "type": "Element",
                       "span": {
                         "start": 8,
-                        "end": 15,
+                        "end": 23,
                         "ctxt": 0
                       },
                       "tagName": "style",
@@ -94,7 +94,7 @@
                       "type": "Element",
                       "span": {
                         "start": 23,
-                        "end": 30,
+                        "end": 38,
                         "ctxt": 0
                       },
                       "tagName": "title",

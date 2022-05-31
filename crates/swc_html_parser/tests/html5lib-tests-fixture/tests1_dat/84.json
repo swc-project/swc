@@ -33,7 +33,7 @@
               "type": "Element",
               "span": {
                 "start": 1,
-                "end": 12,
+                "end": 20,
                 "ctxt": 0
               },
               "tagName": "style",

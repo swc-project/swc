@@ -136,13 +136,13 @@
   x Child
    ,-[$DIR/tests/fixture/element/frameset/input.html:5:5]
  5 | <title>Тег FRAMESET</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/frameset/input.html:5:5]
  5 | <title>Тег FRAMESET</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child

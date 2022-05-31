@@ -131,13 +131,13 @@
   x Child
    ,-[$DIR/tests/fixture/attribute/basic/input.html:4:5]
  4 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/attribute/basic/input.html:4:5]
  4 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child

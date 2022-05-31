@@ -70,7 +70,7 @@
                   "type": "Element",
                   "span": {
                     "start": 1,
-                    "end": 16,
+                    "end": 24,
                     "ctxt": 0
                   },
                   "tagName": "a",
@@ -81,7 +81,7 @@
                       "type": "Element",
                       "span": {
                         "start": 9,
-                        "end": 16,
+                        "end": 24,
                         "ctxt": 0
                       },
                       "tagName": "style",

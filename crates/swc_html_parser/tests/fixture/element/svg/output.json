@@ -66,7 +66,7 @@
               "type": "Element",
               "span": {
                 "start": 71,
-                "end": 92,
+                "end": 100,
                 "ctxt": 0
               },
               "tagName": "title",
@@ -98,7 +98,7 @@
               "type": "Element",
               "span": {
                 "start": 105,
-                "end": 325,
+                "end": 333,
                 "ctxt": 0
               },
               "tagName": "style",

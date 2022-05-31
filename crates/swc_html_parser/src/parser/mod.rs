@@ -4233,6 +4233,19 @@ where
                     //
                     // Switch the insertion mode to the original insertion mode.
                     _ => {
+                        match token {
+                            Token::EndTag { tag_name, .. } => {
+                                if let Some(last) = self.open_elements_stack.items.last() {
+                                    if is_html_element_with_tag_name!(last, tag_name) {
+                                        let mut end_tag_span = last.end_tag_span.borrow_mut();
+
+                                        *end_tag_span = Some(token_and_info.span);
+                                    }
+                                }
+                            }
+                            _ => {}
+                        }
+
                         self.open_elements_stack.pop(None);
                         self.insertion_mode = self.original_insertion_mode.clone();
                     }

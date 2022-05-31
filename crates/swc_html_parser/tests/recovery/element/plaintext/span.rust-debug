@@ -185,13 +185,13 @@
   x Child
    ,-[$DIR/tests/recovery/element/plaintext/input.html:6:5]
  6 | <title>Тег PLAINTEXT</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/plaintext/input.html:6:5]
  6 | <title>Тег PLAINTEXT</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child

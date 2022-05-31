@@ -43,7 +43,7 @@
  40 | |           </template>
  41 | |       </template>
  42 | |   
- 43 | |       <tempalte><div>test</div></tempalte>
+ 43 | |       <template><div>test</div></template>
  44 | |   </body>
  45 | `-> </html>
     `----
@@ -103,7 +103,7 @@
  40 | |           </template>
  41 | |       </template>
  42 | |   
- 43 | |       <tempalte><div>test</div></tempalte>
+ 43 | |       <template><div>test</div></template>
  44 | |   </body>
  45 | `-> </html>
     `----
@@ -151,7 +151,7 @@
  40 | |           </template>
  41 | |       </template>
  42 | |   
- 43 | |       <tempalte><div>test</div></tempalte>
+ 43 | |       <template><div>test</div></template>
  44 | |   </body>
  45 | `-> </html>
     `----
@@ -191,13 +191,13 @@
   x Child
    ,-[$DIR/tests/fixture/element/template/input.html:4:5]
  4 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/template/input.html:4:5]
  4 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -279,7 +279,7 @@
  40 | |           </template>
  41 | |       </template>
  42 | |   
- 43 | |       <tempalte><div>test</div></tempalte>
+ 43 | |       <template><div>test</div></template>
  44 | `-> </body>
     `----
 
@@ -322,7 +322,7 @@
  40 | |           </template>
  41 | |       </template>
  42 | |   
- 43 | |       <tempalte><div>test</div></tempalte>
+ 43 | |       <template><div>test</div></template>
  44 | `-> </body>
     `----
 
@@ -1205,62 +1205,68 @@
     ,-[$DIR/tests/fixture/element/template/input.html:41:5]
  41 | ,-> </template>
  42 | |   
- 43 | `->     <tempalte><div>test</div></tempalte>
+ 43 | `->     <template><div>test</div></template>
     `----
 
   x Text
     ,-[$DIR/tests/fixture/element/template/input.html:41:5]
  41 | ,-> </template>
  42 | |   
- 43 | `->     <tempalte><div>test</div></tempalte>
+ 43 | `->     <template><div>test</div></template>
     `----
 
   x Child
     ,-[$DIR/tests/fixture/element/template/input.html:43:5]
- 43 | <tempalte><div>test</div></tempalte>
+ 43 | <template><div>test</div></template>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/template/input.html:43:5]
- 43 | <tempalte><div>test</div></tempalte>
+ 43 | <template><div>test</div></template>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x DocumentFragment
+    ,-[$DIR/tests/fixture/element/template/input.html:43:5]
+ 43 | <template><div>test</div></template>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
     ,-[$DIR/tests/fixture/element/template/input.html:43:5]
- 43 | <tempalte><div>test</div></tempalte>
+ 43 | <template><div>test</div></template>
     :           ^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/template/input.html:43:5]
- 43 | <tempalte><div>test</div></tempalte>
+ 43 | <template><div>test</div></template>
     :           ^^^^^^^^^^^^^^^
     `----
 
   x Child
     ,-[$DIR/tests/fixture/element/template/input.html:43:5]
- 43 | <tempalte><div>test</div></tempalte>
+ 43 | <template><div>test</div></template>
     :                ^^^^
     `----
 
   x Text
     ,-[$DIR/tests/fixture/element/template/input.html:43:5]
- 43 | <tempalte><div>test</div></tempalte>
+ 43 | <template><div>test</div></template>
     :                ^^^^
     `----
 
   x Child
     ,-[$DIR/tests/fixture/element/template/input.html:43:5]
- 43 | ,-> <tempalte><div>test</div></tempalte>
+ 43 | ,-> <template><div>test</div></template>
  44 | |   </body>
  45 | `-> </html>
     `----
 
   x Text
     ,-[$DIR/tests/fixture/element/template/input.html:43:5]
- 43 | ,-> <tempalte><div>test</div></tempalte>
+ 43 | ,-> <template><div>test</div></template>
  44 | |   </body>
  45 | `-> </html>
     `----

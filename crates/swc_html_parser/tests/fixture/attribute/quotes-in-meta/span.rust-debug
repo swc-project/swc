@@ -124,13 +124,13 @@
   x Child
    ,-[$DIR/tests/fixture/attribute/quotes-in-meta/input.html:5:5]
  5 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/attribute/quotes-in-meta/input.html:5:5]
  5 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child

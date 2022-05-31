@@ -116,9 +116,10 @@
 |     "
 
     "
-|     <tempalte>
-|       <div>
-|         "test"
+|     <template>
+|       content
+|         <div>
+|           "test"
 |     "
 
 

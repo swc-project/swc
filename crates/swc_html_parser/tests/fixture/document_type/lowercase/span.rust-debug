@@ -83,13 +83,13 @@
   x Child
    ,-[$DIR/tests/fixture/document_type/lowercase/input.html:4:5]
  4 | <title>Title of the document</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/document_type/lowercase/input.html:4:5]
  4 | <title>Title of the document</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
