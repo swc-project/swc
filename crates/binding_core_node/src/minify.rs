@@ -5,7 +5,10 @@ use napi::{
     Task,
 };
 use serde::Deserialize;
-use swc::{config::JsMinifyOptions, TransformOutput};
+use swc::{
+    config::{ErrorFormat, JsMinifyOptions},
+    TransformOutput,
+};
 use swc_common::{collections::AHashMap, sync::Lrc, FileName, SourceFile, SourceMap};
 use swc_nodejs_common::{deserialize_json, get_deserialized, MapErr};
 
@@ -90,5 +93,12 @@ pub fn minify_sync(code: Buffer, opts: Buffer) -> napi::Result<TransformOutput> 
 
     let fm = code.to_file(c.cm.clone());
 
-    try_with(c.cm.clone(), false, |handler| c.minify(fm, handler, &opts)).convert_err()
+    try_with(
+        c.cm.clone(),
+        false,
+        // TODO(kdy1): Maybe make this configurable?
+        ErrorFormat::Normal,
+        |handler| c.minify(fm, handler, &opts),
+    )
+    .convert_err()
 }
