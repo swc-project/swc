@@ -44,6 +44,8 @@ pub fn minify_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
 
     let c = compiler();
 
+    let error_opts = opts.into_serde::<ErrorFormatOpt>().unwrap_or_default();
+
     try_with_handler(
         c.cm.clone(),
         swc::HandlerOpts {
@@ -62,7 +64,7 @@ pub fn minify_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
             })
         },
     )
-    .map_err(convert_err)
+    .map_err(|e| convert_err(e, error_opts.error_format))
 }
 
 #[wasm_bindgen(js_name = "parseSync")]
@@ -70,6 +72,8 @@ pub fn parse_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
     console_error_panic_hook::set_once();
 
     let c = compiler();
+
+    let error_opts = opts.into_serde::<ErrorFormatOpt>().unwrap_or_default();
 
     try_with_handler(
         c.cm.clone(),
@@ -104,7 +108,7 @@ pub fn parse_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
             })
         },
     )
-    .map_err(convert_err)
+    .map_err(|e| convert_err(e, error_opts.error_format))
 }
 
 #[wasm_bindgen(js_name = "printSync")]
@@ -112,6 +116,8 @@ pub fn print_sync(s: JsValue, opts: JsValue) -> Result<JsValue, JsValue> {
     console_error_panic_hook::set_once();
 
     let c = compiler();
+
+    let error_opts = opts.into_serde::<ErrorFormatOpt>().unwrap_or_default();
 
     try_with_handler(
         c.cm.clone(),
@@ -147,7 +153,7 @@ pub fn print_sync(s: JsValue, opts: JsValue) -> Result<JsValue, JsValue> {
             })
         },
     )
-    .map_err(convert_err)
+    .map_err(|e| convert_err(e, error_opts.error_format))
 }
 
 #[wasm_bindgen(typescript_custom_section)]
@@ -177,6 +183,8 @@ pub fn transform_sync(
     console_error_panic_hook::set_once();
 
     let c = compiler();
+
+    let error_opts = opts.into_serde::<ErrorFormatOpt>().unwrap_or_default();
 
     #[cfg(feature = "plugin")]
     {
@@ -248,7 +256,7 @@ pub fn transform_sync(
             })
         },
     )
-    .map_err(convert_err)
+    .map_err(|e| convert_err(e, error_opts.error_format))
 }
 
 /// Get global sourcemap
