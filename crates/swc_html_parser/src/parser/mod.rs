@@ -6202,6 +6202,12 @@ where
                     //
                     // Switch the insertion mode to "after after frameset".
                     Token::EndTag { tag_name, .. } if tag_name == "html" => {
+                        if let Some(node) = self.open_elements_stack.items.last() {
+                            let mut end_tag_span = node.end_tag_span.borrow_mut();
+
+                            *end_tag_span = Some(token_and_info.span);
+                        }
+
                         self.insertion_mode = InsertionMode::AfterAfterFrameset;
                     }
                     // A start tag whose tag name is "noframes"

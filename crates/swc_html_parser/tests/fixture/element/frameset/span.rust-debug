@@ -46,8 +46,8 @@
  12 | |           <frame src="main.html" name="mainFrame">
  13 | |       </frameset>
  14 | |   </frameset>
- 15 | `-> 
- 16 |     </html>
+ 15 | |   
+ 16 | `-> </html>
     `----
 
   x Element
@@ -65,8 +65,8 @@
  12 | |           <frame src="main.html" name="mainFrame">
  13 | |       </frameset>
  14 | |   </frameset>
- 15 | `-> 
- 16 |     </html>
+ 15 | |   
+ 16 | `-> </html>
     `----
 
   x Child
