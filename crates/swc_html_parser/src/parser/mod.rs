@@ -1967,8 +1967,16 @@ where
             InsertionMode::AfterHead => {
                 let anything_else =
                     |parser: &mut Parser<I>, token_and_info: &mut TokenAndInfo| -> PResult<()> {
+                        let is_body = match &token_and_info.token {
+                            Token::EndTag { tag_name, .. } if &*tag_name == "body" => true,
+                            _ => false,
+                        };
                         parser.insert_html_element(&mut TokenAndInfo {
-                            span: Default::default(),
+                            span: if is_body {
+                                token_and_info.span
+                            } else {
+                                Default::default()
+                            },
                             acknowledged: false,
                             token: Token::StartTag {
                                 tag_name: "body".into(),
