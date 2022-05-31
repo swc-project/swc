@@ -47,3 +47,6 @@ tracing = { version = "0.1.32", features = ["release_max_level_off"] }
 wasm-bindgen = { version = "0.2", features = ["serde-serialize"] }
 wasmer = { version = "2.2.1", optional = true, default-features = false }
 wasmer-wasi = { version = "2.2.1", optional = true, default-features = false }
+
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = false
