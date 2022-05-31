@@ -5677,7 +5677,7 @@ where
                         }
 
                         self.open_elements_stack
-                            .pop_until_tag_name_popped(&["select"], Some(&token_and_info));
+                            .pop_until_tag_name_popped(&["select"], None);
                         self.reset_insertion_mode();
                         self.process_token(token_and_info, None)?;
                     }

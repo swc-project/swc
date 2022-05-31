@@ -46,7 +46,7 @@
               "type": "Element",
               "span": {
                 "start": 8,
-                "end": 24,
+                "end": 16,
                 "ctxt": 0
               },
               "tagName": "select",
