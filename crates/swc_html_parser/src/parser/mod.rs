@@ -3098,7 +3098,7 @@ where
                             ));
 
                             self.insert_html_element(&mut TokenAndInfo {
-                                span: Default::default(),
+                                span: token_and_info.span,
                                 acknowledged: false,
                                 token: Token::StartTag {
                                     tag_name: "p".into(),
