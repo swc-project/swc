@@ -5,14 +5,14 @@ use std::sync::Arc;
 use anyhow::{Context, Error};
 use once_cell::sync::Lazy;
 use swc::{
-    config::{JsMinifyOptions, Options, ParseOptions, SourceMapsConfig},
+    config::{ErrorFormat, JsMinifyOptions, Options, ParseOptions, SourceMapsConfig},
     try_with_handler, Compiler,
 };
 use swc_common::{comments::Comments, FileName, FilePathMapping, SourceMap};
 use swc_ecmascript::ast::{EsVersion, Program};
 use wasm_bindgen::prelude::*;
 
-fn convert_err(err: Error) -> JsValue {
+fn convert_err(err: Error, error_format: ErrorFormat) -> JsValue {
     format!("{:?}", err).into()
 }
 
