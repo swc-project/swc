@@ -14,7 +14,10 @@ use swc_ecmascript::ast::{EsVersion, Program};
 use wasm_bindgen::prelude::*;
 
 fn convert_err(err: Error, f: ErrorFormat) -> JsValue {
-    format!("{:?}", err).into()
+    match f {
+        ErrorFormat::Normal => format!("{:?}", err).into(),
+        ErrorFormat::Json => {}
+    }
 }
 
 #[derive(Deserialize)]
