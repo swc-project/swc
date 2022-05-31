@@ -965,9 +965,9 @@ where
                             if &*element.tag_name.to_ascii_lowercase() == tag_name =>
                         {
                             let clone = inner_node.clone();
+                            let popped = self.open_elements_stack.pop_until_node(&clone);
 
-                            self.open_elements_stack
-                                .pop_until_node(&clone, Some(token_and_info));
+                            self.update_end_tag_span(popped.as_ref(), &token_and_info);
 
                             return Ok(());
                         }

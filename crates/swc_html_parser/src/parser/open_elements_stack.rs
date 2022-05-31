@@ -440,22 +440,14 @@ impl OpenElementsStack {
         }
     }
 
-    pub fn pop_until_node(
-        &mut self,
-        until_to_node: &RcNode,
-        token_and_info: Option<&TokenAndInfo>,
-    ) {
-        while let Some(node) = &self.pop() {
-            if is_same_node(node, until_to_node) {
-                if let Some(token_and_info) = token_and_info {
-                    let mut end_tag_span = node.end_tag_span.borrow_mut();
-
-                    *end_tag_span = Some(token_and_info.span);
-                }
-
-                break;
+    pub fn pop_until_node(&mut self, until_to_node: &RcNode) -> Option<RcNode> {
+        while let Some(node) = self.pop() {
+            if is_same_node(&node, until_to_node) {
+                return Some(node);
             }
         }
+
+        None
     }
 
     // While the current node is not a MathML text integration point, an HTML
