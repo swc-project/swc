@@ -186,7 +186,7 @@
                         "type": "Element",
                         "span": {
                           "start": 126,
-                          "end": 145,
+                          "end": 150,
                           "ctxt": 0
                         },
                         "tagName": "tr",
@@ -259,7 +259,7 @@
                         "type": "Element",
                         "span": {
                           "start": 194,
-                          "end": 213,
+                          "end": 218,
                           "ctxt": 0
                         },
                         "tagName": "tr",

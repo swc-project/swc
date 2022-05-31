@@ -83,7 +83,7 @@
                   "type": "Element",
                   "span": {
                     "start": 8,
-                    "end": 15,
+                    "end": 42,
                     "ctxt": 0
                   },
                   "tagName": "thead",

@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 2316,
+    "end": 2373,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 17,
-        "end": 2316,
+        "end": 2373,
         "ctxt": 0
       },
       "tagName": "html",
@@ -239,7 +239,7 @@
           "type": "Element",
           "span": {
             "start": 303,
-            "end": 2308,
+            "end": 2365,
             "ctxt": 0
           },
           "tagName": "body",
@@ -2339,7 +2339,7 @@
                   "type": "Element",
                   "span": {
                     "start": 0,
-                    "end": 2287,
+                    "end": 2292,
                     "ctxt": 0
                   },
                   "tagName": "tbody",
@@ -2350,7 +2350,7 @@
                       "type": "Element",
                       "span": {
                         "start": 2257,
-                        "end": 2287,
+                        "end": 2292,
                         "ctxt": 0
                       },
                       "tagName": "tr",
@@ -2416,7 +2416,81 @@
               "type": "Text",
               "span": {
                 "start": 2300,
-                "end": 2309,
+                "end": 2305,
+                "ctxt": 0
+              },
+              "value": "\n    "
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 2305,
+                "end": 2357,
+                "ctxt": 0
+              },
+              "tagName": "table",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 2312,
+                    "end": 2349,
+                    "ctxt": 0
+                  },
+                  "tagName": "tbody",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 2319,
+                        "end": 2341,
+                        "ctxt": 0
+                      },
+                      "tagName": "tr",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [],
+                      "children": [
+                        {
+                          "type": "Element",
+                          "span": {
+                            "start": 2323,
+                            "end": 2336,
+                            "ctxt": 0
+                          },
+                          "tagName": "td",
+                          "namespace": "http://www.w3.org/1999/xhtml",
+                          "attributes": [],
+                          "children": [
+                            {
+                              "type": "Text",
+                              "span": {
+                                "start": 2327,
+                                "end": 2331,
+                                "ctxt": 0
+                              },
+                              "value": "test"
+                            }
+                          ],
+                          "content": null
+                        }
+                      ],
+                      "content": null
+                    }
+                  ],
+                  "content": null
+                }
+              ],
+              "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 2357,
+                "end": 2366,
                 "ctxt": 0
               },
               "value": "\n\n"

@@ -65,7 +65,7 @@
                     "type": "Element",
                     "span": {
                       "start": 17,
-                      "end": 24,
+                      "end": 32,
                       "ctxt": 0
                     },
                     "tagName": "thead",
@@ -91,7 +91,7 @@
                     "type": "Element",
                     "span": {
                       "start": 51,
-                      "end": 58,
+                      "end": 66,
                       "ctxt": 0
                     },
                     "tagName": "tbody",

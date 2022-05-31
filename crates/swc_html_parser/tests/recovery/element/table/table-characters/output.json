@@ -141,7 +141,7 @@
                   "type": "Element",
                   "span": {
                     "start": 0,
-                    "end": 101,
+                    "end": 107,
                     "ctxt": 0
                   },
                   "tagName": "tbody",
@@ -152,7 +152,7 @@
                       "type": "Element",
                       "span": {
                         "start": 97,
-                        "end": 101,
+                        "end": 107,
                         "ctxt": 0
                       },
                       "tagName": "tr",

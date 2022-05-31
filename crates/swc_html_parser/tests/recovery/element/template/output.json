@@ -246,7 +246,7 @@
                             "type": "Element",
                             "span": {
                               "start": 0,
-                              "end": 229,
+                              "end": 234,
                               "ctxt": 0
                             },
                             "tagName": "tbody",
@@ -257,7 +257,7 @@
                                 "type": "Element",
                                 "span": {
                                   "start": 142,
-                                  "end": 161,
+                                  "end": 166,
                                   "ctxt": 0
                                 },
                                 "tagName": "tr",
@@ -294,7 +294,7 @@
                                 "type": "Element",
                                 "span": {
                                   "start": 210,
-                                  "end": 229,
+                                  "end": 234,
                                   "ctxt": 0
                                 },
                                 "tagName": "tr",

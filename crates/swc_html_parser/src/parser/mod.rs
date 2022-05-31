@@ -4984,6 +4984,15 @@ where
                             ));
                         } else {
                             self.open_elements_stack.clear_back_to_table_body_context();
+
+                            if let Some(last) = self.open_elements_stack.items.last() {
+                                if is_html_element_with_tag_name!(last, tag_name) {
+                                    let mut end_tag_span = last.end_tag_span.borrow_mut();
+
+                                    *end_tag_span = Some(token_and_info.span);
+                                }
+                            }
+
                             self.open_elements_stack.pop(None);
                             self.insertion_mode = InsertionMode::InTable;
                         }
@@ -5104,6 +5113,15 @@ where
                             ));
                         } else {
                             self.open_elements_stack.clear_back_to_table_row_context();
+
+                            if let Some(last) = self.open_elements_stack.items.last() {
+                                if is_html_element!(last, "tr") {
+                                    let mut end_tag_span = last.end_tag_span.borrow_mut();
+
+                                    *end_tag_span = Some(token_and_info.span);
+                                }
+                            }
+
                             self.open_elements_stack.pop(None);
                             self.insertion_mode = InsertionMode::InTableBody;
                         }

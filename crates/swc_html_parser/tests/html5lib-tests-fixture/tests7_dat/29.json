@@ -77,7 +77,7 @@
                       "type": "Element",
                       "span": {
                         "start": 9,
-                        "end": 13,
+                        "end": 20,
                         "ctxt": 0
                       },
                       "tagName": "tr",
