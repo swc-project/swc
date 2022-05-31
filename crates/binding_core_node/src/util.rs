@@ -4,7 +4,7 @@ use std::panic::{catch_unwind, AssertUnwindSafe};
 
 use anyhow::{anyhow, Error};
 use napi::Env;
-use swc::try_with_handler;
+use swc::{config::ErrorFormat, try_with_handler};
 use swc_common::{
     errors::Handler,
     sync::{Lrc, OnceCell},
@@ -56,7 +56,12 @@ pub fn init_custom_trace_subscriber(
 }
 
 #[instrument(level = "trace", skip_all)]
-pub fn try_with<F, Ret>(cm: Lrc<SourceMap>, skip_filename: bool, op: F) -> Result<Ret, Error>
+pub fn try_with<F, Ret>(
+    cm: Lrc<SourceMap>,
+    skip_filename: bool,
+    error_format: ErrorFormat,
+    op: F,
+) -> Result<Ret, Error>
 where
     F: FnOnce(&Handler) -> Result<Ret, Error>,
 {
