@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 214,
+    "end": 388,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 214,
+        "end": 388,
         "ctxt": 0
       },
       "tagName": "html",
@@ -46,7 +46,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 214,
+            "end": 388,
             "ctxt": 0
           },
           "tagName": "body",
@@ -331,6 +331,161 @@
                         "ctxt": 0
                       },
                       "value": "foo"
+                    }
+                  ],
+                  "content": null
+                }
+              ],
+              "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 214,
+                "end": 215,
+                "ctxt": 0
+              },
+              "value": "\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 215,
+                "end": 388,
+                "ctxt": 0
+              },
+              "tagName": "select",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 223,
+                    "end": 287,
+                    "ctxt": 0
+                  },
+                  "tagName": "optgroup",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [
+                    {
+                      "type": "Attribute",
+                      "span": {
+                        "start": 233,
+                        "end": 248,
+                        "ctxt": 0
+                      },
+                      "namespace": null,
+                      "prefix": null,
+                      "name": "label",
+                      "value": "Group 1"
+                    }
+                  ],
+                  "children": [
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 249,
+                        "end": 276,
+                        "ctxt": 0
+                      },
+                      "tagName": "option",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [],
+                      "children": [
+                        {
+                          "type": "Text",
+                          "span": {
+                            "start": 257,
+                            "end": 267,
+                            "ctxt": 0
+                          },
+                          "value": "Option 1.1"
+                        }
+                      ],
+                      "content": null
+                    }
+                  ],
+                  "content": null
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 287,
+                    "end": 288,
+                    "ctxt": 0
+                  },
+                  "value": " "
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 288,
+                    "end": 379,
+                    "ctxt": 0
+                  },
+                  "tagName": "optgroup",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [
+                    {
+                      "type": "Attribute",
+                      "span": {
+                        "start": 298,
+                        "end": 313,
+                        "ctxt": 0
+                      },
+                      "namespace": null,
+                      "prefix": null,
+                      "name": "label",
+                      "value": "Group 2"
+                    }
+                  ],
+                  "children": [
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 314,
+                        "end": 341,
+                        "ctxt": 0
+                      },
+                      "tagName": "option",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [],
+                      "children": [
+                        {
+                          "type": "Text",
+                          "span": {
+                            "start": 322,
+                            "end": 332,
+                            "ctxt": 0
+                          },
+                          "value": "Option 2.1"
+                        }
+                      ],
+                      "content": null
+                    },
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 341,
+                        "end": 368,
+                        "ctxt": 0
+                      },
+                      "tagName": "option",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [],
+                      "children": [
+                        {
+                          "type": "Text",
+                          "span": {
+                            "start": 349,
+                            "end": 359,
+                            "ctxt": 0
+                          },
+                          "value": "Option 2.2"
+                        }
+                      ],
+                      "content": null
                     }
                   ],
                   "content": null
