@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 2261,
+    "end": 2316,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 17,
-        "end": 2261,
+        "end": 2316,
         "ctxt": 0
       },
       "tagName": "html",
@@ -239,7 +239,7 @@
           "type": "Element",
           "span": {
             "start": 303,
-            "end": 2253,
+            "end": 2308,
             "ctxt": 0
           },
           "tagName": "body",
@@ -2319,7 +2319,104 @@
               "type": "Text",
               "span": {
                 "start": 2245,
-                "end": 2254,
+                "end": 2250,
+                "ctxt": 0
+              },
+              "value": "\n    "
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 2250,
+                "end": 2300,
+                "ctxt": 0
+              },
+              "tagName": "table",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 0,
+                    "end": 2287,
+                    "ctxt": 0
+                  },
+                  "tagName": "tbody",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 2257,
+                        "end": 2287,
+                        "ctxt": 0
+                      },
+                      "tagName": "tr",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [],
+                      "children": [
+                        {
+                          "type": "Element",
+                          "span": {
+                            "start": 2261,
+                            "end": 2274,
+                            "ctxt": 0
+                          },
+                          "tagName": "td",
+                          "namespace": "http://www.w3.org/1999/xhtml",
+                          "attributes": [],
+                          "children": [
+                            {
+                              "type": "Text",
+                              "span": {
+                                "start": 2265,
+                                "end": 2269,
+                                "ctxt": 0
+                              },
+                              "value": "test"
+                            }
+                          ],
+                          "content": null
+                        },
+                        {
+                          "type": "Element",
+                          "span": {
+                            "start": 2274,
+                            "end": 2287,
+                            "ctxt": 0
+                          },
+                          "tagName": "td",
+                          "namespace": "http://www.w3.org/1999/xhtml",
+                          "attributes": [],
+                          "children": [
+                            {
+                              "type": "Text",
+                              "span": {
+                                "start": 2278,
+                                "end": 2282,
+                                "ctxt": 0
+                              },
+                              "value": "test"
+                            }
+                          ],
+                          "content": null
+                        }
+                      ],
+                      "content": null
+                    }
+                  ],
+                  "content": null
+                }
+              ],
+              "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 2300,
+                "end": 2309,
                 "ctxt": 0
               },
               "value": "\n\n"

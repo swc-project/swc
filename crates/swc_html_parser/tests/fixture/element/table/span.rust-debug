@@ -96,8 +96,9 @@
  93 | |           </tr>
  94 | |           </tbody>
  95 | |       </table>
- 96 | |   </body>
- 97 | `-> </html>
+ 96 | |       <table><tr><td>test</td><td>test</td></tr></table>
+ 97 | |   </body>
+ 98 | `-> </html>
     `----
 
   x Child
@@ -208,8 +209,9 @@
  93 | |           </tr>
  94 | |           </tbody>
  95 | |       </table>
- 96 | |   </body>
- 97 | `-> </html>
+ 96 | |       <table><tr><td>test</td><td>test</td></tr></table>
+ 97 | |   </body>
+ 98 | `-> </html>
     `----
 
   x Element
@@ -308,8 +310,9 @@
  93 | |           </tr>
  94 | |           </tbody>
  95 | |       </table>
- 96 | |   </body>
- 97 | `-> </html>
+ 96 | |       <table><tr><td>test</td><td>test</td></tr></table>
+ 97 | |   </body>
+ 98 | `-> </html>
     `----
 
   x Attribute
@@ -594,7 +597,8 @@
  93 | |           </tr>
  94 | |           </tbody>
  95 | |       </table>
- 96 | `-> </body>
+ 96 | |       <table><tr><td>test</td><td>test</td></tr></table>
+ 97 | `-> </body>
     `----
 
   x Element
@@ -685,7 +689,8 @@
  93 | |           </tr>
  94 | |           </tbody>
  95 | |       </table>
- 96 | `-> </body>
+ 96 | |       <table><tr><td>test</td><td>test</td></tr></table>
+ 97 | `-> </body>
     `----
 
   x Child
@@ -3301,13 +3306,101 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:95:5]
  95 | ,-> </table>
- 96 | `-> </body>
- 97 |     </html>
+ 96 | `->     <table><tr><td>test</td><td>test</td></tr></table>
     `----
 
   x Text
     ,-[$DIR/tests/fixture/element/table/input.html:95:5]
  95 | ,-> </table>
- 96 | `-> </body>
- 97 |     </html>
+ 96 | `->     <table><tr><td>test</td><td>test</td></tr></table>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/table/input.html:96:5]
+ 96 | <table><tr><td>test</td><td>test</td></tr></table>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/table/input.html:96:5]
+ 96 | <table><tr><td>test</td><td>test</td></tr></table>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+
+  x Element
+
+  x Child
+    ,-[$DIR/tests/fixture/element/table/input.html:96:5]
+ 96 | <table><tr><td>test</td><td>test</td></tr></table>
+    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/table/input.html:96:5]
+ 96 | <table><tr><td>test</td><td>test</td></tr></table>
+    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/table/input.html:96:5]
+ 96 | <table><tr><td>test</td><td>test</td></tr></table>
+    :            ^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/table/input.html:96:5]
+ 96 | <table><tr><td>test</td><td>test</td></tr></table>
+    :            ^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/table/input.html:96:5]
+ 96 | <table><tr><td>test</td><td>test</td></tr></table>
+    :                ^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/element/table/input.html:96:5]
+ 96 | <table><tr><td>test</td><td>test</td></tr></table>
+    :                ^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/table/input.html:96:5]
+ 96 | <table><tr><td>test</td><td>test</td></tr></table>
+    :                         ^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/table/input.html:96:5]
+ 96 | <table><tr><td>test</td><td>test</td></tr></table>
+    :                         ^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/table/input.html:96:5]
+ 96 | <table><tr><td>test</td><td>test</td></tr></table>
+    :                             ^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/element/table/input.html:96:5]
+ 96 | <table><tr><td>test</td><td>test</td></tr></table>
+    :                             ^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/table/input.html:96:5]
+ 96 | ,-> <table><tr><td>test</td><td>test</td></tr></table>
+ 97 | `-> </body>
+ 98 |     </html>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/element/table/input.html:96:5]
+ 96 | ,-> <table><tr><td>test</td><td>test</td></tr></table>
+ 97 | `-> </body>
+ 98 |     </html>
     `----
