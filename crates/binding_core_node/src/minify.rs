@@ -57,7 +57,7 @@ impl Task for MinifyTask {
         let input: MinifyTarget = deserialize_json(&self.code)?;
         let options: JsMinifyOptions = deserialize_json(&self.options)?;
 
-        try_with(self.c.cm.clone(), false, |handler| {
+        try_with(self.c.cm.clone(), false, ErrorFormat::Normal, |handler| {
             let fm = input.to_file(self.c.cm.clone());
 
             self.c.minify(fm, handler, &options)
