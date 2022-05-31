@@ -425,8 +425,8 @@
  12 | |           function signalError() {
  13 | |               document.getElementById('body').setAttribute("class", "invalid");
  14 | |           }
- 15 | `->     </script>
- 16 |     </head>
+ 15 | |       </script>
+ 16 | `-> </head>
     `----
 
   x Element
@@ -444,8 +444,8 @@
  12 | |           function signalError() {
  13 | |               document.getElementById('body').setAttribute("class", "invalid");
  14 | |           }
- 15 | `->     </script>
- 16 |     </head>
+ 15 | |       </script>
+ 16 | `-> </head>
     `----
 
   x Child

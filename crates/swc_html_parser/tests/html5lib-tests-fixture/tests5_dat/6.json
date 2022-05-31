@@ -33,7 +33,7 @@
               "type": "Element",
               "span": {
                 "start": 1,
-                "end": 15,
+                "end": 24,
                 "ctxt": 0
               },
               "tagName": "script",

@@ -46,7 +46,7 @@
           "type": "Element",
           "span": {
             "start": 34,
-            "end": 69,
+            "end": 76,
             "ctxt": 0
           },
           "tagName": "head",
@@ -198,7 +198,7 @@
               "type": "Element",
               "span": {
                 "start": 143,
-                "end": 168,
+                "end": 177,
                 "ctxt": 0
               },
               "tagName": "script",
@@ -230,7 +230,7 @@
               "type": "Element",
               "span": {
                 "start": 178,
-                "end": 199,
+                "end": 208,
                 "ctxt": 0
               },
               "tagName": "script",
@@ -262,7 +262,7 @@
               "type": "Element",
               "span": {
                 "start": 209,
-                "end": 238,
+                "end": 247,
                 "ctxt": 0
               },
               "tagName": "script",
@@ -294,7 +294,7 @@
               "type": "Element",
               "span": {
                 "start": 248,
-                "end": 268,
+                "end": 277,
                 "ctxt": 0
               },
               "tagName": "script",

@@ -46,7 +46,7 @@
           "type": "Element",
           "span": {
             "start": 60,
-            "end": 482,
+            "end": 489,
             "ctxt": 0
           },
           "tagName": "head",
@@ -130,7 +130,7 @@
               "type": "Element",
               "span": {
                 "start": 338,
-                "end": 472,
+                "end": 481,
                 "ctxt": 0
               },
               "tagName": "script",

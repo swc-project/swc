@@ -135,8 +135,8 @@
  10 | |               document.getElementById("pdf-object").src="http://www.w3.org/TR/xhtml1/xhtml1.pdf";
  11 | |           }
  12 | |           ]]>
- 13 | `->     </script>
- 14 |     </head>
+ 13 | |       </script>
+ 14 | `-> </head>
     `----
 
   x Element
@@ -149,8 +149,8 @@
  10 | |               document.getElementById("pdf-object").src="http://www.w3.org/TR/xhtml1/xhtml1.pdf";
  11 | |           }
  12 | |           ]]>
- 13 | `->     </script>
- 14 |     </head>
+ 13 | |       </script>
+ 14 | `-> </head>
     `----
 
   x Child

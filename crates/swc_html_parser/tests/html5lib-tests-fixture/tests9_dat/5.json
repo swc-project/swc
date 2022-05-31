@@ -68,7 +68,7 @@
                   "type": "Element",
                   "span": {
                     "start": 30,
-                    "end": 38,
+                    "end": 60,
                     "ctxt": 0
                   },
                   "tagName": "option",

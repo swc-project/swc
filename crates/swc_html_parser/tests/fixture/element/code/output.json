@@ -46,7 +46,7 @@
           "type": "Element",
           "span": {
             "start": 34,
-            "end": 69,
+            "end": 76,
             "ctxt": 0
           },
           "tagName": "head",
@@ -165,7 +165,7 @@
                       "type": "Element",
                       "span": {
                         "start": 113,
-                        "end": 137,
+                        "end": 165,
                         "ctxt": 0
                       },
                       "tagName": "code",

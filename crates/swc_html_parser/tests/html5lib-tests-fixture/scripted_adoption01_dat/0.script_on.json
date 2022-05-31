@@ -57,7 +57,7 @@
                   "type": "Element",
                   "span": {
                     "start": 4,
-                    "end": 59,
+                    "end": 68,
                     "ctxt": 0
                   },
                   "tagName": "b",
@@ -81,7 +81,7 @@
                       "type": "Element",
                       "span": {
                         "start": 14,
-                        "end": 59,
+                        "end": 68,
                         "ctxt": 0
                       },
                       "tagName": "script",

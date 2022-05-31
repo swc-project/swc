@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 16,
-        "end": 36,
+        "end": 47,
         "ctxt": 0
       },
       "tagName": "html",
@@ -71,7 +71,7 @@
           "type": "Element",
           "span": {
             "start": 26,
-            "end": 36,
+            "end": 47,
             "ctxt": 0
           },
           "tagName": "frameset",
