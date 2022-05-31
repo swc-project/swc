@@ -1,0 +1,6 @@
+
+  x Noncharacter in input stream
+    ,-[$DIR/tests/recovery/text/noncharacter/input.html:11:1]
+ 11 | <div>﷐</div>
+    :      ^^^
+    `----

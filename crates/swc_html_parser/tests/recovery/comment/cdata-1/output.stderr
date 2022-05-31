@@ -2,7 +2,7 @@
   x Cdata in html content
    ,-[$DIR/tests/recovery/comment/cdata-1/input.html:1:1]
  1 | <![CDATA[
-   : ^^^^^^^^^
+   :         ^
    `----
 
   x Start tag seen without seeing a doctype firs, expected "<!DOCTYPE html>"
@@ -14,5 +14,5 @@
   x Cdata in html content
     ,-[$DIR/tests/recovery/comment/cdata-1/input.html:10:1]
  10 | <![cdata[
-    : ^^^^^^^^^
+    :         ^
     `----
