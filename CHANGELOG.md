@@ -22,6 +22,12 @@
 
 - **(html/minifier)** Compress viewport meta (#4844) ([e6ae299](https://github.com/swc-project/swc/commit/e6ae299776d0ad285f2a93ed7371ff8592999ac6))
 
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Fix CI (#4852) ([142387b](https://github.com/swc-project/swc/commit/142387b2a307d062ce6c21d4cd3aac05dae8756f))
+
 ## [1.2.195] - 2022-05-29
 
 ### Bug Fixes
