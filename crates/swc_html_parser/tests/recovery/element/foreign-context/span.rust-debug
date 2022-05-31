@@ -1096,8 +1096,16 @@
     `----
 
   x Child
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:12:1]
+ 12 | <div><svg></br></svg</div>
+    :           ^^^^^
+    `----
 
   x Element
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:12:1]
+ 12 | <div><svg></br></svg</div>
+    :           ^^^^^
+    `----
 
   x Child
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:12:1]
@@ -12700,8 +12708,16 @@
     `----
 
   x Child
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:56:1]
+ 56 | <div><math></br></math</div>
+    :            ^^^^^
+    `----
 
   x Element
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:56:1]
+ 56 | <div><math></br></math</div>
+    :            ^^^^^
+    `----
 
   x Child
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:56:1]

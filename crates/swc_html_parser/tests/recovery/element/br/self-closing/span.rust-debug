@@ -286,8 +286,16 @@
     `----
 
   x Child
+    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:11:5]
+ 11 | test</br>test
+    :     ^^^^^
+    `----
 
   x Element
+    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:11:5]
+ 11 | test</br>test
+    :     ^^^^^
+    `----
 
   x Child
     ,-[$DIR/tests/recovery/element/br/self-closing/input.html:11:5]
@@ -302,8 +310,16 @@
     `----
 
   x Child
+    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:12:5]
+ 12 | test</br/>test
+    :     ^^^^^^
+    `----
 
   x Element
+    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:12:5]
+ 12 | test</br/>test
+    :     ^^^^^^
+    `----
 
   x Child
     ,-[$DIR/tests/recovery/element/br/self-closing/input.html:12:5]
