@@ -2413,15 +2413,10 @@ where
 
                             return Ok(());
                         } else {
-                            // TODO check we always have `body` at first and for other cases too
-                            // `body` is second
-                            let body = self.open_elements_stack.items.get(1);
-
-                            if let Some(body) = body {
-                                let mut end_tag_span = body.end_tag_span.borrow_mut();
-
-                                *end_tag_span = Some(token_and_info.span);
-                            }
+                            self.update_end_tag_span(
+                                self.open_elements_stack.items.get(1),
+                                token_and_info,
+                            );
                         }
 
                         for node in &self.open_elements_stack.items {
@@ -2480,14 +2475,10 @@ where
 
                             return Ok(());
                         } else {
-                            // `html` is first
-                            let html = self.open_elements_stack.items.get(0);
-
-                            if let Some(html) = html {
-                                let mut end_tag_span = html.end_tag_span.borrow_mut();
-
-                                *end_tag_span = Some(token_and_info.span);
-                            }
+                            self.update_end_tag_span(
+                                self.open_elements_stack.items.get(0),
+                                token_and_info,
+                            );
                         }
 
                         for node in &self.open_elements_stack.items {
@@ -3059,9 +3050,7 @@ where
                                     ErrorKind::UnclosedElements(tag_name.clone()),
                                 ));
                             } else {
-                                let mut end_tag_span = node.end_tag_span.borrow_mut();
-
-                                *end_tag_span = Some(token_and_info.span);
+                                self.update_end_tag_span(Some(&node), token_and_info);
                             }
 
                             self.open_elements_stack.remove(&node);
@@ -3237,9 +3226,7 @@ where
                                             ErrorKind::UnclosedElements(tag_name.clone()),
                                         ));
                                     } else {
-                                        let mut end_tag_span = node.end_tag_span.borrow_mut();
-
-                                        *end_tag_span = Some(token_and_info.span);
+                                        self.update_end_tag_span(Some(node), token_and_info);
                                     }
                                 }
                                 _ => {}
@@ -4234,14 +4221,11 @@ where
                     // Switch the insertion mode to the original insertion mode.
                     _ => {
                         match token {
-                            Token::EndTag { tag_name, .. } => {
-                                if let Some(last) = self.open_elements_stack.items.last() {
-                                    if is_html_element_with_tag_name!(last, tag_name) {
-                                        let mut end_tag_span = last.end_tag_span.borrow_mut();
-
-                                        *end_tag_span = Some(token_and_info.span);
-                                    }
-                                }
+                            Token::EndTag { .. } => {
+                                self.update_end_tag_span(
+                                    self.open_elements_stack.items.last(),
+                                    token_and_info,
+                                );
                             }
                             _ => {}
                         }
@@ -5011,15 +4995,10 @@ where
                             ));
                         } else {
                             self.open_elements_stack.clear_back_to_table_body_context();
-
-                            if let Some(last) = self.open_elements_stack.items.last() {
-                                if is_html_element_with_tag_name!(last, tag_name) {
-                                    let mut end_tag_span = last.end_tag_span.borrow_mut();
-
-                                    *end_tag_span = Some(token_and_info.span);
-                                }
-                            }
-
+                            self.update_end_tag_span(
+                                self.open_elements_stack.items.last(),
+                                token_and_info,
+                            );
                             self.open_elements_stack.pop(None);
                             self.insertion_mode = InsertionMode::InTable;
                         }
@@ -5140,15 +5119,10 @@ where
                             ));
                         } else {
                             self.open_elements_stack.clear_back_to_table_row_context();
-
-                            if let Some(last) = self.open_elements_stack.items.last() {
-                                if is_html_element!(last, "tr") {
-                                    let mut end_tag_span = last.end_tag_span.borrow_mut();
-
-                                    *end_tag_span = Some(token_and_info.span);
-                                }
-                            }
-
+                            self.update_end_tag_span(
+                                self.open_elements_stack.items.last(),
+                                token_and_info,
+                            );
                             self.open_elements_stack.pop(None);
                             self.insertion_mode = InsertionMode::InTableBody;
                         }
@@ -5954,14 +5928,10 @@ where
                                 ErrorKind::StrayEndTag(tag_name.clone()),
                             ));
                         } else {
-                            let node = self.open_elements_stack.items.get(0);
-
-                            if let Some(node) = node {
-                                let mut end_tag_span = node.end_tag_span.borrow_mut();
-
-                                *end_tag_span = Some(token_and_info.span);
-                            }
-
+                            self.update_end_tag_span(
+                                self.open_elements_stack.items.get(0),
+                                token_and_info,
+                            );
                             self.insertion_mode = InsertionMode::AfterAfterBody;
                         }
                     }
@@ -6202,12 +6172,10 @@ where
                     //
                     // Switch the insertion mode to "after after frameset".
                     Token::EndTag { tag_name, .. } if tag_name == "html" => {
-                        if let Some(node) = self.open_elements_stack.items.last() {
-                            let mut end_tag_span = node.end_tag_span.borrow_mut();
-
-                            *end_tag_span = Some(token_and_info.span);
-                        }
-
+                        self.update_end_tag_span(
+                            self.open_elements_stack.items.last(),
+                            token_and_info,
+                        );
                         self.insertion_mode = InsertionMode::AfterAfterFrameset;
                     }
                     // A start tag whose tag name is "noframes"
@@ -6524,11 +6492,7 @@ where
                 .items
                 .get(self.open_elements_stack.items.len() - 1);
 
-            if let Some(node) = node {
-                let mut end_tag_span = node.end_tag_span.borrow_mut();
-
-                *end_tag_span = Some(token_and_info.span);
-            }
+            self.update_end_tag_span(node, token_and_info);
         }
 
         // 2.- 3.
@@ -8283,6 +8247,14 @@ where
             InsertionPosition::BeforeSibling(sibling) => {
                 self.append_node_before_sibling(&sibling, node)
             }
+        }
+    }
+
+    fn update_end_tag_span(&self, node: Option<&RcNode>, token_and_info: &TokenAndInfo) {
+        if let Some(node) = node {
+            let mut end_tag_span = node.end_tag_span.borrow_mut();
+
+            *end_tag_span = Some(token_and_info.span);
         }
     }
 }
