@@ -31,7 +31,7 @@ impl Default for ErrorFormat {
     }
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Default)]
 #[serde(rename_all = "camelCase")]
 struct ErrorFormatOpt {
     #[serde(default)]
