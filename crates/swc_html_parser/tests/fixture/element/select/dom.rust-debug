@@ -21,3 +21,12 @@
 |         "foo"
 |     "
 "
+|     <select>
+|       " "
+|       <option>
+|         "foo"
+|       " "
+|       <option>
+|         "bar"
+|       <option>
+|         "foo"
