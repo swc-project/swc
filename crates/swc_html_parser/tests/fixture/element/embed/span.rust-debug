@@ -46,7 +46,8 @@
  12 | |              src="/media/cc0-videos/flower.mp4"
  13 | |              width="250"
  14 | |              height="200">
- 15 | `-> </body>
+ 15 | |   </body>
+ 16 | `-> </html>
     `----
 
   x Element
@@ -64,7 +65,8 @@
  12 | |              src="/media/cc0-videos/flower.mp4"
  13 | |              width="250"
  14 | |              height="200">
- 15 | `-> </body>
+ 15 | |   </body>
+ 16 | `-> </html>
     `----
 
   x Attribute

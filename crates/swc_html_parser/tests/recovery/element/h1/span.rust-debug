@@ -44,7 +44,8 @@
  11 | |       <h5>test<h1>test</h1></h5>
  12 | |       <h6>test<h1>test</h1></h6>
  13 | |       <h1>test<h2>test</h2></h1>
- 14 | `-> </body>
+ 14 | |   </body>
+ 15 | `-> </html>
     `----
 
   x Element
@@ -61,7 +62,8 @@
  11 | |       <h5>test<h1>test</h1></h5>
  12 | |       <h6>test<h1>test</h1></h6>
  13 | |       <h1>test<h2>test</h2></h1>
- 14 | `-> </body>
+ 14 | |   </body>
+ 15 | `-> </html>
     `----
 
   x Attribute

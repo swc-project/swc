@@ -38,7 +38,8 @@
   8 | |   <div>One</div><div>Two</div>
   9 | |   <div><div>Three</div></div>
  10 | |   <div><h1>Test</h1></div>
- 11 | `-> </body>
+ 11 | |   </body>
+ 12 | `-> </html>
     `----
 
   x Element
@@ -52,7 +53,8 @@
   8 | |   <div>One</div><div>Two</div>
   9 | |   <div><div>Three</div></div>
  10 | |   <div><h1>Test</h1></div>
- 11 | `-> </body>
+ 11 | |   </body>
+ 12 | `-> </html>
     `----
 
   x Attribute

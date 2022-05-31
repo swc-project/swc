@@ -62,7 +62,8 @@
  20 | |   
  21 | |   </textarea>
  22 | |   
- 23 | `-> </body>
+ 23 | |   </body>
+ 24 | `-> </html>
     `----
 
   x Element
@@ -88,7 +89,8 @@
  20 | |   
  21 | |   </textarea>
  22 | |   
- 23 | `-> </body>
+ 23 | |   </body>
+ 24 | `-> </html>
     `----
 
   x Attribute

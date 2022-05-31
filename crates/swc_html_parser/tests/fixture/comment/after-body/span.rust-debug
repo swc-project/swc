@@ -42,7 +42,8 @@
  10 | |   <body>
  11 | |   Test
  12 | |   </body>
- 13 | `-> <!-- Test -->
+ 13 | |   <!-- Test -->
+ 14 | `-> </html>
     `----
 
   x Element
@@ -58,7 +59,8 @@
  10 | |   <body>
  11 | |   Test
  12 | |   </body>
- 13 | `-> <!-- Test -->
+ 13 | |   <!-- Test -->
+ 14 | `-> </html>
     `----
 
   x Attribute

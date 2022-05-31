@@ -104,7 +104,8 @@
  41 | |       </template>
  42 | |   
  43 | |       <tempalte><div>test</div></tempalte>
- 44 | `-> </body>
+ 44 | |   </body>
+ 45 | `-> </html>
     `----
 
   x Element
@@ -151,7 +152,8 @@
  41 | |       </template>
  42 | |   
  43 | |       <tempalte><div>test</div></tempalte>
- 44 | `-> </body>
+ 44 | |   </body>
+ 45 | `-> </html>
     `----
 
   x Attribute

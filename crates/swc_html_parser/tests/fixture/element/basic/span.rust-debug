@@ -84,7 +84,8 @@
  31 | |   >
  32 | |   
  33 | |   <div>test</div>
- 34 | `-> </body>
+ 34 | |   </body>
+ 35 | `-> </html>
     `----
 
   x Element
@@ -121,7 +122,8 @@
  31 | |   >
  32 | |   
  33 | |   <div>test</div>
- 34 | `-> </body>
+ 34 | |   </body>
+ 35 | `-> </html>
     `----
 
   x Attribute

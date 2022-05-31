@@ -208,7 +208,8 @@
  93 | |           </tr>
  94 | |           </tbody>
  95 | |       </table>
- 96 | `-> </body>
+ 96 | |   </body>
+ 97 | `-> </html>
     `----
 
   x Element
@@ -307,7 +308,8 @@
  93 | |           </tr>
  94 | |           </tbody>
  95 | |       </table>
- 96 | `-> </body>
+ 96 | |   </body>
+ 97 | `-> </html>
     `----
 
   x Attribute

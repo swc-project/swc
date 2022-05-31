@@ -68,7 +68,8 @@
  23 | |       <div><math id="m3p-mtext"><mtext><P>x</P></mtext></math></div>
  24 | |       <div><math id="m3p-mi"><mi><P>x</P></mi></math></div>
  25 | |   </div>
- 26 | `-> </body>
+ 26 | |   </body>
+ 27 | `-> </html>
     `----
 
   x Element
@@ -97,7 +98,8 @@
  23 | |       <div><math id="m3p-mtext"><mtext><P>x</P></mtext></math></div>
  24 | |       <div><math id="m3p-mi"><mi><P>x</P></mi></math></div>
  25 | |   </div>
- 26 | `-> </body>
+ 26 | |   </body>
+ 27 | `-> </html>
     `----
 
   x Attribute

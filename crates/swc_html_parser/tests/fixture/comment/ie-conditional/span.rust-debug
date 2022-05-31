@@ -38,7 +38,8 @@
   8 | |   <!--[if IE 8]>This is IE 8<br><![endif]-->
   9 | |   <!--[if IE 9]>This is IE 9<br><![endif]-->
  10 | |   
- 11 | `-> </body>
+ 11 | |   </body>
+ 12 | `-> </html>
     `----
 
   x Element
@@ -52,7 +53,8 @@
   8 | |   <!--[if IE 8]>This is IE 8<br><![endif]-->
   9 | |   <!--[if IE 9]>This is IE 9<br><![endif]-->
  10 | |   
- 11 | `-> </body>
+ 11 | |   </body>
+ 12 | `-> </html>
     `----
 
   x Child

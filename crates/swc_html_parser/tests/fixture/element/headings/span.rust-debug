@@ -40,7 +40,8 @@
   9 | |   <h5>This is heading 5</h5>
  10 | |   <h6>This is heading 6</h6>
  11 | |   
- 12 | `-> </body>
+ 12 | |   </body>
+ 13 | `-> </html>
     `----
 
   x Element
@@ -55,7 +56,8 @@
   9 | |   <h5>This is heading 5</h5>
  10 | |   <h6>This is heading 6</h6>
  11 | |   
- 12 | `-> </body>
+ 12 | |   </body>
+ 13 | `-> </html>
     `----
 
   x Child

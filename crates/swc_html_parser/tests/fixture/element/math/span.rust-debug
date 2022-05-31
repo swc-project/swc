@@ -348,7 +348,8 @@
  163 | |       </annotation-xml>
  164 | |   </math>
  165 | |   
- 166 | `-> </body>
+ 166 | |   </body>
+ 167 | `-> </html>
      `----
 
   x Element
@@ -517,7 +518,8 @@
  163 | |       </annotation-xml>
  164 | |   </math>
  165 | |   
- 166 | `-> </body>
+ 166 | |   </body>
+ 167 | `-> </html>
      `----
 
   x Child

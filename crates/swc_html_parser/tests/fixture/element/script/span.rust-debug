@@ -42,7 +42,8 @@
  10 | |           </div>
  11 | |           <!-- aa -->\n
  12 | |       </script>
- 13 | `-> </body>
+ 13 | |   </body>
+ 14 | `-> </html>
     `----
 
   x Element
@@ -58,7 +59,8 @@
  10 | |           </div>
  11 | |           <!-- aa -->\n
  12 | |       </script>
- 13 | `-> </body>
+ 13 | |   </body>
+ 14 | `-> </html>
     `----
 
   x Attribute

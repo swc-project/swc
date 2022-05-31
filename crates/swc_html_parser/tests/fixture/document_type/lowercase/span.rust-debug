@@ -27,28 +27,32 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/document_type/lowercase/input.html:2:1]
- 2 | ,-> <html>
- 3 | |   <head>
- 4 | |       <title>Title of the document</title>
- 5 | |   </head>
- 6 | |   
- 7 | |   <body>
- 8 | |   The content of the document......
- 9 | `-> </body>
-   `----
+    ,-[$DIR/tests/fixture/document_type/lowercase/input.html:2:1]
+  2 | ,-> <html>
+  3 | |   <head>
+  4 | |       <title>Title of the document</title>
+  5 | |   </head>
+  6 | |   
+  7 | |   <body>
+  8 | |   The content of the document......
+  9 | |   </body>
+ 10 | |   
+ 11 | `-> </html>
+    `----
 
   x Element
-   ,-[$DIR/tests/fixture/document_type/lowercase/input.html:2:1]
- 2 | ,-> <html>
- 3 | |   <head>
- 4 | |       <title>Title of the document</title>
- 5 | |   </head>
- 6 | |   
- 7 | |   <body>
- 8 | |   The content of the document......
- 9 | `-> </body>
-   `----
+    ,-[$DIR/tests/fixture/document_type/lowercase/input.html:2:1]
+  2 | ,-> <html>
+  3 | |   <head>
+  4 | |       <title>Title of the document</title>
+  5 | |   </head>
+  6 | |   
+  7 | |   <body>
+  8 | |   The content of the document......
+  9 | |   </body>
+ 10 | |   
+ 11 | `-> </html>
+    `----
 
   x Child
    ,-[$DIR/tests/fixture/document_type/lowercase/input.html:3:1]

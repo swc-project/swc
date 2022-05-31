@@ -32,7 +32,8 @@
  5 | |   </head>
  6 | |   <body>
  7 | |   <p><table></table>
- 8 | `-> </body>
+ 8 | |   </body>
+ 9 | `-> </html>
    `----
 
   x Element
@@ -43,7 +44,8 @@
  5 | |   </head>
  6 | |   <body>
  7 | |   <p><table></table>
- 8 | `-> </body>
+ 8 | |   </body>
+ 9 | `-> </html>
    `----
 
   x Attribute

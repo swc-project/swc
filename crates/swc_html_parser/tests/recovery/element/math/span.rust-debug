@@ -126,7 +126,8 @@
  52 | |       </semantics>
  53 | |   </math>
  54 | |   
- 55 | `-> </body>
+ 55 | |   </body>
+ 56 | `-> </html>
     `----
 
   x Element
@@ -184,7 +185,8 @@
  52 | |       </semantics>
  53 | |   </math>
  54 | |   
- 55 | `-> </body>
+ 55 | |   </body>
+ 56 | `-> </html>
     `----
 
   x Attribute

@@ -38,7 +38,8 @@
   8 | |       <caption></table></caption>
   9 | |   </table>
  10 | |   
- 11 | `-> </body>
+ 11 | |   </body>
+ 12 | `-> </html>
     `----
 
   x Element
@@ -52,7 +53,8 @@
   8 | |       <caption></table></caption>
   9 | |   </table>
  10 | |   
- 11 | `-> </body>
+ 11 | |   </body>
+ 12 | `-> </html>
     `----
 
   x Attribute

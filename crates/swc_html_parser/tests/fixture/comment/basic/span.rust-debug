@@ -48,7 +48,8 @@
  13 | |   <script>alert('<!--')</script>
  14 | |   <script>alert('<!-- foo -->')</script>
  15 | |   <script>alert('-->')</script>
- 16 | `-> </body>
+ 16 | |   </body>
+ 17 | `-> </html>
     `----
 
   x Element
@@ -67,7 +68,8 @@
  13 | |   <script>alert('<!--')</script>
  14 | |   <script>alert('<!-- foo -->')</script>
  15 | |   <script>alert('-->')</script>
- 16 | `-> </body>
+ 16 | |   </body>
+ 17 | `-> </html>
     `----
 
   x Attribute

@@ -28,7 +28,8 @@
  3 | |   <head><title>Document</title></head>
  4 | |   <body>
  5 | |   
- 6 | `-> </body>
+ 6 | |   </body>
+ 7 | `-> </html>
    `----
 
   x Element
@@ -37,7 +38,8 @@
  3 | |   <head><title>Document</title></head>
  4 | |   <body>
  5 | |   
- 6 | `-> </body>
+ 6 | |   </body>
+ 7 | `-> </html>
    `----
 
   x Attribute

@@ -52,7 +52,8 @@
  15 | |       Thou too shalt rest.
  16 | |   </p>
  17 | |   
- 18 | `-> </body>
+ 18 | |   </body>
+ 19 | `-> </html>
     `----
 
   x Element
@@ -73,7 +74,8 @@
  15 | |       Thou too shalt rest.
  16 | |   </p>
  17 | |   
- 18 | `-> </body>
+ 18 | |   </body>
+ 19 | `-> </html>
     `----
 
   x Attribute

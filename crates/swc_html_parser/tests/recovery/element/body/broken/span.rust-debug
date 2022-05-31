@@ -30,7 +30,8 @@
  4 | |       <title>Test</title></head>
  5 | |   <body>
  6 | |   <html test="test">
- 7 | `-> </body>
+ 7 | |   </body>
+ 8 | `-> </html>
    `----
 
   x Element
@@ -40,7 +41,8 @@
  4 | |       <title>Test</title></head>
  5 | |   <body>
  6 | |   <html test="test">
- 7 | `-> </body>
+ 7 | |   </body>
+ 8 | `-> </html>
    `----
 
   x Attribute

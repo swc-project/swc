@@ -36,7 +36,8 @@
   7 | |   <div class="test" class="test-1" class="test-2"></div>
   8 | |   <div></div class="test" class="test-1" class="test-2">
   9 | |   </div/>
- 10 | `-> </body>
+ 10 | |   </body>
+ 11 | `-> </html>
     `----
 
   x Element
@@ -49,7 +50,8 @@
   7 | |   <div class="test" class="test-1" class="test-2"></div>
   8 | |   <div></div class="test" class="test-1" class="test-2">
   9 | |   </div/>
- 10 | `-> </body>
+ 10 | |   </body>
+ 11 | `-> </html>
     `----
 
   x Attribute

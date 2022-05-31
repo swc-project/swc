@@ -36,7 +36,8 @@
   7 | |   <template>
   8 | |       </div>
   9 | |   </template>
- 10 | `-> </body>
+ 10 | |   </body>
+ 11 | `-> </html>
     `----
 
   x Element
@@ -49,7 +50,8 @@
   7 | |   <template>
   8 | |       </div>
   9 | |   </template>
- 10 | `-> </body>
+ 10 | |   </body>
+ 11 | `-> </html>
     `----
 
   x Attribute

@@ -74,7 +74,8 @@
  26 | |       </fieldset>
  27 | |   </form>
  28 | |   
- 29 | `-> </body>
+ 29 | |   </body>
+ 30 | `-> </html>
     `----
 
   x Element
@@ -106,7 +107,8 @@
  26 | |       </fieldset>
  27 | |   </form>
  28 | |   
- 29 | `-> </body>
+ 29 | |   </body>
+ 30 | `-> </html>
     `----
 
   x Attribute

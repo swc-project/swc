@@ -48,7 +48,8 @@
  13 | |           This text will bounce
  14 | |       </marquee>
  15 | |   </marquee>
- 16 | `-> </body>
+ 16 | |   </body>
+ 17 | `-> </html>
     `----
 
   x Element
@@ -67,7 +68,8 @@
  13 | |           This text will bounce
  14 | |       </marquee>
  15 | |   </marquee>
- 16 | `-> </body>
+ 16 | |   </body>
+ 17 | `-> </html>
     `----
 
   x Attribute

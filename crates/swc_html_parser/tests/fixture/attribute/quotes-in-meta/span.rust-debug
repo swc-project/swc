@@ -26,28 +26,30 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/attribute/quotes-in-meta/input.html:2:1]
- 2 | ,-> <html lang="en">
- 3 | |   <head>
- 4 | |       <meta http-equiv="Content-Type" content='charset="windows-1251'>
- 5 | |       <title>Document</title>
- 6 | |   </head>
- 7 | |   <body>
- 8 | |   test
- 9 | `-> </body>
-   `----
+    ,-[$DIR/tests/fixture/attribute/quotes-in-meta/input.html:2:1]
+  2 | ,-> <html lang="en">
+  3 | |   <head>
+  4 | |       <meta http-equiv="Content-Type" content='charset="windows-1251'>
+  5 | |       <title>Document</title>
+  6 | |   </head>
+  7 | |   <body>
+  8 | |   test
+  9 | |   </body>
+ 10 | `-> </html>
+    `----
 
   x Element
-   ,-[$DIR/tests/fixture/attribute/quotes-in-meta/input.html:2:1]
- 2 | ,-> <html lang="en">
- 3 | |   <head>
- 4 | |       <meta http-equiv="Content-Type" content='charset="windows-1251'>
- 5 | |       <title>Document</title>
- 6 | |   </head>
- 7 | |   <body>
- 8 | |   test
- 9 | `-> </body>
-   `----
+    ,-[$DIR/tests/fixture/attribute/quotes-in-meta/input.html:2:1]
+  2 | ,-> <html lang="en">
+  3 | |   <head>
+  4 | |       <meta http-equiv="Content-Type" content='charset="windows-1251'>
+  5 | |       <title>Document</title>
+  6 | |   </head>
+  7 | |   <body>
+  8 | |   test
+  9 | |   </body>
+ 10 | `-> </html>
+    `----
 
   x Attribute
    ,-[$DIR/tests/fixture/attribute/quotes-in-meta/input.html:2:1]

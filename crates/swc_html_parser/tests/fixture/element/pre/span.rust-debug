@@ -78,7 +78,8 @@
  28 | |   				test
  29 | |   
  30 | |   </pre>
- 31 | `-> </body>
+ 31 | |   </body>
+ 32 | `-> </html>
     `----
 
   x Element
@@ -112,7 +113,8 @@
  28 | |   				test
  29 | |   
  30 | |   </pre>
- 31 | `-> </body>
+ 31 | |   </body>
+ 32 | `-> </html>
     `----
 
   x Attribute

@@ -26,28 +26,30 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/head-3/input.html:2:1]
- 2 | ,-> <html lang="en">
- 3 | |   <head>
- 4 | |       <title>Document</title>
- 5 | |   </head>
- 6 | |   <!doctype html>
- 7 | |   <body>
- 8 | |   
- 9 | `-> </body>
-   `----
+    ,-[$DIR/tests/recovery/element/head-3/input.html:2:1]
+  2 | ,-> <html lang="en">
+  3 | |   <head>
+  4 | |       <title>Document</title>
+  5 | |   </head>
+  6 | |   <!doctype html>
+  7 | |   <body>
+  8 | |   
+  9 | |   </body>
+ 10 | `-> </html>
+    `----
 
   x Element
-   ,-[$DIR/tests/recovery/element/head-3/input.html:2:1]
- 2 | ,-> <html lang="en">
- 3 | |   <head>
- 4 | |       <title>Document</title>
- 5 | |   </head>
- 6 | |   <!doctype html>
- 7 | |   <body>
- 8 | |   
- 9 | `-> </body>
-   `----
+    ,-[$DIR/tests/recovery/element/head-3/input.html:2:1]
+  2 | ,-> <html lang="en">
+  3 | |   <head>
+  4 | |       <title>Document</title>
+  5 | |   </head>
+  6 | |   <!doctype html>
+  7 | |   <body>
+  8 | |   
+  9 | |   </body>
+ 10 | `-> </html>
+    `----
 
   x Attribute
    ,-[$DIR/tests/recovery/element/head-3/input.html:2:1]

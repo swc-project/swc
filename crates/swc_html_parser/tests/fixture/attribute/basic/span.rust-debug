@@ -64,7 +64,8 @@
  21 | |   
  22 | |   <button disabled></button>
  23 | |   
- 24 | `-> </body>
+ 24 | |   </body>
+ 25 | `-> </html>
     `----
 
   x Element
@@ -91,7 +92,8 @@
  21 | |   
  22 | |   <button disabled></button>
  23 | |   
- 24 | `-> </body>
+ 24 | |   </body>
+ 25 | `-> </html>
     `----
 
   x Attribute

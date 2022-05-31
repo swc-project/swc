@@ -5909,6 +5909,14 @@ where
                                 ErrorKind::StrayEndTag(tag_name.clone()),
                             ));
                         } else {
+                            let node = self.open_elements_stack.items.get(0);
+
+                            if let Some(node) = node {
+                                let mut end_tag_span = node.end_tag_span.borrow_mut();
+
+                                *end_tag_span = Some(token_and_info.span);
+                            }
+
                             self.insertion_mode = InsertionMode::AfterAfterBody;
                         }
                     }

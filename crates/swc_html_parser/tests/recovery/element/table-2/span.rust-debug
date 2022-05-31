@@ -50,7 +50,8 @@
  14 | |       </tr>
  15 | |   </table>
  16 | |   </table>
- 17 | `-> </body>
+ 17 | |   </body>
+ 18 | `-> </html>
     `----
 
   x Element
@@ -70,7 +71,8 @@
  14 | |       </tr>
  15 | |   </table>
  16 | |   </table>
- 17 | `-> </body>
+ 17 | |   </body>
+ 18 | `-> </html>
     `----
 
   x Attribute

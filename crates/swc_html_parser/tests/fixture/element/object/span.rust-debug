@@ -42,7 +42,8 @@
  10 | |       <param name="autoplay" value="true">
  11 | |   </object>
  12 | |   
- 13 | `-> </body>
+ 13 | |   </body>
+ 14 | `-> </html>
     `----
 
   x Element
@@ -58,7 +59,8 @@
  10 | |       <param name="autoplay" value="true">
  11 | |   </object>
  12 | |   
- 13 | `-> </body>
+ 13 | |   </body>
+ 14 | `-> </html>
     `----
 
   x Attribute
