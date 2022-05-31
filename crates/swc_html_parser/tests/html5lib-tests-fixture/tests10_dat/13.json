@@ -57,7 +57,7 @@
               "type": "Element",
               "span": {
                 "start": 22,
-                "end": 69,
+                "end": 77,
                 "ctxt": 0
               },
               "tagName": "table",
@@ -68,7 +68,7 @@
                   "type": "Element",
                   "span": {
                     "start": 29,
-                    "end": 69,
+                    "end": 77,
                     "ctxt": 0
                   },
                   "tagName": "caption",
@@ -79,7 +79,7 @@
                       "type": "Element",
                       "span": {
                         "start": 38,
-                        "end": 59,
+                        "end": 63,
                         "ctxt": 0
                       },
                       "tagName": "svg",
@@ -90,7 +90,7 @@
                           "type": "Element",
                           "span": {
                             "start": 43,
-                            "end": 49,
+                            "end": 53,
                             "ctxt": 0
                           },
                           "tagName": "g",
@@ -113,7 +113,7 @@
                           "type": "Element",
                           "span": {
                             "start": 53,
-                            "end": 59,
+                            "end": 63,
                             "ctxt": 0
                           },
                           "tagName": "g",

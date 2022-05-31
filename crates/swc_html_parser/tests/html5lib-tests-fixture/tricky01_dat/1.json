@@ -107,7 +107,7 @@
                   "type": "Element",
                   "span": {
                     "start": 41,
-                    "end": 79,
+                    "end": 83,
                     "ctxt": 0
                   },
                   "tagName": "p",
@@ -187,7 +187,7 @@
               "type": "Element",
               "span": {
                 "start": 107,
-                "end": 170,
+                "end": 174,
                 "ctxt": 0
               },
               "tagName": "p",
@@ -319,7 +319,7 @@
               "type": "Element",
               "span": {
                 "start": 175,
-                "end": 231,
+                "end": 235,
                 "ctxt": 0
               },
               "tagName": "p",

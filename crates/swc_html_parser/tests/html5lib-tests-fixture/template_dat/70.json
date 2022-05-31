@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 66,
+        "end": 77,
         "ctxt": 0
       },
       "tagName": "html",
@@ -35,7 +35,7 @@
           "type": "Element",
           "span": {
             "start": 1,
-            "end": 66,
+            "end": 77,
             "ctxt": 0
           },
           "tagName": "body",
@@ -46,7 +46,7 @@
               "type": "Element",
               "span": {
                 "start": 7,
-                "end": 66,
+                "end": 77,
                 "ctxt": 0
               },
               "tagName": "template",
@@ -57,7 +57,7 @@
                 "type": "DocumentFragment",
                 "span": {
                   "start": 7,
-                  "end": 66,
+                  "end": 77,
                   "ctxt": 0
                 },
                 "children": [
@@ -65,7 +65,7 @@
                     "type": "Element",
                     "span": {
                       "start": 17,
-                      "end": 40,
+                      "end": 62,
                       "ctxt": 0
                     },
                     "tagName": "template",
@@ -76,7 +76,7 @@
                       "type": "DocumentFragment",
                       "span": {
                         "start": 17,
-                        "end": 40,
+                        "end": 62,
                         "ctxt": 0
                       },
                       "children": [
@@ -84,7 +84,7 @@
                           "type": "Element",
                           "span": {
                             "start": 27,
-                            "end": 40,
+                            "end": 51,
                             "ctxt": 0
                           },
                           "tagName": "b",
@@ -95,7 +95,7 @@
                               "type": "Element",
                               "span": {
                                 "start": 30,
-                                "end": 40,
+                                "end": 51,
                                 "ctxt": 0
                               },
                               "tagName": "template",
@@ -106,7 +106,7 @@
                                 "type": "DocumentFragment",
                                 "span": {
                                   "start": 30,
-                                  "end": 40,
+                                  "end": 51,
                                   "ctxt": 0
                                 },
                                 "children": []

@@ -57,7 +57,7 @@
               "type": "Element",
               "span": {
                 "start": 36,
-                "end": 61,
+                "end": 66,
                 "ctxt": 0
               },
               "tagName": "math",
@@ -68,7 +68,7 @@
                   "type": "Element",
                   "span": {
                     "start": 42,
-                    "end": 49,
+                    "end": 54,
                     "ctxt": 0
                   },
                   "tagName": "mi",
@@ -91,7 +91,7 @@
                   "type": "Element",
                   "span": {
                     "start": 54,
-                    "end": 61,
+                    "end": 66,
                     "ctxt": 0
                   },
                   "tagName": "mi",

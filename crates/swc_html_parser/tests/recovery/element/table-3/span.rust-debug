@@ -204,13 +204,13 @@
   x Child
    ,-[$DIR/tests/recovery/element/table-3/input.html:8:5]
  8 | <caption></table></caption>
-   : ^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/table-3/input.html:8:5]
  8 | <caption></table></caption>
-   : ^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^
    `----
 
   x Child

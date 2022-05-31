@@ -243,13 +243,13 @@
   x Child
    ,-[$DIR/tests/fixture/comment/basic/input.html:9:1]
  9 | <!-- foo --><div>baz</div><!-- bar
-   :             ^^^^^^^^
+   :             ^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/comment/basic/input.html:9:1]
  9 | <!-- foo --><div>baz</div><!-- bar
-   :             ^^^^^^^^
+   :             ^^^^^^^^^^^^^^
    `----
 
   x Child

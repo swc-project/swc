@@ -57,7 +57,7 @@
               "type": "Element",
               "span": {
                 "start": 29,
-                "end": 50,
+                "end": 54,
                 "ctxt": 0
               },
               "tagName": "svg",
@@ -68,7 +68,7 @@
                   "type": "Element",
                   "span": {
                     "start": 34,
-                    "end": 40,
+                    "end": 44,
                     "ctxt": 0
                   },
                   "tagName": "g",
@@ -91,7 +91,7 @@
                   "type": "Element",
                   "span": {
                     "start": 44,
-                    "end": 50,
+                    "end": 54,
                     "ctxt": 0
                   },
                   "tagName": "g",

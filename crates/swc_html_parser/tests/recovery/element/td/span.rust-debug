@@ -358,13 +358,13 @@
   x Child
     ,-[$DIR/tests/recovery/element/td/input.html:16:17]
  16 | <td></td>
-    : ^^^^
+    : ^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/recovery/element/td/input.html:16:17]
  16 | <td></td>
-    : ^^^^
+    : ^^^^^^^^^
     `----
 
   x Child

@@ -221,8 +221,8 @@
  12 | |       Hardly a breath;<br>
  13 | |       The birds are asleep in the trees:<br>
  14 | |       Wait, soon like these<br>
- 15 | `->     Thou too shalt rest.
- 16 |     </p>
+ 15 | |       Thou too shalt rest.
+ 16 | `-> </p>
     `----
 
   x Element
@@ -234,8 +234,8 @@
  12 | |       Hardly a breath;<br>
  13 | |       The birds are asleep in the trees:<br>
  14 | |       Wait, soon like these<br>
- 15 | `->     Thou too shalt rest.
- 16 |     </p>
+ 15 | |       Thou too shalt rest.
+ 16 | `-> </p>
     `----
 
   x Child

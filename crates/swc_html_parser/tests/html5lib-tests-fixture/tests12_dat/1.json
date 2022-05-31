@@ -66,7 +66,7 @@
               "type": "Element",
               "span": {
                 "start": 25,
-                "end": 186,
+                "end": 220,
                 "ctxt": 0
               },
               "tagName": "math",
@@ -77,7 +77,7 @@
                   "type": "Element",
                   "span": {
                     "start": 31,
-                    "end": 44,
+                    "end": 56,
                     "ctxt": 0
                   },
                   "tagName": "mtext",
@@ -114,7 +114,7 @@
                   "type": "Element",
                   "span": {
                     "start": 56,
-                    "end": 186,
+                    "end": 213,
                     "ctxt": 0
                   },
                   "tagName": "annotation-xml",
@@ -125,7 +125,7 @@
                       "type": "Element",
                       "span": {
                         "start": 72,
-                        "end": 186,
+                        "end": 196,
                         "ctxt": 0
                       },
                       "tagName": "svg",
@@ -136,7 +136,7 @@
                           "type": "Element",
                           "span": {
                             "start": 77,
-                            "end": 90,
+                            "end": 101,
                             "ctxt": 0
                           },
                           "tagName": "desc",
@@ -173,7 +173,7 @@
                           "type": "Element",
                           "span": {
                             "start": 101,
-                            "end": 146,
+                            "end": 179,
                             "ctxt": 0
                           },
                           "tagName": "g",
@@ -184,7 +184,7 @@
                               "type": "Element",
                               "span": {
                                 "start": 104,
-                                "end": 146,
+                                "end": 175,
                                 "ctxt": 0
                               },
                               "tagName": "foreignObject",
@@ -218,7 +218,7 @@
                                   "type": "Element",
                                   "span": {
                                     "start": 126,
-                                    "end": 146,
+                                    "end": 159,
                                     "ctxt": 0
                                   },
                                   "tagName": "table",
@@ -229,7 +229,7 @@
                                       "type": "Element",
                                       "span": {
                                         "start": 0,
-                                        "end": 146,
+                                        "end": 151,
                                         "ctxt": 0
                                       },
                                       "tagName": "tbody",
@@ -240,7 +240,7 @@
                                           "type": "Element",
                                           "span": {
                                             "start": 133,
-                                            "end": 146,
+                                            "end": 151,
                                             "ctxt": 0
                                           },
                                           "tagName": "tr",
@@ -251,7 +251,7 @@
                                               "type": "Element",
                                               "span": {
                                                 "start": 137,
-                                                "end": 146,
+                                                "end": 151,
                                                 "ctxt": 0
                                               },
                                               "tagName": "td",
@@ -293,7 +293,7 @@
                           "type": "Element",
                           "span": {
                             "start": 179,
-                            "end": 186,
+                            "end": 190,
                             "ctxt": 0
                           },
                           "tagName": "g",

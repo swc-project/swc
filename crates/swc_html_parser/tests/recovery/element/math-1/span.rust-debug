@@ -174,16 +174,14 @@
 
   x Child
    ,-[$DIR/tests/recovery/element/math-1/input.html:7:1]
- 7 | <math>
-   : ^^^^^^^
- 8 | </math>X
+ 7 | ,-> <math>
+ 8 | `-> </math>X
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/math-1/input.html:7:1]
- 7 | <math>
-   : ^^^^^^^
- 8 | </math>X
+ 7 | ,-> <math>
+ 8 | `-> </math>X
    `----
 
   x Child

@@ -205,13 +205,13 @@
   x Child
    ,-[$DIR/tests/fixture/element/marquee/input.html:7:1]
  7 | <marquee>This text will scroll from right to left</marquee>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/marquee/input.html:7:1]
  7 | <marquee>This text will scroll from right to left</marquee>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -243,13 +243,13 @@
   x Child
    ,-[$DIR/tests/fixture/element/marquee/input.html:9:1]
  9 | <marquee direction="up">This text will scroll from bottom to top</marquee>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/marquee/input.html:9:1]
  9 | <marquee direction="up">This text will scroll from bottom to top</marquee>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Attribute
@@ -289,8 +289,8 @@
  11 | ,-> <marquee direction="down" width="250" height="200" behavior="alternate" style="border:solid">
  12 | |       <marquee behavior="alternate">
  13 | |           This text will bounce
- 14 | `->     </marquee>
- 15 |     </marquee>
+ 14 | |       </marquee>
+ 15 | `-> </marquee>
     `----
 
   x Element
@@ -298,8 +298,8 @@
  11 | ,-> <marquee direction="down" width="250" height="200" behavior="alternate" style="border:solid">
  12 | |       <marquee behavior="alternate">
  13 | |           This text will bounce
- 14 | `->     </marquee>
- 15 |     </marquee>
+ 14 | |       </marquee>
+ 15 | `-> </marquee>
     `----
 
   x Attribute

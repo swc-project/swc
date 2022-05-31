@@ -366,13 +366,13 @@
   x Child
    ,-[$DIR/tests/fixture/text/entity/input.html:5:1]
  5 | <h1>HTML Entity Example</h1>
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/text/entity/input.html:5:1]
  5 | <h1>HTML Entity Example</h1>
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -404,13 +404,13 @@
   x Child
    ,-[$DIR/tests/fixture/text/entity/input.html:7:1]
  7 | <div>A space character: &AMP;</div>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/text/entity/input.html:7:1]
  7 | <div>A space character: &AMP;</div>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -442,13 +442,13 @@
   x Child
    ,-[$DIR/tests/fixture/text/entity/input.html:8:1]
  8 | <div>A space character: &amp;</div>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/text/entity/input.html:8:1]
  8 | <div>A space character: &amp;</div>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -480,13 +480,13 @@
   x Child
    ,-[$DIR/tests/fixture/text/entity/input.html:9:1]
  9 | <div>A space character: &amp;;</div>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/text/entity/input.html:9:1]
  9 | <div>A space character: &amp;;</div>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -518,13 +518,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:11:1]
  11 | <div>A space character: &nbsp;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/entity/input.html:11:1]
  11 | <div>A space character: &nbsp;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -556,13 +556,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:12:1]
  12 | <div>The less-than sign: &lt;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/entity/input.html:12:1]
  12 | <div>The less-than sign: &lt;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -594,13 +594,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:13:1]
  13 | <div>The greater-than sign: &gt;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/entity/input.html:13:1]
  13 | <div>The greater-than sign: &gt;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -632,13 +632,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:14:1]
  14 | <div>The double quote sign: &quot;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/entity/input.html:14:1]
  14 | <div>The double quote sign: &quot;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -670,13 +670,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:15:1]
  15 | <div>The single quote sign: &apos;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/entity/input.html:15:1]
  15 | <div>The single quote sign: &apos;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -708,13 +708,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:16:1]
  16 | <div>The cent sign: &cent;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/entity/input.html:16:1]
  16 | <div>The cent sign: &cent;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -746,13 +746,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:17:1]
  17 | <div>The pound sign: &pound;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/entity/input.html:17:1]
  17 | <div>The pound sign: &pound;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -784,13 +784,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:18:1]
  18 | <div>The yen sign: &yen;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/entity/input.html:18:1]
  18 | <div>The yen sign: &yen;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -822,13 +822,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:19:1]
  19 | <div>The euro sign: &euro;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/entity/input.html:19:1]
  19 | <div>The euro sign: &euro;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -860,13 +860,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:20:1]
  20 | <div>The copyright sign: &copy;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/entity/input.html:20:1]
  20 | <div>The copyright sign: &copy;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -898,13 +898,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:21:1]
  21 | <div>The registered trade mark sign: &reg;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/entity/input.html:21:1]
  21 | <div>The registered trade mark sign: &reg;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -936,13 +936,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:23:1]
  23 | <div>&reg;</div>
-    : ^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/entity/input.html:23:1]
  23 | <div>&reg;</div>
-    : ^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -974,13 +974,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:24:1]
  24 | <div>&REG;</div>
-    : ^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/entity/input.html:24:1]
  24 | <div>&REG;</div>
-    : ^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1012,13 +1012,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:25:1]
  25 | <div>&reg;;</div>
-    : ^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/entity/input.html:25:1]
  25 | <div>&reg;;</div>
-    : ^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1050,13 +1050,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:26:1]
  26 | <div>reg</div>
-    : ^^^^^^^^
+    : ^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/entity/input.html:26:1]
  26 | <div>reg</div>
-    : ^^^^^^^^
+    : ^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1088,13 +1088,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:28:1]
  28 | <div>&CounterClockwiseContourIntegral;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/entity/input.html:28:1]
  28 | <div>&CounterClockwiseContourIntegral;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1126,13 +1126,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:29:1]
  29 | <div>&&reg;</div>
-    : ^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/entity/input.html:29:1]
  29 | <div>&&reg;</div>
-    : ^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1164,13 +1164,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:31:1]
  31 | <div>An a with a grave accent: a&#768;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/entity/input.html:31:1]
  31 | <div>An a with a grave accent: a&#768;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1202,13 +1202,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:32:1]
  32 | <div>An a with an acute accent: a&#769;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/entity/input.html:32:1]
  32 | <div>An a with an acute accent: a&#769;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1240,13 +1240,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:33:1]
  33 | <div>An a with a circumflex accent: a&#770;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/entity/input.html:33:1]
  33 | <div>An a with a circumflex accent: a&#770;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1278,13 +1278,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:34:1]
  34 | <div>An a with a tilde: a&#771;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/entity/input.html:34:1]
  34 | <div>An a with a tilde: a&#771;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1316,13 +1316,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:35:1]
  35 | <div>An o with a grave accent: o&#768;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/entity/input.html:35:1]
  35 | <div>An o with a grave accent: o&#768;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1354,13 +1354,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:36:1]
  36 | <div>An o with an acute accent: o&#769;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/entity/input.html:36:1]
  36 | <div>An o with an acute accent: o&#769;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1392,13 +1392,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:37:1]
  37 | <div>An o with a circumflex accent: o&#770;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/entity/input.html:37:1]
  37 | <div>An o with a circumflex accent: o&#770;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1430,13 +1430,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:38:1]
  38 | <div>An o with a tilde: o&#771;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/entity/input.html:38:1]
  38 | <div>An o with a tilde: o&#771;</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1468,13 +1468,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:40:1]
  40 | <div>A space character: &&</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/entity/input.html:40:1]
  40 | <div>A space character: &&</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1506,13 +1506,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:41:1]
  41 | <div>I'm &notin; I tell you</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/entity/input.html:41:1]
  41 | <div>I'm &notin; I tell you</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1544,13 +1544,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:42:1]
  42 | <div>I'm &not; I tell you</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/entity/input.html:42:1]
  42 | <div>I'm &not; I tell you</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1680,13 +1680,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:49:1]
  49 | <div>&#x2715;</div>
-    : ^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/entity/input.html:49:1]
  49 | <div>&#x2715;</div>
-    : ^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1718,13 +1718,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:50:1]
  50 | <div>&#10005;</div>
-    : ^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/entity/input.html:50:1]
  50 | <div>&#10005;</div>
-    : ^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1756,13 +1756,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:51:1]
  51 | <div>✕</div>
-    : ^^^^^^^^
+    : ^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/entity/input.html:51:1]
  51 | <div>✕</div>
-    : ^^^^^^^^
+    : ^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1794,13 +1794,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:53:1]
  53 | <div>&#x24;</div>
-    : ^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/entity/input.html:53:1]
  53 | <div>&#x24;</div>
-    : ^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1832,13 +1832,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:54:1]
  54 | <div>&#36;</div>
-    : ^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/entity/input.html:54:1]
  54 | <div>&#36;</div>
-    : ^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1870,13 +1870,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:55:1]
  55 | <div>&dollar;</div>
-    : ^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/entity/input.html:55:1]
  55 | <div>&dollar;</div>
-    : ^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1908,13 +1908,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:57:1]
  57 | <div>&#x24;</div>
-    : ^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/entity/input.html:57:1]
  57 | <div>&#x24;</div>
-    : ^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1946,13 +1946,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:58:1]
  58 | <div>&#X24;</div>
-    : ^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/entity/input.html:58:1]
  58 | <div>&#X24;</div>
-    : ^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1984,13 +1984,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:60:1]
  60 | <div>I'm &notin; I tell you</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/entity/input.html:60:1]
  60 | <div>I'm &notin; I tell you</div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child

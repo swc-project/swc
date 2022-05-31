@@ -175,13 +175,13 @@
   x Child
    ,-[$DIR/tests/fixture/element/button/input.html:8:1]
  8 | <button><p></button>x
-   : ^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/button/input.html:8:1]
  8 | <button><p></button>x
-   : ^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child

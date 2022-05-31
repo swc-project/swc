@@ -57,7 +57,7 @@
                   "type": "Element",
                   "span": {
                     "start": 6,
-                    "end": 27,
+                    "end": 38,
                     "ctxt": 0
                   },
                   "tagName": "template",
@@ -68,7 +68,7 @@
                     "type": "DocumentFragment",
                     "span": {
                       "start": 6,
-                      "end": 27,
+                      "end": 38,
                       "ctxt": 0
                     },
                     "children": [

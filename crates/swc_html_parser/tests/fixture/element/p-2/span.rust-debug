@@ -177,13 +177,13 @@
   x Child
    ,-[$DIR/tests/fixture/element/p-2/input.html:7:1]
  7 | <p><table></table>
-   :    ^^^^^^^
+   :    ^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/p-2/input.html:7:1]
  7 | <p><table></table>
-   :    ^^^^^^^
+   :    ^^^^^^^^^^^^^^^
    `----
 
   x Child

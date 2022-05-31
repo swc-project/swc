@@ -399,8 +399,8 @@
  26 | |       SI      RESPI
  27 | |               RER       - Apollinaire
  28 | |   				test
- 29 | `-> 
- 30 |     </pre>
+ 29 | |   
+ 30 | `-> </pre>
     `----
 
   x Element
@@ -423,8 +423,8 @@
  26 | |       SI      RESPI
  27 | |               RER       - Apollinaire
  28 | |   				test
- 29 | `-> 
- 30 |     </pre>
+ 29 | |   
+ 30 | `-> </pre>
     `----
 
   x Child

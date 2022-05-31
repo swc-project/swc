@@ -57,7 +57,7 @@
                   "type": "Element",
                   "span": {
                     "start": 7,
-                    "end": 28,
+                    "end": 51,
                     "ctxt": 0
                   },
                   "tagName": "annotation-xml",
@@ -68,7 +68,7 @@
                       "type": "Element",
                       "span": {
                         "start": 23,
-                        "end": 28,
+                        "end": 34,
                         "ctxt": 0
                       },
                       "tagName": "svg",

@@ -175,22 +175,22 @@
   x Child
    ,-[$DIR/tests/recovery/element/template-4/input.html:7:1]
  7 | ,-> <template>
- 8 | `->     </div>
- 9 |     </template>
+ 8 | |       </div>
+ 9 | `-> </template>
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/template-4/input.html:7:1]
  7 | ,-> <template>
- 8 | `->     </div>
- 9 |     </template>
+ 8 | |       </div>
+ 9 | `-> </template>
    `----
 
   x DocumentFragment
    ,-[$DIR/tests/recovery/element/template-4/input.html:7:1]
  7 | ,-> <template>
- 8 | `->     </div>
- 9 |     </template>
+ 8 | |       </div>
+ 9 | `-> </template>
    `----
 
   x Child

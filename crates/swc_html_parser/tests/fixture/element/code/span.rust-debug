@@ -165,13 +165,13 @@
   x Child
    ,-[$DIR/tests/fixture/element/code/input.html:7:1]
  7 | <code some-attribute=""><div><code><code><code><code></code></code></code></code></div></code>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/code/input.html:7:1]
  7 | <code some-attribute=""><div><code><code><code><code></code></code></code></code></div></code>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Attribute
@@ -183,13 +183,13 @@
   x Child
    ,-[$DIR/tests/fixture/element/code/input.html:7:1]
  7 | <code some-attribute=""><div><code><code><code><code></code></code></code></code></div></code>
-   :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/code/input.html:7:1]
  7 | <code some-attribute=""><div><code><code><code><code></code></code></code></code></div></code>
-   :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child

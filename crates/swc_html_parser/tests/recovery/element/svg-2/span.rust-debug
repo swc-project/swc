@@ -165,13 +165,13 @@
   x Child
    ,-[$DIR/tests/recovery/element/svg-2/input.html:7:1]
  7 | <svg><!doctype html></svg>
-   : ^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/svg-2/input.html:7:1]
  7 | <svg><!doctype html></svg>
-   : ^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child

@@ -259,7 +259,7 @@
               "type": "Element",
               "span": {
                 "start": 369,
-                "end": 413,
+                "end": 419,
                 "ctxt": 0
               },
               "tagName": "svg",
@@ -279,7 +279,7 @@
                   "type": "Element",
                   "span": {
                     "start": 391,
-                    "end": 395,
+                    "end": 400,
                     "ctxt": 0
                   },
                   "tagName": "td",

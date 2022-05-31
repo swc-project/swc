@@ -175,15 +175,15 @@
   x Child
    ,-[$DIR/tests/recovery/element/marquee/input.html:7:1]
  7 | ,-> <marquee behavior="" direction="">
- 8 | `->     <div>
- 9 |     </marquee>
+ 8 | |       <div>
+ 9 | `-> </marquee>
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/marquee/input.html:7:1]
  7 | ,-> <marquee behavior="" direction="">
- 8 | `->     <div>
- 9 |     </marquee>
+ 8 | |       <div>
+ 9 | `-> </marquee>
    `----
 
   x Attribute

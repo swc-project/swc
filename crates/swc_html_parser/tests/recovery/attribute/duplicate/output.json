@@ -130,7 +130,7 @@
               "type": "Element",
               "span": {
                 "start": 84,
-                "end": 132,
+                "end": 138,
                 "ctxt": 0
               },
               "tagName": "div",
@@ -189,7 +189,7 @@
               "type": "Element",
               "span": {
                 "start": 139,
-                "end": 144,
+                "end": 193,
                 "ctxt": 0
               },
               "tagName": "div",

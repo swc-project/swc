@@ -46,7 +46,7 @@
               "type": "Element",
               "span": {
                 "start": 1,
-                "end": 44,
+                "end": 50,
                 "ctxt": 0
               },
               "tagName": "svg",
@@ -57,7 +57,7 @@
                   "type": "Element",
                   "span": {
                     "start": 6,
-                    "end": 21,
+                    "end": 37,
                     "ctxt": 0
                   },
                   "tagName": "foreignObject",

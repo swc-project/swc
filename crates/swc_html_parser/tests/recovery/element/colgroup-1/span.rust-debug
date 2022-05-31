@@ -51,19 +51,19 @@
   x Child
    ,-[$DIR/tests/recovery/element/colgroup-1/input.html:2:1]
  2 | <template><col><colgroup></template>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/colgroup-1/input.html:2:1]
  2 | <template><col><colgroup></template>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DocumentFragment
    ,-[$DIR/tests/recovery/element/colgroup-1/input.html:2:1]
  2 | <template><col><colgroup></template>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -95,19 +95,19 @@
   x Child
    ,-[$DIR/tests/recovery/element/colgroup-1/input.html:3:1]
  3 | <template><col><colgroup></div></template>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/colgroup-1/input.html:3:1]
  3 | <template><col><colgroup></div></template>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DocumentFragment
    ,-[$DIR/tests/recovery/element/colgroup-1/input.html:3:1]
  3 | <template><col><colgroup></div></template>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -139,19 +139,19 @@
   x Child
    ,-[$DIR/tests/recovery/element/colgroup-1/input.html:4:1]
  4 | <template><col><colgroup>A</template>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/colgroup-1/input.html:4:1]
  4 | <template><col><colgroup>A</template>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DocumentFragment
    ,-[$DIR/tests/recovery/element/colgroup-1/input.html:4:1]
  4 | <template><col><colgroup>A</template>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child

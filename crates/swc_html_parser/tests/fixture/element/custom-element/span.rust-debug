@@ -704,8 +704,8 @@
  26 | |       <style>
  27 | |           p { color: green; }
  28 | |       </style>
- 29 | `->     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
- 30 |     </template>
+ 29 | |       <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
+ 30 | `-> </template>
     `----
 
   x Element
@@ -714,8 +714,8 @@
  26 | |       <style>
  27 | |           p { color: green; }
  28 | |       </style>
- 29 | `->     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
- 30 |     </template>
+ 29 | |       <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
+ 30 | `-> </template>
     `----
 
   x Attribute
@@ -730,8 +730,8 @@
  26 | |       <style>
  27 | |           p { color: green; }
  28 | |       </style>
- 29 | `->     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
- 30 |     </template>
+ 29 | |       <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
+ 30 | `-> </template>
     `----
 
   x Child
@@ -789,13 +789,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/custom-element/input.html:29:5]
  29 | <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/custom-element/input.html:29:5]
  29 | <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child

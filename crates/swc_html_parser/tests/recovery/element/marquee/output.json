@@ -130,7 +130,7 @@
               "type": "Element",
               "span": {
                 "start": 84,
-                "end": 129,
+                "end": 139,
                 "ctxt": 0
               },
               "tagName": "marquee",

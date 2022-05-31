@@ -175,13 +175,13 @@
   x Child
    ,-[$DIR/tests/recovery/attribute/duplicate/input.html:7:1]
  7 | <div class="test" class="test-1" class="test-2"></div>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/attribute/duplicate/input.html:7:1]
  7 | <div class="test" class="test-1" class="test-2"></div>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Attribute
@@ -219,13 +219,13 @@
   x Child
    ,-[$DIR/tests/recovery/attribute/duplicate/input.html:8:1]
  8 | <div></div class="test" class="test-1" class="test-2">
-   : ^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/attribute/duplicate/input.html:8:1]
  8 | <div></div class="test" class="test-1" class="test-2">
-   : ^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child

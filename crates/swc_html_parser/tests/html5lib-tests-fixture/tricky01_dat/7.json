@@ -127,7 +127,7 @@
                       "type": "Element",
                       "span": {
                         "start": 9,
-                        "end": 34,
+                        "end": 39,
                         "ctxt": 0
                       },
                       "tagName": "tr",
@@ -147,7 +147,7 @@
                           "type": "Element",
                           "span": {
                             "start": 30,
-                            "end": 34,
+                            "end": 39,
                             "ctxt": 0
                           },
                           "tagName": "td",
@@ -192,7 +192,7 @@
               "type": "Element",
               "span": {
                 "start": 56,
-                "end": 67,
+                "end": 80,
                 "ctxt": 0
               },
               "tagName": "table",

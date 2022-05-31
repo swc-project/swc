@@ -966,8 +966,8 @@
  23 | |               <mi>c</mi>
  24 | |               <mn>2</mn>
  25 | |           </msup>
- 26 | `->     </mrow>
- 27 |     </math>
+ 26 | |       </mrow>
+ 27 | `-> </math>
     `----
 
   x Element
@@ -990,8 +990,8 @@
  23 | |               <mi>c</mi>
  24 | |               <mn>2</mn>
  25 | |           </msup>
- 26 | `->     </mrow>
- 27 |     </math>
+ 26 | |       </mrow>
+ 27 | `-> </math>
     `----
 
   x Child
@@ -1135,13 +1135,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/math/input.html:12:17]
  12 | <mi>a</mi>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/math/input.html:12:17]
  12 | <mi>a</mi>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Child
@@ -1171,13 +1171,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/math/input.html:13:17]
  13 | <mn>2</mn>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/math/input.html:13:17]
  13 | <mn>2</mn>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Child
@@ -1219,13 +1219,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/math/input.html:15:13]
  15 | <mo>+</mo>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/math/input.html:15:13]
  15 | <mo>+</mo>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Child
@@ -1283,13 +1283,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/math/input.html:17:17]
  17 | <mi>b</mi>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/math/input.html:17:17]
  17 | <mi>b</mi>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Child
@@ -1319,13 +1319,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/math/input.html:18:17]
  18 | <mn>2</mn>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/math/input.html:18:17]
  18 | <mn>2</mn>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Child
@@ -1379,13 +1379,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/math/input.html:21:9]
  21 | <mo>=</mo>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/math/input.html:21:9]
  21 | <mo>=</mo>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Child
@@ -1443,13 +1443,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/math/input.html:23:13]
  23 | <mi>c</mi>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/math/input.html:23:13]
  23 | <mi>c</mi>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Child
@@ -1479,13 +1479,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/math/input.html:24:13]
  24 | <mn>2</mn>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/math/input.html:24:13]
  24 | <mn>2</mn>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Child
@@ -1565,8 +1565,8 @@
  37 | |           <matrixrow>
  38 | |               <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
  39 | |           </matrixrow>
- 40 | `->     </matrix>
- 41 |     </math>
+ 40 | |       </matrix>
+ 41 | `-> </math>
     `----
 
   x Element
@@ -1582,8 +1582,8 @@
  37 | |           <matrixrow>
  38 | |               <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
  39 | |           </matrixrow>
- 40 | `->     </matrix>
- 41 |     </math>
+ 40 | |       </matrix>
+ 41 | `-> </math>
     `----
 
   x Attribute
@@ -1675,13 +1675,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/math/input.html:32:13]
  32 | <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
-    : ^^^^^^^
+    : ^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/math/input.html:32:13]
  32 | <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
-    : ^^^^^^^
+    : ^^^^^^^^^^^^
     `----
 
   x Child
@@ -1711,13 +1711,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/math/input.html:32:13]
  32 | <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
-    :              ^^^^^^^
+    :              ^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/math/input.html:32:13]
  32 | <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
-    :              ^^^^^^^
+    :              ^^^^^^^^^^^^
     `----
 
   x Child
@@ -1747,13 +1747,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/math/input.html:32:13]
  32 | <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
-    :                           ^^^^^^^
+    :                           ^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/math/input.html:32:13]
  32 | <cn> 0 </cn> <cn> 1 </cn> <cn> 0 </cn>
-    :                           ^^^^^^^
+    :                           ^^^^^^^^^^^^
     `----
 
   x Child
@@ -1821,13 +1821,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/math/input.html:35:13]
  35 | <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
-    : ^^^^^^^
+    : ^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/math/input.html:35:13]
  35 | <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
-    : ^^^^^^^
+    : ^^^^^^^^^^^^
     `----
 
   x Child
@@ -1857,13 +1857,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/math/input.html:35:13]
  35 | <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
-    :              ^^^^^^^
+    :              ^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/math/input.html:35:13]
  35 | <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
-    :              ^^^^^^^
+    :              ^^^^^^^^^^^^
     `----
 
   x Child
@@ -1893,13 +1893,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/math/input.html:35:13]
  35 | <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
-    :                           ^^^^^^^
+    :                           ^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/math/input.html:35:13]
  35 | <cn> 0 </cn> <cn> 0 </cn> <cn> 1 </cn>
-    :                           ^^^^^^^
+    :                           ^^^^^^^^^^^^
     `----
 
   x Child
@@ -1967,13 +1967,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/math/input.html:38:13]
  38 | <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
-    : ^^^^^^^
+    : ^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/math/input.html:38:13]
  38 | <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
-    : ^^^^^^^
+    : ^^^^^^^^^^^^
     `----
 
   x Child
@@ -2003,13 +2003,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/math/input.html:38:13]
  38 | <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
-    :              ^^^^^^^
+    :              ^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/math/input.html:38:13]
  38 | <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
-    :              ^^^^^^^
+    :              ^^^^^^^^^^^^
     `----
 
   x Child
@@ -2039,13 +2039,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/math/input.html:38:13]
  38 | <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
-    :                           ^^^^^^^
+    :                           ^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/math/input.html:38:13]
  38 | <cn> 1 </cn> <cn> 0 </cn> <cn> 0 </cn>
-    :                           ^^^^^^^
+    :                           ^^^^^^^^^^^^
     `----
 
   x Child
@@ -2115,15 +2115,15 @@
   x Child
     ,-[$DIR/tests/fixture/element/math/input.html:43:1]
  43 | ,-> <math xmlns="http://www.w3.org/1998/Math/MathML">
- 44 | `->     <infinity/>
- 45 |     </math>
+ 44 | |       <infinity/>
+ 45 | `-> </math>
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/math/input.html:43:1]
  43 | ,-> <math xmlns="http://www.w3.org/1998/Math/MathML">
- 44 | `->     <infinity/>
- 45 |     </math>
+ 44 | |       <infinity/>
+ 45 | `-> </math>
     `----
 
   x Attribute
@@ -2220,8 +2220,8 @@
  78 | |               x^{2} + y
  79 | |           </annotation>
  80 | |   
- 81 | `->     </semantics>
- 82 |     </math>
+ 81 | |       </semantics>
+ 82 | `-> </math>
     `----
 
   x Element
@@ -2260,8 +2260,8 @@
  78 | |               x^{2} + y
  79 | |           </annotation>
  80 | |   
- 81 | `->     </semantics>
- 82 |     </math>
+ 81 | |       </semantics>
+ 82 | `-> </math>
     `----
 
   x Child
@@ -2457,13 +2457,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/math/input.html:53:17]
  53 | <mi>x</mi>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/math/input.html:53:17]
  53 | <mi>x</mi>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Child
@@ -2493,13 +2493,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/math/input.html:54:17]
  54 | <mn>2</mn>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/math/input.html:54:17]
  54 | <mn>2</mn>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Child
@@ -2541,13 +2541,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/math/input.html:56:13]
  56 | <mo>+</mo>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/math/input.html:56:13]
  56 | <mo>+</mo>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Child
@@ -2577,13 +2577,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/math/input.html:57:13]
  57 | <mi>y</mi>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/math/input.html:57:13]
  57 | <mi>y</mi>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Child
@@ -2815,13 +2815,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/math/input.html:66:21]
  66 | <ci>x</ci>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/math/input.html:66:21]
  66 | <ci>x</ci>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Child
@@ -2851,13 +2851,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/math/input.html:67:21]
  67 | <cn type="integer">2</cn>
-    : ^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/math/input.html:67:21]
  67 | <cn type="integer">2</cn>
-    : ^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
@@ -2905,13 +2905,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/math/input.html:69:17]
  69 | <ci>y</ci>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/math/input.html:69:17]
  69 | <ci>y</ci>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Child
@@ -3157,8 +3157,8 @@
  110 | |                   </mrow>
  111 | |               </mtd>
  112 | |           </mtr>
- 113 | `->     </mtable>
- 114 |     </math>
+ 113 | |       </mtable>
+ 114 | `-> </math>
      `----
 
   x Element
@@ -3192,8 +3192,8 @@
  110 | |                   </mrow>
  111 | |               </mtd>
  112 | |           </mtr>
- 113 | `->     </mtable>
- 114 |     </math>
+ 113 | |       </mtable>
+ 114 | `-> </math>
      `----
 
   x Child
@@ -3427,13 +3427,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/math/input.html:89:21]
  89 | <mn>2</mn>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/math/input.html:89:21]
  89 | <mn>2</mn>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Child
@@ -3463,13 +3463,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/math/input.html:90:21]
  90 | <mo>&InvisibleTimes;</mo>
-    : ^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/math/input.html:90:21]
  90 | <mo>&InvisibleTimes;</mo>
-    : ^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -3511,13 +3511,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/math/input.html:91:21]
  91 | <maligngroup/><mi>x</mi>
-    :               ^^^^^
+    :               ^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/math/input.html:91:21]
  91 | <maligngroup/><mi>x</mi>
-    :               ^^^^^
+    :               ^^^^^^^^^^
     `----
 
   x Child
@@ -3559,13 +3559,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/math/input.html:92:21]
  92 | <maligngroup/><mo>+</mo>
-    :               ^^^^^
+    :               ^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/math/input.html:92:21]
  92 | <maligngroup/><mo>+</mo>
-    :               ^^^^^
+    :               ^^^^^^^^^^
     `----
 
   x Child
@@ -3607,13 +3607,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/math/input.html:93:21]
  93 | <maligngroup/><mi>y</mi>
-    :               ^^^^^
+    :               ^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/math/input.html:93:21]
  93 | <maligngroup/><mi>y</mi>
-    :               ^^^^^
+    :               ^^^^^^^^^^
     `----
 
   x Child
@@ -3655,13 +3655,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/math/input.html:94:21]
  94 | <maligngroup/><mo>=</mo>
-    :               ^^^^^
+    :               ^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/math/input.html:94:21]
  94 | <maligngroup/><mo>=</mo>
-    :               ^^^^^
+    :               ^^^^^^^^^^
     `----
 
   x Child
@@ -3691,13 +3691,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/math/input.html:95:21]
  95 | <mo>-</mo>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/math/input.html:95:21]
  95 | <mo>-</mo>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Child
@@ -3739,13 +3739,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/math/input.html:96:21]
  96 | <maligngroup/><mn>5</mn>
-    :               ^^^^^
+    :               ^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/math/input.html:96:21]
  96 | <maligngroup/><mn>5</mn>
-    :               ^^^^^
+    :               ^^^^^^^^^^
     `----
 
   x Child
@@ -3949,13 +3949,13 @@
   x Child
      ,-[$DIR/tests/fixture/element/math/input.html:103:21]
  103 | <maligngroup/><mi>x</mi>
-     :               ^^^^^
+     :               ^^^^^^^^^^
      `----
 
   x Element
      ,-[$DIR/tests/fixture/element/math/input.html:103:21]
  103 | <maligngroup/><mi>x</mi>
-     :               ^^^^^
+     :               ^^^^^^^^^^
      `----
 
   x Child
@@ -3997,13 +3997,13 @@
   x Child
      ,-[$DIR/tests/fixture/element/math/input.html:104:21]
  104 | <maligngroup/><mo>-</mo>
-     :               ^^^^^
+     :               ^^^^^^^^^^
      `----
 
   x Element
      ,-[$DIR/tests/fixture/element/math/input.html:104:21]
  104 | <maligngroup/><mo>-</mo>
-     :               ^^^^^
+     :               ^^^^^^^^^^
      `----
 
   x Child
@@ -4033,13 +4033,13 @@
   x Child
      ,-[$DIR/tests/fixture/element/math/input.html:105:21]
  105 | <mn>2</mn>
-     : ^^^^^
+     : ^^^^^^^^^^
      `----
 
   x Element
      ,-[$DIR/tests/fixture/element/math/input.html:105:21]
  105 | <mn>2</mn>
-     : ^^^^^
+     : ^^^^^^^^^^
      `----
 
   x Child
@@ -4069,13 +4069,13 @@
   x Child
      ,-[$DIR/tests/fixture/element/math/input.html:106:21]
  106 | <mo>&InvisibleTimes;</mo>
-     : ^^^^^^^^^^^^^^^^^^^^
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x Element
      ,-[$DIR/tests/fixture/element/math/input.html:106:21]
  106 | <mo>&InvisibleTimes;</mo>
-     : ^^^^^^^^^^^^^^^^^^^^
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x Child
@@ -4117,13 +4117,13 @@
   x Child
      ,-[$DIR/tests/fixture/element/math/input.html:107:21]
  107 | <maligngroup/><mi>y</mi>
-     :               ^^^^^
+     :               ^^^^^^^^^^
      `----
 
   x Element
      ,-[$DIR/tests/fixture/element/math/input.html:107:21]
  107 | <maligngroup/><mi>y</mi>
-     :               ^^^^^
+     :               ^^^^^^^^^^
      `----
 
   x Child
@@ -4165,13 +4165,13 @@
   x Child
      ,-[$DIR/tests/fixture/element/math/input.html:108:21]
  108 | <maligngroup/><mo>=</mo>
-     :               ^^^^^
+     :               ^^^^^^^^^^
      `----
 
   x Element
      ,-[$DIR/tests/fixture/element/math/input.html:108:21]
  108 | <maligngroup/><mo>=</mo>
-     :               ^^^^^
+     :               ^^^^^^^^^^
      `----
 
   x Child
@@ -4213,13 +4213,13 @@
   x Child
      ,-[$DIR/tests/fixture/element/math/input.html:109:21]
  109 | <maligngroup/><mn>1</mn>
-     :               ^^^^^
+     :               ^^^^^^^^^^
      `----
 
   x Element
      ,-[$DIR/tests/fixture/element/math/input.html:109:21]
  109 | <maligngroup/><mn>1</mn>
-     :               ^^^^^
+     :               ^^^^^^^^^^
      `----
 
   x Child
@@ -4317,8 +4317,8 @@
  118 | |       <mtext> Theorem of Pythagoras </mtext>
  119 | |   
  120 | |       <mtext> /* comment here */ </mtext>
- 121 | `-> 
- 122 |     </math>
+ 121 | |   
+ 122 | `-> </math>
      `----
 
   x Element
@@ -4328,8 +4328,8 @@
  118 | |       <mtext> Theorem of Pythagoras </mtext>
  119 | |   
  120 | |       <mtext> /* comment here */ </mtext>
- 121 | `-> 
- 122 |     </math>
+ 121 | |   
+ 122 | `-> </math>
      `----
 
   x Child
@@ -4349,13 +4349,13 @@
   x Child
      ,-[$DIR/tests/fixture/element/math/input.html:118:5]
  118 | <mtext> Theorem of Pythagoras </mtext>
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x Element
      ,-[$DIR/tests/fixture/element/math/input.html:118:5]
  118 | <mtext> Theorem of Pythagoras </mtext>
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x Child
@@ -4387,13 +4387,13 @@
   x Child
      ,-[$DIR/tests/fixture/element/math/input.html:120:5]
  120 | <mtext> /* comment here */ </mtext>
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x Element
      ,-[$DIR/tests/fixture/element/math/input.html:120:5]
  120 | <mtext> /* comment here */ </mtext>
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x Child
@@ -4441,8 +4441,8 @@
  124 | ,-> <math>
  125 | |       <mtext>
  126 | |           <div>test</div>
- 127 | `->     </mtext>
- 128 |     </math>
+ 127 | |       </mtext>
+ 128 | `-> </math>
      `----
 
   x Element
@@ -4450,8 +4450,8 @@
  124 | ,-> <math>
  125 | |       <mtext>
  126 | |           <div>test</div>
- 127 | `->     </mtext>
- 128 |     </math>
+ 127 | |       </mtext>
+ 128 | `-> </math>
      `----
 
   x Child
@@ -4495,13 +4495,13 @@
   x Child
      ,-[$DIR/tests/fixture/element/math/input.html:126:9]
  126 | <div>test</div>
-     : ^^^^^^^^^
+     : ^^^^^^^^^^^^^^^
      `----
 
   x Element
      ,-[$DIR/tests/fixture/element/math/input.html:126:9]
  126 | <div>test</div>
-     : ^^^^^^^^^
+     : ^^^^^^^^^^^^^^^
      `----
 
   x Child
@@ -4565,8 +4565,8 @@
  134 | |               <malignmark edge="right"/>
  135 | |           </mrow>
  136 | |           <mn> 2 </mn>
- 137 | `->     </msup>
- 138 |     </math>
+ 137 | |       </msup>
+ 138 | `-> </math>
      `----
 
   x Element
@@ -4578,8 +4578,8 @@
  134 | |               <malignmark edge="right"/>
  135 | |           </mrow>
  136 | |           <mn> 2 </mn>
- 137 | `->     </msup>
- 138 |     </math>
+ 137 | |       </msup>
+ 138 | `-> </math>
      `----
 
   x Child
@@ -4659,13 +4659,13 @@
   x Child
      ,-[$DIR/tests/fixture/element/math/input.html:133:13]
  133 | <mi> x </mi>
-     : ^^^^^^^
+     : ^^^^^^^^^^^^
      `----
 
   x Element
      ,-[$DIR/tests/fixture/element/math/input.html:133:13]
  133 | <mi> x </mi>
-     : ^^^^^^^
+     : ^^^^^^^^^^^^
      `----
 
   x Child
@@ -4737,13 +4737,13 @@
   x Child
      ,-[$DIR/tests/fixture/element/math/input.html:136:9]
  136 | <mn> 2 </mn>
-     : ^^^^^^^
+     : ^^^^^^^^^^^^
      `----
 
   x Element
      ,-[$DIR/tests/fixture/element/math/input.html:136:9]
  136 | <mn> 2 </mn>
-     : ^^^^^^^
+     : ^^^^^^^^^^^^
      `----
 
   x Child
@@ -4823,8 +4823,8 @@
  160 | |                   </switch>
  161 | |               </g>
  162 | |           </svg>
- 163 | `->     </annotation-xml>
- 164 |     </math>
+ 163 | |       </annotation-xml>
+ 164 | `-> </math>
      `----
 
   x Element
@@ -4852,8 +4852,8 @@
  160 | |                   </switch>
  161 | |               </g>
  162 | |           </svg>
- 163 | `->     </annotation-xml>
- 164 |     </math>
+ 163 | |       </annotation-xml>
+ 164 | `-> </math>
      `----
 
   x Child
@@ -5131,13 +5131,13 @@
   x Child
      ,-[$DIR/tests/fixture/element/math/input.html:147:17]
  147 | <text transform="translate(10,20)">1</text>
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x Element
      ,-[$DIR/tests/fixture/element/math/input.html:147:17]
  147 | <text transform="translate(10,20)">1</text>
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x Attribute
@@ -5351,13 +5351,13 @@
   x Child
      ,-[$DIR/tests/fixture/element/math/input.html:152:33]
  152 | <mn>2</mn>
-     : ^^^^^
+     : ^^^^^^^^^^
      `----
 
   x Element
      ,-[$DIR/tests/fixture/element/math/input.html:152:33]
  152 | <mn>2</mn>
-     : ^^^^^
+     : ^^^^^^^^^^
      `----
 
   x Child
@@ -5387,13 +5387,13 @@
   x Child
      ,-[$DIR/tests/fixture/element/math/input.html:153:33]
  153 | <mi>r</mi>
-     : ^^^^^
+     : ^^^^^^^^^^
      `----
 
   x Element
      ,-[$DIR/tests/fixture/element/math/input.html:153:33]
  153 | <mi>r</mi>
-     : ^^^^^
+     : ^^^^^^^^^^
      `----
 
   x Child
@@ -5423,13 +5423,13 @@
   x Child
      ,-[$DIR/tests/fixture/element/math/input.html:154:33]
  154 | <mo>−</mo>
-     : ^^^^^^^
+     : ^^^^^^^^^^^^
      `----
 
   x Element
      ,-[$DIR/tests/fixture/element/math/input.html:154:33]
  154 | <mo>−</mo>
-     : ^^^^^^^
+     : ^^^^^^^^^^^^
      `----
 
   x Child
@@ -5459,13 +5459,13 @@
   x Child
      ,-[$DIR/tests/fixture/element/math/input.html:155:33]
  155 | <mn>1</mn>
-     : ^^^^^
+     : ^^^^^^^^^^
      `----
 
   x Element
      ,-[$DIR/tests/fixture/element/math/input.html:155:33]
  155 | <mn>1</mn>
-     : ^^^^^
+     : ^^^^^^^^^^
      `----
 
   x Child
@@ -5531,13 +5531,13 @@
   x Child
      ,-[$DIR/tests/fixture/element/math/input.html:159:21]
  159 | <text>\sqrt{2r - 1}</text>
-     : ^^^^^^^^^^^^^^^^^^^
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x Element
      ,-[$DIR/tests/fixture/element/math/input.html:159:21]
  159 | <text>\sqrt{2r - 1}</text>
-     : ^^^^^^^^^^^^^^^^^^^
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x Child

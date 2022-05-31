@@ -428,13 +428,13 @@
   x Child
     ,-[$DIR/tests/fixture/attribute/class/input.html:14:5]
  14 | <div class></div>
-    : ^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/attribute/class/input.html:14:5]
  14 | <div class></div>
-    : ^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
@@ -458,13 +458,13 @@
   x Child
     ,-[$DIR/tests/fixture/attribute/class/input.html:15:5]
  15 | <div class="nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar"></div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/attribute/class/input.html:15:5]
  15 | <div class="nav_sv_fo_v_column <#=(j === 0) ? 'nav_sv_fo_v_first' : '' #> foo_bar"></div>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
@@ -518,13 +518,13 @@
   x Child
     ,-[$DIR/tests/fixture/attribute/class/input.html:17:5]
  17 | <div class="="></div>
-    : ^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/attribute/class/input.html:17:5]
  17 | <div class="="></div>
-    : ^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
@@ -548,13 +548,13 @@
   x Child
     ,-[$DIR/tests/fixture/attribute/class/input.html:18:5]
  18 | <div class="= = = ="></div>
-    : ^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/attribute/class/input.html:18:5]
  18 | <div class="= = = ="></div>
-    : ^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute

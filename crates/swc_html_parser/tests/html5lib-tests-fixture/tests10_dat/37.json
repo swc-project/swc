@@ -57,7 +57,7 @@
                   "type": "Element",
                   "span": {
                     "start": 7,
-                    "end": 35,
+                    "end": 68,
                     "ctxt": 0
                   },
                   "tagName": "mi",
@@ -68,7 +68,7 @@
                       "type": "Element",
                       "span": {
                         "start": 11,
-                        "end": 35,
+                        "end": 63,
                         "ctxt": 0
                       },
                       "tagName": "div",
@@ -79,7 +79,7 @@
                           "type": "Element",
                           "span": {
                             "start": 16,
-                            "end": 35,
+                            "end": 57,
                             "ctxt": 0
                           },
                           "tagName": "object",
@@ -90,7 +90,7 @@
                               "type": "Element",
                               "span": {
                                 "start": 24,
-                                "end": 35,
+                                "end": 48,
                                 "ctxt": 0
                               },
                               "tagName": "div",

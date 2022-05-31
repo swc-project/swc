@@ -583,7 +583,7 @@
               "type": "Element",
               "span": {
                 "start": 685,
-                "end": 851,
+                "end": 862,
                 "ctxt": 0
               },
               "tagName": "template",
@@ -607,7 +607,7 @@
                 "type": "DocumentFragment",
                 "span": {
                   "start": 685,
-                  "end": 851,
+                  "end": 862,
                   "ctxt": 0
                 },
                 "children": [
@@ -656,7 +656,7 @@
                     "type": "Element",
                     "span": {
                       "start": 778,
-                      "end": 846,
+                      "end": 850,
                       "ctxt": 0
                     },
                     "tagName": "p",

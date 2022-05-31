@@ -130,7 +130,7 @@
               "type": "Element",
               "span": {
                 "start": 85,
-                "end": 96,
+                "end": 105,
                 "ctxt": 0
               },
               "tagName": "button",

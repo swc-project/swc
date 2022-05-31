@@ -287,13 +287,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/bom/input.html:11:1]
  11 | <div>Test</div>
-    : ^^^^^^^^^
+    : ^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/bom/input.html:11:1]
  11 | <div>Test</div>
-    : ^^^^^^^^^
+    : ^^^^^^^^^^^^^^^
     `----
 
   x Child

@@ -130,7 +130,7 @@
               "type": "Element",
               "span": {
                 "start": 92,
-                "end": 100,
+                "end": 105,
                 "ctxt": 0
               },
               "tagName": "h1",
@@ -153,7 +153,7 @@
               "type": "Element",
               "span": {
                 "start": 85,
-                "end": 92,
+                "end": 113,
                 "ctxt": 0
               },
               "tagName": "table",

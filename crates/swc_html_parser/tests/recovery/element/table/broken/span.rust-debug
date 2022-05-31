@@ -175,13 +175,13 @@
   x Child
    ,-[$DIR/tests/recovery/element/table/broken/input.html:8:1]
  8 | <table><h1>test</h1></table>
-   :        ^^^^^^^^
+   :        ^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/table/broken/input.html:8:1]
  8 | <table><h1>test</h1></table>
-   :        ^^^^^^^^
+   :        ^^^^^^^^^^^^^
    `----
 
   x Child
@@ -199,13 +199,13 @@
   x Child
    ,-[$DIR/tests/recovery/element/table/broken/input.html:8:1]
  8 | <table><h1>test</h1></table>
-   : ^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/table/broken/input.html:8:1]
  8 | <table><h1>test</h1></table>
-   : ^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child

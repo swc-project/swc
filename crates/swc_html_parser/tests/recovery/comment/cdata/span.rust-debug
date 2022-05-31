@@ -346,8 +346,8 @@
  22 | |               type="application/pdf"
  23 | |               data="http://www.w3.org/TR/xhtml1/xhtml1.pdf"
  24 | |               width="100%"
- 25 | `->             height="500"></object>
- 26 |     </p>
+ 25 | |               height="500"></object>
+ 26 | `-> </p>
     `----
 
   x Element
@@ -361,8 +361,8 @@
  22 | |               type="application/pdf"
  23 | |               data="http://www.w3.org/TR/xhtml1/xhtml1.pdf"
  24 | |               width="100%"
- 25 | `->             height="500"></object>
- 26 |     </p>
+ 25 | |               height="500"></object>
+ 26 | `-> </p>
     `----
 
   x Child

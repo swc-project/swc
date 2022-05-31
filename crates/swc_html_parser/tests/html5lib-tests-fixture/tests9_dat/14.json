@@ -57,7 +57,7 @@
               "type": "Element",
               "span": {
                 "start": 22,
-                "end": 74,
+                "end": 82,
                 "ctxt": 0
               },
               "tagName": "table",
@@ -68,7 +68,7 @@
                   "type": "Element",
                   "span": {
                     "start": 29,
-                    "end": 74,
+                    "end": 82,
                     "ctxt": 0
                   },
                   "tagName": "caption",
@@ -79,7 +79,7 @@
                       "type": "Element",
                       "span": {
                         "start": 38,
-                        "end": 63,
+                        "end": 68,
                         "ctxt": 0
                       },
                       "tagName": "math",
@@ -90,7 +90,7 @@
                           "type": "Element",
                           "span": {
                             "start": 44,
-                            "end": 51,
+                            "end": 56,
                             "ctxt": 0
                           },
                           "tagName": "mi",
@@ -113,7 +113,7 @@
                           "type": "Element",
                           "span": {
                             "start": 56,
-                            "end": 63,
+                            "end": 68,
                             "ctxt": 0
                           },
                           "tagName": "mi",

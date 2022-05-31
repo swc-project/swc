@@ -248,13 +248,13 @@
   x Child
    ,-[$DIR/tests/recovery/element/colgroup/input.html:8:5]
  8 | <caption>Superheros and sidekicks</caption>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/colgroup/input.html:8:5]
  8 | <caption>Superheros and sidekicks</caption>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child

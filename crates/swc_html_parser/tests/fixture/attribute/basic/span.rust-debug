@@ -487,13 +487,13 @@
   x Child
    ,-[$DIR/tests/fixture/attribute/basic/input.html:9:1]
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/attribute/basic/input.html:9:1]
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Attribute
@@ -531,13 +531,13 @@
   x Child
     ,-[$DIR/tests/fixture/attribute/basic/input.html:10:1]
  10 | <p title=" <!-- hello world --> ">x</p>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/attribute/basic/input.html:10:1]
  10 | <p title=" <!-- hello world --> ">x</p>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
@@ -766,13 +766,13 @@
   x Child
     ,-[$DIR/tests/fixture/attribute/basic/input.html:22:1]
  22 | <button disabled></button>
-    : ^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/attribute/basic/input.html:22:1]
  22 | <button disabled></button>
-    : ^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute

@@ -130,7 +130,7 @@
               "type": "Element",
               "span": {
                 "start": 84,
-                "end": 151,
+                "end": 166,
                 "ctxt": 0
               },
               "tagName": "object",
@@ -166,7 +166,7 @@
                   "type": "Element",
                   "span": {
                     "start": 130,
-                    "end": 151,
+                    "end": 157,
                     "ctxt": 0
                   },
                   "tagName": "div",
@@ -201,7 +201,7 @@
               "type": "Element",
               "span": {
                 "start": 168,
-                "end": 235,
+                "end": 244,
                 "ctxt": 0
               },
               "tagName": "object",

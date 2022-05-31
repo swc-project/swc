@@ -130,7 +130,7 @@
               "type": "Element",
               "span": {
                 "start": 84,
-                "end": 208,
+                "end": 235,
                 "ctxt": 0
               },
               "tagName": "div",
@@ -154,7 +154,7 @@
                   "type": "Element",
                   "span": {
                     "start": 105,
-                    "end": 208,
+                    "end": 229,
                     "ctxt": 0
                   },
                   "tagName": "template",
@@ -178,7 +178,7 @@
                     "type": "DocumentFragment",
                     "span": {
                       "start": 105,
-                      "end": 208,
+                      "end": 229,
                       "ctxt": 0
                     },
                     "children": [
@@ -186,7 +186,7 @@
                         "type": "Element",
                         "span": {
                           "start": 126,
-                          "end": 140,
+                          "end": 145,
                           "ctxt": 0
                         },
                         "tagName": "tr",
@@ -197,7 +197,7 @@
                             "type": "Element",
                             "span": {
                               "start": 130,
-                              "end": 140,
+                              "end": 145,
                               "ctxt": 0
                             },
                             "tagName": "td",
@@ -223,7 +223,7 @@
                         "type": "Element",
                         "span": {
                           "start": 150,
-                          "end": 188,
+                          "end": 194,
                           "ctxt": 0
                         },
                         "tagName": "div",
@@ -259,7 +259,7 @@
                         "type": "Element",
                         "span": {
                           "start": 194,
-                          "end": 208,
+                          "end": 213,
                           "ctxt": 0
                         },
                         "tagName": "tr",
@@ -270,7 +270,7 @@
                             "type": "Element",
                             "span": {
                               "start": 198,
-                              "end": 208,
+                              "end": 213,
                               "ctxt": 0
                             },
                             "tagName": "td",

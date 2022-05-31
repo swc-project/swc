@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 1,
-        "end": 120,
+        "end": 124,
         "ctxt": 0
       },
       "tagName": "html",
@@ -35,7 +35,7 @@
           "type": "Element",
           "span": {
             "start": 7,
-            "end": 120,
+            "end": 124,
             "ctxt": 0
           },
           "tagName": "body",
@@ -55,7 +55,7 @@
               "type": "Element",
               "span": {
                 "start": 14,
-                "end": 48,
+                "end": 52,
                 "ctxt": 0
               },
               "tagName": "p",
@@ -105,7 +105,7 @@
               "type": "Element",
               "span": {
                 "start": 17,
-                "end": 73,
+                "end": 77,
                 "ctxt": 0
               },
               "tagName": "font",
@@ -138,7 +138,7 @@
                   "type": "Element",
                   "span": {
                     "start": 53,
-                    "end": 73,
+                    "end": 77,
                     "ctxt": 0
                   },
                   "tagName": "p",
@@ -186,7 +186,7 @@
               "type": "Element",
               "span": {
                 "start": 88,
-                "end": 120,
+                "end": 124,
                 "ctxt": 0
               },
               "tagName": "p",

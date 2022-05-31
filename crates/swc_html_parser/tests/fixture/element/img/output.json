@@ -66,7 +66,7 @@
               "type": "Element",
               "span": {
                 "start": 32,
-                "end": 47,
+                "end": 52,
                 "ctxt": 0
               },
               "tagName": "h2",
@@ -98,7 +98,7 @@
               "type": "Element",
               "span": {
                 "start": 53,
-                "end": 97,
+                "end": 101,
                 "ctxt": 0
               },
               "tagName": "p",
