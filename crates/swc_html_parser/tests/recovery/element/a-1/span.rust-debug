@@ -52,13 +52,13 @@
   x Child
    ,-[$DIR/tests/recovery/element/a-1/input.html:1:1]
  1 | <a>1<p>2</a>3</p>
-   : ^^^^^^^^
+   : ^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/a-1/input.html:1:1]
  1 | <a>1<p>2</a>3</p>
-   : ^^^^^^^^
+   : ^^^^^^^^^^^^
    `----
 
   x Child

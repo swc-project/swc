@@ -293,13 +293,13 @@
   x Child
    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:9:1]
  9 | <a href="test.html"><div>hey</div></a>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:9:1]
  9 | <a href="test.html"><div>hey</div></a>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Attribute

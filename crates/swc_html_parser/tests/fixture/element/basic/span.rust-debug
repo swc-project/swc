@@ -545,13 +545,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/basic/input.html:15:1]
  15 | <a href="test.html"><div>hey</div></a>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/basic/input.html:15:1]
  15 | <a href="test.html"><div>hey</div></a>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute

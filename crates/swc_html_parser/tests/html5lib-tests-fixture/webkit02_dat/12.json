@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 29,
+        "end": 34,
         "ctxt": 0
       },
       "tagName": "html",
@@ -35,7 +35,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 29,
+            "end": 34,
             "ctxt": 0
           },
           "tagName": "body",
@@ -101,7 +101,7 @@
               "type": "Element",
               "span": {
                 "start": 4,
-                "end": 29,
+                "end": 8,
                 "ctxt": 0
               },
               "tagName": "em",
@@ -114,7 +114,7 @@
               "type": "Element",
               "span": {
                 "start": 18,
-                "end": 29,
+                "end": 34,
                 "ctxt": 0
               },
               "tagName": "aside",
@@ -125,7 +125,7 @@
                   "type": "Element",
                   "span": {
                     "start": 4,
-                    "end": 29,
+                    "end": 34,
                     "ctxt": 0
                   },
                   "tagName": "em",

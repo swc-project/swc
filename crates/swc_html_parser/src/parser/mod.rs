@@ -3360,7 +3360,7 @@ where
 
                                 let remove = element.clone();
 
-                                self.run_the_adoption_agency_algorithm(token_and_info)?;
+                                self.run_the_adoption_agency_algorithm(token_and_info, false)?;
                                 self.active_formatting_elements.remove(&remove);
                                 self.open_elements_stack.remove(&remove);
                             }
@@ -3428,7 +3428,7 @@ where
                                 ErrorKind::SomethingSeenWhenSomethingOpen(tag_name.clone()),
                             ));
 
-                            self.run_the_adoption_agency_algorithm(token_and_info)?;
+                            self.run_the_adoption_agency_algorithm(token_and_info, false)?;
                             self.reconstruct_active_formatting_elements()?;
                         }
 
@@ -3462,7 +3462,7 @@ where
                                 | "u"
                         ) =>
                     {
-                        self.run_the_adoption_agency_algorithm(token_and_info)?;
+                        self.run_the_adoption_agency_algorithm(token_and_info, true)?;
                     }
                     // A start tag whose tag name is one of: "applet", "marquee", "object"
                     //
@@ -7003,6 +7003,7 @@ where
     fn run_the_adoption_agency_algorithm(
         &mut self,
         token_and_info: &mut TokenAndInfo,
+        is_closing: bool,
     ) -> PResult<()> {
         // 1.
         let subject = match &token_and_info.token {
@@ -7021,7 +7022,9 @@ where
             {
                 let popped = self.open_elements_stack.pop();
 
-                self.update_end_tag_span(popped.as_ref(), token_and_info);
+                if is_closing {
+                    self.update_end_tag_span(popped.as_ref(), token_and_info);
+                }
 
                 return Ok(());
             }
@@ -7063,7 +7066,7 @@ where
                 });
 
             if formatting_element.is_none() {
-                self.any_other_end_tag_for_in_body_insertion_mode(&mut token_and_info.clone());
+                self.any_other_end_tag_for_in_body_insertion_mode(token_and_info);
 
                 return Ok(());
             }
@@ -7106,7 +7109,6 @@ where
 
             // 6.
             if let Some(node) = self.open_elements_stack.items.last() {
-                // errEndTagViolatesNestingRules(name);
                 if !is_same_node(node, &formatting_element.1) {
                     self.errors.push(Error::new(
                         token_and_info.span,
@@ -7129,6 +7131,10 @@ where
             if furthest_block.is_none() {
                 while let Some(node) = self.open_elements_stack.pop() {
                     if is_same_node(&node, &formatting_element.1) {
+                        if is_closing {
+                            self.update_end_tag_span(Some(&node), token_and_info);
+                        }
+
                         break;
                     }
                 }
@@ -7188,7 +7194,6 @@ where
 
                 // 13.6
                 let node_formatting_index = node_formatting_index.unwrap();
-                let last_pos = self.input.last_pos()?;
                 let token_and_info =
                     match self.active_formatting_elements.items[node_formatting_index] {
                         ActiveFormattingElement::Element(ref h, ref t) => {
@@ -7202,7 +7207,11 @@ where
                     };
                 let new_element = self.create_element_for_token(
                     token_and_info.token.clone(),
-                    Span::new(token_and_info.span.lo, last_pos, Default::default()),
+                    Span::new(
+                        token_and_info.span.lo,
+                        token_and_info.span.hi,
+                        Default::default(),
+                    ),
                     Some(Namespace::HTML),
                     None,
                 );

@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 30,
+        "end": 34,
         "ctxt": 0
       },
       "tagName": "html",
@@ -35,7 +35,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 30,
+            "end": 34,
             "ctxt": 0
           },
           "tagName": "body",
@@ -115,7 +115,7 @@
               "type": "Element",
               "span": {
                 "start": 7,
-                "end": 30,
+                "end": 34,
                 "ctxt": 0
               },
               "tagName": "big",
@@ -126,7 +126,7 @@
                   "type": "Element",
                   "span": {
                     "start": 12,
-                    "end": 30,
+                    "end": 34,
                     "ctxt": 0
                   },
                   "tagName": "em",
@@ -137,7 +137,7 @@
                       "type": "Element",
                       "span": {
                         "start": 16,
-                        "end": 30,
+                        "end": 34,
                         "ctxt": 0
                       },
                       "tagName": "strong",
@@ -148,7 +148,7 @@
                           "type": "Element",
                           "span": {
                             "start": 24,
-                            "end": 30,
+                            "end": 34,
                             "ctxt": 0
                           },
                           "tagName": "div",
@@ -159,7 +159,7 @@
                               "type": "Element",
                               "span": {
                                 "start": 1,
-                                "end": 30,
+                                "end": 34,
                                 "ctxt": 0
                               },
                               "tagName": "a",

@@ -93,7 +93,7 @@
                   "type": "Element",
                   "span": {
                     "start": 8,
-                    "end": 12,
+                    "end": 16,
                     "ctxt": 0
                   },
                   "tagName": "a",

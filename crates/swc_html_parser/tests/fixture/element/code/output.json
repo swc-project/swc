@@ -130,7 +130,7 @@
               "type": "Element",
               "span": {
                 "start": 84,
-                "end": 171,
+                "end": 178,
                 "ctxt": 0
               },
               "tagName": "code",
@@ -176,7 +176,7 @@
                           "type": "Element",
                           "span": {
                             "start": 119,
-                            "end": 137,
+                            "end": 158,
                             "ctxt": 0
                           },
                           "tagName": "code",
@@ -187,7 +187,7 @@
                               "type": "Element",
                               "span": {
                                 "start": 125,
-                                "end": 137,
+                                "end": 151,
                                 "ctxt": 0
                               },
                               "tagName": "code",
@@ -198,7 +198,7 @@
                                   "type": "Element",
                                   "span": {
                                     "start": 131,
-                                    "end": 137,
+                                    "end": 144,
                                     "ctxt": 0
                                   },
                                   "tagName": "code",

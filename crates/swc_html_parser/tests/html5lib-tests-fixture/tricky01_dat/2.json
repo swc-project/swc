@@ -105,7 +105,7 @@
               "type": "Element",
               "span": {
                 "start": 17,
-                "end": 77,
+                "end": 84,
                 "ctxt": 0
               },
               "tagName": "font",
@@ -197,7 +197,7 @@
                   "type": "Element",
                   "span": {
                     "start": 85,
-                    "end": 109,
+                    "end": 113,
                     "ctxt": 0
                   },
                   "tagName": "b",

@@ -93,7 +93,7 @@
                   "type": "Element",
                   "span": {
                     "start": 15,
-                    "end": 177,
+                    "end": 181,
                     "ctxt": 0
                   },
                   "tagName": "b",
@@ -104,7 +104,7 @@
                       "type": "Element",
                       "span": {
                         "start": 18,
-                        "end": 64,
+                        "end": 71,
                         "ctxt": 0
                       },
                       "tagName": "nobr",

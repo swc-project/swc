@@ -243,7 +243,7 @@
                             "type": "Element",
                             "span": {
                               "start": 754,
-                              "end": 823,
+                              "end": 830,
                               "ctxt": 0
                             },
                             "tagName": "code",
@@ -333,7 +333,7 @@
                             "type": "Element",
                             "span": {
                               "start": 847,
-                              "end": 911,
+                              "end": 915,
                               "ctxt": 0
                             },
                             "tagName": "i",

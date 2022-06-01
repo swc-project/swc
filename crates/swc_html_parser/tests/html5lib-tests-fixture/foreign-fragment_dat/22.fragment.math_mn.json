@@ -10,7 +10,7 @@
       "type": "Element",
       "span": {
         "start": 1,
-        "end": 4,
+        "end": 8,
         "ctxt": 0
       },
       "tagName": "b",
@@ -36,7 +36,7 @@
       "type": "Element",
       "span": {
         "start": 17,
-        "end": 20,
+        "end": 24,
         "ctxt": 0
       },
       "tagName": "i",
@@ -62,7 +62,7 @@
       "type": "Element",
       "span": {
         "start": 37,
-        "end": 40,
+        "end": 44,
         "ctxt": 0
       },
       "tagName": "u",

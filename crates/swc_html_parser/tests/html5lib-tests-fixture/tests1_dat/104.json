@@ -164,7 +164,7 @@
                   "type": "Element",
                   "span": {
                     "start": 55,
-                    "end": 66,
+                    "end": 70,
                     "ctxt": 0
                   },
                   "tagName": "li",
@@ -175,7 +175,7 @@
                       "type": "Element",
                       "span": {
                         "start": 59,
-                        "end": 66,
+                        "end": 70,
                         "ctxt": 0
                       },
                       "tagName": "b",

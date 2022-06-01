@@ -175,13 +175,13 @@
   x Child
    ,-[$DIR/tests/fixture/element/a/input.html:8:1]
  8 | <a href="https://example.com">First</a>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/a/input.html:8:1]
  8 | <a href="https://example.com">First</a>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Attribute

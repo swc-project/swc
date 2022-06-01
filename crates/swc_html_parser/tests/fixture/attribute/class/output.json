@@ -130,7 +130,7 @@
               "type": "Element",
               "span": {
                 "start": 88,
-                "end": 171,
+                "end": 175,
                 "ctxt": 0
               },
               "tagName": "a",
@@ -165,7 +165,7 @@
               "type": "Element",
               "span": {
                 "start": 180,
-                "end": 218,
+                "end": 222,
                 "ctxt": 0
               },
               "tagName": "a",
@@ -445,7 +445,7 @@
               "type": "Element",
               "span": {
                 "start": 568,
-                "end": 641,
+                "end": 645,
                 "ctxt": 0
               },
               "tagName": "a",
