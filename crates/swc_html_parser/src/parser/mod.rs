@@ -1508,7 +1508,7 @@ where
                             acknowledged: false,
                             token: Token::StartTag {
                                 tag_name: "head".into(),
-                                raw_tag_name: Some("head".into()),
+                                raw_tag_name: None,
                                 self_closing: false,
                                 attributes: vec![],
                             },
@@ -2049,7 +2049,7 @@ where
                             acknowledged: false,
                             token: Token::StartTag {
                                 tag_name: "body".into(),
-                                raw_tag_name: Some("body".into()),
+                                raw_tag_name: None,
                                 self_closing: false,
                                 attributes: vec![],
                             },
@@ -3171,7 +3171,7 @@ where
                                 acknowledged: false,
                                 token: Token::StartTag {
                                     tag_name: "p".into(),
-                                    raw_tag_name: Some("p".into()),
+                                    raw_tag_name: None,
                                     self_closing: false,
                                     attributes: vec![],
                                 },
@@ -4393,7 +4393,7 @@ where
                             acknowledged: true,
                             token: Token::StartTag {
                                 tag_name: "colgroup".into(),
-                                raw_tag_name: Some("colgroup".into()),
+                                raw_tag_name: None,
                                 self_closing: false,
                                 attributes: vec![],
                             },
@@ -4431,7 +4431,7 @@ where
                             acknowledged: false,
                             token: Token::StartTag {
                                 tag_name: "tbody".into(),
-                                raw_tag_name: Some("tbody".into()),
+                                raw_tag_name: None,
                                 self_closing: false,
                                 attributes: vec![],
                             },
@@ -5047,7 +5047,7 @@ where
                             acknowledged: false,
                             token: Token::StartTag {
                                 tag_name: "tr".into(),
-                                raw_tag_name: Some("tr".into()),
+                                raw_tag_name: None,
                                 self_closing: false,
                                 attributes: vec![],
                             },
