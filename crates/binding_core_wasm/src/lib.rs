@@ -40,7 +40,7 @@ pub fn minify_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
             })
         },
     )
-    .map_err(convert_err)
+    .map_err(|e| convert_err(e, ErrorFormat::Normal))
 }
 
 #[wasm_bindgen(js_name = "parseSync")]
@@ -82,7 +82,7 @@ pub fn parse_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
             })
         },
     )
-    .map_err(convert_err)
+    .map_err(|e| convert_err(e, ErrorFormat::Normal))
 }
 
 #[wasm_bindgen(js_name = "printSync")]
@@ -125,7 +125,7 @@ pub fn print_sync(s: JsValue, opts: JsValue) -> Result<JsValue, JsValue> {
             })
         },
     )
-    .map_err(convert_err)
+    .map_err(|e| convert_err(e, ErrorFormat::Normal))
 }
 
 #[wasm_bindgen(typescript_custom_section)]
