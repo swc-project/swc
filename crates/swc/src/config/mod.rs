@@ -1191,7 +1191,7 @@ pub struct JscExperimental {
     pub cache_root: Option<String>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 pub enum ErrorFormat {
     #[serde(rename = "json")]
     Json,

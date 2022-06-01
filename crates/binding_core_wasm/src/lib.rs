@@ -206,7 +206,7 @@ pub fn transform_sync(
         .context("failed to parse options")
         .map_err(|e| convert_err(e, ErrorFormat::Normal))?;
 
-    let error_format = opts.experimental.error_format;
+    let error_format = opts.experimental.error_format.unwrap_or_default();
 
     try_with_handler(
         c.cm.clone(),
