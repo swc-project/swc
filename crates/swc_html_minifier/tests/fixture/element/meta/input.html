@@ -11,6 +11,51 @@
     <meta name="not-viewport" content="   width=500   ,   initial-scale=1   ">
     <meta name="viewport" contentt="   width=500   ,   initial-scale=1   ">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta
+          http-equiv="Content-Security-Policy"
+          content="
+          default-src 'self';
+          img-src https://*; child-src 'none';
+">
+    <meta
+            http-equiv="Content-Security-Policy"
+            content="
+connect-src 'self';
+font-src 'self';
+frame-src 'self';
+img-src 'self';
+manifest-src 'self';
+media-src 'self';
+object-src 'self';
+script-src https://example.com;
+style-src 'self';
+worker-src 'self'
+">
+    <meta
+            http-equiv="Content-Security-Policy"
+            content="
+default-src https:; report-uri /csp-violation-report-endpoint/
+">
+    <meta http-equiv="Content-Security-Policy" content="default-src https:">
+    <meta http-equiv="Content-Security-Policy" content="default-src https:;">
+    <meta
+            http-equiv="Content-Security-Policy"
+            content="          default-src            'self';        img-src          https://*; child-src             'none';
+">
+    <meta http-equiv="Content-Security-Policy-Wrong" content="
+
+
+    default-src https:
+
+
+">
+    <meta http-equiv="Content-Security-Policy" unknown="
+
+
+    default-src https:
+
+
+">
     <title>Document</title>
 </head>
 <body>
