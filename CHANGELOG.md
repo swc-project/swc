@@ -7,6 +7,12 @@
 
 - **(html/parser)** Fix span of lexer errors (#4846) ([f830726](https://github.com/swc-project/swc/commit/f83072602725e0357a54bd6a5a0655c9430c7f95))
 
+### Features
+
+
+
+- **(html/minifier)** Improve compression of attributes (#4849) ([c5df1a3](https://github.com/swc-project/swc/commit/c5df1a3a54e1445163efb38b4da339ccaed699d0))
+
 ## [1.2.196] - 2022-05-31
 
 ### Bug Fixes
