@@ -5,6 +5,9 @@
 
 
 
+- **(css/parser)** Fix parsing of constant function (#4856) ([e083d0e](https://github.com/swc-project/swc/commit/e083d0eb5a0fe0589876722ce4bdecfe9c006120))
+
+
 - **(html/parser)** Fix span of lexer errors (#4846) ([f830726](https://github.com/swc-project/swc/commit/f83072602725e0357a54bd6a5a0655c9430c7f95))
 
 ### Features
