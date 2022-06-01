@@ -672,7 +672,10 @@ where
 
                         let color = match cur!(self) {
                             Token::Function { value, .. }
-                                if matches!(&*value.to_lowercase(), "var" | "env") =>
+                                if matches!(
+                                    &*value.to_ascii_lowercase(),
+                                    "var" | "env" | "constant"
+                                ) =>
                             {
                                 ComponentValue::Function(self.parse()?)
                             }
@@ -1102,8 +1105,10 @@ where
                             }
                             Token::Function { value, .. }
                                 if is_math_function(value)
-                                    || value.eq_str_ignore_ascii_case("var")
-                                    || value.eq_str_ignore_ascii_case("env") =>
+                                    || matches!(
+                                        &*value.to_ascii_lowercase(),
+                                        "var" | "env" | "constant"
+                                    ) =>
                             {
                                 ComponentValue::Function(self.parse()?)
                             }
@@ -1273,8 +1278,7 @@ where
     {
         match cur!(self) {
             Token::Function { value, .. }
-                if value.eq_str_ignore_ascii_case("var")
-                    || value.eq_str_ignore_ascii_case("env") =>
+                if matches!(&*value.to_ascii_lowercase(), "var" | "env" | "constant") =>
             {
                 Ok(ComponentValue::Function(self.parse()?))
             }
