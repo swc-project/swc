@@ -1791,7 +1791,6 @@ impl<I: Tokens> Parser<I> {
 }
 
 #[ast_node]
-#[allow(clippy::derive_partial_eq_without_eq)]
 pub(in crate::parser) enum PatOrExprOrSpread {
     #[tag("ExprOrSpread")]
     ExprOrSpread(ExprOrSpread),

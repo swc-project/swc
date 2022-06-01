@@ -1,5 +1,3 @@
-#![allow(clippy::derive_partial_eq_without_eq)]
-
 use serde_json::from_str;
 use swc_common::ast_serde;
 
