@@ -1,13 +1,14 @@
-use swc_common::Spanned;
+use swc_common::{SourceMapper, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::emitter;
 
 use super::{Emitter, Result};
-use crate::{list::ListFormat, text_writer::WriteJs};
+use crate::{list::ListFormat, text_writer::WriteJs, util::SourceMapperExt};
 
-impl<'a, W> Emitter<'a, W>
+impl<'a, W, S: SourceMapper> Emitter<'a, W, S>
 where
     W: WriteJs,
+    S: SourceMapperExt,
 {
     #[emitter]
     fn emit_jsx_element(&mut self, node: &JSXElement) -> Result {

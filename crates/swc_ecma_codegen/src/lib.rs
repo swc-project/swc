@@ -13,7 +13,7 @@ use swc_atoms::JsWord;
 use swc_common::{
     comments::{CommentKind, Comments},
     sync::Lrc,
-    BytePos, SourceMap, Span, Spanned, DUMMY_SP,
+    BytePos, SourceMapper, Span, Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::emitter;
@@ -44,42 +44,47 @@ pub mod util;
 pub type Result = io::Result<()>;
 
 pub trait Node: Spanned {
-    fn emit_with<W>(&self, e: &mut Emitter<'_, W>) -> Result
+    fn emit_with<W, S: SourceMapper>(&self, e: &mut Emitter<'_, W, S>) -> Result
     where
-        W: WriteJs;
+        W: WriteJs,
+        S: SourceMapperExt;
 }
 impl<N: Node> Node for Box<N> {
     #[inline]
-    fn emit_with<W>(&self, e: &mut Emitter<'_, W>) -> Result
+    fn emit_with<W, S: SourceMapper>(&self, e: &mut Emitter<'_, W, S>) -> Result
     where
         W: WriteJs,
+        S: SourceMapperExt,
     {
         (**self).emit_with(e)
     }
 }
 impl<'a, N: Node> Node for &'a N {
     #[inline]
-    fn emit_with<W>(&self, e: &mut Emitter<'_, W>) -> Result
+    fn emit_with<W, S: SourceMapper>(&self, e: &mut Emitter<'_, W, S>) -> Result
     where
         W: WriteJs,
+        S: SourceMapperExt,
     {
         (**self).emit_with(e)
     }
 }
 
-pub struct Emitter<'a, W>
+pub struct Emitter<'a, W, S: SourceMapper>
 where
     W: WriteJs,
+    S: SourceMapperExt,
 {
     pub cfg: config::Config,
-    pub cm: Lrc<SourceMap>,
+    pub cm: Lrc<S>,
     pub comments: Option<&'a dyn Comments>,
     pub wr: W,
 }
 
-impl<'a, W> Emitter<'a, W>
+impl<'a, W, S: SourceMapper> Emitter<'a, W, S>
 where
     W: WriteJs,
+    S: SourceMapperExt,
 {
     #[emitter]
     pub fn emit_program(&mut self, node: &Program) -> Result {
@@ -2318,9 +2323,10 @@ where
 }
 
 /// Patterns
-impl<'a, W> Emitter<'a, W>
+impl<'a, W, S: SourceMapper> Emitter<'a, W, S>
 where
     W: WriteJs,
+    S: SourceMapperExt,
 {
     #[emitter]
     fn emit_param(&mut self, node: &Param) -> Result {
@@ -2531,9 +2537,10 @@ where
 }
 
 /// Statements
-impl<'a, W> Emitter<'a, W>
+impl<'a, W, S: SourceMapper> Emitter<'a, W, S>
 where
     W: WriteJs,
+    S: SourceMapperExt,
 {
     #[emitter]
     fn emit_stmt(&mut self, node: &Stmt) -> Result {
@@ -3126,9 +3133,10 @@ where
     }
 }
 
-impl<'a, W> Emitter<'a, W>
+impl<'a, W, S: SourceMapper> Emitter<'a, W, S>
 where
     W: WriteJs,
+    S: SourceMapperExt,
 {
     fn write_delim(&mut self, f: ListFormat) -> Result {
         match f & ListFormat::DelimitersMask {
@@ -3219,9 +3227,10 @@ impl<N> Node for Option<N>
 where
     N: Node,
 {
-    fn emit_with<W>(&self, e: &mut Emitter<'_, W>) -> Result
+    fn emit_with<W, S: SourceMapper>(&self, e: &mut Emitter<'_, W, S>) -> Result
     where
         W: WriteJs,
+        S: SourceMapperExt,
     {
         match *self {
             Some(ref n) => n.emit_with(e),
