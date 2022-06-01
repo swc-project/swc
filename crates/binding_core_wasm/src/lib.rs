@@ -1,3 +1,4 @@
+#![deny(warnings)]
 #![allow(clippy::unused_unit)]
 
 use std::sync::Arc;
