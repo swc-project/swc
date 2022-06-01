@@ -3368,7 +3368,7 @@ where
 
                         self.reconstruct_active_formatting_elements()?;
 
-                        let element = self.insert_html_element(&mut token_and_info.clone())?;
+                        let element = self.insert_html_element(token_and_info)?;
 
                         self.active_formatting_elements
                             .push(ActiveFormattingElement::Element(
@@ -3401,7 +3401,7 @@ where
                     {
                         self.reconstruct_active_formatting_elements()?;
 
-                        let element = self.insert_html_element(&mut token_and_info.clone())?;
+                        let element = self.insert_html_element(token_and_info)?;
 
                         self.active_formatting_elements
                             .push(ActiveFormattingElement::Element(
@@ -3432,7 +3432,7 @@ where
                             self.reconstruct_active_formatting_elements()?;
                         }
 
-                        let element = self.insert_html_element(&mut token_and_info.clone())?;
+                        let element = self.insert_html_element(token_and_info)?;
 
                         self.active_formatting_elements
                             .push(ActiveFormattingElement::Element(
