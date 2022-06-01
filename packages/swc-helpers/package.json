@@ -26,7 +26,7 @@
     "homepage": "https://swc.rs",
     "devDependencies": {
         "@swc/cli": "^0.1.36",
-        "@swc/core": "^1.2.58"
+        "@swc/core": "^1.2.196"
     },
     "dependencies": {
         "tslib": "^2.4.0"
