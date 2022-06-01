@@ -159,9 +159,8 @@ where
     input: I,
     cur: Option<char>,
     cur_pos: BytePos,
-    start_pos: BytePos,
-    /// Used to override last_pos
-    last_pos: Option<BytePos>,
+    last_token_pos: BytePos,
+    last_emitted_error_pos: Option<BytePos>,
     finished: bool,
     state: State,
     return_state: State,
@@ -176,7 +175,6 @@ where
     temporary_buffer: String,
     is_adjusted_current_node_is_element_in_html_namespace: Option<bool>,
     doctype_keyword: Option<String>,
-    last_emitted_error_pos: Option<BytePos>,
 }
 
 impl<I> Lexer<I>
@@ -190,8 +188,8 @@ where
             input,
             cur: None,
             cur_pos: start_pos,
-            start_pos,
-            last_pos: None,
+            last_token_pos: start_pos,
+            last_emitted_error_pos: None,
             finished: false,
             state: State::Data,
             return_state: State::Data,
@@ -207,7 +205,6 @@ where
             temporary_buffer: String::with_capacity(8),
             is_adjusted_current_node_is_element_in_html_namespace: None,
             doctype_keyword: None,
-            last_emitted_error_pos: None,
         };
 
         // A leading Byte Order Mark (BOM) causes the character encoding argument to be
@@ -271,34 +268,43 @@ where
         self.input.cur()
     }
 
+    // Any occurrences of surrogates are surrogate-in-input-stream parse errors. Any
+    // occurrences of noncharacters are noncharacter-in-input-stream parse errors
+    // and any occurrences of controls other than ASCII whitespace and U+0000 NULL
+    // characters are control-character-in-input-stream parse errors.
+    fn validate_input_stream_character(&mut self, c: char) {
+        let code = c as u32;
+
+        if (0xd800..=0xdfff).contains(&code)
+            && (self.last_emitted_error_pos.is_none()
+                || self.last_emitted_error_pos < Some(self.cur_pos))
+        {
+            self.emit_error(ErrorKind::SurrogateInInputStream);
+            self.last_emitted_error_pos = Some(self.input.cur_pos());
+        } else if code != 0x00
+            && is_control(code)
+            && (self.last_emitted_error_pos.is_none()
+                || self.last_emitted_error_pos < Some(self.cur_pos))
+        {
+            self.emit_error(ErrorKind::ControlCharacterInInputStream);
+            self.last_emitted_error_pos = Some(self.input.cur_pos());
+        } else if is_noncharacter(code)
+            && (self.last_emitted_error_pos.is_none()
+                || self.last_emitted_error_pos < Some(self.cur_pos))
+        {
+            self.emit_error(ErrorKind::NoncharacterInInputStream);
+            self.last_emitted_error_pos = Some(self.input.cur_pos());
+        }
+    }
+
     #[inline(always)]
     fn consume(&mut self) {
         self.cur = self.input.cur();
         self.cur_pos = self.input.cur_pos();
 
-        // Any occurrences of surrogates are surrogate-in-input-stream parse errors. Any
-        // occurrences of noncharacters are noncharacter-in-input-stream parse errors
-        // and any occurrences of controls other than ASCII whitespace and U+0000 NULL
-        // characters are control-character-in-input-stream parse errors.
         if let Some(c) = self.cur {
             self.input.bump();
-
-            if self.last_emitted_error_pos.is_none()
-                || self.last_emitted_error_pos < Some(self.cur_pos)
-            {
-                let code = c as u32;
-
-                if (0xd800..=0xdfff).contains(&code) {
-                    self.emit_error(ErrorKind::SurrogateInInputStream);
-                    self.last_emitted_error_pos = Some(self.input.cur_pos());
-                } else if code != 0x00 && is_control(code) {
-                    self.emit_error(ErrorKind::ControlCharacterInInputStream);
-                    self.last_emitted_error_pos = Some(self.input.cur_pos());
-                } else if is_noncharacter(code) {
-                    self.emit_error(ErrorKind::NoncharacterInInputStream);
-                    self.last_emitted_error_pos = Some(self.input.cur_pos());
-                }
-            }
+            self.validate_input_stream_character(c);
         }
     }
 
@@ -327,24 +333,27 @@ where
         c
     }
 
+    #[inline(always)]
     fn emit_error(&mut self, kind: ErrorKind) {
-        let end = self.last_pos.take().unwrap_or_else(|| self.input.cur_pos());
-        let span = Span::new(self.start_pos, end, Default::default());
-
-        self.errors.push(Error::new(span, kind));
+        self.errors.push(Error::new(
+            Span::new(self.cur_pos, self.input.cur_pos(), Default::default()),
+            kind,
+        ));
     }
 
+    #[inline(always)]
     fn emit_token(&mut self, token: Token) {
-        let end = self.last_pos.take().unwrap_or_else(|| self.input.cur_pos());
-        let span = Span::new(self.start_pos, end, Default::default());
+        let span = Span::new(
+            self.last_token_pos,
+            self.input.cur_pos(),
+            Default::default(),
+        );
 
-        self.start_pos = end;
-
-        let token_and_span = TokenAndSpan { span, token };
-
-        self.pending_tokens.push(token_and_span);
+        self.last_token_pos = self.input.cur_pos();
+        self.pending_tokens.push(TokenAndSpan { span, token });
     }
 
+    #[inline(always)]
     fn is_consumed_as_part_of_an_attribute(&mut self) -> bool {
         matches!(
             self.return_state,
@@ -358,6 +367,7 @@ where
     // tag name of the last start tag to have been emitted from this tokenizer, if
     // any. If no start tag has been emitted from this tokenizer, then no end tag
     // token is appropriate.
+    #[inline(always)]
     fn current_end_tag_token_is_an_appropriate_end_tag_token(&mut self) -> bool {
         if let Some(last_start_tag_name) = &self.last_start_tag_name {
             if let Some(Tag {
@@ -373,6 +383,7 @@ where
         false
     }
 
+    #[inline(always)]
     fn emit_temporary_buffer_as_character_tokens(&mut self) {
         for c in self.temporary_buffer.clone().chars() {
             self.emit_token(Token::Character {
