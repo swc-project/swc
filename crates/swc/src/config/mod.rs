@@ -212,6 +212,16 @@ pub struct Options {
 
     #[serde(default)]
     pub output_path: Option<PathBuf>,
+
+    #[serde(default)]
+    pub experimental: ExperimentalOptions,
+}
+
+#[derive(Debug, Clone, Default, Deserialize, Merge)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+pub struct ExperimentalOptions {
+    #[serde(default)]
+    pub error_format: Option<ErrorFormat>,
 }
 
 impl Options {
@@ -1179,9 +1189,6 @@ pub struct JscExperimental {
     /// and will not be considered as breaking changes.
     #[serde(default)]
     pub cache_root: Option<String>,
-
-    #[serde(default)]
-    pub error_format: Option<ErrorFormat>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
