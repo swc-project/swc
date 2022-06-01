@@ -14,7 +14,7 @@ use swc_ecmascript::ast::{EsVersion, Program};
 use wasm_bindgen::prelude::*;
 
 fn convert_err(err: Error, error_format: ErrorFormat) -> JsValue {
-    format!("{:?}", err).into()
+    error_format.format(&err).into()
 }
 
 #[wasm_bindgen(js_name = "minifySync")]

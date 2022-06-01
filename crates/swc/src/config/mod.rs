@@ -1199,6 +1199,32 @@ pub enum ErrorFormat {
     Normal,
 }
 
+impl ErrorFormat {
+    pub fn format(&self, err: &Error) -> String {
+        match self {
+            ErrorFormat::Normal => format!("{:?}", err),
+            ErrorFormat::Json => {
+                let mut map = serde_json::Map::new();
+
+                map.insert("message".into(), serde_json::Value::String(err.to_string()));
+
+                map.insert(
+                    "stack".into(),
+                    serde_json::Value::Array(
+                        err.chain()
+                            .skip(1)
+                            .map(|err| err.to_string())
+                            .map(serde_json::Value::String)
+                            .collect(),
+                    ),
+                );
+
+                serde_json::to_string(&map).unwrap()
+            }
+        }
+    }
+}
+
 impl Default for ErrorFormat {
     fn default() -> Self {
         Self::Normal

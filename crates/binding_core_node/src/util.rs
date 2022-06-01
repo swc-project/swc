@@ -59,7 +59,7 @@ pub fn init_custom_trace_subscriber(
 pub fn try_with<F, Ret>(
     cm: Lrc<SourceMap>,
     skip_filename: bool,
-    error_format: ErrorFormat,
+    _error_format: ErrorFormat,
     op: F,
 ) -> Result<Ret, Error>
 where
