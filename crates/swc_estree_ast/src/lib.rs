@@ -1,5 +1,4 @@
 #![deny(clippy::all)]
-#![allow(clippy::derive_partial_eq_without_eq)]
 #![allow(clippy::enum_variant_names)]
 #![allow(clippy::large_enum_variant)]
 

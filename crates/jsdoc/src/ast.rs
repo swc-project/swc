@@ -1,5 +1,3 @@
-#![allow(clippy::derive_partial_eq_without_eq)]
-
 use swc_atoms::JsWord;
 use swc_common::{ast_node, Span};
 
