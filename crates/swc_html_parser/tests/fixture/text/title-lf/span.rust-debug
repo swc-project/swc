@@ -174,7 +174,8 @@
  12 | |   <p>This is a paragraph.</p>
  13 | |   <p>This is another paragraph.</p>
  14 | |   
- 15 | `-> </body>
+ 15 | |   </body>
+ 16 | `-> </html>
     `----
 
   x Element
@@ -184,7 +185,8 @@
  12 | |   <p>This is a paragraph.</p>
  13 | |   <p>This is another paragraph.</p>
  14 | |   
- 15 | `-> </body>
+ 15 | |   </body>
+ 16 | `-> </html>
     `----
 
   x Child

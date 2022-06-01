@@ -174,18 +174,20 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/attribute/quotes-in-meta/input.html:7:1]
- 7 | ,-> <body>
- 8 | |   test
- 9 | `-> </body>
-   `----
+    ,-[$DIR/tests/fixture/attribute/quotes-in-meta/input.html:7:1]
+  7 | ,-> <body>
+  8 | |   test
+  9 | `-> </body>
+ 10 |     </html>
+    `----
 
   x Element
-   ,-[$DIR/tests/fixture/attribute/quotes-in-meta/input.html:7:1]
- 7 | ,-> <body>
- 8 | |   test
- 9 | `-> </body>
-   `----
+    ,-[$DIR/tests/fixture/attribute/quotes-in-meta/input.html:7:1]
+  7 | ,-> <body>
+  8 | |   test
+  9 | `-> </body>
+ 10 |     </html>
+    `----
 
   x Child
     ,-[$DIR/tests/fixture/attribute/quotes-in-meta/input.html:7:1]

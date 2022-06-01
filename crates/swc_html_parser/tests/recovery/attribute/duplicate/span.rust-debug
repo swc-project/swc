@@ -145,6 +145,7 @@
   8 | |   <div></div class="test" class="test-1" class="test-2">
   9 | |   </div/>
  10 | `-> </body>
+ 11 |     </html>
     `----
 
   x Element
@@ -154,6 +155,7 @@
   8 | |   <div></div class="test" class="test-1" class="test-2">
   9 | |   </div/>
  10 | `-> </body>
+ 11 |     </html>
     `----
 
   x Child

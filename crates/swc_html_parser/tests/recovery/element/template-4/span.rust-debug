@@ -145,6 +145,7 @@
   8 | |       </div>
   9 | |   </template>
  10 | `-> </body>
+ 11 |     </html>
     `----
 
   x Element
@@ -154,6 +155,7 @@
   8 | |       </div>
   9 | |   </template>
  10 | `-> </body>
+ 11 |     </html>
     `----
 
   x Child

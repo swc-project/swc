@@ -165,6 +165,7 @@
  13 | |              width="250"
  14 | |              height="200">
  15 | `-> </body>
+ 16 |     </html>
     `----
 
   x Element
@@ -179,6 +180,7 @@
  13 | |              width="250"
  14 | |              height="200">
  15 | `-> </body>
+ 16 |     </html>
     `----
 
   x Child

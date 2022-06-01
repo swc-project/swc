@@ -56,26 +56,28 @@
   x Element
 
   x Child
-   ,-[$DIR/tests/fixture/document/input.html:3:1]
- 3 | ,-> <body>
- 4 | |   
- 5 | |   <h1>My First Heading</h1>
- 6 | |   
- 7 | |   <p>My first paragraph.</p>
- 8 | |   
- 9 | `-> </body>
-   `----
+    ,-[$DIR/tests/fixture/document/input.html:3:1]
+  3 | ,-> <body>
+  4 | |   
+  5 | |   <h1>My First Heading</h1>
+  6 | |   
+  7 | |   <p>My first paragraph.</p>
+  8 | |   
+  9 | |   </body>
+ 10 | `-> </html>
+    `----
 
   x Element
-   ,-[$DIR/tests/fixture/document/input.html:3:1]
- 3 | ,-> <body>
- 4 | |   
- 5 | |   <h1>My First Heading</h1>
- 6 | |   
- 7 | |   <p>My first paragraph.</p>
- 8 | |   
- 9 | `-> </body>
-   `----
+    ,-[$DIR/tests/fixture/document/input.html:3:1]
+  3 | ,-> <body>
+  4 | |   
+  5 | |   <h1>My First Heading</h1>
+  6 | |   
+  7 | |   <p>My first paragraph.</p>
+  8 | |   
+  9 | |   </body>
+ 10 | `-> </html>
+    `----
 
   x Child
    ,-[$DIR/tests/fixture/document/input.html:3:1]

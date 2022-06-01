@@ -603,6 +603,7 @@
  96 | |       <table><tr><td>test</td><td>test</td></tr></table>
  97 | |       <table><tbody><tr><td>test</td></tr></tbody></table>
  98 | `-> </body>
+ 99 |     </html>
     `----
 
   x Element
@@ -696,6 +697,7 @@
  96 | |       <table><tr><td>test</td><td>test</td></tr></table>
  97 | |       <table><tbody><tr><td>test</td></tr></tbody></table>
  98 | `-> </body>
+ 99 |     </html>
     `----
 
   x Child

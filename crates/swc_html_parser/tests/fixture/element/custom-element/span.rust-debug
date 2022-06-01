@@ -229,6 +229,7 @@
  29 | |       <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
  30 | |   </template>
  31 | `-> </body>
+ 32 |     </html>
     `----
 
   x Element
@@ -259,6 +260,7 @@
  29 | |       <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
  30 | |   </template>
  31 | `-> </body>
+ 32 |     </html>
     `----
 
   x Child

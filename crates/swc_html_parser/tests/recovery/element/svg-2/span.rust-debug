@@ -137,6 +137,7 @@
  6 | ,-> <body>
  7 | |   <svg><!doctype html></svg>
  8 | `-> </body>
+ 9 |     </html>
    `----
 
   x Element
@@ -144,6 +145,7 @@
  6 | ,-> <body>
  7 | |   <svg><!doctype html></svg>
  8 | `-> </body>
+ 9 |     </html>
    `----
 
   x Child

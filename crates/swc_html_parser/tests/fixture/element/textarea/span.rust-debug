@@ -197,6 +197,7 @@
  21 | |   </textarea>
  22 | |   
  23 | `-> </body>
+ 24 |     </html>
     `----
 
   x Element
@@ -219,6 +220,7 @@
  21 | |   </textarea>
  22 | |   
  23 | `-> </body>
+ 24 |     </html>
     `----
 
   x Child

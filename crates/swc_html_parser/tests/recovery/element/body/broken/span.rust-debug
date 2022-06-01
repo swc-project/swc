@@ -117,14 +117,16 @@
    ,-[$DIR/tests/recovery/element/body/broken/input.html:5:1]
  5 | ,-> <body>
  6 | |   <html test="test">
- 7 | `-> </body>
+ 7 | |   </body>
+ 8 | `-> </html>
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/body/broken/input.html:5:1]
  5 | ,-> <body>
  6 | |   <html test="test">
- 7 | `-> </body>
+ 7 | |   </body>
+ 8 | `-> </html>
    `----
 
   x Child

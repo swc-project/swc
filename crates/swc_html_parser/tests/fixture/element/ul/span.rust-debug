@@ -137,6 +137,7 @@
  6 | ,-> <body>
  7 | |   <ul><li>test</li> <li>test</li><li>Test</ul>
  8 | `-> </body>
+ 9 |     </html>
    `----
 
   x Element
@@ -144,6 +145,7 @@
  6 | ,-> <body>
  7 | |   <ul><li>test</li> <li>test</li><li>Test</ul>
  8 | `-> </body>
+ 9 |     </html>
    `----
 
   x Child

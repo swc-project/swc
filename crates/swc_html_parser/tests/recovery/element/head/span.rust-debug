@@ -154,18 +154,20 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/head/input.html:7:1]
- 7 | ,-> <body>
- 8 | |   
- 9 | `-> </body>
-   `----
+    ,-[$DIR/tests/recovery/element/head/input.html:7:1]
+  7 | ,-> <body>
+  8 | |   
+  9 | `-> </body>
+ 10 |     </html>
+    `----
 
   x Element
-   ,-[$DIR/tests/recovery/element/head/input.html:7:1]
- 7 | ,-> <body>
- 8 | |   
- 9 | `-> </body>
-   `----
+    ,-[$DIR/tests/recovery/element/head/input.html:7:1]
+  7 | ,-> <body>
+  8 | |   
+  9 | `-> </body>
+ 10 |     </html>
+    `----
 
   x Child
     ,-[$DIR/tests/recovery/element/head/input.html:7:1]

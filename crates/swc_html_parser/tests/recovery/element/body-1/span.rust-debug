@@ -136,20 +136,22 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/body-1/input.html:6:1]
- 6 | ,-> <body>
- 7 | |   <ul>
- 8 | |       <li>
- 9 | `-> </body>
-   `----
+    ,-[$DIR/tests/recovery/element/body-1/input.html:6:1]
+  6 | ,-> <body>
+  7 | |   <ul>
+  8 | |       <li>
+  9 | `-> </body>
+ 10 |     </html>
+    `----
 
   x Element
-   ,-[$DIR/tests/recovery/element/body-1/input.html:6:1]
- 6 | ,-> <body>
- 7 | |   <ul>
- 8 | |       <li>
- 9 | `-> </body>
-   `----
+    ,-[$DIR/tests/recovery/element/body-1/input.html:6:1]
+  6 | ,-> <body>
+  7 | |   <ul>
+  8 | |       <li>
+  9 | `-> </body>
+ 10 |     </html>
+    `----
 
   x Child
    ,-[$DIR/tests/recovery/element/body-1/input.html:6:1]

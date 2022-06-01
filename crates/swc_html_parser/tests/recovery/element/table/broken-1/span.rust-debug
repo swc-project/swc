@@ -145,6 +145,7 @@
   8 | |   <table><h1>test</h1></table>
   9 | |   
  10 | `-> </body>
+ 11 |     </html>
     `----
 
   x Element
@@ -154,6 +155,7 @@
   8 | |   <table><h1>test</h1></table>
   9 | |   
  10 | `-> </body>
+ 11 |     </html>
     `----
 
   x Child

@@ -136,14 +136,16 @@
    ,-[$DIR/tests/fixture/element/p-2/input.html:6:1]
  6 | ,-> <body>
  7 | |   <p><table></table>
- 8 | `-> </body>
+ 8 | |   </body>
+ 9 | `-> </html>
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/p-2/input.html:6:1]
  6 | ,-> <body>
  7 | |   <p><table></table>
- 8 | `-> </body>
+ 8 | |   </body>
+ 9 | `-> </html>
    `----
 
   x Child

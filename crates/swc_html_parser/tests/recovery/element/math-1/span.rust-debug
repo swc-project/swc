@@ -145,6 +145,7 @@
   8 | |   </math>X
   9 | |   </math>
  10 | `-> </body>
+ 11 |     </html>
     `----
 
   x Element
@@ -154,6 +155,7 @@
   8 | |   </math>X
   9 | |   </math>
  10 | `-> </body>
+ 11 |     </html>
     `----
 
   x Child

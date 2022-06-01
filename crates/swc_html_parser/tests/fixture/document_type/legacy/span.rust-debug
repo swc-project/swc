@@ -258,14 +258,16 @@
     ,-[$DIR/tests/fixture/document_type/legacy/input.html:10:1]
  10 | ,-> <body>
  11 | |   Test
- 12 | `-> </body>
+ 12 | |   </body>
+ 13 | `-> </html>
     `----
 
   x Element
     ,-[$DIR/tests/fixture/document_type/legacy/input.html:10:1]
  10 | ,-> <body>
  11 | |   Test
- 12 | `-> </body>
+ 12 | |   </body>
+ 13 | `-> </html>
     `----
 
   x Child

@@ -169,6 +169,7 @@
  14 | |       </marquee>
  15 | |   </marquee>
  16 | `-> </body>
+ 17 |     </html>
     `----
 
   x Element
@@ -184,6 +185,7 @@
  14 | |       </marquee>
  15 | |   </marquee>
  16 | `-> </body>
+ 17 |     </html>
     `----
 
   x Child

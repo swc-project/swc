@@ -67,7 +67,8 @@
   7 | |   
   8 | |   <img src="w3schools.jpg" alt="W3Schools.com" width="104" height="142">
   9 | |   
- 10 | `-> </body>
+ 10 | |   </body>
+ 11 | `-> </html>
     `----
 
   x Element
@@ -79,7 +80,8 @@
   7 | |   
   8 | |   <img src="w3schools.jpg" alt="W3Schools.com" width="104" height="142">
   9 | |   
- 10 | `-> </body>
+ 10 | |   </body>
+ 11 | `-> </html>
     `----
 
   x Child

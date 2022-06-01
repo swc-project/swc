@@ -359,52 +359,102 @@ where
         }))
     }
 
-    // TODO optimize me and fix ending span
+    // TODO optimize me
     fn node_to_child(&mut self, node: RcNode) -> Child {
         match node.data.clone() {
             Data::DocumentType(document_type) => {
                 Child::DocumentType(DocumentType { ..document_type })
             }
             Data::Element(element) => {
-                let mut attributes = element.attributes;
-
-                if element.namespace == Namespace::HTML {
-                    if !self.html_additional_attributes.is_empty() && &*element.tag_name == "html" {
-                        let additional_attributes: Vec<_> =
-                            self.html_additional_attributes.drain(..).collect();
-
-                        attributes.extend(additional_attributes)
-                    } else if !self.body_additional_attributes.is_empty()
-                        && &*element.tag_name == "body"
-                    {
-                        let additional_attributes: Vec<_> =
-                            self.body_additional_attributes.drain(..).collect();
-
-                        attributes.extend(additional_attributes);
-                    }
-                }
-
                 let mut new_children = vec![];
 
                 for node in node.children.take() {
                     new_children.push(self.node_to_child(node));
                 }
 
-                let start = element.span.lo;
-                let end = match node.end_tag_span.take() {
-                    Some(end_tag_span) => end_tag_span.hi,
-                    _ => match new_children.last() {
-                        Some(Child::DocumentType(DocumentType { span, .. })) => span.hi,
-                        Some(Child::Element(Element { span, .. })) => span.hi,
-                        Some(Child::Comment(Comment { span, .. })) => span.hi,
-                        Some(Child::Text(Text { span, .. })) => span.hi,
-                        _ => element.span.hi,
-                    },
-                };
+                let mut attributes = element.attributes;
 
                 match &*element.tag_name {
+                    "html" if element.namespace == Namespace::HTML => {
+                        if !self.html_additional_attributes.is_empty() {
+                            let additional_attributes: Vec<_> =
+                                self.html_additional_attributes.drain(..).collect();
+
+                            attributes.extend(additional_attributes)
+                        }
+
+                        // Elements and text after `</html>` are moving into `<body>`
+                        let end_html = match node.end_tag_span.take() {
+                            Some(end_tag_span) => end_tag_span.hi,
+                            _ => element.span.hi,
+                        };
+                        let end_children = match new_children.last() {
+                            Some(Child::DocumentType(DocumentType { span, .. })) => span.hi,
+                            Some(Child::Element(Element { span, .. })) => span.hi,
+                            Some(Child::Comment(Comment { span, .. })) => span.hi,
+                            Some(Child::Text(Text { span, .. })) => span.hi,
+                            _ => element.span.hi,
+                        };
+                        let end = if end_html >= end_children {
+                            end_html
+                        } else {
+                            end_children
+                        };
+
+                        Child::Element(Element {
+                            span: Span::new(element.span.lo, end, Default::default()),
+                            children: new_children,
+                            content: None,
+                            attributes,
+                            ..element
+                        })
+                    }
+                    "body" if element.namespace == Namespace::HTML => {
+                        if !self.body_additional_attributes.is_empty() {
+                            let additional_attributes: Vec<_> =
+                                self.body_additional_attributes.drain(..).collect();
+
+                            attributes.extend(additional_attributes);
+                        }
+
+                        // Elements and text after `</body>` are moving into `<body>`
+                        let end_body = match node.end_tag_span.take() {
+                            Some(end_tag_span) => end_tag_span.hi,
+                            _ => element.span.hi,
+                        };
+                        let end_children = match new_children.last() {
+                            Some(Child::DocumentType(DocumentType { span, .. })) => span.hi,
+                            Some(Child::Element(Element { span, .. })) => span.hi,
+                            Some(Child::Comment(Comment { span, .. })) => span.hi,
+                            Some(Child::Text(Text { span, .. })) => span.hi,
+                            _ => element.span.hi,
+                        };
+                        let end = if end_body >= end_children {
+                            end_body
+                        } else {
+                            end_children
+                        };
+
+                        Child::Element(Element {
+                            span: Span::new(element.span.lo, end, Default::default()),
+                            children: new_children,
+                            content: None,
+                            attributes,
+                            ..element
+                        })
+                    }
                     "template" if element.namespace == Namespace::HTML => {
-                        let span = Span::new(start, end, Default::default());
+                        let end = match node.end_tag_span.take() {
+                            Some(end_tag_span) => end_tag_span.hi,
+                            _ => match new_children.last() {
+                                Some(Child::DocumentType(DocumentType { span, .. })) => span.hi,
+                                Some(Child::Element(Element { span, .. })) => span.hi,
+                                Some(Child::Comment(Comment { span, .. })) => span.hi,
+                                Some(Child::Text(Text { span, .. })) => span.hi,
+                                _ => element.span.hi,
+                            },
+                        };
+                        let span = Span::new(element.span.lo, end, Default::default());
 
                         Child::Element(Element {
                             span,
@@ -417,13 +467,26 @@ where
                             ..element
                         })
                     }
-                    _ => Child::Element(Element {
-                        span: Span::new(start, end, Default::default()),
-                        children: new_children,
-                        content: None,
-                        attributes,
-                        ..element
-                    }),
+                    _ => {
+                        let end = match node.end_tag_span.take() {
+                            Some(end_tag_span) => end_tag_span.hi,
+                            _ => match new_children.last() {
+                                Some(Child::DocumentType(DocumentType { span, .. })) => span.hi,
+                                Some(Child::Element(Element { span, .. })) => span.hi,
+                                Some(Child::Comment(Comment { span, .. })) => span.hi,
+                                Some(Child::Text(Text { span, .. })) => span.hi,
+                                _ => element.span.hi,
+                            },
+                        };
+
+                        Child::Element(Element {
+                            span: Span::new(element.span.lo, end, Default::default()),
+                            children: new_children,
+                            content: None,
+                            attributes,
+                            ..element
+                        })
+                    }
                 }
             }
             Data::Text(text) => Child::Text(Text { ..text }),
@@ -902,7 +965,7 @@ where
             Token::EndTag { tag_name, .. } if tag_name == "script" => {
                 let popped = self.open_elements_stack.pop();
 
-                self.update_end_tag_span(popped.as_ref(), &token_and_info);
+                self.update_end_tag_span(popped.as_ref(), token_and_info);
 
                 // No need to handle other steps
             }
@@ -967,7 +1030,7 @@ where
                             let clone = inner_node.clone();
                             let popped = self.open_elements_stack.pop_until_node(&clone);
 
-                            self.update_end_tag_span(popped.as_ref(), &token_and_info);
+                            self.update_end_tag_span(popped.as_ref(), token_and_info);
 
                             return Ok(());
                         }
@@ -1727,7 +1790,7 @@ where
                     Token::EndTag { tag_name, .. } if tag_name == "head" => {
                         let popped = self.open_elements_stack.pop();
 
-                        self.update_end_tag_span(popped.as_ref(), &token_and_info);
+                        self.update_end_tag_span(popped.as_ref(), token_and_info);
                         self.insertion_mode = InsertionMode::AfterHead;
                     }
                     // An end tag whose tag name is one of: "body", "html", "br"
@@ -1801,7 +1864,7 @@ where
                                 .open_elements_stack
                                 .pop_until_tag_name_popped(&["template"]);
 
-                            self.update_end_tag_span(popped.as_ref(), &token_and_info);
+                            self.update_end_tag_span(popped.as_ref(), token_and_info);
                             self.active_formatting_elements.clear_to_last_marker();
                             self.template_insertion_mode_stack.pop();
                             self.reset_insertion_mode();
@@ -1903,7 +1966,7 @@ where
                     Token::EndTag { tag_name, .. } if tag_name == "noscript" => {
                         let popped = self.open_elements_stack.pop();
 
-                        self.update_end_tag_span(popped.as_ref(), &token_and_info);
+                        self.update_end_tag_span(popped.as_ref(), token_and_info);
                         self.insertion_mode = InsertionMode::InHead;
                     }
                     // A character token that is one of U+0009 CHARACTER TABULATION, U+000A LINE
@@ -1974,14 +2037,11 @@ where
             }
             // The "after head" insertion mode
             InsertionMode::AfterHead => {
-                let anything_else =
-                    |parser: &mut Parser<I>, token_and_info: &mut TokenAndInfo| -> PResult<()> {
-                        let is_body = match &token_and_info.token {
-                            Token::EndTag { tag_name, .. } if &*tag_name == "body" => true,
-                            _ => false,
-                        };
-                        parser.insert_html_element(&mut TokenAndInfo {
-                            span: if is_body {
+                let anything_else = |parser: &mut Parser<I>,
+                                     token_and_info: &mut TokenAndInfo|
+                 -> PResult<()> {
+                    parser.insert_html_element(&mut TokenAndInfo {
+                            span: if matches!(&token_and_info.token, Token::EndTag { tag_name, .. } if &*tag_name == "body") {
                                 token_and_info.span
                             } else {
                                 Default::default()
@@ -1994,11 +2054,11 @@ where
                                 attributes: vec![],
                             },
                         })?;
-                        parser.insertion_mode = InsertionMode::InBody;
-                        parser.process_token(token_and_info, None)?;
+                    parser.insertion_mode = InsertionMode::InBody;
+                    parser.process_token(token_and_info, None)?;
 
-                        Ok(())
-                    };
+                    Ok(())
+                };
                 // When the user agent is to apply the rules for the "after head" insertion
                 // mode, the user agent must handle the token as follows:
                 match token {
@@ -2983,7 +3043,7 @@ where
                                 .open_elements_stack
                                 .pop_until_tag_name_popped(&[tag_name]);
 
-                            self.update_end_tag_span(popped.as_ref(), &token_and_info);
+                            self.update_end_tag_span(popped.as_ref(), token_and_info);
                         }
                     }
                     // An end tag whose tag name is "form"
@@ -3089,7 +3149,7 @@ where
                                 .open_elements_stack
                                 .pop_until_tag_name_popped(&["form"]);
 
-                            self.update_end_tag_span(popped.as_ref(), &token_and_info);
+                            self.update_end_tag_span(popped.as_ref(), token_and_info);
                         }
                     }
                     // An end tag whose tag name is "p"
@@ -3156,7 +3216,7 @@ where
                             let popped =
                                 self.open_elements_stack.pop_until_tag_name_popped(&["li"]);
 
-                            self.update_end_tag_span(popped.as_ref(), &token_and_info);
+                            self.update_end_tag_span(popped.as_ref(), token_and_info);
                         }
                     }
                     // An end tag whose tag name is one of: "dd", "dt"
@@ -3199,7 +3259,7 @@ where
                                 .open_elements_stack
                                 .pop_until_tag_name_popped(&[tag_name]);
 
-                            self.update_end_tag_span(popped.as_ref(), &token_and_info);
+                            self.update_end_tag_span(popped.as_ref(), token_and_info);
                         }
                     }
                     // An end tag whose tag name is one of: "h1", "h2", "h3", "h4", "h5", "h6"
@@ -3235,18 +3295,15 @@ where
                         } else {
                             self.open_elements_stack.generate_implied_end_tags();
 
-                            match self.open_elements_stack.items.last() {
-                                Some(node) => {
-                                    if !is_html_element_with_tag_name!(node, tag_name) {
-                                        self.errors.push(Error::new(
-                                            token_and_info.span,
-                                            ErrorKind::UnclosedElements(tag_name.clone()),
-                                        ));
-                                    } else {
-                                        self.update_end_tag_span(Some(node), token_and_info);
-                                    }
+                            if let Some(node) = self.open_elements_stack.items.last() {
+                                if !is_html_element_with_tag_name!(node, tag_name) {
+                                    self.errors.push(Error::new(
+                                        token_and_info.span,
+                                        ErrorKind::UnclosedElements(tag_name.clone()),
+                                    ));
+                                } else {
+                                    self.update_end_tag_span(Some(node), token_and_info);
                                 }
-                                _ => {}
                             }
 
                             self.open_elements_stack
@@ -3466,7 +3523,7 @@ where
                                 .open_elements_stack
                                 .pop_until_tag_name_popped(&[tag_name]);
 
-                            self.update_end_tag_span(popped.as_ref(), &token_and_info);
+                            self.update_end_tag_span(popped.as_ref(), token_and_info);
                             self.active_formatting_elements.clear_to_last_marker();
                         }
                     }
@@ -4240,14 +4297,11 @@ where
                     //
                     // Switch the insertion mode to the original insertion mode.
                     _ => {
-                        match token {
-                            Token::EndTag { .. } => {
-                                self.update_end_tag_span(
-                                    self.open_elements_stack.items.last(),
-                                    token_and_info,
-                                );
-                            }
-                            _ => {}
+                        if let Token::EndTag { .. } = token {
+                            self.update_end_tag_span(
+                                self.open_elements_stack.items.last(),
+                                token_and_info,
+                            );
                         }
 
                         self.open_elements_stack.pop();
@@ -4439,7 +4493,7 @@ where
                                 .open_elements_stack
                                 .pop_until_tag_name_popped(&["table"]);
 
-                            self.update_end_tag_span(popped.as_ref(), &token_and_info);
+                            self.update_end_tag_span(popped.as_ref(), token_and_info);
                             self.reset_insertion_mode();
                         }
                     }
@@ -4694,7 +4748,7 @@ where
                                 .open_elements_stack
                                 .pop_until_tag_name_popped(&["caption"]);
 
-                            self.update_end_tag_span(popped.as_ref(), &token_and_info);
+                            self.update_end_tag_span(popped.as_ref(), token_and_info);
                             self.active_formatting_elements.clear_to_last_marker();
                             self.insertion_mode = InsertionMode::InTable;
                         }
@@ -4891,7 +4945,7 @@ where
                             _ => {
                                 let popped = self.open_elements_stack.pop();
 
-                                self.update_end_tag_span(popped.as_ref(), &token_and_info);
+                                self.update_end_tag_span(popped.as_ref(), token_and_info);
                                 self.insertion_mode = InsertionMode::InTable;
                             }
                         }
@@ -5308,7 +5362,7 @@ where
                                 .open_elements_stack
                                 .pop_until_tag_name_popped(&[tag_name]);
 
-                            self.update_end_tag_span(popped.as_ref(), &token_and_info);
+                            self.update_end_tag_span(popped.as_ref(), token_and_info);
                             self.active_formatting_elements.clear_to_last_marker();
                             self.insertion_mode = InsertionMode::InRow;
                         }
@@ -5505,7 +5559,7 @@ where
                                     Some(node) if is_html_element!(node, "optgroup") => {
                                         let popped = self.open_elements_stack.pop();
 
-                                        self.update_end_tag_span(popped.as_ref(), &token_and_info);
+                                        self.update_end_tag_span(popped.as_ref(), token_and_info);
                                     }
                                     _ => {}
                                 }
@@ -5517,7 +5571,7 @@ where
                             Some(node) if is_html_element!(node, "optgroup") => {
                                 let popped = self.open_elements_stack.pop();
 
-                                self.update_end_tag_span(popped.as_ref(), &token_and_info);
+                                self.update_end_tag_span(popped.as_ref(), token_and_info);
                             }
                             _ => self.errors.push(Error::new(
                                 token_and_info.span,
@@ -5534,7 +5588,7 @@ where
                             Some(node) if is_html_element!(node, "option") => {
                                 let popped = self.open_elements_stack.pop();
 
-                                self.update_end_tag_span(popped.as_ref(), &token_and_info);
+                                self.update_end_tag_span(popped.as_ref(), token_and_info);
                             }
                             _ => self.errors.push(Error::new(
                                 token_and_info.span,
@@ -5564,7 +5618,7 @@ where
                                 .open_elements_stack
                                 .pop_until_tag_name_popped(&["select"]);
 
-                            self.update_end_tag_span(popped.as_ref(), &token_and_info);
+                            self.update_end_tag_span(popped.as_ref(), token_and_info);
                             self.reset_insertion_mode();
                         }
                     }
@@ -6086,7 +6140,7 @@ where
                         } else {
                             let popped = self.open_elements_stack.pop();
 
-                            self.update_end_tag_span(popped.as_ref(), &token_and_info);
+                            self.update_end_tag_span(popped.as_ref(), token_and_info);
 
                             if !self.is_fragment_case {
                                 match self.open_elements_stack.items.last() {
@@ -6529,10 +6583,7 @@ where
                 ErrorKind::UnclosedElements(tag_name.clone()),
             ));
         } else {
-            let node = self
-                .open_elements_stack
-                .items
-                .get(self.open_elements_stack.items.len() - 1);
+            let node = self.open_elements_stack.items.last();
 
             self.update_end_tag_span(node, token_and_info);
         }
@@ -6970,7 +7021,7 @@ where
             {
                 let popped = self.open_elements_stack.pop();
 
-                self.update_end_tag_span(popped.as_ref(), &token_and_info);
+                self.update_end_tag_span(popped.as_ref(), token_and_info);
 
                 return Ok(());
             }
@@ -7444,7 +7495,7 @@ where
         let popped = self.open_elements_stack.pop_until_tag_name_popped(&["p"]);
 
         if is_close_p {
-            self.update_end_tag_span(popped.as_ref(), &token_and_info)
+            self.update_end_tag_span(popped.as_ref(), token_and_info)
         }
     }
 

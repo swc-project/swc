@@ -267,6 +267,7 @@
  12 | |   <svg><p>test</svg>
  13 | |   <svg>test</p></svg>
  14 | `-> </body>
+ 15 |     </html>
     `----
 
   x Element
@@ -276,6 +277,7 @@
  12 | |   <svg><p>test</svg>
  13 | |   <svg>test</p></svg>
  14 | `-> </body>
+ 15 |     </html>
     `----
 
   x Child

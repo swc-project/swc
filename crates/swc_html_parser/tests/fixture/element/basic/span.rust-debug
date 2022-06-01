@@ -241,6 +241,7 @@
  32 | |   
  33 | |   <div>test</div>
  34 | `-> </body>
+ 35 |     </html>
     `----
 
   x Element
@@ -274,6 +275,7 @@
  32 | |   
  33 | |   <div>test</div>
  34 | `-> </body>
+ 35 |     </html>
     `----
 
   x Child

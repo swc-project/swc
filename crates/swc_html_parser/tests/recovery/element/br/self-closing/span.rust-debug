@@ -263,6 +263,7 @@
  11 | |       test</br>test
  12 | |       test</br/>test
  13 | `-> </body>
+ 14 |     </html>
     `----
 
   x Element
@@ -271,6 +272,7 @@
  11 | |       test</br>test
  12 | |       test</br/>test
  13 | `-> </body>
+ 14 |     </html>
     `----
 
   x Child

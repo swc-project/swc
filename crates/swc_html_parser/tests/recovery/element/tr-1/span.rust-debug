@@ -259,6 +259,7 @@
  10 | ,-> <body>
  11 | |   <table><tr></tr></tr></table>
  12 | `-> </body>
+ 13 |     </html>
     `----
 
   x Element
@@ -266,6 +267,7 @@
  10 | ,-> <body>
  11 | |   <table><tr></tr></tr></table>
  12 | `-> </body>
+ 13 |     </html>
     `----
 
   x Child

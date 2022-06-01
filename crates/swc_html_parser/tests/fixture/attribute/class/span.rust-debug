@@ -180,7 +180,8 @@
  16 | |       <a class="moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"></a>
  17 | |       <div class="="></div>
  18 | |       <div class="= = = ="></div>
- 19 | `-> </body>
+ 19 | |   </body>
+ 20 | `-> </html>
     `----
 
   x Element
@@ -198,7 +199,8 @@
  16 | |       <a class="moo <!-- htmlmin:ignore -->bar<!-- htmlmin:ignore --> foo baz"></a>
  17 | |       <div class="="></div>
  18 | |       <div class="= = = ="></div>
- 19 | `-> </body>
+ 19 | |   </body>
+ 20 | `-> </html>
     `----
 
   x Child

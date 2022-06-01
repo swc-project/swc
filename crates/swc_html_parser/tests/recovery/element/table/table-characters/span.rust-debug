@@ -136,14 +136,16 @@
    ,-[$DIR/tests/recovery/element/table/table-characters/input.html:6:1]
  6 | ,-> <body>
  7 | |       A<table>B<tr>C</tr>D</table>
- 8 | `-> </body>
+ 8 | |   </body>
+ 9 | `-> </html>
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/table/table-characters/input.html:6:1]
  6 | ,-> <body>
  7 | |       A<table>B<tr>C</tr>D</table>
- 8 | `-> </body>
+ 8 | |   </body>
+ 9 | `-> </html>
    `----
 
   x Child

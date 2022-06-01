@@ -59,7 +59,8 @@
  5 | |   <p>This is a paragraph.</p>
  6 | |   <p>This is another paragraph.</p>
  7 | |   
- 8 | `-> </body>
+ 8 | |   </body>
+ 9 | `-> </html>
    `----
 
   x Element
@@ -69,7 +70,8 @@
  5 | |   <p>This is a paragraph.</p>
  6 | |   <p>This is another paragraph.</p>
  7 | |   
- 8 | `-> </body>
+ 8 | |   </body>
+ 9 | `-> </html>
    `----
 
   x Child
