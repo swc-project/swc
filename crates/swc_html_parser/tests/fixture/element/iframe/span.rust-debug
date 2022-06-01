@@ -1,16 +1,18 @@
 
   x Document
-   ,-[$DIR/tests/fixture/element/iframe/input.html:1:1]
- 1 | ,-> <!doctype html>
- 2 | |   <html lang="en">
- 3 | |   <head>
- 4 | |       <title>Document</title>
- 5 | |   </head>
- 6 | |   <body>
- 7 | |   <iframe src="test.html" frameborder="0"></iframe>
- 8 | |   </body>
- 9 | `-> </html>
-   `----
+    ,-[$DIR/tests/fixture/element/iframe/input.html:1:1]
+  1 | ,-> <!doctype html>
+  2 | |   <html lang="en">
+  3 | |   <head>
+  4 | |       <title>Document</title>
+  5 | |   </head>
+  6 | |   <body>
+  7 | |   <iframe src="test.html" frameborder="0"></iframe>
+  8 | |   
+  9 | |   <iframe src="banner.html" width="468" height="60" align="left">   Text   </iframe>
+ 10 | |   </body>
+ 11 | `-> </html>
+    `----
 
   x Child
    ,-[$DIR/tests/fixture/element/iframe/input.html:1:1]
@@ -25,28 +27,32 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/iframe/input.html:2:1]
- 2 | ,-> <html lang="en">
- 3 | |   <head>
- 4 | |       <title>Document</title>
- 5 | |   </head>
- 6 | |   <body>
- 7 | |   <iframe src="test.html" frameborder="0"></iframe>
- 8 | |   </body>
- 9 | `-> </html>
-   `----
+    ,-[$DIR/tests/fixture/element/iframe/input.html:2:1]
+  2 | ,-> <html lang="en">
+  3 | |   <head>
+  4 | |       <title>Document</title>
+  5 | |   </head>
+  6 | |   <body>
+  7 | |   <iframe src="test.html" frameborder="0"></iframe>
+  8 | |   
+  9 | |   <iframe src="banner.html" width="468" height="60" align="left">   Text   </iframe>
+ 10 | |   </body>
+ 11 | `-> </html>
+    `----
 
   x Element
-   ,-[$DIR/tests/fixture/element/iframe/input.html:2:1]
- 2 | ,-> <html lang="en">
- 3 | |   <head>
- 4 | |       <title>Document</title>
- 5 | |   </head>
- 6 | |   <body>
- 7 | |   <iframe src="test.html" frameborder="0"></iframe>
- 8 | |   </body>
- 9 | `-> </html>
-   `----
+    ,-[$DIR/tests/fixture/element/iframe/input.html:2:1]
+  2 | ,-> <html lang="en">
+  3 | |   <head>
+  4 | |       <title>Document</title>
+  5 | |   </head>
+  6 | |   <body>
+  7 | |   <iframe src="test.html" frameborder="0"></iframe>
+  8 | |   
+  9 | |   <iframe src="banner.html" width="468" height="60" align="left">   Text   </iframe>
+ 10 | |   </body>
+ 11 | `-> </html>
+    `----
 
   x Attribute
    ,-[$DIR/tests/fixture/element/iframe/input.html:2:1]
@@ -133,20 +139,24 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/iframe/input.html:6:1]
- 6 | ,-> <body>
- 7 | |   <iframe src="test.html" frameborder="0"></iframe>
- 8 | `-> </body>
- 9 |     </html>
-   `----
+    ,-[$DIR/tests/fixture/element/iframe/input.html:6:1]
+  6 | ,-> <body>
+  7 | |   <iframe src="test.html" frameborder="0"></iframe>
+  8 | |   
+  9 | |   <iframe src="banner.html" width="468" height="60" align="left">   Text   </iframe>
+ 10 | `-> </body>
+ 11 |     </html>
+    `----
 
   x Element
-   ,-[$DIR/tests/fixture/element/iframe/input.html:6:1]
- 6 | ,-> <body>
- 7 | |   <iframe src="test.html" frameborder="0"></iframe>
- 8 | `-> </body>
- 9 |     </html>
-   `----
+    ,-[$DIR/tests/fixture/element/iframe/input.html:6:1]
+  6 | ,-> <body>
+  7 | |   <iframe src="test.html" frameborder="0"></iframe>
+  8 | |   
+  9 | |   <iframe src="banner.html" width="468" height="60" align="left">   Text   </iframe>
+ 10 | `-> </body>
+ 11 |     </html>
+    `----
 
   x Child
    ,-[$DIR/tests/fixture/element/iframe/input.html:6:1]
@@ -189,13 +199,75 @@
   x Child
    ,-[$DIR/tests/fixture/element/iframe/input.html:7:1]
  7 | ,-> <iframe src="test.html" frameborder="0"></iframe>
- 8 | `-> </body>
- 9 |     </html>
+ 8 | `-> 
+ 9 |     <iframe src="banner.html" width="468" height="60" align="left">   Text   </iframe>
    `----
 
   x Text
    ,-[$DIR/tests/fixture/element/iframe/input.html:7:1]
  7 | ,-> <iframe src="test.html" frameborder="0"></iframe>
- 8 | `-> </body>
- 9 |     </html>
+ 8 | `-> 
+ 9 |     <iframe src="banner.html" width="468" height="60" align="left">   Text   </iframe>
    `----
+
+  x Child
+   ,-[$DIR/tests/fixture/element/iframe/input.html:9:1]
+ 9 | <iframe src="banner.html" width="468" height="60" align="left">   Text   </iframe>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/element/iframe/input.html:9:1]
+ 9 | <iframe src="banner.html" width="468" height="60" align="left">   Text   </iframe>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/element/iframe/input.html:9:1]
+ 9 | <iframe src="banner.html" width="468" height="60" align="left">   Text   </iframe>
+   :         ^^^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/element/iframe/input.html:9:1]
+ 9 | <iframe src="banner.html" width="468" height="60" align="left">   Text   </iframe>
+   :                           ^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/element/iframe/input.html:9:1]
+ 9 | <iframe src="banner.html" width="468" height="60" align="left">   Text   </iframe>
+   :                                       ^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/element/iframe/input.html:9:1]
+ 9 | <iframe src="banner.html" width="468" height="60" align="left">   Text   </iframe>
+   :                                                   ^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/element/iframe/input.html:9:1]
+ 9 | <iframe src="banner.html" width="468" height="60" align="left">   Text   </iframe>
+   :                                                                ^^^^^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/element/iframe/input.html:9:1]
+ 9 | <iframe src="banner.html" width="468" height="60" align="left">   Text   </iframe>
+   :                                                                ^^^^^^^^^^
+   `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/iframe/input.html:9:1]
+  9 | ,-> <iframe src="banner.html" width="468" height="60" align="left">   Text   </iframe>
+ 10 | `-> </body>
+ 11 |     </html>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/element/iframe/input.html:9:1]
+  9 | ,-> <iframe src="banner.html" width="468" height="60" align="left">   Text   </iframe>
+ 10 | `-> </body>
+ 11 |     </html>
+    `----

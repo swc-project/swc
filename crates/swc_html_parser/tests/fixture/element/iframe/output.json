@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 149,
+    "end": 233,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 17,
-        "end": 149,
+        "end": 233,
         "ctxt": 0
       },
       "tagName": "html",
@@ -110,7 +110,7 @@
           "type": "Element",
           "span": {
             "start": 77,
-            "end": 142,
+            "end": 226,
             "ctxt": 0
           },
           "tagName": "body",
@@ -168,7 +168,88 @@
               "type": "Text",
               "span": {
                 "start": 133,
-                "end": 142,
+                "end": 135,
+                "ctxt": 0
+              },
+              "value": "\n\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 135,
+                "end": 217,
+                "ctxt": 0
+              },
+              "tagName": "iframe",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 143,
+                    "end": 160,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "src",
+                  "value": "banner.html"
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 161,
+                    "end": 172,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "width",
+                  "value": "468"
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 173,
+                    "end": 184,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "height",
+                  "value": "60"
+                },
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 185,
+                    "end": 197,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "align",
+                  "value": "left"
+                }
+              ],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 198,
+                    "end": 208,
+                    "ctxt": 0
+                  },
+                  "value": "   Text   "
+                }
+              ],
+              "content": null
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 217,
+                "end": 226,
                 "ctxt": 0
               },
               "value": "\n\n"
