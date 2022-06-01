@@ -201,6 +201,13 @@ pub fn transform_sync(
         }
     }
 
+    let opts: Options = opts
+        .into_serde()
+        .context("failed to parse options")
+        .map_err(|e| convert_err(e, ErrorFormat::Normal))?;
+
+    let error_format = opts.experimental.error_format;
+
     try_with_handler(
         c.cm.clone(),
         swc::HandlerOpts {
@@ -208,8 +215,6 @@ pub fn transform_sync(
         },
         |handler| {
             c.run(|| {
-                let opts: Options = opts.into_serde().context("failed to parse options")?;
-
                 let fm = c.cm.new_source_file(
                     if opts.filename.is_empty() {
                         FileName::Anon
@@ -226,7 +231,7 @@ pub fn transform_sync(
             })
         },
     )
-    .map_err(convert_err)
+    .map_err(|e| convert_err(e, error_format))
 }
 
 /// Get global sourcemap
