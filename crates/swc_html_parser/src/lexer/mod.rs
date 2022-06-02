@@ -195,7 +195,7 @@ where
             return_state: State::Data,
             errors: vec![],
             last_start_tag_name: None,
-            pending_tokens: vec![],
+            pending_tokens: Vec::with_capacity(32),
             current_doctype_token: None,
             current_comment_token: None,
             current_tag_token: None,
@@ -571,7 +571,7 @@ where
             tag_name: String::with_capacity(10),
             raw_tag_name: Some(String::with_capacity(10)),
             self_closing: false,
-            attributes: vec![],
+            attributes: Vec::with_capacity(255),
         });
     }
 
@@ -582,7 +582,7 @@ where
             tag_name: String::with_capacity(10),
             raw_tag_name: Some(String::with_capacity(10)),
             self_closing: false,
-            attributes: vec![],
+            attributes: Vec::with_capacity(255),
         });
     }
 
