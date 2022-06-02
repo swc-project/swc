@@ -212,6 +212,16 @@ pub struct Options {
 
     #[serde(default)]
     pub output_path: Option<PathBuf>,
+
+    #[serde(default)]
+    pub experimental: ExperimentalOptions,
+}
+
+#[derive(Debug, Clone, Default, Deserialize, Merge)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+pub struct ExperimentalOptions {
+    #[serde(default)]
+    pub error_format: Option<ErrorFormat>,
 }
 
 impl Options {
@@ -1179,6 +1189,46 @@ pub struct JscExperimental {
     /// and will not be considered as breaking changes.
     #[serde(default)]
     pub cache_root: Option<String>,
+}
+
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+pub enum ErrorFormat {
+    #[serde(rename = "json")]
+    Json,
+    #[serde(rename = "normal")]
+    Normal,
+}
+
+impl ErrorFormat {
+    pub fn format(&self, err: &Error) -> String {
+        match self {
+            ErrorFormat::Normal => format!("{:?}", err),
+            ErrorFormat::Json => {
+                let mut map = serde_json::Map::new();
+
+                map.insert("message".into(), serde_json::Value::String(err.to_string()));
+
+                map.insert(
+                    "stack".into(),
+                    serde_json::Value::Array(
+                        err.chain()
+                            .skip(1)
+                            .map(|err| err.to_string())
+                            .map(serde_json::Value::String)
+                            .collect(),
+                    ),
+                );
+
+                serde_json::to_string(&map).unwrap()
+            }
+        }
+    }
+}
+
+impl Default for ErrorFormat {
+    fn default() -> Self {
+        Self::Normal
+    }
 }
 
 /// `paths` section of `tsconfig.json`.
