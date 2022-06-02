@@ -419,14 +419,16 @@
 
   x Child
     ,-[$DIR/tests/recovery/element/colgroup/input.html:14:5]
- 14 | ,-> </colgroup>
- 15 | `-> </table>
+ 14 | </colgroup>
+    :            ^
+ 15 | </table>
     `----
 
   x Text
     ,-[$DIR/tests/recovery/element/colgroup/input.html:14:5]
- 14 | ,-> </colgroup>
- 15 | `-> </table>
+ 14 | </colgroup>
+    :            ^
+ 15 | </table>
     `----
 
   x Child

@@ -294,7 +294,7 @@
                   "type": "Element",
                   "span": {
                     "start": 0,
-                    "end": 424,
+                    "end": 416,
                     "ctxt": 0
                   },
                   "tagName": "tbody",
@@ -540,7 +540,7 @@
                       "type": "Text",
                       "span": {
                         "start": 415,
-                        "end": 424,
+                        "end": 416,
                         "ctxt": 0
                       },
                       "value": "\n"

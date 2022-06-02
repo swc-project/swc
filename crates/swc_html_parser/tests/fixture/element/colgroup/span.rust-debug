@@ -618,14 +618,16 @@
 
   x Child
     ,-[$DIR/tests/fixture/element/colgroup/input.html:16:5]
- 16 | ,-> </tr>
- 17 | `-> </table>
+ 16 | </tr>
+    :      ^
+ 17 | </table>
     `----
 
   x Text
     ,-[$DIR/tests/fixture/element/colgroup/input.html:16:5]
- 16 | ,-> </tr>
- 17 | `-> </table>
+ 16 | </tr>
+    :      ^
+ 17 | </table>
     `----
 
   x Child

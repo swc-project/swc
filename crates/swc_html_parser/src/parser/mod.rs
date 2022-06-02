@@ -7262,10 +7262,13 @@ where
             self.insert_at_position(appropriate_place, last_node.clone());
 
             // 15.
-            let last_pos = self.input.last_pos()?;
             let new_element = self.create_element_for_token(
                 formatting_element.2.token.clone(),
-                Span::new(formatting_element.2.span.lo(), last_pos, Default::default()),
+                Span::new(
+                    formatting_element.2.span.lo(),
+                    token_and_info.span.hi(),
+                    Default::default(),
+                ),
                 Some(Namespace::HTML),
                 None,
             );
@@ -8238,9 +8241,8 @@ where
         // is the same as that of the element in which the adjusted insertion location
         // finds itself, and insert the newly created node at the adjusted insertion
         // location.
-        let last_pos = self.input.last_pos()?;
         let text = Node::new(Data::Text(Text {
-            span: Span::new(token_and_info.span.lo(), last_pos, Default::default()),
+            span: token_and_info.span,
             value: match &token_and_info.token {
                 Token::Character { value, .. } => value.to_string().into(),
                 _ => {
