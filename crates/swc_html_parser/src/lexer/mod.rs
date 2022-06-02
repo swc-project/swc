@@ -624,7 +624,7 @@ where
     fn append_to_current_attribute(
         &mut self,
         name: Option<(char, char)>,
-        value: Option<(char, char)>,
+        value: Option<(bool, Option<char>, Option<char>)>,
     ) {
         if let Some(Tag { attributes, .. }) = &mut self.current_tag_token {
             if let Some(attribute) = attributes.last_mut() {
@@ -637,52 +637,35 @@ where
                 }
 
                 if let Some(value) = value {
-                    if let Some(old_value) = &mut attribute.value {
-                        old_value.push(value.0);
-                    } else {
-                        let mut new_value = String::with_capacity(255);
+                    if let Some(c) = value.1 {
+                        if let Some(old_value) = &mut attribute.value {
+                            old_value.push(c);
+                        } else {
+                            let mut new_value = String::with_capacity(255);
 
-                        new_value.push(value.0);
+                            new_value.push(c);
 
-                        attribute.value = Some(new_value);
+                            attribute.value = Some(new_value);
+                        }
                     }
 
-                    if let Some(raw_value) = &mut attribute.raw_value {
-                        raw_value.push(value.1);
-                    } else {
-                        let mut raw_new_value = String::with_capacity(255);
+                    if let Some(c) = value.2 {
+                        // Quote for attribute was found, so we set empty value by default
+                        if value.0 && attribute.value.is_none() {
+                            attribute.value = Some(String::with_capacity(255));
+                        }
 
-                        raw_new_value.push(value.1);
+                        if let Some(raw_value) = &mut attribute.raw_value {
+                            raw_value.push(c);
+                        } else {
+                            let mut raw_new_value = String::with_capacity(255);
 
-                        attribute.raw_value = Some(raw_new_value);
+                            raw_new_value.push(c);
+
+                            attribute.raw_value = Some(raw_new_value);
+                        }
                     }
                 }
-            }
-        }
-    }
-
-    fn append_raw_to_attribute_value(&mut self, before: bool, c: char) {
-        if let Some(Tag { attributes, .. }) = &mut self.current_tag_token {
-            if let Some(attribute) = attributes.last_mut() {
-                let mut raw_new_value = String::with_capacity(255);
-
-                if before {
-                    if attribute.value.is_none() {
-                        attribute.value = Some(String::with_capacity(255));
-                    }
-
-                    raw_new_value.push(c);
-                }
-
-                if let Some(raw_value) = &attribute.raw_value {
-                    raw_new_value.push_str(raw_value);
-                }
-
-                if !before {
-                    raw_new_value.push(c);
-                }
-
-                attribute.raw_value = Some(raw_new_value);
             }
         }
     }
@@ -2255,13 +2238,13 @@ where
                     // U+0022 QUOTATION MARK (")
                     // Switch to the attribute value (double-quoted) state.
                     Some(c @ '"') => {
-                        self.append_raw_to_attribute_value(true, c);
+                        self.append_to_current_attribute(None, Some((true, None, Some(c))));
                         self.state = State::AttributeValueDoubleQuoted;
                     }
                     // U+0027 APOSTROPHE (')
                     // Switch to the attribute value (single-quoted) state.
                     Some(c @ '\'') => {
-                        self.append_raw_to_attribute_value(true, c);
+                        self.append_to_current_attribute(None, Some((true, None, Some(c))));
                         self.state = State::AttributeValueSingleQuoted;
                     }
                     // U+003E GREATER-THAN SIGN (>)
@@ -2287,7 +2270,7 @@ where
                     // Switch to the after attribute value (quoted) state.
                     // We set value to support empty attributes (i.e. `attr=""`)
                     Some(c @ '"') => {
-                        self.append_raw_to_attribute_value(false, c);
+                        self.append_to_current_attribute(None, Some((false, None, Some(c))));
                         self.state = State::AfterAttributeValueQuoted;
                     }
                     // U+0026 AMPERSAND (&)
@@ -2302,7 +2285,10 @@ where
                     // REPLACEMENT CHARACTER character to the current attribute's value.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_to_current_attribute(None, Some((REPLACEMENT_CHARACTER, c)));
+                        self.append_to_current_attribute(
+                            None,
+                            Some((false, Some(REPLACEMENT_CHARACTER), Some(c))),
+                        );
                     }
                     // EOF
                     // This is an eof-in-tag parse error. Emit an end-of-file token.
@@ -2315,7 +2301,7 @@ where
                     // Anything else
                     // Append the current input character to the current attribute's value.
                     Some(c) => {
-                        self.append_to_current_attribute(None, Some((c, c)));
+                        self.append_to_current_attribute(None, Some((false, Some(c), Some(c))));
                     }
                 }
             }
@@ -2327,7 +2313,7 @@ where
                     // Switch to the after attribute value (quoted) state.
                     // We set value to support empty attributes (i.e. `attr=''`)
                     Some(c @ '\'') => {
-                        self.append_raw_to_attribute_value(false, c);
+                        self.append_to_current_attribute(None, Some((false, None, Some(c))));
                         self.state = State::AfterAttributeValueQuoted;
                     }
                     // U+0026 AMPERSAND (&)
@@ -2342,7 +2328,10 @@ where
                     // REPLACEMENT CHARACTER character to the current attribute's value.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_to_current_attribute(None, Some((REPLACEMENT_CHARACTER, c)));
+                        self.append_to_current_attribute(
+                            None,
+                            Some((false, Some(REPLACEMENT_CHARACTER), Some(c))),
+                        );
                     }
                     // EOF
                     // This is an eof-in-tag parse error. Emit an end-of-file token.
@@ -2355,14 +2344,14 @@ where
                     // Anything else
                     // Append the current input character to the current attribute's value.
                     Some(c) => {
-                        self.append_to_current_attribute(None, Some((c, c)));
+                        self.append_to_current_attribute(None, Some((false, Some(c), Some(c))));
                     }
                 }
             }
             // https://html.spec.whatwg.org/multipage/parsing.html#attribute-value-(unquoted)-state
             State::AttributeValueUnquoted => {
                 let anything_else = |lexer: &mut Lexer<I>, c: char| {
-                    lexer.append_to_current_attribute(None, Some((c, c)));
+                    lexer.append_to_current_attribute(None, Some((false, Some(c), Some(c))));
                 };
 
                 // Consume the next input character:
@@ -2396,7 +2385,10 @@ where
                     // REPLACEMENT CHARACTER character to the current attribute's value.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_to_current_attribute(None, Some((REPLACEMENT_CHARACTER, c)));
+                        self.append_to_current_attribute(
+                            None,
+                            Some((false, Some(REPLACEMENT_CHARACTER), Some(c))),
+                        );
                     }
                     // U+0022 QUOTATION MARK (")
                     // U+0027 APOSTROPHE (')
@@ -4103,7 +4095,7 @@ where
                     // Otherwise, emit the current input character as a character token.
                     Some(c) if c.is_ascii_alphanumeric() => {
                         if self.is_consumed_as_part_of_an_attribute() {
-                            self.append_to_current_attribute(None, Some((c, c)));
+                            self.append_to_current_attribute(None, Some((false, Some(c), Some(c))));
                         } else {
                             self.emit_character_token(c, Some(c));
                         }
