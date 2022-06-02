@@ -8182,7 +8182,7 @@ where
                         }
 
                         let first_pos = text.span.lo();
-                        let last_pos = self.input.last_pos()?;
+                        let last_pos = token_and_info.span.hi();
                         let index = children.len() - 1;
 
                         children[index] = Node::new(Data::Text(Text {
