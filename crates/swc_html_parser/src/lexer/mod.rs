@@ -4455,48 +4455,44 @@ fn is_surrogate(c: u32) -> bool {
 // U+FFFFF, U+10FFFE, or U+10FFFF.
 #[inline(always)]
 fn is_noncharacter(c: u32) -> bool {
-    let c = char::from_u32(c);
-
     matches!(
         c,
-        Some(
-            '\u{FDD0}'
-                ..='\u{FDEF}'
-                    | '\u{FFFE}'
-                    | '\u{FFFF}'
-                    | '\u{1FFFE}'
-                    | '\u{1FFFF}'
-                    | '\u{2FFFE}'
-                    | '\u{2FFFF}'
-                    | '\u{3FFFE}'
-                    | '\u{3FFFF}'
-                    | '\u{4FFFE}'
-                    | '\u{4FFFF}'
-                    | '\u{5FFFE}'
-                    | '\u{5FFFF}'
-                    | '\u{6FFFE}'
-                    | '\u{6FFFF}'
-                    | '\u{7FFFE}'
-                    | '\u{7FFFF}'
-                    | '\u{8FFFE}'
-                    | '\u{8FFFF}'
-                    | '\u{9FFFE}'
-                    | '\u{9FFFF}'
-                    | '\u{AFFFE}'
-                    | '\u{AFFFF}'
-                    | '\u{BFFFE}'
-                    | '\u{BFFFF}'
-                    | '\u{CFFFE}'
-                    | '\u{CFFFF}'
-                    | '\u{DFFFE}'
-                    | '\u{DFFFF}'
-                    | '\u{EFFFE}'
-                    | '\u{EFFFF}'
-                    | '\u{FFFFE}'
-                    | '\u{FFFFF}'
-                    | '\u{10FFFE}'
-                    | '\u{10FFFF}',
-        )
+        0xfdd0
+            ..=0xfdef
+                | 0xfffe
+                | 0xffff
+                | 0x1fffe
+                | 0x1ffff
+                | 0x2fffe
+                | 0x2ffff
+                | 0x3fffe
+                | 0x3ffff
+                | 0x4fffe
+                | 0x4ffff
+                | 0x5fffe
+                | 0x5ffff
+                | 0x6fffe
+                | 0x6ffff
+                | 0x7fffe
+                | 0x7ffff
+                | 0x8fffe
+                | 0x8ffff
+                | 0x9fffe
+                | 0x9ffff
+                | 0xafffe
+                | 0xaffff
+                | 0xbfffe
+                | 0xbffff
+                | 0xcfffe
+                | 0xcffff
+                | 0xdfffe
+                | 0xdffff
+                | 0xefffe
+                | 0xeffff
+                | 0xffffe
+                | 0xfffff
+                | 0x10fffe
+                | 0x10ffff,
     )
 }
 
