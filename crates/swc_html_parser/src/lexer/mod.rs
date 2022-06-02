@@ -240,6 +240,10 @@ where
         self.input.cur_pos()
     }
 
+    fn last_pos(&mut self) -> swc_common::BytePos {
+        self.input.last_pos()
+    }
+
     fn take_errors(&mut self) -> Vec<Error> {
         take(&mut self.errors)
     }

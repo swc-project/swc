@@ -505,17 +505,27 @@ where
             self.input
                 .set_adjusted_current_node_to_html_namespace(is_element_in_html_namespace);
 
-            let span = self.input.cur_span()?;
-            let token = match self.input.cur()? {
+            let mut token_and_info = match self.input.cur()? {
                 Some(_) => {
-                    bump!(self)
+                    let span = self.input.cur_span()?;
+                    let token = bump!(self);
+
+                    TokenAndInfo {
+                        span: span!(self, span.lo),
+                        acknowledged: false,
+                        token,
+                    }
                 }
-                _ => Token::Eof,
-            };
-            let mut token_and_info = TokenAndInfo {
-                span: span!(self, span.lo),
-                acknowledged: false,
-                token,
+                None => {
+                    let start_pos = self.input.start_pos()?;
+                    let last_pos = self.input.last_pos()?;
+
+                    TokenAndInfo {
+                        span: Span::new(start_pos, last_pos, Default::default()),
+                        acknowledged: false,
+                        token: Token::Eof,
+                    }
+                }
             };
 
             // Re-emit errors from tokenizer
@@ -8093,9 +8103,8 @@ where
         &mut self,
         token_and_info: &mut TokenAndInfo,
     ) -> PResult<()> {
-        let last_pos = self.input.last_pos()?;
         let comment = Node::new(Data::Comment(Comment {
-            span: Span::new(token_and_info.span.lo, last_pos, Default::default()),
+            span: token_and_info.span,
             data: match &token_and_info.token {
                 Token::Comment { data } => data.into(),
                 _ => {
@@ -8115,9 +8124,8 @@ where
         &mut self,
         token_and_info: &mut TokenAndInfo,
     ) -> PResult<()> {
-        let last_pos = self.input.last_pos()?;
         let comment = Node::new(Data::Comment(Comment {
-            span: Span::new(token_and_info.span.lo, last_pos, Default::default()),
+            span: token_and_info.span,
             data: match &token_and_info.token {
                 Token::Comment { data } => data.into(),
                 _ => {

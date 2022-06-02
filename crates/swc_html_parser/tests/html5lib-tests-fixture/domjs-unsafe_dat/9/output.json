@@ -57,7 +57,7 @@
                   "type": "Text",
                   "span": {
                     "start": 21,
-                    "end": 32,
+                    "end": 31,
                     "ctxt": 0
                   },
                   "value": "<!-- foo-<"
