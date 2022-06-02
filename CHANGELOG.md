@@ -8,7 +8,13 @@
 - **(css/parser)** Fix parsing of constant function (#4856) ([e083d0e](https://github.com/swc-project/swc/commit/e083d0eb5a0fe0589876722ce4bdecfe9c006120))
 
 
+- **(es/helpers)** Update `@swc/core` of `@swc/helpers` (#4861) ([a4bffcf](https://github.com/swc-project/swc/commit/a4bffcf186f4ce265483ddf3497f7bfd283b1f1b))
+
+
 - **(html/parser)** Fix span of lexer errors (#4846) ([f830726](https://github.com/swc-project/swc/commit/f83072602725e0357a54bd6a5a0655c9430c7f95))
+
+
+- **(html/parser)** Fix end span of closed tags (#4860) ([67b5e3d](https://github.com/swc-project/swc/commit/67b5e3d5b3cb6591efd42ae3a06c9528e2f6954a))
 
 ### Features
 
