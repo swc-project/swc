@@ -12,25 +12,25 @@
   x Child
    ,-[$DIR/tests/recovery/element/noscript/input.html:1:1]
  1 | <head><noscript><!doctype html><!--foo--></noscript>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/noscript/input.html:1:1]
  1 | <head><noscript><!doctype html><!--foo--></noscript>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
    ,-[$DIR/tests/recovery/element/noscript/input.html:1:1]
  1 | <head><noscript><!doctype html><!--foo--></noscript>
-   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/noscript/input.html:1:1]
  1 | <head><noscript><!doctype html><!--foo--></noscript>
-   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child

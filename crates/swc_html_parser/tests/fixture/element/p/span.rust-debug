@@ -50,8 +50,8 @@
  14 | |   
  15 | |   <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
  16 | |   
- 17 | `-> </body>
- 18 |     </html>
+ 17 | |   </body>
+ 18 | `-> </html>
     `----
 
   x Element
@@ -71,8 +71,8 @@
  14 | |   
  15 | |   <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
  16 | |   
- 17 | `-> </body>
- 18 |     </html>
+ 17 | |   </body>
+ 18 | `-> </html>
     `----
 
   x Attribute
@@ -84,15 +84,15 @@
   x Child
    ,-[$DIR/tests/fixture/element/p/input.html:3:1]
  3 | ,-> <head>
- 4 | `->     <title>Document</title>
- 5 |     </head>
+ 4 | |       <title>Document</title>
+ 5 | `-> </head>
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/p/input.html:3:1]
  3 | ,-> <head>
- 4 | `->     <title>Document</title>
- 5 |     </head>
+ 4 | |       <title>Document</title>
+ 5 | `-> </head>
    `----
 
   x Child
@@ -110,13 +110,13 @@
   x Child
    ,-[$DIR/tests/fixture/element/p/input.html:4:5]
  4 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/p/input.html:4:5]
  4 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -210,13 +210,13 @@
   x Child
    ,-[$DIR/tests/fixture/element/p/input.html:7:1]
  7 | <p>Test</p>
-   : ^^^^^^^
+   : ^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/p/input.html:7:1]
  7 | <p>Test</p>
-   : ^^^^^^^
+   : ^^^^^^^^^^^
    `----
 
   x Child
@@ -249,16 +249,16 @@
     ,-[$DIR/tests/fixture/element/p/input.html:8:1]
   8 | ,-> <p>
   9 | |       Test
- 10 | `->     Test
- 11 |     </p>
+ 10 | |       Test
+ 11 | `-> </p>
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/p/input.html:8:1]
   8 | ,-> <p>
   9 | |       Test
- 10 | `->     Test
- 11 |     </p>
+ 10 | |       Test
+ 11 | `-> </p>
     `----
 
   x Child
@@ -350,25 +350,25 @@
   x Child
     ,-[$DIR/tests/fixture/element/p/input.html:15:1]
  15 | <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/p/input.html:15:1]
  15 | <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
     ,-[$DIR/tests/fixture/element/p/input.html:15:1]
  15 | <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
-    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/p/input.html:15:1]
  15 | <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
-    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -386,37 +386,37 @@
   x Child
     ,-[$DIR/tests/fixture/element/p/input.html:15:1]
  15 | <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
-    :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/p/input.html:15:1]
  15 | <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
-    :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
     ,-[$DIR/tests/fixture/element/p/input.html:15:1]
  15 | <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
-    :                        ^^^^^^^^^^^^^^^^^^^^^^^
+    :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/p/input.html:15:1]
  15 | <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
-    :                        ^^^^^^^^^^^^^^^^^^^^^^^
+    :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
     ,-[$DIR/tests/fixture/element/p/input.html:15:1]
  15 | <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
-    :                             ^^^^^^^^^^^^^^^^^^
+    :                             ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/p/input.html:15:1]
  15 | <p><object><param><ins><map><a href="/">Apples</a></map></ins></object></p>
-    :                             ^^^^^^^^^^^^^^^^^^
+    :                             ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute

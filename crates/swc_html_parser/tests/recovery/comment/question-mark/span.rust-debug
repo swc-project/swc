@@ -42,8 +42,8 @@
  10 | |       <?test>
  11 | |       <div ="test"></div>
  12 | |   </div>
- 13 | `-> </body>
- 14 |     </html>
+ 13 | |   </body>
+ 14 | `-> </html>
     `----
 
   x Element
@@ -59,8 +59,8 @@
  10 | |       <?test>
  11 | |       <div ="test"></div>
  12 | |   </div>
- 13 | `-> </body>
- 14 |     </html>
+ 13 | |   </body>
+ 14 | `-> </html>
     `----
 
   x Attribute
@@ -74,8 +74,8 @@
  3 | ,-> <head>
  4 | |       <meta charset="UTF-8">
  5 | |       <meta name="viewport" content="width=device-width, initial-scale=1.0">
- 6 | `->     <title>Document</title>
- 7 |     </head>
+ 6 | |       <title>Document</title>
+ 7 | `-> </head>
    `----
 
   x Element
@@ -83,8 +83,8 @@
  3 | ,-> <head>
  4 | |       <meta charset="UTF-8">
  5 | |       <meta name="viewport" content="width=device-width, initial-scale=1.0">
- 6 | `->     <title>Document</title>
- 7 |     </head>
+ 6 | |       <title>Document</title>
+ 7 | `-> </head>
    `----
 
   x Child
@@ -168,13 +168,13 @@
   x Child
    ,-[$DIR/tests/recovery/comment/question-mark/input.html:6:5]
  6 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/comment/question-mark/input.html:6:5]
  6 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -257,16 +257,16 @@
     ,-[$DIR/tests/recovery/comment/question-mark/input.html:9:1]
   9 | ,-> <div>
  10 | |       <?test>
- 11 | `->     <div ="test"></div>
- 12 |     </div>
+ 11 | |       <div ="test"></div>
+ 12 | `-> </div>
     `----
 
   x Element
     ,-[$DIR/tests/recovery/comment/question-mark/input.html:9:1]
   9 | ,-> <div>
  10 | |       <?test>
- 11 | `->     <div ="test"></div>
- 12 |     </div>
+ 11 | |       <div ="test"></div>
+ 12 | `-> </div>
     `----
 
   x Child
@@ -308,13 +308,13 @@
   x Child
     ,-[$DIR/tests/recovery/comment/question-mark/input.html:11:5]
  11 | <div ="test"></div>
-    : ^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/recovery/comment/question-mark/input.html:11:5]
  11 | <div ="test"></div>
-    : ^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute

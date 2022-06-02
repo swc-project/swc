@@ -46,7 +46,7 @@
           "type": "Element",
           "span": {
             "start": 34,
-            "end": 295,
+            "end": 302,
             "ctxt": 0
           },
           "tagName": "head",
@@ -195,7 +195,7 @@
               "type": "Element",
               "span": {
                 "start": 271,
-                "end": 286,
+                "end": 294,
                 "ctxt": 0
               },
               "tagName": "title",
@@ -282,7 +282,7 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 0,
+                    "start": 320,
                     "end": 324,
                     "ctxt": 0
                   },
@@ -328,7 +328,7 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 0,
+                        "start": 346,
                         "end": 351,
                         "ctxt": 0
                       },
@@ -2215,7 +2215,7 @@
                                                                                                                                                                                                                                                                                                                                             {
                                                                                                                                                                                                                                                                                                                                               "type": "Element",
                                                                                                                                                                                                                                                                                                                                               "span": {
-                                                                                                                                                                                                                                                                                                                                                "start": 0,
+                                                                                                                                                                                                                                                                                                                                                "start": 1514,
                                                                                                                                                                                                                                                                                                                                                 "end": 1518,
                                                                                                                                                                                                                                                                                                                                                 "ctxt": 0
                                                                                                                                                                                                                                                                                                                                               },
@@ -2261,7 +2261,7 @@
                                                                                                                                                                                                                                                                                                                                                 {
                                                                                                                                                                                                                                                                                                                                                   "type": "Element",
                                                                                                                                                                                                                                                                                                                                                   "span": {
-                                                                                                                                                                                                                                                                                                                                                    "start": 0,
+                                                                                                                                                                                                                                                                                                                                                    "start": 1542,
                                                                                                                                                                                                                                                                                                                                                     "end": 1547,
                                                                                                                                                                                                                                                                                                                                                     "ctxt": 0
                                                                                                                                                                                                                                                                                                                                                   },

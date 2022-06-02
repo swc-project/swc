@@ -31,16 +31,12 @@
   x Element
 
   x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/fixture/element/script-cdata/input.html:2:1]
  2 | ,-> <script type="text/javascript">
  3 | |   //<![CDATA[
  4 | |   document.write("<");
- 5 | `-> //]]>
- 6 |     </script>
+ 5 | |   //]]>
+ 6 | `-> </script>
    `----
 
   x Element
@@ -48,8 +44,8 @@
  2 | ,-> <script type="text/javascript">
  3 | |   //<![CDATA[
  4 | |   document.write("<");
- 5 | `-> //]]>
- 6 |     </script>
+ 5 | |   //]]>
+ 6 | `-> </script>
    `----
 
   x Attribute
@@ -95,8 +91,8 @@
   7 | ,-> <script>
   8 | |       let foo = "<!--<script>-->";
   9 | |   
- 10 | `->     console.log(foo);
- 11 |     </script>
+ 10 | |       console.log(foo);
+ 11 | `-> </script>
     `----
 
   x Element
@@ -104,8 +100,8 @@
   7 | ,-> <script>
   8 | |       let foo = "<!--<script>-->";
   9 | |   
- 10 | `->     console.log(foo);
- 11 |     </script>
+ 10 | |       console.log(foo);
+ 11 | `-> </script>
     `----
 
   x Child

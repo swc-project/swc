@@ -58,8 +58,8 @@
  18 | |               <td>
  19 | |       </tr>
  20 | |   </table>
- 21 | `-> </body>
- 22 |     </html>
+ 21 | |   </body>
+ 22 | `-> </html>
     `----
 
   x Element
@@ -83,8 +83,8 @@
  18 | |               <td>
  19 | |       </tr>
  20 | |   </table>
- 21 | `-> </body>
- 22 |     </html>
+ 21 | |   </body>
+ 22 | `-> </html>
     `----
 
   x Attribute
@@ -100,8 +100,8 @@
  5 | |       <meta name="viewport"
  6 | |             content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 | |       <meta http-equiv="X-UA-Compatible" content="ie=edge">
- 8 | `->     <title>Document</title>
- 9 |     </head>
+ 8 | |       <title>Document</title>
+ 9 | `-> </head>
    `----
 
   x Element
@@ -111,8 +111,8 @@
  5 | |       <meta name="viewport"
  6 | |             content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 | |       <meta http-equiv="X-UA-Compatible" content="ie=edge">
- 8 | `->     <title>Document</title>
- 9 |     </head>
+ 8 | |       <title>Document</title>
+ 9 | `-> </head>
    `----
 
   x Child
@@ -232,13 +232,13 @@
   x Child
    ,-[$DIR/tests/recovery/element/td/input.html:8:5]
  8 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/td/input.html:8:5]
  8 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -358,13 +358,13 @@
   x Child
     ,-[$DIR/tests/recovery/element/td/input.html:16:17]
  16 | <td></td>
-    : ^^^^
+    : ^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/recovery/element/td/input.html:16:17]
  16 | <td></td>
-    : ^^^^
+    : ^^^^^^^^^
     `----
 
   x Child

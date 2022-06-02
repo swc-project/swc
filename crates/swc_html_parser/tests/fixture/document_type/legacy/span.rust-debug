@@ -73,8 +73,8 @@
  5 | |       <meta name="viewport"
  6 | |             content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 | |       <meta http-equiv="X-UA-Compatible" content="ie=edge">
- 8 | `->     <title>Document</title>
- 9 |     </head>
+ 8 | |       <title>Document</title>
+ 9 | `-> </head>
    `----
 
   x Element
@@ -84,8 +84,8 @@
  5 | |       <meta name="viewport"
  6 | |             content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 | |       <meta http-equiv="X-UA-Compatible" content="ie=edge">
- 8 | `->     <title>Document</title>
- 9 |     </head>
+ 8 | |       <title>Document</title>
+ 9 | `-> </head>
    `----
 
   x Child
@@ -205,13 +205,13 @@
   x Child
    ,-[$DIR/tests/fixture/document_type/legacy/input.html:8:5]
  8 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/document_type/legacy/input.html:8:5]
  8 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child

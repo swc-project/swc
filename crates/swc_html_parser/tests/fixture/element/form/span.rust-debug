@@ -74,8 +74,8 @@
  26 | |       </fieldset>
  27 | |   </form>
  28 | |   
- 29 | `-> </body>
- 30 |     </html>
+ 29 | |   </body>
+ 30 | `-> </html>
     `----
 
   x Element
@@ -107,8 +107,8 @@
  26 | |       </fieldset>
  27 | |   </form>
  28 | |   
- 29 | `-> </body>
- 30 |     </html>
+ 29 | |   </body>
+ 30 | `-> </html>
     `----
 
   x Attribute
@@ -120,15 +120,15 @@
   x Child
    ,-[$DIR/tests/fixture/element/form/input.html:3:1]
  3 | ,-> <head>
- 4 | `->     <title>Document</title>
- 5 |     </head>
+ 4 | |       <title>Document</title>
+ 5 | `-> </head>
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/form/input.html:3:1]
  3 | ,-> <head>
- 4 | `->     <title>Document</title>
- 5 |     </head>
+ 4 | |       <title>Document</title>
+ 5 | `-> </head>
    `----
 
   x Child
@@ -146,13 +146,13 @@
   x Child
    ,-[$DIR/tests/fixture/element/form/input.html:4:5]
  4 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/form/input.html:4:5]
  4 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -280,8 +280,8 @@
  16 | |       </div>
  17 | |       <div class="form-example">
  18 | |           <input type="submit" value="Subscribe!">
- 19 | `->     </div>
- 20 |     </form>
+ 19 | |       </div>
+ 20 | `-> </form>
     `----
 
   x Element
@@ -297,8 +297,8 @@
  16 | |       </div>
  17 | |       <div class="form-example">
  18 | |           <input type="submit" value="Subscribe!">
- 19 | `->     </div>
- 20 |     </form>
+ 19 | |       </div>
+ 20 | `-> </form>
     `----
 
   x Attribute
@@ -368,13 +368,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/form/input.html:10:9]
  10 | <label for="name">Enter your name: </label>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/form/input.html:10:9]
  10 | <label for="name">Enter your name: </label>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
@@ -504,13 +504,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/form/input.html:14:9]
  14 | <label for="email">Enter your email: </label>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/form/input.html:14:9]
  14 | <label for="email">Enter your email: </label>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
@@ -705,8 +705,8 @@
  23 | |       <fieldset>
  24 | |           <legend>Title</legend>
  25 | |           <label><input type="radio" name="radio"> Select me</label>
- 26 | `->     </fieldset>
- 27 |     </form>
+ 26 | |       </fieldset>
+ 27 | `-> </form>
     `----
 
   x Element
@@ -715,8 +715,8 @@
  23 | |       <fieldset>
  24 | |           <legend>Title</legend>
  25 | |           <label><input type="radio" name="radio"> Select me</label>
- 26 | `->     </fieldset>
- 27 |     </form>
+ 26 | |       </fieldset>
+ 27 | `-> </form>
     `----
 
   x Attribute
@@ -768,13 +768,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/form/input.html:24:9]
  24 | <legend>Title</legend>
-    : ^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/form/input.html:24:9]
  24 | <legend>Title</legend>
-    : ^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -804,13 +804,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/form/input.html:25:9]
  25 | <label><input type="radio" name="radio"> Select me</label>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/form/input.html:25:9]
  25 | <label><input type="radio" name="radio"> Select me</label>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child

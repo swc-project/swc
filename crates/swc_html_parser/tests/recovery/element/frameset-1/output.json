@@ -33,7 +33,7 @@
           "type": "Element",
           "span": {
             "start": 118,
-            "end": 232,
+            "end": 239,
             "ctxt": 0
           },
           "tagName": "head",
@@ -100,7 +100,7 @@
               "type": "Element",
               "span": {
                 "start": 201,
-                "end": 223,
+                "end": 231,
                 "ctxt": 0
               },
               "tagName": "title",
@@ -144,7 +144,7 @@
           "type": "Element",
           "span": {
             "start": 241,
-            "end": 505,
+            "end": 516,
             "ctxt": 0
           },
           "tagName": "frameset",
@@ -260,7 +260,7 @@
               "type": "Element",
               "span": {
                 "start": 344,
-                "end": 493,
+                "end": 504,
                 "ctxt": 0
               },
               "tagName": "frameset",

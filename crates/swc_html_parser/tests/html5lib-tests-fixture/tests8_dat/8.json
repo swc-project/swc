@@ -46,7 +46,7 @@
               "type": "Element",
               "span": {
                 "start": 1,
-                "end": 10,
+                "end": 16,
                 "ctxt": 0
               },
               "tagName": "b",
@@ -66,7 +66,7 @@
                   "type": "Element",
                   "span": {
                     "start": 5,
-                    "end": 10,
+                    "end": 16,
                     "ctxt": 0
                   },
                   "tagName": "div",

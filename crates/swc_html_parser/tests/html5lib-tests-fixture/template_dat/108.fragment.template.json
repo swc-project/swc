@@ -10,7 +10,7 @@
       "type": "Element",
       "span": {
         "start": 1,
-        "end": 51,
+        "end": 68,
         "ctxt": 0
       },
       "tagName": "template",
@@ -21,7 +21,7 @@
         "type": "DocumentFragment",
         "span": {
           "start": 1,
-          "end": 51,
+          "end": 68,
           "ctxt": 0
         },
         "children": [
@@ -29,7 +29,7 @@
             "type": "Element",
             "span": {
               "start": 11,
-              "end": 33,
+              "end": 40,
               "ctxt": 0
             },
             "tagName": "form",
@@ -69,7 +69,7 @@
             "type": "Element",
             "span": {
               "start": 40,
-              "end": 51,
+              "end": 57,
               "ctxt": 0
             },
             "tagName": "div",

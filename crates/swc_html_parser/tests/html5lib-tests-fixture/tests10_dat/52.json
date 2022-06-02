@@ -57,7 +57,7 @@
                   "type": "Element",
                   "span": {
                     "start": 7,
-                    "end": 111,
+                    "end": 141,
                     "ctxt": 0
                   },
                   "tagName": "annotation-xml",
@@ -68,7 +68,7 @@
                       "type": "Element",
                       "span": {
                         "start": 23,
-                        "end": 111,
+                        "end": 124,
                         "ctxt": 0
                       },
                       "tagName": "svg",
@@ -79,7 +79,7 @@
                           "type": "Element",
                           "span": {
                             "start": 28,
-                            "end": 76,
+                            "end": 105,
                             "ctxt": 0
                           },
                           "tagName": "foreignObject",
@@ -90,7 +90,7 @@
                               "type": "Element",
                               "span": {
                                 "start": 43,
-                                "end": 76,
+                                "end": 89,
                                 "ctxt": 0
                               },
                               "tagName": "div",
@@ -101,7 +101,7 @@
                                   "type": "Element",
                                   "span": {
                                     "start": 48,
-                                    "end": 58,
+                                    "end": 70,
                                     "ctxt": 0
                                   },
                                   "tagName": "math",
@@ -112,7 +112,7 @@
                                       "type": "Element",
                                       "span": {
                                         "start": 54,
-                                        "end": 58,
+                                        "end": 63,
                                         "ctxt": 0
                                       },
                                       "tagName": "mi",
@@ -128,7 +128,7 @@
                                   "type": "Element",
                                   "span": {
                                     "start": 70,
-                                    "end": 76,
+                                    "end": 83,
                                     "ctxt": 0
                                   },
                                   "tagName": "span",
@@ -147,7 +147,7 @@
                           "type": "Element",
                           "span": {
                             "start": 105,
-                            "end": 111,
+                            "end": 118,
                             "ctxt": 0
                           },
                           "tagName": "path",

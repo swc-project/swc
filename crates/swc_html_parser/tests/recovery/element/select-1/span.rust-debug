@@ -27,8 +27,8 @@
  4 | |           <option value="test-2">
  5 | |               2
  6 | |           </option>
- 7 | `->     </option>
- 8 |     </select>
+ 7 | |       </option>
+ 8 | `-> </select>
    `----
 
   x Element
@@ -39,8 +39,8 @@
  4 | |           <option value="test-2">
  5 | |               2
  6 | |           </option>
- 7 | `->     </option>
- 8 |     </select>
+ 7 | |       </option>
+ 8 | `-> </select>
    `----
 
   x Child

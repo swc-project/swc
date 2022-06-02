@@ -198,15 +198,15 @@
   x Child
    ,-[$DIR/tests/recovery/element/math/input.html:3:1]
  3 | ,-> <head>
- 4 | `->     <title>MathML in HTML5</title>
- 5 |     </head>
+ 4 | |       <title>MathML in HTML5</title>
+ 5 | `-> </head>
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/math/input.html:3:1]
  3 | ,-> <head>
- 4 | `->     <title>MathML in HTML5</title>
- 5 |     </head>
+ 4 | |       <title>MathML in HTML5</title>
+ 5 | `-> </head>
    `----
 
   x Child
@@ -224,13 +224,13 @@
   x Child
    ,-[$DIR/tests/recovery/element/math/input.html:4:5]
  4 | <title>MathML in HTML5</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/math/input.html:4:5]
  4 | <title>MathML in HTML5</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -443,8 +443,8 @@
  49 | |               x^{2} + y
  50 | |           </annotation>
  51 | |   
- 52 | `->     </semantics>
- 53 |     </math>
+ 52 | |       </semantics>
+ 53 | `-> </math>
     `----
 
   x Element
@@ -493,8 +493,8 @@
  49 | |               x^{2} + y
  50 | |           </annotation>
  51 | |   
- 52 | `->     </semantics>
- 53 |     </math>
+ 52 | |       </semantics>
+ 53 | `-> </math>
     `----
 
   x Child
@@ -710,13 +710,13 @@
   x Child
     ,-[$DIR/tests/recovery/element/math/input.html:14:17]
  14 | <mi>x</mi>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/recovery/element/math/input.html:14:17]
  14 | <mi>x</mi>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Child
@@ -746,13 +746,13 @@
   x Child
     ,-[$DIR/tests/recovery/element/math/input.html:15:17]
  15 | <mn>2</mn>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/recovery/element/math/input.html:15:17]
  15 | <mn>2</mn>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Child
@@ -794,13 +794,13 @@
   x Child
     ,-[$DIR/tests/recovery/element/math/input.html:17:13]
  17 | <mo>+</mo>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/recovery/element/math/input.html:17:13]
  17 | <mo>+</mo>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Child
@@ -830,13 +830,13 @@
   x Child
     ,-[$DIR/tests/recovery/element/math/input.html:18:13]
  18 | <mi>y</mi>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/recovery/element/math/input.html:18:13]
  18 | <mi>y</mi>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Child
@@ -1068,13 +1068,13 @@
   x Child
     ,-[$DIR/tests/recovery/element/math/input.html:27:21]
  27 | <ci>x</ci>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/recovery/element/math/input.html:27:21]
  27 | <ci>x</ci>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Child
@@ -1104,13 +1104,13 @@
   x Child
     ,-[$DIR/tests/recovery/element/math/input.html:28:21]
  28 | <cn type="integer">2</cn>
-    : ^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/recovery/element/math/input.html:28:21]
  28 | <cn type="integer">2</cn>
-    : ^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
@@ -1158,13 +1158,13 @@
   x Child
     ,-[$DIR/tests/recovery/element/math/input.html:30:17]
  30 | <ci>y</ci>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/recovery/element/math/input.html:30:17]
  30 | <ci>y</ci>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Child
@@ -1288,13 +1288,13 @@
   x Child
     ,-[$DIR/tests/recovery/element/math/input.html:37:13]
  37 | <head><title>INNER HTML TITLE</title></head>
-    :       ^^^^^^^^^^^^^^^^^^^^^^^
+    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/recovery/element/math/input.html:37:13]
  37 | <head><title>INNER HTML TITLE</title></head>
-    :       ^^^^^^^^^^^^^^^^^^^^^^^
+    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1326,13 +1326,13 @@
   x Child
     ,-[$DIR/tests/recovery/element/math/input.html:39:13]
  39 | <p>The base of the natural logarithms, approximately 2.71828.</p>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/recovery/element/math/input.html:39:13]
  39 | <p>The base of the natural logarithms, approximately 2.71828.</p>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child

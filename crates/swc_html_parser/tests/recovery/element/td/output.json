@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 17,
-        "end": 464,
+        "end": 471,
         "ctxt": 0
       },
       "tagName": "html",
@@ -46,7 +46,7 @@
           "type": "Element",
           "span": {
             "start": 34,
-            "end": 295,
+            "end": 302,
             "ctxt": 0
           },
           "tagName": "head",
@@ -195,7 +195,7 @@
               "type": "Element",
               "span": {
                 "start": 271,
-                "end": 286,
+                "end": 294,
                 "ctxt": 0
               },
               "tagName": "title",
@@ -259,7 +259,7 @@
               "type": "Element",
               "span": {
                 "start": 369,
-                "end": 413,
+                "end": 419,
                 "ctxt": 0
               },
               "tagName": "svg",
@@ -279,7 +279,7 @@
                   "type": "Element",
                   "span": {
                     "start": 391,
-                    "end": 395,
+                    "end": 400,
                     "ctxt": 0
                   },
                   "tagName": "td",
@@ -381,7 +381,7 @@
                       "type": "Element",
                       "span": {
                         "start": 352,
-                        "end": 441,
+                        "end": 446,
                         "ctxt": 0
                       },
                       "tagName": "tr",

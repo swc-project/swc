@@ -46,7 +46,7 @@
           "type": "Element",
           "span": {
             "start": 34,
-            "end": 69,
+            "end": 76,
             "ctxt": 0
           },
           "tagName": "head",
@@ -66,7 +66,7 @@
               "type": "Element",
               "span": {
                 "start": 45,
-                "end": 60,
+                "end": 68,
                 "ctxt": 0
               },
               "tagName": "title",
@@ -130,7 +130,7 @@
               "type": "Element",
               "span": {
                 "start": 85,
-                "end": 160,
+                "end": 164,
                 "ctxt": 0
               },
               "tagName": "a",
@@ -585,7 +585,7 @@
               "type": "Element",
               "span": {
                 "start": 165,
-                "end": 209,
+                "end": 213,
                 "ctxt": 0
               },
               "tagName": "p",
@@ -630,7 +630,7 @@
               "type": "Element",
               "span": {
                 "start": 214,
-                "end": 249,
+                "end": 253,
                 "ctxt": 0
               },
               "tagName": "p",
@@ -675,7 +675,7 @@
               "type": "Element",
               "span": {
                 "start": 254,
-                "end": 293,
+                "end": 299,
                 "ctxt": 0
               },
               "tagName": "tag",
@@ -898,7 +898,7 @@
               "type": "Element",
               "span": {
                 "start": 455,
-                "end": 472,
+                "end": 481,
                 "ctxt": 0
               },
               "tagName": "button",

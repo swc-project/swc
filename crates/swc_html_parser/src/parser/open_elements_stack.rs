@@ -421,20 +421,24 @@ impl OpenElementsStack {
         }
     }
 
-    pub fn pop_until_tag_name_popped(&mut self, tag_name: &[&str]) {
+    pub fn pop_until_tag_name_popped(&mut self, tag_name: &[&str]) -> Option<RcNode> {
         while let Some(node) = self.pop() {
             if tag_name.contains(&get_tag_name!(node)) && get_namespace!(node) == Namespace::HTML {
-                break;
+                return Some(node);
             }
         }
+
+        None
     }
 
-    pub fn pop_until_node(&mut self, until_to_node: &RcNode) {
-        while let Some(node) = &self.pop() {
-            if is_same_node(node, until_to_node) {
-                break;
+    pub fn pop_until_node(&mut self, until_to_node: &RcNode) -> Option<RcNode> {
+        while let Some(node) = self.pop() {
+            if is_same_node(&node, until_to_node) {
+                return Some(node);
             }
         }
+
+        None
     }
 
     // While the current node is not a MathML text integration point, an HTML

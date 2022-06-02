@@ -103,7 +103,7 @@
               "type": "Element",
               "span": {
                 "start": 27,
-                "end": 37,
+                "end": 41,
                 "ctxt": 0
               },
               "tagName": "b",
@@ -114,7 +114,7 @@
                   "type": "Element",
                   "span": {
                     "start": 31,
-                    "end": 37,
+                    "end": 41,
                     "ctxt": 0
                   },
                   "tagName": "div",
@@ -125,7 +125,7 @@
                       "type": "Element",
                       "span": {
                         "start": 23,
-                        "end": 37,
+                        "end": 41,
                         "ctxt": 0
                       },
                       "tagName": "i",

@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 48,
+        "end": 64,
         "ctxt": 0
       },
       "tagName": "html",
@@ -35,7 +35,7 @@
           "type": "Element",
           "span": {
             "start": 1,
-            "end": 48,
+            "end": 64,
             "ctxt": 0
           },
           "tagName": "body",
@@ -46,7 +46,7 @@
               "type": "Element",
               "span": {
                 "start": 7,
-                "end": 48,
+                "end": 64,
                 "ctxt": 0
               },
               "tagName": "template",
@@ -57,7 +57,7 @@
                 "type": "DocumentFragment",
                 "span": {
                   "start": 7,
-                  "end": 48,
+                  "end": 64,
                   "ctxt": 0
                 },
                 "children": [
@@ -65,7 +65,7 @@
                     "type": "Element",
                     "span": {
                       "start": 17,
-                      "end": 35,
+                      "end": 44,
                       "ctxt": 0
                     },
                     "tagName": "script",
@@ -88,7 +88,7 @@
                     "type": "Element",
                     "span": {
                       "start": 44,
-                      "end": 48,
+                      "end": 53,
                       "ctxt": 0
                     },
                     "tagName": "td",

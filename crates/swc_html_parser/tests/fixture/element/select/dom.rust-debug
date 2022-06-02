@@ -21,3 +21,26 @@
 |         "foo"
 |     "
 "
+|     <select>
+|       " "
+|       <option>
+|         "foo"
+|       " "
+|       <option>
+|         "bar"
+|       <option>
+|         "foo"
+|     "
+"
+|     <select>
+|       <optgroup>
+|         label="Group 1"
+|         <option>
+|           "Option 1.1"
+|       " "
+|       <optgroup>
+|         label="Group 2"
+|         <option>
+|           "Option 2.1"
+|         <option>
+|           "Option 2.2"

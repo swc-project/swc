@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 20,
+        "end": 29,
         "ctxt": 0
       },
       "tagName": "html",
@@ -35,7 +35,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 20,
+            "end": 29,
             "ctxt": 0
           },
           "tagName": "body",
@@ -46,7 +46,7 @@
               "type": "Element",
               "span": {
                 "start": 1,
-                "end": 20,
+                "end": 29,
                 "ctxt": 0
               },
               "tagName": "select",

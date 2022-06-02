@@ -76,8 +76,8 @@
  5 | |   
  6 | |           Test
  7 | |   
- 8 | `->     </title>
- 9 |     </head>
+ 8 | |       </title>
+ 9 | `-> </head>
    `----
 
   x Element
@@ -87,8 +87,8 @@
  5 | |   
  6 | |           Test
  7 | |   
- 8 | `->     </title>
- 9 |     </head>
+ 8 | |       </title>
+ 9 | `-> </head>
    `----
 
   x Child
@@ -206,13 +206,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/title-lf/input.html:12:1]
  12 | <p>This is a paragraph.</p>
-    : ^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/title-lf/input.html:12:1]
  12 | <p>This is a paragraph.</p>
-    : ^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -244,13 +244,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/title-lf/input.html:13:1]
  13 | <p>This is another paragraph.</p>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/title-lf/input.html:13:1]
  13 | <p>This is another paragraph.</p>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child

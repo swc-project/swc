@@ -324,8 +324,8 @@
  5 | |       <meta name="viewport"
  6 | |             content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 | |       <meta http-equiv="X-UA-Compatible" content="ie=edge">
- 8 | `->     <title>Document</title>
- 9 |     </head>
+ 8 | |       <title>Document</title>
+ 9 | `-> </head>
    `----
 
   x Element
@@ -335,8 +335,8 @@
  5 | |       <meta name="viewport"
  6 | |             content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 | |       <meta http-equiv="X-UA-Compatible" content="ie=edge">
- 8 | `->     <title>Document</title>
- 9 |     </head>
+ 8 | |       <title>Document</title>
+ 9 | `-> </head>
    `----
 
   x Child
@@ -456,13 +456,13 @@
   x Child
    ,-[$DIR/tests/recovery/element/foreign-context/input.html:8:5]
  8 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/foreign-context/input.html:8:5]
  8 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -890,8 +890,16 @@
     `----
 
   x Child
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:11:1]
+ 11 | <div><svg></p></svg</div>
+    :           ^^^^
+    `----
 
   x Element
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:11:1]
+ 11 | <div><svg></p></svg</div>
+    :           ^^^^
+    `----
 
   x Child
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:11:1]
@@ -1096,8 +1104,16 @@
     `----
 
   x Child
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:12:1]
+ 12 | <div><svg></br></svg</div>
+    :           ^^^^^
+    `----
 
   x Element
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:12:1]
+ 12 | <div><svg></br></svg</div>
+    :           ^^^^^
+    `----
 
   x Child
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:12:1]
@@ -12584,8 +12600,16 @@
     `----
 
   x Child
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:55:1]
+ 55 | <div><math></p></math</div>
+    :            ^^^^
+    `----
 
   x Element
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:55:1]
+ 55 | <div><math></p></math</div>
+    :            ^^^^
+    `----
 
   x Child
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:55:1]
@@ -12700,8 +12724,16 @@
     `----
 
   x Child
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:56:1]
+ 56 | <div><math></br></math</div>
+    :            ^^^^^
+    `----
 
   x Element
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:56:1]
+ 56 | <div><math></br></math</div>
+    :            ^^^^^
+    `----
 
   x Child
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:56:1]

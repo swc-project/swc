@@ -359,49 +359,102 @@ where
         }))
     }
 
-    // TODO optimize me and fix ending span
+    // TODO optimize me
     fn node_to_child(&mut self, node: RcNode) -> Child {
         match node.data.clone() {
             Data::DocumentType(document_type) => {
                 Child::DocumentType(DocumentType { ..document_type })
             }
             Data::Element(element) => {
-                let mut attributes = element.attributes;
-
-                if element.namespace == Namespace::HTML {
-                    if !self.html_additional_attributes.is_empty() && &*element.tag_name == "html" {
-                        let additional_attributes: Vec<_> =
-                            self.html_additional_attributes.drain(..).collect();
-
-                        attributes.extend(additional_attributes)
-                    } else if !self.body_additional_attributes.is_empty()
-                        && &*element.tag_name == "body"
-                    {
-                        let additional_attributes: Vec<_> =
-                            self.body_additional_attributes.drain(..).collect();
-
-                        attributes.extend(additional_attributes);
-                    }
-                }
-
                 let mut new_children = vec![];
 
                 for node in node.children.take() {
                     new_children.push(self.node_to_child(node));
                 }
 
-                let first = element.span.lo;
-                let last = match new_children.last() {
-                    Some(Child::DocumentType(DocumentType { span, .. })) => span.hi,
-                    Some(Child::Element(Element { span, .. })) => span.hi,
-                    Some(Child::Comment(Comment { span, .. })) => span.hi,
-                    Some(Child::Text(Text { span, .. })) => span.hi,
-                    _ => element.span.hi,
-                };
+                let mut attributes = element.attributes;
 
                 match &*element.tag_name {
+                    "html" if element.namespace == Namespace::HTML => {
+                        if !self.html_additional_attributes.is_empty() {
+                            let additional_attributes: Vec<_> =
+                                self.html_additional_attributes.drain(..).collect();
+
+                            attributes.extend(additional_attributes)
+                        }
+
+                        // Elements and text after `</html>` are moving into `<body>`
+                        let end_html = match node.end_tag_span.take() {
+                            Some(end_tag_span) => end_tag_span.hi,
+                            _ => element.span.hi,
+                        };
+                        let end_children = match new_children.last() {
+                            Some(Child::DocumentType(DocumentType { span, .. })) => span.hi,
+                            Some(Child::Element(Element { span, .. })) => span.hi,
+                            Some(Child::Comment(Comment { span, .. })) => span.hi,
+                            Some(Child::Text(Text { span, .. })) => span.hi,
+                            _ => element.span.hi,
+                        };
+                        let end = if end_html >= end_children {
+                            end_html
+                        } else {
+                            end_children
+                        };
+
+                        Child::Element(Element {
+                            span: Span::new(element.span.lo, end, Default::default()),
+                            children: new_children,
+                            content: None,
+                            attributes,
+                            ..element
+                        })
+                    }
+                    "body" if element.namespace == Namespace::HTML => {
+                        if !self.body_additional_attributes.is_empty() {
+                            let additional_attributes: Vec<_> =
+                                self.body_additional_attributes.drain(..).collect();
+
+                            attributes.extend(additional_attributes);
+                        }
+
+                        // Elements and text after `</body>` are moving into `<body>`
+                        let end_body = match node.end_tag_span.take() {
+                            Some(end_tag_span) => end_tag_span.hi,
+                            _ => element.span.hi,
+                        };
+                        let end_children = match new_children.last() {
+                            Some(Child::DocumentType(DocumentType { span, .. })) => span.hi,
+                            Some(Child::Element(Element { span, .. })) => span.hi,
+                            Some(Child::Comment(Comment { span, .. })) => span.hi,
+                            Some(Child::Text(Text { span, .. })) => span.hi,
+                            _ => element.span.hi,
+                        };
+                        let end = if end_body >= end_children {
+                            end_body
+                        } else {
+                            end_children
+                        };
+
+                        Child::Element(Element {
+                            span: Span::new(element.span.lo, end, Default::default()),
+                            children: new_children,
+                            content: None,
+                            attributes,
+                            ..element
+                        })
+                    }
                     "template" if element.namespace == Namespace::HTML => {
-                        let span = Span::new(first, last, Default::default());
+                        let end = match node.end_tag_span.take() {
+                            Some(end_tag_span) => end_tag_span.hi,
+                            _ => match new_children.last() {
+                                Some(Child::DocumentType(DocumentType { span, .. })) => span.hi,
+                                Some(Child::Element(Element { span, .. })) => span.hi,
+                                Some(Child::Comment(Comment { span, .. })) => span.hi,
+                                Some(Child::Text(Text { span, .. })) => span.hi,
+                                _ => element.span.hi,
+                            },
+                        };
+                        let span = Span::new(element.span.lo, end, Default::default());
 
                         Child::Element(Element {
                             span,
@@ -414,13 +467,26 @@ where
                             ..element
                         })
                     }
-                    _ => Child::Element(Element {
-                        span: Span::new(first, last, Default::default()),
-                        children: new_children,
-                        content: None,
-                        attributes,
-                        ..element
-                    }),
+                    _ => {
+                        let end = match node.end_tag_span.take() {
+                            Some(end_tag_span) => end_tag_span.hi,
+                            _ => match new_children.last() {
+                                Some(Child::DocumentType(DocumentType { span, .. })) => span.hi,
+                                Some(Child::Element(Element { span, .. })) => span.hi,
+                                Some(Child::Comment(Comment { span, .. })) => span.hi,
+                                Some(Child::Text(Text { span, .. })) => span.hi,
+                                _ => element.span.hi,
+                            },
+                        };
+
+                        Child::Element(Element {
+                            span: Span::new(element.span.lo, end, Default::default()),
+                            children: new_children,
+                            content: None,
+                            attributes,
+                            ..element
+                        })
+                    }
                 }
             }
             Data::Text(text) => Child::Text(Text { ..text }),
@@ -897,7 +963,9 @@ where
             // restore the insertion point to its previous value. This value might be the
             // "undefined" value.)
             Token::EndTag { tag_name, .. } if tag_name == "script" => {
-                self.open_elements_stack.pop();
+                let popped = self.open_elements_stack.pop();
+
+                self.update_end_tag_span(popped.as_ref(), token_and_info);
 
                 // No need to handle other steps
             }
@@ -960,8 +1028,9 @@ where
                             if &*element.tag_name.to_ascii_lowercase() == tag_name =>
                         {
                             let clone = inner_node.clone();
+                            let popped = self.open_elements_stack.pop_until_node(&clone);
 
-                            self.open_elements_stack.pop_until_node(&clone);
+                            self.update_end_tag_span(popped.as_ref(), token_and_info);
 
                             return Ok(());
                         }
@@ -1439,7 +1508,7 @@ where
                             acknowledged: false,
                             token: Token::StartTag {
                                 tag_name: "head".into(),
-                                raw_tag_name: Some("head".into()),
+                                raw_tag_name: None,
                                 self_closing: false,
                                 attributes: vec![],
                             },
@@ -1719,7 +1788,9 @@ where
                     //
                     // Switch the insertion mode to "after head".
                     Token::EndTag { tag_name, .. } if tag_name == "head" => {
-                        self.open_elements_stack.pop();
+                        let popped = self.open_elements_stack.pop();
+
+                        self.update_end_tag_span(popped.as_ref(), token_and_info);
                         self.insertion_mode = InsertionMode::AfterHead;
                     }
                     // An end tag whose tag name is one of: "body", "html", "br"
@@ -1789,8 +1860,11 @@ where
                                 _ => {}
                             }
 
-                            self.open_elements_stack
+                            let popped = self
+                                .open_elements_stack
                                 .pop_until_tag_name_popped(&["template"]);
+
+                            self.update_end_tag_span(popped.as_ref(), token_and_info);
                             self.active_formatting_elements.clear_to_last_marker();
                             self.template_insertion_mode_stack.pop();
                             self.reset_insertion_mode();
@@ -1890,7 +1964,9 @@ where
                     //
                     // Switch the insertion mode to "in head".
                     Token::EndTag { tag_name, .. } if tag_name == "noscript" => {
-                        self.open_elements_stack.pop();
+                        let popped = self.open_elements_stack.pop();
+
+                        self.update_end_tag_span(popped.as_ref(), token_and_info);
                         self.insertion_mode = InsertionMode::InHead;
                     }
                     // A character token that is one of U+0009 CHARACTER TABULATION, U+000A LINE
@@ -1961,23 +2037,28 @@ where
             }
             // The "after head" insertion mode
             InsertionMode::AfterHead => {
-                let anything_else =
-                    |parser: &mut Parser<I>, token_and_info: &mut TokenAndInfo| -> PResult<()> {
-                        parser.insert_html_element(&mut TokenAndInfo {
-                            span: Default::default(),
+                let anything_else = |parser: &mut Parser<I>,
+                                     token_and_info: &mut TokenAndInfo|
+                 -> PResult<()> {
+                    parser.insert_html_element(&mut TokenAndInfo {
+                            span: if matches!(&token_and_info.token, Token::EndTag { tag_name, .. } if &*tag_name == "body") {
+                                token_and_info.span
+                            } else {
+                                Default::default()
+                            },
                             acknowledged: false,
                             token: Token::StartTag {
                                 tag_name: "body".into(),
-                                raw_tag_name: Some("body".into()),
+                                raw_tag_name: None,
                                 self_closing: false,
                                 attributes: vec![],
                             },
                         })?;
-                        parser.insertion_mode = InsertionMode::InBody;
-                        parser.process_token(token_and_info, None)?;
+                    parser.insertion_mode = InsertionMode::InBody;
+                    parser.process_token(token_and_info, None)?;
 
-                        Ok(())
-                    };
+                    Ok(())
+                };
                 // When the user agent is to apply the rules for the "after head" insertion
                 // mode, the user agent must handle the token as follows:
                 match token {
@@ -2400,6 +2481,11 @@ where
                             ));
 
                             return Ok(());
+                        } else {
+                            self.update_end_tag_span(
+                                self.open_elements_stack.items.get(1),
+                                token_and_info,
+                            );
                         }
 
                         for node in &self.open_elements_stack.items {
@@ -2457,6 +2543,11 @@ where
                             ));
 
                             return Ok(());
+                        } else {
+                            self.update_end_tag_span(
+                                self.open_elements_stack.items.get(0),
+                                token_and_info,
+                            );
                         }
 
                         for node in &self.open_elements_stack.items {
@@ -2531,7 +2622,7 @@ where
                         ) =>
                     {
                         if self.open_elements_stack.has_in_button_scope("p") {
-                            self.close_p_element(token_and_info);
+                            self.close_p_element(token_and_info, false);
                         }
 
                         self.insert_html_element(token_and_info)?;
@@ -2550,7 +2641,7 @@ where
                         if matches!(tag_name.as_ref(), "h1" | "h2" | "h3" | "h4" | "h5" | "h6") =>
                     {
                         if self.open_elements_stack.has_in_button_scope("p") {
-                            self.close_p_element(token_and_info);
+                            self.close_p_element(token_and_info, false);
                         }
 
                         match self.open_elements_stack.items.last() {
@@ -2588,7 +2679,7 @@ where
                         if matches!(tag_name.as_ref(), "pre" | "listing") =>
                     {
                         if self.open_elements_stack.has_in_button_scope("p") {
-                            self.close_p_element(token_and_info);
+                            self.close_p_element(token_and_info, false);
                         }
 
                         self.insert_html_element(token_and_info)?;
@@ -2626,7 +2717,7 @@ where
                         }
 
                         if self.open_elements_stack.has_in_button_scope("p") {
-                            self.close_p_element(token_and_info);
+                            self.close_p_element(token_and_info, false);
                         }
 
                         let element = self.insert_html_element(token_and_info)?;
@@ -2711,7 +2802,7 @@ where
                         // If the stack of open elements has a p element in button scope,
                         // then close a p element.
                         if self.open_elements_stack.has_in_button_scope("p") {
-                            self.close_p_element(token_and_info);
+                            self.close_p_element(token_and_info, false);
                         }
 
                         self.insert_html_element(token_and_info)?;
@@ -2828,7 +2919,7 @@ where
                         // If the stack of open elements has a p element in button scope,
                         // then close a p element.
                         if self.open_elements_stack.has_in_button_scope("p") {
-                            self.close_p_element(token_and_info);
+                            self.close_p_element(token_and_info, false);
                         }
 
                         self.insert_html_element(token_and_info)?;
@@ -2843,7 +2934,7 @@ where
                     // Switch the tokenizer to the PLAINTEXT state.
                     Token::StartTag { tag_name, .. } if tag_name == "plaintext" => {
                         if self.open_elements_stack.has_in_button_scope("p") {
-                            self.close_p_element(token_and_info);
+                            self.close_p_element(token_and_info, false);
                         }
 
                         self.insert_html_element(token_and_info)?;
@@ -2948,8 +3039,11 @@ where
                                 _ => {}
                             }
 
-                            self.open_elements_stack
+                            let popped = self
+                                .open_elements_stack
                                 .pop_until_tag_name_popped(&[tag_name]);
+
+                            self.update_end_tag_span(popped.as_ref(), token_and_info);
                         }
                     }
                     // An end tag whose tag name is "form"
@@ -3024,6 +3118,8 @@ where
                                     token_and_info.span,
                                     ErrorKind::UnclosedElements(tag_name.clone()),
                                 ));
+                            } else {
+                                self.update_end_tag_span(Some(&node), token_and_info);
                             }
 
                             self.open_elements_stack.remove(&node);
@@ -3049,8 +3145,11 @@ where
                                 _ => {}
                             }
 
-                            self.open_elements_stack
+                            let popped = self
+                                .open_elements_stack
                                 .pop_until_tag_name_popped(&["form"]);
+
+                            self.update_end_tag_span(popped.as_ref(), token_and_info);
                         }
                     }
                     // An end tag whose tag name is "p"
@@ -3068,18 +3167,18 @@ where
                             ));
 
                             self.insert_html_element(&mut TokenAndInfo {
-                                span: Default::default(),
+                                span: token_and_info.span,
                                 acknowledged: false,
                                 token: Token::StartTag {
                                     tag_name: "p".into(),
-                                    raw_tag_name: Some("p".into()),
+                                    raw_tag_name: None,
                                     self_closing: false,
                                     attributes: vec![],
                                 },
                             })?;
                         }
 
-                        self.close_p_element(token_and_info);
+                        self.close_p_element(token_and_info, true);
                     }
                     // An end tag whose tag name is "li"
                     //
@@ -3114,7 +3213,10 @@ where
                                 _ => {}
                             }
 
-                            self.open_elements_stack.pop_until_tag_name_popped(&["li"]);
+                            let popped =
+                                self.open_elements_stack.pop_until_tag_name_popped(&["li"]);
+
+                            self.update_end_tag_span(popped.as_ref(), token_and_info);
                         }
                     }
                     // An end tag whose tag name is one of: "dd", "dt"
@@ -3153,8 +3255,11 @@ where
                                 _ => {}
                             }
 
-                            self.open_elements_stack
+                            let popped = self
+                                .open_elements_stack
                                 .pop_until_tag_name_popped(&[tag_name]);
+
+                            self.update_end_tag_span(popped.as_ref(), token_and_info);
                         }
                     }
                     // An end tag whose tag name is one of: "h1", "h2", "h3", "h4", "h5", "h6"
@@ -3190,14 +3295,15 @@ where
                         } else {
                             self.open_elements_stack.generate_implied_end_tags();
 
-                            match self.open_elements_stack.items.last() {
-                                Some(node) if !is_html_element_with_tag_name!(node, tag_name) => {
+                            if let Some(node) = self.open_elements_stack.items.last() {
+                                if !is_html_element_with_tag_name!(node, tag_name) {
                                     self.errors.push(Error::new(
                                         token_and_info.span,
                                         ErrorKind::UnclosedElements(tag_name.clone()),
                                     ));
+                                } else {
+                                    self.update_end_tag_span(Some(node), token_and_info);
                                 }
-                                _ => {}
                             }
 
                             self.open_elements_stack
@@ -3254,7 +3360,7 @@ where
 
                                 let remove = element.clone();
 
-                                self.run_the_adoption_agency_algorithm(token_and_info)?;
+                                self.run_the_adoption_agency_algorithm(token_and_info, false)?;
                                 self.active_formatting_elements.remove(&remove);
                                 self.open_elements_stack.remove(&remove);
                             }
@@ -3262,7 +3368,7 @@ where
 
                         self.reconstruct_active_formatting_elements()?;
 
-                        let element = self.insert_html_element(&mut token_and_info.clone())?;
+                        let element = self.insert_html_element(token_and_info)?;
 
                         self.active_formatting_elements
                             .push(ActiveFormattingElement::Element(
@@ -3295,7 +3401,7 @@ where
                     {
                         self.reconstruct_active_formatting_elements()?;
 
-                        let element = self.insert_html_element(&mut token_and_info.clone())?;
+                        let element = self.insert_html_element(token_and_info)?;
 
                         self.active_formatting_elements
                             .push(ActiveFormattingElement::Element(
@@ -3322,11 +3428,11 @@ where
                                 ErrorKind::SomethingSeenWhenSomethingOpen(tag_name.clone()),
                             ));
 
-                            self.run_the_adoption_agency_algorithm(token_and_info)?;
+                            self.run_the_adoption_agency_algorithm(token_and_info, false)?;
                             self.reconstruct_active_formatting_elements()?;
                         }
 
-                        let element = self.insert_html_element(&mut token_and_info.clone())?;
+                        let element = self.insert_html_element(token_and_info)?;
 
                         self.active_formatting_elements
                             .push(ActiveFormattingElement::Element(
@@ -3356,7 +3462,7 @@ where
                                 | "u"
                         ) =>
                     {
-                        self.run_the_adoption_agency_algorithm(token_and_info)?;
+                        self.run_the_adoption_agency_algorithm(token_and_info, true)?;
                     }
                     // A start tag whose tag name is one of: "applet", "marquee", "object"
                     //
@@ -3413,8 +3519,11 @@ where
                                 _ => {}
                             }
 
-                            self.open_elements_stack
+                            let popped = self
+                                .open_elements_stack
                                 .pop_until_tag_name_popped(&[tag_name]);
+
+                            self.update_end_tag_span(popped.as_ref(), token_and_info);
                             self.active_formatting_elements.clear_to_last_marker();
                         }
                     }
@@ -3432,7 +3541,7 @@ where
                         if self.document_mode != DocumentMode::Quirks
                             && self.open_elements_stack.has_in_button_scope("p")
                         {
-                            self.close_p_element(token_and_info);
+                            self.close_p_element(token_and_info, false);
                         }
 
                         self.insert_html_element(token_and_info)?;
@@ -3457,7 +3566,7 @@ where
 
                         self.reconstruct_active_formatting_elements()?;
                         self.insert_html_element(&mut TokenAndInfo {
-                            span: Default::default(),
+                            span: token_and_info.span,
                             acknowledged: false,
                             token: Token::StartTag {
                                 tag_name: tag_name.clone(),
@@ -3588,11 +3697,11 @@ where
                         self_closing,
                         ..
                     } if tag_name == "hr" => {
-                        if self.open_elements_stack.has_in_button_scope("p") {
-                            self.close_p_element(&mut token_and_info.clone());
-                        }
-
                         let is_self_closing = *self_closing;
+
+                        if self.open_elements_stack.has_in_button_scope("p") {
+                            self.close_p_element(token_and_info, false);
+                        }
 
                         self.insert_html_element(token_and_info)?;
                         self.open_elements_stack.pop();
@@ -3673,7 +3782,7 @@ where
                     // Follow the generic raw text element parsing algorithm.
                     Token::StartTag { tag_name, .. } if tag_name == "xmp" => {
                         if self.open_elements_stack.has_in_button_scope("p") {
-                            self.close_p_element(token_and_info);
+                            self.close_p_element(token_and_info, false);
                         }
 
                         self.reconstruct_active_formatting_elements()?;
@@ -4177,7 +4286,9 @@ where
                     // steps from step 1.
                     Token::EndTag { tag_name, .. } if tag_name == "script" => {
                         // More things can be implemented to intercept script execution
-                        self.open_elements_stack.pop();
+                        let popped = self.open_elements_stack.pop();
+
+                        self.update_end_tag_span(popped.as_ref(), token_and_info);
                         self.insertion_mode = self.original_insertion_mode.clone();
                     }
                     // Any other end tag
@@ -4186,6 +4297,13 @@ where
                     //
                     // Switch the insertion mode to the original insertion mode.
                     _ => {
+                        if let Token::EndTag { .. } = token {
+                            self.update_end_tag_span(
+                                self.open_elements_stack.items.last(),
+                                token_and_info,
+                            );
+                        }
+
                         self.open_elements_stack.pop();
                         self.insertion_mode = self.original_insertion_mode.clone();
                     }
@@ -4275,7 +4393,7 @@ where
                             acknowledged: true,
                             token: Token::StartTag {
                                 tag_name: "colgroup".into(),
-                                raw_tag_name: Some("colgroup".into()),
+                                raw_tag_name: None,
                                 self_closing: false,
                                 attributes: vec![],
                             },
@@ -4313,7 +4431,7 @@ where
                             acknowledged: false,
                             token: Token::StartTag {
                                 tag_name: "tbody".into(),
-                                raw_tag_name: Some("tbody".into()),
+                                raw_tag_name: None,
                                 self_closing: false,
                                 attributes: vec![],
                             },
@@ -4371,8 +4489,11 @@ where
                                 ErrorKind::StrayEndTag(tag_name.clone()),
                             ));
                         } else {
-                            self.open_elements_stack
+                            let popped = self
+                                .open_elements_stack
                                 .pop_until_tag_name_popped(&["table"]);
+
+                            self.update_end_tag_span(popped.as_ref(), token_and_info);
                             self.reset_insertion_mode();
                         }
                     }
@@ -4623,8 +4744,11 @@ where
                                 _ => {}
                             }
 
-                            self.open_elements_stack
+                            let popped = self
+                                .open_elements_stack
                                 .pop_until_tag_name_popped(&["caption"]);
+
+                            self.update_end_tag_span(popped.as_ref(), token_and_info);
                             self.active_formatting_elements.clear_to_last_marker();
                             self.insertion_mode = InsertionMode::InTable;
                         }
@@ -4819,7 +4943,9 @@ where
                                 ));
                             }
                             _ => {
-                                self.open_elements_stack.pop();
+                                let popped = self.open_elements_stack.pop();
+
+                                self.update_end_tag_span(popped.as_ref(), token_and_info);
                                 self.insertion_mode = InsertionMode::InTable;
                             }
                         }
@@ -4921,7 +5047,7 @@ where
                             acknowledged: false,
                             token: Token::StartTag {
                                 tag_name: "tr".into(),
-                                raw_tag_name: Some("tr".into()),
+                                raw_tag_name: None,
                                 self_closing: false,
                                 attributes: vec![],
                             },
@@ -4951,6 +5077,10 @@ where
                             ));
                         } else {
                             self.open_elements_stack.clear_back_to_table_body_context();
+                            self.update_end_tag_span(
+                                self.open_elements_stack.items.last(),
+                                token_and_info,
+                            );
                             self.open_elements_stack.pop();
                             self.insertion_mode = InsertionMode::InTable;
                         }
@@ -5071,6 +5201,10 @@ where
                             ));
                         } else {
                             self.open_elements_stack.clear_back_to_table_row_context();
+                            self.update_end_tag_span(
+                                self.open_elements_stack.items.last(),
+                                token_and_info,
+                            );
                             self.open_elements_stack.pop();
                             self.insertion_mode = InsertionMode::InTableBody;
                         }
@@ -5224,8 +5358,11 @@ where
                                 _ => {}
                             }
 
-                            self.open_elements_stack
+                            let popped = self
+                                .open_elements_stack
                                 .pop_until_tag_name_popped(&[tag_name]);
+
+                            self.update_end_tag_span(popped.as_ref(), token_and_info);
                             self.active_formatting_elements.clear_to_last_marker();
                             self.insertion_mode = InsertionMode::InRow;
                         }
@@ -5420,7 +5557,9 @@ where
                                     .get(self.open_elements_stack.items.len() - 2)
                                 {
                                     Some(node) if is_html_element!(node, "optgroup") => {
-                                        self.open_elements_stack.pop();
+                                        let popped = self.open_elements_stack.pop();
+
+                                        self.update_end_tag_span(popped.as_ref(), token_and_info);
                                     }
                                     _ => {}
                                 }
@@ -5430,7 +5569,9 @@ where
 
                         match self.open_elements_stack.items.last() {
                             Some(node) if is_html_element!(node, "optgroup") => {
-                                self.open_elements_stack.pop();
+                                let popped = self.open_elements_stack.pop();
+
+                                self.update_end_tag_span(popped.as_ref(), token_and_info);
                             }
                             _ => self.errors.push(Error::new(
                                 token_and_info.span,
@@ -5445,7 +5586,9 @@ where
                     Token::EndTag { tag_name, .. } if tag_name == "option" => {
                         match self.open_elements_stack.items.last() {
                             Some(node) if is_html_element!(node, "option") => {
-                                self.open_elements_stack.pop();
+                                let popped = self.open_elements_stack.pop();
+
+                                self.update_end_tag_span(popped.as_ref(), token_and_info);
                             }
                             _ => self.errors.push(Error::new(
                                 token_and_info.span,
@@ -5471,8 +5614,11 @@ where
                                 ErrorKind::StrayEndTag(tag_name.clone()),
                             ));
                         } else {
-                            self.open_elements_stack
+                            let popped = self
+                                .open_elements_stack
                                 .pop_until_tag_name_popped(&["select"]);
+
+                            self.update_end_tag_span(popped.as_ref(), token_and_info);
                             self.reset_insertion_mode();
                         }
                     }
@@ -5876,6 +6022,10 @@ where
                                 ErrorKind::StrayEndTag(tag_name.clone()),
                             ));
                         } else {
+                            self.update_end_tag_span(
+                                self.open_elements_stack.items.get(0),
+                                token_and_info,
+                            );
                             self.insertion_mode = InsertionMode::AfterAfterBody;
                         }
                     }
@@ -5988,7 +6138,9 @@ where
                                 ErrorKind::StrayEndTag(tag_name.clone()),
                             ));
                         } else {
-                            self.open_elements_stack.pop();
+                            let popped = self.open_elements_stack.pop();
+
+                            self.update_end_tag_span(popped.as_ref(), token_and_info);
 
                             if !self.is_fragment_case {
                                 match self.open_elements_stack.items.last() {
@@ -6116,6 +6268,10 @@ where
                     //
                     // Switch the insertion mode to "after after frameset".
                     Token::EndTag { tag_name, .. } if tag_name == "html" => {
+                        self.update_end_tag_span(
+                            self.open_elements_stack.items.last(),
+                            token_and_info,
+                        );
                         self.insertion_mode = InsertionMode::AfterAfterFrameset;
                     }
                     // A start tag whose tag name is "noframes"
@@ -6426,6 +6582,10 @@ where
                 token_and_info.span,
                 ErrorKind::UnclosedElements(tag_name.clone()),
             ));
+        } else {
+            let node = self.open_elements_stack.items.last();
+
+            self.update_end_tag_span(node, token_and_info);
         }
 
         // 2.- 3.
@@ -6843,6 +7003,7 @@ where
     fn run_the_adoption_agency_algorithm(
         &mut self,
         token_and_info: &mut TokenAndInfo,
+        is_closing: bool,
     ) -> PResult<()> {
         // 1.
         let subject = match &token_and_info.token {
@@ -6859,7 +7020,11 @@ where
             if is_html_element_with_tag_name!(last, &*subject)
                 && self.active_formatting_elements.get_position(last).is_none()
             {
-                self.open_elements_stack.pop();
+                let popped = self.open_elements_stack.pop();
+
+                if is_closing {
+                    self.update_end_tag_span(popped.as_ref(), token_and_info);
+                }
 
                 return Ok(());
             }
@@ -6901,7 +7066,7 @@ where
                 });
 
             if formatting_element.is_none() {
-                self.any_other_end_tag_for_in_body_insertion_mode(&mut token_and_info.clone());
+                self.any_other_end_tag_for_in_body_insertion_mode(token_and_info);
 
                 return Ok(());
             }
@@ -6944,7 +7109,6 @@ where
 
             // 6.
             if let Some(node) = self.open_elements_stack.items.last() {
-                // errEndTagViolatesNestingRules(name);
                 if !is_same_node(node, &formatting_element.1) {
                     self.errors.push(Error::new(
                         token_and_info.span,
@@ -6967,6 +7131,10 @@ where
             if furthest_block.is_none() {
                 while let Some(node) = self.open_elements_stack.pop() {
                     if is_same_node(&node, &formatting_element.1) {
+                        if is_closing {
+                            self.update_end_tag_span(Some(&node), token_and_info);
+                        }
+
                         break;
                     }
                 }
@@ -7026,7 +7194,6 @@ where
 
                 // 13.6
                 let node_formatting_index = node_formatting_index.unwrap();
-                let last_pos = self.input.last_pos()?;
                 let token_and_info =
                     match self.active_formatting_elements.items[node_formatting_index] {
                         ActiveFormattingElement::Element(ref h, ref t) => {
@@ -7040,7 +7207,11 @@ where
                     };
                 let new_element = self.create_element_for_token(
                     token_and_info.token.clone(),
-                    Span::new(token_and_info.span.lo, last_pos, Default::default()),
+                    Span::new(
+                        token_and_info.span.lo,
+                        token_and_info.span.hi,
+                        Default::default(),
+                    ),
                     Some(Namespace::HTML),
                     None,
                 );
@@ -7300,7 +7471,7 @@ where
         Ok(())
     }
 
-    fn close_p_element(&mut self, token_and_info: &mut TokenAndInfo) {
+    fn close_p_element(&mut self, token_and_info: &mut TokenAndInfo, is_close_p: bool) {
         // When the steps above say the user agent is to close a p element, it means
         // that the user agent must run the following steps:
 
@@ -7330,7 +7501,11 @@ where
 
         // 3. Pop elements from the stack of open elements until a p element has been
         // popped from the stack.
-        self.open_elements_stack.pop_until_tag_name_popped(&["p"]);
+        let popped = self.open_elements_stack.pop_until_tag_name_popped(&["p"]);
+
+        if is_close_p {
+            self.update_end_tag_span(popped.as_ref(), token_and_info)
+        }
     }
 
     fn close_the_cell(&mut self) {
@@ -8173,6 +8348,14 @@ where
             InsertionPosition::BeforeSibling(sibling) => {
                 self.append_node_before_sibling(&sibling, node)
             }
+        }
+    }
+
+    fn update_end_tag_span(&self, node: Option<&RcNode>, token_and_info: &TokenAndInfo) {
+        if let Some(node) = node {
+            let mut end_tag_span = node.end_tag_span.borrow_mut();
+
+            *end_tag_span = Some(token_and_info.span);
         }
     }
 }

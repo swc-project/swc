@@ -34,8 +34,8 @@
   6 | |   </head>
   7 | |   <body>
   8 | |   test
-  9 | `-> </body>
- 10 |     </html>
+  9 | |   </body>
+ 10 | `-> </html>
     `----
 
   x Element
@@ -47,8 +47,8 @@
   6 | |   </head>
   7 | |   <body>
   8 | |   test
-  9 | `-> </body>
- 10 |     </html>
+  9 | |   </body>
+ 10 | `-> </html>
     `----
 
   x Attribute
@@ -61,16 +61,16 @@
    ,-[$DIR/tests/fixture/attribute/quotes-in-meta/input.html:3:1]
  3 | ,-> <head>
  4 | |       <meta http-equiv="Content-Type" content='charset="windows-1251'>
- 5 | `->     <title>Document</title>
- 6 |     </head>
+ 5 | |       <title>Document</title>
+ 6 | `-> </head>
    `----
 
   x Element
    ,-[$DIR/tests/fixture/attribute/quotes-in-meta/input.html:3:1]
  3 | ,-> <head>
  4 | |       <meta http-equiv="Content-Type" content='charset="windows-1251'>
- 5 | `->     <title>Document</title>
- 6 |     </head>
+ 5 | |       <title>Document</title>
+ 6 | `-> </head>
    `----
 
   x Child
@@ -124,13 +124,13 @@
   x Child
    ,-[$DIR/tests/fixture/attribute/quotes-in-meta/input.html:5:5]
  5 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/attribute/quotes-in-meta/input.html:5:5]
  5 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child

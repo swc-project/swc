@@ -67,7 +67,7 @@
           "type": "Element",
           "span": {
             "start": 216,
-            "end": 489,
+            "end": 496,
             "ctxt": 0
           },
           "tagName": "head",
@@ -87,7 +87,7 @@
               "type": "Element",
               "span": {
                 "start": 227,
-                "end": 258,
+                "end": 266,
                 "ctxt": 0
               },
               "tagName": "title",
@@ -119,7 +119,7 @@
               "type": "Element",
               "span": {
                 "start": 271,
-                "end": 479,
+                "end": 488,
                 "ctxt": 0
               },
               "tagName": "script",
@@ -209,7 +209,7 @@
               "type": "Element",
               "span": {
                 "start": 523,
-                "end": 956,
+                "end": 960,
                 "ctxt": 0
               },
               "tagName": "p",
@@ -229,7 +229,7 @@
                   "type": "Element",
                   "span": {
                     "start": 555,
-                    "end": 611,
+                    "end": 618,
                     "ctxt": 0
                   },
                   "tagName": "abbr",
@@ -368,7 +368,7 @@
                   "type": "Element",
                   "span": {
                     "start": 779,
-                    "end": 946,
+                    "end": 955,
                     "ctxt": 0
                   },
                   "tagName": "object",

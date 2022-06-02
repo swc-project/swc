@@ -46,7 +46,7 @@
               "type": "Element",
               "span": {
                 "start": 1,
-                "end": 13,
+                "end": 21,
                 "ctxt": 0
               },
               "tagName": "table",

@@ -42,8 +42,8 @@
  10 | |   <body>
  11 | |       test</br>test
  12 | |       test</br/>test
- 13 | `-> </body>
- 14 |     </html>
+ 13 | |   </body>
+ 14 | `-> </html>
     `----
 
   x Element
@@ -59,8 +59,8 @@
  10 | |   <body>
  11 | |       test</br>test
  12 | |       test</br/>test
- 13 | `-> </body>
- 14 |     </html>
+ 13 | |   </body>
+ 14 | `-> </html>
     `----
 
   x Attribute
@@ -76,8 +76,8 @@
  5 | |       <meta name="viewport"
  6 | |             content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 | |       <meta http-equiv="X-UA-Compatible" content="ie=edge">
- 8 | `->     <title>Document</title>
- 9 |     </head>
+ 8 | |       <title>Document</title>
+ 9 | `-> </head>
    `----
 
   x Element
@@ -87,8 +87,8 @@
  5 | |       <meta name="viewport"
  6 | |             content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 | |       <meta http-equiv="X-UA-Compatible" content="ie=edge">
- 8 | `->     <title>Document</title>
- 9 |     </head>
+ 8 | |       <title>Document</title>
+ 9 | `-> </head>
    `----
 
   x Child
@@ -208,13 +208,13 @@
   x Child
    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:8:5]
  8 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:8:5]
  8 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -288,8 +288,16 @@
     `----
 
   x Child
+    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:11:5]
+ 11 | test</br>test
+    :     ^^^^^
+    `----
 
   x Element
+    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:11:5]
+ 11 | test</br>test
+    :     ^^^^^
+    `----
 
   x Child
     ,-[$DIR/tests/recovery/element/br/self-closing/input.html:11:5]
@@ -304,8 +312,16 @@
     `----
 
   x Child
+    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:12:5]
+ 12 | test</br/>test
+    :     ^^^^^^
+    `----
 
   x Element
+    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:12:5]
+ 12 | test</br/>test
+    :     ^^^^^^
+    `----
 
   x Child
     ,-[$DIR/tests/recovery/element/br/self-closing/input.html:12:5]

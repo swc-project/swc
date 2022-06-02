@@ -77,16 +77,16 @@
    ,-[$DIR/tests/recovery/element/frameset-1/input.html:4:1]
  4 | ,-> <head>
  5 | |       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
- 6 | `->     <title>Тег FRAMESET</title>
- 7 |     </head>
+ 6 | |       <title>Тег FRAMESET</title>
+ 7 | `-> </head>
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/frameset-1/input.html:4:1]
  4 | ,-> <head>
  5 | |       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
- 6 | `->     <title>Тег FRAMESET</title>
- 7 |     </head>
+ 6 | |       <title>Тег FRAMESET</title>
+ 7 | `-> </head>
    `----
 
   x Child
@@ -140,13 +140,13 @@
   x Child
    ,-[$DIR/tests/recovery/element/frameset-1/input.html:6:5]
  6 | <title>Тег FRAMESET</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/frameset-1/input.html:6:5]
  6 | <title>Тег FRAMESET</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -196,8 +196,8 @@
  11 | |       <frameset cols="80,*">
  12 | |           <frame src="left.html" name="leftFrame" scrolling="no" noresize>
  13 | |           <frame src="main.html" name="mainFrame">
- 14 | `->     </frameset>
- 15 |     </frameset>
+ 14 | |       </frameset>
+ 15 | `-> </frameset>
     `----
 
   x Element
@@ -207,8 +207,8 @@
  11 | |       <frameset cols="80,*">
  12 | |           <frame src="left.html" name="leftFrame" scrolling="no" noresize>
  13 | |           <frame src="main.html" name="mainFrame">
- 14 | `->     </frameset>
- 15 |     </frameset>
+ 14 | |       </frameset>
+ 15 | `-> </frameset>
     `----
 
   x Attribute

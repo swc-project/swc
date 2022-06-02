@@ -68,7 +68,7 @@
                   "type": "Element",
                   "span": {
                     "start": 24,
-                    "end": 42,
+                    "end": 53,
                     "ctxt": 0
                   },
                   "tagName": "optgroup",
@@ -79,7 +79,7 @@
                       "type": "Element",
                       "span": {
                         "start": 34,
-                        "end": 42,
+                        "end": 53,
                         "ctxt": 0
                       },
                       "tagName": "option",

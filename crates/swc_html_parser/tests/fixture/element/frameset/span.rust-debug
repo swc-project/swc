@@ -46,8 +46,8 @@
  12 | |           <frame src="main.html" name="mainFrame">
  13 | |       </frameset>
  14 | |   </frameset>
- 15 | `-> 
- 16 |     </html>
+ 15 | |   
+ 16 | `-> </html>
     `----
 
   x Element
@@ -65,24 +65,24 @@
  12 | |           <frame src="main.html" name="mainFrame">
  13 | |       </frameset>
  14 | |   </frameset>
- 15 | `-> 
- 16 |     </html>
+ 15 | |   
+ 16 | `-> </html>
     `----
 
   x Child
    ,-[$DIR/tests/fixture/element/frameset/input.html:3:1]
  3 | ,-> <head>
  4 | |       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
- 5 | `->     <title>Тег FRAMESET</title>
- 6 |     </head>
+ 5 | |       <title>Тег FRAMESET</title>
+ 6 | `-> </head>
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/frameset/input.html:3:1]
  3 | ,-> <head>
  4 | |       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
- 5 | `->     <title>Тег FRAMESET</title>
- 6 |     </head>
+ 5 | |       <title>Тег FRAMESET</title>
+ 6 | `-> </head>
    `----
 
   x Child
@@ -136,13 +136,13 @@
   x Child
    ,-[$DIR/tests/fixture/element/frameset/input.html:5:5]
  5 | <title>Тег FRAMESET</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/frameset/input.html:5:5]
  5 | <title>Тег FRAMESET</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -192,8 +192,8 @@
  10 | |       <frameset cols="80,*">
  11 | |           <frame src="left.html" name="leftFrame" scrolling="no" noresize>
  12 | |           <frame src="main.html" name="mainFrame">
- 13 | `->     </frameset>
- 14 |     </frameset>
+ 13 | |       </frameset>
+ 14 | `-> </frameset>
     `----
 
   x Element
@@ -203,8 +203,8 @@
  10 | |       <frameset cols="80,*">
  11 | |           <frame src="left.html" name="leftFrame" scrolling="no" noresize>
  12 | |           <frame src="main.html" name="mainFrame">
- 13 | `->     </frameset>
- 14 |     </frameset>
+ 13 | |       </frameset>
+ 14 | `-> </frameset>
     `----
 
   x Attribute

@@ -46,7 +46,7 @@
               "type": "Element",
               "span": {
                 "start": 8,
-                "end": 24,
+                "end": 33,
                 "ctxt": 0
               },
               "tagName": "center",
@@ -170,7 +170,7 @@
                           "type": "Element",
                           "span": {
                             "start": 44,
-                            "end": 49,
+                            "end": 54,
                             "ctxt": 0
                           },
                           "tagName": "td",

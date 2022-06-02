@@ -95,13 +95,13 @@
   x Child
    ,-[$DIR/tests/fixture/text/lf/input.html:4:1]
  4 | <div>Text</div>
-   : ^^^^^^^^^
+   : ^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/text/lf/input.html:4:1]
  4 | <div>Text</div>
-   : ^^^^^^^^^
+   : ^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -133,15 +133,15 @@
   x Child
    ,-[$DIR/tests/fixture/text/lf/input.html:5:1]
  5 | ,-> <div>
- 6 | `->     Text
- 7 |     </div>
+ 6 | |       Text
+ 7 | `-> </div>
    `----
 
   x Element
    ,-[$DIR/tests/fixture/text/lf/input.html:5:1]
  5 | ,-> <div>
- 6 | `->     Text
- 7 |     </div>
+ 6 | |       Text
+ 7 | `-> </div>
    `----
 
   x Child
@@ -178,8 +178,8 @@
   9 | |       Text
  10 | |   
  11 | |   
- 12 | `->     Text
- 13 |     </div>
+ 12 | |       Text
+ 13 | `-> </div>
     `----
 
   x Element
@@ -188,8 +188,8 @@
   9 | |       Text
  10 | |   
  11 | |   
- 12 | `->     Text
- 13 |     </div>
+ 12 | |       Text
+ 13 | `-> </div>
     `----
 
   x Child
@@ -277,8 +277,9 @@
  18 | ,-> <div
  19 | |   test="test"
  20 | |   >
- 21 | `-> 
- 22 |     </div
+ 21 | |   
+ 22 | |   </div
+ 23 | `-> >
     `----
 
   x Element
@@ -286,8 +287,9 @@
  18 | ,-> <div
  19 | |   test="test"
  20 | |   >
- 21 | `-> 
- 22 |     </div
+ 21 | |   
+ 22 | |   </div
+ 23 | `-> >
     `----
 
   x Attribute
@@ -331,8 +333,9 @@
  26 | |   =
  27 | |   "test"
  28 | |   >
- 29 | `-> 
- 30 |     </div
+ 29 | |   
+ 30 | |   </div
+ 31 | `-> >
     `----
 
   x Element
@@ -342,8 +345,9 @@
  26 | |   =
  27 | |   "test"
  28 | |   >
- 29 | `-> 
- 30 |     </div
+ 29 | |   
+ 30 | |   </div
+ 31 | `-> >
     `----
 
   x Attribute
@@ -388,8 +392,9 @@
  34 | |   =
  35 | |   'test'
  36 | |   >
- 37 | `-> 
- 38 |     </div
+ 37 | |   
+ 38 | |   </div
+ 39 | `-> >
     `----
 
   x Element
@@ -399,8 +404,9 @@
  34 | |   =
  35 | |   'test'
  36 | |   >
- 37 | `-> 
- 38 |     </div
+ 37 | |   
+ 38 | |   </div
+ 39 | `-> >
     `----
 
   x Attribute
@@ -445,8 +451,9 @@
  42 | |   =
  43 | |   test
  44 | |   >
- 45 | `-> 
- 46 |     </div
+ 45 | |   
+ 46 | |   </div
+ 47 | `-> >
     `----
 
   x Element
@@ -456,8 +463,9 @@
  42 | |   =
  43 | |   test
  44 | |   >
- 45 | `-> 
- 46 |     </div
+ 45 | |   
+ 46 | |   </div
+ 47 | `-> >
     `----
 
   x Attribute
@@ -503,8 +511,8 @@
  51 | |       color: red;
  52 | |       <!-- Test -->
  53 | |   }
- 54 | `-> 
- 55 |     </style>
+ 54 | |   
+ 55 | `-> </style>
     `----
 
   x Element
@@ -515,8 +523,8 @@
  51 | |       color: red;
  52 | |       <!-- Test -->
  53 | |   }
- 54 | `-> 
- 55 |     </style>
+ 54 | |   
+ 55 | `-> </style>
     `----
 
   x Child

@@ -33,7 +33,7 @@
           "type": "Element",
           "span": {
             "start": 24,
-            "end": 71,
+            "end": 78,
             "ctxt": 0
           },
           "tagName": "head",
@@ -53,7 +53,7 @@
               "type": "Element",
               "span": {
                 "start": 35,
-                "end": 62,
+                "end": 70,
                 "ctxt": 0
               },
               "tagName": "title",
@@ -117,7 +117,7 @@
               "type": "Element",
               "span": {
                 "start": 87,
-                "end": 110,
+                "end": 114,
                 "ctxt": 0
               },
               "tagName": "p",
@@ -149,7 +149,7 @@
               "type": "Element",
               "span": {
                 "start": 115,
-                "end": 144,
+                "end": 148,
                 "ctxt": 0
               },
               "tagName": "p",

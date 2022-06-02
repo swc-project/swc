@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 18,
+        "end": 29,
         "ctxt": 0
       },
       "tagName": "html",
@@ -35,7 +35,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 18,
+            "end": 29,
             "ctxt": 0
           },
           "tagName": "body",
@@ -46,7 +46,7 @@
               "type": "Element",
               "span": {
                 "start": 29,
-                "end": 34,
+                "end": 40,
                 "ctxt": 0
               },
               "tagName": "div",
@@ -59,7 +59,7 @@
               "type": "Element",
               "span": {
                 "start": 1,
-                "end": 18,
+                "end": 29,
                 "ctxt": 0
               },
               "tagName": "table",
@@ -70,7 +70,7 @@
                   "type": "Element",
                   "span": {
                     "start": 8,
-                    "end": 18,
+                    "end": 29,
                     "ctxt": 0
                   },
                   "tagName": "template",
@@ -81,7 +81,7 @@
                     "type": "DocumentFragment",
                     "span": {
                       "start": 8,
-                      "end": 18,
+                      "end": 29,
                       "ctxt": 0
                     },
                     "children": []

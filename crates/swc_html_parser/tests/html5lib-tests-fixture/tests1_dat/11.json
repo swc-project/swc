@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 1,
-        "end": 20,
+        "end": 27,
         "ctxt": 0
       },
       "tagName": "html",
@@ -34,7 +34,7 @@
         {
           "type": "Element",
           "span": {
-            "start": 0,
+            "start": 13,
             "end": 20,
             "ctxt": 0
           },

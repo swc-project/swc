@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 1,
-        "end": 235,
+        "end": 242,
         "ctxt": 0
       },
       "tagName": "html",
@@ -93,7 +93,7 @@
                   "type": "Element",
                   "span": {
                     "start": 15,
-                    "end": 177,
+                    "end": 181,
                     "ctxt": 0
                   },
                   "tagName": "b",
@@ -104,7 +104,7 @@
                       "type": "Element",
                       "span": {
                         "start": 18,
-                        "end": 64,
+                        "end": 71,
                         "ctxt": 0
                       },
                       "tagName": "nobr",
@@ -139,7 +139,7 @@
                   "type": "Element",
                   "span": {
                     "start": 181,
-                    "end": 220,
+                    "end": 226,
                     "ctxt": 0
                   },
                   "tagName": "pre",

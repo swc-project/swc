@@ -79,7 +79,7 @@
                       "type": "Element",
                       "span": {
                         "start": 32,
-                        "end": 48,
+                        "end": 56,
                         "ctxt": 0
                       },
                       "tagName": "style",

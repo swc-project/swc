@@ -55,7 +55,7 @@
               "type": "Element",
               "span": {
                 "start": 4,
-                "end": 12,
+                "end": 21,
                 "ctxt": 0
               },
               "tagName": "script",

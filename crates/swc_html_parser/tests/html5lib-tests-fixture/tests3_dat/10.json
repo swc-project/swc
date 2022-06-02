@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 16,
-        "end": 54,
+        "end": 74,
         "ctxt": 0
       },
       "tagName": "html",
@@ -33,7 +33,7 @@
           "type": "Element",
           "span": {
             "start": 22,
-            "end": 28,
+            "end": 35,
             "ctxt": 0
           },
           "tagName": "head",
@@ -46,7 +46,7 @@
           "type": "Element",
           "span": {
             "start": 35,
-            "end": 54,
+            "end": 67,
             "ctxt": 0
           },
           "tagName": "body",
@@ -57,7 +57,7 @@
               "type": "Element",
               "span": {
                 "start": 41,
-                "end": 54,
+                "end": 60,
                 "ctxt": 0
               },
               "tagName": "pre",

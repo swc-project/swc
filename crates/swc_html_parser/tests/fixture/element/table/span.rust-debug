@@ -96,8 +96,10 @@
  93 | |           </tr>
  94 | |           </tbody>
  95 | |       </table>
- 96 | |   </body>
- 97 | `-> </html>
+ 96 | |       <table><tr><td>test</td><td>test</td></tr></table>
+ 97 | |       <table><tbody><tr><td>test</td></tr></tbody></table>
+ 98 | |   </body>
+ 99 | `-> </html>
     `----
 
   x Child
@@ -208,8 +210,10 @@
  93 | |           </tr>
  94 | |           </tbody>
  95 | |       </table>
- 96 | `-> </body>
- 97 |     </html>
+ 96 | |       <table><tr><td>test</td><td>test</td></tr></table>
+ 97 | |       <table><tbody><tr><td>test</td></tr></tbody></table>
+ 98 | |   </body>
+ 99 | `-> </html>
     `----
 
   x Element
@@ -308,8 +312,10 @@
  93 | |           </tr>
  94 | |           </tbody>
  95 | |       </table>
- 96 | `-> </body>
- 97 |     </html>
+ 96 | |       <table><tr><td>test</td><td>test</td></tr></table>
+ 97 | |       <table><tbody><tr><td>test</td></tr></tbody></table>
+ 98 | |   </body>
+ 99 | `-> </html>
     `----
 
   x Attribute
@@ -325,8 +331,8 @@
  5 | |       <meta name="viewport"
  6 | |             content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 | |       <meta http-equiv="X-UA-Compatible" content="ie=edge">
- 8 | `->     <title>Document</title>
- 9 |     </head>
+ 8 | |       <title>Document</title>
+ 9 | `-> </head>
    `----
 
   x Element
@@ -336,8 +342,8 @@
  5 | |       <meta name="viewport"
  6 | |             content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 | |       <meta http-equiv="X-UA-Compatible" content="ie=edge">
- 8 | `->     <title>Document</title>
- 9 |     </head>
+ 8 | |       <title>Document</title>
+ 9 | `-> </head>
    `----
 
   x Child
@@ -457,13 +463,13 @@
   x Child
    ,-[$DIR/tests/fixture/element/table/input.html:8:5]
  8 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/table/input.html:8:5]
  8 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -594,8 +600,10 @@
  93 | |           </tr>
  94 | |           </tbody>
  95 | |       </table>
- 96 | `-> </body>
- 97 |     </html>
+ 96 | |       <table><tr><td>test</td><td>test</td></tr></table>
+ 97 | |       <table><tbody><tr><td>test</td></tr></tbody></table>
+ 98 | `-> </body>
+ 99 |     </html>
     `----
 
   x Element
@@ -686,8 +694,10 @@
  93 | |           </tr>
  94 | |           </tbody>
  95 | |       </table>
- 96 | `-> </body>
- 97 |     </html>
+ 96 | |       <table><tr><td>test</td><td>test</td></tr></table>
+ 97 | |       <table><tbody><tr><td>test</td></tr></tbody></table>
+ 98 | `-> </body>
+ 99 |     </html>
     `----
 
   x Child
@@ -837,13 +847,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:13:13]
  13 | <td>&nbsp;</td>
-    : ^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:13:13]
  13 | <td>&nbsp;</td>
-    : ^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -873,13 +883,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:14:13]
  14 | <td>Knocky</td>
-    : ^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:14:13]
  14 | <td>Knocky</td>
-    : ^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -909,13 +919,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:15:13]
  15 | <td>Flor</td>
-    : ^^^^^^^^
+    : ^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:15:13]
  15 | <td>Flor</td>
-    : ^^^^^^^^
+    : ^^^^^^^^^^^^^
     `----
 
   x Child
@@ -945,13 +955,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:16:13]
  16 | <td>Ella</td>
-    : ^^^^^^^^
+    : ^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:16:13]
  16 | <td>Ella</td>
-    : ^^^^^^^^
+    : ^^^^^^^^^^^^^
     `----
 
   x Child
@@ -981,13 +991,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:17:13]
  17 | <td>Juan</td>
-    : ^^^^^^^^
+    : ^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:17:13]
  17 | <td>Juan</td>
-    : ^^^^^^^^
+    : ^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1063,13 +1073,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:20:13]
  20 | <td>Breed</td>
-    : ^^^^^^^^^
+    : ^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:20:13]
  20 | <td>Breed</td>
-    : ^^^^^^^^^
+    : ^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1099,13 +1109,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:21:13]
  21 | <td>Jack Russell</td>
-    : ^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:21:13]
  21 | <td>Jack Russell</td>
-    : ^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1135,13 +1145,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:22:13]
  22 | <td>Poodle</td>
-    : ^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:22:13]
  22 | <td>Poodle</td>
-    : ^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1171,13 +1181,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:23:13]
  23 | <td>Streetdog</td>
-    : ^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:23:13]
  23 | <td>Streetdog</td>
-    : ^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1207,13 +1217,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:24:13]
  24 | <td>Cocker Spaniel</td>
-    : ^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:24:13]
  24 | <td>Cocker Spaniel</td>
-    : ^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1289,13 +1299,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:27:13]
  27 | <td>Age</td>
-    : ^^^^^^^
+    : ^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:27:13]
  27 | <td>Age</td>
-    : ^^^^^^^
+    : ^^^^^^^^^^^^
     `----
 
   x Child
@@ -1325,13 +1335,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:28:13]
  28 | <td>16</td>
-    : ^^^^^^
+    : ^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:28:13]
  28 | <td>16</td>
-    : ^^^^^^
+    : ^^^^^^^^^^^
     `----
 
   x Child
@@ -1361,13 +1371,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:29:13]
  29 | <td>9</td>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:29:13]
  29 | <td>9</td>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Child
@@ -1397,13 +1407,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:30:13]
  30 | <td>10</td>
-    : ^^^^^^
+    : ^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:30:13]
  30 | <td>10</td>
-    : ^^^^^^
+    : ^^^^^^^^^^^
     `----
 
   x Child
@@ -1433,13 +1443,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:31:13]
  31 | <td>5</td>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:31:13]
  31 | <td>5</td>
-    : ^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Child
@@ -1515,13 +1525,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:34:13]
  34 | <td>Owner</td>
-    : ^^^^^^^^^
+    : ^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:34:13]
  34 | <td>Owner</td>
-    : ^^^^^^^^^
+    : ^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1551,13 +1561,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:35:13]
  35 | <td>Mother-in-law</td>
-    : ^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:35:13]
  35 | <td>Mother-in-law</td>
-    : ^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1587,13 +1597,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:36:13]
  36 | <td>Me</td>
-    : ^^^^^^
+    : ^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:36:13]
  36 | <td>Me</td>
-    : ^^^^^^
+    : ^^^^^^^^^^^
     `----
 
   x Child
@@ -1623,13 +1633,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:37:13]
  37 | <td>Me</td>
-    : ^^^^^^
+    : ^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:37:13]
  37 | <td>Me</td>
-    : ^^^^^^
+    : ^^^^^^^^^^^
     `----
 
   x Child
@@ -1659,13 +1669,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:38:13]
  38 | <td>Sister-in-law</td>
-    : ^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:38:13]
  38 | <td>Sister-in-law</td>
-    : ^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1741,13 +1751,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:41:13]
  41 | <td>Eating Habits</td>
-    : ^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:41:13]
  41 | <td>Eating Habits</td>
-    : ^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1777,13 +1787,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:42:13]
  42 | <td>Eats everyone's leftovers</td>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:42:13]
  42 | <td>Eats everyone's leftovers</td>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1813,13 +1823,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:43:13]
  43 | <td>Nibbles at food</td>
-    : ^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:43:13]
  43 | <td>Nibbles at food</td>
-    : ^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1849,13 +1859,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:44:13]
  44 | <td>Hearty eater</td>
-    : ^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:44:13]
  44 | <td>Hearty eater</td>
-    : ^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -1885,13 +1895,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:45:13]
  45 | <td>Will eat till he explodes</td>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:45:13]
  45 | <td>Will eat till he explodes</td>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -2121,13 +2131,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:52:13]
  52 | <th>Student ID</th>
-    : ^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:52:13]
  52 | <th>Student ID</th>
-    : ^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -2157,13 +2167,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:53:13]
  53 | <th>Name</th>
-    : ^^^^^^^^
+    : ^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:53:13]
  53 | <th>Name</th>
-    : ^^^^^^^^
+    : ^^^^^^^^^^^^^
     `----
 
   x Child
@@ -2297,13 +2307,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:58:13]
  58 | <th colspan="2">Computer Science</th>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:58:13]
  58 | <th colspan="2">Computer Science</th>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
@@ -2379,13 +2389,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:61:13]
  61 | <td>3741255</td>
-    : ^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:61:13]
  61 | <td>3741255</td>
-    : ^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -2415,13 +2425,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:62:13]
  62 | <td>Jones, Martha</td>
-    : ^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:62:13]
  62 | <td>Jones, Martha</td>
-    : ^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -2491,13 +2501,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:65:13]
  65 | <td>4077830</td>
-    : ^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:65:13]
  65 | <td>4077830</td>
-    : ^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -2527,13 +2537,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:66:13]
  66 | <td>Pierce, Benjamin</td>
-    : ^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:66:13]
  66 | <td>Pierce, Benjamin</td>
-    : ^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -2603,13 +2613,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:69:13]
  69 | <td>5151701</td>
-    : ^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:69:13]
  69 | <td>5151701</td>
-    : ^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -2639,13 +2649,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:70:13]
  70 | <td>Kirk, James</td>
-    : ^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:70:13]
  70 | <td>Kirk, James</td>
-    : ^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -2763,13 +2773,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:75:13]
  75 | <th colspan="2">Russian Literature</th>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:75:13]
  75 | <th colspan="2">Russian Literature</th>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
@@ -2845,13 +2855,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:78:13]
  78 | <td>3971244</td>
-    : ^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:78:13]
  78 | <td>3971244</td>
-    : ^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -2881,13 +2891,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:79:13]
  79 | <td>Nim, Victor</td>
-    : ^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:79:13]
  79 | <td>Nim, Victor</td>
-    : ^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -3013,13 +3023,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:84:13]
  84 | <th colspan="2">Astrophysics</th>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:84:13]
  84 | <th colspan="2">Astrophysics</th>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
@@ -3095,13 +3105,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:87:13]
  87 | <td>4100332</td>
-    : ^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:87:13]
  87 | <td>4100332</td>
-    : ^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -3131,13 +3141,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:88:13]
  88 | <td>Petrov, Alexandra</td>
-    : ^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:88:13]
  88 | <td>Petrov, Alexandra</td>
-    : ^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -3207,13 +3217,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:91:13]
  91 | <td>8892377</td>
-    : ^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:91:13]
  91 | <td>8892377</td>
-    : ^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -3243,13 +3253,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:92:13]
  92 | <td>Toyota, Hiroko</td>
-    : ^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/table/input.html:92:13]
  92 | <td>Toyota, Hiroko</td>
-    : ^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -3303,13 +3313,173 @@
   x Child
     ,-[$DIR/tests/fixture/element/table/input.html:95:5]
  95 | ,-> </table>
- 96 | `-> </body>
- 97 |     </html>
+ 96 | `->     <table><tr><td>test</td><td>test</td></tr></table>
     `----
 
   x Text
     ,-[$DIR/tests/fixture/element/table/input.html:95:5]
  95 | ,-> </table>
- 96 | `-> </body>
- 97 |     </html>
+ 96 | `->     <table><tr><td>test</td><td>test</td></tr></table>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/table/input.html:96:5]
+ 96 | <table><tr><td>test</td><td>test</td></tr></table>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/table/input.html:96:5]
+ 96 | <table><tr><td>test</td><td>test</td></tr></table>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+
+  x Element
+
+  x Child
+    ,-[$DIR/tests/fixture/element/table/input.html:96:5]
+ 96 | <table><tr><td>test</td><td>test</td></tr></table>
+    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/table/input.html:96:5]
+ 96 | <table><tr><td>test</td><td>test</td></tr></table>
+    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/table/input.html:96:5]
+ 96 | <table><tr><td>test</td><td>test</td></tr></table>
+    :            ^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/table/input.html:96:5]
+ 96 | <table><tr><td>test</td><td>test</td></tr></table>
+    :            ^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/table/input.html:96:5]
+ 96 | <table><tr><td>test</td><td>test</td></tr></table>
+    :                ^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/element/table/input.html:96:5]
+ 96 | <table><tr><td>test</td><td>test</td></tr></table>
+    :                ^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/table/input.html:96:5]
+ 96 | <table><tr><td>test</td><td>test</td></tr></table>
+    :                         ^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/table/input.html:96:5]
+ 96 | <table><tr><td>test</td><td>test</td></tr></table>
+    :                         ^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/table/input.html:96:5]
+ 96 | <table><tr><td>test</td><td>test</td></tr></table>
+    :                             ^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/element/table/input.html:96:5]
+ 96 | <table><tr><td>test</td><td>test</td></tr></table>
+    :                             ^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/table/input.html:96:5]
+ 96 | ,-> <table><tr><td>test</td><td>test</td></tr></table>
+ 97 | `->     <table><tbody><tr><td>test</td></tr></tbody></table>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/element/table/input.html:96:5]
+ 96 | ,-> <table><tr><td>test</td><td>test</td></tr></table>
+ 97 | `->     <table><tbody><tr><td>test</td></tr></tbody></table>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/table/input.html:97:5]
+ 97 | <table><tbody><tr><td>test</td></tr></tbody></table>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/table/input.html:97:5]
+ 97 | <table><tbody><tr><td>test</td></tr></tbody></table>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/table/input.html:97:5]
+ 97 | <table><tbody><tr><td>test</td></tr></tbody></table>
+    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/table/input.html:97:5]
+ 97 | <table><tbody><tr><td>test</td></tr></tbody></table>
+    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/table/input.html:97:5]
+ 97 | <table><tbody><tr><td>test</td></tr></tbody></table>
+    :               ^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/table/input.html:97:5]
+ 97 | <table><tbody><tr><td>test</td></tr></tbody></table>
+    :               ^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/table/input.html:97:5]
+ 97 | <table><tbody><tr><td>test</td></tr></tbody></table>
+    :                   ^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/table/input.html:97:5]
+ 97 | <table><tbody><tr><td>test</td></tr></tbody></table>
+    :                   ^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/table/input.html:97:5]
+ 97 | <table><tbody><tr><td>test</td></tr></tbody></table>
+    :                       ^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/element/table/input.html:97:5]
+ 97 | <table><tbody><tr><td>test</td></tr></tbody></table>
+    :                       ^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/table/input.html:97:5]
+ 97 | ,-> <table><tbody><tr><td>test</td></tr></tbody></table>
+ 98 | `-> </body>
+ 99 |     </html>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/element/table/input.html:97:5]
+ 97 | ,-> <table><tbody><tr><td>test</td></tr></tbody></table>
+ 98 | `-> </body>
+ 99 |     </html>
     `----

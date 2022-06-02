@@ -163,13 +163,13 @@
   x Child
    ,-[$DIR/tests/fixture/comment/basic-1/input.html:7:1]
  7 | <p>This is a paragraph.</p>
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/comment/basic-1/input.html:7:1]
  7 | <p>This is a paragraph.</p>
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child

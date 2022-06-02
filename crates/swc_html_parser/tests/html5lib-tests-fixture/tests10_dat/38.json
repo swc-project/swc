@@ -57,7 +57,7 @@
                   "type": "Element",
                   "span": {
                     "start": 7,
-                    "end": 41,
+                    "end": 80,
                     "ctxt": 0
                   },
                   "tagName": "mi",
@@ -68,7 +68,7 @@
                       "type": "Element",
                       "span": {
                         "start": 11,
-                        "end": 41,
+                        "end": 75,
                         "ctxt": 0
                       },
                       "tagName": "svg",
@@ -79,7 +79,7 @@
                           "type": "Element",
                           "span": {
                             "start": 16,
-                            "end": 41,
+                            "end": 69,
                             "ctxt": 0
                           },
                           "tagName": "foreignObject",
@@ -90,7 +90,7 @@
                               "type": "Element",
                               "span": {
                                 "start": 31,
-                                "end": 41,
+                                "end": 53,
                                 "ctxt": 0
                               },
                               "tagName": "div",
@@ -101,7 +101,7 @@
                                   "type": "Element",
                                   "span": {
                                     "start": 36,
-                                    "end": 41,
+                                    "end": 47,
                                     "ctxt": 0
                                   },
                                   "tagName": "div",

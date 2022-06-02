@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 17,
-        "end": 355,
+        "end": 362,
         "ctxt": 0
       },
       "tagName": "html",
@@ -46,7 +46,7 @@
           "type": "Element",
           "span": {
             "start": 34,
-            "end": 295,
+            "end": 302,
             "ctxt": 0
           },
           "tagName": "head",
@@ -195,7 +195,7 @@
               "type": "Element",
               "span": {
                 "start": 271,
-                "end": 286,
+                "end": 294,
                 "ctxt": 0
               },
               "tagName": "title",
@@ -258,7 +258,7 @@
             {
               "type": "Element",
               "span": {
-                "start": 0,
+                "start": 318,
                 "end": 323,
                 "ctxt": 0
               },
@@ -280,7 +280,7 @@
             {
               "type": "Element",
               "span": {
-                "start": 0,
+                "start": 336,
                 "end": 342,
                 "ctxt": 0
               },

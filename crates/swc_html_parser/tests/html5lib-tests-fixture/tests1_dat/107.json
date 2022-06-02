@@ -46,7 +46,7 @@
               "type": "Element",
               "span": {
                 "start": 1,
-                "end": 20,
+                "end": 28,
                 "ctxt": 0
               },
               "tagName": "h1",
@@ -57,7 +57,7 @@
                   "type": "Element",
                   "span": {
                     "start": 5,
-                    "end": 20,
+                    "end": 28,
                     "ctxt": 0
                   },
                   "tagName": "table",

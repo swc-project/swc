@@ -86,13 +86,13 @@
   x Child
    ,-[$DIR/tests/recovery/document_type/wrong-name/input.html:5:1]
  5 | <a href=https://www.w3schools.com>This is a link</a>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/document_type/wrong-name/input.html:5:1]
  5 | <a href=https://www.w3schools.com>This is a link</a>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Attribute

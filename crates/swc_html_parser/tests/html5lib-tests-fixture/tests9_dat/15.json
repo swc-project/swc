@@ -57,7 +57,7 @@
               "type": "Element",
               "span": {
                 "start": 22,
-                "end": 71,
+                "end": 79,
                 "ctxt": 0
               },
               "tagName": "table",
@@ -90,7 +90,7 @@
                           "type": "Element",
                           "span": {
                             "start": 44,
-                            "end": 51,
+                            "end": 56,
                             "ctxt": 0
                           },
                           "tagName": "mi",
@@ -113,7 +113,7 @@
                           "type": "Element",
                           "span": {
                             "start": 56,
-                            "end": 63,
+                            "end": 68,
                             "ctxt": 0
                           },
                           "tagName": "mi",

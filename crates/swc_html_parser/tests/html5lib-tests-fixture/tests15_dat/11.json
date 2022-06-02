@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 61,
+        "end": 75,
         "ctxt": 0
       },
       "tagName": "html",
@@ -46,7 +46,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 61,
+            "end": 75,
             "ctxt": 0
           },
           "tagName": "body",
@@ -57,7 +57,7 @@
               "type": "Element",
               "span": {
                 "start": 16,
-                "end": 61,
+                "end": 75,
                 "ctxt": 0
               },
               "tagName": "div",
@@ -68,7 +68,7 @@
                   "type": "Element",
                   "span": {
                     "start": 28,
-                    "end": 34,
+                    "end": 38,
                     "ctxt": 0
                   },
                   "tagName": "a",
@@ -91,7 +91,7 @@
                   "type": "Element",
                   "span": {
                     "start": 21,
-                    "end": 61,
+                    "end": 69,
                     "ctxt": 0
                   },
                   "tagName": "table",
@@ -133,7 +133,7 @@
                               "type": "Element",
                               "span": {
                                 "start": 43,
-                                "end": 50,
+                                "end": 55,
                                 "ctxt": 0
                               },
                               "tagName": "td",

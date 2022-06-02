@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 76,
+        "end": 80,
         "ctxt": 0
       },
       "tagName": "html",
@@ -35,7 +35,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 76,
+            "end": 80,
             "ctxt": 0
           },
           "tagName": "body",
@@ -46,7 +46,7 @@
               "type": "Element",
               "span": {
                 "start": 1,
-                "end": 59,
+                "end": 72,
                 "ctxt": 0
               },
               "tagName": "p",
@@ -57,7 +57,7 @@
                   "type": "Element",
                   "span": {
                     "start": 4,
-                    "end": 59,
+                    "end": 68,
                     "ctxt": 0
                   },
                   "tagName": "b",
@@ -81,7 +81,7 @@
                       "type": "Element",
                       "span": {
                         "start": 14,
-                        "end": 59,
+                        "end": 68,
                         "ctxt": 0
                       },
                       "tagName": "script",
@@ -110,7 +110,7 @@
               "type": "Element",
               "span": {
                 "start": 4,
-                "end": 76,
+                "end": 80,
                 "ctxt": 0
               },
               "tagName": "b",

@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 17,
-        "end": 871,
+        "end": 878,
         "ctxt": 0
       },
       "tagName": "html",
@@ -46,7 +46,7 @@
           "type": "Element",
           "span": {
             "start": 34,
-            "end": 69,
+            "end": 76,
             "ctxt": 0
           },
           "tagName": "head",
@@ -66,7 +66,7 @@
               "type": "Element",
               "span": {
                 "start": 45,
-                "end": 60,
+                "end": 68,
                 "ctxt": 0
               },
               "tagName": "title",
@@ -130,7 +130,7 @@
               "type": "Element",
               "span": {
                 "start": 84,
-                "end": 251,
+                "end": 264,
                 "ctxt": 0
               },
               "tagName": "popup-info",
@@ -177,7 +177,7 @@
               "type": "Element",
               "span": {
                 "start": 266,
-                "end": 297,
+                "end": 313,
                 "ctxt": 0
               },
               "tagName": "custom-square",
@@ -224,7 +224,7 @@
               "type": "Element",
               "span": {
                 "start": 315,
-                "end": 341,
+                "end": 354,
                 "ctxt": 0
               },
               "tagName": "app-drawer",
@@ -271,7 +271,7 @@
               "type": "Element",
               "span": {
                 "start": 356,
-                "end": 588,
+                "end": 604,
                 "ctxt": 0
               },
               "tagName": "share-buttons",
@@ -291,7 +291,7 @@
                   "type": "Element",
                   "span": {
                     "start": 376,
-                    "end": 427,
+                    "end": 447,
                     "ctxt": 0
                   },
                   "tagName": "social-button",
@@ -315,7 +315,7 @@
                       "type": "Element",
                       "span": {
                         "start": 406,
-                        "end": 427,
+                        "end": 431,
                         "ctxt": 0
                       },
                       "tagName": "a",
@@ -363,7 +363,7 @@
                   "type": "Element",
                   "span": {
                     "start": 452,
-                    "end": 499,
+                    "end": 519,
                     "ctxt": 0
                   },
                   "tagName": "social-button",
@@ -387,7 +387,7 @@
                       "type": "Element",
                       "span": {
                         "start": 477,
-                        "end": 499,
+                        "end": 503,
                         "ctxt": 0
                       },
                       "tagName": "a",
@@ -435,7 +435,7 @@
                   "type": "Element",
                   "span": {
                     "start": 524,
-                    "end": 567,
+                    "end": 587,
                     "ctxt": 0
                   },
                   "tagName": "social-button",
@@ -459,7 +459,7 @@
                       "type": "Element",
                       "span": {
                         "start": 551,
-                        "end": 567,
+                        "end": 571,
                         "ctxt": 0
                       },
                       "tagName": "a",
@@ -519,7 +519,7 @@
               "type": "Element",
               "span": {
                 "start": 606,
-                "end": 663,
+                "end": 683,
                 "ctxt": 0
               },
               "tagName": "x-foo-with-markup",
@@ -539,7 +539,7 @@
                   "type": "Element",
                   "span": {
                     "start": 630,
-                    "end": 658,
+                    "end": 662,
                     "ctxt": 0
                   },
                   "tagName": "b",
@@ -583,7 +583,7 @@
               "type": "Element",
               "span": {
                 "start": 685,
-                "end": 851,
+                "end": 862,
                 "ctxt": 0
               },
               "tagName": "template",
@@ -607,7 +607,7 @@
                 "type": "DocumentFragment",
                 "span": {
                   "start": 685,
-                  "end": 851,
+                  "end": 862,
                   "ctxt": 0
                 },
                 "children": [
@@ -624,7 +624,7 @@
                     "type": "Element",
                     "span": {
                       "start": 725,
-                      "end": 765,
+                      "end": 773,
                       "ctxt": 0
                     },
                     "tagName": "style",
@@ -656,7 +656,7 @@
                     "type": "Element",
                     "span": {
                       "start": 778,
-                      "end": 846,
+                      "end": 850,
                       "ctxt": 0
                     },
                     "tagName": "p",

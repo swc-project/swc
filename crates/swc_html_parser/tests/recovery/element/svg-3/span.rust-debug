@@ -26,8 +26,16 @@
    `----
 
   x Child
+   ,-[$DIR/tests/recovery/element/svg-3/input.html:1:1]
+ 1 | <svg></p><foo>
+   :      ^^^^
+   `----
 
   x Element
+   ,-[$DIR/tests/recovery/element/svg-3/input.html:1:1]
+ 1 | <svg></p><foo>
+   :      ^^^^
+   `----
 
   x Child
    ,-[$DIR/tests/recovery/element/svg-3/input.html:1:1]
