@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 33,
+    "end": 24,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -11,7 +11,7 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 33,
+        "end": 24,
         "ctxt": 0
       },
       "tagName": "html",
@@ -59,7 +59,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 33,
+            "end": 24,
             "ctxt": 0
           },
           "tagName": "body",
