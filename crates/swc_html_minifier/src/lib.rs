@@ -1,6 +1,8 @@
 #![deny(clippy::all)]
 
 use once_cell::sync::Lazy;
+use std::cmp::Ordering;
+
 use serde_json::Value;
 use swc_atoms::{js_word, JsWord};
 use swc_cached::regex::CachedRegex;
@@ -1881,12 +1883,6 @@ impl VisitMut for Minifier {
             self.descendant_of_pre = old_descendant_of_pre;
         }
 
-        n.attributes.sort_by(|a, b| {
-            self.attribute_name_counter
-                .get(&b.name)
-                .cmp(&self.attribute_name_counter.get(&a.name))
-        });
-
         let mut already_seen: AHashSet<JsWord> = Default::default();
 
         n.attributes.retain(|attribute| {
@@ -1934,6 +1930,18 @@ impl VisitMut for Minifier {
             }
 
             true
+        });
+
+        n.attributes.sort_by(|a, b| {
+            let ordeing = self
+                .attribute_name_counter
+                .get(&b.name)
+                .cmp(&self.attribute_name_counter.get(&a.name));
+
+            match ordeing {
+                Ordering::Equal => b.name.cmp(&a.name),
+                _ => ordeing,
+            }
         });
     }
 
