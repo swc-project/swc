@@ -1177,9 +1177,8 @@ impl SourceMap {
 
             let lc = *lc;
 
-            // If pos is same as a DUMMY_SP (eg BytePos(0)) and if line and col are 0;
-            // ignore the mapping.
-            if lc.line == 0 && lc.col == 0 && pos.is_dummy() {
+            // Ignore redundant mapping if pos is BytePos(1) and if line and col are 0.
+            if lc.line == 0 && lc.col == 0 && pos == BytePos(1) {
                 continue;
             }
 
