@@ -160,7 +160,6 @@ where
     cur: Option<char>,
     cur_pos: BytePos,
     last_token_pos: BytePos,
-    last_emitted_error_pos: Option<BytePos>,
     finished: bool,
     state: State,
     return_state: State,
@@ -189,13 +188,12 @@ where
             cur: None,
             cur_pos: start_pos,
             last_token_pos: start_pos,
-            last_emitted_error_pos: None,
             finished: false,
             state: State::Data,
             return_state: State::Data,
             errors: vec![],
             last_start_tag_name: None,
-            pending_tokens: vec![],
+            pending_tokens: Vec::with_capacity(32),
             current_doctype_token: None,
             current_comment_token: None,
             current_tag_token: None,
@@ -272,28 +270,19 @@ where
     // occurrences of noncharacters are noncharacter-in-input-stream parse errors
     // and any occurrences of controls other than ASCII whitespace and U+0000 NULL
     // characters are control-character-in-input-stream parse errors.
+    //
+    // Postpone validation for each character for perf reasons and do it in
+    // `anything else`
+    #[inline(always)]
     fn validate_input_stream_character(&mut self, c: char) {
         let code = c as u32;
 
-        if (0xd800..=0xdfff).contains(&code)
-            && (self.last_emitted_error_pos.is_none()
-                || self.last_emitted_error_pos < Some(self.cur_pos))
-        {
+        if (0xd800..=0xdfff).contains(&code) {
             self.emit_error(ErrorKind::SurrogateInInputStream);
-            self.last_emitted_error_pos = Some(self.input.cur_pos());
-        } else if code != 0x00
-            && is_control(code)
-            && (self.last_emitted_error_pos.is_none()
-                || self.last_emitted_error_pos < Some(self.cur_pos))
-        {
+        } else if code != 0x00 && is_control(code) {
             self.emit_error(ErrorKind::ControlCharacterInInputStream);
-            self.last_emitted_error_pos = Some(self.input.cur_pos());
-        } else if is_noncharacter(code)
-            && (self.last_emitted_error_pos.is_none()
-                || self.last_emitted_error_pos < Some(self.cur_pos))
-        {
+        } else if is_noncharacter(code) {
             self.emit_error(ErrorKind::NoncharacterInInputStream);
-            self.last_emitted_error_pos = Some(self.input.cur_pos());
         }
     }
 
@@ -302,9 +291,8 @@ where
         self.cur = self.input.cur();
         self.cur_pos = self.input.cur_pos();
 
-        if let Some(c) = self.cur {
+        if self.cur.is_some() {
             self.input.bump();
-            self.validate_input_stream_character(c);
         }
     }
 
@@ -546,7 +534,7 @@ where
         }
     }
 
-    fn emit_current_doctype_token(&mut self) {
+    fn emit_doctype_token(&mut self) {
         let current_doctype_token = self.current_doctype_token.take().unwrap();
         let token = Token::Doctype {
             raw_keyword: current_doctype_token.raw_keyword.map(JsWord::from),
@@ -571,7 +559,7 @@ where
             tag_name: String::with_capacity(10),
             raw_tag_name: Some(String::with_capacity(10)),
             self_closing: false,
-            attributes: vec![],
+            attributes: Vec::with_capacity(255),
         });
     }
 
@@ -582,11 +570,11 @@ where
             tag_name: String::with_capacity(10),
             raw_tag_name: Some(String::with_capacity(10)),
             self_closing: false,
-            attributes: vec![],
+            attributes: Vec::with_capacity(255),
         });
     }
 
-    fn append_to_current_tag_token(&mut self, c: char, raw_c: char) {
+    fn append_to_tag_token_name(&mut self, c: char, raw_c: char) {
         if let Some(Tag {
             tag_name,
             raw_tag_name: Some(raw_tag_name),
@@ -621,10 +609,10 @@ where
         }
     }
 
-    fn append_to_current_attribute(
+    fn append_to_attribute(
         &mut self,
         name: Option<(char, char)>,
-        value: Option<(char, char)>,
+        value: Option<(bool, Option<char>, Option<char>)>,
     ) {
         if let Some(Tag { attributes, .. }) = &mut self.current_tag_token {
             if let Some(attribute) = attributes.last_mut() {
@@ -637,52 +625,35 @@ where
                 }
 
                 if let Some(value) = value {
-                    if let Some(old_value) = &mut attribute.value {
-                        old_value.push(value.0);
-                    } else {
-                        let mut new_value = String::with_capacity(255);
+                    if let Some(c) = value.1 {
+                        if let Some(old_value) = &mut attribute.value {
+                            old_value.push(c);
+                        } else {
+                            let mut new_value = String::with_capacity(255);
 
-                        new_value.push(value.0);
+                            new_value.push(c);
 
-                        attribute.value = Some(new_value);
+                            attribute.value = Some(new_value);
+                        }
                     }
 
-                    if let Some(raw_value) = &mut attribute.raw_value {
-                        raw_value.push(value.1);
-                    } else {
-                        let mut raw_new_value = String::with_capacity(255);
+                    if let Some(c) = value.2 {
+                        // Quote for attribute was found, so we set empty value by default
+                        if value.0 && attribute.value.is_none() {
+                            attribute.value = Some(String::with_capacity(255));
+                        }
 
-                        raw_new_value.push(value.1);
+                        if let Some(raw_value) = &mut attribute.raw_value {
+                            raw_value.push(c);
+                        } else {
+                            let mut raw_new_value = String::with_capacity(255);
 
-                        attribute.raw_value = Some(raw_new_value);
+                            raw_new_value.push(c);
+
+                            attribute.raw_value = Some(raw_new_value);
+                        }
                     }
                 }
-            }
-        }
-    }
-
-    fn append_raw_to_attribute_value(&mut self, before: bool, c: char) {
-        if let Some(Tag { attributes, .. }) = &mut self.current_tag_token {
-            if let Some(attribute) = attributes.last_mut() {
-                let mut raw_new_value = String::with_capacity(255);
-
-                if before {
-                    if attribute.value.is_none() {
-                        attribute.value = Some(String::with_capacity(255));
-                    }
-
-                    raw_new_value.push(c);
-                }
-
-                if let Some(raw_value) = &attribute.raw_value {
-                    raw_new_value.push_str(raw_value);
-                }
-
-                if !before {
-                    raw_new_value.push(c);
-                }
-
-                attribute.raw_value = Some(raw_new_value);
             }
         }
     }
@@ -701,7 +672,7 @@ where
         }
     }
 
-    fn emit_current_tag_token(&mut self) {
+    fn emit_tag_token(&mut self) {
         if let Some(mut current_tag_token) = self.current_tag_token.take() {
             match current_tag_token.kind {
                 TagKind::Start => {
@@ -904,6 +875,7 @@ where
                     // Anything else
                     // Emit the current input character as a character token.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.emit_character_token(c, Some(c));
                     }
                 }
@@ -941,6 +913,7 @@ where
                     // Anything else
                     // Emit the current input character as a character token.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.emit_character_token(c, Some(c));
                     }
                 }
@@ -969,6 +942,7 @@ where
                     // Anything else
                     // Emit the current input character as a character token.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.emit_character_token(c, Some(c));
                     }
                 }
@@ -997,6 +971,7 @@ where
                     // Anything else
                     // Emit the current input character as a character token.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.emit_character_token(c, Some(c));
                     }
                 }
@@ -1022,6 +997,7 @@ where
                     // Anything else
                     // Emit the current input character as a character token.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.emit_character_token(c, Some(c));
                     }
                 }
@@ -1138,20 +1114,20 @@ where
                     // Switch to the data state. Emit the current tag token.
                     Some('>') => {
                         self.state = State::Data;
-                        self.emit_current_tag_token();
+                        self.emit_tag_token();
                     }
                     // ASCII upper alpha
                     // Append the lowercase version of the current input character (add 0x0020
                     // to the character's code point) to the current tag token's tag name.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        self.append_to_current_tag_token(c.to_ascii_lowercase(), c);
+                        self.append_to_tag_token_name(c.to_ascii_lowercase(), c);
                     }
                     // U+0000 NULL
                     // This is an unexpected-null-character parse error. Append a U+FFFD
                     // REPLACEMENT CHARACTER character to the current tag token's tag name.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_to_current_tag_token(REPLACEMENT_CHARACTER, c);
+                        self.append_to_tag_token_name(REPLACEMENT_CHARACTER, c);
                     }
                     // EOF
                     // This is an eof-in-tag parse error. Emit an end-of-file token.
@@ -1164,7 +1140,8 @@ where
                     // Anything else
                     // Append the current input character to the current tag token's tag name.
                     Some(c) => {
-                        self.append_to_current_tag_token(c, c);
+                        self.validate_input_stream_character(c);
+                        self.append_to_tag_token_name(c, c);
                     }
                 }
             }
@@ -1254,7 +1231,7 @@ where
                     Some('>') => {
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.state = State::Data;
-                            self.emit_current_tag_token();
+                            self.emit_tag_token();
                         } else {
                             anything_else(self);
                         }
@@ -1264,14 +1241,14 @@ where
                     // to the character's code point) to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        self.append_to_current_tag_token(c.to_ascii_lowercase(), c);
+                        self.append_to_tag_token_name(c.to_ascii_lowercase(), c);
                         self.temporary_buffer.push(c);
                     }
                     // ASCII lower alpha
                     // Append the current input character to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_lower_alpha(c) => {
-                        self.append_to_current_tag_token(c, c);
+                        self.append_to_tag_token_name(c, c);
                         self.temporary_buffer.push(c);
                     }
                     // Anything else
@@ -1370,7 +1347,7 @@ where
                     Some('>') => {
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.state = State::Data;
-                            self.emit_current_tag_token();
+                            self.emit_tag_token();
                         } else {
                             anything_else(self);
                         }
@@ -1380,14 +1357,14 @@ where
                     // to the character's code point) to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        self.append_to_current_tag_token(c.to_ascii_lowercase(), c);
+                        self.append_to_tag_token_name(c.to_ascii_lowercase(), c);
                         self.temporary_buffer.push(c);
                     }
                     // ASCII lower alpha
                     // Append the current input character to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_lower_alpha(c) => {
-                        self.append_to_current_tag_token(c, c);
+                        self.append_to_tag_token_name(c, c);
                         self.temporary_buffer.push(c);
                     }
                     // Anything else
@@ -1494,7 +1471,7 @@ where
                     Some('>') => {
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.state = State::Data;
-                            self.emit_current_tag_token();
+                            self.emit_tag_token();
                         } else {
                             anything_else(self);
                         }
@@ -1504,14 +1481,14 @@ where
                     // to the character's code point) to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        self.append_to_current_tag_token(c.to_ascii_lowercase(), c);
+                        self.append_to_tag_token_name(c.to_ascii_lowercase(), c);
                         self.temporary_buffer.push(c);
                     }
                     // ASCII lower alpha
                     // Append the current input character to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_lower_alpha(c) => {
-                        self.append_to_current_tag_token(c, c);
+                        self.append_to_tag_token_name(c, c);
                         self.temporary_buffer.push(c);
                     }
                     // Anything else
@@ -1595,6 +1572,7 @@ where
                     // Anything else
                     // Emit the current input character as a character token.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.emit_character_token(c, Some(c));
                     }
                 }
@@ -1636,6 +1614,7 @@ where
                     // Switch to the script data escaped state. Emit the current input character
                     // as a character token.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.state = State::ScriptDataEscaped;
                         self.emit_character_token(c, Some(c));
                     }
@@ -1683,6 +1662,7 @@ where
                     // Switch to the script data escaped state. Emit the current input character
                     // as a character token.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.state = State::ScriptDataEscaped;
                         self.emit_character_token(c, Some(c));
                     }
@@ -1783,7 +1763,7 @@ where
                     Some('>') => {
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.state = State::Data;
-                            self.emit_current_tag_token();
+                            self.emit_tag_token();
                         } else {
                             anything_else(self);
                         }
@@ -1793,14 +1773,14 @@ where
                     // to the character's code point) to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        self.append_to_current_tag_token(c.to_ascii_lowercase(), c);
+                        self.append_to_tag_token_name(c.to_ascii_lowercase(), c);
                         self.temporary_buffer.push(c);
                     }
                     // ASCII lower alpha
                     // Append the current input character to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_lower_alpha(c) => {
-                        self.append_to_current_tag_token(c, c);
+                        self.append_to_tag_token_name(c, c);
 
                         self.temporary_buffer.push(c);
                     }
@@ -1908,6 +1888,7 @@ where
                     // Anything else
                     // Emit the current input character as a character token.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.emit_character_token(c, Some(c));
                     }
                 }
@@ -1952,6 +1933,7 @@ where
                     // Switch to the script data double escaped state. Emit the current input
                     // character as a character token.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.state = State::ScriptDataDoubleEscaped;
                         self.emit_character_token(c, Some(c));
                     }
@@ -2002,6 +1984,7 @@ where
                     // Switch to the script data double escaped state. Emit the current input
                     // character as a character token.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.state = State::ScriptDataDoubleEscaped;
                         self.emit_character_token(c, Some(c));
                     }
@@ -2127,7 +2110,7 @@ where
             // https://html.spec.whatwg.org/multipage/parsing.html#attribute-name-state
             State::AttributeName => {
                 let anything_else = |lexer: &mut Lexer<I>, c: char| {
-                    lexer.append_to_current_attribute(Some((c, c)), None);
+                    lexer.append_to_attribute(Some((c, c)), None);
                 };
 
                 // Consume the next input character:
@@ -2158,14 +2141,14 @@ where
                     // Append the lowercase version of the current input character (add 0x0020
                     // to the character's code point) to the current attribute's name.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        self.append_to_current_attribute(Some((c.to_ascii_lowercase(), c)), None);
+                        self.append_to_attribute(Some((c.to_ascii_lowercase(), c)), None);
                     }
                     // U+0000 NULL
                     // This is an unexpected-null-character parse error. Append a U+FFFD
                     // REPLACEMENT CHARACTER character to the current attribute's name.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_to_current_attribute(Some((REPLACEMENT_CHARACTER, c)), None);
+                        self.append_to_attribute(Some((REPLACEMENT_CHARACTER, c)), None);
                     }
                     // U+0022 QUOTATION MARK (")
                     // U+0027 APOSTROPHE (')
@@ -2180,6 +2163,8 @@ where
                     // Anything else
                     // Append the current input character to the current attribute's name.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
+
                         anything_else(self, c);
                     }
                 }
@@ -2220,7 +2205,7 @@ where
                     // Switch to the data state. Emit the current tag token.
                     Some('>') => {
                         self.state = State::Data;
-                        self.emit_current_tag_token();
+                        self.emit_tag_token();
                     }
                     // EOF
                     // This is an eof-in-tag parse error. Emit an end-of-file token.
@@ -2255,13 +2240,13 @@ where
                     // U+0022 QUOTATION MARK (")
                     // Switch to the attribute value (double-quoted) state.
                     Some(c @ '"') => {
-                        self.append_raw_to_attribute_value(true, c);
+                        self.append_to_attribute(None, Some((true, None, Some(c))));
                         self.state = State::AttributeValueDoubleQuoted;
                     }
                     // U+0027 APOSTROPHE (')
                     // Switch to the attribute value (single-quoted) state.
                     Some(c @ '\'') => {
-                        self.append_raw_to_attribute_value(true, c);
+                        self.append_to_attribute(None, Some((true, None, Some(c))));
                         self.state = State::AttributeValueSingleQuoted;
                     }
                     // U+003E GREATER-THAN SIGN (>)
@@ -2270,7 +2255,7 @@ where
                     Some('>') => {
                         self.emit_error(ErrorKind::MissingAttributeValue);
                         self.state = State::Data;
-                        self.emit_current_tag_token();
+                        self.emit_tag_token();
                     }
                     // Anything else
                     // Reconsume in the attribute value (unquoted) state.
@@ -2287,7 +2272,7 @@ where
                     // Switch to the after attribute value (quoted) state.
                     // We set value to support empty attributes (i.e. `attr=""`)
                     Some(c @ '"') => {
-                        self.append_raw_to_attribute_value(false, c);
+                        self.append_to_attribute(None, Some((false, None, Some(c))));
                         self.state = State::AfterAttributeValueQuoted;
                     }
                     // U+0026 AMPERSAND (&)
@@ -2302,7 +2287,10 @@ where
                     // REPLACEMENT CHARACTER character to the current attribute's value.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_to_current_attribute(None, Some((REPLACEMENT_CHARACTER, c)));
+                        self.append_to_attribute(
+                            None,
+                            Some((false, Some(REPLACEMENT_CHARACTER), Some(c))),
+                        );
                     }
                     // EOF
                     // This is an eof-in-tag parse error. Emit an end-of-file token.
@@ -2315,7 +2303,8 @@ where
                     // Anything else
                     // Append the current input character to the current attribute's value.
                     Some(c) => {
-                        self.append_to_current_attribute(None, Some((c, c)));
+                        self.validate_input_stream_character(c);
+                        self.append_to_attribute(None, Some((false, Some(c), Some(c))));
                     }
                 }
             }
@@ -2327,7 +2316,7 @@ where
                     // Switch to the after attribute value (quoted) state.
                     // We set value to support empty attributes (i.e. `attr=''`)
                     Some(c @ '\'') => {
-                        self.append_raw_to_attribute_value(false, c);
+                        self.append_to_attribute(None, Some((false, None, Some(c))));
                         self.state = State::AfterAttributeValueQuoted;
                     }
                     // U+0026 AMPERSAND (&)
@@ -2342,7 +2331,10 @@ where
                     // REPLACEMENT CHARACTER character to the current attribute's value.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_to_current_attribute(None, Some((REPLACEMENT_CHARACTER, c)));
+                        self.append_to_attribute(
+                            None,
+                            Some((false, Some(REPLACEMENT_CHARACTER), Some(c))),
+                        );
                     }
                     // EOF
                     // This is an eof-in-tag parse error. Emit an end-of-file token.
@@ -2355,14 +2347,15 @@ where
                     // Anything else
                     // Append the current input character to the current attribute's value.
                     Some(c) => {
-                        self.append_to_current_attribute(None, Some((c, c)));
+                        self.validate_input_stream_character(c);
+                        self.append_to_attribute(None, Some((false, Some(c), Some(c))));
                     }
                 }
             }
             // https://html.spec.whatwg.org/multipage/parsing.html#attribute-value-(unquoted)-state
             State::AttributeValueUnquoted => {
                 let anything_else = |lexer: &mut Lexer<I>, c: char| {
-                    lexer.append_to_current_attribute(None, Some((c, c)));
+                    lexer.append_to_attribute(None, Some((false, Some(c), Some(c))));
                 };
 
                 // Consume the next input character:
@@ -2389,14 +2382,17 @@ where
                     Some('>') => {
                         self.update_attribute_span();
                         self.state = State::Data;
-                        self.emit_current_tag_token();
+                        self.emit_tag_token();
                     }
                     // U+0000 NULL
                     // This is an unexpected-null-character parse error. Append a U+FFFD
                     // REPLACEMENT CHARACTER character to the current attribute's value.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_to_current_attribute(None, Some((REPLACEMENT_CHARACTER, c)));
+                        self.append_to_attribute(
+                            None,
+                            Some((false, Some(REPLACEMENT_CHARACTER), Some(c))),
+                        );
                     }
                     // U+0022 QUOTATION MARK (")
                     // U+0027 APOSTROPHE (')
@@ -2423,6 +2419,8 @@ where
                     // Anything else
                     // Append the current input character to the current attribute's value.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
+
                         anything_else(self, c);
                     }
                 }
@@ -2452,7 +2450,7 @@ where
                     Some('>') => {
                         self.update_attribute_span();
                         self.state = State::Data;
-                        self.emit_current_tag_token();
+                        self.emit_tag_token();
                     }
                     // EOF
                     // This is an eof-in-tag parse error. Emit an end-of-file token.
@@ -2486,7 +2484,7 @@ where
                         }
 
                         self.state = State::Data;
-                        self.emit_current_tag_token();
+                        self.emit_tag_token();
                     }
                     // EOF
                     // This is an eof-in-tag parse error. Emit an end-of-file token.
@@ -2533,6 +2531,7 @@ where
                     // Anything else
                     // Append the current input character to the comment token's data.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.append_to_comment_token(c, Some(c));
                     }
                 }
@@ -2545,6 +2544,7 @@ where
                     lexer.create_comment_token(None);
                     lexer.state = State::BogusComment;
                     lexer.cur_pos = cur_pos;
+                    // We don't validate input here because we reset position
                     lexer.input.reset_to(cur_pos);
                 };
 
@@ -2774,6 +2774,7 @@ where
                     // Anything else
                     // Append the current input character to the comment token's data.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.append_to_comment_token(c, Some(c));
                     }
                 }
@@ -2993,7 +2994,7 @@ where
 
                         self.create_doctype_token(doctype_keyword, None);
                         self.set_force_quirks();
-                        self.emit_current_doctype_token();
+                        self.emit_doctype_token();
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -3056,7 +3057,7 @@ where
                         self.create_doctype_token(None, None);
                         self.set_force_quirks();
                         self.state = State::Data;
-                        self.emit_current_doctype_token();
+                        self.emit_doctype_token();
                     }
                     // EOF
                     // This is an eof-in-doctype parse error. Create a new DOCTYPE token. Set
@@ -3066,7 +3067,7 @@ where
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.create_doctype_token(None, None);
                         self.set_force_quirks();
-                        self.emit_current_doctype_token();
+                        self.emit_doctype_token();
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -3075,6 +3076,8 @@ where
                     // Create a new DOCTYPE token. Set the token's name to the current input
                     // character. Switch to the DOCTYPE name state.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
+
                         let doctype_keyword = self.doctype_keyword.take();
 
                         self.create_doctype_token(doctype_keyword, Some((c, c)));
@@ -3099,7 +3102,7 @@ where
                     // Switch to the data state. Emit the current DOCTYPE token.
                     Some('>') => {
                         self.state = State::Data;
-                        self.emit_current_doctype_token();
+                        self.emit_doctype_token();
                     }
                     // ASCII upper alpha
                     // Append the lowercase version of the current input character (add 0x0020
@@ -3131,7 +3134,7 @@ where
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.set_force_quirks();
-                        self.emit_current_doctype_token();
+                        self.emit_doctype_token();
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -3139,6 +3142,7 @@ where
                     // Anything else
                     // Append the current input character to the current DOCTYPE token's name.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.append_to_doctype_token(None, Some((c, c)), None, None);
                     }
                 }
@@ -3161,7 +3165,7 @@ where
                     // Switch to the data state. Emit the current DOCTYPE token.
                     Some('>') => {
                         self.state = State::Data;
-                        self.emit_current_doctype_token();
+                        self.emit_doctype_token();
                     }
                     // EOF
                     // This is an eof-in-doctype parse error. Set the current DOCTYPE token's
@@ -3170,7 +3174,7 @@ where
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.set_force_quirks();
-                        self.emit_current_doctype_token();
+                        self.emit_doctype_token();
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -3277,7 +3281,7 @@ where
                         self.emit_error(ErrorKind::MissingDoctypePublicIdentifier);
                         self.set_force_quirks();
                         self.state = State::Data;
-                        self.emit_current_doctype_token();
+                        self.emit_doctype_token();
                     }
                     // EOF
                     // This is an eof-in-doctype parse error. Set the current DOCTYPE token's
@@ -3286,7 +3290,7 @@ where
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.set_force_quirks();
-                        self.emit_current_doctype_token();
+                        self.emit_doctype_token();
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -3338,7 +3342,7 @@ where
                         self.emit_error(ErrorKind::MissingDoctypePublicIdentifier);
                         self.set_force_quirks();
                         self.state = State::Data;
-                        self.emit_current_doctype_token();
+                        self.emit_doctype_token();
                     }
                     // EOF
                     // This is an eof-in-doctype parse error. Set the current DOCTYPE token's
@@ -3347,7 +3351,7 @@ where
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.set_force_quirks();
-                        self.emit_current_doctype_token();
+                        self.emit_doctype_token();
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -3393,7 +3397,7 @@ where
                         self.emit_error(ErrorKind::AbruptDoctypePublicIdentifier);
                         self.set_force_quirks();
                         self.state = State::Data;
-                        self.emit_current_doctype_token();
+                        self.emit_doctype_token();
                     }
                     // EOF
                     // This is an eof-in-doctype parse error. Set the current DOCTYPE token's
@@ -3402,7 +3406,7 @@ where
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.set_force_quirks();
-                        self.emit_current_doctype_token();
+                        self.emit_doctype_token();
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -3411,6 +3415,7 @@ where
                     // Append the current input character to the current DOCTYPE token's public
                     // identifier.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.append_to_doctype_token(None, None, Some((c, c)), None);
                     }
                 }
@@ -3445,7 +3450,7 @@ where
                         self.emit_error(ErrorKind::AbruptDoctypePublicIdentifier);
                         self.set_force_quirks();
                         self.state = State::Data;
-                        self.emit_current_doctype_token();
+                        self.emit_doctype_token();
                     }
                     // EOF
                     // This is an eof-in-doctype parse error. Set the current DOCTYPE token's
@@ -3454,7 +3459,7 @@ where
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.set_force_quirks();
-                        self.emit_current_doctype_token();
+                        self.emit_doctype_token();
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -3463,6 +3468,7 @@ where
                     // Append the current input character to the current DOCTYPE token's public
                     // identifier.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.append_to_doctype_token(None, None, Some((c, c)), None);
                     }
                 }
@@ -3484,7 +3490,7 @@ where
                     // Switch to the data state. Emit the current DOCTYPE token.
                     Some('>') => {
                         self.state = State::Data;
-                        self.emit_current_doctype_token();
+                        self.emit_doctype_token();
                     }
                     // U+0022 QUOTATION MARK (")
                     // This is a missing-whitespace-between-doctype-public-and-system-identifiers
@@ -3517,7 +3523,7 @@ where
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.set_force_quirks();
-                        self.emit_current_doctype_token();
+                        self.emit_doctype_token();
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -3549,7 +3555,7 @@ where
                     // Switch to the data state. Emit the current DOCTYPE token.
                     Some('>') => {
                         self.state = State::Data;
-                        self.emit_current_doctype_token();
+                        self.emit_doctype_token();
                     }
                     // U+0022 QUOTATION MARK (")
                     // Set the current DOCTYPE token's system identifier to the empty string
@@ -3574,7 +3580,7 @@ where
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.set_force_quirks();
-                        self.emit_current_doctype_token();
+                        self.emit_doctype_token();
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -3631,7 +3637,7 @@ where
                         self.emit_error(ErrorKind::MissingDoctypeSystemIdentifier);
                         self.set_force_quirks();
                         self.state = State::Data;
-                        self.emit_current_doctype_token();
+                        self.emit_doctype_token();
                     }
                     // EOF
                     // This is an eof-in-doctype parse error. Set the current DOCTYPE token's
@@ -3640,7 +3646,7 @@ where
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.set_force_quirks();
-                        self.emit_current_doctype_token();
+                        self.emit_doctype_token();
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -3692,7 +3698,7 @@ where
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.set_force_quirks();
                         self.state = State::Data;
-                        self.emit_current_doctype_token();
+                        self.emit_doctype_token();
                     }
                     // EOF
                     // This is an eof-in-doctype parse error. Set the current DOCTYPE token's
@@ -3701,7 +3707,7 @@ where
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.set_force_quirks();
-                        self.emit_current_doctype_token();
+                        self.emit_doctype_token();
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -3747,7 +3753,7 @@ where
                         self.emit_error(ErrorKind::AbruptDoctypeSystemIdentifier);
                         self.set_force_quirks();
                         self.state = State::Data;
-                        self.emit_current_doctype_token();
+                        self.emit_doctype_token();
                     }
                     // EOF
                     // This is an eof-in-doctype parse error. Set the current DOCTYPE token's
@@ -3756,7 +3762,7 @@ where
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.set_force_quirks();
-                        self.emit_current_doctype_token();
+                        self.emit_doctype_token();
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -3765,6 +3771,7 @@ where
                     // Append the current input character to the current DOCTYPE token's system
                     // identifier.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.append_to_doctype_token(None, None, None, Some((c, c)));
                     }
                 }
@@ -3799,7 +3806,7 @@ where
                         self.emit_error(ErrorKind::AbruptDoctypeSystemIdentifier);
                         self.set_force_quirks();
                         self.state = State::Data;
-                        self.emit_current_doctype_token();
+                        self.emit_doctype_token();
                     }
                     // EOF
                     // This is an eof-in-doctype parse error. Set the current DOCTYPE token's
@@ -3808,7 +3815,7 @@ where
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.set_force_quirks();
-                        self.emit_current_doctype_token();
+                        self.emit_doctype_token();
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -3817,6 +3824,7 @@ where
                     // Append the current input character to the current DOCTYPE token's system
                     // identifier.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.append_to_doctype_token(None, None, None, Some((c, c)));
                     }
                 }
@@ -3837,7 +3845,7 @@ where
                     // Switch to the data state. Emit the current DOCTYPE token.
                     Some('>') => {
                         self.state = State::Data;
-                        self.emit_current_doctype_token();
+                        self.emit_doctype_token();
                     }
                     // EOF
                     // This is an eof-in-doctype parse error. Set the current DOCTYPE token's
@@ -3846,7 +3854,7 @@ where
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.set_force_quirks();
-                        self.emit_current_doctype_token();
+                        self.emit_doctype_token();
                         self.emit_token(Token::Eof);
 
                         return Ok(());
@@ -3857,7 +3865,6 @@ where
                     // current DOCTYPE token's force-quirks flag to on.)
                     _ => {
                         self.emit_error(ErrorKind::UnexpectedCharacterAfterDoctypeSystemIdentifier);
-
                         self.reconsume_in_state(State::BogusDoctype);
                     }
                 }
@@ -3870,7 +3877,7 @@ where
                     // Switch to the data state. Emit the DOCTYPE token.
                     Some('>') => {
                         self.state = State::Data;
-                        self.emit_current_doctype_token();
+                        self.emit_doctype_token();
                     }
                     // U+0000 NULL
                     // This is an unexpected-null-character parse error. Ignore the character.
@@ -3880,14 +3887,16 @@ where
                     // EOF
                     // Emit the DOCTYPE token. Emit an end-of-file token.
                     None => {
-                        self.emit_current_doctype_token();
+                        self.emit_doctype_token();
                         self.emit_token(Token::Eof);
 
                         return Ok(());
                     }
                     // Anything else
                     // Ignore the character.
-                    _ => {}
+                    Some(c) => {
+                        self.validate_input_stream_character(c);
+                    }
                 }
             }
             // https://html.spec.whatwg.org/multipage/parsing.html#cdata-section-state
@@ -3910,6 +3919,7 @@ where
                     // Anything else
                     // Emit the current input character as a character token.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.emit_character_token(c, Some(c));
                     }
                 }
@@ -4001,6 +4011,7 @@ where
                 let mut entity_cur_pos: Option<BytePos> = None;
                 let mut entity_temporary_buffer = None;
 
+                // No need to validate input, because we reset position if nothing was found
                 while let Some(c) = &self.consume_next_char() {
                     self.temporary_buffer.push(*c);
 
@@ -4103,7 +4114,7 @@ where
                     // Otherwise, emit the current input character as a character token.
                     Some(c) if c.is_ascii_alphanumeric() => {
                         if self.is_consumed_as_part_of_an_attribute() {
-                            self.append_to_current_attribute(None, Some((c, c)));
+                            self.append_to_attribute(None, Some((false, Some(c), Some(c))));
                         } else {
                             self.emit_character_token(c, Some(c));
                         }
@@ -4463,48 +4474,44 @@ fn is_surrogate(c: u32) -> bool {
 // U+FFFFF, U+10FFFE, or U+10FFFF.
 #[inline(always)]
 fn is_noncharacter(c: u32) -> bool {
-    let c = char::from_u32(c);
-
     matches!(
         c,
-        Some(
-            '\u{FDD0}'
-                ..='\u{FDEF}'
-                    | '\u{FFFE}'
-                    | '\u{FFFF}'
-                    | '\u{1FFFE}'
-                    | '\u{1FFFF}'
-                    | '\u{2FFFE}'
-                    | '\u{2FFFF}'
-                    | '\u{3FFFE}'
-                    | '\u{3FFFF}'
-                    | '\u{4FFFE}'
-                    | '\u{4FFFF}'
-                    | '\u{5FFFE}'
-                    | '\u{5FFFF}'
-                    | '\u{6FFFE}'
-                    | '\u{6FFFF}'
-                    | '\u{7FFFE}'
-                    | '\u{7FFFF}'
-                    | '\u{8FFFE}'
-                    | '\u{8FFFF}'
-                    | '\u{9FFFE}'
-                    | '\u{9FFFF}'
-                    | '\u{AFFFE}'
-                    | '\u{AFFFF}'
-                    | '\u{BFFFE}'
-                    | '\u{BFFFF}'
-                    | '\u{CFFFE}'
-                    | '\u{CFFFF}'
-                    | '\u{DFFFE}'
-                    | '\u{DFFFF}'
-                    | '\u{EFFFE}'
-                    | '\u{EFFFF}'
-                    | '\u{FFFFE}'
-                    | '\u{FFFFF}'
-                    | '\u{10FFFE}'
-                    | '\u{10FFFF}',
-        )
+        0xfdd0
+            ..=0xfdef
+                | 0xfffe
+                | 0xffff
+                | 0x1fffe
+                | 0x1ffff
+                | 0x2fffe
+                | 0x2ffff
+                | 0x3fffe
+                | 0x3ffff
+                | 0x4fffe
+                | 0x4ffff
+                | 0x5fffe
+                | 0x5ffff
+                | 0x6fffe
+                | 0x6ffff
+                | 0x7fffe
+                | 0x7ffff
+                | 0x8fffe
+                | 0x8ffff
+                | 0x9fffe
+                | 0x9ffff
+                | 0xafffe
+                | 0xaffff
+                | 0xbfffe
+                | 0xbffff
+                | 0xcfffe
+                | 0xcffff
+                | 0xdfffe
+                | 0xdffff
+                | 0xefffe
+                | 0xeffff
+                | 0xffffe
+                | 0xfffff
+                | 0x10fffe
+                | 0x10ffff,
     )
 }
 
