@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 440,
+    "end": 439,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 17,
-        "end": 440,
+        "end": 439,
         "ctxt": 0
       },
       "tagName": "html",
@@ -110,7 +110,7 @@
           "type": "Element",
           "span": {
             "start": 77,
-            "end": 433,
+            "end": 432,
             "ctxt": 0
           },
           "tagName": "body",
@@ -130,7 +130,7 @@
               "type": "Element",
               "span": {
                 "start": 84,
-                "end": 424,
+                "end": 423,
                 "ctxt": 0
               },
               "tagName": "table",
@@ -306,7 +306,7 @@
                       "type": "Element",
                       "span": {
                         "start": 232,
-                        "end": 415,
+                        "end": 414,
                         "ctxt": 0
                       },
                       "tagName": "tr",
@@ -326,7 +326,7 @@
                           "type": "Element",
                           "span": {
                             "start": 245,
-                            "end": 256,
+                            "end": 255,
                             "ctxt": 0
                           },
                           "tagName": "td",
@@ -337,10 +337,10 @@
                               "type": "Text",
                               "span": {
                                 "start": 249,
-                                "end": 251,
+                                "end": 250,
                                 "ctxt": 0
                               },
-                              "value": " "
+                              "value": "z"
                             }
                           ],
                           "content": null
@@ -350,6 +350,8 @@
                           "span": {
                             "start": 256,
                             "end": 265,
+                            "start": 255,
+                            "end": 264,
                             "ctxt": 0
                           },
                           "value": "\n        "
@@ -357,8 +359,8 @@
                         {
                           "type": "Element",
                           "span": {
-                            "start": 265,
-                            "end": 292,
+                            "start": 264,
+                            "end": 291,
                             "ctxt": 0
                           },
                           "tagName": "th",
@@ -367,8 +369,8 @@
                             {
                               "type": "Attribute",
                               "span": {
-                                "start": 269,
-                                "end": 280,
+                                "start": 268,
+                                "end": 279,
                                 "ctxt": 0
                               },
                               "namespace": null,
@@ -381,8 +383,8 @@
                             {
                               "type": "Text",
                               "span": {
-                                "start": 281,
-                                "end": 287,
+                                "start": 280,
+                                "end": 286,
                                 "ctxt": 0
                               },
                               "value": "Batman"
@@ -395,6 +397,8 @@
                           "span": {
                             "start": 292,
                             "end": 301,
+                            "start": 291,
+                            "end": 300,
                             "ctxt": 0
                           },
                           "value": "\n        "
@@ -402,8 +406,8 @@
                         {
                           "type": "Element",
                           "span": {
-                            "start": 301,
-                            "end": 327,
+                            "start": 300,
+                            "end": 326,
                             "ctxt": 0
                           },
                           "tagName": "th",
@@ -412,8 +416,8 @@
                             {
                               "type": "Attribute",
                               "span": {
-                                "start": 305,
-                                "end": 316,
+                                "start": 304,
+                                "end": 315,
                                 "ctxt": 0
                               },
                               "namespace": null,
@@ -426,8 +430,8 @@
                             {
                               "type": "Text",
                               "span": {
-                                "start": 317,
-                                "end": 322,
+                                "start": 316,
+                                "end": 321,
                                 "ctxt": 0
                               },
                               "value": "Robin"
@@ -440,6 +444,8 @@
                           "span": {
                             "start": 327,
                             "end": 336,
+                            "start": 326,
+                            "end": 335,
                             "ctxt": 0
                           },
                           "value": "\n        "
@@ -447,8 +453,8 @@
                         {
                           "type": "Element",
                           "span": {
-                            "start": 336,
-                            "end": 366,
+                            "start": 335,
+                            "end": 365,
                             "ctxt": 0
                           },
                           "tagName": "th",
@@ -457,8 +463,8 @@
                             {
                               "type": "Attribute",
                               "span": {
-                                "start": 340,
-                                "end": 351,
+                                "start": 339,
+                                "end": 350,
                                 "ctxt": 0
                               },
                               "namespace": null,
@@ -471,8 +477,8 @@
                             {
                               "type": "Text",
                               "span": {
-                                "start": 352,
-                                "end": 361,
+                                "start": 351,
+                                "end": 360,
                                 "ctxt": 0
                               },
                               "value": "The Flash"
@@ -485,6 +491,8 @@
                           "span": {
                             "start": 366,
                             "end": 375,
+                            "start": 365,
+                            "end": 374,
                             "ctxt": 0
                           },
                           "value": "\n        "
@@ -492,8 +500,8 @@
                         {
                           "type": "Element",
                           "span": {
-                            "start": 375,
-                            "end": 405,
+                            "start": 374,
+                            "end": 404,
                             "ctxt": 0
                           },
                           "tagName": "th",
@@ -502,8 +510,8 @@
                             {
                               "type": "Attribute",
                               "span": {
-                                "start": 379,
-                                "end": 390,
+                                "start": 378,
+                                "end": 389,
                                 "ctxt": 0
                               },
                               "namespace": null,
@@ -516,8 +524,8 @@
                             {
                               "type": "Text",
                               "span": {
-                                "start": 391,
-                                "end": 400,
+                                "start": 390,
+                                "end": 399,
                                 "ctxt": 0
                               },
                               "value": "Kid Flash"
@@ -530,6 +538,8 @@
                           "span": {
                             "start": 405,
                             "end": 410,
+                            "start": 404,
+                            "end": 409,
                             "ctxt": 0
                           },
                           "value": "\n    "
@@ -542,6 +552,8 @@
                       "span": {
                         "start": 415,
                         "end": 416,
+                        "start": 414,
+                        "end": 415,
                         "ctxt": 0
                       },
                       "value": "\n"
@@ -555,8 +567,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 424,
-                "end": 433,
+                "start": 423,
+                "end": 432,
                 "ctxt": 0
               },
               "value": "\n\n"
