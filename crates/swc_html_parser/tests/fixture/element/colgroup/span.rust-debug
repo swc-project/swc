@@ -11,7 +11,7 @@
   8 | |       <caption>Superheros and sidekicks</caption>
   9 | |       <colgroup><col><col span="2" class="batman"><col span="2" class="flash"></colgroup>
  10 | |       <tr>
- 11 | |           <td>z</td>
+ 11 | |           <td> </td>
  12 | |           <th scope="col">Batman</th>
  13 | |           <th scope="col">Robin</th>
  14 | |           <th scope="col">The Flash</th>
@@ -45,7 +45,7 @@
   8 | |       <caption>Superheros and sidekicks</caption>
   9 | |       <colgroup><col><col span="2" class="batman"><col span="2" class="flash"></colgroup>
  10 | |       <tr>
- 11 | |           <td>z</td>
+ 11 | |           <td> </td>
  12 | |           <th scope="col">Batman</th>
  13 | |           <th scope="col">Robin</th>
  14 | |           <th scope="col">The Flash</th>
@@ -67,7 +67,7 @@
   8 | |       <caption>Superheros and sidekicks</caption>
   9 | |       <colgroup><col><col span="2" class="batman"><col span="2" class="flash"></colgroup>
  10 | |       <tr>
- 11 | |           <td>z</td>
+ 11 | |           <td> </td>
  12 | |           <th scope="col">Batman</th>
  13 | |           <th scope="col">Robin</th>
  14 | |           <th scope="col">The Flash</th>
@@ -169,7 +169,7 @@
   8 | |       <caption>Superheros and sidekicks</caption>
   9 | |       <colgroup><col><col span="2" class="batman"><col span="2" class="flash"></colgroup>
  10 | |       <tr>
- 11 | |           <td>z</td>
+ 11 | |           <td> </td>
  12 | |           <th scope="col">Batman</th>
  13 | |           <th scope="col">Robin</th>
  14 | |           <th scope="col">The Flash</th>
@@ -187,7 +187,7 @@
   8 | |       <caption>Superheros and sidekicks</caption>
   9 | |       <colgroup><col><col span="2" class="batman"><col span="2" class="flash"></colgroup>
  10 | |       <tr>
- 11 | |           <td>z</td>
+ 11 | |           <td> </td>
  12 | |           <th scope="col">Batman</th>
  13 | |           <th scope="col">Robin</th>
  14 | |           <th scope="col">The Flash</th>
@@ -218,7 +218,7 @@
   8 | |       <caption>Superheros and sidekicks</caption>
   9 | |       <colgroup><col><col span="2" class="batman"><col span="2" class="flash"></colgroup>
  10 | |       <tr>
- 11 | |           <td>z</td>
+ 11 | |           <td> </td>
  12 | |           <th scope="col">Batman</th>
  13 | |           <th scope="col">Robin</th>
  14 | |           <th scope="col">The Flash</th>
@@ -233,7 +233,7 @@
   8 | |       <caption>Superheros and sidekicks</caption>
   9 | |       <colgroup><col><col span="2" class="batman"><col span="2" class="flash"></colgroup>
  10 | |       <tr>
- 11 | |           <td>z</td>
+ 11 | |           <td> </td>
  12 | |           <th scope="col">Batman</th>
  13 | |           <th scope="col">Robin</th>
  14 | |           <th scope="col">The Flash</th>
@@ -381,7 +381,7 @@
   x Child
     ,-[$DIR/tests/fixture/element/colgroup/input.html:10:5]
  10 | ,-> <tr>
- 11 | |           <td>z</td>
+ 11 | |           <td> </td>
  12 | |           <th scope="col">Batman</th>
  13 | |           <th scope="col">Robin</th>
  14 | |           <th scope="col">The Flash</th>
@@ -392,7 +392,7 @@
   x Element
     ,-[$DIR/tests/fixture/element/colgroup/input.html:10:5]
  10 | ,-> <tr>
- 11 | |           <td>z</td>
+ 11 | |           <td> </td>
  12 | |           <th scope="col">Batman</th>
  13 | |           <th scope="col">Robin</th>
  14 | |           <th scope="col">The Flash</th>
@@ -403,48 +403,48 @@
   x Child
     ,-[$DIR/tests/fixture/element/colgroup/input.html:10:5]
  10 | ,-> <tr>
- 11 | `->         <td>z</td>
+ 11 | `->         <td> </td>
     `----
 
   x Text
     ,-[$DIR/tests/fixture/element/colgroup/input.html:10:5]
  10 | ,-> <tr>
- 11 | `->         <td>z</td>
+ 11 | `->         <td> </td>
     `----
 
   x Child
     ,-[$DIR/tests/fixture/element/colgroup/input.html:11:9]
- 11 | <td>z</td>
-    : ^^^^^^^^^^
+ 11 | <td> </td>
+    : ^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/colgroup/input.html:11:9]
- 11 | <td>z</td>
-    : ^^^^^^^^^^
+ 11 | <td> </td>
+    : ^^^^^^^^^^^
     `----
 
   x Child
     ,-[$DIR/tests/fixture/element/colgroup/input.html:11:9]
- 11 | <td>z</td>
-    :     ^
+ 11 | <td> </td>
+    :     ^^
     `----
 
   x Text
     ,-[$DIR/tests/fixture/element/colgroup/input.html:11:9]
- 11 | <td>z</td>
-    :     ^
+ 11 | <td> </td>
+    :     ^^
     `----
 
   x Child
     ,-[$DIR/tests/fixture/element/colgroup/input.html:11:9]
- 11 | ,-> <td>z</td>
+ 11 | ,-> <td> </td>
  12 | `->         <th scope="col">Batman</th>
     `----
 
   x Text
     ,-[$DIR/tests/fixture/element/colgroup/input.html:11:9]
- 11 | ,-> <td>z</td>
+ 11 | ,-> <td> </td>
  12 | `->         <th scope="col">Batman</th>
     `----
 
