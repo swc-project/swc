@@ -1,4 +1,5 @@
 #![allow(unused_variables)]
+use swc_common::SpanSnippetError;
 #[cfg(feature = "plugin-mode")]
 use swc_common::{source_map::FileLinesResult, BytePos, FileName, Loc, SourceMapper, Span};
 
@@ -87,6 +88,14 @@ impl SourceMapper for PluginSourceMapProxy {
             __span_to_filename_proxy(sp.lo.0, sp.hi.0, sp.ctxt.as_u32(), serialized_ptr)
         })
         .expect("Host should return Filename");
+
+        #[cfg(not(target_arch = "wasm32"))]
+        unimplemented!("Sourcemap proxy cannot be called in this context")
+    }
+
+    fn span_to_snippet(&self, sp: Span) -> Result<String, SpanSnippetError> {
+        #[cfg(target_arch = "wasm32")]
+        unimplemented!("not implemented yet");
 
         #[cfg(not(target_arch = "wasm32"))]
         unimplemented!("Sourcemap proxy cannot be called in this context")
