@@ -3079,6 +3079,7 @@ dependencies = [
  "ast_node",
  "atty",
  "better_scoped_tls",
+ "bitflags",
  "cfg-if 1.0.0",
  "criterion",
  "debug_unreachable",
@@ -3280,7 +3281,6 @@ dependencies = [
 name = "swc_ecma_codegen"
 version = "0.108.6"
 dependencies = [
- "bitflags",
  "criterion",
  "memchr",
  "num-bigint",

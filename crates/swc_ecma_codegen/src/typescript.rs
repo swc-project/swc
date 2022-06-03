@@ -1,9 +1,9 @@
-use swc_common::{SourceMapper, Spanned};
+use swc_common::{source_map::SourceMapperExt, ListFormat, SourceMapper, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::emitter;
 
 use super::{Emitter, Result};
-use crate::{list::ListFormat, text_writer::WriteJs, util::SourceMapperExt};
+use crate::text_writer::WriteJs;
 
 impl<'a, W, S: SourceMapper + SourceMapperExt> Emitter<'a, W, S>
 where

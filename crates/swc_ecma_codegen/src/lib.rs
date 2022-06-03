@@ -12,18 +12,15 @@ use once_cell::sync::Lazy;
 use swc_atoms::JsWord;
 use swc_common::{
     comments::{CommentKind, Comments},
+    source_map::{SourceMapperExt, SpanExt},
     sync::Lrc,
-    BytePos, SourceMapper, Span, Spanned, DUMMY_SP,
+    BytePos, ListFormat, SourceMapper, Span, Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::emitter;
 
 pub use self::config::Config;
-use self::{
-    list::ListFormat,
-    text_writer::WriteJs,
-    util::{SourceMapperExt, SpanExt, StartsWithAlphaNum},
-};
+use self::{text_writer::WriteJs, util::StartsWithAlphaNum};
 use crate::util::EndsWithAlphaNum;
 
 #[macro_use]
@@ -33,7 +30,6 @@ mod config;
 mod decl;
 mod expr;
 mod jsx;
-pub mod list;
 mod stmt;
 #[cfg(test)]
 mod tests;
