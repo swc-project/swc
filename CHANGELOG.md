@@ -25,6 +25,12 @@
 
 - **(wasm)** Add json error (#4853) ([fd3501b](https://github.com/swc-project/swc/commit/fd3501bf87f4e711e72e9e8fd12f64f4cfa08157))
 
+### Performance
+
+
+
+- **(html/parser)** Improve lexer performance (#4869) ([8b67bb9](https://github.com/swc-project/swc/commit/8b67bb99fa98f2ad7299d309e30e3d6c1208232f))
+
 ### Testing
 
 
