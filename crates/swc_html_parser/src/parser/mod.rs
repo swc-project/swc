@@ -7279,6 +7279,7 @@ where
                         token_and_info.span.hi(),
                         Default::default(),
                     ),
+                    token_and_info.span,
                     Some(Namespace::HTML),
                     None,
                 );
