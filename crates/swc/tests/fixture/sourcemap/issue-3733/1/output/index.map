@@ -1,8 +1,6 @@
 {
-  "mappings": "AAAAA,CAAC,EAAE,CAAC,CAAC,GAAG",
-  "names": [
-    "a"
-  ],
+  "mappings": "CAAC,EAAE,CAAC,CAAC,GAAG",
+  "names": [],
   "sources": [
     "../../input/index.js"
   ],

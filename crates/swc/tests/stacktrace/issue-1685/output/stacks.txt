@@ -3,5 +3,5 @@ throw new Error('Error here');
       ^
 
 Error: Error here
-    at console ($DIR/tests/stacktrace/issue-1685/input/index.js:3:7)
+    at Object.<anonymous> ($DIR/tests/stacktrace/issue-1685/input/index.js:3:7)
     at node:internal/main/run_main_module:17:47
