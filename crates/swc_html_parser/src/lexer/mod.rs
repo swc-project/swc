@@ -160,7 +160,6 @@ where
     cur: Option<char>,
     cur_pos: BytePos,
     last_token_pos: BytePos,
-    last_emitted_error_pos: Option<BytePos>,
     finished: bool,
     state: State,
     return_state: State,
@@ -189,7 +188,6 @@ where
             cur: None,
             cur_pos: start_pos,
             last_token_pos: start_pos,
-            last_emitted_error_pos: None,
             finished: false,
             state: State::Data,
             return_state: State::Data,
@@ -272,28 +270,19 @@ where
     // occurrences of noncharacters are noncharacter-in-input-stream parse errors
     // and any occurrences of controls other than ASCII whitespace and U+0000 NULL
     // characters are control-character-in-input-stream parse errors.
+    //
+    // Postpone validation for each character for perf reasons and do it in
+    // `anything else`
+    #[inline(always)]
     fn validate_input_stream_character(&mut self, c: char) {
         let code = c as u32;
 
-        if (0xd800..=0xdfff).contains(&code)
-            && (self.last_emitted_error_pos.is_none()
-                || self.last_emitted_error_pos < Some(self.cur_pos))
-        {
+        if (0xd800..=0xdfff).contains(&code) {
             self.emit_error(ErrorKind::SurrogateInInputStream);
-            self.last_emitted_error_pos = Some(self.input.cur_pos());
-        } else if code != 0x00
-            && is_control(code)
-            && (self.last_emitted_error_pos.is_none()
-                || self.last_emitted_error_pos < Some(self.cur_pos))
-        {
+        } else if code != 0x00 && is_control(code) {
             self.emit_error(ErrorKind::ControlCharacterInInputStream);
-            self.last_emitted_error_pos = Some(self.input.cur_pos());
-        } else if is_noncharacter(code)
-            && (self.last_emitted_error_pos.is_none()
-                || self.last_emitted_error_pos < Some(self.cur_pos))
-        {
+        } else if is_noncharacter(code) {
             self.emit_error(ErrorKind::NoncharacterInInputStream);
-            self.last_emitted_error_pos = Some(self.input.cur_pos());
         }
     }
 
@@ -302,9 +291,8 @@ where
         self.cur = self.input.cur();
         self.cur_pos = self.input.cur_pos();
 
-        if let Some(c) = self.cur {
+        if self.cur.is_some() {
             self.input.bump();
-            self.validate_input_stream_character(c);
         }
     }
 
@@ -887,6 +875,7 @@ where
                     // Anything else
                     // Emit the current input character as a character token.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.emit_character_token(c, Some(c));
                     }
                 }
@@ -924,6 +913,7 @@ where
                     // Anything else
                     // Emit the current input character as a character token.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.emit_character_token(c, Some(c));
                     }
                 }
@@ -952,6 +942,7 @@ where
                     // Anything else
                     // Emit the current input character as a character token.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.emit_character_token(c, Some(c));
                     }
                 }
@@ -980,6 +971,7 @@ where
                     // Anything else
                     // Emit the current input character as a character token.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.emit_character_token(c, Some(c));
                     }
                 }
@@ -1005,6 +997,7 @@ where
                     // Anything else
                     // Emit the current input character as a character token.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.emit_character_token(c, Some(c));
                     }
                 }
@@ -1147,6 +1140,7 @@ where
                     // Anything else
                     // Append the current input character to the current tag token's tag name.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.append_to_tag_token_name(c, c);
                     }
                 }
@@ -1578,6 +1572,7 @@ where
                     // Anything else
                     // Emit the current input character as a character token.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.emit_character_token(c, Some(c));
                     }
                 }
@@ -1619,6 +1614,7 @@ where
                     // Switch to the script data escaped state. Emit the current input character
                     // as a character token.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.state = State::ScriptDataEscaped;
                         self.emit_character_token(c, Some(c));
                     }
@@ -1666,6 +1662,7 @@ where
                     // Switch to the script data escaped state. Emit the current input character
                     // as a character token.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.state = State::ScriptDataEscaped;
                         self.emit_character_token(c, Some(c));
                     }
@@ -1891,6 +1888,7 @@ where
                     // Anything else
                     // Emit the current input character as a character token.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.emit_character_token(c, Some(c));
                     }
                 }
@@ -1935,6 +1933,7 @@ where
                     // Switch to the script data double escaped state. Emit the current input
                     // character as a character token.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.state = State::ScriptDataDoubleEscaped;
                         self.emit_character_token(c, Some(c));
                     }
@@ -1985,6 +1984,7 @@ where
                     // Switch to the script data double escaped state. Emit the current input
                     // character as a character token.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.state = State::ScriptDataDoubleEscaped;
                         self.emit_character_token(c, Some(c));
                     }
@@ -2163,6 +2163,8 @@ where
                     // Anything else
                     // Append the current input character to the current attribute's name.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
+
                         anything_else(self, c);
                     }
                 }
@@ -2301,6 +2303,7 @@ where
                     // Anything else
                     // Append the current input character to the current attribute's value.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.append_to_attribute(None, Some((false, Some(c), Some(c))));
                     }
                 }
@@ -2344,6 +2347,7 @@ where
                     // Anything else
                     // Append the current input character to the current attribute's value.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.append_to_attribute(None, Some((false, Some(c), Some(c))));
                     }
                 }
@@ -2415,6 +2419,8 @@ where
                     // Anything else
                     // Append the current input character to the current attribute's value.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
+
                         anything_else(self, c);
                     }
                 }
@@ -2525,6 +2531,7 @@ where
                     // Anything else
                     // Append the current input character to the comment token's data.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.append_to_comment_token(c, Some(c));
                     }
                 }
@@ -2537,6 +2544,7 @@ where
                     lexer.create_comment_token(None);
                     lexer.state = State::BogusComment;
                     lexer.cur_pos = cur_pos;
+                    // We don't validate input here because we reset position
                     lexer.input.reset_to(cur_pos);
                 };
 
@@ -2766,6 +2774,7 @@ where
                     // Anything else
                     // Append the current input character to the comment token's data.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.append_to_comment_token(c, Some(c));
                     }
                 }
@@ -3067,6 +3076,8 @@ where
                     // Create a new DOCTYPE token. Set the token's name to the current input
                     // character. Switch to the DOCTYPE name state.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
+
                         let doctype_keyword = self.doctype_keyword.take();
 
                         self.create_doctype_token(doctype_keyword, Some((c, c)));
@@ -3131,6 +3142,7 @@ where
                     // Anything else
                     // Append the current input character to the current DOCTYPE token's name.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.append_to_doctype_token(None, Some((c, c)), None, None);
                     }
                 }
@@ -3403,6 +3415,7 @@ where
                     // Append the current input character to the current DOCTYPE token's public
                     // identifier.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.append_to_doctype_token(None, None, Some((c, c)), None);
                     }
                 }
@@ -3455,6 +3468,7 @@ where
                     // Append the current input character to the current DOCTYPE token's public
                     // identifier.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.append_to_doctype_token(None, None, Some((c, c)), None);
                     }
                 }
@@ -3757,6 +3771,7 @@ where
                     // Append the current input character to the current DOCTYPE token's system
                     // identifier.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.append_to_doctype_token(None, None, None, Some((c, c)));
                     }
                 }
@@ -3809,6 +3824,7 @@ where
                     // Append the current input character to the current DOCTYPE token's system
                     // identifier.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.append_to_doctype_token(None, None, None, Some((c, c)));
                     }
                 }
@@ -3849,7 +3865,6 @@ where
                     // current DOCTYPE token's force-quirks flag to on.)
                     _ => {
                         self.emit_error(ErrorKind::UnexpectedCharacterAfterDoctypeSystemIdentifier);
-
                         self.reconsume_in_state(State::BogusDoctype);
                     }
                 }
@@ -3879,7 +3894,9 @@ where
                     }
                     // Anything else
                     // Ignore the character.
-                    _ => {}
+                    Some(c) => {
+                        self.validate_input_stream_character(c);
+                    }
                 }
             }
             // https://html.spec.whatwg.org/multipage/parsing.html#cdata-section-state
@@ -3902,6 +3919,7 @@ where
                     // Anything else
                     // Emit the current input character as a character token.
                     Some(c) => {
+                        self.validate_input_stream_character(c);
                         self.emit_character_token(c, Some(c));
                     }
                 }
@@ -3993,6 +4011,7 @@ where
                 let mut entity_cur_pos: Option<BytePos> = None;
                 let mut entity_temporary_buffer = None;
 
+                // No need to validate input, because we reset position if nothing was found
                 while let Some(c) = &self.consume_next_char() {
                     self.temporary_buffer.push(*c);
 
