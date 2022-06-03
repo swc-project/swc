@@ -280,6 +280,7 @@
                   "span": {
                     "start": 0,
                     "end": 1215,
+                    "end": 0,
                     "ctxt": 0
                   },
                   "tagName": "tbody",
@@ -2339,7 +2340,7 @@
                   "type": "Element",
                   "span": {
                     "start": 0,
-                    "end": 2292,
+                    "end": 0,
                     "ctxt": 0
                   },
                   "tagName": "tbody",

@@ -33,7 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 22,
+            "end": 0,
             "ctxt": 0
           },
           "tagName": "head",
@@ -46,7 +46,7 @@
           "type": "Element",
           "span": {
             "start": 16,
-            "end": 78,
+            "end": 32,
             "ctxt": 0
           },
           "tagName": "body",
@@ -57,7 +57,7 @@
               "type": "Element",
               "span": {
                 "start": 22,
-                "end": 78,
+                "end": 32,
                 "ctxt": 0
               },
               "tagName": "b",
@@ -68,7 +68,7 @@
                   "type": "Element",
                   "span": {
                     "start": 25,
-                    "end": 78,
+                    "end": 32,
                     "ctxt": 0
                   },
                   "tagName": "nobr",
@@ -87,8 +87,8 @@
                     {
                       "type": "Element",
                       "span": {
-                        "start": 32,
-                        "end": 78,
+                        "start": 0,
+                        "end": 32,
                         "ctxt": 0
                       },
                       "tagName": "table",
@@ -99,7 +99,7 @@
                           "type": "Element",
                           "span": {
                             "start": 0,
-                            "end": 78,
+                            "end": 0,
                             "ctxt": 0
                           },
                           "tagName": "tbody",

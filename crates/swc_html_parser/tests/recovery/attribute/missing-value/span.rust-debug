@@ -12,14 +12,6 @@
   x Element
 
   x Child
-
-  x Element
-
-  x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/recovery/attribute/missing-value/input.html:1:1]
  1 | <div>test</div>
    : ^^^^^^^^^^^^^^^

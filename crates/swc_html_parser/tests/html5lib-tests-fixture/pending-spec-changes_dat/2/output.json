@@ -22,7 +22,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 8,
+            "end": 0,
             "ctxt": 0
           },
           "tagName": "head",
@@ -35,7 +35,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 46,
+            "end": 0,
             "ctxt": 0
           },
           "tagName": "body",
@@ -45,8 +45,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 1,
-                "end": 46,
+                "start": 0,
+                "end": 1,
                 "ctxt": 0
               },
               "tagName": "table",
@@ -57,7 +57,7 @@
                   "type": "Element",
                   "span": {
                     "start": 0,
-                    "end": 46,
+                    "end": 0,
                     "ctxt": 0
                   },
                   "tagName": "tbody",

@@ -33,7 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 23,
+            "end": 0,
             "ctxt": 0
           },
           "tagName": "head",
@@ -46,7 +46,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 59,
+            "end": 0,
             "ctxt": 0
           },
           "tagName": "body",
@@ -56,8 +56,8 @@
             {
               "type": "Element",
               "span": {
-                "start": 16,
-                "end": 59,
+                "start": 0,
+                "end": 16,
                 "ctxt": 0
               },
               "tagName": "table",
@@ -91,7 +91,7 @@
                   "type": "Element",
                   "span": {
                     "start": 0,
-                    "end": 59,
+                    "end": 0,
                     "ctxt": 0
                   },
                   "tagName": "tbody",
@@ -102,7 +102,7 @@
                       "type": "Element",
                       "span": {
                         "start": 0,
-                        "end": 59,
+                        "end": 0,
                         "ctxt": 0
                       },
                       "tagName": "tr",

@@ -3335,10 +3335,6 @@
     `----
 
   x Child
-
-  x Element
-
-  x Child
     ,-[$DIR/tests/fixture/element/table/input.html:96:5]
  96 | <table><tr><td>test</td><td>test</td></tr></table>
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

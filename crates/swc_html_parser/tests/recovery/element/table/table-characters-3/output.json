@@ -142,6 +142,7 @@
                   "span": {
                     "start": 0,
                     "end": 108,
+                    "end": 0,
                     "ctxt": 0
                   },
                   "tagName": "tbody",

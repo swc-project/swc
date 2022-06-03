@@ -8348,10 +8348,10 @@ where
         // Create an element for the token in the given namespace, with the
         // intended parent being the element in which the adjusted insertion
         // location finds itself.
-        let last_pos = self.input.last_pos()?;
         let node = self.create_element_for_token(
             token_and_info.token.clone(),
             Span::new(token_and_info.span.lo(), last_pos, Default::default()),
+            token_and_info.span,
             Some(namespace),
             adjust_attributes,
         );

@@ -34,10 +34,6 @@
    `----
 
   x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/recovery/element/noscript-2/input.html:1:1]
  1 | <head><noscript>ABC<!--foo--></noscript>
    :                 ^^^

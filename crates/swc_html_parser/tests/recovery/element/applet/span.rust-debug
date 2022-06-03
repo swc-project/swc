@@ -10,14 +10,6 @@
   x Element
 
   x Child
-
-  x Element
-
-  x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/recovery/element/applet/input.html:1:1]
  1 | <b><applet></b>x
    : ^^^^^^^^^^^^^^^^^
