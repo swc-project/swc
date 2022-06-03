@@ -8,10 +8,10 @@
 <begriffs.pagination ng-init="perPage=20" collection=logs url="\'/api/logs?user=-1\'" per-page=perPage per-page-presets=[10,20,50,100] template-url=/assets/paginate-anything.html></begriffs.pagination>
 <!doctype html><html lang=en><title>Document</title></head>
 <body>
-<begriffs.pagination collection=logs ng-init="perPage=20" per-page=perPage per-page-presets=[10,20,50,100] template-url=/assets/paginate-anything.html url="\'/api/logs?user=-1\'"></begriffs.pagination>
+<begriffs.pagination ng-init="perPage=20" collection=logs url="\'/api/logs?user=-1\'" per-page=perPage per-page-presets=[10,20,50,100] template-url=/assets/paginate-anything.html></begriffs.pagination>
 <some-tag-1></some-tag-1><some-tag-2></some-tag-2>
 [\']["]
 <custom-tag></custom-tag><div>Hello :)</div>
-<tag :imgs=" objpicsurl_ " v-ref:vm_pv></tag>
+<tag v-ref:vm_pv :imgs=" objpicsurl_ "></tag>
 <span><phrasing-element></phrasing-element></span>
 

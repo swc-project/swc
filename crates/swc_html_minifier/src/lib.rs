@@ -5,6 +5,13 @@ use serde_json::Value;
 use swc_atoms::{js_word, JsWord};
 use swc_cached::regex::CachedRegex;
 use swc_common::{collections::AHashSet, sync::Lrc, FileName, FilePathMapping, Mark, SourceMap};
+use swc_common::{collections::AHashSet, sync::Lrc, FileName, FilePathMapping, SourceMap};
+use swc_css_codegen::{
+    writer::basic::{BasicCssWriter, BasicCssWriterConfig},
+    CodeGenerator, CodegenConfig, Emit,
+};
+use swc_css_parser::parse_file;
+use swc_common::collections::{AHashMap, AHashSet};
 use swc_html_ast::*;
 use swc_html_parser::parser::ParserConfig;
 use swc_html_visit::{VisitMut, VisitMutWith};
@@ -344,6 +351,7 @@ fn get_white_space(namespace: Namespace, tag_name: &str) -> WhiteSpace {
         },
         _ => WhiteSpace::Normal,
     }
+    attribute_name_counter: AHashMap<JsWord, isize>,
 }
 
 impl Minifier {
@@ -1873,7 +1881,11 @@ impl VisitMut for Minifier {
             self.descendant_of_pre = old_descendant_of_pre;
         }
 
-        n.attributes.sort_by_key(|attribute| attribute.name.clone());
+        n.attributes.sort_by(|a, b| {
+            self.attribute_name_counter
+                .get(&b.name)
+                .cmp(&self.attribute_name_counter.get(&a.name))
+        });
 
         let mut already_seen: AHashSet<JsWord> = Default::default();
 
@@ -2293,6 +2305,28 @@ impl VisitMut for Minifier {
 fn create_minifier(context_element: Option<&Element>, options: &MinifyOptions) -> Minifier {
     let mut current_element = None;
     let mut is_pre = false;
+pub fn minify(document: &mut Document, options: &MinifyOptions) {
+struct AttributeNameCounter {
+    tree: AHashMap<JsWord, isize>,
+}
+
+impl VisitMut for AttributeNameCounter {
+    fn visit_mut_attribute(&mut self, n: &mut Attribute) {
+        n.visit_mut_children_with(self);
+
+        *self.tree.entry(n.name.clone()).or_insert(0) += 1;
+    }
+}
+
+pub fn minify(document: &mut Document) {
+    let mut attribute_name_counter = AttributeNameCounter {
+        tree: Default::default(),
+    };
+
+    document.visit_mut_with(&mut attribute_name_counter);
+    document.visit_mut_with(&mut Minifier {
+        current_element_namespace: None,
+        current_element_tag_name: None,
 
     if let Some(context_element) = context_element {
         current_element = Some(context_element.clone());
@@ -2344,4 +2378,6 @@ pub fn minify_document_fragment(
     let mut minifier = create_minifier(Some(context_element), options);
 
     document.visit_mut_with(&mut minifier);
+        attribute_name_counter: attribute_name_counter.tree,
+    });
 }
