@@ -447,68 +447,67 @@ fn parser_recovery_verify(input: PathBuf) {
 #[testing::fixture(
     "../swc_html_parser/tests/html5lib-tests-fixture/**/*.html",
     exclude(
-        "adoption01_dat/5.html",
-        "adoption01_dat/6.html",
-        "adoption01_dat/7.html",
-        "adoption01_dat/8.html",
-        "adoption02_dat/0.html",
-        "tests1_dat/30.html",
-        "tests1_dat/68.html",
-        "tests1_dat/69.html",
-        "tests1_dat/70.html",
-        "tests1_dat/71.html",
-        "tests1_dat/77.html",
-        "tests1_dat/90.html",
-        "tests1_dat/103.html",
-        "tests2_dat/12.html",
-        "tests4_dat/3.fragment.style.html",
-        "tests4_dat/4.fragment.plaintext.html",
-        "tests15_dat/0.html",
-        "tests15_dat/1.html",
-        "tests16_dat/31.html",
-        "tests16_dat/32.html",
-        "tests16_dat/33.html",
-        "tests16_dat/34.html",
-        "tests16_dat/35.html",
-        "tests16_dat/36.html",
-        "tests16_dat/37.html",
-        "tests16_dat/48.html",
-        "tests16_dat/49.html",
-        "tests16_dat/50.html",
-        "tests16_dat/51.html",
-        "tests16_dat/52.html",
-        "tests16_dat/53.html",
-        "tests16_dat/130.html",
-        "tests16_dat/131.html",
-        "tests16_dat/132.html",
-        "tests16_dat/133.html",
-        "tests16_dat/134.html",
-        "tests16_dat/135.html",
-        "tests16_dat/136.html",
-        "tests16_dat/147.html",
-        "tests16_dat/148.html",
-        "tests16_dat/149.html",
-        "tests16_dat/150.html",
-        "tests16_dat/196.html",
-        "tests18_dat/7.html",
-        "tests18_dat/8.html",
-        "tests18_dat/9.html",
-        "tests18_dat/12.html",
-        "tests18_dat/15.html",
-        "tests18_dat/21.html",
-        "tests19_dat/103.html",
-        "tests20_dat/41.html",
-        "tests26_dat/2.html",
-        "tricky01_dat/6.html",
-        "plain-text-unsafe_dat/0.html",
-        "template_dat/68.html",
-        "template_dat/107.html",
-        "tests_innerHTML_1_dat/82.fragment.html.html",
+        "adoption01_dat/5/input.html",
+        "adoption01_dat/6/input.html",
+        "adoption01_dat/7/input.html",
+        "adoption01_dat/8/input.html",
+        "adoption02_dat/0/input.html",
+        "tests1_dat/30/input.html",
+        "tests1_dat/68/input.html",
+        "tests1_dat/69/input.html",
+        "tests1_dat/70/input.html",
+        "tests1_dat/71/input.html",
+        "tests1_dat/77/input.html",
+        "tests1_dat/90/input.html",
+        "tests1_dat/103/input.html",
+        "tests2_dat/12/input.html",
+        "tests4_dat/3.fragment_style/input.html",
+        "tests4_dat/4.fragment_plaintext/input.html",
+        "tests15_dat/0/input.html",
+        "tests15_dat/1/input.html",
+        "tests16_dat/31/input.html",
+        "tests16_dat/32/input.html",
+        "tests16_dat/33/input.html",
+        "tests16_dat/34/input.html",
+        "tests16_dat/35/input.html",
+        "tests16_dat/36/input.html",
+        "tests16_dat/37/input.html",
+        "tests16_dat/48/input.html",
+        "tests16_dat/49/input.html",
+        "tests16_dat/50/input.html",
+        "tests16_dat/51/input.html",
+        "tests16_dat/52/input.html",
+        "tests16_dat/53/input.html",
+        "tests16_dat/130/input.html",
+        "tests16_dat/131/input.html",
+        "tests16_dat/132/input.html",
+        "tests16_dat/133/input.html",
+        "tests16_dat/134/input.html",
+        "tests16_dat/135/input.html",
+        "tests16_dat/136/input.html",
+        "tests16_dat/147/input.html",
+        "tests16_dat/148/input.html",
+        "tests16_dat/149/input.html",
+        "tests16_dat/150/input.html",
+        "tests16_dat/196/input.html",
+        "tests18_dat/7/input.html",
+        "tests18_dat/8/input.html",
+        "tests18_dat/9/input.html",
+        "tests18_dat/12/input.html",
+        "tests18_dat/15/input.html",
+        "tests18_dat/21/input.html",
+        "tests19_dat/103/input.html",
+        "tests20_dat/41/input.html",
+        "tests26_dat/2/input.html",
+        "tricky01_dat/6/input.html",
+        "plain-text-unsafe_dat/0/input.html",
+        "template_dat/68/input.html",
+        "template_dat/107/input.html",
     )
 )]
 fn html5lib_tests_verify(input: PathBuf) {
-    let file_stem = input.file_stem().unwrap().to_str().unwrap().to_owned();
-    let scripting_enabled = file_stem.contains("script_on");
+    let parent = input.parent().unwrap().to_string_lossy();
+    let scripting_enabled = parent.contains("script_on");
     let parser_config = ParserConfig {
         scripting_enabled,
         iframe_srcdoc: false,
@@ -522,13 +521,14 @@ fn html5lib_tests_verify(input: PathBuf) {
         scripting_enabled,
     };
 
-    if file_stem.contains("fragment") {
+    if parent.contains("fragment") {
         let mut context_element_namespace = Namespace::HTML;
         let mut context_element_tag_name = "";
-        let context_element = file_stem
+        let context_element = parent
             .split('.')
             .last()
-            .expect("failed to get context element from filename");
+            .expect("failed to get context element from filename")
+            .replace("fragment_", "");
 
         if context_element.contains('_') {
             let mut splited = context_element.split('_');
@@ -547,7 +547,7 @@ fn html5lib_tests_verify(input: PathBuf) {
                 context_element_tag_name = tag_name;
             }
         } else {
-            context_element_tag_name = context_element;
+            context_element_tag_name = &context_element;
         }
 
         let context_element = Element {
