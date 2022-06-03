@@ -1314,6 +1314,7 @@ where
 
                         let document_type = Node::new(Data::DocumentType(DocumentType {
                             span: span!(self, token_and_info.span.lo()),
+                            span: token_and_info.span,
                             name: name.clone(),
                             public_id: public_id.clone(),
                             system_id: system_id.clone(),
@@ -1455,6 +1456,7 @@ where
                     } if tag_name == "html" => {
                         let element = Node::new(Data::Element(Element {
                             span: span!(self, token_and_info.span.lo()),
+                            span: token_and_info.span,
                             namespace: Namespace::HTML,
                             tag_name: tag_name.into(),
                             attributes: attributes
