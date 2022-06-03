@@ -44,3 +44,7 @@
  1 | <head><noscript><!doctype html><!--foo--></noscript>
    :                                ^^^^^^^^^^
    `----
+
+  x Child
+
+  x Element

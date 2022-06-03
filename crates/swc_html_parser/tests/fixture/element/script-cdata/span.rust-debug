@@ -31,6 +31,10 @@
   x Element
 
   x Child
+
+  x Element
+
+  x Child
    ,-[$DIR/tests/fixture/element/script-cdata/input.html:2:1]
  2 | ,-> <script type="text/javascript">
  3 | |   //<![CDATA[

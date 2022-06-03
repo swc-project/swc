@@ -53,6 +53,10 @@
   x Element
 
   x Child
+
+  x Element
+
+  x Child
    ,-[$DIR/tests/recovery/comment/cdata-1/input.html:9:1]
  9 | <div>test</div>
    : ^^^^^^^^^^^^^^^

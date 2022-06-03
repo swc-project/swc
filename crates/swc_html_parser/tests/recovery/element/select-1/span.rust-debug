@@ -20,6 +20,10 @@
   x Element
 
   x Child
+
+  x Element
+
+  x Child
    ,-[$DIR/tests/recovery/element/select-1/input.html:1:1]
  1 | ,-> <select>
  2 | |       <option value="test">

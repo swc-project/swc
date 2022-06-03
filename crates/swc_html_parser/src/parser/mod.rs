@@ -4,7 +4,7 @@ use active_formatting_element_stack::*;
 use doctypes::*;
 use node::*;
 use open_elements_stack::*;
-use swc_common::Span;
+use swc_common::{Span, DUMMY_SP};
 use swc_html_ast::*;
 
 use self::input::{Buffer, ParserInput};
@@ -401,12 +401,33 @@ where
                         };
                         let end = if end_html >= end_children {
                             end_html
+                        let span = if element.span.is_dummy() {
+                            element.span
                         } else {
-                            end_children
+                            // Elements and text after `</html>` are moving into `<body>`
+                            let end_html = match node.end_tag_span.take() {
+                                Some(end_tag_span) => end_tag_span.hi,
+                                _ => element.span.hi,
+                            };
+                            let end_children = match new_children.last() {
+                                Some(Child::DocumentType(DocumentType { span, .. })) => span.hi,
+                                Some(Child::Element(Element { span, .. })) => span.hi,
+                                Some(Child::Comment(Comment { span, .. })) => span.hi,
+                                Some(Child::Text(Text { span, .. })) => span.hi,
+                                _ => element.span.hi,
+                            };
+                            let end = if end_html >= end_children {
+                                end_html
+                            } else {
+                                end_children
+                            };
+
+                            Span::new(element.span.lo, end, Default::default())
                         };
 
                         Child::Element(Element {
                             span: Span::new(element.span.lo(), end, Default::default()),
+                            span,
                             children: new_children,
                             content: None,
                             attributes,
@@ -435,12 +456,33 @@ where
                         };
                         let end = if end_body >= end_children {
                             end_body
+                        let span = if element.span.is_dummy() {
+                            element.span
                         } else {
-                            end_children
+                            // Elements and text after `</body>` are moving into `<body>`
+                            let end_body = match node.end_tag_span.take() {
+                                Some(end_tag_span) => end_tag_span.hi,
+                                _ => element.span.hi,
+                            };
+                            let end_children = match new_children.last() {
+                                Some(Child::DocumentType(DocumentType { span, .. })) => span.hi,
+                                Some(Child::Element(Element { span, .. })) => span.hi,
+                                Some(Child::Comment(Comment { span, .. })) => span.hi,
+                                Some(Child::Text(Text { span, .. })) => span.hi,
+                                _ => element.span.hi,
+                            };
+                            let end = if end_body >= end_children {
+                                end_body
+                            } else {
+                                end_children
+                            };
+
+                            Span::new(element.span.lo, end, Default::default())
                         };
 
                         Child::Element(Element {
                             span: Span::new(element.span.lo(), end, Default::default()),
+                            span,
                             children: new_children,
                             content: None,
                             attributes,
@@ -485,6 +527,25 @@ where
 
                         Child::Element(Element {
                             span: Span::new(element.span.lo(), end, Default::default()),
+                        let span = if element.span.is_dummy() {
+                            element.span
+                        } else {
+                            let end = match node.end_tag_span.take() {
+                                Some(end_tag_span) => end_tag_span.hi,
+                                _ => match new_children.last() {
+                                    Some(Child::DocumentType(DocumentType { span, .. })) => span.hi,
+                                    Some(Child::Element(Element { span, .. })) => span.hi,
+                                    Some(Child::Comment(Comment { span, .. })) => span.hi,
+                                    Some(Child::Text(Text { span, .. })) => span.hi,
+                                    _ => element.span.hi,
+                                },
+                            };
+
+                            Span::new(element.span.lo, end, Default::default())
+                        };
+
+                        Child::Element(Element {
+                            span,
                             children: new_children,
                             content: None,
                             attributes,
@@ -1522,6 +1583,16 @@ where
                         let element = parser.insert_html_element(
                             &mut parser.create_fake_token_and_info("head", None),
                         )?;
+                        let element = parser.insert_html_element(&mut TokenAndInfo {
+                            span: DUMMY_SP,
+                            acknowledged: false,
+                            token: Token::StartTag {
+                                tag_name: "head".into(),
+                                raw_tag_name: None,
+                                self_closing: false,
+                                attributes: vec![],
+                            },
+                        })?;
 
                         parser.head_element_pointer = Some(element);
                         parser.insertion_mode = InsertionMode::InHead;
@@ -4380,6 +4451,16 @@ where
                         self.insert_html_element(
                             &mut self.create_fake_token_and_info("colgroup", None),
                         )?;
+                        self.insert_html_element(&mut TokenAndInfo {
+                            span: DUMMY_SP,
+                            acknowledged: true,
+                            token: Token::StartTag {
+                                tag_name: "colgroup".into(),
+                                raw_tag_name: None,
+                                self_closing: false,
+                                attributes: vec![],
+                            },
+                        })?;
                         self.insertion_mode = InsertionMode::InColumnGroup;
                         self.process_token(token_and_info, None)?;
                     }
@@ -4411,6 +4492,16 @@ where
                         self.insert_html_element(
                             &mut self.create_fake_token_and_info("tbody", None),
                         )?;
+                        self.insert_html_element(&mut TokenAndInfo {
+                            span: DUMMY_SP,
+                            acknowledged: false,
+                            token: Token::StartTag {
+                                tag_name: "tbody".into(),
+                                raw_tag_name: None,
+                                self_closing: false,
+                                attributes: vec![],
+                            },
+                        })?;
                         self.insertion_mode = InsertionMode::InTableBody;
                         self.process_token(token_and_info, None)?;
                     }
@@ -5018,6 +5109,16 @@ where
                         ));
                         self.open_elements_stack.clear_back_to_table_body_context();
                         self.insert_html_element(&mut self.create_fake_token_and_info("tr", None))?;
+                        self.insert_html_element(&mut TokenAndInfo {
+                            span: DUMMY_SP,
+                            acknowledged: false,
+                            token: Token::StartTag {
+                                tag_name: "tr".into(),
+                                raw_tag_name: None,
+                                self_closing: false,
+                                attributes: vec![],
+                            },
+                        })?;
                         self.insertion_mode = InsertionMode::InRow;
                         self.process_token(token_and_info, None)?;
                     }
@@ -7401,7 +7502,7 @@ where
 
     fn create_fake_html_element(&self) -> RcNode {
         Node::new(Data::Element(Element {
-            span: Default::default(),
+            span: DUMMY_SP,
             tag_name: "html".into(),
             namespace: Namespace::HTML,
             attributes: vec![],
@@ -8335,6 +8436,12 @@ where
 
     fn update_end_tag_span(&self, node: Option<&RcNode>, token_and_info: &TokenAndInfo) {
         if let Some(node) = node {
+            let span = get_span!(node);
+
+            if span.is_dummy() {
+                return;
+            }
+
             let mut end_tag_span = node.end_tag_span.borrow_mut();
 
             *end_tag_span = Some(token_and_info.span);
