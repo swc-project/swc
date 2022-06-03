@@ -406,15 +406,15 @@ where
                         } else {
                             // Elements and text after `</html>` are moving into `<body>`
                             let end_html = match node.end_tag_span.take() {
-                                Some(end_tag_span) => end_tag_span.hi,
-                                _ => element.span.hi,
+                                Some(end_tag_span) => end_tag_span.hi(),
+                                _ => element.span.hi(),
                             };
                             let end_children = match new_children.last() {
-                                Some(Child::DocumentType(DocumentType { span, .. })) => span.hi,
-                                Some(Child::Element(Element { span, .. })) => span.hi,
-                                Some(Child::Comment(Comment { span, .. })) => span.hi,
-                                Some(Child::Text(Text { span, .. })) => span.hi,
-                                _ => element.span.hi,
+                                Some(Child::DocumentType(DocumentType { span, .. })) => span.hi(),
+                                Some(Child::Element(Element { span, .. })) => span.hi(),
+                                Some(Child::Comment(Comment { span, .. })) => span.hi(),
+                                Some(Child::Text(Text { span, .. })) => span.hi(),
+                                _ => element.span.hi(),
                             };
                             let end = if end_html >= end_children {
                                 end_html
@@ -422,7 +422,7 @@ where
                                 end_children
                             };
 
-                            Span::new(element.span.lo, end, Default::default())
+                            Span::new(element.span.lo(), end, Default::default())
                         };
 
                         Child::Element(Element {
@@ -461,15 +461,15 @@ where
                         } else {
                             // Elements and text after `</body>` are moving into `<body>`
                             let end_body = match node.end_tag_span.take() {
-                                Some(end_tag_span) => end_tag_span.hi,
-                                _ => element.span.hi,
+                                Some(end_tag_span) => end_tag_span.hi(),
+                                _ => element.span.hi(),
                             };
                             let end_children = match new_children.last() {
-                                Some(Child::DocumentType(DocumentType { span, .. })) => span.hi,
-                                Some(Child::Element(Element { span, .. })) => span.hi,
-                                Some(Child::Comment(Comment { span, .. })) => span.hi,
-                                Some(Child::Text(Text { span, .. })) => span.hi,
-                                _ => element.span.hi,
+                                Some(Child::DocumentType(DocumentType { span, .. })) => span.hi(),
+                                Some(Child::Element(Element { span, .. })) => span.hi(),
+                                Some(Child::Comment(Comment { span, .. })) => span.hi(),
+                                Some(Child::Text(Text { span, .. })) => span.hi(),
+                                _ => element.span.hi(),
                             };
                             let end = if end_body >= end_children {
                                 end_body
@@ -477,7 +477,7 @@ where
                                 end_children
                             };
 
-                            Span::new(element.span.lo, end, Default::default())
+                            Span::new(element.span.lo(), end, Default::default())
                         };
 
                         Child::Element(Element {
@@ -531,17 +531,19 @@ where
                             element.span
                         } else {
                             let end = match node.end_tag_span.take() {
-                                Some(end_tag_span) => end_tag_span.hi,
+                                Some(end_tag_span) => end_tag_span.hi(),
                                 _ => match new_children.last() {
-                                    Some(Child::DocumentType(DocumentType { span, .. })) => span.hi,
-                                    Some(Child::Element(Element { span, .. })) => span.hi,
-                                    Some(Child::Comment(Comment { span, .. })) => span.hi,
-                                    Some(Child::Text(Text { span, .. })) => span.hi,
-                                    _ => element.span.hi,
+                                    Some(Child::DocumentType(DocumentType { span, .. })) => {
+                                        span.hi()
+                                    }
+                                    Some(Child::Element(Element { span, .. })) => span.hi(),
+                                    Some(Child::Comment(Comment { span, .. })) => span.hi(),
+                                    Some(Child::Text(Text { span, .. })) => span.hi(),
+                                    _ => element.span.hi(),
                                 },
                             };
 
-                            Span::new(element.span.lo, end, Default::default())
+                            Span::new(element.span.lo(), end, Default::default())
                         };
 
                         Child::Element(Element {
