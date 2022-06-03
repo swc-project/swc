@@ -25,6 +25,12 @@
 
 - **(wasm)** Add json error (#4853) ([fd3501b](https://github.com/swc-project/swc/commit/fd3501bf87f4e711e72e9e8fd12f64f4cfa08157))
 
+### Testing
+
+
+
+- **(html/parser)** Refactor tests (#4865) ([762c72d](https://github.com/swc-project/swc/commit/762c72d1c92e7c6786f69769aac5c1093da6b575))
+
 ## [1.2.196] - 2022-05-31
 
 ### Bug Fixes
