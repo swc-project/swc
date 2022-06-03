@@ -1,0 +1,150 @@
+
+  x Document
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/32/input.html:1:1]
+ 1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/32/input.html:1:1]
+ 1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
+   : ^^^^^^^^
+   `----
+
+  x Comment
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/32/input.html:1:1]
+ 1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
+   : ^^^^^^^^
+   `----
+
+  x Child
+
+  x Element
+
+  x Child
+
+  x Element
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/32/input.html:1:1]
+ 1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
+   :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/32/input.html:1:1]
+ 1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
+   :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/32/input.html:1:1]
+ 1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
+   :               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/32/input.html:1:1]
+ 1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
+   :               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/32/input.html:1:1]
+ 1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
+   :                    ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/32/input.html:1:1]
+ 1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
+   :                    ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/32/input.html:1:1]
+ 1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
+   :                                       ^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/32/input.html:1:1]
+ 1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
+   :                                       ^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/32/input.html:1:1]
+ 1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
+   :                                          ^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/32/input.html:1:1]
+ 1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
+   :                                          ^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/32/input.html:1:1]
+ 1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
+   :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/32/input.html:1:1]
+ 1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
+   :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+
+  x Element
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/32/input.html:1:1]
+ 1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
+   :                                             ^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/32/input.html:1:1]
+ 1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
+   :                                             ^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/32/input.html:1:1]
+ 1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
+   :                                                 ^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/32/input.html:1:1]
+ 1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
+   :                                                 ^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/32/input.html:1:1]
+ 1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
+   :                                                    ^^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/32/input.html:1:1]
+ 1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
+   :                                                    ^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/32/input.html:1:1]
+ 1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
+   :                                                                ^^^^^^^^
+   `----
+
+  x Comment
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/32/input.html:1:1]
+ 1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
+   :                                                                ^^^^^^^^
+   `----

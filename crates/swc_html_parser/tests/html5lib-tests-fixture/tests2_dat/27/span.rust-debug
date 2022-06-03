@@ -1,0 +1,50 @@
+
+  x Document
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat/27/input.html:1:1]
+ 1 | <!doctypehtml><p><dd>
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat/27/input.html:1:1]
+ 1 | <!doctypehtml><p><dd>
+   : ^^^^^^^^^^^^^^
+   `----
+
+  x DocumentType
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat/27/input.html:1:1]
+ 1 | <!doctypehtml><p><dd>
+   : ^^^^^^^^^^^^^^
+   `----
+
+  x Child
+
+  x Element
+
+  x Child
+
+  x Element
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat/27/input.html:1:1]
+ 1 | <!doctypehtml><p><dd>
+   :               ^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat/27/input.html:1:1]
+ 1 | <!doctypehtml><p><dd>
+   :               ^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat/27/input.html:1:1]
+ 1 | <!doctypehtml><p><dd>
+   :                  ^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat/27/input.html:1:1]
+ 1 | <!doctypehtml><p><dd>
+   :                  ^^^^
+   `----

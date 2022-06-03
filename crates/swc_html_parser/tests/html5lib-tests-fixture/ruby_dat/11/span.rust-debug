@@ -1,0 +1,122 @@
+
+  x Document
+   ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat/11/input.html:1:1]
+ 1 | <html><ruby>a<rtc>b<rt>c<rt>d</ruby></html>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat/11/input.html:1:1]
+ 1 | <html><ruby>a<rtc>b<rt>c<rt>d</ruby></html>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat/11/input.html:1:1]
+ 1 | <html><ruby>a<rtc>b<rt>c<rt>d</ruby></html>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+
+  x Element
+
+  x Child
+
+  x Element
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat/11/input.html:1:1]
+ 1 | <html><ruby>a<rtc>b<rt>c<rt>d</ruby></html>
+   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat/11/input.html:1:1]
+ 1 | <html><ruby>a<rtc>b<rt>c<rt>d</ruby></html>
+   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat/11/input.html:1:1]
+ 1 | <html><ruby>a<rtc>b<rt>c<rt>d</ruby></html>
+   :             ^
+   `----
+
+  x Text
+   ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat/11/input.html:1:1]
+ 1 | <html><ruby>a<rtc>b<rt>c<rt>d</ruby></html>
+   :             ^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat/11/input.html:1:1]
+ 1 | <html><ruby>a<rtc>b<rt>c<rt>d</ruby></html>
+   :              ^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat/11/input.html:1:1]
+ 1 | <html><ruby>a<rtc>b<rt>c<rt>d</ruby></html>
+   :              ^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat/11/input.html:1:1]
+ 1 | <html><ruby>a<rtc>b<rt>c<rt>d</ruby></html>
+   :                   ^
+   `----
+
+  x Text
+   ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat/11/input.html:1:1]
+ 1 | <html><ruby>a<rtc>b<rt>c<rt>d</ruby></html>
+   :                   ^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat/11/input.html:1:1]
+ 1 | <html><ruby>a<rtc>b<rt>c<rt>d</ruby></html>
+   :                    ^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat/11/input.html:1:1]
+ 1 | <html><ruby>a<rtc>b<rt>c<rt>d</ruby></html>
+   :                    ^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat/11/input.html:1:1]
+ 1 | <html><ruby>a<rtc>b<rt>c<rt>d</ruby></html>
+   :                        ^
+   `----
+
+  x Text
+   ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat/11/input.html:1:1]
+ 1 | <html><ruby>a<rtc>b<rt>c<rt>d</ruby></html>
+   :                        ^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat/11/input.html:1:1]
+ 1 | <html><ruby>a<rtc>b<rt>c<rt>d</ruby></html>
+   :                         ^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat/11/input.html:1:1]
+ 1 | <html><ruby>a<rtc>b<rt>c<rt>d</ruby></html>
+   :                         ^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat/11/input.html:1:1]
+ 1 | <html><ruby>a<rtc>b<rt>c<rt>d</ruby></html>
+   :                             ^
+   `----
+
+  x Text
+   ,-[$DIR/tests/html5lib-tests-fixture/ruby_dat/11/input.html:1:1]
+ 1 | <html><ruby>a<rtc>b<rt>c<rt>d</ruby></html>
+   :                             ^
+   `----

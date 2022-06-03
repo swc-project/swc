@@ -1,0 +1,38 @@
+
+  x Document
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat/55/input.html:1:1]
+ 1 | <!DOCTYPE html>X</html> 
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat/55/input.html:1:1]
+ 1 | <!DOCTYPE html>X</html>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x DocumentType
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat/55/input.html:1:1]
+ 1 | <!DOCTYPE html>X</html>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+
+  x Element
+
+  x Child
+
+  x Element
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat/55/input.html:1:1]
+ 1 | <!DOCTYPE html>X</html> 
+   :                ^^^^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat/55/input.html:1:1]
+ 1 | <!DOCTYPE html>X</html> 
+   :                ^^^^^^^^^
+   `----

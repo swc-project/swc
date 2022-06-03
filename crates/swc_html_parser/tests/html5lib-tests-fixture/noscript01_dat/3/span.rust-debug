@@ -1,0 +1,46 @@
+
+  x Document
+   ,-[$DIR/tests/html5lib-tests-fixture/noscript01_dat/3/input.html:1:1]
+ 1 | <head><noscript>   </noscript>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+
+  x Element
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/noscript01_dat/3/input.html:1:1]
+ 1 | <head><noscript>   </noscript>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/noscript01_dat/3/input.html:1:1]
+ 1 | <head><noscript>   </noscript>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/noscript01_dat/3/input.html:1:1]
+ 1 | <head><noscript>   </noscript>
+   :       ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/noscript01_dat/3/input.html:1:1]
+ 1 | <head><noscript>   </noscript>
+   :       ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/noscript01_dat/3/input.html:1:1]
+ 1 | <head><noscript>   </noscript>
+   :                 ^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/html5lib-tests-fixture/noscript01_dat/3/input.html:1:1]
+ 1 | <head><noscript>   </noscript>
+   :                 ^^^
+   `----
