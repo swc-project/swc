@@ -723,6 +723,7 @@ dependencies = [
  "anyhow",
  "ast_node",
  "better_scoped_tls",
+ "bitflags",
  "cfg-if",
  "debug_unreachable",
  "either",
@@ -800,7 +801,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.157.0"
+version = "0.159.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_parser",
@@ -838,7 +839,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.54.0"
+version = "0.56.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
