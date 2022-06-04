@@ -4025,14 +4025,14 @@ where
                         entity = Some(found_entity);
                         entity_cur_pos = Some(self.input.cur_pos());
                         entity_temporary_buffer = Some(self.temporary_buffer.clone());
-                    }
-
-                    // We stop when:
-                    //
-                    // - not ascii alphanumeric
-                    // - we consume more characters than the longest entity
-                    if !c.is_ascii_alphanumeric() || self.temporary_buffer.len() > 32 {
-                        break;
+                    } else {
+                        // We stop when:
+                        //
+                        // - not ascii alphanumeric
+                        // - we consume more characters than the longest entity
+                        if !c.is_ascii_alphanumeric() || self.temporary_buffer.len() > 32 {
+                            break;
+                        }
                     }
                 }
 
