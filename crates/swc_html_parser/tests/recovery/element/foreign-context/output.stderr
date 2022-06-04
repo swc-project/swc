@@ -3348,3 +3348,7 @@
      `----
 
   x End of file seen and there were open elements
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:100:1]
+ 100 | </html>
+     :        ^
+     `----

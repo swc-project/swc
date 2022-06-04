@@ -30,3 +30,7 @@
    `----
 
   x End of file seen and there were open elements
+   ,-[$DIR/tests/recovery/attribute/missing-value/input.html:4:1]
+ 4 | <z ====>
+   :         ^
+   `----

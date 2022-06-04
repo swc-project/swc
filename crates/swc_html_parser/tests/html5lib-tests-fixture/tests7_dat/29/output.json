@@ -46,7 +46,7 @@
               "type": "Text",
               "span": {
                 "start": 1,
-                "end": 35,
+                "end": 27,
                 "ctxt": 0
               },
               "value": "A BC"
@@ -66,7 +66,7 @@
                   "type": "Element",
                   "span": {
                     "start": 0,
-                    "end": 26,
+                    "end": 21,
                     "ctxt": 0
                   },
                   "tagName": "tbody",
@@ -90,7 +90,7 @@
                       "type": "Text",
                       "span": {
                         "start": 20,
-                        "end": 26,
+                        "end": 21,
                         "ctxt": 0
                       },
                       "value": " "

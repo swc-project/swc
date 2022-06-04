@@ -6,3 +6,7 @@
    `----
 
   x End of file seen without seeing a doctype first, expected "<!DOCTYPE html>"
+   ,-[$DIR/tests/recovery/comment/bogus/input.html:1:1]
+ 1 | <!–– Failing New York Times Comment -->
+   :                                            ^
+   `----

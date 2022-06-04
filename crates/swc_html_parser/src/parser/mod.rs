@@ -158,7 +158,7 @@ where
         let last = self.input.last_pos()?;
 
         Ok(Document {
-            span: Span::new(start.lo, last, Default::default()),
+            span: Span::new(start.lo(), last, Default::default()),
             mode: self.document_mode,
             children,
         })
@@ -346,7 +346,7 @@ where
         let last = self.input.last_pos()?;
 
         Ok(DocumentFragment {
-            span: Span::new(start.lo, last, Default::default()),
+            span: Span::new(start.lo(), last, Default::default()),
             children,
         })
     }
@@ -385,15 +385,15 @@ where
 
                         // Elements and text after `</html>` are moving into `<body>`
                         let end_html = match node.end_tag_span.take() {
-                            Some(end_tag_span) => end_tag_span.hi,
-                            _ => element.span.hi,
+                            Some(end_tag_span) => end_tag_span.hi(),
+                            _ => element.span.hi(),
                         };
                         let end_children = match new_children.last() {
-                            Some(Child::DocumentType(DocumentType { span, .. })) => span.hi,
-                            Some(Child::Element(Element { span, .. })) => span.hi,
-                            Some(Child::Comment(Comment { span, .. })) => span.hi,
-                            Some(Child::Text(Text { span, .. })) => span.hi,
-                            _ => element.span.hi,
+                            Some(Child::DocumentType(DocumentType { span, .. })) => span.hi(),
+                            Some(Child::Element(Element { span, .. })) => span.hi(),
+                            Some(Child::Comment(Comment { span, .. })) => span.hi(),
+                            Some(Child::Text(Text { span, .. })) => span.hi(),
+                            _ => element.span.hi(),
                         };
                         let end = if end_html >= end_children {
                             end_html
@@ -402,7 +402,7 @@ where
                         };
 
                         Child::Element(Element {
-                            span: Span::new(element.span.lo, end, Default::default()),
+                            span: Span::new(element.span.lo(), end, Default::default()),
                             children: new_children,
                             content: None,
                             attributes,
@@ -419,15 +419,15 @@ where
 
                         // Elements and text after `</body>` are moving into `<body>`
                         let end_body = match node.end_tag_span.take() {
-                            Some(end_tag_span) => end_tag_span.hi,
-                            _ => element.span.hi,
+                            Some(end_tag_span) => end_tag_span.hi(),
+                            _ => element.span.hi(),
                         };
                         let end_children = match new_children.last() {
-                            Some(Child::DocumentType(DocumentType { span, .. })) => span.hi,
-                            Some(Child::Element(Element { span, .. })) => span.hi,
-                            Some(Child::Comment(Comment { span, .. })) => span.hi,
-                            Some(Child::Text(Text { span, .. })) => span.hi,
-                            _ => element.span.hi,
+                            Some(Child::DocumentType(DocumentType { span, .. })) => span.hi(),
+                            Some(Child::Element(Element { span, .. })) => span.hi(),
+                            Some(Child::Comment(Comment { span, .. })) => span.hi(),
+                            Some(Child::Text(Text { span, .. })) => span.hi(),
+                            _ => element.span.hi(),
                         };
                         let end = if end_body >= end_children {
                             end_body
@@ -436,7 +436,7 @@ where
                         };
 
                         Child::Element(Element {
-                            span: Span::new(element.span.lo, end, Default::default()),
+                            span: Span::new(element.span.lo(), end, Default::default()),
                             children: new_children,
                             content: None,
                             attributes,
@@ -445,16 +445,16 @@ where
                     }
                     "template" if element.namespace == Namespace::HTML => {
                         let end = match node.end_tag_span.take() {
-                            Some(end_tag_span) => end_tag_span.hi,
+                            Some(end_tag_span) => end_tag_span.hi(),
                             _ => match new_children.last() {
-                                Some(Child::DocumentType(DocumentType { span, .. })) => span.hi,
-                                Some(Child::Element(Element { span, .. })) => span.hi,
-                                Some(Child::Comment(Comment { span, .. })) => span.hi,
-                                Some(Child::Text(Text { span, .. })) => span.hi,
-                                _ => element.span.hi,
+                                Some(Child::DocumentType(DocumentType { span, .. })) => span.hi(),
+                                Some(Child::Element(Element { span, .. })) => span.hi(),
+                                Some(Child::Comment(Comment { span, .. })) => span.hi(),
+                                Some(Child::Text(Text { span, .. })) => span.hi(),
+                                _ => element.span.hi(),
                             },
                         };
-                        let span = Span::new(element.span.lo, end, Default::default());
+                        let span = Span::new(element.span.lo(), end, Default::default());
 
                         Child::Element(Element {
                             span,
@@ -469,18 +469,18 @@ where
                     }
                     _ => {
                         let end = match node.end_tag_span.take() {
-                            Some(end_tag_span) => end_tag_span.hi,
+                            Some(end_tag_span) => end_tag_span.hi(),
                             _ => match new_children.last() {
-                                Some(Child::DocumentType(DocumentType { span, .. })) => span.hi,
-                                Some(Child::Element(Element { span, .. })) => span.hi,
-                                Some(Child::Comment(Comment { span, .. })) => span.hi,
-                                Some(Child::Text(Text { span, .. })) => span.hi,
-                                _ => element.span.hi,
+                                Some(Child::DocumentType(DocumentType { span, .. })) => span.hi(),
+                                Some(Child::Element(Element { span, .. })) => span.hi(),
+                                Some(Child::Comment(Comment { span, .. })) => span.hi(),
+                                Some(Child::Text(Text { span, .. })) => span.hi(),
+                                _ => element.span.hi(),
                             },
                         };
 
                         Child::Element(Element {
-                            span: Span::new(element.span.lo, end, Default::default()),
+                            span: Span::new(element.span.lo(), end, Default::default()),
                             children: new_children,
                             content: None,
                             attributes,
@@ -505,17 +505,27 @@ where
             self.input
                 .set_adjusted_current_node_to_html_namespace(is_element_in_html_namespace);
 
-            let span = self.input.cur_span()?;
-            let token = match self.input.cur()? {
+            let mut token_and_info = match self.input.cur()? {
                 Some(_) => {
-                    bump!(self)
+                    let span = self.input.cur_span()?;
+                    let token = bump!(self);
+
+                    TokenAndInfo {
+                        span: span!(self, span.lo()),
+                        acknowledged: false,
+                        token,
+                    }
                 }
-                _ => Token::Eof,
-            };
-            let mut token_and_info = TokenAndInfo {
-                span: span!(self, span.lo),
-                acknowledged: false,
-                token,
+                None => {
+                    let start_pos = self.input.start_pos()?;
+                    let last_pos = self.input.last_pos()?;
+
+                    TokenAndInfo {
+                        span: Span::new(start_pos, last_pos, Default::default()),
+                        acknowledged: false,
+                        token: Token::Eof,
+                    }
+                }
             };
 
             // Re-emit errors from tokenizer
@@ -1299,7 +1309,7 @@ where
                         }
 
                         let document_type = Node::new(Data::DocumentType(DocumentType {
-                            span: span!(self, token_and_info.span.lo),
+                            span: span!(self, token_and_info.span.lo()),
                             name: name.clone(),
                             public_id: public_id.clone(),
                             system_id: system_id.clone(),
@@ -1440,7 +1450,7 @@ where
                         ..
                     } if tag_name == "html" => {
                         let element = Node::new(Data::Element(Element {
-                            span: span!(self, token_and_info.span.lo),
+                            span: span!(self, token_and_info.span.lo()),
                             namespace: Namespace::HTML,
                             tag_name: tag_name.into(),
                             attributes: attributes
@@ -1763,12 +1773,11 @@ where
                     //
                     // 10. Switch the insertion mode to "text".
                     Token::StartTag { tag_name, .. } if tag_name == "script" => {
-                        let last_pos = self.input.last_pos()?;
                         let adjusted_insertion_location =
                             self.get_appropriate_place_for_inserting_node(None)?;
                         let node = self.create_element_for_token(
                             token_and_info.token.clone(),
-                            Span::new(token_and_info.span.lo, last_pos, Default::default()),
+                            token_and_info.span,
                             Some(Namespace::HTML),
                             None,
                         );
@@ -7208,8 +7217,8 @@ where
                 let new_element = self.create_element_for_token(
                     token_and_info.token.clone(),
                     Span::new(
-                        token_and_info.span.lo,
-                        token_and_info.span.hi,
+                        token_and_info.span.lo(),
+                        token_and_info.span.hi(),
                         Default::default(),
                     ),
                     Some(Namespace::HTML),
@@ -7253,10 +7262,13 @@ where
             self.insert_at_position(appropriate_place, last_node.clone());
 
             // 15.
-            let last_pos = self.input.last_pos()?;
             let new_element = self.create_element_for_token(
                 formatting_element.2.token.clone(),
-                Span::new(formatting_element.2.span.lo, last_pos, Default::default()),
+                Span::new(
+                    formatting_element.2.span.lo(),
+                    token_and_info.span.hi(),
+                    Default::default(),
+                ),
                 Some(Namespace::HTML),
                 None,
             );
@@ -8072,9 +8084,8 @@ where
         // Create a Comment node whose data attribute is set to data and whose
         // node document is the same as that of the node in which the adjusted
         // insertion location finds itself.
-        let last_pos = self.input.last_pos()?;
         let comment = Node::new(Data::Comment(Comment {
-            span: Span::new(token_and_info.span.lo, last_pos, Default::default()),
+            span: token_and_info.span,
             data: match &token_and_info.token {
                 Token::Comment { data } => data.into(),
                 _ => {
@@ -8093,9 +8104,8 @@ where
         &mut self,
         token_and_info: &mut TokenAndInfo,
     ) -> PResult<()> {
-        let last_pos = self.input.last_pos()?;
         let comment = Node::new(Data::Comment(Comment {
-            span: Span::new(token_and_info.span.lo, last_pos, Default::default()),
+            span: token_and_info.span,
             data: match &token_and_info.token {
                 Token::Comment { data } => data.into(),
                 _ => {
@@ -8115,9 +8125,8 @@ where
         &mut self,
         token_and_info: &mut TokenAndInfo,
     ) -> PResult<()> {
-        let last_pos = self.input.last_pos()?;
         let comment = Node::new(Data::Comment(Comment {
-            span: Span::new(token_and_info.span.lo, last_pos, Default::default()),
+            span: token_and_info.span,
             data: match &token_and_info.token {
                 Token::Comment { data } => data.into(),
                 _ => {
@@ -8175,8 +8184,8 @@ where
                             }
                         }
 
-                        let first_pos = text.span.lo;
-                        let last_pos = self.input.last_pos()?;
+                        let first_pos = text.span.lo();
+                        let last_pos = token_and_info.span.hi();
                         let index = children.len() - 1;
 
                         children[index] = Node::new(Data::Text(Text {
@@ -8208,8 +8217,8 @@ where
                                     }
                                 }
 
-                                let first_pos = text.span.lo;
-                                let last_pos = self.input.last_pos()?;
+                                let first_pos = text.span.lo();
+                                let last_pos = token_and_info.span.hi();
 
                                 children[i - 1] = Node::new(Data::Text(Text {
                                     span: swc_common::Span::new(
@@ -8232,9 +8241,8 @@ where
         // is the same as that of the element in which the adjusted insertion location
         // finds itself, and insert the newly created node at the adjusted insertion
         // location.
-        let last_pos = self.input.last_pos()?;
         let text = Node::new(Data::Text(Text {
-            span: Span::new(token_and_info.span.lo, last_pos, Default::default()),
+            span: token_and_info.span,
             value: match &token_and_info.token {
                 Token::Character { value, .. } => value.to_string().into(),
                 _ => {
@@ -8268,7 +8276,7 @@ where
         let last_pos = self.input.last_pos()?;
         let node = self.create_element_for_token(
             token_and_info.token.clone(),
-            Span::new(token_and_info.span.lo, last_pos, Default::default()),
+            Span::new(token_and_info.span.lo(), last_pos, Default::default()),
             Some(namespace),
             adjust_attributes,
         );

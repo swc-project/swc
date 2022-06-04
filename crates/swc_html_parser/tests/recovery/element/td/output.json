@@ -315,7 +315,7 @@
                   "type": "Text",
                   "span": {
                     "start": 317,
-                    "end": 326,
+                    "end": 322,
                     "ctxt": 0
                   },
                   "value": "\n    "
@@ -324,7 +324,7 @@
                   "type": "Element",
                   "span": {
                     "start": 0,
-                    "end": 455,
+                    "end": 447,
                     "ctxt": 0
                   },
                   "tagName": "tbody",
@@ -346,7 +346,7 @@
                           "type": "Text",
                           "span": {
                             "start": 326,
-                            "end": 339,
+                            "end": 335,
                             "ctxt": 0
                           },
                           "value": "\n        "
@@ -392,7 +392,7 @@
                           "type": "Text",
                           "span": {
                             "start": 356,
-                            "end": 436,
+                            "end": 432,
                             "ctxt": 0
                           },
                           "value": "\n            \n            "
@@ -427,7 +427,7 @@
                       "type": "Text",
                       "span": {
                         "start": 446,
-                        "end": 455,
+                        "end": 447,
                         "ctxt": 0
                       },
                       "value": "\n"

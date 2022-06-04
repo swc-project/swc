@@ -1480,13 +1480,13 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:40:1]
  40 | <div>A space character: &&</div>
-    :      ^^^^^^^^^^^^^^^^^^^^^^
+    :      ^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Text
     ,-[$DIR/tests/fixture/text/entity/input.html:40:1]
  40 | <div>A space character: &&</div>
-    :      ^^^^^^^^^^^^^^^^^^^^^^
+    :      ^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child

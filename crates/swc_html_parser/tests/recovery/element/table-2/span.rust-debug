@@ -245,14 +245,16 @@
 
   x Child
    ,-[$DIR/tests/recovery/element/table-2/input.html:8:5]
- 8 | ,-> <table>
- 9 | `-> </table>
+ 8 | <table>
+   :        ^
+ 9 | </table>
    `----
 
   x Text
    ,-[$DIR/tests/recovery/element/table-2/input.html:8:5]
- 8 | ,-> <table>
- 9 | `-> </table>
+ 8 | <table>
+   :        ^
+ 9 | </table>
    `----
 
   x Child

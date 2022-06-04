@@ -324,16 +324,16 @@
     ,-[$DIR/tests/recovery/element/table/broken-6/input.html:10:13]
  10 | ,-> <table>
  11 | |           </td>
- 12 | |       </tr>
- 13 | `-> </table>
+ 12 | `->     </tr>
+ 13 |     </table>
     `----
 
   x Text
     ,-[$DIR/tests/recovery/element/table/broken-6/input.html:10:13]
  10 | ,-> <table>
  11 | |           </td>
- 12 | |       </tr>
- 13 | `-> </table>
+ 12 | `->     </tr>
+ 13 |     </table>
     `----
 
   x Child

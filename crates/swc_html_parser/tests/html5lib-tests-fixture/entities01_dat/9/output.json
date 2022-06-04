@@ -46,7 +46,7 @@
               "type": "Text",
               "span": {
                 "start": 1,
-                "end": 6,
+                "end": 5,
                 "ctxt": 0
               },
               "value": "FOO&"

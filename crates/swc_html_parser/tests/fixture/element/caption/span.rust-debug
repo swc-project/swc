@@ -648,14 +648,16 @@
 
   x Child
     ,-[$DIR/tests/fixture/element/caption/input.html:20:5]
- 20 | ,-> </tr>
- 21 | `-> </table>
+ 20 | </tr>
+    :      ^
+ 21 | </table>
     `----
 
   x Text
     ,-[$DIR/tests/fixture/element/caption/input.html:20:5]
- 20 | ,-> </tr>
- 21 | `-> </table>
+ 20 | </tr>
+    :      ^
+ 21 | </table>
     `----
 
   x Child

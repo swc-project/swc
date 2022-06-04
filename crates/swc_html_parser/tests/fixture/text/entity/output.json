@@ -1005,7 +1005,7 @@
                   "type": "Text",
                   "span": {
                     "start": 1082,
-                    "end": 1104,
+                    "end": 1103,
                     "ctxt": 0
                   },
                   "value": "A space character: &&"

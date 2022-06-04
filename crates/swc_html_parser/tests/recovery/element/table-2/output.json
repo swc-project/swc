@@ -130,7 +130,7 @@
               "type": "Element",
               "span": {
                 "start": 84,
-                "end": 103,
+                "end": 96,
                 "ctxt": 0
               },
               "tagName": "table",
@@ -141,7 +141,7 @@
                   "type": "Text",
                   "span": {
                     "start": 91,
-                    "end": 103,
+                    "end": 96,
                     "ctxt": 0
                   },
                   "value": "\n    "
@@ -164,7 +164,7 @@
                   "type": "Text",
                   "span": {
                     "start": 103,
-                    "end": 112,
+                    "end": 104,
                     "ctxt": 0
                   },
                   "value": "\n"
@@ -196,7 +196,7 @@
                   "type": "Text",
                   "span": {
                     "start": 121,
-                    "end": 130,
+                    "end": 126,
                     "ctxt": 0
                   },
                   "value": "\n    "
@@ -205,7 +205,7 @@
                   "type": "Element",
                   "span": {
                     "start": 0,
-                    "end": 147,
+                    "end": 139,
                     "ctxt": 0
                   },
                   "tagName": "tbody",
@@ -216,7 +216,7 @@
                       "type": "Element",
                       "span": {
                         "start": 126,
-                        "end": 147,
+                        "end": 139,
                         "ctxt": 0
                       },
                       "tagName": "tr",
@@ -227,7 +227,7 @@
                           "type": "Text",
                           "span": {
                             "start": 130,
-                            "end": 147,
+                            "end": 139,
                             "ctxt": 0
                           },
                           "value": "\n        "

@@ -130,7 +130,7 @@
               "type": "Element",
               "span": {
                 "start": 85,
-                "end": 104,
+                "end": 97,
                 "ctxt": 0
               },
               "tagName": "table",
@@ -141,7 +141,7 @@
                   "type": "Text",
                   "span": {
                     "start": 92,
-                    "end": 104,
+                    "end": 97,
                     "ctxt": 0
                   },
                   "value": "\n    "
@@ -164,7 +164,7 @@
                   "type": "Text",
                   "span": {
                     "start": 104,
-                    "end": 117,
+                    "end": 113,
                     "ctxt": 0
                   },
                   "value": "\n        "
@@ -173,7 +173,7 @@
                   "type": "Element",
                   "span": {
                     "start": 0,
-                    "end": 201,
+                    "end": 193,
                     "ctxt": 0
                   },
                   "tagName": "tbody",
@@ -195,7 +195,7 @@
                           "type": "Text",
                           "span": {
                             "start": 117,
-                            "end": 134,
+                            "end": 130,
                             "ctxt": 0
                           },
                           "value": "\n            "
@@ -227,7 +227,7 @@
                           "type": "Text",
                           "span": {
                             "start": 174,
-                            "end": 188,
+                            "end": 183,
                             "ctxt": 0
                           },
                           "value": "\n        "
@@ -239,7 +239,7 @@
                       "type": "Text",
                       "span": {
                         "start": 188,
-                        "end": 201,
+                        "end": 193,
                         "ctxt": 0
                       },
                       "value": "\n    "

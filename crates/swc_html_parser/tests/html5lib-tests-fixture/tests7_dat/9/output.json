@@ -68,7 +68,7 @@
                   "type": "Element",
                   "span": {
                     "start": 23,
-                    "end": 63,
+                    "end": 55,
                     "ctxt": 0
                   },
                   "tagName": "tbody",
@@ -102,7 +102,7 @@
                       "type": "Text",
                       "span": {
                         "start": 54,
-                        "end": 63,
+                        "end": 55,
                         "ctxt": 0
                       },
                       "value": " "

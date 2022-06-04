@@ -537,14 +537,16 @@
 
   x Child
     ,-[$DIR/tests/recovery/element/td/input.html:19:5]
- 19 | ,-> </tr>
- 20 | `-> </table>
+ 19 | </tr>
+    :      ^
+ 20 | </table>
     `----
 
   x Text
     ,-[$DIR/tests/recovery/element/td/input.html:19:5]
- 19 | ,-> </tr>
- 20 | `-> </table>
+ 19 | </tr>
+    :      ^
+ 20 | </table>
     `----
 
   x Child
