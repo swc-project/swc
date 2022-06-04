@@ -1,8 +1,8 @@
 
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat/10/input.html:1:1]
- 1 | <!doctype html><script></SCRIPT
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+ 1 | <!doctype html><script></SCRIPT 
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -16,6 +16,10 @@
  1 | <!doctype html><script></SCRIPT
    : ^^^^^^^^^^^^^^^
    `----
+
+  x Child
+
+  x Element
 
   x Child
 

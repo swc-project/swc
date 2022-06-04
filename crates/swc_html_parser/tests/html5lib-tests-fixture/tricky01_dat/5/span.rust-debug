@@ -112,14 +112,18 @@
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/5/input.html:1:1]
  1 | <table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>
-   :                                 ^^^^^^
+   :                                 ^
    `----
 
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/5/input.html:1:1]
  1 | <table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>
-   :                                 ^^^^^^
+   :                                 ^
    `----
+
+  x Child
+
+  x Element
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/5/input.html:1:1]
@@ -160,23 +164,23 @@
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/5/input.html:1:1]
  1 | <table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>
-   :                                                      ^^^^^^
+   :                                                      ^
    `----
 
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/5/input.html:1:1]
  1 | <table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>
-   :                                                      ^^^^^^
+   :                                                      ^
    `----
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/5/input.html:1:1]
  1 | <table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>
-   :                                                            ^^^^^^^^^
+   :                                                            ^
    `----
 
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/5/input.html:1:1]
  1 | <table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>
-   :                                                            ^^^^^^^^^
+   :                                                            ^
    `----

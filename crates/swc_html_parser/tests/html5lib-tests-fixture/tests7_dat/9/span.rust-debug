@@ -40,13 +40,13 @@
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat/9/input.html:1:1]
  1 | <!doctype html><table><TBODY><script> <tr>x </script> </table>
-   :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat/9/input.html:1:1]
  1 | <!doctype html><table><TBODY><script> <tr>x </script> </table>
-   :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -76,11 +76,11 @@
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat/9/input.html:1:1]
  1 | <!doctype html><table><TBODY><script> <tr>x </script> </table>
-   :                                                      ^^^^^^^^^
+   :                                                      ^
    `----
 
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat/9/input.html:1:1]
  1 | <!doctype html><table><TBODY><script> <tr>x </script> </table>
-   :                                                      ^^^^^^^^^
+   :                                                      ^
    `----

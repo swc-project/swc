@@ -28,13 +28,13 @@
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests15_dat/6/input.html:1:1]
  1 | <!doctype html><table> X<meta></table>
-   :                       ^^^^^^^^
+   :                       ^^
    `----
 
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests15_dat/6/input.html:1:1]
  1 | <!doctype html><table> X<meta></table>
-   :                       ^^^^^^^^
+   :                       ^^
    `----
 
   x Child

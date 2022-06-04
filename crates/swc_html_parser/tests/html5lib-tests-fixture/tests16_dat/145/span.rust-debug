@@ -2,8 +2,12 @@
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat/145/input.html:1:1]
  1 | <script><!--<script </script </script/
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
+
+  x Child
+
+  x Element
 
   x Child
 

@@ -76,13 +76,13 @@
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests15_dat/11/input.html:1:1]
  1 | <!doctype html><div><table><a>foo</a> <tr><td>bar</td> </tr></table></div>
-   :                                      ^^^^^
+   :                                      ^
    `----
 
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests15_dat/11/input.html:1:1]
  1 | <!doctype html><div><table><a>foo</a> <tr><td>bar</td> </tr></table></div>
-   :                                      ^^^^^
+   :                                      ^
    `----
 
   x Child
@@ -128,11 +128,11 @@
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests15_dat/11/input.html:1:1]
  1 | <!doctype html><div><table><a>foo</a> <tr><td>bar</td> </tr></table></div>
-   :                                                       ^^^^^^
+   :                                                       ^
    `----
 
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests15_dat/11/input.html:1:1]
  1 | <!doctype html><div><table><a>foo</a> <tr><td>bar</td> </tr></table></div>
-   :                                                       ^^^^^^
+   :                                                       ^
    `----
