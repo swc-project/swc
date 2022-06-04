@@ -22,10 +22,6 @@
   x Element
 
   x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests25_dat/7/input.html:1:1]
  1 | <!DOCTYPE html><body><command>A
    :                ^^^^^^^^^^^^^^^^

@@ -22,10 +22,6 @@
   x Element
 
   x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat/5/input.html:1:1]
  1 | <!doctype html><table>X<tr><td><table> <meta></table></table>
    :                       ^
@@ -48,10 +44,6 @@
  1 | <!doctype html><table>X<tr><td><table> <meta></table></table>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
-  x Child
-
-  x Element
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat/5/input.html:1:1]

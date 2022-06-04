@@ -20,13 +20,13 @@
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests14_dat/2/input.html:1:1]
  1 | <!DOCTYPE html><html><html abc:def=gh><xyz:abc></xyz:abc>
-   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :                ^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests14_dat/2/input.html:1:1]
  1 | <!DOCTYPE html><html><html abc:def=gh><xyz:abc></xyz:abc>
-   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :                ^^^^^^
    `----
 
   x Attribute
@@ -34,10 +34,6 @@
  1 | <!DOCTYPE html><html><html abc:def=gh><xyz:abc></xyz:abc>
    :                            ^^^^^^^^^^
    `----
-
-  x Child
-
-  x Element
 
   x Child
 

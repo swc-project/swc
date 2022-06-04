@@ -20,13 +20,13 @@
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat/4/input.html:1:1]
  1 | <!doctype html><html><noscript><plaintext></plaintext>
-   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :                ^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat/4/input.html:1:1]
  1 | <!doctype html><html><noscript><plaintext></plaintext>
-   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :                ^^^^^^
    `----
 
   x Child
@@ -44,10 +44,6 @@
  1 | <!doctype html><html><noscript><plaintext></plaintext>
    :                      ^^^^^^^^^^
    `----
-
-  x Child
-
-  x Element
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat/4/input.html:1:1]

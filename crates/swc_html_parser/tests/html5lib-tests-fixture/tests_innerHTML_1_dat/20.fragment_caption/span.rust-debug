@@ -10,10 +10,6 @@
   x Element
 
   x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat/20.fragment_caption/input.html:1:1]
  1 | <table></table><tbody>
    : ^^^^^^^^^^^^^^^

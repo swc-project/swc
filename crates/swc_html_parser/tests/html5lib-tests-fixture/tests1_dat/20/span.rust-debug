@@ -10,10 +10,6 @@
   x Element
 
   x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/20/input.html:1:1]
  1 | <b><table><td></b><i></table>X
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -36,10 +32,6 @@
  1 | <b><table><td></b><i></table>X
    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
-  x Child
-
-  x Element
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/20/input.html:1:1]

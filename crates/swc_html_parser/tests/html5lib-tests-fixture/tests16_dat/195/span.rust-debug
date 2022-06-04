@@ -28,18 +28,6 @@
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat/195/input.html:1:1]
  1 | <!doctype html><table><td><span><font></span><span>
-   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat/195/input.html:1:1]
- 1 | <!doctype html><table><td><span><font></span><span>
-   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat/195/input.html:1:1]
- 1 | <!doctype html><table><td><span><font></span><span>
    :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 

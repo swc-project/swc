@@ -387,20 +387,6 @@ where
                             attributes.extend(additional_attributes)
                         }
 
-                        // Elements and text after `</html>` are moving into `<body>`
-                        let end_html = match node.end_tag_span.take() {
-                            Some(end_tag_span) => end_tag_span.hi(),
-                            _ => element.span.hi(),
-                        };
-                        let end_children = match new_children.last() {
-                            Some(Child::DocumentType(DocumentType { span, .. })) => span.hi(),
-                            Some(Child::Element(Element { span, .. })) => span.hi(),
-                            Some(Child::Comment(Comment { span, .. })) => span.hi(),
-                            Some(Child::Text(Text { span, .. })) => span.hi(),
-                            _ => element.span.hi(),
-                        };
-                        let end = if end_html >= end_children {
-                            end_html
                         let span = if element.span.is_dummy() {
                             element.span
                         } else {
@@ -426,7 +412,6 @@ where
                         };
 
                         Child::Element(Element {
-                            span: Span::new(element.span.lo(), end, Default::default()),
                             span,
                             children: new_children,
                             content: None,
@@ -442,20 +427,6 @@ where
                             attributes.extend(additional_attributes);
                         }
 
-                        // Elements and text after `</body>` are moving into `<body>`
-                        let end_body = match node.end_tag_span.take() {
-                            Some(end_tag_span) => end_tag_span.hi(),
-                            _ => element.span.hi(),
-                        };
-                        let end_children = match new_children.last() {
-                            Some(Child::DocumentType(DocumentType { span, .. })) => span.hi(),
-                            Some(Child::Element(Element { span, .. })) => span.hi(),
-                            Some(Child::Comment(Comment { span, .. })) => span.hi(),
-                            Some(Child::Text(Text { span, .. })) => span.hi(),
-                            _ => element.span.hi(),
-                        };
-                        let end = if end_body >= end_children {
-                            end_body
                         let span = if element.span.is_dummy() {
                             element.span
                         } else {
@@ -481,7 +452,6 @@ where
                         };
 
                         Child::Element(Element {
-                            span: Span::new(element.span.lo(), end, Default::default()),
                             span,
                             children: new_children,
                             content: None,
@@ -514,19 +484,6 @@ where
                         })
                     }
                     _ => {
-                        let end = match node.end_tag_span.take() {
-                            Some(end_tag_span) => end_tag_span.hi(),
-                            _ => match new_children.last() {
-                                Some(Child::DocumentType(DocumentType { span, .. })) => span.hi(),
-                                Some(Child::Element(Element { span, .. })) => span.hi(),
-                                Some(Child::Comment(Comment { span, .. })) => span.hi(),
-                                Some(Child::Text(Text { span, .. })) => span.hi(),
-                                _ => element.span.hi(),
-                            },
-                        };
-
-                        Child::Element(Element {
-                            span: Span::new(element.span.lo(), end, Default::default()),
                         let span = if element.span.is_dummy() {
                             element.span
                         } else {
@@ -1376,7 +1333,6 @@ where
                         }
 
                         let document_type = Node::new(Data::DocumentType(DocumentType {
-                            span: span!(self, token_and_info.span.lo()),
                             span: token_and_info.span,
                             name: name.clone(),
                             public_id: public_id.clone(),
@@ -1518,7 +1474,6 @@ where
                         ..
                     } if tag_name == "html" => {
                         let element = Node::new(Data::Element(Element {
-                            span: span!(self, token_and_info.span.lo()),
                             span: token_and_info.span,
                             namespace: Namespace::HTML,
                             tag_name: tag_name.into(),
@@ -7276,11 +7231,6 @@ where
                     };
                 let new_element = self.create_element_for_token(
                     token_and_info.token.clone(),
-                    Span::new(
-                        token_and_info.span.lo(),
-                        token_and_info.span.hi(),
-                        Default::default(),
-                    ),
                     token_and_info.span,
                     Some(Namespace::HTML),
                     None,
@@ -8267,7 +8217,7 @@ where
                         let index = children.len() - 1;
 
                         children[index] = Node::new(Data::Text(Text {
-                            span: swc_common::Span::new(first_pos, last_pos, Default::default()),
+                            span: Span::new(first_pos, last_pos, Default::default()),
                             value: new_value.into(),
                         }));
 
@@ -8299,11 +8249,7 @@ where
                                 let last_pos = token_and_info.span.hi();
 
                                 children[i - 1] = Node::new(Data::Text(Text {
-                                    span: swc_common::Span::new(
-                                        first_pos,
-                                        last_pos,
-                                        Default::default(),
-                                    ),
+                                    span: Span::new(first_pos, last_pos, Default::default()),
                                     value: new_value.into(),
                                 }));
 
@@ -8353,7 +8299,6 @@ where
         // location finds itself.
         let node = self.create_element_for_token(
             token_and_info.token.clone(),
-            Span::new(token_and_info.span.lo(), last_pos, Default::default()),
             token_and_info.span,
             Some(namespace),
             adjust_attributes,

@@ -10,10 +10,6 @@
   x Element
 
   x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat/31.fragment_body/input.html:1:1]
  1 | </body><div>
    : ^^^^^^^^^^^^

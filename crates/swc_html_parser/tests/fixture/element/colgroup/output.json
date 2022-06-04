@@ -294,7 +294,6 @@
                   "type": "Element",
                   "span": {
                     "start": 0,
-                    "end": 416,
                     "end": 0,
                     "ctxt": 0
                   },
@@ -350,8 +349,6 @@
                           "span": {
                             "start": 256,
                             "end": 265,
-                            "start": 255,
-                            "end": 264,
                             "ctxt": 0
                           },
                           "value": "\n        "
@@ -397,8 +394,6 @@
                           "span": {
                             "start": 292,
                             "end": 301,
-                            "start": 291,
-                            "end": 300,
                             "ctxt": 0
                           },
                           "value": "\n        "
@@ -444,8 +439,6 @@
                           "span": {
                             "start": 327,
                             "end": 336,
-                            "start": 326,
-                            "end": 335,
                             "ctxt": 0
                           },
                           "value": "\n        "
@@ -491,8 +484,6 @@
                           "span": {
                             "start": 366,
                             "end": 375,
-                            "start": 365,
-                            "end": 374,
                             "ctxt": 0
                           },
                           "value": "\n        "
@@ -538,8 +529,6 @@
                           "span": {
                             "start": 405,
                             "end": 410,
-                            "start": 404,
-                            "end": 409,
                             "ctxt": 0
                           },
                           "value": "\n    "
@@ -552,8 +541,6 @@
                       "span": {
                         "start": 415,
                         "end": 416,
-                        "start": 414,
-                        "end": 415,
                         "ctxt": 0
                       },
                       "value": "\n"

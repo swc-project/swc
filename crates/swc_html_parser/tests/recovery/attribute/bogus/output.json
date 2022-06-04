@@ -11,7 +11,6 @@
       "type": "Element",
       "span": {
         "start": 0,
-        "end": 24,
         "end": 0,
         "ctxt": 0
       },
@@ -23,7 +22,6 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 24,
             "end": 0,
             "ctxt": 0
           },
@@ -37,7 +35,6 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 24,
             "end": 0,
             "ctxt": 0
           },

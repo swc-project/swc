@@ -10,10 +10,6 @@
   x Element
 
   x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tables01_dat/12/input.html:1:1]
  1 | <table><tr><caption>
    : ^^^^^^^^^^^^^^^^^^^^
@@ -24,10 +20,6 @@
  1 | <table><tr><caption>
    : ^^^^^^^^^^^^^^^^^^^^
    `----
-
-  x Child
-
-  x Element
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tables01_dat/12/input.html:1:1]

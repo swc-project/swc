@@ -10,10 +10,6 @@
   x Element
 
   x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/html5lib-tests-fixture/svg_dat/0.fragment_td/input.html:1:1]
  1 | <svg><tr><td><title><tr>
    : ^^^^^^^^^^^^^^^^^^^^

@@ -10,32 +10,20 @@
   x Element
 
   x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat/8/input.html:1:1]
  1 | <table><thead><td></tbody>A
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat/8/input.html:1:1]
  1 | <table><thead><td></tbody>A
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat/8/input.html:1:1]
- 1 | <table><thead><td></tbody>A
-   :        ^^^^^^^^^^^^^^^^^^^^
-   `----
 
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat/8/input.html:1:1]
- 1 | <table><thead><td></tbody>A
-   :        ^^^^^^^^^^^^^^^^^^^^
-   `----
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat/8/input.html:1:1]
