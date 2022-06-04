@@ -40,6 +40,9 @@
 
 - **(html/parser)** Refactor tests (#4865) ([762c72d](https://github.com/swc-project/swc/commit/762c72d1c92e7c6786f69769aac5c1093da6b575))
 
+
+- **(html/parser)** Test html5lib spans (#4875) ([ad9508a](https://github.com/swc-project/swc/commit/ad9508a79641c72a15ae58a0f66dd6684348644f))
+
 ## [1.2.196] - 2022-05-31
 
 ### Bug Fixes
