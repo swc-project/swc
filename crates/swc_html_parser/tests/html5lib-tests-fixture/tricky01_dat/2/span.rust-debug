@@ -1,0 +1,248 @@
+
+  x Document
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:1:1]
+ 1 | ,-> <html><body>
+ 2 | |   <p><font size="7">First paragraph.</p>
+ 3 | |   <p>Second paragraph.</p></font>
+ 4 | `-> <b><p><i>Bold and Italic</b> Italic</p>
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:1:1]
+ 1 | ,-> <html><body>
+ 2 | |   <p><font size="7">First paragraph.</p>
+ 3 | |   <p>Second paragraph.</p></font>
+ 4 | `-> <b><p><i>Bold and Italic</b> Italic</p>
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:1:1]
+ 1 | ,-> <html><body>
+ 2 | |   <p><font size="7">First paragraph.</p>
+ 3 | |   <p>Second paragraph.</p></font>
+ 4 | `-> <b><p><i>Bold and Italic</b> Italic</p>
+   `----
+
+  x Child
+
+  x Element
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:1:1]
+ 1 | ,-> <html><body>
+ 2 | |   <p><font size="7">First paragraph.</p>
+ 3 | |   <p>Second paragraph.</p></font>
+ 4 | `-> <b><p><i>Bold and Italic</b> Italic</p>
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:1:1]
+ 1 | ,-> <html><body>
+ 2 | |   <p><font size="7">First paragraph.</p>
+ 3 | |   <p>Second paragraph.</p></font>
+ 4 | `-> <b><p><i>Bold and Italic</b> Italic</p>
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:1:1]
+ 1 | <html><body>
+   :             ^
+ 2 | <p><font size="7">First paragraph.</p>
+   `----
+
+  x Text
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:1:1]
+ 1 | <html><body>
+   :             ^
+ 2 | <p><font size="7">First paragraph.</p>
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:2:1]
+ 2 | <p><font size="7">First paragraph.</p>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:2:1]
+ 2 | <p><font size="7">First paragraph.</p>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:2:1]
+ 2 | <p><font size="7">First paragraph.</p>
+   :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:2:1]
+ 2 | <p><font size="7">First paragraph.</p>
+   :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:2:1]
+ 2 | <p><font size="7">First paragraph.</p>
+   :          ^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:2:1]
+ 2 | <p><font size="7">First paragraph.</p>
+   :                   ^^^^^^^^^^^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:2:1]
+ 2 | <p><font size="7">First paragraph.</p>
+   :                   ^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:2:1]
+ 2 | ,-> <p><font size="7">First paragraph.</p>
+ 3 | `-> <p>Second paragraph.</p></font>
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:2:1]
+ 2 | ,-> <p><font size="7">First paragraph.</p>
+ 3 | `-> <p>Second paragraph.</p></font>
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:2:1]
+ 2 | <p><font size="7">First paragraph.</p>
+   :                                       ^
+ 3 | <p>Second paragraph.</p></font>
+   `----
+
+  x Text
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:2:1]
+ 2 | <p><font size="7">First paragraph.</p>
+   :                                       ^
+ 3 | <p>Second paragraph.</p></font>
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:3:1]
+ 3 | <p>Second paragraph.</p></font>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:3:1]
+ 3 | <p>Second paragraph.</p></font>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:3:1]
+ 3 | <p>Second paragraph.</p></font>
+   :    ^^^^^^^^^^^^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:3:1]
+ 3 | <p>Second paragraph.</p></font>
+   :    ^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:3:1]
+ 3 | <p>Second paragraph.</p></font>
+   :                                ^
+ 4 | <b><p><i>Bold and Italic</b> Italic</p>
+   `----
+
+  x Text
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:3:1]
+ 3 | <p>Second paragraph.</p></font>
+   :                                ^
+ 4 | <b><p><i>Bold and Italic</b> Italic</p>
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:4:1]
+ 4 | <b><p><i>Bold and Italic</b> Italic</p>
+   : ^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:4:1]
+ 4 | <b><p><i>Bold and Italic</b> Italic</p>
+   : ^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:4:1]
+ 4 | <b><p><i>Bold and Italic</b> Italic</p>
+   :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:4:1]
+ 4 | <b><p><i>Bold and Italic</b> Italic</p>
+   :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:4:1]
+ 4 | <b><p><i>Bold and Italic</b> Italic</p>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:4:1]
+ 4 | <b><p><i>Bold and Italic</b> Italic</p>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:4:1]
+ 4 | <b><p><i>Bold and Italic</b> Italic</p>
+   :       ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:4:1]
+ 4 | <b><p><i>Bold and Italic</b> Italic</p>
+   :       ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:4:1]
+ 4 | <b><p><i>Bold and Italic</b> Italic</p>
+   :          ^^^^^^^^^^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:4:1]
+ 4 | <b><p><i>Bold and Italic</b> Italic</p>
+   :          ^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:4:1]
+ 4 | <b><p><i>Bold and Italic</b> Italic</p>
+   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:4:1]
+ 4 | <b><p><i>Bold and Italic</b> Italic</p>
+   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:4:1]
+ 4 | <b><p><i>Bold and Italic</b> Italic</p>
+   :                             ^^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/2/input.html:4:1]
+ 4 | <b><p><i>Bold and Italic</b> Italic</p>
+   :                             ^^^^^^^
+   `----

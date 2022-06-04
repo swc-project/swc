@@ -1,0 +1,22 @@
+
+  x Document
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/62/input.html:1:1]
+ 1 | <DIV>
+   : ^^^^^
+   `----
+
+  x Child
+
+  x Element
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/62/input.html:1:1]
+ 1 | <DIV>
+   : ^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/62/input.html:1:1]
+ 1 | <DIV>
+   : ^^^^^
+   `----

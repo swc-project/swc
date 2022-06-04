@@ -1,0 +1,116 @@
+
+  x Document
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat/43/input.html:1:1]
+ 1 | <ul><li><div id='foo'/>A</li><li>B<div>C</div></li></ul>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+
+  x Element
+
+  x Child
+
+  x Element
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat/43/input.html:1:1]
+ 1 | <ul><li><div id='foo'/>A</li><li>B<div>C</div></li></ul>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat/43/input.html:1:1]
+ 1 | <ul><li><div id='foo'/>A</li><li>B<div>C</div></li></ul>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat/43/input.html:1:1]
+ 1 | <ul><li><div id='foo'/>A</li><li>B<div>C</div></li></ul>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat/43/input.html:1:1]
+ 1 | <ul><li><div id='foo'/>A</li><li>B<div>C</div></li></ul>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat/43/input.html:1:1]
+ 1 | <ul><li><div id='foo'/>A</li><li>B<div>C</div></li></ul>
+   :         ^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat/43/input.html:1:1]
+ 1 | <ul><li><div id='foo'/>A</li><li>B<div>C</div></li></ul>
+   :         ^^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat/43/input.html:1:1]
+ 1 | <ul><li><div id='foo'/>A</li><li>B<div>C</div></li></ul>
+   :              ^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat/43/input.html:1:1]
+ 1 | <ul><li><div id='foo'/>A</li><li>B<div>C</div></li></ul>
+   :                        ^
+   `----
+
+  x Text
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat/43/input.html:1:1]
+ 1 | <ul><li><div id='foo'/>A</li><li>B<div>C</div></li></ul>
+   :                        ^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat/43/input.html:1:1]
+ 1 | <ul><li><div id='foo'/>A</li><li>B<div>C</div></li></ul>
+   :                              ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat/43/input.html:1:1]
+ 1 | <ul><li><div id='foo'/>A</li><li>B<div>C</div></li></ul>
+   :                              ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat/43/input.html:1:1]
+ 1 | <ul><li><div id='foo'/>A</li><li>B<div>C</div></li></ul>
+   :                                  ^
+   `----
+
+  x Text
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat/43/input.html:1:1]
+ 1 | <ul><li><div id='foo'/>A</li><li>B<div>C</div></li></ul>
+   :                                  ^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat/43/input.html:1:1]
+ 1 | <ul><li><div id='foo'/>A</li><li>B<div>C</div></li></ul>
+   :                                   ^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat/43/input.html:1:1]
+ 1 | <ul><li><div id='foo'/>A</li><li>B<div>C</div></li></ul>
+   :                                   ^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat/43/input.html:1:1]
+ 1 | <ul><li><div id='foo'/>A</li><li>B<div>C</div></li></ul>
+   :                                        ^
+   `----
+
+  x Text
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat/43/input.html:1:1]
+ 1 | <ul><li><div id='foo'/>A</li><li>B<div>C</div></li></ul>
+   :                                        ^
+   `----

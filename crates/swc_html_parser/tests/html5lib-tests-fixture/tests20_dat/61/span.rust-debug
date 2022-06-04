@@ -1,0 +1,50 @@
+
+  x Document
+   ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/61/input.html:1:1]
+ 1 | <math><annotation-xml><!--foo-->
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+
+  x Element
+
+  x Child
+
+  x Element
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/61/input.html:1:1]
+ 1 | <math><annotation-xml><!--foo-->
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/61/input.html:1:1]
+ 1 | <math><annotation-xml><!--foo-->
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/61/input.html:1:1]
+ 1 | <math><annotation-xml><!--foo-->
+   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/61/input.html:1:1]
+ 1 | <math><annotation-xml><!--foo-->
+   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/61/input.html:1:1]
+ 1 | <math><annotation-xml><!--foo-->
+   :                       ^^^^^^^^^^
+   `----
+
+  x Comment
+   ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/61/input.html:1:1]
+ 1 | <math><annotation-xml><!--foo-->
+   :                       ^^^^^^^^^^
+   `----

@@ -1,0 +1,26 @@
+
+  x Document
+   ,-[$DIR/tests/html5lib-tests-fixture/plain-text-unsafe_dat/21/input.html:1:1]
+ 1 | <svg><path></path></svg><frameset>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+
+  x Element
+
+  x Child
+
+  x Element
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/plain-text-unsafe_dat/21/input.html:1:1]
+ 1 | <svg><path></path></svg><frameset>
+   :                         ^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/plain-text-unsafe_dat/21/input.html:1:1]
+ 1 | <svg><path></path></svg><frameset>
+   :                         ^^^^^^^^^^
+   `----

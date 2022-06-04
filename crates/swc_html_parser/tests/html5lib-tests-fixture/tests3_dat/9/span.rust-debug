@@ -1,0 +1,78 @@
+
+  x Document
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat/9/input.html:1:1]
+ 1 | ,-> <!DOCTYPE html><html><head></head><body><pre>x
+ 2 | `-> y</pre></body></html>
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat/9/input.html:1:1]
+ 1 | <!DOCTYPE html><html><head></head><body><pre>x
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x DocumentType
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat/9/input.html:1:1]
+ 1 | <!DOCTYPE html><html><head></head><body><pre>x
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat/9/input.html:1:1]
+ 1 | ,-> <!DOCTYPE html><html><head></head><body><pre>x
+ 2 | `-> y</pre></body></html>
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat/9/input.html:1:1]
+ 1 | ,-> <!DOCTYPE html><html><head></head><body><pre>x
+ 2 | `-> y</pre></body></html>
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat/9/input.html:1:1]
+ 1 | <!DOCTYPE html><html><head></head><body><pre>x
+   :                      ^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat/9/input.html:1:1]
+ 1 | <!DOCTYPE html><html><head></head><body><pre>x
+   :                      ^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat/9/input.html:1:1]
+ 1 | ,-> <!DOCTYPE html><html><head></head><body><pre>x
+ 2 | `-> y</pre></body></html>
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat/9/input.html:1:1]
+ 1 | ,-> <!DOCTYPE html><html><head></head><body><pre>x
+ 2 | `-> y</pre></body></html>
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat/9/input.html:1:1]
+ 1 | ,-> <!DOCTYPE html><html><head></head><body><pre>x
+ 2 | `-> y</pre></body></html>
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat/9/input.html:1:1]
+ 1 | ,-> <!DOCTYPE html><html><head></head><body><pre>x
+ 2 | `-> y</pre></body></html>
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat/9/input.html:1:1]
+ 1 | ,-> <!DOCTYPE html><html><head></head><body><pre>x
+ 2 | `-> y</pre></body></html>
+   `----
+
+  x Text
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat/9/input.html:1:1]
+ 1 | ,-> <!DOCTYPE html><html><head></head><body><pre>x
+ 2 | `-> y</pre></body></html>
+   `----

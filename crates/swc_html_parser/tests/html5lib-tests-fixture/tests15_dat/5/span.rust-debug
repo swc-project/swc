@@ -1,0 +1,62 @@
+
+  x Document
+   ,-[$DIR/tests/html5lib-tests-fixture/tests15_dat/5/input.html:1:1]
+ 1 | <!doctype html></body><title>X</title>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests15_dat/5/input.html:1:1]
+ 1 | <!doctype html></body><title>X</title>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x DocumentType
+   ,-[$DIR/tests/html5lib-tests-fixture/tests15_dat/5/input.html:1:1]
+ 1 | <!doctype html></body><title>X</title>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+
+  x Element
+
+  x Child
+
+  x Element
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests15_dat/5/input.html:1:1]
+ 1 | <!doctype html></body><title>X</title>
+   :                ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests15_dat/5/input.html:1:1]
+ 1 | <!doctype html></body><title>X</title>
+   :                ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests15_dat/5/input.html:1:1]
+ 1 | <!doctype html></body><title>X</title>
+   :                       ^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests15_dat/5/input.html:1:1]
+ 1 | <!doctype html></body><title>X</title>
+   :                       ^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests15_dat/5/input.html:1:1]
+ 1 | <!doctype html></body><title>X</title>
+   :                              ^
+   `----
+
+  x Text
+   ,-[$DIR/tests/html5lib-tests-fixture/tests15_dat/5/input.html:1:1]
+ 1 | <!doctype html></body><title>X</title>
+   :                              ^
+   `----

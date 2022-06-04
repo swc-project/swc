@@ -1,0 +1,74 @@
+
+  x Document
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat/38/input.html:1:1]
+ 1 | <!DOCTYPE html><select><optgroup><option><optgroup>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat/38/input.html:1:1]
+ 1 | <!DOCTYPE html><select><optgroup><option><optgroup>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x DocumentType
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat/38/input.html:1:1]
+ 1 | <!DOCTYPE html><select><optgroup><option><optgroup>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+
+  x Element
+
+  x Child
+
+  x Element
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat/38/input.html:1:1]
+ 1 | <!DOCTYPE html><select><optgroup><option><optgroup>
+   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat/38/input.html:1:1]
+ 1 | <!DOCTYPE html><select><optgroup><option><optgroup>
+   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat/38/input.html:1:1]
+ 1 | <!DOCTYPE html><select><optgroup><option><optgroup>
+   :                        ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat/38/input.html:1:1]
+ 1 | <!DOCTYPE html><select><optgroup><option><optgroup>
+   :                        ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat/38/input.html:1:1]
+ 1 | <!DOCTYPE html><select><optgroup><option><optgroup>
+   :                                  ^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat/38/input.html:1:1]
+ 1 | <!DOCTYPE html><select><optgroup><option><optgroup>
+   :                                  ^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat/38/input.html:1:1]
+ 1 | <!DOCTYPE html><select><optgroup><option><optgroup>
+   :                                          ^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat/38/input.html:1:1]
+ 1 | <!DOCTYPE html><select><optgroup><option><optgroup>
+   :                                          ^^^^^^^^^^
+   `----
