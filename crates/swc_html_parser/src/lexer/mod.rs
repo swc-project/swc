@@ -200,7 +200,7 @@ where
             attribute_start_position: None,
             character_reference_code: None,
             // Do this without a new allocation.
-            temporary_buffer: String::with_capacity(8),
+            temporary_buffer: String::with_capacity(33),
             is_adjusted_current_node_is_element_in_html_namespace: None,
             doctype_keyword: None,
         };
@@ -4010,7 +4010,10 @@ where
                 // The shortest entity - `&GT`
                 // The longest entity - `&CounterClockwiseContourIntegral;`
                 let initial_cur_pos = self.input.cur_pos();
-                let initial_buffer = self.temporary_buffer.clone();
+                let mut initial_buffer = String::with_capacity(self.temporary_buffer.capacity());
+
+                initial_buffer.push_str(&self.temporary_buffer);
+
                 let mut entity: Option<&Entity> = None;
                 let mut entity_cur_pos: Option<BytePos> = None;
                 let mut entity_temporary_buffer = None;
@@ -4022,7 +4025,12 @@ where
                     if let Some(found_entity) = HTML_ENTITIES.get(&self.temporary_buffer) {
                         entity = Some(found_entity);
                         entity_cur_pos = Some(self.input.cur_pos());
-                        entity_temporary_buffer = Some(self.temporary_buffer.clone());
+
+                        let mut temporary_buffer =
+                            String::with_capacity(self.temporary_buffer.capacity());
+
+                        temporary_buffer.push_str(&self.temporary_buffer.clone());
+                        entity_temporary_buffer = Some(temporary_buffer);
                     } else {
                         // We stop when:
                         //
