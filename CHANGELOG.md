@@ -26,6 +26,9 @@
 - **(html/minifier)** Improve compression of attributes (#4849) ([c5df1a3](https://github.com/swc-project/swc/commit/c5df1a3a54e1445163efb38b4da339ccaed699d0))
 
 
+- **(html/minifier)** Remove spaces between nodes (#4880) ([6e0f5f1](https://github.com/swc-project/swc/commit/6e0f5f1c4814b49f208a0170797bc8804df10f18))
+
+
 - **(wasm)** Add json error (#4853) ([fd3501b](https://github.com/swc-project/swc/commit/fd3501bf87f4e711e72e9e8fd12f64f4cfa08157))
 
 ### Performance
