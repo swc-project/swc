@@ -193,6 +193,32 @@
 |       "I'm ∉ I tell you"
 |     "
 
+"
+|     <div>
+|       "⋹̸"
+|     "
+
+"
+|     <a>
+|       href="test⋹̸test"
+|       "test"
+|     "
+"
+|     <a>
+|       href="test&notinEtest"
+|       "test"
+|     "
+"
+|     <a>
+|       href="test&notinEtest"
+|       "test"
+|     "
+"
+|     <a>
+|       href="test&"
+|       "test"
+|     "
+
 
 
 

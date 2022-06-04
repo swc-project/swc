@@ -4027,7 +4027,7 @@ where
                         entity_cur_pos = Some(self.input.cur_pos());
 
                         self.temporary_buffer
-                            .push_str(&entity_temporary_buffer[1..]);
+                            .replace_range(1.., &entity_temporary_buffer[1..]);
                     } else {
                         // We stop when:
                         //

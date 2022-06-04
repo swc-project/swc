@@ -62,9 +62,16 @@
  59 | |   
  60 | |   <div>I'm &notin; I tell you</div>
  61 | |   
- 62 | |   </body>
- 63 | |   </html>
- 64 | `-> 
+ 62 | |   <div>&notinE;</div>
+ 63 | |   
+ 64 | |   <a href="test&notinE;test">test</a>
+ 65 | |   <a href="test&notinEtest">test</a>
+ 66 | |   <a href="test&notinEtest">test</a>
+ 67 | |   <a href="test&amp;">test</a>
+ 68 | |   
+ 69 | |   </body>
+ 70 | |   </html>
+ 71 | `-> 
     `----
 
   x Child
@@ -141,9 +148,16 @@
  59 | |   
  60 | |   <div>I'm &notin; I tell you</div>
  61 | |   
- 62 | |   </body>
- 63 | |   </html>
- 64 | `-> 
+ 62 | |   <div>&notinE;</div>
+ 63 | |   
+ 64 | |   <a href="test&notinE;test">test</a>
+ 65 | |   <a href="test&notinEtest">test</a>
+ 66 | |   <a href="test&notinEtest">test</a>
+ 67 | |   <a href="test&amp;">test</a>
+ 68 | |   
+ 69 | |   </body>
+ 70 | |   </html>
+ 71 | `-> 
     `----
 
   x Element
@@ -208,9 +222,16 @@
  59 | |   
  60 | |   <div>I'm &notin; I tell you</div>
  61 | |   
- 62 | |   </body>
- 63 | |   </html>
- 64 | `-> 
+ 62 | |   <div>&notinE;</div>
+ 63 | |   
+ 64 | |   <a href="test&notinE;test">test</a>
+ 65 | |   <a href="test&notinEtest">test</a>
+ 66 | |   <a href="test&notinEtest">test</a>
+ 67 | |   <a href="test&amp;">test</a>
+ 68 | |   
+ 69 | |   </body>
+ 70 | |   </html>
+ 71 | `-> 
     `----
 
   x Child
@@ -278,9 +299,16 @@
  59 | |   
  60 | |   <div>I'm &notin; I tell you</div>
  61 | |   
- 62 | |   </body>
- 63 | |   </html>
- 64 | `-> 
+ 62 | |   <div>&notinE;</div>
+ 63 | |   
+ 64 | |   <a href="test&notinE;test">test</a>
+ 65 | |   <a href="test&notinEtest">test</a>
+ 66 | |   <a href="test&notinEtest">test</a>
+ 67 | |   <a href="test&amp;">test</a>
+ 68 | |   
+ 69 | |   </body>
+ 70 | |   </html>
+ 71 | `-> 
     `----
 
   x Element
@@ -344,9 +372,16 @@
  59 | |   
  60 | |   <div>I'm &notin; I tell you</div>
  61 | |   
- 62 | |   </body>
- 63 | |   </html>
- 64 | `-> 
+ 62 | |   <div>&notinE;</div>
+ 63 | |   
+ 64 | |   <a href="test&notinE;test">test</a>
+ 65 | |   <a href="test&notinEtest">test</a>
+ 66 | |   <a href="test&notinEtest">test</a>
+ 67 | |   <a href="test&amp;">test</a>
+ 68 | |   
+ 69 | |   </body>
+ 70 | |   </html>
+ 71 | `-> 
     `----
 
   x Child
@@ -2008,17 +2043,231 @@
   x Child
     ,-[$DIR/tests/fixture/text/entity/input.html:60:1]
  60 | ,-> <div>I'm &notin; I tell you</div>
- 61 | |   
- 62 | |   </body>
- 63 | |   </html>
- 64 | `-> 
+ 61 | `-> 
+ 62 |     <div>&notinE;</div>
     `----
 
   x Text
     ,-[$DIR/tests/fixture/text/entity/input.html:60:1]
  60 | ,-> <div>I'm &notin; I tell you</div>
- 61 | |   
- 62 | |   </body>
- 63 | |   </html>
- 64 | `-> 
+ 61 | `-> 
+ 62 |     <div>&notinE;</div>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/entity/input.html:62:1]
+ 62 | <div>&notinE;</div>
+    : ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/entity/input.html:62:1]
+ 62 | <div>&notinE;</div>
+    : ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/entity/input.html:62:1]
+ 62 | <div>&notinE;</div>
+    :      ^^^^^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/entity/input.html:62:1]
+ 62 | <div>&notinE;</div>
+    :      ^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/entity/input.html:62:1]
+ 62 | ,-> <div>&notinE;</div>
+ 63 | `-> 
+ 64 |     <a href="test&notinE;test">test</a>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/entity/input.html:62:1]
+ 62 | ,-> <div>&notinE;</div>
+ 63 | `-> 
+ 64 |     <a href="test&notinE;test">test</a>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/entity/input.html:64:1]
+ 64 | <a href="test&notinE;test">test</a>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/entity/input.html:64:1]
+ 64 | <a href="test&notinE;test">test</a>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/text/entity/input.html:64:1]
+ 64 | <a href="test&notinE;test">test</a>
+    :    ^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/entity/input.html:64:1]
+ 64 | <a href="test&notinE;test">test</a>
+    :                            ^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/entity/input.html:64:1]
+ 64 | <a href="test&notinE;test">test</a>
+    :                            ^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/entity/input.html:64:1]
+ 64 | <a href="test&notinE;test">test</a>
+    :                                    ^
+ 65 | <a href="test&notinEtest">test</a>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/entity/input.html:64:1]
+ 64 | <a href="test&notinE;test">test</a>
+    :                                    ^
+ 65 | <a href="test&notinEtest">test</a>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/entity/input.html:65:1]
+ 65 | <a href="test&notinEtest">test</a>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/entity/input.html:65:1]
+ 65 | <a href="test&notinEtest">test</a>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/text/entity/input.html:65:1]
+ 65 | <a href="test&notinEtest">test</a>
+    :    ^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/entity/input.html:65:1]
+ 65 | <a href="test&notinEtest">test</a>
+    :                           ^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/entity/input.html:65:1]
+ 65 | <a href="test&notinEtest">test</a>
+    :                           ^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/entity/input.html:65:1]
+ 65 | <a href="test&notinEtest">test</a>
+    :                                   ^
+ 66 | <a href="test&notinEtest">test</a>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/entity/input.html:65:1]
+ 65 | <a href="test&notinEtest">test</a>
+    :                                   ^
+ 66 | <a href="test&notinEtest">test</a>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/entity/input.html:66:1]
+ 66 | <a href="test&notinEtest">test</a>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/entity/input.html:66:1]
+ 66 | <a href="test&notinEtest">test</a>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/text/entity/input.html:66:1]
+ 66 | <a href="test&notinEtest">test</a>
+    :    ^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/entity/input.html:66:1]
+ 66 | <a href="test&notinEtest">test</a>
+    :                           ^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/entity/input.html:66:1]
+ 66 | <a href="test&notinEtest">test</a>
+    :                           ^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/entity/input.html:66:1]
+ 66 | <a href="test&notinEtest">test</a>
+    :                                   ^
+ 67 | <a href="test&amp;">test</a>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/entity/input.html:66:1]
+ 66 | <a href="test&notinEtest">test</a>
+    :                                   ^
+ 67 | <a href="test&amp;">test</a>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/entity/input.html:67:1]
+ 67 | <a href="test&amp;">test</a>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/entity/input.html:67:1]
+ 67 | <a href="test&amp;">test</a>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/text/entity/input.html:67:1]
+ 67 | <a href="test&amp;">test</a>
+    :    ^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/entity/input.html:67:1]
+ 67 | <a href="test&amp;">test</a>
+    :                     ^^^^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/entity/input.html:67:1]
+ 67 | <a href="test&amp;">test</a>
+    :                     ^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/entity/input.html:67:1]
+ 67 | ,-> <a href="test&amp;">test</a>
+ 68 | |   
+ 69 | |   </body>
+ 70 | |   </html>
+ 71 | `-> 
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/entity/input.html:67:1]
+ 67 | ,-> <a href="test&amp;">test</a>
+ 68 | |   
+ 69 | |   </body>
+ 70 | |   </html>
+ 71 | `-> 
     `----
