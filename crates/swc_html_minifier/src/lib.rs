@@ -504,7 +504,8 @@ impl VisitMut for Minifier {
 
         n.visit_mut_children_with(self);
 
-        let allow_to_remove_spaces = &*n.tag_name == "head" && n.namespace == Namespace::HTML;
+        let allow_to_remove_spaces =
+            matches!(&*n.tag_name, "html" | "head") && n.namespace == Namespace::HTML;
 
         n.children.retain(|child| match child {
             Child::Comment(comment) if !self.is_conditional_comment(&comment.data) => false,
