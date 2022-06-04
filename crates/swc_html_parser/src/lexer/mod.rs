@@ -4010,27 +4010,24 @@ where
                 // The shortest entity - `&GT`
                 // The longest entity - `&CounterClockwiseContourIntegral;`
                 let initial_cur_pos = self.input.cur_pos();
-                let mut initial_buffer = String::with_capacity(self.temporary_buffer.capacity());
-
-                initial_buffer.push_str(&self.temporary_buffer);
 
                 let mut entity: Option<&Entity> = None;
                 let mut entity_cur_pos: Option<BytePos> = None;
-                let mut entity_temporary_buffer = None;
+                let mut entity_temporary_buffer =
+                    String::with_capacity(self.temporary_buffer.capacity());
+
+                entity_temporary_buffer.push_str(&self.temporary_buffer);
 
                 // No need to validate input, because we reset position if nothing was found
                 while let Some(c) = &self.consume_next_char() {
-                    self.temporary_buffer.push(*c);
+                    entity_temporary_buffer.push(*c);
 
-                    if let Some(found_entity) = HTML_ENTITIES.get(&self.temporary_buffer) {
+                    if let Some(found_entity) = HTML_ENTITIES.get(&entity_temporary_buffer) {
                         entity = Some(found_entity);
                         entity_cur_pos = Some(self.input.cur_pos());
 
-                        let mut temporary_buffer =
-                            String::with_capacity(self.temporary_buffer.capacity());
-
-                        temporary_buffer.push_str(&self.temporary_buffer.clone());
-                        entity_temporary_buffer = Some(temporary_buffer);
+                        self.temporary_buffer
+                            .push_str(&entity_temporary_buffer[1..]);
                     } else {
                         // We stop when:
                         //
@@ -4045,11 +4042,9 @@ where
                 if entity.is_some() {
                     self.cur_pos = entity_cur_pos.unwrap();
                     self.input.reset_to(entity_cur_pos.unwrap());
-                    self.temporary_buffer = entity_temporary_buffer.unwrap();
                 } else {
                     self.cur_pos = initial_cur_pos;
                     self.input.reset_to(initial_cur_pos);
-                    self.temporary_buffer = initial_buffer;
                 }
 
                 let is_last_semicolon = self.temporary_buffer.ends_with(';');
