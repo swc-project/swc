@@ -1,7 +1,9 @@
 #![allow(unused_variables)]
-use swc_common::SpanSnippetError;
 #[cfg(feature = "plugin-mode")]
-use swc_common::{source_map::FileLinesResult, BytePos, FileName, Loc, SourceMapper, Span};
+use swc_common::{
+    source_map::{FileLinesResult, SourceMapperExt, SpanSnippetError},
+    BytePos, FileName, Loc, SourceMapper, Span,
+};
 
 #[cfg(feature = "plugin-mode")]
 #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
@@ -95,7 +97,9 @@ impl SourceMapper for PluginSourceMapProxy {
 
     fn span_to_snippet(&self, sp: Span) -> Result<String, SpanSnippetError> {
         #[cfg(target_arch = "wasm32")]
-        unimplemented!("not implemented yet");
+        return self.span_to_source(sp, |src, start_index, end_index| {
+            src[start_index..end_index].to_string()
+        });
 
         #[cfg(not(target_arch = "wasm32"))]
         unimplemented!("Sourcemap proxy cannot be called in this context")
@@ -148,5 +152,12 @@ impl SourceMapper for PluginSourceMapProxy {
 
         #[cfg(not(target_arch = "wasm32"))]
         unimplemented!("Sourcemap proxy cannot be called in this context")
+    }
+}
+
+#[cfg(feature = "plugin-mode")]
+impl SourceMapperExt for PluginSourceMapProxy {
+    fn get_code_map(&self) -> &dyn SourceMapper {
+        self
     }
 }
