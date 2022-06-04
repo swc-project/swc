@@ -440,6 +440,7 @@ fn recovery(input: PathBuf) {
 #[testing::fixture("tests/fixture/**/*.html")]
 #[testing::fixture("tests/recovery/**/*.html")]
 #[testing::fixture("tests/iframe_srcdoc/**/*.html")]
+#[testing::fixture("tests/html5lib-tests-fixture/**/*.html")]
 fn span_visualizer(input: PathBuf) {
     document_span_visualizer(
         input,
@@ -460,8 +461,6 @@ fn dom_visualizer(input: PathBuf) {
         },
     )
 }
-
-// TODO add span visualizer for html5test_lib tests
 
 fn unescape(s: &str) -> Option<String> {
     let mut out = String::with_capacity(s.len());

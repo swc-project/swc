@@ -1,0 +1,26 @@
+
+  x Document
+   ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat/48/input.html:1:1]
+ 1 | <source><frameset></frameset>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+
+  x Element
+
+  x Child
+
+  x Element
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat/48/input.html:1:1]
+ 1 | <source><frameset></frameset>
+   :         ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat/48/input.html:1:1]
+ 1 | <source><frameset></frameset>
+   :         ^^^^^^^^^^^^^^^^^^^^^
+   `----

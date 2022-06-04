@@ -1,0 +1,62 @@
+
+  x Document
+   ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/3/input.html:1:1]
+ 1 | <!doctype html><p><button><aside>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/3/input.html:1:1]
+ 1 | <!doctype html><p><button><aside>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x DocumentType
+   ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/3/input.html:1:1]
+ 1 | <!doctype html><p><button><aside>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+
+  x Element
+
+  x Child
+
+  x Element
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/3/input.html:1:1]
+ 1 | <!doctype html><p><button><aside>
+   :                ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/3/input.html:1:1]
+ 1 | <!doctype html><p><button><aside>
+   :                ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/3/input.html:1:1]
+ 1 | <!doctype html><p><button><aside>
+   :                   ^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/3/input.html:1:1]
+ 1 | <!doctype html><p><button><aside>
+   :                   ^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/3/input.html:1:1]
+ 1 | <!doctype html><p><button><aside>
+   :                           ^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/3/input.html:1:1]
+ 1 | <!doctype html><p><button><aside>
+   :                           ^^^^^^^
+   `----

@@ -1,0 +1,58 @@
+
+  x Document
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat/37/input.html:1:1]
+ 1 | <!doctype html><html c=d><body></html><html a=b>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat/37/input.html:1:1]
+ 1 | <!doctype html><html c=d><body></html><html a=b>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x DocumentType
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat/37/input.html:1:1]
+ 1 | <!doctype html><html c=d><body></html><html a=b>
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat/37/input.html:1:1]
+ 1 | <!doctype html><html c=d><body></html><html a=b>
+   :                ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat/37/input.html:1:1]
+ 1 | <!doctype html><html c=d><body></html><html a=b>
+   :                ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat/37/input.html:1:1]
+ 1 | <!doctype html><html c=d><body></html><html a=b>
+   :                      ^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat/37/input.html:1:1]
+ 1 | <!doctype html><html c=d><body></html><html a=b>
+   :                                             ^^^
+   `----
+
+  x Child
+
+  x Element
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat/37/input.html:1:1]
+ 1 | <!doctype html><html c=d><body></html><html a=b>
+   :                          ^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat/37/input.html:1:1]
+ 1 | <!doctype html><html c=d><body></html><html a=b>
+   :                          ^^^^^^
+   `----

@@ -1,0 +1,26 @@
+
+  x Document
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat/27.fragment_math_mo/input.html:1:1]
+ 1 | <malignmark></malignmark>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+
+  x Element
+
+  x Child
+
+  x Element
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat/27.fragment_math_mo/input.html:1:1]
+ 1 | <malignmark></malignmark>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat/27.fragment_math_mo/input.html:1:1]
+ 1 | <malignmark></malignmark>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----

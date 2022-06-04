@@ -1,0 +1,122 @@
+
+  x Document
+   ,-[$DIR/tests/html5lib-tests-fixture/namespace-sensitivity_dat/0/input.html:1:1]
+ 1 | <body><table><tr><td><svg><td><foreignObject><span></td>Foo
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+
+  x Element
+
+  x Child
+
+  x Element
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/namespace-sensitivity_dat/0/input.html:1:1]
+ 1 | <body><table><tr><td><svg><td><foreignObject><span></td>Foo
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/namespace-sensitivity_dat/0/input.html:1:1]
+ 1 | <body><table><tr><td><svg><td><foreignObject><span></td>Foo
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/namespace-sensitivity_dat/0/input.html:1:1]
+ 1 | <body><table><tr><td><svg><td><foreignObject><span></td>Foo
+   :                                                         ^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/html5lib-tests-fixture/namespace-sensitivity_dat/0/input.html:1:1]
+ 1 | <body><table><tr><td><svg><td><foreignObject><span></td>Foo
+   :                                                         ^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/namespace-sensitivity_dat/0/input.html:1:1]
+ 1 | <body><table><tr><td><svg><td><foreignObject><span></td>Foo
+   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/namespace-sensitivity_dat/0/input.html:1:1]
+ 1 | <body><table><tr><td><svg><td><foreignObject><span></td>Foo
+   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/namespace-sensitivity_dat/0/input.html:1:1]
+ 1 | <body><table><tr><td><svg><td><foreignObject><span></td>Foo
+   :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/namespace-sensitivity_dat/0/input.html:1:1]
+ 1 | <body><table><tr><td><svg><td><foreignObject><span></td>Foo
+   :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/namespace-sensitivity_dat/0/input.html:1:1]
+ 1 | <body><table><tr><td><svg><td><foreignObject><span></td>Foo
+   :                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/namespace-sensitivity_dat/0/input.html:1:1]
+ 1 | <body><table><tr><td><svg><td><foreignObject><span></td>Foo
+   :                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/namespace-sensitivity_dat/0/input.html:1:1]
+ 1 | <body><table><tr><td><svg><td><foreignObject><span></td>Foo
+   :                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/namespace-sensitivity_dat/0/input.html:1:1]
+ 1 | <body><table><tr><td><svg><td><foreignObject><span></td>Foo
+   :                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/namespace-sensitivity_dat/0/input.html:1:1]
+ 1 | <body><table><tr><td><svg><td><foreignObject><span></td>Foo
+   :                           ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/namespace-sensitivity_dat/0/input.html:1:1]
+ 1 | <body><table><tr><td><svg><td><foreignObject><span></td>Foo
+   :                           ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/namespace-sensitivity_dat/0/input.html:1:1]
+ 1 | <body><table><tr><td><svg><td><foreignObject><span></td>Foo
+   :                               ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/namespace-sensitivity_dat/0/input.html:1:1]
+ 1 | <body><table><tr><td><svg><td><foreignObject><span></td>Foo
+   :                               ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/namespace-sensitivity_dat/0/input.html:1:1]
+ 1 | <body><table><tr><td><svg><td><foreignObject><span></td>Foo
+   :                                              ^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/namespace-sensitivity_dat/0/input.html:1:1]
+ 1 | <body><table><tr><td><svg><td><foreignObject><span></td>Foo
+   :                                              ^^^^^^
+   `----
