@@ -16,6 +16,9 @@
 
 - **(html/parser)** Fix end span of closed tags (#4860) ([67b5e3d](https://github.com/swc-project/swc/commit/67b5e3d5b3cb6591efd42ae3a06c9528e2f6954a))
 
+
+- **(html/parser)** Fix span (#4868) ([0d5d7c4](https://github.com/swc-project/swc/commit/0d5d7c4d5e21d5faee64847ed027a791ed3db89d))
+
 ### Features
 
 
