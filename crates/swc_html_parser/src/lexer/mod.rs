@@ -4019,9 +4019,7 @@ where
                 while let Some(c) = &self.consume_next_char() {
                     self.temporary_buffer.push(*c);
 
-                    let found_entity = HTML_ENTITIES.get(&self.temporary_buffer);
-
-                    if let Some(found_entity) = found_entity {
+                    if let Some(found_entity) = HTML_ENTITIES.get(&self.temporary_buffer) {
                         entity = Some(found_entity);
                         entity_cur_pos = Some(self.input.cur_pos());
                         entity_temporary_buffer = Some(self.temporary_buffer.clone());
