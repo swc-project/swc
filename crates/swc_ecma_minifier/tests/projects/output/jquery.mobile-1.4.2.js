@@ -3373,7 +3373,7 @@
                 this._super(event), this._handleButtonVclickKeydown(event);
             },
             _handleButtonVclickKeydown: function(event) {
-                this.options.disabled || this.isOpen || ("vclick" === event.type || event.keyCode && (event.keyCode === $.mobile.keyCode.ENTER || event.keyCode === $.mobile.keyCode.SPACE)) && (this._decideFormat(), "overlay" === this.menuType ? this.button.attr("href", "#" + this.popupId).attr("data-" + ($.mobile.ns || "") + "rel", "popup") : this.button.attr("href", "#" + this.dialogId).attr("data-" + ($.mobile.ns || "") + "rel", "dialog"), this.isOpen = !0);
+                this.options.disabled || this.isOpen || "vclick" !== event.type && (!event.keyCode || event.keyCode !== $.mobile.keyCode.ENTER && event.keyCode !== $.mobile.keyCode.SPACE) || (this._decideFormat(), "overlay" === this.menuType ? this.button.attr("href", "#" + this.popupId).attr("data-" + ($.mobile.ns || "") + "rel", "popup") : this.button.attr("href", "#" + this.dialogId).attr("data-" + ($.mobile.ns || "") + "rel", "dialog"), this.isOpen = !0);
             },
             _handleListFocus: function(e) {
                 var params = "focusin" === e.type ? {

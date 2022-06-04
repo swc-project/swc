@@ -8896,7 +8896,7 @@
                     this.addSession = function(session) {
                         this.$session = session;
                     }, this.add = function(delta, allowMerge, session) {
-                        this.$fromUndo || delta != this.$lastDelta && (this.$keepRedoStack || (this.$redoStack.length = 0), !1 !== allowMerge && this.lastDeltas || (this.lastDeltas = [], this.$undoStack.push(this.lastDeltas), delta.id = this.$rev = ++this.$maxRev), ("remove" == delta.action || "insert" == delta.action) && (this.$lastDelta = delta), this.lastDeltas.push(delta));
+                        this.$fromUndo || delta == this.$lastDelta || (this.$keepRedoStack || (this.$redoStack.length = 0), !1 !== allowMerge && this.lastDeltas || (this.lastDeltas = [], this.$undoStack.push(this.lastDeltas), delta.id = this.$rev = ++this.$maxRev), ("remove" == delta.action || "insert" == delta.action) && (this.$lastDelta = delta), this.lastDeltas.push(delta));
                     }, this.addSelection = function(selection, rev) {
                         this.selections.push({
                             value: selection,

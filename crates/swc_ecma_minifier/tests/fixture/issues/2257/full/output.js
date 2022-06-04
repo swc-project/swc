@@ -932,7 +932,7 @@
                             return loadedChunks.some(function(_ref2) {
                                 return _ref2[0].indexOf(chunk) > -1;
                             });
-                        }) && (resolved || (resolved = !0, resolve()));
+                        }) && !resolved && (resolved = !0, resolve());
                     }
                     loadedChunks.push = function() {
                         originalPush.apply(void 0, arguments), checkReadyState();
@@ -2465,9 +2465,9 @@
             module.exports = function(headers) {
                 var key, val, i, parsed = {};
                 return headers && utils.forEach(headers.split("\n"), function(line) {
-                    i = line.indexOf(":"), key = utils.trim(line.substr(0, i)).toLowerCase(), val = utils.trim(line.substr(i + 1)), key && (parsed[key] && ignoreDuplicateOf.indexOf(key) >= 0 || ("set-cookie" === key ? parsed[key] = (parsed[key] ? parsed[key] : []).concat([
+                    i = line.indexOf(":"), key = utils.trim(line.substr(0, i)).toLowerCase(), val = utils.trim(line.substr(i + 1)), key && !(parsed[key] && ignoreDuplicateOf.indexOf(key) >= 0) && ("set-cookie" === key ? parsed[key] = (parsed[key] ? parsed[key] : []).concat([
                         val
-                    ]) : parsed[key] = parsed[key] ? parsed[key] + ", " + val : val));
+                    ]) : parsed[key] = parsed[key] ? parsed[key] + ", " + val : val);
                 }), parsed;
             };
         },
