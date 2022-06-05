@@ -1,0 +1,52 @@
+
+  x Document
+   ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat/6.fragment_div/input.html:1:1]
+ 1 | ,-> <body>
+ 2 | `-> <div>
+   `----
+
+  x Child
+
+  x Element
+
+  x Child
+
+  x Element
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat/6.fragment_div/input.html:1:1]
+ 1 | ,-> <body>
+ 2 | `-> <div>
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat/6.fragment_div/input.html:1:1]
+ 1 | ,-> <body>
+ 2 | `-> <div>
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat/6.fragment_div/input.html:1:1]
+ 1 | <body>
+   :       ^
+ 2 | <div>
+   `----
+
+  x Text
+   ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat/6.fragment_div/input.html:1:1]
+ 1 | <body>
+   :       ^
+ 2 | <div>
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat/6.fragment_div/input.html:2:1]
+ 2 | <div>
+   : ^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat/6.fragment_div/input.html:2:1]
+ 2 | <div>
+   : ^^^^^
+   `----

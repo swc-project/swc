@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.2.197] - 2022-06-05
 
 ### Bug Fixes
 
@@ -9,6 +9,9 @@
 
 
 - **(es/helpers)** Update `@swc/core` of `@swc/helpers` (#4861) ([a4bffcf](https://github.com/swc-project/swc/commit/a4bffcf186f4ce265483ddf3497f7bfd283b1f1b))
+
+
+- **(es/minifier)** Don't drop `typeof` (#4883) ([06420d9](https://github.com/swc-project/swc/commit/06420d99bb9e63ed6bb39a8f4f006a66665570d3))
 
 
 - **(html/parser)** Fix span of lexer errors (#4846) ([f830726](https://github.com/swc-project/swc/commit/f83072602725e0357a54bd6a5a0655c9430c7f95))
@@ -23,7 +26,16 @@
 
 
 
+- **(es/codegen)** Support other source map implementations (#4879) ([6bc33cb](https://github.com/swc-project/swc/commit/6bc33cb042ee3b95010735f34ec3d30d52fb7f40))
+
+
+- **(es/minifier)** Remove extra parens in `BinExpr` (#4878) ([83ae6a1](https://github.com/swc-project/swc/commit/83ae6a1f1f8a293d88557767790ed5d662e84bc3))
+
+
 - **(html/minifier)** Improve compression of attributes (#4849) ([c5df1a3](https://github.com/swc-project/swc/commit/c5df1a3a54e1445163efb38b4da339ccaed699d0))
+
+
+- **(html/minifier)** Remove spaces between nodes (#4880) ([6e0f5f1](https://github.com/swc-project/swc/commit/6e0f5f1c4814b49f208a0170797bc8804df10f18))
 
 
 - **(wasm)** Add json error (#4853) ([fd3501b](https://github.com/swc-project/swc/commit/fd3501bf87f4e711e72e9e8fd12f64f4cfa08157))
@@ -39,6 +51,9 @@
 
 
 - **(html/parser)** Refactor tests (#4865) ([762c72d](https://github.com/swc-project/swc/commit/762c72d1c92e7c6786f69769aac5c1093da6b575))
+
+
+- **(html/parser)** Test html5lib spans (#4875) ([ad9508a](https://github.com/swc-project/swc/commit/ad9508a79641c72a15ae58a0f66dd6684348644f))
 
 ## [1.2.196] - 2022-05-31
 

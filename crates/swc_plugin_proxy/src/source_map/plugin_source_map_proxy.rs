@@ -1,6 +1,13 @@
 #![allow(unused_variables)]
 #[cfg(feature = "plugin-mode")]
-use swc_common::{source_map::FileLinesResult, BytePos, FileName, Loc, SourceMapper, Span};
+use swc_common::{
+    source_map::{
+        DistinctSources, FileLinesResult, MalformedSourceMapPositions, Pos, SpanSnippetError,
+    },
+    BytePos, FileName, Loc, SourceFileAndBytePos, SourceMapper, Span,
+};
+#[cfg(feature = "plugin-mode")]
+use swc_ecma_ast::SourceMapperExt;
 
 #[cfg(feature = "plugin-mode")]
 #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
@@ -37,11 +44,116 @@ extern "C" {
         span_ctxt: u32,
         allocated_ret_ptr: i32,
     ) -> i32;
+    fn __lookup_byte_offset_proxy(byte_pos: u32, allocated_ret_ptr: i32) -> i32;
 }
 
 #[cfg(feature = "plugin-mode")]
 #[derive(Debug, Copy, Clone)]
 pub struct PluginSourceMapProxy;
+
+#[cfg(feature = "plugin-mode")]
+impl PluginSourceMapProxy {
+    /*
+    fn sss<F, Ret>(&self, sp: Span, extract_source: F) -> Result<Ret, SpanSnippetError>
+    where
+        F: FnOnce(&str, usize, usize) -> Ret,
+    {
+        if sp.lo() > sp.hi() {
+            return Err(SpanSnippetError::IllFormedSpan(sp));
+        }
+        if sp.lo.is_dummy() || sp.hi.is_dummy() {
+            return Err(SpanSnippetError::DummyBytePos);
+        }
+
+        let local_begin = self.lookup_byte_offset(sp.lo());
+        let local_end = self.lookup_byte_offset(sp.hi());
+
+        if local_begin.sf.start_pos != local_end.sf.start_pos {
+            Err(SpanSnippetError::DistinctSources(DistinctSources {
+                begin: (local_begin.sf.name.clone(), local_begin.sf.start_pos),
+                end: (local_end.sf.name.clone(), local_end.sf.start_pos),
+            }))
+        } else {
+            let pos: BytePos = BytePos(0);
+            let start_index = pos.to_usize();
+            let end_index = local_end.pos.to_usize();
+            let source_len = (local_begin.sf.end_pos - local_begin.sf.start_pos).to_usize();
+
+            if start_index > end_index || end_index > source_len {
+                return Err(SpanSnippetError::MalformedForSourcemap(
+                    MalformedSourceMapPositions {
+                        name: local_begin.sf.name.clone(),
+                        source_len,
+                        begin_pos: local_begin.pos,
+                        end_pos: local_end.pos,
+                    },
+                ));
+            }
+
+            let src = &local_begin.sf.src;
+            Ok(extract_source(src, start_index, end_index))
+        }
+    }
+     */
+
+    pub fn span_to_source<F, Ret>(
+        &self,
+        sp: Span,
+        extract_source: F,
+    ) -> Result<Ret, SpanSnippetError>
+    where
+        F: FnOnce(&str, usize, usize) -> Ret,
+    {
+        #[cfg(target_arch = "wasm32")]
+        {
+            if sp.lo() > sp.hi() {
+                return Err(SpanSnippetError::IllFormedSpan(sp));
+            }
+            if sp.lo.is_dummy() || sp.hi.is_dummy() {
+                return Err(SpanSnippetError::DummyBytePos);
+            }
+
+            let local_begin: SourceFileAndBytePos =
+                read_returned_result_from_host_fallible(|serialized_ptr| unsafe {
+                    __lookup_byte_offset_proxy(sp.lo().0, serialized_ptr)
+                })
+                .expect("Should return begin offset");
+            let local_end: SourceFileAndBytePos =
+                read_returned_result_from_host_fallible(|serialized_ptr| unsafe {
+                    __lookup_byte_offset_proxy(sp.hi().0, serialized_ptr)
+                })
+                .expect("Should return end offset");
+
+            if local_begin.sf.start_pos != local_end.sf.start_pos {
+                Err(SpanSnippetError::DistinctSources(DistinctSources {
+                    begin: (local_begin.sf.name.clone(), local_begin.sf.start_pos),
+                    end: (local_end.sf.name.clone(), local_end.sf.start_pos),
+                }))
+            } else {
+                let start_index = local_begin.pos.to_usize();
+                let end_index = local_end.pos.to_usize();
+                let source_len = (local_begin.sf.end_pos - local_begin.sf.start_pos).to_usize();
+
+                if start_index > end_index || end_index > source_len {
+                    return Err(SpanSnippetError::MalformedForSourcemap(
+                        MalformedSourceMapPositions {
+                            name: local_begin.sf.name.clone(),
+                            source_len,
+                            begin_pos: local_begin.pos,
+                            end_pos: local_end.pos,
+                        },
+                    ));
+                }
+
+                let src = &local_begin.sf.src;
+                return Ok(extract_source(src, start_index, end_index));
+            }
+        }
+
+        #[cfg(not(target_arch = "wasm32"))]
+        unimplemented!("Sourcemap proxy cannot be called in this context")
+    }
+}
 
 /// Subset of SourceMap interface supported in plugin.
 /// Unlike `Comments`, this does not fully implement `SourceMap`.
@@ -87,6 +199,16 @@ impl SourceMapper for PluginSourceMapProxy {
             __span_to_filename_proxy(sp.lo.0, sp.hi.0, sp.ctxt.as_u32(), serialized_ptr)
         })
         .expect("Host should return Filename");
+
+        #[cfg(not(target_arch = "wasm32"))]
+        unimplemented!("Sourcemap proxy cannot be called in this context")
+    }
+
+    fn span_to_snippet(&self, sp: Span) -> Result<String, SpanSnippetError> {
+        #[cfg(target_arch = "wasm32")]
+        return self.span_to_source(sp, |src, start_index, end_index| {
+            src[start_index..end_index].to_string()
+        });
 
         #[cfg(not(target_arch = "wasm32"))]
         unimplemented!("Sourcemap proxy cannot be called in this context")
@@ -139,5 +261,12 @@ impl SourceMapper for PluginSourceMapProxy {
 
         #[cfg(not(target_arch = "wasm32"))]
         unimplemented!("Sourcemap proxy cannot be called in this context")
+    }
+}
+
+#[cfg(feature = "plugin-mode")]
+impl SourceMapperExt for PluginSourceMapProxy {
+    fn get_code_map(&self) -> &dyn SourceMapper {
+        self
     }
 }

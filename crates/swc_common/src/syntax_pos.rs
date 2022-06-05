@@ -1139,6 +1139,11 @@ pub struct SourceFileAndLine {
     pub sf: Lrc<SourceFile>,
     pub line: usize,
 }
+
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 #[derive(Debug)]
 pub struct SourceFileAndBytePos {
     pub sf: Lrc<SourceFile>,

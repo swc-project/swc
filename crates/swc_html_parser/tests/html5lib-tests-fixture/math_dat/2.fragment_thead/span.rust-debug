@@ -1,0 +1,50 @@
+
+  x Document
+   ,-[$DIR/tests/html5lib-tests-fixture/math_dat/2.fragment_thead/input.html:1:1]
+ 1 | <math><thead><mo><tbody>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+
+  x Element
+
+  x Child
+
+  x Element
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/math_dat/2.fragment_thead/input.html:1:1]
+ 1 | <math><thead><mo><tbody>
+   : ^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/math_dat/2.fragment_thead/input.html:1:1]
+ 1 | <math><thead><mo><tbody>
+   : ^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/math_dat/2.fragment_thead/input.html:1:1]
+ 1 | <math><thead><mo><tbody>
+   :       ^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/math_dat/2.fragment_thead/input.html:1:1]
+ 1 | <math><thead><mo><tbody>
+   :       ^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/math_dat/2.fragment_thead/input.html:1:1]
+ 1 | <math><thead><mo><tbody>
+   :              ^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/math_dat/2.fragment_thead/input.html:1:1]
+ 1 | <math><thead><mo><tbody>
+   :              ^^^^
+   `----

@@ -1507,7 +1507,9 @@ where
 
         self.compress_typeof_undefined(n);
 
-        self.optimize_bin_operator(n);
+        self.optimize_bin_equal(n);
+
+        self.remove_bin_paren(n);
 
         self.optimize_cmp_with_null_or_undefined(n);
 

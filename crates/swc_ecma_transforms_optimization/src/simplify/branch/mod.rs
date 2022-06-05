@@ -1516,12 +1516,9 @@ fn ignore_result(e: Expr, drop_str_lit: bool, ctx: &ExprCtx) -> Option<Expr> {
                 Some(Expr::Unary(UnaryExpr { span, op, arg }))
             }
 
-            op!("void")
-            | op!("typeof")
-            | op!(unary, "+")
-            | op!(unary, "-")
-            | op!("!")
-            | op!("~") => ignore_result(*arg, true, ctx),
+            op!("void") | op!(unary, "+") | op!(unary, "-") | op!("!") | op!("~") => {
+                ignore_result(*arg, true, ctx)
+            }
             _ => Some(Expr::Unary(UnaryExpr { span, op, arg })),
         },
 

@@ -1,0 +1,26 @@
+
+  x Document
+   ,-[$DIR/tests/html5lib-tests-fixture/entities01_dat/10/input.html:1:1]
+ 1 | FOO&&&&gt;BAR
+   : ^^^^^^^^^^^^^
+   `----
+
+  x Child
+
+  x Element
+
+  x Child
+
+  x Element
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/entities01_dat/10/input.html:1:1]
+ 1 | FOO&&&&gt;BAR
+   : ^^^^^^^^^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/html5lib-tests-fixture/entities01_dat/10/input.html:1:1]
+ 1 | FOO&&&&gt;BAR
+   : ^^^^^^^^^^^^^
+   `----

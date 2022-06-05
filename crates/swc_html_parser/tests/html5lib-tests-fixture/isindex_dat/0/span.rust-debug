@@ -1,0 +1,22 @@
+
+  x Document
+   ,-[$DIR/tests/html5lib-tests-fixture/isindex_dat/0/input.html:1:1]
+ 1 | <isindex>
+   : ^^^^^^^^^
+   `----
+
+  x Child
+
+  x Element
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/isindex_dat/0/input.html:1:1]
+ 1 | <isindex>
+   : ^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/isindex_dat/0/input.html:1:1]
+ 1 | <isindex>
+   : ^^^^^^^^^
+   `----
