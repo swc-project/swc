@@ -47,6 +47,7 @@ fn minify_fixtures(input: PathBuf) {
                 CodegenConfig {
                     scripting_enabled: false,
                     minify: true,
+                    ..Default::default()
                 },
             );
 
@@ -99,6 +100,7 @@ fn minify_recovery(input: PathBuf) {
                 CodegenConfig {
                     scripting_enabled: false,
                     minify: true,
+                    ..Default::default()
                 },
             );
 
