@@ -117,7 +117,7 @@ where
             context_element: None,
             insertion_mode: Default::default(),
             original_insertion_mode: Default::default(),
-            template_insertion_mode_stack: vec![],
+            template_insertion_mode_stack: Vec::with_capacity(16),
             document_mode: DocumentMode::NoQuirks,
             document: None,
             html_additional_attributes: vec![],
@@ -126,7 +126,7 @@ where
             form_element_pointer: None,
             open_elements_stack: OpenElementsStack::new(),
             active_formatting_elements: ActiveFormattingElementStack::new(),
-            pending_character_tokens: vec![],
+            pending_character_tokens: Vec::with_capacity(16),
             frameset_ok: true,
             foster_parenting_enabled: false,
             errors: Default::default(),
@@ -1467,7 +1467,7 @@ where
                                     value: attribute.value.clone(),
                                 })
                                 .collect(),
-                            children: vec![],
+                            children: Vec::with_capacity(2),
                             content: None,
                         }));
 
@@ -4322,7 +4322,7 @@ where
                             _ => false,
                         } =>
                     {
-                        self.pending_character_tokens = vec![];
+                        self.pending_character_tokens.clear();
                         self.original_insertion_mode = self.insertion_mode.clone();
                         self.insertion_mode = InsertionMode::InTableText;
                         self.process_token(token_and_info, None)?;
@@ -6840,7 +6840,7 @@ where
                     tag_name,
                     namespace: namespace.unwrap(),
                     attributes,
-                    children: vec![],
+                    children: Vec::with_capacity(16),
                     content: None,
                 }
             }
@@ -7534,7 +7534,7 @@ where
             }
         };
 
-        let mut additional_attributes = vec![];
+        let mut additional_attributes = Vec::with_capacity(token_attributes.len());
 
         for token_attribute in &token_attributes {
             let mut found = false;
