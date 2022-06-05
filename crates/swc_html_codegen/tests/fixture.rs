@@ -254,10 +254,12 @@ fn verify_document_fragment(
         Some(writer_config) => writer_config,
         _ => BasicHtmlWriterConfig::default(),
     };
-    let codegen_config = match codegen_config {
+    let mut codegen_config = match codegen_config {
         Some(codegen_config) => codegen_config,
         _ => CodegenConfig::default(),
     };
+
+    codegen_config.context_element = Some(context_element.clone());
 
     testing::run_test2(false, |cm, handler| {
         let fm = cm.load_file(input).unwrap();
@@ -330,6 +332,7 @@ fn test_document(input: PathBuf) {
         Some(CodegenConfig {
             scripting_enabled: false,
             minify: false,
+            ..Default::default()
         }),
     );
     print_document(
@@ -339,44 +342,42 @@ fn test_document(input: PathBuf) {
         Some(CodegenConfig {
             scripting_enabled: false,
             minify: true,
+            ..Default::default()
         }),
     );
 }
 
 #[testing::fixture("tests/document_fragment/**/input.html")]
 fn test_document_fragment(input: PathBuf) {
+    let context_element = Element {
+        span: Default::default(),
+        tag_name: "template".into(),
+        namespace: Namespace::HTML,
+        attributes: vec![],
+        children: vec![],
+        content: None,
+    };
+
     print_document_fragment(
         &input,
-        Element {
-            span: Default::default(),
-            tag_name: "template".into(),
-            namespace: Namespace::HTML,
-            attributes: vec![],
-            children: vec![],
-            content: None,
-        },
+        context_element.clone(),
         None,
         None,
         Some(CodegenConfig {
             scripting_enabled: false,
             minify: false,
+            ..Default::default()
         }),
     );
     print_document_fragment(
         &input,
-        Element {
-            span: Default::default(),
-            tag_name: "template".into(),
-            namespace: Namespace::HTML,
-            attributes: vec![],
-            children: vec![],
-            content: None,
-        },
+        context_element,
         None,
         None,
         Some(CodegenConfig {
             scripting_enabled: false,
             minify: true,
+            ..Default::default()
         }),
     );
 }
@@ -405,6 +406,7 @@ fn parser_verify(input: PathBuf) {
         Some(CodegenConfig {
             scripting_enabled: false,
             minify: true,
+            ..Default::default()
         }),
         false,
     );
@@ -429,12 +431,12 @@ fn parser_recovery_verify(input: PathBuf) {
         Some(CodegenConfig {
             scripting_enabled: false,
             minify: true,
+            ..Default::default()
         }),
         true,
     );
 }
 
-// TODO context_element implement
 // Tag omission only works for valid HTML documents (i.e. without errors)
 static IGNORE_TAG_OMISSION: &[&str] = &[
     "adoption01_dat/5/input.html",
@@ -455,8 +457,6 @@ static IGNORE_TAG_OMISSION: &[&str] = &[
 #[testing::fixture(
     "../swc_html_parser/tests/html5lib-tests-fixture/**/*.html",
     exclude(
-        "tests4_dat/3.fragment_style/input.html",
-        "tests4_dat/4.fragment_plaintext/input.html",
         "tests1_dat/30/input.html",
         "tests1_dat/77/input.html",
         "tests1_dat/90/input.html",
@@ -510,10 +510,12 @@ fn html5lib_tests_verify(input: PathBuf) {
     let codegen_config = CodegenConfig {
         minify: false,
         scripting_enabled,
+        ..Default::default()
     };
     let minified_codegen_config = CodegenConfig {
         minify: true,
         scripting_enabled,
+        ..Default::default()
     };
 
     if parent.contains("fragment") {

@@ -18,10 +18,18 @@ mod emit;
 mod list;
 pub mod writer;
 
-#[derive(Debug, Clone, Copy, Default)]
+#[derive(Debug, Clone, Default)]
 pub struct CodegenConfig {
     pub minify: bool,
     pub scripting_enabled: bool,
+    /// Should be used only for `DocumentFragment` code generation
+    pub context_element: Option<Element>,
+}
+
+enum TagOmissionParent<'a> {
+    Document(&'a Document),
+    DocumentFragment(&'a DocumentFragment),
+    Element(&'a Element),
 }
 
 #[derive(Debug)]
@@ -52,23 +60,7 @@ where
     #[emitter]
     fn emit_document(&mut self, n: &Document) -> Result {
         if self.config.minify {
-            for (idx, node) in n.children.iter().enumerate() {
-                match node {
-                    Child::Element(element) => {
-                        let prev = if idx > 0 {
-                            n.children.get(idx - 1)
-                        } else {
-                            None
-                        };
-                        let next = n.children.get(idx + 1);
-
-                        self.basic_emit_element(element, None, prev, next)?;
-                    }
-                    _ => {
-                        emit!(self, node)
-                    }
-                }
-            }
+            self.emit_list_for_tag_omission(TagOmissionParent::Document(n))?;
         } else {
             self.emit_list(&n.children, ListFormat::NotDelimited)?;
         }
@@ -76,26 +68,18 @@ where
 
     #[emitter]
     fn emit_document_fragment(&mut self, n: &DocumentFragment) -> Result {
-        if self.config.minify {
-            for (idx, node) in n.children.iter().enumerate() {
-                match node {
-                    Child::Element(element) => {
-                        let prev = if idx > 0 {
-                            n.children.get(idx - 1)
-                        } else {
-                            None
-                        };
-                        let next = n.children.get(idx + 1);
-
-                        self.basic_emit_element(element, None, prev, next)?;
-                    }
-                    _ => {
-                        emit!(self, node)
-                    }
-                }
-            }
+        let ctx = if let Some(context_element) = &self.config.context_element {
+            self.create_context_for_element(context_element)
         } else {
-            self.emit_list(&n.children, ListFormat::NotDelimited)?;
+            Default::default()
+        };
+
+        if self.config.minify {
+            self.with_ctx(ctx)
+                .emit_list_for_tag_omission(TagOmissionParent::DocumentFragment(n))?;
+        } else {
+            self.with_ctx(ctx)
+                .emit_list(&n.children, ListFormat::NotDelimited)?;
         }
     }
 
@@ -347,24 +331,11 @@ where
         if let Some(content) = &n.content {
             emit!(self, content);
         } else if !n.children.is_empty() {
-            let skip_escape_text = match &*n.tag_name {
-                "style" | "script" | "xmp" | "iframe" | "noembed" | "noframes" => true,
-                "noscript" => self.config.scripting_enabled,
-                _ if self.is_plaintext => true,
-                _ => false,
-            };
-            let need_extra_newline_in_text =
-                n.namespace == Namespace::HTML && matches!(&*n.tag_name, "textarea" | "pre");
-
-            let ctx = Ctx {
-                skip_escape_text,
-                need_extra_newline_in_text,
-                ..self.ctx
-            };
+            let ctx = self.create_context_for_element(n);
 
             if self.config.minify {
                 self.with_ctx(ctx)
-                    .emit_list_for_tag_omission(n, &n.children)?;
+                    .emit_list_for_tag_omission(TagOmissionParent::Element(n))?;
             } else {
                 self.with_ctx(ctx)
                     .emit_list(&n.children, ListFormat::NotDelimited)?;
@@ -713,9 +684,7 @@ where
 
     #[emitter]
     fn emit_text(&mut self, n: &Text) -> Result {
-        if self.ctx.skip_escape_text {
-            write_str!(self, n.span, &n.value);
-        } else {
+        if self.ctx.need_escape_text {
             let mut data = String::with_capacity(n.value.len());
 
             if self.ctx.need_extra_newline_in_text && n.value.contains('\n') {
@@ -729,6 +698,8 @@ where
             }
 
             write_str!(self, n.span, &data);
+        } else {
+            write_str!(self, n.span, &n.value);
         }
     }
 
@@ -741,6 +712,23 @@ where
         comment.push_str("-->");
 
         write_str!(self, n.span, &comment);
+    }
+
+    fn create_context_for_element(&self, n: &Element) -> Ctx {
+        let need_escape_text = match &*n.tag_name {
+            "style" | "script" | "xmp" | "iframe" | "noembed" | "noframes" | "plaintext" => false,
+            "noscript" => !self.config.scripting_enabled,
+            _ if self.is_plaintext => false,
+            _ => true,
+        };
+        let need_extra_newline_in_text =
+            n.namespace == Namespace::HTML && matches!(&*n.tag_name, "textarea" | "pre");
+
+        Ctx {
+            need_escape_text,
+            need_extra_newline_in_text,
+            ..self.ctx
+        }
     }
 
     #[emitter]
@@ -1002,6 +990,34 @@ where
         }
     }
 
+    fn emit_list_for_tag_omission(&mut self, parent: TagOmissionParent) -> Result {
+        let nodes = match &parent {
+            TagOmissionParent::Document(document) => &document.children,
+            TagOmissionParent::DocumentFragment(document_fragment) => &document_fragment.children,
+            TagOmissionParent::Element(element) => &element.children,
+        };
+        let parent = match parent {
+            TagOmissionParent::Element(element) => Some(element),
+            _ => None,
+        };
+
+        for (idx, node) in nodes.iter().enumerate() {
+            match node {
+                Child::Element(element) => {
+                    let prev = if idx > 0 { nodes.get(idx - 1) } else { None };
+                    let next = nodes.get(idx + 1);
+
+                    self.basic_emit_element(element, parent, prev, next)?;
+                }
+                _ => {
+                    emit!(self, node)
+                }
+            }
+        }
+
+        Ok(())
+    }
+
     fn emit_list<N>(&mut self, nodes: &[N], format: ListFormat) -> Result
     where
         Self: Emit<N>,
@@ -1017,24 +1033,6 @@ where
             }
 
             emit!(self, node)
-        }
-
-        Ok(())
-    }
-
-    fn emit_list_for_tag_omission(&mut self, parent: &Element, nodes: &[Child]) -> Result {
-        for (idx, node) in nodes.iter().enumerate() {
-            match node {
-                Child::Element(element) => {
-                    let prev = if idx > 0 { nodes.get(idx - 1) } else { None };
-                    let next = nodes.get(idx + 1);
-
-                    self.basic_emit_element(element, Some(parent), prev, next)?;
-                }
-                _ => {
-                    emit!(self, node)
-                }
-            }
         }
 
         Ok(())
