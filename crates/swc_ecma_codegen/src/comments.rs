@@ -42,9 +42,10 @@ macro_rules! write_comments {
     }};
 }
 
-impl<'a, W> Emitter<'a, W>
+impl<'a, W, S: SourceMapper> Emitter<'a, W, S>
 where
     W: WriteJs,
+    S: SourceMapperExt,
 {
     pub(super) fn emit_trailing_comments_of_pos(
         &mut self,

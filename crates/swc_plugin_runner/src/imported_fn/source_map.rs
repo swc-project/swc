@@ -134,6 +134,33 @@ pub fn span_to_lines_proxy(
     }
 }
 
+pub fn lookup_byte_offset_proxy(
+    env: &SourceMapHostEnvironment,
+    byte_pos: u32,
+    allocated_ret_ptr: i32,
+) -> i32 {
+    if let Some(memory) = env.memory_ref() {
+        let byte_pos = BytePos(byte_pos);
+        let ret = (env.source_map.lock()).lookup_byte_offset(byte_pos);
+
+        let serialized_loc_bytes = Serialized::serialize(&ret).expect("Should be serializable");
+
+        if let Some(alloc_guest_memory) = env.alloc_guest_memory_ref() {
+            allocate_return_values_into_guest(
+                memory,
+                alloc_guest_memory,
+                allocated_ret_ptr,
+                &serialized_loc_bytes,
+            );
+            1
+        } else {
+            0
+        }
+    } else {
+        0
+    }
+}
+
 pub fn span_to_string_proxy(
     env: &SourceMapHostEnvironment,
     span_lo: u32,
