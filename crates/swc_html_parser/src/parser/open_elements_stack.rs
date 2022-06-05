@@ -96,7 +96,7 @@ pub struct OpenElementsStack {
 impl OpenElementsStack {
     pub fn new() -> Self {
         OpenElementsStack {
-            items: vec![],
+            items: Vec::with_capacity(16),
             template_element_count: 0,
         }
     }
