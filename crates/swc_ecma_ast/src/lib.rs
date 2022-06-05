@@ -7,6 +7,7 @@
 #![deny(clippy::all)]
 #![allow(clippy::enum_variant_names)]
 #![allow(clippy::clone_on_copy)]
+#![recursion_limit = "1024"]
 
 // #![deny(variant_size_differences)]
 
@@ -34,6 +35,7 @@ pub use self::{
         JSXFragment, JSXMemberExpr, JSXNamespacedName, JSXObject, JSXOpeningElement,
         JSXOpeningFragment, JSXSpreadChild, JSXText,
     },
+    list::ListFormat,
     lit::{BigInt, Bool, Lit, Null, Number, Regex, Str},
     module::{Module, ModuleItem, Program, Script},
     module_decl::{
@@ -50,6 +52,7 @@ pub use self::{
         AssignProp, ComputedPropName, GetterProp, KeyValueProp, MethodProp, Prop, PropName,
         SetterProp,
     },
+    source_map::{SourceMapperExt, SpanExt},
     stmt::{
         BlockStmt, BreakStmt, CatchClause, ContinueStmt, DebuggerStmt, DoWhileStmt, EmptyStmt,
         ExprStmt, ForInStmt, ForOfStmt, ForStmt, IfStmt, LabeledStmt, ReturnStmt, Stmt, SwitchCase,
@@ -81,12 +84,14 @@ mod expr;
 mod function;
 mod ident;
 mod jsx;
+mod list;
 mod lit;
 mod module;
 mod module_decl;
 mod operators;
 mod pat;
 mod prop;
+mod source_map;
 mod stmt;
 mod typescript;
 

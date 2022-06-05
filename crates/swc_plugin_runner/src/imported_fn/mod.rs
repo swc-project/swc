@@ -73,8 +73,8 @@ use handler::*;
 use hygiene::*;
 
 use self::source_map::{
-    doctest_offset_line_proxy, lookup_char_pos_proxy, merge_spans_proxy, span_to_filename_proxy,
-    span_to_lines_proxy, span_to_string_proxy, SourceMapHostEnvironment,
+    doctest_offset_line_proxy, lookup_byte_offset_proxy, lookup_char_pos_proxy, merge_spans_proxy,
+    span_to_filename_proxy, span_to_lines_proxy, span_to_string_proxy, SourceMapHostEnvironment,
 };
 
 /// Create an ImportObject includes functions to be imported from host to the
@@ -246,6 +246,12 @@ pub(crate) fn build_import_object(
         span_to_lines_proxy,
     );
 
+    let lookup_byte_offset_fn_decl = Function::new_native_with_env(
+        wasmer_store,
+        SourceMapHostEnvironment::new(&source_map, &source_map_buffer),
+        lookup_byte_offset_proxy,
+    );
+
     imports! {
         "env" => {
             // transform
@@ -285,7 +291,8 @@ pub(crate) fn build_import_object(
             "__merge_spans_proxy" => merge_spans_fn_decl,
             "__span_to_string_proxy" => span_to_string_fn_decl,
             "__span_to_filename_proxy" => span_to_filename_fn_decl,
-            "__span_to_lines_proxy" =>span_to_lines_fn_decl
+            "__span_to_lines_proxy" => span_to_lines_fn_decl,
+            "__lookup_byte_offset_proxy" => lookup_byte_offset_fn_decl
         }
     }
 }
