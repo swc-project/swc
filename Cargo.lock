@@ -3279,7 +3279,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.109.0"
+version = "0.109.1"
 dependencies = [
  "criterion",
  "memchr",
@@ -3299,7 +3299,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen_macros"
-version = "0.7.0"
+version = "0.7.1"
 dependencies = [
  "pmutil",
  "proc-macro2",
