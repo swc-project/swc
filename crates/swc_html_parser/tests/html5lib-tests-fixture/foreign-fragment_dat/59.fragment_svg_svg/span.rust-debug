@@ -1,0 +1,22 @@
+
+  x Document
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat/59.fragment_svg_svg/input.html:1:1]
+ 1 | <p>
+   : ^^^
+   `----
+
+  x Child
+
+  x Element
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat/59.fragment_svg_svg/input.html:1:1]
+ 1 | <p>
+   : ^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat/59.fragment_svg_svg/input.html:1:1]
+ 1 | <p>
+   : ^^^
+   `----

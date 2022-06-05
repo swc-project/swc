@@ -1,0 +1,62 @@
+
+  x Document
+   ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat/49.fragment_tbody/input.html:1:1]
+ 1 | <td><table><tbody><a><tr>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+
+  x Element
+
+  x Child
+
+  x Element
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat/49.fragment_tbody/input.html:1:1]
+ 1 | <td><table><tbody><a><tr>
+   :                   ^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat/49.fragment_tbody/input.html:1:1]
+ 1 | <td><table><tbody><a><tr>
+   :                   ^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat/49.fragment_tbody/input.html:1:1]
+ 1 | <td><table><tbody><a><tr>
+   :     ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat/49.fragment_tbody/input.html:1:1]
+ 1 | <td><table><tbody><a><tr>
+   :     ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat/49.fragment_tbody/input.html:1:1]
+ 1 | <td><table><tbody><a><tr>
+   :            ^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat/49.fragment_tbody/input.html:1:1]
+ 1 | <td><table><tbody><a><tr>
+   :            ^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat/49.fragment_tbody/input.html:1:1]
+ 1 | <td><table><tbody><a><tr>
+   :                      ^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat/49.fragment_tbody/input.html:1:1]
+ 1 | <td><table><tbody><a><tr>
+   :                      ^^^^
+   `----
