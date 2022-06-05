@@ -167,6 +167,10 @@ where
         prev: Option<&Child>,
         next: Option<&Child>,
     ) -> Result {
+        if self.is_plaintext {
+            return Ok(());
+        }
+
         let has_attributes = !n.attributes.is_empty();
         let can_omit_start_tag = self.config.minify
             && !has_attributes
@@ -326,7 +330,9 @@ where
             return Ok(());
         }
 
-        self.is_plaintext = matches!(&*n.tag_name, "plaintext");
+        if !self.is_plaintext {
+            self.is_plaintext = matches!(&*n.tag_name, "plaintext");
+        }
 
         if let Some(content) = &n.content {
             emit!(self, content);

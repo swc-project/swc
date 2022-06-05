@@ -491,7 +491,6 @@ static IGNORE_TAG_OMISSION: &[&str] = &[
         "tests18_dat/8/input.html",
         "tests18_dat/9/input.html",
         "tests18_dat/12/input.html",
-        "tests18_dat/15/input.html",
         "tests18_dat/21/input.html",
         "tests19_dat/103/input.html",
         "tests20_dat/41/input.html",
