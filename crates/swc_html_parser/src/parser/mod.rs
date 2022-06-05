@@ -148,10 +148,11 @@ where
 
         self.run()?;
 
-        let original_document = &mut self.document.take().unwrap();
-        let mut children = vec![];
+        let document = &mut self.document.take().unwrap();
+        let nodes = document.children.take();
+        let mut children = Vec::with_capacity(nodes.len());
 
-        for node in original_document.children.take() {
+        for node in nodes {
             children.push(self.node_to_child(node));
         }
 
@@ -337,9 +338,10 @@ where
 
         self.run()?;
 
-        let mut children = vec![];
+        let nodes = root.children.take();
+        let mut children = Vec::with_capacity(nodes.len());
 
-        for node in root.children.take() {
+        for node in nodes {
             children.push(self.node_to_child(node));
         }
 
@@ -355,7 +357,8 @@ where
         Node::new(Data::Document(Document {
             span: Default::default(),
             mode: DocumentMode::NoQuirks,
-            children: vec![],
+            // `DocumentType` and HTML `Element`
+            children: Vec::with_capacity(2),
         }))
     }
 
@@ -366,9 +369,10 @@ where
                 Child::DocumentType(DocumentType { ..document_type })
             }
             Data::Element(element) => {
-                let mut new_children = vec![];
+                let nodes = node.children.take();
+                let mut new_children = Vec::with_capacity(nodes.len());
 
-                for node in node.children.take() {
+                for node in nodes {
                     new_children.push(self.node_to_child(node));
                 }
 
@@ -7448,7 +7452,8 @@ where
             tag_name: "html".into(),
             namespace: Namespace::HTML,
             attributes: vec![],
-            children: vec![],
+            // body and head `Element`s
+            children: Vec::with_capacity(2),
             content: None,
         }))
     }
