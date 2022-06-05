@@ -22,3 +22,4 @@ rkyv = "0.7.37"
 swc_common = { version = "0.18.0", path = "../swc_common", features = [
   "plugin-base",
 ] }
+swc_ecma_ast = {version = "0.78.0", path = "../swc_ecma_ast"}

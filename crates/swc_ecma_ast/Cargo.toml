@@ -22,6 +22,7 @@ rkyv-impl = ["rkyv", "swc_common/rkyv-impl"]
 
 [dependencies]
 arbitrary = { version = "1", optional = true, features = ["derive"] }
+bitflags = "1"
 is-macro = "0.2.0"
 num-bigint = { version = "0.4", features = ["serde"] }
 rkyv = { version = "0.7.37", optional = true }

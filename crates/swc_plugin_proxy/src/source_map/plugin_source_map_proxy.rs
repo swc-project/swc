@@ -2,11 +2,12 @@
 #[cfg(feature = "plugin-mode")]
 use swc_common::{
     source_map::{
-        DistinctSources, FileLinesResult, MalformedSourceMapPositions, Pos, SourceMapperExt,
-        SpanSnippetError,
+        DistinctSources, FileLinesResult, MalformedSourceMapPositions, Pos, SpanSnippetError,
     },
     BytePos, FileName, Loc, SourceFileAndBytePos, SourceMapper, Span,
 };
+#[cfg(feature = "plugin-mode")]
+use swc_ecma_ast::SourceMapperExt;
 
 #[cfg(feature = "plugin-mode")]
 #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]

@@ -1,4 +1,4 @@
-use swc_common::{source_map::SourceMapperExt, ListFormat, SourceMapper, Spanned};
+use swc_common::{SourceMapper, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::emitter;
 

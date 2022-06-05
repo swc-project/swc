@@ -63,7 +63,7 @@ fn (&mut self, node: Node) -> Result;
                             fn emit_with<W, S: swc_common::SourceMapper>(&self, e: &mut crate::Emitter<'_, W, S>) -> Result
                             where
                                 W: crate::text_writer::WriteJs,
-                                S: swc_common::source_map::SourceMapperExt
+                                S: swc_ecma_ast::SourceMapperExt
                             {
                                 e.mtd_name(self)
                             }

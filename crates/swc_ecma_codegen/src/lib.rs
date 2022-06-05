@@ -12,9 +12,8 @@ use once_cell::sync::Lazy;
 use swc_atoms::JsWord;
 use swc_common::{
     comments::{CommentKind, Comments},
-    source_map::{SourceMapperExt, SpanExt},
     sync::Lrc,
-    BytePos, ListFormat, SourceMapper, Span, Spanned, DUMMY_SP,
+    BytePos, SourceMapper, Span, Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::emitter;

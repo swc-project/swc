@@ -34,7 +34,6 @@
 #![deny(clippy::all)]
 #![deny(unused)]
 #![cfg_attr(docsrs, feature(doc_cfg))]
-#![recursion_limit = "1024"]
 
 use std::fmt::Debug;
 
@@ -47,7 +46,6 @@ pub use swc_visit::chain;
 pub use self::{
     eq::{EqIgnoreSpan, TypeEq},
     errors::{SourceMapper, SourceMapperDyn},
-    list::ListFormat,
     pos::{
         hygiene, BytePos, CharPos, FileName, Globals, Loc, LocWithOpt, Mark, MultiSpan, SourceFile,
         SourceFileAndBytePos, SourceFileAndLine, Span, SpanLinesError, Spanned, SyntaxContext,
@@ -64,8 +62,6 @@ pub trait AstNode: Debug + PartialEq + Clone + Spanned + Serialize {
     const TYPE: &'static str;
 }
 
-#[macro_use]
-pub mod list;
 pub mod collections;
 pub mod comments;
 mod eq;
