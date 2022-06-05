@@ -8176,7 +8176,7 @@ where
 
                 if let Some(last) = children.last() {
                     if let Data::Text(text) = &last.data {
-                        let mut new_value = String::new();
+                        let mut new_value = String::with_capacity(text.value.len() + 1);
 
                         new_value.push_str(&*text.value);
 
@@ -8209,7 +8209,7 @@ where
 
                         if let Some(previous) = children.get(i - 1) {
                             if let Data::Text(text) = &previous.data {
-                                let mut new_value = String::new();
+                                let mut new_value = String::with_capacity(text.value.len() + 1);
 
                                 new_value.push_str(&*text.value);
 
