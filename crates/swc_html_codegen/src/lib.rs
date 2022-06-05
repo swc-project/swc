@@ -662,7 +662,18 @@ where
 
     #[emitter]
     fn emit_attribute(&mut self, n: &Attribute) -> Result {
-        let mut attribute = String::new();
+        let mut attribute = String::with_capacity(
+            if let Some(prefix) = &n.prefix {
+                prefix.len() + 1
+            } else {
+                0
+            } + n.name.len()
+                + if let Some(value) = &n.value {
+                    value.len() + 1
+                } else {
+                    0
+                },
+        );
 
         if let Some(prefix) = &n.prefix {
             attribute.push_str(prefix);
