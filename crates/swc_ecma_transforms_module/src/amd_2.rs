@@ -1,24 +1,26 @@
 use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashMap, util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{is_valid_prop_ident, quote_ident, quote_str, ExprFactory, IntoIndirectCall};
+use swc_ecma_utils::{
+    is_valid_prop_ident, private_ident, quote_ident, quote_str, ExprFactory, IntoIndirectCall,
+};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub use super::util::Config;
 use crate::{
     module_decl_strip::{Export, Link, LinkItem, ModuleDeclStrip, Specifier},
     util::{
-        has_use_strict, lazy_ident_from_src, lazy_module_exports_ident, prop_function, prop_name,
-        use_strict,
+        define_es_module, has_use_strict, lazy_module_exports_ident, local_name_for_src,
+        prop_function, prop_name, use_strict,
     },
 };
 
-pub fn cjs() -> impl Fold + VisitMut {
-    as_folder(Cjs::default())
+pub fn amd() -> impl Fold + VisitMut {
+    as_folder(Amd::default())
 }
 
 #[derive(Debug, Default)]
-pub struct Cjs {
+pub struct Amd {
     config: Config,
 
     /// ```javascript
@@ -40,31 +42,86 @@ pub struct Cjs {
     /// )
     /// ```
     import_map: AHashMap<Id, (Ident, Option<JsWord>)>,
+
+    dep_list: Vec<(Ident, JsWord, Span)>,
+
+    module_exports: Option<Ident>,
 }
 
-impl VisitMut for Cjs {
+impl VisitMut for Amd {
     noop_visit_mut_type!();
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         let mut strip = ModuleDeclStrip::default();
         n.visit_mut_with(&mut strip);
 
-        let mut stmts: Vec<ModuleItem> = Vec::with_capacity(n.len() + 4);
+        let mut stmts: Vec<Stmt> = Vec::with_capacity(n.len() + 4);
 
         // "use strict";
         if self.config.strict_mode && !has_use_strict(n) {
-            stmts.push(use_strict().into());
+            stmts.push(use_strict());
         }
 
         let ModuleDeclStrip { link, export, .. } = strip;
 
         stmts.extend(self.handle_import_export(link, export).map(Into::into));
 
-        stmts.extend(n.take());
+        stmts.extend(n.take().into_iter().map(|i| match i {
+            ModuleItem::ModuleDecl(_) => {
+                unreachable!("All ModuleDecl should be removed by ModuleDeclStrip")
+            }
+            ModuleItem::Stmt(stmt) => stmt,
+        }));
 
         stmts.visit_mut_children_with(self);
 
-        *n = stmts;
+        let mut elems = vec![Some(quote_str!("require").as_arg())];
+        let mut params = vec![quote_ident!("require").into()];
+
+        if let Some(module_exports) = self.module_exports.take() {
+            elems.push(Some(quote_str!("exports").as_arg()));
+            params.push(module_exports.into())
+        }
+
+        self.dep_list
+            .take()
+            .into_iter()
+            .for_each(|(ident, src_path, src_span)| {
+                elems.push(Some(quote_str!(src_span, src_path).as_arg()));
+                params.push(ident.into());
+            });
+
+        *n = vec![quote_ident!("define")
+            .as_call(
+                DUMMY_SP,
+                vec![
+                    ArrayLit {
+                        span: DUMMY_SP,
+                        elems,
+                    }
+                    .as_arg(),
+                    FnExpr {
+                        ident: None,
+                        function: Function {
+                            params,
+                            decorators: Default::default(),
+                            span: DUMMY_SP,
+                            body: Some(BlockStmt {
+                                span: DUMMY_SP,
+                                stmts,
+                            }),
+                            is_generator: Default::default(),
+                            is_async: Default::default(),
+                            type_params: Default::default(),
+                            return_type: Default::default(),
+                        },
+                    }
+                    .as_arg(),
+                ],
+            )
+            .into_stmt()
+            .into()];
+        // *n = stmts;
     }
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
@@ -109,58 +166,53 @@ impl VisitMut for Cjs {
     }
 }
 
-impl Cjs {
+impl Amd {
     fn handle_import_export(&mut self, link: Link, export: Export) -> impl Iterator<Item = Stmt> {
         let mut stmts = Vec::with_capacity(link.len());
 
-        let mut module_export = None;
         let mut export_obj_prop_list: Vec<(JsWord, Span, Expr)> = export
             .into_iter()
             .map(|((key, span), ident)| (key, span, ident.into()))
             .collect();
 
         link.into_iter().for_each(|(src, LinkItem(src_span, set))| {
-            let mut mod_ident = None;
+            let mod_ident = private_ident!(local_name_for_src(&src));
+            self.dep_list.push((mod_ident.clone(), src, src_span));
+
             let mut should_wrap_with_to_esm = false;
             let mut should_re_export = false;
 
             set.into_iter().for_each(|s| match s {
                 Specifier::ImportNamed { imported, local } => {
-                    let binding_ident = lazy_ident_from_src(&src, &mut mod_ident);
-
-                    self.import_map
-                        .insert(local.clone(), (binding_ident, imported.or(Some(local.0))));
+                    self.import_map.insert(
+                        local.clone(),
+                        (mod_ident.clone(), imported.or(Some(local.0))),
+                    );
                 }
                 Specifier::ImportDefault(id) => {
-                    let binding_ident = lazy_ident_from_src(&src, &mut mod_ident);
-
                     if !self.config.no_interop {
                         should_wrap_with_to_esm = true;
                     }
 
                     self.import_map
-                        .insert(id, (binding_ident, Some(js_word!("default"))));
+                        .insert(id, (mod_ident.clone(), Some(js_word!("default"))));
                 }
                 Specifier::ImportStarAs(id) => {
-                    let binding_ident = lazy_ident_from_src(&src, &mut mod_ident);
-
                     if !self.config.no_interop {
                         should_wrap_with_to_esm = true;
                     }
 
-                    self.import_map.insert(id, (binding_ident, None));
+                    self.import_map.insert(id, (mod_ident.clone(), None));
                 }
                 Specifier::ExportNamed { orig, exported } => {
-                    let binding_ident = lazy_ident_from_src(&src, &mut mod_ident);
-
                     let (key, span) = exported.unwrap_or_else(|| orig.clone());
 
                     let expr = {
                         let (name, span) = orig;
                         if is_valid_prop_ident(&name) {
-                            binding_ident.make_member(Ident::new(name, span))
+                            mod_ident.clone().make_member(Ident::new(name, span))
                         } else {
-                            binding_ident.computed_member(Str {
+                            mod_ident.clone().computed_member(Str {
                                 span,
                                 value: name,
                                 raw: None,
@@ -170,13 +222,11 @@ impl Cjs {
                     export_obj_prop_list.push((key, span, expr))
                 }
                 Specifier::ExportStarAs(key, span) => {
-                    let binding_ident = lazy_ident_from_src(&src, &mut mod_ident);
-
                     if !self.config.no_interop {
                         should_wrap_with_to_esm = true;
                     }
 
-                    let expr = binding_ident.into();
+                    let expr = mod_ident.clone().into();
                     export_obj_prop_list.push((key, span, expr))
                 }
                 Specifier::ExportStar => {
@@ -184,57 +234,31 @@ impl Cjs {
                 }
             });
 
-            // require("mod");
-            // TODO: use make_require
-            let import_expr =
-                quote_ident!("require").as_call(DUMMY_SP, vec![quote_str!(src_span, src).as_arg()]);
+            if should_re_export || should_wrap_with_to_esm {
+                // __reExport(_module_exports, require("mod"));
+                let import_expr: Expr = if should_re_export {
+                    let module_export = lazy_module_exports_ident(&mut self.module_exports);
 
-            // __reExport(_module_exports, require("mod"), module.exports);
-            let import_expr = if should_re_export {
-                let module_export = lazy_module_exports_ident(&mut module_export);
-
-                // TODO: use swc helper
-                quote_ident!("__reExport").as_call(
-                    DUMMY_SP,
-                    vec![
-                        module_export.as_arg(),
-                        import_expr.as_arg(),
-                        quote_ident!("module")
-                            .make_member(quote_ident!("exports"))
-                            .as_arg(),
-                    ],
-                )
-            } else {
-                import_expr
-            };
-
-            // __toESM(require("mod"));
-            let import_expr = if should_wrap_with_to_esm {
-                // TODO: use swc helper
-                quote_ident!("__toESM").as_call(DUMMY_SP, vec![import_expr.as_arg()])
-            } else {
-                import_expr
-            };
-
-            if let Some(mod_ident) = mod_ident {
-                let var_declarator = VarDeclarator {
-                    span: DUMMY_SP,
-                    name: mod_ident.into(),
-                    init: Some(Box::new(import_expr)),
-                    definite: false,
+                    // TODO: use swc helper
+                    quote_ident!("__reExport").as_call(
+                        DUMMY_SP,
+                        vec![module_export.as_arg(), mod_ident.clone().as_arg()],
+                    )
+                } else {
+                    mod_ident.clone().into()
                 };
 
-                let var_decl = VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    declare: false,
-                    decls: vec![var_declarator],
+                // __toESM(require("mod"));
+                let import_expr = if should_wrap_with_to_esm {
+                    // TODO: use swc helper
+                    quote_ident!("__toESM")
+                        .as_call(DUMMY_SP, vec![import_expr.as_arg()])
+                        .make_assign_to(op!("="), mod_ident.as_pat_or_expr())
+                } else {
+                    import_expr
                 };
-                let stmt = Stmt::Decl(Decl::Var(var_decl));
 
-                stmts.push(stmt)
-            } else {
-                stmts.push(import_expr.into_stmt());
+                stmts.push(import_expr.into_stmt())
             }
         });
 
@@ -251,7 +275,7 @@ impl Cjs {
                 props,
             };
 
-            let module_export = lazy_module_exports_ident(&mut module_export);
+            let module_export = lazy_module_exports_ident(&mut self.module_exports);
 
             // TODO: use swc helper
             quote_ident!("__export")
@@ -259,38 +283,11 @@ impl Cjs {
                 .into_stmt()
         });
 
-        let to_cjs = module_export.clone().map(|ident| {
-            quote_ident!("__toCJS")
-                .as_call(DUMMY_SP, vec![ident.as_arg()])
-                .make_assign_to(
-                    op!("="),
-                    quote_ident!("module").make_member(quote_ident!("exports")),
-                )
-                .into_stmt()
-        });
-
-        let export_init = module_export.map(|ident| {
-            let var_declarator = VarDeclarator {
-                span: DUMMY_SP,
-                name: ident.into(),
-                init: Some(Box::new(ObjectLit::dummy().into())),
-                definite: false,
-            };
-
-            let var_decl = VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Var,
-                declare: false,
-                decls: vec![var_declarator],
-            };
-
-            Stmt::Decl(Decl::Var(var_decl))
-        });
-
-        export_init
+        self.module_exports
+            .clone()
+            .map(define_es_module)
             .into_iter()
             .chain(export_call)
-            .chain(to_cjs)
             .chain(stmts)
     }
 }

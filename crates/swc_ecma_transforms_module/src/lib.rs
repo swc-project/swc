@@ -8,6 +8,7 @@ pub use self::{amd::amd, common_js::common_js, system_js::system_js, umd::umd};
 #[macro_use]
 pub mod util;
 pub mod amd;
+pub mod amd_2;
 pub mod cjs;
 pub mod common_js;
 pub mod hoist;

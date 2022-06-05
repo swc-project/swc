@@ -16,7 +16,8 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    member_expr, private_ident, quote_ident, quote_str, undefined, DestructuringFinder, ExprFactory,
+    is_valid_prop_ident, member_expr, private_ident, quote_ident, quote_str, undefined,
+    DestructuringFinder, ExprFactory,
 };
 use swc_ecma_visit::{Fold, FoldWith, VisitWith};
 
@@ -1080,4 +1081,126 @@ macro_rules! mark_as_nested {
             f
         }
     };
+}
+
+pub(crate) fn lazy_ident_from_src(src: &JsWord, ident: &mut Option<Ident>) -> Ident {
+    ident.clone().unwrap_or_else(|| {
+        let new_ident = private_ident!(local_name_for_src(src));
+        *ident = Some(new_ident.clone());
+        new_ident
+    })
+}
+
+pub(crate) fn lazy_module_exports_ident(ident: &mut Option<Ident>) -> Ident {
+    ident.clone().unwrap_or_else(|| {
+        let new_ident = private_ident!("_exports");
+        *ident = Some(new_ident.clone());
+        new_ident
+    })
+}
+
+pub(crate) fn prop_name(key: &str, span: Span) -> IdentOrStr {
+    if is_valid_prop_ident(key) {
+        IdentOrStr::Ident(quote_ident!(span, key))
+    } else {
+        IdentOrStr::Str(quote_str!(span, key))
+    }
+}
+
+pub(crate) enum IdentOrStr {
+    Ident(Ident),
+    Str(Str),
+}
+
+impl From<IdentOrStr> for PropName {
+    fn from(val: IdentOrStr) -> Self {
+        match val {
+            IdentOrStr::Ident(i) => Self::Ident(i),
+            IdentOrStr::Str(s) => Self::Str(s),
+        }
+    }
+}
+
+impl From<IdentOrStr> for MemberProp {
+    fn from(val: IdentOrStr) -> Self {
+        match val {
+            IdentOrStr::Ident(i) => Self::Ident(i),
+            IdentOrStr::Str(s) => Self::Computed(ComputedPropName {
+                span: DUMMY_SP,
+                expr: s.into(),
+            }),
+        }
+    }
+}
+
+/// ```javascript
+/// {
+///     key: () => expr,
+/// }
+/// ```
+pub(crate) fn _prop_arrow((key, span, expr): (JsWord, Span, Expr)) -> PropOrSpread {
+    let key = prop_name(&key, span).into();
+
+    PropOrSpread::Prop(Box::new(
+        KeyValueProp {
+            key,
+            value: Box::new(expr.as_lazy_arrow().into()),
+        }
+        .into(),
+    ))
+}
+
+/// ```javascript
+/// {
+///     key() {
+///         return expr;
+///     },
+/// }
+/// ```
+pub(crate) fn _prop_method((key, span, expr): (JsWord, Span, Expr)) -> PropOrSpread {
+    let key = prop_name(&key, span).into();
+
+    let return_stmt = ReturnStmt {
+        span,
+        arg: Some(Box::new(expr)),
+    };
+
+    PropOrSpread::Prop(Box::new(
+        MethodProp {
+            key,
+            function: Function {
+                params: Default::default(),
+                decorators: Default::default(),
+                span: DUMMY_SP,
+                body: Some(BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: vec![return_stmt.into()],
+                }),
+                is_generator: false,
+                is_async: false,
+                type_params: None,
+                return_type: None,
+            },
+        }
+        .into(),
+    ))
+}
+
+/// ```javascript
+/// {
+///     key: function() {
+///         return expr;
+///     },
+/// }
+/// ```
+pub(crate) fn prop_function((key, span, expr): (JsWord, Span, Expr)) -> PropOrSpread {
+    let key = prop_name(&key, span).into();
+
+    PropOrSpread::Prop(Box::new(
+        KeyValueProp {
+            key,
+            value: Box::new(expr.as_lazy_fn().into()),
+        }
+        .into(),
+    ))
 }

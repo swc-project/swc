@@ -1,0 +1,88 @@
+use std::path::PathBuf;
+
+use swc_ecma_parser::Syntax;
+use swc_ecma_transforms_module::amd_2::amd;
+use swc_ecma_transforms_testing::{test, test_fixture};
+use swc_ecma_visit::Fold;
+
+fn syntax() -> Syntax {
+    Default::default()
+}
+
+fn tr() -> impl Fold {
+    amd()
+}
+
+test!(
+    syntax(),
+    |_| tr(),
+    strip,
+    r#"
+    import "./mod_a";
+    import a, { b, c as d, "1" as e } from "./mod_b";
+    import * as f from "./mod_c";
+
+    export function g() {}
+    export const h = 42;
+
+    export default class {}
+
+    a(c);
+    a.b(d);
+    f(e(b), a);
+
+    b(e(b));
+    b.c(f);
+
+    export { a, b as "1", e as "2" };
+    export { c as d, e, "2" as f, "3" as "4" } from "./mod_d";
+    export * as c from "./mod_e";
+    export * from "./mod_f";
+"#,
+    r#"
+define(
+    ["require", "exports", "./mod_a", "./mod_b", "./mod_c", "./mod_d", "./mod_e", "./mod_f"],
+    function(require, _exports, _modA, _modB, _modC, _modD, _modE, _modF) {
+        "use strict";
+        Object.defineProperty(_exports, "__esModule", {
+            value: true
+        });
+        __export(_exports, {
+            "1": function() { return _modB.b; },
+            "2": function() { return _modB["1"]; },
+            "4": function() { return _modD["3"]; },
+            a: function() { return _modB.default; },
+            c: function() { return _modE; },
+            d: function() { return _modD.c; },
+            default: function() { return _default; },
+            e: function() { return _modD.e; },
+            f: function() { return _modD["2"]; },
+            g: function() { return g; },
+            h: function() { return h; }
+        });
+        _modB = __toESM(_modB);
+        _modC = __toESM(_modC);
+        _modE = __toESM(_modE);
+        __reExport(_exports, _modF);
+        function g() {}
+        const h = 42;
+        class _default {
+        }
+        (0, _modB.default)(c);
+        _modB.default.b(_modB.c);
+        (0, _modC)((0, _modB["1"])(_modB.b), _modB.default);
+        (0, _modB.b)((0, _modB["1"])(_modB.b));
+        _modB.b.c(_modC);
+    }
+);
+"#
+);
+
+#[testing::fixture("tests/fixture/common/**/input.js")]
+fn fixture(input: PathBuf) {
+    let dir = input.parent().unwrap().to_path_buf();
+
+    let output = dir.join("output.amd.js");
+
+    test_fixture(Default::default(), &|_| tr(), &input, &output);
+}

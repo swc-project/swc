@@ -1,0 +1,23 @@
+"use strict";
+var _exports = {};
+__export(_exports, {
+    bar: function() {
+        return bar;
+    },
+    bar2: function() {
+        return bar;
+    },
+    default: function() {
+        return bar;
+    },
+    foo: function() {
+        return foo;
+    },
+    foo1: function() {
+        return foo;
+    }
+});
+module.exports = __toCJS(_exports);
+const foo = 1;
+let bar = 2;
+bar = 3;

@@ -1,6 +1,8 @@
+use std::path::PathBuf;
+
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_module::cjs::cjs;
-use swc_ecma_transforms_testing::test;
+use swc_ecma_transforms_testing::{test, test_fixture};
 use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
@@ -39,8 +41,8 @@ test!(
 "#,
     r#"
     "use strict";
-    var _module_exports = {};
-    __export(_module_exports, {
+    var _exports = {};
+    __export(_exports, {
         "1": function() { return _modB.b; },
         "2": function() { return _modB["1"]; },
         "4": function() { return _modD["3"]; },
@@ -53,13 +55,13 @@ test!(
         g: function() { return g; },
         h: function() { return h; }
     });
-    module.exports = __toCJS(_module_exports);
+    module.exports = __toCJS(_exports);
     require("./mod_a");
     var _modB = __toESM(require("./mod_b"));
     var _modC = __toESM(require("./mod_c"));
     var _modD = require("./mod_d");
     var _modE = __toESM(require("./mod_e"));
-    __reExport(_module_exports, require("./mod_f"), module.exports);
+    __reExport(_exports, require("./mod_f"), module.exports);
     function g() {}
     const h = 42;
     class _default {}
@@ -70,3 +72,12 @@ test!(
     _modB.b.c(_modC);
 "#
 );
+
+#[testing::fixture("tests/fixture/common/**/input.js")]
+fn fixture(input: PathBuf) {
+    let dir = input.parent().unwrap().to_path_buf();
+
+    let output = dir.join("output.cjs");
+
+    test_fixture(Default::default(), &|_| tr(), &input, &output);
+}
