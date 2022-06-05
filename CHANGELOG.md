@@ -26,6 +26,9 @@
 
 
 
+- **(es/codegen)** Support other source map implementations (#4879) ([6bc33cb](https://github.com/swc-project/swc/commit/6bc33cb042ee3b95010735f34ec3d30d52fb7f40))
+
+
 - **(es/minifier)** Remove extra parens in `BinExpr` (#4878) ([83ae6a1](https://github.com/swc-project/swc/commit/83ae6a1f1f8a293d88557767790ed5d662e84bc3))
 
 
