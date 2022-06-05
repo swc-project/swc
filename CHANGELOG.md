@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Performance
+
+
+
+- **(html/parser)** Improve performance (#4881) ([5abe847](https://github.com/swc-project/swc/commit/5abe847c2358ee9876140772f16d303c388cbbb5))
+
 ## [1.2.197] - 2022-06-05
 
 ### Bug Fixes
