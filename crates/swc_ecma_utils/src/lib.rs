@@ -534,8 +534,28 @@ pub trait ExprExt {
         matches!(*self.as_expr(), Expr::Lit(Lit::Num(..)))
     }
 
+    // TODO: remove this after a proper evaluator
     fn is_str(&self) -> bool {
-        matches!(*self.as_expr(), Expr::Lit(Lit::Str(..)))
+        match self.as_expr() {
+            Expr::Lit(Lit::Str(..)) | Expr::Tpl(_) => true,
+            Expr::Unary(UnaryExpr {
+                op: op!("typeof"), ..
+            }) => true,
+            Expr::Bin(BinExpr {
+                op: op!(bin, "+"),
+                left,
+                right,
+                ..
+            }) => left.is_str() || right.is_str(),
+            Expr::Assign(AssignExpr {
+                op: op!("=") | op!("+="),
+                right,
+                ..
+            }) => right.is_str(),
+            Expr::Seq(s) => s.exprs.last().unwrap().is_str(),
+            Expr::Cond(CondExpr { cons, alt, .. }) => cons.is_str() && alt.is_str(),
+            _ => false,
+        }
     }
 
     fn is_array_lit(&self) -> bool {

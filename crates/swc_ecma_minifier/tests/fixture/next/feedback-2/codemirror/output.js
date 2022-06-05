@@ -4147,7 +4147,7 @@
         16 == e.keyCode && (this.doc.sel.shift = !1), signalDOMEvent(this, e);
     }
     function onKeyPress(e) {
-        if (!(e.target && e.target != this.display.input.getField() || eventInWidget(this.display, e) || signalDOMEvent(this, e) || e.ctrlKey && !e.altKey || mac && e.metaKey)) {
+        if (!(e.target && e.target != this.display.input.getField() || eventInWidget(this.display, e) || signalDOMEvent(this, e)) && (!e.ctrlKey || e.altKey) && (!mac || !e.metaKey)) {
             var cm, keyCode = e.keyCode, charCode = e.charCode;
             if (presto && keyCode == lastStoppedKey) {
                 lastStoppedKey = null, e_preventDefault(e);
