@@ -8,7 +8,7 @@ var TypeScript;
         CompilerDiagnostics.analysisPass = 0, CompilerDiagnostics.Alert = Alert, CompilerDiagnostics.debugPrint = function(s) {
             debug && Alert(s);
         }, CompilerDiagnostics.assert = function(condition, s) {
-            debug && (condition || Alert(s));
+            debug && !condition && Alert(s);
         };
     }(TypeScript1.CompilerDiagnostics || (TypeScript1.CompilerDiagnostics = {})), TypeScript1.NullLogger = class {
         information() {

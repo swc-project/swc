@@ -11,6 +11,9 @@
 - **(es/helpers)** Update `@swc/core` of `@swc/helpers` (#4861) ([a4bffcf](https://github.com/swc-project/swc/commit/a4bffcf186f4ce265483ddf3497f7bfd283b1f1b))
 
 
+- **(es/minifier)** Don't drop `typeof` (#4883) ([06420d9](https://github.com/swc-project/swc/commit/06420d99bb9e63ed6bb39a8f4f006a66665570d3))
+
+
 - **(html/parser)** Fix span of lexer errors (#4846) ([f830726](https://github.com/swc-project/swc/commit/f83072602725e0357a54bd6a5a0655c9430c7f95))
 
 
@@ -21,6 +24,9 @@
 
 ### Features
 
+
+
+- **(es/minifier)** Remove extra parens in `BinExpr` (#4878) ([83ae6a1](https://github.com/swc-project/swc/commit/83ae6a1f1f8a293d88557767790ed5d662e84bc3))
 
 
 - **(html/minifier)** Improve compression of attributes (#4849) ([c5df1a3](https://github.com/swc-project/swc/commit/c5df1a3a54e1445163efb38b4da339ccaed699d0))

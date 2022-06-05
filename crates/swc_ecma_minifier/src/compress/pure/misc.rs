@@ -535,7 +535,7 @@ impl Pure<'_> {
         if self.options.side_effects {
             match e {
                 Expr::Unary(UnaryExpr {
-                    op: op!("void") | op!("typeof") | op!(unary, "+") | op!(unary, "-"),
+                    op: op!("void") | op!(unary, "+") | op!(unary, "-"),
                     arg,
                     ..
                 }) => {

@@ -207,7 +207,7 @@
                 var el = global_document__WEBPACK_IMPORTED_MODULE_1___default().createElement(tagName);
                 return Object.getOwnPropertyNames(properties).forEach(function(propName) {
                     var val = properties[propName];
-                    -1 !== propName.indexOf("aria-") || "role" === propName || "type" === propName ? (log$1.warn("Setting attributes in the second argument of createEl()\nhas been deprecated. Use the third argument instead.\n" + ("createEl(type, properties, attributes). Attempting to set " + propName + " to " + val + ".")), el.setAttribute(propName, val)) : "textContent" === propName ? textContent(el, val) : (el[propName] !== val || "tabIndex" === propName) && (el[propName] = val);
+                    -1 !== propName.indexOf("aria-") || "role" === propName || "type" === propName ? (log$1.warn("Setting attributes in the second argument of createEl()\nhas been deprecated. Use the third argument instead.\ncreateEl(type, properties, attributes). Attempting to set " + propName + " to " + val + "."), el.setAttribute(propName, val)) : "textContent" === propName ? textContent(el, val) : (el[propName] !== val || "tabIndex" === propName) && (el[propName] = val);
                 }), Object.getOwnPropertyNames(attributes).forEach(function(attrName) {
                     el.setAttribute(attrName, attributes[attrName]);
                 }), content && appendContent(el, content), el;
@@ -3477,7 +3477,7 @@
                 }, _proto.blur = function() {
                     this.menuButton_.blur();
                 }, _proto.handleKeyDown = function(event) {
-                    keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Esc") || keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Tab") ? (this.buttonPressed_ && this.unpressButton(), keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Tab") || (event.preventDefault(), this.menuButton_.focus())) : (keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Up") || keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Down")) && (this.buttonPressed_ || (event.preventDefault(), this.pressButton()));
+                    keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Esc") || keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Tab") ? (this.buttonPressed_ && this.unpressButton(), keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Tab") || (event.preventDefault(), this.menuButton_.focus())) : (keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Up") || keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Down")) && !this.buttonPressed_ && (event.preventDefault(), this.pressButton());
                 }, _proto.handleMenuKeyUp = function(event) {
                     (keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Esc") || keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Tab")) && this.removeClass("vjs-hover");
                 }, _proto.handleSubmenuKeyPress = function(event) {
@@ -5489,7 +5489,7 @@
                         var updateSourceCaches = function(src) {
                             return _this7.updateSourceCaches_(src);
                         }, playerSrc = this.currentSource().src, eventSrc = event.src;
-                        playerSrc && !/^blob:/.test(playerSrc) && /^blob:/.test(eventSrc) && (this.lastSource_ && (this.lastSource_.tech === eventSrc || this.lastSource_.player === playerSrc) || (updateSourceCaches = function() {})), updateSourceCaches(eventSrc), event.src || this.tech_.any([
+                        playerSrc && !/^blob:/.test(playerSrc) && /^blob:/.test(eventSrc) && (!this.lastSource_ || this.lastSource_.tech !== eventSrc && this.lastSource_.player !== playerSrc) && (updateSourceCaches = function() {}), updateSourceCaches(eventSrc), event.src || this.tech_.any([
                             "sourceset",
                             "loadstart"
                         ], function(e) {
@@ -5545,7 +5545,7 @@
                 }, _proto.handleTechDoubleClick_ = function(event) {
                     this.controls_ && (Array.prototype.some.call(this.$$(".vjs-control-bar, .vjs-modal-dialog"), function(el) {
                         return el.contains(event.target);
-                    }) || (void 0 === this.options_ || void 0 === this.options_.userActions || void 0 === this.options_.userActions.doubleClick || !1 !== this.options_.userActions.doubleClick) && (void 0 !== this.options_ && void 0 !== this.options_.userActions && "function" == typeof this.options_.userActions.doubleClick ? this.options_.userActions.doubleClick.call(this, event) : this.isFullscreen() ? this.exitFullscreen() : this.requestFullscreen()));
+                    }) || void 0 !== this.options_ && void 0 !== this.options_.userActions && void 0 !== this.options_.userActions.doubleClick && !1 === this.options_.userActions.doubleClick || (void 0 !== this.options_ && void 0 !== this.options_.userActions && "function" == typeof this.options_.userActions.doubleClick ? this.options_.userActions.doubleClick.call(this, event) : this.isFullscreen() ? this.exitFullscreen() : this.requestFullscreen()));
                 }, _proto.handleTechTap_ = function() {
                     this.userActive(!this.userActive());
                 }, _proto.handleTechTouchStart_ = function() {
@@ -11802,7 +11802,7 @@
                 var hasPartIndex = "number" == typeof partIndex, name = segmentInfo.segment.uri ? "segment" : "pre-segment", zeroBasedPartCount = hasPartIndex ? getKnownPartCount({
                     preloadSegment: segment
                 }) - 1 : 0;
-                return name + " [" + (seq + index) + "/" + (seq + segmentLen) + "]" + (hasPartIndex ? " part [" + partIndex + "/" + zeroBasedPartCount + "]" : "") + (" segment start/end [" + segment.start + " => " + segment.end + "]") + (hasPartIndex ? " part start/end [" + part.start + " => " + part.end + "]" : "") + (" startOfSegment [" + startOfSegment + "]") + (" duration [" + duration + "]") + (" timeline [" + timeline + "]") + (" selected by [" + selection + "]") + (" playlist [" + id + "]");
+                return name + " [" + (seq + index) + "/" + (seq + segmentLen) + "]" + (hasPartIndex ? " part [" + partIndex + "/" + zeroBasedPartCount + "]" : "") + " segment start/end [" + segment.start + " => " + segment.end + "]" + (hasPartIndex ? " part start/end [" + part.start + " => " + part.end + "]" : "") + " startOfSegment [" + startOfSegment + "] duration [" + duration + "] timeline [" + timeline + "] selected by [" + selection + "] playlist [" + id + "]";
             }, timingInfoPropertyForMedia = function(mediaType) {
                 return mediaType + "TimingInfo";
             }, timestampOffsetForSegment = function(_ref) {
@@ -11837,7 +11837,7 @@
                 }), isSegmentSlightlyTooLong = segmentTooLong({
                     segmentDuration: segmentDuration,
                     maxDuration: targetDuration
-                }), segmentTooLongMessage = "Segment with index " + segmentInfo.mediaIndex + " " + ("from playlist " + segmentInfo.playlist.id + " ") + ("has a duration of " + segmentDuration + " ") + ("when the reported duration is " + segmentInfo.duration + " ") + ("and the target duration is " + targetDuration + ". ") + "For HLS content, a duration in excess of the target duration may result in playback issues. See the HLS specification section on EXT-X-TARGETDURATION for more details: https://tools.ietf.org/html/draft-pantos-http-live-streaming-23#section-4.3.3.1";
+                }), segmentTooLongMessage = "Segment with index " + segmentInfo.mediaIndex + " from playlist " + segmentInfo.playlist.id + " has a duration of " + segmentDuration + " when the reported duration is " + segmentInfo.duration + " and the target duration is " + targetDuration + ". For HLS content, a duration in excess of the target duration may result in playback issues. See the HLS specification section on EXT-X-TARGETDURATION for more details: https://tools.ietf.org/html/draft-pantos-http-live-streaming-23#section-4.3.3.1";
                 return isSegmentWayTooLong || isSegmentSlightlyTooLong ? {
                     severity: isSegmentWayTooLong ? "warn" : "info",
                     message: segmentTooLongMessage
@@ -12271,7 +12271,7 @@
                     audioBuffered.length > 1 && this.logger_("On QUOTA_EXCEEDED_ERR, found gaps in the audio buffer: " + timeRangesToArray(audioBuffered).join(", ")), videoBuffered.length > 1 && this.logger_("On QUOTA_EXCEEDED_ERR, found gaps in the video buffer: " + timeRangesToArray(videoBuffered).join(", "));
                     var audioBufferStart = audioBuffered.length ? audioBuffered.start(0) : 0, audioBufferEnd = audioBuffered.length ? audioBuffered.end(audioBuffered.length - 1) : 0, videoBufferStart = videoBuffered.length ? videoBuffered.start(0) : 0, videoBufferEnd = videoBuffered.length ? videoBuffered.end(videoBuffered.length - 1) : 0;
                     if (audioBufferEnd - audioBufferStart <= 1 && videoBufferEnd - videoBufferStart <= 1) {
-                        this.logger_("On QUOTA_EXCEEDED_ERR, single segment too large to append to buffer, triggering an error. " + ("Appended byte length: " + bytes.byteLength + ", ") + ("audio buffer: " + timeRangesToArray(audioBuffered).join(", ") + ", ") + ("video buffer: " + timeRangesToArray(videoBuffered).join(", ") + ", ")), this.error({
+                        this.logger_("On QUOTA_EXCEEDED_ERR, single segment too large to append to buffer, triggering an error. Appended byte length: " + bytes.byteLength + ", audio buffer: " + timeRangesToArray(audioBuffered).join(", ") + ", video buffer: " + timeRangesToArray(videoBuffered).join(", ") + ", "), this.error({
                             message: "Quota exceeded error with append of a single segment of content",
                             excludeUntil: 1 / 0
                         }), this.trigger("error");
@@ -12299,7 +12299,7 @@
                             });
                             return;
                         }
-                        this.logger_("Received non QUOTA_EXCEEDED_ERR on append", error), this.error(type + " append of " + bytes.length + "b failed for segment " + ("#" + segmentInfo.mediaIndex + " in playlist " + segmentInfo.playlist.id)), this.trigger("appenderror");
+                        this.logger_("Received non QUOTA_EXCEEDED_ERR on append", error), this.error(type + " append of " + bytes.length + "b failed for segment #" + segmentInfo.mediaIndex + " in playlist " + segmentInfo.playlist.id), this.trigger("appenderror");
                     }
                 }, _proto.appendToSourceBuffer_ = function(_ref7) {
                     var segmentInfo = _ref7.segmentInfo, type = _ref7.type, initSegment = _ref7.initSegment, data = _ref7.data, bytes = _ref7.bytes;
@@ -12419,7 +12419,7 @@
                     this.mediaRequests += 1, stats && (this.mediaBytesTransferred += stats.bytesReceived, this.mediaTransferDuration += stats.roundTripTime);
                 }, _proto.saveBandwidthRelatedStats_ = function(duration, stats) {
                     if (this.pendingSegment_.byteLength = stats.bytesReceived, duration < MIN_SEGMENT_DURATION_TO_SAVE_STATS) {
-                        this.logger_("Ignoring segment's bandwidth because its duration of " + duration + (" is less than the min to record " + MIN_SEGMENT_DURATION_TO_SAVE_STATS));
+                        this.logger_("Ignoring segment's bandwidth because its duration of " + duration + " is less than the min to record " + MIN_SEGMENT_DURATION_TO_SAVE_STATS);
                         return;
                     }
                     this.bandwidth = stats.bandwidth, this.roundTrip = stats.roundTripTime;
@@ -12522,7 +12522,7 @@
                     null !== this.mediaIndex && this.trigger("bandwidthupdate"), this.trigger("progress"), this.mediaIndex = segmentInfo.mediaIndex, this.partIndex = segmentInfo.partIndex, this.isEndOfStream_(segmentInfo.mediaIndex, segmentInfo.playlist, segmentInfo.partIndex) && this.endOfStream(), this.trigger("appended"), segmentInfo.hasAppendedData_ && this.mediaAppends++, this.paused() || this.monitorBuffer_();
                 }, _proto.recordThroughput_ = function(segmentInfo) {
                     if (segmentInfo.duration < MIN_SEGMENT_DURATION_TO_SAVE_STATS) {
-                        this.logger_("Ignoring segment's throughput because its duration of " + segmentInfo.duration + (" is less than the min to record " + MIN_SEGMENT_DURATION_TO_SAVE_STATS));
+                        this.logger_("Ignoring segment's throughput because its duration of " + segmentInfo.duration + " is less than the min to record " + MIN_SEGMENT_DURATION_TO_SAVE_STATS);
                         return;
                     }
                     var rate = this.throughput.rate, segmentProcessingTime = Date.now() - segmentInfo.endOfAllRequests + 1, segmentProcessingThroughput = Math.floor(segmentInfo.byteLength / segmentProcessingTime * 8000);
@@ -12601,7 +12601,7 @@
                             try {
                                 sourceBuffer.appendBuffer(bytes);
                             } catch (e) {
-                                sourceUpdater.logger_("Error with code " + e.code + " " + (22 === e.code ? "(QUOTA_EXCEEDED_ERR) " : "") + ("when appending segment " + segmentInfo.mediaIndex + " to " + type + "Buffer")), sourceUpdater.queuePending[type] = null, onError(e);
+                                sourceUpdater.logger_("Error with code " + e.code + " " + (22 === e.code ? "(QUOTA_EXCEEDED_ERR) " : "") + "when appending segment " + segmentInfo.mediaIndex + " to " + type + "Buffer"), sourceUpdater.queuePending[type] = null, onError(e);
                             }
                         }
                     };
@@ -13206,7 +13206,7 @@
                         var newDistance = Math.abs(syncPoints[i].syncPoint[target.key] - target.value);
                         newDistance < bestDistance && (bestDistance = newDistance, bestSyncPoint = syncPoints[i].syncPoint, bestStrategy = syncPoints[i].strategy);
                     }
-                    return this.logger_("syncPoint for [" + target.key + ": " + target.value + "] chosen with strategy" + (" [" + bestStrategy + "]: [time:" + bestSyncPoint.time + ",") + (" segmentIndex:" + bestSyncPoint.segmentIndex) + ("number" == typeof bestSyncPoint.partIndex ? ",partIndex:" + bestSyncPoint.partIndex : "") + "]"), bestSyncPoint;
+                    return this.logger_("syncPoint for [" + target.key + ": " + target.value + "] chosen with strategy [" + bestStrategy + "]: [time:" + bestSyncPoint.time + ", segmentIndex:" + bestSyncPoint.segmentIndex + ("number" == typeof bestSyncPoint.partIndex ? ",partIndex:" + bestSyncPoint.partIndex : "") + "]"), bestSyncPoint;
                 }, _proto.saveExpiredSegmentInfo = function(oldPlaylist, newPlaylist) {
                     var mediaSequenceDiff = newPlaylist.mediaSequence - oldPlaylist.mediaSequence;
                     if (mediaSequenceDiff > 86400) {
@@ -13219,7 +13219,7 @@
                             newPlaylist.syncInfo = {
                                 mediaSequence: oldPlaylist.mediaSequence + i,
                                 time: lastRemovedSegment.start
-                            }, this.logger_("playlist refresh sync: [time:" + newPlaylist.syncInfo.time + "," + (" mediaSequence: " + newPlaylist.syncInfo.mediaSequence + "]")), this.trigger("syncinfoupdate");
+                            }, this.logger_("playlist refresh sync: [time:" + newPlaylist.syncInfo.time + ", mediaSequence: " + newPlaylist.syncInfo.mediaSequence + "]"), this.trigger("syncinfoupdate");
                             break;
                         }
                     }
@@ -13245,7 +13245,7 @@
                     if ("number" == typeof segmentInfo.timestampOffset) mappingObj = {
                         time: segmentInfo.startOfSegment,
                         mapping: segmentInfo.startOfSegment - timingInfo.start
-                    }, shouldSaveTimelineMapping && (this.timelines[segmentInfo.timeline] = mappingObj, this.trigger("timestampoffset"), this.logger_("time mapping for timeline " + segmentInfo.timeline + ": " + ("[time: " + mappingObj.time + "] [mapping: " + mappingObj.mapping + "]"))), start = segmentInfo.startOfSegment, end = timingInfo.end + mappingObj.mapping;
+                    }, shouldSaveTimelineMapping && (this.timelines[segmentInfo.timeline] = mappingObj, this.trigger("timestampoffset"), this.logger_("time mapping for timeline " + segmentInfo.timeline + ": [time: " + mappingObj.time + "] [mapping: " + mappingObj.mapping + "]")), start = segmentInfo.startOfSegment, end = timingInfo.end + mappingObj.mapping;
                     else {
                         if (!mappingObj) return !1;
                         start = timingInfo.start + mappingObj.mapping, end = timingInfo.end + mappingObj.mapping;
@@ -14188,7 +14188,7 @@
                         return;
                     }
                     var logFn = error.internal ? this.logger_ : videojs.log.warn, errorMessage = error.message ? " " + error.message : "";
-                    logFn((error.internal ? "Internal problem" : "Problem") + " encountered with playlist " + currentPlaylist.id + "." + (errorMessage + " Switching to playlist " + nextPlaylist.id + ".")), nextPlaylist.attributes.AUDIO !== currentPlaylist.attributes.AUDIO && this.delegateLoaders_("audio", [
+                    logFn((error.internal ? "Internal problem" : "Problem") + " encountered with playlist " + currentPlaylist.id + "." + errorMessage + " Switching to playlist " + nextPlaylist.id + "."), nextPlaylist.attributes.AUDIO !== currentPlaylist.attributes.AUDIO && this.delegateLoaders_("audio", [
                         "abort",
                         "pause"
                     ]), nextPlaylist.attributes.SUBTITLES !== currentPlaylist.attributes.SUBTITLES && this.delegateLoaders_("subtitle", [
@@ -14506,18 +14506,18 @@
                         var seekableStart = seekable.start(0);
                         seekTo = seekableStart + (seekableStart === seekable.end(0) ? 0 : SAFE_TIME_DELTA);
                     }
-                    if (void 0 !== seekTo) return this.logger_("Trying to seek outside of seekable at time " + currentTime + " with " + ("seekable range " + printableRange(seekable) + ". Seeking to ") + (seekTo + ".")), this.tech_.setCurrentTime(seekTo), !0;
+                    if (void 0 !== seekTo) return this.logger_("Trying to seek outside of seekable at time " + currentTime + " with seekable range " + printableRange(seekable) + ". Seeking to " + seekTo + "."), this.tech_.setCurrentTime(seekTo), !0;
                     for(var sourceUpdater = this.masterPlaylistController_.sourceUpdater_, buffered = this.tech_.buffered(), audioBuffered = sourceUpdater.audioBuffer ? sourceUpdater.audioBuffered() : null, videoBuffered = sourceUpdater.videoBuffer ? sourceUpdater.videoBuffered() : null, media = this.media(), minAppendedDuration = media.partTargetDuration ? media.partTargetDuration : (media.targetDuration - TIME_FUDGE_FACTOR) * 2, bufferedToCheck = [
                         audioBuffered,
                         videoBuffered
                     ], i = 0; i < bufferedToCheck.length; i++)if (bufferedToCheck[i] && timeAheadOf(bufferedToCheck[i], currentTime) < minAppendedDuration) return !1;
                     var nextRange = findNextRange(buffered, currentTime);
-                    return 0 !== nextRange.length && (seekTo = nextRange.start(0) + SAFE_TIME_DELTA, this.logger_("Buffered region starts (" + nextRange.start(0) + ") " + (" just beyond seek point (" + currentTime + "). Seeking to " + seekTo + ".")), this.tech_.setCurrentTime(seekTo), !0);
+                    return 0 !== nextRange.length && (seekTo = nextRange.start(0) + SAFE_TIME_DELTA, this.logger_("Buffered region starts (" + nextRange.start(0) + ")  just beyond seek point (" + currentTime + "). Seeking to " + seekTo + "."), this.tech_.setCurrentTime(seekTo), !0);
                 }, _proto.waiting_ = function() {
                     if (!this.techWaiting_()) {
                         var currentTime = this.tech_.currentTime(), currentRange = findRange(this.tech_.buffered(), currentTime);
                         if (currentRange.length && currentTime + 3 <= currentRange.end(0)) {
-                            this.cancelTimer_(), this.tech_.setCurrentTime(currentTime), this.logger_("Stopped at " + currentTime + " while inside a buffered region " + ("[" + currentRange.start(0) + " -> " + currentRange.end(0) + "]. Attempting to resume ") + "playback by seeking to the current time."), this.tech_.trigger({
+                            this.cancelTimer_(), this.tech_.setCurrentTime(currentTime), this.logger_("Stopped at " + currentTime + " while inside a buffered region [" + currentRange.start(0) + " -> " + currentRange.end(0) + "]. Attempting to resume playback by seeking to the current time."), this.tech_.trigger({
                                 type: "usage",
                                 name: "vhs-unknown-waiting"
                             }), this.tech_.trigger({
@@ -14532,7 +14532,7 @@
                     if (this.tech_.seeking() || null !== this.timer_) return !0;
                     if (this.beforeSeekableWindow_(seekable, currentTime)) {
                         var livePoint = seekable.end(seekable.length - 1);
-                        return this.logger_("Fell out of live window at time " + currentTime + ". Seeking to " + ("live point (seekable end) " + livePoint)), this.cancelTimer_(), this.tech_.setCurrentTime(livePoint), this.tech_.trigger({
+                        return this.logger_("Fell out of live window at time " + currentTime + ". Seeking to live point (seekable end) " + livePoint), this.cancelTimer_(), this.tech_.setCurrentTime(livePoint), this.tech_.trigger({
                             type: "usage",
                             name: "vhs-live-resync"
                         }), this.tech_.trigger({
@@ -14555,7 +14555,7 @@
                     var nextRange = findNextRange(buffered, currentTime);
                     if (nextRange.length > 0) {
                         var difference = nextRange.start(0) - currentTime;
-                        return this.logger_("Stopped at " + currentTime + ", setting timer for " + difference + ", seeking " + ("to " + nextRange.start(0))), this.cancelTimer_(), this.timer_ = setTimeout(this.skipTheGap_.bind(this), 1000 * difference, currentTime), !0;
+                        return this.logger_("Stopped at " + currentTime + ", setting timer for " + difference + ", seeking to " + nextRange.start(0)), this.cancelTimer_(), this.timer_ = setTimeout(this.skipTheGap_.bind(this), 1000 * difference, currentTime), !0;
                     }
                     return !1;
                 }, _proto.afterSeekableWindow_ = function(seekable, currentTime, playlist, allowSeeksWithinUnsafeLiveWindow) {
@@ -14574,7 +14574,7 @@
                                 end: audioRange.end(0)
                             });
                         } else findNextRange(videoBuffered, currentTime).length || (gap = this.gapFromVideoUnderflow_(videoBuffered, currentTime));
-                        return !!gap && (this.logger_("Encountered a gap in video from " + gap.start + " to " + gap.end + ". " + ("Seeking to current time " + currentTime)), !0);
+                        return !!gap && (this.logger_("Encountered a gap in video from " + gap.start + " to " + gap.end + ". Seeking to current time " + currentTime), !0);
                     }
                 }, _proto.skipTheGap_ = function(scheduledCurrentTime) {
                     var buffered = this.tech_.buffered(), currentTime = this.tech_.currentTime(), nextRange = findNextRange(buffered, currentTime);

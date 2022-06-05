@@ -1,5 +1,5 @@
 use swc_atoms::js_word;
-use swc_common::{util::take::Take, EqIgnoreSpan};
+use swc_common::{util::take::Take, EqIgnoreSpan, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Type, Value};
 use Value::Known;
@@ -17,7 +17,7 @@ where
 {
     ///
     /// - `'12' === `foo` => '12' == 'foo'`
-    pub(super) fn optimize_bin_operator(&mut self, e: &mut BinExpr) {
+    pub(super) fn optimize_bin_equal(&mut self, e: &mut BinExpr) {
         if !self.options.comparisons {
             return;
         }
@@ -72,6 +72,39 @@ where
                             "Reduced `===` to `==` because types of operands are identical"
                         )
                     }
+                }
+            }
+        }
+    }
+
+    /// x && (y && z)  ==>  x && y && z
+    /// x || (y || z)  ==>  x || y || z
+    /// x + ("y" + z)  ==>  x + "y" + z
+    /// "x" + (y + "z")==>  "x" + y + "z"
+    pub(super) fn remove_bin_paren(&mut self, n: &mut BinExpr) {
+        if let Expr::Bin(right) = &mut *n.right {
+            if right.op == n.op {
+                if matches!(n.op, op!("&&") | op!("||") | op!("??"))
+                    || (right.left.is_str() && right.op == op!(bin, "+"))
+                    || (n.left.is_str() && right.right.is_str())
+                {
+                    self.changed = true;
+                    report_change!("Remove extra paren in binray expression");
+                    let left = n.left.take();
+                    let BinExpr {
+                        op,
+                        left: rl,
+                        right: rr,
+                        ..
+                    } = right.take();
+                    *n.left = BinExpr {
+                        span: left.span(),
+                        op,
+                        left,
+                        right: rl,
+                    }
+                    .into();
+                    n.right = rr;
                 }
             }
         }
