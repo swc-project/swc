@@ -234,12 +234,6 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(Text, visit_text);
 
     mtd!(Comment, visit_comment);
-
-    fn visit_token_and_span(&mut self, n: &TokenAndSpan) {
-        self.handler
-            .struct_span_err(n.span, &format!("{:?}", n.token))
-            .emit();
-    }
 }
 
 struct DomVisualizer<'a> {

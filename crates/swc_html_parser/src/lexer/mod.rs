@@ -151,6 +151,8 @@ struct Attribute {
 
 pub(crate) type LexResult<T> = Result<T, ErrorKind>;
 
+// TODO improve `raw` for all tokens (linting + better codegen)
+
 #[derive(Clone)]
 pub struct Lexer<I>
 where
@@ -200,7 +202,7 @@ where
             attribute_start_position: None,
             character_reference_code: None,
             // Do this without a new allocation.
-            temporary_buffer: String::with_capacity(8),
+            temporary_buffer: String::with_capacity(33),
             is_adjusted_current_node_is_element_in_html_namespace: None,
             doctype_keyword: None,
         };
@@ -4010,40 +4012,41 @@ where
                 // The shortest entity - `&GT`
                 // The longest entity - `&CounterClockwiseContourIntegral;`
                 let initial_cur_pos = self.input.cur_pos();
-                let initial_buffer = self.temporary_buffer.clone();
+
                 let mut entity: Option<&Entity> = None;
                 let mut entity_cur_pos: Option<BytePos> = None;
-                let mut entity_temporary_buffer = None;
+                let mut entity_temporary_buffer =
+                    String::with_capacity(self.temporary_buffer.capacity());
+
+                entity_temporary_buffer.push_str(&self.temporary_buffer);
 
                 // No need to validate input, because we reset position if nothing was found
                 while let Some(c) = &self.consume_next_char() {
-                    self.temporary_buffer.push(*c);
+                    entity_temporary_buffer.push(*c);
 
-                    let found_entity = HTML_ENTITIES.get(&self.temporary_buffer);
-
-                    if let Some(found_entity) = found_entity {
+                    if let Some(found_entity) = HTML_ENTITIES.get(&entity_temporary_buffer) {
                         entity = Some(found_entity);
                         entity_cur_pos = Some(self.input.cur_pos());
-                        entity_temporary_buffer = Some(self.temporary_buffer.clone());
-                    }
 
-                    // We stop when:
-                    //
-                    // - not ascii alphanumeric
-                    // - we consume more characters than the longest entity
-                    if !c.is_ascii_alphanumeric() || self.temporary_buffer.len() > 32 {
-                        break;
+                        self.temporary_buffer
+                            .replace_range(1.., &entity_temporary_buffer[1..]);
+                    } else {
+                        // We stop when:
+                        //
+                        // - not ascii alphanumeric
+                        // - we consume more characters than the longest entity
+                        if !c.is_ascii_alphanumeric() || self.temporary_buffer.len() > 32 {
+                            break;
+                        }
                     }
                 }
 
                 if entity.is_some() {
                     self.cur_pos = entity_cur_pos.unwrap();
                     self.input.reset_to(entity_cur_pos.unwrap());
-                    self.temporary_buffer = entity_temporary_buffer.unwrap();
                 } else {
                     self.cur_pos = initial_cur_pos;
                     self.input.reset_to(initial_cur_pos);
-                    self.temporary_buffer = initial_buffer;
                 }
 
                 let is_last_semicolon = self.temporary_buffer.ends_with(';');

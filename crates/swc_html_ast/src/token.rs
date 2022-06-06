@@ -17,13 +17,11 @@ pub struct AttributeToken {
     pub name: JsWord,
     pub raw_name: Option<JsWord>,
     pub value: Option<JsWord>,
-    // TODO improve me for html entity
     pub raw_value: Option<JsWord>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize, EqIgnoreSpan)]
 pub enum Token {
-    // TODO raw for bogus doctype
     Doctype {
         // DOCTYPE keyword
         raw_keyword: Option<JsWord>,
@@ -66,7 +64,6 @@ pub enum Token {
     },
     Character {
         value: char,
-        // TODO improve me for html entity
         raw: Option<JsWord>,
     },
     Eof,

@@ -1,6 +1,26 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(html/codegen)** Support context element (#4887) ([ae1ff1e](https://github.com/swc-project/swc/commit/ae1ff1e55b4be7d9f611ebbbc0fdaac1d5591ac5))
+
+### Performance
+
+
+
+- **(html/parser)** Improve performance (#4881) ([5abe847](https://github.com/swc-project/swc/commit/5abe847c2358ee9876140772f16d303c388cbbb5))
+
+### Refactor
+
+
+
+- **(html/ast)** Avoid `TokenAndSpan` (#4885) ([b14719c](https://github.com/swc-project/swc/commit/b14719c046584878424f794a86c7a0793f7033be))
+
+## [1.2.197] - 2022-06-05
+
 ### Bug Fixes
 
 
@@ -24,6 +44,9 @@
 
 ### Features
 
+
+
+- **(es/codegen)** Support other source map implementations (#4879) ([6bc33cb](https://github.com/swc-project/swc/commit/6bc33cb042ee3b95010735f34ec3d30d52fb7f40))
 
 
 - **(es/minifier)** Remove extra parens in `BinExpr` (#4878) ([83ae6a1](https://github.com/swc-project/swc/commit/83ae6a1f1f8a293d88557767790ed5d662e84bc3))

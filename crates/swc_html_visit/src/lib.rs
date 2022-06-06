@@ -76,11 +76,6 @@ define!({
         pub span: Span,
         pub data: JsWord,
     }
-
-    pub struct TokenAndSpan {
-        pub span: Span,
-        pub token: Token,
-    }
 });
 
 impl<T: ?Sized> Node for T {}

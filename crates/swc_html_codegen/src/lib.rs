@@ -18,10 +18,18 @@ mod emit;
 mod list;
 pub mod writer;
 
-#[derive(Debug, Clone, Copy, Default)]
+#[derive(Debug, Clone, Default)]
 pub struct CodegenConfig {
     pub minify: bool,
     pub scripting_enabled: bool,
+    /// Should be used only for `DocumentFragment` code generation
+    pub context_element: Option<Element>,
+}
+
+enum TagOmissionParent<'a> {
+    Document(&'a Document),
+    DocumentFragment(&'a DocumentFragment),
+    Element(&'a Element),
 }
 
 #[derive(Debug)]
@@ -52,23 +60,7 @@ where
     #[emitter]
     fn emit_document(&mut self, n: &Document) -> Result {
         if self.config.minify {
-            for (idx, node) in n.children.iter().enumerate() {
-                match node {
-                    Child::Element(element) => {
-                        let prev = if idx > 0 {
-                            n.children.get(idx - 1)
-                        } else {
-                            None
-                        };
-                        let next = n.children.get(idx + 1);
-
-                        self.basic_emit_element(element, None, prev, next)?;
-                    }
-                    _ => {
-                        emit!(self, node)
-                    }
-                }
-            }
+            self.emit_list_for_tag_omission(TagOmissionParent::Document(n))?;
         } else {
             self.emit_list(&n.children, ListFormat::NotDelimited)?;
         }
@@ -76,26 +68,18 @@ where
 
     #[emitter]
     fn emit_document_fragment(&mut self, n: &DocumentFragment) -> Result {
-        if self.config.minify {
-            for (idx, node) in n.children.iter().enumerate() {
-                match node {
-                    Child::Element(element) => {
-                        let prev = if idx > 0 {
-                            n.children.get(idx - 1)
-                        } else {
-                            None
-                        };
-                        let next = n.children.get(idx + 1);
-
-                        self.basic_emit_element(element, None, prev, next)?;
-                    }
-                    _ => {
-                        emit!(self, node)
-                    }
-                }
-            }
+        let ctx = if let Some(context_element) = &self.config.context_element {
+            self.create_context_for_element(context_element)
         } else {
-            self.emit_list(&n.children, ListFormat::NotDelimited)?;
+            Default::default()
+        };
+
+        if self.config.minify {
+            self.with_ctx(ctx)
+                .emit_list_for_tag_omission(TagOmissionParent::DocumentFragment(n))?;
+        } else {
+            self.with_ctx(ctx)
+                .emit_list(&n.children, ListFormat::NotDelimited)?;
         }
     }
 
@@ -183,6 +167,10 @@ where
         prev: Option<&Child>,
         next: Option<&Child>,
     ) -> Result {
+        if self.is_plaintext {
+            return Ok(());
+        }
+
         let has_attributes = !n.attributes.is_empty();
         let can_omit_start_tag = self.config.minify
             && !has_attributes
@@ -342,29 +330,18 @@ where
             return Ok(());
         }
 
-        self.is_plaintext = matches!(&*n.tag_name, "plaintext");
+        if !self.is_plaintext {
+            self.is_plaintext = matches!(&*n.tag_name, "plaintext");
+        }
 
         if let Some(content) = &n.content {
             emit!(self, content);
         } else if !n.children.is_empty() {
-            let skip_escape_text = match &*n.tag_name {
-                "style" | "script" | "xmp" | "iframe" | "noembed" | "noframes" => true,
-                "noscript" => self.config.scripting_enabled,
-                _ if self.is_plaintext => true,
-                _ => false,
-            };
-            let need_extra_newline_in_text =
-                n.namespace == Namespace::HTML && matches!(&*n.tag_name, "textarea" | "pre");
-
-            let ctx = Ctx {
-                skip_escape_text,
-                need_extra_newline_in_text,
-                ..self.ctx
-            };
+            let ctx = self.create_context_for_element(n);
 
             if self.config.minify {
                 self.with_ctx(ctx)
-                    .emit_list_for_tag_omission(n, &n.children)?;
+                    .emit_list_for_tag_omission(TagOmissionParent::Element(n))?;
             } else {
                 self.with_ctx(ctx)
                     .emit_list(&n.children, ListFormat::NotDelimited)?;
@@ -685,7 +662,18 @@ where
 
     #[emitter]
     fn emit_attribute(&mut self, n: &Attribute) -> Result {
-        let mut attribute = String::new();
+        let mut attribute = String::with_capacity(
+            if let Some(prefix) = &n.prefix {
+                prefix.len() + 1
+            } else {
+                0
+            } + n.name.len()
+                + if let Some(value) = &n.value {
+                    value.len() + 1
+                } else {
+                    0
+                },
+        );
 
         if let Some(prefix) = &n.prefix {
             attribute.push_str(prefix);
@@ -713,9 +701,7 @@ where
 
     #[emitter]
     fn emit_text(&mut self, n: &Text) -> Result {
-        if self.ctx.skip_escape_text {
-            write_str!(self, n.span, &n.value);
-        } else {
+        if self.ctx.need_escape_text {
             let mut data = String::with_capacity(n.value.len());
 
             if self.ctx.need_extra_newline_in_text && n.value.contains('\n') {
@@ -729,6 +715,8 @@ where
             }
 
             write_str!(self, n.span, &data);
+        } else {
+            write_str!(self, n.span, &n.value);
         }
     }
 
@@ -743,263 +731,49 @@ where
         write_str!(self, n.span, &comment);
     }
 
-    #[emitter]
-    fn emit_token_and_span(&mut self, n: &TokenAndSpan) -> Result {
-        let span = n.span;
+    fn create_context_for_element(&self, n: &Element) -> Ctx {
+        let need_escape_text = match &*n.tag_name {
+            "style" | "script" | "xmp" | "iframe" | "noembed" | "noframes" | "plaintext" => false,
+            "noscript" => !self.config.scripting_enabled,
+            _ if self.is_plaintext => false,
+            _ => true,
+        };
+        let need_extra_newline_in_text =
+            n.namespace == Namespace::HTML && matches!(&*n.tag_name, "textarea" | "pre");
 
-        match &n.token {
-            Token::Doctype {
-                raw_keyword,
-                name,
-                raw_name,
-                public_quote,
-                raw_public_keyword,
-                public_id,
-                raw_system_keyword,
-                system_quote,
-                system_id,
-                ..
-            } => {
-                let mut doctype = String::new();
-
-                doctype.push('<');
-                doctype.push('!');
-
-                if let Some(raw_keyword) = &raw_keyword {
-                    doctype.push_str(raw_keyword);
-                } else {
-                    doctype.push_str("DOCTYPE");
-                }
-
-                if let Some(raw_name) = &raw_name {
-                    doctype.push(' ');
-                    doctype.push_str(raw_name);
-                } else if let Some(name) = &name {
-                    doctype.push(' ');
-                    doctype.push_str(name);
-                }
-
-                if let Some(public_id) = &public_id {
-                    doctype.push(' ');
-
-                    match raw_public_keyword {
-                        Some(raw_public_keyword) => {
-                            doctype.push_str(raw_public_keyword);
-                            doctype.push(' ');
-                        }
-                        _ => {
-                            doctype.push_str("PUBLIC");
-                            doctype.push(' ');
-                        }
-                    }
-
-                    match public_quote {
-                        Some(public_quote) => {
-                            doctype.push(*public_quote);
-                        }
-                        _ => {
-                            doctype.push('"');
-                        }
-                    }
-
-                    doctype.push_str(public_id);
-
-                    match public_quote {
-                        Some(public_quote) => {
-                            doctype.push(*public_quote);
-                        }
-                        _ => {
-                            doctype.push('"');
-                        }
-                    }
-
-                    if let Some(system_id) = &system_id {
-                        doctype.push(' ');
-
-                        match system_quote {
-                            Some(system_quote) => {
-                                doctype.push(*system_quote);
-                            }
-                            _ => {
-                                doctype.push('"');
-                            }
-                        }
-
-                        doctype.push_str(system_id);
-
-                        match system_quote {
-                            Some(system_quote) => {
-                                doctype.push(*system_quote);
-                            }
-                            _ => {
-                                doctype.push('"');
-                            }
-                        }
-                    }
-                } else if let Some(system_id) = &system_id {
-                    doctype.push(' ');
-
-                    match raw_system_keyword {
-                        Some(raw_system_keyword) => {
-                            doctype.push_str(raw_system_keyword);
-                            doctype.push(' ');
-                        }
-                        _ => {
-                            doctype.push_str("SYSTEM");
-                            doctype.push(' ');
-                        }
-                    }
-
-                    match system_quote {
-                        Some(system_quote) => {
-                            doctype.push(*system_quote);
-                        }
-                        _ => {
-                            doctype.push('"');
-                        }
-                    }
-
-                    doctype.push_str(system_id);
-
-                    match system_quote {
-                        Some(system_quote) => {
-                            doctype.push(*system_quote);
-                        }
-                        _ => {
-                            doctype.push('"');
-                        }
-                    }
-                }
-
-                doctype.push('>');
-
-                write_raw!(self, span, &doctype);
-            }
-            Token::StartTag {
-                tag_name,
-                raw_tag_name,
-                attributes,
-                self_closing,
-            } => {
-                let mut start_tag = String::new();
-
-                start_tag.push('<');
-
-                match raw_tag_name {
-                    Some(raw_tag_name) => {
-                        start_tag.push_str(raw_tag_name);
-                    }
-                    _ => {
-                        start_tag.push_str(tag_name);
-                    }
-                }
-
-                for attribute in attributes {
-                    start_tag.push(' ');
-
-                    match &attribute.raw_name {
-                        Some(raw_name) => {
-                            start_tag.push_str(raw_name);
-                        }
-                        _ => {
-                            start_tag.push_str(&attribute.name);
-                        }
-                    }
-                    if let Some(raw_value) = &attribute.raw_value {
-                        start_tag.push('=');
-
-                        start_tag.push_str(raw_value);
-                    } else if let Some(value) = &attribute.value {
-                        start_tag.push('=');
-
-                        let quote = if value.contains('"') { '\'' } else { '"' };
-
-                        start_tag.push(quote);
-                        start_tag.push_str(value);
-                        start_tag.push(quote);
-                    }
-                }
-
-                if *self_closing {
-                    start_tag.push('/');
-                }
-
-                start_tag.push('>');
-
-                write_raw!(self, span, &start_tag);
-            }
-            Token::EndTag {
-                tag_name,
-                raw_tag_name,
-                attributes,
-                ..
-            } => {
-                let mut start_tag = String::new();
-
-                start_tag.push_str("</");
-
-                match raw_tag_name {
-                    Some(raw_tag_name) => {
-                        start_tag.push_str(raw_tag_name);
-                    }
-                    _ => {
-                        start_tag.push_str(tag_name);
-                    }
-                }
-
-                for attribute in attributes {
-                    start_tag.push(' ');
-
-                    match &attribute.raw_name {
-                        Some(raw_name) => {
-                            start_tag.push_str(raw_name);
-                        }
-                        _ => {
-                            start_tag.push_str(&attribute.name);
-                        }
-                    }
-
-                    if let Some(raw_value) = &attribute.raw_value {
-                        start_tag.push('=');
-
-                        start_tag.push_str(raw_value);
-                    } else if let Some(value) = &attribute.value {
-                        start_tag.push('=');
-
-                        let quote = if value.contains('"') { '\'' } else { '"' };
-
-                        start_tag.push(quote);
-                        start_tag.push_str(value);
-                        start_tag.push(quote);
-                    }
-                }
-
-                start_tag.push('>');
-
-                write_str!(self, span, &start_tag);
-            }
-            Token::Comment { data } => {
-                let mut comment = String::new();
-
-                comment.push_str("<!--");
-                comment.push_str(data);
-                comment.push_str("-->");
-
-                write_str!(self, span, &comment);
-            }
-            Token::Character { value, .. } => {
-                let new_value = match value {
-                    '&' => String::from("&amp;"),
-                    '<' => String::from("&lt;"),
-                    '>' => String::from("&gt;"),
-                    '\u{00A0}' => String::from("&nbsp;"),
-                    _ => value.to_string(),
-                };
-
-                write_str!(self, span, &new_value);
-            }
-            Token::Eof => {}
+        Ctx {
+            need_escape_text,
+            need_extra_newline_in_text,
+            ..self.ctx
         }
+    }
+
+    fn emit_list_for_tag_omission(&mut self, parent: TagOmissionParent) -> Result {
+        let nodes = match &parent {
+            TagOmissionParent::Document(document) => &document.children,
+            TagOmissionParent::DocumentFragment(document_fragment) => &document_fragment.children,
+            TagOmissionParent::Element(element) => &element.children,
+        };
+        let parent = match parent {
+            TagOmissionParent::Element(element) => Some(element),
+            _ => None,
+        };
+
+        for (idx, node) in nodes.iter().enumerate() {
+            match node {
+                Child::Element(element) => {
+                    let prev = if idx > 0 { nodes.get(idx - 1) } else { None };
+                    let next = nodes.get(idx + 1);
+
+                    self.basic_emit_element(element, parent, prev, next)?;
+                }
+                _ => {
+                    emit!(self, node)
+                }
+            }
+        }
+
+        Ok(())
     }
 
     fn emit_list<N>(&mut self, nodes: &[N], format: ListFormat) -> Result
@@ -1017,24 +791,6 @@ where
             }
 
             emit!(self, node)
-        }
-
-        Ok(())
-    }
-
-    fn emit_list_for_tag_omission(&mut self, parent: &Element, nodes: &[Child]) -> Result {
-        for (idx, node) in nodes.iter().enumerate() {
-            match node {
-                Child::Element(element) => {
-                    let prev = if idx > 0 { nodes.get(idx - 1) } else { None };
-                    let next = nodes.get(idx + 1);
-
-                    self.basic_emit_element(element, Some(parent), prev, next)?;
-                }
-                _ => {
-                    emit!(self, node)
-                }
-            }
         }
 
         Ok(())
