@@ -13,6 +13,9 @@
 
 - **(html/parser)** Improve performance (#4881) ([5abe847](https://github.com/swc-project/swc/commit/5abe847c2358ee9876140772f16d303c388cbbb5))
 
+
+- **(html/parser)** Improve memory allocation (#4884) ([ce4d577](https://github.com/swc-project/swc/commit/ce4d57735e6cfe240967c8d4c6655bfaca107eea))
+
 ### Refactor
 
 
