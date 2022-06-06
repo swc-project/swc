@@ -2,10 +2,12 @@
 #![allow(clippy::needless_update)]
 
 pub use std::fmt::Result;
+use std::{iter::Peekable, str::Chars};
 
 use swc_common::Spanned;
 use swc_html_ast::*;
 use swc_html_codegen_macros::emitter;
+use swc_html_utils::HTML_ENTITIES;
 use writer::HtmlWriter;
 
 pub use self::emit::*;
@@ -820,10 +822,12 @@ fn minify_attribute_value(value: &str) -> String {
     let mut dq = 0;
     let mut sq = 0;
 
-    for c in value.chars() {
+    let mut chars = value.chars().peekable();
+
+    while let Some(c) = chars.next() {
         match c {
             '&' => {
-                minified.push_str("&amp;");
+                minified.push_str(&minify_amp(&mut chars));
 
                 continue;
             }
@@ -875,16 +879,105 @@ fn normalize_attribute_value(value: &str) -> String {
 
 fn minify_text(value: &str) -> String {
     let mut result = String::with_capacity(value.len());
+    let mut chars = value.chars().peekable();
 
-    for c in value.chars() {
+    while let Some(c) = chars.next() {
         match c {
             '&' => {
-                result.push_str("&amp;");
+                result.push_str(&minify_amp(&mut chars));
             }
             '<' => {
                 result.push_str("&lt;");
             }
             _ => result.push(c),
+        }
+    }
+
+    result
+}
+
+fn minify_amp(chars: &mut Peekable<Chars>) -> String {
+    let mut result = String::with_capacity(7);
+
+    match chars.next() {
+        Some(hash @ '#') => {
+            match chars.next() {
+                // HTML CODE
+                // Prevent `&amp;#38;` -> `&#38`
+                Some(number @ '0'..='9') => {
+                    result.push_str("&amp;");
+                    result.push(hash);
+                    result.push(number);
+                }
+                Some(x @ 'x' | x @ 'X') => {
+                    match chars.peek() {
+                        // HEX CODE
+                        // Prevent `&amp;#x38;` -> `&#x38`
+                        Some(c) if c.is_ascii_hexdigit() => {
+                            result.push_str("&amp;");
+                            result.push(hash);
+                            result.push(x);
+                        }
+                        _ => {
+                            result.push('&');
+                            result.push(hash);
+                            result.push(x);
+                        }
+                    }
+                }
+                any => {
+                    result.push('&');
+                    result.push(hash);
+
+                    if let Some(any) = any {
+                        result.push(any);
+                    }
+                }
+            }
+        }
+        // Named entity
+        // Prevent `&amp;current` -> `&current`
+        Some(c @ 'a'..='z') | Some(c @ 'A'..='Z') => {
+            let mut entity_temporary_buffer = String::with_capacity(33);
+
+            entity_temporary_buffer.push('&');
+            entity_temporary_buffer.push(c);
+
+            let mut found_entity = false;
+
+            // No need to validate input, because we reset position if nothing was found
+            for c in chars {
+                entity_temporary_buffer.push(c);
+
+                if HTML_ENTITIES.get(&entity_temporary_buffer).is_some() {
+                    found_entity = true;
+
+                    break;
+                } else {
+                    // We stop when:
+                    //
+                    // - not ascii alphanumeric
+                    // - we consume more characters than the longest entity
+                    if !c.is_ascii_alphanumeric() || entity_temporary_buffer.len() > 32 {
+                        break;
+                    }
+                }
+            }
+
+            if found_entity {
+                result.push_str("&amp;");
+                result.push_str(&entity_temporary_buffer[1..]);
+            } else {
+                result.push('&');
+                result.push_str(&entity_temporary_buffer[1..]);
+            }
+        }
+        any => {
+            result.push('&');
+
+            if let Some(any) = any {
+                result.push(any);
+            }
         }
     }
 

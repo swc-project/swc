@@ -52,9 +52,16 @@
  49 | |   FOO&#x41BAR
  50 | |   FOO&#x41ZOO
  51 | |   
- 52 | |   </body>
- 53 | |   </html>
- 54 | `-> 
+ 52 | |   <div data-test="&ampamp;"></div>
+ 53 | |   <div data-test="&ampamp"></div>
+ 54 | |   <div data-test="&amp;amp;"></div>
+ 55 | |   <div data-test="&amp;amp"></div>
+ 56 | |   <div data-test="&amp;#36"></div>
+ 57 | |   <div data-test="&amp;#x36"></div>
+ 58 | |   <div data-test="&#x36"></div>
+ 59 | |   </body>
+ 60 | |   </html>
+ 61 | `-> 
     `----
 
   x Child
@@ -121,9 +128,16 @@
  49 | |   FOO&#x41BAR
  50 | |   FOO&#x41ZOO
  51 | |   
- 52 | |   </body>
- 53 | |   </html>
- 54 | `-> 
+ 52 | |   <div data-test="&ampamp;"></div>
+ 53 | |   <div data-test="&ampamp"></div>
+ 54 | |   <div data-test="&amp;amp;"></div>
+ 55 | |   <div data-test="&amp;amp"></div>
+ 56 | |   <div data-test="&amp;#36"></div>
+ 57 | |   <div data-test="&amp;#x36"></div>
+ 58 | |   <div data-test="&#x36"></div>
+ 59 | |   </body>
+ 60 | |   </html>
+ 61 | `-> 
     `----
 
   x Element
@@ -178,9 +192,16 @@
  49 | |   FOO&#x41BAR
  50 | |   FOO&#x41ZOO
  51 | |   
- 52 | |   </body>
- 53 | |   </html>
- 54 | `-> 
+ 52 | |   <div data-test="&ampamp;"></div>
+ 53 | |   <div data-test="&ampamp"></div>
+ 54 | |   <div data-test="&amp;amp;"></div>
+ 55 | |   <div data-test="&amp;amp"></div>
+ 56 | |   <div data-test="&amp;#36"></div>
+ 57 | |   <div data-test="&amp;#x36"></div>
+ 58 | |   <div data-test="&#x36"></div>
+ 59 | |   </body>
+ 60 | |   </html>
+ 61 | `-> 
     `----
 
   x Child
@@ -238,9 +259,16 @@
  49 | |   FOO&#x41BAR
  50 | |   FOO&#x41ZOO
  51 | |   
- 52 | |   </body>
- 53 | |   </html>
- 54 | `-> 
+ 52 | |   <div data-test="&ampamp;"></div>
+ 53 | |   <div data-test="&ampamp"></div>
+ 54 | |   <div data-test="&amp;amp;"></div>
+ 55 | |   <div data-test="&amp;amp"></div>
+ 56 | |   <div data-test="&amp;#36"></div>
+ 57 | |   <div data-test="&amp;#x36"></div>
+ 58 | |   <div data-test="&#x36"></div>
+ 59 | |   </body>
+ 60 | |   </html>
+ 61 | `-> 
     `----
 
   x Element
@@ -294,9 +322,16 @@
  49 | |   FOO&#x41BAR
  50 | |   FOO&#x41ZOO
  51 | |   
- 52 | |   </body>
- 53 | |   </html>
- 54 | `-> 
+ 52 | |   <div data-test="&ampamp;"></div>
+ 53 | |   <div data-test="&ampamp"></div>
+ 54 | |   <div data-test="&amp;amp;"></div>
+ 55 | |   <div data-test="&amp;amp"></div>
+ 56 | |   <div data-test="&amp;#36"></div>
+ 57 | |   <div data-test="&amp;#x36"></div>
+ 58 | |   <div data-test="&#x36"></div>
+ 59 | |   </body>
+ 60 | |   </html>
+ 61 | `-> 
     `----
 
   x Child
@@ -794,10 +829,8 @@
  48 | |   FOO&#xBAR
  49 | |   FOO&#x41BAR
  50 | |   FOO&#x41ZOO
- 51 | |   
- 52 | |   </body>
- 53 | |   </html>
- 54 | `-> 
+ 51 | `-> 
+ 52 |     <div data-test="&ampamp;"></div>
     `----
 
   x Text
@@ -807,8 +840,232 @@
  48 | |   FOO&#xBAR
  49 | |   FOO&#x41BAR
  50 | |   FOO&#x41ZOO
- 51 | |   
- 52 | |   </body>
- 53 | |   </html>
- 54 | `-> 
+ 51 | `-> 
+ 52 |     <div data-test="&ampamp;"></div>
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/text/entity/input.html:52:1]
+ 52 | <div data-test="&ampamp;"></div>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/recovery/text/entity/input.html:52:1]
+ 52 | <div data-test="&ampamp;"></div>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/recovery/text/entity/input.html:52:1]
+ 52 | <div data-test="&ampamp;"></div>
+    :      ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/text/entity/input.html:52:1]
+ 52 | <div data-test="&ampamp;"></div>
+    :                                 ^
+ 53 | <div data-test="&ampamp"></div>
+    `----
+
+  x Text
+    ,-[$DIR/tests/recovery/text/entity/input.html:52:1]
+ 52 | <div data-test="&ampamp;"></div>
+    :                                 ^
+ 53 | <div data-test="&ampamp"></div>
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/text/entity/input.html:53:1]
+ 53 | <div data-test="&ampamp"></div>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/recovery/text/entity/input.html:53:1]
+ 53 | <div data-test="&ampamp"></div>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/recovery/text/entity/input.html:53:1]
+ 53 | <div data-test="&ampamp"></div>
+    :      ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/text/entity/input.html:53:1]
+ 53 | <div data-test="&ampamp"></div>
+    :                                ^
+ 54 | <div data-test="&amp;amp;"></div>
+    `----
+
+  x Text
+    ,-[$DIR/tests/recovery/text/entity/input.html:53:1]
+ 53 | <div data-test="&ampamp"></div>
+    :                                ^
+ 54 | <div data-test="&amp;amp;"></div>
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/text/entity/input.html:54:1]
+ 54 | <div data-test="&amp;amp;"></div>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/recovery/text/entity/input.html:54:1]
+ 54 | <div data-test="&amp;amp;"></div>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/recovery/text/entity/input.html:54:1]
+ 54 | <div data-test="&amp;amp;"></div>
+    :      ^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/text/entity/input.html:54:1]
+ 54 | <div data-test="&amp;amp;"></div>
+    :                                  ^
+ 55 | <div data-test="&amp;amp"></div>
+    `----
+
+  x Text
+    ,-[$DIR/tests/recovery/text/entity/input.html:54:1]
+ 54 | <div data-test="&amp;amp;"></div>
+    :                                  ^
+ 55 | <div data-test="&amp;amp"></div>
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/text/entity/input.html:55:1]
+ 55 | <div data-test="&amp;amp"></div>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/recovery/text/entity/input.html:55:1]
+ 55 | <div data-test="&amp;amp"></div>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/recovery/text/entity/input.html:55:1]
+ 55 | <div data-test="&amp;amp"></div>
+    :      ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/text/entity/input.html:55:1]
+ 55 | <div data-test="&amp;amp"></div>
+    :                                 ^
+ 56 | <div data-test="&amp;#36"></div>
+    `----
+
+  x Text
+    ,-[$DIR/tests/recovery/text/entity/input.html:55:1]
+ 55 | <div data-test="&amp;amp"></div>
+    :                                 ^
+ 56 | <div data-test="&amp;#36"></div>
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/text/entity/input.html:56:1]
+ 56 | <div data-test="&amp;#36"></div>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/recovery/text/entity/input.html:56:1]
+ 56 | <div data-test="&amp;#36"></div>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/recovery/text/entity/input.html:56:1]
+ 56 | <div data-test="&amp;#36"></div>
+    :      ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/text/entity/input.html:56:1]
+ 56 | <div data-test="&amp;#36"></div>
+    :                                 ^
+ 57 | <div data-test="&amp;#x36"></div>
+    `----
+
+  x Text
+    ,-[$DIR/tests/recovery/text/entity/input.html:56:1]
+ 56 | <div data-test="&amp;#36"></div>
+    :                                 ^
+ 57 | <div data-test="&amp;#x36"></div>
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/text/entity/input.html:57:1]
+ 57 | <div data-test="&amp;#x36"></div>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/recovery/text/entity/input.html:57:1]
+ 57 | <div data-test="&amp;#x36"></div>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/recovery/text/entity/input.html:57:1]
+ 57 | <div data-test="&amp;#x36"></div>
+    :      ^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/text/entity/input.html:57:1]
+ 57 | <div data-test="&amp;#x36"></div>
+    :                                  ^
+ 58 | <div data-test="&#x36"></div>
+    `----
+
+  x Text
+    ,-[$DIR/tests/recovery/text/entity/input.html:57:1]
+ 57 | <div data-test="&amp;#x36"></div>
+    :                                  ^
+ 58 | <div data-test="&#x36"></div>
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/text/entity/input.html:58:1]
+ 58 | <div data-test="&#x36"></div>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/recovery/text/entity/input.html:58:1]
+ 58 | <div data-test="&#x36"></div>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/recovery/text/entity/input.html:58:1]
+ 58 | <div data-test="&#x36"></div>
+    :      ^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/text/entity/input.html:58:1]
+ 58 | ,-> <div data-test="&#x36"></div>
+ 59 | |   </body>
+ 60 | |   </html>
+ 61 | `-> 
+    `----
+
+  x Text
+    ,-[$DIR/tests/recovery/text/entity/input.html:58:1]
+ 58 | ,-> <div data-test="&#x36"></div>
+ 59 | |   </body>
+ 60 | |   </html>
+ 61 | `-> 
     `----
