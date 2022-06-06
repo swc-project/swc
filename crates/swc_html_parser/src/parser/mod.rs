@@ -1540,16 +1540,6 @@ where
                         let element = parser.insert_html_element(
                             &mut parser.create_fake_token_and_info("head", None),
                         )?;
-                        let element = parser.insert_html_element(&mut TokenAndInfo {
-                            span: DUMMY_SP,
-                            acknowledged: false,
-                            token: Token::StartTag {
-                                tag_name: "head".into(),
-                                raw_tag_name: None,
-                                self_closing: false,
-                                attributes: vec![],
-                            },
-                        })?;
 
                         parser.head_element_pointer = Some(element);
                         parser.insertion_mode = InsertionMode::InHead;
@@ -4408,16 +4398,6 @@ where
                         self.insert_html_element(
                             &mut self.create_fake_token_and_info("colgroup", None),
                         )?;
-                        self.insert_html_element(&mut TokenAndInfo {
-                            span: DUMMY_SP,
-                            acknowledged: true,
-                            token: Token::StartTag {
-                                tag_name: "colgroup".into(),
-                                raw_tag_name: None,
-                                self_closing: false,
-                                attributes: vec![],
-                            },
-                        })?;
                         self.insertion_mode = InsertionMode::InColumnGroup;
                         self.process_token(token_and_info, None)?;
                     }
@@ -4449,16 +4429,6 @@ where
                         self.insert_html_element(
                             &mut self.create_fake_token_and_info("tbody", None),
                         )?;
-                        self.insert_html_element(&mut TokenAndInfo {
-                            span: DUMMY_SP,
-                            acknowledged: false,
-                            token: Token::StartTag {
-                                tag_name: "tbody".into(),
-                                raw_tag_name: None,
-                                self_closing: false,
-                                attributes: vec![],
-                            },
-                        })?;
                         self.insertion_mode = InsertionMode::InTableBody;
                         self.process_token(token_and_info, None)?;
                     }
@@ -5066,16 +5036,6 @@ where
                         ));
                         self.open_elements_stack.clear_back_to_table_body_context();
                         self.insert_html_element(&mut self.create_fake_token_and_info("tr", None))?;
-                        self.insert_html_element(&mut TokenAndInfo {
-                            span: DUMMY_SP,
-                            acknowledged: false,
-                            token: Token::StartTag {
-                                tag_name: "tr".into(),
-                                raw_tag_name: None,
-                                self_closing: false,
-                                attributes: vec![],
-                            },
-                        })?;
                         self.insertion_mode = InsertionMode::InRow;
                         self.process_token(token_and_info, None)?;
                     }
@@ -7469,7 +7429,7 @@ where
         TokenAndInfo {
             span: match span {
                 Some(span) => span,
-                _ => Default::default(),
+                _ => DUMMY_SP,
             },
             acknowledged: false,
             token: Token::StartTag {
