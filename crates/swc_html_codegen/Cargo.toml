@@ -7,7 +7,7 @@ include = ["Cargo.toml", "src/**/*.rs"]
 license = "Apache-2.0"
 name = "swc_html_codegen"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.10.5"
+version = "0.11.0"
 
 [lib]
 bench = false
@@ -17,13 +17,13 @@ auto_impl = "0.5.0"
 bitflags = "1.3.2"
 swc_atoms = {version = "0.2.7", path = "../swc_atoms"}
 swc_common = { version = "0.18.0", path = "../swc_common"}
-swc_html_ast = {version = "0.7.0", path = "../swc_html_ast"}
+swc_html_ast = {version = "0.8.0", path = "../swc_html_ast"}
 swc_html_codegen_macros = {version = "0.1.0", path = "../swc_html_codegen_macros"}
 
 [dev-dependencies]
 swc_common = { version = "0.18.0", path = "../swc_common", features = [
   "sourcemap",
 ]}
-swc_html_parser = {version = "0.10.0", path = "../swc_html_parser"}
-swc_html_visit = {version = "0.7.0", path = "../swc_html_visit"}
+swc_html_parser = {version = "0.11.0", path = "../swc_html_parser"}
+swc_html_visit = {version = "0.8.0", path = "../swc_html_visit"}
 testing = {version = "0.20.0", path = "../testing"}

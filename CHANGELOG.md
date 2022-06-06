@@ -13,6 +13,12 @@
 
 - **(html/parser)** Improve performance (#4881) ([5abe847](https://github.com/swc-project/swc/commit/5abe847c2358ee9876140772f16d303c388cbbb5))
 
+### Refactor
+
+
+
+- **(html/ast)** Avoid `TokenAndSpan` (#4885) ([b14719c](https://github.com/swc-project/swc/commit/b14719c046584878424f794a86c7a0793f7033be))
+
 ## [1.2.197] - 2022-06-05
 
 ### Bug Fixes
