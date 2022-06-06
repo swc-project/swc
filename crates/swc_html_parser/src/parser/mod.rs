@@ -117,7 +117,7 @@ where
             context_element: None,
             insertion_mode: Default::default(),
             original_insertion_mode: Default::default(),
-            template_insertion_mode_stack: vec![],
+            template_insertion_mode_stack: Vec::with_capacity(16),
             document_mode: DocumentMode::NoQuirks,
             document: None,
             html_additional_attributes: vec![],
@@ -126,7 +126,7 @@ where
             form_element_pointer: None,
             open_elements_stack: OpenElementsStack::new(),
             active_formatting_elements: ActiveFormattingElementStack::new(),
-            pending_character_tokens: vec![],
+            pending_character_tokens: Vec::with_capacity(16),
             frameset_ok: true,
             foster_parenting_enabled: false,
             errors: Default::default(),
@@ -148,10 +148,11 @@ where
 
         self.run()?;
 
-        let original_document = &mut self.document.take().unwrap();
-        let mut children = vec![];
+        let document = &mut self.document.take().unwrap();
+        let nodes = document.children.take();
+        let mut children = Vec::with_capacity(nodes.len());
 
-        for node in original_document.children.take() {
+        for node in nodes {
             children.push(self.node_to_child(node));
         }
 
@@ -337,9 +338,10 @@ where
 
         self.run()?;
 
-        let mut children = vec![];
+        let nodes = root.children.take();
+        let mut children = Vec::with_capacity(nodes.len());
 
-        for node in root.children.take() {
+        for node in nodes {
             children.push(self.node_to_child(node));
         }
 
@@ -355,7 +357,8 @@ where
         Node::new(Data::Document(Document {
             span: Default::default(),
             mode: DocumentMode::NoQuirks,
-            children: vec![],
+            // `DocumentType` and HTML `Element`
+            children: Vec::with_capacity(2),
         }))
     }
 
@@ -366,9 +369,10 @@ where
                 Child::DocumentType(DocumentType { ..document_type })
             }
             Data::Element(element) => {
-                let mut new_children = vec![];
+                let nodes = node.children.take();
+                let mut new_children = Vec::with_capacity(nodes.len());
 
-                for node in node.children.take() {
+                for node in nodes {
                     new_children.push(self.node_to_child(node));
                 }
 
@@ -1463,7 +1467,7 @@ where
                                     value: attribute.value.clone(),
                                 })
                                 .collect(),
-                            children: vec![],
+                            children: Vec::with_capacity(2),
                             content: None,
                         }));
 
@@ -1513,16 +1517,9 @@ where
             InsertionMode::BeforeHead => {
                 let anything_else =
                     |parser: &mut Parser<I>, token_and_info: &mut TokenAndInfo| -> PResult<()> {
-                        let element = parser.insert_html_element(&mut TokenAndInfo {
-                            span: Default::default(),
-                            acknowledged: false,
-                            token: Token::StartTag {
-                                tag_name: "head".into(),
-                                raw_tag_name: None,
-                                self_closing: false,
-                                attributes: vec![],
-                            },
-                        })?;
+                        let element = parser.insert_html_element(
+                            &mut parser.create_fake_token_and_info("head", None),
+                        )?;
 
                         parser.head_element_pointer = Some(element);
                         parser.insertion_mode = InsertionMode::InHead;
@@ -2049,20 +2046,15 @@ where
                 let anything_else = |parser: &mut Parser<I>,
                                      token_and_info: &mut TokenAndInfo|
                  -> PResult<()> {
-                    parser.insert_html_element(&mut TokenAndInfo {
-                            span: if matches!(&token_and_info.token, Token::EndTag { tag_name, .. } if &*tag_name == "body") {
-                                token_and_info.span
-                            } else {
-                                Default::default()
-                            },
-                            acknowledged: false,
-                            token: Token::StartTag {
-                                tag_name: "body".into(),
-                                raw_tag_name: None,
-                                self_closing: false,
-                                attributes: vec![],
-                            },
-                        })?;
+                    let span = if matches!(&token_and_info.token, Token::EndTag { tag_name, .. } if &*tag_name == "body")
+                    {
+                        Some(token_and_info.span)
+                    } else {
+                        None
+                    };
+                    let mut body_token = parser.create_fake_token_and_info("body", span);
+
+                    parser.insert_html_element(&mut body_token)?;
                     parser.insertion_mode = InsertionMode::InBody;
                     parser.process_token(token_and_info, None)?;
 
@@ -3175,16 +3167,10 @@ where
                                 ErrorKind::NoElementToCloseButEndTagSeen(tag_name.clone()),
                             ));
 
-                            self.insert_html_element(&mut TokenAndInfo {
-                                span: token_and_info.span,
-                                acknowledged: false,
-                                token: Token::StartTag {
-                                    tag_name: "p".into(),
-                                    raw_tag_name: None,
-                                    self_closing: false,
-                                    attributes: vec![],
-                                },
-                            })?;
+                            self.insert_html_element(
+                                &mut self
+                                    .create_fake_token_and_info("p", Some(token_and_info.span)),
+                            )?;
                         }
 
                         self.close_p_element(token_and_info, true);
@@ -3564,7 +3550,6 @@ where
                     // attributes, rather than the end tag token that it actually is.
                     Token::EndTag {
                         tag_name,
-                        raw_tag_name,
                         self_closing,
                         ..
                     } if tag_name == "br" => {
@@ -3574,16 +3559,9 @@ where
                             .push(Error::new(token_and_info.span, ErrorKind::EndTagBr));
 
                         self.reconstruct_active_formatting_elements()?;
-                        self.insert_html_element(&mut TokenAndInfo {
-                            span: token_and_info.span,
-                            acknowledged: false,
-                            token: Token::StartTag {
-                                tag_name: tag_name.clone(),
-                                raw_tag_name: raw_tag_name.clone(),
-                                self_closing: *self_closing,
-                                attributes: vec![],
-                            },
-                        })?;
+                        self.insert_html_element(
+                            &mut self.create_fake_token_and_info("br", Some(token_and_info.span)),
+                        )?;
                         self.open_elements_stack.pop();
 
                         if is_self_closing {
@@ -4344,7 +4322,7 @@ where
                             _ => false,
                         } =>
                     {
-                        self.pending_character_tokens = vec![];
+                        self.pending_character_tokens.clear();
                         self.original_insertion_mode = self.insertion_mode.clone();
                         self.insertion_mode = InsertionMode::InTableText;
                         self.process_token(token_and_info, None)?;
@@ -4397,16 +4375,9 @@ where
                     // Reprocess the current token.
                     Token::StartTag { tag_name, .. } if tag_name == "col" => {
                         self.open_elements_stack.clear_back_to_table_context();
-                        self.insert_html_element(&mut TokenAndInfo {
-                            span: Default::default(),
-                            acknowledged: true,
-                            token: Token::StartTag {
-                                tag_name: "colgroup".into(),
-                                raw_tag_name: None,
-                                self_closing: false,
-                                attributes: vec![],
-                            },
-                        })?;
+                        self.insert_html_element(
+                            &mut self.create_fake_token_and_info("colgroup", None),
+                        )?;
                         self.insertion_mode = InsertionMode::InColumnGroup;
                         self.process_token(token_and_info, None)?;
                     }
@@ -4435,16 +4406,9 @@ where
                         if matches!(tag_name.as_ref(), "td" | "th" | "tr") =>
                     {
                         self.open_elements_stack.clear_back_to_table_context();
-                        self.insert_html_element(&mut TokenAndInfo {
-                            span: Default::default(),
-                            acknowledged: false,
-                            token: Token::StartTag {
-                                tag_name: "tbody".into(),
-                                raw_tag_name: None,
-                                self_closing: false,
-                                attributes: vec![],
-                            },
-                        })?;
+                        self.insert_html_element(
+                            &mut self.create_fake_token_and_info("tbody", None),
+                        )?;
                         self.insertion_mode = InsertionMode::InTableBody;
                         self.process_token(token_and_info, None)?;
                     }
@@ -5051,16 +5015,7 @@ where
                             ErrorKind::StartTagInTableBody(tag_name.clone()),
                         ));
                         self.open_elements_stack.clear_back_to_table_body_context();
-                        self.insert_html_element(&mut TokenAndInfo {
-                            span: Default::default(),
-                            acknowledged: false,
-                            token: Token::StartTag {
-                                tag_name: "tr".into(),
-                                raw_tag_name: None,
-                                self_closing: false,
-                                attributes: vec![],
-                            },
-                        })?;
+                        self.insert_html_element(&mut self.create_fake_token_and_info("tr", None))?;
                         self.insertion_mode = InsertionMode::InRow;
                         self.process_token(token_and_info, None)?;
                     }
@@ -6885,7 +6840,7 @@ where
                     tag_name,
                     namespace: namespace.unwrap(),
                     attributes,
-                    children: vec![],
+                    children: Vec::with_capacity(16),
                     content: None,
                 }
             }
@@ -7448,9 +7403,26 @@ where
             tag_name: "html".into(),
             namespace: Namespace::HTML,
             attributes: vec![],
-            children: vec![],
+            // body and head `Element`s
+            children: Vec::with_capacity(2),
             content: None,
         }))
+    }
+
+    fn create_fake_token_and_info(&self, tag_name: &str, span: Option<Span>) -> TokenAndInfo {
+        TokenAndInfo {
+            span: match span {
+                Some(span) => span,
+                _ => Default::default(),
+            },
+            acknowledged: false,
+            token: Token::StartTag {
+                tag_name: tag_name.into(),
+                raw_tag_name: None,
+                self_closing: false,
+                attributes: vec![],
+            },
+        }
     }
 
     // Parsing elements that contain only text
@@ -7562,7 +7534,7 @@ where
             }
         };
 
-        let mut additional_attributes = vec![];
+        let mut additional_attributes = Vec::with_capacity(token_attributes.len());
 
         for token_attribute in &token_attributes {
             let mut found = false;
@@ -8171,7 +8143,7 @@ where
 
                 if let Some(last) = children.last() {
                     if let Data::Text(text) = &last.data {
-                        let mut new_value = String::new();
+                        let mut new_value = String::with_capacity(text.value.len() + 1);
 
                         new_value.push_str(&*text.value);
 
@@ -8204,7 +8176,7 @@ where
 
                         if let Some(previous) = children.get(i - 1) {
                             if let Data::Text(text) = &previous.data {
-                                let mut new_value = String::new();
+                                let mut new_value = String::with_capacity(text.value.len() + 1);
 
                                 new_value.push_str(&*text.value);
 
