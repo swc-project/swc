@@ -151,6 +151,8 @@ struct Attribute {
 
 pub(crate) type LexResult<T> = Result<T, ErrorKind>;
 
+// TODO improve `raw` for all tokens (linting + better codegen)
+
 #[derive(Clone)]
 pub struct Lexer<I>
 where
