@@ -1651,10 +1651,12 @@ impl VisitMut for Hoister<'_, '_> {
                     id: TsModuleName::Ident(id),
                     ..
                 }) => {
-                    let old_in_type = self.resolver.in_type;
-                    self.resolver.in_type = false;
-                    self.resolver.modify(id, None);
-                    self.resolver.in_type = old_in_type;
+                    if !self.in_block {
+                        let old_in_type = self.resolver.in_type;
+                        self.resolver.in_type = false;
+                        self.resolver.modify(id, None);
+                        self.resolver.in_type = old_in_type;
+                    }
                 }
                 _ => {}
             }
