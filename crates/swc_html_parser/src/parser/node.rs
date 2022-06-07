@@ -39,7 +39,6 @@ pub enum Data {
     },
 }
 
-// TODO `<template>`
 pub struct Node {
     pub parent: Cell<Option<WeakNode>>,
     pub children: RefCell<Vec<RcNode>>,
@@ -70,7 +69,7 @@ impl Drop for Node {
 
             nodes.extend(children.into_iter());
 
-            // TODO fix me
+            // TODO `<template>` and use contents
             // if let Element { ref children, .. } = node.data {
             //     if let Some(template_contents) = children.borrow_mut().take()
             //     {     nodes.push(template_contents);

@@ -261,7 +261,6 @@ where
     //
     // 14. Return the child nodes of root, in tree order.
     // TODO extract code for building tree from parser in TreeBuilder module
-    // TODO should context_element be RcNode?
     pub fn parse_document_fragment(
         &mut self,
         context_element: Element,
