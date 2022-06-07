@@ -583,10 +583,19 @@ where
                     }
                 }
             }
-            Data::Text { span, data } => Child::Text(Text {
-                span: span.take(),
-                value: data.take().into(),
-            }),
+            Data::Text { data } => {
+                let start_span = node.start_span.take().unwrap();
+                let span = if let Some(end_span) = node.end_span.take() {
+                    swc_common::Span::new(start_span.lo(), end_span.hi(), Default::default())
+                } else {
+                    start_span
+                };
+
+                Child::Text(Text {
+                    span,
+                    value: data.take().into(),
+                })
+            }
             Data::Comment { data } => Child::Comment(Comment {
                 span: node.start_span.take().unwrap(),
                 data,
@@ -8258,7 +8267,7 @@ where
                 let children = parent.children.borrow();
 
                 if let Some(last) = children.last() {
-                    if let Data::Text { span, data } = &last.data {
+                    if let Data::Text { data } = &last.data {
                         match &token_and_info.token {
                             Token::Character { value: c, .. } => {
                                 data.borrow_mut().push(*c);
@@ -8268,7 +8277,7 @@ where
                             }
                         }
 
-                        let mut span = span.borrow_mut();
+                        let mut span = last.end_span.borrow_mut();
 
                         children[index] = Node::new(Data::Text(Text {
                             span: Span::new(first_pos, last_pos, Default::default()),
@@ -8279,6 +8288,7 @@ where
                             token_and_info.span.hi(),
                             Default::default(),
                         );
+                        *span = Some(token_and_info.span);
 
                         return Ok(());
                     }
@@ -8290,7 +8300,7 @@ where
                         let children = parent.children.borrow();
 
                         if let Some(previous) = children.get(i - 1) {
-                            if let Data::Text { span, data } = &previous.data {
+                            if let Data::Text { data } = &previous.data {
                                 match &token_and_info.token {
                                     Token::Character { value: c, .. } => {
                                         data.borrow_mut().push(*c);
@@ -8300,7 +8310,7 @@ where
                                     }
                                 }
 
-                                let mut span = span.borrow_mut();
+                                let mut span = previous.end_span.borrow_mut();
 
                                 children[i - 1] = Node::new(Data::Text(Text {
                                     span: Span::new(first_pos, last_pos, Default::default()),
@@ -8311,6 +8321,7 @@ where
                                     token_and_info.span.hi(),
                                     Default::default(),
                                 );
+                                *span = Some(token_and_info.span);
 
                                 return Ok(());
                             }
@@ -8326,7 +8337,6 @@ where
         // location.
         let text = Node::new(
             Data::Text {
-                span: RefCell::new(token_and_info.span),
                 data: match &token_and_info.token {
                     Token::Character { value: c, .. } => {
                         let mut data = String::with_capacity(255);

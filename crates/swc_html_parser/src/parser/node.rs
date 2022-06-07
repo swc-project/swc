@@ -33,7 +33,6 @@ pub enum Data {
         attributes: Vec<Attribute>,
     },
     Text {
-        span: RefCell<Span>,
         data: RefCell<String>,
     },
     Comment {
