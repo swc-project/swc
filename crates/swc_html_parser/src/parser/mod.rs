@@ -354,20 +354,28 @@ where
     }
 
     fn create_document(&self) -> RcNode {
-        Node::new(Data::Document(Document {
+        Node::new(Data::Document {
             span: Default::default(),
             mode: DocumentMode::NoQuirks,
             // `DocumentType` and HTML `Element`
             children: Vec::with_capacity(2),
-        }))
+        })
     }
 
     // TODO optimize me
     fn node_to_child(&mut self, node: RcNode) -> Child {
         match node.data.clone() {
-            Data::DocumentType(document_type) => {
-                Child::DocumentType(DocumentType { ..document_type })
-            }
+            Data::DocumentType {
+                span,
+                name,
+                public_id,
+                system_id,
+            } => Child::DocumentType(DocumentType {
+                span,
+                name,
+                public_id,
+                system_id,
+            }),
             Data::Element(element) => {
                 let nodes = node.children.take();
                 let mut new_children = Vec::with_capacity(nodes.len());
@@ -1339,11 +1347,12 @@ where
                         }
 
                         let document_type = Node::new(Data::DocumentType(DocumentType {
+                        let document_type = Node::new(Data::DocumentType {
                             span: token_and_info.span,
                             name: name.clone(),
                             public_id: public_id.clone(),
                             system_id: system_id.clone(),
-                        }));
+                        });
 
                         self.append_node(self.document.as_ref().unwrap(), document_type);
 
