@@ -1,4 +1,4 @@
-use std::{borrow::Borrow, cell::RefCell, mem, rc::Rc};
+use std::{cell::RefCell, mem, rc::Rc};
 
 use active_formatting_element_stack::*;
 use doctypes::*;
@@ -92,8 +92,6 @@ where
     template_insertion_mode_stack: Vec<InsertionMode>,
     document_mode: DocumentMode,
     document: Option<RcNode>,
-    html_additional_attributes: Vec<Attribute>,
-    body_additional_attributes: Vec<Attribute>,
     head_element_pointer: Option<RcNode>,
     form_element_pointer: Option<RcNode>,
     open_elements_stack: OpenElementsStack,
@@ -120,8 +118,6 @@ where
             template_insertion_mode_stack: Vec::with_capacity(16),
             document_mode: DocumentMode::NoQuirks,
             document: None,
-            html_additional_attributes: vec![],
-            body_additional_attributes: vec![],
             head_element_pointer: None,
             form_element_pointer: None,
             open_elements_stack: OpenElementsStack::new(),
@@ -401,7 +397,7 @@ where
                     new_children.push(self.node_to_child(node));
                 }
 
-                let mut attributes = attributes.take();
+                let attributes = attributes.take();
 
                 match &*tag_name {
                     "html" if namespace == Namespace::HTML => {
@@ -2382,11 +2378,34 @@ where
                         }
 
                         if let Some(top) = self.open_elements_stack.items.get(0) {
-                            let html_additional_attributes =
-                                self.get_missing_attributes(top, attributes.clone());
+                            let mut node_attributes = match &top.data {
+                                Data::Element { attributes, .. } => attributes.borrow_mut(),
+                                _ => {
+                                    unreachable!();
+                                }
+                            };
 
-                            self.html_additional_attributes
-                                .extend(html_additional_attributes)
+                            for token_attribute in attributes {
+                                let mut found = false;
+
+                                for attribute in node_attributes.iter() {
+                                    if attribute.name == token_attribute.name {
+                                        found = true;
+
+                                        break;
+                                    }
+                                }
+
+                                if !found {
+                                    node_attributes.push(Attribute {
+                                        span: token_attribute.span,
+                                        namespace: None,
+                                        prefix: None,
+                                        name: token_attribute.name.clone(),
+                                        value: token_attribute.value.clone(),
+                                    });
+                                }
+                            }
                         }
                     }
                     // A start tag whose tag name is one of: "base", "basefont", "bgsound", "link",
@@ -2451,11 +2470,34 @@ where
                         self.frameset_ok = false;
 
                         if let Some(top) = self.open_elements_stack.items.get(1) {
-                            let body_additional_attributes =
-                                self.get_missing_attributes(top, attributes.clone());
+                            let mut node_attributes = match &top.data {
+                                Data::Element { attributes, .. } => attributes.borrow_mut(),
+                                _ => {
+                                    unreachable!();
+                                }
+                            };
 
-                            self.body_additional_attributes
-                                .extend(body_additional_attributes);
+                            for token_attribute in attributes {
+                                let mut found = false;
+
+                                for attribute in node_attributes.iter() {
+                                    if attribute.name == token_attribute.name {
+                                        found = true;
+
+                                        break;
+                                    }
+                                }
+
+                                if !found {
+                                    node_attributes.push(Attribute {
+                                        span: token_attribute.span,
+                                        namespace: None,
+                                        prefix: None,
+                                        name: token_attribute.name.clone(),
+                                        value: token_attribute.value.clone(),
+                                    });
+                                }
+                            }
                         }
                     }
                     // A start tag whose tag name is "frameset"
@@ -7631,45 +7673,6 @@ where
         // NOTE: The stack of open elements cannot have both a td and a th
         // element in table scope at the same time, nor can it have neither
         // when the close the cell algorithm is invoked.
-    }
-
-    fn get_missing_attributes(
-        &self,
-        node: &RcNode,
-        token_attributes: Vec<AttributeToken>,
-    ) -> Vec<Attribute> {
-        let attributes = match &node.data {
-            Data::Element { attributes, .. } => attributes.borrow(),
-            _ => {
-                unreachable!();
-            }
-        };
-
-        let mut additional_attributes = Vec::with_capacity(token_attributes.len());
-
-        for token_attribute in &token_attributes {
-            let mut found = false;
-
-            for attribute in attributes.borrow().iter() {
-                if attribute.name == token_attribute.name {
-                    found = true;
-
-                    break;
-                }
-            }
-
-            if !found {
-                additional_attributes.push(Attribute {
-                    span: token_attribute.span,
-                    namespace: None,
-                    prefix: None,
-                    name: token_attribute.name.clone(),
-                    value: token_attribute.value.clone(),
-                });
-            }
-        }
-
-        additional_attributes
     }
 
     fn reset_insertion_mode(&mut self) {
