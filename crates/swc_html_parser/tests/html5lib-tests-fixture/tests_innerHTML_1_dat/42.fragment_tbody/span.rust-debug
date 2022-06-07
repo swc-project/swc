@@ -10,10 +10,6 @@
   x Element
 
   x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat/42.fragment_tbody/input.html:1:1]
  1 | <tfoot><a>
    :        ^^^

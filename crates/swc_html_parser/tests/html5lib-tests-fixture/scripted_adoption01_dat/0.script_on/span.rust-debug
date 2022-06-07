@@ -10,10 +10,6 @@
   x Element
 
   x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/html5lib-tests-fixture/scripted_adoption01_dat/0.script_on/input.html:1:1]
  1 | <p><b id="A"><script>document.getElementById("A").id = "B"</script></p>TEXT</b>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

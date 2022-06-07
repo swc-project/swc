@@ -10,10 +10,6 @@
   x Element
 
   x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat/30.fragment_math_mi/input.html:1:1]
  1 | <b></b><mglyph/><i></i><malignmark/><u></u><mi/>X
    : ^^^^^^^

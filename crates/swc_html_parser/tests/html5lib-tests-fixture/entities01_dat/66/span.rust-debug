@@ -10,10 +10,6 @@
   x Element
 
   x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/html5lib-tests-fixture/entities01_dat/66/input.html:1:1]
  1 | FOO&#x10FFFF;ZOO
    : ^^^^^^^^^^^^^^^^

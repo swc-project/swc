@@ -23,10 +23,6 @@
   x Element
 
   x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/fixture/element/no-basic/input.html:2:1]
  2 | <title>Saving money, saving bytes</title>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

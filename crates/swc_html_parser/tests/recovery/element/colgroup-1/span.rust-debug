@@ -13,10 +13,6 @@
   x Element
 
   x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/recovery/element/colgroup-1/input.html:1:1]
  1 | ,-> <body>
  2 | |   <template><col><colgroup></template>

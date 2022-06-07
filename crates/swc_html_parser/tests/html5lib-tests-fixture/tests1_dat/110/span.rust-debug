@@ -10,10 +10,6 @@
   x Element
 
   x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/110/input.html:1:1]
  1 | <table><colgroup><tbody><colgroup><tr><colgroup><td><colgroup></table><colgroup>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -62,10 +58,6 @@
    `----
 
   x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/110/input.html:1:1]
  1 | <table><colgroup><tbody><colgroup><tr><colgroup><td><colgroup></table><colgroup>
    :                                   ^^^^
@@ -88,10 +80,6 @@
  1 | <table><colgroup><tbody><colgroup><tr><colgroup><td><colgroup></table><colgroup>
    :                                       ^^^^^^^^^^
    `----
-
-  x Child
-
-  x Element
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat/110/input.html:1:1]

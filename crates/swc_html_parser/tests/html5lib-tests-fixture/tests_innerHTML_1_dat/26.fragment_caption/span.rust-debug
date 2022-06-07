@@ -10,10 +10,6 @@
   x Element
 
   x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat/26.fragment_caption/input.html:1:1]
  1 | <span><col><span>
    : ^^^^^^^^^^^^^^^^^

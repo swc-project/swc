@@ -23,10 +23,6 @@
   x Element
 
   x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat/30/input.html:3:1]
  3 | ]>
    : ^^

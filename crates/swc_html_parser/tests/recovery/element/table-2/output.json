@@ -205,7 +205,7 @@
                   "type": "Element",
                   "span": {
                     "start": 0,
-                    "end": 139,
+                    "end": 0,
                     "ctxt": 0
                   },
                   "tagName": "tbody",

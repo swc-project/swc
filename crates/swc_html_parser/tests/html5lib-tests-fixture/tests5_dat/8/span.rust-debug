@@ -10,10 +10,6 @@
   x Element
 
   x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests5_dat/8/input.html:1:1]
  1 | <textarea> <!--- </textarea>->x</textarea> --> </textarea>x
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^

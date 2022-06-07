@@ -26,10 +26,6 @@
   x Element
 
   x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/fixture/element/select/input.html:2:1]
  2 | <select><option>foo</option><option>bar</option></select>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

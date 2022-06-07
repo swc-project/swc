@@ -22,10 +22,6 @@
   x Element
 
   x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/fixture/text/cr/input.html:1:1]
  1 | <!doctypehtml>Text<div>Text</div><div>    Text</div><div>    Text    Text</div><div>Text    Text</div><divtest="test"></div><divdata-q="test"></div><divdata-q='test'></div><divdata-q=test></div><style>.color {    color: red;    <!-- Test -->}</style>
    :                 ^^^^^
