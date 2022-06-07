@@ -33,6 +33,17 @@ macro_rules! get_namespace {
     }};
 }
 
+macro_rules! get_document_mode {
+    ($node:expr) => {{
+        match &$node.data {
+            crate::parser::Data::Document { mode, .. } => *mode.borrow(),
+            _ => {
+                unreachable!();
+            }
+        }
+    }};
+}
+
 macro_rules! is_html_element {
     ($node:expr, $tag_names:pat) => {{
         get_namespace!($node) == Namespace::HTML && matches!(get_tag_name!($node), $tag_names)

@@ -18,7 +18,7 @@ pub struct TokenAndInfo {
 #[derive(Debug, Clone)]
 pub enum Data {
     Document {
-        mode: DocumentMode,
+        mode: RefCell<DocumentMode>,
         children: Vec<Child>,
     },
     DocumentType {
@@ -68,13 +68,6 @@ impl Drop for Node {
             let children = mem::take(&mut *node.children.borrow_mut());
 
             nodes.extend(children.into_iter());
-
-            // TODO `<template>` and use contents
-            // if let Element { ref children, .. } = node.data {
-            //     if let Some(template_contents) = children.borrow_mut().take()
-            //     {     nodes.push(template_contents);
-            //     }
-            // }
         }
     }
 }

@@ -90,7 +90,6 @@ where
     insertion_mode: InsertionMode,
     original_insertion_mode: InsertionMode,
     template_insertion_mode_stack: Vec<InsertionMode>,
-    document_mode: DocumentMode,
     document: Option<RcNode>,
     head_element_pointer: Option<RcNode>,
     form_element_pointer: Option<RcNode>,
@@ -116,7 +115,6 @@ where
             insertion_mode: Default::default(),
             original_insertion_mode: Default::default(),
             template_insertion_mode_stack: Vec::with_capacity(16),
-            document_mode: DocumentMode::NoQuirks,
             document: None,
             head_element_pointer: None,
             form_element_pointer: None,
@@ -153,10 +151,16 @@ where
         }
 
         let last = self.input.last_pos()?;
+        let mode = match &document.data {
+            Data::Document { mode, .. } => *mode.borrow(),
+            _ => {
+                unreachable!();
+            }
+        };
 
         Ok(Document {
             span: Span::new(start.lo(), last, Default::default()),
-            mode: self.document_mode,
+            mode,
             children,
         })
     }
@@ -358,7 +362,7 @@ where
     fn create_document(&self) -> RcNode {
         Node::new(
             Data::Document {
-                mode: DocumentMode::NoQuirks,
+                mode: RefCell::new(DocumentMode::NoQuirks),
                 // `DocumentType` and HTML `Element`
                 children: Vec::with_capacity(2),
             },
@@ -1434,18 +1438,18 @@ where
                                     &&*system_id.to_ascii_lowercase()
                                 )))
                         {
-                            self.document_mode = DocumentMode::Quirks;
+                            self.set_document_mode(DocumentMode::Quirks);
                         } else if let Some(public_id) = public_id {
                             if LIMITED_QUIRKY_PUBLIC_PREFIXES
                                 .contains(&&*public_id.as_ref().to_ascii_lowercase())
                             {
-                                self.document_mode = DocumentMode::Quirks;
+                                self.set_document_mode(DocumentMode::Quirks);
                             }
                         } else if let Some(system_id) = system_id {
                             if HTML4_PUBLIC_PREFIXES
                                 .contains(&&*system_id.as_ref().to_ascii_lowercase())
                             {
-                                self.document_mode = DocumentMode::Quirks;
+                                self.set_document_mode(DocumentMode::Quirks);
                             }
                         }
 
@@ -1491,7 +1495,7 @@ where
                                 }
                             }
 
-                            self.document_mode = DocumentMode::Quirks;
+                            self.set_document_mode(DocumentMode::Quirks);
                         }
 
                         self.insertion_mode = InsertionMode::BeforeHtml;
@@ -3684,7 +3688,8 @@ where
                     //
                     // Switch the insertion mode to "in table".
                     Token::StartTag { tag_name, .. } if tag_name == "table" => {
-                        if self.document_mode != DocumentMode::Quirks
+                        if get_document_mode!(self.document.as_ref().unwrap())
+                            != DocumentMode::Quirks
                             && self.open_elements_stack.has_in_button_scope("p")
                         {
                             self.close_p_element(token_and_info, false);
@@ -7878,6 +7883,21 @@ where
             // elements.
             //
             // 18. Return to the step labeled loop.
+        }
+    }
+
+    fn set_document_mode(&mut self, document_mode: DocumentMode) {
+        if let Some(document) = &self.document {
+            match &document.data {
+                Data::Document { mode, .. } => {
+                    let mut mode = mode.borrow_mut();
+
+                    *mode = document_mode;
+                }
+                _ => {
+                    unreachable!();
+                }
+            }
         }
     }
 
