@@ -1,31 +1,14 @@
 use std::{char::REPLACEMENT_CHARACTER, mem::take};
 
-use once_cell::sync::Lazy;
-use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
-use swc_common::{
-    collections::{AHashMap, AHashSet},
-    input::Input,
-    BytePos, Span,
-};
+use swc_common::{collections::AHashSet, input::Input, BytePos, Span};
 use swc_html_ast::{AttributeToken, Token, TokenAndSpan};
+use swc_html_utils::{Entity, HTML_ENTITIES};
 
 use crate::{
     error::{Error, ErrorKind},
     parser::input::ParserInput,
 };
-
-#[derive(Serialize, Deserialize, Debug)]
-pub struct Entity {
-    characters: String,
-}
-
-pub static HTML_ENTITIES: Lazy<AHashMap<String, Entity>> = Lazy::new(|| {
-    let entities: AHashMap<String, Entity> = serde_json::from_str(include_str!("./entities.json"))
-        .expect("failed to parse entities.json for html entities");
-
-    entities
-});
 
 #[derive(Debug, Clone)]
 pub enum State {
@@ -4035,7 +4018,7 @@ where
                         //
                         // - not ascii alphanumeric
                         // - we consume more characters than the longest entity
-                        if !c.is_ascii_alphanumeric() || self.temporary_buffer.len() > 32 {
+                        if !c.is_ascii_alphanumeric() || entity_temporary_buffer.len() > 32 {
                             break;
                         }
                     }
