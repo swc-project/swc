@@ -279,7 +279,7 @@ where
                 tag_name: context_element.tag_name,
                 attributes: RefCell::new(context_element.attributes),
             },
-            None,
+            DUMMY_SP,
         );
 
         // 4.
@@ -364,16 +364,12 @@ where
             Data::Document {
                 mode: RefCell::new(DocumentMode::NoQuirks),
             },
-            None,
+            DUMMY_SP,
         )
     }
 
     fn node_to_child(&mut self, node: RcNode) -> Child {
-        let start_span = if let Some(start_span) = node.start_span.take() {
-            start_span
-        } else {
-            DUMMY_SP
-        };
+        let start_span = node.start_span.take();
 
         match node.data.clone() {
             Data::DocumentType {
@@ -401,113 +397,35 @@ where
                 let attributes = attributes.take();
 
                 match &*tag_name {
-                    "html" if namespace == Namespace::HTML => {
-                        if !self.html_additional_attributes.is_empty() {
-                            let additional_attributes: Vec<_> =
-                                self.html_additional_attributes.drain(..).collect();
-
-                            attributes.extend(additional_attributes)
-                        }
-
-                        let span = if element.span.is_dummy() {
-                            element.span
+                    "html" | "body" if namespace == Namespace::HTML => {
                         // Elements and text after `</html>` are moving into `<body>`
-                        let end_html = match node.end_span.take() {
-                            Some(end_tag_span) => end_tag_span.hi(),
-                            _ => start_span.hi(),
-                        };
-                        let end_children = match new_children.last() {
-                            Some(Child::DocumentType(DocumentType { span, .. })) => span.hi(),
-                            Some(Child::Element(Element { span, .. })) => span.hi(),
-                            Some(Child::Comment(Comment { span, .. })) => span.hi(),
-                            Some(Child::Text(Text { span, .. })) => span.hi(),
-                            _ => start_span.hi(),
-                        };
-                        let end = if end_html >= end_children {
-                            end_html
-                        } else {
-                            // Elements and text after `</html>` are moving into `<body>`
-                            let end_html = match node.end_tag_span.take() {
-                                Some(end_tag_span) => end_tag_span.hi(),
-                                _ => element.span.hi(),
-                            };
-                            let end_children = match new_children.last() {
-                                Some(Child::DocumentType(DocumentType { span, .. })) => span.hi(),
-                                Some(Child::Element(Element { span, .. })) => span.hi(),
-                                Some(Child::Comment(Comment { span, .. })) => span.hi(),
-                                Some(Child::Text(Text { span, .. })) => span.hi(),
-                                _ => element.span.hi(),
-                            };
-                            let end = if end_html >= end_children {
-                                end_html
-                            } else {
-                                end_children
-                            };
-
-                            Span::new(element.span.lo(), end, Default::default())
-                        };
-
-                        Child::Element(Element {
-                            span,
-                            span: Span::new(span.lo(), end, Default::default()),
-                            span: Span::new(start_span.lo(), end, Default::default()),
-                            namespace,
-                            tag_name,
-                            attributes,
-                            children: new_children,
-                            content: None,
-                        })
-                    }
-                    "body" if namespace == Namespace::HTML => {
-                        if !self.body_additional_attributes.is_empty() {
-                            let additional_attributes: Vec<_> =
-                                self.body_additional_attributes.drain(..).collect();
-
-                            attributes.extend(additional_attributes);
-                        }
-
-                        let span = if element.span.is_dummy() {
-                            element.span
                         // Elements and text after `</body>` are moving into `<body>`
-                        let end_body = match node.end_span.take() {
-                            Some(end_tag_span) => end_tag_span.hi(),
-                            _ => start_span.hi(),
-                        };
-                        let end_children = match new_children.last() {
-                            Some(Child::DocumentType(DocumentType { span, .. })) => span.hi(),
-                            Some(Child::Element(Element { span, .. })) => span.hi(),
-                            Some(Child::Comment(Comment { span, .. })) => span.hi(),
-                            Some(Child::Text(Text { span, .. })) => span.hi(),
-                            _ => start_span.hi(),
-                        };
-                        let end = if end_body >= end_children {
-                            end_body
+                        let span = if start_span.is_dummy() {
+                            start_span
                         } else {
-                            // Elements and text after `</body>` are moving into `<body>`
-                            let end_body = match node.end_tag_span.take() {
+                            let end_body = match node.end_span.take() {
                                 Some(end_tag_span) => end_tag_span.hi(),
-                                _ => element.span.hi(),
+                                _ => start_span.hi(),
                             };
                             let end_children = match new_children.last() {
                                 Some(Child::DocumentType(DocumentType { span, .. })) => span.hi(),
                                 Some(Child::Element(Element { span, .. })) => span.hi(),
                                 Some(Child::Comment(Comment { span, .. })) => span.hi(),
                                 Some(Child::Text(Text { span, .. })) => span.hi(),
-                                _ => element.span.hi(),
+                                _ => start_span.hi(),
                             };
+
                             let end = if end_body >= end_children {
                                 end_body
                             } else {
                                 end_children
                             };
 
-                            Span::new(element.span.lo(), end, Default::default())
+                            Span::new(start_span.lo(), end, Default::default())
                         };
 
                         Child::Element(Element {
                             span,
-                            span: Span::new(span.lo(), end, Default::default()),
-                            span: Span::new(start_span.lo(), end, Default::default()),
                             namespace,
                             tag_name,
                             attributes,
@@ -516,11 +434,12 @@ where
                         })
                     }
                     _ => {
-                        let span = if element.span.is_dummy() {
-                            element.span
+                        let is_template = namespace == Namespace::HTML && &*tag_name == "template";
+                        let span = if start_span.is_dummy() {
+                            start_span
                         } else {
-                            let end = match node.end_tag_span.take() {
-                                Some(end_tag_span) => end_tag_span.hi(),
+                            let end = match node.end_span.take() {
+                                Some(end_span) => end_span.hi(),
                                 _ => match new_children.last() {
                                     Some(Child::DocumentType(DocumentType { span, .. })) => {
                                         span.hi()
@@ -528,28 +447,12 @@ where
                                     Some(Child::Element(Element { span, .. })) => span.hi(),
                                     Some(Child::Comment(Comment { span, .. })) => span.hi(),
                                     Some(Child::Text(Text { span, .. })) => span.hi(),
-                                    _ => element.span.hi(),
+                                    _ => start_span.hi(),
                                 },
                             };
 
-                            Span::new(element.span.lo(), end, Default::default())
+                            Span::new(start_span.lo(), end, Default::default())
                         };
-
-                        Child::Element(Element {
-                            span,
-                        let end = match node.end_tag_span.take() {
-                        let is_template = namespace == Namespace::HTML && &*tag_name == "template";
-                        let end = match node.end_span.take() {
-                            Some(end_tag_span) => end_tag_span.hi(),
-                            _ => match new_children.last() {
-                                Some(Child::DocumentType(DocumentType { span, .. })) => span.hi(),
-                                Some(Child::Element(Element { span, .. })) => span.hi(),
-                                Some(Child::Comment(Comment { span, .. })) => span.hi(),
-                                Some(Child::Text(Text { span, .. })) => span.hi(),
-                                _ => start_span.hi(),
-                            },
-                        };
-                        let span = Span::new(start_span.lo(), end, Default::default());
                         let (children, content) = if is_template {
                             (
                                 vec![],
@@ -563,7 +466,7 @@ where
                         };
 
                         Child::Element(Element {
-                            span: Span::new(start_span.lo(), end, Default::default()),
+                            span,
                             namespace,
                             tag_name,
                             attributes,
@@ -1407,20 +1310,13 @@ where
                             ));
                         }
 
-                        let document_type = Node::new(Data::DocumentType(DocumentType {
-                        let document_type = Node::new(Data::DocumentType {
-                            span: token_and_info.span,
-                            name: name.clone(),
-                            public_id: public_id.clone(),
-                            system_id: system_id.clone(),
-                        });
                         let document_type = Node::new(
                             Data::DocumentType {
                                 name: name.clone(),
                                 public_id: public_id.clone(),
                                 system_id: system_id.clone(),
                             },
-                            Some(token_and_info.span),
+                            token_and_info.span,
                         );
 
                         self.append_node(self.document.as_ref().unwrap(), document_type);
@@ -1574,7 +1470,7 @@ where
                                         .collect(),
                                 ),
                             },
-                            Some(token_and_info.span),
+                            token_and_info.span,
                         );
 
                         self.open_elements_stack.push(element.clone());
@@ -6999,7 +6895,7 @@ where
             }
         };
 
-        Node::new(element, Some(span))
+        Node::new(element, span)
     }
 
     // The adoption agency algorithm, which takes as its only argument a token token
@@ -7544,21 +7440,13 @@ where
     }
 
     fn create_fake_html_element(&self) -> RcNode {
-        Node::new(Data::Element(Element {
-            span: DUMMY_SP,
-        Node::new(Data::Element {
-            span: Default::default(),
-            tag_name: "html".into(),
-            namespace: Namespace::HTML,
-            attributes: vec![],
-        })
         Node::new(
             Data::Element {
                 tag_name: "html".into(),
                 namespace: Namespace::HTML,
                 attributes: RefCell::new(vec![]),
             },
-            None,
+            DUMMY_SP,
         )
     }
 
@@ -7654,7 +7542,7 @@ where
         match self.open_elements_stack.items.last() {
             Some(node) if !is_html_element!(node, "td" | "th") => {
                 self.errors.push(Error::new(
-                    node.start_span.borrow().unwrap(),
+                    *node.start_span.borrow(),
                     ErrorKind::UnclosedElementsCell,
                 ));
             }
@@ -8197,7 +8085,7 @@ where
                     }
                 },
             },
-            Some(token_and_info.span),
+            token_and_info.span,
         );
 
         // Insert the newly created node at the adjusted insertion location.
@@ -8219,7 +8107,7 @@ where
                     }
                 },
             },
-            Some(token_and_info.span),
+            token_and_info.span,
         );
 
         if let Some(document) = &self.document {
@@ -8242,7 +8130,7 @@ where
                     }
                 },
             },
-            Some(token_and_info.span),
+            token_and_info.span,
         );
 
         if let Some(html) = &self.open_elements_stack.items.get(0) {
@@ -8292,15 +8180,6 @@ where
 
                         let mut span = last.end_span.borrow_mut();
 
-                        children[index] = Node::new(Data::Text(Text {
-                            span: Span::new(first_pos, last_pos, Default::default()),
-                            value: new_value.into(),
-                        }));
-                        *span = swc_common::Span::new(
-                            span.lo(),
-                            token_and_info.span.hi(),
-                            Default::default(),
-                        );
                         *span = Some(token_and_info.span);
 
                         return Ok(());
@@ -8325,15 +8204,6 @@ where
 
                                 let mut span = previous.end_span.borrow_mut();
 
-                                children[i - 1] = Node::new(Data::Text(Text {
-                                    span: Span::new(first_pos, last_pos, Default::default()),
-                                    value: new_value.into(),
-                                }));
-                                *span = swc_common::Span::new(
-                                    span.lo(),
-                                    token_and_info.span.hi(),
-                                    Default::default(),
-                                );
                                 *span = Some(token_and_info.span);
 
                                 return Ok(());
@@ -8363,7 +8233,7 @@ where
                     }
                 },
             },
-            Some(token_and_info.span),
+            token_and_info.span,
         );
 
         self.insert_at_position(adjusted_insertion_location, text);
@@ -8475,13 +8345,10 @@ where
 
     fn update_end_tag_span(&self, node: Option<&RcNode>, token_and_info: &TokenAndInfo) {
         if let Some(node) = node {
-            let span = get_span!(node);
-
-            if span.is_dummy() {
+            if node.start_span.borrow().is_dummy() {
                 return;
             }
 
-            let mut end_tag_span = node.end_tag_span.borrow_mut();
             let mut end_tag_span = node.end_span.borrow_mut();
 
             *end_tag_span = Some(token_and_info.span);
