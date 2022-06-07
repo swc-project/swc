@@ -364,7 +364,6 @@ where
     fn create_document(&self) -> RcNode {
         Node::new(
             Data::Document {
-                span: Default::default(),
                 mode: DocumentMode::NoQuirks,
                 // `DocumentType` and HTML `Element`
                 children: Vec::with_capacity(2),
@@ -377,12 +376,11 @@ where
     fn node_to_child(&mut self, node: RcNode) -> Child {
         match node.data.clone() {
             Data::DocumentType {
-                span,
                 name,
                 public_id,
                 system_id,
             } => Child::DocumentType(DocumentType {
-                span,
+                span: node.start_span.take().unwrap(),
                 name,
                 public_id,
                 system_id,
@@ -1420,7 +1418,6 @@ where
                         });
                         let document_type = Node::new(
                             Data::DocumentType {
-                                span: token_and_info.span,
                                 name: name.clone(),
                                 public_id: public_id.clone(),
                                 system_id: system_id.clone(),

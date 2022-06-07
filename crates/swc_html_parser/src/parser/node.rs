@@ -18,12 +18,10 @@ pub struct TokenAndInfo {
 #[derive(Debug, Clone)]
 pub enum Data {
     Document {
-        span: Span,
         mode: DocumentMode,
         children: Vec<Child>,
     },
     DocumentType {
-        span: Span,
         name: Option<JsWord>,
         public_id: Option<JsWord>,
         system_id: Option<JsWord>,
