@@ -274,12 +274,15 @@ where
 
         // 3.
         // Parser already created
-        let context_node = Node::new(Data::Element {
-            span: context_element.span,
-            namespace: context_element.namespace,
-            tag_name: context_element.tag_name,
-            attributes: context_element.attributes,
-        });
+        let context_node = Node::new(
+            Data::Element {
+                span: context_element.span,
+                namespace: context_element.namespace,
+                tag_name: context_element.tag_name,
+                attributes: context_element.attributes,
+            },
+            None,
+        );
 
         // 4.
         match get_tag_name!(context_node) {
@@ -359,12 +362,15 @@ where
     }
 
     fn create_document(&self) -> RcNode {
-        Node::new(Data::Document {
-            span: Default::default(),
-            mode: DocumentMode::NoQuirks,
-            // `DocumentType` and HTML `Element`
-            children: Vec::with_capacity(2),
-        })
+        Node::new(
+            Data::Document {
+                span: Default::default(),
+                mode: DocumentMode::NoQuirks,
+                // `DocumentType` and HTML `Element`
+                children: Vec::with_capacity(2),
+            },
+            None,
+        )
     }
 
     // TODO optimize me
@@ -583,8 +589,8 @@ where
                 span: span.take(),
                 value: data.take().into(),
             }),
-            Data::Comment { span, data } => Child::Comment(Comment {
-                span: span.take(),
+            Data::Comment { data } => Child::Comment(Comment {
+                span: node.start_span.take().unwrap(),
                 data,
             }),
             _ => {
@@ -1412,6 +1418,15 @@ where
                             public_id: public_id.clone(),
                             system_id: system_id.clone(),
                         });
+                        let document_type = Node::new(
+                            Data::DocumentType {
+                                span: token_and_info.span,
+                                name: name.clone(),
+                                public_id: public_id.clone(),
+                                system_id: system_id.clone(),
+                            },
+                            Some(token_and_info.span),
+                        );
 
                         self.append_node(self.document.as_ref().unwrap(), document_type);
 
@@ -1547,21 +1562,24 @@ where
                         attributes,
                         ..
                     } if tag_name == "html" => {
-                        let element = Node::new(Data::Element {
-                            span: token_and_info.span,
-                            namespace: Namespace::HTML,
-                            tag_name: tag_name.into(),
-                            attributes: attributes
-                                .iter()
-                                .map(|attribute| Attribute {
-                                    span: attribute.span,
-                                    namespace: None,
-                                    prefix: None,
-                                    name: attribute.name.clone(),
-                                    value: attribute.value.clone(),
-                                })
-                                .collect(),
-                        });
+                        let element = Node::new(
+                            Data::Element {
+                                span: token_and_info.span,
+                                namespace: Namespace::HTML,
+                                tag_name: tag_name.into(),
+                                attributes: attributes
+                                    .iter()
+                                    .map(|attribute| Attribute {
+                                        span: attribute.span,
+                                        namespace: None,
+                                        prefix: None,
+                                        name: attribute.name.clone(),
+                                        value: attribute.value.clone(),
+                                    })
+                                    .collect(),
+                            },
+                            Some(token_and_info.span),
+                        );
 
                         self.open_elements_stack.push(element.clone());
 
@@ -6939,7 +6957,7 @@ where
             }
         };
 
-        Node::new(element)
+        Node::new(element, Some(span))
     }
 
     // The adoption agency algorithm, which takes as its only argument a token token
@@ -7492,6 +7510,15 @@ where
             namespace: Namespace::HTML,
             attributes: vec![],
         })
+        Node::new(
+            Data::Element {
+                span: Default::default(),
+                tag_name: "html".into(),
+                namespace: Namespace::HTML,
+                attributes: vec![],
+            },
+            None,
+        )
     }
 
     fn create_fake_token_and_info(&self, tag_name: &str, span: Option<Span>) -> TokenAndInfo {
@@ -8142,15 +8169,17 @@ where
         // Create a Comment node whose data attribute is set to data and whose
         // node document is the same as that of the node in which the adjusted
         // insertion location finds itself.
-        let comment = Node::new(Data::Comment {
-            span: RefCell::new(token_and_info.span),
-            data: match &token_and_info.token {
-                Token::Comment { data } => data.clone(),
-                _ => {
-                    unreachable!()
-                }
+        let comment = Node::new(
+            Data::Comment {
+                data: match &token_and_info.token {
+                    Token::Comment { data } => data.clone(),
+                    _ => {
+                        unreachable!()
+                    }
+                },
             },
-        });
+            Some(token_and_info.span),
+        );
 
         // Insert the newly created node at the adjusted insertion location.
         self.insert_at_position(adjusted_insertion_location, comment);
@@ -8162,15 +8191,17 @@ where
         &mut self,
         token_and_info: &mut TokenAndInfo,
     ) -> PResult<()> {
-        let comment = Node::new(Data::Comment {
-            span: RefCell::new(token_and_info.span),
-            data: match &token_and_info.token {
-                Token::Comment { data } => data.clone(),
-                _ => {
-                    unreachable!()
-                }
+        let comment = Node::new(
+            Data::Comment {
+                data: match &token_and_info.token {
+                    Token::Comment { data } => data.clone(),
+                    _ => {
+                        unreachable!()
+                    }
+                },
             },
-        });
+            Some(token_and_info.span),
+        );
 
         if let Some(document) = &self.document {
             self.append_node(document, comment);
@@ -8183,15 +8214,17 @@ where
         &mut self,
         token_and_info: &mut TokenAndInfo,
     ) -> PResult<()> {
-        let comment = Node::new(Data::Comment {
-            span: RefCell::new(token_and_info.span),
-            data: match &token_and_info.token {
-                Token::Comment { data } => data.clone(),
-                _ => {
-                    unreachable!()
-                }
+        let comment = Node::new(
+            Data::Comment {
+                data: match &token_and_info.token {
+                    Token::Comment { data } => data.clone(),
+                    _ => {
+                        unreachable!()
+                    }
+                },
             },
-        });
+            Some(token_and_info.span),
+        );
 
         if let Some(html) = &self.open_elements_stack.items.get(0) {
             self.append_node(html, comment);
@@ -8294,21 +8327,24 @@ where
         // is the same as that of the element in which the adjusted insertion location
         // finds itself, and insert the newly created node at the adjusted insertion
         // location.
-        let text = Node::new(Data::Text {
-            span: RefCell::new(token_and_info.span),
-            data: match &token_and_info.token {
-                Token::Character { value: c, .. } => {
-                    let mut data = String::with_capacity(255);
+        let text = Node::new(
+            Data::Text {
+                span: RefCell::new(token_and_info.span),
+                data: match &token_and_info.token {
+                    Token::Character { value: c, .. } => {
+                        let mut data = String::with_capacity(255);
 
-                    data.push(*c);
+                        data.push(*c);
 
-                    RefCell::new(data)
-                }
-                _ => {
-                    unreachable!()
-                }
+                        RefCell::new(data)
+                    }
+                    _ => {
+                        unreachable!()
+                    }
+                },
             },
-        });
+            Some(token_and_info.span),
+        );
 
         self.insert_at_position(adjusted_insertion_location, text);
 

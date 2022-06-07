@@ -39,12 +39,11 @@ pub enum Data {
         data: RefCell<String>,
     },
     Comment {
-        span: RefCell<Span>,
         data: JsWord,
     },
 }
 
-// TODO `<template>` and reduce memory usage for `children` in token
+// TODO `<template>`
 pub struct Node {
     pub parent: Cell<Option<WeakNode>>,
     pub children: RefCell<Vec<RcNode>>,
@@ -55,11 +54,11 @@ pub struct Node {
 
 impl Node {
     /// Create a new node from its contents
-    pub fn new(data: Data) -> Rc<Self> {
+    pub fn new(data: Data, span: Option<Span>) -> Rc<Self> {
         Rc::new(Node {
             parent: Cell::new(None),
             children: RefCell::new(vec![]),
-            start_span: RefCell::new(None),
+            start_span: RefCell::new(span),
             end_span: RefCell::new(None),
             data,
         })
