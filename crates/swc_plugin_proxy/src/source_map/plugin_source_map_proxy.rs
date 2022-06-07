@@ -1,3 +1,4 @@
+#![allow(unused_imports)]
 #![allow(unused_variables)]
 #[cfg(feature = "plugin-mode")]
 use swc_common::{
