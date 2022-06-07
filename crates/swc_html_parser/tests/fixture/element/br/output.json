@@ -60,7 +60,7 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
@@ -80,7 +80,7 @@
                     "end": 60,
                     "ctxt": 0
                   },
-                  "value": "Document"
+                  "data": "Document"
                 }
               ],
               "content": null
@@ -92,7 +92,7 @@
                 "end": 69,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             }
           ],
           "content": null
@@ -104,7 +104,7 @@
             "end": 77,
             "ctxt": 0
           },
-          "value": "\n"
+          "data": "\n"
         },
         {
           "type": "Element",
@@ -124,7 +124,7 @@
                 "end": 85,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
@@ -144,7 +144,7 @@
                     "end": 110,
                     "ctxt": 0
                   },
-                  "value": " O'er all the hilltops"
+                  "data": " O'er all the hilltops"
                 },
                 {
                   "type": "Element",
@@ -166,7 +166,7 @@
                     "end": 132,
                     "ctxt": 0
                   },
-                  "value": "\n    Is quiet now,"
+                  "data": "\n    Is quiet now,"
                 },
                 {
                   "type": "Element",
@@ -188,7 +188,7 @@
                     "end": 160,
                     "ctxt": 0
                   },
-                  "value": "\n    In all the treetops"
+                  "data": "\n    In all the treetops"
                 },
                 {
                   "type": "Element",
@@ -210,7 +210,7 @@
                     "end": 181,
                     "ctxt": 0
                   },
-                  "value": "\n    Hearest thou"
+                  "data": "\n    Hearest thou"
                 },
                 {
                   "type": "Element",
@@ -232,7 +232,7 @@
                     "end": 206,
                     "ctxt": 0
                   },
-                  "value": "\n    Hardly a breath;"
+                  "data": "\n    Hardly a breath;"
                 },
                 {
                   "type": "Element",
@@ -254,7 +254,7 @@
                     "end": 249,
                     "ctxt": 0
                   },
-                  "value": "\n    The birds are asleep in the trees:"
+                  "data": "\n    The birds are asleep in the trees:"
                 },
                 {
                   "type": "Element",
@@ -276,7 +276,7 @@
                     "end": 279,
                     "ctxt": 0
                   },
-                  "value": "\n    Wait, soon like these"
+                  "data": "\n    Wait, soon like these"
                 },
                 {
                   "type": "Element",
@@ -298,7 +298,7 @@
                     "end": 309,
                     "ctxt": 0
                   },
-                  "value": "\n    Thou too shalt rest.\n"
+                  "data": "\n    Thou too shalt rest.\n"
                 }
               ],
               "content": null
@@ -310,7 +310,7 @@
                 "end": 323,
                 "ctxt": 0
               },
-              "value": "\n\n\n"
+              "data": "\n\n\n"
             }
           ],
           "content": null

@@ -95,7 +95,7 @@
                             "end": 25,
                             "ctxt": 0
                           },
-                          "value": "A"
+                          "data": "A"
                         }
                       ],
                       "content": null
@@ -121,7 +121,7 @@
                         "end": 35,
                         "ctxt": 0
                       },
-                      "value": "B"
+                      "data": "B"
                     },
                     {
                       "type": "Element",
@@ -141,7 +141,7 @@
                             "end": 41,
                             "ctxt": 0
                           },
-                          "value": "C"
+                          "data": "C"
                         }
                       ],
                       "content": null

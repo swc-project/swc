@@ -13,7 +13,7 @@
         "end": 46,
         "ctxt": 0
       },
-      "value": "this is &#x0043;DATA inside a <style> element"
+      "data": "this is &#x0043;DATA inside a <style> element"
     }
   ]
 }

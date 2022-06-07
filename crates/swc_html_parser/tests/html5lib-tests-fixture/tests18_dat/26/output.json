@@ -115,7 +115,7 @@
                                     "end": 43,
                                     "ctxt": 0
                                   },
-                                  "value": "</script>"
+                                  "data": "</script>"
                                 }
                               ],
                               "content": null
@@ -127,7 +127,7 @@
                                 "end": 54,
                                 "ctxt": 0
                               },
-                              "value": "abc"
+                              "data": "abc"
                             }
                           ],
                           "content": null

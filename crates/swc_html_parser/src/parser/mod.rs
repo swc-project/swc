@@ -582,7 +582,7 @@ where
 
                 Child::Text(Text {
                     span,
-                    value: data.take().into(),
+                    data: data.take().into(),
                 })
             }
             Data::Comment { data } => Child::Comment(Comment {

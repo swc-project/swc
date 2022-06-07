@@ -134,7 +134,7 @@
                     "end": 91,
                     "ctxt": 0
                   },
-                  "value": "bar"
+                  "data": "bar"
                 }
               ],
               "content": null

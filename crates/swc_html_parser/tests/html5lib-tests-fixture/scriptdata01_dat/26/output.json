@@ -49,7 +49,7 @@
                 "end": 4,
                 "ctxt": 0
               },
-              "value": "FOO"
+              "data": "FOO"
             },
             {
               "type": "Element",
@@ -69,7 +69,7 @@
                     "end": 38,
                     "ctxt": 0
                   },
-                  "value": "<!--<script>-></script>-->"
+                  "data": "<!--<script>-></script>-->"
                 }
               ],
               "content": null
@@ -81,7 +81,7 @@
                 "end": 50,
                 "ctxt": 0
               },
-              "value": "QUX"
+              "data": "QUX"
             }
           ],
           "content": null

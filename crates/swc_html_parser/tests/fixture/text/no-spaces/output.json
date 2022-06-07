@@ -71,7 +71,7 @@
                     "end": 53,
                     "ctxt": 0
                   },
-                  "value": "Document"
+                  "data": "Document"
                 }
               ],
               "content": null
@@ -108,7 +108,7 @@
                     "end": 83,
                     "ctxt": 0
                   },
-                  "value": "Text"
+                  "data": "Text"
                 }
               ],
               "content": null

@@ -92,7 +92,7 @@ pub struct Attribute {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Text {
     pub span: Span,
-    pub value: JsWord,
+    pub data: JsWord,
 }
 
 #[ast_node("Comment")]

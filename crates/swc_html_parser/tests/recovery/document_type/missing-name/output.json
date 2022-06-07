@@ -60,7 +60,7 @@
                 "end": 27,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
@@ -93,7 +93,7 @@
                     "end": 75,
                     "ctxt": 0
                   },
-                  "value": "This is a link"
+                  "data": "This is a link"
                 }
               ],
               "content": null
@@ -105,7 +105,7 @@
                 "end": 89,
                 "ctxt": 0
               },
-              "value": "\n\n\n"
+              "data": "\n\n\n"
             }
           ],
           "content": null

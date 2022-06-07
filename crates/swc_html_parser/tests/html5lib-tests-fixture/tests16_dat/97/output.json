@@ -71,7 +71,7 @@
                     "end": 30,
                     "ctxt": 0
                   },
-                  "value": "<!--<xmp>"
+                  "data": "<!--<xmp>"
                 }
               ],
               "content": null
@@ -83,7 +83,7 @@
                 "end": 39,
                 "ctxt": 0
               },
-              "value": "-->"
+              "data": "-->"
             }
           ],
           "content": null

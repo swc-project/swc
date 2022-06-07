@@ -71,7 +71,7 @@
                     "end": 51,
                     "ctxt": 0
                   },
-                  "value": "foo\n"
+                  "data": "foo\n"
                 }
               ],
               "content": null

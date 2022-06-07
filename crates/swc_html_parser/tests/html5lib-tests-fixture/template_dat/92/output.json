@@ -74,7 +74,7 @@
                             "end": 31,
                             "ctxt": 0
                           },
-                          "value": "Foo"
+                          "data": "Foo"
                         },
                         {
                           "type": "Element",

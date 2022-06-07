@@ -100,7 +100,7 @@
                     "end": 100,
                     "ctxt": 0
                   },
-                  "value": "</frameset><noframes>"
+                  "data": "</frameset><noframes>"
                 }
               ],
               "content": null

@@ -71,7 +71,7 @@
                     "end": 47,
                     "ctxt": 0
                   },
-                  "value": "x"
+                  "data": "x"
                 },
                 {
                   "type": "Element",
@@ -91,7 +91,7 @@
                         "end": 54,
                         "ctxt": 0
                       },
-                      "value": "\ny"
+                      "data": "\ny"
                     }
                   ],
                   "content": null

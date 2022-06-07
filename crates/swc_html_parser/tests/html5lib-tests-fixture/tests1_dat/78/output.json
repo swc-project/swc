@@ -73,7 +73,7 @@
                     "end": 61,
                     "ctxt": 0
                   },
-                  "value": "abax"
+                  "data": "abax"
                 },
                 {
                   "type": "Element",
@@ -150,7 +150,7 @@
                                         "end": 50,
                                         "ctxt": 0
                                       },
-                                      "value": "br"
+                                      "data": "br"
                                     }
                                   ],
                                   "content": null
@@ -174,7 +174,7 @@
                     "end": 72,
                     "ctxt": 0
                   },
-                  "value": "aoe"
+                  "data": "aoe"
                 }
               ],
               "content": null

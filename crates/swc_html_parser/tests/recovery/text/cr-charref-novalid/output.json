@@ -84,7 +84,7 @@
                     "end": 53,
                     "ctxt": 0
                   },
-                  "value": "&#x0d;"
+                  "data": "&#x0d;"
                 }
               ],
               "content": null
@@ -121,7 +121,7 @@
                     "end": 95,
                     "ctxt": 0
                   },
-                  "value": "There should be an error.\r"
+                  "data": "There should be an error.\r"
                 }
               ],
               "content": null

@@ -24,7 +24,7 @@
             "end": 17,
             "ctxt": 0
           },
-          "value": "<foo>"
+          "data": "<foo>"
         }
       ],
       "content": null

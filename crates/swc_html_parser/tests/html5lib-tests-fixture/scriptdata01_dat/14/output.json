@@ -49,7 +49,7 @@
                 "end": 4,
                 "ctxt": 0
               },
-              "value": "FOO"
+              "data": "FOO"
             },
             {
               "type": "Element",
@@ -69,7 +69,7 @@
                     "end": 25,
                     "ctxt": 0
                   },
-                  "value": "'<!-- potato'"
+                  "data": "'<!-- potato'"
                 }
               ],
               "content": null
@@ -81,7 +81,7 @@
                 "end": 37,
                 "ctxt": 0
               },
-              "value": "BAR"
+              "data": "BAR"
             }
           ],
           "content": null

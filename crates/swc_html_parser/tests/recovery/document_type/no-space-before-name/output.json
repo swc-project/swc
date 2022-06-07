@@ -60,7 +60,7 @@
                 "end": 24,
                 "ctxt": 0
               },
-              "value": " "
+              "data": " "
             },
             {
               "type": "Element",
@@ -80,7 +80,7 @@
                     "end": 47,
                     "ctxt": 0
                   },
-                  "value": "This is a paragraph."
+                  "data": "This is a paragraph."
                 }
               ],
               "content": null
@@ -92,7 +92,7 @@
                 "end": 52,
                 "ctxt": 0
               },
-              "value": " "
+              "data": " "
             },
             {
               "type": "Element",
@@ -112,7 +112,7 @@
                     "end": 81,
                     "ctxt": 0
                   },
-                  "value": "This is another paragraph."
+                  "data": "This is another paragraph."
                 }
               ],
               "content": null
@@ -124,7 +124,7 @@
                 "end": 86,
                 "ctxt": 0
               },
-              "value": " "
+              "data": " "
             },
             {
               "type": "Element",
@@ -144,7 +144,7 @@
                     "end": 95,
                     "ctxt": 0
                   },
-                  "value": "test"
+                  "data": "test"
                 }
               ],
               "content": null

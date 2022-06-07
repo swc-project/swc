@@ -60,7 +60,7 @@
                 "end": 32,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
@@ -80,7 +80,7 @@
                     "end": 47,
                     "ctxt": 0
                   },
-                  "value": "HTML Images"
+                  "data": "HTML Images"
                 }
               ],
               "content": null
@@ -92,7 +92,7 @@
                 "end": 53,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
@@ -112,7 +112,7 @@
                     "end": 97,
                     "ctxt": 0
                   },
-                  "value": "HTML images are defined with the img tag:"
+                  "data": "HTML images are defined with the img tag:"
                 }
               ],
               "content": null
@@ -124,7 +124,7 @@
                 "end": 103,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
@@ -195,7 +195,7 @@
                 "end": 191,
                 "ctxt": 0
               },
-              "value": "\n\n\n\n"
+              "data": "\n\n\n\n"
             }
           ],
           "content": null

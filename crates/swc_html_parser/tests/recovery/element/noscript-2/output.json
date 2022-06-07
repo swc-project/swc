@@ -63,7 +63,7 @@
                 "end": 20,
                 "ctxt": 0
               },
-              "value": "ABC"
+              "data": "ABC"
             },
             {
               "type": "Comment",
