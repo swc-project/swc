@@ -274,7 +274,12 @@ where
 
         // 3.
         // Parser already created
-        let context_node = Node::new(Data::Element(context_element));
+        let context_node = Node::new(Data::Element {
+            span: context_element.span,
+            namespace: context_element.namespace,
+            tag_name: context_element.tag_name,
+            attributes: context_element.attributes,
+        });
 
         // 4.
         match get_tag_name!(context_node) {
@@ -376,7 +381,12 @@ where
                 public_id,
                 system_id,
             }),
-            Data::Element(element) => {
+            Data::Element {
+                span,
+                namespace,
+                tag_name,
+                attributes,
+            } => {
                 let nodes = node.children.take();
                 let mut new_children = Vec::with_capacity(nodes.len());
 
@@ -384,10 +394,10 @@ where
                     new_children.push(self.node_to_child(node));
                 }
 
-                let mut attributes = element.attributes;
+                let mut attributes = attributes;
 
-                match &*element.tag_name {
-                    "html" if element.namespace == Namespace::HTML => {
+                match &*tag_name {
+                    "html" if namespace == Namespace::HTML => {
                         if !self.html_additional_attributes.is_empty() {
                             let additional_attributes: Vec<_> =
                                 self.html_additional_attributes.drain(..).collect();
@@ -397,6 +407,20 @@ where
 
                         let span = if element.span.is_dummy() {
                             element.span
+                        // Elements and text after `</html>` are moving into `<body>`
+                        let end_html = match node.end_tag_span.take() {
+                            Some(end_tag_span) => end_tag_span.hi(),
+                            _ => span.hi(),
+                        };
+                        let end_children = match new_children.last() {
+                            Some(Child::DocumentType(DocumentType { span, .. })) => span.hi(),
+                            Some(Child::Element(Element { span, .. })) => span.hi(),
+                            Some(Child::Comment(Comment { span, .. })) => span.hi(),
+                            Some(Child::Text(Text { span, .. })) => span.hi(),
+                            _ => span.hi(),
+                        };
+                        let end = if end_html >= end_children {
+                            end_html
                         } else {
                             // Elements and text after `</html>` are moving into `<body>`
                             let end_html = match node.end_tag_span.take() {
@@ -421,13 +445,15 @@ where
 
                         Child::Element(Element {
                             span,
+                            span: Span::new(span.lo(), end, Default::default()),
+                            namespace,
+                            tag_name,
+                            attributes,
                             children: new_children,
                             content: None,
-                            attributes,
-                            ..element
                         })
                     }
-                    "body" if element.namespace == Namespace::HTML => {
+                    "body" if namespace == Namespace::HTML => {
                         if !self.body_additional_attributes.is_empty() {
                             let additional_attributes: Vec<_> =
                                 self.body_additional_attributes.drain(..).collect();
@@ -437,6 +463,20 @@ where
 
                         let span = if element.span.is_dummy() {
                             element.span
+                        // Elements and text after `</body>` are moving into `<body>`
+                        let end_body = match node.end_tag_span.take() {
+                            Some(end_tag_span) => end_tag_span.hi(),
+                            _ => span.hi(),
+                        };
+                        let end_children = match new_children.last() {
+                            Some(Child::DocumentType(DocumentType { span, .. })) => span.hi(),
+                            Some(Child::Element(Element { span, .. })) => span.hi(),
+                            Some(Child::Comment(Comment { span, .. })) => span.hi(),
+                            Some(Child::Text(Text { span, .. })) => span.hi(),
+                            _ => span.hi(),
+                        };
+                        let end = if end_body >= end_children {
+                            end_body
                         } else {
                             // Elements and text after `</body>` are moving into `<body>`
                             let end_body = match node.end_tag_span.take() {
@@ -461,13 +501,15 @@ where
 
                         Child::Element(Element {
                             span,
+                            span: Span::new(span.lo(), end, Default::default()),
+                            namespace,
+                            tag_name,
+                            attributes,
                             children: new_children,
                             content: None,
-                            attributes,
-                            ..element
                         })
                     }
-                    "template" if element.namespace == Namespace::HTML => {
+                    "template" if namespace == Namespace::HTML => {
                         let end = match node.end_tag_span.take() {
                             Some(end_tag_span) => end_tag_span.hi(),
                             _ => match new_children.last() {
@@ -475,20 +517,21 @@ where
                                 Some(Child::Element(Element { span, .. })) => span.hi(),
                                 Some(Child::Comment(Comment { span, .. })) => span.hi(),
                                 Some(Child::Text(Text { span, .. })) => span.hi(),
-                                _ => element.span.hi(),
+                                _ => span.hi(),
                             },
                         };
-                        let span = Span::new(element.span.lo(), end, Default::default());
+                        let span = Span::new(span.lo(), end, Default::default());
 
                         Child::Element(Element {
                             span,
+                            namespace,
+                            tag_name,
+                            attributes,
                             children: vec![],
                             content: Some(DocumentFragment {
                                 span,
                                 children: new_children,
                             }),
-                            attributes,
-                            ..element
                         })
                     }
                     _ => {
@@ -513,10 +556,24 @@ where
 
                         Child::Element(Element {
                             span,
+                        let end = match node.end_tag_span.take() {
+                            Some(end_tag_span) => end_tag_span.hi(),
+                            _ => match new_children.last() {
+                                Some(Child::DocumentType(DocumentType { span, .. })) => span.hi(),
+                                Some(Child::Element(Element { span, .. })) => span.hi(),
+                                Some(Child::Comment(Comment { span, .. })) => span.hi(),
+                                Some(Child::Text(Text { span, .. })) => span.hi(),
+                                _ => span.hi(),
+                            },
+                        };
+
+                        Child::Element(Element {
+                            span: Span::new(span.lo(), end, Default::default()),
+                            namespace,
+                            tag_name,
+                            attributes,
                             children: new_children,
                             content: None,
-                            attributes,
-                            ..element
                         })
                     }
                 }
@@ -1072,9 +1129,10 @@ where
                     let inner_node = node.unwrap();
 
                     match &inner_node.data {
-                        Data::Element(element)
-                            if &*element.tag_name.to_ascii_lowercase() == tag_name =>
-                        {
+                        Data::Element {
+                            tag_name: node_tag_name,
+                            ..
+                        } if &*node_tag_name.to_ascii_lowercase() == tag_name => {
                             let clone = inner_node.clone();
                             let popped = self.open_elements_stack.pop_until_node(&clone);
 
@@ -1488,7 +1546,7 @@ where
                         attributes,
                         ..
                     } if tag_name == "html" => {
-                        let element = Node::new(Data::Element(Element {
+                        let element = Node::new(Data::Element {
                             span: token_and_info.span,
                             namespace: Namespace::HTML,
                             tag_name: tag_name.into(),
@@ -1502,9 +1560,7 @@ where
                                     value: attribute.value.clone(),
                                 })
                                 .collect(),
-                            children: Vec::with_capacity(2),
-                            content: None,
-                        }));
+                        });
 
                         self.open_elements_stack.push(element.clone());
 
@@ -6870,13 +6926,11 @@ where
                     })
                     .collect();
 
-                Element {
+                Data::Element {
                     span,
                     tag_name,
                     namespace: namespace.unwrap(),
                     attributes,
-                    children: Vec::with_capacity(16),
-                    content: None,
                 }
             }
             _ => {
@@ -6884,7 +6938,7 @@ where
             }
         };
 
-        Node::new(Data::Element(element))
+        Node::new(element)
     }
 
     // The adoption agency algorithm, which takes as its only argument a token token
@@ -7431,13 +7485,12 @@ where
     fn create_fake_html_element(&self) -> RcNode {
         Node::new(Data::Element(Element {
             span: DUMMY_SP,
+        Node::new(Data::Element {
+            span: Default::default(),
             tag_name: "html".into(),
             namespace: Namespace::HTML,
             attributes: vec![],
-            // body and head `Element`s
-            children: Vec::with_capacity(2),
-            content: None,
-        }))
+        })
     }
 
     fn create_fake_token_and_info(&self, tag_name: &str, span: Option<Span>) -> TokenAndInfo {
@@ -7559,7 +7612,7 @@ where
         token_attributes: Vec<AttributeToken>,
     ) -> Vec<Attribute> {
         let attributes = match &node.data {
-            Data::Element(element) => &element.attributes,
+            Data::Element { attributes, .. } => attributes,
             _ => {
                 unreachable!();
             }
@@ -8061,10 +8114,11 @@ where
         adjusted_insertion_location = match &adjusted_insertion_location {
             InsertionPosition::LastChild(node) | InsertionPosition::BeforeSibling(node) => {
                 match &node.data {
-                    Data::Element(element)
-                        if &*element.tag_name == "template"
-                            && element.namespace == Namespace::HTML =>
-                    {
+                    Data::Element {
+                        namespace,
+                        tag_name,
+                        ..
+                    } if &**tag_name == "template" && *namespace == Namespace::HTML => {
                         adjusted_insertion_location
                     }
                     _ => adjusted_insertion_location,
@@ -8385,7 +8439,7 @@ fn is_same_node(a: &RcNode, b: &RcNode) -> bool {
 fn is_element_in_html_namespace(node: Option<&RcNode>) -> bool {
     if let Some(node) = node {
         match &node.data {
-            Data::Element(element) if element.namespace == Namespace::HTML => {
+            Data::Element { namespace, .. } if *namespace == Namespace::HTML => {
                 return true;
             }
             _ => {
@@ -8408,9 +8462,12 @@ fn is_element_in_html_namespace(node: Option<&RcNode>) -> bool {
 fn is_mathml_text_integration_point(node: Option<&RcNode>) -> bool {
     if let Some(node) = node {
         match &node.data {
-            Data::Element(element)
-                if element.namespace == Namespace::MATHML
-                    && matches!(&*element.tag_name, "mi" | "mo" | "mn" | "ms" | "mtext") =>
+            Data::Element {
+                namespace,
+                tag_name,
+                ..
+            } if *namespace == Namespace::MATHML
+                && matches!(&**tag_name, "mi" | "mo" | "mn" | "ms" | "mtext") =>
             {
                 return true;
             }
@@ -8426,10 +8483,11 @@ fn is_mathml_text_integration_point(node: Option<&RcNode>) -> bool {
 fn is_mathml_annotation_xml(node: Option<&RcNode>) -> bool {
     if let Some(node) = node {
         match &node.data {
-            Data::Element(element)
-                if element.namespace == Namespace::MATHML
-                    && &*element.tag_name == "annotation-xml" =>
-            {
+            Data::Element {
+                namespace,
+                tag_name,
+                ..
+            } if *namespace == Namespace::MATHML && &*tag_name == "annotation-xml" => {
                 return true;
             }
             _ => {
@@ -8454,12 +8512,12 @@ fn is_mathml_annotation_xml(node: Option<&RcNode>) -> bool {
 fn is_html_integration_point(node: Option<&RcNode>) -> bool {
     if let Some(node) = node {
         match &node.data {
-            Data::Element(Element {
+            Data::Element {
                 namespace,
                 tag_name,
                 attributes,
                 ..
-            }) if *namespace == Namespace::MATHML && tag_name == "annotation-xml" => {
+            } if *namespace == Namespace::MATHML && tag_name == "annotation-xml" => {
                 for attribute in attributes {
                     if &*attribute.name == "encoding"
                         && (attribute.value.is_some()
@@ -8474,11 +8532,11 @@ fn is_html_integration_point(node: Option<&RcNode>) -> bool {
 
                 return false;
             }
-            Data::Element(Element {
+            Data::Element {
                 namespace,
                 tag_name,
                 ..
-            }) if *namespace == Namespace::SVG
+            } if *namespace == Namespace::SVG
                 && matches!(&**tag_name, "foreignObject" | "desc" | "title") =>
             {
                 return true;

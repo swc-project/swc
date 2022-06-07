@@ -14,7 +14,7 @@ macro_rules! bump {
 macro_rules! get_tag_name {
     ($node:expr) => {{
         match &$node.data {
-            crate::parser::Data::Element(Element { tag_name, .. }) => tag_name.as_ref(),
+            crate::parser::Data::Element { tag_name, .. } => tag_name.as_ref(),
             _ => {
                 unreachable!();
             }
@@ -25,7 +25,7 @@ macro_rules! get_tag_name {
 macro_rules! get_namespace {
     ($node:expr) => {{
         match $node.data {
-            crate::parser::Data::Element(Element { namespace, .. }) => namespace,
+            crate::parser::Data::Element { namespace, .. } => namespace,
             _ => {
                 unreachable!();
             }
@@ -36,7 +36,7 @@ macro_rules! get_namespace {
 macro_rules! get_span {
     ($node:expr) => {{
         match $node.data {
-            crate::parser::Data::Element(Element { span, .. }) => span,
+            crate::parser::Data::Element { span, .. } => span,
             _ => {
                 unreachable!();
             }

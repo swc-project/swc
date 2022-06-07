@@ -28,7 +28,12 @@ pub enum Data {
         public_id: Option<JsWord>,
         system_id: Option<JsWord>,
     },
-    Element(Element),
+    Element {
+        span: Span,
+        namespace: Namespace,
+        tag_name: JsWord,
+        attributes: Vec<Attribute>,
+    },
     Text {
         span: RefCell<Span>,
         data: RefCell<String>,
@@ -52,7 +57,7 @@ impl Node {
     pub fn new(data: Data) -> Rc<Self> {
         Rc::new(Node {
             parent: Cell::new(None),
-            children: RefCell::new(Vec::new()),
+            children: RefCell::new(vec![]),
             data,
             end_tag_span: RefCell::new(None),
         })
