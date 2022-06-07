@@ -49,7 +49,8 @@ pub struct Node {
     pub parent: Cell<Option<WeakNode>>,
     pub children: RefCell<Vec<RcNode>>,
     pub data: Data,
-    pub end_tag_span: RefCell<Option<Span>>,
+    pub start_span: RefCell<Option<Span>>,
+    pub end_span: RefCell<Option<Span>>,
 }
 
 impl Node {
@@ -58,8 +59,9 @@ impl Node {
         Rc::new(Node {
             parent: Cell::new(None),
             children: RefCell::new(vec![]),
+            start_span: RefCell::new(None),
+            end_span: RefCell::new(None),
             data,
-            end_tag_span: RefCell::new(None),
         })
     }
 }

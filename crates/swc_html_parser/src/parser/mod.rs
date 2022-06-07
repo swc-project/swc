@@ -408,7 +408,7 @@ where
                         let span = if element.span.is_dummy() {
                             element.span
                         // Elements and text after `</html>` are moving into `<body>`
-                        let end_html = match node.end_tag_span.take() {
+                        let end_html = match node.end_span.take() {
                             Some(end_tag_span) => end_tag_span.hi(),
                             _ => span.hi(),
                         };
@@ -464,7 +464,7 @@ where
                         let span = if element.span.is_dummy() {
                             element.span
                         // Elements and text after `</body>` are moving into `<body>`
-                        let end_body = match node.end_tag_span.take() {
+                        let end_body = match node.end_span.take() {
                             Some(end_tag_span) => end_tag_span.hi(),
                             _ => span.hi(),
                         };
@@ -510,7 +510,7 @@ where
                         })
                     }
                     "template" if namespace == Namespace::HTML => {
-                        let end = match node.end_tag_span.take() {
+                        let end = match node.end_span.take() {
                             Some(end_tag_span) => end_tag_span.hi(),
                             _ => match new_children.last() {
                                 Some(Child::DocumentType(DocumentType { span, .. })) => span.hi(),
@@ -557,6 +557,7 @@ where
                         Child::Element(Element {
                             span,
                         let end = match node.end_tag_span.take() {
+                        let end = match node.end_span.take() {
                             Some(end_tag_span) => end_tag_span.hi(),
                             _ => match new_children.last() {
                                 Some(Child::DocumentType(DocumentType { span, .. })) => span.hi(),
@@ -8425,6 +8426,7 @@ where
             }
 
             let mut end_tag_span = node.end_tag_span.borrow_mut();
+            let mut end_tag_span = node.end_span.borrow_mut();
 
             *end_tag_span = Some(token_and_info.span);
         }
