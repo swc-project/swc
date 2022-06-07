@@ -8,6 +8,9 @@
 - **(es/helpers)** Fix syntax context of helpers (#4900) ([4e3a878](https://github.com/swc-project/swc/commit/4e3a878b48745d90715e8b9f83aa0d7501150e29))
 
 
+- **(es/resolver)** Hoist namespaces (#4902) ([a9f91dc](https://github.com/swc-project/swc/commit/a9f91dc797cc5d1e96010aa541ba5aa5221b5779))
+
+
 - **(html/parser)** Fix spans (#4877) ([70760d2](https://github.com/swc-project/swc/commit/70760d222281774fab655def4703a663fae962ad))
 
 ### Features
