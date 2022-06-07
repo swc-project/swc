@@ -22,10 +22,6 @@
   x Element
 
   x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/recovery/element/math-2/input.html:1:1]
  1 | <!doctype html><math></html>
    :                ^^^^^^

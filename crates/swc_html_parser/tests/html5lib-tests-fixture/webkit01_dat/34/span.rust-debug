@@ -10,19 +10,15 @@
   x Element
 
   x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat/34/input.html:1:1]
  1 | <kbd><table></kbd><col><select><tr>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat/34/input.html:1:1]
  1 | <kbd><table></kbd><col><select><tr>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^
    `----
 
   x Child
@@ -35,18 +31,6 @@
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat/34/input.html:1:1]
  1 | <kbd><table></kbd><col><select><tr>
    :                        ^^^^^^^^
-   `----
-
-  x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat/34/input.html:1:1]
- 1 | <kbd><table></kbd><col><select><tr>
-   :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat/34/input.html:1:1]
- 1 | <kbd><table></kbd><col><select><tr>
-   :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child

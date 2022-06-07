@@ -10,25 +10,15 @@
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/1/input.html:1:1]
- 1 | ,-> <html>
- 2 | |   <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
- 3 | |   <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
- 4 | |   <p>Italic and red. </i> Red.</font> I should not be red.</p>
- 5 | `-> <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
+ 1 | <html>
+   : ^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/1/input.html:1:1]
- 1 | ,-> <html>
- 2 | |   <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
- 3 | |   <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
- 4 | |   <p>Italic and red. </i> Red.</font> I should not be red.</p>
- 5 | `-> <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
+ 1 | <html>
+   : ^^^^^^
    `----
-
-  x Child
-
-  x Element
 
   x Child
 

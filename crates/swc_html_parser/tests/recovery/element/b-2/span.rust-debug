@@ -10,10 +10,6 @@
   x Element
 
   x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/recovery/element/b-2/input.html:1:1]
  1 | <b><p>Bold </b> Not bold</p>
    : ^^^

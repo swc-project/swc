@@ -10,10 +10,6 @@
   x Element
 
   x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/html5lib-tests-fixture/entities02_dat/20/input.html:1:1]
  1 | <div>ZZ&prod_id=23</div>
    : ^^^^^^^^^^^^^^^^^^^^^^^^

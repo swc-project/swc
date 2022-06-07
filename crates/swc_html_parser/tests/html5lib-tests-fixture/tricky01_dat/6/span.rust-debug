@@ -10,10 +10,6 @@
   x Element
 
   x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/6/input.html:1:1]
  1 | <table><tr><p><a><p>You should see this text.
    :            ^^^^^^
@@ -74,16 +70,8 @@
    `----
 
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/6/input.html:1:1]
- 1 | <table><tr><p><a><p>You should see this text.
-   : ^^^^^^^^^^^
-   `----
 
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/6/input.html:1:1]
- 1 | <table><tr><p><a><p>You should see this text.
-   : ^^^^^^^^^^^
-   `----
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat/6/input.html:1:1]

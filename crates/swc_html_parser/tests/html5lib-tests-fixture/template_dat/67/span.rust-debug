@@ -8,13 +8,13 @@
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat/67/input.html:1:1]
  1 | <html a=b><template><frame></frame><html b=c><frame></frame></template>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat/67/input.html:1:1]
  1 | <html a=b><template><frame></frame><html b=c><frame></frame></template>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^
    `----
 
   x Attribute

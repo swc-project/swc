@@ -10,10 +10,6 @@
   x Element
 
   x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/html5lib-tests-fixture/math_dat/6.fragment_tbody/input.html:1:1]
  1 | <math><thead><mo></table>
    : ^^^^^^^^^^^^^^^^^

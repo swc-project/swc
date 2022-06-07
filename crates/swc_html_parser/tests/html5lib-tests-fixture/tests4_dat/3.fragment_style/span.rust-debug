@@ -10,10 +10,6 @@
   x Element
 
   x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests4_dat/3.fragment_style/input.html:1:1]
  1 | this is &#x0043;DATA inside a <style> element
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

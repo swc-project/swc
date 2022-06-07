@@ -28,10 +28,6 @@
    `----
 
   x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat/52/input.html:1:1]
  1 | <!DOCTYPE html>X</body><html id="x">
    :                ^
