@@ -1,4 +1,4 @@
-use std::{cell::RefCell, mem, rc::Rc};
+use std::{borrow::Borrow, cell::RefCell, mem, rc::Rc};
 
 use active_formatting_element_stack::*;
 use doctypes::*;
@@ -277,7 +277,7 @@ where
             Data::Element {
                 namespace: context_element.namespace,
                 tag_name: context_element.tag_name,
-                attributes: context_element.attributes,
+                attributes: RefCell::new(context_element.attributes),
             },
             None,
         );
@@ -401,7 +401,7 @@ where
                     new_children.push(self.node_to_child(node));
                 }
 
-                let mut attributes = attributes;
+                let mut attributes = attributes.take();
 
                 match &*tag_name {
                     "html" if namespace == Namespace::HTML => {
@@ -1564,16 +1564,18 @@ where
                             Data::Element {
                                 namespace: Namespace::HTML,
                                 tag_name: tag_name.into(),
-                                attributes: attributes
-                                    .iter()
-                                    .map(|attribute| Attribute {
-                                        span: attribute.span,
-                                        namespace: None,
-                                        prefix: None,
-                                        name: attribute.name.clone(),
-                                        value: attribute.value.clone(),
-                                    })
-                                    .collect(),
+                                attributes: RefCell::new(
+                                    attributes
+                                        .iter()
+                                        .map(|attribute| Attribute {
+                                            span: attribute.span,
+                                            namespace: None,
+                                            prefix: None,
+                                            name: attribute.name.clone(),
+                                            value: attribute.value.clone(),
+                                        })
+                                        .collect(),
+                                ),
                             },
                             Some(token_and_info.span),
                         );
@@ -6945,7 +6947,7 @@ where
                 Data::Element {
                     tag_name,
                     namespace: namespace.unwrap(),
-                    attributes,
+                    attributes: RefCell::new(attributes),
                 }
             }
             _ => {
@@ -7510,7 +7512,7 @@ where
             Data::Element {
                 tag_name: "html".into(),
                 namespace: Namespace::HTML,
-                attributes: vec![],
+                attributes: RefCell::new(vec![]),
             },
             None,
         )
@@ -7637,7 +7639,7 @@ where
         token_attributes: Vec<AttributeToken>,
     ) -> Vec<Attribute> {
         let attributes = match &node.data {
-            Data::Element { attributes, .. } => attributes,
+            Data::Element { attributes, .. } => attributes.borrow(),
             _ => {
                 unreachable!();
             }
@@ -7648,7 +7650,7 @@ where
         for token_attribute in &token_attributes {
             let mut found = false;
 
-            for attribute in attributes {
+            for attribute in attributes.borrow().iter() {
                 if attribute.name == token_attribute.name {
                     found = true;
 
@@ -8554,7 +8556,7 @@ fn is_html_integration_point(node: Option<&RcNode>) -> bool {
                 attributes,
                 ..
             } if *namespace == Namespace::MATHML && tag_name == "annotation-xml" => {
-                for attribute in attributes {
+                for attribute in &*attributes.borrow() {
                     if &*attribute.name == "encoding"
                         && (attribute.value.is_some()
                             && matches!(
