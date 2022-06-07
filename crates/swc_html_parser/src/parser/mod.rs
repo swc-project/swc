@@ -1,4 +1,4 @@
-use std::{mem, rc::Rc};
+use std::{cell::RefCell, mem, rc::Rc};
 
 use active_formatting_element_stack::*;
 use doctypes::*;
@@ -513,7 +513,10 @@ where
                     }
                 }
             }
-            Data::Text(text) => Child::Text(Text { ..text }),
+            Data::Text { span, value } => Child::Text(Text {
+                span: span.take(),
+                value: value.take().into(),
+            }),
             Data::Comment(comment) => Child::Comment(Comment { ..comment }),
             _ => {
                 unreachable!();
@@ -8155,31 +8158,30 @@ where
         // insertion location.
         match &adjusted_insertion_location {
             InsertionPosition::LastChild(parent) => {
-                let mut children = parent.children.borrow_mut();
+                let children = parent.children.borrow();
 
                 if let Some(last) = children.last() {
-                    if let Data::Text(text) = &last.data {
-                        let mut new_value = String::with_capacity(text.value.len() + 1);
-
-                        new_value.push_str(&*text.value);
-
+                    if let Data::Text { span, value } = &last.data {
                         match &token_and_info.token {
-                            Token::Character { value, .. } => {
-                                new_value.push(*value);
+                            Token::Character { value: c, .. } => {
+                                value.borrow_mut().push(*c);
                             }
                             _ => {
                                 unreachable!();
                             }
                         }
 
-                        let first_pos = text.span.lo();
-                        let last_pos = token_and_info.span.hi();
-                        let index = children.len() - 1;
+                        let mut span = span.borrow_mut();
 
                         children[index] = Node::new(Data::Text(Text {
                             span: Span::new(first_pos, last_pos, Default::default()),
                             value: new_value.into(),
                         }));
+                        *span = swc_common::Span::new(
+                            span.lo(),
+                            token_and_info.span.hi(),
+                            Default::default(),
+                        );
 
                         return Ok(());
                     }
@@ -8188,30 +8190,30 @@ where
             InsertionPosition::BeforeSibling(node) => {
                 if let Some((parent, i)) = self.get_parent_and_index(node) {
                     if i > 0 {
-                        let mut children = parent.children.borrow_mut();
+                        let children = parent.children.borrow();
 
                         if let Some(previous) = children.get(i - 1) {
-                            if let Data::Text(text) = &previous.data {
-                                let mut new_value = String::with_capacity(text.value.len() + 1);
-
-                                new_value.push_str(&*text.value);
-
+                            if let Data::Text { span, value } = &previous.data {
                                 match &token_and_info.token {
-                                    Token::Character { value, .. } => {
-                                        new_value.push(*value);
+                                    Token::Character { value: c, .. } => {
+                                        value.borrow_mut().push(*c);
                                     }
                                     _ => {
                                         unreachable!();
                                     }
                                 }
 
-                                let first_pos = text.span.lo();
-                                let last_pos = token_and_info.span.hi();
+                                let mut span = span.borrow_mut();
 
                                 children[i - 1] = Node::new(Data::Text(Text {
                                     span: Span::new(first_pos, last_pos, Default::default()),
                                     value: new_value.into(),
                                 }));
+                                *span = swc_common::Span::new(
+                                    span.lo(),
+                                    token_and_info.span.hi(),
+                                    Default::default(),
+                                );
 
                                 return Ok(());
                             }
@@ -8225,15 +8227,21 @@ where
         // is the same as that of the element in which the adjusted insertion location
         // finds itself, and insert the newly created node at the adjusted insertion
         // location.
-        let text = Node::new(Data::Text(Text {
-            span: token_and_info.span,
+        let text = Node::new(Data::Text {
+            span: RefCell::new(token_and_info.span),
             value: match &token_and_info.token {
-                Token::Character { value, .. } => value.to_string().into(),
+                Token::Character { value: c, .. } => {
+                    let mut value = String::with_capacity(255);
+
+                    value.push(*c);
+
+                    RefCell::new(value)
+                }
                 _ => {
                     unreachable!()
                 }
             },
-        }));
+        });
 
         self.insert_at_position(adjusted_insertion_location, text);
 

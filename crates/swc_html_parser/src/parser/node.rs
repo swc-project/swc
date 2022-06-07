@@ -19,7 +19,10 @@ pub enum Data {
     Document(Document),
     DocumentType(DocumentType),
     Element(Element),
-    Text(Text),
+    Text {
+        span: RefCell<Span>,
+        value: RefCell<String>,
+    },
     Comment(Comment),
 }
 
