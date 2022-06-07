@@ -513,11 +513,14 @@ where
                     }
                 }
             }
-            Data::Text { span, value } => Child::Text(Text {
+            Data::Text { span, data } => Child::Text(Text {
                 span: span.take(),
-                value: value.take().into(),
+                value: data.take().into(),
             }),
-            Data::Comment(comment) => Child::Comment(Comment { ..comment }),
+            Data::Comment { span, data } => Child::Comment(Comment {
+                span: span.take(),
+                data,
+            }),
             _ => {
                 unreachable!();
             }
@@ -8075,15 +8078,15 @@ where
         // Create a Comment node whose data attribute is set to data and whose
         // node document is the same as that of the node in which the adjusted
         // insertion location finds itself.
-        let comment = Node::new(Data::Comment(Comment {
-            span: token_and_info.span,
+        let comment = Node::new(Data::Comment {
+            span: RefCell::new(token_and_info.span),
             data: match &token_and_info.token {
-                Token::Comment { data } => data.into(),
+                Token::Comment { data } => data.clone(),
                 _ => {
                     unreachable!()
                 }
             },
-        }));
+        });
 
         // Insert the newly created node at the adjusted insertion location.
         self.insert_at_position(adjusted_insertion_location, comment);
@@ -8095,15 +8098,15 @@ where
         &mut self,
         token_and_info: &mut TokenAndInfo,
     ) -> PResult<()> {
-        let comment = Node::new(Data::Comment(Comment {
-            span: token_and_info.span,
+        let comment = Node::new(Data::Comment {
+            span: RefCell::new(token_and_info.span),
             data: match &token_and_info.token {
-                Token::Comment { data } => data.into(),
+                Token::Comment { data } => data.clone(),
                 _ => {
                     unreachable!()
                 }
             },
-        }));
+        });
 
         if let Some(document) = &self.document {
             self.append_node(document, comment);
@@ -8116,15 +8119,15 @@ where
         &mut self,
         token_and_info: &mut TokenAndInfo,
     ) -> PResult<()> {
-        let comment = Node::new(Data::Comment(Comment {
-            span: token_and_info.span,
+        let comment = Node::new(Data::Comment {
+            span: RefCell::new(token_and_info.span),
             data: match &token_and_info.token {
-                Token::Comment { data } => data.into(),
+                Token::Comment { data } => data.clone(),
                 _ => {
                     unreachable!()
                 }
             },
-        }));
+        });
 
         if let Some(html) = &self.open_elements_stack.items.get(0) {
             self.append_node(html, comment);
@@ -8161,10 +8164,10 @@ where
                 let children = parent.children.borrow();
 
                 if let Some(last) = children.last() {
-                    if let Data::Text { span, value } = &last.data {
+                    if let Data::Text { span, data } = &last.data {
                         match &token_and_info.token {
                             Token::Character { value: c, .. } => {
-                                value.borrow_mut().push(*c);
+                                data.borrow_mut().push(*c);
                             }
                             _ => {
                                 unreachable!();
@@ -8193,10 +8196,10 @@ where
                         let children = parent.children.borrow();
 
                         if let Some(previous) = children.get(i - 1) {
-                            if let Data::Text { span, value } = &previous.data {
+                            if let Data::Text { span, data } = &previous.data {
                                 match &token_and_info.token {
                                     Token::Character { value: c, .. } => {
-                                        value.borrow_mut().push(*c);
+                                        data.borrow_mut().push(*c);
                                     }
                                     _ => {
                                         unreachable!();
@@ -8229,13 +8232,13 @@ where
         // location.
         let text = Node::new(Data::Text {
             span: RefCell::new(token_and_info.span),
-            value: match &token_and_info.token {
+            data: match &token_and_info.token {
                 Token::Character { value: c, .. } => {
-                    let mut value = String::with_capacity(255);
+                    let mut data = String::with_capacity(255);
 
-                    value.push(*c);
+                    data.push(*c);
 
-                    RefCell::new(value)
+                    RefCell::new(data)
                 }
                 _ => {
                     unreachable!()

@@ -4,6 +4,7 @@ use std::{
     rc::{Rc, Weak},
 };
 
+use swc_atoms::JsWord;
 use swc_common::Span;
 use swc_html_ast::*;
 
@@ -21,9 +22,12 @@ pub enum Data {
     Element(Element),
     Text {
         span: RefCell<Span>,
-        value: RefCell<String>,
+        data: RefCell<String>,
     },
-    Comment(Comment),
+    Comment {
+        span: RefCell<Span>,
+        data: JsWord,
+    },
 }
 
 // TODO `<template>` and reduce memory usage for `children` in token
