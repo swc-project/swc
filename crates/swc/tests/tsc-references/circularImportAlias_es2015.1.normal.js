@@ -7,13 +7,13 @@ var B;
     }
     B1.D = D;
 })(B || (B = {}));
-var A1;
-(function(A) {
+var A;
+(function(A1) {
     class C {
     }
-    A.C = C;
+    A1.C = C;
     var b = B;
-    A.b = b;
-})(A1 || (A1 = {}));
+    A1.b = b;
+})(A || (A = {}));
 var c;
 var c = new B.a.C();
