@@ -19,7 +19,6 @@ pub struct TokenAndInfo {
 pub enum Data {
     Document {
         mode: RefCell<DocumentMode>,
-        children: Vec<Child>,
     },
     DocumentType {
         name: Option<JsWord>,

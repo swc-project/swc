@@ -363,14 +363,11 @@ where
         Node::new(
             Data::Document {
                 mode: RefCell::new(DocumentMode::NoQuirks),
-                // `DocumentType` and HTML `Element`
-                children: Vec::with_capacity(2),
             },
             None,
         )
     }
 
-    // TODO optimize me
     fn node_to_child(&mut self, node: RcNode) -> Child {
         let start_span = if let Some(start_span) = node.start_span.take() {
             start_span
