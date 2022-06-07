@@ -27,7 +27,6 @@ pub enum Data {
         system_id: Option<JsWord>,
     },
     Element {
-        span: Span,
         namespace: Namespace,
         tag_name: JsWord,
         attributes: Vec<Attribute>,

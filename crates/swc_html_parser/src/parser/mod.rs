@@ -276,7 +276,6 @@ where
         // Parser already created
         let context_node = Node::new(
             Data::Element {
-                span: context_element.span,
                 namespace: context_element.namespace,
                 tag_name: context_element.tag_name,
                 attributes: context_element.attributes,
@@ -374,19 +373,24 @@ where
 
     // TODO optimize me
     fn node_to_child(&mut self, node: RcNode) -> Child {
+        let start_span = if let Some(start_span) = node.start_span.take() {
+            start_span
+        } else {
+            DUMMY_SP
+        };
+
         match node.data.clone() {
             Data::DocumentType {
                 name,
                 public_id,
                 system_id,
             } => Child::DocumentType(DocumentType {
-                span: node.start_span.take().unwrap(),
+                span: start_span,
                 name,
                 public_id,
                 system_id,
             }),
             Data::Element {
-                span,
                 namespace,
                 tag_name,
                 attributes,
@@ -414,14 +418,14 @@ where
                         // Elements and text after `</html>` are moving into `<body>`
                         let end_html = match node.end_span.take() {
                             Some(end_tag_span) => end_tag_span.hi(),
-                            _ => span.hi(),
+                            _ => start_span.hi(),
                         };
                         let end_children = match new_children.last() {
                             Some(Child::DocumentType(DocumentType { span, .. })) => span.hi(),
                             Some(Child::Element(Element { span, .. })) => span.hi(),
                             Some(Child::Comment(Comment { span, .. })) => span.hi(),
                             Some(Child::Text(Text { span, .. })) => span.hi(),
-                            _ => span.hi(),
+                            _ => start_span.hi(),
                         };
                         let end = if end_html >= end_children {
                             end_html
@@ -450,6 +454,7 @@ where
                         Child::Element(Element {
                             span,
                             span: Span::new(span.lo(), end, Default::default()),
+                            span: Span::new(start_span.lo(), end, Default::default()),
                             namespace,
                             tag_name,
                             attributes,
@@ -470,14 +475,14 @@ where
                         // Elements and text after `</body>` are moving into `<body>`
                         let end_body = match node.end_span.take() {
                             Some(end_tag_span) => end_tag_span.hi(),
-                            _ => span.hi(),
+                            _ => start_span.hi(),
                         };
                         let end_children = match new_children.last() {
                             Some(Child::DocumentType(DocumentType { span, .. })) => span.hi(),
                             Some(Child::Element(Element { span, .. })) => span.hi(),
                             Some(Child::Comment(Comment { span, .. })) => span.hi(),
                             Some(Child::Text(Text { span, .. })) => span.hi(),
-                            _ => span.hi(),
+                            _ => start_span.hi(),
                         };
                         let end = if end_body >= end_children {
                             end_body
@@ -506,36 +511,12 @@ where
                         Child::Element(Element {
                             span,
                             span: Span::new(span.lo(), end, Default::default()),
+                            span: Span::new(start_span.lo(), end, Default::default()),
                             namespace,
                             tag_name,
                             attributes,
                             children: new_children,
                             content: None,
-                        })
-                    }
-                    "template" if namespace == Namespace::HTML => {
-                        let end = match node.end_span.take() {
-                            Some(end_tag_span) => end_tag_span.hi(),
-                            _ => match new_children.last() {
-                                Some(Child::DocumentType(DocumentType { span, .. })) => span.hi(),
-                                Some(Child::Element(Element { span, .. })) => span.hi(),
-                                Some(Child::Comment(Comment { span, .. })) => span.hi(),
-                                Some(Child::Text(Text { span, .. })) => span.hi(),
-                                _ => span.hi(),
-                            },
-                        };
-                        let span = Span::new(span.lo(), end, Default::default());
-
-                        Child::Element(Element {
-                            span,
-                            namespace,
-                            tag_name,
-                            attributes,
-                            children: vec![],
-                            content: Some(DocumentFragment {
-                                span,
-                                children: new_children,
-                            }),
                         })
                     }
                     _ => {
@@ -561,6 +542,7 @@ where
                         Child::Element(Element {
                             span,
                         let end = match node.end_tag_span.take() {
+                        let is_template = namespace == Namespace::HTML && &*tag_name == "template";
                         let end = match node.end_span.take() {
                             Some(end_tag_span) => end_tag_span.hi(),
                             _ => match new_children.last() {
@@ -568,23 +550,34 @@ where
                                 Some(Child::Element(Element { span, .. })) => span.hi(),
                                 Some(Child::Comment(Comment { span, .. })) => span.hi(),
                                 Some(Child::Text(Text { span, .. })) => span.hi(),
-                                _ => span.hi(),
+                                _ => start_span.hi(),
                             },
+                        };
+                        let span = Span::new(start_span.lo(), end, Default::default());
+                        let (children, content) = if is_template {
+                            (
+                                vec![],
+                                Some(DocumentFragment {
+                                    span,
+                                    children: new_children,
+                                }),
+                            )
+                        } else {
+                            (new_children, None)
                         };
 
                         Child::Element(Element {
-                            span: Span::new(span.lo(), end, Default::default()),
+                            span: Span::new(start_span.lo(), end, Default::default()),
                             namespace,
                             tag_name,
                             attributes,
-                            children: new_children,
-                            content: None,
+                            children,
+                            content,
                         })
                     }
                 }
             }
             Data::Text { data } => {
-                let start_span = node.start_span.take().unwrap();
                 let span = if let Some(end_span) = node.end_span.take() {
                     swc_common::Span::new(start_span.lo(), end_span.hi(), Default::default())
                 } else {
@@ -597,7 +590,7 @@ where
                 })
             }
             Data::Comment { data } => Child::Comment(Comment {
-                span: node.start_span.take().unwrap(),
+                span: start_span,
                 data,
             }),
             _ => {
@@ -1570,7 +1563,6 @@ where
                     } if tag_name == "html" => {
                         let element = Node::new(
                             Data::Element {
-                                span: token_and_info.span,
                                 namespace: Namespace::HTML,
                                 tag_name: tag_name.into(),
                                 attributes: attributes
@@ -6952,7 +6944,6 @@ where
                     .collect();
 
                 Data::Element {
-                    span,
                     tag_name,
                     namespace: namespace.unwrap(),
                     attributes,
@@ -7518,7 +7509,6 @@ where
         })
         Node::new(
             Data::Element {
-                span: Default::default(),
                 tag_name: "html".into(),
                 namespace: Namespace::HTML,
                 attributes: vec![],
@@ -7618,8 +7608,10 @@ where
         // parse error.
         match self.open_elements_stack.items.last() {
             Some(node) if !is_html_element!(node, "td" | "th") => {
-                self.errors
-                    .push(Error::new(get_span!(node), ErrorKind::UnclosedElementsCell));
+                self.errors.push(Error::new(
+                    node.start_span.borrow().unwrap(),
+                    ErrorKind::UnclosedElementsCell,
+                ));
             }
             _ => {}
         }
