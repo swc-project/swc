@@ -1159,7 +1159,9 @@ where
                     }
                 }
 
-                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import)) => {
+                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import))
+                    if !self.config.preserve_import_equals =>
+                {
                     let maybe_entry = self.scope.referenced_idents.get(&import.id.to_id());
                     let has_concrete = if let Some(entry) = maybe_entry {
                         entry.has_concrete
@@ -1650,6 +1652,10 @@ where
     }
 
     fn visit_ts_import_equals_decl(&mut self, n: &TsImportEqualsDecl) {
+        if self.config.preserve_import_equals {
+            return;
+        }
+
         match &n.module_ref {
             TsModuleRef::TsEntityName(name) => {
                 let entry = self
@@ -2189,7 +2195,7 @@ where
                     id,
                     module_ref:
                         TsModuleRef::TsExternalModuleRef(TsExternalModuleRef { span: _, expr }),
-                })) => {
+                })) if !self.config.preserve_import_equals => {
                     let default = VarDeclarator {
                         span: DUMMY_SP,
                         name: id.into(),
@@ -2265,7 +2271,9 @@ where
                     }
                 }
 
-                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import)) => {
+                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import))
+                    if !self.config.preserve_import_equals =>
+                {
                     let maybe_entry = self.scope.referenced_idents.get(&import.id.to_id());
                     let has_concrete = if let Some(entry) = maybe_entry {
                         entry.has_concrete
