@@ -198,7 +198,7 @@ where
                     if n.children.is_empty()
                         || (match n.children.get(0) {
                             Some(Child::Text(text))
-                                if text.value.chars().next().unwrap().is_ascii_whitespace() =>
+                                if text.data.chars().next().unwrap().is_ascii_whitespace() =>
                             {
                                 false
                             }
@@ -366,7 +366,7 @@ where
                     // immediately followed by ASCII whitespace or a comment.
                     "head" => match next {
                         Some(Child::Text(text))
-                            if text.value.chars().next().unwrap().is_ascii_whitespace() =>
+                            if text.data.chars().next().unwrap().is_ascii_whitespace() =>
                         {
                             false
                         }
@@ -574,7 +574,7 @@ where
                     // immediately followed by ASCII whitespace or a comment.
                     "caption" | "colgroup" => match next {
                         Some(Child::Text(text))
-                            if text.value.chars().next().unwrap().is_ascii_whitespace() =>
+                            if text.data.chars().next().unwrap().is_ascii_whitespace() =>
                         {
                             false
                         }
@@ -704,21 +704,21 @@ where
     #[emitter]
     fn emit_text(&mut self, n: &Text) -> Result {
         if self.ctx.need_escape_text {
-            let mut data = String::with_capacity(n.value.len());
+            let mut data = String::with_capacity(n.data.len());
 
-            if self.ctx.need_extra_newline_in_text && n.value.contains('\n') {
+            if self.ctx.need_extra_newline_in_text && n.data.contains('\n') {
                 data.push('\n');
             }
 
             if self.config.minify {
-                data.push_str(&minify_text(&n.value));
+                data.push_str(&minify_text(&n.data));
             } else {
-                data.push_str(&escape_string(&n.value, false));
+                data.push_str(&escape_string(&n.data, false));
             }
 
             write_str!(self, n.span, &data);
         } else {
-            write_str!(self, n.span, &n.value);
+            write_str!(self, n.span, &n.data);
         }
     }
 

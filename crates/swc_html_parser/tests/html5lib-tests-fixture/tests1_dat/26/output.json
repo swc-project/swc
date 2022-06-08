@@ -47,7 +47,7 @@
                     "end": 14,
                     "ctxt": 0
                   },
-                  "value": "<div>"
+                  "data": "<div>"
                 }
               ],
               "content": null
@@ -70,7 +70,7 @@
                     "end": 39,
                     "ctxt": 0
                   },
-                  "value": "<p>"
+                  "data": "<p>"
                 }
               ],
               "content": null

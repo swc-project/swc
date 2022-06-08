@@ -71,7 +71,7 @@
                     "end": 22,
                     "ctxt": 0
                   },
-                  "value": "foo"
+                  "data": "foo"
                 }
               ],
               "content": null
@@ -94,7 +94,7 @@
                     "end": 35,
                     "ctxt": 0
                   },
-                  "value": "bar"
+                  "data": "bar"
                 },
                 {
                   "type": "Element",
@@ -114,7 +114,7 @@
                         "end": 41,
                         "ctxt": 0
                       },
-                      "value": "baz"
+                      "data": "baz"
                     }
                   ],
                   "content": null

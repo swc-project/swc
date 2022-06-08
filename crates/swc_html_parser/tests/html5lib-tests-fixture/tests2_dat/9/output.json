@@ -106,7 +106,7 @@
                             "end": 32,
                             "ctxt": 0
                           },
-                          "value": "test"
+                          "data": "test"
                         }
                       ],
                       "content": null

@@ -60,7 +60,7 @@
                 "end": 35,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
@@ -80,7 +80,7 @@
                     "end": 46,
                     "ctxt": 0
                   },
-                  "value": "Test"
+                  "data": "Test"
                 }
               ],
               "content": null
@@ -95,7 +95,7 @@
             "end": 62,
             "ctxt": 0
           },
-          "value": "\n"
+          "data": "\n"
         },
         {
           "type": "Element",
@@ -115,7 +115,7 @@
                 "end": 104,
                 "ctxt": 0
               },
-              "value": "\n\n\n\n"
+              "data": "\n\n\n\n"
             }
           ],
           "content": null

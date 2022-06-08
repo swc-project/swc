@@ -1,4 +1,4 @@
-use std::{mem, rc::Rc};
+use std::{cell::RefCell, mem, rc::Rc};
 
 use active_formatting_element_stack::*;
 use doctypes::*;
@@ -90,10 +90,7 @@ where
     insertion_mode: InsertionMode,
     original_insertion_mode: InsertionMode,
     template_insertion_mode_stack: Vec<InsertionMode>,
-    document_mode: DocumentMode,
     document: Option<RcNode>,
-    html_additional_attributes: Vec<Attribute>,
-    body_additional_attributes: Vec<Attribute>,
     head_element_pointer: Option<RcNode>,
     form_element_pointer: Option<RcNode>,
     open_elements_stack: OpenElementsStack,
@@ -118,10 +115,7 @@ where
             insertion_mode: Default::default(),
             original_insertion_mode: Default::default(),
             template_insertion_mode_stack: Vec::with_capacity(16),
-            document_mode: DocumentMode::NoQuirks,
             document: None,
-            html_additional_attributes: vec![],
-            body_additional_attributes: vec![],
             head_element_pointer: None,
             form_element_pointer: None,
             open_elements_stack: OpenElementsStack::new(),
@@ -157,10 +151,16 @@ where
         }
 
         let last = self.input.last_pos()?;
+        let mode = match &document.data {
+            Data::Document { mode, .. } => *mode.borrow(),
+            _ => {
+                unreachable!();
+            }
+        };
 
         Ok(Document {
             span: Span::new(start.lo(), last, Default::default()),
-            mode: self.document_mode,
+            mode,
             children,
         })
     }
@@ -261,7 +261,6 @@ where
     //
     // 14. Return the child nodes of root, in tree order.
     // TODO extract code for building tree from parser in TreeBuilder module
-    // TODO should context_element be RcNode?
     pub fn parse_document_fragment(
         &mut self,
         context_element: Element,
@@ -274,7 +273,14 @@ where
 
         // 3.
         // Parser already created
-        let context_node = Node::new(Data::Element(context_element));
+        let context_node = Node::new(
+            Data::Element {
+                namespace: context_element.namespace,
+                tag_name: context_element.tag_name,
+                attributes: RefCell::new(context_element.attributes),
+            },
+            DUMMY_SP,
+        );
 
         // 4.
         match get_tag_name!(context_node) {
@@ -354,21 +360,33 @@ where
     }
 
     fn create_document(&self) -> RcNode {
-        Node::new(Data::Document(Document {
-            span: Default::default(),
-            mode: DocumentMode::NoQuirks,
-            // `DocumentType` and HTML `Element`
-            children: Vec::with_capacity(2),
-        }))
+        Node::new(
+            Data::Document {
+                mode: RefCell::new(DocumentMode::NoQuirks),
+            },
+            DUMMY_SP,
+        )
     }
 
-    // TODO optimize me
     fn node_to_child(&mut self, node: RcNode) -> Child {
+        let start_span = node.start_span.take();
+
         match node.data.clone() {
-            Data::DocumentType(document_type) => {
-                Child::DocumentType(DocumentType { ..document_type })
-            }
-            Data::Element(element) => {
+            Data::DocumentType {
+                name,
+                public_id,
+                system_id,
+            } => Child::DocumentType(DocumentType {
+                span: start_span,
+                name,
+                public_id,
+                system_id,
+            }),
+            Data::Element {
+                namespace,
+                tag_name,
+                attributes,
+            } => {
                 let nodes = node.children.take();
                 let mut new_children = Vec::with_capacity(nodes.len());
 
@@ -376,119 +394,52 @@ where
                     new_children.push(self.node_to_child(node));
                 }
 
-                let mut attributes = element.attributes;
+                let attributes = attributes.take();
 
-                match &*element.tag_name {
-                    "html" if element.namespace == Namespace::HTML => {
-                        if !self.html_additional_attributes.is_empty() {
-                            let additional_attributes: Vec<_> =
-                                self.html_additional_attributes.drain(..).collect();
-
-                            attributes.extend(additional_attributes)
-                        }
-
-                        let span = if element.span.is_dummy() {
-                            element.span
+                match &*tag_name {
+                    "html" | "body" if namespace == Namespace::HTML => {
+                        // Elements and text after `</html>` are moving into `<body>`
+                        // Elements and text after `</body>` are moving into `<body>`
+                        let span = if start_span.is_dummy() {
+                            start_span
                         } else {
-                            // Elements and text after `</html>` are moving into `<body>`
-                            let end_html = match node.end_tag_span.take() {
+                            let end_body = match node.end_span.take() {
                                 Some(end_tag_span) => end_tag_span.hi(),
-                                _ => element.span.hi(),
+                                _ => start_span.hi(),
                             };
                             let end_children = match new_children.last() {
                                 Some(Child::DocumentType(DocumentType { span, .. })) => span.hi(),
                                 Some(Child::Element(Element { span, .. })) => span.hi(),
                                 Some(Child::Comment(Comment { span, .. })) => span.hi(),
                                 Some(Child::Text(Text { span, .. })) => span.hi(),
-                                _ => element.span.hi(),
-                            };
-                            let end = if end_html >= end_children {
-                                end_html
-                            } else {
-                                end_children
+                                _ => start_span.hi(),
                             };
 
-                            Span::new(element.span.lo(), end, Default::default())
-                        };
-
-                        Child::Element(Element {
-                            span,
-                            children: new_children,
-                            content: None,
-                            attributes,
-                            ..element
-                        })
-                    }
-                    "body" if element.namespace == Namespace::HTML => {
-                        if !self.body_additional_attributes.is_empty() {
-                            let additional_attributes: Vec<_> =
-                                self.body_additional_attributes.drain(..).collect();
-
-                            attributes.extend(additional_attributes);
-                        }
-
-                        let span = if element.span.is_dummy() {
-                            element.span
-                        } else {
-                            // Elements and text after `</body>` are moving into `<body>`
-                            let end_body = match node.end_tag_span.take() {
-                                Some(end_tag_span) => end_tag_span.hi(),
-                                _ => element.span.hi(),
-                            };
-                            let end_children = match new_children.last() {
-                                Some(Child::DocumentType(DocumentType { span, .. })) => span.hi(),
-                                Some(Child::Element(Element { span, .. })) => span.hi(),
-                                Some(Child::Comment(Comment { span, .. })) => span.hi(),
-                                Some(Child::Text(Text { span, .. })) => span.hi(),
-                                _ => element.span.hi(),
-                            };
                             let end = if end_body >= end_children {
                                 end_body
                             } else {
                                 end_children
                             };
 
-                            Span::new(element.span.lo(), end, Default::default())
+                            Span::new(start_span.lo(), end, Default::default())
                         };
 
                         Child::Element(Element {
                             span,
+                            namespace,
+                            tag_name,
+                            attributes,
                             children: new_children,
                             content: None,
-                            attributes,
-                            ..element
-                        })
-                    }
-                    "template" if element.namespace == Namespace::HTML => {
-                        let end = match node.end_tag_span.take() {
-                            Some(end_tag_span) => end_tag_span.hi(),
-                            _ => match new_children.last() {
-                                Some(Child::DocumentType(DocumentType { span, .. })) => span.hi(),
-                                Some(Child::Element(Element { span, .. })) => span.hi(),
-                                Some(Child::Comment(Comment { span, .. })) => span.hi(),
-                                Some(Child::Text(Text { span, .. })) => span.hi(),
-                                _ => element.span.hi(),
-                            },
-                        };
-                        let span = Span::new(element.span.lo(), end, Default::default());
-
-                        Child::Element(Element {
-                            span,
-                            children: vec![],
-                            content: Some(DocumentFragment {
-                                span,
-                                children: new_children,
-                            }),
-                            attributes,
-                            ..element
                         })
                     }
                     _ => {
-                        let span = if element.span.is_dummy() {
-                            element.span
+                        let is_template = namespace == Namespace::HTML && &*tag_name == "template";
+                        let span = if start_span.is_dummy() {
+                            start_span
                         } else {
-                            let end = match node.end_tag_span.take() {
-                                Some(end_tag_span) => end_tag_span.hi(),
+                            let end = match node.end_span.take() {
+                                Some(end_span) => end_span.hi(),
                                 _ => match new_children.last() {
                                     Some(Child::DocumentType(DocumentType { span, .. })) => {
                                         span.hi()
@@ -496,25 +447,51 @@ where
                                     Some(Child::Element(Element { span, .. })) => span.hi(),
                                     Some(Child::Comment(Comment { span, .. })) => span.hi(),
                                     Some(Child::Text(Text { span, .. })) => span.hi(),
-                                    _ => element.span.hi(),
+                                    _ => start_span.hi(),
                                 },
                             };
 
-                            Span::new(element.span.lo(), end, Default::default())
+                            Span::new(start_span.lo(), end, Default::default())
+                        };
+                        let (children, content) = if is_template {
+                            (
+                                vec![],
+                                Some(DocumentFragment {
+                                    span,
+                                    children: new_children,
+                                }),
+                            )
+                        } else {
+                            (new_children, None)
                         };
 
                         Child::Element(Element {
                             span,
-                            children: new_children,
-                            content: None,
+                            namespace,
+                            tag_name,
                             attributes,
-                            ..element
+                            children,
+                            content,
                         })
                     }
                 }
             }
-            Data::Text(text) => Child::Text(Text { ..text }),
-            Data::Comment(comment) => Child::Comment(Comment { ..comment }),
+            Data::Text { data } => {
+                let span = if let Some(end_span) = node.end_span.take() {
+                    swc_common::Span::new(start_span.lo(), end_span.hi(), Default::default())
+                } else {
+                    start_span
+                };
+
+                Child::Text(Text {
+                    span,
+                    data: data.take().into(),
+                })
+            }
+            Data::Comment { data } => Child::Comment(Comment {
+                span: start_span,
+                data,
+            }),
             _ => {
                 unreachable!();
             }
@@ -1058,9 +1035,10 @@ where
                     let inner_node = node.unwrap();
 
                     match &inner_node.data {
-                        Data::Element(element)
-                            if &*element.tag_name.to_ascii_lowercase() == tag_name =>
-                        {
+                        Data::Element {
+                            tag_name: node_tag_name,
+                            ..
+                        } if &*node_tag_name.to_ascii_lowercase() == tag_name => {
                             let clone = inner_node.clone();
                             let popped = self.open_elements_stack.pop_until_node(&clone);
 
@@ -1332,12 +1310,14 @@ where
                             ));
                         }
 
-                        let document_type = Node::new(Data::DocumentType(DocumentType {
-                            span: token_and_info.span,
-                            name: name.clone(),
-                            public_id: public_id.clone(),
-                            system_id: system_id.clone(),
-                        }));
+                        let document_type = Node::new(
+                            Data::DocumentType {
+                                name: name.clone(),
+                                public_id: public_id.clone(),
+                                system_id: system_id.clone(),
+                            },
+                            token_and_info.span,
+                        );
 
                         self.append_node(self.document.as_ref().unwrap(), document_type);
 
@@ -1351,18 +1331,18 @@ where
                                     &&*system_id.to_ascii_lowercase()
                                 )))
                         {
-                            self.document_mode = DocumentMode::Quirks;
+                            self.set_document_mode(DocumentMode::Quirks);
                         } else if let Some(public_id) = public_id {
                             if LIMITED_QUIRKY_PUBLIC_PREFIXES
                                 .contains(&&*public_id.as_ref().to_ascii_lowercase())
                             {
-                                self.document_mode = DocumentMode::Quirks;
+                                self.set_document_mode(DocumentMode::Quirks);
                             }
                         } else if let Some(system_id) = system_id {
                             if HTML4_PUBLIC_PREFIXES
                                 .contains(&&*system_id.as_ref().to_ascii_lowercase())
                             {
-                                self.document_mode = DocumentMode::Quirks;
+                                self.set_document_mode(DocumentMode::Quirks);
                             }
                         }
 
@@ -1408,7 +1388,7 @@ where
                                 }
                             }
 
-                            self.document_mode = DocumentMode::Quirks;
+                            self.set_document_mode(DocumentMode::Quirks);
                         }
 
                         self.insertion_mode = InsertionMode::BeforeHtml;
@@ -1473,23 +1453,25 @@ where
                         attributes,
                         ..
                     } if tag_name == "html" => {
-                        let element = Node::new(Data::Element(Element {
-                            span: token_and_info.span,
-                            namespace: Namespace::HTML,
-                            tag_name: tag_name.into(),
-                            attributes: attributes
-                                .iter()
-                                .map(|attribute| Attribute {
-                                    span: attribute.span,
-                                    namespace: None,
-                                    prefix: None,
-                                    name: attribute.name.clone(),
-                                    value: attribute.value.clone(),
-                                })
-                                .collect(),
-                            children: Vec::with_capacity(2),
-                            content: None,
-                        }));
+                        let element = Node::new(
+                            Data::Element {
+                                namespace: Namespace::HTML,
+                                tag_name: tag_name.into(),
+                                attributes: RefCell::new(
+                                    attributes
+                                        .iter()
+                                        .map(|attribute| Attribute {
+                                            span: attribute.span,
+                                            namespace: None,
+                                            prefix: None,
+                                            name: attribute.name.clone(),
+                                            value: attribute.value.clone(),
+                                        })
+                                        .collect(),
+                                ),
+                            },
+                            token_and_info.span,
+                        );
 
                         self.open_elements_stack.push(element.clone());
 
@@ -2293,11 +2275,34 @@ where
                         }
 
                         if let Some(top) = self.open_elements_stack.items.get(0) {
-                            let html_additional_attributes =
-                                self.get_missing_attributes(top, attributes.clone());
+                            let mut node_attributes = match &top.data {
+                                Data::Element { attributes, .. } => attributes.borrow_mut(),
+                                _ => {
+                                    unreachable!();
+                                }
+                            };
 
-                            self.html_additional_attributes
-                                .extend(html_additional_attributes)
+                            for token_attribute in attributes {
+                                let mut found = false;
+
+                                for attribute in node_attributes.iter() {
+                                    if attribute.name == token_attribute.name {
+                                        found = true;
+
+                                        break;
+                                    }
+                                }
+
+                                if !found {
+                                    node_attributes.push(Attribute {
+                                        span: token_attribute.span,
+                                        namespace: None,
+                                        prefix: None,
+                                        name: token_attribute.name.clone(),
+                                        value: token_attribute.value.clone(),
+                                    });
+                                }
+                            }
                         }
                     }
                     // A start tag whose tag name is one of: "base", "basefont", "bgsound", "link",
@@ -2362,11 +2367,34 @@ where
                         self.frameset_ok = false;
 
                         if let Some(top) = self.open_elements_stack.items.get(1) {
-                            let body_additional_attributes =
-                                self.get_missing_attributes(top, attributes.clone());
+                            let mut node_attributes = match &top.data {
+                                Data::Element { attributes, .. } => attributes.borrow_mut(),
+                                _ => {
+                                    unreachable!();
+                                }
+                            };
 
-                            self.body_additional_attributes
-                                .extend(body_additional_attributes);
+                            for token_attribute in attributes {
+                                let mut found = false;
+
+                                for attribute in node_attributes.iter() {
+                                    if attribute.name == token_attribute.name {
+                                        found = true;
+
+                                        break;
+                                    }
+                                }
+
+                                if !found {
+                                    node_attributes.push(Attribute {
+                                        span: token_attribute.span,
+                                        namespace: None,
+                                        prefix: None,
+                                        name: token_attribute.name.clone(),
+                                        value: token_attribute.value.clone(),
+                                    });
+                                }
+                            }
                         }
                     }
                     // A start tag whose tag name is "frameset"
@@ -3553,7 +3581,8 @@ where
                     //
                     // Switch the insertion mode to "in table".
                     Token::StartTag { tag_name, .. } if tag_name == "table" => {
-                        if self.document_mode != DocumentMode::Quirks
+                        if get_document_mode!(self.document.as_ref().unwrap())
+                            != DocumentMode::Quirks
                             && self.open_elements_stack.has_in_button_scope("p")
                         {
                             self.close_p_element(token_and_info, false);
@@ -6855,13 +6884,10 @@ where
                     })
                     .collect();
 
-                Element {
-                    span,
+                Data::Element {
                     tag_name,
                     namespace: namespace.unwrap(),
-                    attributes,
-                    children: Vec::with_capacity(16),
-                    content: None,
+                    attributes: RefCell::new(attributes),
                 }
             }
             _ => {
@@ -6869,7 +6895,7 @@ where
             }
         };
 
-        Node::new(Data::Element(element))
+        Node::new(element, span)
     }
 
     // The adoption agency algorithm, which takes as its only argument a token token
@@ -7414,15 +7440,14 @@ where
     }
 
     fn create_fake_html_element(&self) -> RcNode {
-        Node::new(Data::Element(Element {
-            span: DUMMY_SP,
-            tag_name: "html".into(),
-            namespace: Namespace::HTML,
-            attributes: vec![],
-            // body and head `Element`s
-            children: Vec::with_capacity(2),
-            content: None,
-        }))
+        Node::new(
+            Data::Element {
+                tag_name: "html".into(),
+                namespace: Namespace::HTML,
+                attributes: RefCell::new(vec![]),
+            },
+            DUMMY_SP,
+        )
     }
 
     fn create_fake_token_and_info(&self, tag_name: &str, span: Option<Span>) -> TokenAndInfo {
@@ -7516,8 +7541,10 @@ where
         // parse error.
         match self.open_elements_stack.items.last() {
             Some(node) if !is_html_element!(node, "td" | "th") => {
-                self.errors
-                    .push(Error::new(get_span!(node), ErrorKind::UnclosedElementsCell));
+                self.errors.push(Error::new(
+                    *node.start_span.borrow(),
+                    ErrorKind::UnclosedElementsCell,
+                ));
             }
             _ => {}
         }
@@ -7536,45 +7563,6 @@ where
         // NOTE: The stack of open elements cannot have both a td and a th
         // element in table scope at the same time, nor can it have neither
         // when the close the cell algorithm is invoked.
-    }
-
-    fn get_missing_attributes(
-        &self,
-        node: &RcNode,
-        token_attributes: Vec<AttributeToken>,
-    ) -> Vec<Attribute> {
-        let attributes = match &node.data {
-            Data::Element(element) => &element.attributes,
-            _ => {
-                unreachable!();
-            }
-        };
-
-        let mut additional_attributes = Vec::with_capacity(token_attributes.len());
-
-        for token_attribute in &token_attributes {
-            let mut found = false;
-
-            for attribute in attributes {
-                if attribute.name == token_attribute.name {
-                    found = true;
-
-                    break;
-                }
-            }
-
-            if !found {
-                additional_attributes.push(Attribute {
-                    span: token_attribute.span,
-                    namespace: None,
-                    prefix: None,
-                    name: token_attribute.name.clone(),
-                    value: token_attribute.value.clone(),
-                });
-            }
-        }
-
-        additional_attributes
     }
 
     fn reset_insertion_mode(&mut self) {
@@ -7780,6 +7768,21 @@ where
             // elements.
             //
             // 18. Return to the step labeled loop.
+        }
+    }
+
+    fn set_document_mode(&mut self, document_mode: DocumentMode) {
+        if let Some(document) = &self.document {
+            match &document.data {
+                Data::Document { mode, .. } => {
+                    let mut mode = mode.borrow_mut();
+
+                    *mode = document_mode;
+                }
+                _ => {
+                    unreachable!();
+                }
+            }
         }
     }
 
@@ -8046,10 +8049,11 @@ where
         adjusted_insertion_location = match &adjusted_insertion_location {
             InsertionPosition::LastChild(node) | InsertionPosition::BeforeSibling(node) => {
                 match &node.data {
-                    Data::Element(element)
-                        if &*element.tag_name == "template"
-                            && element.namespace == Namespace::HTML =>
-                    {
+                    Data::Element {
+                        namespace,
+                        tag_name,
+                        ..
+                    } if &**tag_name == "template" && *namespace == Namespace::HTML => {
                         adjusted_insertion_location
                     }
                     _ => adjusted_insertion_location,
@@ -8072,15 +8076,17 @@ where
         // Create a Comment node whose data attribute is set to data and whose
         // node document is the same as that of the node in which the adjusted
         // insertion location finds itself.
-        let comment = Node::new(Data::Comment(Comment {
-            span: token_and_info.span,
-            data: match &token_and_info.token {
-                Token::Comment { data } => data.into(),
-                _ => {
-                    unreachable!()
-                }
+        let comment = Node::new(
+            Data::Comment {
+                data: match &token_and_info.token {
+                    Token::Comment { data } => data.clone(),
+                    _ => {
+                        unreachable!()
+                    }
+                },
             },
-        }));
+            token_and_info.span,
+        );
 
         // Insert the newly created node at the adjusted insertion location.
         self.insert_at_position(adjusted_insertion_location, comment);
@@ -8092,15 +8098,17 @@ where
         &mut self,
         token_and_info: &mut TokenAndInfo,
     ) -> PResult<()> {
-        let comment = Node::new(Data::Comment(Comment {
-            span: token_and_info.span,
-            data: match &token_and_info.token {
-                Token::Comment { data } => data.into(),
-                _ => {
-                    unreachable!()
-                }
+        let comment = Node::new(
+            Data::Comment {
+                data: match &token_and_info.token {
+                    Token::Comment { data } => data.clone(),
+                    _ => {
+                        unreachable!()
+                    }
+                },
             },
-        }));
+            token_and_info.span,
+        );
 
         if let Some(document) = &self.document {
             self.append_node(document, comment);
@@ -8113,15 +8121,17 @@ where
         &mut self,
         token_and_info: &mut TokenAndInfo,
     ) -> PResult<()> {
-        let comment = Node::new(Data::Comment(Comment {
-            span: token_and_info.span,
-            data: match &token_and_info.token {
-                Token::Comment { data } => data.into(),
-                _ => {
-                    unreachable!()
-                }
+        let comment = Node::new(
+            Data::Comment {
+                data: match &token_and_info.token {
+                    Token::Comment { data } => data.clone(),
+                    _ => {
+                        unreachable!()
+                    }
+                },
             },
-        }));
+            token_and_info.span,
+        );
 
         if let Some(html) = &self.open_elements_stack.items.get(0) {
             self.append_node(html, comment);
@@ -8155,31 +8165,22 @@ where
         // insertion location.
         match &adjusted_insertion_location {
             InsertionPosition::LastChild(parent) => {
-                let mut children = parent.children.borrow_mut();
+                let children = parent.children.borrow();
 
                 if let Some(last) = children.last() {
-                    if let Data::Text(text) = &last.data {
-                        let mut new_value = String::with_capacity(text.value.len() + 1);
-
-                        new_value.push_str(&*text.value);
-
+                    if let Data::Text { data } = &last.data {
                         match &token_and_info.token {
-                            Token::Character { value, .. } => {
-                                new_value.push(*value);
+                            Token::Character { value: c, .. } => {
+                                data.borrow_mut().push(*c);
                             }
                             _ => {
                                 unreachable!();
                             }
                         }
 
-                        let first_pos = text.span.lo();
-                        let last_pos = token_and_info.span.hi();
-                        let index = children.len() - 1;
+                        let mut span = last.end_span.borrow_mut();
 
-                        children[index] = Node::new(Data::Text(Text {
-                            span: Span::new(first_pos, last_pos, Default::default()),
-                            value: new_value.into(),
-                        }));
+                        *span = Some(token_and_info.span);
 
                         return Ok(());
                     }
@@ -8188,30 +8189,22 @@ where
             InsertionPosition::BeforeSibling(node) => {
                 if let Some((parent, i)) = self.get_parent_and_index(node) {
                     if i > 0 {
-                        let mut children = parent.children.borrow_mut();
+                        let children = parent.children.borrow();
 
                         if let Some(previous) = children.get(i - 1) {
-                            if let Data::Text(text) = &previous.data {
-                                let mut new_value = String::with_capacity(text.value.len() + 1);
-
-                                new_value.push_str(&*text.value);
-
+                            if let Data::Text { data } = &previous.data {
                                 match &token_and_info.token {
-                                    Token::Character { value, .. } => {
-                                        new_value.push(*value);
+                                    Token::Character { value: c, .. } => {
+                                        data.borrow_mut().push(*c);
                                     }
                                     _ => {
                                         unreachable!();
                                     }
                                 }
 
-                                let first_pos = text.span.lo();
-                                let last_pos = token_and_info.span.hi();
+                                let mut span = previous.end_span.borrow_mut();
 
-                                children[i - 1] = Node::new(Data::Text(Text {
-                                    span: Span::new(first_pos, last_pos, Default::default()),
-                                    value: new_value.into(),
-                                }));
+                                *span = Some(token_and_info.span);
 
                                 return Ok(());
                             }
@@ -8225,15 +8218,23 @@ where
         // is the same as that of the element in which the adjusted insertion location
         // finds itself, and insert the newly created node at the adjusted insertion
         // location.
-        let text = Node::new(Data::Text(Text {
-            span: token_and_info.span,
-            value: match &token_and_info.token {
-                Token::Character { value, .. } => value.to_string().into(),
-                _ => {
-                    unreachable!()
-                }
+        let text = Node::new(
+            Data::Text {
+                data: match &token_and_info.token {
+                    Token::Character { value: c, .. } => {
+                        let mut data = String::with_capacity(255);
+
+                        data.push(*c);
+
+                        RefCell::new(data)
+                    }
+                    _ => {
+                        unreachable!()
+                    }
+                },
             },
-        }));
+            token_and_info.span,
+        );
 
         self.insert_at_position(adjusted_insertion_location, text);
 
@@ -8344,13 +8345,11 @@ where
 
     fn update_end_tag_span(&self, node: Option<&RcNode>, token_and_info: &TokenAndInfo) {
         if let Some(node) = node {
-            let span = get_span!(node);
-
-            if span.is_dummy() {
+            if node.start_span.borrow().is_dummy() {
                 return;
             }
 
-            let mut end_tag_span = node.end_tag_span.borrow_mut();
+            let mut end_tag_span = node.end_span.borrow_mut();
 
             *end_tag_span = Some(token_and_info.span);
         }
@@ -8365,7 +8364,7 @@ fn is_same_node(a: &RcNode, b: &RcNode) -> bool {
 fn is_element_in_html_namespace(node: Option<&RcNode>) -> bool {
     if let Some(node) = node {
         match &node.data {
-            Data::Element(element) if element.namespace == Namespace::HTML => {
+            Data::Element { namespace, .. } if *namespace == Namespace::HTML => {
                 return true;
             }
             _ => {
@@ -8388,9 +8387,12 @@ fn is_element_in_html_namespace(node: Option<&RcNode>) -> bool {
 fn is_mathml_text_integration_point(node: Option<&RcNode>) -> bool {
     if let Some(node) = node {
         match &node.data {
-            Data::Element(element)
-                if element.namespace == Namespace::MATHML
-                    && matches!(&*element.tag_name, "mi" | "mo" | "mn" | "ms" | "mtext") =>
+            Data::Element {
+                namespace,
+                tag_name,
+                ..
+            } if *namespace == Namespace::MATHML
+                && matches!(&**tag_name, "mi" | "mo" | "mn" | "ms" | "mtext") =>
             {
                 return true;
             }
@@ -8406,10 +8408,11 @@ fn is_mathml_text_integration_point(node: Option<&RcNode>) -> bool {
 fn is_mathml_annotation_xml(node: Option<&RcNode>) -> bool {
     if let Some(node) = node {
         match &node.data {
-            Data::Element(element)
-                if element.namespace == Namespace::MATHML
-                    && &*element.tag_name == "annotation-xml" =>
-            {
+            Data::Element {
+                namespace,
+                tag_name,
+                ..
+            } if *namespace == Namespace::MATHML && &*tag_name == "annotation-xml" => {
                 return true;
             }
             _ => {
@@ -8434,13 +8437,13 @@ fn is_mathml_annotation_xml(node: Option<&RcNode>) -> bool {
 fn is_html_integration_point(node: Option<&RcNode>) -> bool {
     if let Some(node) = node {
         match &node.data {
-            Data::Element(Element {
+            Data::Element {
                 namespace,
                 tag_name,
                 attributes,
                 ..
-            }) if *namespace == Namespace::MATHML && tag_name == "annotation-xml" => {
-                for attribute in attributes {
+            } if *namespace == Namespace::MATHML && tag_name == "annotation-xml" => {
+                for attribute in &*attributes.borrow() {
                     if &*attribute.name == "encoding"
                         && (attribute.value.is_some()
                             && matches!(
@@ -8454,11 +8457,11 @@ fn is_html_integration_point(node: Option<&RcNode>) -> bool {
 
                 return false;
             }
-            Data::Element(Element {
+            Data::Element {
                 namespace,
                 tag_name,
                 ..
-            }) if *namespace == Namespace::SVG
+            } if *namespace == Namespace::SVG
                 && matches!(&**tag_name, "foreignObject" | "desc" | "title") =>
             {
                 return true;

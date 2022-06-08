@@ -60,7 +60,7 @@
                 "end": 32,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
@@ -80,7 +80,7 @@
                     "end": 53,
                     "ctxt": 0
                   },
-                  "value": "This is heading 1"
+                  "data": "This is heading 1"
                 }
               ],
               "content": null
@@ -92,7 +92,7 @@
                 "end": 59,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
@@ -112,7 +112,7 @@
                     "end": 80,
                     "ctxt": 0
                   },
-                  "value": "This is heading 2"
+                  "data": "This is heading 2"
                 }
               ],
               "content": null
@@ -124,7 +124,7 @@
                 "end": 86,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
@@ -144,7 +144,7 @@
                     "end": 107,
                     "ctxt": 0
                   },
-                  "value": "This is heading 3"
+                  "data": "This is heading 3"
                 }
               ],
               "content": null
@@ -156,7 +156,7 @@
                 "end": 113,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
@@ -176,7 +176,7 @@
                     "end": 134,
                     "ctxt": 0
                   },
-                  "value": "This is heading 4"
+                  "data": "This is heading 4"
                 }
               ],
               "content": null
@@ -188,7 +188,7 @@
                 "end": 140,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
@@ -208,7 +208,7 @@
                     "end": 161,
                     "ctxt": 0
                   },
-                  "value": "This is heading 5"
+                  "data": "This is heading 5"
                 }
               ],
               "content": null
@@ -220,7 +220,7 @@
                 "end": 167,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
@@ -240,7 +240,7 @@
                     "end": 188,
                     "ctxt": 0
                   },
-                  "value": "This is heading 6"
+                  "data": "This is heading 6"
                 }
               ],
               "content": null
@@ -252,7 +252,7 @@
                 "end": 211,
                 "ctxt": 0
               },
-              "value": "\n\n\n\n"
+              "data": "\n\n\n\n"
             }
           ],
           "content": null

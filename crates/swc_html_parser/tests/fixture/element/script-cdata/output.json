@@ -71,7 +71,7 @@
                     "end": 88,
                     "ctxt": 0
                   },
-                  "value": "\n//<![CDATA[\ndocument.write(\"<\");\n//]]>\n"
+                  "data": "\n//<![CDATA[\ndocument.write(\"<\");\n//]]>\n"
                 }
               ],
               "content": null
@@ -83,7 +83,7 @@
                 "end": 98,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
@@ -103,7 +103,7 @@
                     "end": 163,
                     "ctxt": 0
                   },
-                  "value": "\n    let foo = \"<!--<script>-->\";\n\n    console.log(foo);\n"
+                  "data": "\n    let foo = \"<!--<script>-->\";\n\n    console.log(foo);\n"
                 }
               ],
               "content": null

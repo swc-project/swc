@@ -55,7 +55,7 @@
                       "end": 27,
                       "ctxt": 0
                     },
-                    "value": "Foo"
+                    "data": "Foo"
                   }
                 ]
               }

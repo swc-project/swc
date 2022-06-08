@@ -69,7 +69,7 @@ define!({
 
     pub struct Text {
         pub span: Span,
-        pub value: JsWord,
+        pub data: JsWord,
     }
 
     pub struct Comment {

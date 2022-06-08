@@ -60,7 +60,7 @@
                     "end": 42,
                     "ctxt": 0
                   },
-                  "value": "<div>foo</div>"
+                  "data": "<div>foo</div>"
                 }
               ],
               "content": null

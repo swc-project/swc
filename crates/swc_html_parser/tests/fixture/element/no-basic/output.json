@@ -58,7 +58,7 @@
                     "end": 50,
                     "ctxt": 0
                   },
-                  "value": "Saving money, saving bytes"
+                  "data": "Saving money, saving bytes"
                 }
               ],
               "content": null
@@ -70,7 +70,7 @@
                 "end": 59,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             }
           ],
           "content": null
@@ -104,7 +104,7 @@
                     "end": 66,
                     "ctxt": 0
                   },
-                  "value": "Qed."
+                  "data": "Qed."
                 }
               ],
               "content": null

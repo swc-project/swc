@@ -58,7 +58,7 @@
                     "end": 37,
                     "ctxt": 0
                   },
-                  "value": "Document"
+                  "data": "Document"
                 }
               ],
               "content": null
@@ -95,7 +95,7 @@
                     "end": 59,
                     "ctxt": 0
                   },
-                  "value": "Test"
+                  "data": "Test"
                 }
               ],
               "content": null

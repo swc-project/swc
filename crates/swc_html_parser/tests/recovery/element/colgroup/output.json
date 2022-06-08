@@ -60,7 +60,7 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
@@ -80,7 +80,7 @@
                     "end": 60,
                     "ctxt": 0
                   },
-                  "value": "Document"
+                  "data": "Document"
                 }
               ],
               "content": null
@@ -92,7 +92,7 @@
                 "end": 69,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             }
           ],
           "content": null
@@ -104,7 +104,7 @@
             "end": 77,
             "ctxt": 0
           },
-          "value": "\n"
+          "data": "\n"
         },
         {
           "type": "Element",
@@ -124,7 +124,7 @@
                 "end": 84,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
@@ -144,7 +144,7 @@
                     "end": 96,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -164,7 +164,7 @@
                         "end": 129,
                         "ctxt": 0
                       },
-                      "value": "Superheros and sidekicks"
+                      "data": "Superheros and sidekicks"
                     }
                   ],
                   "content": null
@@ -176,7 +176,7 @@
                     "end": 144,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -196,7 +196,7 @@
                         "end": 163,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     }
                   ],
                   "content": null
@@ -208,7 +208,7 @@
                     "end": 178,
                     "ctxt": 0
                   },
-                  "value": "\n        "
+                  "data": "\n        "
                 },
                 {
                   "type": "Element",
@@ -241,7 +241,7 @@
                         "end": 192,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
@@ -288,7 +288,7 @@
                         "end": 230,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
@@ -335,7 +335,7 @@
                         "end": 263,
                         "ctxt": 0
                       },
-                      "value": "\n    "
+                      "data": "\n    "
                     }
                   ],
                   "content": null
@@ -347,7 +347,7 @@
                     "end": 275,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
               "content": null
@@ -359,7 +359,7 @@
                 "end": 293,
                 "ctxt": 0
               },
-              "value": "\n\n\n"
+              "data": "\n\n\n"
             }
           ],
           "content": null

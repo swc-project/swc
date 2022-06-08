@@ -58,7 +58,7 @@
                     "end": 30,
                     "ctxt": 0
                   },
-                  "value": "<!--..."
+                  "data": "<!--..."
                 }
               ],
               "content": null
@@ -90,7 +90,7 @@
                     "end": 64,
                     "ctxt": 0
                   },
-                  "value": "@import ..."
+                  "data": "@import ..."
                 }
               ],
               "content": null

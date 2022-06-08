@@ -202,7 +202,7 @@
                                                 "end": 56,
                                                 "ctxt": 0
                                               },
-                                              "value": "X"
+                                              "data": "X"
                                             }
                                           ],
                                           "content": null
@@ -329,7 +329,7 @@
                                     "end": 69,
                                     "ctxt": 0
                                   },
-                                  "value": "Y"
+                                  "data": "Y"
                                 }
                               ],
                               "content": null

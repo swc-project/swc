@@ -69,7 +69,7 @@
                     "end": 358,
                     "ctxt": 0
                   },
-                  "value": "test"
+                  "data": "test"
                 }
               ],
               "content": null
@@ -81,7 +81,7 @@
                 "end": 365,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Comment",

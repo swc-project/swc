@@ -80,7 +80,7 @@
                         "end": 39,
                         "ctxt": 0
                       },
-                      "value": "helloexcite!"
+                      "data": "helloexcite!"
                     },
                     {
                       "type": "Element",
@@ -100,7 +100,7 @@
                             "end": 45,
                             "ctxt": 0
                           },
-                          "value": "me!"
+                          "data": "me!"
                         }
                       ],
                       "content": null
@@ -167,7 +167,7 @@
                                             "end": 59,
                                             "ctxt": 0
                                           },
-                                          "value": "please!"
+                                          "data": "please!"
                                         }
                                       ],
                                       "content": null

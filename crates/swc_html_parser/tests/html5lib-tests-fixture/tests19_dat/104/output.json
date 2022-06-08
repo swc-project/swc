@@ -71,7 +71,7 @@
                     "end": 22,
                     "ctxt": 0
                   },
-                  "value": "a"
+                  "data": "a"
                 },
                 {
                   "type": "Element",
@@ -107,7 +107,7 @@
                     "end": 32,
                     "ctxt": 0
                   },
-                  "value": "b"
+                  "data": "b"
                 },
                 {
                   "type": "Element",
@@ -127,7 +127,7 @@
                         "end": 36,
                         "ctxt": 0
                       },
-                      "value": "c"
+                      "data": "c"
                     }
                   ],
                   "content": null
@@ -139,7 +139,7 @@
                     "end": 41,
                     "ctxt": 0
                   },
-                  "value": "d"
+                  "data": "d"
                 }
               ],
               "content": null

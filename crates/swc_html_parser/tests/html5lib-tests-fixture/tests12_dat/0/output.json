@@ -71,7 +71,7 @@
                     "end": 28,
                     "ctxt": 0
                   },
-                  "value": "foo"
+                  "data": "foo"
                 },
                 {
                   "type": "Element",
@@ -113,7 +113,7 @@
                                 "end": 47,
                                 "ctxt": 0
                               },
-                              "value": "baz"
+                              "data": "baz"
                             }
                           ],
                           "content": null
@@ -172,7 +172,7 @@
                                         "end": 93,
                                         "ctxt": 0
                                       },
-                                      "value": "eggs"
+                                      "data": "eggs"
                                     }
                                   ],
                                   "content": null
@@ -220,7 +220,7 @@
                                             "end": 129,
                                             "ctxt": 0
                                           },
-                                          "value": "spam"
+                                          "data": "spam"
                                         }
                                       ],
                                       "content": null
@@ -318,7 +318,7 @@
                                     "end": 189,
                                     "ctxt": 0
                                   },
-                                  "value": "quux"
+                                  "data": "quux"
                                 }
                               ],
                               "content": null
@@ -339,7 +339,7 @@
                     "end": 226,
                     "ctxt": 0
                   },
-                  "value": "bar"
+                  "data": "bar"
                 }
               ],
               "content": null

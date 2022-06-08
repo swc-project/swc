@@ -60,7 +60,7 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
@@ -80,7 +80,7 @@
                     "end": 60,
                     "ctxt": 0
                   },
-                  "value": "Document"
+                  "data": "Document"
                 }
               ],
               "content": null
@@ -92,7 +92,7 @@
                 "end": 69,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             }
           ],
           "content": null
@@ -104,7 +104,7 @@
             "end": 77,
             "ctxt": 0
           },
-          "value": "\n"
+          "data": "\n"
         },
         {
           "type": "Element",
@@ -124,7 +124,7 @@
                 "end": 84,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
@@ -211,7 +211,7 @@
                                   "end": 140,
                                   "ctxt": 0
                                 },
-                                "value": "Cell 1"
+                                "data": "Cell 1"
                               }
                             ],
                             "content": null
@@ -250,7 +250,7 @@
                               "end": 188,
                               "ctxt": 0
                             },
-                            "value": "Orphan div content"
+                            "data": "Orphan div content"
                           }
                         ],
                         "content": null
@@ -284,7 +284,7 @@
                                   "end": 208,
                                   "ctxt": 0
                                 },
-                                "value": "Cell 2"
+                                "data": "Cell 2"
                               }
                             ],
                             "content": null
@@ -305,7 +305,7 @@
                 "end": 244,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             }
           ],
           "content": null

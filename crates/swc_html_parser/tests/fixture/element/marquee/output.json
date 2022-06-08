@@ -60,7 +60,7 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
@@ -80,7 +80,7 @@
                     "end": 60,
                     "ctxt": 0
                   },
-                  "value": "Document"
+                  "data": "Document"
                 }
               ],
               "content": null
@@ -92,7 +92,7 @@
                 "end": 69,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             }
           ],
           "content": null
@@ -104,7 +104,7 @@
             "end": 77,
             "ctxt": 0
           },
-          "value": "\n"
+          "data": "\n"
         },
         {
           "type": "Element",
@@ -124,7 +124,7 @@
                 "end": 84,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
@@ -144,7 +144,7 @@
                     "end": 133,
                     "ctxt": 0
                   },
-                  "value": "This text will scroll from right to left"
+                  "data": "This text will scroll from right to left"
                 }
               ],
               "content": null
@@ -156,7 +156,7 @@
                 "end": 145,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
@@ -189,7 +189,7 @@
                     "end": 209,
                     "ctxt": 0
                   },
-                  "value": "This text will scroll from bottom to top"
+                  "data": "This text will scroll from bottom to top"
                 }
               ],
               "content": null
@@ -201,7 +201,7 @@
                 "end": 221,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
@@ -282,7 +282,7 @@
                     "end": 319,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -315,7 +315,7 @@
                         "end": 384,
                         "ctxt": 0
                       },
-                      "value": "\n        This text will bounce\n    "
+                      "data": "\n        This text will bounce\n    "
                     }
                   ],
                   "content": null
@@ -327,7 +327,7 @@
                     "end": 395,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
               "content": null
@@ -339,7 +339,7 @@
                 "end": 414,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             }
           ],
           "content": null

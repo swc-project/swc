@@ -60,7 +60,7 @@
                     "end": 11,
                     "ctxt": 0
                   },
-                  "value": "Hello"
+                  "data": "Hello"
                 }
               ],
               "content": null
@@ -72,7 +72,7 @@
                 "end": 18,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
@@ -92,7 +92,7 @@
                     "end": 48,
                     "ctxt": 0
                   },
-                  "value": "\nconsole.log(\"PASS\");\n"
+                  "data": "\nconsole.log(\"PASS\");\n"
                 }
               ],
               "content": null
@@ -104,7 +104,7 @@
                 "end": 58,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
@@ -124,7 +124,7 @@
                     "end": 66,
                     "ctxt": 0
                   },
-                  "value": "Bye"
+                  "data": "Bye"
                 }
               ],
               "content": null

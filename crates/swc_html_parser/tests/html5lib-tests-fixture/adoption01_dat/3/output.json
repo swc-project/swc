@@ -60,7 +60,7 @@
                     "end": 5,
                     "ctxt": 0
                   },
-                  "value": "1"
+                  "data": "1"
                 },
                 {
                   "type": "Element",
@@ -80,7 +80,7 @@
                         "end": 9,
                         "ctxt": 0
                       },
-                      "value": "2"
+                      "data": "2"
                     }
                   ],
                   "content": null
@@ -106,7 +106,7 @@
                     "end": 14,
                     "ctxt": 0
                   },
-                  "value": "3"
+                  "data": "3"
                 }
               ],
               "content": null

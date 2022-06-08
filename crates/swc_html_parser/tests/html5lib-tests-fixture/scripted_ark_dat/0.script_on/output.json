@@ -143,7 +143,7 @@
                                     "end": 118,
                                     "ctxt": 0
                                   },
-                                  "value": "document.getElementsByTagName(\"font\")[2].setAttribute(\"size\", \"5\");"
+                                  "data": "document.getElementsByTagName(\"font\")[2].setAttribute(\"size\", \"5\");"
                                 }
                               ],
                               "content": null
@@ -276,7 +276,7 @@
                                 "end": 144,
                                 "ctxt": 0
                               },
-                              "value": "X"
+                              "data": "X"
                             }
                           ],
                           "content": null
