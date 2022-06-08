@@ -47,7 +47,7 @@
                     "end": 38,
                     "ctxt": 0
                   },
-                  "value": "foo/title><link></head><body>X"
+                  "data": "foo/title><link></head><body>X"
                 }
               ],
               "content": null

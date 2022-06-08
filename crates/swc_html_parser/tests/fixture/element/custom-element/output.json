@@ -60,7 +60,7 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
@@ -80,7 +80,7 @@
                     "end": 60,
                     "ctxt": 0
                   },
-                  "value": "Document"
+                  "data": "Document"
                 }
               ],
               "content": null
@@ -92,7 +92,7 @@
                 "end": 69,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             }
           ],
           "content": null
@@ -104,7 +104,7 @@
             "end": 77,
             "ctxt": 0
           },
-          "value": "\n"
+          "data": "\n"
         },
         {
           "type": "Element",
@@ -124,7 +124,7 @@
                 "end": 84,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
@@ -171,7 +171,7 @@
                 "end": 266,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
@@ -218,7 +218,7 @@
                 "end": 315,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
@@ -265,7 +265,7 @@
                 "end": 356,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
@@ -285,7 +285,7 @@
                     "end": 376,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -342,7 +342,7 @@
                             "end": 427,
                             "ctxt": 0
                           },
-                          "value": "Twitter"
+                          "data": "Twitter"
                         }
                       ],
                       "content": null
@@ -357,7 +357,7 @@
                     "end": 452,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -414,7 +414,7 @@
                             "end": 499,
                             "ctxt": 0
                           },
-                          "value": "Facebook"
+                          "data": "Facebook"
                         }
                       ],
                       "content": null
@@ -429,7 +429,7 @@
                     "end": 524,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -486,7 +486,7 @@
                             "end": 567,
                             "ctxt": 0
                           },
-                          "value": "G+"
+                          "data": "G+"
                         }
                       ],
                       "content": null
@@ -501,7 +501,7 @@
                     "end": 588,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
               "content": null
@@ -513,7 +513,7 @@
                 "end": 606,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
@@ -533,7 +533,7 @@
                     "end": 630,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -553,7 +553,7 @@
                         "end": 658,
                         "ctxt": 0
                       },
-                      "value": "I'm an x-foo-with-markup!"
+                      "data": "I'm an x-foo-with-markup!"
                     }
                   ],
                   "content": null
@@ -565,7 +565,7 @@
                     "end": 663,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
               "content": null
@@ -577,7 +577,7 @@
                 "end": 685,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
@@ -618,7 +618,7 @@
                       "end": 725,
                       "ctxt": 0
                     },
-                    "value": "\n    "
+                    "data": "\n    "
                   },
                   {
                     "type": "Element",
@@ -638,7 +638,7 @@
                           "end": 765,
                           "ctxt": 0
                         },
-                        "value": "\n        p { color: green; }\n    "
+                        "data": "\n        p { color: green; }\n    "
                       }
                     ],
                     "content": null
@@ -650,7 +650,7 @@
                       "end": 778,
                       "ctxt": 0
                     },
-                    "value": "\n    "
+                    "data": "\n    "
                   },
                   {
                     "type": "Element",
@@ -670,7 +670,7 @@
                           "end": 846,
                           "ctxt": 0
                         },
-                        "value": "I'm in Shadow DOM. My markup was stamped from a <template>."
+                        "data": "I'm in Shadow DOM. My markup was stamped from a <template>."
                       }
                     ],
                     "content": null
@@ -682,7 +682,7 @@
                       "end": 851,
                       "ctxt": 0
                     },
-                    "value": "\n"
+                    "data": "\n"
                   }
                 ]
               }
@@ -694,7 +694,7 @@
                 "end": 871,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             }
           ],
           "content": null

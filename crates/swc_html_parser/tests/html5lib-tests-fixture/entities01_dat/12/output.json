@@ -49,7 +49,7 @@
                 "end": 13,
                 "ctxt": 0
               },
-              "value": "FOOABAR"
+              "data": "FOOABAR"
             }
           ],
           "content": null

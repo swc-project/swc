@@ -49,7 +49,7 @@
                 "end": 4,
                 "ctxt": 0
               },
-              "value": "FOO"
+              "data": "FOO"
             },
             {
               "type": "Comment",

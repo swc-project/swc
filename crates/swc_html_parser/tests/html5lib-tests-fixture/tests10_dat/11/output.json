@@ -126,7 +126,7 @@
                                         "end": 55,
                                         "ctxt": 0
                                       },
-                                      "value": "foo"
+                                      "data": "foo"
                                     }
                                   ],
                                   "content": null
@@ -149,7 +149,7 @@
                                         "end": 65,
                                         "ctxt": 0
                                       },
-                                      "value": "bar"
+                                      "data": "bar"
                                     }
                                   ],
                                   "content": null
@@ -175,7 +175,7 @@
                                     "end": 81,
                                     "ctxt": 0
                                   },
-                                  "value": "baz"
+                                  "data": "baz"
                                 }
                               ],
                               "content": null

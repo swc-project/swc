@@ -71,7 +71,7 @@
                     "end": 68,
                     "ctxt": 0
                   },
-                  "value": "foobarbaz"
+                  "data": "foobarbaz"
                 }
               ],
               "content": null
@@ -107,7 +107,7 @@
                     "end": 83,
                     "ctxt": 0
                   },
-                  "value": "quux"
+                  "data": "quux"
                 }
               ],
               "content": null

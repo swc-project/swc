@@ -49,7 +49,7 @@
                 "end": 22,
                 "ctxt": 0
               },
-              "value": "foo"
+              "data": "foo"
             },
             {
               "type": "Element",
@@ -80,7 +80,7 @@
                         "end": 19,
                         "ctxt": 0
                       },
-                      "value": " "
+                      "data": " "
                     }
                   ],
                   "content": null

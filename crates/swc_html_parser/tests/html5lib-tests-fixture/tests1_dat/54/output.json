@@ -58,7 +58,7 @@
                     "end": 29,
                     "ctxt": 0
                   },
-                  "value": "U-test"
+                  "data": "U-test"
                 }
               ],
               "content": null
@@ -106,7 +106,7 @@
                         "end": 55,
                         "ctxt": 0
                       },
-                      "value": "Test"
+                      "data": "Test"
                     },
                     {
                       "type": "Element",

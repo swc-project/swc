@@ -49,7 +49,7 @@
                 "end": 10,
                 "ctxt": 0
               },
-              "value": "test\ntest"
+              "data": "test\ntest"
             }
           ],
           "content": null

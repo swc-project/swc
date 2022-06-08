@@ -60,7 +60,7 @@
                     "end": 18,
                     "ctxt": 0
                   },
-                  "value": " <!--- "
+                  "data": " <!--- "
                 }
               ],
               "content": null
@@ -72,7 +72,7 @@
                 "end": 60,
                 "ctxt": 0
               },
-              "value": "->x --> x"
+              "data": "->x --> x"
             }
           ],
           "content": null

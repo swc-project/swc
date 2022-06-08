@@ -82,7 +82,7 @@
                         "end": 37,
                         "ctxt": 0
                       },
-                      "value": " <tr>x "
+                      "data": " <tr>x "
                     }
                   ],
                   "content": null
@@ -94,7 +94,7 @@
                     "end": 46,
                     "ctxt": 0
                   },
-                  "value": " "
+                  "data": " "
                 }
               ],
               "content": null

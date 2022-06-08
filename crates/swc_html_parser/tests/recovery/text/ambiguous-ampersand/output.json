@@ -84,7 +84,7 @@
                         "end": 80,
                         "ctxt": 0
                       },
-                      "value": "Link"
+                      "data": "Link"
                     }
                   ],
                   "content": null
@@ -107,7 +107,7 @@
                         "end": 152,
                         "ctxt": 0
                       },
-                      "value": "Text: ?a=b&c=d&a0b=c©=1¬i=n¬=in¬in=∉¬&;& &"
+                      "data": "Text: ?a=b&c=d&a0b=c©=1¬i=n¬=in¬in=∉¬&;& &"
                     }
                   ],
                   "content": null
@@ -122,7 +122,7 @@
                 "end": 163,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             }
           ],
           "content": null

@@ -49,7 +49,7 @@
                 "end": 14,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
@@ -104,7 +104,7 @@
                             "end": 34,
                             "ctxt": 0
                           },
-                          "value": "Hello"
+                          "data": "Hello"
                         },
                         {
                           "type": "Element",
@@ -124,7 +124,7 @@
                                 "end": 44,
                                 "ctxt": 0
                               },
-                              "value": "World"
+                              "data": "World"
                             }
                           ],
                           "content": null
@@ -139,7 +139,7 @@
                         "end": 65,
                         "ctxt": 0
                       },
-                      "value": "  \n"
+                      "data": "  \n"
                     }
                   ],
                   "content": null

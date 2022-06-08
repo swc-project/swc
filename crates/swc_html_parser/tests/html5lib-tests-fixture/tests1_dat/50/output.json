@@ -58,7 +58,7 @@
                     "end": 30,
                     "ctxt": 0
                   },
-                  "value": " <!-- "
+                  "data": " <!-- "
                 }
               ],
               "content": null
@@ -70,7 +70,7 @@
                 "end": 40,
                 "ctxt": 0
               },
-              "value": " "
+              "data": " "
             }
           ],
           "content": null
@@ -93,7 +93,7 @@
                 "end": 57,
                 "ctxt": 0
               },
-              "value": "-->  EOF"
+              "data": "-->  EOF"
             }
           ],
           "content": null

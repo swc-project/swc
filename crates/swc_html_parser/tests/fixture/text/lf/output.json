@@ -60,7 +60,7 @@
                 "end": 22,
                 "ctxt": 0
               },
-              "value": "Text\n"
+              "data": "Text\n"
             },
             {
               "type": "Element",
@@ -80,7 +80,7 @@
                     "end": 31,
                     "ctxt": 0
                   },
-                  "value": "Text"
+                  "data": "Text"
                 }
               ],
               "content": null
@@ -92,7 +92,7 @@
                 "end": 38,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
@@ -112,7 +112,7 @@
                     "end": 53,
                     "ctxt": 0
                   },
-                  "value": "\n    Text\n"
+                  "data": "\n    Text\n"
                 }
               ],
               "content": null
@@ -124,7 +124,7 @@
                 "end": 60,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
@@ -144,7 +144,7 @@
                     "end": 86,
                     "ctxt": 0
                   },
-                  "value": "\n    Text\n\n\n    Text\n"
+                  "data": "\n    Text\n\n\n    Text\n"
                 }
               ],
               "content": null
@@ -156,7 +156,7 @@
                 "end": 93,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
@@ -176,7 +176,7 @@
                     "end": 113,
                     "ctxt": 0
                   },
-                  "value": "Text\n\n\n    Text"
+                  "data": "Text\n\n\n    Text"
                 }
               ],
               "content": null
@@ -188,7 +188,7 @@
                 "end": 120,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
@@ -221,7 +221,7 @@
                     "end": 140,
                     "ctxt": 0
                   },
-                  "value": "\n\n"
+                  "data": "\n\n"
                 }
               ],
               "content": null
@@ -233,7 +233,7 @@
                 "end": 148,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
@@ -266,7 +266,7 @@
                     "end": 172,
                     "ctxt": 0
                   },
-                  "value": "\n\n"
+                  "data": "\n\n"
                 }
               ],
               "content": null
@@ -278,7 +278,7 @@
                 "end": 180,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
@@ -311,7 +311,7 @@
                     "end": 204,
                     "ctxt": 0
                   },
-                  "value": "\n\n"
+                  "data": "\n\n"
                 }
               ],
               "content": null
@@ -323,7 +323,7 @@
                 "end": 212,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
@@ -356,7 +356,7 @@
                     "end": 234,
                     "ctxt": 0
                   },
-                  "value": "\n\n"
+                  "data": "\n\n"
                 }
               ],
               "content": null
@@ -368,7 +368,7 @@
                 "end": 242,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
@@ -388,7 +388,7 @@
                     "end": 297,
                     "ctxt": 0
                   },
-                  "value": "\n\n.color {\n    color: red;\n    <!-- Test -->\n}\n\n"
+                  "data": "\n\n.color {\n    color: red;\n    <!-- Test -->\n}\n\n"
                 }
               ],
               "content": null

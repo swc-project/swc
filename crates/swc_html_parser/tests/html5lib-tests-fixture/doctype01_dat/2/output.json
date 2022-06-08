@@ -60,7 +60,7 @@
                 "end": 20,
                 "ctxt": 0
               },
-              "value": "Hello"
+              "data": "Hello"
             }
           ],
           "content": null

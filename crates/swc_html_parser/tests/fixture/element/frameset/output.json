@@ -47,7 +47,7 @@
                 "end": 35,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
@@ -94,7 +94,7 @@
                 "end": 107,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
@@ -114,7 +114,7 @@
                     "end": 129,
                     "ctxt": 0
                   },
-                  "value": "Тег FRAMESET"
+                  "data": "Тег FRAMESET"
                 }
               ],
               "content": null
@@ -126,7 +126,7 @@
                 "end": 138,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             }
           ],
           "content": null
@@ -138,7 +138,7 @@
             "end": 147,
             "ctxt": 0
           },
-          "value": "\n\n"
+          "data": "\n\n"
         },
         {
           "type": "Element",
@@ -183,7 +183,7 @@
                 "end": 183,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
@@ -254,7 +254,7 @@
                 "end": 250,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
@@ -287,7 +287,7 @@
                     "end": 281,
                     "ctxt": 0
                   },
-                  "value": "\n        "
+                  "data": "\n        "
                 },
                 {
                   "type": "Element",
@@ -358,7 +358,7 @@
                     "end": 354,
                     "ctxt": 0
                   },
-                  "value": "\n        "
+                  "data": "\n        "
                 },
                 {
                   "type": "Element",
@@ -405,7 +405,7 @@
                     "end": 399,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 }
               ],
               "content": null
@@ -417,7 +417,7 @@
                 "end": 411,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             }
           ],
           "content": null
@@ -429,7 +429,7 @@
             "end": 424,
             "ctxt": 0
           },
-          "value": "\n\n"
+          "data": "\n\n"
         }
       ],
       "content": null

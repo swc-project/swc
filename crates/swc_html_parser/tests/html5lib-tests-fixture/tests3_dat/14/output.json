@@ -60,7 +60,7 @@
                     "end": 36,
                     "ctxt": 0
                   },
-                  "value": "foo<span>bar</span><i>baz"
+                  "data": "foo<span>bar</span><i>baz"
                 }
               ],
               "content": null

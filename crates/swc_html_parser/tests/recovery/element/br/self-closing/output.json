@@ -60,7 +60,7 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
@@ -95,7 +95,7 @@
                 "end": 72,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
@@ -142,7 +142,7 @@
                 "end": 213,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
@@ -189,7 +189,7 @@
                 "end": 271,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
@@ -209,7 +209,7 @@
                     "end": 286,
                     "ctxt": 0
                   },
-                  "value": "Document"
+                  "data": "Document"
                 }
               ],
               "content": null
@@ -221,7 +221,7 @@
                 "end": 295,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             }
           ],
           "content": null
@@ -233,7 +233,7 @@
             "end": 303,
             "ctxt": 0
           },
-          "value": "\n"
+          "data": "\n"
         },
         {
           "type": "Element",
@@ -253,7 +253,7 @@
                 "end": 318,
                 "ctxt": 0
               },
-              "value": "\n    test"
+              "data": "\n    test"
             },
             {
               "type": "Element",
@@ -275,7 +275,7 @@
                 "end": 336,
                 "ctxt": 0
               },
-              "value": "test\n    test"
+              "data": "test\n    test"
             },
             {
               "type": "Element",
@@ -297,7 +297,7 @@
                 "end": 355,
                 "ctxt": 0
               },
-              "value": "test\n\n"
+              "data": "test\n\n"
             }
           ],
           "content": null

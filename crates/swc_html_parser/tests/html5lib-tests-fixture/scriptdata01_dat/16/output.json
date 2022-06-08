@@ -49,7 +49,7 @@
                 "end": 4,
                 "ctxt": 0
               },
-              "value": "FOO"
+              "data": "FOO"
             },
             {
               "type": "Element",
@@ -82,7 +82,7 @@
                     "end": 57,
                     "ctxt": 0
                   },
-                  "value": "'<!-- <sCrIpt>'</script>BAR"
+                  "data": "'<!-- <sCrIpt>'</script>BAR"
                 }
               ],
               "content": null

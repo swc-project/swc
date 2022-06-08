@@ -1,6 +1,6 @@
 use swc_html_ast::Token;
 
-use crate::parser::{is_same_node, Element, RcNode, TokenAndInfo};
+use crate::parser::{is_same_node, RcNode, TokenAndInfo};
 
 #[derive(Debug)]
 pub enum ActiveFormattingElement {

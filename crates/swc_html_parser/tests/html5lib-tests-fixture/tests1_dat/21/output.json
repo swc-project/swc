@@ -60,7 +60,7 @@
                     "end": 10,
                     "ctxt": 0
                   },
-                  "value": "Hello"
+                  "data": "Hello"
                 }
               ],
               "content": null
@@ -83,7 +83,7 @@
                     "end": 19,
                     "ctxt": 0
                   },
-                  "value": "World"
+                  "data": "World"
                 }
               ],
               "content": null

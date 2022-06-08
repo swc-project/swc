@@ -60,7 +60,7 @@
                 "end": 27,
                 "ctxt": 0
               },
-              "value": ">"
+              "data": ">"
             },
             {
               "type": "Comment",
@@ -78,7 +78,7 @@
                 "end": 42,
                 "ctxt": 0
               },
-              "value": "-->"
+              "data": "-->"
             }
           ],
           "content": null
