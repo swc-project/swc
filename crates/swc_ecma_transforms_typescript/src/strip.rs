@@ -85,6 +85,10 @@ pub struct Config {
 
     #[serde(default)]
     pub ts_enum_config: TSEnumConfig,
+
+    /// If this is true, `import foo = require` will be preserved.
+    #[serde(default)]
+    pub preserve_import_equals: bool,
 }
 
 #[derive(Clone, Copy, Debug, Default, Serialize, Deserialize)]
