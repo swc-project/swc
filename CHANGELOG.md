@@ -34,6 +34,9 @@
 
 - **(html/parser)** Improve memory allocation (#4884) ([ce4d577](https://github.com/swc-project/swc/commit/ce4d57735e6cfe240967c8d4c6655bfaca107eea))
 
+
+- **(html/parser)** Reduce cloning (#4901) ([e365766](https://github.com/swc-project/swc/commit/e3657660701366ca5c5e03876fe032d5a011b92a))
+
 ### Refactor
 
 
