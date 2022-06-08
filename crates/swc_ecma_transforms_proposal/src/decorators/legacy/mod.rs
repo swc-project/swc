@@ -229,7 +229,8 @@ impl VisitMut for TscDecorator {
 
         self.constructor_exprs = old_constructor_stmts;
 
-        if let Some(class_name) = self.class_name.clone() {
+        if let Some(outer_class_name) = self.class_name.clone() {
+            let inner_class_name = private_ident!(outer_class_name.sym.clone());
             if !n.decorators.is_empty() {
                 let decorators = ArrayLit {
                     span: DUMMY_SP,
