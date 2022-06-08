@@ -366,111 +366,118 @@ impl Fold for Amd {
 
                             stmts.reserve(export.specifiers.len());
 
-                            for ExportNamedSpecifier { orig, exported, .. } in export
-                                .specifiers
-                                .into_iter()
-                                .map(|e| match e {
-                                    ExportSpecifier::Named(e) => e,
-                                    ExportSpecifier::Default(..) => unreachable!(
-                                        "export default from 'foo'; should be removed by previous \
-                                         pass"
-                                    ),
-                                    ExportSpecifier::Namespace(..) => unreachable!(
-                                        "export * as Foo from 'foo'; should be removed by \
-                                         previous pass"
-                                    ),
-                                })
-                                .filter(|e| !e.is_type_only)
-                            {
-                                let orig = match orig {
-                                    ModuleExportName::Ident(ident) => ident,
-                                    ModuleExportName::Str(..) => {
-                                        unimplemented!("module string names unimplemented")
-                                    }
-                                };
-                                let exported = match exported {
-                                    Some(ModuleExportName::Ident(ident)) => Some(ident),
-                                    Some(ModuleExportName::Str(..)) => {
-                                        unimplemented!("module string names unimplemented")
-                                    }
-                                    _ => None,
-                                };
-                                let mut scope_ref_mut = self.scope.borrow_mut();
-                                let scope = &mut *scope_ref_mut;
-                                let is_import_default = orig.sym == js_word!("default");
+                            for s in export.specifiers.iter() {
+                                match s {
+                                    ExportSpecifier::Named(ExportNamedSpecifier {
+                                        orig,
+                                        exported,
+                                        is_type_only: false,
+                                        ..
+                                    }) => {
+                                        let orig = match orig {
+                                            ModuleExportName::Ident(ident) => ident,
+                                            ModuleExportName::Str(..) => {
+                                                unimplemented!("module string names unimplemented")
+                                            }
+                                        };
+                                        let exported = match exported {
+                                            Some(ModuleExportName::Ident(ident)) => Some(ident),
+                                            Some(ModuleExportName::Str(..)) => {
+                                                unimplemented!("module string names unimplemented")
+                                            }
+                                            _ => None,
+                                        };
+                                        let mut scope_ref_mut = self.scope.borrow_mut();
+                                        let scope = &mut *scope_ref_mut;
+                                        let is_import_default = orig.sym == js_word!("default");
 
-                                let key = (orig.sym.clone(), orig.span.ctxt());
-                                if scope.declared_vars.contains(&key) {
-                                    scope
-                                        .exported_bindings
-                                        .entry(key.clone())
-                                        .or_default()
-                                        .push(
-                                            exported
-                                                .clone()
-                                                .map(|i| (i.sym.clone(), i.span.ctxt()))
-                                                .unwrap_or_else(|| {
-                                                    (orig.sym.clone(), orig.span.ctxt())
-                                                }),
-                                        );
-                                }
-
-                                if let Some(ref src) = export.src {
-                                    if is_import_default {
-                                        scope
-                                            .import_types
-                                            .entry(src.value.clone())
-                                            .or_insert(false);
-                                    }
-                                }
-                                drop(scope_ref_mut);
-                                let value = match imported {
-                                    Some(ref imported) => Box::new(
-                                        imported.clone().unwrap().make_member(orig.clone()),
-                                    ),
-                                    None => Box::new(Expr::Ident(orig.clone()).fold_with(self)),
-                                };
-
-                                // True if we are exporting our own stuff.
-                                let is_value_ident = matches!(*value, Expr::Ident(..));
-
-                                if is_value_ident {
-                                    let exported_symbol = exported
-                                        .as_ref()
-                                        .map(|e| e.sym.clone())
-                                        .unwrap_or_else(|| orig.sym.clone());
-                                    init_export!(exported_symbol);
-
-                                    extra_stmts.push(
-                                        AssignExpr {
-                                            span: DUMMY_SP,
-                                            left: PatOrExpr::Expr(Box::new(
-                                                exports_ident
-                                                    .clone()
-                                                    .make_member(exported.unwrap_or(orig)),
-                                            )),
-                                            op: op!("="),
-                                            right: value,
+                                        let key = (orig.sym.clone(), orig.span.ctxt());
+                                        if scope.declared_vars.contains(&key) {
+                                            scope
+                                                .exported_bindings
+                                                .entry(key.clone())
+                                                .or_default()
+                                                .push(
+                                                    exported
+                                                        .clone()
+                                                        .map(|i| (i.sym.clone(), i.span.ctxt()))
+                                                        .unwrap_or_else(|| {
+                                                            (orig.sym.clone(), orig.span.ctxt())
+                                                        }),
+                                                );
                                         }
-                                        .into_stmt(),
-                                    );
-                                } else {
-                                    stmts.push(
-                                        define_property(vec![
-                                            exports_ident.clone().as_arg(),
-                                            {
-                                                // export { foo }
-                                                //  -> 'foo'
 
-                                                // export { foo as bar }
-                                                //  -> 'bar'
-                                                let i = exported.unwrap_or(orig);
-                                                Lit::Str(quote_str!(i.span, i.sym)).as_arg()
-                                            },
-                                            make_descriptor(value).as_arg(),
-                                        ])
-                                        .into_stmt(),
-                                    );
+                                        if let Some(ref src) = export.src {
+                                            if is_import_default {
+                                                scope
+                                                    .import_types
+                                                    .entry(src.value.clone())
+                                                    .or_insert(false);
+                                            }
+                                        }
+                                        drop(scope_ref_mut);
+                                        let value = match imported {
+                                            Some(ref imported) => Box::new(
+                                                imported.clone().unwrap().make_member(orig.clone()),
+                                            ),
+                                            None => {
+                                                Box::new(Expr::Ident(orig.clone()).fold_with(self))
+                                            }
+                                        };
+
+                                        // True if we are exporting our own stuff.
+                                        let is_value_ident = matches!(*value, Expr::Ident(..));
+
+                                        if is_value_ident {
+                                            let exported_symbol = exported
+                                                .as_ref()
+                                                .map(|e| e.sym.clone())
+                                                .unwrap_or_else(|| orig.sym.clone());
+                                            init_export!(exported_symbol);
+
+                                            extra_stmts.push(
+                                                AssignExpr {
+                                                    span: DUMMY_SP,
+                                                    left: PatOrExpr::Expr(Box::new(
+                                                        exports_ident.clone().make_member(
+                                                            exported.unwrap_or(orig).clone(),
+                                                        ),
+                                                    )),
+                                                    op: op!("="),
+                                                    right: value,
+                                                }
+                                                .into_stmt(),
+                                            );
+                                        } else {
+                                            stmts.push(
+                                                define_property(vec![
+                                                    exports_ident.clone().as_arg(),
+                                                    {
+                                                        // export { foo }
+                                                        //  -> 'foo'
+
+                                                        // export { foo as bar }
+                                                        //  -> 'bar'
+                                                        let i = exported.unwrap_or(orig);
+                                                        Lit::Str(quote_str!(i.span, i.sym)).as_arg()
+                                                    },
+                                                    make_descriptor(value).as_arg(),
+                                                ])
+                                                .into_stmt(),
+                                            );
+                                        }
+                                    }
+
+                                    ExportSpecifier::Namespace(ExportNamespaceSpecifier {
+                                        span,
+                                        name,
+                                    }) => {}
+
+                                    ExportSpecifier::Default(..) => {
+                                        unimplemented!("amd: export default from './foo'")
+                                    }
+
+                                    _ => {}
                                 }
                             }
                         }
