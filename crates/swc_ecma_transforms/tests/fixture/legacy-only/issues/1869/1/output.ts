@@ -1,7 +1,7 @@
-let TestClass = class TestClass {
+let TestClass = class TestClass1 {
     static Something = "hello";
     static SomeProperties = {
-        firstProp: TestClass.Something
+        firstProp: TestClass1.Something
     };
 };
 TestClass = __decorate([
