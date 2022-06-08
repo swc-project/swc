@@ -49,7 +49,7 @@
                 "end": 6,
                 "ctxt": 0
               },
-              "value": "Line1"
+              "data": "Line1"
             },
             {
               "type": "Element",
@@ -71,7 +71,7 @@
                 "end": 15,
                 "ctxt": 0
               },
-              "value": "Line2"
+              "data": "Line2"
             },
             {
               "type": "Element",
@@ -93,7 +93,7 @@
                 "end": 24,
                 "ctxt": 0
               },
-              "value": "Line3"
+              "data": "Line3"
             },
             {
               "type": "Element",
@@ -115,7 +115,7 @@
                 "end": 33,
                 "ctxt": 0
               },
-              "value": "Line4"
+              "data": "Line4"
             }
           ],
           "content": null

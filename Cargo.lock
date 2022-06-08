@@ -3537,7 +3537,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.87.1"
+version = "0.87.2"
 dependencies = [
  "better_scoped_tls",
  "criterion",
@@ -3614,7 +3614,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.115.0"
+version = "0.115.1"
 dependencies = [
  "Inflector",
  "ahash",
@@ -3887,7 +3887,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.11.0"
+version = "0.12.0"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -3898,7 +3898,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_ast"
-version = "0.8.0"
+version = "0.9.0"
 dependencies = [
  "is-macro",
  "serde",
@@ -3909,7 +3909,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_codegen"
-version = "0.11.0"
+version = "0.12.0"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -3936,7 +3936,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.8.1"
+version = "0.9.0"
 dependencies = [
  "serde_json",
  "swc_atoms",
@@ -3950,7 +3950,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.11.2"
+version = "0.12.0"
 dependencies = [
  "bitflags",
  "criterion",
@@ -3978,7 +3978,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_visit"
-version = "0.8.0"
+version = "0.9.0"
 dependencies = [
  "swc_atoms",
  "swc_common",

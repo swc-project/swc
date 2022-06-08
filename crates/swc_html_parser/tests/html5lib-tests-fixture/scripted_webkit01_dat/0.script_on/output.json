@@ -49,7 +49,7 @@
                 "end": 2,
                 "ctxt": 0
               },
-              "value": "1"
+              "data": "1"
             },
             {
               "type": "Element",
@@ -69,7 +69,7 @@
                     "end": 29,
                     "ctxt": 0
                   },
-                  "value": "document.write(\"2\")"
+                  "data": "document.write(\"2\")"
                 }
               ],
               "content": null
@@ -81,7 +81,7 @@
                 "end": 39,
                 "ctxt": 0
               },
-              "value": "3"
+              "data": "3"
             }
           ],
           "content": null

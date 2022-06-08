@@ -60,7 +60,7 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
@@ -107,7 +107,7 @@
                 "end": 114,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
@@ -127,7 +127,7 @@
                     "end": 129,
                     "ctxt": 0
                   },
-                  "value": "Document"
+                  "data": "Document"
                 }
               ],
               "content": null
@@ -139,7 +139,7 @@
                 "end": 138,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             }
           ],
           "content": null
@@ -151,7 +151,7 @@
             "end": 146,
             "ctxt": 0
           },
-          "value": "\n"
+          "data": "\n"
         },
         {
           "type": "Element",
@@ -171,7 +171,7 @@
                 "end": 166,
                 "ctxt": 0
               },
-              "value": "\ntest\n\n"
+              "data": "\ntest\n\n"
             }
           ],
           "content": null

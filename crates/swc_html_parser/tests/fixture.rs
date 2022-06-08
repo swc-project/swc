@@ -376,7 +376,7 @@ impl VisitMut for DomVisualizer<'_> {
 
         text.push_str(&self.get_ident());
         text.push('"');
-        text.push_str(&n.value);
+        text.push_str(&n.data);
         text.push('"');
         text.push('\n');
 

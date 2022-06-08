@@ -71,7 +71,7 @@
                     "end": 55,
                     "ctxt": 0
                   },
-                  "value": "Document"
+                  "data": "Document"
                 }
               ],
               "content": null
@@ -86,7 +86,7 @@
             "end": 71,
             "ctxt": 0
           },
-          "value": "\n"
+          "data": "\n"
         },
         {
           "type": "Element",
@@ -106,7 +106,7 @@
                 "end": 87,
                 "ctxt": 0
               },
-              "value": "\n\n\n"
+              "data": "\n\n\n"
             }
           ],
           "content": null

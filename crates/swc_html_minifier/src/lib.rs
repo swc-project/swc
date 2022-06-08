@@ -664,7 +664,7 @@ impl VisitMut for Minifier {
         n.visit_mut_children_with(self);
 
         if self.is_script_with_json {
-            let json = match serde_json::from_str::<Value>(&*n.value) {
+            let json = match serde_json::from_str::<Value>(&*n.data) {
                 Ok(json) => json,
                 _ => return,
             };
@@ -673,7 +673,7 @@ impl VisitMut for Minifier {
                 _ => return,
             };
 
-            n.value = minified_json.into()
+            n.data = minified_json.into()
         }
     }
 }

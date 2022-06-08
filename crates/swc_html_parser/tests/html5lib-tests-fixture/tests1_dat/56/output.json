@@ -84,7 +84,7 @@
                         "end": 15,
                         "ctxt": 0
                       },
-                      "value": "hello"
+                      "data": "hello"
                     },
                     {
                       "type": "Element",
@@ -104,7 +104,7 @@
                             "end": 23,
                             "ctxt": 0
                           },
-                          "value": "cruel"
+                          "data": "cruel"
                         }
                       ],
                       "content": null
@@ -130,7 +130,7 @@
                         "end": 35,
                         "ctxt": 0
                       },
-                      "value": "world"
+                      "data": "world"
                     }
                   ],
                   "content": null

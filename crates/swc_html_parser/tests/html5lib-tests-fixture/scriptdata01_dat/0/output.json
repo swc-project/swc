@@ -49,7 +49,7 @@
                 "end": 4,
                 "ctxt": 0
               },
-              "value": "FOO"
+              "data": "FOO"
             },
             {
               "type": "Element",
@@ -69,7 +69,7 @@
                     "end": 19,
                     "ctxt": 0
                   },
-                  "value": "'Hello'"
+                  "data": "'Hello'"
                 }
               ],
               "content": null
@@ -81,7 +81,7 @@
                 "end": 31,
                 "ctxt": 0
               },
-              "value": "BAR"
+              "data": "BAR"
             }
           ],
           "content": null

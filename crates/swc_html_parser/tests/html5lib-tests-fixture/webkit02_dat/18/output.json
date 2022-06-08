@@ -82,7 +82,7 @@
                             "end": 29,
                             "ctxt": 0
                           },
-                          "value": "foo"
+                          "data": "foo"
                         }
                       ],
                       "content": null
@@ -105,7 +105,7 @@
                             "end": 82,
                             "ctxt": 0
                           },
-                          "value": "</foreignObject></svg><div>bar</div>"
+                          "data": "</foreignObject></svg><div>bar</div>"
                         }
                       ],
                       "content": null

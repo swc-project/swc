@@ -13,7 +13,7 @@
         "end": 50,
         "ctxt": 0
       },
-      "value": "textarea content with <em>pseudo</em> <foo>markup"
+      "data": "textarea content with <em>pseudo</em> <foo>markup"
     }
   ]
 }

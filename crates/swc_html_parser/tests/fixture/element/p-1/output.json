@@ -60,7 +60,7 @@
                 "end": 32,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
@@ -80,7 +80,7 @@
                     "end": 55,
                     "ctxt": 0
                   },
-                  "value": "This is a paragraph."
+                  "data": "This is a paragraph."
                 }
               ],
               "content": null
@@ -92,7 +92,7 @@
                 "end": 60,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
@@ -112,7 +112,7 @@
                     "end": 89,
                     "ctxt": 0
                   },
-                  "value": "This is another paragraph."
+                  "data": "This is another paragraph."
                 }
               ],
               "content": null
@@ -124,7 +124,7 @@
                 "end": 111,
                 "ctxt": 0
               },
-              "value": "\n\n\n\n"
+              "data": "\n\n\n\n"
             }
           ],
           "content": null

@@ -82,7 +82,7 @@
                         "end": 43,
                         "ctxt": 0
                       },
-                      "value": "foobar"
+                      "data": "foobar"
                     }
                   ],
                   "content": null

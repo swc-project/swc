@@ -60,7 +60,7 @@
                     "end": 11,
                     "ctxt": 0
                   },
-                  "value": " abc "
+                  "data": " abc "
                 },
                 {
                   "type": "Element",
@@ -80,7 +80,7 @@
                         "end": 19,
                         "ctxt": 0
                       },
-                      "value": " def "
+                      "data": " def "
                     },
                     {
                       "type": "Element",
@@ -100,7 +100,7 @@
                             "end": 26,
                             "ctxt": 0
                           },
-                          "value": " ghi"
+                          "data": " ghi"
                         }
                       ],
                       "content": null

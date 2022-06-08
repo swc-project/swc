@@ -145,7 +145,7 @@
                                     "end": 73,
                                     "ctxt": 0
                                   },
-                                  "value": "\nA BC"
+                                  "data": "\nA BC"
                                 },
                                 {
                                   "type": "Element",
@@ -189,7 +189,7 @@
                                             "end": 67,
                                             "ctxt": 0
                                           },
-                                          "value": " "
+                                          "data": " "
                                         }
                                       ],
                                       "content": null

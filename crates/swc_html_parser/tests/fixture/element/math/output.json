@@ -47,7 +47,7 @@
                 "end": 35,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
@@ -67,7 +67,7 @@
                     "end": 57,
                     "ctxt": 0
                   },
-                  "value": "MathML in HTML5"
+                  "data": "MathML in HTML5"
                 }
               ],
               "content": null
@@ -79,7 +79,7 @@
                 "end": 66,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             }
           ],
           "content": null
@@ -91,7 +91,7 @@
             "end": 74,
             "ctxt": 0
           },
-          "value": "\n"
+          "data": "\n"
         },
         {
           "type": "Element",
@@ -111,7 +111,7 @@
                 "end": 82,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
@@ -131,7 +131,7 @@
                     "end": 93,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -151,7 +151,7 @@
                         "end": 108,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
@@ -171,7 +171,7 @@
                             "end": 127,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
@@ -191,7 +191,7 @@
                                 "end": 150,
                                 "ctxt": 0
                               },
-                              "value": "\n                "
+                              "data": "\n                "
                             },
                             {
                               "type": "Element",
@@ -211,7 +211,7 @@
                                     "end": 155,
                                     "ctxt": 0
                                   },
-                                  "value": "a"
+                                  "data": "a"
                                 }
                               ],
                               "content": null
@@ -223,7 +223,7 @@
                                 "end": 177,
                                 "ctxt": 0
                               },
-                              "value": "\n                "
+                              "data": "\n                "
                             },
                             {
                               "type": "Element",
@@ -243,7 +243,7 @@
                                     "end": 182,
                                     "ctxt": 0
                                   },
-                                  "value": "2"
+                                  "data": "2"
                                 }
                               ],
                               "content": null
@@ -255,7 +255,7 @@
                                 "end": 200,
                                 "ctxt": 0
                               },
-                              "value": "\n            "
+                              "data": "\n            "
                             }
                           ],
                           "content": null
@@ -267,7 +267,7 @@
                             "end": 220,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
@@ -287,7 +287,7 @@
                                 "end": 225,
                                 "ctxt": 0
                               },
-                              "value": "+"
+                              "data": "+"
                             }
                           ],
                           "content": null
@@ -299,7 +299,7 @@
                             "end": 243,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
@@ -319,7 +319,7 @@
                                 "end": 266,
                                 "ctxt": 0
                               },
-                              "value": "\n                "
+                              "data": "\n                "
                             },
                             {
                               "type": "Element",
@@ -339,7 +339,7 @@
                                     "end": 271,
                                     "ctxt": 0
                                   },
-                                  "value": "b"
+                                  "data": "b"
                                 }
                               ],
                               "content": null
@@ -351,7 +351,7 @@
                                 "end": 293,
                                 "ctxt": 0
                               },
-                              "value": "\n                "
+                              "data": "\n                "
                             },
                             {
                               "type": "Element",
@@ -371,7 +371,7 @@
                                     "end": 298,
                                     "ctxt": 0
                                   },
-                                  "value": "2"
+                                  "data": "2"
                                 }
                               ],
                               "content": null
@@ -383,7 +383,7 @@
                                 "end": 316,
                                 "ctxt": 0
                               },
-                              "value": "\n            "
+                              "data": "\n            "
                             }
                           ],
                           "content": null
@@ -395,7 +395,7 @@
                             "end": 332,
                             "ctxt": 0
                           },
-                          "value": "\n        "
+                          "data": "\n        "
                         }
                       ],
                       "content": null
@@ -407,7 +407,7 @@
                         "end": 348,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
@@ -427,7 +427,7 @@
                             "end": 353,
                             "ctxt": 0
                           },
-                          "value": "="
+                          "data": "="
                         }
                       ],
                       "content": null
@@ -439,7 +439,7 @@
                         "end": 367,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
@@ -459,7 +459,7 @@
                             "end": 386,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
@@ -479,7 +479,7 @@
                                 "end": 391,
                                 "ctxt": 0
                               },
-                              "value": "c"
+                              "data": "c"
                             }
                           ],
                           "content": null
@@ -491,7 +491,7 @@
                             "end": 409,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
@@ -511,7 +511,7 @@
                                 "end": 414,
                                 "ctxt": 0
                               },
-                              "value": "2"
+                              "data": "2"
                             }
                           ],
                           "content": null
@@ -523,7 +523,7 @@
                             "end": 428,
                             "ctxt": 0
                           },
-                          "value": "\n        "
+                          "data": "\n        "
                         }
                       ],
                       "content": null
@@ -535,7 +535,7 @@
                         "end": 440,
                         "ctxt": 0
                       },
-                      "value": "\n    "
+                      "data": "\n    "
                     }
                   ],
                   "content": null
@@ -547,7 +547,7 @@
                     "end": 448,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
               "content": null
@@ -559,7 +559,7 @@
                 "end": 457,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
@@ -592,7 +592,7 @@
                     "end": 511,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -612,7 +612,7 @@
                         "end": 528,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
@@ -632,7 +632,7 @@
                             "end": 552,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
@@ -652,7 +652,7 @@
                                 "end": 559,
                                 "ctxt": 0
                               },
-                              "value": " 0 "
+                              "data": " 0 "
                             }
                           ],
                           "content": null
@@ -664,7 +664,7 @@
                             "end": 565,
                             "ctxt": 0
                           },
-                          "value": " "
+                          "data": " "
                         },
                         {
                           "type": "Element",
@@ -684,7 +684,7 @@
                                 "end": 572,
                                 "ctxt": 0
                               },
-                              "value": " 1 "
+                              "data": " 1 "
                             }
                           ],
                           "content": null
@@ -696,7 +696,7 @@
                             "end": 578,
                             "ctxt": 0
                           },
-                          "value": " "
+                          "data": " "
                         },
                         {
                           "type": "Element",
@@ -716,7 +716,7 @@
                                 "end": 585,
                                 "ctxt": 0
                               },
-                              "value": " 0 "
+                              "data": " 0 "
                             }
                           ],
                           "content": null
@@ -728,7 +728,7 @@
                             "end": 599,
                             "ctxt": 0
                           },
-                          "value": "\n        "
+                          "data": "\n        "
                         }
                       ],
                       "content": null
@@ -740,7 +740,7 @@
                         "end": 620,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
@@ -760,7 +760,7 @@
                             "end": 644,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
@@ -780,7 +780,7 @@
                                 "end": 651,
                                 "ctxt": 0
                               },
-                              "value": " 0 "
+                              "data": " 0 "
                             }
                           ],
                           "content": null
@@ -792,7 +792,7 @@
                             "end": 657,
                             "ctxt": 0
                           },
-                          "value": " "
+                          "data": " "
                         },
                         {
                           "type": "Element",
@@ -812,7 +812,7 @@
                                 "end": 664,
                                 "ctxt": 0
                               },
-                              "value": " 0 "
+                              "data": " 0 "
                             }
                           ],
                           "content": null
@@ -824,7 +824,7 @@
                             "end": 670,
                             "ctxt": 0
                           },
-                          "value": " "
+                          "data": " "
                         },
                         {
                           "type": "Element",
@@ -844,7 +844,7 @@
                                 "end": 677,
                                 "ctxt": 0
                               },
-                              "value": " 1 "
+                              "data": " 1 "
                             }
                           ],
                           "content": null
@@ -856,7 +856,7 @@
                             "end": 691,
                             "ctxt": 0
                           },
-                          "value": "\n        "
+                          "data": "\n        "
                         }
                       ],
                       "content": null
@@ -868,7 +868,7 @@
                         "end": 712,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
@@ -888,7 +888,7 @@
                             "end": 736,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
@@ -908,7 +908,7 @@
                                 "end": 743,
                                 "ctxt": 0
                               },
-                              "value": " 1 "
+                              "data": " 1 "
                             }
                           ],
                           "content": null
@@ -920,7 +920,7 @@
                             "end": 749,
                             "ctxt": 0
                           },
-                          "value": " "
+                          "data": " "
                         },
                         {
                           "type": "Element",
@@ -940,7 +940,7 @@
                                 "end": 756,
                                 "ctxt": 0
                               },
-                              "value": " 0 "
+                              "data": " 0 "
                             }
                           ],
                           "content": null
@@ -952,7 +952,7 @@
                             "end": 762,
                             "ctxt": 0
                           },
-                          "value": " "
+                          "data": " "
                         },
                         {
                           "type": "Element",
@@ -972,7 +972,7 @@
                                 "end": 769,
                                 "ctxt": 0
                               },
-                              "value": " 0 "
+                              "data": " 0 "
                             }
                           ],
                           "content": null
@@ -984,7 +984,7 @@
                             "end": 783,
                             "ctxt": 0
                           },
-                          "value": "\n        "
+                          "data": "\n        "
                         }
                       ],
                       "content": null
@@ -996,7 +996,7 @@
                         "end": 800,
                         "ctxt": 0
                       },
-                      "value": "\n    "
+                      "data": "\n    "
                     }
                   ],
                   "content": null
@@ -1008,7 +1008,7 @@
                     "end": 810,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
               "content": null
@@ -1020,7 +1020,7 @@
                 "end": 819,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
@@ -1053,7 +1053,7 @@
                     "end": 873,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -1075,7 +1075,7 @@
                     "end": 885,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
               "content": null
@@ -1087,7 +1087,7 @@
                 "end": 894,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
@@ -1107,7 +1107,7 @@
                     "end": 905,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -1127,7 +1127,7 @@
                         "end": 926,
                         "ctxt": 0
                       },
-                      "value": "\n\n        "
+                      "data": "\n\n        "
                     },
                     {
                       "type": "Comment",
@@ -1145,7 +1145,7 @@
                         "end": 963,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
@@ -1165,7 +1165,7 @@
                             "end": 982,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
@@ -1185,7 +1185,7 @@
                                 "end": 1005,
                                 "ctxt": 0
                               },
-                              "value": "\n                "
+                              "data": "\n                "
                             },
                             {
                               "type": "Element",
@@ -1205,7 +1205,7 @@
                                     "end": 1010,
                                     "ctxt": 0
                                   },
-                                  "value": "x"
+                                  "data": "x"
                                 }
                               ],
                               "content": null
@@ -1217,7 +1217,7 @@
                                 "end": 1032,
                                 "ctxt": 0
                               },
-                              "value": "\n                "
+                              "data": "\n                "
                             },
                             {
                               "type": "Element",
@@ -1237,7 +1237,7 @@
                                     "end": 1037,
                                     "ctxt": 0
                                   },
-                                  "value": "2"
+                                  "data": "2"
                                 }
                               ],
                               "content": null
@@ -1249,7 +1249,7 @@
                                 "end": 1055,
                                 "ctxt": 0
                               },
-                              "value": "\n            "
+                              "data": "\n            "
                             }
                           ],
                           "content": null
@@ -1261,7 +1261,7 @@
                             "end": 1075,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
@@ -1281,7 +1281,7 @@
                                 "end": 1080,
                                 "ctxt": 0
                               },
-                              "value": "+"
+                              "data": "+"
                             }
                           ],
                           "content": null
@@ -1293,7 +1293,7 @@
                             "end": 1098,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
@@ -1313,7 +1313,7 @@
                                 "end": 1103,
                                 "ctxt": 0
                               },
-                              "value": "y"
+                              "data": "y"
                             }
                           ],
                           "content": null
@@ -1325,7 +1325,7 @@
                             "end": 1117,
                             "ctxt": 0
                           },
-                          "value": "\n        "
+                          "data": "\n        "
                         }
                       ],
                       "content": null
@@ -1337,7 +1337,7 @@
                         "end": 1134,
                         "ctxt": 0
                       },
-                      "value": "\n\n        "
+                      "data": "\n\n        "
                     },
                     {
                       "type": "Comment",
@@ -1355,7 +1355,7 @@
                         "end": 1166,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
@@ -1388,7 +1388,7 @@
                             "end": 1221,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
@@ -1408,7 +1408,7 @@
                                 "end": 1245,
                                 "ctxt": 0
                               },
-                              "value": "\n                "
+                              "data": "\n                "
                             },
                             {
                               "type": "Element",
@@ -1430,7 +1430,7 @@
                                 "end": 1269,
                                 "ctxt": 0
                               },
-                              "value": "\n                "
+                              "data": "\n                "
                             },
                             {
                               "type": "Element",
@@ -1450,7 +1450,7 @@
                                     "end": 1297,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -1472,7 +1472,7 @@
                                     "end": 1326,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -1492,7 +1492,7 @@
                                         "end": 1331,
                                         "ctxt": 0
                                       },
-                                      "value": "x"
+                                      "data": "x"
                                     }
                                   ],
                                   "content": null
@@ -1504,7 +1504,7 @@
                                     "end": 1357,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -1537,7 +1537,7 @@
                                         "end": 1377,
                                         "ctxt": 0
                                       },
-                                      "value": "2"
+                                      "data": "2"
                                     }
                                   ],
                                   "content": null
@@ -1549,7 +1549,7 @@
                                     "end": 1399,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                "
+                                  "data": "\n                "
                                 }
                               ],
                               "content": null
@@ -1561,7 +1561,7 @@
                                 "end": 1424,
                                 "ctxt": 0
                               },
-                              "value": "\n                "
+                              "data": "\n                "
                             },
                             {
                               "type": "Element",
@@ -1581,7 +1581,7 @@
                                     "end": 1429,
                                     "ctxt": 0
                                   },
-                                  "value": "y"
+                                  "data": "y"
                                 }
                               ],
                               "content": null
@@ -1593,7 +1593,7 @@
                                 "end": 1447,
                                 "ctxt": 0
                               },
-                              "value": "\n            "
+                              "data": "\n            "
                             }
                           ],
                           "content": null
@@ -1605,7 +1605,7 @@
                             "end": 1464,
                             "ctxt": 0
                           },
-                          "value": "\n        "
+                          "data": "\n        "
                         }
                       ],
                       "content": null
@@ -1617,7 +1617,7 @@
                         "end": 1491,
                         "ctxt": 0
                       },
-                      "value": "\n\n        "
+                      "data": "\n\n        "
                     },
                     {
                       "type": "Comment",
@@ -1635,7 +1635,7 @@
                         "end": 1526,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
@@ -1682,7 +1682,7 @@
                         "end": 1598,
                         "ctxt": 0
                       },
-                      "value": "\n\n        "
+                      "data": "\n\n        "
                     },
                     {
                       "type": "Comment",
@@ -1700,7 +1700,7 @@
                         "end": 1628,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
@@ -1733,7 +1733,7 @@
                             "end": 1700,
                             "ctxt": 0
                           },
-                          "value": "\n            x^{2} + y\n        "
+                          "data": "\n            x^{2} + y\n        "
                         }
                       ],
                       "content": null
@@ -1745,7 +1745,7 @@
                         "end": 1719,
                         "ctxt": 0
                       },
-                      "value": "\n\n    "
+                      "data": "\n\n    "
                     }
                   ],
                   "content": null
@@ -1757,7 +1757,7 @@
                     "end": 1732,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
               "content": null
@@ -1769,7 +1769,7 @@
                 "end": 1741,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
@@ -1789,7 +1789,7 @@
                     "end": 1752,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -1809,7 +1809,7 @@
                         "end": 1769,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
@@ -1842,7 +1842,7 @@
                             "end": 1807,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
@@ -1862,7 +1862,7 @@
                                 "end": 1829,
                                 "ctxt": 0
                               },
-                              "value": "\n                "
+                              "data": "\n                "
                             },
                             {
                               "type": "Element",
@@ -1882,7 +1882,7 @@
                                     "end": 1856,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -1902,7 +1902,7 @@
                                         "end": 1861,
                                         "ctxt": 0
                                       },
-                                      "value": "2"
+                                      "data": "2"
                                     }
                                   ],
                                   "content": null
@@ -1914,7 +1914,7 @@
                                     "end": 1887,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -1934,7 +1934,7 @@
                                         "end": 1907,
                                         "ctxt": 0
                                       },
-                                      "value": "⁢"
+                                      "data": "⁢"
                                     }
                                   ],
                                   "content": null
@@ -1946,7 +1946,7 @@
                                     "end": 1933,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -1979,7 +1979,7 @@
                                         "end": 1952,
                                         "ctxt": 0
                                       },
-                                      "value": "x"
+                                      "data": "x"
                                     }
                                   ],
                                   "content": null
@@ -1991,7 +1991,7 @@
                                     "end": 1978,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -2024,7 +2024,7 @@
                                         "end": 1997,
                                         "ctxt": 0
                                       },
-                                      "value": "+"
+                                      "data": "+"
                                     }
                                   ],
                                   "content": null
@@ -2036,7 +2036,7 @@
                                     "end": 2023,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -2069,7 +2069,7 @@
                                         "end": 2042,
                                         "ctxt": 0
                                       },
-                                      "value": "y"
+                                      "data": "y"
                                     }
                                   ],
                                   "content": null
@@ -2081,7 +2081,7 @@
                                     "end": 2068,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -2114,7 +2114,7 @@
                                         "end": 2087,
                                         "ctxt": 0
                                       },
-                                      "value": "="
+                                      "data": "="
                                     }
                                   ],
                                   "content": null
@@ -2126,7 +2126,7 @@
                                     "end": 2113,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -2146,7 +2146,7 @@
                                         "end": 2118,
                                         "ctxt": 0
                                       },
-                                      "value": "-"
+                                      "data": "-"
                                     }
                                   ],
                                   "content": null
@@ -2158,7 +2158,7 @@
                                     "end": 2144,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -2191,7 +2191,7 @@
                                         "end": 2163,
                                         "ctxt": 0
                                       },
-                                      "value": "5"
+                                      "data": "5"
                                     }
                                   ],
                                   "content": null
@@ -2203,7 +2203,7 @@
                                     "end": 2185,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                "
+                                  "data": "\n                "
                                 }
                               ],
                               "content": null
@@ -2215,7 +2215,7 @@
                                 "end": 2205,
                                 "ctxt": 0
                               },
-                              "value": "\n            "
+                              "data": "\n            "
                             }
                           ],
                           "content": null
@@ -2227,7 +2227,7 @@
                             "end": 2220,
                             "ctxt": 0
                           },
-                          "value": "\n        "
+                          "data": "\n        "
                         }
                       ],
                       "content": null
@@ -2239,7 +2239,7 @@
                         "end": 2235,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
@@ -2259,7 +2259,7 @@
                             "end": 2253,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
@@ -2279,7 +2279,7 @@
                                 "end": 2275,
                                 "ctxt": 0
                               },
-                              "value": "\n                "
+                              "data": "\n                "
                             },
                             {
                               "type": "Element",
@@ -2299,7 +2299,7 @@
                                     "end": 2302,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -2332,7 +2332,7 @@
                                         "end": 2321,
                                         "ctxt": 0
                                       },
-                                      "value": "x"
+                                      "data": "x"
                                     }
                                   ],
                                   "content": null
@@ -2344,7 +2344,7 @@
                                     "end": 2347,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -2377,7 +2377,7 @@
                                         "end": 2366,
                                         "ctxt": 0
                                       },
-                                      "value": "-"
+                                      "data": "-"
                                     }
                                   ],
                                   "content": null
@@ -2389,7 +2389,7 @@
                                     "end": 2392,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -2409,7 +2409,7 @@
                                         "end": 2397,
                                         "ctxt": 0
                                       },
-                                      "value": "2"
+                                      "data": "2"
                                     }
                                   ],
                                   "content": null
@@ -2421,7 +2421,7 @@
                                     "end": 2423,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -2441,7 +2441,7 @@
                                         "end": 2443,
                                         "ctxt": 0
                                       },
-                                      "value": "⁢"
+                                      "data": "⁢"
                                     }
                                   ],
                                   "content": null
@@ -2453,7 +2453,7 @@
                                     "end": 2469,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -2486,7 +2486,7 @@
                                         "end": 2488,
                                         "ctxt": 0
                                       },
-                                      "value": "y"
+                                      "data": "y"
                                     }
                                   ],
                                   "content": null
@@ -2498,7 +2498,7 @@
                                     "end": 2514,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -2531,7 +2531,7 @@
                                         "end": 2533,
                                         "ctxt": 0
                                       },
-                                      "value": "="
+                                      "data": "="
                                     }
                                   ],
                                   "content": null
@@ -2543,7 +2543,7 @@
                                     "end": 2559,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -2576,7 +2576,7 @@
                                         "end": 2578,
                                         "ctxt": 0
                                       },
-                                      "value": "1"
+                                      "data": "1"
                                     }
                                   ],
                                   "content": null
@@ -2588,7 +2588,7 @@
                                     "end": 2600,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                "
+                                  "data": "\n                "
                                 }
                               ],
                               "content": null
@@ -2600,7 +2600,7 @@
                                 "end": 2620,
                                 "ctxt": 0
                               },
-                              "value": "\n            "
+                              "data": "\n            "
                             }
                           ],
                           "content": null
@@ -2612,7 +2612,7 @@
                             "end": 2635,
                             "ctxt": 0
                           },
-                          "value": "\n        "
+                          "data": "\n        "
                         }
                       ],
                       "content": null
@@ -2624,7 +2624,7 @@
                         "end": 2646,
                         "ctxt": 0
                       },
-                      "value": "\n    "
+                      "data": "\n    "
                     }
                   ],
                   "content": null
@@ -2636,7 +2636,7 @@
                     "end": 2656,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
               "content": null
@@ -2648,7 +2648,7 @@
                 "end": 2665,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
@@ -2668,7 +2668,7 @@
                     "end": 2677,
                     "ctxt": 0
                   },
-                  "value": "\n\n    "
+                  "data": "\n\n    "
                 },
                 {
                   "type": "Element",
@@ -2688,7 +2688,7 @@
                         "end": 2707,
                         "ctxt": 0
                       },
-                      "value": " Theorem of Pythagoras "
+                      "data": " Theorem of Pythagoras "
                     }
                   ],
                   "content": null
@@ -2700,7 +2700,7 @@
                     "end": 2721,
                     "ctxt": 0
                   },
-                  "value": "\n\n    "
+                  "data": "\n\n    "
                 },
                 {
                   "type": "Element",
@@ -2720,7 +2720,7 @@
                         "end": 2748,
                         "ctxt": 0
                       },
-                      "value": " /* comment here */ "
+                      "data": " /* comment here */ "
                     }
                   ],
                   "content": null
@@ -2732,7 +2732,7 @@
                     "end": 2758,
                     "ctxt": 0
                   },
-                  "value": "\n\n"
+                  "data": "\n\n"
                 }
               ],
               "content": null
@@ -2744,7 +2744,7 @@
                 "end": 2767,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
@@ -2764,7 +2764,7 @@
                     "end": 2778,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -2784,7 +2784,7 @@
                         "end": 2794,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
@@ -2804,7 +2804,7 @@
                             "end": 2803,
                             "ctxt": 0
                           },
-                          "value": "test"
+                          "data": "test"
                         }
                       ],
                       "content": null
@@ -2816,7 +2816,7 @@
                         "end": 2814,
                         "ctxt": 0
                       },
-                      "value": "\n    "
+                      "data": "\n    "
                     }
                   ],
                   "content": null
@@ -2828,7 +2828,7 @@
                     "end": 2823,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
               "content": null
@@ -2840,7 +2840,7 @@
                 "end": 2832,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
@@ -2860,7 +2860,7 @@
                     "end": 2843,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -2880,7 +2880,7 @@
                         "end": 2858,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
@@ -2900,7 +2900,7 @@
                             "end": 2877,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
@@ -2920,7 +2920,7 @@
                                 "end": 2884,
                                 "ctxt": 0
                               },
-                              "value": " x "
+                              "data": " x "
                             }
                           ],
                           "content": null
@@ -2932,7 +2932,7 @@
                             "end": 2902,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
@@ -2967,7 +2967,7 @@
                             "end": 2937,
                             "ctxt": 0
                           },
-                          "value": "\n        "
+                          "data": "\n        "
                         }
                       ],
                       "content": null
@@ -2979,7 +2979,7 @@
                         "end": 2953,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
@@ -2999,7 +2999,7 @@
                             "end": 2960,
                             "ctxt": 0
                           },
-                          "value": " 2 "
+                          "data": " 2 "
                         }
                       ],
                       "content": null
@@ -3011,7 +3011,7 @@
                         "end": 2970,
                         "ctxt": 0
                       },
-                      "value": "\n    "
+                      "data": "\n    "
                     }
                   ],
                   "content": null
@@ -3023,7 +3023,7 @@
                     "end": 2978,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
               "content": null
@@ -3035,7 +3035,7 @@
                 "end": 2987,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
@@ -3055,7 +3055,7 @@
                     "end": 2998,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -3075,7 +3075,7 @@
                         "end": 3023,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
@@ -3144,7 +3144,7 @@
                             "end": 3116,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
@@ -3177,7 +3177,7 @@
                                 "end": 3165,
                                 "ctxt": 0
                               },
-                              "value": "\n                "
+                              "data": "\n                "
                             },
                             {
                               "type": "Element",
@@ -3236,7 +3236,7 @@
                                 "end": 3334,
                                 "ctxt": 0
                               },
-                              "value": "\n                "
+                              "data": "\n                "
                             },
                             {
                               "type": "Element",
@@ -3269,7 +3269,7 @@
                                     "end": 3370,
                                     "ctxt": 0
                                   },
-                                  "value": "1"
+                                  "data": "1"
                                 }
                               ],
                               "content": null
@@ -3281,7 +3281,7 @@
                                 "end": 3394,
                                 "ctxt": 0
                               },
-                              "value": "\n                "
+                              "data": "\n                "
                             },
                             {
                               "type": "Element",
@@ -3314,7 +3314,7 @@
                                     "end": 3453,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -3371,7 +3371,7 @@
                                         "end": 3573,
                                         "ctxt": 0
                                       },
-                                      "value": "\n                        "
+                                      "data": "\n                        "
                                     },
                                     {
                                       "type": "Element",
@@ -3391,7 +3391,7 @@
                                             "end": 3608,
                                             "ctxt": 0
                                           },
-                                          "value": "\n                            "
+                                          "data": "\n                            "
                                         },
                                         {
                                           "type": "Element",
@@ -3411,7 +3411,7 @@
                                                 "end": 3648,
                                                 "ctxt": 0
                                               },
-                                              "value": "\n                                "
+                                              "data": "\n                                "
                                             },
                                             {
                                               "type": "Element",
@@ -3431,7 +3431,7 @@
                                                     "end": 3653,
                                                     "ctxt": 0
                                                   },
-                                                  "value": "2"
+                                                  "data": "2"
                                                 }
                                               ],
                                               "content": null
@@ -3443,7 +3443,7 @@
                                                 "end": 3691,
                                                 "ctxt": 0
                                               },
-                                              "value": "\n                                "
+                                              "data": "\n                                "
                                             },
                                             {
                                               "type": "Element",
@@ -3463,7 +3463,7 @@
                                                     "end": 3696,
                                                     "ctxt": 0
                                                   },
-                                                  "value": "r"
+                                                  "data": "r"
                                                 }
                                               ],
                                               "content": null
@@ -3475,7 +3475,7 @@
                                                 "end": 3734,
                                                 "ctxt": 0
                                               },
-                                              "value": "\n                                "
+                                              "data": "\n                                "
                                             },
                                             {
                                               "type": "Element",
@@ -3495,7 +3495,7 @@
                                                     "end": 3741,
                                                     "ctxt": 0
                                                   },
-                                                  "value": "−"
+                                                  "data": "−"
                                                 }
                                               ],
                                               "content": null
@@ -3507,7 +3507,7 @@
                                                 "end": 3779,
                                                 "ctxt": 0
                                               },
-                                              "value": "\n                                "
+                                              "data": "\n                                "
                                             },
                                             {
                                               "type": "Element",
@@ -3527,7 +3527,7 @@
                                                     "end": 3784,
                                                     "ctxt": 0
                                                   },
-                                                  "value": "1"
+                                                  "data": "1"
                                                 }
                                               ],
                                               "content": null
@@ -3539,7 +3539,7 @@
                                                 "end": 3818,
                                                 "ctxt": 0
                                               },
-                                              "value": "\n                            "
+                                              "data": "\n                            "
                                             }
                                           ],
                                           "content": null
@@ -3551,7 +3551,7 @@
                                             "end": 3851,
                                             "ctxt": 0
                                           },
-                                          "value": "\n                        "
+                                          "data": "\n                        "
                                         }
                                       ],
                                       "content": null
@@ -3563,7 +3563,7 @@
                                         "end": 3879,
                                         "ctxt": 0
                                       },
-                                      "value": "\n                    "
+                                      "data": "\n                    "
                                     }
                                   ],
                                   "content": null
@@ -3575,7 +3575,7 @@
                                     "end": 3916,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -3595,7 +3595,7 @@
                                         "end": 3935,
                                         "ctxt": 0
                                       },
-                                      "value": "\\sqrt{2r - 1}"
+                                      "data": "\\sqrt{2r - 1}"
                                     }
                                   ],
                                   "content": null
@@ -3607,7 +3607,7 @@
                                     "end": 3959,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                "
+                                  "data": "\n                "
                                 }
                               ],
                               "content": null
@@ -3619,7 +3619,7 @@
                                 "end": 3981,
                                 "ctxt": 0
                               },
-                              "value": "\n            "
+                              "data": "\n            "
                             }
                           ],
                           "content": null
@@ -3631,7 +3631,7 @@
                             "end": 3994,
                             "ctxt": 0
                           },
-                          "value": "\n        "
+                          "data": "\n        "
                         }
                       ],
                       "content": null
@@ -3643,7 +3643,7 @@
                         "end": 4005,
                         "ctxt": 0
                       },
-                      "value": "\n    "
+                      "data": "\n    "
                     }
                   ],
                   "content": null
@@ -3655,7 +3655,7 @@
                     "end": 4023,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
               "content": null
@@ -3667,7 +3667,7 @@
                 "end": 4048,
                 "ctxt": 0
               },
-              "value": "\n\n\n\n"
+              "data": "\n\n\n\n"
             }
           ],
           "content": null

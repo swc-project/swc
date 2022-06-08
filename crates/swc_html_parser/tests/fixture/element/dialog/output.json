@@ -60,7 +60,7 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
@@ -80,7 +80,7 @@
                     "end": 60,
                     "ctxt": 0
                   },
-                  "value": "Document"
+                  "data": "Document"
                 }
               ],
               "content": null
@@ -92,7 +92,7 @@
                 "end": 69,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             }
           ],
           "content": null
@@ -104,7 +104,7 @@
             "end": 77,
             "ctxt": 0
           },
-          "value": "\n"
+          "data": "\n"
         },
         {
           "type": "Element",
@@ -124,7 +124,7 @@
                 "end": 85,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
@@ -157,7 +157,7 @@
                     "end": 103,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -177,7 +177,7 @@
                         "end": 129,
                         "ctxt": 0
                       },
-                      "value": "Greetings, one and all!"
+                      "data": "Greetings, one and all!"
                     }
                   ],
                   "content": null
@@ -189,7 +189,7 @@
                     "end": 134,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
               "content": null
@@ -201,7 +201,7 @@
                 "end": 145,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
@@ -221,7 +221,7 @@
                     "end": 157,
                     "ctxt": 0
                   },
-                  "value": "Test"
+                  "data": "Test"
                 }
               ],
               "content": null
@@ -233,7 +233,7 @@
                 "end": 184,
                 "ctxt": 0
               },
-              "value": "\n\n\n\n"
+              "data": "\n\n\n\n"
             }
           ],
           "content": null

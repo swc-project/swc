@@ -60,7 +60,7 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
@@ -80,7 +80,7 @@
                     "end": 60,
                     "ctxt": 0
                   },
-                  "value": "Document"
+                  "data": "Document"
                 }
               ],
               "content": null
@@ -92,7 +92,7 @@
                 "end": 69,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             }
           ],
           "content": null
@@ -104,7 +104,7 @@
             "end": 77,
             "ctxt": 0
           },
-          "value": "\n"
+          "data": "\n"
         },
         {
           "type": "Element",
@@ -124,7 +124,7 @@
                 "end": 88,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
@@ -165,7 +165,7 @@
                       "end": 137,
                       "ctxt": 0
                     },
-                    "value": "\n        "
+                    "data": "\n        "
                   },
                   {
                     "type": "Element",
@@ -185,7 +185,7 @@
                           "end": 689,
                           "ctxt": 0
                         },
-                        "value": "\n            details {font-family: \"Open Sans Light\", Helvetica, Arial, sans-serif }\n            .name {font-weight: bold; color: #217ac0; font-size: 120% }\n            h4 {\n                margin: 10px 0 -8px 0;\n                background: #217ac0;\n                color: white;\n                padding: 2px 6px;\n                border: 1px solid #cee9f9;\n                border-radius: 4px;\n            }\n            .attributes { margin-left: 22px; font-size: 90% }\n            .attributes p { margin-left: 16px; font-style: italic }\n        "
+                        "data": "\n            details {font-family: \"Open Sans Light\", Helvetica, Arial, sans-serif }\n            .name {font-weight: bold; color: #217ac0; font-size: 120% }\n            h4 {\n                margin: 10px 0 -8px 0;\n                background: #217ac0;\n                color: white;\n                padding: 2px 6px;\n                border: 1px solid #cee9f9;\n                border-radius: 4px;\n            }\n            .attributes { margin-left: 22px; font-size: 90% }\n            .attributes p { margin-left: 16px; font-style: italic }\n        "
                       }
                     ],
                     "content": null
@@ -197,7 +197,7 @@
                       "end": 706,
                       "ctxt": 0
                     },
-                    "value": "\n        "
+                    "data": "\n        "
                   },
                   {
                     "type": "Element",
@@ -217,7 +217,7 @@
                           "end": 728,
                           "ctxt": 0
                         },
-                        "value": "\n            "
+                        "data": "\n            "
                       },
                       {
                         "type": "Element",
@@ -237,7 +237,7 @@
                               "end": 754,
                               "ctxt": 0
                             },
-                            "value": "\n                "
+                            "data": "\n                "
                           },
                           {
                             "type": "Element",
@@ -270,7 +270,7 @@
                                   "end": 777,
                                   "ctxt": 0
                                 },
-                                "value": "<"
+                                "data": "<"
                               },
                               {
                                 "type": "Element",
@@ -303,7 +303,7 @@
                                       "end": 812,
                                       "ctxt": 0
                                     },
-                                    "value": "NEED NAME"
+                                    "data": "NEED NAME"
                                   }
                                 ],
                                 "content": null
@@ -315,7 +315,7 @@
                                   "end": 823,
                                   "ctxt": 0
                                 },
-                                "value": ">"
+                                "data": ">"
                               }
                             ],
                             "content": null
@@ -327,7 +327,7 @@
                               "end": 847,
                               "ctxt": 0
                             },
-                            "value": "\n                "
+                            "data": "\n                "
                           },
                           {
                             "type": "Element",
@@ -384,7 +384,7 @@
                                       "end": 904,
                                       "ctxt": 0
                                     },
-                                    "value": "NEED DESCRIPTION"
+                                    "data": "NEED DESCRIPTION"
                                   }
                                 ],
                                 "content": null
@@ -399,7 +399,7 @@
                               "end": 928,
                               "ctxt": 0
                             },
-                            "value": "\n            "
+                            "data": "\n            "
                           }
                         ],
                         "content": null
@@ -411,7 +411,7 @@
                           "end": 951,
                           "ctxt": 0
                         },
-                        "value": "\n            "
+                        "data": "\n            "
                       },
                       {
                         "type": "Element",
@@ -444,7 +444,7 @@
                               "end": 992,
                               "ctxt": 0
                             },
-                            "value": "\n                "
+                            "data": "\n                "
                           },
                           {
                             "type": "Element",
@@ -464,7 +464,7 @@
                                   "end": 1006,
                                   "ctxt": 0
                                 },
-                                "value": "Attributes"
+                                "data": "Attributes"
                               }
                             ],
                             "content": null
@@ -476,7 +476,7 @@
                               "end": 1028,
                               "ctxt": 0
                             },
-                            "value": "\n                "
+                            "data": "\n                "
                           },
                           {
                             "type": "Element",
@@ -520,7 +520,7 @@
                                       "end": 1059,
                                       "ctxt": 0
                                     },
-                                    "value": "None"
+                                    "data": "None"
                                   }
                                 ],
                                 "content": null
@@ -535,7 +535,7 @@
                               "end": 1083,
                               "ctxt": 0
                             },
-                            "value": "\n            "
+                            "data": "\n            "
                           }
                         ],
                         "content": null
@@ -547,7 +547,7 @@
                           "end": 1098,
                           "ctxt": 0
                         },
-                        "value": "\n        "
+                        "data": "\n        "
                       }
                     ],
                     "content": null
@@ -559,7 +559,7 @@
                       "end": 1117,
                       "ctxt": 0
                     },
-                    "value": "\n        "
+                    "data": "\n        "
                   },
                   {
                     "type": "Element",
@@ -581,7 +581,7 @@
                       "end": 1126,
                       "ctxt": 0
                     },
-                    "value": "\n    "
+                    "data": "\n    "
                   }
                 ]
               }
@@ -593,7 +593,7 @@
                 "end": 1143,
                 "ctxt": 0
               },
-              "value": "\n\n    "
+              "data": "\n\n    "
             },
             {
               "type": "Element",
@@ -634,7 +634,7 @@
                       "end": 1173,
                       "ctxt": 0
                     },
-                    "value": "\n        "
+                    "data": "\n        "
                   },
                   {
                     "type": "Element",
@@ -667,7 +667,7 @@
                           "end": 1215,
                           "ctxt": 0
                         },
-                        "value": "This is div inside template"
+                        "data": "This is div inside template"
                       }
                     ],
                     "content": null
@@ -679,7 +679,7 @@
                       "end": 1230,
                       "ctxt": 0
                     },
-                    "value": "\n        "
+                    "data": "\n        "
                   },
                   {
                     "type": "Element",
@@ -712,7 +712,7 @@
                           "end": 1280,
                           "ctxt": 0
                         },
-                        "value": "This is another div inside template"
+                        "data": "This is another div inside template"
                       }
                     ],
                     "content": null
@@ -724,7 +724,7 @@
                       "end": 1295,
                       "ctxt": 0
                     },
-                    "value": "\n        "
+                    "data": "\n        "
                   },
                   {
                     "type": "Element",
@@ -789,7 +789,7 @@
                                 "end": 1365,
                                 "ctxt": 0
                               },
-                              "value": "This is div inside nested template"
+                              "data": "This is div inside nested template"
                             }
                           ],
                           "content": null
@@ -801,7 +801,7 @@
                             "end": 1384,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
@@ -834,7 +834,7 @@
                                 "end": 1441,
                                 "ctxt": 0
                               },
-                              "value": "This is another div inside nested template"
+                              "data": "This is another div inside nested template"
                             }
                           ],
                           "content": null
@@ -846,7 +846,7 @@
                             "end": 1456,
                             "ctxt": 0
                           },
-                          "value": "\n        "
+                          "data": "\n        "
                         }
                       ]
                     }
@@ -858,7 +858,7 @@
                       "end": 1472,
                       "ctxt": 0
                     },
-                    "value": "\n    "
+                    "data": "\n    "
                   }
                 ]
               }
@@ -870,7 +870,7 @@
                 "end": 1489,
                 "ctxt": 0
               },
-              "value": "\n\n    "
+              "data": "\n\n    "
             },
             {
               "type": "Element",
@@ -909,7 +909,7 @@
                           "end": 1508,
                           "ctxt": 0
                         },
-                        "value": "test"
+                        "data": "test"
                       }
                     ],
                     "content": null
@@ -924,7 +924,7 @@
                 "end": 1542,
                 "ctxt": 0
               },
-              "value": "\n\n\n"
+              "data": "\n\n\n"
             }
           ],
           "content": null

@@ -95,7 +95,7 @@
                             "end": 59,
                             "ctxt": 0
                           },
-                          "value": "document.getElementById(\"A\").id = \"B\""
+                          "data": "document.getElementById(\"A\").id = \"B\""
                         }
                       ],
                       "content": null
@@ -137,7 +137,7 @@
                     "end": 76,
                     "ctxt": 0
                   },
-                  "value": "TEXT"
+                  "data": "TEXT"
                 }
               ],
               "content": null

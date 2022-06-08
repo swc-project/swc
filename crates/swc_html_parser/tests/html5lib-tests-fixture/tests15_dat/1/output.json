@@ -137,7 +137,7 @@
                             "end": 18,
                             "ctxt": 0
                           },
-                          "value": "\n"
+                          "data": "\n"
                         },
                         {
                           "type": "Element",
@@ -157,7 +157,7 @@
                                 "end": 22,
                                 "ctxt": 0
                               },
-                              "value": "X"
+                              "data": "X"
                             }
                           ],
                           "content": null

@@ -447,7 +447,7 @@ impl OpenElementsStack {
     pub fn pop_until_in_foreign(&mut self) {
         while let Some(node) = self.items.last() {
             match &node.data {
-                Data::Element(Element { namespace, .. }) if *namespace == Namespace::HTML => {
+                Data::Element { namespace, .. } if *namespace == Namespace::HTML => {
                     break;
                 }
                 _ if is_mathml_text_integration_point(Some(node))

@@ -95,7 +95,7 @@
                             "end": 35,
                             "ctxt": 0
                           },
-                          "value": "A"
+                          "data": "A"
                         }
                       ],
                       "content": null
@@ -121,7 +121,7 @@
                         "end": 62,
                         "ctxt": 0
                       },
-                      "value": "B"
+                      "data": "B"
                     }
                   ],
                   "content": null

@@ -58,7 +58,7 @@
                     "end": 98,
                     "ctxt": 0
                   },
-                  "value": "<!--<br><html xmlns:v=\"urn:schemas-microsoft-com:vml\"><!--[if !mso]><style>"
+                  "data": "<!--<br><html xmlns:v=\"urn:schemas-microsoft-com:vml\"><!--[if !mso]><style>"
                 }
               ],
               "content": null
@@ -84,7 +84,7 @@
                 "end": 107,
                 "ctxt": 0
               },
-              "value": "X"
+              "data": "X"
             }
           ],
           "content": null

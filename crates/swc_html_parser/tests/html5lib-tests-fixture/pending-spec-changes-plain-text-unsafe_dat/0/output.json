@@ -49,7 +49,7 @@
                 "end": 26,
                 "ctxt": 0
               },
-              "value": "fillertext"
+              "data": "fillertext"
             },
             {
               "type": "Element",

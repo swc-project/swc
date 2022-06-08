@@ -60,7 +60,7 @@
                     "end": 7,
                     "ctxt": 0
                   },
-                  "value": "One"
+                  "data": "One"
                 }
               ],
               "content": null
@@ -83,7 +83,7 @@
                     "end": 13,
                     "ctxt": 0
                   },
-                  "value": "Two"
+                  "data": "Two"
                 }
               ],
               "content": null

@@ -60,7 +60,7 @@
                 "end": 31,
                 "ctxt": 0
               },
-              "value": "TEST"
+              "data": "TEST"
             },
             {
               "type": "Element",

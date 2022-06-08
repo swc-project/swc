@@ -60,7 +60,7 @@
                 "end": 26,
                 "ctxt": 0
               },
-              "value": "abc"
+              "data": "abc"
             },
             {
               "type": "Element",

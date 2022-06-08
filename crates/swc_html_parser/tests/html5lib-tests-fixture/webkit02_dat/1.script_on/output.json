@@ -84,7 +84,7 @@
                         "end": 44,
                         "ctxt": 0
                       },
-                      "value": "<strong>A</strong>"
+                      "data": "<strong>A</strong>"
                     }
                   ],
                   "content": null
@@ -107,7 +107,7 @@
                         "end": 62,
                         "ctxt": 0
                       },
-                      "value": "B"
+                      "data": "B"
                     }
                   ],
                   "content": null

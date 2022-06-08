@@ -71,7 +71,7 @@
                     "end": 30,
                     "ctxt": 0
                   },
-                  "value": "X"
+                  "data": "X"
                 }
               ],
               "content": null
@@ -146,7 +146,7 @@
                     "end": 97,
                     "ctxt": 0
                   },
-                  "value": "\nx { content:\"</style\" } "
+                  "data": "\nx { content:\"</style\" } "
                 }
               ],
               "content": null

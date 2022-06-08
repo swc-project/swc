@@ -60,7 +60,7 @@
                     "end": 5,
                     "ctxt": 0
                   },
-                  "value": "1"
+                  "data": "1"
                 },
                 {
                   "type": "Element",
@@ -93,7 +93,7 @@
                         "end": 16,
                         "ctxt": 0
                       },
-                      "value": "2"
+                      "data": "2"
                     },
                     {
                       "type": "Element",
@@ -126,7 +126,7 @@
                             "end": 27,
                             "ctxt": 0
                           },
-                          "value": "3"
+                          "data": "3"
                         }
                       ],
                       "content": null
@@ -192,7 +192,7 @@
                         "end": 32,
                         "ctxt": 0
                       },
-                      "value": "4"
+                      "data": "4"
                     }
                   ],
                   "content": null
@@ -231,7 +231,7 @@
                     "end": 37,
                     "ctxt": 0
                   },
-                  "value": "5"
+                  "data": "5"
                 }
               ],
               "content": null

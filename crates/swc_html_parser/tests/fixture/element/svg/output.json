@@ -60,7 +60,7 @@
                 "end": 71,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
@@ -80,7 +80,7 @@
                     "end": 92,
                     "ctxt": 0
                   },
-                  "value": "XTech SVG Demo"
+                  "data": "XTech SVG Demo"
                 }
               ],
               "content": null
@@ -92,7 +92,7 @@
                 "end": 105,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
@@ -112,7 +112,7 @@
                     "end": 325,
                     "ctxt": 0
                   },
-                  "value": "\n        stop.begin { stop-color:yellow; }\n        stop.end { stop-color:green; }\n        body.invalid stop.end { stop-color:red; }\n        #err { display:none; }\n        body.invalid #err { display:inline; }\n    "
+                  "data": "\n        stop.begin { stop-color:yellow; }\n        stop.end { stop-color:green; }\n        body.invalid stop.end { stop-color:red; }\n        #err { display:none; }\n        body.invalid #err { display:inline; }\n    "
                 }
               ],
               "content": null
@@ -124,7 +124,7 @@
                 "end": 338,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
@@ -144,7 +144,7 @@
                     "end": 472,
                     "ctxt": 0
                   },
-                  "value": "\n        function signalError() {\n            document.getElementById('body').setAttribute(\"class\", \"invalid\");\n        }\n    "
+                  "data": "\n        function signalError() {\n            document.getElementById('body').setAttribute(\"class\", \"invalid\");\n        }\n    "
                 }
               ],
               "content": null
@@ -156,7 +156,7 @@
                 "end": 482,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             }
           ],
           "content": null
@@ -168,7 +168,7 @@
             "end": 490,
             "ctxt": 0
           },
-          "value": "\n"
+          "data": "\n"
         },
         {
           "type": "Element",
@@ -213,7 +213,7 @@
                 "end": 615,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
@@ -233,7 +233,7 @@
                     "end": 626,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -253,7 +253,7 @@
                         "end": 645,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
@@ -273,7 +273,7 @@
                             "end": 662,
                             "ctxt": 0
                           },
-                          "value": "HTML Form"
+                          "data": "HTML Form"
                         }
                       ],
                       "content": null
@@ -285,7 +285,7 @@
                         "end": 680,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
@@ -316,7 +316,7 @@
                                 "end": 725,
                                 "ctxt": 0
                               },
-                              "value": "Введите что-нибудь:"
+                              "data": "Введите что-нибудь:"
                             }
                           ],
                           "content": null
@@ -328,7 +328,7 @@
                             "end": 746,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
@@ -363,7 +363,7 @@
                             "end": 779,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
@@ -396,7 +396,7 @@
                                 "end": 810,
                                 "ctxt": 0
                               },
-                              "value": "Incorrect value!"
+                              "data": "Incorrect value!"
                             }
                           ],
                           "content": null
@@ -411,7 +411,7 @@
                         "end": 830,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
@@ -484,7 +484,7 @@
                         "end": 908,
                         "ctxt": 0
                       },
-                      "value": "\n    "
+                      "data": "\n    "
                     }
                   ],
                   "content": null
@@ -496,7 +496,7 @@
                     "end": 920,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
               "content": null
@@ -508,7 +508,7 @@
                 "end": 929,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
@@ -601,7 +601,7 @@
                     "end": 1155,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -634,7 +634,7 @@
                         "end": 1194,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
@@ -681,7 +681,7 @@
                         "end": 1236,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
@@ -728,7 +728,7 @@
                         "end": 1274,
                         "ctxt": 0
                       },
-                      "value": "\n    "
+                      "data": "\n    "
                     }
                   ],
                   "content": null
@@ -740,7 +740,7 @@
                     "end": 1296,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -823,7 +823,7 @@
                     "end": 1374,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -894,7 +894,7 @@
                     "end": 1436,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
               "content": null
@@ -906,7 +906,7 @@
                 "end": 1444,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
@@ -951,7 +951,7 @@
                     "end": 1511,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -1032,7 +1032,7 @@
                         "end": 1579,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
@@ -1067,7 +1067,7 @@
                         "end": 1622,
                         "ctxt": 0
                       },
-                      "value": "\n    "
+                      "data": "\n    "
                     }
                   ],
                   "content": null
@@ -1079,7 +1079,7 @@
                     "end": 1636,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -1160,7 +1160,7 @@
                         "end": 1704,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
@@ -1195,7 +1195,7 @@
                         "end": 1746,
                         "ctxt": 0
                       },
-                      "value": "\n    "
+                      "data": "\n    "
                     }
                   ],
                   "content": null
@@ -1207,7 +1207,7 @@
                     "end": 1761,
                     "ctxt": 0
                   },
-                  "value": "\n\n    "
+                  "data": "\n\n    "
                 },
                 {
                   "type": "Element",
@@ -1290,7 +1290,7 @@
                     "end": 1841,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -1373,7 +1373,7 @@
                     "end": 1947,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
               "content": null
@@ -1385,7 +1385,7 @@
                 "end": 1955,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
@@ -1430,7 +1430,7 @@
                     "end": 2022,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -1463,7 +1463,7 @@
                         "end": 2070,
                         "ctxt": 0
                       },
-                      "value": "This is some English text"
+                      "data": "This is some English text"
                     }
                   ],
                   "content": null
@@ -1475,7 +1475,7 @@
                     "end": 2078,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
               "content": null
@@ -1487,7 +1487,7 @@
                 "end": 2086,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
@@ -1568,7 +1568,7 @@
                     "end": 2223,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -1663,7 +1663,7 @@
                     "end": 2406,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
               "content": null
@@ -1675,7 +1675,7 @@
                 "end": 2414,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
@@ -1720,7 +1720,7 @@
                     "end": 2480,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -1765,7 +1765,7 @@
                         "end": 2530,
                         "ctxt": 0
                       },
-                      "value": "Default   spacing"
+                      "data": "Default   spacing"
                     }
                   ],
                   "content": null
@@ -1777,7 +1777,7 @@
                     "end": 2542,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -1822,7 +1822,7 @@
                         "end": 2595,
                         "ctxt": 0
                       },
-                      "value": "Preserved   spacing"
+                      "data": "Preserved   spacing"
                     }
                   ],
                   "content": null
@@ -1834,7 +1834,7 @@
                     "end": 2603,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
               "content": null
@@ -1846,7 +1846,7 @@
                 "end": 2611,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
@@ -1891,7 +1891,7 @@
                     "end": 2678,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -1924,7 +1924,7 @@
                         "end": 2726,
                         "ctxt": 0
                       },
-                      "value": "This is some English text"
+                      "data": "This is some English text"
                     }
                   ],
                   "content": null
@@ -1936,7 +1936,7 @@
                     "end": 2738,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -1981,7 +1981,7 @@
                         "end": 2864,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
@@ -2026,7 +2026,7 @@
                             "end": 2901,
                             "ctxt": 0
                           },
-                          "value": "An example link."
+                          "data": "An example link."
                         }
                       ],
                       "content": null
@@ -2038,7 +2038,7 @@
                         "end": 2913,
                         "ctxt": 0
                       },
-                      "value": "\n    "
+                      "data": "\n    "
                     }
                   ],
                   "content": null
@@ -2050,7 +2050,7 @@
                     "end": 2918,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
               "content": null
@@ -2062,7 +2062,7 @@
                 "end": 2926,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
@@ -2107,7 +2107,7 @@
                     "end": 2993,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -2127,7 +2127,7 @@
                         "end": 3139,
                         "ctxt": 0
                       },
-                      "value": "\n        div {\n            color: white;\n            font: 18px serif;\n            height: 100%;\n            overflow: auto;\n        }\n    "
+                      "data": "\n        div {\n            color: white;\n            font: 18px serif;\n            height: 100%;\n            overflow: auto;\n        }\n    "
                     }
                   ],
                   "content": null
@@ -2139,7 +2139,7 @@
                     "end": 3153,
                     "ctxt": 0
                   },
-                  "value": "\n\n    "
+                  "data": "\n\n    "
                 },
                 {
                   "type": "Element",
@@ -2174,7 +2174,7 @@
                     "end": 3205,
                     "ctxt": 0
                   },
-                  "value": "\n\n    "
+                  "data": "\n\n    "
                 },
                 {
                   "type": "Comment",
@@ -2192,7 +2192,7 @@
                     "end": 3260,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -2261,7 +2261,7 @@
                         "end": 3323,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Comment",
@@ -2279,7 +2279,7 @@
                         "end": 3522,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
@@ -2312,7 +2312,7 @@
                             "end": 3804,
                             "ctxt": 0
                           },
-                          "value": "\n            Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n            Sed mollis mollis mi ut ultricies. Nullam magna ipsum,\n            porta vel dui convallis, rutrum imperdiet eros. Aliquam\n            erat volutpat.\n        "
+                          "data": "\n            Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n            Sed mollis mollis mi ut ultricies. Nullam magna ipsum,\n            porta vel dui convallis, rutrum imperdiet eros. Aliquam\n            erat volutpat.\n        "
                         }
                       ],
                       "content": null
@@ -2324,7 +2324,7 @@
                         "end": 3815,
                         "ctxt": 0
                       },
-                      "value": "\n    "
+                      "data": "\n    "
                     }
                   ],
                   "content": null
@@ -2336,7 +2336,7 @@
                     "end": 3832,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
               "content": null
@@ -2348,7 +2348,7 @@
                 "end": 3840,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
@@ -2417,7 +2417,7 @@
                     "end": 3925,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -2450,7 +2450,7 @@
                         "end": 3966,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
@@ -2509,7 +2509,7 @@
                         "end": 4119,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
@@ -2542,7 +2542,7 @@
                             "end": 4155,
                             "ctxt": 0
                           },
-                          "value": "1"
+                          "data": "1"
                         }
                       ],
                       "content": null
@@ -2554,7 +2554,7 @@
                         "end": 4171,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
@@ -2587,7 +2587,7 @@
                             "end": 4222,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
@@ -2644,7 +2644,7 @@
                                 "end": 4361,
                                 "ctxt": 0
                               },
-                              "value": "\n                "
+                              "data": "\n                "
                             },
                             {
                               "type": "Element",
@@ -2664,7 +2664,7 @@
                                     "end": 4388,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -2684,7 +2684,7 @@
                                         "end": 4420,
                                         "ctxt": 0
                                       },
-                                      "value": "\n                        "
+                                      "data": "\n                        "
                                     },
                                     {
                                       "type": "Element",
@@ -2704,7 +2704,7 @@
                                             "end": 4425,
                                             "ctxt": 0
                                           },
-                                          "value": "2"
+                                          "data": "2"
                                         }
                                       ],
                                       "content": null
@@ -2716,7 +2716,7 @@
                                         "end": 4455,
                                         "ctxt": 0
                                       },
-                                      "value": "\n                        "
+                                      "data": "\n                        "
                                     },
                                     {
                                       "type": "Element",
@@ -2736,7 +2736,7 @@
                                             "end": 4460,
                                             "ctxt": 0
                                           },
-                                          "value": "r"
+                                          "data": "r"
                                         }
                                       ],
                                       "content": null
@@ -2748,7 +2748,7 @@
                                         "end": 4490,
                                         "ctxt": 0
                                       },
-                                      "value": "\n                        "
+                                      "data": "\n                        "
                                     },
                                     {
                                       "type": "Element",
@@ -2768,7 +2768,7 @@
                                             "end": 4497,
                                             "ctxt": 0
                                           },
-                                          "value": "−"
+                                          "data": "−"
                                         }
                                       ],
                                       "content": null
@@ -2780,7 +2780,7 @@
                                         "end": 4527,
                                         "ctxt": 0
                                       },
-                                      "value": "\n                        "
+                                      "data": "\n                        "
                                     },
                                     {
                                       "type": "Element",
@@ -2800,7 +2800,7 @@
                                             "end": 4532,
                                             "ctxt": 0
                                           },
-                                          "value": "1"
+                                          "data": "1"
                                         }
                                       ],
                                       "content": null
@@ -2812,7 +2812,7 @@
                                         "end": 4558,
                                         "ctxt": 0
                                       },
-                                      "value": "\n                    "
+                                      "data": "\n                    "
                                     }
                                   ],
                                   "content": null
@@ -2824,7 +2824,7 @@
                                     "end": 4583,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                "
+                                  "data": "\n                "
                                 }
                               ],
                               "content": null
@@ -2836,7 +2836,7 @@
                                 "end": 4603,
                                 "ctxt": 0
                               },
-                              "value": "\n            "
+                              "data": "\n            "
                             }
                           ],
                           "content": null
@@ -2848,7 +2848,7 @@
                             "end": 4632,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
@@ -2868,7 +2868,7 @@
                                 "end": 4651,
                                 "ctxt": 0
                               },
-                              "value": "\\sqrt{2r - 1}"
+                              "data": "\\sqrt{2r - 1}"
                             }
                           ],
                           "content": null
@@ -2880,7 +2880,7 @@
                             "end": 4667,
                             "ctxt": 0
                           },
-                          "value": "\n        "
+                          "data": "\n        "
                         }
                       ],
                       "content": null
@@ -2892,7 +2892,7 @@
                         "end": 4681,
                         "ctxt": 0
                       },
-                      "value": "\n    "
+                      "data": "\n    "
                     }
                   ],
                   "content": null
@@ -2904,7 +2904,7 @@
                     "end": 4686,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
               "content": null
@@ -2916,7 +2916,7 @@
                 "end": 4702,
                 "ctxt": 0
               },
-              "value": "\n\n\n"
+              "data": "\n\n\n"
             }
           ],
           "content": null

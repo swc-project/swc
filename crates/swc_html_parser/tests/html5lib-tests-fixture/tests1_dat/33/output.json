@@ -71,7 +71,7 @@
                     "end": 25,
                     "ctxt": 0
                   },
-                  "value": "hello"
+                  "data": "hello"
                 }
               ],
               "content": null
@@ -94,7 +94,7 @@
                     "end": 34,
                     "ctxt": 0
                   },
-                  "value": "world"
+                  "data": "world"
                 },
                 {
                   "type": "Element",
@@ -114,7 +114,7 @@
                         "end": 41,
                         "ctxt": 0
                       },
-                      "value": "how"
+                      "data": "how"
                     },
                     {
                       "type": "Element",
@@ -134,7 +134,7 @@
                             "end": 47,
                             "ctxt": 0
                           },
-                          "value": "do"
+                          "data": "do"
                         }
                       ],
                       "content": null
@@ -149,7 +149,7 @@
                     "end": 55,
                     "ctxt": 0
                   },
-                  "value": "you"
+                  "data": "you"
                 }
               ],
               "content": null
