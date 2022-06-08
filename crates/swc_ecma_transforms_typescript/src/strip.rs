@@ -1652,10 +1652,6 @@ where
     }
 
     fn visit_ts_import_equals_decl(&mut self, n: &TsImportEqualsDecl) {
-        if self.config.preserve_import_equals {
-            return;
-        }
-
         match &n.module_ref {
             TsModuleRef::TsEntityName(name) => {
                 let entry = self
