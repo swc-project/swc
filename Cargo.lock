@@ -751,7 +751,7 @@ dependencies = [
 
 [[package]]
 name = "dbg-swc"
-version = "0.16.0"
+version = "0.17.0"
 dependencies = [
  "anyhow",
  "clap 3.1.0",
@@ -2921,7 +2921,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.185.0"
+version = "0.186.0"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -2986,7 +2986,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.150.0"
+version = "0.151.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3044,7 +3044,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.59.0"
+version = "0.60.0"
 dependencies = [
  "anyhow",
  "atty",
@@ -3378,7 +3378,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.117.0"
+version = "0.118.0"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3442,7 +3442,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.132.0"
+version = "0.133.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3512,7 +3512,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.157.0"
+version = "0.158.0"
 dependencies = [
  "pretty_assertions",
  "sourcemap",
@@ -3614,7 +3614,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.115.1"
+version = "0.116.0"
 dependencies = [
  "Inflector",
  "ahash",
@@ -3641,7 +3641,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.127.0"
+version = "0.128.0"
 dependencies = [
  "ahash",
  "dashmap",
@@ -3693,7 +3693,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.117.0"
+version = "0.118.0"
 dependencies = [
  "ahash",
  "base64 0.13.0",
@@ -3744,7 +3744,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.120.0"
+version = "0.121.0"
 dependencies = [
  "criterion",
  "serde",
@@ -3792,7 +3792,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.160.0"
+version = "0.161.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3839,7 +3839,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.105.0"
+version = "0.106.0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -4057,7 +4057,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.57.0"
+version = "0.58.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -4154,7 +4154,7 @@ dependencies = [
 
 [[package]]
 name = "swc_webpack_ast"
-version = "0.103.0"
+version = "0.104.0"
 dependencies = [
  "anyhow",
  "rayon",

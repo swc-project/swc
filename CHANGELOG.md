@@ -23,6 +23,9 @@
 
 
 
+- **(es/modules/amd)** Convert ts import equals to normal AMD import (#4906) ([36a82cc](https://github.com/swc-project/swc/commit/36a82ccfc95ca3b67741c20565f4e7c886711e68))
+
+
 - **(html/codegen)** Support context element (#4887) ([ae1ff1e](https://github.com/swc-project/swc/commit/ae1ff1e55b4be7d9f611ebbbc0fdaac1d5591ac5))
 
 
