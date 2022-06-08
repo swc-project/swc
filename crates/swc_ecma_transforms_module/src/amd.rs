@@ -525,9 +525,27 @@ impl Fold for Amd {
                     }
                 }
 
-                ModuleDecl::TsImportEquals(..)
-                | ModuleDecl::TsExportAssignment(..)
-                | ModuleDecl::TsNamespaceExport(..) => {}
+                ModuleDecl::TsImportEquals(TsImportEqualsDecl {
+                    span,
+                    declare: false,
+                    is_type_only: false,
+                    id,
+                    module_ref: TsModuleRef::TsExternalModuleRef(src),
+                    ..
+                }) => {
+                    self.scope.borrow_mut().insert_import(ImportDecl {
+                        span,
+                        specifiers: vec![ImportSpecifier::Default(ImportDefaultSpecifier {
+                            span: id.span,
+                            local: id,
+                        })],
+                        src: src.expr,
+                        type_only: false,
+                        asserts: Default::default(),
+                    });
+                }
+
+                _ => {}
             }
         }
 
