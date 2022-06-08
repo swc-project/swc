@@ -18,15 +18,15 @@ var B;
     }(a.C);
     B1.D = D;
 })(B || (B = {}));
-var A1;
-(function(A) {
+var A;
+(function(A1) {
     var C = function C() {
         "use strict";
         _class_call_check(this, C);
     };
-    A.C = C;
+    A1.C = C;
     var b = B;
-    A.b = b;
-})(A1 || (A1 = {}));
+    A1.b = b;
+})(A || (A = {}));
 var c;
 var c = new B.a.C();

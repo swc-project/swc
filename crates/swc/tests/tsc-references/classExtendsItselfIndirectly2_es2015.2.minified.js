@@ -1,13 +1,13 @@
-var M, N1, O;
+var M, N, O;
 class C extends N.E {
 }
 (M || (M = {})).D = class extends C {
-}, function(N) {
+}, function(N1) {
     class E extends M.D {
     }
-    N.E = E;
-}(N1 || (N1 = {})), function(O) {
-    class C2 extends Q.E2 {
+    N1.E = E;
+}(N || (N = {})), function(O) {
+    class C2 extends Q1.E2 {
     }
     let P;
     (P || (P = {})).D2 = class extends C2 {

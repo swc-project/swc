@@ -6,15 +6,15 @@ var M;
     }
     M1.D = D;
 })(M || (M = {}));
-var N1;
-(function(N) {
+var N;
+(function(N1) {
     class E extends M.D {
     }
-    N.E = E;
-})(N1 || (N1 = {}));
+    N1.E = E;
+})(N || (N = {}));
 var O;
 (function(O) {
-    class C2 extends Q.E2 {
+    class C2 extends Q1.E2 {
     } // error
     let P1;
     (function(P) {

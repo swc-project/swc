@@ -479,7 +479,13 @@ impl VisitMut for Marker {
     }
 
     fn visit_mut_var_declarator(&mut self, v: &mut VarDeclarator) {
-        if let Pat::Ident(i) = &v.name {
+        if let Pat::Ident(i) = &mut v.name {
+            if &*i.id.sym == "id" {
+                i.id.span.ctxt = self.base;
+                self.decls.insert(i.id.sym.clone(), self.base);
+                return;
+            }
+
             if &*i.id.sym != "_typeof" && !i.id.sym.starts_with("__") {
                 self.decls.insert(i.id.sym.clone(), self.decl_ctxt);
             }
