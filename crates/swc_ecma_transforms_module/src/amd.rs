@@ -366,7 +366,7 @@ impl Fold for Amd {
 
                             stmts.reserve(export.specifiers.len());
 
-                            for s in export.specifiers.iter() {
+                            for s in export.specifiers {
                                 match s {
                                     ExportSpecifier::Named(ExportNamedSpecifier {
                                         orig,
@@ -439,9 +439,9 @@ impl Fold for Amd {
                                                 AssignExpr {
                                                     span: DUMMY_SP,
                                                     left: PatOrExpr::Expr(Box::new(
-                                                        exports_ident.clone().make_member(
-                                                            exported.unwrap_or(orig).clone(),
-                                                        ),
+                                                        exports_ident
+                                                            .clone()
+                                                            .make_member(exported.unwrap_or(orig)),
                                                     )),
                                                     op: op!("="),
                                                     right: value,
