@@ -5,6 +5,9 @@
 
 
 
+- **(es/decorators)** Fix syntax context of decorated classes (#4905) ([814f72f](https://github.com/swc-project/swc/commit/814f72f22454861db2c84aebd40fb6fba6906ac2))
+
+
 - **(es/helpers)** Fix syntax context of helpers (#4900) ([4e3a878](https://github.com/swc-project/swc/commit/4e3a878b48745d90715e8b9f83aa0d7501150e29))
 
 
