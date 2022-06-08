@@ -25,6 +25,9 @@
 
 - **(html/codegen)** Improve entity compression (#4889) ([da09c1c](https://github.com/swc-project/swc/commit/da09c1ca5bc79e63aaf2b4d03b03b216b88ce049))
 
+
+- **(preset-env)** Upgrade `browserslist-rs` (#4903) ([f7c89c5](https://github.com/swc-project/swc/commit/f7c89c5b601e2fa71eb2f2c0ce56a717fb469c0b))
+
 ### Performance
 
 
