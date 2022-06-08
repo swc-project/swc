@@ -535,7 +535,7 @@ impl Fold for Amd {
                 }) => {
                     self.scope.borrow_mut().insert_import(ImportDecl {
                         span,
-                        specifiers: vec![ImportSpecifier::Default(ImportDefaultSpecifier {
+                        specifiers: vec![ImportSpecifier::Namespace(ImportStarAsSpecifier {
                             span: id.span,
                             local: id,
                         })],
