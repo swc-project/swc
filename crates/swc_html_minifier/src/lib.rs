@@ -6,6 +6,10 @@ use swc_common::collections::AHashSet;
 use swc_html_ast::*;
 use swc_html_visit::{VisitMut, VisitMutWith};
 
+use crate::option::{CollapseWhitespacesMode, MinifyOptions};
+
+pub mod option;
+
 static HTML_BOOLEAN_ATTRIBUTES: &[&str] = &[
     "allowfullscreen",
     "async",
@@ -245,10 +249,16 @@ enum MetaElementContentType {
     SemiSeparated,
 }
 
+enum TextChildrenType {
+    Json,
+    Text,
+}
+
 struct Minifier {
     current_element_namespace: Option<Namespace>,
     current_element_tag_name: Option<JsWord>,
-    is_script_with_json: bool,
+    current_element_text_children_type: Option<TextChildrenType>,
+    collapse_whitespaces: CollapseWhitespacesMode,
     meta_element_content_type: Option<MetaElementContentType>,
 }
 
@@ -493,11 +503,14 @@ impl VisitMut for Minifier {
                         _ => false,
                     }) =>
                 {
-                    self.is_script_with_json = true;
+                    self.current_element_text_children_type = Some(TextChildrenType::Json);
+                }
+                "script" | "style" | "pre" | "textarea" => {
+                    self.current_element_text_children_type = None;
                 }
                 _ => {
                     self.meta_element_content_type = None;
-                    self.is_script_with_json = false;
+                    self.current_element_text_children_type = Some(TextChildrenType::Text);
                 }
             }
         }
@@ -663,26 +676,34 @@ impl VisitMut for Minifier {
     fn visit_mut_text(&mut self, n: &mut Text) {
         n.visit_mut_children_with(self);
 
-        if self.is_script_with_json {
-            let json = match serde_json::from_str::<Value>(&*n.data) {
-                Ok(json) => json,
-                _ => return,
-            };
-            let minified_json = match serde_json::to_string(&json) {
-                Ok(minified_json) => minified_json,
-                _ => return,
-            };
+        match self.current_element_text_children_type {
+            Some(TextChildrenType::Json) => {
+                let json = match serde_json::from_str::<Value>(&*n.data) {
+                    Ok(json) => json,
+                    _ => return,
+                };
+                let minified_json = match serde_json::to_string(&json) {
+                    Ok(minified_json) => minified_json,
+                    _ => return,
+                };
 
-            n.data = minified_json.into()
+                n.data = minified_json.into()
+            }
+            Some(TextChildrenType::Text) => match self.collapse_whitespaces {
+                CollapseWhitespacesMode::All => n.data = " ".into(),
+                CollapseWhitespacesMode::Conservative => {}
+            },
+            _ => {}
         }
     }
 }
 
-pub fn minify(document: &mut Document) {
+pub fn minify(document: &mut Document, options: &MinifyOptions) {
     document.visit_mut_with(&mut Minifier {
         current_element_namespace: None,
         current_element_tag_name: None,
-        is_script_with_json: false,
+        current_element_text_children_type: None,
+        collapse_whitespaces: options.collapse_whitespaces.clone(),
         meta_element_content_type: None,
     });
 }
