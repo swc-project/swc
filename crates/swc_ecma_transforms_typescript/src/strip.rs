@@ -1078,7 +1078,7 @@ where
                     id,
                     module_ref:
                         TsModuleRef::TsExternalModuleRef(TsExternalModuleRef { span: _, expr }),
-                })) => {
+                })) if !self.config.preserve_import_equals => {
                     let default = VarDeclarator {
                         span: DUMMY_SP,
                         name: id.into(),
