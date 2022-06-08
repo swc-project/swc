@@ -4,7 +4,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
     constructor::inject_after_super, default_constructor, private_ident, prop_name_to_expr_value,
-    quote_ident, undefined, ExprFactory, StmtLike,
+    quote_ident, replace_ident, undefined, ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 
@@ -358,11 +358,26 @@ impl VisitMut for TscDecorator {
                 decl.visit_mut_with(self);
 
                 if convert_to_let {
+                    let inner_ident = private_ident!(decl.ident.sym.clone());
+
+                    decl.class.body.iter_mut().for_each(|m| match m {
+                        ClassMember::PrivateProp(PrivateProp {
+                            is_static: true, ..
+                        })
+                        | ClassMember::StaticBlock(..)
+                        | ClassMember::ClassProp(ClassProp {
+                            is_static: true, ..
+                        }) => {
+                            replace_ident(m, decl.ident.to_id(), &inner_ident);
+                        }
+                        _ => {}
+                    });
+
                     let d = VarDeclarator {
                         span: DUMMY_SP,
                         name: decl.ident.clone().into(),
                         init: Some(Box::new(Expr::Class(ClassExpr {
-                            ident: Some(private_ident!(decl.ident.sym.clone())),
+                            ident: Some(inner_ident),
                             class: decl.class.take(),
                         }))),
                         definite: Default::default(),
