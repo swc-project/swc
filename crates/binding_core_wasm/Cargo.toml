@@ -6,7 +6,7 @@ license = "Apache-2.0"
 name = "binding_core_wasm"
 publish = false
 repository = "https://github.com/swc-project/swc.git"
-version = "1.2.197"
+version = "1.2.198"
 
 [lib]
 bench = false
