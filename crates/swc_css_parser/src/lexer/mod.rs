@@ -11,7 +11,7 @@ use crate::{
 
 pub(crate) type LexResult<T> = Result<T, ErrorKind>;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Lexer<I>
 where
     I: Input,
@@ -38,6 +38,28 @@ where
             start_pos,
             last_pos: None,
             config,
+        }
+    }
+}
+
+impl<I: Input> Iterator for Lexer<I> {
+    type Item = TokenAndSpan;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        let token = self.read_token();
+
+        match token {
+            Ok(token) => {
+                let end = self.last_pos.take().unwrap_or_else(|| self.input.cur_pos());
+                let span = Span::new(self.start_pos, end, Default::default());
+
+                let token_and_span = TokenAndSpan { span, token };
+
+                return Some(token_and_span);
+            }
+            Err(..) => {
+                return None;
+            }
         }
     }
 }

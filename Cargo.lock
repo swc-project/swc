@@ -3211,6 +3211,7 @@ name = "swc_css_parser"
 version = "0.101.4"
 dependencies = [
  "bitflags",
+ "criterion",
  "lexical",
  "serde",
  "serde_json",
@@ -3218,6 +3219,7 @@ dependencies = [
  "swc_common",
  "swc_css_ast",
  "swc_css_visit",
+ "swc_node_base",
  "testing",
 ]
 
