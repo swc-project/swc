@@ -1096,41 +1096,42 @@ where
     // points. It returns a string containing the largest name that can be formed
     // from adjacent code points in the stream, starting from the first.
     fn read_ident_sequence(&mut self) -> LexResult<(JsWord, JsWord)> {
-        // Let result initially be an empty string.
-        let mut raw = String::new();
-        let mut value = String::new();
+        self.with_buf(|l, buf| {
+            // Let result initially be an empty string.
+            let mut raw = String::new();
 
-        // Repeatedly consume the next input code point from the stream:
-        loop {
-            self.consume();
+            // Repeatedly consume the next input code point from the stream:
+            loop {
+                l.consume();
 
-            match self.cur() {
-                // name code point
-                // Append the code point to result.
-                Some(c) if is_name(c) => {
-                    value.push(c);
-                    raw.push(c);
-                }
-                // the stream starts with a valid escape
-                // Consume an escaped code point. Append the returned code point to result.
-                Some(c) if self.is_valid_escape(None, None)? => {
-                    let escaped = self.read_escape()?;
+                match l.cur() {
+                    // name code point
+                    // Append the code point to result.
+                    Some(c) if is_name(c) => {
+                        buf.push(c);
+                        raw.push(c);
+                    }
+                    // the stream starts with a valid escape
+                    // Consume an escaped code point. Append the returned code point to result.
+                    Some(c) if l.is_valid_escape(None, None)? => {
+                        let escaped = l.read_escape()?;
 
-                    value.push(escaped.0);
-                    raw.push(c);
-                    raw.push_str(&escaped.1);
-                }
-                // anything else
-                // Reconsume the current input code point. Return result.
-                _ => {
-                    self.reconsume();
+                        buf.push(escaped.0);
+                        raw.push(c);
+                        raw.push_str(&escaped.1);
+                    }
+                    // anything else
+                    // Reconsume the current input code point. Return result.
+                    _ => {
+                        l.reconsume();
 
-                    break;
+                        break;
+                    }
                 }
             }
-        }
 
-        Ok((value.into(), raw.into()))
+            Ok(((&**buf).into(), raw.into()))
+        })
     }
 
     // This section describes how to consume a number from a stream of code points.
