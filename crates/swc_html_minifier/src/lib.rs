@@ -251,14 +251,28 @@ enum MetaElementContentType {
 
 enum TextChildrenType {
     Json,
-    Text,
+}
+
+#[inline(always)]
+fn is_whitespace(c: char) -> bool {
+    matches!(c, '\x09' | '\x0a' | '\x0c' | '\x0d' | '\x20')
+}
+
+struct WhitespaceMinificationMode {
+    pub collapse: bool,
+    pub destroy_whole: bool,
+    pub trim: bool,
 }
 
 struct Minifier {
     current_element_namespace: Option<Namespace>,
     current_element_tag_name: Option<JsWord>,
-    current_element_text_children_type: Option<TextChildrenType>,
+
+    descendant_of_pre: bool,
     collapse_whitespaces: CollapseWhitespacesMode,
+
+    current_element_text_children_type: Option<TextChildrenType>,
+
     meta_element_content_type: Option<MetaElementContentType>,
 }
 
@@ -444,6 +458,104 @@ impl Minifier {
 
         false
     }
+
+    fn get_whitespace_minification_for_tag(
+        &self,
+        namespace: Namespace,
+        tag_name: &str,
+    ) -> WhitespaceMinificationMode {
+        match namespace {
+            Namespace::HTML => match tag_name {
+                "a" | "abbr" | "acronym" | "b" | "bdi" | "bdo" | "cite" | "data" | "big"
+                | "del" | "dfn" | "em" | "i" | "ins" | "kbd" | "mark" | "q" | "nobr" | "rp"
+                | "rt" | "rtc" | "ruby" | "s" | "samp" | "small" | "span" | "strike" | "strong"
+                | "sub" | "sup" | "time" | "tt" | "u" | "var" | "wbr" => {
+                    WhitespaceMinificationMode {
+                        collapse: true,
+                        destroy_whole: false,
+                        trim: false,
+                    }
+                }
+                "textarea" | "code" | "pre" => WhitespaceMinificationMode {
+                    collapse: false,
+                    destroy_whole: false,
+                    trim: false,
+                },
+                _ => WhitespaceMinificationMode {
+                    collapse: true,
+                    destroy_whole: false,
+                    trim: false,
+                },
+            },
+            Namespace::SVG => WhitespaceMinificationMode {
+                collapse: true,
+                destroy_whole: false,
+                trim: false,
+            },
+            _ => {
+                // TODO should we support more?
+                WhitespaceMinificationMode {
+                    collapse: true,
+                    destroy_whole: false,
+                    trim: false,
+                }
+            }
+        }
+    }
+
+    fn is_all_whitespace(&self, val: &str) -> bool {
+        // for &c in val {
+        //     if !WHITESPACE[c] {
+        //         return false;
+        //     };
+        // }
+
+        true
+    }
+
+    fn collapse_whitespace(&self, data: &str) -> String {
+        let mut collapsed = String::with_capacity(data.len());
+        let mut in_whitespace = false;
+
+        for mut c in data.chars() {
+            if is_whitespace(c) {
+                if in_whitespace {
+                    // Skip this character.
+                    continue;
+                };
+
+                in_whitespace = true;
+
+                collapsed.push(' ');
+            } else {
+                in_whitespace = false;
+
+                collapsed.push(c);
+            };
+        }
+
+        collapsed
+    }
+
+    fn left_trim(&self, val: &mut str) {
+        // let mut len = 0;
+        //
+        // while val.get(len).filter(|&&c| WHITESPACE[c]).is_some() {
+        //     len += 1;
+        // }
+        //
+        // val.drain(0..len);
+    }
+
+    fn right_trim(&self, val: &mut Vec<u8>) {
+        // let mut retain = val.len();
+        //
+        // while retain > 0 && val.get(retain - 1).filter(|&&c|
+        // WHITESPACE[c]).is_some() {     retain -= 1;
+        // }
+        //
+        // val.truncate(retain);
+    }
 }
 
 impl VisitMut for Minifier {
@@ -505,24 +617,34 @@ impl VisitMut for Minifier {
                 {
                     self.current_element_text_children_type = Some(TextChildrenType::Json);
                 }
-                "script" | "style" | "pre" | "textarea" => {
-                    self.current_element_text_children_type = None;
-                }
                 _ => {
                     self.meta_element_content_type = None;
-                    self.current_element_text_children_type = Some(TextChildrenType::Text);
+                    self.current_element_text_children_type = None;
                 }
             }
         }
 
         n.visit_mut_children_with(self);
 
-        let allow_to_remove_spaces =
-            matches!(&*n.tag_name, "html" | "head") && n.namespace == Namespace::HTML;
+        // TODO self.descendant_of_pre
+        let minification_mode = self.get_whitespace_minification_for_tag(n.namespace, &n.tag_name);
 
-        n.children.retain(|child| match child {
+        n.children.retain_mut(|child| match child {
             Child::Comment(comment) if !self.is_conditional_comment(&comment.data) => false,
-            Child::Text(_) if allow_to_remove_spaces => false,
+            Child::Text(_)
+                if matches!(&*n.tag_name, "html" | "head") && n.namespace == Namespace::HTML =>
+            {
+                false
+            }
+            Child::Text(text)
+                if self.collapse_whitespaces == CollapseWhitespacesMode::AllExceptInline =>
+            {
+                if minification_mode.collapse {
+                    text.data = self.collapse_whitespace(&text.data).into();
+                };
+
+                true
+            }
             _ => true,
         });
 
@@ -689,10 +811,6 @@ impl VisitMut for Minifier {
 
                 n.data = minified_json.into()
             }
-            Some(TextChildrenType::Text) => match self.collapse_whitespaces {
-                CollapseWhitespacesMode::All => n.data = " ".into(),
-                CollapseWhitespacesMode::Conservative => {}
-            },
             _ => {}
         }
     }
@@ -702,8 +820,12 @@ pub fn minify(document: &mut Document, options: &MinifyOptions) {
     document.visit_mut_with(&mut Minifier {
         current_element_namespace: None,
         current_element_tag_name: None,
-        current_element_text_children_type: None,
+
+        descendant_of_pre: false,
         collapse_whitespaces: options.collapse_whitespaces.clone(),
+
+        current_element_text_children_type: None,
+
         meta_element_content_type: None,
     });
 }
