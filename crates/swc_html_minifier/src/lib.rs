@@ -258,16 +258,18 @@ fn is_whitespace(c: char) -> bool {
     matches!(c, '\x09' | '\x0a' | '\x0c' | '\x0d' | '\x20')
 }
 
+#[derive(Debug, Copy, Clone)]
 struct WhitespaceMinificationMode {
-    pub collapse: bool,
-    pub destroy_whole: bool,
     pub trim: bool,
+    pub destroy_whole: bool,
+    pub collapse: bool,
 }
 
 struct Minifier {
     current_element_namespace: Option<Namespace>,
     current_element_tag_name: Option<JsWord>,
 
+    old_descendant_of_pre: bool,
     descendant_of_pre: bool,
     collapse_whitespaces: Option<CollapseWhitespaces>,
 
@@ -461,9 +463,12 @@ impl Minifier {
 
     fn get_whitespace_minification_for_tag(
         &self,
+        _mode: &CollapseWhitespaces,
         namespace: Namespace,
         tag_name: &str,
     ) -> WhitespaceMinificationMode {
+        // TODO handle all possible modes + `\n`
+        // TODO support more
         match namespace {
             Namespace::HTML => match tag_name {
                 // Sectioning root
@@ -476,6 +481,11 @@ impl Minifier {
                 "div" => WhitespaceMinificationMode {
                     collapse: true,
                     destroy_whole: true,
+                    trim: true,
+                },
+                "p" => WhitespaceMinificationMode {
+                    collapse: true,
+                    destroy_whole: false,
                     trim: true,
                 },
                 // Inline text semantics + legacy tags + `del` + `ins` - `br`
@@ -495,24 +505,21 @@ impl Minifier {
                     trim: false,
                 },
                 _ => WhitespaceMinificationMode {
-                    collapse: true,
+                    collapse: false,
                     destroy_whole: false,
                     trim: false,
                 },
             },
             Namespace::SVG => WhitespaceMinificationMode {
-                collapse: true,
+                collapse: false,
                 destroy_whole: false,
                 trim: false,
             },
-            _ => {
-                // TODO should we support more?
-                WhitespaceMinificationMode {
-                    collapse: true,
-                    destroy_whole: false,
-                    trim: false,
-                }
-            }
+            _ => WhitespaceMinificationMode {
+                collapse: false,
+                destroy_whole: false,
+                trim: false,
+            },
         }
     }
 
@@ -556,7 +563,12 @@ impl VisitMut for Minifier {
         self.current_element_namespace = Some(n.namespace);
         self.current_element_tag_name = Some(n.tag_name.clone());
 
-        let old_value_descendant_of_pre = self.descendant_of_pre;
+        let whitespace_minification_mode = match &self.collapse_whitespaces {
+            Some(mode) => {
+                Some(self.get_whitespace_minification_for_tag(mode, n.namespace, &n.tag_name))
+            }
+            _ => None,
+        };
 
         if n.namespace == Namespace::HTML {
             match &*n.tag_name {
@@ -612,7 +624,7 @@ impl VisitMut for Minifier {
                 {
                     self.current_element_text_children_type = Some(TextChildrenType::Json);
                 }
-                "pre" if self.collapse_whitespaces.is_some() => {
+                "pre" if whitespace_minification_mode.is_some() => {
                     self.descendant_of_pre = true;
                 }
                 _ => {
@@ -624,56 +636,56 @@ impl VisitMut for Minifier {
 
         n.visit_mut_children_with(self);
 
-        self.descendant_of_pre = old_value_descendant_of_pre;
-
-        // TODO handle all possible modes + `\n`
-        let minification_mode = self.get_whitespace_minification_for_tag(n.namespace, &n.tag_name);
-
-        if !self.descendant_of_pre
-            && minification_mode.trim
-            && self.collapse_whitespaces == Some(CollapseWhitespaces::AllExceptInline)
-        {
-            if let Some(Child::Text(text)) = n.children.first_mut() {
-                let trimmed: &str = &*text.data.trim_start_matches(is_whitespace);
-
-                text.data = trimmed.into();
-            }
+        if whitespace_minification_mode.is_some() {
+            self.descendant_of_pre = self.old_descendant_of_pre;
         }
 
-        n.children.retain_mut(|child| match child {
-            Child::Comment(comment) if !self.is_conditional_comment(&comment.data) => false,
-            Child::Text(_)
-                if matches!(&*n.tag_name, "html" | "head") && n.namespace == Namespace::HTML =>
-            {
-                false
-            }
-            Child::Text(text)
-                if self.collapse_whitespaces == Some(CollapseWhitespaces::AllExceptInline)
-                    && !self.descendant_of_pre =>
-            {
-                if minification_mode.destroy_whole && self.is_all_whitespace(&text.data) {
+        let mut index = 0;
+        let last = n.children.len();
+
+        n.children.retain_mut(|child| {
+            index += 1;
+
+            match child {
+                Child::Comment(comment) if !self.is_conditional_comment(&comment.data) => false,
+                // Always remove whitespaces from html and head elements (except nested elements),
+                // it should be safe
+                Child::Text(_)
+                    if matches!(&*n.tag_name, "html" | "head")
+                        && n.namespace == Namespace::HTML =>
+                {
                     false
-                } else if minification_mode.collapse {
-                    text.data = self.collapse_whitespace(&text.data).into();
-
-                    true
-                } else {
-                    true
                 }
+                Child::Text(text)
+                    if whitespace_minification_mode.is_some() && !self.descendant_of_pre =>
+                {
+                    let mode = whitespace_minification_mode.unwrap();
+
+                    let value = if mode.trim && index == 1 {
+                        &*text.data.trim_start_matches(is_whitespace)
+                    } else {
+                        &*text.data
+                    };
+
+                    let value = if mode.trim && index == last {
+                        value.trim_end_matches(is_whitespace)
+                    } else {
+                        value
+                    };
+
+                    if mode.destroy_whole && self.is_all_whitespace(value) {
+                        false
+                    } else if mode.collapse {
+                        text.data = self.collapse_whitespace(value).into();
+
+                        true
+                    } else {
+                        !value.is_empty()
+                    }
+                }
+                _ => true,
             }
-            _ => true,
         });
-
-        if minification_mode.trim
-            && !self.descendant_of_pre
-            && self.collapse_whitespaces == Some(CollapseWhitespaces::AllExceptInline)
-        {
-            if let Some(Child::Text(text)) = n.children.last_mut() {
-                let trimmed: &str = &*text.data.trim_end_matches(is_whitespace);
-
-                text.data = trimmed.into();
-            }
-        }
 
         let mut already_seen: AHashSet<JsWord> = Default::default();
 
@@ -845,6 +857,7 @@ pub fn minify(document: &mut Document, options: &MinifyOptions) {
         current_element_namespace: None,
         current_element_tag_name: None,
 
+        old_descendant_of_pre: false,
         descendant_of_pre: false,
         collapse_whitespaces: options.collapse_whitespaces.clone(),
 
