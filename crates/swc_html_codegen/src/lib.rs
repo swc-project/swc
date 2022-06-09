@@ -345,15 +345,12 @@ where
                 n.namespace == Namespace::HTML && matches!(&*n.tag_name, "textarea" | "pre");
 
             if need_extra_newline {
-                let required = match &n.children.first() {
-                    Some(Child::Text(Text { data, .. })) => data.contains('\n'),
-                    _ => false,
-                };
-
-                if required {
-                    newline!(self);
-                } else {
-                    formatting_newline!(self);
+                if let Some(Child::Text(Text { data, .. })) = &n.children.first() {
+                    if data.contains('\n') {
+                        newline!(self);
+                    } else {
+                        formatting_newline!(self);
+                    }
                 }
             }
 
