@@ -878,77 +878,77 @@ where
     // input code point has already been verified to be part of a valid escape. It
     // will return a code point.
     fn read_escape(&mut self) -> LexResult<(char, String)> {
-        let mut raw = String::new();
+        self.with_buf(|l, buf| {
+            // Consume the next input code point.
+            l.consume();
 
-        // Consume the next input code point.
-        self.consume();
+            match l.cur() {
+                // hex digit
+                Some(c) if is_hex_digit(c) => {
+                    let mut hex = c.to_digit(16).unwrap();
 
-        match self.cur() {
-            // hex digit
-            Some(c) if is_hex_digit(c) => {
-                let mut hex = c.to_digit(16).unwrap();
+                    buf.push(c);
 
-                raw.push(c);
+                    // Consume as many hex digits as possible, but no more than 5.
+                    // Note that this means 1-6 hex digits have been consumed in total.
+                    for _ in 0..5 {
+                        let next = l.next();
+                        let digit = match next.and_then(|c| c.to_digit(16)) {
+                            Some(v) => v,
+                            None => break,
+                        };
 
-                // Consume as many hex digits as possible, but no more than 5.
-                // Note that this means 1-6 hex digits have been consumed in total.
-                for _ in 0..5 {
-                    let next = self.next();
-                    let digit = match next.and_then(|c| c.to_digit(16)) {
-                        Some(v) => v,
-                        None => break,
+                        l.consume();
+
+                        buf.push(next.unwrap());
+                        hex = hex * 16 + digit;
+                    }
+
+                    // If the next input code point is whitespace, consume it as well.
+                    let next = l.next();
+
+                    if let Some(next) = next {
+                        if is_whitespace(next) {
+                            l.consume();
+
+                            buf.push(next);
+                        }
+                    }
+
+                    // Interpret the hex digits as a hexadecimal number. If this number is zero, or
+                    // is for a surrogate, or is greater than the maximum allowed code point, return
+                    // U+FFFD REPLACEMENT CHARACTER (�).
+                    let hex = match hex {
+                        // If this number is zero
+                        0 => REPLACEMENT_CHARACTER,
+                        // or is for a surrogate
+                        55296..=57343 => REPLACEMENT_CHARACTER,
+                        // or is greater than the maximum allowed code point
+                        1114112.. => REPLACEMENT_CHARACTER,
+                        _ => char::from_u32(hex).unwrap_or(REPLACEMENT_CHARACTER),
                     };
 
-                    self.consume();
-
-                    raw.push(next.unwrap());
-                    hex = hex * 16 + digit;
+                    // Otherwise, return the code point with that value.
+                    return Ok((hex, (&**buf).into()));
                 }
+                // EOF
+                // This is a parse error. Return U+FFFD REPLACEMENT CHARACTER (�).
+                None => {
+                    let value = REPLACEMENT_CHARACTER;
 
-                // If the next input code point is whitespace, consume it as well.
-                let next = self.next();
+                    buf.push(value);
 
-                if let Some(next) = next {
-                    if is_whitespace(next) {
-                        self.consume();
-
-                        raw.push(next);
-                    }
+                    return Ok((value, (&**buf).into()));
                 }
+                // anything else
+                // Return the current input code point.
+                Some(c) => {
+                    buf.push(c);
 
-                // Interpret the hex digits as a hexadecimal number. If this number is zero, or
-                // is for a surrogate, or is greater than the maximum allowed code point, return
-                // U+FFFD REPLACEMENT CHARACTER (�).
-                let hex = match hex {
-                    // If this number is zero
-                    0 => REPLACEMENT_CHARACTER,
-                    // or is for a surrogate
-                    55296..=57343 => REPLACEMENT_CHARACTER,
-                    // or is greater than the maximum allowed code point
-                    1114112.. => REPLACEMENT_CHARACTER,
-                    _ => char::from_u32(hex).unwrap_or(REPLACEMENT_CHARACTER),
-                };
-
-                // Otherwise, return the code point with that value.
-                Ok((hex, raw))
+                    return Ok((c, (&**buf).into()));
+                }
             }
-            // EOF
-            // This is a parse error. Return U+FFFD REPLACEMENT CHARACTER (�).
-            None => {
-                let value = REPLACEMENT_CHARACTER;
-
-                raw.push(value);
-
-                Ok((value, raw))
-            }
-            // anything else
-            // Return the current input code point.
-            Some(c) => {
-                raw.push(c);
-
-                Ok((c, raw))
-            }
-        }
+        })
     }
 
     // Check if two code points are a valid escape
