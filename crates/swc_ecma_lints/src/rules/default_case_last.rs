@@ -21,15 +21,11 @@ pub fn default_case_last(config: &RuleConfig<()>) -> Option<Box<dyn Rule>> {
 #[derive(Debug, Default)]
 struct DefaultCaseLast {
     expected_reaction: LintRuleReaction,
-    cases_count: usize,
 }
 
 impl DefaultCaseLast {
     fn new(expected_reaction: LintRuleReaction) -> Self {
-        Self {
-            expected_reaction,
-            cases_count: 0,
-        }
+        Self { expected_reaction }
     }
 
     fn emit_report(&self, span: Span) {
@@ -44,8 +40,8 @@ impl DefaultCaseLast {
         });
     }
 
-    fn check_case(&self, pos: usize, case: &SwitchCase) {
-        if case.test.is_none() && pos != self.cases_count {
+    fn check_case(&self, cases_count: usize, pos: usize, case: &SwitchCase) {
+        if case.test.is_none() && pos != cases_count {
             self.emit_report(case.span);
         }
     }
@@ -53,8 +49,7 @@ impl DefaultCaseLast {
 
 impl Visit for DefaultCaseLast {
     fn visit_switch_stmt(&mut self, switch_stmt: &SwitchStmt) {
-        let prev_cases_count = self.cases_count;
-        self.cases_count = switch_stmt.cases.len();
+        let cases_count = switch_stmt.cases.len();
 
         switch_stmt.discriminant.visit_children_with(self);
 
@@ -63,11 +58,9 @@ impl Visit for DefaultCaseLast {
             .iter()
             .enumerate()
             .for_each(|(idx, switch_case)| {
-                self.check_case(idx + 1, switch_case);
+                self.check_case(cases_count, idx + 1, switch_case);
 
                 switch_case.visit_children_with(self);
             });
-
-        self.cases_count = prev_cases_count;
     }
 }
