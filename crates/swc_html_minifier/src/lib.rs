@@ -512,7 +512,7 @@ impl Minifier {
                 "desc" | "text" | "title" => WhitespaceMinificationMode {
                     collapse: true,
                     destroy_whole: true,
-                    trim: default_trim,
+                    trim: true,
                 },
                 "a" | "altGlyph" | "tspan" | "textPath" | "tref" => WhitespaceMinificationMode {
                     collapse: true,
@@ -645,12 +645,6 @@ impl VisitMut for Minifier {
             }
         }
 
-        n.visit_mut_children_with(self);
-
-        if whitespace_minification_mode.is_some() {
-            self.descendant_of_pre = old_descendant_of_pre;
-        }
-
         let mut index = 0;
         let last = n.children.len();
 
@@ -672,13 +666,19 @@ impl VisitMut for Minifier {
                 {
                     let mode = whitespace_minification_mode.unwrap();
 
-                    let value = if mode.trim && index == 1 {
+                    let value = if mode.trim
+                        && (index == 1
+                            || self.collapse_whitespaces == Some(CollapseWhitespaces::All))
+                    {
                         &*text.data.trim_start_matches(is_whitespace)
                     } else {
                         &*text.data
                     };
 
-                    let value = if mode.trim && index == last {
+                    let value = if mode.trim
+                        && (index == last
+                            || self.collapse_whitespaces == Some(CollapseWhitespaces::All))
+                    {
                         value.trim_end_matches(is_whitespace)
                     } else {
                         value
@@ -701,6 +701,12 @@ impl VisitMut for Minifier {
                 _ => true,
             }
         });
+
+        n.visit_mut_children_with(self);
+
+        if whitespace_minification_mode.is_some() {
+            self.descendant_of_pre = old_descendant_of_pre;
+        }
 
         let mut already_seen: AHashSet<JsWord> = Default::default();
 
