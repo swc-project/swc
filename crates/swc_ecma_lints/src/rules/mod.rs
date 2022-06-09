@@ -15,6 +15,7 @@ mod utils;
 #[cfg(feature = "non_critical_lints")]
 #[path = ""]
 pub(crate) mod non_critical_lints {
+    pub mod constructor_super;
     pub mod default_param_last;
     pub mod dot_notation;
     pub mod eqeqeq;
@@ -170,6 +171,10 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
 
         rules.extend(no_compare_neg_zero::no_compare_neg_zero(
             &lint_config.no_compare_neg_zero,
+        ));
+
+        rules.extend(constructor_super::constructor_super(
+            &lint_config.constructor_super,
         ));
     }
 

@@ -1,0 +1,138 @@
+
+  x Unexpected 'super()' because 'super' is not a constructor
+   ,----
+ 1 | class A1 extends null { constructor() { super(); } }
+   :                                         ^^^^^
+   `----
+
+  x Expected to call 'super()'
+   ,----
+ 2 | class A2 extends null { constructor() { } }
+   :                         ^^^^^^^^^^^^^^^^^
+   `----
+
+  x Unexpected 'super()' because 'super' is not a constructor
+   ,----
+ 3 | class A3 extends 100 { constructor() { super(); } }
+   :                                        ^^^^^
+   `----
+
+  x Unexpected 'super()' because 'super' is not a constructor
+   ,----
+ 4 | class A4 extends 'test' { constructor() { super(); } }
+   :                                           ^^^^^
+   `----
+
+  x Unexpected 'super()' because 'super' is not a constructor
+   ,----
+ 5 | class A5 extends (B = 5) { constructor() { super(); } }
+   :                                            ^^^^^
+   `----
+
+  x Unexpected 'super()' because 'super' is not a constructor
+   ,----
+ 6 | class A6 extends (B && 5) { constructor() { super(); } }
+   :                                             ^^^^^
+   `----
+
+  x Unexpected 'super()' because 'super' is not a constructor
+   ,----
+ 7 | class A7 extends (B &&= 5) { constructor() { super(); } }
+   :                                              ^^^^^
+   `----
+
+  x Unexpected 'super()' because 'super' is not a constructor
+   ,----
+ 8 | class A8 extends (B += C) { constructor() { super(); } }
+   :                                             ^^^^^
+   `----
+
+  x Unexpected 'super()' because 'super' is not a constructor
+   ,----
+ 9 | class A9 extends (B -= C) { constructor() { super(); } }
+   :                                             ^^^^^
+   `----
+
+  x Unexpected 'super()' because 'super' is not a constructor
+    ,----
+ 10 | class A10 extends (B **= C) { constructor() { super(); } }
+    :                                               ^^^^^
+    `----
+
+  x Unexpected 'super()' because 'super' is not a constructor
+    ,----
+ 11 | class A11 extends (B |= C) { constructor() { super(); } }
+    :                                              ^^^^^
+    `----
+
+  x Unexpected 'super()' because 'super' is not a constructor
+    ,----
+ 12 | class A12 extends (B &= C) { constructor() { super(); } }
+    :                                              ^^^^^
+    `----
+
+  x Expected to call 'super()'
+    ,----
+ 13 | class A13 extends B { constructor() { } }
+    :                       ^^^^^^^^^^^^^^^^^
+    `----
+
+  x Expected to call 'super()'
+    ,----
+ 14 | class A14 extends B { constructor() { for (var a of b) super.foo(); } }
+    :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Expected to call 'super()'
+    ,----
+ 15 | class A15 extends B { constructor() { class C extends D { constructor() { super(); } } } }
+    :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Expected to call 'super()'
+    ,----
+ 16 | class A16 extends B { constructor() { var c = class extends D { constructor() { super(); } } } }
+    :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Expected to call 'super()'
+    ,----
+ 17 | class A17 extends B { constructor() { var c = () => super(); } }
+    :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Expected to call 'super()'
+    ,----
+ 18 | class A18 extends B { constructor() { class C extends D { constructor() { super(); } } } }
+    :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Expected to call 'super()'
+    ,----
+ 19 | class A19 extends B { constructor() { var C = class extends D { constructor() { super(); } } } }
+    :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Expected to call 'super()'
+    ,----
+ 20 | class A20 extends B { constructor() { super(); class C extends D { constructor() { } } } }
+    :                                                                    ^^^^^^^^^^^^^^^^^
+    `----
+
+  x Expected to call 'super()'
+    ,----
+ 21 | class A21 extends B { constructor() { super(); var C = class extends D { constructor() { } } } }
+    :                                                                          ^^^^^^^^^^^^^^^^^
+    `----
+
+  x Expected to call 'super()'
+    ,----
+ 22 | class A23 extends B { constructor() { if (a) super(); } }
+    :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Expected to call 'super()'
+    ,----
+ 23 | class A24 extends B { constructor() { x ? super() : null; } }
+    :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
