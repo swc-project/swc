@@ -486,8 +486,8 @@ where
             let mut token = Token::Dimension {
                 value: number.0,
                 raw_value: number.1.into(),
-                unit: "".into(),
-                raw_unit: "".into(),
+                unit: js_word!(""),
+                raw_unit: js_word!(""),
                 type_flag: number.2,
             };
 
@@ -729,7 +729,7 @@ where
                         value: value.into(),
                         raw_value: raw.into(),
                         before: before.into(),
-                        after: "".into(),
+                        after: js_word!(""),
                     });
                 }
 
@@ -742,7 +742,7 @@ where
                         value: value.into(),
                         raw_value: raw.into(),
                         before: before.into(),
-                        after: "".into(),
+                        after: js_word!(""),
                     });
                 }
 
