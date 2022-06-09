@@ -52,17 +52,21 @@ impl DefaultCaseLast {
 }
 
 impl Visit for DefaultCaseLast {
-    fn visit_switch_stmt(&mut self, n: &SwitchStmt) {
+    fn visit_switch_stmt(&mut self, switch_stmt: &SwitchStmt) {
         let prev_cases_count = self.cases_count;
-        self.cases_count = n.cases.len();
+        self.cases_count = switch_stmt.cases.len();
 
-        n.discriminant.visit_children_with(self);
+        switch_stmt.discriminant.visit_children_with(self);
 
-        n.cases.iter().enumerate().for_each(|(idx, switch_case)| {
-            self.check_case(idx + 1, switch_case);
+        switch_stmt
+            .cases
+            .iter()
+            .enumerate()
+            .for_each(|(idx, switch_case)| {
+                self.check_case(idx + 1, switch_case);
 
-            switch_case.visit_children_with(self);
-        });
+                switch_case.visit_children_with(self);
+            });
 
         self.cases_count = prev_cases_count;
     }
