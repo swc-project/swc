@@ -613,90 +613,91 @@ where
     // This section describes how to consume a string token from a stream of code
     // points. It returns either a <string-token> or <bad-string-token>.
     fn read_str(&mut self, maybe_ending_code_point: Option<char>) -> LexResult<Token> {
-        // This algorithm may be called with an ending code point, which denotes the
-        // code point that ends the string. If an ending code point is not specified,
-        // the current input code point is used.
-        let ending_code_point = maybe_ending_code_point.or_else(|| self.cur());
+        self.with_buf(|l, buf| {
+            // This algorithm may be called with an ending code point, which denotes the
+            // code point that ends the string. If an ending code point is not specified,
+            // the current input code point is used.
+            let ending_code_point = maybe_ending_code_point.or_else(|| l.cur());
 
-        // Initially create a <string-token> with its value set to the empty string.
-        let mut value = String::new();
-        let mut raw = String::new();
+            // Initially create a <string-token> with its value set to the empty string.
+            let mut raw = String::new();
 
-        raw.push(ending_code_point.unwrap());
+            raw.push(ending_code_point.unwrap());
 
-        // Repeatedly consume the next input code point from the stream:
-        loop {
-            self.consume();
+            // Repeatedly consume the next input code point from the stream:
+            loop {
+                l.consume();
 
-            match self.cur() {
-                // ending code point
-                // Return the <string-token>.
-                Some(c) if c == ending_code_point.unwrap() => {
-                    raw.push(c);
-
-                    break;
-                }
-
-                // EOF
-                // This is a parse error. Return the <string-token>.
-                None => {
-                    return Ok(Token::String {
-                        value: value.into(),
-                        raw: raw.into(),
-                    })
-                }
-
-                // Newline
-                // This is a parse error. Reconsume the current input code point, create a
-                // <bad-string-token>, and return it.
-                Some(c) if is_newline(c) => {
-                    self.reconsume();
-
-                    return Ok(Token::BadString {
-                        value: value.into(),
-                        raw: raw.into(),
-                    });
-                }
-
-                // U+005C REVERSE SOLIDUS (\)
-                Some(c) if c == '\\' => {
-                    let next = self.next();
-
-                    // If the next input code point is EOF, do nothing.
-                    if self.next().is_none() {
-                        continue;
-                    }
-                    // Otherwise, if the next input code point is a newline, consume it.
-                    else if self.next().is_some() && is_newline(self.next().unwrap()) {
-                        self.consume();
-
+                match l.cur() {
+                    // ending code point
+                    // Return the <string-token>.
+                    Some(c) if c == ending_code_point.unwrap() => {
                         raw.push(c);
-                        raw.push(next.unwrap());
-                    }
-                    // Otherwise, (the stream starts with a valid escape) consume an escaped
-                    // code point and append the returned code point to
-                    // the <string-token>’s value.
-                    else if self.is_valid_escape(None, None)? {
-                        let escape = self.read_escape()?;
 
-                        value.push(escape.0);
+                        break;
+                    }
+
+                    // EOF
+                    // This is a parse error. Return the <string-token>.
+                    None => {
+                        return Ok(Token::String {
+                            value: (&**buf).into(),
+                            raw: raw.into(),
+                        })
+                    }
+
+                    // Newline
+                    // This is a parse error. Reconsume the current input code point, create a
+                    // <bad-string-token>, and return it.
+                    Some(c) if is_newline(c) => {
+                        l.reconsume();
+
+                        return Ok(Token::BadString {
+                            value: (&**buf).into(),
+                            raw: raw.into(),
+                        });
+                    }
+
+                    // U+005C REVERSE SOLIDUS (\)
+                    Some(c) if c == '\\' => {
+                        let next = l.next();
+
+                        // If the next input code point is EOF, do nothing.
+                        if l.next().is_none() {
+                            continue;
+                        }
+                        // Otherwise, if the next input code point is a newline, consume it.
+                        else if l.next().is_some() && is_newline(l.next().unwrap()) {
+                            l.consume();
+
+                            raw.push(c);
+                            raw.push(next.unwrap());
+                        }
+                        // Otherwise, (the stream starts with a valid escape) consume an escaped
+                        // code point and append the returned code point to
+                        // the <string-token>’s value.
+                        else if l.is_valid_escape(None, None)? {
+                            let escape = l.read_escape()?;
+
+                            buf.push(escape.0);
+                            raw.push(c);
+                            raw.push_str(&escape.1);
+                        }
+                    }
+
+                    // Anything else
+                    // Append the current input code point to the <string-token>’s value.
+                    Some(c) => {
+                        buf.push(c);
                         raw.push(c);
-                        raw.push_str(&escape.1);
                     }
-                }
-
-                // Anything else
-                // Append the current input code point to the <string-token>’s value.
-                Some(c) => {
-                    value.push(c);
-                    raw.push(c);
                 }
             }
-        }
 
-        Ok(Token::String {
-            value: value.into(),
-            raw: raw.into(),
+            Ok(Token::String {
+                value: (&**buf).into(),
+                raw: raw.into(),
+            })
         })
     }
 
@@ -881,77 +882,77 @@ where
     // input code point has already been verified to be part of a valid escape. It
     // will return a code point.
     fn read_escape(&mut self) -> LexResult<(char, String)> {
-        self.with_buf(|l, buf| {
-            // Consume the next input code point.
-            l.consume();
+        let mut raw = String::new();
 
-            match l.cur() {
-                // hex digit
-                Some(c) if is_hex_digit(c) => {
-                    let mut hex = c.to_digit(16).unwrap();
+        // Consume the next input code point.
+        self.consume();
 
-                    buf.push(c);
+        match self.cur() {
+            // hex digit
+            Some(c) if is_hex_digit(c) => {
+                let mut hex = c.to_digit(16).unwrap();
 
-                    // Consume as many hex digits as possible, but no more than 5.
-                    // Note that this means 1-6 hex digits have been consumed in total.
-                    for _ in 0..5 {
-                        let next = l.next();
-                        let digit = match next.and_then(|c| c.to_digit(16)) {
-                            Some(v) => v,
-                            None => break,
-                        };
+                raw.push(c);
 
-                        l.consume();
-
-                        buf.push(next.unwrap());
-                        hex = hex * 16 + digit;
-                    }
-
-                    // If the next input code point is whitespace, consume it as well.
-                    let next = l.next();
-
-                    if let Some(next) = next {
-                        if is_whitespace(next) {
-                            l.consume();
-
-                            buf.push(next);
-                        }
-                    }
-
-                    // Interpret the hex digits as a hexadecimal number. If this number is zero, or
-                    // is for a surrogate, or is greater than the maximum allowed code point, return
-                    // U+FFFD REPLACEMENT CHARACTER (�).
-                    let hex = match hex {
-                        // If this number is zero
-                        0 => REPLACEMENT_CHARACTER,
-                        // or is for a surrogate
-                        55296..=57343 => REPLACEMENT_CHARACTER,
-                        // or is greater than the maximum allowed code point
-                        1114112.. => REPLACEMENT_CHARACTER,
-                        _ => char::from_u32(hex).unwrap_or(REPLACEMENT_CHARACTER),
+                // Consume as many hex digits as possible, but no more than 5.
+                // Note that this means 1-6 hex digits have been consumed in total.
+                for _ in 0..5 {
+                    let next = self.next();
+                    let digit = match next.and_then(|c| c.to_digit(16)) {
+                        Some(v) => v,
+                        None => break,
                     };
 
-                    // Otherwise, return the code point with that value.
-                    return Ok((hex, (&**buf).into()));
-                }
-                // EOF
-                // This is a parse error. Return U+FFFD REPLACEMENT CHARACTER (�).
-                None => {
-                    let value = REPLACEMENT_CHARACTER;
+                    self.consume();
 
-                    buf.push(value);
-
-                    return Ok((value, (&**buf).into()));
+                    raw.push(next.unwrap());
+                    hex = hex * 16 + digit;
                 }
-                // anything else
-                // Return the current input code point.
-                Some(c) => {
-                    buf.push(c);
 
-                    return Ok((c, (&**buf).into()));
+                // If the next input code point is whitespace, consume it as well.
+                let next = self.next();
+
+                if let Some(next) = next {
+                    if is_whitespace(next) {
+                        self.consume();
+
+                        raw.push(next);
+                    }
                 }
+
+                // Interpret the hex digits as a hexadecimal number. If this number is zero, or
+                // is for a surrogate, or is greater than the maximum allowed code point, return
+                // U+FFFD REPLACEMENT CHARACTER (�).
+                let hex = match hex {
+                    // If this number is zero
+                    0 => REPLACEMENT_CHARACTER,
+                    // or is for a surrogate
+                    55296..=57343 => REPLACEMENT_CHARACTER,
+                    // or is greater than the maximum allowed code point
+                    1114112.. => REPLACEMENT_CHARACTER,
+                    _ => char::from_u32(hex).unwrap_or(REPLACEMENT_CHARACTER),
+                };
+
+                // Otherwise, return the code point with that value.
+                Ok((hex, raw))
             }
-        })
+            // EOF
+            // This is a parse error. Return U+FFFD REPLACEMENT CHARACTER (�).
+            None => {
+                let value = REPLACEMENT_CHARACTER;
+
+                raw.push(value);
+
+                Ok((value, raw))
+            }
+            // anything else
+            // Return the current input code point.
+            Some(c) => {
+                raw.push(c);
+
+                Ok((c, raw))
+            }
+        }
     }
 
     // Check if two code points are a valid escape
@@ -1250,43 +1251,44 @@ where
     // point where normal tokenizing can resume. But for recovery purpose we return
     // bad URL remnants.
     fn read_bad_url_remnants(&mut self) -> LexResult<(String, String)> {
-        let mut value = String::new();
-        let mut raw = String::new();
+        self.with_buf(|l, buf| {
+            let mut raw = String::new();
 
-        // Repeatedly consume the next input code point from the stream:
-        loop {
-            self.consume();
+            // Repeatedly consume the next input code point from the stream:
+            loop {
+                l.consume();
 
-            match self.cur() {
-                // U+0029 RIGHT PARENTHESIS ())
-                // EOF
-                // Return.
-                Some(')') => {
-                    break;
-                }
-                None => {
-                    break;
-                }
-                // the input stream starts with a valid escape
-                Some(c) if self.is_valid_escape(None, None) == Ok(true) => {
-                    // Consume an escaped code point. This allows an escaped right parenthesis
-                    // ("\)") to be encountered without ending the <bad-url-token>.
-                    let escaped = self.read_escape()?;
+                match l.cur() {
+                    // U+0029 RIGHT PARENTHESIS ())
+                    // EOF
+                    // Return.
+                    Some(')') => {
+                        break;
+                    }
+                    None => {
+                        break;
+                    }
+                    // the input stream starts with a valid escape
+                    Some(c) if l.is_valid_escape(None, None) == Ok(true) => {
+                        // Consume an escaped code point. This allows an escaped right parenthesis
+                        // ("\)") to be encountered without ending the <bad-url-token>.
+                        let escaped = l.read_escape()?;
 
-                    value.push(escaped.0);
-                    raw.push(c);
-                    raw.push_str(&escaped.1);
-                }
-                // anything else
-                // Do nothing.
-                Some(c) => {
-                    value.push(c);
-                    raw.push(c);
+                        buf.push(escaped.0);
+                        raw.push(c);
+                        raw.push_str(&escaped.1);
+                    }
+                    // anything else
+                    // Do nothing.
+                    Some(c) => {
+                        buf.push(c);
+                        raw.push(c);
+                    }
                 }
             }
-        }
 
-        Ok((value, raw))
+            Ok(((&**buf).into(), raw))
+        })
     }
 }
 
