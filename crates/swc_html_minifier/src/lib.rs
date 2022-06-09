@@ -269,7 +269,6 @@ struct Minifier {
     current_element_namespace: Option<Namespace>,
     current_element_tag_name: Option<JsWord>,
 
-    old_descendant_of_pre: bool,
     descendant_of_pre: bool,
     collapse_whitespaces: Option<CollapseWhitespaces>,
 
@@ -468,26 +467,8 @@ impl Minifier {
         tag_name: &str,
     ) -> WhitespaceMinificationMode {
         // TODO handle all possible modes + `\n`
-        // TODO support more
         match namespace {
             Namespace::HTML => match tag_name {
-                // Sectioning root
-                "body" => WhitespaceMinificationMode {
-                    collapse: true,
-                    destroy_whole: true,
-                    trim: true,
-                },
-                // Text content
-                "div" => WhitespaceMinificationMode {
-                    collapse: true,
-                    destroy_whole: true,
-                    trim: true,
-                },
-                "p" => WhitespaceMinificationMode {
-                    collapse: true,
-                    destroy_whole: false,
-                    trim: true,
-                },
                 // Inline text semantics + legacy tags + `del` + `ins` - `br`
                 "a" | "abbr" | "acronym" | "b" | "bdi" | "bdo" | "cite" | "data" | "big"
                 | "del" | "dfn" | "em" | "i" | "ins" | "kbd" | "mark" | "q" | "nobr" | "rp"
@@ -499,21 +480,38 @@ impl Minifier {
                         trim: false,
                     }
                 }
+                "script" | "style" => WhitespaceMinificationMode {
+                    collapse: false,
+                    destroy_whole: true,
+                    trim: true,
+                },
                 "textarea" | "code" | "pre" => WhitespaceMinificationMode {
                     collapse: false,
                     destroy_whole: false,
                     trim: false,
                 },
                 _ => WhitespaceMinificationMode {
-                    collapse: false,
+                    collapse: true,
                     destroy_whole: false,
                     trim: false,
                 },
             },
-            Namespace::SVG => WhitespaceMinificationMode {
-                collapse: false,
-                destroy_whole: false,
-                trim: false,
+            Namespace::SVG => match tag_name {
+                "desc" | "text" | "title" => WhitespaceMinificationMode {
+                    collapse: true,
+                    destroy_whole: true,
+                    trim: false,
+                },
+                "a" | "altGlyph" | "tspan" | "textPath" | "tref" => WhitespaceMinificationMode {
+                    collapse: true,
+                    destroy_whole: false,
+                    trim: false,
+                },
+                _ => WhitespaceMinificationMode {
+                    collapse: true,
+                    destroy_whole: true,
+                    trim: true,
+                },
             },
             _ => WhitespaceMinificationMode {
                 collapse: false,
@@ -563,6 +561,7 @@ impl VisitMut for Minifier {
         self.current_element_namespace = Some(n.namespace);
         self.current_element_tag_name = Some(n.tag_name.clone());
 
+        let old_descendant_of_pre = self.descendant_of_pre;
         let whitespace_minification_mode = match &self.collapse_whitespaces {
             Some(mode) => {
                 Some(self.get_whitespace_minification_for_tag(mode, n.namespace, &n.tag_name))
@@ -637,7 +636,7 @@ impl VisitMut for Minifier {
         n.visit_mut_children_with(self);
 
         if whitespace_minification_mode.is_some() {
-            self.descendant_of_pre = self.old_descendant_of_pre;
+            self.descendant_of_pre = old_descendant_of_pre;
         }
 
         let mut index = 0;
@@ -679,8 +678,12 @@ impl VisitMut for Minifier {
                         text.data = self.collapse_whitespace(value).into();
 
                         true
+                    } else if value.is_empty() {
+                        false
                     } else {
-                        !value.is_empty()
+                        text.data = value.into();
+
+                        true
                     }
                 }
                 _ => true,
@@ -857,7 +860,6 @@ pub fn minify(document: &mut Document, options: &MinifyOptions) {
         current_element_namespace: None,
         current_element_tag_name: None,
 
-        old_descendant_of_pre: false,
         descendant_of_pre: false,
         collapse_whitespaces: options.collapse_whitespaces.clone(),
 
