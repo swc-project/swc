@@ -13,6 +13,6 @@ pub struct MinifyOptions {
 #[serde(rename_all = "kebab-case")]
 pub enum CollapseWhitespaces {
     All,
-    AllExceptInline,
+    Smart,
     Conservative,
 }

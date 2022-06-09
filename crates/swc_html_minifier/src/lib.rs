@@ -462,50 +462,62 @@ impl Minifier {
 
     fn get_whitespace_minification_for_tag(
         &self,
-        _mode: &CollapseWhitespaces,
+        mode: &CollapseWhitespaces,
         namespace: Namespace,
         tag_name: &str,
     ) -> WhitespaceMinificationMode {
-        // TODO handle all possible modes + `\n`
+        let default_destroy_whole = match mode {
+            CollapseWhitespaces::All => true,
+            CollapseWhitespaces::Smart | CollapseWhitespaces::Conservative => false,
+        };
+        let default_trim = match mode {
+            CollapseWhitespaces::All => true,
+            CollapseWhitespaces::Smart | CollapseWhitespaces::Conservative => false,
+        };
+
         match namespace {
-            Namespace::HTML => match tag_name {
-                // Inline text semantics + legacy tags + `del` + `ins` - `br`
-                "a" | "abbr" | "acronym" | "b" | "bdi" | "bdo" | "cite" | "data" | "big"
-                | "del" | "dfn" | "em" | "i" | "ins" | "kbd" | "mark" | "q" | "nobr" | "rp"
-                | "rt" | "rtc" | "ruby" | "s" | "samp" | "small" | "span" | "strike" | "strong"
-                | "sub" | "sup" | "time" | "tt" | "u" | "var" | "wbr" => {
-                    WhitespaceMinificationMode {
-                        collapse: true,
-                        destroy_whole: false,
-                        trim: false,
+            Namespace::HTML => {
+                match tag_name {
+                    // Inline text semantics + legacy tags + `del` + `ins` - `br`
+                    "a" | "abbr" | "acronym" | "b" | "bdi" | "bdo" | "cite" | "data" | "big"
+                    | "del" | "dfn" | "em" | "i" | "ins" | "kbd" | "mark" | "q" | "nobr" | "rp"
+                    | "rt" | "rtc" | "ruby" | "s" | "samp" | "small" | "span" | "strike"
+                    | "strong" | "sub" | "sup" | "time" | "tt" | "u" | "var" | "wbr" => {
+                        WhitespaceMinificationMode {
+                            collapse: true,
+                            destroy_whole: default_destroy_whole,
+                            trim: default_trim,
+                        }
                     }
+                    "script" | "style" => WhitespaceMinificationMode {
+                        collapse: false,
+                        destroy_whole: true,
+                        trim: true,
+                    },
+                    "textarea" | "code" | "pre" | "listing" | "plaintext" | "xmp" => {
+                        WhitespaceMinificationMode {
+                            collapse: false,
+                            destroy_whole: false,
+                            trim: false,
+                        }
+                    }
+                    _ => WhitespaceMinificationMode {
+                        collapse: true,
+                        destroy_whole: default_destroy_whole,
+                        trim: default_trim,
+                    },
                 }
-                "script" | "style" => WhitespaceMinificationMode {
-                    collapse: false,
-                    destroy_whole: true,
-                    trim: true,
-                },
-                "textarea" | "code" | "pre" => WhitespaceMinificationMode {
-                    collapse: false,
-                    destroy_whole: false,
-                    trim: false,
-                },
-                _ => WhitespaceMinificationMode {
-                    collapse: true,
-                    destroy_whole: false,
-                    trim: false,
-                },
-            },
+            }
             Namespace::SVG => match tag_name {
                 "desc" | "text" | "title" => WhitespaceMinificationMode {
                     collapse: true,
                     destroy_whole: true,
-                    trim: false,
+                    trim: default_trim,
                 },
                 "a" | "altGlyph" | "tspan" | "textPath" | "tref" => WhitespaceMinificationMode {
                     collapse: true,
-                    destroy_whole: false,
-                    trim: false,
+                    destroy_whole: default_destroy_whole,
+                    trim: default_trim,
                 },
                 _ => WhitespaceMinificationMode {
                     collapse: true,
