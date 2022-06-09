@@ -6,7 +6,7 @@ use swc_common::collections::AHashSet;
 use swc_html_ast::*;
 use swc_html_visit::{VisitMut, VisitMutWith};
 
-use crate::option::{CollapseWhitespacesMode, MinifyOptions};
+use crate::option::{CollapseWhitespaces, MinifyOptions};
 
 pub mod option;
 
@@ -269,7 +269,7 @@ struct Minifier {
     current_element_tag_name: Option<JsWord>,
 
     descendant_of_pre: bool,
-    collapse_whitespaces: CollapseWhitespacesMode,
+    collapse_whitespaces: Option<CollapseWhitespaces>,
 
     current_element_text_children_type: Option<TextChildrenType>,
 
@@ -466,6 +466,19 @@ impl Minifier {
     ) -> WhitespaceMinificationMode {
         match namespace {
             Namespace::HTML => match tag_name {
+                // Sectioning root
+                "body" => WhitespaceMinificationMode {
+                    collapse: true,
+                    destroy_whole: true,
+                    trim: true,
+                },
+                // Text content
+                "div" => WhitespaceMinificationMode {
+                    collapse: true,
+                    destroy_whole: true,
+                    trim: true,
+                },
+                // Inline text semantics + legacy tags + `del` + `ins` - `br`
                 "a" | "abbr" | "acronym" | "b" | "bdi" | "bdo" | "cite" | "data" | "big"
                 | "del" | "dfn" | "em" | "i" | "ins" | "kbd" | "mark" | "q" | "nobr" | "rp"
                 | "rt" | "rtc" | "ruby" | "s" | "samp" | "small" | "span" | "strike" | "strong"
@@ -503,12 +516,12 @@ impl Minifier {
         }
     }
 
-    fn is_all_whitespace(&self, val: &str) -> bool {
-        // for &c in val {
-        //     if !WHITESPACE[c] {
-        //         return false;
-        //     };
-        // }
+    fn is_all_whitespace(&self, data: &str) -> bool {
+        for c in data.chars() {
+            if !is_whitespace(c) {
+                return false;
+            };
+        }
 
         true
     }
@@ -517,7 +530,7 @@ impl Minifier {
         let mut collapsed = String::with_capacity(data.len());
         let mut in_whitespace = false;
 
-        for mut c in data.chars() {
+        for c in data.chars() {
             if is_whitespace(c) {
                 if in_whitespace {
                     // Skip this character.
@@ -536,32 +549,14 @@ impl Minifier {
 
         collapsed
     }
-
-    fn left_trim(&self, val: &mut str) {
-        // let mut len = 0;
-        //
-        // while val.get(len).filter(|&&c| WHITESPACE[c]).is_some() {
-        //     len += 1;
-        // }
-        //
-        // val.drain(0..len);
-    }
-
-    fn right_trim(&self, val: &mut Vec<u8>) {
-        // let mut retain = val.len();
-        //
-        // while retain > 0 && val.get(retain - 1).filter(|&&c|
-        // WHITESPACE[c]).is_some() {     retain -= 1;
-        // }
-        //
-        // val.truncate(retain);
-    }
 }
 
 impl VisitMut for Minifier {
     fn visit_mut_element(&mut self, n: &mut Element) {
         self.current_element_namespace = Some(n.namespace);
         self.current_element_tag_name = Some(n.tag_name.clone());
+
+        let old_value_descendant_of_pre = self.descendant_of_pre;
 
         if n.namespace == Namespace::HTML {
             match &*n.tag_name {
@@ -617,6 +612,9 @@ impl VisitMut for Minifier {
                 {
                     self.current_element_text_children_type = Some(TextChildrenType::Json);
                 }
+                "pre" if self.collapse_whitespaces.is_some() => {
+                    self.descendant_of_pre = true;
+                }
                 _ => {
                     self.meta_element_content_type = None;
                     self.current_element_text_children_type = None;
@@ -626,8 +624,21 @@ impl VisitMut for Minifier {
 
         n.visit_mut_children_with(self);
 
-        // TODO self.descendant_of_pre
+        self.descendant_of_pre = old_value_descendant_of_pre;
+
+        // TODO handle all possible modes + `\n`
         let minification_mode = self.get_whitespace_minification_for_tag(n.namespace, &n.tag_name);
+
+        if !self.descendant_of_pre
+            && minification_mode.trim
+            && self.collapse_whitespaces == Some(CollapseWhitespaces::AllExceptInline)
+        {
+            if let Some(Child::Text(text)) = n.children.first_mut() {
+                let trimmed: &str = &*text.data.trim_start_matches(is_whitespace);
+
+                text.data = trimmed.into();
+            }
+        }
 
         n.children.retain_mut(|child| match child {
             Child::Comment(comment) if !self.is_conditional_comment(&comment.data) => false,
@@ -637,16 +648,32 @@ impl VisitMut for Minifier {
                 false
             }
             Child::Text(text)
-                if self.collapse_whitespaces == CollapseWhitespacesMode::AllExceptInline =>
+                if self.collapse_whitespaces == Some(CollapseWhitespaces::AllExceptInline)
+                    && !self.descendant_of_pre =>
             {
-                if minification_mode.collapse {
+                if minification_mode.destroy_whole && self.is_all_whitespace(&text.data) {
+                    false
+                } else if minification_mode.collapse {
                     text.data = self.collapse_whitespace(&text.data).into();
-                };
 
-                true
+                    true
+                } else {
+                    true
+                }
             }
             _ => true,
         });
+
+        if minification_mode.trim
+            && !self.descendant_of_pre
+            && self.collapse_whitespaces == Some(CollapseWhitespaces::AllExceptInline)
+        {
+            if let Some(Child::Text(text)) = n.children.last_mut() {
+                let trimmed: &str = &*text.data.trim_end_matches(is_whitespace);
+
+                text.data = trimmed.into();
+            }
+        }
 
         let mut already_seen: AHashSet<JsWord> = Default::default();
 
@@ -798,20 +825,17 @@ impl VisitMut for Minifier {
     fn visit_mut_text(&mut self, n: &mut Text) {
         n.visit_mut_children_with(self);
 
-        match self.current_element_text_children_type {
-            Some(TextChildrenType::Json) => {
-                let json = match serde_json::from_str::<Value>(&*n.data) {
-                    Ok(json) => json,
-                    _ => return,
-                };
-                let minified_json = match serde_json::to_string(&json) {
-                    Ok(minified_json) => minified_json,
-                    _ => return,
-                };
+        if let Some(TextChildrenType::Json) = self.current_element_text_children_type {
+            let json = match serde_json::from_str::<Value>(&*n.data) {
+                Ok(json) => json,
+                _ => return,
+            };
+            let minified_json = match serde_json::to_string(&json) {
+                Ok(minified_json) => minified_json,
+                _ => return,
+            };
 
-                n.data = minified_json.into()
-            }
-            _ => {}
+            n.data = minified_json.into()
         }
     }
 }
