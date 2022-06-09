@@ -544,19 +544,22 @@ where
             self.consume();
 
             let start_whitespace = self.input.cur_pos();
-            let mut whitespaces = String::new();
 
             // While the next two input code points are whitespace, consume the next input
             // code point.
-            while let (Some(next), Some(next_next)) = (self.next(), self.next_next()) {
-                if is_whitespace(next) && is_whitespace(next_next) {
-                    self.consume();
+            let whitespaces = self.with_buf(|l, buf| {
+                while let (Some(next), Some(next_next)) = (l.next(), l.next_next()) {
+                    if is_whitespace(next) && is_whitespace(next_next) {
+                        l.consume();
 
-                    whitespaces.push(next);
-                } else {
-                    break;
+                        buf.push(next);
+                    } else {
+                        break;
+                    }
                 }
-            }
+
+                Ok((&**buf).into())
+            })?;
 
             match self.next() {
                 // If the next one or two input code points are U+0022 QUOTATION MARK ("), U+0027
