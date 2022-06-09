@@ -1,4 +1,4 @@
-use std::char::REPLACEMENT_CHARACTER;
+use std::{cell::RefCell, char::REPLACEMENT_CHARACTER, rc::Rc};
 
 use swc_atoms::{js_word, JsWord};
 use swc_common::{input::Input, BytePos, Span};
@@ -23,6 +23,7 @@ where
     /// Used to override last_pos
     last_pos: Option<BytePos>,
     config: ParserConfig,
+    buf: Rc<RefCell<String>>,
 }
 
 impl<I> Lexer<I>
@@ -31,6 +32,7 @@ where
 {
     pub fn new(input: I, config: ParserConfig) -> Self {
         let start_pos = input.last_pos();
+
         Lexer {
             input,
             cur: None,
@@ -38,7 +40,20 @@ where
             start_pos,
             last_pos: None,
             config,
+            buf: Rc::new(RefCell::new(String::with_capacity(256))),
         }
+    }
+
+    fn with_buf<F, Ret>(&mut self, op: F) -> LexResult<Ret>
+    where
+        F: for<'any> FnOnce(&mut Lexer<I>, &mut String) -> LexResult<Ret>,
+    {
+        let b = self.buf.clone();
+        let mut buf = b.borrow_mut();
+
+        buf.clear();
+
+        op(self, &mut buf)
     }
 }
 
@@ -148,18 +163,17 @@ where
         match self.cur() {
             // whitespace
             // Consume as much whitespace as possible. Return a <whitespace-token>.
-            Some(c) if is_whitespace(c) => {
-                let mut value = String::new();
-                value.push(c);
+            Some(c) if is_whitespace(c) => self.with_buf(|l, buf| {
+                buf.push(c);
 
                 loop {
-                    let c = self.next();
+                    let c = l.next();
 
                     match c {
                         Some(c) if is_whitespace(c) => {
-                            self.consume();
+                            l.consume();
 
-                            value.push(c);
+                            buf.push(c);
                         }
                         _ => {
                             break;
@@ -167,10 +181,10 @@ where
                     }
                 }
 
-                Ok(Token::WhiteSpace {
-                    value: value.into(),
-                })
-            }
+                return Ok(Token::WhiteSpace {
+                    value: (&**buf).into(),
+                });
+            }),
             // U+0022 QUOTATION MARK (")
             // Consume a string token and return it.
             Some('"') => self.read_str(None),
