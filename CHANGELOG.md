@@ -25,6 +25,9 @@
 
 - **(html/codegen)** Minify svg attributes (#4917) ([f157aae](https://github.com/swc-project/swc/commit/f157aae40cb11d3ecb18f03f5a32cb4423cfab8b))
 
+
+- **(plugin)** Upgrade `wasmer` (#4929) ([b30032d](https://github.com/swc-project/swc/commit/b30032dd46124b476c3e0ebd94a1845120161ff1))
+
 ### Miscellaneous Tasks
 
 
