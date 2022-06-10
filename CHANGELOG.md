@@ -22,6 +22,12 @@
 
 - **(html/parser)** Remove unused dependencies (#4922) ([299da10](https://github.com/swc-project/swc/commit/299da10ff947eddc4a44d24f8e43a435b89e7b89))
 
+### Performance
+
+
+
+- **(html/parser)** Add a benchmark for document fragment (#4920) ([d669454](https://github.com/swc-project/swc/commit/d669454157da62f9bec4b078230e4e372efd91e3))
+
 ## [1.2.198] - 2022-06-08
 
 ### Bug Fixes
