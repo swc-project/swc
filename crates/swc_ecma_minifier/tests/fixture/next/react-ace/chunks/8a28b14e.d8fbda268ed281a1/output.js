@@ -2493,7 +2493,7 @@
                 }
                 exports.L = 0, exports.R = 1, exports.EN = 2, exports.ON_R = 3, exports.AN = 4, exports.R_H = 5, exports.B = 6, exports.RLE = 7, exports.DOT = "\xB7", exports.doBidiReorder = function(text, textCharTypes, isRtl) {
                     if (text.length < 2) return {};
-                    var chars1 = text.split(""), logicalFromVisual = new Array(chars1.length), bidiLevels = new Array(chars1.length), levels1 = [];
+                    var chars1 = text.split(""), logicalFromVisual = Array(chars1.length), bidiLevels = Array(chars1.length), levels1 = [];
                     dir = isRtl ? 1 : 0, function(chars, levels, len, charTypes) {
                         var impTab = dir ? impTab_RTL : impTab_LTR, prevState = null, newClass = null, newLevel = null, newState = 0, action = null, condPos = -1, i = null, ix = null, classes = [];
                         if (!charTypes) for(i = 0, charTypes = []; i < len; i++)charTypes[i] = _getCharacterType(chars[i]);
@@ -9204,7 +9204,7 @@
                             if (0 === len) ;
                             else if ("remove" == delta.action) this.$annotations.splice(firstRow, len + 1, null);
                             else {
-                                var args = new Array(len + 1);
+                                var args = Array(len + 1);
                                 args.unshift(firstRow, 1), this.$annotations.splice.apply(this.$annotations, args);
                             }
                         }
@@ -12098,7 +12098,7 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
                                     w && this.removeLineWidget(w);
                                 }, this), this.$updateRows();
                             } else {
-                                var args = new Array(len);
+                                var args = Array(len);
                                 lineWidgets[startRow] && null != lineWidgets[startRow].column && delta.start.column > lineWidgets[startRow].column && startRow++, args.unshift(startRow, 0), lineWidgets.splice.apply(lineWidgets, args), this.$updateRows();
                             }
                         }
@@ -12111,7 +12111,7 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
                             }), noWidgets && (this.session.lineWidgets = null);
                         }
                     }, this.$registerLineWidget = function(w) {
-                        this.session.lineWidgets || (this.session.lineWidgets = new Array(this.session.getLength()));
+                        this.session.lineWidgets || (this.session.lineWidgets = Array(this.session.getLength()));
                         var old = this.session.lineWidgets[w.row];
                         return old && (w.$oldWidget = old, old.el && old.el.parentNode && (old.el.parentNode.removeChild(old.el), old._inDocument = !1)), this.session.lineWidgets[w.row] = w, w;
                     }, this.addLineWidget = function(w) {

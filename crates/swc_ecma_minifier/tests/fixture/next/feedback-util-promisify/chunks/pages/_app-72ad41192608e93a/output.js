@@ -741,7 +741,7 @@
                             return e instanceof r || null != e && null != e.constructor && null != e.constructor.name && e.constructor.name === r.name;
                         }
                         var s1 = function() {
-                            for(var e = "0123456789abcdef", r = new Array(256), t = 0; t < 16; ++t)for(var f = 16 * t, n = 0; n < 16; ++n)r[f + n] = e[t] + e[n];
+                            for(var e = "0123456789abcdef", r = Array(256), t = 0; t < 16; ++t)for(var f = 16 * t, n = 0; n < 16; ++n)r[f + n] = e[t] + e[n];
                             return r;
                         }();
                     },
@@ -851,7 +851,7 @@
                         }
                         function noop() {}
                         t7.nextTick = function(e) {
-                            var t = new Array(arguments.length - 1);
+                            var t = Array(arguments.length - 1);
                             if (arguments.length > 1) for(var r = 1; r < arguments.length; r++)t[r - 1] = arguments[r];
                             i.push(new Item(e, t)), 1 !== i.length || o || runTimeout(drainQueue);
                         }, Item.prototype.run = function() {

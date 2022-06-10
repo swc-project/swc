@@ -209,7 +209,7 @@
             return !_.contains(rest, value);
         });
     }, _.zip = function() {
-        for(var length = _.max(_.pluck(arguments, "length").concat(0)), results = new Array(length), i = 0; i < length; i++)results[i] = _.pluck(arguments, "" + i);
+        for(var length = _.max(_.pluck(arguments, "length").concat(0)), results = Array(length), i = 0; i < length; i++)results[i] = _.pluck(arguments, "" + i);
         return results;
     }, _.object = function(list, values) {
         if (null == list) return {};
@@ -233,7 +233,7 @@
         return -1;
     }, _.range = function(start, stop, step) {
         arguments.length <= 1 && (stop = start || 0, start = 0), step = arguments[2] || 1;
-        for(var length = Math.max(Math.ceil((stop - start) / step), 0), idx = 0, range = new Array(length); idx < length;)range[idx++] = start, start += step;
+        for(var length = Math.max(Math.ceil((stop - start) / step), 0), idx = 0, range = Array(length); idx < length;)range[idx++] = start, start += step;
         return range;
     };
     var ctor = function() {};
@@ -328,10 +328,10 @@
         for(var key in obj)_.has(obj, key) && keys.push(key);
         return keys;
     }, _.values = function(obj) {
-        for(var keys = _.keys(obj), length = keys.length, values = new Array(length), i = 0; i < length; i++)values[i] = obj[keys[i]];
+        for(var keys = _.keys(obj), length = keys.length, values = Array(length), i = 0; i < length; i++)values[i] = obj[keys[i]];
         return values;
     }, _.pairs = function(obj) {
-        for(var keys = _.keys(obj), length = keys.length, pairs = new Array(length), i = 0; i < length; i++)pairs[i] = [
+        for(var keys = _.keys(obj), length = keys.length, pairs = Array(length), i = 0; i < length; i++)pairs[i] = [
             keys[i],
             obj[keys[i]]
         ];

@@ -1276,7 +1276,7 @@
         function(module, exports) {
             module.exports = function(arr, len) {
                 (null == len || len > arr.length) && (len = arr.length);
-                for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
+                for(var i = 0, arr2 = Array(len); i < len; i++)arr2[i] = arr[i];
                 return arr2;
             }, module.exports.default = module.exports, module.exports.__esModule = !0;
         },
@@ -3383,7 +3383,7 @@
                 function Code128Reader() {
                     var _this;
                     classCallCheck_default()(this, Code128Reader);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "CODE_SHIFT", 98), defineProperty_default()(assertThisInitialized_default()(_this), "CODE_C", 99), defineProperty_default()(assertThisInitialized_default()(_this), "CODE_B", 100), defineProperty_default()(assertThisInitialized_default()(_this), "CODE_A", 101), defineProperty_default()(assertThisInitialized_default()(_this), "START_CODE_A", 103), defineProperty_default()(assertThisInitialized_default()(_this), "START_CODE_B", 104), defineProperty_default()(assertThisInitialized_default()(_this), "START_CODE_C", 105), defineProperty_default()(assertThisInitialized_default()(_this), "STOP_CODE", 106), defineProperty_default()(assertThisInitialized_default()(_this), "CODE_PATTERN", [
@@ -4640,7 +4640,7 @@
                     {
                         key: "_findPattern",
                         value: function(pattern, offset, isWhite, tryHarder) {
-                            var counter = new Array(pattern.length).fill(0), bestMatch = {
+                            var counter = Array(pattern.length).fill(0), bestMatch = {
                                 error: Number.MAX_VALUE,
                                 start: 0,
                                 end: 0
@@ -4778,7 +4778,7 @@
                     {
                         key: "decode",
                         value: function(row, start) {
-                            var result = new Array(), decodedCodes = new Array(), resultInfo = {}, startInfo = this._findStart();
+                            var result = Array(), decodedCodes = Array(), resultInfo = {}, startInfo = this._findStart();
                             if (!startInfo) return null;
                             var code = {
                                 start: startInfo.start,
@@ -4878,7 +4878,7 @@
                 function Code39Reader() {
                     var _this;
                     classCallCheck_default()(this, Code39Reader);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "code_39"), _this;
@@ -5008,7 +5008,7 @@
                 function Code39VINReader() {
                     var _this;
                     classCallCheck_default()(this, Code39VINReader);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "code_39_vin"), _this;
@@ -5098,7 +5098,7 @@
                 function NewCodabarReader() {
                     var _this;
                     classCallCheck_default()(this, NewCodabarReader);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "_counters", []), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "codabar"), _this;
@@ -5286,7 +5286,7 @@
                 function UPCReader() {
                     var _this;
                     classCallCheck_default()(this, UPCReader);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "upc_a"), _this;
@@ -5321,7 +5321,7 @@
                 function EAN8Reader() {
                     var _this;
                     classCallCheck_default()(this, EAN8Reader);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "ean_8"), _this;
@@ -5365,7 +5365,7 @@
                 function EAN2Reader() {
                     var _this;
                     classCallCheck_default()(this, EAN2Reader);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "ean_2"), _this;
@@ -5426,7 +5426,7 @@
                 function EAN5Reader() {
                     var _this;
                     classCallCheck_default()(this, EAN5Reader);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "ean_5"), _this;
@@ -5494,7 +5494,7 @@
                 function UPCEReader() {
                     var _this;
                     classCallCheck_default()(this, UPCEReader);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "CODE_FREQUENCY", [
@@ -5744,7 +5744,7 @@
                     {
                         key: "_findPattern",
                         value: function(pattern, offset) {
-                            var isWhite = arguments.length > 2 && void 0 !== arguments[2] && arguments[2], tryHarder = arguments.length > 3 && void 0 !== arguments[3] && arguments[3], counter = new Array(pattern.length).fill(0), counterPos = 0, bestMatch = {
+                            var isWhite = arguments.length > 2 && void 0 !== arguments[2] && arguments[2], tryHarder = arguments.length > 3 && void 0 !== arguments[3] && arguments[3], counter = Array(pattern.length).fill(0), counterPos = 0, bestMatch = {
                                 error: Number.MAX_VALUE,
                                 start: 0,
                                 end: 0
@@ -5854,7 +5854,7 @@
                     {
                         key: "decode",
                         value: function(row, start) {
-                            var result = new Array(), decodedCodes = new Array(), startInfo = this._findStart();
+                            var result = Array(), decodedCodes = Array(), startInfo = this._findStart();
                             if (!startInfo) return null;
                             decodedCodes.push(startInfo);
                             var endInfo = this._findEnd();
@@ -5978,7 +5978,7 @@
                 function TwoOfFiveReader() {
                     var _this;
                     classCallCheck_default()(this, TwoOfFiveReader);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "barSpaceRatio", [
@@ -6174,7 +6174,7 @@
                 function Code93Reader() {
                     var _this;
                     classCallCheck_default()(this, Code93Reader);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "code_93"), _this;
@@ -6347,7 +6347,7 @@
                 function Code32Reader() {
                     var _this;
                     classCallCheck_default()(this, Code32Reader);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "code_32_reader"), _this;
@@ -6871,7 +6871,7 @@
                 };
             }
             ImageLoader.load = function(directory, callback, offset1, size, sequence) {
-                var i, img, num, htmlImagesSrcArray = new Array(size), htmlImagesArray = new Array(htmlImagesSrcArray.length);
+                var i, img, num, htmlImagesSrcArray = Array(size), htmlImagesArray = Array(htmlImagesSrcArray.length);
                 if (!1 === sequence) htmlImagesSrcArray[0] = directory;
                 else for(i = 0; i < htmlImagesSrcArray.length; i++)num = offset1 + i, htmlImagesSrcArray[i] = "".concat(directory, "image-").concat("00".concat(num).slice(-3), ".jpg");
                 for(i = 0, htmlImagesArray.notLoaded = [], htmlImagesArray.addImage = function(image) {

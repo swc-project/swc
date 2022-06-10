@@ -233,7 +233,7 @@ var pads = {
 }, numberRe = /^\s*\d+/, percentRe = /^%/, requoteRe = /[\\^$*+?|[\]().{}]/g;
 function pad(value, fill, width) {
     var sign = value < 0 ? "-" : "", string = (sign ? -value : value) + "", length = string.length;
-    return sign + (length < width ? new Array(width - length + 1).join(fill) + string : string);
+    return sign + (length < width ? Array(width - length + 1).join(fill) + string : string);
 }
 function requote(s) {
     return s.replace(requoteRe, "\\$&");

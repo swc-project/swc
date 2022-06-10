@@ -198,7 +198,7 @@
             }
             function _arrayLikeToArray(arr, len) {
                 (null == len || len > arr.length) && (len = arr.length);
-                for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
+                for(var i = 0, arr2 = Array(len); i < len; i++)arr2[i] = arr[i];
                 return arr2;
             }
             Object.defineProperty(exports, "__esModule", {
@@ -456,7 +456,7 @@
                 function Welcome() {
                     var _this;
                     (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_5__.Z)(this, Welcome);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this), "state", {

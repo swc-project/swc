@@ -60,7 +60,7 @@
             var history = [];
             function createLogger$1(name) {
                 var logByType, name1, log, level1 = "info", log1 = function() {
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     logByType("log", level1, args);
                 };
                 return logByType = (name1 = name, log = log1, function(type, level, args) {
@@ -103,13 +103,13 @@
                 }, log1.history.enable = function() {
                     null === history && (history = []);
                 }, log1.error = function() {
-                    for(var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++)args[_key2] = arguments[_key2];
+                    for(var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++)args[_key2] = arguments[_key2];
                     return logByType("error", level1, args);
                 }, log1.warn = function() {
-                    for(var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++)args[_key3] = arguments[_key3];
+                    for(var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++)args[_key3] = arguments[_key3];
                     return logByType("warn", level1, args);
                 }, log1.debug = function() {
-                    for(var _len4 = arguments.length, args = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++)args[_key4] = arguments[_key4];
+                    for(var _len4 = arguments.length, args = Array(_len4), _key4 = 0; _key4 < _len4; _key4++)args[_key4] = arguments[_key4];
                     return logByType("debug", level1, args);
                 }, log1;
             }
@@ -122,7 +122,7 @@
                 });
             }
             function assign(target) {
-                for(var _len = arguments.length, sources = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)sources[_key - 1] = arguments[_key];
+                for(var _len = arguments.length, sources = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)sources[_key - 1] = arguments[_key];
                 return Object.assign ? _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_15__.Z.apply(void 0, [
                     target
                 ].concat(sources)) : (sources.forEach(function(source) {
@@ -640,7 +640,7 @@
                 validateTarget(target, target, method), target.nodeName ? Events[method](target, type, listener) : target[method](type, listener);
             }, EventedMixin = {
                 on: function() {
-                    for(var _this = this, _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _this = this, _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     var _normalizeListenArgs = normalizeListenArgs(this, args, "on"), isTargetingSelf = _normalizeListenArgs.isTargetingSelf, target = _normalizeListenArgs.target, type = _normalizeListenArgs.type, listener = _normalizeListenArgs.listener;
                     if (listen(target, "on", type, listener), !isTargetingSelf) {
                         var removeListenerOnDispose = function() {
@@ -654,26 +654,26 @@
                     }
                 },
                 one: function() {
-                    for(var _this2 = this, _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++)args[_key2] = arguments[_key2];
+                    for(var _this2 = this, _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++)args[_key2] = arguments[_key2];
                     var _normalizeListenArgs2 = normalizeListenArgs(this, args, "one"), isTargetingSelf = _normalizeListenArgs2.isTargetingSelf, target = _normalizeListenArgs2.target, type = _normalizeListenArgs2.type, listener = _normalizeListenArgs2.listener;
                     if (isTargetingSelf) listen(target, "one", type, listener);
                     else {
                         var wrapper1 = function wrapper() {
                             _this2.off(target, type, wrapper);
-                            for(var _len3 = arguments.length, largs = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++)largs[_key3] = arguments[_key3];
+                            for(var _len3 = arguments.length, largs = Array(_len3), _key3 = 0; _key3 < _len3; _key3++)largs[_key3] = arguments[_key3];
                             listener.apply(null, largs);
                         };
                         wrapper1.guid = listener.guid, listen(target, "one", type, wrapper1);
                     }
                 },
                 any: function() {
-                    for(var _this3 = this, _len4 = arguments.length, args = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++)args[_key4] = arguments[_key4];
+                    for(var _this3 = this, _len4 = arguments.length, args = Array(_len4), _key4 = 0; _key4 < _len4; _key4++)args[_key4] = arguments[_key4];
                     var _normalizeListenArgs3 = normalizeListenArgs(this, args, "any"), isTargetingSelf = _normalizeListenArgs3.isTargetingSelf, target = _normalizeListenArgs3.target, type = _normalizeListenArgs3.type, listener = _normalizeListenArgs3.listener;
                     if (isTargetingSelf) listen(target, "any", type, listener);
                     else {
                         var wrapper3 = function wrapper() {
                             _this3.off(target, type, wrapper);
-                            for(var _len5 = arguments.length, largs = new Array(_len5), _key5 = 0; _key5 < _len5; _key5++)largs[_key5] = arguments[_key5];
+                            for(var _len5 = arguments.length, largs = Array(_len5), _key5 = 0; _key5 < _len5; _key5++)largs[_key5] = arguments[_key5];
                             listener.apply(null, largs);
                         };
                         wrapper3.guid = listener.guid, listen(target, "any", type, wrapper3);
@@ -746,7 +746,7 @@
                 });
             };
             function mergeOptions$3() {
-                for(var result = {}, _len = arguments.length, sources = new Array(_len), _key = 0; _key < _len; _key++)sources[_key] = arguments[_key];
+                for(var result = {}, _len = arguments.length, sources = Array(_len), _key = 0; _key < _len; _key++)sources[_key] = arguments[_key];
                 return sources.forEach(function(source) {
                     source && each(source, function(value, key) {
                         if (!isPlain(value)) {
@@ -836,7 +836,7 @@
                 }, _proto.getChild = function(name) {
                     if (name) return this.childNameIndex_[name];
                 }, _proto.getDescendant = function() {
-                    for(var _len = arguments.length, names = new Array(_len), _key = 0; _key < _len; _key++)names[_key] = arguments[_key];
+                    for(var _len = arguments.length, names = Array(_len), _key = 0; _key < _len; _key++)names[_key] = arguments[_key];
                     names = names.reduce(function(acc, n) {
                         return acc.concat(n);
                     }, []);
@@ -3549,10 +3549,10 @@
                         options.kind || _this.track.kind
                     ]).filter(Boolean);
                     var changeHandler = function() {
-                        for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                        for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                         _this.handleTracksChange.apply((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), args);
                     }, selectedLanguageChangeHandler = function() {
-                        for(var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++)args[_key2] = arguments[_key2];
+                        for(var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++)args[_key2] = arguments[_key2];
                         _this.handleSelectedLanguageChange.apply((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), args);
                     };
                     return player.on([
@@ -3857,7 +3857,7 @@
                     var _this, track = options.track, tracks = player.audioTracks();
                     options.label = track.label || track.language || "Unknown", options.selected = track.enabled, (_this = _MenuItem.call(this, player, options) || this).track = track, _this.addClass("vjs-" + track.kind + "-menu-item");
                     var changeHandler = function() {
-                        for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                        for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                         _this.handleTracksChange.apply((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), args);
                     };
                     return tracks.addEventListener("change", changeHandler), _this.on("dispose", function() {
@@ -4611,7 +4611,7 @@
                         innerHTMLDescriptorPolyfill, 
                     ], "innerHTML"), appendWrapper = function(appendFn) {
                         return function() {
-                            for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                            for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                             var retval = appendFn.apply(el, args);
                             return sourcesetLoad(tech), retval;
                         };
@@ -6257,7 +6257,7 @@
                         plugin: PluginSubClass,
                         instance: null
                     }, !0);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     var instance = (0, _babel_runtime_helpers_construct__WEBPACK_IMPORTED_MODULE_18__.Z)(PluginSubClass, [
                         this
                     ].concat(args));

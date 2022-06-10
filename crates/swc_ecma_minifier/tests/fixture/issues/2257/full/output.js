@@ -577,7 +577,7 @@
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.default = void 0, exports.default = function() {
-                for(var _len = arguments.length, strArray = new Array(_len), _key = 0; _key < _len; _key++)strArray[_key] = arguments[_key];
+                for(var _len = arguments.length, strArray = Array(_len), _key = 0; _key < _len; _key++)strArray[_key] = arguments[_key];
                 if (0 === strArray.length) return "";
                 var resultArray = [], filterStrArray = strArray.filter(function(str) {
                     return "" !== str;
@@ -961,7 +961,7 @@
             }
             function _arrayWithoutHoles(arr) {
                 if (Array.isArray(arr)) {
-                    for(var i = 0, arr2 = new Array(arr.length); i < arr.length; i++)arr2[i] = arr[i];
+                    for(var i = 0, arr2 = Array(arr.length); i < arr.length; i++)arr2[i] = arr[i];
                     return arr2;
                 }
             }
@@ -1546,7 +1546,7 @@
                 else props || (props = defaultProps || {});
                 if (1 === childrenLength) props.children = children;
                 else if (childrenLength > 1) {
-                    for(var childArray = new Array(childrenLength), i = 0; i < childrenLength; i++)childArray[i] = arguments[i + 3];
+                    for(var childArray = Array(childrenLength), i = 0; i < childrenLength; i++)childArray[i] = arguments[i + 3];
                     props.children = childArray;
                 }
                 return {
@@ -2333,7 +2333,7 @@
             "use strict";
             module.exports = function(fn, thisArg) {
                 return function() {
-                    for(var args = new Array(arguments.length), i = 0; i < args.length; i++)args[i] = arguments[i];
+                    for(var args = Array(arguments.length), i = 0; i < args.length; i++)args[i] = arguments[i];
                     return fn.apply(thisArg, args);
                 };
             };
@@ -2829,7 +2829,7 @@
                 anInstance(this, $ArrayBuffer, ARRAY_BUFFER);
                 var byteLength = toIndex(length);
                 setInternalState(this, {
-                    bytes: arrayFill.call(new Array(byteLength), 0),
+                    bytes: arrayFill.call(Array(byteLength), 0),
                     byteLength: byteLength
                 }), DESCRIPTORS || (this.byteLength = byteLength);
             }, $DataView = function(buffer, byteOffset, byteLength) {
@@ -3862,7 +3862,7 @@
             var abs = Math.abs, pow = Math.pow, floor = Math.floor, log = Math.log, LN2 = Math.LN2;
             module.exports = {
                 pack: function(number, mantissaLength, bytes) {
-                    var exponent, mantissa, c, buffer = new Array(bytes), exponentLength = 8 * bytes - mantissaLength - 1, eMax = (1 << exponentLength) - 1, eBias = eMax >> 1, rt = 23 === mantissaLength ? pow(2, -24) - pow(2, -77) : 0, sign = number < 0 || 0 === number && 1 / number < 0 ? 1 : 0, index = 0;
+                    var exponent, mantissa, c, buffer = Array(bytes), exponentLength = 8 * bytes - mantissaLength - 1, eMax = (1 << exponentLength) - 1, eBias = eMax >> 1, rt = 23 === mantissaLength ? pow(2, -24) - pow(2, -77) : 0, sign = number < 0 || 0 === number && 1 / number < 0 ? 1 : 0, index = 0;
                     for((number = abs(number)) != number || number === 1 / 0 ? (mantissa = number != number ? 1 : 0, exponent = eMax) : (exponent = floor(log(number) / LN2), number * (c = pow(2, -exponent)) < 1 && (exponent--, c *= 2), exponent + eBias >= 1 ? number += rt / c : number += rt * pow(2, 1 - eBias), number * c >= 2 && (exponent++, c /= 2), exponent + eBias >= eMax ? (mantissa = 0, exponent = eMax) : exponent + eBias >= 1 ? (mantissa = (number * c - 1) * pow(2, mantissaLength), exponent += eBias) : (mantissa = number * pow(2, eBias - 1) * pow(2, mantissaLength), exponent = 0)); mantissaLength >= 8; buffer[index++] = 255 & mantissa, mantissa /= 256, mantissaLength -= 8);
                     for(exponent = exponent << mantissaLength | mantissa, exponentLength += mantissaLength; exponentLength > 0; buffer[index++] = 255 & exponent, exponent /= 256, exponentLength -= 8);
                     return buffer[--index] |= 128 * sign, buffer;
@@ -9589,7 +9589,7 @@
                         };
                     },
                     notifyListeners: function() {
-                        for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                        for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                         listeners.forEach(function(listener) {
                             return listener.apply(void 0, args);
                         });
@@ -10098,7 +10098,7 @@
                 });
             }
             function tokensToFunction(tokens, options) {
-                for(var matches = new Array(tokens.length), i1 = 0; i1 < tokens.length; i1++)"object" == typeof tokens[i1] && (matches[i1] = new RegExp("^(?:" + tokens[i1].pattern + ")$", flags(options)));
+                for(var matches = Array(tokens.length), i1 = 0; i1 < tokens.length; i1++)"object" == typeof tokens[i1] && (matches[i1] = new RegExp("^(?:" + tokens[i1].pattern + ")$", flags(options)));
                 return function(obj, opts) {
                     for(var path = "", data = obj || {}, encode = (opts || {}).pretty ? encodeURIComponentPretty : encodeURIComponent, i = 0; i < tokens.length; i++){
                         var segment, token = tokens[i];
@@ -10244,7 +10244,7 @@
             }
             function noop() {}
             process.nextTick = function(fun) {
-                var args = new Array(arguments.length - 1);
+                var args = Array(arguments.length - 1);
                 if (arguments.length > 1) for(var i = 1; i < arguments.length; i++)args[i - 1] = arguments[i];
                 queue.push(new Item(fun, args)), 1 !== queue.length || draining || runTimeout(drainQueue);
             }, Item.prototype.run = function() {
@@ -15902,7 +15902,7 @@
             }
             var BrowserRouter = function(n) {
                 function e7() {
-                    for(var e, t = arguments.length, r = new Array(t), o = 0; o < t; o++)r[o] = arguments[o];
+                    for(var e, t = arguments.length, r = Array(t), o = 0; o < t; o++)r[o] = arguments[o];
                     return (e = n.call.apply(n, [
                         this
                     ].concat(r)) || this).history = history.createBrowserHistory(e.props), e;
@@ -15915,7 +15915,7 @@
                 }, e7;
             }(React.Component), HashRouter = function(n) {
                 function e8() {
-                    for(var e, t = arguments.length, r = new Array(t), o = 0; o < t; o++)r[o] = arguments[o];
+                    for(var e, t = arguments.length, r = Array(t), o = 0; o < t; o++)r[o] = arguments[o];
                     return (e = n.call.apply(n, [
                         this
                     ].concat(r)) || this).history = history.createHashHistory(e.props), e;
@@ -15997,7 +15997,7 @@
                         strict: b
                     }) : null, i = !!(d ? d(a, t6) : a), c = "function" == typeof h ? h(i) : h, u = "function" == typeof P ? P(i) : P;
                     i && (c = function() {
-                        for(var e15 = arguments.length, t = new Array(e15), r = 0; r < e15; r++)t[r] = arguments[r];
+                        for(var e15 = arguments.length, t = Array(e15), r = 0; r < e15; r++)t[r] = arguments[r];
                         return t.filter(function(e) {
                             return e;
                         }).join(" ");
@@ -16256,7 +16256,7 @@
                 }, Router;
             }(_react_17_0_2_react.Component), MemoryRouter1 = function(_React$Component) {
                 function MemoryRouter() {
-                    for(var _this, _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _this, _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return (_this = _React$Component.call.apply(_React$Component, [
                         this
                     ].concat(args)) || this).history = (0, esm_history.createMemoryHistory)(_this.props), _this;
@@ -16399,7 +16399,7 @@
             function noop() {}
             var StaticRouter1 = function(_React$Component) {
                 function StaticRouter() {
-                    for(var _this, _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _this, _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return (_this = _React$Component.call.apply(_React$Component, [
                         this
                     ].concat(args)) || this).handlePush = function(location) {

@@ -91,7 +91,7 @@
                 for(var view = new Uint8Array(string.length), i = 0; i < string.length; i++)view[i] = string.charCodeAt(i);
                 return view;
             }, concatTypedArrays = function() {
-                for(var _len = arguments.length, buffers = new Array(_len), _key = 0; _key < _len; _key++)buffers[_key] = arguments[_key];
+                for(var _len = arguments.length, buffers = Array(_len), _key = 0; _key < _len; _key++)buffers[_key] = arguments[_key];
                 if ((buffers = buffers.filter(function(b) {
                     return b && (b.byteLength || b.length) && "string" != typeof b;
                 })).length <= 1) return toUint8(buffers[0]);
@@ -3013,7 +3013,7 @@
             var _videojs_vhs_utils_es_resolve_url__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(779), global_window__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8908), global_window__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(global_window__WEBPACK_IMPORTED_MODULE_1__), _videojs_vhs_utils_es_decode_b64_to_uint8_array__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(6722), _xmldom_xmldom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(3969), isObject = function(obj) {
                 return !!obj && "object" == typeof obj;
             }, merge1 = function merge() {
-                for(var _len = arguments.length, objects = new Array(_len), _key = 0; _key < _len; _key++)objects[_key] = arguments[_key];
+                for(var _len = arguments.length, objects = Array(_len), _key = 0; _key < _len; _key++)objects[_key] = arguments[_key];
                 return objects.reduce(function(result, source) {
                     return "object" != typeof source || Object.keys(source).forEach(function(key) {
                         Array.isArray(result[key]) && Array.isArray(source[key]) ? result[key] = result[key].concat(source[key]) : isObject(result[key]) && isObject(source[key]) ? result[key] = merge(result[key], source[key]) : result[key] = source[key];
@@ -3310,7 +3310,7 @@
                     if ("$$" === match) return "$";
                     if (void 0 === values1[identifier]) return match;
                     var value = "" + values1[identifier];
-                    return "RepresentationID" === identifier ? value : (width = format ? parseInt(width, 10) : 1, value.length >= width) ? value : "" + new Array(width - value.length + 1).join("0") + value;
+                    return "RepresentationID" === identifier ? value : (width = format ? parseInt(width, 10) : 1, value.length >= width) ? value : "" + Array(width - value.length + 1).join("0") + value;
                 }));
             }, segmentsFromTemplate = function(attributes, segmentTimeline) {
                 var attributes2, segmentTimeline1, templateValues = {
@@ -5774,7 +5774,7 @@
                 return obj instanceof type || null != obj && null != obj.constructor && null != obj.constructor.name && obj.constructor.name === type.name;
             }
             var hexSliceLookupTable = function() {
-                for(var alphabet = "0123456789abcdef", table = new Array(256), i = 0; i < 16; ++i)for(var i16 = 16 * i, j = 0; j < 16; ++j)table[i16 + j] = alphabet[i] + alphabet[j];
+                for(var alphabet = "0123456789abcdef", table = Array(256), i = 0; i < 16; ++i)for(var i16 = 16 * i, j = 0; j < 16; ++j)table[i16 + j] = alphabet[i] + alphabet[j];
                 return table;
             }();
         },

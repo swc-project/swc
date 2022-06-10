@@ -236,7 +236,7 @@
         }
     };
     Array.implement("clone", function() {
-        for(var i = this.length, clone = new Array(i); i--;)clone[i] = cloneOf(this[i]);
+        for(var i = this.length, clone = Array(i); i--;)clone[i] = cloneOf(this[i]);
         return clone;
     });
     var mergeOne = function(source, key, current) {
@@ -822,7 +822,7 @@ var $try = Function.attempt;
     } catch (e1) {
         Array.from = function(item) {
             if ("string" != typeof item && Type.isEnumerable(item) && "array" != typeOf(item)) {
-                for(var i = item.length, array = new Array(i); i--;)array[i] = item[i];
+                for(var i = item.length, array = Array(i); i--;)array[i] = item[i];
                 return array;
             }
             return arrayFrom(item);
