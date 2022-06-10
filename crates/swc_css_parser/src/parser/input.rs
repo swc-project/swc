@@ -6,7 +6,7 @@ use swc_css_ast::{Token, TokenAndSpan, Tokens};
 use super::PResult;
 use crate::error::{Error, ErrorKind};
 
-pub trait ParserInput: Clone + Iterator<Item = TokenAndSpan> {
+pub trait ParserInput: Iterator<Item = TokenAndSpan> {
     type State: Debug;
 
     fn next(&mut self) -> PResult<TokenAndSpan>;
@@ -159,7 +159,7 @@ pub struct TokensState {
     idx: usize,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug)]
 pub struct TokensInput<'a> {
     tokens: &'a Tokens,
     idx: usize,

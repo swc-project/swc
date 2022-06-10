@@ -11,7 +11,7 @@ use crate::{
 
 pub(crate) type LexResult<T> = Result<T, ErrorKind>;
 
-#[derive(Debug, Clone)]
+#[derive(Debug)]
 pub struct Lexer<I>
 where
     I: Input,
