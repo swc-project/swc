@@ -383,6 +383,19 @@ where
         } else if !n.children.is_empty() {
             let ctx = self.create_context_for_element(n);
 
+            let need_extra_newline =
+                n.namespace == Namespace::HTML && matches!(&*n.tag_name, "textarea" | "pre");
+
+            if need_extra_newline {
+                if let Some(Child::Text(Text { data, .. })) = &n.children.first() {
+                    if data.contains('\n') {
+                        newline!(self);
+                    } else {
+                        formatting_newline!(self);
+                    }
+                }
+            }
+
             if self.config.minify {
                 self.with_ctx(ctx)
                     .emit_list_for_tag_omission(TagOmissionParent::Element(n))?;
@@ -748,10 +761,6 @@ where
         if self.ctx.need_escape_text {
             let mut data = String::with_capacity(n.data.len());
 
-            if self.ctx.need_extra_newline_in_text && n.data.contains('\n') {
-                data.push('\n');
-            }
-
             if self.config.minify {
                 data.push_str(&minify_text(&n.data));
             } else {
@@ -782,12 +791,9 @@ where
             _ if self.is_plaintext => false,
             _ => true,
         };
-        let need_extra_newline_in_text =
-            n.namespace == Namespace::HTML && matches!(&*n.tag_name, "textarea" | "pre");
 
         Ctx {
             need_escape_text,
-            need_extra_newline_in_text,
             ..self.ctx
         }
     }
@@ -899,9 +905,9 @@ fn minify_attribute_value(value: &str) -> String {
     }
 
     if dq > sq {
-        format!("'{}'", minified)
+        format!("'{}'", minified.replace('\'', "&apos;"))
     } else {
-        format!("\"{}\"", minified)
+        format!("\"{}\"", minified.replace('"', "&quot;"))
     }
 }
 

@@ -1,72 +1,72 @@
-var a = 86400000, b = 7 * a, c = 365.25 * a;
-export default function(f, h) {
+var b = 3600000, a = 24 * b, c = 7 * a, d = 365.25 * a;
+export default function(g, i) {
     try {
-        if ("string" == typeof f && f.length > 0) return function(e) {
-            if ((e = String(e)).length > 100) throw new Error("Value exceeds the maximum length of 100 characters.");
-            var f = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(e);
-            if (!f) return NaN;
-            var d = parseFloat(f[1]), g = (f[2] || "ms").toLowerCase();
-            switch(g){
+        if ("string" == typeof g && g.length > 0) return function i(f) {
+            if ((f = String(f)).length > 100) throw new Error("Value exceeds the maximum length of 100 characters.");
+            var g = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(f);
+            if (!g) return NaN;
+            var e = parseFloat(g[1]), h = (g[2] || "ms").toLowerCase();
+            switch(h){
                 case "years":
                 case "year":
                 case "yrs":
                 case "yr":
                 case "y":
-                    return d * c;
+                    return e * d;
                 case "weeks":
                 case "week":
                 case "w":
-                    return d * b;
+                    return e * c;
                 case "days":
                 case "day":
                 case "d":
-                    return d * a;
+                    return e * a;
                 case "hours":
                 case "hour":
                 case "hrs":
                 case "hr":
                 case "h":
-                    return 3600000 * d;
+                    return e * b;
                 case "minutes":
                 case "minute":
                 case "mins":
                 case "min":
                 case "m":
-                    return 60000 * d;
+                    return 60000 * e;
                 case "seconds":
                 case "second":
                 case "secs":
                 case "sec":
                 case "s":
-                    return 1000 * d;
+                    return 1000 * e;
                 case "milliseconds":
                 case "millisecond":
                 case "msecs":
                 case "msec":
                 case "ms":
-                    return d;
+                    return e;
                 default:
-                    throw new Error("The unit ".concat(g, " was matched, but no matching case exists."));
+                    throw new Error("The unit ".concat(h, " was matched, but no matching case exists."));
             }
-        }(f);
-        if ("number" == typeof f && isFinite(f)) return (null == h ? void 0 : h.long) ? e(f) : d(f);
+        }(g);
+        if ("number" == typeof g && isFinite(g)) return (null == i ? void 0 : i.long) ? f(g) : e(g);
         throw new Error("Value is not a string or number.");
-    } catch (i) {
-        var j = g(i) ? "".concat(i.message, ". value=").concat(JSON.stringify(f)) : "An unknown error has occurred.";
-        throw new Error(j);
+    } catch (j) {
+        var k = h(j) ? "".concat(j.message, ". value=").concat(JSON.stringify(g)) : "An unknown error has occurred.";
+        throw new Error(k);
     }
 };
-function d(b) {
-    var c = Math.abs(b);
-    return c >= a ? "".concat(Math.round(b / a), "d") : c >= 3600000 ? "".concat(Math.round(b / 3600000), "h") : c >= 60000 ? "".concat(Math.round(b / 60000), "m") : c >= 1000 ? "".concat(Math.round(b / 1000), "s") : "".concat(b, "ms");
-}
 function e(c) {
-    var b = Math.abs(c);
-    return b >= a ? f(c, b, a, "day") : b >= 3600000 ? f(c, b, 3600000, "hour") : b >= 60000 ? f(c, b, 60000, "minute") : b >= 1000 ? f(c, b, 1000, "second") : "".concat(c, " ms");
+    var d = Math.abs(c);
+    return d >= a ? "".concat(Math.round(c / a), "d") : d >= b ? "".concat(Math.round(c / b), "h") : d >= 60000 ? "".concat(Math.round(c / 60000), "m") : d >= 1000 ? "".concat(Math.round(c / 1000), "s") : "".concat(c, "ms");
 }
-function f(b, c, a, d) {
+function f(d) {
+    var c = Math.abs(d);
+    return c >= a ? g(d, c, a, "day") : c >= b ? g(d, c, b, "hour") : c >= 60000 ? g(d, c, 60000, "minute") : c >= 1000 ? g(d, c, 1000, "second") : "".concat(d, " ms");
+}
+function g(b, c, a, d) {
     return "".concat(Math.round(b / a), " ").concat(d).concat(c >= 1.5 * a ? "s" : "");
 }
-function g(a) {
+function h(a) {
     return "object" == typeof a && null !== a && "message" in a;
 }
