@@ -863,9 +863,9 @@ fn minify_attribute_value(value: &str) -> String {
     }
 
     if dq > sq {
-        format!("'{}'", minified)
+        format!("'{}'", minified.replace('\'', "&apos;"))
     } else {
-        format!("\"{}\"", minified)
+        format!("\"{}\"", minified.replace('"', "&quot;"))
     }
 }
 

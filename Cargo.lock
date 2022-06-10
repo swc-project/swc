@@ -3909,7 +3909,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_codegen"
-version = "0.12.0"
+version = "0.12.1"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -3950,11 +3950,9 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.12.0"
+version = "0.12.1"
 dependencies = [
- "bitflags",
  "criterion",
- "lexical",
  "serde",
  "serde_json",
  "swc_atoms",

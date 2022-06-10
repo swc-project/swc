@@ -5,6 +5,20 @@
 
 
 
+- **(html/codegen)** Fix quotes in attributes (#4918) ([064e504](https://github.com/swc-project/swc/commit/064e50448fb3a916ce52c537f73cedec2253ed50))
+
+### Miscellaneous Tasks
+
+
+
+- **(html/parser)** Remove unused dependencies (#4922) ([299da10](https://github.com/swc-project/swc/commit/299da10ff947eddc4a44d24f8e43a435b89e7b89))
+
+## [1.2.198] - 2022-06-08
+
+### Bug Fixes
+
+
+
 - **(es/decorators)** Fix syntax context of decorated classes (#4905) ([814f72f](https://github.com/swc-project/swc/commit/814f72f22454861db2c84aebd40fb6fba6906ac2))
 
 
