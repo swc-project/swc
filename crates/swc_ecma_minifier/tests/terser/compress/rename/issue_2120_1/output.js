@@ -1,6 +1,5 @@
 "aaaaaaaa";
-var a = 1,
-    b = "FAIL";
+var a = 1, b = "FAIL";
 try {
     throw 1;
 } catch (c) {
