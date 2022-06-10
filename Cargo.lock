@@ -3334,7 +3334,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.43.0"
+version = "0.43.1"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -3378,7 +3378,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.118.0"
+version = "0.118.2"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3537,7 +3537,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.87.2"
+version = "0.87.3"
 dependencies = [
  "better_scoped_tls",
  "criterion",
@@ -3909,7 +3909,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_codegen"
-version = "0.12.0"
+version = "0.12.3"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -3950,11 +3950,9 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.12.0"
+version = "0.12.1"
 dependencies = [
- "bitflags",
  "criterion",
- "lexical",
  "serde",
  "serde_json",
  "swc_atoms",

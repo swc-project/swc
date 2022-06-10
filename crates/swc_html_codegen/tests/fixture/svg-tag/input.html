@@ -31,5 +31,97 @@
         test
     </textarea>
 </svg>
+
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="50"/>
+</svg>
+
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="50">NOT ALLOWED< BUT POSSIBLE</circle>
+</svg>
+
+<svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="100" cy="50" rx="100" ry="50" />
+</svg>
+
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <line x1="0" y1="80" x2="100" y2="20" stroke="black" />
+
+    <!-- If you do not specify the stroke
+         color the line will not be visible -->
+</svg>
+
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <path d="M 10,30
+           A 20,20 0,0,1 50,30
+           A 20,20 0,0,1 90,30
+           Q 90,60 50,90
+           Q 10,60 10,30 z"/>
+</svg>
+
+<svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+    <!-- Example of a polygon with the default fill -->
+    <polygon points="0,100 50,25 50,75 100,0" />
+
+    <!-- Example of the same polygon shape with stroke and no fill -->
+    <polygon points="100,100 150,25 150,75 200,0"
+             fill="none" stroke="black" />
+</svg>
+
+<svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+    <!-- Example of a polyline with the default fill -->
+    <polyline points="0,100 50,25 50,75 100,0" />
+
+    <!-- Example of the same polyline shape with stroke and no fill -->
+    <polyline points="100,100 150,25 150,75 200,0"
+              fill="none" stroke="black" />
+</svg>
+
+<svg viewBox="0 0 220 100" xmlns="http://www.w3.org/2000/svg">
+    <!-- Simple rectangle -->
+    <rect width="100" height="100" />
+
+    <!-- Rounded corner rectangle -->
+    <rect x="120" width="100" height="100" rx="15" />
+</svg>
+
+<svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <linearGradient id="myGradient" gradientTransform="rotate(90)">
+            <stop offset="5%"  stop-color="gold" />
+            <stop offset="95%" stop-color="red" />
+        </linearGradient>
+    </defs>
+
+    <!-- using my linear gradient -->
+    <circle cx="5" cy="5" r="4" fill="url('#myGradient')" />
+</svg>
+
+<svg viewBox="0 0 30 10" xmlns="http://www.w3.org/2000/svg">
+    <circle id="myCircle" cx="5" cy="5" r="4" stroke="blue"/>
+    <use href="#myCircle" x="10" fill="blue"/>
+    <use href="#myCircle" x="20" fill="white" stroke="red"/>
+    <!--
+  stroke="red" will be ignored here, as stroke was already set on myCircle.
+  Most attributes (except for x, y, width, height and (xlink:)href)
+  do not override those set in the ancestor.
+  That's why the circles have different x positions, but the same stroke value.
+    -->
+</svg>
+
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="&amp;"/>
+    <circle cx="50" cy="50" r=" "/>
+    <circle cx="50" cy="50" r="`"/>
+    <circle cx="50" cy="50" r="="/>
+    <circle cx="50" cy="50" r="<"/>
+    <circle cx="50" cy="50" r=">"/>
+    <circle cx="50" cy="50" r='"'/>
+    <circle cx="50" cy="50" r="'"/>
+    <circle cx="50" cy="50" r="a"/>
+    <circle />
+</svg>
+
 </body>
 </html>
