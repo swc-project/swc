@@ -29,6 +29,9 @@
 
 
 
+- **(es/minifier)** Change default pass limit to 2 (#4924) ([fc0d8e3](https://github.com/swc-project/swc/commit/fc0d8e3f74d61ccbf37d5bb2e2ba6bf85561db97))
+
+
 - **(html/parser)** Add a benchmark for document fragment (#4920) ([d669454](https://github.com/swc-project/swc/commit/d669454157da62f9bec4b078230e4e372efd91e3))
 
 ## [1.2.198] - 2022-06-08
