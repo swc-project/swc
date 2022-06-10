@@ -804,25 +804,37 @@ impl Pure<'_> {
 
         if self.options.side_effects && self.options.pristine_globals {
             match e {
-                Expr::New(NewExpr { callee, args, .. }) => {
-                    if let Expr::Ident(i) = &**callee {
-                        match &*i.sym {
-                            "Map" | "Set" | "Array" | "Object" | "Boolean" | "Number" => {
-                                if i.span.ctxt.outer() == self.marks.unresolved_mark {
-                                    report_change!("Dropping a pure new expression");
+                Expr::New(NewExpr { callee, args, .. })
+                    if callee.is_one_of_global_ref_to(
+                        &self.expr_ctx,
+                        &["Map", "Set", "Array", "Object", "Boolean", "Number"],
+                    ) =>
+                {
+                    report_change!("Dropping a pure new expression");
 
-                                    self.changed = true;
-                                    *e = self
-                                        .make_ignored_expr(
-                                            args.iter_mut().flatten().map(|arg| arg.expr.take()),
-                                        )
-                                        .unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
-                                    return;
-                                }
-                            }
-                            _ => {}
-                        }
-                    }
+                    self.changed = true;
+                    *e = self
+                        .make_ignored_expr(args.iter_mut().flatten().map(|arg| arg.expr.take()))
+                        .unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
+                    return;
+                }
+
+                Expr::Call(CallExpr {
+                    callee: Callee::Expr(callee),
+                    args,
+                    ..
+                }) if callee.is_one_of_global_ref_to(
+                    &self.expr_ctx,
+                    &["Array", "Object", "Boolean", "Number"],
+                ) =>
+                {
+                    report_change!("Dropping a pure call expression");
+
+                    self.changed = true;
+                    *e = self
+                        .make_ignored_expr(args.iter_mut().map(|arg| arg.expr.take()))
+                        .unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
+                    return;
                 }
 
                 Expr::Object(obj) => {

@@ -6419,7 +6419,7 @@
                     return target;
                 }).apply(this, arguments);
             }
-            Boolean("undefined" != typeof window && window.document && window.document.createElement);
+            "undefined" != typeof window && window.document && window.document.createElement;
             const GlobalStyle = function(e29) {
                 for(var t22 = arguments.length, n11 = Array(t22 > 1 ? t22 - 1 : 0), o7 = 1; o7 < t22; o7++)n11[o7 - 1] = arguments[o7];
                 var i = Ce.apply(void 0, [
