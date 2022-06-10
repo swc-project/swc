@@ -25,6 +25,11 @@ class A25 extends B { constructor() { switch (x) { case 'a': super(); } } }
 class A26 { constructor() { for (let i = 0; i < a.length; i++) { super(); } } }
 class A27 { constructor() { for (let i = 0; i < a.length; i++) { super(); } super(); } }
 class A28 extends B { constructor() { return; super(); } }
+class A29 extends B { constructor() { try { super(); } catch (e) { } } }
+class A30 extends B { constructor() { try { } catch (e) { super(); } } }
+class A31 extends B { constructor() { try { } catch (e) { super(); } super(); } }
+class A30 extends B { constructor() { try { super(); } catch (e) { } finally { super() } } }
+
 
 // valid
 class V1 extends (B, C) { constructor() { super(); } }
@@ -35,3 +40,4 @@ class V5 { }
 class V6 { constructor() { } }
 class V7 extends null { }
 class V8 { constructor() { } }
+class A9 extends B { constructor() { try { } finally { super(); } } }

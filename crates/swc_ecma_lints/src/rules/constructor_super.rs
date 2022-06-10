@@ -263,6 +263,27 @@ impl Visit for ConstructorSuper {
         self.update_current_code_path(cases.as_slice());
     }
 
+    fn visit_try_stmt(&mut self, try_stmt: &TryStmt) {
+        let parent_code_path = self.class_meta.code_path.clone();
+
+        try_stmt.block.visit_children_with(self);
+
+        let block_code_path =
+            mem::replace(&mut self.class_meta.code_path, parent_code_path.clone());
+
+        if try_stmt.handler.is_some() {
+            try_stmt.handler.visit_children_with(self);
+
+            let handler_code_path = mem::replace(&mut self.class_meta.code_path, parent_code_path);
+
+            self.update_current_code_path(&[block_code_path, handler_code_path]);
+        } else {
+            self.update_current_code_path(&[block_code_path]);
+        }
+
+        try_stmt.finalizer.visit_children_with(self);
+    }
+
     fn visit_break_stmt(&mut self, break_stmt: &BreakStmt) {
         self.class_meta.code_path.break_exists = true;
 

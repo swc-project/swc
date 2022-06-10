@@ -1,4 +1,58 @@
 
+  x the name `A30` is defined multiple times
+    ,-[29:1]
+ 29 | class A30 extends B { constructor() { try { } catch (e) { super(); } } }
+    :       ^|^
+    :        `-- previous definition of `A30` here
+ 30 | class A31 extends B { constructor() { try { } catch (e) { super(); } super(); } }
+ 31 | class A30 extends B { constructor() { try { super(); } catch (e) { } finally { super() } } }
+    :       ^|^
+    :        `-- `A30` redefined here
+    `----
+
+  x the name `A9` is defined multiple times
+    ,-[9:1]
+  9 | class A9 extends (B -= C) { constructor() { super(); } }
+    :       ^|
+    :        `-- previous definition of `A9` here
+ 10 | class A10 extends (B **= C) { constructor() { super(); } }
+ 11 | class A11 extends (B |= C) { constructor() { super(); } }
+ 12 | class A12 extends (B &= C) { constructor() { super(); } }
+ 13 | class A13 extends B { constructor() { } }
+ 14 | class A14 extends B { constructor() { for (var a of b) super.foo(); } }
+ 15 | class A15 extends B { constructor() { class C extends D { constructor() { super(); } } } }
+ 16 | class A16 extends B { constructor() { var c = class extends D { constructor() { super(); } } } }
+ 17 | class A17 extends B { constructor() { var c = () => super(); } }
+ 18 | class A18 extends B { constructor() { class C extends D { constructor() { super(); } } } }
+ 19 | class A19 extends B { constructor() { var C = class extends D { constructor() { super(); } } } }
+ 20 | class A20 extends B { constructor() { super(); class C extends D { constructor() { } } } }
+ 21 | class A21 extends B { constructor() { super(); var C = class extends D { constructor() { } } } }
+ 22 | class A23 extends B { constructor() { if (a) super(); } }
+ 23 | class A24 extends B { constructor() { x ? super() : null; } }
+ 24 | class A25 extends B { constructor() { switch (x) { case 'a': super(); } } }
+ 25 | class A26 { constructor() { for (let i = 0; i < a.length; i++) { super(); } } }
+ 26 | class A27 { constructor() { for (let i = 0; i < a.length; i++) { super(); } super(); } }
+ 27 | class A28 extends B { constructor() { return; super(); } }
+ 28 | class A29 extends B { constructor() { try { super(); } catch (e) { } } }
+ 29 | class A30 extends B { constructor() { try { } catch (e) { super(); } } }
+ 30 | class A31 extends B { constructor() { try { } catch (e) { super(); } super(); } }
+ 31 | class A30 extends B { constructor() { try { super(); } catch (e) { } finally { super() } } }
+ 32 | 
+ 33 | 
+ 34 | // valid
+ 35 | class V1 extends (B, C) { constructor() { super(); } }
+ 36 | class V2 extends (class B { }) { constructor() { super(); } }
+ 37 | class V3 { constructor() { class B extends C { constructor() { super(); } } } }
+ 38 | class V4 extends Object { constructor() { super(); for (let i = 0; i < 0; i++); } }
+ 39 | class V5 { }
+ 40 | class V6 { constructor() { } }
+ 41 | class V7 extends null { }
+ 42 | class V8 { constructor() { } }
+ 43 | class A9 extends B { constructor() { try { } finally { super(); } } }
+    :       ^|
+    :        `-- `A9` redefined here
+    `----
+
   x Unexpected 'super()' because 'super' is not a constructor
    ,----
  1 | class A1 extends null { constructor() { super(); } }
@@ -159,4 +213,28 @@
     ,----
  27 | class A28 extends B { constructor() { return; super(); } }
     :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Lacked a call of 'super()' in some code path
+    ,----
+ 28 | class A29 extends B { constructor() { try { super(); } catch (e) { } } }
+    :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Lacked a call of 'super()' in some code path
+    ,----
+ 29 | class A30 extends B { constructor() { try { } catch (e) { super(); } } }
+    :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Unexpected duplicate 'super()'
+    ,----
+ 30 | class A31 extends B { constructor() { try { } catch (e) { super(); } super(); } }
+    :                                                                      ^^^^^
+    `----
+
+  x Unexpected duplicate 'super()'
+    ,----
+ 31 | class A30 extends B { constructor() { try { super(); } catch (e) { } finally { super() } } }
+    :                                                                                ^^^^^
     `----
