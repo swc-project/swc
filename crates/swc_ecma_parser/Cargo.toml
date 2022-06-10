@@ -7,7 +7,7 @@ include = ["Cargo.toml", "src/**/*.rs", "examples/**/*.rs"]
 license = "Apache-2.0"
 name = "swc_ecma_parser"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.104.0"
+version = "0.105.0"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -32,17 +32,16 @@ serde = { version = "1", features = ["derive"] }
 smallvec = "1.8.0"
 swc_atoms = { version = "0.2.3", path = "../swc_atoms" }
 swc_common = { version = "0.18.0", path = "../swc_common" }
-swc_ecma_ast = { version = "0.78.0", path = "../swc_ecma_ast" }
-swc_ecma_visit = { version = "0.64.0", path = "../swc_ecma_visit", optional = true }
+swc_ecma_ast = { version = "0.79.0", path = "../swc_ecma_ast" }
+swc_ecma_visit = { version = "0.65.0", path = "../swc_ecma_visit", optional = true }
 tracing = "0.1.32"
 typed-arena = "2.0.1"
-unicode-id = "0.3"
 
 [dev-dependencies]
 criterion = "0.3"
 pretty_assertions = "1.1"
 serde_json = "1"
-swc_ecma_visit = { version = "0.64.0", path = "../swc_ecma_visit" }
+swc_ecma_visit = { version = "0.65.0", path = "../swc_ecma_visit" }
 swc_node_base = { version = "0.5.0", path = "../swc_node_base" }
 testing = { version = "0.20.0", path = "../testing" }
 walkdir = "2"

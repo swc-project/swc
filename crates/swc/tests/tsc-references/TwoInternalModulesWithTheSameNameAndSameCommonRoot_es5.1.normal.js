@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 //@filename: part1.ts
 var A;
 (function(A1) {
@@ -22,7 +22,7 @@ var A;
     (function(Utils) {
         var Plane = function Plane(tl, br) {
             "use strict";
-            swcHelpers.classCallCheck(this, Plane);
+            _class_call_check(this, Plane);
             this.tl = tl;
             this.br = br;
         };

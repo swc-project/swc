@@ -12,8 +12,8 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
-    member_expr, private_ident, quote_ident, quote_str, var::VarCollector, DestructuringFinder,
-    ExprFactory, IsDirective,
+    find_pat_ids, member_expr, private_ident, quote_ident, quote_str, var::VarCollector,
+    DestructuringFinder, ExprFactory, IsDirective,
 };
 use swc_ecma_visit::{noop_fold_type, noop_visit_type, Fold, FoldWith, Visit, VisitWith};
 
@@ -69,13 +69,13 @@ pub fn common_js_with_resolver(
 
 struct LazyIdentifierVisitor {
     scope: Rc<RefCell<Scope>>,
-    top_level_idents: AHashSet<JsWord>,
+    denied_sources: AHashSet<JsWord>,
 }
 impl LazyIdentifierVisitor {
     fn new(scope: Rc<RefCell<Scope>>) -> Self {
         LazyIdentifierVisitor {
             scope,
-            top_level_idents: Default::default(),
+            denied_sources: Default::default(),
         }
     }
 }
@@ -89,41 +89,13 @@ imported specifier name.
 impl Visit for LazyIdentifierVisitor {
     noop_visit_type!();
 
-    fn visit_import_decl(&mut self, _: &ImportDecl) {}
-
-    fn visit_export_decl(&mut self, _: &ExportDecl) {}
-
-    fn visit_named_export(&mut self, _: &NamedExport) {}
-
-    fn visit_export_default_decl(&mut self, _: &ExportDefaultDecl) {}
-
-    fn visit_export_default_expr(&mut self, _: &ExportDefaultExpr) {}
-
-    fn visit_export_all(&mut self, export: &ExportAll) {
-        self.top_level_idents.insert(export.src.value.clone());
-    }
-
-    fn visit_labeled_stmt(&mut self, _: &LabeledStmt) {}
-
-    fn visit_continue_stmt(&mut self, _: &ContinueStmt) {}
-
     fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
-
-    fn visit_function(&mut self, _: &Function) {}
-
-    fn visit_constructor(&mut self, _: &Constructor) {}
-
-    fn visit_setter_prop(&mut self, _: &SetterProp) {}
-
-    fn visit_getter_prop(&mut self, _: &GetterProp) {}
 
     fn visit_class_prop(&mut self, _: &ClassProp) {}
 
-    fn visit_prop_name(&mut self, prop_name: &PropName) {
-        if let PropName::Computed(n) = prop_name {
-            n.visit_with(self)
-        }
-    }
+    fn visit_constructor(&mut self, _: &Constructor) {}
+
+    fn visit_continue_stmt(&mut self, _: &ContinueStmt) {}
 
     fn visit_decl(&mut self, decl: &Decl) {
         if let Decl::Class(ref c) = decl {
@@ -132,12 +104,52 @@ impl Visit for LazyIdentifierVisitor {
         }
     }
 
+    fn visit_export_all(&mut self, export: &ExportAll) {
+        self.denied_sources.insert(export.src.value.clone());
+    }
+
+    fn visit_export_decl(&mut self, _: &ExportDecl) {}
+
+    fn visit_export_default_decl(&mut self, _: &ExportDefaultDecl) {}
+
+    fn visit_export_default_expr(&mut self, _: &ExportDefaultExpr) {}
+
+    fn visit_export_default_specifier(&mut self, _: &ExportDefaultSpecifier) {}
+
+    fn visit_export_named_specifier(&mut self, _: &ExportNamedSpecifier) {}
+
+    fn visit_export_namespace_specifier(&mut self, _: &ExportNamespaceSpecifier) {}
+
+    fn visit_function(&mut self, _: &Function) {}
+
+    fn visit_getter_prop(&mut self, _: &GetterProp) {}
+
     fn visit_ident(&mut self, ident: &Ident) {
         let v = self.scope.borrow().idents.get(&ident.to_id()).cloned();
         if let Some((src, _)) = v {
-            self.top_level_idents.insert(src);
+            self.denied_sources.insert(src);
         }
     }
+
+    fn visit_import_decl(&mut self, _: &ImportDecl) {}
+
+    fn visit_labeled_stmt(&mut self, _: &LabeledStmt) {}
+
+    fn visit_member_prop(&mut self, n: &MemberProp) {
+        if let MemberProp::Computed(n) = n {
+            n.visit_with(self);
+        }
+    }
+
+    fn visit_named_export(&mut self, _: &NamedExport) {}
+
+    fn visit_prop_name(&mut self, prop_name: &PropName) {
+        if let PropName::Computed(n) = prop_name {
+            n.visit_with(self)
+        }
+    }
+
+    fn visit_setter_prop(&mut self, _: &SetterProp) {}
 }
 
 struct CommonJs {
@@ -207,11 +219,29 @@ impl Fold for CommonJs {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { decl, .. })) => {
                     let mut found: Vec<Ident> = vec![];
 
-                    let mut v = DestructuringFinder { found: &mut found };
-                    decl.visit_with(&mut v);
+                    match decl {
+                        Decl::Class(d) => {
+                            found.push(d.ident.clone());
+                        }
+                        Decl::Fn(d) => {
+                            found.push(d.ident.clone());
+                        }
+                        Decl::Var(v) => {
+                            found.extend(find_pat_ids(&v.decls));
+                        }
+                        _ => {
+                            unreachable!()
+                        }
+                    }
 
                     for ident in found {
                         exports.push(ident.sym.clone());
+                    }
+
+                    if let Decl::Var(var) = decl {
+                        for id in find_pat_ids(&var.decls) {
+                            self.scope.borrow_mut().insert_exported_bindings(id);
+                        }
                     }
                 }
                 _ => {}
@@ -227,12 +257,12 @@ impl Fold for CommonJs {
             }
         }
 
-        // Map all top-level identifiers that match imported specifiers, and blacklist
+        // Map all top-level identifiers that match imported specifiers, and denylist
         // them from lazy imports.
         let mut visitor = LazyIdentifierVisitor::new(self.scope.clone());
         items.visit_with(&mut visitor);
-        for ident in visitor.top_level_idents {
-            self.scope.borrow_mut().lazy_blacklist.insert(ident);
+        for ident in visitor.denied_sources {
+            self.scope.borrow_mut().lazy_denylist.insert(ident);
         }
 
         for item in items {
@@ -383,11 +413,7 @@ impl Fold for CommonJs {
 
                             if !is_class {
                                 let mut scope = self.scope.borrow_mut();
-                                scope
-                                    .exported_bindings
-                                    .entry((ident.sym.clone(), ident.span.ctxt()))
-                                    .or_default()
-                                    .push((ident.sym.clone(), ident.span.ctxt()));
+                                scope.insert_exported_bindings(ident.to_id());
                             }
 
                             let append_to: &mut Vec<_> = if is_class {
@@ -429,11 +455,7 @@ impl Fold for CommonJs {
                                 decl.visit_with(&mut v);
 
                                 for ident in found.drain(..) {
-                                    scope
-                                        .exported_bindings
-                                        .entry((ident.sym.clone(), ident.span.ctxt()))
-                                        .or_default()
-                                        .push((ident.sym.clone(), ident.span.ctxt()));
+                                    scope.insert_exported_bindings(ident.to_id());
                                     init_export!(ident.sym);
 
                                     extra_stmts.push(
@@ -628,7 +650,7 @@ impl Fold for CommonJs {
                                         }
 
                                         let lazy = if let Some(ref src) = export.src {
-                                            if scope.lazy_blacklist.contains(&src.value) {
+                                            if scope.lazy_denylist.contains(&src.value) {
                                                 false
                                             } else {
                                                 self.config.lazy.is_lazy(&src.value)
@@ -639,7 +661,7 @@ impl Fold for CommonJs {
                                                 .get(&(orig.sym.clone(), orig.span.ctxt()))
                                             {
                                                 Some((ref src, _)) => {
-                                                    if scope.lazy_blacklist.contains(src) {
+                                                    if scope.lazy_denylist.contains(src) {
                                                         false
                                                     } else {
                                                         self.config.lazy.is_lazy(src)
@@ -806,15 +828,20 @@ impl Fold for CommonJs {
 
         let scope = &mut *scope;
         for (src, (src_span, import)) in scope.imports.drain(..) {
-            let lazy = if scope.lazy_blacklist.contains(&src) {
+            let lazy = if scope.lazy_denylist.contains(&src) {
                 false
             } else {
                 self.config.lazy.is_lazy(&src)
             };
 
-            let require =
+            let mut require =
                 self.resolver
                     .make_require_call(self.unresolved_mark, src.clone(), src_span);
+
+            // We can't use _interopRequireDefault
+            if src.starts_with("@swc/helpers/lib/") {
+                require = require.make_member(quote_ident!("default"));
+            }
 
             match import {
                 Some(import) => {
@@ -977,12 +1004,12 @@ impl Fold for CommonJs {
                             type_args: Default::default(),
                         };
 
-                        *obj = Box::new(Expr::Call(CallExpr {
+                        expr = Expr::Call(CallExpr {
                             span: *span,
                             callee: url_obj.make_member(quote_ident!("toString")).as_callee(),
                             args: Default::default(),
                             type_args: Default::default(),
-                        }));
+                        });
                     }
                 }
             }

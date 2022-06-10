@@ -1,7 +1,6 @@
 let TopLevelSym = Symbol(), InnerSym = Symbol();
 module.exports = {
-    [TopLevelSym]: (x = 12)=>x
-    ,
+    [TopLevelSym]: (x = 12)=>x,
     items: {
         [InnerSym]: (arg = {
             x: 12

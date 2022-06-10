@@ -1,21 +1,23 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var List = function List() {
     "use strict";
-    swcHelpers.classCallCheck(this, List);
+    _class_call_check(this, List);
 };
 var DerivedList = /*#__PURE__*/ function(List) {
     "use strict";
-    swcHelpers.inherits(DerivedList, List);
-    var _super = swcHelpers.createSuper(DerivedList);
+    _inherits(DerivedList, List);
+    var _super = _create_super(DerivedList);
     function DerivedList() {
-        swcHelpers.classCallCheck(this, DerivedList);
+        _class_call_check(this, DerivedList);
         return _super.apply(this, arguments);
     }
     return DerivedList;
 }(List);
 var MyList = function MyList() {
     "use strict";
-    swcHelpers.classCallCheck(this, MyList);
+    _class_call_check(this, MyList);
 };
 var list;
 var list2;

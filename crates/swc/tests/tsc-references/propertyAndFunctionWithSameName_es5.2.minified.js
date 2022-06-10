@@ -1,8 +1,8 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var C = function() {
     "use strict";
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
     }
     return C.prototype.x = function() {
         return 1;
@@ -10,7 +10,7 @@ var C = function() {
 }(), D = function() {
     "use strict";
     function D() {
-        swcHelpers.classCallCheck(this, D);
+        _class_call_check(this, D);
     }
     return D.prototype.x = function(v) {}, D;
 }();

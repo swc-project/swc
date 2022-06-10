@@ -1,26 +1,26 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // all expected to be errors
 var clodule1 = function clodule1() {
     "use strict";
-    swcHelpers.classCallCheck(this, clodule1);
+    _class_call_check(this, clodule1);
 };
 (function(clodule1) {
     var f = function f(x) {};
 })(clodule1 || (clodule1 = {}));
 var clodule2 = function clodule2() {
     "use strict";
-    swcHelpers.classCallCheck(this, clodule2);
+    _class_call_check(this, clodule2);
 };
 (function(clodule2) {
     var x;
     var D = function D() {
         "use strict";
-        swcHelpers.classCallCheck(this, D);
+        _class_call_check(this, D);
     };
 })(clodule2 || (clodule2 = {}));
 var clodule3 = function clodule3() {
     "use strict";
-    swcHelpers.classCallCheck(this, clodule3);
+    _class_call_check(this, clodule3);
 };
 (function(clodule3) {
     var y = clodule3.y = {
@@ -29,11 +29,11 @@ var clodule3 = function clodule3() {
 })(clodule3 || (clodule3 = {}));
 var clodule4 = function clodule4() {
     "use strict";
-    swcHelpers.classCallCheck(this, clodule4);
+    _class_call_check(this, clodule4);
 };
 (function(clodule4) {
     var D = function D() {
         "use strict";
-        swcHelpers.classCallCheck(this, D);
+        _class_call_check(this, D);
     };
 })(clodule4 || (clodule4 = {}));

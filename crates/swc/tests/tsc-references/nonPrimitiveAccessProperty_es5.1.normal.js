@@ -1,6 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 var a;
 a.toString();
 a.nonExist(); // error
 var destructuring = a.destructuring; // error
-var rest = swcHelpers.extends({}, a); // ok
+var rest = _extends({}, a); // ok

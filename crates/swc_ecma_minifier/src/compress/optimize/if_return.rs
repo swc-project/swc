@@ -1,6 +1,6 @@
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{prepend_stmt, undefined, StmtExt, StmtLike};
+use swc_ecma_utils::{undefined, StmtExt, StmtLike};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Optimizer;
@@ -41,62 +41,10 @@ where
         }
     }
 
-    pub(super) fn merge_else_if(&mut self, s: &mut IfStmt) {
-        if let Some(Stmt::If(IfStmt {
-            span: span_of_alt,
-            test: test_of_alt,
-            cons: cons_of_alt,
-            alt: Some(alt_of_alt),
-            ..
-        })) = s.alt.as_deref_mut()
-        {
-            match &**cons_of_alt {
-                Stmt::Return(..) | Stmt::Continue(ContinueStmt { label: None, .. }) => {}
-                _ => return,
-            }
-
-            match &mut **alt_of_alt {
-                Stmt::Block(..) => {}
-                Stmt::Expr(..) => {
-                    *alt_of_alt = Box::new(Stmt::Block(BlockStmt {
-                        span: DUMMY_SP,
-                        stmts: vec![*alt_of_alt.take()],
-                    }));
-                }
-                _ => {
-                    return;
-                }
-            }
-
-            self.changed = true;
-            report_change!("if_return: Merging `else if` into `else`");
-
-            match &mut **alt_of_alt {
-                Stmt::Block(alt_of_alt) => {
-                    prepend_stmt(
-                        &mut alt_of_alt.stmts,
-                        Stmt::If(IfStmt {
-                            span: *span_of_alt,
-                            test: test_of_alt.take(),
-                            cons: cons_of_alt.take(),
-                            alt: None,
-                        }),
-                    );
-                }
-
-                _ => {
-                    unreachable!()
-                }
-            }
-
-            s.alt = Some(alt_of_alt.take());
-        }
-    }
-
     pub(super) fn merge_if_returns(
         &mut self,
         stmts: &mut Vec<Stmt>,
-        can_work: bool,
+        terminates: bool,
         is_fn_body: bool,
     ) {
         if !self.options.if_return {
@@ -104,14 +52,15 @@ where
         }
 
         for stmt in stmts.iter_mut() {
-            self.merge_nested_if_returns(stmt, can_work);
+            self.merge_nested_if_returns(stmt, terminates);
         }
 
-        if can_work || is_fn_body {
-            self.merge_if_returns_inner(stmts);
+        if terminates || is_fn_body {
+            self.merge_if_returns_inner(stmts, !is_fn_body);
         }
     }
 
+    #[allow(clippy::only_used_in_recursion)]
     fn merge_nested_if_returns(&mut self, s: &mut Stmt, can_work: bool) {
         let terminate = can_merge_as_if_return(&*s);
 
@@ -150,7 +99,7 @@ where
     ///     return a ? foo() : bar();
     /// }
     /// ```
-    fn merge_if_returns_inner(&mut self, stmts: &mut Vec<Stmt>) {
+    fn merge_if_returns_inner(&mut self, stmts: &mut Vec<Stmt>, should_preserve_last_return: bool) {
         if !self.options.if_return {
             return;
         }
@@ -417,11 +366,12 @@ where
         if let Some(mut cur) = cur {
             match &*cur {
                 Expr::Seq(seq)
-                    if seq
-                        .exprs
-                        .last()
-                        .map(|v| is_pure_undefined(&self.expr_ctx, v))
-                        .unwrap_or(true) =>
+                    if !should_preserve_last_return
+                        && seq
+                            .exprs
+                            .last()
+                            .map(|v| is_pure_undefined(&self.expr_ctx, v))
+                            .unwrap_or(true) =>
                 {
                     let expr = self.ignore_return_value(&mut cur);
 

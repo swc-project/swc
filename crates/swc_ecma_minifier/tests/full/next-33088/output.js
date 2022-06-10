@@ -1,12 +1,12 @@
-import*as a from"react";export default function b(){const[c,d]=a.useState({hits:[]}),[b,e]=a.useState("react");return a.useEffect(()=>{""!==b&&a();async function a(){const a=await fetch("https://hn.algolia.com/api/v1/search?query="+b),c=await a.json();d(c)}},[b]),<>
+import*as b from"react";export default function c(){const[d,e]=b.useState({hits:[]}),[c,f]=b.useState("react");return b.useEffect(()=>{""!==c&&b();async function b(){const b=await fetch("https://hn.algolia.com/api/v1/search?query="+c),d=await b.json();e(d)}},[c]),<>
 
-            <input value={b}onChange={a=>e(a.target.value)}/>
+            <input value={c}onChange={b=>f(b.target.value)}/>
 
             <ul >
 
-                {c.hits.map(a=><li key={a.objectID}>
+                {d.hits.map(b=><li key={b.objectID}>
 
-                        <a href={a.url}>{a.title}</a>
+                        <a href={b.url}>{b.title}</a>
 
                     </li>)}
 

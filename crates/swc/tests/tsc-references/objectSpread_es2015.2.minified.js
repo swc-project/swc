@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _object_spread from "@swc/helpers/lib/_object_spread.js";
+import _object_spread_props from "@swc/helpers/lib/_object_spread_props.js";
 let o = {
     a: 1,
     b: 'no'
@@ -6,39 +7,35 @@ let o = {
     b: 'yes',
     c: !0
 };
-swcHelpers.objectSpread({}, o, {
+_object_spread_props(_object_spread({}, o), {
     c: !1
-}), swcHelpers.objectSpread({
+}), _object_spread({
     c: !1
-}, o), swcHelpers.objectSpread({}, o, {
+}, o), _object_spread_props(_object_spread({}, o), {
     b: 'override'
-}), swcHelpers.objectSpread({}, swcHelpers.objectSpread({
+}), _object_spread_props(_object_spread({}, _object_spread({
     a: 3
 }, {
     b: !1,
     c: 'overriden'
-}), {
+})), {
     c: 'whatever'
-}), swcHelpers.objectSpread({}, o, o2), swcHelpers.objectSpread({}, o, o2, {
+}), _object_spread({}, o, o2), _object_spread_props(_object_spread({}, o, o2), {
     b: 'ok'
-}), swcHelpers.objectSpread({}, swcHelpers.objectSpread({
+}), _object_spread_props(_object_spread({}, _object_spread({
     a: 1
 }, {
     b: !1,
     c: 'overriden'
-}), {
+})), {
     c: -1
-}), swcHelpers.objectSpread({}, o);
-let op = {
+}), _object_spread({}, o), _object_spread_props(_object_spread({}, {
     get a () {
         return 6;
     }
-};
-swcHelpers.objectSpread({}, op, {
+}), {
     c: 7
-}).a = 12, swcHelpers.objectSpread({}, function() {});
-let anything;
-swcHelpers.objectSpread({}, anything);
+}).a = 12, _object_spread({}, function() {}), _object_spread({}, void 0);
 let c = new class {
     m() {}
     constructor(){
@@ -46,22 +43,22 @@ let c = new class {
     }
 }();
 function f(t, u) {
-    return swcHelpers.objectSpread({}, t, u, {
+    return _object_spread_props(_object_spread({}, t, u), {
         id: 'id'
     });
 }
-swcHelpers.objectSpread({}, c), swcHelpers.objectSpread({}, c, {
+_object_spread({}, c), _object_spread_props(_object_spread({}, c), {
     plus () {
         return this.p + 1;
     }
-}).plus(), swcHelpers.objectSpread({}, o, {
+}).plus(), _object_spread_props(_object_spread({}, o), {
     a: 'wrong type?'
-}), swcHelpers.objectSpread({}, o, {
+}), _object_spread({}, o, {
     a: 'yes',
     b: -1
-}), swcHelpers.objectSpread({}, o, {
+}), _object_spread_props(_object_spread({}, o), {
     a: 12
-}), swcHelpers.objectSpread({}, {}), f({
+}), _object_spread({}, {}), f({
     a: 1,
     b: 'yes'
 }, {

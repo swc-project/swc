@@ -1,5 +1,5 @@
 var p;
-import * as swcHelpers from "@swc/helpers";
-blah, swcHelpers.extends({}, p, {
+import _extends from "@swc/helpers/lib/_extends.js";
+blah, _extends({}, p, {
     x: 0
 });

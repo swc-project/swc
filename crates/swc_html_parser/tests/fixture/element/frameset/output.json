@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 17,
-        "end": 424,
+        "end": 431,
         "ctxt": 0
       },
       "tagName": "html",
@@ -33,7 +33,7 @@
           "type": "Element",
           "span": {
             "start": 24,
-            "end": 138,
+            "end": 145,
             "ctxt": 0
           },
           "tagName": "head",
@@ -47,7 +47,7 @@
                 "end": 35,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
@@ -62,8 +62,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 41,
+                    "end": 66,
                     "ctxt": 0
                   },
                   "namespace": null,
@@ -74,8 +74,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 67,
+                    "end": 101,
                     "ctxt": 0
                   },
                   "namespace": null,
@@ -94,13 +94,13 @@
                 "end": 107,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
               "span": {
                 "start": 107,
-                "end": 129,
+                "end": 137,
                 "ctxt": 0
               },
               "tagName": "title",
@@ -114,7 +114,7 @@
                     "end": 129,
                     "ctxt": 0
                   },
-                  "value": "Тег FRAMESET"
+                  "data": "Тег FRAMESET"
                 }
               ],
               "content": null
@@ -126,7 +126,7 @@
                 "end": 138,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             }
           ],
           "content": null
@@ -138,13 +138,13 @@
             "end": 147,
             "ctxt": 0
           },
-          "value": "\n\n"
+          "data": "\n\n"
         },
         {
           "type": "Element",
           "span": {
             "start": 147,
-            "end": 411,
+            "end": 422,
             "ctxt": 0
           },
           "tagName": "frameset",
@@ -153,8 +153,8 @@
             {
               "type": "Attribute",
               "span": {
-                "start": 0,
-                "end": 0,
+                "start": 157,
+                "end": 168,
                 "ctxt": 0
               },
               "namespace": null,
@@ -165,8 +165,8 @@
             {
               "type": "Attribute",
               "span": {
-                "start": 0,
-                "end": 0,
+                "start": 169,
+                "end": 177,
                 "ctxt": 0
               },
               "namespace": null,
@@ -183,7 +183,7 @@
                 "end": 183,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
@@ -198,8 +198,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 190,
+                    "end": 204,
                     "ctxt": 0
                   },
                   "namespace": null,
@@ -210,8 +210,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 205,
+                    "end": 220,
                     "ctxt": 0
                   },
                   "namespace": null,
@@ -222,8 +222,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 221,
+                    "end": 235,
                     "ctxt": 0
                   },
                   "namespace": null,
@@ -234,8 +234,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 236,
+                    "end": 244,
                     "ctxt": 0
                   },
                   "namespace": null,
@@ -254,13 +254,13 @@
                 "end": 250,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
               "span": {
                 "start": 250,
-                "end": 399,
+                "end": 410,
                 "ctxt": 0
               },
               "tagName": "frameset",
@@ -269,8 +269,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 260,
+                    "end": 271,
                     "ctxt": 0
                   },
                   "namespace": null,
@@ -287,7 +287,7 @@
                     "end": 281,
                     "ctxt": 0
                   },
-                  "value": "\n        "
+                  "data": "\n        "
                 },
                 {
                   "type": "Element",
@@ -302,8 +302,8 @@
                     {
                       "type": "Attribute",
                       "span": {
-                        "start": 0,
-                        "end": 0,
+                        "start": 288,
+                        "end": 303,
                         "ctxt": 0
                       },
                       "namespace": null,
@@ -314,8 +314,8 @@
                     {
                       "type": "Attribute",
                       "span": {
-                        "start": 0,
-                        "end": 0,
+                        "start": 304,
+                        "end": 320,
                         "ctxt": 0
                       },
                       "namespace": null,
@@ -326,8 +326,8 @@
                     {
                       "type": "Attribute",
                       "span": {
-                        "start": 0,
-                        "end": 0,
+                        "start": 321,
+                        "end": 335,
                         "ctxt": 0
                       },
                       "namespace": null,
@@ -338,8 +338,8 @@
                     {
                       "type": "Attribute",
                       "span": {
-                        "start": 0,
-                        "end": 0,
+                        "start": 336,
+                        "end": 344,
                         "ctxt": 0
                       },
                       "namespace": null,
@@ -358,7 +358,7 @@
                     "end": 354,
                     "ctxt": 0
                   },
-                  "value": "\n        "
+                  "data": "\n        "
                 },
                 {
                   "type": "Element",
@@ -373,8 +373,8 @@
                     {
                       "type": "Attribute",
                       "span": {
-                        "start": 0,
-                        "end": 0,
+                        "start": 361,
+                        "end": 376,
                         "ctxt": 0
                       },
                       "namespace": null,
@@ -385,8 +385,8 @@
                     {
                       "type": "Attribute",
                       "span": {
-                        "start": 0,
-                        "end": 0,
+                        "start": 377,
+                        "end": 393,
                         "ctxt": 0
                       },
                       "namespace": null,
@@ -405,7 +405,7 @@
                     "end": 399,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 }
               ],
               "content": null
@@ -417,7 +417,7 @@
                 "end": 411,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             }
           ],
           "content": null
@@ -429,7 +429,7 @@
             "end": 424,
             "ctxt": 0
           },
-          "value": "\n\n"
+          "data": "\n\n"
         }
       ],
       "content": null

@@ -1,6 +1,5 @@
 use std::sync::Arc;
 
-use binding_commons::{deserialize_json, get_deserialized, MapErr};
 use napi::{
     bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
     Env, Task,
@@ -10,6 +9,7 @@ use swc::{
     Compiler, TransformOutput,
 };
 use swc_ecma_ast::{EsVersion, Program};
+use swc_nodejs_common::{deserialize_json, get_deserialized, MapErr};
 
 use crate::get_compiler;
 
@@ -45,6 +45,8 @@ impl Task for PrintTask {
                 None,
                 options.config.minify.into_bool(),
                 None,
+                options.config.emit_source_map_columns.into_bool(),
+                false,
             )
             .convert_err()
     }
@@ -60,7 +62,7 @@ pub fn print(
     options: Buffer,
     signal: Option<AbortSignal>,
 ) -> napi::Result<AsyncTask<PrintTask>> {
-    binding_commons::init_default_trace_subscriber();
+    swc_nodejs_common::init_default_trace_subscriber();
 
     let c = get_compiler();
     let options = String::from_utf8_lossy(&options).to_string();
@@ -77,7 +79,7 @@ pub fn print(
 
 #[napi]
 pub fn print_sync(program: String, options: Buffer) -> napi::Result<TransformOutput> {
-    binding_commons::init_default_trace_subscriber();
+    swc_nodejs_common::init_default_trace_subscriber();
 
     let c = get_compiler();
 
@@ -102,6 +104,8 @@ pub fn print_sync(program: String, options: Buffer) -> napi::Result<TransformOut
         None,
         options.config.minify.into_bool(),
         None,
+        options.config.emit_source_map_columns.into_bool(),
+        false,
     )
     .convert_err()
 }

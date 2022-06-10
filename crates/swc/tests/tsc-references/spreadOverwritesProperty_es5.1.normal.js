@@ -1,18 +1,18 @@
-import * as swcHelpers from "@swc/helpers";
-var unused1 = swcHelpers.objectSpread({
+import _object_spread from "@swc/helpers/lib/_object_spread.js";
+var unused1 = _object_spread({
     b: 1
 }, ab);
-var unused2 = swcHelpers.objectSpread({}, ab, ab);
-var unused3 = swcHelpers.objectSpread({
+var unused2 = _object_spread({}, ab, ab);
+var unused3 = _object_spread({
     b: 1
 }, abq);
 function g(obj) {
-    return swcHelpers.objectSpread({
+    return _object_spread({
         x: 1
     }, obj);
 }
 function h(obj) {
-    return swcHelpers.objectSpread({
+    return _object_spread({
         x: 1
     }, obj);
 }

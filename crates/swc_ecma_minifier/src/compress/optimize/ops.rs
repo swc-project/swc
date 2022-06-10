@@ -1,5 +1,5 @@
 use swc_atoms::js_word;
-use swc_common::{util::take::Take, EqIgnoreSpan};
+use swc_common::{util::take::Take, EqIgnoreSpan, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Type, Value};
 use Value::Known;
@@ -17,7 +17,7 @@ where
 {
     ///
     /// - `'12' === `foo` => '12' == 'foo'`
-    pub(super) fn optimize_bin_operator(&mut self, e: &mut BinExpr) {
+    pub(super) fn optimize_bin_equal(&mut self, e: &mut BinExpr) {
         if !self.options.comparisons {
             return;
         }
@@ -72,6 +72,39 @@ where
                             "Reduced `===` to `==` because types of operands are identical"
                         )
                     }
+                }
+            }
+        }
+    }
+
+    /// x && (y && z)  ==>  x && y && z
+    /// x || (y || z)  ==>  x || y || z
+    /// x + ("y" + z)  ==>  x + "y" + z
+    /// "x" + (y + "z")==>  "x" + y + "z"
+    pub(super) fn remove_bin_paren(&mut self, n: &mut BinExpr) {
+        if let Expr::Bin(right) = &mut *n.right {
+            if right.op == n.op {
+                if matches!(n.op, op!("&&") | op!("||") | op!("??"))
+                    || (right.left.is_str() && right.op == op!(bin, "+"))
+                    || (n.left.is_str() && right.right.is_str())
+                {
+                    self.changed = true;
+                    report_change!("Remove extra paren in binray expression");
+                    let left = n.left.take();
+                    let BinExpr {
+                        op,
+                        left: rl,
+                        right: rr,
+                        ..
+                    } = right.take();
+                    *n.left = BinExpr {
+                        span: left.span(),
+                        op,
+                        left,
+                        right: rl,
+                    }
+                    .into();
+                    n.right = rr;
                 }
             }
         }
@@ -315,73 +348,6 @@ where
                     self.negate_twice(&mut bin.left, false);
                     *e = *bin.left.take();
                 }
-            }
-            _ => {}
-        }
-    }
-
-    ///
-    /// - `!(x == y)` => `x != y`
-    /// - `!(x === y)` => `x !== y`
-    pub(super) fn compress_negated_bin_eq(&self, e: &mut Expr) {
-        let unary = match e {
-            Expr::Unary(e @ UnaryExpr { op: op!("!"), .. }) => e,
-            _ => return,
-        };
-
-        match &mut *unary.arg {
-            Expr::Bin(BinExpr {
-                op: op @ op!("=="),
-                left,
-                right,
-                ..
-            })
-            | Expr::Bin(BinExpr {
-                op: op @ op!("==="),
-                left,
-                right,
-                ..
-            }) => {
-                *e = Expr::Bin(BinExpr {
-                    span: unary.span,
-                    op: if *op == op!("==") {
-                        op!("!=")
-                    } else {
-                        op!("!==")
-                    },
-                    left: left.take(),
-                    right: right.take(),
-                })
-            }
-            _ => {}
-        }
-    }
-
-    pub(super) fn optimize_nullish_coalescing(&mut self, e: &mut Expr) {
-        let (l, r) = match e {
-            Expr::Bin(BinExpr {
-                op: op!("??"),
-                left,
-                right,
-                ..
-            }) => (&mut **left, &mut **right),
-            _ => return,
-        };
-
-        match l {
-            Expr::Lit(Lit::Null(..)) => {
-                report_change!("Removing null from lhs of ??");
-                self.changed = true;
-                *e = r.take();
-            }
-            Expr::Lit(Lit::Num(..))
-            | Expr::Lit(Lit::Str(..))
-            | Expr::Lit(Lit::BigInt(..))
-            | Expr::Lit(Lit::Bool(..))
-            | Expr::Lit(Lit::Regex(..)) => {
-                report_change!("Removing rhs of ?? as lhs cannot be null nor undefined");
-                self.changed = true;
-                *e = l.take();
             }
             _ => {}
         }

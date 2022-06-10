@@ -1,6 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
+import _wrap_async_generator from "@swc/helpers/lib/_wrap_async_generator.js";
 f1(function*() {
     return yield 0, 0;
-}), f2(swcHelpers.wrapAsyncGenerator(function*() {
+}), f2(_wrap_async_generator(function*() {
     return yield 0, 0;
 }));

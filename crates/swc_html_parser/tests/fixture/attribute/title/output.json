@@ -33,7 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 30,
+            "end": 0,
             "ctxt": 0
           },
           "tagName": "head",
@@ -60,13 +60,13 @@
                 "end": 32,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 32,
-                "end": 76,
+                "end": 81,
                 "ctxt": 0
               },
               "tagName": "h2",
@@ -75,8 +75,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 36,
+                    "end": 56,
                     "ctxt": 0
                   },
                   "namespace": null,
@@ -93,7 +93,7 @@
                     "end": 76,
                     "ctxt": 0
                   },
-                  "value": "The title Attribute"
+                  "data": "The title Attribute"
                 }
               ],
               "content": null
@@ -105,13 +105,13 @@
                 "end": 83,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 83,
-                "end": 179,
+                "end": 183,
                 "ctxt": 0
               },
               "tagName": "p",
@@ -120,8 +120,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 86,
+                    "end": 107,
                     "ctxt": 0
                   },
                   "namespace": null,
@@ -138,7 +138,7 @@
                     "end": 179,
                     "ctxt": 0
                   },
-                  "value": "Mouse over this paragraph, to display the title attribute as a tooltip."
+                  "data": "Mouse over this paragraph, to display the title attribute as a tooltip."
                 }
               ],
               "content": null
@@ -150,7 +150,7 @@
                 "end": 201,
                 "ctxt": 0
               },
-              "value": "\n\n\n\n"
+              "data": "\n\n\n\n"
             }
           ],
           "content": null

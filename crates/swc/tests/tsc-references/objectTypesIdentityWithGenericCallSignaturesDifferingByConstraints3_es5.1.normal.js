@@ -1,19 +1,19 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // Two call or construct signatures are considered identical when they have the same number of type parameters and, considering those 
 // parameters pairwise identical, have identical type parameter constraints, identical number of parameters with identical kind(required, 
 // optional or rest) and types, and identical return types.
 var One = function One() {
     "use strict";
-    swcHelpers.classCallCheck(this, One);
+    _class_call_check(this, One);
 };
 var Two = function Two() {
     "use strict";
-    swcHelpers.classCallCheck(this, Two);
+    _class_call_check(this, Two);
 };
 var A = /*#__PURE__*/ function() {
     "use strict";
     function A() {
-        swcHelpers.classCallCheck(this, A);
+        _class_call_check(this, A);
     }
     var _proto = A.prototype;
     _proto.foo = function foo(x, y) {
@@ -24,7 +24,7 @@ var A = /*#__PURE__*/ function() {
 var B = /*#__PURE__*/ function() {
     "use strict";
     function B() {
-        swcHelpers.classCallCheck(this, B);
+        _class_call_check(this, B);
     }
     var _proto = B.prototype;
     _proto.foo = function foo(x, y) {
@@ -35,7 +35,7 @@ var B = /*#__PURE__*/ function() {
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
     }
     var _proto = C.prototype;
     _proto.foo = function foo(x, y) {
@@ -46,7 +46,7 @@ var C = /*#__PURE__*/ function() {
 var D = /*#__PURE__*/ function() {
     "use strict";
     function D() {
-        swcHelpers.classCallCheck(this, D);
+        _class_call_check(this, D);
     }
     var _proto = D.prototype;
     _proto.foo = function foo(x, y) {

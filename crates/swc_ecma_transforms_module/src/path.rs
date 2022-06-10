@@ -1,11 +1,13 @@
 use std::{
     borrow::Cow,
     env::current_dir,
-    path::{Component, PathBuf},
+    io,
+    path::{Component, Path, PathBuf},
     sync::Arc,
 };
 
 use anyhow::{Context, Error};
+use path_clean::PathClean;
 use pathdiff::diff_paths;
 use swc_atoms::JsWord;
 use swc_common::{FileName, Mark, Span, DUMMY_SP};
@@ -183,7 +185,7 @@ where
             }
         };
 
-        let target = match target {
+        let mut target = match target {
             FileName::Real(v) => v,
             FileName::Custom(s) => return Ok(to_specifier(&s, None, orig_ext)),
             _ => {
@@ -193,7 +195,7 @@ where
                 )
             }
         };
-        let base = match base {
+        let mut base = match base {
             FileName::Real(v) => Cow::Borrowed(v),
             FileName::Anon => {
                 if cfg!(target_arch = "wasm32") {
@@ -211,6 +213,11 @@ where
         };
 
         let is_file = target.is_file();
+
+        if base.is_absolute() != target.is_absolute() {
+            base = Cow::Owned(absolute_path(&base)?);
+            target = absolute_path(&target)?;
+        }
 
         let rel_path = diff_paths(
             &target,
@@ -249,17 +256,8 @@ where
             }
         }
 
-        debug_assert!(
-            !rel_path.is_absolute(),
-            "Resolved path should not be absolute (in swc repository) but found {}\nbase: \
-             {}\ntarget: {}",
-            rel_path.display(),
-            base.display(),
-            target.display(),
-        );
-
         let s = rel_path.to_string_lossy();
-        let s = if s.starts_with('.') || s.starts_with('/') {
+        let s = if s.starts_with('.') || s.starts_with('/') || rel_path.is_absolute() {
             s
         } else {
             Cow::Owned(format!("./{}", s))
@@ -288,3 +286,14 @@ macro_rules! impl_ref {
 impl_ref!(P, &'_ P);
 impl_ref!(P, Box<P>);
 impl_ref!(P, Arc<P>);
+
+fn absolute_path(path: &Path) -> io::Result<PathBuf> {
+    let absolute_path = if path.is_absolute() {
+        path.to_path_buf()
+    } else {
+        std::env::current_dir()?.join(path)
+    }
+    .clean();
+
+    Ok(absolute_path)
+}

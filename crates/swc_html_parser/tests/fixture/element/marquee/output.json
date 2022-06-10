@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 17,
-        "end": 414,
+        "end": 421,
         "ctxt": 0
       },
       "tagName": "html",
@@ -31,8 +31,8 @@
         {
           "type": "Attribute",
           "span": {
-            "start": 0,
-            "end": 0,
+            "start": 23,
+            "end": 32,
             "ctxt": 0
           },
           "namespace": null,
@@ -46,7 +46,7 @@
           "type": "Element",
           "span": {
             "start": 34,
-            "end": 69,
+            "end": 76,
             "ctxt": 0
           },
           "tagName": "head",
@@ -60,13 +60,13 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
               "span": {
                 "start": 45,
-                "end": 60,
+                "end": 68,
                 "ctxt": 0
               },
               "tagName": "title",
@@ -80,7 +80,7 @@
                     "end": 60,
                     "ctxt": 0
                   },
-                  "value": "Document"
+                  "data": "Document"
                 }
               ],
               "content": null
@@ -92,7 +92,7 @@
                 "end": 69,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             }
           ],
           "content": null
@@ -104,7 +104,7 @@
             "end": 77,
             "ctxt": 0
           },
-          "value": "\n"
+          "data": "\n"
         },
         {
           "type": "Element",
@@ -124,13 +124,13 @@
                 "end": 84,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 84,
-                "end": 133,
+                "end": 143,
                 "ctxt": 0
               },
               "tagName": "marquee",
@@ -144,7 +144,7 @@
                     "end": 133,
                     "ctxt": 0
                   },
-                  "value": "This text will scroll from right to left"
+                  "data": "This text will scroll from right to left"
                 }
               ],
               "content": null
@@ -156,13 +156,13 @@
                 "end": 145,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 145,
-                "end": 209,
+                "end": 219,
                 "ctxt": 0
               },
               "tagName": "marquee",
@@ -171,8 +171,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 154,
+                    "end": 168,
                     "ctxt": 0
                   },
                   "namespace": null,
@@ -189,7 +189,7 @@
                     "end": 209,
                     "ctxt": 0
                   },
-                  "value": "This text will scroll from bottom to top"
+                  "data": "This text will scroll from bottom to top"
                 }
               ],
               "content": null
@@ -201,13 +201,13 @@
                 "end": 221,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 221,
-                "end": 395,
+                "end": 405,
                 "ctxt": 0
               },
               "tagName": "marquee",
@@ -216,8 +216,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 230,
+                    "end": 246,
                     "ctxt": 0
                   },
                   "namespace": null,
@@ -228,8 +228,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 247,
+                    "end": 258,
                     "ctxt": 0
                   },
                   "namespace": null,
@@ -240,8 +240,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 259,
+                    "end": 271,
                     "ctxt": 0
                   },
                   "namespace": null,
@@ -252,8 +252,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 272,
+                    "end": 292,
                     "ctxt": 0
                   },
                   "namespace": null,
@@ -264,8 +264,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 293,
+                    "end": 313,
                     "ctxt": 0
                   },
                   "namespace": null,
@@ -282,13 +282,13 @@
                     "end": 319,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
                   "span": {
                     "start": 319,
-                    "end": 384,
+                    "end": 394,
                     "ctxt": 0
                   },
                   "tagName": "marquee",
@@ -297,8 +297,8 @@
                     {
                       "type": "Attribute",
                       "span": {
-                        "start": 0,
-                        "end": 0,
+                        "start": 328,
+                        "end": 348,
                         "ctxt": 0
                       },
                       "namespace": null,
@@ -315,7 +315,7 @@
                         "end": 384,
                         "ctxt": 0
                       },
-                      "value": "\n        This text will bounce\n    "
+                      "data": "\n        This text will bounce\n    "
                     }
                   ],
                   "content": null
@@ -327,7 +327,7 @@
                     "end": 395,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
               "content": null
@@ -339,7 +339,7 @@
                 "end": 414,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             }
           ],
           "content": null

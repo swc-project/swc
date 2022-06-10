@@ -28,8 +28,7 @@ for(var b;;){}
 for(var b = new C();;){}
 for(var b = new C2();;){}
 for(var f = F;;){}
-for(var f = (x)=>''
-;;){}
+for(var f = (x)=>'';;){}
 for(var arr;;){}
 for(var arr = [
     1,

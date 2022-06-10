@@ -31,6 +31,7 @@ use crate::{
     rustc_data_structures::stable_hasher::StableHasher,
     sync::{Lock, LockCell, Lrc},
     syntax_pos::{BytePos, FileLinesResult, FileName, Loc, MultiSpan, Span, NO_EXPANSION},
+    SpanSnippetError,
 };
 
 mod diagnostic;
@@ -40,7 +41,7 @@ mod lock;
 mod snippet;
 mod styled_buffer;
 
-#[derive(Copy, Clone, Debug, PartialEq, Hash)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
 #[cfg_attr(
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)
@@ -56,7 +57,7 @@ pub enum Applicability {
     Unspecified,
 }
 
-#[derive(Clone, Debug, PartialEq, Hash)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash)]
 #[cfg_attr(
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)
@@ -106,7 +107,7 @@ pub struct CodeSuggestion {
     pub applicability: Applicability,
 }
 
-#[derive(Clone, Debug, PartialEq, Hash)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash)]
 /// See the docs on `CodeSuggestion::substitutions`
 #[cfg_attr(
     feature = "diagnostic-serde",
@@ -120,7 +121,7 @@ pub struct Substitution {
     pub parts: Vec<SubstitutionPart>,
 }
 
-#[derive(Clone, Debug, PartialEq, Hash)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash)]
 #[cfg_attr(
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)
@@ -144,6 +145,7 @@ pub trait SourceMapper: crate::sync::Send + crate::sync::Sync {
     fn merge_spans(&self, sp_lhs: Span, sp_rhs: Span) -> Option<Span>;
     fn call_span_if_macro(&self, sp: Span) -> Span;
     fn doctest_offset_line(&self, line: usize) -> usize;
+    fn span_to_snippet(&self, sp: Span) -> Result<String, SpanSnippetError>;
 }
 
 impl CodeSuggestion {
@@ -866,7 +868,7 @@ impl Handler {
     }
 }
 
-#[derive(Copy, PartialEq, Clone, Hash, Debug)]
+#[derive(Copy, PartialEq, Eq, Clone, Hash, Debug)]
 #[cfg_attr(
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)

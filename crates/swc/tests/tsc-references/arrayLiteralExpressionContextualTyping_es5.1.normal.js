@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
 // In a contextually typed array literal expression containing no spread elements, an element expression at index N is contextually typed by
 //      the type of the property with the numeric name N in the contextual type, if any, or otherwise
 //      the numeric index type of the contextual type, if any.
@@ -36,14 +36,14 @@ var spr = [
     1,
     2,
     3
-].concat(swcHelpers.toConsumableArray(array));
+].concat(_to_consumable_array(array));
 var spr1 = [
     1,
     2,
     3
-].concat(swcHelpers.toConsumableArray(tup));
+].concat(_to_consumable_array(tup));
 var spr2 = [
     1,
     2,
     3
-].concat(swcHelpers.toConsumableArray(tup)); // Error
+].concat(_to_consumable_array(tup)); // Error

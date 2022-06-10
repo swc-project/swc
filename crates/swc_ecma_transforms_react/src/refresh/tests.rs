@@ -18,7 +18,8 @@ fn tr(t: &mut Tester) -> impl Fold {
                 ..Default::default()
             }),
             t.cm.clone(),
-            Some(t.comments.clone())
+            Some(t.comments.clone()),
+            top_level_mark
         )
     )
 }
@@ -1126,7 +1127,8 @@ test!(
                     ..Default::default()
                 }),
                 t.cm.clone(),
-                Some(t.comments.clone())
+                Some(t.comments.clone()),
+                top_level_mark
             ),
             common_js(unresolved_mark, Default::default(), None)
         )
@@ -1382,7 +1384,8 @@ test!(
                     emit_full_signatures: true,
                 }),
                 t.cm.clone(),
-                Some(t.comments.clone())
+                Some(t.comments.clone()),
+                top_level_mark
             )
         )
     },
@@ -1488,5 +1491,37 @@ test!(
     _c = App;
     var _c;
     $RefreshReg$(_c, "App")
+"#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    tr,
+    nested_hook,
+    r#"
+const a = (a) => {
+    const useE = useEffect;
+    return function useFoo() {
+      useE(() => console.log(a), []);
+      return useState(123);
+    };
+}
+"#,
+    r#"
+const a = (a1)=>{
+    var _s = $RefreshSig$();
+    const useE = useEffect;
+    return _s(function useFoo() {
+        _s();
+        useE(()=>console.log(a1)
+        , []);
+        return useState(123);
+    }, "useE{}\nuseState{(123)}", false, function () {
+      return [useE];
+    });
+}
 "#
 );

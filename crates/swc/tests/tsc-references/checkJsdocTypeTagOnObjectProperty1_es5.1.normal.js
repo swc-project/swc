@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _define_property from "@swc/helpers/lib/_define_property.js";
 // @allowJS: true
 // @suppressOutputPathCheck: true
 // @strictNullChecks: true
@@ -13,7 +13,7 @@ var obj = (_obj = {
         return n1 + 42;
     },
     /** @type {string} */ lol: lol
-}, /** @type {number} */ swcHelpers.defineProperty(_obj, "b" + "ar1", 42), /** @type {function(number): number} */ swcHelpers.defineProperty(_obj, "arrowFunc", function(num) {
+}, /** @type {number} */ _define_property(_obj, "b" + "ar1", 42), /** @type {function(number): number} */ _define_property(_obj, "arrowFunc", function(num) {
     return num + 42;
 }), _obj);
 obj.foo = "string";

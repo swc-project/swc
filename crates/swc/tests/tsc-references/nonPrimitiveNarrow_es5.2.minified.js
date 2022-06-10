@@ -1,6 +1,7 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _instanceof from "@swc/helpers/lib/_instanceof.js";
 var a, b, Narrow = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, Narrow);
+    _class_call_check(this, Narrow);
 };
-swcHelpers._instanceof(a, Narrow) && (a.narrowed, a = 123), "number" == typeof a && a.toFixed(), b.toString();
+_instanceof(a, Narrow) && (a.narrowed, a = 123), "number" == typeof a && a.toFixed(), b.toString();

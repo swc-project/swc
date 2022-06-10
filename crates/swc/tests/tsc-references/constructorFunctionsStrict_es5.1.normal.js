@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _instanceof from "@swc/helpers/lib/_instanceof.js";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
@@ -17,7 +17,7 @@ c.x = undefined // should error
 c.y = undefined // ok
 ;
 /** @param {number} x */ function A(x) {
-    if (!swcHelpers._instanceof(this, A)) {
+    if (!_instanceof(this, A)) {
         return new A(x);
     }
     this.x = x;

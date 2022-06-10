@@ -1,2 +1,1 @@
-filter((x)=>'number' == typeof x
-);
+filter((x)=>'number' == typeof x);

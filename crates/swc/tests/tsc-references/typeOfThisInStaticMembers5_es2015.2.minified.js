@@ -3,5 +3,4 @@ class C {
         this.foo = foo;
     }
 }
-C.create = ()=>new C("yep")
-;
+C.create = ()=>new C("yep");

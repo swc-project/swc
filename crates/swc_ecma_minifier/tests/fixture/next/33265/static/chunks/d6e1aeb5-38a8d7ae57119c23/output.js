@@ -207,7 +207,7 @@
                 var el = global_document__WEBPACK_IMPORTED_MODULE_1___default().createElement(tagName);
                 return Object.getOwnPropertyNames(properties).forEach(function(propName) {
                     var val = properties[propName];
-                    -1 !== propName.indexOf("aria-") || "role" === propName || "type" === propName ? (log$1.warn("Setting attributes in the second argument of createEl()\nhas been deprecated. Use the third argument instead.\n" + ("createEl(type, properties, attributes). Attempting to set " + propName + " to " + val + ".")), el.setAttribute(propName, val)) : "textContent" === propName ? textContent(el, val) : (el[propName] !== val || "tabIndex" === propName) && (el[propName] = val);
+                    -1 !== propName.indexOf("aria-") || "role" === propName || "type" === propName ? (log$1.warn("Setting attributes in the second argument of createEl()\nhas been deprecated. Use the third argument instead.\ncreateEl(type, properties, attributes). Attempting to set " + propName + " to " + val + "."), el.setAttribute(propName, val)) : "textContent" === propName ? textContent(el, val) : (el[propName] !== val || "tabIndex" === propName) && (el[propName] = val);
                 }), Object.getOwnPropertyNames(attributes).forEach(function(attrName) {
                     el.setAttribute(attrName, attributes[attrName]);
                 }), content && appendContent(el, content), el;
@@ -2095,7 +2095,7 @@
                 if (Array.isArray(src)) {
                     var newsrc = [];
                     src.forEach(function(srcobj) {
-                        srcobj = filterSource(srcobj), Array.isArray(srcobj) ? newsrc = newsrc.concat(srcobj) : isObject(srcobj) && newsrc.push(srcobj);
+                        Array.isArray(srcobj = filterSource(srcobj)) ? newsrc = newsrc.concat(srcobj) : isObject(srcobj) && newsrc.push(srcobj);
                     }), src = newsrc;
                 } else src = "string" == typeof src && src.trim() ? [
                     fixSource({
@@ -2872,7 +2872,7 @@
                 }, _proto.enableInterval_ = function() {
                     this.updateInterval || (this.updateInterval = this.setInterval(this.update, 30));
                 }, _proto.disableInterval_ = function(e) {
-                    this.player_.liveTracker && this.player_.liveTracker.isLive() && e && "ended" !== e.type || this.updateInterval && (this.clearInterval(this.updateInterval), this.updateInterval = null);
+                    this.player_.liveTracker && this.player_.liveTracker.isLive() && e && "ended" !== e.type || !this.updateInterval || (this.clearInterval(this.updateInterval), this.updateInterval = null);
                 }, _proto.createEl = function() {
                     return _Slider.prototype.createEl.call(this, "div", {
                         className: "vjs-progress-holder"
@@ -3477,7 +3477,7 @@
                 }, _proto.blur = function() {
                     this.menuButton_.blur();
                 }, _proto.handleKeyDown = function(event) {
-                    keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Esc") || keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Tab") ? (this.buttonPressed_ && this.unpressButton(), keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Tab") || (event.preventDefault(), this.menuButton_.focus())) : (keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Up") || keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Down")) && (this.buttonPressed_ || (event.preventDefault(), this.pressButton()));
+                    keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Esc") || keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Tab") ? (this.buttonPressed_ && this.unpressButton(), keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Tab") || (event.preventDefault(), this.menuButton_.focus())) : (keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Up") || keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Down")) && !this.buttonPressed_ && (event.preventDefault(), this.pressButton());
                 }, _proto.handleMenuKeyUp = function(event) {
                     (keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Esc") || keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Tab")) && this.removeClass("vjs-hover");
                 }, _proto.handleSubmenuKeyPress = function(event) {
@@ -5489,7 +5489,7 @@
                         var updateSourceCaches = function(src) {
                             return _this7.updateSourceCaches_(src);
                         }, playerSrc = this.currentSource().src, eventSrc = event.src;
-                        playerSrc && !/^blob:/.test(playerSrc) && /^blob:/.test(eventSrc) && (this.lastSource_ && (this.lastSource_.tech === eventSrc || this.lastSource_.player === playerSrc) || (updateSourceCaches = function() {})), updateSourceCaches(eventSrc), event.src || this.tech_.any([
+                        playerSrc && !/^blob:/.test(playerSrc) && /^blob:/.test(eventSrc) && (!this.lastSource_ || this.lastSource_.tech !== eventSrc && this.lastSource_.player !== playerSrc) && (updateSourceCaches = function() {}), updateSourceCaches(eventSrc), event.src || this.tech_.any([
                             "sourceset",
                             "loadstart"
                         ], function(e) {
@@ -5545,7 +5545,7 @@
                 }, _proto.handleTechDoubleClick_ = function(event) {
                     this.controls_ && (Array.prototype.some.call(this.$$(".vjs-control-bar, .vjs-modal-dialog"), function(el) {
                         return el.contains(event.target);
-                    }) || (void 0 === this.options_ || void 0 === this.options_.userActions || void 0 === this.options_.userActions.doubleClick || !1 !== this.options_.userActions.doubleClick) && (void 0 !== this.options_ && void 0 !== this.options_.userActions && "function" == typeof this.options_.userActions.doubleClick ? this.options_.userActions.doubleClick.call(this, event) : this.isFullscreen() ? this.exitFullscreen() : this.requestFullscreen()));
+                    }) || void 0 !== this.options_ && void 0 !== this.options_.userActions && void 0 !== this.options_.userActions.doubleClick && !1 === this.options_.userActions.doubleClick || (void 0 !== this.options_ && void 0 !== this.options_.userActions && "function" == typeof this.options_.userActions.doubleClick ? this.options_.userActions.doubleClick.call(this, event) : this.isFullscreen() ? this.exitFullscreen() : this.requestFullscreen()));
                 }, _proto.handleTechTap_ = function() {
                     this.userActive(!this.userActive());
                 }, _proto.handleTechTouchStart_ = function() {
@@ -6472,8 +6472,7 @@
                 return timeRangesList;
             }, isRangeDifferent = function(a, b) {
                 if (a === b) return !1;
-                if (!a && b || !b && a) return !0;
-                if (a.length !== b.length) return !0;
+                if (!a && b || !b && a || a.length !== b.length) return !0;
                 for(var i = 0; i < a.length; i++)if (a.start(i) !== b.start(i) || a.end(i) !== b.end(i)) return !0;
                 return !1;
             }, lastBufferedEnd = function(a) {
@@ -6900,8 +6899,7 @@
             }, updateMaster$1 = function(master, newMedia, unchangedCheck) {
                 void 0 === unchangedCheck && (unchangedCheck = isPlaylistUnchanged);
                 var result = mergeOptions$2(master, {}), oldMedia = result.playlists[newMedia.id];
-                if (!oldMedia) return null;
-                if (unchangedCheck(oldMedia, newMedia)) return null;
+                if (!oldMedia || unchangedCheck(oldMedia, newMedia)) return null;
                 newMedia.segments = getAllSegments(newMedia);
                 var mergedPlaylist = mergeOptions$2(oldMedia, newMedia);
                 if (mergedPlaylist.preloadSegment && !newMedia.preloadSegment && delete mergedPlaylist.preloadSegment, oldMedia.segments) {
@@ -7287,9 +7285,7 @@
                             return endRequestAndCallback(error, request, "", bytes);
                         });
                         var type = (0, _videojs_vhs_utils_es_containers__WEBPACK_IMPORTED_MODULE_12__.Xm)(bytes);
-                        return "ts" === type && bytes.length < 188 ? callbackOnCompleted(request, function() {
-                            return endRequestAndCallback(error, request, "", bytes);
-                        }) : !type && bytes.length < 376 ? callbackOnCompleted(request, function() {
+                        return "ts" === type && bytes.length < 188 || !type && bytes.length < 376 ? callbackOnCompleted(request, function() {
                             return endRequestAndCallback(error, request, "", bytes);
                         }) : endRequestAndCallback(null, request, type, bytes);
                     }
@@ -7307,18 +7303,14 @@
                 });
                 return request1;
             }, EventTarget = videojs.EventTarget, mergeOptions = videojs.mergeOptions, dashPlaylistUnchanged = function(a, b) {
-                if (!isPlaylistUnchanged(a, b)) return !1;
-                if (a.sidx && b.sidx && (a.sidx.offset !== b.sidx.offset || a.sidx.length !== b.sidx.length)) return !1;
-                if (!a.sidx && b.sidx || a.sidx && !b.sidx) return !1;
-                if (a.segments && !b.segments || !a.segments && b.segments) return !1;
+                if (!isPlaylistUnchanged(a, b) || a.sidx && b.sidx && (a.sidx.offset !== b.sidx.offset || a.sidx.length !== b.sidx.length) || !a.sidx && b.sidx || a.sidx && !b.sidx || a.segments && !b.segments || !a.segments && b.segments) return !1;
                 if (!a.segments && !b.segments) return !0;
                 for(var i = 0; i < a.segments.length; i++){
                     var aSegment = a.segments[i], bSegment = b.segments[i];
                     if (aSegment.uri !== bSegment.uri) return !1;
                     if (aSegment.byterange || bSegment.byterange) {
                         var aByterange = aSegment.byterange, bByterange = bSegment.byterange;
-                        if (aByterange && !bByterange || !aByterange && bByterange) return !1;
-                        if (aByterange.offset !== bByterange.offset || aByterange.length !== bByterange.length) return !1;
+                        if (aByterange && !bByterange || !aByterange && bByterange || aByterange.offset !== bByterange.offset || aByterange.length !== bByterange.length) return !1;
                     }
                 }
                 return !0;
@@ -8486,8 +8478,8 @@
                         return data;
                     },
                     generateSampleTableForFrame: function(frame, baseDataOffset) {
-                        var sample, samples = [];
-                        return sample = sampleForFrame(frame, baseDataOffset || 0), samples.push(sample), samples;
+                        var samples = [];
+                        return samples.push(sampleForFrame(frame, baseDataOffset || 0)), samples;
                     },
                     concatenateNalDataForFrame: function(frame) {
                         var i, currentNal, dataOffset = 0, nalsByteLength = frame.byteLength, numberOfNals = frame.length, data = new Uint8Array(nalsByteLength + 4 * numberOfNals), view = new DataView(data.buffer);
@@ -8523,7 +8515,7 @@
                 }, silence_1 = function() {
                     if (!silence) {
                         var metaTable;
-                        silence = (metaTable = {
+                        silence = Object.keys(metaTable = {
                             96000: [
                                 highPrefix,
                                 [
@@ -8737,11 +8729,11 @@
                                     7
                                 ], 
                             ]
-                        }, Object.keys(metaTable).reduce(function(obj, key) {
+                        }).reduce(function(obj, key) {
                             return obj[key] = new Uint8Array(metaTable[key].reduce(function(arr, part) {
                                 return arr.concat(part);
                             }, [])), obj;
-                        }, {}));
+                        }, {});
                     }
                     return silence;
                 };
@@ -8791,9 +8783,9 @@
                         }));
                     },
                     generateSampleTable: function(frames) {
-                        var i, currentFrame, samples = [];
-                        for(i = 0; i < frames.length; i++)currentFrame = frames[i], samples.push({
-                            size: currentFrame.data.byteLength,
+                        var i, samples = [];
+                        for(i = 0; i < frames.length; i++)samples.push({
+                            size: frames[i].data.byteLength,
                             duration: 1024
                         });
                         return samples;
@@ -8834,7 +8826,7 @@
                         return result;
                     },
                     parseUserData: function(sei) {
-                        return 181 !== sei.payload[0] ? null : (sei.payload[1] << 8 | sei.payload[2]) != 49 ? null : "GA94" !== String.fromCharCode(sei.payload[3], sei.payload[4], sei.payload[5], sei.payload[6]) ? null : 0x03 !== sei.payload[7] ? null : sei.payload.subarray(8, sei.payload.length - 1);
+                        return 181 !== sei.payload[0] || (sei.payload[1] << 8 | sei.payload[2]) != 49 || "GA94" !== String.fromCharCode(sei.payload[3], sei.payload[4], sei.payload[5], sei.payload[6]) || 0x03 !== sei.payload[7] ? null : sei.payload.subarray(8, sei.payload.length - 1);
                     },
                     parseCaptionPackets: function(pts, userData) {
                         var i, count, offset, data, results = [];
@@ -9194,7 +9186,7 @@
                     0x033e: 0x2514,
                     0x033f: 0x2518
                 }, getCharFromCode = function(code) {
-                    return null === code ? "" : (code = CHARACTER_TRANSLATION[code] || code, String.fromCharCode(code));
+                    return null === code ? "" : String.fromCharCode(code = CHARACTER_TRANSLATION[code] || code);
                 }, BOTTOM_ROW = 14, ROWS = [
                     0x1100,
                     0x1120,
@@ -9913,7 +9905,10 @@
                         };
                     };
                 }).prototype = new stream1();
-                var ADTS_SAMPLING_FREQUENCIES = [
+                var h264 = {
+                    H264Stream: _H264Stream,
+                    NalByteStream: _NalByteStream
+                }, ADTS_SAMPLING_FREQUENCIES = [
                     96000,
                     88200,
                     64000,
@@ -9989,8 +9984,7 @@
                         var chunk, packet, tempLength, frameSize = 0, byteIndex = 0;
                         for(everything.length ? (tempLength = everything.length, (everything = new Uint8Array(bytes.byteLength + tempLength)).set(everything.subarray(0, tempLength)), everything.set(bytes, tempLength)) : everything = bytes; everything.length - byteIndex >= 3;){
                             if (73 === everything[byteIndex] && 68 === everything[byteIndex + 1] && 51 === everything[byteIndex + 2]) {
-                                if (everything.length - byteIndex < 10) break;
-                                if (frameSize = utils.parseId3TagSize(everything, byteIndex), byteIndex + frameSize > everything.length) break;
+                                if (everything.length - byteIndex < 10 || (frameSize = utils.parseId3TagSize(everything, byteIndex), byteIndex + frameSize > everything.length)) break;
                                 chunk = {
                                     type: "timed-metadata",
                                     data: everything.subarray(byteIndex, byteIndex + frameSize)
@@ -9998,8 +9992,7 @@
                                 continue;
                             }
                             if ((0xff & everything[byteIndex]) == 0xff && (0xf0 & everything[byteIndex + 1]) == 0xf0) {
-                                if (everything.length - byteIndex < 7) break;
-                                if (frameSize = utils.parseAdtsSize(everything, byteIndex), byteIndex + frameSize > everything.length) break;
+                                if (everything.length - byteIndex < 7 || (frameSize = utils.parseAdtsSize(everything, byteIndex), byteIndex + frameSize > everything.length)) break;
                                 packet = {
                                     type: "audio",
                                     data: everything.subarray(byteIndex, byteIndex + frameSize),
@@ -10030,7 +10023,7 @@
                     "levelIdc",
                     "profileCompatibility",
                     "sarRatio", 
-                ], H264Stream = _H264Stream, isLikelyAacData = utils.isLikelyAacData, ONE_SECOND_IN_TS$1 = clock.ONE_SECOND_IN_TS, retriggerForStream = function(key, event) {
+                ], H264Stream = h264.H264Stream, isLikelyAacData = utils.isLikelyAacData, ONE_SECOND_IN_TS$1 = clock.ONE_SECOND_IN_TS, retriggerForStream = function(key, event) {
                     event.stream = key, this.trigger("log", event);
                 }, addPipelineLogRetriggers = function(transmuxer, pipeline) {
                     for(var keys = Object.keys(pipeline), i = 0; i < keys.length; i++){
@@ -10187,8 +10180,7 @@
                         info: {}
                     }, timelineStartPts = 0;
                     if (this.pendingTracks.length < this.numberOfTracks) {
-                        if ("VideoSegmentStream" !== flushSource && "AudioSegmentStream" !== flushSource) return;
-                        if (this.remuxTracks) return;
+                        if ("VideoSegmentStream" !== flushSource && "AudioSegmentStream" !== flushSource || this.remuxTracks) return;
                         if (0 === this.pendingTracks.length) {
                             this.emittedTracks++, this.emittedTracks >= this.numberOfTracks && (this.trigger("done"), this.emittedTracks = 0);
                             return;
@@ -10420,8 +10412,7 @@
                         return (!videoTrackIds || 0 !== videoTrackIds.length) && (!timescales || "object" != typeof timescales || 0 !== Object.keys(timescales).length) && (trackId !== videoTrackIds[0] || timescale !== timescales[trackId]);
                     }, this.parse = function(segment, videoTrackIds, timescales) {
                         var parsedData;
-                        if (!this.isInitialized()) return null;
-                        if (!videoTrackIds || !timescales) return null;
+                        if (!this.isInitialized() || !videoTrackIds || !timescales) return null;
                         if (this.isNewInit(videoTrackIds, timescales)) timescale = timescales[trackId = videoTrackIds[0]];
                         else if (null === trackId || !timescale) return segmentCache.push(segment), null;
                         for(; segmentCache.length > 0;){
@@ -10759,22 +10750,14 @@
                         var type = probe.aac.parseType(bytes, byteIndex);
                         switch(type){
                             case "timed-metadata":
-                                if (bytes.length - byteIndex < 10) {
-                                    endLoop = !0;
-                                    break;
-                                }
-                                if ((frameSize = probe.aac.parseId3TagSize(bytes, byteIndex)) > bytes.length) {
+                                if (bytes.length - byteIndex < 10 || (frameSize = probe.aac.parseId3TagSize(bytes, byteIndex)) > bytes.length) {
                                     endLoop = !0;
                                     break;
                                 }
                                 null === timestamp && (packet = bytes.subarray(byteIndex, byteIndex + frameSize), timestamp = probe.aac.parseAacTimestamp(packet)), byteIndex += frameSize;
                                 break;
                             case "audio":
-                                if (bytes.length - byteIndex < 7) {
-                                    endLoop = !0;
-                                    break;
-                                }
-                                if ((frameSize = probe.aac.parseAdtsSize(bytes, byteIndex)) > bytes.length) {
+                                if (bytes.length - byteIndex < 7 || (frameSize = probe.aac.parseAdtsSize(bytes, byteIndex)) > bytes.length) {
                                     endLoop = !0;
                                     break;
                                 }
@@ -11030,10 +11013,10 @@
                 if (transmuxer.onmessage = function(event) {
                     transmuxer.currentTransmux === options && ("data" === event.data.action && handleData_(event, transmuxedData, onData), "trackinfo" === event.data.action && onTrackInfo(event.data.trackInfo), "gopInfo" === event.data.action && handleGopInfo_(event, transmuxedData), "audioTimingInfo" === event.data.action && onAudioTimingInfo(event.data.audioTimingInfo), "videoTimingInfo" === event.data.action && onVideoTimingInfo(event.data.videoTimingInfo), "videoSegmentTimingInfo" === event.data.action && onVideoSegmentTimingInfo(event.data.videoSegmentTimingInfo), "audioSegmentTimingInfo" === event.data.action && onAudioSegmentTimingInfo(event.data.audioSegmentTimingInfo), "id3Frame" === event.data.action && onId3([
                         event.data.id3Frame
-                    ], event.data.id3Frame.dispatchType), "caption" === event.data.action && onCaptions(event.data.caption), "endedtimeline" === event.data.action && (waitForEndedTimelineEvent = !1, onEndedTimeline()), "log" === event.data.action && onTransmuxerLog(event.data.log), "transmuxed" === event.data.type && (waitForEndedTimelineEvent || (transmuxer.onmessage = null, handleDone_({
+                    ], event.data.id3Frame.dispatchType), "caption" === event.data.action && onCaptions(event.data.caption), "endedtimeline" === event.data.action && (waitForEndedTimelineEvent = !1, onEndedTimeline()), "log" === event.data.action && onTransmuxerLog(event.data.log), "transmuxed" !== event.data.type || waitForEndedTimelineEvent || (transmuxer.onmessage = null, handleDone_({
                         transmuxedData: transmuxedData,
                         callback: onDone
-                    }), dequeue(transmuxer))));
+                    }), dequeue(transmuxer)));
                 }, audioAppendStart && transmuxer.postMessage({
                     action: "setAudioAppendStart",
                     appendStart: audioAppendStart
@@ -11656,7 +11639,7 @@
                     return logFn1("could not choose a playlist with options", options), null;
                 }
             }, lastBandwidthSelector = function() {
-                var pixelRatio = this.useDevicePixelRatio ? global_window__WEBPACK_IMPORTED_MODULE_0___default().devicePixelRatio || 1 : 1;
+                var pixelRatio = this.useDevicePixelRatio && global_window__WEBPACK_IMPORTED_MODULE_0___default().devicePixelRatio || 1;
                 return simpleSelector(this.playlists.master, this.systemBandwidth, parseInt(safeGetComputedStyle(this.tech_.el(), "width"), 10) * pixelRatio, parseInt(safeGetComputedStyle(this.tech_.el(), "height"), 10) * pixelRatio, this.limitRenditionByPlayerDimensions, this.masterPlaylistController_);
             }, minRebufferMaxBandwidthSelector = function(settings) {
                 var master = settings.master, currentTime = settings.currentTime, bandwidth = settings.bandwidth, duration = settings.duration, segmentDuration = settings.segmentDuration, timeUntilRebuffer = settings.timeUntilRebuffer, currentTimeline = settings.currentTimeline, syncController = settings.syncController, compatiblePlaylists = master.playlists.filter(function(playlist) {
@@ -11798,8 +11781,7 @@
                 if (akeys.length !== bkeys.length) return !1;
                 for(var i = 0; i < akeys.length; i++){
                     var key = akeys[i];
-                    if (key !== bkeys[i]) return !1;
-                    if (a[key] !== b[key]) return !1;
+                    if (key !== bkeys[i] || a[key] !== b[key]) return !1;
                 }
                 return !0;
             }, getSyncSegmentCandidate = function(currentTimeline, segments, targetTime) {
@@ -11820,7 +11802,7 @@
                 var hasPartIndex = "number" == typeof partIndex, name = segmentInfo.segment.uri ? "segment" : "pre-segment", zeroBasedPartCount = hasPartIndex ? getKnownPartCount({
                     preloadSegment: segment
                 }) - 1 : 0;
-                return name + " [" + (seq + index) + "/" + (seq + segmentLen) + "]" + (hasPartIndex ? " part [" + partIndex + "/" + zeroBasedPartCount + "]" : "") + (" segment start/end [" + segment.start + " => " + segment.end + "]") + (hasPartIndex ? " part start/end [" + part.start + " => " + part.end + "]" : "") + (" startOfSegment [" + startOfSegment + "]") + (" duration [" + duration + "]") + (" timeline [" + timeline + "]") + (" selected by [" + selection + "]") + (" playlist [" + id + "]");
+                return name + " [" + (seq + index) + "/" + (seq + segmentLen) + "]" + (hasPartIndex ? " part [" + partIndex + "/" + zeroBasedPartCount + "]" : "") + " segment start/end [" + segment.start + " => " + segment.end + "]" + (hasPartIndex ? " part start/end [" + part.start + " => " + part.end + "]" : "") + " startOfSegment [" + startOfSegment + "] duration [" + duration + "] timeline [" + timeline + "] selected by [" + selection + "] playlist [" + id + "]";
             }, timingInfoPropertyForMedia = function(mediaType) {
                 return mediaType + "TimingInfo";
             }, timestampOffsetForSegment = function(_ref) {
@@ -11855,7 +11837,7 @@
                 }), isSegmentSlightlyTooLong = segmentTooLong({
                     segmentDuration: segmentDuration,
                     maxDuration: targetDuration
-                }), segmentTooLongMessage = "Segment with index " + segmentInfo.mediaIndex + " " + ("from playlist " + segmentInfo.playlist.id + " ") + ("has a duration of " + segmentDuration + " ") + ("when the reported duration is " + segmentInfo.duration + " ") + ("and the target duration is " + targetDuration + ". ") + "For HLS content, a duration in excess of the target duration may result in playback issues. See the HLS specification section on EXT-X-TARGETDURATION for more details: https://tools.ietf.org/html/draft-pantos-http-live-streaming-23#section-4.3.3.1";
+                }), segmentTooLongMessage = "Segment with index " + segmentInfo.mediaIndex + " from playlist " + segmentInfo.playlist.id + " has a duration of " + segmentDuration + " when the reported duration is " + segmentInfo.duration + " and the target duration is " + targetDuration + ". For HLS content, a duration in excess of the target duration may result in playback issues. See the HLS specification section on EXT-X-TARGETDURATION for more details: https://tools.ietf.org/html/draft-pantos-http-live-streaming-23#section-4.3.3.1";
                 return isSegmentWayTooLong || isSegmentSlightlyTooLong ? {
                     severity: isSegmentWayTooLong ? "warn" : "info",
                     message: segmentTooLongMessage
@@ -12114,7 +12096,7 @@
                 }, _proto.timestampOffsetForSegment_ = function(options) {
                     return timestampOffsetForSegment(options);
                 }, _proto.earlyAbortWhenNeeded_ = function(stats) {
-                    if (!this.vhs_.tech_.paused() && this.xhrOptions_.timeout && this.playlist_.attributes.BANDWIDTH && !(Date.now() - (stats.firstBytesReceivedAt || Date.now()) < 1000)) {
+                    if (!(this.vhs_.tech_.paused() || !this.xhrOptions_.timeout || !this.playlist_.attributes.BANDWIDTH || Date.now() - (stats.firstBytesReceivedAt || Date.now()) < 1000)) {
                         var buffered, currentTime, playbackRate, currentTime1 = this.currentTime_(), measuredBandwidth = stats.bandwidth, segmentDuration = this.pendingSegment_.duration, requestTimeRemaining = Playlist.estimateSegmentRequestTime(segmentDuration, measuredBandwidth, this.playlist_, stats.bytesReceived), timeUntilRebuffer$1 = (buffered = this.buffered_(), currentTime = currentTime1, void 0 === (playbackRate = this.vhs_.tech_.playbackRate()) && (playbackRate = 1), ((buffered.length ? buffered.end(buffered.length - 1) : 0) - currentTime) / playbackRate - 1);
                         if (!(requestTimeRemaining <= timeUntilRebuffer$1)) {
                             var switchCandidate = minRebufferMaxBandwidthSelector({
@@ -12138,10 +12120,10 @@
                 }, _proto.handleProgress_ = function(event, simpleSegment) {
                     this.earlyAbortWhenNeeded_(simpleSegment.stats), this.checkForAbort_(simpleSegment.requestId) || this.trigger("progress");
                 }, _proto.handleTrackInfo_ = function(simpleSegment, trackInfo) {
-                    this.earlyAbortWhenNeeded_(simpleSegment.stats), !this.checkForAbort_(simpleSegment.requestId) && (this.checkForIllegalMediaSwitch(trackInfo) || (trackInfo = trackInfo || {}, shallowEqual(this.currentMediaInfo_, trackInfo) || (this.appendInitSegment_ = {
+                    this.earlyAbortWhenNeeded_(simpleSegment.stats), this.checkForAbort_(simpleSegment.requestId) || this.checkForIllegalMediaSwitch(trackInfo) || (trackInfo = trackInfo || {}, shallowEqual(this.currentMediaInfo_, trackInfo) || (this.appendInitSegment_ = {
                         audio: !0,
                         video: !0
-                    }, this.startingMediaInfo_ = trackInfo, this.currentMediaInfo_ = trackInfo, this.logger_("trackinfo update", trackInfo), this.trigger("trackinfo")), !this.checkForAbort_(simpleSegment.requestId) && (this.pendingSegment_.trackInfo = trackInfo, this.hasEnoughInfoToAppend_() && this.processCallQueue_())));
+                    }, this.startingMediaInfo_ = trackInfo, this.currentMediaInfo_ = trackInfo, this.logger_("trackinfo update", trackInfo), this.trigger("trackinfo")), !this.checkForAbort_(simpleSegment.requestId) && (this.pendingSegment_.trackInfo = trackInfo, this.hasEnoughInfoToAppend_() && this.processCallQueue_()));
                 }, _proto.handleTimingInfo_ = function(simpleSegment, mediaType, timeType, time) {
                     if (this.earlyAbortWhenNeeded_(simpleSegment.stats), !this.checkForAbort_(simpleSegment.requestId)) {
                         var segmentInfo = this.pendingSegment_, timingInfoProperty = timingInfoPropertyForMedia(mediaType);
@@ -12223,18 +12205,17 @@
                 }, _proto.getMediaInfo_ = function(segmentInfo) {
                     return void 0 === segmentInfo && (segmentInfo = this.pendingSegment_), this.getCurrentMediaInfo_(segmentInfo) || this.startingMediaInfo_;
                 }, _proto.hasEnoughInfoToAppend_ = function() {
-                    if (!this.sourceUpdater_.ready()) return !1;
-                    if (this.waitingOnRemove_ || this.quotaExceededErrorRetryTimeout_) return !1;
+                    if (!this.sourceUpdater_.ready() || this.waitingOnRemove_ || this.quotaExceededErrorRetryTimeout_) return !1;
                     var segmentInfo = this.pendingSegment_, trackInfo = this.getCurrentMediaInfo_();
                     if (!segmentInfo || !trackInfo) return !1;
                     var hasAudio = trackInfo.hasAudio, hasVideo = trackInfo.hasVideo, isMuxed = trackInfo.isMuxed;
-                    return (!hasVideo || !!segmentInfo.videoTimingInfo) && (!hasAudio || !!this.audioDisabled_ || !!isMuxed || !!segmentInfo.audioTimingInfo) && !shouldWaitForTimelineChange({
+                    return !(hasVideo && !segmentInfo.videoTimingInfo || hasAudio && !this.audioDisabled_ && !isMuxed && !segmentInfo.audioTimingInfo || shouldWaitForTimelineChange({
                         timelineChangeController: this.timelineChangeController_,
                         currentTimeline: this.currentTimeline_,
                         segmentTimeline: segmentInfo.timeline,
                         loaderType: this.loaderType_,
                         audioDisabled: this.audioDisabled_
-                    });
+                    }));
                 }, _proto.handleData_ = function(simpleSegment, result) {
                     if (this.earlyAbortWhenNeeded_(simpleSegment.stats), !this.checkForAbort_(simpleSegment.requestId)) {
                         if (this.callQueue_.length || !this.hasEnoughInfoToAppend_()) {
@@ -12290,7 +12271,7 @@
                     audioBuffered.length > 1 && this.logger_("On QUOTA_EXCEEDED_ERR, found gaps in the audio buffer: " + timeRangesToArray(audioBuffered).join(", ")), videoBuffered.length > 1 && this.logger_("On QUOTA_EXCEEDED_ERR, found gaps in the video buffer: " + timeRangesToArray(videoBuffered).join(", "));
                     var audioBufferStart = audioBuffered.length ? audioBuffered.start(0) : 0, audioBufferEnd = audioBuffered.length ? audioBuffered.end(audioBuffered.length - 1) : 0, videoBufferStart = videoBuffered.length ? videoBuffered.start(0) : 0, videoBufferEnd = videoBuffered.length ? videoBuffered.end(videoBuffered.length - 1) : 0;
                     if (audioBufferEnd - audioBufferStart <= 1 && videoBufferEnd - videoBufferStart <= 1) {
-                        this.logger_("On QUOTA_EXCEEDED_ERR, single segment too large to append to buffer, triggering an error. " + ("Appended byte length: " + bytes.byteLength + ", ") + ("audio buffer: " + timeRangesToArray(audioBuffered).join(", ") + ", ") + ("video buffer: " + timeRangesToArray(videoBuffered).join(", ") + ", ")), this.error({
+                        this.logger_("On QUOTA_EXCEEDED_ERR, single segment too large to append to buffer, triggering an error. Appended byte length: " + bytes.byteLength + ", audio buffer: " + timeRangesToArray(audioBuffered).join(", ") + ", video buffer: " + timeRangesToArray(videoBuffered).join(", ") + ", "), this.error({
                             message: "Quota exceeded error with append of a single segment of content",
                             excludeUntil: 1 / 0
                         }), this.trigger("error");
@@ -12318,7 +12299,7 @@
                             });
                             return;
                         }
-                        this.logger_("Received non QUOTA_EXCEEDED_ERR on append", error), this.error(type + " append of " + bytes.length + "b failed for segment " + ("#" + segmentInfo.mediaIndex + " in playlist " + segmentInfo.playlist.id)), this.trigger("appenderror");
+                        this.logger_("Received non QUOTA_EXCEEDED_ERR on append", error), this.error(type + " append of " + bytes.length + "b failed for segment #" + segmentInfo.mediaIndex + " in playlist " + segmentInfo.playlist.id), this.trigger("appenderror");
                     }
                 }, _proto.appendToSourceBuffer_ = function(_ref7) {
                     var segmentInfo = _ref7.segmentInfo, type = _ref7.type, initSegment = _ref7.initSegment, data = _ref7.data, bytes = _ref7.bytes;
@@ -12438,7 +12419,7 @@
                     this.mediaRequests += 1, stats && (this.mediaBytesTransferred += stats.bytesReceived, this.mediaTransferDuration += stats.roundTripTime);
                 }, _proto.saveBandwidthRelatedStats_ = function(duration, stats) {
                     if (this.pendingSegment_.byteLength = stats.bytesReceived, duration < MIN_SEGMENT_DURATION_TO_SAVE_STATS) {
-                        this.logger_("Ignoring segment's bandwidth because its duration of " + duration + (" is less than the min to record " + MIN_SEGMENT_DURATION_TO_SAVE_STATS));
+                        this.logger_("Ignoring segment's bandwidth because its duration of " + duration + " is less than the min to record " + MIN_SEGMENT_DURATION_TO_SAVE_STATS);
                         return;
                     }
                     this.bandwidth = stats.bandwidth, this.roundTrip = stats.roundTripTime;
@@ -12541,7 +12522,7 @@
                     null !== this.mediaIndex && this.trigger("bandwidthupdate"), this.trigger("progress"), this.mediaIndex = segmentInfo.mediaIndex, this.partIndex = segmentInfo.partIndex, this.isEndOfStream_(segmentInfo.mediaIndex, segmentInfo.playlist, segmentInfo.partIndex) && this.endOfStream(), this.trigger("appended"), segmentInfo.hasAppendedData_ && this.mediaAppends++, this.paused() || this.monitorBuffer_();
                 }, _proto.recordThroughput_ = function(segmentInfo) {
                     if (segmentInfo.duration < MIN_SEGMENT_DURATION_TO_SAVE_STATS) {
-                        this.logger_("Ignoring segment's throughput because its duration of " + segmentInfo.duration + (" is less than the min to record " + MIN_SEGMENT_DURATION_TO_SAVE_STATS));
+                        this.logger_("Ignoring segment's throughput because its duration of " + segmentInfo.duration + " is less than the min to record " + MIN_SEGMENT_DURATION_TO_SAVE_STATS);
                         return;
                     }
                     var rate = this.throughput.rate, segmentProcessingTime = Date.now() - segmentInfo.endOfAllRequests + 1, segmentProcessingThroughput = Math.floor(segmentInfo.byteLength / segmentProcessingTime * 8000);
@@ -12595,7 +12576,7 @@
                         sourceUpdater.updating() || "closed" === sourceUpdater.mediaSource.readyState || (sourceUpdater.queue.shift(), queueEntry.action(sourceUpdater), queueEntry.doneFn && queueEntry.doneFn(), shiftQueue("audio", sourceUpdater), shiftQueue("video", sourceUpdater));
                         return;
                     }
-                    if ("mediaSource" !== type && !(!sourceUpdater.ready() || "closed" === sourceUpdater.mediaSource.readyState || _updating(type, sourceUpdater))) {
+                    if (!("mediaSource" === type || !sourceUpdater.ready() || "closed" === sourceUpdater.mediaSource.readyState || _updating(type, sourceUpdater))) {
                         if (queueEntry.type !== type) {
                             if (null === (queueIndex = nextQueueIndexOfType(type, sourceUpdater.queue))) return;
                             queueEntry = sourceUpdater.queue[queueIndex];
@@ -12620,7 +12601,7 @@
                             try {
                                 sourceBuffer.appendBuffer(bytes);
                             } catch (e) {
-                                sourceUpdater.logger_("Error with code " + e.code + " " + (22 === e.code ? "(QUOTA_EXCEEDED_ERR) " : "") + ("when appending segment " + segmentInfo.mediaIndex + " to " + type + "Buffer")), sourceUpdater.queuePending[type] = null, onError(e);
+                                sourceUpdater.logger_("Error with code " + e.code + " " + (22 === e.code ? "(QUOTA_EXCEEDED_ERR) " : "") + "when appending segment " + segmentInfo.mediaIndex + " to " + type + "Buffer"), sourceUpdater.queuePending[type] = null, onError(e);
                             }
                         }
                     };
@@ -13225,7 +13206,7 @@
                         var newDistance = Math.abs(syncPoints[i].syncPoint[target.key] - target.value);
                         newDistance < bestDistance && (bestDistance = newDistance, bestSyncPoint = syncPoints[i].syncPoint, bestStrategy = syncPoints[i].strategy);
                     }
-                    return this.logger_("syncPoint for [" + target.key + ": " + target.value + "] chosen with strategy" + (" [" + bestStrategy + "]: [time:" + bestSyncPoint.time + ",") + (" segmentIndex:" + bestSyncPoint.segmentIndex) + ("number" == typeof bestSyncPoint.partIndex ? ",partIndex:" + bestSyncPoint.partIndex : "") + "]"), bestSyncPoint;
+                    return this.logger_("syncPoint for [" + target.key + ": " + target.value + "] chosen with strategy [" + bestStrategy + "]: [time:" + bestSyncPoint.time + ", segmentIndex:" + bestSyncPoint.segmentIndex + ("number" == typeof bestSyncPoint.partIndex ? ",partIndex:" + bestSyncPoint.partIndex : "") + "]"), bestSyncPoint;
                 }, _proto.saveExpiredSegmentInfo = function(oldPlaylist, newPlaylist) {
                     var mediaSequenceDiff = newPlaylist.mediaSequence - oldPlaylist.mediaSequence;
                     if (mediaSequenceDiff > 86400) {
@@ -13238,7 +13219,7 @@
                             newPlaylist.syncInfo = {
                                 mediaSequence: oldPlaylist.mediaSequence + i,
                                 time: lastRemovedSegment.start
-                            }, this.logger_("playlist refresh sync: [time:" + newPlaylist.syncInfo.time + "," + (" mediaSequence: " + newPlaylist.syncInfo.mediaSequence + "]")), this.trigger("syncinfoupdate");
+                            }, this.logger_("playlist refresh sync: [time:" + newPlaylist.syncInfo.time + ", mediaSequence: " + newPlaylist.syncInfo.mediaSequence + "]"), this.trigger("syncinfoupdate");
                             break;
                         }
                     }
@@ -13264,7 +13245,7 @@
                     if ("number" == typeof segmentInfo.timestampOffset) mappingObj = {
                         time: segmentInfo.startOfSegment,
                         mapping: segmentInfo.startOfSegment - timingInfo.start
-                    }, shouldSaveTimelineMapping && (this.timelines[segmentInfo.timeline] = mappingObj, this.trigger("timestampoffset"), this.logger_("time mapping for timeline " + segmentInfo.timeline + ": " + ("[time: " + mappingObj.time + "] [mapping: " + mappingObj.mapping + "]"))), start = segmentInfo.startOfSegment, end = timingInfo.end + mappingObj.mapping;
+                    }, shouldSaveTimelineMapping && (this.timelines[segmentInfo.timeline] = mappingObj, this.trigger("timestampoffset"), this.logger_("time mapping for timeline " + segmentInfo.timeline + ": [time: " + mappingObj.time + "] [mapping: " + mappingObj.mapping + "]")), start = segmentInfo.startOfSegment, end = timingInfo.end + mappingObj.mapping;
                     else {
                         if (!mappingObj) return !1;
                         start = timingInfo.start + mappingObj.mapping, end = timingInfo.end + mappingObj.mapping;
@@ -13639,10 +13620,7 @@
                     }
                 }
             }, groupMatch1 = function groupMatch(list, media) {
-                for(var i = 0; i < list.length; i++){
-                    if (playlistMatch(media, list[i])) return !0;
-                    if (list[i].playlists && groupMatch(list[i].playlists, media)) return !0;
-                }
+                for(var i = 0; i < list.length; i++)if (playlistMatch(media, list[i]) || list[i].playlists && groupMatch(list[i].playlists, media)) return !0;
                 return !1;
             }, activeTrack1 = {
                 AUDIO: function(type, settings) {
@@ -13695,9 +13673,9 @@
                             }
                             else groups.main ? variants = groups.main : 1 === groupKeys.length && (variants = groups[groupKeys[0]]);
                         }
-                        return void 0 === track ? variants : null !== track && variants ? variants.filter(function(props) {
+                        return void 0 === track ? variants : null !== track && variants && variants.filter(function(props) {
                             return props.id === track.id;
-                        })[0] || null : null;
+                        })[0] || null;
                     }), mediaTypes[type].activeTrack = activeTrack1[type](type, settings4), mediaTypes[type].onGroupChanged = (type3 = type, settings1 = settings4, function() {
                         var _settings$segmentLoad = settings1.segmentLoaders, segmentLoader = _settings$segmentLoad[type3], mainSegmentLoader = _settings$segmentLoad.main, mediaType = settings1.mediaTypes[type3], activeTrack = mediaType.activeTrack(), activeGroup = mediaType.getActiveGroup(), previousActiveLoader = mediaType.activePlaylistLoader, lastGroup = mediaType.lastGroup_;
                         if ((!activeGroup || !lastGroup || activeGroup.id !== lastGroup.id) && (mediaType.lastGroup_ = activeGroup, mediaType.lastTrack_ = activeTrack, stopLoaders(segmentLoader, mediaType), activeGroup && !activeGroup.isMasterPlaylist)) {
@@ -13970,8 +13948,7 @@
                         _this3.loadOnPlay_ && _this3.tech_.off("play", _this3.loadOnPlay_);
                         var selectedMedia, updatedPlaylist = _this3.masterPlaylistLoader_.media();
                         if (!updatedPlaylist) {
-                            if (_this3.excludeUnsupportedVariants_(), _this3.enableLowInitialPlaylist && (selectedMedia = _this3.selectInitialPlaylist()), selectedMedia || (selectedMedia = _this3.selectPlaylist()), !selectedMedia || !_this3.shouldSwitchToMedia_(selectedMedia)) return;
-                            if (_this3.initialMedia_ = selectedMedia, _this3.switchMedia_(_this3.initialMedia_, "initial"), !("vhs-json" === _this3.sourceType_ && _this3.initialMedia_.segments)) return;
+                            if (_this3.excludeUnsupportedVariants_(), _this3.enableLowInitialPlaylist && (selectedMedia = _this3.selectInitialPlaylist()), selectedMedia || (selectedMedia = _this3.selectPlaylist()), !selectedMedia || !_this3.shouldSwitchToMedia_(selectedMedia) || (_this3.initialMedia_ = selectedMedia, _this3.switchMedia_(_this3.initialMedia_, "initial"), !("vhs-json" === _this3.sourceType_ && _this3.initialMedia_.segments))) return;
                             updatedPlaylist = _this3.initialMedia_;
                         }
                         _this3.handleUpdatedMediaPlaylist(updatedPlaylist);
@@ -14211,7 +14188,7 @@
                         return;
                     }
                     var logFn = error.internal ? this.logger_ : videojs.log.warn, errorMessage = error.message ? " " + error.message : "";
-                    logFn((error.internal ? "Internal problem" : "Problem") + " encountered with playlist " + currentPlaylist.id + "." + (errorMessage + " Switching to playlist " + nextPlaylist.id + ".")), nextPlaylist.attributes.AUDIO !== currentPlaylist.attributes.AUDIO && this.delegateLoaders_("audio", [
+                    logFn((error.internal ? "Internal problem" : "Problem") + " encountered with playlist " + currentPlaylist.id + "." + errorMessage + " Switching to playlist " + nextPlaylist.id + "."), nextPlaylist.attributes.AUDIO !== currentPlaylist.attributes.AUDIO && this.delegateLoaders_("audio", [
                         "abort",
                         "pause"
                     ]), nextPlaylist.attributes.SUBTITLES !== currentPlaylist.attributes.SUBTITLES && this.delegateLoaders_("subtitle", [
@@ -14263,18 +14240,12 @@
                             var expired = this.syncController_.getExpiredTime(media, this.duration());
                             if (null !== expired) {
                                 var master = this.masterPlaylistLoader_.master, mainSeekable = Vhs$1.Playlist.seekable(media, expired, Vhs$1.Playlist.liveEdgeDelay(master, media));
-                                if (0 !== mainSeekable.length) {
-                                    if (this.mediaTypes_.AUDIO.activePlaylistLoader) {
-                                        if (media = this.mediaTypes_.AUDIO.activePlaylistLoader.media(), null === (expired = this.syncController_.getExpiredTime(media, this.duration()))) return;
-                                        if (0 === (audioSeekable = Vhs$1.Playlist.seekable(media, expired, Vhs$1.Playlist.liveEdgeDelay(master, media))).length) return;
-                                    }
-                                    this.seekable_ && this.seekable_.length && (oldEnd = this.seekable_.end(0), oldStart = this.seekable_.start(0)), audioSeekable ? audioSeekable.start(0) > mainSeekable.end(0) || mainSeekable.start(0) > audioSeekable.end(0) ? this.seekable_ = mainSeekable : this.seekable_ = videojs.createTimeRanges([
-                                        [
-                                            audioSeekable.start(0) > mainSeekable.start(0) ? audioSeekable.start(0) : mainSeekable.start(0),
-                                            audioSeekable.end(0) < mainSeekable.end(0) ? audioSeekable.end(0) : mainSeekable.end(0), 
-                                        ], 
-                                    ]) : this.seekable_ = mainSeekable, this.seekable_ && this.seekable_.length && this.seekable_.end(0) === oldEnd && this.seekable_.start(0) === oldStart || (this.logger_("seekable updated [" + printableRange(this.seekable_) + "]"), this.tech_.trigger("seekablechanged"));
-                                }
+                                0 !== mainSeekable.length && (!this.mediaTypes_.AUDIO.activePlaylistLoader || (media = this.mediaTypes_.AUDIO.activePlaylistLoader.media(), null !== (expired = this.syncController_.getExpiredTime(media, this.duration())) && 0 !== (audioSeekable = Vhs$1.Playlist.seekable(media, expired, Vhs$1.Playlist.liveEdgeDelay(master, media))).length)) && (this.seekable_ && this.seekable_.length && (oldEnd = this.seekable_.end(0), oldStart = this.seekable_.start(0)), audioSeekable ? audioSeekable.start(0) > mainSeekable.end(0) || mainSeekable.start(0) > audioSeekable.end(0) ? this.seekable_ = mainSeekable : this.seekable_ = videojs.createTimeRanges([
+                                    [
+                                        audioSeekable.start(0) > mainSeekable.start(0) ? audioSeekable.start(0) : mainSeekable.start(0),
+                                        audioSeekable.end(0) < mainSeekable.end(0) ? audioSeekable.end(0) : mainSeekable.end(0), 
+                                    ], 
+                                ]) : this.seekable_ = mainSeekable, this.seekable_ && this.seekable_.length && this.seekable_.end(0) === oldEnd && this.seekable_.start(0) === oldStart || (this.logger_("seekable updated [" + printableRange(this.seekable_) + "]"), this.tech_.trigger("seekablechanged")));
                             }
                         }
                     }
@@ -14535,18 +14506,18 @@
                         var seekableStart = seekable.start(0);
                         seekTo = seekableStart + (seekableStart === seekable.end(0) ? 0 : SAFE_TIME_DELTA);
                     }
-                    if (void 0 !== seekTo) return this.logger_("Trying to seek outside of seekable at time " + currentTime + " with " + ("seekable range " + printableRange(seekable) + ". Seeking to ") + (seekTo + ".")), this.tech_.setCurrentTime(seekTo), !0;
+                    if (void 0 !== seekTo) return this.logger_("Trying to seek outside of seekable at time " + currentTime + " with seekable range " + printableRange(seekable) + ". Seeking to " + seekTo + "."), this.tech_.setCurrentTime(seekTo), !0;
                     for(var sourceUpdater = this.masterPlaylistController_.sourceUpdater_, buffered = this.tech_.buffered(), audioBuffered = sourceUpdater.audioBuffer ? sourceUpdater.audioBuffered() : null, videoBuffered = sourceUpdater.videoBuffer ? sourceUpdater.videoBuffered() : null, media = this.media(), minAppendedDuration = media.partTargetDuration ? media.partTargetDuration : (media.targetDuration - TIME_FUDGE_FACTOR) * 2, bufferedToCheck = [
                         audioBuffered,
                         videoBuffered
                     ], i = 0; i < bufferedToCheck.length; i++)if (bufferedToCheck[i] && timeAheadOf(bufferedToCheck[i], currentTime) < minAppendedDuration) return !1;
                     var nextRange = findNextRange(buffered, currentTime);
-                    return 0 !== nextRange.length && (seekTo = nextRange.start(0) + SAFE_TIME_DELTA, this.logger_("Buffered region starts (" + nextRange.start(0) + ") " + (" just beyond seek point (" + currentTime + "). Seeking to " + seekTo + ".")), this.tech_.setCurrentTime(seekTo), !0);
+                    return 0 !== nextRange.length && (seekTo = nextRange.start(0) + SAFE_TIME_DELTA, this.logger_("Buffered region starts (" + nextRange.start(0) + ")  just beyond seek point (" + currentTime + "). Seeking to " + seekTo + "."), this.tech_.setCurrentTime(seekTo), !0);
                 }, _proto.waiting_ = function() {
                     if (!this.techWaiting_()) {
                         var currentTime = this.tech_.currentTime(), currentRange = findRange(this.tech_.buffered(), currentTime);
                         if (currentRange.length && currentTime + 3 <= currentRange.end(0)) {
-                            this.cancelTimer_(), this.tech_.setCurrentTime(currentTime), this.logger_("Stopped at " + currentTime + " while inside a buffered region " + ("[" + currentRange.start(0) + " -> " + currentRange.end(0) + "]. Attempting to resume ") + "playback by seeking to the current time."), this.tech_.trigger({
+                            this.cancelTimer_(), this.tech_.setCurrentTime(currentTime), this.logger_("Stopped at " + currentTime + " while inside a buffered region [" + currentRange.start(0) + " -> " + currentRange.end(0) + "]. Attempting to resume playback by seeking to the current time."), this.tech_.trigger({
                                 type: "usage",
                                 name: "vhs-unknown-waiting"
                             }), this.tech_.trigger({
@@ -14561,7 +14532,7 @@
                     if (this.tech_.seeking() || null !== this.timer_) return !0;
                     if (this.beforeSeekableWindow_(seekable, currentTime)) {
                         var livePoint = seekable.end(seekable.length - 1);
-                        return this.logger_("Fell out of live window at time " + currentTime + ". Seeking to " + ("live point (seekable end) " + livePoint)), this.cancelTimer_(), this.tech_.setCurrentTime(livePoint), this.tech_.trigger({
+                        return this.logger_("Fell out of live window at time " + currentTime + ". Seeking to live point (seekable end) " + livePoint), this.cancelTimer_(), this.tech_.setCurrentTime(livePoint), this.tech_.trigger({
                             type: "usage",
                             name: "vhs-live-resync"
                         }), this.tech_.trigger({
@@ -14584,7 +14555,7 @@
                     var nextRange = findNextRange(buffered, currentTime);
                     if (nextRange.length > 0) {
                         var difference = nextRange.start(0) - currentTime;
-                        return this.logger_("Stopped at " + currentTime + ", setting timer for " + difference + ", seeking " + ("to " + nextRange.start(0))), this.cancelTimer_(), this.timer_ = setTimeout(this.skipTheGap_.bind(this), 1000 * difference, currentTime), !0;
+                        return this.logger_("Stopped at " + currentTime + ", setting timer for " + difference + ", seeking to " + nextRange.start(0)), this.cancelTimer_(), this.timer_ = setTimeout(this.skipTheGap_.bind(this), 1000 * difference, currentTime), !0;
                     }
                     return !1;
                 }, _proto.afterSeekableWindow_ = function(seekable, currentTime, playlist, allowSeeksWithinUnsafeLiveWindow) {
@@ -14603,7 +14574,7 @@
                                 end: audioRange.end(0)
                             });
                         } else findNextRange(videoBuffered, currentTime).length || (gap = this.gapFromVideoUnderflow_(videoBuffered, currentTime));
-                        return !!gap && (this.logger_("Encountered a gap in video from " + gap.start + " to " + gap.end + ". " + ("Seeking to current time " + currentTime)), !0);
+                        return !!gap && (this.logger_("Encountered a gap in video from " + gap.start + " to " + gap.end + ". Seeking to current time " + currentTime), !0);
                     }
                 }, _proto.skipTheGap_ = function(scheduledCurrentTime) {
                     var buffered = this.tech_.buffered(), currentTime = this.tech_.currentTime(), nextRange = findNextRange(buffered, currentTime);
@@ -14692,7 +14663,7 @@
                     var average = -1, lastSystemBandwidth = -1;
                     if (decay < 0 || decay > 1) throw new Error("Moving average bandwidth decay must be between 0 and 1.");
                     return function() {
-                        var pixelRatio = this.useDevicePixelRatio ? global_window__WEBPACK_IMPORTED_MODULE_0___default().devicePixelRatio || 1 : 1;
+                        var pixelRatio = this.useDevicePixelRatio && global_window__WEBPACK_IMPORTED_MODULE_0___default().devicePixelRatio || 1;
                         return average < 0 && (average = this.systemBandwidth, lastSystemBandwidth = this.systemBandwidth), this.systemBandwidth > 0 && this.systemBandwidth !== lastSystemBandwidth && (average = decay * this.systemBandwidth + (1 - decay) * average, lastSystemBandwidth = this.systemBandwidth), simpleSelector(this.playlists.master, average, parseInt(safeGetComputedStyle(this.tech_.el(), "width"), 10) * pixelRatio, parseInt(safeGetComputedStyle(this.tech_.el(), "height"), 10) * pixelRatio, this.limitRenditionByPlayerDimensions, this.masterPlaylistController_);
                     };
                 },

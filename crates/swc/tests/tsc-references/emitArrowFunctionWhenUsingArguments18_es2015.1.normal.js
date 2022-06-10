@@ -4,7 +4,6 @@ function f() {
         arguments
     };
     if (Math.random()) {
-        return ()=>arguments
-        ;
+        return ()=>arguments;
     }
 }

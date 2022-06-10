@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 17,
-        "end": 123,
+        "end": 130,
         "ctxt": 0
       },
       "tagName": "html",
@@ -31,8 +31,8 @@
         {
           "type": "Attribute",
           "span": {
-            "start": 0,
-            "end": 0,
+            "start": 23,
+            "end": 32,
             "ctxt": 0
           },
           "namespace": null,
@@ -46,7 +46,7 @@
           "type": "Element",
           "span": {
             "start": 34,
-            "end": 69,
+            "end": 76,
             "ctxt": 0
           },
           "tagName": "head",
@@ -60,13 +60,13 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
               "span": {
                 "start": 45,
-                "end": 60,
+                "end": 68,
                 "ctxt": 0
               },
               "tagName": "title",
@@ -80,7 +80,7 @@
                     "end": 60,
                     "ctxt": 0
                   },
-                  "value": "Document"
+                  "data": "Document"
                 }
               ],
               "content": null
@@ -92,7 +92,7 @@
                 "end": 69,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             }
           ],
           "content": null
@@ -104,7 +104,7 @@
             "end": 77,
             "ctxt": 0
           },
-          "value": "\n"
+          "data": "\n"
         },
         {
           "type": "Element",
@@ -124,13 +124,13 @@
                 "end": 85,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 92,
-                "end": 100,
+                "end": 105,
                 "ctxt": 0
               },
               "tagName": "h1",
@@ -144,7 +144,7 @@
                     "end": 100,
                     "ctxt": 0
                   },
-                  "value": "test"
+                  "data": "test"
                 }
               ],
               "content": null
@@ -153,7 +153,7 @@
               "type": "Element",
               "span": {
                 "start": 85,
-                "end": 92,
+                "end": 113,
                 "ctxt": 0
               },
               "tagName": "table",
@@ -169,7 +169,7 @@
                 "end": 123,
                 "ctxt": 0
               },
-              "value": "\n\n\n"
+              "data": "\n\n\n"
             }
           ],
           "content": null

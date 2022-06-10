@@ -1,2 +1,6 @@
 
-  x Unexpected token
+  x End of file seen and there were open elements
+   ,-[$DIR/tests/recovery/element/hgroup/input.html:1:1]
+ 1 | <!doctype html><p>foo<hgroup>bar<p>baz
+   :                                       ^
+   `----

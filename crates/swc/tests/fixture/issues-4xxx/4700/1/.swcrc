@@ -1,0 +1,12 @@
+{
+    "module": {
+        "type": "commonjs",
+        "noInterop": true
+    },
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true
+        }
+    }
+}

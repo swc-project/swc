@@ -1,0 +1,34 @@
+
+  x Document
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat/51.fragment_svg_desc/input.html:1:1]
+ 1 | <plaintext><foo>
+   : ^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+
+  x Element
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat/51.fragment_svg_desc/input.html:1:1]
+ 1 | <plaintext><foo>
+   : ^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat/51.fragment_svg_desc/input.html:1:1]
+ 1 | <plaintext><foo>
+   : ^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat/51.fragment_svg_desc/input.html:1:1]
+ 1 | <plaintext><foo>
+   :            ^^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat/51.fragment_svg_desc/input.html:1:1]
+ 1 | <plaintext><foo>
+   :            ^^^^^
+   `----

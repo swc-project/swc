@@ -19,9 +19,7 @@ class C {
         return 1;
     }
     constructor(x){
-        this.x = x, this.ia = 1, this.ib = ()=>this.ia
-        ;
+        this.x = x, this.ia = 1, this.ib = ()=>this.ia;
     }
 }
-C.sa = 1, C.sb = ()=>1
-;
+C.sa = 1, C.sb = ()=>1;

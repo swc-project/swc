@@ -1,8 +1,8 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var SomeClass = function() {
     "use strict";
     function SomeClass() {
-        swcHelpers.classCallCheck(this, SomeClass);
+        _class_call_check(this, SomeClass);
     }
     return SomeClass.prototype.method = function() {
         this.state.data, "stringVariant" === this.state.type && this.state.data;
@@ -10,7 +10,7 @@ var SomeClass = function() {
 }(), SomeClass2 = function() {
     "use strict";
     function SomeClass2() {
-        swcHelpers.classCallCheck(this, SomeClass2);
+        _class_call_check(this, SomeClass2);
     }
     return SomeClass2.prototype.method = function() {
         var ref;

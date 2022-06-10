@@ -1,10 +1,12 @@
-import * as swcHelpers from "@swc/helpers";
-var symbol = Symbol.for("myThing"), _symbol = symbol, Bar = function() {
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _get from "@swc/helpers/lib/_get.js";
+import _get_prototype_of from "@swc/helpers/lib/_get_prototype_of.js";
+var symbol = Symbol.for("myThing"), Bar = function() {
     "use strict";
     function Bar() {
-        swcHelpers.classCallCheck(this, Bar);
+        _class_call_check(this, Bar);
     }
-    return Bar.prototype[_symbol] = function() {
-        return swcHelpers.get(swcHelpers.getPrototypeOf(Bar.prototype), symbol, this).call(this);
+    return Bar.prototype[symbol] = function() {
+        return _get(_get_prototype_of(Bar.prototype), symbol, this).call(this);
     }, Bar;
 }();

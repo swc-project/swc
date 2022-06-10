@@ -1,22 +1,27 @@
-import * as swcHelpers from "@swc/helpers";
+import _assert_this_initialized from "@swc/helpers/lib/_assert_this_initialized.js";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _get from "@swc/helpers/lib/_get.js";
+import _get_prototype_of from "@swc/helpers/lib/_get_prototype_of.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var CBase = function() {
     "use strict";
     function CBase(param) {
-        swcHelpers.classCallCheck(this, CBase);
+        _class_call_check(this, CBase);
     }
     return CBase.prototype.foo = function(param) {}, CBase;
 }(), C = function(CBase) {
     "use strict";
-    swcHelpers.inherits(C, CBase);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, CBase);
+    var _super = _create_super(C);
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         var _this = _super.call(this, {
             method: function(p) {
                 p.length;
             }
         });
-        return swcHelpers.get((swcHelpers.assertThisInitialized(_this), swcHelpers.getPrototypeOf(C.prototype)), "foo", _this).call(_this, {
+        return _get((_assert_this_initialized(_this), _get_prototype_of(C.prototype)), "foo", _this).call(_this, {
             method: function(p) {
                 p.length;
             }

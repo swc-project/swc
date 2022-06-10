@@ -1,2 +1,2 @@
-import * as swcHelpers from "@swc/helpers";
-swcHelpers.defineProperty({}, _await, foo);
+import _define_property from "@swc/helpers/lib/_define_property.js";
+_define_property({}, _await, foo);

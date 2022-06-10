@@ -1,5 +1,5 @@
 var TypeScript;
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 !function(TypeScript1) {
     var pushAssignScope = function(scope, context, type, classType, fnc) {
         var chain = new ScopeChain(null, context.scopeChain, scope);
@@ -90,13 +90,13 @@ import * as swcHelpers from "@swc/helpers";
         return walker.options.goChildren = go, ast;
     }, AssignScopeContext = function(scopeChain, typeFlow, modDeclChain) {
         "use strict";
-        swcHelpers.classCallCheck(this, AssignScopeContext), this.scopeChain = scopeChain, this.typeFlow = typeFlow, this.modDeclChain = modDeclChain;
+        _class_call_check(this, AssignScopeContext), this.scopeChain = scopeChain, this.typeFlow = typeFlow, this.modDeclChain = modDeclChain;
     };
     TypeScript1.AssignScopeContext = AssignScopeContext, TypeScript1.pushAssignScope = pushAssignScope, TypeScript1.popAssignScope = popAssignScope, TypeScript1.instanceCompare = instanceCompare, TypeScript1.instanceFilterStop = instanceFilterStop;
     var ScopeSearchFilter = function() {
         "use strict";
         function ScopeSearchFilter(select, stop) {
-            swcHelpers.classCallCheck(this, ScopeSearchFilter), this.select = select, this.stop = stop, this.result = null;
+            _class_call_check(this, ScopeSearchFilter), this.select = select, this.stop = stop, this.result = null;
         }
         var _proto = ScopeSearchFilter.prototype;
         return _proto.reset = function() {

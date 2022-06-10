@@ -10,19 +10,15 @@
   x Element
 
   x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/recovery/element/table/broken-8/input.html:1:1]
  1 | <body><table><tr><td><svg><td><foreignObject><span></td>Foo
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/table/broken-8/input.html:1:1]
  1 | <body><table><tr><td><svg><td><foreignObject><span></td>Foo
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^
    `----
 
   x Child
@@ -38,39 +34,31 @@
    `----
 
   x Child
+
+  x Element
+
+  x Child
    ,-[$DIR/tests/recovery/element/table/broken-8/input.html:1:1]
  1 | <body><table><tr><td><svg><td><foreignObject><span></td>Foo
-   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/table/broken-8/input.html:1:1]
  1 | <body><table><tr><td><svg><td><foreignObject><span></td>Foo
-   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
    ,-[$DIR/tests/recovery/element/table/broken-8/input.html:1:1]
  1 | <body><table><tr><td><svg><td><foreignObject><span></td>Foo
-   :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/table/broken-8/input.html:1:1]
  1 | <body><table><tr><td><svg><td><foreignObject><span></td>Foo
-   :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Child
-   ,-[$DIR/tests/recovery/element/table/broken-8/input.html:1:1]
- 1 | <body><table><tr><td><svg><td><foreignObject><span></td>Foo
-   :                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Element
-   ,-[$DIR/tests/recovery/element/table/broken-8/input.html:1:1]
- 1 | <body><table><tr><td><svg><td><foreignObject><span></td>Foo
-   :                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child

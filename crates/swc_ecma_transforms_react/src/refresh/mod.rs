@@ -1,8 +1,6 @@
-use indexmap::IndexSet;
-use swc_atoms::JsWord;
 use swc_common::{
-    collections::AHashSet, comments::Comments, sync::Lrc, util::take::Take, BytePos, SourceMap,
-    Span, Spanned, SyntaxContext, DUMMY_SP,
+    collections::AHashSet, comments::Comments, sync::Lrc, util::take::Take, BytePos, Mark,
+    SourceMap, SourceMapper, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{private_ident, quote_ident, quote_str, ExprFactory};
@@ -10,10 +8,7 @@ use swc_ecma_visit::{as_folder, Fold, Visit, VisitMut, VisitMutWith};
 
 use self::{
     hook::HookRegister,
-    util::{
-        collect_ident_in_jsx, is_body_arrow_fn, is_import_or_require, make_assign_stmt,
-        CollectIdent,
-    },
+    util::{collect_ident_in_jsx, is_body_arrow_fn, is_import_or_require, make_assign_stmt},
 };
 
 pub mod options;
@@ -56,6 +51,7 @@ pub fn refresh<C: Comments>(
     options: Option<RefreshOptions>,
     cm: Lrc<SourceMap>,
     comments: Option<C>,
+    global_mark: Mark,
 ) -> impl Fold + VisitMut {
     as_folder(Refresh {
         enable: dev && options.is_some(),
@@ -63,7 +59,7 @@ pub fn refresh<C: Comments>(
         comments,
         should_reset: false,
         options: options.unwrap_or_default(),
-        scope_binding: IndexSet::new(),
+        global_mark,
     })
 }
 
@@ -73,15 +69,14 @@ struct Refresh<C: Comments> {
     cm: Lrc<SourceMap>,
     should_reset: bool,
     comments: Option<C>,
-    // bindings in current and all parent scope
-    scope_binding: IndexSet<JsWord>,
+    global_mark: Mark,
 }
 
 impl<C: Comments> Refresh<C> {
     fn get_persistent_id_from_var_decl(
         &self,
         var_decl: &mut VarDecl,
-        used_in_jsx: &AHashSet<JsWord>,
+        used_in_jsx: &AHashSet<Id>,
         hook_reg: &mut HookRegister,
     ) -> Persist {
         // We only handle the case when a single variable is declared
@@ -91,7 +86,7 @@ impl<C: Comments> Refresh<C> {
             ..
         }] = var_decl.decls.as_mut_slice()
         {
-            if used_in_jsx.contains(&binding.id.sym) && !is_import_or_require(init_expr) {
+            if used_in_jsx.contains(&binding.to_id()) && !is_import_or_require(init_expr) {
                 match init_expr.as_ref() {
                     // TaggedTpl is for something like styled.div`...`
                     Expr::Arrow(_) | Expr::Fn(_) | Expr::TaggedTpl(_) | Expr::Call(_) => {
@@ -246,7 +241,7 @@ where
 
         let mut should_refresh = self.should_reset;
         if let Some(comments) = &self.comments {
-            if n.hi != BytePos(0) {
+            if !n.hi.is_dummy() {
                 comments.with_leading(n.hi - BytePos(1), |comments| {
                     if comments.iter().any(|c| c.text.contains("@refresh reset")) {
                         should_refresh = true
@@ -278,15 +273,6 @@ impl<C: Comments> VisitMut for Refresh<C> {
         // to collect comments
         self.visit_module_items(module_items);
 
-        let mut current_scope = IndexSet::new();
-        // TODO: merge with collect_decls
-        for item in module_items.iter() {
-            item.collect_ident(&mut current_scope);
-        }
-
-        let current_binding = self.scope_binding.len();
-
-        // TODO: false positive, doesn't consider identity shadow
         let used_in_jsx = collect_ident_in_jsx(module_items);
 
         let mut items = Vec::with_capacity(module_items.len());
@@ -296,7 +282,7 @@ impl<C: Comments> VisitMut for Refresh<C> {
             options: &self.options,
             ident: Vec::new(),
             extra_stmt: Vec::new(),
-            scope_binding: current_scope,
+            current_scope: vec![SyntaxContext::empty().apply_mark(self.global_mark)],
             cm: &self.cm,
             should_reset: self.should_reset,
         };
@@ -385,7 +371,6 @@ impl<C: Comments> VisitMut for Refresh<C> {
                 items.push(item);
             } else {
                 item.visit_mut_children_with(&mut hook_visitor);
-                self.scope_binding.truncate(current_binding);
 
                 items.push(item);
                 items.extend(

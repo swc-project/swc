@@ -6,5 +6,5 @@ var E, a;
 }), extractIndexer({
     [E.x]: ""
 }), extractIndexer({
-    [0]: ""
+    0: ""
 });

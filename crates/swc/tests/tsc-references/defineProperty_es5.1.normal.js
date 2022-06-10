@@ -1,4 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 // @target: es5, esnext
 // @useDefineForClassFields: true
 var x = "p";
@@ -6,7 +8,7 @@ var _x = x;
 var A = /*#__PURE__*/ function() {
     "use strict";
     function A(y) {
-        swcHelpers.classCallCheck(this, A);
+        _class_call_check(this, A);
         this.y = y;
         this.a = this.y;
         this["computed"] = 13;
@@ -19,14 +21,14 @@ var A = /*#__PURE__*/ function() {
 }();
 var B = function B() {
     "use strict";
-    swcHelpers.classCallCheck(this, B);
+    _class_call_check(this, B);
 };
 var C = /*#__PURE__*/ function(B) {
     "use strict";
-    swcHelpers.inherits(C, B);
-    var _super = swcHelpers.createSuper(C);
+    _inherits(C, B);
+    var _super = _create_super(C);
     function C(ka) {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
         var _this;
         _this = _super.call(this);
         _this.ka = ka;

@@ -49,26 +49,22 @@ var h = fun((x)=>{
 var i = fun(Math.random() < 0.5 ? (x)=>{
     x(undefined);
     return x;
-} : (x)=>undefined
-, 10);
+} : (x)=>undefined, 10);
 var j = fun(Math.random() < 0.5 ? (x)=>{
     x(undefined);
     return x;
-} : (x)=>undefined
-, 10);
+} : (x)=>undefined, 10);
 var k = fun(Math.random() < 0.5 ? (x)=>{
     x(undefined);
     return x;
-} : (x)=>undefined
-, (x)=>{
+} : (x)=>undefined, (x)=>{
     x(undefined);
     return x;
 }, 10);
 var l = fun(Math.random() < 0.5 ? (x)=>{
     x(undefined);
     return x;
-} : (x)=>undefined
-, (x)=>{
+} : (x)=>undefined, (x)=>{
     x(undefined);
     return x;
 }, 10);
@@ -81,12 +77,10 @@ var lambda2 = (x)=>{
     return x;
 };
 var obj1 = {
-    x: (x)=>(x, undefined)
-    ,
+    x: (x)=>(x, undefined),
     y: (y)=>(y, undefined)
 };
 var obj2 = {
-    x: (x)=>(x, undefined)
-    ,
+    x: (x)=>(x, undefined),
     y: (y)=>(y, undefined)
 };

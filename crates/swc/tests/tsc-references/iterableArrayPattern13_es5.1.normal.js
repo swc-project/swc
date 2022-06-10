@@ -1,24 +1,26 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _to_array from "@swc/helpers/lib/_to_array.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 //@target: ES6
 var Bar = function Bar() {
     "use strict";
-    swcHelpers.classCallCheck(this, Bar);
+    _class_call_check(this, Bar);
 };
 var Foo = /*#__PURE__*/ function(Bar) {
     "use strict";
-    swcHelpers.inherits(Foo, Bar);
-    var _super = swcHelpers.createSuper(Foo);
+    _inherits(Foo, Bar);
+    var _super = _create_super(Foo);
     function Foo() {
-        swcHelpers.classCallCheck(this, Foo);
+        _class_call_check(this, Foo);
         return _super.apply(this, arguments);
     }
     return Foo;
 }(Bar);
-var _iterator = Symbol.iterator;
 var FooIterator = /*#__PURE__*/ function() {
     "use strict";
     function FooIterator() {
-        swcHelpers.classCallCheck(this, FooIterator);
+        _class_call_check(this, FooIterator);
     }
     var _proto = FooIterator.prototype;
     _proto.next = function next() {
@@ -27,12 +29,12 @@ var FooIterator = /*#__PURE__*/ function() {
             done: false
         };
     };
-    _proto[_iterator] = function() {
+    _proto[Symbol.iterator] = function() {
         return this;
     };
     return FooIterator;
 }();
 function fun(param) {
-    var _param = swcHelpers.toArray(param), a = _param[0], b = _param.slice(1);
+    var _param = _to_array(param), a = _param[0], b = _param.slice(1);
 }
 fun(new FooIterator);

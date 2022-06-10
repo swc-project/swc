@@ -6,7 +6,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_html_visit"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.6.0"
+version = "0.9.0"
 
 [lib]
 bench = false
@@ -14,5 +14,5 @@ bench = false
 [dependencies]
 swc_atoms = {version = "0.2.7", path = "../swc_atoms"}
 swc_common = { version = "0.18.0", path = "../swc_common"}
-swc_html_ast = {version = "0.6.0", path = "../swc_html_ast"}
+swc_html_ast = {version = "0.9.0", path = "../swc_html_ast"}
 swc_visit = {version = "0.3.0", path = "../swc_visit"}

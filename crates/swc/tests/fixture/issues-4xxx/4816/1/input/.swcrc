@@ -1,0 +1,12 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript"
+        },
+        "preserveAllComments": true,
+        "target": "es2017",
+        "minify": {
+            "compress": true
+        }
+    }
+}

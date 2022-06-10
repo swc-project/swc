@@ -148,3 +148,15 @@
  12 | color: rgb(100 100 100 / "test");
     :                        ^
     `----
+
+  x Expected percentage, number, function (math functions) or ident (with 'none' value) token
+    ,-[$DIR/tests/recovery/function/rgb/input.css:14:5]
+ 14 | color: rgb(var(--red));
+    :                      ^
+    `----
+
+  x Expected percentage, number, function (math functions) or ident (with 'none' value) token
+    ,-[$DIR/tests/recovery/function/rgb/input.css:15:5]
+ 15 | color: rgb(var(--red) var(--green));
+    :                                   ^
+    `----

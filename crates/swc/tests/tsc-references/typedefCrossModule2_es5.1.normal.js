@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
@@ -6,17 +6,17 @@ import * as swcHelpers from "@swc/helpers";
 // error
 /** @typedef {number} Foo */ var Foo = function Foo() {
     "use strict";
-    swcHelpers.classCallCheck(this, Foo);
+    _class_call_check(this, Foo);
 } // should error
 ;
 /** @typedef {number} Bar */ exports.Bar = function _class() {
     "use strict";
-    swcHelpers.classCallCheck(this, _class);
+    _class_call_check(this, _class);
 };
 /** @typedef {number} Baz */ module.exports = {
     Baz: function _class() {
         "use strict";
-        swcHelpers.classCallCheck(this, _class);
+        _class_call_check(this, _class);
     }
 };
 // ok

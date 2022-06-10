@@ -1,5 +1,6 @@
 use std::{iter::once, mem::take};
 
+#[allow(unused_imports)]
 use retain_mut::RetainMut;
 use rustc_hash::FxHashMap;
 use swc_atoms::{js_word, JsWord};
@@ -41,12 +42,12 @@ mod conditionals;
 mod dead_code;
 mod evaluate;
 mod fns;
-mod hoist_props;
 mod if_return;
 mod iife;
 mod inline;
 mod loops;
 mod ops;
+mod props;
 mod sequences;
 mod strings;
 mod switches;
@@ -1193,48 +1194,6 @@ where
         }))
     }
 
-    ///
-    /// - `a ? true : false` => `!!a`
-    fn compress_useless_cond_expr(&mut self, expr: &mut Expr) {
-        let cond = match expr {
-            Expr::Cond(c) => c,
-            _ => return,
-        };
-
-        let lt = cond.cons.get_type();
-        let rt = cond.alt.get_type();
-        match (lt, rt) {
-            (Known(Type::Bool), Known(Type::Bool)) => {}
-            _ => return,
-        }
-
-        let lb = cond.cons.as_pure_bool(&self.expr_ctx);
-        let rb = cond.alt.as_pure_bool(&self.expr_ctx);
-
-        let lb = match lb {
-            Value::Known(v) => v,
-            Value::Unknown => return,
-        };
-        let rb = match rb {
-            Value::Known(v) => v,
-            Value::Unknown => return,
-        };
-
-        // `cond ? true : false` => !!cond
-        if lb && !rb {
-            self.negate(&mut cond.test, false);
-            self.negate(&mut cond.test, false);
-            *expr = *cond.test.take();
-            return;
-        }
-
-        // `cond ? false : true` => !cond
-        if !lb && rb {
-            self.negate(&mut cond.test, false);
-            *expr = *cond.test.take();
-        }
-    }
-
     fn merge_var_decls(&mut self, stmts: &mut Vec<Stmt>) {
         if !self.options.join_vars && !self.options.hoist_vars {
             return;
@@ -1548,7 +1507,9 @@ where
 
         self.compress_typeof_undefined(n);
 
-        self.optimize_bin_operator(n);
+        self.optimize_bin_equal(n);
+
+        self.remove_bin_paren(n);
 
         self.optimize_cmp_with_null_or_undefined(n);
 
@@ -1779,13 +1740,11 @@ where
 
         self.compress_typeofs(e);
 
-        self.optimize_nullish_coalescing(e);
-
         self.compress_logical_exprs_as_bang_bang(e, false);
 
-        self.compress_useless_cond_expr(e);
-
         self.inline(e);
+
+        self.handle_property_access(e);
 
         if let Expr::Bin(bin) = e {
             let expr = self.optimize_lit_cmp(bin);
@@ -1797,8 +1756,6 @@ where
         }
 
         self.compress_cond_expr_if_similar(e);
-
-        self.compress_negated_bin_eq(e);
 
         if self.options.negate_iife {
             self.negate_iife_in_cond(e);
@@ -1913,8 +1870,15 @@ where
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_fn_decl(&mut self, f: &mut FnDecl) {
+        #[cfg(feature = "debug")]
+        let _tracing = tracing::span!(
+            Level::ERROR,
+            "visit_mut_fn_decl",
+            id = tracing::field::display(&f.ident)
+        )
+        .entered();
+
         self.functions
             .entry(f.ident.to_id())
             .or_insert_with(|| FnMetadata::from(&f.function));
@@ -2077,8 +2041,6 @@ where
         self.negate_if_stmt(n);
 
         self.merge_nested_if(n);
-
-        self.merge_else_if(n);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
@@ -2924,7 +2886,7 @@ fn is_left_access_to_arguments(l: &PatOrExpr) -> bool {
     }
 }
 
-#[derive(Debug, Default, PartialEq)]
+#[derive(Debug, Default, PartialEq, Eq)]
 struct SynthesizedStmts(Vec<Stmt>);
 
 impl SynthesizedStmts {

@@ -1,4 +1,8 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _object_spread from "@swc/helpers/lib/_object_spread.js";
+import _object_spread_props from "@swc/helpers/lib/_object_spread_props.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 import { jsx as _jsx } from "react/jsx-runtime";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
@@ -6,10 +10,10 @@ import Item from "./Item";
 import compareObjects from "./compareObjects";
 var ItemsList = /*#__PURE__*/ function(Component1) {
     "use strict";
-    swcHelpers.inherits(ItemsList, Component1);
-    var _super = swcHelpers.createSuper(ItemsList);
+    _inherits(ItemsList, Component1);
+    var _super = _create_super(ItemsList);
     function ItemsList() {
-        swcHelpers.classCallCheck(this, ItemsList);
+        _class_call_check(this, ItemsList);
         var _this;
         _this = _super.apply(this, arguments);
         _this.storeHighlightedItemReference = function(highlightedItem) {
@@ -28,9 +32,9 @@ var ItemsList = /*#__PURE__*/ function(Component1) {
         var _props = this.props, items = _props.items, itemProps = _props.itemProps, renderItem = _props.renderItem, renderItemData = _props.renderItemData, sectionIndex = _props.sectionIndex, highlightedItemIndex = _props.highlightedItemIndex, getItemId = _props.getItemId, theme = _props.theme, keyPrefix = _props.keyPrefix;
         var sectionPrefix = sectionIndex === null ? keyPrefix : "".concat(keyPrefix, "section-").concat(sectionIndex, "-");
         var isItemPropsFunction = typeof itemProps === "function";
-        return /*#__PURE__*/ _jsx("ul", swcHelpers.objectSpread({
+        return /*#__PURE__*/ _jsx("ul", _object_spread_props(_object_spread({
             role: "listbox"
-        }, theme("".concat(sectionPrefix, "items-list"), "itemsList"), {
+        }, theme("".concat(sectionPrefix, "items-list"), "itemsList")), {
             children: items.map(function(item, itemIndex) {
                 var isFirst = itemIndex === 0;
                 var isHighlighted = itemIndex === highlightedItemIndex;
@@ -39,7 +43,7 @@ var ItemsList = /*#__PURE__*/ function(Component1) {
                     sectionIndex: sectionIndex,
                     itemIndex: itemIndex
                 }) : itemProps;
-                var allItemProps = swcHelpers.objectSpread({
+                var allItemProps = _object_spread({
                     id: getItemId(sectionIndex, itemIndex),
                     "aria-selected": isHighlighted
                 }, theme(itemKey, "item", isFirst && "itemFirst", isHighlighted && "itemHighlighted"), itemPropsObj);
@@ -47,7 +51,7 @@ var ItemsList = /*#__PURE__*/ function(Component1) {
                     allItemProps.ref = _this.storeHighlightedItemReference;
                 }
                 // `key` is provided by theme()
-                /* eslint-disable react/jsx-key */ return /*#__PURE__*/ _jsx(Item, swcHelpers.objectSpread({}, allItemProps, {
+                /* eslint-disable react/jsx-key */ return /*#__PURE__*/ _jsx(Item, _object_spread_props(_object_spread({}, allItemProps), {
                     sectionIndex: sectionIndex,
                     isHighlighted: isHighlighted,
                     itemIndex: itemIndex,

@@ -2,9 +2,7 @@ class Bar {
 }
 class Foo extends Bar {
 }
-!function(...[[a = new Foo], b = [
-    new Foo
-]]) {}(...new class {
+class FooArrayIterator {
     next() {
         return {
             value: [
@@ -16,4 +14,7 @@ class Foo extends Bar {
     [Symbol.iterator]() {
         return this;
     }
-});
+}
+!function(...[[a = new Foo], b = [
+    new Foo
+]]) {}(...new FooArrayIterator);

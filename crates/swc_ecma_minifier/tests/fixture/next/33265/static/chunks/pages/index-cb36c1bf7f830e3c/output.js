@@ -459,11 +459,11 @@
                 var dataHeader = getvint(bytes, offset + innerid.length);
                 return getInfinityDataSize(id, bytes, offset + dataHeader.length + dataHeader.value + innerid.length);
             }, findEbml1 = function findEbml(bytes, paths) {
-                paths = (paths1 = paths, Array.isArray(paths1) ? paths1.map(function(p) {
+                paths = Array.isArray(paths1 = paths) ? paths1.map(function(p) {
                     return ebml_helpers_normalizePath(p);
                 }) : [
                     ebml_helpers_normalizePath(paths1)
-                ]), bytes = (0, byte_helpers.Ki)(bytes);
+                ], bytes = (0, byte_helpers.Ki)(bytes);
                 var paths1, results = [];
                 if (!paths.length) return results;
                 for(var i = 0; i < bytes.length;){
@@ -643,7 +643,7 @@
                         offset: 4
                     }) || (0, byte_helpers.G3)(bytes, CONSTANTS.fmp4, {
                         offset: 4
-                    })) || !!((0, byte_helpers.G3)(bytes, CONSTANTS.moof, {
+                    }) || (0, byte_helpers.G3)(bytes, CONSTANTS.moof, {
                         offset: 4
                     }) || (0, byte_helpers.G3)(bytes, CONSTANTS.moov, {
                         offset: 4
@@ -1064,9 +1064,8 @@
                 return current.hasOwnProperty(element) || (current[element] = !0), current;
             }
             function toOrderedSet(input) {
-                if (!input) return [];
-                var input1, list = (input1 = input) ? input1.split(/[\t\n\f\r ]+/).filter(notEmptyString) : [];
-                return Object.keys(list.reduce(orderedSetReducer, {}));
+                var input1;
+                return input ? Object.keys(((input1 = input) ? input1.split(/[\t\n\f\r ]+/).filter(notEmptyString) : []).reduce(orderedSetReducer, {})) : [];
             }
             function copy(src, dest) {
                 for(var p in src)dest[p] = src[p];
@@ -1198,8 +1197,7 @@
             }
             function needNamespaceDefine(node, isHTML, visibleNamespaces) {
                 var prefix = node.prefix || "", uri = node.namespaceURI;
-                if (!uri) return !1;
-                if ("xml" === prefix && uri === NAMESPACE.XML || uri === NAMESPACE.XMLNS) return !1;
+                if (!uri || "xml" === prefix && uri === NAMESPACE.XML || uri === NAMESPACE.XMLNS) return !1;
                 for(var i = visibleNamespaces.length; i--;){
                     var ns = visibleNamespaces[i];
                     if (ns.prefix === prefix) return ns.namespace !== uri;
@@ -3134,12 +3132,12 @@
                 return sidx && sidx.uri + "-" + byteRangeToString(sidx.byterange);
             }, mergeDiscontiguousPlaylists = function(playlists) {
                 var o;
-                return (o = playlists.reduce(function(acc, playlist) {
+                return Object.keys(o = playlists.reduce(function(acc, playlist) {
                     var _acc$name$segments, name = playlist.attributes.id + (playlist.attributes.lang || "");
                     return acc[name] ? (playlist.segments[0] && (playlist.segments[0].discontinuity = !0), (_acc$name$segments = acc[name].segments).push.apply(_acc$name$segments, playlist.segments), playlist.attributes.contentProtection && (acc[name].attributes.contentProtection = playlist.attributes.contentProtection)) : acc[name] = playlist, acc;
-                }, {}), Object.keys(o).map(function(k) {
+                }, {})).map(function(k) {
                     return o[k];
-                })).map(function(playlist) {
+                }).map(function(playlist) {
                     var l, key;
                     return playlist.discontinuityStarts = (l = playlist.segments, key = "discontinuity", l.reduce(function(a, e, i) {
                         return e[key] && a.push(i), a;
@@ -4065,9 +4063,7 @@
                             continue;
                         }
                         var m2 = t.match(/^<([^.\s/0-9>]+)(\.[^\s\\>]+)?([^>\\]+)?(\\?)>?$/);
-                        if (!m2) continue;
-                        if (!(node = createElement(m2[1], m2[3]))) continue;
-                        if (!shouldAdd(current1, node)) continue;
+                        if (!m2 || !(node = createElement(m2[1], m2[3])) || !shouldAdd(current1, node)) continue;
                         if (m2[2]) {
                             var classes = m2[2].split(".");
                             classes.forEach(function(cl) {
@@ -5150,23 +5146,25 @@
                 return 2 === placeHoldersLen1 && (tmp = revLookup[b64.charCodeAt(i)] << 2 | revLookup[b64.charCodeAt(i + 1)] >> 4, arr[curByte++] = 0xff & tmp), 1 === placeHoldersLen1 && (tmp = revLookup[b64.charCodeAt(i)] << 10 | revLookup[b64.charCodeAt(i + 1)] << 4 | revLookup[b64.charCodeAt(i + 2)] >> 2, arr[curByte++] = tmp >> 8 & 0xff, arr[curByte++] = 0xff & tmp), arr;
             }, exports.fromByteArray = function(uint8) {
                 for(var tmp, len = uint8.length, extraBytes = len % 3, parts = [], i = 0, len2 = len - extraBytes; i < len2; i += 16383)parts.push(encodeChunk(uint8, i, i + 16383 > len2 ? len2 : i + 16383));
-                return 1 === extraBytes ? (tmp = uint8[len - 1], parts.push(lookup[tmp >> 2] + lookup[tmp << 4 & 0x3f] + "==")) : 2 === extraBytes && (tmp = (uint8[len - 2] << 8) + uint8[len - 1], parts.push(lookup[tmp >> 10] + lookup[tmp >> 4 & 0x3f] + lookup[tmp << 2 & 0x3f] + "=")), parts.join("");
+                return 1 === extraBytes ? parts.push(lookup[(tmp = uint8[len - 1]) >> 2] + lookup[tmp << 4 & 0x3f] + "==") : 2 === extraBytes && parts.push(lookup[(tmp = (uint8[len - 2] << 8) + uint8[len - 1]) >> 10] + lookup[tmp >> 4 & 0x3f] + lookup[tmp << 2 & 0x3f] + "="), parts.join("");
             };
             for(var lookup = [], revLookup = [], Arr = "undefined" != typeof Uint8Array ? Uint8Array : Array, code = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", i3 = 0, len1 = code.length; i3 < len1; ++i3)lookup[i3] = code[i3], revLookup[code.charCodeAt(i3)] = i3;
             function getLens(b64) {
                 var len = b64.length;
                 if (len % 4 > 0) throw new Error("Invalid string. Length must be a multiple of 4");
                 var validLen = b64.indexOf("=");
-                return -1 === validLen && (validLen = len), [
+                -1 === validLen && (validLen = len);
+                var placeHoldersLen = validLen === len ? 0 : 4 - validLen % 4;
+                return [
                     validLen,
-                    validLen === len ? 0 : 4 - validLen % 4
+                    placeHoldersLen
                 ];
             }
             function tripletToBase64(num) {
                 return lookup[num >> 18 & 0x3f] + lookup[num >> 12 & 0x3f] + lookup[num >> 6 & 0x3f] + lookup[0x3f & num];
             }
             function encodeChunk(uint8, start, end) {
-                for(var tmp, output = [], i = start; i < end; i += 3)tmp = (uint8[i] << 16 & 0xff0000) + (uint8[i + 1] << 8 & 0xff00) + (0xff & uint8[i + 2]), output.push(tripletToBase64(tmp));
+                for(var output = [], i = start; i < end; i += 3)output.push(tripletToBase64((uint8[i] << 16 & 0xff0000) + (uint8[i + 1] << 8 & 0xff00) + (0xff & uint8[i + 2])));
                 return output.join("");
             }
             revLookup["-".charCodeAt(0)] = 62, revLookup["_".charCodeAt(0)] = 63;
@@ -5190,8 +5188,7 @@
                 if ("string" == typeof value) return fromString(value, encodingOrOffset);
                 if (ArrayBuffer.isView(value)) return fromArrayLike(value);
                 if (null == value) throw new TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value);
-                if (isInstance(value, ArrayBuffer) || value && isInstance(value.buffer, ArrayBuffer)) return fromArrayBuffer(value, encodingOrOffset, length);
-                if ("undefined" != typeof SharedArrayBuffer && (isInstance(value, SharedArrayBuffer) || value && isInstance(value.buffer, SharedArrayBuffer))) return fromArrayBuffer(value, encodingOrOffset, length);
+                if (isInstance(value, ArrayBuffer) || value && isInstance(value.buffer, ArrayBuffer) || "undefined" != typeof SharedArrayBuffer && (isInstance(value, SharedArrayBuffer) || value && isInstance(value.buffer, SharedArrayBuffer))) return fromArrayBuffer(value, encodingOrOffset, length);
                 if ("number" == typeof value) throw new TypeError('The "value" argument must not be of type number. Received type number');
                 var valueOf = value.valueOf && value.valueOf();
                 if (null != valueOf && valueOf !== value) return Buffer.from(valueOf, encodingOrOffset, length);
@@ -5220,7 +5217,7 @@
                 var buf;
                 if (byteOffset < 0 || array.byteLength < byteOffset) throw new RangeError('"offset" is outside of buffer bounds');
                 if (array.byteLength < byteOffset + (length || 0)) throw new RangeError('"length" is outside of buffer bounds');
-                return buf = void 0 === byteOffset && void 0 === length ? new Uint8Array(array) : void 0 === length ? new Uint8Array(array, byteOffset) : new Uint8Array(array, byteOffset, length), Object.setPrototypeOf(buf, Buffer.prototype), buf;
+                return Object.setPrototypeOf(buf = void 0 === byteOffset && void 0 === length ? new Uint8Array(array) : void 0 === length ? new Uint8Array(array, byteOffset) : new Uint8Array(array, byteOffset, length), Buffer.prototype), buf;
             }
             function fromObject(obj) {
                 if (Buffer.isBuffer(obj)) {
@@ -5263,9 +5260,7 @@
             }
             function slowToString(encoding, start, end) {
                 var loweredCase = !1;
-                if ((void 0 === start || start < 0) && (start = 0), start > this.length) return "";
-                if ((void 0 === end || end > this.length) && (end = this.length), end <= 0) return "";
-                if ((end >>>= 0) <= (start >>>= 0)) return "";
+                if ((void 0 === start || start < 0) && (start = 0), start > this.length || ((void 0 === end || end > this.length) && (end = this.length), end <= 0 || (end >>>= 0) <= (start >>>= 0))) return "";
                 for(encoding || (encoding = "utf8");;)switch(encoding){
                     case "hex":
                         return hexSlice(this, start, end);
@@ -5422,8 +5417,7 @@
                 if (offset + ext > buf.length) throw new RangeError("Index out of range");
             }
             function checkIEEE754(buf, value, offset, ext, max, min) {
-                if (offset + ext > buf.length) throw new RangeError("Index out of range");
-                if (offset < 0) throw new RangeError("Index out of range");
+                if (offset + ext > buf.length || offset < 0) throw new RangeError("Index out of range");
             }
             function writeFloat(buf, value, offset, littleEndian, noAssert) {
                 return value = +value, offset >>>= 0, noAssert || checkIEEE754(buf, value, offset, 4, 3.4028234663852886e38, -340282346638528860000000000000000000000), ieee754.write(buf, value, offset, littleEndian, 23, 4), offset + 4;
@@ -5693,8 +5687,7 @@
                 return writeDouble(this, value, offset, !1, noAssert);
             }, Buffer.prototype.copy = function(target, targetStart, start, end) {
                 if (!Buffer.isBuffer(target)) throw new TypeError("argument should be a Buffer");
-                if (start || (start = 0), end || 0 === end || (end = this.length), targetStart >= target.length && (targetStart = target.length), targetStart || (targetStart = 0), end > 0 && end < start && (end = start), end === start) return 0;
-                if (0 === target.length || 0 === this.length) return 0;
+                if (start || (start = 0), end || 0 === end || (end = this.length), targetStart >= target.length && (targetStart = target.length), targetStart || (targetStart = 0), end > 0 && end < start && (end = start), end === start || 0 === target.length || 0 === this.length) return 0;
                 if (targetStart < 0) throw new RangeError("targetStart out of bounds");
                 if (start < 0 || start >= this.length) throw new RangeError("Index out of range");
                 if (end < 0) throw new RangeError("sourceEnd out of bounds");
@@ -5729,11 +5722,7 @@
                 for(var codePoint, length = string.length, leadSurrogate = null, bytes = [], i = 0; i < length; ++i){
                     if ((codePoint = string.charCodeAt(i)) > 0xd7ff && codePoint < 0xe000) {
                         if (!leadSurrogate) {
-                            if (codePoint > 0xdbff) {
-                                (units -= 3) > -1 && bytes.push(0xef, 0xbf, 0xbd);
-                                continue;
-                            }
-                            if (i + 1 === length) {
+                            if (codePoint > 0xdbff || i + 1 === length) {
                                 (units -= 3) > -1 && bytes.push(0xef, 0xbf, 0xbd);
                                 continue;
                             }
@@ -5830,8 +5819,7 @@
             var setPrototypeOf = __webpack_require__(9611);
             function _construct(Parent1, args1, Class1) {
                 return (_construct = !function() {
-                    if ("undefined" == typeof Reflect || !Reflect.construct) return !1;
-                    if (Reflect.construct.sham) return !1;
+                    if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
                         return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;

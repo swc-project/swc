@@ -1,11 +1,12 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _create_class from "@swc/helpers/lib/_create_class.js";
 // @target: ES5
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
     }
-    swcHelpers.createClass(C, [
+    _create_class(C, [
         {
             key: "x",
             get: function get() {
@@ -19,9 +20,9 @@ var C = /*#__PURE__*/ function() {
 var D = /*#__PURE__*/ function() {
     "use strict";
     function D() {
-        swcHelpers.classCallCheck(this, D);
+        _class_call_check(this, D);
     }
-    swcHelpers.createClass(D, [
+    _create_class(D, [
         {
             key: "x",
             get: function get() {
@@ -35,9 +36,9 @@ var D = /*#__PURE__*/ function() {
 var E = /*#__PURE__*/ function() {
     "use strict";
     function E() {
-        swcHelpers.classCallCheck(this, E);
+        _class_call_check(this, E);
     }
-    swcHelpers.createClass(E, [
+    _create_class(E, [
         {
             key: "x",
             get: function get() {
@@ -51,9 +52,9 @@ var E = /*#__PURE__*/ function() {
 var F = /*#__PURE__*/ function() {
     "use strict";
     function F() {
-        swcHelpers.classCallCheck(this, F);
+        _class_call_check(this, F);
     }
-    swcHelpers.createClass(F, null, [
+    _create_class(F, null, [
         {
             key: "x",
             get: function get() {

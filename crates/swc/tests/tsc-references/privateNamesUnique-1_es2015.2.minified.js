@@ -1,7 +1,7 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
 new class {
     constructor(){
-        swcHelpers.classPrivateFieldInit(this, new WeakMap(), {
+        _class_private_field_init(this, new WeakMap(), {
             writable: !0,
             value: void 0
         });

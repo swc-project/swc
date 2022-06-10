@@ -1,16 +1,16 @@
 var M;
-import * as swcHelpers from "@swc/helpers";
-swcHelpers.asyncToGenerator(function*() {}), swcHelpers.asyncToGenerator(function*() {}), swcHelpers.asyncToGenerator(function*() {}), swcHelpers.asyncToGenerator(function*() {}), swcHelpers.asyncToGenerator(function*() {}), swcHelpers.asyncToGenerator(function*() {}), swcHelpers.asyncToGenerator(function*() {
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
+_async_to_generator(function*() {}), _async_to_generator(function*() {}), _async_to_generator(function*() {}), _async_to_generator(function*() {}), _async_to_generator(function*() {}), _async_to_generator(function*() {}), _async_to_generator(function*() {
     return p;
-}), swcHelpers.asyncToGenerator(function*() {
+}), _async_to_generator(function*() {
     return mp;
-}), swcHelpers.asyncToGenerator(function*() {
+}), _async_to_generator(function*() {
     return mp;
-}), swcHelpers.asyncToGenerator(function*() {
+}), _async_to_generator(function*() {
     return p;
 }), function(M1) {
     function _f1() {
-        return (_f1 = swcHelpers.asyncToGenerator(function*() {})).apply(this, arguments);
+        return (_f1 = _async_to_generator(function*() {})).apply(this, arguments);
     }
     M1.f1 = function() {
         return _f1.apply(this, arguments);

@@ -126,12 +126,11 @@ fn do_test(entry: &Path, minify: bool) {
         let mut parser: Parser<Lexer<StringInput>> = Parser::new_from(lexer);
 
         {
-            let mut wr = Box::new(swc_ecma_codegen::text_writer::JsWriter::with_target(
+            let mut wr = Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
                 cm.clone(),
                 "\n",
                 &mut wr,
                 None,
-                EsVersion::Es5,
             )) as Box<dyn WriteJs>;
 
             if minify {
@@ -139,7 +138,11 @@ fn do_test(entry: &Path, minify: bool) {
             }
 
             let mut emitter = Emitter {
-                cfg: swc_ecma_codegen::Config { minify },
+                cfg: swc_ecma_codegen::Config {
+                    minify,
+                    target: EsVersion::Es5,
+                    ..Default::default()
+                },
                 cm,
                 wr,
                 comments: if minify { None } else { Some(&comments) },

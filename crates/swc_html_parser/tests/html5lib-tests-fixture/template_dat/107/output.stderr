@@ -1,0 +1,5 @@
+(1,10): expected-doctype-but-got-start-tag
+(1,23): foster-parenting-start-tag
+(1,23): unexpected-start-tag
+(1,23): formatting-element-not-in-scope
+(1,24): eof-in-template

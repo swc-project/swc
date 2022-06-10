@@ -1,10 +1,10 @@
-import * as swcHelpers from "@swc/helpers";
-var _toStringTag = Symbol.toStringTag, C1 = function() {
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+var C1 = function() {
     "use strict";
     function C1() {
-        swcHelpers.classCallCheck(this, C1);
+        _class_call_check(this, C1);
     }
-    return C1.prototype[_toStringTag] = function() {
+    return C1.prototype[Symbol.toStringTag] = function() {
         return {
             x: ""
         };

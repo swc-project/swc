@@ -54,8 +54,7 @@ Context.prototype = {
      * @param {Input} input
      * @param {HookHandler=} handle
      * @returns {State}
-     */ construct (input, handle = ()=>void 0
-    ) {
+     */ construct (input, handle = ()=>void 0) {
         return input;
     }
 };

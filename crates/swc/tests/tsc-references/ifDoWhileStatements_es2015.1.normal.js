@@ -82,12 +82,9 @@ do {}while ({
     x: 1,
     y: 'a'
 })
-if (()=>43
-) {}
-while(()=>43
-){}
-do {}while (()=>43
-)
+if (()=>43) {}
+while(()=>43){}
+do {}while (()=>43)
 if (new C()) {}
 while(new C()){}
 do {}while (new C())

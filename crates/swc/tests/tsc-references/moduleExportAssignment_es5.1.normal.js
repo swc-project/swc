@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
@@ -6,7 +6,7 @@ import * as swcHelpers from "@swc/helpers";
 var EE = /*#__PURE__*/ function() {
     "use strict";
     function EE() {
-        swcHelpers.classCallCheck(this, EE);
+        _class_call_check(this, EE);
     }
     var _proto = EE.prototype;
     /** @param {string} s */ _proto.on = function on(s) {};

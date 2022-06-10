@@ -1,12 +1,13 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _create_class from "@swc/helpers/lib/_create_class.js";
 var B = function() {
     "use strict";
     function B(a) {
-        swcHelpers.classCallCheck(this, B), this.B = a;
+        _class_call_check(this, B), this.B = a;
     }
     return B.prototype.foo = function() {
         return this.x;
-    }, swcHelpers.createClass(B, [
+    }, _create_class(B, [
         {
             key: "BB",
             get: function() {

@@ -33,7 +33,7 @@ test!(
     "import bar from 'bar';
 
 obj[bar('bas')] = '123'",
-    "define([\"bar\"], function(_bar) {
+    "define([\"require\", \"bar\"], function(require, _bar) {
     \"use strict\";
     _bar = _interopRequireDefault(_bar);
     obj[(0, _bar).default('bas')] = '123';
@@ -50,7 +50,7 @@ test!(
 
 export const bar = { foo }",
     "
-define([\"exports\", \"foo\"], function(_exports, _foo) {
+define([\"require\", \"exports\", \"foo\"], function(require, _exports, _foo) {
     \"use strict\";
     _foo = _interopRequireDefault(_foo);
     Object.defineProperty(_exports, \"__esModule\", {
@@ -77,10 +77,79 @@ test!(
     custom_strict,
     r#"export function foo(){}"#,
     r#"
-define(["exports"], function(_exports) {
+define(["require", "exports"], function(require, _exports) {
     "use strict";
     _exports.foo = foo;
     function foo(){}
+});
+"#
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        config: util::Config {
+            strict: true,
+            ..Default::default()
+        },
+        ..Default::default()
+    }),
+    inner_scoped_local_require,
+    r#"export function foo(){ return require.toUrl(""); }"#,
+    r#"
+define(["require", "exports"], function(require, _exports) {
+  "use strict";
+  _exports.foo = foo;
+  function foo(){ return require.toUrl(""); }
+});
+"#
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        config: util::Config {
+            strict: true,
+            ..Default::default()
+        },
+        ..Default::default()
+    }),
+    inner_scoped_local_require_member_expr,
+    r#"export const DefaultIconPath = FileAccess.asBrowserUri('./media/defaultIcon.png', require).toString(true);"#,
+    r#"
+define([
+  "require",
+  "exports",
+], function(require, _exports) {
+  "use strict";
+  _exports.DefaultIconPath = void 0;
+  const DefaultIconPath = FileAccess.asBrowserUri('./media/defaultIcon.png', require).toString(true);
+  _exports.DefaultIconPath = DefaultIconPath;
+});
+"#
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        config: util::Config {
+            strict: true,
+            ..Default::default()
+        },
+        ..Default::default()
+    }),
+    inner_scoped_local_require_non_export_module,
+    r#"
+    import { getPathFromAmdModule } from 'vs/base/test/node/testUtils';
+    const fixturesFolder = getPathFromAmdModule(require, './fixtures');
+    "#,
+    r#"
+  define([
+    "require",
+    "vs/base/test/node/testUtils"
+], function(require, _testUtils) {
+    "use strict";
+    const fixturesFolder = (0, _testUtils).getPathFromAmdModule(require, './fixtures');
 });
 "#
 );
@@ -97,7 +166,7 @@ test!(
     custom_non_strict_mode,
     r#"export function foo(){}"#,
     r#"
-define(["exports"], function(_exports) {
+define(["require", "exports"], function(require, _exports) {
     Object.defineProperty(_exports, "__esModule", {
         value: true
     });
@@ -120,7 +189,7 @@ test!(
     r#"import * as foo from 'foo';
     import bar from 'bar';"#,
     r#"
-define(["foo", "bar"], function(foo, _bar) {
+define(["require", "foo", "bar"], function(require, foo, _bar) {
     "use strict";
 });
 "#
@@ -137,7 +206,7 @@ import React from 'react'
 window.React = React;
   "#,
     r#"
-define(["react"], function(_react) {
+define(["require", "react"], function(require, _react) {
     "use strict";
     _react = _interopRequireDefault(_react);
     window.React = _react.default;
@@ -156,7 +225,7 @@ test!(
 import {foo} from 'src';
 export {foo};
   "#,
-    r#"define("moduleId", ["exports", "src"], function(_exports, _src) {
+    r#"define("moduleId", ["require", "exports", "src"], function(require, _exports, _src) {
     "use strict";
     Object.defineProperty(_exports, "__esModule", {
         value: true
@@ -181,7 +250,7 @@ export default foo;
 
 "#,
     r#"
-define(["exports"], function (_exports) {
+define(["require", "exports"], function (require, _exports) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -205,7 +274,7 @@ export {foo} from "foo";
 
 "#,
     r#"
-define(["exports", "foo"], function (_exports, _foo) {
+define(["require", "exports", "foo"], function (require, _exports, _foo) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -233,7 +302,7 @@ export {foo, bar};
 
 "#,
     r#"
-define(["exports"], function (_exports) {
+define(["require", "exports"], function (require, _exports) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -262,7 +331,7 @@ foo2;
 
 "#,
     r#"
-define(["foo"], function (_foo) {
+define(["require", "foo"], function (require, _foo) {
   "use strict";
 
   _foo = _interopRequireDefault(_foo);
@@ -286,7 +355,7 @@ xyz;
 
 "#,
     r#"
-define(["foo"], function (_foo) {
+define(["require", "foo"], function (require, _foo) {
   "use strict";
 
   _foo = _interopRequireWildcard(_foo);
@@ -308,7 +377,7 @@ export { foo as default };
 
 "#,
     r#"
-define(["exports"], function (_exports) {
+define(["require", "exports"], function (require, _exports) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -336,7 +405,7 @@ export default 42;
 
 "#,
     r#"
-define(["exports"], function (_exports) {
+define(["require", "exports"], function (require, _exports) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -360,7 +429,7 @@ export default {};
 
 "#,
     r#"
-define(["exports"], function (_exports) {
+define(["require", "exports"], function (require, _exports) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -384,7 +453,7 @@ export {foo as bar} from "foo";
 
 "#,
     r#"
-define(["exports", "foo"], function (_exports, _foo) {
+define(["require", "exports", "foo"], function (require, _exports, _foo) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -412,7 +481,7 @@ export {foo};
 
 "#,
     r#"
-define(["exports"], function (_exports) {
+define(["require", "exports"], function (require, _exports) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -438,7 +507,7 @@ export * from "foo";
 
 "#,
     r#"
-define(["exports", "foo"], function (_exports, _foo) {
+define(["require", "exports", "foo"], function (require, _exports, _foo) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -469,7 +538,7 @@ export default function foo () {}
 
 "#,
     r#"
-define(["exports"], function (_exports) {
+define(["require", "exports"], function (require, _exports) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -494,7 +563,7 @@ export {foo as default};
 
 "#,
     r#"
-define(["exports"], function (_exports) {
+define(["require", "exports"], function (require, _exports) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -520,7 +589,7 @@ foo;
 
 "#,
     r#"
-define(["foo"], function (foo) {
+define(["require", "foo"], function (require, foo) {
   "use strict";
 
   foo = _interopRequireWildcard(foo);
@@ -560,7 +629,7 @@ d = 4;
 
 "#,
     r#"
-define(["exports"], function (_exports) {
+define(["require", "exports"], function (require, _exports) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -608,7 +677,7 @@ import "./directory/foo-bar";
 
 "#,
     r#"
-define(["foo", "foo-bar", "./directory/foo-bar"], function (_foo, _fooBar, _fooBar1) {
+define(["require", "foo", "foo-bar", "./directory/foo-bar"], function (require, _foo, _fooBar, _fooBar1) {
   "use strict";
 });
 
@@ -625,7 +694,7 @@ export {foo, bar} from "foo";
 
 "#,
     r#"
-define(["exports", "foo"], function (_exports, _foo) {
+define(["require", "exports", "foo"], function (require, _exports, _foo) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -658,7 +727,7 @@ export default function () {}
 
 "#,
     r#"
-define(["exports"], function (_exports) {
+define(["require", "exports"], function (require, _exports) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -682,7 +751,7 @@ export default (function(){return "foo"})();
 
 "#,
     r#"
-define(["exports"], function (_exports) {
+define(["require", "exports"], function (require, _exports) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -711,7 +780,7 @@ export {foo as bar};
 
 "#,
     r#"
-define(["exports"], function (_exports) {
+define(["require", "exports"], function (require, _exports) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -752,8 +821,8 @@ bar2;
 
 "#,
     r#"
-define(["exports", "foo", "foo-bar", "./directory/foo-bar"],
-function (_exports, foo2, _fooBar, _fooBar1) {
+define(["require", "exports", "foo", "foo-bar", "./directory/foo-bar"],
+function (require, _exports, foo2, _fooBar, _fooBar1) {
   "use strict";
 
   foo2 = _interopRequireWildcard(foo2);
@@ -786,7 +855,7 @@ export {foo as default, bar} from "foo";
 
 "#,
     r#"
-define(["exports", "foo"], function (_exports, _foo) {
+define(["require", "exports", "foo"], function (require, _exports, _foo) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -829,7 +898,7 @@ export var isOdd = (function (isEven) {
 
 "#,
     r#"
-define(["exports", "./evens"], function (_exports, _evens) {
+define(["require", "exports", "./evens"], function (require, _exports, _evens) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -864,7 +933,7 @@ export default class Foo {}
 
 "#,
     r#"
-define(["exports"], function (_exports) {
+define(["require", "exports"], function (require, _exports) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -890,7 +959,7 @@ export {foo as default} from "foo";
 
 "#,
     r#"
-define(["exports", "foo"], function (_exports, _foo) {
+define(["require", "exports", "foo"], function (require, _exports, _foo) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -917,7 +986,7 @@ export default [];
 
 "#,
     r#"
-define(["exports"], function (_exports) {
+define(["require", "exports"], function (require, _exports) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -944,7 +1013,7 @@ import { qux } from './qux';
 
 "#,
     r#"
-define(["./foo", "./bar", "./derp", "./qux"], function (_foo, _bar, _derp, _qux) {
+define(["require", "./foo", "./bar", "./derp", "./qux"], function (require, _foo, _bar, _derp, _qux) {
   "use strict";
 
   _bar = _interopRequireDefault(_bar);
@@ -964,7 +1033,7 @@ export { a as default };
 
 "#,
     r#"
-define(["exports"], function (_exports) {
+define(["require", "exports"], function (require, _exports) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -996,7 +1065,7 @@ export class foo9 {}
 
 "#,
     r#"
-define(["exports"], function (_exports) {
+define(["require", "exports"], function (require, _exports) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -1053,7 +1122,7 @@ xyz;
 
 "#,
     r#"
-define(["foo"], function (_foo) {
+define(["require", "foo"], function (require, _foo) {
   "use strict";
 
   _foo.bar;
@@ -1077,7 +1146,7 @@ export default class {}
 
 "#,
     r#"
-define(["exports"], function (_exports) {
+define(["require", "exports"], function (require, _exports) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -1108,7 +1177,7 @@ export {foo as default, bar};
 
 "#,
     r#"
-define(["exports"], function (_exports) {
+define(["require", "exports"], function (require, _exports) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -1134,7 +1203,7 @@ export const foo = function () {
   function e(t) {}
   return A(e, {}), e
 }();",
-    "define([\"exports\", \"path\"], function(_exports, _path) {
+    "define([\"require\", \"exports\", \"path\"], function(require, _exports, _path) {
     \"use strict\";
     Object.defineProperty(_exports, \"__esModule\", {
         value: true
@@ -1161,7 +1230,7 @@ export const foo = function () {
   var e = 1;
   return A(e, {}), e
 }();",
-    "define([\"exports\", \"path\"], function(_exports, _path) {
+    "define([\"require\", \"exports\", \"path\"], function(require, _exports, _path) {
     \"use strict\";
     Object.defineProperty(_exports, \"__esModule\", {
         value: true
@@ -1219,7 +1288,7 @@ console.log(elm);
 
 "#,
     r#"
-define(["foo"], function (_foo) {
+define(["require", "foo"], function (require, _foo) {
 "use strict";
 
 for(let _i = 0; _i < _foo.array.length; _i++){

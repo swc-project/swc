@@ -1,0 +1,2 @@
+if (typeof process === "undefined") {
+}

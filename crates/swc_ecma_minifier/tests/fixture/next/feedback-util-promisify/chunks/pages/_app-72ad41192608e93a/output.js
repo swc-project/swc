@@ -113,23 +113,25 @@
                             return 2 === o && (r = f1[e.charCodeAt(h)] << 2 | f1[e.charCodeAt(h + 1)] >> 4, u[a++] = 255 & r), 1 === o && (r = f1[e.charCodeAt(h)] << 10 | f1[e.charCodeAt(h + 1)] << 4 | f1[e.charCodeAt(h + 2)] >> 2, u[a++] = r >> 8 & 255, u[a++] = 255 & r), u;
                         }, r2.fromByteArray = function(e) {
                             for(var r, f = e.length, n = f % 3, i = [], u = 0, a = f - n; u < a; u += 16383)i.push(encodeChunk(e, u, u + 16383 > a ? a : u + 16383));
-                            return 1 === n ? (r = e[f - 1], i.push(t2[r >> 2] + t2[r << 4 & 63] + "==")) : 2 === n && (r = (e[f - 2] << 8) + e[f - 1], i.push(t2[r >> 10] + t2[r >> 4 & 63] + t2[r << 2 & 63] + "=")), i.join("");
+                            return 1 === n ? i.push(t2[(r = e[f - 1]) >> 2] + t2[r << 4 & 63] + "==") : 2 === n && i.push(t2[(r = (e[f - 2] << 8) + e[f - 1]) >> 10] + t2[r >> 4 & 63] + t2[r << 2 & 63] + "="), i.join("");
                         };
                         for(var t2 = [], f1 = [], n1 = "undefined" != typeof Uint8Array ? Uint8Array : Array, i1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", o1 = 0, u1 = i1.length; o1 < u1; ++o1)t2[o1] = i1[o1], f1[i1.charCodeAt(o1)] = o1;
                         function getLens(e) {
                             var r = e.length;
                             if (r % 4 > 0) throw new Error("Invalid string. Length must be a multiple of 4");
                             var t = e.indexOf("=");
-                            return -1 === t && (t = r), [
+                            -1 === t && (t = r);
+                            var f = t === r ? 0 : 4 - t % 4;
+                            return [
                                 t,
-                                t === r ? 0 : 4 - t % 4
+                                f
                             ];
                         }
                         function tripletToBase64(e) {
                             return t2[e >> 18 & 63] + t2[e >> 12 & 63] + t2[e >> 6 & 63] + t2[63 & e];
                         }
                         function encodeChunk(e, r, t) {
-                            for(var f, n = [], i = r; i < t; i += 3)f = (e[i] << 16 & 16711680) + (e[i + 1] << 8 & 65280) + (255 & e[i + 2]), n.push(tripletToBase64(f));
+                            for(var n = [], i = r; i < t; i += 3)n.push(tripletToBase64((e[i] << 16 & 16711680) + (e[i + 1] << 8 & 65280) + (255 & e[i + 2])));
                             return n.join("");
                         }
                         f1["-".charCodeAt(0)] = 62, f1["_".charCodeAt(0)] = 63;
@@ -153,8 +155,7 @@
                             if ("string" == typeof e) return fromString(e, r);
                             if (ArrayBuffer.isView(e)) return fromArrayLike(e);
                             if (null == e) throw new TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof e);
-                            if (isInstance(e, ArrayBuffer) || e && isInstance(e.buffer, ArrayBuffer)) return fromArrayBuffer(e, r, t);
-                            if ("undefined" != typeof SharedArrayBuffer && (isInstance(e, SharedArrayBuffer) || e && isInstance(e.buffer, SharedArrayBuffer))) return fromArrayBuffer(e, r, t);
+                            if (isInstance(e, ArrayBuffer) || e && isInstance(e.buffer, ArrayBuffer) || "undefined" != typeof SharedArrayBuffer && (isInstance(e, SharedArrayBuffer) || e && isInstance(e.buffer, SharedArrayBuffer))) return fromArrayBuffer(e, r, t);
                             if ("number" == typeof e) throw new TypeError('The "value" argument must not be of type number. Received type number');
                             var f = e.valueOf && e.valueOf();
                             if (null != f && f !== e) return Buffer.from(f, r, t);
@@ -183,7 +184,7 @@
                             var f;
                             if (r < 0 || e.byteLength < r) throw new RangeError('"offset" is outside of buffer bounds');
                             if (e.byteLength < r + (t || 0)) throw new RangeError('"length" is outside of buffer bounds');
-                            return f = void 0 === r && void 0 === t ? new Uint8Array(e) : void 0 === t ? new Uint8Array(e, r) : new Uint8Array(e, r, t), Object.setPrototypeOf(f, Buffer.prototype), f;
+                            return Object.setPrototypeOf(f = void 0 === r && void 0 === t ? new Uint8Array(e) : void 0 === t ? new Uint8Array(e, r) : new Uint8Array(e, r, t), Buffer.prototype), f;
                         }
                         function fromObject(e) {
                             if (Buffer.isBuffer(e)) {
@@ -226,9 +227,7 @@
                         }
                         function slowToString(e, r, t) {
                             var f = !1;
-                            if ((void 0 === r || r < 0) && (r = 0), r > this.length) return "";
-                            if ((void 0 === t || t > this.length) && (t = this.length), t <= 0) return "";
-                            if ((t >>>= 0) <= (r >>>= 0)) return "";
+                            if ((void 0 === r || r < 0) && (r = 0), r > this.length || ((void 0 === t || t > this.length) && (t = this.length), t <= 0 || (t >>>= 0) <= (r >>>= 0))) return "";
                             for(e || (e = "utf8");;)switch(e){
                                 case "hex":
                                     return hexSlice(this, r, t);
@@ -385,8 +384,7 @@
                             if (t + f > e.length) throw new RangeError("Index out of range");
                         }
                         function checkIEEE754(e, r, t, f, n, i) {
-                            if (t + f > e.length) throw new RangeError("Index out of range");
-                            if (t < 0) throw new RangeError("Index out of range");
+                            if (t + f > e.length || t < 0) throw new RangeError("Index out of range");
                         }
                         function writeFloat(e, r, t, f, i) {
                             return r = +r, t >>>= 0, i || checkIEEE754(e, r, t, 4, 34028234663852886e22, -340282346638528860000000000000000000000), n2.write(e, r, t, f, 23, 4), t + 4;
@@ -656,8 +654,7 @@
                             return writeDouble(this, e, r, !1, t);
                         }, Buffer.prototype.copy = function(e, r, t, f) {
                             if (!Buffer.isBuffer(e)) throw new TypeError("argument should be a Buffer");
-                            if (t || (t = 0), f || 0 === f || (f = this.length), r >= e.length && (r = e.length), r || (r = 0), f > 0 && f < t && (f = t), f === t) return 0;
-                            if (0 === e.length || 0 === this.length) return 0;
+                            if (t || (t = 0), f || 0 === f || (f = this.length), r >= e.length && (r = e.length), r || (r = 0), f > 0 && f < t && (f = t), f === t || 0 === e.length || 0 === this.length) return 0;
                             if (r < 0) throw new RangeError("targetStart out of bounds");
                             if (t < 0 || t >= this.length) throw new RangeError("Index out of range");
                             if (f < 0) throw new RangeError("sourceEnd out of bounds");
@@ -692,11 +689,7 @@
                             for(var t, f = e.length, n = null, i = [], o = 0; o < f; ++o){
                                 if ((t = e.charCodeAt(o)) > 55295 && t < 57344) {
                                     if (!n) {
-                                        if (t > 56319) {
-                                            (r -= 3) > -1 && i.push(239, 191, 189);
-                                            continue;
-                                        }
-                                        if (o + 1 === f) {
+                                        if (t > 56319 || o + 1 === f) {
                                             (r -= 3) > -1 && i.push(239, 191, 189);
                                             continue;
                                         }
@@ -901,8 +894,7 @@
                     901: function(r10) {
                         r10.exports = function(r, e, o) {
                             if (r.filter) return r.filter(e, o);
-                            if (null == r) throw new TypeError();
-                            if ("function" != typeof e) throw new TypeError();
+                            if (null == r || "function" != typeof e) throw new TypeError();
                             for(var n = [], i = 0; i < r.length; i++)if (t.call(r, i)) {
                                 var a = r[i];
                                 e.call(o, a, i, r) && n.push(a);
@@ -1706,15 +1698,11 @@
                             if ("function" != typeof Symbol || "function" != typeof Object.getOwnPropertySymbols) return !1;
                             if ("symbol" == typeof Symbol.iterator) return !0;
                             var r = {}, t = Symbol("test"), e = Object(t);
-                            if ("string" == typeof t) return !1;
-                            if ("[object Symbol]" !== Object.prototype.toString.call(t)) return !1;
-                            if ("[object Symbol]" !== Object.prototype.toString.call(e)) return !1;
+                            if ("string" == typeof t || "[object Symbol]" !== Object.prototype.toString.call(t) || "[object Symbol]" !== Object.prototype.toString.call(e)) return !1;
                             for(t in r[t] = 42, r)return !1;
-                            if ("function" == typeof Object.keys && 0 !== Object.keys(r).length) return !1;
-                            if ("function" == typeof Object.getOwnPropertyNames && 0 !== Object.getOwnPropertyNames(r).length) return !1;
+                            if ("function" == typeof Object.keys && 0 !== Object.keys(r).length || "function" == typeof Object.getOwnPropertyNames && 0 !== Object.getOwnPropertyNames(r).length) return !1;
                             var n = Object.getOwnPropertySymbols(r);
-                            if (1 !== n.length || n[0] !== t) return !1;
-                            if (!Object.prototype.propertyIsEnumerable.call(r, t)) return !1;
+                            if (1 !== n.length || n[0] !== t || !Object.prototype.propertyIsEnumerable.call(r, t)) return !1;
                             if ("function" == typeof Object.getOwnPropertyDescriptor) {
                                 var i = Object.getOwnPropertyDescriptor(r, t);
                                 if (42 !== i.value || !0 !== i.enumerable) return !1;

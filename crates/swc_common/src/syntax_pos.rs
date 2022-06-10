@@ -60,8 +60,8 @@ impl<'a> arbitrary::Arbitrary<'a> for Span {
 /// Dummy span, both position and length are zero, syntax context is zero as
 /// well.
 pub const DUMMY_SP: Span = Span {
-    lo: BytePos(0),
-    hi: BytePos(0),
+    lo: BytePos::DUMMY,
+    hi: BytePos::DUMMY,
     ctxt: SyntaxContext::empty(),
 };
 
@@ -836,6 +836,12 @@ impl SourceFile {
         mut src: String,
         start_pos: BytePos,
     ) -> SourceFile {
+        debug_assert_ne!(
+            start_pos,
+            BytePos::DUMMY,
+            "BytePos::DUMMY is reserved and `SourceFile` should not use it"
+        );
+
         remove_bom(&mut src);
 
         let src_hash = {
@@ -987,6 +993,8 @@ pub trait Pos {
 pub struct BytePos(#[cfg_attr(feature = "rkyv", omit_bounds)] pub u32);
 
 impl BytePos {
+    /// Dummy position. This is reserved for synthesized spans.
+    pub const DUMMY: Self = BytePos(0);
     const MIN_RESERVED: Self = BytePos(DUMMY_RESERVE);
 
     pub const fn is_reserved_for_comments(self) -> bool {
@@ -1131,6 +1139,11 @@ pub struct SourceFileAndLine {
     pub sf: Lrc<SourceFile>,
     pub line: usize,
 }
+
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 #[derive(Debug)]
 pub struct SourceFileAndBytePos {
     pub sf: Lrc<SourceFile>,
@@ -1138,6 +1151,10 @@ pub struct SourceFileAndBytePos {
 }
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 pub struct LineInfo {
     /// Index of line, starting from 0.
     pub line_index: usize,
@@ -1156,6 +1173,10 @@ pub struct LineCol {
     pub col: u32,
 }
 
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 pub struct FileLines {
     pub file: Lrc<SourceFile>,
     pub lines: Vec<LineInfo>,
@@ -1169,6 +1190,10 @@ pub struct FileLines {
 pub type FileLinesResult = Result<FileLines, SpanLinesError>;
 
 #[derive(Clone, PartialEq, Eq, Debug)]
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 pub enum SpanLinesError {
     IllFormedSpan(Span),
     DistinctSources(DistinctSources),
@@ -1184,6 +1209,10 @@ pub enum SpanSnippetError {
 }
 
 #[derive(Clone, PartialEq, Eq, Debug)]
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 pub struct DistinctSources {
     pub begin: (FileName, BytePos),
     pub end: (FileName, BytePos),

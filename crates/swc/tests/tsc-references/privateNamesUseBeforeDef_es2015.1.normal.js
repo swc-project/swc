@@ -1,14 +1,17 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_private_field_get from "@swc/helpers/lib/_class_private_field_get.js";
+import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
+import _class_private_method_get from "@swc/helpers/lib/_class_private_method_get.js";
+import _class_private_method_init from "@swc/helpers/lib/_class_private_method_init.js";
 var _foo = /*#__PURE__*/ new WeakMap(), _bar = /*#__PURE__*/ new WeakMap();
 // @target: es2015
 class A {
     constructor(){
-        swcHelpers.classPrivateFieldInit(this, _foo, {
+        _class_private_field_init(this, _foo, {
             writable: true,
-            value: swcHelpers.classPrivateFieldGet(this, _bar)
+            value: _class_private_field_get(this, _bar)
         }) // Error
         ;
-        swcHelpers.classPrivateFieldInit(this, _bar, {
+        _class_private_field_init(this, _bar, {
             writable: true,
             value: 3
         });
@@ -17,10 +20,10 @@ class A {
 var _foo1 = /*#__PURE__*/ new WeakMap(), _bar1 = /*#__PURE__*/ new WeakSet();
 class A2 {
     constructor(){
-        swcHelpers.classPrivateMethodInit(this, _bar1);
-        swcHelpers.classPrivateFieldInit(this, _foo1, {
+        _class_private_method_init(this, _bar1);
+        _class_private_field_init(this, _foo1, {
             writable: true,
-            value: swcHelpers.classPrivateMethodGet(this, _bar1, bar).call(this)
+            value: _class_private_method_get(this, _bar1, bar).call(this)
         }) // No Error
         ;
     }
@@ -31,13 +34,13 @@ function bar() {
 var _foo2 = /*#__PURE__*/ new WeakMap(), _bar2 = /*#__PURE__*/ new WeakMap();
 class A3 {
     constructor(){
-        swcHelpers.classPrivateFieldInit(this, _bar2, {
+        _class_private_field_init(this, _bar2, {
             get: get_bar,
             set: void 0
         });
-        swcHelpers.classPrivateFieldInit(this, _foo2, {
+        _class_private_field_init(this, _foo2, {
             writable: true,
-            value: swcHelpers.classPrivateFieldGet(this, _bar2)
+            value: _class_private_field_get(this, _bar2)
         }) // No Error
         ;
     }
@@ -48,14 +51,14 @@ function get_bar() {
 var _foo3 = /*#__PURE__*/ new WeakMap(), _bar3 = /*#__PURE__*/ new WeakMap();
 class B {
     constructor(){
-        swcHelpers.classPrivateFieldInit(this, _foo3, {
+        _class_private_field_init(this, _foo3, {
             writable: true,
-            value: swcHelpers.classPrivateFieldGet(this, _bar3)
+            value: _class_private_field_get(this, _bar3)
         }) // Error
         ;
-        swcHelpers.classPrivateFieldInit(this, _bar3, {
+        _class_private_field_init(this, _bar3, {
             writable: true,
-            value: swcHelpers.classPrivateFieldGet(this, _foo3)
+            value: _class_private_field_get(this, _foo3)
         });
     }
 }

@@ -4,7 +4,6 @@ use std::{
 };
 
 use anyhow::Context as _;
-use binding_commons::{deserialize_json, get_deserialized, MapErr};
 use napi::{
     bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
     Env, JsBuffer, JsBufferValue, Ref, Task,
@@ -13,6 +12,7 @@ use path_clean::clean;
 use swc::{config::Options, Compiler, TransformOutput};
 use swc_common::FileName;
 use swc_ecma_ast::Program;
+use swc_nodejs_common::{deserialize_json, get_deserialized, MapErr};
 use tracing::instrument;
 
 use crate::{get_compiler, util::try_with};
@@ -46,9 +46,12 @@ impl Task for TransformTask {
             options.config.adjust(Path::new(&options.filename));
         }
 
+        let error_format = options.experimental.error_format.unwrap_or_default();
+
         try_with(
             self.c.cm.clone(),
             !options.config.error.filename.into_bool(),
+            error_format,
             |handler| {
                 self.c.run(|| match &self.input {
                     Input::Program(ref s) => {
@@ -99,7 +102,7 @@ pub fn transform(
     options: JsBuffer,
     signal: Option<AbortSignal>,
 ) -> napi::Result<AsyncTask<TransformTask>> {
-    binding_commons::init_default_trace_subscriber();
+    swc_nodejs_common::init_default_trace_subscriber();
 
     let c = get_compiler();
 
@@ -120,7 +123,7 @@ pub fn transform(
 #[napi]
 #[instrument(level = "trace", skip_all)]
 pub fn transform_sync(s: String, is_module: bool, opts: Buffer) -> napi::Result<TransformOutput> {
-    binding_commons::init_default_trace_subscriber();
+    swc_nodejs_common::init_default_trace_subscriber();
 
     let c = get_compiler();
 
@@ -130,9 +133,12 @@ pub fn transform_sync(s: String, is_module: bool, opts: Buffer) -> napi::Result<
         options.config.adjust(Path::new(&options.filename));
     }
 
+    let error_format = options.experimental.error_format.unwrap_or_default();
+
     try_with(
         c.cm.clone(),
         !options.config.error.filename.into_bool(),
+        error_format,
         |handler| {
             c.run(|| {
                 if is_module {
@@ -164,7 +170,7 @@ pub fn transform_file(
     options: JsBuffer,
     signal: Option<AbortSignal>,
 ) -> napi::Result<AsyncTask<TransformTask>> {
-    binding_commons::init_default_trace_subscriber();
+    swc_nodejs_common::init_default_trace_subscriber();
 
     let c = get_compiler();
 
@@ -183,7 +189,7 @@ pub fn transform_file_sync(
     is_module: bool,
     opts: Buffer,
 ) -> napi::Result<TransformOutput> {
-    binding_commons::init_default_trace_subscriber();
+    swc_nodejs_common::init_default_trace_subscriber();
 
     let c = get_compiler();
 
@@ -193,9 +199,12 @@ pub fn transform_file_sync(
         options.config.adjust(Path::new(&options.filename));
     }
 
+    let error_format = options.experimental.error_format.unwrap_or_default();
+
     try_with(
         c.cm.clone(),
         !options.config.error.filename.into_bool(),
+        error_format,
         |handler| {
             c.run(|| {
                 if is_module {

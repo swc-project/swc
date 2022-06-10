@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _instanceof from "@swc/helpers/lib/_instanceof.js";
 function tryCatch() {
     try {
     // do stuff...
@@ -6,7 +6,7 @@ function tryCatch() {
         if (isFooError(err)) {
             err.dontPanic(); // OK
             err.doPanic(); // ERROR: Property 'doPanic' does not exist on type '{...}'
-        } else if (swcHelpers._instanceof(err, Error)) {
+        } else if (_instanceof(err, Error)) {
             err.message;
             err.massage; // ERROR: Property 'massage' does not exist on type 'Error'
         } else {

@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 export function getAllEntities(state) {
     var ids = state.ids, entities = state.entities;
     return ids.map(function(id) {
@@ -11,7 +11,7 @@ export function getEntity(id, state) {
 }
 export var c = function() {
     "use strict";
-    swcHelpers.classCallCheck(this, c), this.a = "b", this.a = "b";
+    _class_call_check(this, c), this.a = "b", this.a = "b";
 };
 var _iteratorNormalCompletion = !0, _didIteratorError = !1, _iteratorError = void 0;
 try {

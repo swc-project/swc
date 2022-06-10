@@ -69,8 +69,7 @@ let vue = new Vue({
     data: ()=>({
             x: 1,
             y: 2
-        })
-    ,
+        }),
     methods: {
         f (x) {
             return this.x;
@@ -81,8 +80,7 @@ let vue = new Vue({
             return this.x;
         },
         hello: {
-            get: ()=>"hi"
-            ,
+            get: ()=>"hi",
             set (value) {}
         }
     }

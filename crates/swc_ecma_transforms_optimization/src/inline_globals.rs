@@ -5,8 +5,6 @@ use swc_common::{
     EqIgnoreSpan,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::Parallel;
-use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::collect_decls;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -56,15 +54,6 @@ struct InlineGlobals {
     bindings: Lrc<AHashSet<Id>>,
 }
 
-impl Parallel for InlineGlobals {
-    fn create(&self) -> Self {
-        self.clone()
-    }
-
-    fn merge(&mut self, _: Self) {}
-}
-
-#[parallel]
 impl VisitMut for InlineGlobals {
     noop_visit_mut_type!();
 
@@ -94,7 +83,7 @@ impl VisitMut for InlineGlobals {
         }
 
         for (key, value) in self.global_exprs.iter() {
-            if key.eq_ignore_span(&*expr) {
+            if Ident::within_ignored_ctxt(|| key.eq_ignore_span(&*expr)) {
                 *expr = value.clone();
                 expr.visit_mut_with(self);
                 return;

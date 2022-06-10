@@ -13,17 +13,13 @@ use swc_atoms::JsWord;
 use swc_common::{
     comments::{CommentKind, Comments},
     sync::Lrc,
-    BytePos, SourceMap, Span, Spanned, DUMMY_SP,
+    BytePos, SourceMapper, Span, Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::emitter;
 
 pub use self::config::Config;
-use self::{
-    list::ListFormat,
-    text_writer::WriteJs,
-    util::{SourceMapperExt, SpanExt, StartsWithAlphaNum},
-};
+use self::{text_writer::WriteJs, util::StartsWithAlphaNum};
 use crate::util::EndsWithAlphaNum;
 
 #[macro_use]
@@ -33,7 +29,6 @@ mod config;
 mod decl;
 mod expr;
 mod jsx;
-pub mod list;
 mod stmt;
 #[cfg(test)]
 mod tests;
@@ -44,42 +39,47 @@ pub mod util;
 pub type Result = io::Result<()>;
 
 pub trait Node: Spanned {
-    fn emit_with<W>(&self, e: &mut Emitter<'_, W>) -> Result
+    fn emit_with<W, S: SourceMapper>(&self, e: &mut Emitter<'_, W, S>) -> Result
     where
-        W: WriteJs;
+        W: WriteJs,
+        S: SourceMapperExt;
 }
 impl<N: Node> Node for Box<N> {
     #[inline]
-    fn emit_with<W>(&self, e: &mut Emitter<'_, W>) -> Result
+    fn emit_with<W, S: SourceMapper>(&self, e: &mut Emitter<'_, W, S>) -> Result
     where
         W: WriteJs,
+        S: SourceMapperExt,
     {
         (**self).emit_with(e)
     }
 }
 impl<'a, N: Node> Node for &'a N {
     #[inline]
-    fn emit_with<W>(&self, e: &mut Emitter<'_, W>) -> Result
+    fn emit_with<W, S: SourceMapper>(&self, e: &mut Emitter<'_, W, S>) -> Result
     where
         W: WriteJs,
+        S: SourceMapperExt,
     {
         (**self).emit_with(e)
     }
 }
 
-pub struct Emitter<'a, W>
+pub struct Emitter<'a, W, S: SourceMapper>
 where
     W: WriteJs,
+    S: SourceMapperExt,
 {
     pub cfg: config::Config,
-    pub cm: Lrc<SourceMap>,
+    pub cm: Lrc<S>,
     pub comments: Option<&'a dyn Comments>,
     pub wr: W,
 }
 
-impl<'a, W> Emitter<'a, W>
+impl<'a, W, S: SourceMapper> Emitter<'a, W, S>
 where
     W: WriteJs,
+    S: SourceMapperExt,
 {
     #[emitter]
     pub fn emit_program(&mut self, node: &Program) -> Result {
@@ -533,7 +533,7 @@ where
             return Ok(());
         }
 
-        let target = self.wr.target();
+        let target = self.cfg.target;
 
         if self.cfg.minify {
             let value = get_quoted_utf16(&node.value, target);
@@ -543,7 +543,10 @@ where
             match &node.raw {
                 // TODO `es5_unicode` in `swc_ecma_transforms_compat` and avoid changing AST in
                 // codegen
-                Some(raw_value) if target > EsVersion::Es5 => {
+                Some(raw_value)
+                    if target > EsVersion::Es5
+                        && (!self.cfg.ascii_only || raw_value.is_ascii()) =>
+                {
                     self.wr.write_str_lit(DUMMY_SP, raw_value)?;
                 }
                 _ => {
@@ -574,7 +577,11 @@ where
         } else {
             match &num.raw {
                 Some(raw) => {
-                    self.wr.write_str_lit(num.span, raw)?;
+                    if self.cfg.target < EsVersion::Es2021 && raw.contains('_') {
+                        self.wr.write_str_lit(num.span, &raw.replace('_', ""))?;
+                    } else {
+                        self.wr.write_str_lit(num.span, raw)?;
+                    }
                 }
                 _ => {
                     self.wr.write_str_lit(num.span, &num.value.to_string())?;
@@ -593,7 +600,11 @@ where
         } else {
             match &v.raw {
                 Some(raw) => {
-                    self.wr.write_lit(v.span, raw)?;
+                    if self.cfg.target < EsVersion::Es2021 && raw.contains('_') {
+                        self.wr.write_str_lit(v.span, &raw.replace('_', ""))?;
+                    } else {
+                        self.wr.write_str_lit(v.span, raw)?;
+                    }
                 }
                 _ => {
                     self.wr.write_lit(v.span, &v.value.to_string())?;
@@ -1603,9 +1614,6 @@ where
                 self.wr.increase_indent()?;
                 emit!(expr);
                 self.wr.decrease_indent()?;
-                if !self.cfg.minify {
-                    self.wr.write_line()?;
-                }
             }
         }
     }
@@ -1648,9 +1656,9 @@ where
     fn emit_quasi(&mut self, node: &TplElement) -> Result {
         srcmap!(node, true);
 
-        if self.cfg.minify {
-            self.wr
-                .write_str_lit(DUMMY_SP, &get_template_element_from_raw(&node.raw))?;
+        if self.cfg.minify || (self.cfg.ascii_only && !node.raw.is_ascii()) {
+            let v = get_template_element_from_raw(&node.raw, self.cfg.ascii_only);
+            self.wr.write_str_lit(DUMMY_SP, &v)?;
         } else {
             self.wr.write_str_lit(DUMMY_SP, &node.raw)?;
         }
@@ -2164,7 +2172,7 @@ where
                         && previous_sibling.hi != parent_node.hi()
                         && self.comments.is_some()
                     {
-                        self.emit_leading_comments(previous_sibling.span().hi(), true)?;
+                        self.emit_leading_comments(previous_sibling.hi(), true)?;
                     }
 
                     self.write_delim(format)?;
@@ -2262,11 +2270,11 @@ where
 
                 if let Some(previous_sibling) = previous_sibling {
                     if format.contains(ListFormat::DelimitersMask)
-                        && previous_sibling.span().hi() != parent_node.hi()
+                        && previous_sibling.hi() != parent_node.hi()
                         && emit_trailing_comments
                         && self.comments.is_some()
                     {
-                        self.emit_leading_comments(previous_sibling.span().hi(), true)?;
+                        self.emit_leading_comments(previous_sibling.hi(), true)?;
                     }
                 }
             }
@@ -2310,9 +2318,10 @@ where
 }
 
 /// Patterns
-impl<'a, W> Emitter<'a, W>
+impl<'a, W, S: SourceMapper> Emitter<'a, W, S>
 where
     W: WriteJs,
+    S: SourceMapperExt,
 {
     #[emitter]
     fn emit_param(&mut self, node: &Param) -> Result {
@@ -2523,9 +2532,10 @@ where
 }
 
 /// Statements
-impl<'a, W> Emitter<'a, W>
+impl<'a, W, S: SourceMapper> Emitter<'a, W, S>
 where
     W: WriteJs,
+    S: SourceMapperExt,
 {
     #[emitter]
     fn emit_stmt(&mut self, node: &Stmt) -> Result {
@@ -2695,6 +2705,12 @@ where
                     if cmt.has_leading(lo) {
                         return true;
                     }
+                }
+            }
+
+            Expr::Bin(e) => {
+                if self.has_leading_comment(&e.left) {
+                    return true;
                 }
             }
 
@@ -3001,7 +3017,7 @@ where
         emit!(node.test);
         punct!(")");
 
-        if self.wr.target() <= EsVersion::Es5 {
+        if self.cfg.target <= EsVersion::Es5 {
             semi!();
         }
 
@@ -3112,9 +3128,10 @@ where
     }
 }
 
-impl<'a, W> Emitter<'a, W>
+impl<'a, W, S: SourceMapper> Emitter<'a, W, S>
 where
     W: WriteJs,
+    S: SourceMapperExt,
 {
     fn write_delim(&mut self, f: ListFormat) -> Result {
         match f & ListFormat::DelimitersMask {
@@ -3205,9 +3222,10 @@ impl<N> Node for Option<N>
 where
     N: Node,
 {
-    fn emit_with<W>(&self, e: &mut Emitter<'_, W>) -> Result
+    fn emit_with<W, S: SourceMapper>(&self, e: &mut Emitter<'_, W, S>) -> Result
     where
         W: WriteJs,
+        S: SourceMapperExt,
     {
         match *self {
             Some(ref n) => n.emit_with(e),
@@ -3216,7 +3234,7 @@ where
     }
 }
 
-fn get_template_element_from_raw(s: &str) -> String {
+fn get_template_element_from_raw(s: &str, ascii_only: bool) -> String {
     fn read_escaped(
         radix: u32,
         len: Option<usize>,
@@ -3366,9 +3384,19 @@ fn get_template_element_from_raw(s: &str) -> String {
             Some('\u{FEFF}') => {
                 buf.push_str("\\uFEFF");
             }
-            // TODO handle unicode characters and surrogate pairs
+            // TODO(kdy1): Surrogate pairs
             Some(c) => {
-                buf.push(c);
+                if !ascii_only || c.is_ascii() {
+                    buf.push(c);
+                } else {
+                    buf.extend(c.escape_unicode().map(|c| {
+                        if c == 'u' {
+                            c
+                        } else {
+                            c.to_ascii_uppercase()
+                        }
+                    }));
+                }
             }
             None => {}
         }
@@ -3556,7 +3584,7 @@ fn is_space_require_before_rhs(rhs: &Expr) -> bool {
 }
 
 fn is_empty_comments(span: &Span, comments: &Option<&dyn Comments>) -> bool {
-    span.is_dummy() || comments.map_or(true, |c| !c.has_leading(span.hi() - BytePos(1)))
+    span.is_dummy() || comments.map_or(true, |c| !c.has_leading(span.span_hi() - BytePos(1)))
 }
 
 fn minify_number(num: f64) -> String {

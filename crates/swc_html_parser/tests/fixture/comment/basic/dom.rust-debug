@@ -1,8 +1,23 @@
-| <!--  test  -->
-| <!--  foo  -->
+| <!DOCTYPE html>
 | <html>
+|   lang="en"
 |   <head>
+|     "
+    "
+|     <title>
+|       "Document"
+|     "
+"
+|   "
+"
 |   <body>
+|     "
+"
+|     <!--  test  -->
+|     "
+
+"
+|     <!--  foo  -->
 |     <div>
 |       "baz"
 |     <!--  bar
@@ -24,3 +39,7 @@ moo  -->
 "
 |     <script>
 |       "alert('-->')"
+|     "
+
+
+"

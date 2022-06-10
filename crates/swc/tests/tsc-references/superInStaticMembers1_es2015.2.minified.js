@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _get from "@swc/helpers/lib/_get.js";
+import _get_prototype_of from "@swc/helpers/lib/_get_prototype_of.js";
 export class Reflect {
 }
 export var Baz;
@@ -8,33 +9,33 @@ class _class {
 class C extends B {
 }
 C._ = [
-    void swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C),
+    void _get(_get_prototype_of(C), "w", C).call(C),
     (()=>{
         var { Reflect  } = {
             Reflect: null
         };
-        swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+        _get(_get_prototype_of(C), "w", C).call(C);
     })(),
     (()=>{
         var [Reflect] = [
             null
         ];
-        swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+        _get(_get_prototype_of(C), "w", C).call(C);
     })(),
-    void swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C),
-    void swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C),
+    void _get(_get_prototype_of(C), "w", C).call(C),
+    void _get(_get_prototype_of(C), "w", C).call(C),
     (()=>{
         let Reflect1;
-        Reflect1 || (Reflect1 = {}), swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+        Reflect1 || (Reflect1 = {}), _get(_get_prototype_of(C), "w", C).call(C);
     })(),
     (()=>{
         let Reflect2;
-        Reflect2 || (Reflect2 = {}), swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+        Reflect2 || (Reflect2 = {}), _get(_get_prototype_of(C), "w", C).call(C);
     })(),
-    void swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C),
-    void swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C),
-    void swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C),
-    void swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C), 
+    void _get(_get_prototype_of(C), "w", C).call(C),
+    void _get(_get_prototype_of(C), "w", C).call(C),
+    void _get(_get_prototype_of(C), "w", C).call(C),
+    void _get(_get_prototype_of(C), "w", C).call(C), 
 ], (()=>{
     var { Reflect  } = {
         Reflect: null
@@ -55,19 +56,19 @@ C._ = [
 var Reflect = null;
 class C extends B {
 }
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 var { Reflect  } = {
     Reflect: null
 };
 class C extends B {
 }
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 var [Reflect] = [
     null
 ];
 class C extends B {
 }
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 var Reflect = null;
 class C extends B {
 }
@@ -88,7 +89,7 @@ class Reflect {
 }
 class C extends B {
 }
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 class Reflect {
 }
 class C extends B {
@@ -98,107 +99,107 @@ super.w();
 class C extends B {
 }
 function Reflect() {}
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 class C extends B {
 }
 super.w();
 class C extends B {
 }
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 class C extends B {
 }
 super.w(), Reflect || (Reflect = {});
 class C extends B {
 }
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C), Reflect || (Reflect = {});
+C._ = _get(_get_prototype_of(C), "w", C).call(C), Reflect || (Reflect = {});
 class C extends B {
 }
 super.w(), Reflect || (Reflect = {});
 class C extends B {
 }
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C), Reflect || (Reflect = {});
+C._ = _get(_get_prototype_of(C), "w", C).call(C), Reflect || (Reflect = {});
 class C extends B {
 }
 super.w();
 class C extends B {
 }
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 class C extends B {
 }
 super.w();
 class C extends B {
 }
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 class C extends B {
 }
 super.w();
 class C extends B {
 }
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 class C extends B {
 }
 super.w();
 class C extends B {
 }
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 class C extends B {
 }
 super.w();
 class C extends B {
 }
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 class C extends B {
 }
 super.w();
 class C extends B {
 }
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 class C extends B {
 }
 super.w();
 class C extends B {
 }
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 class C extends B {
 }
 super.w();
 class C extends B {
 }
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 class C extends B {
 }
 super.w();
 class C extends B {
 }
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 class C extends B {
 }
 super.w();
 class C extends B {
 }
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 class C extends B {
 }
 super.w();
 class C extends B {
 }
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 class C extends B {
 }
 super.w();
 class C extends B {
 }
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 class C extends B {
 }
 super.w(), (()=>{
     class C1 extends B {
     }
-    C1._ = swcHelpers.get(swcHelpers.getPrototypeOf(C1), "w", C1).call(C1);
+    C1._ = _get(_get_prototype_of(C1), "w", C1).call(C1);
 })(), super.w();
 class C extends B {
 }
-C._ = swcHelpers.get(swcHelpers.getPrototypeOf(C), "w", C).call(C);
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 class C extends B {
 }
 super.w();

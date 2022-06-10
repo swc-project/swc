@@ -1,0 +1,177 @@
+
+  x Document
+   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:1:1]
+ 1 | ,-> <body>
+ 2 | |   <template><col><colgroup></template>
+ 3 | |   <template><col><colgroup></div></template>
+ 4 | |   <template><col><colgroup>A</template>
+ 5 | `-> </body>
+   `----
+
+  x Child
+
+  x Element
+
+  x Child
+   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:1:1]
+ 1 | ,-> <body>
+ 2 | |   <template><col><colgroup></template>
+ 3 | |   <template><col><colgroup></div></template>
+ 4 | |   <template><col><colgroup>A</template>
+ 5 | `-> </body>
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:1:1]
+ 1 | ,-> <body>
+ 2 | |   <template><col><colgroup></template>
+ 3 | |   <template><col><colgroup></div></template>
+ 4 | |   <template><col><colgroup>A</template>
+ 5 | `-> </body>
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:1:1]
+ 1 | <body>
+   :       ^
+ 2 | <template><col><colgroup></template>
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:1:1]
+ 1 | <body>
+   :       ^
+ 2 | <template><col><colgroup></template>
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:2:1]
+ 2 | <template><col><colgroup></template>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:2:1]
+ 2 | <template><col><colgroup></template>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DocumentFragment
+   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:2:1]
+ 2 | <template><col><colgroup></template>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:2:1]
+ 2 | <template><col><colgroup></template>
+   :           ^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:2:1]
+ 2 | <template><col><colgroup></template>
+   :           ^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:2:1]
+ 2 | <template><col><colgroup></template>
+   :                                     ^
+ 3 | <template><col><colgroup></div></template>
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:2:1]
+ 2 | <template><col><colgroup></template>
+   :                                     ^
+ 3 | <template><col><colgroup></div></template>
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:3:1]
+ 3 | <template><col><colgroup></div></template>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:3:1]
+ 3 | <template><col><colgroup></div></template>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DocumentFragment
+   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:3:1]
+ 3 | <template><col><colgroup></div></template>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:3:1]
+ 3 | <template><col><colgroup></div></template>
+   :           ^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:3:1]
+ 3 | <template><col><colgroup></div></template>
+   :           ^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:3:1]
+ 3 | <template><col><colgroup></div></template>
+   :                                           ^
+ 4 | <template><col><colgroup>A</template>
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:3:1]
+ 3 | <template><col><colgroup></div></template>
+   :                                           ^
+ 4 | <template><col><colgroup>A</template>
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:4:1]
+ 4 | <template><col><colgroup>A</template>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:4:1]
+ 4 | <template><col><colgroup>A</template>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DocumentFragment
+   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:4:1]
+ 4 | <template><col><colgroup>A</template>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:4:1]
+ 4 | <template><col><colgroup>A</template>
+   :           ^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:4:1]
+ 4 | <template><col><colgroup>A</template>
+   :           ^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:4:1]
+ 4 | <template><col><colgroup>A</template>
+   :                                      ^
+ 5 | </body>
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:4:1]
+ 4 | <template><col><colgroup>A</template>
+   :                                      ^
+ 5 | </body>
+   `----

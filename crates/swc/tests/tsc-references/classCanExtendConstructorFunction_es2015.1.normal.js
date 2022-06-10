@@ -12,8 +12,7 @@
     return wagons ? wagons.length : 3.14;
 };
 /** @param {*[]=} supplies - *[]= is my favourite type */ Wagon.prototype.load = function(supplies) {};
-/** @param {*[]=} supplies - Yep, still a great type */ Wagon.prototype.weight = (supplies)=>supplies ? supplies.length : -1
-;
+/** @param {*[]=} supplies - Yep, still a great type */ Wagon.prototype.weight = (supplies)=>supplies ? supplies.length : -1;
 Wagon.prototype.speed = function() {
     return this.numberOxen / this.weight();
 };

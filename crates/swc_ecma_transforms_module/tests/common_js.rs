@@ -5391,6 +5391,62 @@ let pipeline = await Promise.resolve(`${await resolve(file)}`).then(function(s) 
 "
 );
 
+test!(
+    syntax(),
+    |_| tr(Config {
+        ..Default::default()
+    }),
+    pull_4688,
+    "export var format;
+export default function defaultLocale(definition) {
+  locale = formatLocale(definition);
+  format = locale.format;
+  return locale;
+}
+format = '123';",
+    r#"
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = defaultLocale;
+exports.format = void 0;
+function defaultLocale(definition) {
+    locale = formatLocale(definition);
+    exports.format = format = locale.format;
+    return locale;
+}
+var format;
+exports.format = format;
+exports.format = format = '123';
+"#
+);
+
+test!(
+    syntax(),
+    |_| tr(Config {
+        lazy: Lazy::Bool(true),
+        ..Default::default()
+    }),
+    issue_4799,
+    r#"
+    export { createP } from './St';  
+"#,
+    r#"
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    Object.defineProperty(exports, "createP", {
+        enumerable: true,
+        get: function() {
+            return _st.createP;
+        }
+    });
+    var _st = require("./St");
+"#
+);
+
 #[testing::fixture("tests/fixture/commonjs/**/input.js")]
 fn fixture(input: PathBuf) {
     let dir = input.parent().unwrap().to_path_buf();

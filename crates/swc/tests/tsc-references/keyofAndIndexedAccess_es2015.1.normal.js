@@ -59,8 +59,7 @@ function f20(component) {
     component.setProperty(cond ? "name" : "visible", true); // Technically not safe
 }
 function pluck(array, key) {
-    return array.map((x)=>x[key]
-    );
+    return array.map((x)=>x[key]);
 }
 function f30(shapes) {
     let names = pluck(shapes, "name"); // string[]
@@ -328,8 +327,7 @@ function f1(thing) {
     ]); // any
 }
 // Repro from comment in #12114
-const assignTo2 = (object, key1, key2)=>(value)=>object[key1][key2] = value
-;
+const assignTo2 = (object, key1, key2)=>(value)=>object[key1][key2] = value;
 var empty = one(()=>{}) // inferred as {}, expected
 ;
 var hashOfEmpty1 = on({

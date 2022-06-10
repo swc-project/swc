@@ -114,6 +114,16 @@
     `----
 
   x Attribute
+   ,-[$DIR/tests/recovery/comment/cdata/input.html:4:1]
+ 4 | <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/recovery/comment/cdata/input.html:4:1]
+ 4 | <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+   :                                            ^^^^^^^^^^^^^
+   `----
 
   x Child
     ,-[$DIR/tests/recovery/comment/cdata/input.html:5:1]
@@ -125,8 +135,8 @@
  10 | |               document.getElementById("pdf-object").src="http://www.w3.org/TR/xhtml1/xhtml1.pdf";
  11 | |           }
  12 | |           ]]>
- 13 | `->     </script>
- 14 |     </head>
+ 13 | |       </script>
+ 14 | `-> </head>
     `----
 
   x Element
@@ -139,8 +149,8 @@
  10 | |               document.getElementById("pdf-object").src="http://www.w3.org/TR/xhtml1/xhtml1.pdf";
  11 | |           }
  12 | |           ]]>
- 13 | `->     </script>
- 14 |     </head>
+ 13 | |       </script>
+ 14 | `-> </head>
     `----
 
   x Child
@@ -158,13 +168,13 @@
   x Child
    ,-[$DIR/tests/recovery/comment/cdata/input.html:6:5]
  6 | <title>XHTML 1.0 Strict Example</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/recovery/comment/cdata/input.html:6:5]
  6 | <title>XHTML 1.0 Strict Example</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -212,6 +222,12 @@
  12 | |           ]]>
  13 | `->     </script>
     `----
+
+  x Attribute
+   ,-[$DIR/tests/recovery/comment/cdata/input.html:7:5]
+ 7 | <script type="application/javascript">
+   :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
 
   x Child
     ,-[$DIR/tests/recovery/comment/cdata/input.html:7:5]
@@ -299,6 +315,12 @@
  28 | `-> </html>
     `----
 
+  x Attribute
+    ,-[$DIR/tests/recovery/comment/cdata/input.html:15:1]
+ 15 | <body onload="loadpdf()">
+    :       ^^^^^^^^^^^^^^^^^^
+    `----
+
   x Child
     ,-[$DIR/tests/recovery/comment/cdata/input.html:15:1]
  15 | <body onload="loadpdf()">
@@ -324,8 +346,8 @@
  22 | |               type="application/pdf"
  23 | |               data="http://www.w3.org/TR/xhtml1/xhtml1.pdf"
  24 | |               width="100%"
- 25 | `->             height="500"></object>
- 26 |     </p>
+ 25 | |               height="500"></object>
+ 26 | `-> </p>
     `----
 
   x Element
@@ -339,8 +361,8 @@
  22 | |               type="application/pdf"
  23 | |               data="http://www.w3.org/TR/xhtml1/xhtml1.pdf"
  24 | |               width="100%"
- 25 | `->             height="500"></object>
- 26 |     </p>
+ 25 | |               height="500"></object>
+ 26 | `-> </p>
     `----
 
   x Child
@@ -358,13 +380,19 @@
   x Child
     ,-[$DIR/tests/recovery/comment/cdata/input.html:17:5]
  17 | <abbr title="Extensible HyperText Markup Language">XHTML</abbr> 1.0 Strict document.<br />
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/recovery/comment/cdata/input.html:17:5]
  17 | <abbr title="Extensible HyperText Markup Language">XHTML</abbr> 1.0 Strict document.<br />
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/recovery/comment/cdata/input.html:17:5]
+ 17 | <abbr title="Extensible HyperText Markup Language">XHTML</abbr> 1.0 Strict document.<br />
+    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -429,6 +457,24 @@
  20 | `->          alt="Valid XHTML 1.0 Strict"/><br />
     `----
 
+  x Attribute
+    ,-[$DIR/tests/recovery/comment/cdata/input.html:18:5]
+ 18 | <img id="validation-icon"
+    :      ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/recovery/comment/cdata/input.html:19:10]
+ 19 | src="http://www.w3.org/Icons/valid-xhtml10"
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/recovery/comment/cdata/input.html:20:10]
+ 20 | alt="Valid XHTML 1.0 Strict"/><br />
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
   x Child
     ,-[$DIR/tests/recovery/comment/cdata/input.html:20:10]
  20 | alt="Valid XHTML 1.0 Strict"/><br />
@@ -469,6 +515,36 @@
  23 | |               data="http://www.w3.org/TR/xhtml1/xhtml1.pdf"
  24 | |               width="100%"
  25 | `->             height="500"></object>
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/recovery/comment/cdata/input.html:21:5]
+ 21 | <object id="pdf-object"
+    :         ^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/recovery/comment/cdata/input.html:22:13]
+ 22 | type="application/pdf"
+    : ^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/recovery/comment/cdata/input.html:23:13]
+ 23 | data="http://www.w3.org/TR/xhtml1/xhtml1.pdf"
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/recovery/comment/cdata/input.html:24:13]
+ 24 | width="100%"
+    : ^^^^^^^^^^^^
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/recovery/comment/cdata/input.html:25:13]
+ 25 | height="500"></object>
+    : ^^^^^^^^^^^^
     `----
 
   x Child

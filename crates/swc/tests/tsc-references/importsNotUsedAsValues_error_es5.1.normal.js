@@ -1,12 +1,12 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var _default = function _default() {
     "use strict";
-    swcHelpers.classCallCheck(this, _default);
+    _class_call_check(this, _default);
 };
 export { _default as default };
 export var A = function A() {
     "use strict";
-    swcHelpers.classCallCheck(this, A);
+    _class_call_check(this, A);
 };
 export var C;
 (function(C) {
@@ -32,7 +32,7 @@ console.log(c, d);
 // @Filename: /h.ts
 var H = function H() {
     "use strict";
-    swcHelpers.classCallCheck(this, H);
+    _class_call_check(this, H);
 };
 module.exports = H;
 // @Filename: /i.ts

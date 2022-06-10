@@ -201,16 +201,20 @@
   x Child
    ,-[$DIR/tests/fixture/element/lists/input.html:5:1]
  5 | <h2 data-test="test">An Unordered HTML List</h2>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/lists/input.html:5:1]
  5 | <h2 data-test="test">An Unordered HTML List</h2>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Attribute
+   ,-[$DIR/tests/fixture/element/lists/input.html:5:1]
+ 5 | <h2 data-test="test">An Unordered HTML List</h2>
+   :     ^^^^^^^^^^^^^^^^
+   `----
 
   x Child
    ,-[$DIR/tests/fixture/element/lists/input.html:5:1]
@@ -243,8 +247,8 @@
   7 | ,-> <ul>
   8 | |       <li>Coffee</li>
   9 | |       <li>Tea</li>
- 10 | `->     <li>Milk</li>
- 11 |     </ul>
+ 10 | |       <li>Milk</li>
+ 11 | `-> </ul>
     `----
 
   x Element
@@ -252,8 +256,8 @@
   7 | ,-> <ul>
   8 | |       <li>Coffee</li>
   9 | |       <li>Tea</li>
- 10 | `->     <li>Milk</li>
- 11 |     </ul>
+ 10 | |       <li>Milk</li>
+ 11 | `-> </ul>
     `----
 
   x Child
@@ -271,13 +275,13 @@
   x Child
    ,-[$DIR/tests/fixture/element/lists/input.html:8:5]
  8 | <li>Coffee</li>
-   : ^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/lists/input.html:8:5]
  8 | <li>Coffee</li>
-   : ^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -307,13 +311,13 @@
   x Child
    ,-[$DIR/tests/fixture/element/lists/input.html:9:5]
  9 | <li>Tea</li>
-   : ^^^^^^^
+   : ^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/lists/input.html:9:5]
  9 | <li>Tea</li>
-   : ^^^^^^^
+   : ^^^^^^^^^^^^
    `----
 
   x Child
@@ -343,13 +347,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/lists/input.html:10:5]
  10 | <li>Milk</li>
-    : ^^^^^^^^
+    : ^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/lists/input.html:10:5]
  10 | <li>Milk</li>
-    : ^^^^^^^^
+    : ^^^^^^^^^^^^^
     `----
 
   x Child
@@ -395,13 +399,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/lists/input.html:13:1]
  13 | <h2>An Ordered HTML List</h2>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/lists/input.html:13:1]
  13 | <h2>An Ordered HTML List</h2>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -435,8 +439,8 @@
  15 | ,-> <ol>
  16 | |       <li>Coffee</li>
  17 | |       <li>Tea</li>
- 18 | `->     <li>Milk</li>
- 19 |     </ol>
+ 18 | |       <li>Milk</li>
+ 19 | `-> </ol>
     `----
 
   x Element
@@ -444,8 +448,8 @@
  15 | ,-> <ol>
  16 | |       <li>Coffee</li>
  17 | |       <li>Tea</li>
- 18 | `->     <li>Milk</li>
- 19 |     </ol>
+ 18 | |       <li>Milk</li>
+ 19 | `-> </ol>
     `----
 
   x Child
@@ -463,13 +467,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/lists/input.html:16:5]
  16 | <li>Coffee</li>
-    : ^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/lists/input.html:16:5]
  16 | <li>Coffee</li>
-    : ^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^
     `----
 
   x Child
@@ -499,13 +503,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/lists/input.html:17:5]
  17 | <li>Tea</li>
-    : ^^^^^^^
+    : ^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/lists/input.html:17:5]
  17 | <li>Tea</li>
-    : ^^^^^^^
+    : ^^^^^^^^^^^^
     `----
 
   x Child
@@ -535,13 +539,13 @@
   x Child
     ,-[$DIR/tests/fixture/element/lists/input.html:18:5]
  18 | <li>Milk</li>
-    : ^^^^^^^^
+    : ^^^^^^^^^^^^^
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/lists/input.html:18:5]
  18 | <li>Milk</li>
-    : ^^^^^^^^
+    : ^^^^^^^^^^^^^
     `----
 
   x Child
@@ -588,16 +592,16 @@
     ,-[$DIR/tests/fixture/element/lists/input.html:21:1]
  21 | ,-> <ul>
  22 | |       <li>item1
- 23 | `->     <li>item2
- 24 |     </ul>
+ 23 | |       <li>item2
+ 24 | `-> </ul>
     `----
 
   x Element
     ,-[$DIR/tests/fixture/element/lists/input.html:21:1]
  21 | ,-> <ul>
  22 | |       <li>item1
- 23 | `->     <li>item2
- 24 |     </ul>
+ 23 | |       <li>item2
+ 24 | `-> </ul>
     `----
 
   x Child

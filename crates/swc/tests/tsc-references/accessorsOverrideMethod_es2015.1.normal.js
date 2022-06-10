@@ -5,7 +5,6 @@ class A {
 }
 class B extends A {
     get m() {
-        return ()=>1
-        ;
+        return ()=>1;
     }
 }

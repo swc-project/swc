@@ -33,7 +33,7 @@
           "type": "Element",
           "span": {
             "start": 24,
-            "end": 66,
+            "end": 73,
             "ctxt": 0
           },
           "tagName": "head",
@@ -47,13 +47,13 @@
                 "end": 35,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
               "span": {
                 "start": 35,
-                "end": 57,
+                "end": 65,
                 "ctxt": 0
               },
               "tagName": "title",
@@ -67,7 +67,7 @@
                     "end": 57,
                     "ctxt": 0
                   },
-                  "value": "MathML in HTML5"
+                  "data": "MathML in HTML5"
                 }
               ],
               "content": null
@@ -79,7 +79,7 @@
                 "end": 66,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             }
           ],
           "content": null
@@ -91,7 +91,7 @@
             "end": 74,
             "ctxt": 0
           },
-          "value": "\n"
+          "data": "\n"
         },
         {
           "type": "Element",
@@ -111,13 +111,13 @@
                 "end": 82,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 82,
-                "end": 448,
+                "end": 455,
                 "ctxt": 0
               },
               "tagName": "math",
@@ -131,13 +131,13 @@
                     "end": 93,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
                   "span": {
                     "start": 93,
-                    "end": 440,
+                    "end": 447,
                     "ctxt": 0
                   },
                   "tagName": "mrow",
@@ -151,13 +151,13 @@
                         "end": 108,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
                       "span": {
                         "start": 108,
-                        "end": 332,
+                        "end": 339,
                         "ctxt": 0
                       },
                       "tagName": "mrow",
@@ -171,13 +171,13 @@
                             "end": 127,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
                           "span": {
                             "start": 127,
-                            "end": 200,
+                            "end": 207,
                             "ctxt": 0
                           },
                           "tagName": "msup",
@@ -191,13 +191,13 @@
                                 "end": 150,
                                 "ctxt": 0
                               },
-                              "value": "\n                "
+                              "data": "\n                "
                             },
                             {
                               "type": "Element",
                               "span": {
                                 "start": 150,
-                                "end": 155,
+                                "end": 160,
                                 "ctxt": 0
                               },
                               "tagName": "mi",
@@ -211,7 +211,7 @@
                                     "end": 155,
                                     "ctxt": 0
                                   },
-                                  "value": "a"
+                                  "data": "a"
                                 }
                               ],
                               "content": null
@@ -223,13 +223,13 @@
                                 "end": 177,
                                 "ctxt": 0
                               },
-                              "value": "\n                "
+                              "data": "\n                "
                             },
                             {
                               "type": "Element",
                               "span": {
                                 "start": 177,
-                                "end": 182,
+                                "end": 187,
                                 "ctxt": 0
                               },
                               "tagName": "mn",
@@ -243,7 +243,7 @@
                                     "end": 182,
                                     "ctxt": 0
                                   },
-                                  "value": "2"
+                                  "data": "2"
                                 }
                               ],
                               "content": null
@@ -255,7 +255,7 @@
                                 "end": 200,
                                 "ctxt": 0
                               },
-                              "value": "\n            "
+                              "data": "\n            "
                             }
                           ],
                           "content": null
@@ -267,13 +267,13 @@
                             "end": 220,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
                           "span": {
                             "start": 220,
-                            "end": 225,
+                            "end": 230,
                             "ctxt": 0
                           },
                           "tagName": "mo",
@@ -287,7 +287,7 @@
                                 "end": 225,
                                 "ctxt": 0
                               },
-                              "value": "+"
+                              "data": "+"
                             }
                           ],
                           "content": null
@@ -299,13 +299,13 @@
                             "end": 243,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
                           "span": {
                             "start": 243,
-                            "end": 316,
+                            "end": 323,
                             "ctxt": 0
                           },
                           "tagName": "msup",
@@ -319,13 +319,13 @@
                                 "end": 266,
                                 "ctxt": 0
                               },
-                              "value": "\n                "
+                              "data": "\n                "
                             },
                             {
                               "type": "Element",
                               "span": {
                                 "start": 266,
-                                "end": 271,
+                                "end": 276,
                                 "ctxt": 0
                               },
                               "tagName": "mi",
@@ -339,7 +339,7 @@
                                     "end": 271,
                                     "ctxt": 0
                                   },
-                                  "value": "b"
+                                  "data": "b"
                                 }
                               ],
                               "content": null
@@ -351,13 +351,13 @@
                                 "end": 293,
                                 "ctxt": 0
                               },
-                              "value": "\n                "
+                              "data": "\n                "
                             },
                             {
                               "type": "Element",
                               "span": {
                                 "start": 293,
-                                "end": 298,
+                                "end": 303,
                                 "ctxt": 0
                               },
                               "tagName": "mn",
@@ -371,7 +371,7 @@
                                     "end": 298,
                                     "ctxt": 0
                                   },
-                                  "value": "2"
+                                  "data": "2"
                                 }
                               ],
                               "content": null
@@ -383,7 +383,7 @@
                                 "end": 316,
                                 "ctxt": 0
                               },
-                              "value": "\n            "
+                              "data": "\n            "
                             }
                           ],
                           "content": null
@@ -395,7 +395,7 @@
                             "end": 332,
                             "ctxt": 0
                           },
-                          "value": "\n        "
+                          "data": "\n        "
                         }
                       ],
                       "content": null
@@ -407,13 +407,13 @@
                         "end": 348,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
                       "span": {
                         "start": 348,
-                        "end": 353,
+                        "end": 358,
                         "ctxt": 0
                       },
                       "tagName": "mo",
@@ -427,7 +427,7 @@
                             "end": 353,
                             "ctxt": 0
                           },
-                          "value": "="
+                          "data": "="
                         }
                       ],
                       "content": null
@@ -439,13 +439,13 @@
                         "end": 367,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
                       "span": {
                         "start": 367,
-                        "end": 428,
+                        "end": 435,
                         "ctxt": 0
                       },
                       "tagName": "msup",
@@ -459,13 +459,13 @@
                             "end": 386,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
                           "span": {
                             "start": 386,
-                            "end": 391,
+                            "end": 396,
                             "ctxt": 0
                           },
                           "tagName": "mi",
@@ -479,7 +479,7 @@
                                 "end": 391,
                                 "ctxt": 0
                               },
-                              "value": "c"
+                              "data": "c"
                             }
                           ],
                           "content": null
@@ -491,13 +491,13 @@
                             "end": 409,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
                           "span": {
                             "start": 409,
-                            "end": 414,
+                            "end": 419,
                             "ctxt": 0
                           },
                           "tagName": "mn",
@@ -511,7 +511,7 @@
                                 "end": 414,
                                 "ctxt": 0
                               },
-                              "value": "2"
+                              "data": "2"
                             }
                           ],
                           "content": null
@@ -523,7 +523,7 @@
                             "end": 428,
                             "ctxt": 0
                           },
-                          "value": "\n        "
+                          "data": "\n        "
                         }
                       ],
                       "content": null
@@ -535,7 +535,7 @@
                         "end": 440,
                         "ctxt": 0
                       },
-                      "value": "\n    "
+                      "data": "\n    "
                     }
                   ],
                   "content": null
@@ -547,7 +547,7 @@
                     "end": 448,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
               "content": null
@@ -559,13 +559,13 @@
                 "end": 457,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 457,
-                "end": 810,
+                "end": 817,
                 "ctxt": 0
               },
               "tagName": "math",
@@ -574,8 +574,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 463,
+                    "end": 505,
                     "ctxt": 0
                   },
                   "namespace": "http://www.w3.org/2000/xmlns/",
@@ -592,13 +592,13 @@
                     "end": 511,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
                   "span": {
                     "start": 511,
-                    "end": 800,
+                    "end": 809,
                     "ctxt": 0
                   },
                   "tagName": "matrix",
@@ -612,13 +612,13 @@
                         "end": 528,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
                       "span": {
                         "start": 528,
-                        "end": 599,
+                        "end": 611,
                         "ctxt": 0
                       },
                       "tagName": "matrixrow",
@@ -632,13 +632,13 @@
                             "end": 552,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
                           "span": {
                             "start": 552,
-                            "end": 559,
+                            "end": 564,
                             "ctxt": 0
                           },
                           "tagName": "cn",
@@ -652,7 +652,7 @@
                                 "end": 559,
                                 "ctxt": 0
                               },
-                              "value": " 0 "
+                              "data": " 0 "
                             }
                           ],
                           "content": null
@@ -664,13 +664,13 @@
                             "end": 565,
                             "ctxt": 0
                           },
-                          "value": " "
+                          "data": " "
                         },
                         {
                           "type": "Element",
                           "span": {
                             "start": 565,
-                            "end": 572,
+                            "end": 577,
                             "ctxt": 0
                           },
                           "tagName": "cn",
@@ -684,7 +684,7 @@
                                 "end": 572,
                                 "ctxt": 0
                               },
-                              "value": " 1 "
+                              "data": " 1 "
                             }
                           ],
                           "content": null
@@ -696,13 +696,13 @@
                             "end": 578,
                             "ctxt": 0
                           },
-                          "value": " "
+                          "data": " "
                         },
                         {
                           "type": "Element",
                           "span": {
                             "start": 578,
-                            "end": 585,
+                            "end": 590,
                             "ctxt": 0
                           },
                           "tagName": "cn",
@@ -716,7 +716,7 @@
                                 "end": 585,
                                 "ctxt": 0
                               },
-                              "value": " 0 "
+                              "data": " 0 "
                             }
                           ],
                           "content": null
@@ -728,7 +728,7 @@
                             "end": 599,
                             "ctxt": 0
                           },
-                          "value": "\n        "
+                          "data": "\n        "
                         }
                       ],
                       "content": null
@@ -740,13 +740,13 @@
                         "end": 620,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
                       "span": {
                         "start": 620,
-                        "end": 691,
+                        "end": 703,
                         "ctxt": 0
                       },
                       "tagName": "matrixrow",
@@ -760,13 +760,13 @@
                             "end": 644,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
                           "span": {
                             "start": 644,
-                            "end": 651,
+                            "end": 656,
                             "ctxt": 0
                           },
                           "tagName": "cn",
@@ -780,7 +780,7 @@
                                 "end": 651,
                                 "ctxt": 0
                               },
-                              "value": " 0 "
+                              "data": " 0 "
                             }
                           ],
                           "content": null
@@ -792,13 +792,13 @@
                             "end": 657,
                             "ctxt": 0
                           },
-                          "value": " "
+                          "data": " "
                         },
                         {
                           "type": "Element",
                           "span": {
                             "start": 657,
-                            "end": 664,
+                            "end": 669,
                             "ctxt": 0
                           },
                           "tagName": "cn",
@@ -812,7 +812,7 @@
                                 "end": 664,
                                 "ctxt": 0
                               },
-                              "value": " 0 "
+                              "data": " 0 "
                             }
                           ],
                           "content": null
@@ -824,13 +824,13 @@
                             "end": 670,
                             "ctxt": 0
                           },
-                          "value": " "
+                          "data": " "
                         },
                         {
                           "type": "Element",
                           "span": {
                             "start": 670,
-                            "end": 677,
+                            "end": 682,
                             "ctxt": 0
                           },
                           "tagName": "cn",
@@ -844,7 +844,7 @@
                                 "end": 677,
                                 "ctxt": 0
                               },
-                              "value": " 1 "
+                              "data": " 1 "
                             }
                           ],
                           "content": null
@@ -856,7 +856,7 @@
                             "end": 691,
                             "ctxt": 0
                           },
-                          "value": "\n        "
+                          "data": "\n        "
                         }
                       ],
                       "content": null
@@ -868,13 +868,13 @@
                         "end": 712,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
                       "span": {
                         "start": 712,
-                        "end": 783,
+                        "end": 795,
                         "ctxt": 0
                       },
                       "tagName": "matrixrow",
@@ -888,13 +888,13 @@
                             "end": 736,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
                           "span": {
                             "start": 736,
-                            "end": 743,
+                            "end": 748,
                             "ctxt": 0
                           },
                           "tagName": "cn",
@@ -908,7 +908,7 @@
                                 "end": 743,
                                 "ctxt": 0
                               },
-                              "value": " 1 "
+                              "data": " 1 "
                             }
                           ],
                           "content": null
@@ -920,13 +920,13 @@
                             "end": 749,
                             "ctxt": 0
                           },
-                          "value": " "
+                          "data": " "
                         },
                         {
                           "type": "Element",
                           "span": {
                             "start": 749,
-                            "end": 756,
+                            "end": 761,
                             "ctxt": 0
                           },
                           "tagName": "cn",
@@ -940,7 +940,7 @@
                                 "end": 756,
                                 "ctxt": 0
                               },
-                              "value": " 0 "
+                              "data": " 0 "
                             }
                           ],
                           "content": null
@@ -952,13 +952,13 @@
                             "end": 762,
                             "ctxt": 0
                           },
-                          "value": " "
+                          "data": " "
                         },
                         {
                           "type": "Element",
                           "span": {
                             "start": 762,
-                            "end": 769,
+                            "end": 774,
                             "ctxt": 0
                           },
                           "tagName": "cn",
@@ -972,7 +972,7 @@
                                 "end": 769,
                                 "ctxt": 0
                               },
-                              "value": " 0 "
+                              "data": " 0 "
                             }
                           ],
                           "content": null
@@ -984,7 +984,7 @@
                             "end": 783,
                             "ctxt": 0
                           },
-                          "value": "\n        "
+                          "data": "\n        "
                         }
                       ],
                       "content": null
@@ -996,7 +996,7 @@
                         "end": 800,
                         "ctxt": 0
                       },
-                      "value": "\n    "
+                      "data": "\n    "
                     }
                   ],
                   "content": null
@@ -1008,7 +1008,7 @@
                     "end": 810,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
               "content": null
@@ -1020,13 +1020,13 @@
                 "end": 819,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 819,
-                "end": 885,
+                "end": 892,
                 "ctxt": 0
               },
               "tagName": "math",
@@ -1035,8 +1035,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 825,
+                    "end": 867,
                     "ctxt": 0
                   },
                   "namespace": "http://www.w3.org/2000/xmlns/",
@@ -1053,7 +1053,7 @@
                     "end": 873,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -1075,7 +1075,7 @@
                     "end": 885,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
               "content": null
@@ -1087,13 +1087,13 @@
                 "end": 894,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 894,
-                "end": 1732,
+                "end": 1739,
                 "ctxt": 0
               },
               "tagName": "math",
@@ -1107,13 +1107,13 @@
                     "end": 905,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
                   "span": {
                     "start": 905,
-                    "end": 1719,
+                    "end": 1731,
                     "ctxt": 0
                   },
                   "tagName": "semantics",
@@ -1127,7 +1127,7 @@
                         "end": 926,
                         "ctxt": 0
                       },
-                      "value": "\n\n        "
+                      "data": "\n\n        "
                     },
                     {
                       "type": "Comment",
@@ -1145,13 +1145,13 @@
                         "end": 963,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
                       "span": {
                         "start": 963,
-                        "end": 1117,
+                        "end": 1124,
                         "ctxt": 0
                       },
                       "tagName": "mrow",
@@ -1165,13 +1165,13 @@
                             "end": 982,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
                           "span": {
                             "start": 982,
-                            "end": 1055,
+                            "end": 1062,
                             "ctxt": 0
                           },
                           "tagName": "msup",
@@ -1185,13 +1185,13 @@
                                 "end": 1005,
                                 "ctxt": 0
                               },
-                              "value": "\n                "
+                              "data": "\n                "
                             },
                             {
                               "type": "Element",
                               "span": {
                                 "start": 1005,
-                                "end": 1010,
+                                "end": 1015,
                                 "ctxt": 0
                               },
                               "tagName": "mi",
@@ -1205,7 +1205,7 @@
                                     "end": 1010,
                                     "ctxt": 0
                                   },
-                                  "value": "x"
+                                  "data": "x"
                                 }
                               ],
                               "content": null
@@ -1217,13 +1217,13 @@
                                 "end": 1032,
                                 "ctxt": 0
                               },
-                              "value": "\n                "
+                              "data": "\n                "
                             },
                             {
                               "type": "Element",
                               "span": {
                                 "start": 1032,
-                                "end": 1037,
+                                "end": 1042,
                                 "ctxt": 0
                               },
                               "tagName": "mn",
@@ -1237,7 +1237,7 @@
                                     "end": 1037,
                                     "ctxt": 0
                                   },
-                                  "value": "2"
+                                  "data": "2"
                                 }
                               ],
                               "content": null
@@ -1249,7 +1249,7 @@
                                 "end": 1055,
                                 "ctxt": 0
                               },
-                              "value": "\n            "
+                              "data": "\n            "
                             }
                           ],
                           "content": null
@@ -1261,13 +1261,13 @@
                             "end": 1075,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
                           "span": {
                             "start": 1075,
-                            "end": 1080,
+                            "end": 1085,
                             "ctxt": 0
                           },
                           "tagName": "mo",
@@ -1281,7 +1281,7 @@
                                 "end": 1080,
                                 "ctxt": 0
                               },
-                              "value": "+"
+                              "data": "+"
                             }
                           ],
                           "content": null
@@ -1293,13 +1293,13 @@
                             "end": 1098,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
                           "span": {
                             "start": 1098,
-                            "end": 1103,
+                            "end": 1108,
                             "ctxt": 0
                           },
                           "tagName": "mi",
@@ -1313,7 +1313,7 @@
                                 "end": 1103,
                                 "ctxt": 0
                               },
-                              "value": "y"
+                              "data": "y"
                             }
                           ],
                           "content": null
@@ -1325,7 +1325,7 @@
                             "end": 1117,
                             "ctxt": 0
                           },
-                          "value": "\n        "
+                          "data": "\n        "
                         }
                       ],
                       "content": null
@@ -1337,7 +1337,7 @@
                         "end": 1134,
                         "ctxt": 0
                       },
-                      "value": "\n\n        "
+                      "data": "\n\n        "
                     },
                     {
                       "type": "Comment",
@@ -1355,13 +1355,13 @@
                         "end": 1166,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
                       "span": {
                         "start": 1166,
-                        "end": 1464,
+                        "end": 1481,
                         "ctxt": 0
                       },
                       "tagName": "annotation-xml",
@@ -1370,8 +1370,8 @@
                         {
                           "type": "Attribute",
                           "span": {
-                            "start": 0,
-                            "end": 0,
+                            "start": 1182,
+                            "end": 1207,
                             "ctxt": 0
                           },
                           "namespace": null,
@@ -1388,13 +1388,13 @@
                             "end": 1221,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
                           "span": {
                             "start": 1221,
-                            "end": 1447,
+                            "end": 1455,
                             "ctxt": 0
                           },
                           "tagName": "apply",
@@ -1408,7 +1408,7 @@
                                 "end": 1245,
                                 "ctxt": 0
                               },
-                              "value": "\n                "
+                              "data": "\n                "
                             },
                             {
                               "type": "Element",
@@ -1430,13 +1430,13 @@
                                 "end": 1269,
                                 "ctxt": 0
                               },
-                              "value": "\n                "
+                              "data": "\n                "
                             },
                             {
                               "type": "Element",
                               "span": {
                                 "start": 1269,
-                                "end": 1399,
+                                "end": 1407,
                                 "ctxt": 0
                               },
                               "tagName": "apply",
@@ -1450,7 +1450,7 @@
                                     "end": 1297,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -1472,13 +1472,13 @@
                                     "end": 1326,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
                                   "span": {
                                     "start": 1326,
-                                    "end": 1331,
+                                    "end": 1336,
                                     "ctxt": 0
                                   },
                                   "tagName": "ci",
@@ -1492,7 +1492,7 @@
                                         "end": 1331,
                                         "ctxt": 0
                                       },
-                                      "value": "x"
+                                      "data": "x"
                                     }
                                   ],
                                   "content": null
@@ -1504,13 +1504,13 @@
                                     "end": 1357,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
                                   "span": {
                                     "start": 1357,
-                                    "end": 1377,
+                                    "end": 1382,
                                     "ctxt": 0
                                   },
                                   "tagName": "cn",
@@ -1519,8 +1519,8 @@
                                     {
                                       "type": "Attribute",
                                       "span": {
-                                        "start": 0,
-                                        "end": 0,
+                                        "start": 1361,
+                                        "end": 1375,
                                         "ctxt": 0
                                       },
                                       "namespace": null,
@@ -1537,7 +1537,7 @@
                                         "end": 1377,
                                         "ctxt": 0
                                       },
-                                      "value": "2"
+                                      "data": "2"
                                     }
                                   ],
                                   "content": null
@@ -1549,7 +1549,7 @@
                                     "end": 1399,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                "
+                                  "data": "\n                "
                                 }
                               ],
                               "content": null
@@ -1561,13 +1561,13 @@
                                 "end": 1424,
                                 "ctxt": 0
                               },
-                              "value": "\n                "
+                              "data": "\n                "
                             },
                             {
                               "type": "Element",
                               "span": {
                                 "start": 1424,
-                                "end": 1429,
+                                "end": 1434,
                                 "ctxt": 0
                               },
                               "tagName": "ci",
@@ -1581,7 +1581,7 @@
                                     "end": 1429,
                                     "ctxt": 0
                                   },
-                                  "value": "y"
+                                  "data": "y"
                                 }
                               ],
                               "content": null
@@ -1593,7 +1593,7 @@
                                 "end": 1447,
                                 "ctxt": 0
                               },
-                              "value": "\n            "
+                              "data": "\n            "
                             }
                           ],
                           "content": null
@@ -1605,7 +1605,7 @@
                             "end": 1464,
                             "ctxt": 0
                           },
-                          "value": "\n        "
+                          "data": "\n        "
                         }
                       ],
                       "content": null
@@ -1617,7 +1617,7 @@
                         "end": 1491,
                         "ctxt": 0
                       },
-                      "value": "\n\n        "
+                      "data": "\n\n        "
                     },
                     {
                       "type": "Comment",
@@ -1635,7 +1635,7 @@
                         "end": 1526,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
@@ -1650,8 +1650,8 @@
                         {
                           "type": "Attribute",
                           "span": {
-                            "start": 0,
-                            "end": 0,
+                            "start": 1538,
+                            "end": 1558,
                             "ctxt": 0
                           },
                           "namespace": null,
@@ -1662,8 +1662,8 @@
                         {
                           "type": "Attribute",
                           "span": {
-                            "start": 0,
-                            "end": 0,
+                            "start": 1559,
+                            "end": 1586,
                             "ctxt": 0
                           },
                           "namespace": null,
@@ -1682,7 +1682,7 @@
                         "end": 1598,
                         "ctxt": 0
                       },
-                      "value": "\n\n        "
+                      "data": "\n\n        "
                     },
                     {
                       "type": "Comment",
@@ -1700,13 +1700,13 @@
                         "end": 1628,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
                       "span": {
                         "start": 1628,
-                        "end": 1700,
+                        "end": 1713,
                         "ctxt": 0
                       },
                       "tagName": "annotation",
@@ -1715,8 +1715,8 @@
                         {
                           "type": "Attribute",
                           "span": {
-                            "start": 0,
-                            "end": 0,
+                            "start": 1640,
+                            "end": 1668,
                             "ctxt": 0
                           },
                           "namespace": null,
@@ -1733,7 +1733,7 @@
                             "end": 1700,
                             "ctxt": 0
                           },
-                          "value": "\n            x^{2} + y\n        "
+                          "data": "\n            x^{2} + y\n        "
                         }
                       ],
                       "content": null
@@ -1745,7 +1745,7 @@
                         "end": 1719,
                         "ctxt": 0
                       },
-                      "value": "\n\n    "
+                      "data": "\n\n    "
                     }
                   ],
                   "content": null
@@ -1757,7 +1757,7 @@
                     "end": 1732,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
               "content": null
@@ -1769,13 +1769,13 @@
                 "end": 1741,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 1741,
-                "end": 2656,
+                "end": 2663,
                 "ctxt": 0
               },
               "tagName": "math",
@@ -1789,13 +1789,13 @@
                     "end": 1752,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
                   "span": {
                     "start": 1752,
-                    "end": 2646,
+                    "end": 2655,
                     "ctxt": 0
                   },
                   "tagName": "mtable",
@@ -1809,13 +1809,13 @@
                         "end": 1769,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
                       "span": {
                         "start": 1769,
-                        "end": 2220,
+                        "end": 2226,
                         "ctxt": 0
                       },
                       "tagName": "mtr",
@@ -1824,8 +1824,8 @@
                         {
                           "type": "Attribute",
                           "span": {
-                            "start": 0,
-                            "end": 0,
+                            "start": 1774,
+                            "end": 1793,
                             "ctxt": 0
                           },
                           "namespace": null,
@@ -1842,13 +1842,13 @@
                             "end": 1807,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
                           "span": {
                             "start": 1807,
-                            "end": 2205,
+                            "end": 2211,
                             "ctxt": 0
                           },
                           "tagName": "mtd",
@@ -1862,13 +1862,13 @@
                                 "end": 1829,
                                 "ctxt": 0
                               },
-                              "value": "\n                "
+                              "data": "\n                "
                             },
                             {
                               "type": "Element",
                               "span": {
                                 "start": 1829,
-                                "end": 2185,
+                                "end": 2192,
                                 "ctxt": 0
                               },
                               "tagName": "mrow",
@@ -1882,13 +1882,13 @@
                                     "end": 1856,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
                                   "span": {
                                     "start": 1856,
-                                    "end": 1861,
+                                    "end": 1866,
                                     "ctxt": 0
                                   },
                                   "tagName": "mn",
@@ -1902,7 +1902,7 @@
                                         "end": 1861,
                                         "ctxt": 0
                                       },
-                                      "value": "2"
+                                      "data": "2"
                                     }
                                   ],
                                   "content": null
@@ -1914,13 +1914,13 @@
                                     "end": 1887,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
                                   "span": {
                                     "start": 1887,
-                                    "end": 1907,
+                                    "end": 1912,
                                     "ctxt": 0
                                   },
                                   "tagName": "mo",
@@ -1934,7 +1934,7 @@
                                         "end": 1907,
                                         "ctxt": 0
                                       },
-                                      "value": "⁢"
+                                      "data": "⁢"
                                     }
                                   ],
                                   "content": null
@@ -1946,7 +1946,7 @@
                                     "end": 1933,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -1965,7 +1965,7 @@
                                   "type": "Element",
                                   "span": {
                                     "start": 1947,
-                                    "end": 1952,
+                                    "end": 1957,
                                     "ctxt": 0
                                   },
                                   "tagName": "mi",
@@ -1979,7 +1979,7 @@
                                         "end": 1952,
                                         "ctxt": 0
                                       },
-                                      "value": "x"
+                                      "data": "x"
                                     }
                                   ],
                                   "content": null
@@ -1991,7 +1991,7 @@
                                     "end": 1978,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -2010,7 +2010,7 @@
                                   "type": "Element",
                                   "span": {
                                     "start": 1992,
-                                    "end": 1997,
+                                    "end": 2002,
                                     "ctxt": 0
                                   },
                                   "tagName": "mo",
@@ -2024,7 +2024,7 @@
                                         "end": 1997,
                                         "ctxt": 0
                                       },
-                                      "value": "+"
+                                      "data": "+"
                                     }
                                   ],
                                   "content": null
@@ -2036,7 +2036,7 @@
                                     "end": 2023,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -2055,7 +2055,7 @@
                                   "type": "Element",
                                   "span": {
                                     "start": 2037,
-                                    "end": 2042,
+                                    "end": 2047,
                                     "ctxt": 0
                                   },
                                   "tagName": "mi",
@@ -2069,7 +2069,7 @@
                                         "end": 2042,
                                         "ctxt": 0
                                       },
-                                      "value": "y"
+                                      "data": "y"
                                     }
                                   ],
                                   "content": null
@@ -2081,7 +2081,7 @@
                                     "end": 2068,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -2100,7 +2100,7 @@
                                   "type": "Element",
                                   "span": {
                                     "start": 2082,
-                                    "end": 2087,
+                                    "end": 2092,
                                     "ctxt": 0
                                   },
                                   "tagName": "mo",
@@ -2114,7 +2114,7 @@
                                         "end": 2087,
                                         "ctxt": 0
                                       },
-                                      "value": "="
+                                      "data": "="
                                     }
                                   ],
                                   "content": null
@@ -2126,13 +2126,13 @@
                                     "end": 2113,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
                                   "span": {
                                     "start": 2113,
-                                    "end": 2118,
+                                    "end": 2123,
                                     "ctxt": 0
                                   },
                                   "tagName": "mo",
@@ -2146,7 +2146,7 @@
                                         "end": 2118,
                                         "ctxt": 0
                                       },
-                                      "value": "-"
+                                      "data": "-"
                                     }
                                   ],
                                   "content": null
@@ -2158,7 +2158,7 @@
                                     "end": 2144,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -2177,7 +2177,7 @@
                                   "type": "Element",
                                   "span": {
                                     "start": 2158,
-                                    "end": 2163,
+                                    "end": 2168,
                                     "ctxt": 0
                                   },
                                   "tagName": "mn",
@@ -2191,7 +2191,7 @@
                                         "end": 2163,
                                         "ctxt": 0
                                       },
-                                      "value": "5"
+                                      "data": "5"
                                     }
                                   ],
                                   "content": null
@@ -2203,7 +2203,7 @@
                                     "end": 2185,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                "
+                                  "data": "\n                "
                                 }
                               ],
                               "content": null
@@ -2215,7 +2215,7 @@
                                 "end": 2205,
                                 "ctxt": 0
                               },
-                              "value": "\n            "
+                              "data": "\n            "
                             }
                           ],
                           "content": null
@@ -2227,7 +2227,7 @@
                             "end": 2220,
                             "ctxt": 0
                           },
-                          "value": "\n        "
+                          "data": "\n        "
                         }
                       ],
                       "content": null
@@ -2239,13 +2239,13 @@
                         "end": 2235,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
                       "span": {
                         "start": 2235,
-                        "end": 2635,
+                        "end": 2641,
                         "ctxt": 0
                       },
                       "tagName": "mtr",
@@ -2259,13 +2259,13 @@
                             "end": 2253,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
                           "span": {
                             "start": 2253,
-                            "end": 2620,
+                            "end": 2626,
                             "ctxt": 0
                           },
                           "tagName": "mtd",
@@ -2279,13 +2279,13 @@
                                 "end": 2275,
                                 "ctxt": 0
                               },
-                              "value": "\n                "
+                              "data": "\n                "
                             },
                             {
                               "type": "Element",
                               "span": {
                                 "start": 2275,
-                                "end": 2600,
+                                "end": 2607,
                                 "ctxt": 0
                               },
                               "tagName": "mrow",
@@ -2299,7 +2299,7 @@
                                     "end": 2302,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -2318,7 +2318,7 @@
                                   "type": "Element",
                                   "span": {
                                     "start": 2316,
-                                    "end": 2321,
+                                    "end": 2326,
                                     "ctxt": 0
                                   },
                                   "tagName": "mi",
@@ -2332,7 +2332,7 @@
                                         "end": 2321,
                                         "ctxt": 0
                                       },
-                                      "value": "x"
+                                      "data": "x"
                                     }
                                   ],
                                   "content": null
@@ -2344,7 +2344,7 @@
                                     "end": 2347,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -2363,7 +2363,7 @@
                                   "type": "Element",
                                   "span": {
                                     "start": 2361,
-                                    "end": 2366,
+                                    "end": 2371,
                                     "ctxt": 0
                                   },
                                   "tagName": "mo",
@@ -2377,7 +2377,7 @@
                                         "end": 2366,
                                         "ctxt": 0
                                       },
-                                      "value": "-"
+                                      "data": "-"
                                     }
                                   ],
                                   "content": null
@@ -2389,13 +2389,13 @@
                                     "end": 2392,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
                                   "span": {
                                     "start": 2392,
-                                    "end": 2397,
+                                    "end": 2402,
                                     "ctxt": 0
                                   },
                                   "tagName": "mn",
@@ -2409,7 +2409,7 @@
                                         "end": 2397,
                                         "ctxt": 0
                                       },
-                                      "value": "2"
+                                      "data": "2"
                                     }
                                   ],
                                   "content": null
@@ -2421,13 +2421,13 @@
                                     "end": 2423,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
                                   "span": {
                                     "start": 2423,
-                                    "end": 2443,
+                                    "end": 2448,
                                     "ctxt": 0
                                   },
                                   "tagName": "mo",
@@ -2441,7 +2441,7 @@
                                         "end": 2443,
                                         "ctxt": 0
                                       },
-                                      "value": "⁢"
+                                      "data": "⁢"
                                     }
                                   ],
                                   "content": null
@@ -2453,7 +2453,7 @@
                                     "end": 2469,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -2472,7 +2472,7 @@
                                   "type": "Element",
                                   "span": {
                                     "start": 2483,
-                                    "end": 2488,
+                                    "end": 2493,
                                     "ctxt": 0
                                   },
                                   "tagName": "mi",
@@ -2486,7 +2486,7 @@
                                         "end": 2488,
                                         "ctxt": 0
                                       },
-                                      "value": "y"
+                                      "data": "y"
                                     }
                                   ],
                                   "content": null
@@ -2498,7 +2498,7 @@
                                     "end": 2514,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -2517,7 +2517,7 @@
                                   "type": "Element",
                                   "span": {
                                     "start": 2528,
-                                    "end": 2533,
+                                    "end": 2538,
                                     "ctxt": 0
                                   },
                                   "tagName": "mo",
@@ -2531,7 +2531,7 @@
                                         "end": 2533,
                                         "ctxt": 0
                                       },
-                                      "value": "="
+                                      "data": "="
                                     }
                                   ],
                                   "content": null
@@ -2543,7 +2543,7 @@
                                     "end": 2559,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -2562,7 +2562,7 @@
                                   "type": "Element",
                                   "span": {
                                     "start": 2573,
-                                    "end": 2578,
+                                    "end": 2583,
                                     "ctxt": 0
                                   },
                                   "tagName": "mn",
@@ -2576,7 +2576,7 @@
                                         "end": 2578,
                                         "ctxt": 0
                                       },
-                                      "value": "1"
+                                      "data": "1"
                                     }
                                   ],
                                   "content": null
@@ -2588,7 +2588,7 @@
                                     "end": 2600,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                "
+                                  "data": "\n                "
                                 }
                               ],
                               "content": null
@@ -2600,7 +2600,7 @@
                                 "end": 2620,
                                 "ctxt": 0
                               },
-                              "value": "\n            "
+                              "data": "\n            "
                             }
                           ],
                           "content": null
@@ -2612,7 +2612,7 @@
                             "end": 2635,
                             "ctxt": 0
                           },
-                          "value": "\n        "
+                          "data": "\n        "
                         }
                       ],
                       "content": null
@@ -2624,7 +2624,7 @@
                         "end": 2646,
                         "ctxt": 0
                       },
-                      "value": "\n    "
+                      "data": "\n    "
                     }
                   ],
                   "content": null
@@ -2636,7 +2636,7 @@
                     "end": 2656,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
               "content": null
@@ -2648,13 +2648,13 @@
                 "end": 2665,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 2665,
-                "end": 2758,
+                "end": 2765,
                 "ctxt": 0
               },
               "tagName": "math",
@@ -2668,13 +2668,13 @@
                     "end": 2677,
                     "ctxt": 0
                   },
-                  "value": "\n\n    "
+                  "data": "\n\n    "
                 },
                 {
                   "type": "Element",
                   "span": {
                     "start": 2677,
-                    "end": 2707,
+                    "end": 2715,
                     "ctxt": 0
                   },
                   "tagName": "mtext",
@@ -2688,7 +2688,7 @@
                         "end": 2707,
                         "ctxt": 0
                       },
-                      "value": " Theorem of Pythagoras "
+                      "data": " Theorem of Pythagoras "
                     }
                   ],
                   "content": null
@@ -2700,13 +2700,13 @@
                     "end": 2721,
                     "ctxt": 0
                   },
-                  "value": "\n\n    "
+                  "data": "\n\n    "
                 },
                 {
                   "type": "Element",
                   "span": {
                     "start": 2721,
-                    "end": 2748,
+                    "end": 2756,
                     "ctxt": 0
                   },
                   "tagName": "mtext",
@@ -2720,7 +2720,7 @@
                         "end": 2748,
                         "ctxt": 0
                       },
-                      "value": " /* comment here */ "
+                      "data": " /* comment here */ "
                     }
                   ],
                   "content": null
@@ -2732,7 +2732,7 @@
                     "end": 2758,
                     "ctxt": 0
                   },
-                  "value": "\n\n"
+                  "data": "\n\n"
                 }
               ],
               "content": null
@@ -2744,13 +2744,13 @@
                 "end": 2767,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 2767,
-                "end": 2823,
+                "end": 2830,
                 "ctxt": 0
               },
               "tagName": "math",
@@ -2764,13 +2764,13 @@
                     "end": 2778,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
                   "span": {
                     "start": 2778,
-                    "end": 2814,
+                    "end": 2822,
                     "ctxt": 0
                   },
                   "tagName": "mtext",
@@ -2784,13 +2784,13 @@
                         "end": 2794,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
                       "span": {
                         "start": 2794,
-                        "end": 2803,
+                        "end": 2809,
                         "ctxt": 0
                       },
                       "tagName": "div",
@@ -2804,7 +2804,7 @@
                             "end": 2803,
                             "ctxt": 0
                           },
-                          "value": "test"
+                          "data": "test"
                         }
                       ],
                       "content": null
@@ -2816,7 +2816,7 @@
                         "end": 2814,
                         "ctxt": 0
                       },
-                      "value": "\n    "
+                      "data": "\n    "
                     }
                   ],
                   "content": null
@@ -2828,7 +2828,7 @@
                     "end": 2823,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
               "content": null
@@ -2840,13 +2840,13 @@
                 "end": 2832,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 2832,
-                "end": 2978,
+                "end": 2985,
                 "ctxt": 0
               },
               "tagName": "math",
@@ -2860,13 +2860,13 @@
                     "end": 2843,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
                   "span": {
                     "start": 2843,
-                    "end": 2970,
+                    "end": 2977,
                     "ctxt": 0
                   },
                   "tagName": "msup",
@@ -2880,13 +2880,13 @@
                         "end": 2858,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
                       "span": {
                         "start": 2858,
-                        "end": 2937,
+                        "end": 2944,
                         "ctxt": 0
                       },
                       "tagName": "mrow",
@@ -2900,13 +2900,13 @@
                             "end": 2877,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
                           "span": {
                             "start": 2877,
-                            "end": 2884,
+                            "end": 2889,
                             "ctxt": 0
                           },
                           "tagName": "mi",
@@ -2920,7 +2920,7 @@
                                 "end": 2884,
                                 "ctxt": 0
                               },
-                              "value": " x "
+                              "data": " x "
                             }
                           ],
                           "content": null
@@ -2932,7 +2932,7 @@
                             "end": 2902,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
@@ -2947,8 +2947,8 @@
                             {
                               "type": "Attribute",
                               "span": {
-                                "start": 0,
-                                "end": 0,
+                                "start": 2914,
+                                "end": 2926,
                                 "ctxt": 0
                               },
                               "namespace": null,
@@ -2967,7 +2967,7 @@
                             "end": 2937,
                             "ctxt": 0
                           },
-                          "value": "\n        "
+                          "data": "\n        "
                         }
                       ],
                       "content": null
@@ -2979,13 +2979,13 @@
                         "end": 2953,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
                       "span": {
                         "start": 2953,
-                        "end": 2960,
+                        "end": 2965,
                         "ctxt": 0
                       },
                       "tagName": "mn",
@@ -2999,7 +2999,7 @@
                             "end": 2960,
                             "ctxt": 0
                           },
-                          "value": " 2 "
+                          "data": " 2 "
                         }
                       ],
                       "content": null
@@ -3011,7 +3011,7 @@
                         "end": 2970,
                         "ctxt": 0
                       },
-                      "value": "\n    "
+                      "data": "\n    "
                     }
                   ],
                   "content": null
@@ -3023,7 +3023,7 @@
                     "end": 2978,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
               "content": null
@@ -3035,13 +3035,13 @@
                 "end": 2987,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 2987,
-                "end": 4023,
+                "end": 4030,
                 "ctxt": 0
               },
               "tagName": "math",
@@ -3055,13 +3055,13 @@
                     "end": 2998,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
                   "span": {
                     "start": 2998,
-                    "end": 4005,
+                    "end": 4022,
                     "ctxt": 0
                   },
                   "tagName": "annotation-xml",
@@ -3075,13 +3075,13 @@
                         "end": 3023,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
                       "span": {
                         "start": 3023,
-                        "end": 3994,
+                        "end": 4000,
                         "ctxt": 0
                       },
                       "tagName": "svg",
@@ -3090,8 +3090,8 @@
                         {
                           "type": "Attribute",
                           "span": {
-                            "start": 0,
-                            "end": 0,
+                            "start": 3028,
+                            "end": 3051,
                             "ctxt": 0
                           },
                           "namespace": null,
@@ -3102,8 +3102,8 @@
                         {
                           "type": "Attribute",
                           "span": {
-                            "start": 0,
-                            "end": 0,
+                            "start": 3052,
+                            "end": 3065,
                             "ctxt": 0
                           },
                           "namespace": null,
@@ -3114,8 +3114,8 @@
                         {
                           "type": "Attribute",
                           "span": {
-                            "start": 0,
-                            "end": 0,
+                            "start": 3066,
+                            "end": 3080,
                             "ctxt": 0
                           },
                           "namespace": null,
@@ -3126,8 +3126,8 @@
                         {
                           "type": "Attribute",
                           "span": {
-                            "start": 0,
-                            "end": 0,
+                            "start": 3081,
+                            "end": 3102,
                             "ctxt": 0
                           },
                           "namespace": null,
@@ -3144,13 +3144,13 @@
                             "end": 3116,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
                           "span": {
                             "start": 3116,
-                            "end": 3981,
+                            "end": 3985,
                             "ctxt": 0
                           },
                           "tagName": "g",
@@ -3159,8 +3159,8 @@
                             {
                               "type": "Attribute",
                               "span": {
-                                "start": 0,
-                                "end": 0,
+                                "start": 3119,
+                                "end": 3147,
                                 "ctxt": 0
                               },
                               "namespace": null,
@@ -3177,13 +3177,13 @@
                                 "end": 3165,
                                 "ctxt": 0
                               },
-                              "value": "\n                "
+                              "data": "\n                "
                             },
                             {
                               "type": "Element",
                               "span": {
                                 "start": 3165,
-                                "end": 3310,
+                                "end": 3317,
                                 "ctxt": 0
                               },
                               "tagName": "path",
@@ -3192,8 +3192,8 @@
                                 {
                                   "type": "Attribute",
                                   "span": {
-                                    "start": 0,
-                                    "end": 0,
+                                    "start": 3171,
+                                    "end": 3260,
                                     "ctxt": 0
                                   },
                                   "namespace": null,
@@ -3204,8 +3204,8 @@
                                 {
                                   "type": "Attribute",
                                   "span": {
-                                    "start": 0,
-                                    "end": 0,
+                                    "start": 3283,
+                                    "end": 3294,
                                     "ctxt": 0
                                   },
                                   "namespace": null,
@@ -3216,8 +3216,8 @@
                                 {
                                   "type": "Attribute",
                                   "span": {
-                                    "start": 0,
-                                    "end": 0,
+                                    "start": 3295,
+                                    "end": 3309,
                                     "ctxt": 0
                                   },
                                   "namespace": null,
@@ -3236,13 +3236,13 @@
                                 "end": 3334,
                                 "ctxt": 0
                               },
-                              "value": "\n                "
+                              "data": "\n                "
                             },
                             {
                               "type": "Element",
                               "span": {
                                 "start": 3334,
-                                "end": 3370,
+                                "end": 3377,
                                 "ctxt": 0
                               },
                               "tagName": "text",
@@ -3251,8 +3251,8 @@
                                 {
                                   "type": "Attribute",
                                   "span": {
-                                    "start": 0,
-                                    "end": 0,
+                                    "start": 3340,
+                                    "end": 3368,
                                     "ctxt": 0
                                   },
                                   "namespace": null,
@@ -3269,7 +3269,7 @@
                                     "end": 3370,
                                     "ctxt": 0
                                   },
-                                  "value": "1"
+                                  "data": "1"
                                 }
                               ],
                               "content": null
@@ -3281,13 +3281,13 @@
                                 "end": 3394,
                                 "ctxt": 0
                               },
-                              "value": "\n                "
+                              "data": "\n                "
                             },
                             {
                               "type": "Element",
                               "span": {
                                 "start": 3394,
-                                "end": 3959,
+                                "end": 3968,
                                 "ctxt": 0
                               },
                               "tagName": "switch",
@@ -3296,8 +3296,8 @@
                                 {
                                   "type": "Attribute",
                                   "span": {
-                                    "start": 0,
-                                    "end": 0,
+                                    "start": 3402,
+                                    "end": 3431,
                                     "ctxt": 0
                                   },
                                   "namespace": null,
@@ -3314,13 +3314,13 @@
                                     "end": 3453,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
                                   "span": {
                                     "start": 3453,
-                                    "end": 3879,
+                                    "end": 3895,
                                     "ctxt": 0
                                   },
                                   "tagName": "foreignObject",
@@ -3329,8 +3329,8 @@
                                     {
                                       "type": "Attribute",
                                       "span": {
-                                        "start": 0,
-                                        "end": 0,
+                                        "start": 3468,
+                                        "end": 3479,
                                         "ctxt": 0
                                       },
                                       "namespace": null,
@@ -3341,8 +3341,8 @@
                                     {
                                       "type": "Attribute",
                                       "span": {
-                                        "start": 0,
-                                        "end": 0,
+                                        "start": 3480,
+                                        "end": 3491,
                                         "ctxt": 0
                                       },
                                       "namespace": null,
@@ -3353,8 +3353,8 @@
                                     {
                                       "type": "Attribute",
                                       "span": {
-                                        "start": 0,
-                                        "end": 0,
+                                        "start": 3492,
+                                        "end": 3547,
                                         "ctxt": 0
                                       },
                                       "namespace": null,
@@ -3371,13 +3371,13 @@
                                         "end": 3573,
                                         "ctxt": 0
                                       },
-                                      "value": "\n                        "
+                                      "data": "\n                        "
                                     },
                                     {
                                       "type": "Element",
                                       "span": {
                                         "start": 3573,
-                                        "end": 3851,
+                                        "end": 3858,
                                         "ctxt": 0
                                       },
                                       "tagName": "math",
@@ -3391,13 +3391,13 @@
                                             "end": 3608,
                                             "ctxt": 0
                                           },
-                                          "value": "\n                            "
+                                          "data": "\n                            "
                                         },
                                         {
                                           "type": "Element",
                                           "span": {
                                             "start": 3608,
-                                            "end": 3818,
+                                            "end": 3826,
                                             "ctxt": 0
                                           },
                                           "tagName": "msqrt",
@@ -3411,13 +3411,13 @@
                                                 "end": 3648,
                                                 "ctxt": 0
                                               },
-                                              "value": "\n                                "
+                                              "data": "\n                                "
                                             },
                                             {
                                               "type": "Element",
                                               "span": {
                                                 "start": 3648,
-                                                "end": 3653,
+                                                "end": 3658,
                                                 "ctxt": 0
                                               },
                                               "tagName": "mn",
@@ -3431,7 +3431,7 @@
                                                     "end": 3653,
                                                     "ctxt": 0
                                                   },
-                                                  "value": "2"
+                                                  "data": "2"
                                                 }
                                               ],
                                               "content": null
@@ -3443,13 +3443,13 @@
                                                 "end": 3691,
                                                 "ctxt": 0
                                               },
-                                              "value": "\n                                "
+                                              "data": "\n                                "
                                             },
                                             {
                                               "type": "Element",
                                               "span": {
                                                 "start": 3691,
-                                                "end": 3696,
+                                                "end": 3701,
                                                 "ctxt": 0
                                               },
                                               "tagName": "mi",
@@ -3463,7 +3463,7 @@
                                                     "end": 3696,
                                                     "ctxt": 0
                                                   },
-                                                  "value": "r"
+                                                  "data": "r"
                                                 }
                                               ],
                                               "content": null
@@ -3475,13 +3475,13 @@
                                                 "end": 3734,
                                                 "ctxt": 0
                                               },
-                                              "value": "\n                                "
+                                              "data": "\n                                "
                                             },
                                             {
                                               "type": "Element",
                                               "span": {
                                                 "start": 3734,
-                                                "end": 3741,
+                                                "end": 3746,
                                                 "ctxt": 0
                                               },
                                               "tagName": "mo",
@@ -3495,7 +3495,7 @@
                                                     "end": 3741,
                                                     "ctxt": 0
                                                   },
-                                                  "value": "−"
+                                                  "data": "−"
                                                 }
                                               ],
                                               "content": null
@@ -3507,13 +3507,13 @@
                                                 "end": 3779,
                                                 "ctxt": 0
                                               },
-                                              "value": "\n                                "
+                                              "data": "\n                                "
                                             },
                                             {
                                               "type": "Element",
                                               "span": {
                                                 "start": 3779,
-                                                "end": 3784,
+                                                "end": 3789,
                                                 "ctxt": 0
                                               },
                                               "tagName": "mn",
@@ -3527,7 +3527,7 @@
                                                     "end": 3784,
                                                     "ctxt": 0
                                                   },
-                                                  "value": "1"
+                                                  "data": "1"
                                                 }
                                               ],
                                               "content": null
@@ -3539,7 +3539,7 @@
                                                 "end": 3818,
                                                 "ctxt": 0
                                               },
-                                              "value": "\n                            "
+                                              "data": "\n                            "
                                             }
                                           ],
                                           "content": null
@@ -3551,7 +3551,7 @@
                                             "end": 3851,
                                             "ctxt": 0
                                           },
-                                          "value": "\n                        "
+                                          "data": "\n                        "
                                         }
                                       ],
                                       "content": null
@@ -3563,7 +3563,7 @@
                                         "end": 3879,
                                         "ctxt": 0
                                       },
-                                      "value": "\n                    "
+                                      "data": "\n                    "
                                     }
                                   ],
                                   "content": null
@@ -3575,13 +3575,13 @@
                                     "end": 3916,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
                                   "span": {
                                     "start": 3916,
-                                    "end": 3935,
+                                    "end": 3942,
                                     "ctxt": 0
                                   },
                                   "tagName": "text",
@@ -3595,7 +3595,7 @@
                                         "end": 3935,
                                         "ctxt": 0
                                       },
-                                      "value": "\\sqrt{2r - 1}"
+                                      "data": "\\sqrt{2r - 1}"
                                     }
                                   ],
                                   "content": null
@@ -3607,7 +3607,7 @@
                                     "end": 3959,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                "
+                                  "data": "\n                "
                                 }
                               ],
                               "content": null
@@ -3619,7 +3619,7 @@
                                 "end": 3981,
                                 "ctxt": 0
                               },
-                              "value": "\n            "
+                              "data": "\n            "
                             }
                           ],
                           "content": null
@@ -3631,7 +3631,7 @@
                             "end": 3994,
                             "ctxt": 0
                           },
-                          "value": "\n        "
+                          "data": "\n        "
                         }
                       ],
                       "content": null
@@ -3643,7 +3643,7 @@
                         "end": 4005,
                         "ctxt": 0
                       },
-                      "value": "\n    "
+                      "data": "\n    "
                     }
                   ],
                   "content": null
@@ -3655,7 +3655,7 @@
                     "end": 4023,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
               "content": null
@@ -3667,7 +3667,7 @@
                 "end": 4048,
                 "ctxt": 0
               },
-              "value": "\n\n\n\n"
+              "data": "\n\n\n\n"
             }
           ],
           "content": null

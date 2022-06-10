@@ -1,21 +1,22 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
+import _object_without_properties from "@swc/helpers/lib/_object_without_properties.js";
 let ka, other;
-_complex = void 0, swcHelpers.objectWithoutProperties(_complex.x, [
+_object_without_properties((_complex = void 0).x, [
     "ka"
-]), swcHelpers.objectWithoutProperties(_complex, [
+]), _object_without_properties(_complex, [
     "x",
     "y"
 ]), { x: { ka  } , y: other  } = _complex;
 let overEmit;
 var _complex, _overEmit, { a: [{}, ...y] , b: { z  }  } = overEmit;
-swcHelpers.extends({}, overEmit.a[0]), swcHelpers.objectWithoutProperties(overEmit.b, [
+_extends({}, overEmit.a[0]), _object_without_properties(overEmit.b, [
     "z"
-]), swcHelpers.objectWithoutProperties(overEmit, [
+]), _object_without_properties(overEmit, [
     "a",
     "b"
-]), _overEmit = overEmit, swcHelpers.extends({}, _overEmit.a[0]), swcHelpers.objectWithoutProperties(_overEmit.b, [
+]), _extends({}, (_overEmit = overEmit).a[0]), _object_without_properties(_overEmit.b, [
     "z"
-]), swcHelpers.objectWithoutProperties(_overEmit, [
+]), _object_without_properties(_overEmit, [
     "a",
     "b"
 ]), { a: [{}, ...y] , b: { z  }  } = _overEmit;

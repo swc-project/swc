@@ -1,0 +1,96 @@
+{
+  "type": "Document",
+  "span": {
+    "start": 1,
+    "end": 62,
+    "ctxt": 0
+  },
+  "mode": "quirks",
+  "children": [
+    {
+      "type": "Element",
+      "span": {
+        "start": 0,
+        "end": 0,
+        "ctxt": 0
+      },
+      "tagName": "html",
+      "namespace": "http://www.w3.org/1999/xhtml",
+      "attributes": [],
+      "children": [
+        {
+          "type": "Element",
+          "span": {
+            "start": 1,
+            "end": 14,
+            "ctxt": 0
+          },
+          "tagName": "head",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [
+            {
+              "type": "Element",
+              "span": {
+                "start": 22,
+                "end": 37,
+                "ctxt": 0
+              },
+              "tagName": "style",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [],
+              "content": null
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 45,
+                "end": 62,
+                "ctxt": 0
+              },
+              "tagName": "script",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [],
+              "content": null
+            }
+          ],
+          "content": null
+        },
+        {
+          "type": "Comment",
+          "span": {
+            "start": 14,
+            "end": 22,
+            "ctxt": 0
+          },
+          "data": " "
+        },
+        {
+          "type": "Comment",
+          "span": {
+            "start": 37,
+            "end": 45,
+            "ctxt": 0
+          },
+          "data": " "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 0,
+            "end": 0,
+            "ctxt": 0
+          },
+          "tagName": "body",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [],
+          "content": null
+        }
+      ],
+      "content": null
+    }
+  ]
+}

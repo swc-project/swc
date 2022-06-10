@@ -28,7 +28,10 @@ fn print(cm: Lrc<SourceMap>, m: &Module, minify: bool) -> String {
         }
 
         let mut emitter = Emitter {
-            cfg: swc_ecma_codegen::Config { minify },
+            cfg: swc_ecma_codegen::Config {
+                minify,
+                ..Default::default()
+            },
             cm,
             comments: None,
             wr,
@@ -59,8 +62,9 @@ fn parse_fm(handler: &Handler, fm: Lrc<SourceFile>) -> Result<Module, ()> {
 }
 
 #[testing::fixture("tests/fixture/**/output.js")]
+#[testing::fixture("tests/terser/**/output.js")]
 fn compressed(compressed_file: PathBuf) {
-    testing::run_test2(false, |cm, handler| {
+    let _ = testing::run_test2(false, |cm, handler| {
         let mut m = parse(&handler, cm.clone(), &compressed_file)?;
 
         let unresolved_mark = Mark::new();
@@ -101,8 +105,47 @@ fn compressed(compressed_file: PathBuf) {
         parse_fm(&handler, cm.new_source_file(FileName::Anon, minified))?;
 
         Ok(())
-    })
-    .unwrap();
+    });
+}
+
+#[testing::fixture("tests/fixture/**/input.js")]
+#[testing::fixture("tests/terser/**/input.js")]
+fn snapshot_compress_fixture(input: PathBuf) {
+    let _ = testing::run_test2(false, |cm, handler| {
+        let mut m = parse(&handler, cm.clone(), &input)?;
+
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        m.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
+
+        let m = optimize(
+            m,
+            cm.clone(),
+            None,
+            None,
+            &MinifyOptions {
+                mangle: Some(MangleOptions {
+                    top_level: true,
+                    ..Default::default()
+                }),
+                compress: None,
+                ..Default::default()
+            },
+            &ExtraOptions {
+                unresolved_mark,
+                top_level_mark,
+            },
+        );
+
+        let mangled = print(cm, &m, false);
+
+        NormalizedOutput::from(mangled)
+            .compare_to_file(input.parent().unwrap().join("output.mangleOnly.js"))
+            .unwrap();
+
+        Ok(())
+    });
 }
 
 #[testing::fixture("tests/mangle/**/input.js")]

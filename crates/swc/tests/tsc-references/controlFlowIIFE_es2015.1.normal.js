@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
 function f1() {
     let x = getStringOrNumber();
     if (typeof x === "string") {
@@ -19,8 +19,7 @@ function f3() {
     let x = getStringOrNumber();
     let y;
     if (typeof x === "string") {
-        let n = ((z)=>x.length + y + z
-        )(y = 1);
+        let n = ((z)=>x.length + y + z)(y = 1);
     }
 }
 // Repros from #8381
@@ -57,7 +56,7 @@ function f5() {
 }
 function f6() {
     let v;
-    swcHelpers.asyncToGenerator(function*() {
+    _async_to_generator(function*() {
         v = yield 1;
     })();
     v; // still undefined

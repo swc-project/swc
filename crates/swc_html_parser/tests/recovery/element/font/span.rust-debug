@@ -10,10 +10,6 @@
   x Element
 
   x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/recovery/element/font/input.html:1:1]
  1 | <p><font size=4><font color=red><font color=red><p>X
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -38,6 +34,10 @@
    `----
 
   x Attribute
+   ,-[$DIR/tests/recovery/element/font/input.html:1:1]
+ 1 | <p><font size=4><font color=red><font color=red><p>X
+   :          ^^^^^^
+   `----
 
   x Child
    ,-[$DIR/tests/recovery/element/font/input.html:1:1]
@@ -51,6 +51,12 @@
    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
+  x Attribute
+   ,-[$DIR/tests/recovery/element/font/input.html:1:1]
+ 1 | <p><font size=4><font color=red><font color=red><p>X
+   :                       ^^^^^^^^^
+   `----
+
   x Child
    ,-[$DIR/tests/recovery/element/font/input.html:1:1]
  1 | <p><font size=4><font color=red><font color=red><p>X
@@ -61,6 +67,12 @@
    ,-[$DIR/tests/recovery/element/font/input.html:1:1]
  1 | <p><font size=4><font color=red><font color=red><p>X
    :                                 ^^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/recovery/element/font/input.html:1:1]
+ 1 | <p><font size=4><font color=red><font color=red><p>X
+   :                                       ^^^^^^^^^
    `----
 
   x Child

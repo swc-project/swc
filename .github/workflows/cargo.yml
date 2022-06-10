@@ -93,13 +93,11 @@ jobs:
             os: ubuntu-latest
           - crate: better_scoped_tls
             os: ubuntu-latest
-          - crate: binding_commons
+          - crate: swc_nodejs_common
             os: ubuntu-latest
           - crate: binding_core_node
             os: ubuntu-latest
           - crate: binding_core_wasm
-            os: ubuntu-latest
-          - crate: binding_css_node
             os: ubuntu-latest
           - crate: enum_kind
             os: ubuntu-latest
@@ -377,20 +375,29 @@ jobs:
         run: |
           jest -v && mocha --version
 
+      - name: Configure execution cache
+        shell: bash
+        run: |
+          mkdir -p .swc-exec-cache
+          echo "SWC_ECMA_TESTING_CACHE_DIR=$(pwd)/.swc-exec-cache" >> $GITHUB_ENV
+
+      - name: Cache execution results
+        uses: actions/cache@v3
+        with:
+          path: |
+            .swc-exec-cache
+          key: swc-exec-cache-${{ runner.os }}-${{ matrix.settings.crate }}-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            swc-exec-cache-${{ matrix.settings.crate }}-${{ runner.os }}
+
       - name: Run cargo test
         run: |
-          jest -v && mocha --version
           cargo test --color always -p ${{ matrix.settings.crate }}
 
       - name: Run cargo test (all features)
-        if: matrix.settings.crate == 'swc_ecma_parser' || matrix.settings.crate == 'swc_ecma_loader'
+        if: matrix.settings.crate == 'swc_ecma_parser' || matrix.settings.crate == 'swc_ecma_loader' || matrix.settings.crate == 'swc_ecma_transforms'
         run: |
           cargo test --color always -p ${{ matrix.settings.crate }} --all-features
-
-      - name: Run cargo test (swc_ecma_transforms)
-        if: matrix.settings.crate == 'swc_ecma_transforms'
-        run: |
-          cargo test --color always -p swc_ecma_transforms --all-features
 
       - name: Install cargo-hack
         uses: baptiste0928/cargo-install@v1.1.0

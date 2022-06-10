@@ -43,6 +43,4 @@ let render = (ctrl, model)=>/*#__PURE__*/ React.createElement("section", {
             class: "iconBorder"
         }, /*#__PURE__*/ React.createElement("div", {
             class: "icon"
-        }))))
-    ))))
-;
+        }))))))));

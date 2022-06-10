@@ -1,11 +1,13 @@
-import * as swcHelpers from "@swc/helpers";
+import _object_spread from "@swc/helpers/lib/_object_spread.js";
+import _object_spread_props from "@swc/helpers/lib/_object_spread_props.js";
+import _object_without_properties from "@swc/helpers/lib/_object_without_properties.js";
 // @target: es2015
 var array;
 var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
 try {
     for(var _iterator = array[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
         var _ref = _step.value;
-        var x = _ref.x, restOf = swcHelpers.objectWithoutProperties(_ref, [
+        var x = _ref.x, restOf = _object_without_properties(_ref, [
             "x"
         ]);
         [
@@ -35,7 +37,7 @@ try {
         var _ref1 = _step1.value;
         var __ref;
         var ref;
-        __ref = _ref1, rrestOff = swcHelpers.objectWithoutProperties(__ref, [
+        __ref = _ref1, rrestOff = _object_without_properties(__ref, [
             "x"
         ]), ref = __ref, xx = ref.x, ref, __ref;
         [
@@ -60,7 +62,7 @@ try {
 var _iteratorNormalCompletion2 = true, _didIteratorError2 = false, _iteratorError2 = undefined;
 try {
     for(var _iterator2 = array.map(function(a) {
-        return swcHelpers.objectSpread({}, a, {
+        return _object_spread_props(_object_spread({}, a), {
             x: "a string"
         });
     })[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true){

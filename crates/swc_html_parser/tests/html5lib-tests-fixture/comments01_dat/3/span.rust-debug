@@ -1,0 +1,34 @@
+
+  x Document
+   ,-[$DIR/tests/html5lib-tests-fixture/comments01_dat/3/input.html:1:1]
+ 1 | ,-> FOO<!-- BAR --!
+ 2 | `-> >BAZ
+   `----
+
+  x Child
+
+  x Element
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/comments01_dat/3/input.html:1:1]
+ 1 | FOO<!-- BAR --!
+   : ^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/html5lib-tests-fixture/comments01_dat/3/input.html:1:1]
+ 1 | FOO<!-- BAR --!
+   : ^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/comments01_dat/3/input.html:1:1]
+ 1 | ,-> FOO<!-- BAR --!
+ 2 | `-> >BAZ
+   `----
+
+  x Comment
+   ,-[$DIR/tests/html5lib-tests-fixture/comments01_dat/3/input.html:1:1]
+ 1 | ,-> FOO<!-- BAR --!
+ 2 | `-> >BAZ
+   `----

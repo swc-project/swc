@@ -1,27 +1,28 @@
-import * as swcHelpers from "@swc/helpers";
+import _object_spread from "@swc/helpers/lib/_object_spread.js";
+import _object_spread_props from "@swc/helpers/lib/_object_spread_props.js";
 // @strictNullChecks: true
 function f(definiteBoolean, definiteString, optionalString, optionalNumber, undefinedString, undefinedNumber) {
     // optional
-    var optionalUnionStops = swcHelpers.objectSpread({}, definiteBoolean, definiteString, optionalNumber);
-    var optionalUnionDuplicates = swcHelpers.objectSpread({}, definiteBoolean, definiteString, optionalString, optionalNumber);
-    var allOptional = swcHelpers.objectSpread({}, optionalString, optionalNumber);
+    var optionalUnionStops = _object_spread({}, definiteBoolean, definiteString, optionalNumber);
+    var optionalUnionDuplicates = _object_spread({}, definiteBoolean, definiteString, optionalString, optionalNumber);
+    var allOptional = _object_spread({}, optionalString, optionalNumber);
     // undefined
-    var undefinedUnionStops = swcHelpers.objectSpread({}, definiteBoolean, definiteString, undefinedNumber);
-    var undefinedUnionDuplicates = swcHelpers.objectSpread({}, definiteBoolean, definiteString, undefinedString, undefinedNumber);
-    var allUndefined = swcHelpers.objectSpread({}, undefinedString, undefinedNumber);
-    var undefinedWithOptionalContinues = swcHelpers.objectSpread({}, definiteBoolean, undefinedString, optionalNumber);
+    var undefinedUnionStops = _object_spread({}, definiteBoolean, definiteString, undefinedNumber);
+    var undefinedUnionDuplicates = _object_spread({}, definiteBoolean, definiteString, undefinedString, undefinedNumber);
+    var allUndefined = _object_spread({}, undefinedString, undefinedNumber);
+    var undefinedWithOptionalContinues = _object_spread({}, definiteBoolean, undefinedString, optionalNumber);
 }
 var m = {
     title: "The Matrix",
     yearReleased: 1999
 };
 // should error here because title: undefined is not assignable to string
-var x = swcHelpers.objectSpread({}, m, {
+var x = _object_spread_props(_object_spread({}, m), {
     title: undefined
 });
 function g(fields, partialFields, nearlyPartialFields) {
     // ok, undefined is stripped from optional properties when spread
-    fields = swcHelpers.objectSpread({}, fields, partialFields);
+    fields = _object_spread({}, fields, partialFields);
     // error: not optional, undefined remains
-    fields = swcHelpers.objectSpread({}, fields, nearlyPartialFields);
+    fields = _object_spread({}, fields, nearlyPartialFields);
 }

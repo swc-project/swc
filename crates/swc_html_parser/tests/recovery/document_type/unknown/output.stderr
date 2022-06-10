@@ -1,11 +1,11 @@
 
-  x Non conforming doctype
+  x Missing doctype name
    ,-[$DIR/tests/recovery/document_type/unknown/input.html:1:1]
  1 | <!DOCTYPE >Hello
-   : ^^^^^^^^^^^
+   :           ^
    `----
 
-  x Missing doctype name
+  x Non conforming doctype
    ,-[$DIR/tests/recovery/document_type/unknown/input.html:1:1]
  1 | <!DOCTYPE >Hello
    : ^^^^^^^^^^^

@@ -8,12 +8,11 @@ use std::{
     fs::read_to_string,
     panic::catch_unwind,
     path::{Path, PathBuf},
-    process::Command,
     time::Instant,
 };
 
 use ansi_term::Color;
-use anyhow::{bail, Context, Error};
+use anyhow::Error;
 use once_cell::sync::Lazy;
 use serde::Deserialize;
 use swc_common::{
@@ -36,6 +35,7 @@ use swc_ecma_parser::{
     lexer::{input::SourceFileInput, Lexer},
     EsConfig, Parser, Syntax,
 };
+use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::{FoldWith, Visit, VisitMut, VisitMutWith, VisitWith};
@@ -256,27 +256,19 @@ fn run(
 }
 
 fn stdout_of(code: &str) -> Result<String, Error> {
-    let actual_output = Command::new("node")
-        .arg("-e")
-        .arg(&format!(
+    exec_node_js(
+        &format!(
             "
-            {}
-            {}",
+    {}
+    {}",
             include_str!("./terser_exec_base.js"),
             code
-        ))
-        .output()
-        .context("failed to execute output of minifier")?;
-
-    if !actual_output.status.success() {
-        bail!(
-            "failed to execute:\n{}\n{}",
-            String::from_utf8_lossy(&actual_output.stdout),
-            String::from_utf8_lossy(&actual_output.stderr)
-        )
-    }
-
-    Ok(String::from_utf8_lossy(&actual_output.stdout).to_string())
+        ),
+        JsExecOptions {
+            cache: true,
+            module: false,
+        },
+    )
 }
 
 fn find_config(dir: &Path) -> String {
@@ -592,7 +584,10 @@ fn print<N: swc_ecma_codegen::Node>(
         }
 
         let mut emitter = Emitter {
-            cfg: swc_ecma_codegen::Config { minify },
+            cfg: swc_ecma_codegen::Config {
+                minify,
+                ..Default::default()
+            },
             cm,
             comments: None,
             wr,

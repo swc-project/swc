@@ -69,17 +69,12 @@ define!({
 
     pub struct Text {
         pub span: Span,
-        pub value: JsWord,
+        pub data: JsWord,
     }
 
     pub struct Comment {
         pub span: Span,
         pub data: JsWord,
-    }
-
-    pub struct TokenAndSpan {
-        pub span: Span,
-        pub token: Token,
     }
 });
 

@@ -1,9 +1,11 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 var A;
 (function(A1) {
     var Point = function Point() {
         "use strict";
-        swcHelpers.classCallCheck(this, Point);
+        _class_call_check(this, Point);
     };
     A1.Point = Point;
     var Origin = A1.Origin = {
@@ -12,10 +14,10 @@ var A;
     };
     var Point3d = /*#__PURE__*/ function(Point) {
         "use strict";
-        swcHelpers.inherits(Point3d, Point);
-        var _super = swcHelpers.createSuper(Point3d);
+        _inherits(Point3d, Point);
+        var _super = _create_super(Point3d);
         function Point3d() {
-            swcHelpers.classCallCheck(this, Point3d);
+            _class_call_check(this, Point3d);
             return _super.apply(this, arguments);
         }
         return Point3d;
@@ -28,7 +30,7 @@ var A;
     };
     var Line = function Line(start, end) {
         "use strict";
-        swcHelpers.classCallCheck(this, Line);
+        _class_call_check(this, Line);
         this.start = start;
         this.end = end;
     };

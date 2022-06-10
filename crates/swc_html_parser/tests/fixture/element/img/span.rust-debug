@@ -101,13 +101,13 @@
   x Child
    ,-[$DIR/tests/fixture/element/img/input.html:5:1]
  5 | <h2>HTML Images</h2>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/img/input.html:5:1]
  5 | <h2>HTML Images</h2>
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -139,13 +139,13 @@
   x Child
    ,-[$DIR/tests/fixture/element/img/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/img/input.html:6:1]
  6 | <p>HTML images are defined with the img tag:</p>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -187,6 +187,28 @@
    `----
 
   x Attribute
+   ,-[$DIR/tests/fixture/element/img/input.html:8:1]
+ 8 | <img src="w3schools.jpg" alt="W3Schools.com" width="104" height="142">
+   :      ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/element/img/input.html:8:1]
+ 8 | <img src="w3schools.jpg" alt="W3Schools.com" width="104" height="142">
+   :                          ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/element/img/input.html:8:1]
+ 8 | <img src="w3schools.jpg" alt="W3Schools.com" width="104" height="142">
+   :                                              ^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/element/img/input.html:8:1]
+ 8 | <img src="w3schools.jpg" alt="W3Schools.com" width="104" height="142">
+   :                                                          ^^^^^^^^^^^^
+   `----
 
   x Child
     ,-[$DIR/tests/fixture/element/img/input.html:8:1]

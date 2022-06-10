@@ -31,8 +31,8 @@
         {
           "type": "Attribute",
           "span": {
-            "start": 0,
-            "end": 0,
+            "start": 777,
+            "end": 813,
             "ctxt": 0
           },
           "namespace": null,
@@ -46,7 +46,7 @@
           "type": "Element",
           "span": {
             "start": 24,
-            "end": 66,
+            "end": 73,
             "ctxt": 0
           },
           "tagName": "head",
@@ -60,13 +60,13 @@
                 "end": 35,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
               "span": {
                 "start": 35,
-                "end": 57,
+                "end": 65,
                 "ctxt": 0
               },
               "tagName": "title",
@@ -80,7 +80,7 @@
                     "end": 57,
                     "ctxt": 0
                   },
-                  "value": "MathML in HTML5"
+                  "data": "MathML in HTML5"
                 }
               ],
               "content": null
@@ -92,7 +92,7 @@
                 "end": 66,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             }
           ],
           "content": null
@@ -104,7 +104,7 @@
             "end": 74,
             "ctxt": 0
           },
-          "value": "\n"
+          "data": "\n"
         },
         {
           "type": "Element",
@@ -124,13 +124,13 @@
                 "end": 82,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 82,
-                "end": 1285,
+                "end": 1292,
                 "ctxt": 0
               },
               "tagName": "math",
@@ -144,13 +144,13 @@
                     "end": 93,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
                   "span": {
                     "start": 93,
-                    "end": 1272,
+                    "end": 1284,
                     "ctxt": 0
                   },
                   "tagName": "semantics",
@@ -164,7 +164,7 @@
                         "end": 114,
                         "ctxt": 0
                       },
-                      "value": "\n\n        "
+                      "data": "\n\n        "
                     },
                     {
                       "type": "Comment",
@@ -182,13 +182,13 @@
                         "end": 151,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
                       "span": {
                         "start": 151,
-                        "end": 305,
+                        "end": 312,
                         "ctxt": 0
                       },
                       "tagName": "mrow",
@@ -202,13 +202,13 @@
                             "end": 170,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
                           "span": {
                             "start": 170,
-                            "end": 243,
+                            "end": 250,
                             "ctxt": 0
                           },
                           "tagName": "msup",
@@ -222,13 +222,13 @@
                                 "end": 193,
                                 "ctxt": 0
                               },
-                              "value": "\n                "
+                              "data": "\n                "
                             },
                             {
                               "type": "Element",
                               "span": {
                                 "start": 193,
-                                "end": 198,
+                                "end": 203,
                                 "ctxt": 0
                               },
                               "tagName": "mi",
@@ -242,7 +242,7 @@
                                     "end": 198,
                                     "ctxt": 0
                                   },
-                                  "value": "x"
+                                  "data": "x"
                                 }
                               ],
                               "content": null
@@ -254,13 +254,13 @@
                                 "end": 220,
                                 "ctxt": 0
                               },
-                              "value": "\n                "
+                              "data": "\n                "
                             },
                             {
                               "type": "Element",
                               "span": {
                                 "start": 220,
-                                "end": 225,
+                                "end": 230,
                                 "ctxt": 0
                               },
                               "tagName": "mn",
@@ -274,7 +274,7 @@
                                     "end": 225,
                                     "ctxt": 0
                                   },
-                                  "value": "2"
+                                  "data": "2"
                                 }
                               ],
                               "content": null
@@ -286,7 +286,7 @@
                                 "end": 243,
                                 "ctxt": 0
                               },
-                              "value": "\n            "
+                              "data": "\n            "
                             }
                           ],
                           "content": null
@@ -298,13 +298,13 @@
                             "end": 263,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
                           "span": {
                             "start": 263,
-                            "end": 268,
+                            "end": 273,
                             "ctxt": 0
                           },
                           "tagName": "mo",
@@ -318,7 +318,7 @@
                                 "end": 268,
                                 "ctxt": 0
                               },
-                              "value": "+"
+                              "data": "+"
                             }
                           ],
                           "content": null
@@ -330,13 +330,13 @@
                             "end": 286,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
                           "span": {
                             "start": 286,
-                            "end": 291,
+                            "end": 296,
                             "ctxt": 0
                           },
                           "tagName": "mi",
@@ -350,7 +350,7 @@
                                 "end": 291,
                                 "ctxt": 0
                               },
-                              "value": "y"
+                              "data": "y"
                             }
                           ],
                           "content": null
@@ -362,7 +362,7 @@
                             "end": 305,
                             "ctxt": 0
                           },
-                          "value": "\n        "
+                          "data": "\n        "
                         }
                       ],
                       "content": null
@@ -374,7 +374,7 @@
                         "end": 322,
                         "ctxt": 0
                       },
-                      "value": "\n\n        "
+                      "data": "\n\n        "
                     },
                     {
                       "type": "Comment",
@@ -392,13 +392,13 @@
                         "end": 354,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
                       "span": {
                         "start": 354,
-                        "end": 652,
+                        "end": 669,
                         "ctxt": 0
                       },
                       "tagName": "annotation-xml",
@@ -407,8 +407,8 @@
                         {
                           "type": "Attribute",
                           "span": {
-                            "start": 0,
-                            "end": 0,
+                            "start": 370,
+                            "end": 395,
                             "ctxt": 0
                           },
                           "namespace": null,
@@ -425,13 +425,13 @@
                             "end": 409,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
                           "span": {
                             "start": 409,
-                            "end": 635,
+                            "end": 643,
                             "ctxt": 0
                           },
                           "tagName": "apply",
@@ -445,7 +445,7 @@
                                 "end": 433,
                                 "ctxt": 0
                               },
-                              "value": "\n                "
+                              "data": "\n                "
                             },
                             {
                               "type": "Element",
@@ -467,13 +467,13 @@
                                 "end": 457,
                                 "ctxt": 0
                               },
-                              "value": "\n                "
+                              "data": "\n                "
                             },
                             {
                               "type": "Element",
                               "span": {
                                 "start": 457,
-                                "end": 587,
+                                "end": 595,
                                 "ctxt": 0
                               },
                               "tagName": "apply",
@@ -487,7 +487,7 @@
                                     "end": 485,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
@@ -509,13 +509,13 @@
                                     "end": 514,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
                                   "span": {
                                     "start": 514,
-                                    "end": 519,
+                                    "end": 524,
                                     "ctxt": 0
                                   },
                                   "tagName": "ci",
@@ -529,7 +529,7 @@
                                         "end": 519,
                                         "ctxt": 0
                                       },
-                                      "value": "x"
+                                      "data": "x"
                                     }
                                   ],
                                   "content": null
@@ -541,13 +541,13 @@
                                     "end": 545,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                    "
+                                  "data": "\n                    "
                                 },
                                 {
                                   "type": "Element",
                                   "span": {
                                     "start": 545,
-                                    "end": 565,
+                                    "end": 570,
                                     "ctxt": 0
                                   },
                                   "tagName": "cn",
@@ -556,8 +556,8 @@
                                     {
                                       "type": "Attribute",
                                       "span": {
-                                        "start": 0,
-                                        "end": 0,
+                                        "start": 549,
+                                        "end": 563,
                                         "ctxt": 0
                                       },
                                       "namespace": null,
@@ -574,7 +574,7 @@
                                         "end": 565,
                                         "ctxt": 0
                                       },
-                                      "value": "2"
+                                      "data": "2"
                                     }
                                   ],
                                   "content": null
@@ -586,7 +586,7 @@
                                     "end": 587,
                                     "ctxt": 0
                                   },
-                                  "value": "\n                "
+                                  "data": "\n                "
                                 }
                               ],
                               "content": null
@@ -598,13 +598,13 @@
                                 "end": 612,
                                 "ctxt": 0
                               },
-                              "value": "\n                "
+                              "data": "\n                "
                             },
                             {
                               "type": "Element",
                               "span": {
                                 "start": 612,
-                                "end": 617,
+                                "end": 622,
                                 "ctxt": 0
                               },
                               "tagName": "ci",
@@ -618,7 +618,7 @@
                                     "end": 617,
                                     "ctxt": 0
                                   },
-                                  "value": "y"
+                                  "data": "y"
                                 }
                               ],
                               "content": null
@@ -630,7 +630,7 @@
                                 "end": 635,
                                 "ctxt": 0
                               },
-                              "value": "\n            "
+                              "data": "\n            "
                             }
                           ],
                           "content": null
@@ -642,7 +642,7 @@
                             "end": 652,
                             "ctxt": 0
                           },
-                          "value": "\n        "
+                          "data": "\n        "
                         }
                       ],
                       "content": null
@@ -654,7 +654,7 @@
                         "end": 679,
                         "ctxt": 0
                       },
-                      "value": "\n\n        "
+                      "data": "\n\n        "
                     },
                     {
                       "type": "Comment",
@@ -672,13 +672,13 @@
                         "end": 709,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
                       "span": {
                         "start": 709,
-                        "end": 1017,
+                        "end": 1034,
                         "ctxt": 0
                       },
                       "tagName": "annotation-xml",
@@ -687,8 +687,8 @@
                         {
                           "type": "Attribute",
                           "span": {
-                            "start": 0,
-                            "end": 0,
+                            "start": 725,
+                            "end": 757,
                             "ctxt": 0
                           },
                           "namespace": null,
@@ -705,13 +705,13 @@
                             "end": 827,
                             "ctxt": 0
                           },
-                          "value": "\n            \n            "
+                          "data": "\n            \n            "
                         },
                         {
                           "type": "Element",
                           "span": {
                             "start": 833,
-                            "end": 856,
+                            "end": 864,
                             "ctxt": 0
                           },
                           "tagName": "title",
@@ -725,7 +725,7 @@
                                 "end": 856,
                                 "ctxt": 0
                               },
-                              "value": "INNER HTML TITLE"
+                              "data": "INNER HTML TITLE"
                             }
                           ],
                           "content": null
@@ -737,13 +737,13 @@
                             "end": 903,
                             "ctxt": 0
                           },
-                          "value": "\n            \n            "
+                          "data": "\n            \n            "
                         },
                         {
                           "type": "Element",
                           "span": {
                             "start": 903,
-                            "end": 964,
+                            "end": 968,
                             "ctxt": 0
                           },
                           "tagName": "p",
@@ -757,7 +757,7 @@
                                 "end": 964,
                                 "ctxt": 0
                               },
-                              "value": "The base of the natural logarithms, approximately 2.71828."
+                              "data": "The base of the natural logarithms, approximately 2.71828."
                             }
                           ],
                           "content": null
@@ -769,7 +769,7 @@
                             "end": 1017,
                             "ctxt": 0
                           },
-                          "value": "\n            \n            \n        "
+                          "data": "\n            \n            \n        "
                         }
                       ],
                       "content": null
@@ -781,7 +781,7 @@
                         "end": 1044,
                         "ctxt": 0
                       },
-                      "value": "\n\n        "
+                      "data": "\n\n        "
                     },
                     {
                       "type": "Comment",
@@ -799,7 +799,7 @@
                         "end": 1079,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
@@ -814,8 +814,8 @@
                         {
                           "type": "Attribute",
                           "span": {
-                            "start": 0,
-                            "end": 0,
+                            "start": 1091,
+                            "end": 1111,
                             "ctxt": 0
                           },
                           "namespace": null,
@@ -826,8 +826,8 @@
                         {
                           "type": "Attribute",
                           "span": {
-                            "start": 0,
-                            "end": 0,
+                            "start": 1112,
+                            "end": 1139,
                             "ctxt": 0
                           },
                           "namespace": null,
@@ -846,7 +846,7 @@
                         "end": 1151,
                         "ctxt": 0
                       },
-                      "value": "\n\n        "
+                      "data": "\n\n        "
                     },
                     {
                       "type": "Comment",
@@ -864,13 +864,13 @@
                         "end": 1181,
                         "ctxt": 0
                       },
-                      "value": "\n        "
+                      "data": "\n        "
                     },
                     {
                       "type": "Element",
                       "span": {
                         "start": 1181,
-                        "end": 1253,
+                        "end": 1266,
                         "ctxt": 0
                       },
                       "tagName": "annotation",
@@ -879,8 +879,8 @@
                         {
                           "type": "Attribute",
                           "span": {
-                            "start": 0,
-                            "end": 0,
+                            "start": 1193,
+                            "end": 1221,
                             "ctxt": 0
                           },
                           "namespace": null,
@@ -897,7 +897,7 @@
                             "end": 1253,
                             "ctxt": 0
                           },
-                          "value": "\n            x^{2} + y\n        "
+                          "data": "\n            x^{2} + y\n        "
                         }
                       ],
                       "content": null
@@ -909,7 +909,7 @@
                         "end": 1272,
                         "ctxt": 0
                       },
-                      "value": "\n\n    "
+                      "data": "\n\n    "
                     }
                   ],
                   "content": null
@@ -921,7 +921,7 @@
                     "end": 1285,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
               "content": null
@@ -933,7 +933,7 @@
                 "end": 1310,
                 "ctxt": 0
               },
-              "value": "\n\n\n\n"
+              "data": "\n\n\n\n"
             }
           ],
           "content": null

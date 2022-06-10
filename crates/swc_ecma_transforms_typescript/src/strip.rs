@@ -85,6 +85,10 @@ pub struct Config {
 
     #[serde(default)]
     pub ts_enum_config: TSEnumConfig,
+
+    /// If this is true, `import foo = require` will be preserved.
+    #[serde(default)]
+    pub preserve_import_equals: bool,
 }
 
 #[derive(Clone, Copy, Debug, Default, Serialize, Deserialize)]
@@ -1074,7 +1078,7 @@ where
                     id,
                     module_ref:
                         TsModuleRef::TsExternalModuleRef(TsExternalModuleRef { span: _, expr }),
-                })) => {
+                })) if !self.config.preserve_import_equals => {
                     let default = VarDeclarator {
                         span: DUMMY_SP,
                         name: id.into(),
@@ -1155,7 +1159,9 @@ where
                     }
                 }
 
-                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import)) => {
+                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import))
+                    if !self.config.preserve_import_equals =>
+                {
                     let maybe_entry = self.scope.referenced_idents.get(&import.id.to_id());
                     let has_concrete = if let Some(entry) = maybe_entry {
                         entry.has_concrete
@@ -1545,6 +1551,13 @@ where
                 interface.body.visit_with(self);
             }
             Decl::TsModule(module) => {
+                match &module.id {
+                    TsModuleName::Ident(id) => {
+                        let v = self.scope.decls.entry(id.to_id()).or_default();
+                        v.has_concrete = true;
+                    }
+                    TsModuleName::Str(_) => {}
+                }
                 module.body.visit_with(self);
             }
             Decl::TsTypeAlias(alias) => {
@@ -1651,6 +1664,17 @@ where
                     match name {
                         TsEntityName::Ident(ref i) => {
                             entry.maybe_dependency = Some(i.clone());
+                            // Eagerly update referenced idents for the concrete exports
+                            // resolves https://github.com/swc-project/swc/issues/4481, if we
+                            // know reference exists & reexports.
+                            // when referenced idents are scoped in ts namespace, its references
+                            // is updated _after_ visiting import decl which strips out imports
+                            // already.
+                            if n.is_export && !n.is_type_only {
+                                let entry =
+                                    self.scope.referenced_idents.entry(i.to_id()).or_default();
+                                entry.has_concrete = true;
+                            }
                             break;
                         }
                         TsEntityName::TsQualifiedName(ref q) => name = &q.left,
@@ -2167,7 +2191,7 @@ where
                     id,
                     module_ref:
                         TsModuleRef::TsExternalModuleRef(TsExternalModuleRef { span: _, expr }),
-                })) => {
+                })) if !self.config.preserve_import_equals => {
                     let default = VarDeclarator {
                         span: DUMMY_SP,
                         name: id.into(),
@@ -2243,7 +2267,9 @@ where
                     }
                 }
 
-                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import)) => {
+                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(import))
+                    if !self.config.preserve_import_equals =>
+                {
                     let maybe_entry = self.scope.referenced_idents.get(&import.id.to_id());
                     let has_concrete = if let Some(entry) = maybe_entry {
                         entry.has_concrete

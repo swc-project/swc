@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _create_class from "@swc/helpers/lib/_create_class.js";
 var explicit = {
     n: 12,
     get x () {
@@ -38,10 +39,10 @@ var copiedFromGetterUnannotated = {
 var Explicit = /*#__PURE__*/ function() {
     "use strict";
     function Explicit() {
-        swcHelpers.classCallCheck(this, Explicit);
+        _class_call_check(this, Explicit);
         this.n = 17;
     }
-    swcHelpers.createClass(Explicit, [
+    _create_class(Explicit, [
         {
             key: "x",
             get: function get() {
@@ -57,10 +58,10 @@ var Explicit = /*#__PURE__*/ function() {
 var Contextual = /*#__PURE__*/ function() {
     "use strict";
     function Contextual() {
-        swcHelpers.classCallCheck(this, Contextual);
+        _class_call_check(this, Contextual);
         this.n = 21;
     }
-    swcHelpers.createClass(Contextual, [
+    _create_class(Contextual, [
         {
             key: "x",
             get: function get() {

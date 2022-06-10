@@ -1,12 +1,20 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_generator_delegate from "@swc/helpers/lib/_async_generator_delegate.js";
+import _async_iterator from "@swc/helpers/lib/_async_iterator.js";
+import _await_async_generator from "@swc/helpers/lib/_await_async_generator.js";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _get from "@swc/helpers/lib/_get.js";
+import _get_prototype_of from "@swc/helpers/lib/_get_prototype_of.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _wrap_async_generator from "@swc/helpers/lib/_wrap_async_generator.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 import regeneratorRuntime from "regenerator-runtime";
 var C1 = function() {
     "use strict";
     function C1() {
-        swcHelpers.classCallCheck(this, C1);
+        _class_call_check(this, C1);
     }
     return C1.prototype.f = function() {
-        return swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+        return _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function(_ctx) {
                 for(;;)switch(_ctx.prev = _ctx.next){
                     case 0:
@@ -19,10 +27,10 @@ var C1 = function() {
 }(), C2 = function() {
     "use strict";
     function C2() {
-        swcHelpers.classCallCheck(this, C2);
+        _class_call_check(this, C2);
     }
     return C2.prototype.f = function() {
-        return swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+        return _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
             var x;
             return regeneratorRuntime.wrap(function(_ctx) {
                 for(;;)switch(_ctx.prev = _ctx.next){
@@ -41,10 +49,10 @@ var C1 = function() {
 }(), C3 = function() {
     "use strict";
     function C3() {
-        swcHelpers.classCallCheck(this, C3);
+        _class_call_check(this, C3);
     }
     return C3.prototype.f = function() {
-        return swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+        return _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
             var x;
             return regeneratorRuntime.wrap(function(_ctx) {
                 for(;;)switch(_ctx.prev = _ctx.next){
@@ -62,17 +70,17 @@ var C1 = function() {
 }(), C4 = function() {
     "use strict";
     function C4() {
-        swcHelpers.classCallCheck(this, C4);
+        _class_call_check(this, C4);
     }
     return C4.prototype.f = function() {
-        return swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+        return _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
             var x;
             return regeneratorRuntime.wrap(function(_ctx) {
                 for(;;)switch(_ctx.prev = _ctx.next){
                     case 0:
-                        return _ctx.delegateYield(swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator([
+                        return _ctx.delegateYield(_async_generator_delegate(_async_iterator([
                             1
-                        ]), swcHelpers.awaitAsyncGenerator), "t0", 1);
+                        ]), _await_async_generator), "t0", 1);
                     case 1:
                         x = _ctx.t0;
                     case 2:
@@ -85,15 +93,15 @@ var C1 = function() {
 }(), C5 = function() {
     "use strict";
     function C5() {
-        swcHelpers.classCallCheck(this, C5);
+        _class_call_check(this, C5);
     }
     return C5.prototype.f = function() {
-        return swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee1() {
+        return _wrap_async_generator(regeneratorRuntime.mark(function _callee1() {
             var x;
             return regeneratorRuntime.wrap(function(_ctx1) {
                 for(;;)switch(_ctx1.prev = _ctx1.next){
                     case 0:
-                        return _ctx1.delegateYield(swcHelpers.asyncGeneratorDelegate(swcHelpers.asyncIterator(swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+                        return _ctx1.delegateYield(_async_generator_delegate(_async_iterator(_wrap_async_generator(regeneratorRuntime.mark(function _callee() {
                             return regeneratorRuntime.wrap(function(_ctx) {
                                 for(;;)switch(_ctx.prev = _ctx.next){
                                     case 0:
@@ -103,7 +111,7 @@ var C1 = function() {
                                         return _ctx.stop();
                                 }
                             }, _callee);
-                        }))()), swcHelpers.awaitAsyncGenerator), "t0", 1);
+                        }))()), _await_async_generator), "t0", 1);
                     case 1:
                         x = _ctx1.t0;
                     case 2:
@@ -116,15 +124,15 @@ var C1 = function() {
 }(), C6 = function() {
     "use strict";
     function C6() {
-        swcHelpers.classCallCheck(this, C6);
+        _class_call_check(this, C6);
     }
     return C6.prototype.f = function() {
-        return swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+        return _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
             var x;
             return regeneratorRuntime.wrap(function(_ctx) {
                 for(;;)switch(_ctx.prev = _ctx.next){
                     case 0:
-                        return _ctx.next = 2, swcHelpers.awaitAsyncGenerator(1);
+                        return _ctx.next = 2, _await_async_generator(1);
                     case 2:
                         x = _ctx.sent;
                     case 3:
@@ -137,10 +145,10 @@ var C1 = function() {
 }(), C7 = function() {
     "use strict";
     function C7() {
-        swcHelpers.classCallCheck(this, C7);
+        _class_call_check(this, C7);
     }
     return C7.prototype.f = function() {
-        return swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+        return _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function(_ctx) {
                 for(;;)switch(_ctx.prev = _ctx.next){
                     case 0:
@@ -155,12 +163,12 @@ var C1 = function() {
 }(), C8 = function() {
     "use strict";
     function C8() {
-        swcHelpers.classCallCheck(this, C8);
+        _class_call_check(this, C8);
     }
     var _proto = C8.prototype;
     return _proto.g = function() {}, _proto.f = function() {
         var _this = this;
-        return swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+        return _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function(_ctx) {
                 for(;;)switch(_ctx.prev = _ctx.next){
                     case 0:
@@ -175,23 +183,23 @@ var C1 = function() {
 }(), B9 = function() {
     "use strict";
     function B9() {
-        swcHelpers.classCallCheck(this, B9);
+        _class_call_check(this, B9);
     }
     return B9.prototype.g = function() {}, B9;
 }(), C9 = function(B9) {
     "use strict";
-    swcHelpers.inherits(C9, B9);
-    var _super = swcHelpers.createSuper(C9);
+    _inherits(C9, B9);
+    var _super = _create_super(C9);
     function C9() {
-        return swcHelpers.classCallCheck(this, C9), _super.apply(this, arguments);
+        return _class_call_check(this, C9), _super.apply(this, arguments);
     }
     return C9.prototype.f = function() {
         var _this = this, _this1 = this;
-        return swcHelpers.wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
+        return _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function(_ctx) {
                 for(;;)switch(_ctx.prev = _ctx.next){
                     case 0:
-                        swcHelpers.get(swcHelpers.getPrototypeOf(C9.prototype), "g", _this).call(_this1);
+                        _get(_get_prototype_of(C9.prototype), "g", _this).call(_this1);
                     case 1:
                     case "end":
                         return _ctx.stop();

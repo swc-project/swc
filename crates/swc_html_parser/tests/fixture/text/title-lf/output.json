@@ -33,7 +33,7 @@
           "type": "Element",
           "span": {
             "start": 24,
-            "end": 71,
+            "end": 78,
             "ctxt": 0
           },
           "tagName": "head",
@@ -47,13 +47,13 @@
                 "end": 35,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
               "span": {
                 "start": 35,
-                "end": 62,
+                "end": 70,
                 "ctxt": 0
               },
               "tagName": "title",
@@ -67,7 +67,7 @@
                     "end": 62,
                     "ctxt": 0
                   },
-                  "value": "\n\n        Test\n\n    "
+                  "data": "\n\n        Test\n\n    "
                 }
               ],
               "content": null
@@ -79,7 +79,7 @@
                 "end": 71,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             }
           ],
           "content": null
@@ -91,7 +91,7 @@
             "end": 79,
             "ctxt": 0
           },
-          "value": "\n"
+          "data": "\n"
         },
         {
           "type": "Element",
@@ -111,13 +111,13 @@
                 "end": 87,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 87,
-                "end": 110,
+                "end": 114,
                 "ctxt": 0
               },
               "tagName": "p",
@@ -131,7 +131,7 @@
                     "end": 110,
                     "ctxt": 0
                   },
-                  "value": "This is a paragraph."
+                  "data": "This is a paragraph."
                 }
               ],
               "content": null
@@ -143,13 +143,13 @@
                 "end": 115,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 115,
-                "end": 144,
+                "end": 148,
                 "ctxt": 0
               },
               "tagName": "p",
@@ -163,7 +163,7 @@
                     "end": 144,
                     "ctxt": 0
                   },
-                  "value": "This is another paragraph."
+                  "data": "This is another paragraph."
                 }
               ],
               "content": null
@@ -175,7 +175,7 @@
                 "end": 166,
                 "ctxt": 0
               },
-              "value": "\n\n\n\n"
+              "data": "\n\n\n\n"
             }
           ],
           "content": null

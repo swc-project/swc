@@ -1,0 +1,28 @@
+
+  x Document
+   ,-[$DIR/tests/html5lib-tests-fixture/entities02_dat/8/input.html:1:1]
+ 1 | <div bar="ZZ&gtZYY"></div>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+
+  x Element
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/entities02_dat/8/input.html:1:1]
+ 1 | <div bar="ZZ&gtZYY"></div>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/entities02_dat/8/input.html:1:1]
+ 1 | <div bar="ZZ&gtZYY"></div>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/html5lib-tests-fixture/entities02_dat/8/input.html:1:1]
+ 1 | <div bar="ZZ&gtZYY"></div>
+   :      ^^^^^^^^^^^^^^
+   `----

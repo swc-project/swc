@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @allowJs: true
 // @checkJs: true
 // @target: esnext
@@ -35,7 +35,7 @@ function C1() {
 var C2 = /*#__PURE__*/ function() {
     "use strict";
     function C2() {
-        swcHelpers.classCallCheck(this, C2);
+        _class_call_check(this, C2);
     }
     var _proto = C2.prototype;
     /**

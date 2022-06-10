@@ -28,8 +28,7 @@ function implicitThis(n1) {
 }
 let impl = {
     a: 12,
-    explicitVoid2: ()=>this.a
-    ,
+    explicitVoid2: ()=>this.a,
     explicitVoid1 () {
         return 12;
     },
@@ -46,18 +45,15 @@ let impl = {
 impl.explicitVoid1 = function() {
     return 12;
 };
-impl.explicitVoid2 = ()=>12
-;
+impl.explicitVoid2 = ()=>12;
 impl.explicitStructural = function() {
     return this.a;
 };
 impl.explicitInterface = function() {
     return this.a;
 };
-impl.explicitStructural = ()=>12
-;
-impl.explicitInterface = ()=>12
-;
+impl.explicitStructural = ()=>12;
+impl.explicitInterface = ()=>12;
 impl.explicitThis = function() {
     return this.a;
 };
@@ -94,16 +90,13 @@ reconstructed.explicitProperty(11);
 let explicitVoid = reconstructed.explicitVoid;
 explicitVoid(12);
 // assignment checking
-let unboundToSpecified = (x)=>x + this.y
-; // ok, this:any
+let unboundToSpecified = (x)=>x + this.y; // ok, this:any
 let specifiedToSpecified = explicitStructural;
 let anyToSpecified = function(x) {
     return x + 12;
 };
-let unspecifiedLambda = (x)=>x + 12
-;
-let specifiedLambda = (x)=>x + 12
-;
+let unspecifiedLambda = (x)=>x + 12;
+let specifiedLambda = (x)=>x + 12;
 let unspecifiedLambdaToSpecified = unspecifiedLambda;
 let specifiedLambdaToSpecified = specifiedLambda;
 let explicitCFunction;
@@ -118,20 +111,14 @@ c.explicitProperty = function(m) {
 };
 c.explicitProperty = reconstructed.explicitProperty;
 // lambdas are assignable to anything
-c.explicitC = (m)=>m
-;
-c.explicitThis = (m)=>m
-;
-c.explicitProperty = (m)=>m
-;
+c.explicitC = (m)=>m;
+c.explicitThis = (m)=>m;
+c.explicitProperty = (m)=>m;
 // this inside lambdas refer to outer scope
 // the outer-scoped lambda at top-level is still just `any`
-c.explicitC = (m)=>m + this.n
-;
-c.explicitThis = (m)=>m + this.n
-;
-c.explicitProperty = (m)=>m + this.n
-;
+c.explicitC = (m)=>m + this.n;
+c.explicitThis = (m)=>m + this.n;
+c.explicitProperty = (m)=>m + this.n;
 //NOTE: this=C here, I guess?
 c.explicitThis = explicitCFunction;
 c.explicitThis = function(m) {
@@ -156,8 +143,7 @@ c.explicitC = function(m) {
     return this.n + m;
 };
 // this:void compatibility
-c.explicitVoid = (n2)=>n2
-;
+c.explicitVoid = (n2)=>n2;
 // class-based assignability
 class Base1 {
     polymorphic() {

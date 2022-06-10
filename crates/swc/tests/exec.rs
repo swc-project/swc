@@ -1,7 +1,6 @@
 use std::{
     fs::{create_dir_all, rename},
     path::{Component, Path, PathBuf},
-    process::Command,
     sync::Arc,
 };
 
@@ -13,6 +12,7 @@ use swc::{
 use swc_common::{errors::ColorConfig, SourceMap};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
+use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use testing::assert_eq;
 use tracing::{span, Level};
 
@@ -74,51 +74,49 @@ fn create_matrix(entry: &Path) -> Vec<Options> {
     })
     .matrix_bool()
     .matrix_bool()
-    .matrix_bool()
     .into_iter()
-    .map(
-        |((((target, syntax), minify), source_map), external_helpers)| {
-            // Actual
-            Options {
-                config: Config {
-                    jsc: JscConfig {
-                        syntax: Some(syntax),
-                        transform: None.into(),
-                        external_helpers: external_helpers.into(),
-                        target: Some(target),
-                        minify: if minify {
-                            Some(JsMinifyOptions {
-                                compress: BoolOrDataConfig::from_bool(true),
-                                mangle: BoolOrDataConfig::from_bool(true),
-                                format: Default::default(),
-                                ecma: Default::default(),
-                                keep_classnames: Default::default(),
-                                keep_fnames: Default::default(),
-                                module: Default::default(),
-                                safari10: Default::default(),
-                                toplevel: Default::default(),
-                                source_map: Default::default(),
-                                output_path: Default::default(),
-                                inline_sources_content: Default::default(),
-                            })
-                        } else {
-                            None
-                        },
-                        ..Default::default()
+    .map(|(((target, syntax), minify), source_map)| {
+        // Actual
+        Options {
+            config: Config {
+                jsc: JscConfig {
+                    syntax: Some(syntax),
+                    transform: None.into(),
+                    external_helpers: false.into(),
+                    target: Some(target),
+                    minify: if minify {
+                        Some(JsMinifyOptions {
+                            compress: BoolOrDataConfig::from_bool(true),
+                            mangle: BoolOrDataConfig::from_bool(true),
+                            format: Default::default(),
+                            ecma: Default::default(),
+                            keep_classnames: Default::default(),
+                            keep_fnames: Default::default(),
+                            module: Default::default(),
+                            safari10: Default::default(),
+                            toplevel: Default::default(),
+                            source_map: Default::default(),
+                            output_path: Default::default(),
+                            inline_sources_content: Default::default(),
+                            emit_source_map_columns: Default::default(),
+                        })
+                    } else {
+                        None
                     },
-                    module: Some(ModuleConfig::CommonJs(Default::default())),
-                    minify: minify.into(),
                     ..Default::default()
                 },
-                source_maps: if source_map {
-                    Some(SourceMapsConfig::Str("inline".into()))
-                } else {
-                    None
-                },
+                module: Some(ModuleConfig::CommonJs(Default::default())),
+                minify: minify.into(),
                 ..Default::default()
-            }
-        },
-    )
+            },
+            source_maps: if source_map {
+                Some(SourceMapsConfig::Str("inline".into()))
+            } else {
+                None
+            },
+            ..Default::default()
+        }
+    })
     .collect::<Vec<_>>()
 }
 
@@ -293,27 +291,14 @@ enum NodeModuleType {
 }
 
 fn stdout_of(code: &str, module_type: NodeModuleType) -> Result<String, Error> {
-    let module_type = match module_type {
-        NodeModuleType::CommonJs => "--input-type=commonjs",
-        NodeModuleType::Module => "--input-type=module",
-    };
-    let actual_output = Command::new("node")
-        .arg(module_type)
-        .arg("-e")
-        .arg(&code)
-        .output()
-        .context("failed to execute output of minifier")?;
+    let s = exec_node_js(
+        code,
+        JsExecOptions {
+            cache: true,
+            module: matches!(module_type, NodeModuleType::Module),
+        },
+    )?;
 
-    if !actual_output.status.success() {
-        bail!(
-            "failed to execute:\n{}\n{}\n{}",
-            code,
-            String::from_utf8_lossy(&actual_output.stdout),
-            String::from_utf8_lossy(&actual_output.stderr)
-        )
-    }
-
-    let s = String::from_utf8_lossy(&actual_output.stdout).to_string();
     if s.trim().is_empty() {
         bail!("empty stdout");
     }

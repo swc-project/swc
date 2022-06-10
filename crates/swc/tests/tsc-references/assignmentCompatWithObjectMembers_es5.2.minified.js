@@ -1,20 +1,20 @@
 var SimpleTypes, ObjectTypes;
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 !function(SimpleTypes) {
     var S = function() {
         "use strict";
-        swcHelpers.classCallCheck(this, S);
+        _class_call_check(this, S);
     }, T = function() {
         "use strict";
-        swcHelpers.classCallCheck(this, T);
+        _class_call_check(this, T);
     };
 }(SimpleTypes || (SimpleTypes = {})), function(ObjectTypes) {
     var t, t2, b, S = function() {
         "use strict";
-        swcHelpers.classCallCheck(this, S);
+        _class_call_check(this, S);
     }, T = function() {
         "use strict";
-        swcHelpers.classCallCheck(this, T);
+        _class_call_check(this, T);
     }, a2 = {
         foo: a2
     }, b2 = {

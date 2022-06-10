@@ -1,9 +1,9 @@
-import * as swcHelpers from "@swc/helpers";
-swcHelpers.asyncToGenerator(function*() {
+import _async_iterator from "@swc/helpers/lib/_async_iterator.js";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
+_async_to_generator(function*() {
     let counter = 0;
     let resolve;
-    let promise = new Promise((r)=>resolve = r
-    );
+    let promise = new Promise((r)=>resolve = r);
     let iterable = {
         [Symbol.asyncIterator] () {
             return {
@@ -13,11 +13,11 @@ swcHelpers.asyncToGenerator(function*() {
             };
         }
     };
-    const res = swcHelpers.asyncToGenerator(function*() {
+    const res = _async_to_generator(function*() {
         {
             var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError;
             try {
-                for(var _iterator = swcHelpers.asyncIterator(iterable), _step; _iteratorAbruptCompletion = !(_step = yield _iterator.next()).done; _iteratorAbruptCompletion = false){
+                for(var _iterator = _async_iterator(iterable), _step; _iteratorAbruptCompletion = !(_step = yield _iterator.next()).done; _iteratorAbruptCompletion = false){
                     let _value = _step.value;
                     const value = _value;
                     counter++;
@@ -29,7 +29,7 @@ swcHelpers.asyncToGenerator(function*() {
             } finally{
                 try {
                     if (_iteratorAbruptCompletion && _iterator.return != null) {
-                        yield _iteratorError.return();
+                        yield _iterator.return();
                     }
                 } finally{
                     if (_didIteratorError) {
@@ -48,8 +48,7 @@ swcHelpers.asyncToGenerator(function*() {
     ]){
         yield null;
         let oldresolve = resolve;
-        promise = new Promise((r)=>resolve = r
-        );
+        promise = new Promise((r)=>resolve = r);
         oldresolve({
             value: v,
             done: false

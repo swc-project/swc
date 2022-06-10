@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 (M || (M = {})).a = 1;
 var M, M2, M3, m = M;
 M.a, m.a, function(M21) {
@@ -11,7 +11,7 @@ M.a, m.a, function(M21) {
 }(M2 || (M2 = {})), function(M31) {
     var Utils = function() {
         "use strict";
-        swcHelpers.classCallCheck(this, Utils);
+        _class_call_check(this, Utils);
     };
     M31.Utils = Utils;
 }(M3 || (M3 = {}));

@@ -1,0 +1,46 @@
+
+  x Document
+   ,-[$DIR/tests/html5lib-tests-fixture/svg_dat/2.fragment_thead/input.html:1:1]
+ 1 | <svg><thead><title><tbody>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+
+  x Element
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/svg_dat/2.fragment_thead/input.html:1:1]
+ 1 | <svg><thead><title><tbody>
+   : ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/svg_dat/2.fragment_thead/input.html:1:1]
+ 1 | <svg><thead><title><tbody>
+   : ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/svg_dat/2.fragment_thead/input.html:1:1]
+ 1 | <svg><thead><title><tbody>
+   :      ^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/svg_dat/2.fragment_thead/input.html:1:1]
+ 1 | <svg><thead><title><tbody>
+   :      ^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/svg_dat/2.fragment_thead/input.html:1:1]
+ 1 | <svg><thead><title><tbody>
+   :             ^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/svg_dat/2.fragment_thead/input.html:1:1]
+ 1 | <svg><thead><title><tbody>
+   :             ^^^^^^^
+   `----

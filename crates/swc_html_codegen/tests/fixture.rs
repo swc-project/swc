@@ -66,7 +66,7 @@ fn print_document(
 
         let fm_output = cm.load_file(&output).unwrap();
 
-        NormalizedOutput::from(html_str)
+        NormalizedOutput::new_raw(html_str)
             .compare_to_file(output)
             .unwrap();
 
@@ -80,8 +80,8 @@ fn print_document(
             error.to_diagnostics(&handler).emit();
         }
 
-        document.visit_mut_with(&mut NormalizeTest);
-        document_parsed_again.visit_mut_with(&mut NormalizeTest);
+        document.visit_mut_with(&mut DropSpan);
+        document_parsed_again.visit_mut_with(&mut DropSpan);
 
         assert_eq!(document, document_parsed_again);
 
@@ -145,7 +145,7 @@ fn print_document_fragment(
 
         let fm_output = cm.load_file(&output).unwrap();
 
-        NormalizedOutput::from(html_str)
+        NormalizedOutput::new_raw(html_str)
             .compare_to_file(output)
             .unwrap();
 
@@ -164,8 +164,8 @@ fn print_document_fragment(
             error.to_diagnostics(&handler).emit();
         }
 
-        document_fragment.visit_mut_with(&mut NormalizeTest);
-        document_fragment_parsed_again.visit_mut_with(&mut NormalizeTest);
+        document_fragment.visit_mut_with(&mut DropSpan);
+        document_fragment_parsed_again.visit_mut_with(&mut DropSpan);
 
         assert_eq!(document_fragment, document_fragment_parsed_again);
 
@@ -254,10 +254,12 @@ fn verify_document_fragment(
         Some(writer_config) => writer_config,
         _ => BasicHtmlWriterConfig::default(),
     };
-    let codegen_config = match codegen_config {
+    let mut codegen_config = match codegen_config {
         Some(codegen_config) => codegen_config,
         _ => CodegenConfig::default(),
     };
+
+    codegen_config.context_element = Some(context_element.clone());
 
     testing::run_test2(false, |cm, handler| {
         let fm = cm.load_file(input).unwrap();
@@ -321,40 +323,6 @@ impl VisitMut for DropSpan {
     }
 }
 
-struct NormalizeTest;
-
-impl VisitMut for NormalizeTest {
-    fn visit_mut_document_fragment(&mut self, n: &mut DocumentFragment) {
-        n.visit_mut_children_with(self);
-
-        if let Some(last) = n.children.last_mut() {
-            if let Child::Text(_) = last {
-                // Drop value from the last `Text` node because characters after `</body>`
-                // moved to body tag
-                n.children.remove(n.children.len() - 1);
-            }
-        }
-    }
-
-    fn visit_mut_element(&mut self, n: &mut Element) {
-        n.visit_mut_children_with(self);
-
-        if &*n.tag_name == "body" {
-            if let Some(last) = n.children.last_mut() {
-                if let Child::Text(text) = last {
-                    // Drop value from the last `Text` node because characters after `</body>`
-                    // moved to body tag
-                    text.value = "".into();
-                }
-            }
-        }
-    }
-
-    fn visit_mut_span(&mut self, n: &mut Span) {
-        *n = Default::default()
-    }
-}
-
 #[testing::fixture("tests/fixture/**/input.html")]
 fn test_document(input: PathBuf) {
     print_document(
@@ -364,6 +332,7 @@ fn test_document(input: PathBuf) {
         Some(CodegenConfig {
             scripting_enabled: false,
             minify: false,
+            ..Default::default()
         }),
     );
     print_document(
@@ -373,44 +342,42 @@ fn test_document(input: PathBuf) {
         Some(CodegenConfig {
             scripting_enabled: false,
             minify: true,
+            ..Default::default()
         }),
     );
 }
 
 #[testing::fixture("tests/document_fragment/**/input.html")]
 fn test_document_fragment(input: PathBuf) {
+    let context_element = Element {
+        span: Default::default(),
+        tag_name: "template".into(),
+        namespace: Namespace::HTML,
+        attributes: vec![],
+        children: vec![],
+        content: None,
+    };
+
     print_document_fragment(
         &input,
-        Element {
-            span: Default::default(),
-            tag_name: "template".into(),
-            namespace: Namespace::HTML,
-            attributes: vec![],
-            children: vec![],
-            content: None,
-        },
+        context_element.clone(),
         None,
         None,
         Some(CodegenConfig {
             scripting_enabled: false,
             minify: false,
+            ..Default::default()
         }),
     );
     print_document_fragment(
         &input,
-        Element {
-            span: Default::default(),
-            tag_name: "template".into(),
-            namespace: Namespace::HTML,
-            attributes: vec![],
-            children: vec![],
-            content: None,
-        },
+        context_element,
         None,
         None,
         Some(CodegenConfig {
             scripting_enabled: false,
             minify: true,
+            ..Default::default()
         }),
     );
 }
@@ -432,6 +399,17 @@ fn test_indent_type_option(input: PathBuf) {
 #[testing::fixture("../swc_html_parser/tests/fixture/**/*.html")]
 fn parser_verify(input: PathBuf) {
     verify_document(&input, None, None, None, false);
+    verify_document(
+        &input,
+        None,
+        None,
+        Some(CodegenConfig {
+            scripting_enabled: false,
+            minify: true,
+            ..Default::default()
+        }),
+        false,
+    );
 }
 
 #[testing::fixture(
@@ -440,78 +418,113 @@ fn parser_verify(input: PathBuf) {
         "document_type/bogus/input.html",
         "document_type/wrong-name/input.html",
         "text/cr-charref-novalid/input.html",
+        "element/foreign-context/input.html",
+        "element/a-4/input.html",
+        "element/b-3/input.html",
     )
 )]
 fn parser_recovery_verify(input: PathBuf) {
-    verify_document(&input, None, None, None, true);
+    verify_document(
+        &input,
+        None,
+        None,
+        Some(CodegenConfig {
+            scripting_enabled: false,
+            minify: true,
+            ..Default::default()
+        }),
+        true,
+    );
 }
 
-// TODO - remove exclude when we implement `raw`, `context_element` and etc
+// Tag omission only works for valid HTML documents (i.e. without errors)
+static IGNORE_TAG_OMISSION: &[&str] = &[
+    "adoption01_dat/5/input.html",
+    "adoption01_dat/6/input.html",
+    "adoption01_dat/7/input.html",
+    "adoption01_dat/8/input.html",
+    "adoption02_dat/0/input.html",
+    "tests1_dat/68/input.html",
+    "tests1_dat/69/input.html",
+    "tests1_dat/70/input.html",
+    "tests1_dat/71/input.html",
+    "tests15_dat/0/input.html",
+    "tests15_dat/1/input.html",
+    "template_dat/68/input.html",
+    "tricky01_dat/6/input.html",
+];
+
 #[testing::fixture(
     "../swc_html_parser/tests/html5lib-tests-fixture/**/*.html",
     exclude(
-        "tests16_dat/131.html",
-        "plain-text-unsafe_dat/0.html",
-        "template_dat/107.html",
-        "template_dat/80.html",
-        "tests16_dat/130.html",
-        "tests16_dat/132.html",
-        "tests16_dat/133.html",
-        "tests16_dat/134.html",
-        "tests16_dat/135.html",
-        "tests16_dat/136.html",
-        "tests16_dat/147.html",
-        "tests16_dat/148.html",
-        "tests16_dat/149.html",
-        "tests16_dat/150.html",
-        "tests16_dat/196.html",
-        "tests16_dat/31.html",
-        "tests16_dat/32.html",
-        "tests16_dat/33.html",
-        "tests16_dat/34.html",
-        "tests16_dat/35.html",
-        "tests16_dat/36.html",
-        "tests16_dat/37.html",
-        "tests16_dat/48.html",
-        "tests16_dat/49.html",
-        "tests16_dat/50.html",
-        "tests16_dat/51.html",
-        "tests16_dat/52.html",
-        "tests16_dat/53.html",
-        "tests18_dat/12.html",
-        "tests18_dat/15.html",
-        "tests18_dat/21.html",
-        "tests18_dat/7.html",
-        "tests18_dat/8.html",
-        "tests18_dat/9.html",
-        "tests19_dat/103.html",
-        "tests1_dat/103.html",
-        "tests1_dat/30.html",
-        "tests1_dat/77.html",
-        "tests1_dat/90.html",
-        "tests20_dat/41.html",
-        "tests26_dat/2.html",
-        "tests2_dat/12.html",
-        "tests4_dat/3.fragment.style.html",
-        "tests4_dat/4.fragment.plaintext.html",
+        "tests1_dat/30/input.html",
+        "tests1_dat/77/input.html",
+        "tests1_dat/90/input.html",
+        "tests1_dat/103/input.html",
+        "tests2_dat/12/input.html",
+        "tests16_dat/31/input.html",
+        "tests16_dat/32/input.html",
+        "tests16_dat/33/input.html",
+        "tests16_dat/34/input.html",
+        "tests16_dat/35/input.html",
+        "tests16_dat/36/input.html",
+        "tests16_dat/37/input.html",
+        "tests16_dat/48/input.html",
+        "tests16_dat/49/input.html",
+        "tests16_dat/50/input.html",
+        "tests16_dat/51/input.html",
+        "tests16_dat/52/input.html",
+        "tests16_dat/53/input.html",
+        "tests16_dat/130/input.html",
+        "tests16_dat/131/input.html",
+        "tests16_dat/132/input.html",
+        "tests16_dat/133/input.html",
+        "tests16_dat/134/input.html",
+        "tests16_dat/135/input.html",
+        "tests16_dat/136/input.html",
+        "tests16_dat/147/input.html",
+        "tests16_dat/148/input.html",
+        "tests16_dat/149/input.html",
+        "tests16_dat/150/input.html",
+        "tests16_dat/196/input.html",
+        "tests18_dat/7/input.html",
+        "tests18_dat/8/input.html",
+        "tests18_dat/9/input.html",
+        "tests18_dat/12/input.html",
+        "tests18_dat/21/input.html",
+        "tests19_dat/103/input.html",
+        "tests20_dat/41/input.html",
+        "tests26_dat/2/input.html",
+        "plain-text-unsafe_dat/0/input.html",
+        "template_dat/107/input.html",
     )
 )]
 fn html5lib_tests_verify(input: PathBuf) {
-    let file_stem = input.file_stem().unwrap().to_str().unwrap().to_owned();
-    let scripting_enabled = file_stem.contains("script_on");
-    let parser_config = ParserConfig { scripting_enabled };
+    let parent = input.parent().unwrap().to_string_lossy();
+    let scripting_enabled = parent.contains("script_on");
+    let parser_config = ParserConfig {
+        scripting_enabled,
+        iframe_srcdoc: false,
+    };
     let codegen_config = CodegenConfig {
         minify: false,
         scripting_enabled,
+        ..Default::default()
+    };
+    let minified_codegen_config = CodegenConfig {
+        minify: true,
+        scripting_enabled,
+        ..Default::default()
     };
 
-    if file_stem.contains("fragment") {
+    if parent.contains("fragment") {
         let mut context_element_namespace = Namespace::HTML;
         let mut context_element_tag_name = "";
-        let context_element = file_stem
+        let context_element = parent
             .split('.')
             .last()
-            .expect("failed to get context element from filename");
+            .expect("failed to get context element from filename")
+            .replace("fragment_", "");
 
         if context_element.contains('_') {
             let mut splited = context_element.split('_');
@@ -530,7 +543,7 @@ fn html5lib_tests_verify(input: PathBuf) {
                 context_element_tag_name = tag_name;
             }
         } else {
-            context_element_tag_name = context_element;
+            context_element_tag_name = &context_element;
         }
 
         let context_element = Element {
@@ -544,10 +557,18 @@ fn html5lib_tests_verify(input: PathBuf) {
 
         verify_document_fragment(
             &input,
-            context_element,
+            context_element.clone(),
             Some(parser_config),
             None,
             Some(codegen_config),
+            true,
+        );
+        verify_document_fragment(
+            &input,
+            context_element,
+            Some(parser_config),
+            None,
+            Some(minified_codegen_config),
             true,
         );
     } else {
@@ -558,5 +579,20 @@ fn html5lib_tests_verify(input: PathBuf) {
             Some(codegen_config),
             true,
         );
+
+        let relative_path = input.to_string_lossy().replace('-', "_").replace('\\', "/");
+
+        if !IGNORE_TAG_OMISSION
+            .iter()
+            .any(|ignored| relative_path.contains(&**ignored))
+        {
+            verify_document(
+                &input,
+                Some(parser_config),
+                None,
+                Some(minified_codegen_config),
+                true,
+            );
+        }
     }
 }

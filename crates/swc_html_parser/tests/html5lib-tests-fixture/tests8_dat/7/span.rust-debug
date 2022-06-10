@@ -1,0 +1,58 @@
+
+  x Document
+   ,-[$DIR/tests/html5lib-tests-fixture/tests8_dat/7/input.html:1:1]
+ 1 | x<table><table>x
+   : ^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+
+  x Element
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests8_dat/7/input.html:1:1]
+ 1 | x<table><table>x
+   : ^
+   `----
+
+  x Text
+   ,-[$DIR/tests/html5lib-tests-fixture/tests8_dat/7/input.html:1:1]
+ 1 | x<table><table>x
+   : ^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests8_dat/7/input.html:1:1]
+ 1 | x<table><table>x
+   :  ^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests8_dat/7/input.html:1:1]
+ 1 | x<table><table>x
+   :  ^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests8_dat/7/input.html:1:1]
+ 1 | x<table><table>x
+   :                ^
+   `----
+
+  x Text
+   ,-[$DIR/tests/html5lib-tests-fixture/tests8_dat/7/input.html:1:1]
+ 1 | x<table><table>x
+   :                ^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests8_dat/7/input.html:1:1]
+ 1 | x<table><table>x
+   :         ^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests8_dat/7/input.html:1:1]
+ 1 | x<table><table>x
+   :         ^^^^^^^
+   `----

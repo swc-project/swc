@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 17,
-        "end": 254,
+        "end": 261,
         "ctxt": 0
       },
       "tagName": "html",
@@ -31,8 +31,8 @@
         {
           "type": "Attribute",
           "span": {
-            "start": 0,
-            "end": 0,
+            "start": 23,
+            "end": 32,
             "ctxt": 0
           },
           "namespace": null,
@@ -46,7 +46,7 @@
           "type": "Element",
           "span": {
             "start": 34,
-            "end": 69,
+            "end": 76,
             "ctxt": 0
           },
           "tagName": "head",
@@ -60,13 +60,13 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
               "span": {
                 "start": 45,
-                "end": 60,
+                "end": 68,
                 "ctxt": 0
               },
               "tagName": "title",
@@ -80,7 +80,7 @@
                     "end": 60,
                     "ctxt": 0
                   },
-                  "value": "Document"
+                  "data": "Document"
                 }
               ],
               "content": null
@@ -92,7 +92,7 @@
                 "end": 69,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             }
           ],
           "content": null
@@ -104,7 +104,7 @@
             "end": 77,
             "ctxt": 0
           },
-          "value": "\n"
+          "data": "\n"
         },
         {
           "type": "Element",
@@ -124,13 +124,13 @@
                 "end": 84,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 84,
-                "end": 151,
+                "end": 166,
                 "ctxt": 0
               },
               "tagName": "object",
@@ -139,8 +139,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 92,
+                    "end": 112,
                     "ctxt": 0
                   },
                   "namespace": null,
@@ -151,8 +151,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 113,
+                    "end": 129,
                     "ctxt": 0
                   },
                   "namespace": null,
@@ -166,7 +166,7 @@
                   "type": "Element",
                   "span": {
                     "start": 130,
-                    "end": 151,
+                    "end": 157,
                     "ctxt": 0
                   },
                   "tagName": "div",
@@ -180,7 +180,7 @@
                         "end": 151,
                         "ctxt": 0
                       },
-                      "value": "[fallback image]"
+                      "data": "[fallback image]"
                     }
                   ],
                   "content": null
@@ -195,13 +195,13 @@
                 "end": 168,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 168,
-                "end": 235,
+                "end": 244,
                 "ctxt": 0
               },
               "tagName": "object",
@@ -210,8 +210,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 176,
+                    "end": 192,
                     "ctxt": 0
                   },
                   "namespace": null,
@@ -228,7 +228,7 @@
                     "end": 198,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -243,8 +243,8 @@
                     {
                       "type": "Attribute",
                       "span": {
-                        "start": 0,
-                        "end": 0,
+                        "start": 205,
+                        "end": 220,
                         "ctxt": 0
                       },
                       "namespace": null,
@@ -255,8 +255,8 @@
                     {
                       "type": "Attribute",
                       "span": {
-                        "start": 0,
-                        "end": 0,
+                        "start": 221,
+                        "end": 233,
                         "ctxt": 0
                       },
                       "namespace": null,
@@ -275,7 +275,7 @@
                     "end": 235,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
               "content": null
@@ -287,7 +287,7 @@
                 "end": 254,
                 "ctxt": 0
               },
-              "value": "\n\n\n"
+              "data": "\n\n\n"
             }
           ],
           "content": null

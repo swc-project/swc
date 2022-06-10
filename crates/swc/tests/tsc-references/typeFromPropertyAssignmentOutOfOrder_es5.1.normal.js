@@ -1,4 +1,6 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
@@ -6,24 +8,24 @@ import * as swcHelpers from "@swc/helpers";
 // @filename: index.js
 First.Item = function I() {
     "use strict";
-    swcHelpers.classCallCheck(this, I);
+    _class_call_check(this, I);
 };
 Common.Object = /*#__PURE__*/ function(_Item) {
     "use strict";
-    swcHelpers.inherits(_class, _Item);
-    var _super = swcHelpers.createSuper(_class);
+    _inherits(_class, _Item);
+    var _super = _create_super(_class);
     function _class() {
-        swcHelpers.classCallCheck(this, _class);
+        _class_call_check(this, _class);
         return _super.apply(this, arguments);
     }
     return _class;
 }(First.Item);
 Workspace.Object = /*#__PURE__*/ function(_Object) {
     "use strict";
-    swcHelpers.inherits(_class, _Object);
-    var _super = swcHelpers.createSuper(_class);
+    _inherits(_class, _Object);
+    var _super = _create_super(_class);
     function _class() {
-        swcHelpers.classCallCheck(this, _class);
+        _class_call_check(this, _class);
         return _super.apply(this, arguments);
     }
     return _class;

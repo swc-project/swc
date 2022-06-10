@@ -1,6 +1,10 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _construct from "@swc/helpers/lib/_construct.js";
+import _tagged_template_literal from "@swc/helpers/lib/_tagged_template_literal.js";
+import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
+import _class_static_private_method_get from "@swc/helpers/lib/_class_static_private_method_get.js";
 function _templateObject() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         "head",
         "middle",
         "tail"
@@ -11,7 +15,7 @@ function _templateObject() {
     return data;
 }
 function _templateObject1() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         "test",
         "and",
         ""
@@ -22,7 +26,7 @@ function _templateObject1() {
     return data;
 }
 function _templateObject2() {
-    var data = swcHelpers.taggedTemplateLiteral([
+    var data = _tagged_template_literal([
         "head",
         "middle",
         "tail"
@@ -36,44 +40,44 @@ function _templateObject2() {
 var AA = /*#__PURE__*/ function() {
     "use strict";
     function AA() {
-        swcHelpers.classCallCheck(this, AA);
+        _class_call_check(this, AA);
     }
     var _proto = AA.prototype;
     _proto.test = function test() {
         var _instance, _instance1;
-        swcHelpers.classStaticPrivateMethodGet(AA, AA, method).call(AA);
-        var func = swcHelpers.classStaticPrivateMethodGet(AA, AA, method);
+        _class_static_private_method_get(AA, AA, method).call(AA);
+        var func = _class_static_private_method_get(AA, AA, method);
         func();
-        new (swcHelpers.classStaticPrivateMethodGet(AA, AA, method))();
+        new (_class_static_private_method_get(AA, AA, method))();
         var arr = [
             1,
             2
         ];
-        (_instance = swcHelpers.classStaticPrivateMethodGet(AA, AA, method2)).call.apply(_instance, [
+        (_instance = _class_static_private_method_get(AA, AA, method2)).call.apply(_instance, [
             AA,
             0
-        ].concat(swcHelpers.toConsumableArray(arr), [
+        ].concat(_to_consumable_array(arr), [
             3
         ]));
-        var b = swcHelpers.construct(swcHelpers.classStaticPrivateMethodGet(AA, AA, method2), [
+        var b = _construct(_class_static_private_method_get(AA, AA, method2), [
             0
-        ].concat(swcHelpers.toConsumableArray(arr), [
+        ].concat(_to_consumable_array(arr), [
             3
         ])); //Error 
-        var str = swcHelpers.classStaticPrivateMethodGet(AA, AA, method2).bind(AA)(_templateObject(), 1, 2);
-        swcHelpers.classStaticPrivateMethodGet(AA.getClass(), AA, method2).bind(AA)(_templateObject1(), 1, 2);
-        (_instance1 = swcHelpers.classStaticPrivateMethodGet(AA.getClass(), AA, method2)).call.apply(_instance1, [
+        var str = _class_static_private_method_get(AA, AA, method2).bind(AA)(_templateObject(), 1, 2);
+        _class_static_private_method_get(AA.getClass(), AA, method2).bind(AA)(_templateObject1(), 1, 2);
+        (_instance1 = _class_static_private_method_get(AA.getClass(), AA, method2)).call.apply(_instance1, [
             AA,
             0
-        ].concat(swcHelpers.toConsumableArray(arr), [
+        ].concat(_to_consumable_array(arr), [
             3
         ]));
-        var b2 = swcHelpers.construct(swcHelpers.classStaticPrivateMethodGet(AA.getClass(), AA, method2), [
+        var b2 = _construct(_class_static_private_method_get(AA.getClass(), AA, method2), [
             0
-        ].concat(swcHelpers.toConsumableArray(arr), [
+        ].concat(_to_consumable_array(arr), [
             3
         ])); //Error 
-        var str2 = swcHelpers.classStaticPrivateMethodGet(AA.getClass(), AA, method2).bind(AA)(_templateObject2(), 1, 2);
+        var str2 = _class_static_private_method_get(AA.getClass(), AA, method2).bind(AA)(_templateObject2(), 1, 2);
     };
     AA.getClass = function getClass() {
         return AA;

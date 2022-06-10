@@ -1,11 +1,11 @@
-import * as swcHelpers from "@swc/helpers";
+import _extends from "@swc/helpers/lib/_extends.js";
 let React = require('react');
 class Poisoned extends React.Component {
     render() {
         return React.createElement("div", null, "Hello");
     }
 }
-swcHelpers.extends({}, {
+_extends({}, {
     x: "hello world",
     y: 2
 });
@@ -14,6 +14,6 @@ class EmptyProp extends React.Component {
         return React.createElement("div", null, "Default hi");
     }
 }
-swcHelpers.extends({}, {
+_extends({}, {
     prop1: !1
 });

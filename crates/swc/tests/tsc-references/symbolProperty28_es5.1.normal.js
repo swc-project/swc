@@ -1,13 +1,14 @@
-import * as swcHelpers from "@swc/helpers";
-var _toStringTag = Symbol.toStringTag;
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _inherits from "@swc/helpers/lib/_inherits.js";
+import _create_super from "@swc/helpers/lib/_create_super.js";
 //@target: ES6
 var C1 = /*#__PURE__*/ function() {
     "use strict";
     function C1() {
-        swcHelpers.classCallCheck(this, C1);
+        _class_call_check(this, C1);
     }
     var _proto = C1.prototype;
-    _proto[_toStringTag] = function() {
+    _proto[Symbol.toStringTag] = function() {
         return {
             x: ""
         };
@@ -16,10 +17,10 @@ var C1 = /*#__PURE__*/ function() {
 }();
 var C2 = /*#__PURE__*/ function(C1) {
     "use strict";
-    swcHelpers.inherits(C2, C1);
-    var _super = swcHelpers.createSuper(C2);
+    _inherits(C2, C1);
+    var _super = _create_super(C2);
     function C2() {
-        swcHelpers.classCallCheck(this, C2);
+        _class_call_check(this, C2);
         return _super.apply(this, arguments);
     }
     return C2;

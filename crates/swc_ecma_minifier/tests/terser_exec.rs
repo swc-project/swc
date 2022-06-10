@@ -34,7 +34,6 @@ use testing::assert_eq;
 #[testing::fixture(
     "tests/terser/compress/**/input.js",
     exclude(
-        "functions/avoid_generating_duplicate_functions_compared_together_3/",
         // We don't care about ie8
         "ie8",
         // tests with infinite loops
@@ -295,7 +294,10 @@ fn print<N: swc_ecma_codegen::Node>(
         }
 
         let mut emitter = Emitter {
-            cfg: swc_ecma_codegen::Config { minify },
+            cfg: swc_ecma_codegen::Config {
+                minify,
+                ..Default::default()
+            },
             cm,
             comments: None,
             wr,

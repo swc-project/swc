@@ -5,7 +5,7 @@ use swc_atoms::js_word;
 use super::*;
 use crate::token::Keyword;
 
-impl<'a, I: Tokens> Parser<I> {
+impl<I: Tokens> Parser<I> {
     pub(super) fn parse_maybe_private_name(&mut self) -> PResult<Either<PrivateName, Ident>> {
         let is_private = is!(self, '#');
 

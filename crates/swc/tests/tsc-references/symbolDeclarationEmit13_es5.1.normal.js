@@ -1,21 +1,21 @@
-import * as swcHelpers from "@swc/helpers";
-var _toPrimitive = Symbol.toPrimitive, _toStringTag = Symbol.toStringTag;
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _create_class from "@swc/helpers/lib/_create_class.js";
 //@target: ES6
 //@declaration: true
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
     }
-    swcHelpers.createClass(C, [
+    _create_class(C, [
         {
-            key: _toPrimitive,
+            key: Symbol.toPrimitive,
             get: function get() {
                 return "";
             }
         },
         {
-            key: _toStringTag,
+            key: Symbol.toStringTag,
             set: function set(x) {}
         }
     ]);

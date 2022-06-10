@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @noEmit: true
 // @allowJs: true
 // @checkJs: true
@@ -17,7 +17,7 @@ import * as swcHelpers from "@swc/helpers";
  * @return {S}
  */ var SharedClass = function SharedClass() {
     "use strict";
-    swcHelpers.classCallCheck(this, SharedClass);
+    _class_call_check(this, SharedClass);
     /** @type {SharedId<S>} */ this.id;
 };
 /** @type {SharedId<number>} */ var outside = function(n) {

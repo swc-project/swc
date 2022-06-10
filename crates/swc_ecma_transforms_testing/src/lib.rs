@@ -15,7 +15,7 @@ use std::{
 };
 
 use ansi_term::Color;
-use anyhow::{bail, Context, Error};
+use anyhow::Error;
 use serde::de::DeserializeOwned;
 use sha1::{Digest, Sha1};
 use swc_common::{
@@ -29,6 +29,7 @@ use swc_common::{
 use swc_ecma_ast::{Pat, *};
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
+use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use swc_ecma_transforms_base::{
     fixer,
     helpers::{inject_helpers, HELPERS},
@@ -539,21 +540,13 @@ fn exec_with_node_test_runner(test_name: &str, src: &str) -> Result<(), ()> {
 }
 
 fn stdout_of(code: &str) -> Result<String, Error> {
-    let actual_output = Command::new("node")
-        .arg("-e")
-        .arg(&code)
-        .output()
-        .context("failed to execute output of minifier")?;
-
-    if !actual_output.status.success() {
-        bail!(
-            "failed to execute:\n{}\n{}",
-            String::from_utf8_lossy(&actual_output.stdout),
-            String::from_utf8_lossy(&actual_output.stderr)
-        )
-    }
-
-    Ok(String::from_utf8_lossy(&actual_output.stdout).to_string())
+    exec_node_js(
+        code,
+        JsExecOptions {
+            cache: true,
+            module: false,
+        },
+    )
 }
 
 /// Test transformation.

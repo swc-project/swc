@@ -1,3 +1,3 @@
-import * as swcHelpers from "@swc/helpers";
+import _instanceof from "@swc/helpers/lib/_instanceof.js";
 var a;
-var r = swcHelpers._instanceof(a, a);
+var r = _instanceof(a, a);

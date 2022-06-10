@@ -1,9 +1,7 @@
 foo("", function*() {
     yield* {
         *[Symbol.iterator] () {
-            yield (x)=>x.length
-            ;
+            yield (x)=>x.length;
         }
     };
-}, (p)=>void 0
-);
+}, (p)=>void 0);

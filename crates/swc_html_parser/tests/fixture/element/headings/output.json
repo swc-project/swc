@@ -33,7 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 30,
+            "end": 0,
             "ctxt": 0
           },
           "tagName": "head",
@@ -60,13 +60,13 @@
                 "end": 32,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 32,
-                "end": 53,
+                "end": 58,
                 "ctxt": 0
               },
               "tagName": "h1",
@@ -80,7 +80,7 @@
                     "end": 53,
                     "ctxt": 0
                   },
-                  "value": "This is heading 1"
+                  "data": "This is heading 1"
                 }
               ],
               "content": null
@@ -92,13 +92,13 @@
                 "end": 59,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 59,
-                "end": 80,
+                "end": 85,
                 "ctxt": 0
               },
               "tagName": "h2",
@@ -112,7 +112,7 @@
                     "end": 80,
                     "ctxt": 0
                   },
-                  "value": "This is heading 2"
+                  "data": "This is heading 2"
                 }
               ],
               "content": null
@@ -124,13 +124,13 @@
                 "end": 86,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 86,
-                "end": 107,
+                "end": 112,
                 "ctxt": 0
               },
               "tagName": "h3",
@@ -144,7 +144,7 @@
                     "end": 107,
                     "ctxt": 0
                   },
-                  "value": "This is heading 3"
+                  "data": "This is heading 3"
                 }
               ],
               "content": null
@@ -156,13 +156,13 @@
                 "end": 113,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 113,
-                "end": 134,
+                "end": 139,
                 "ctxt": 0
               },
               "tagName": "h4",
@@ -176,7 +176,7 @@
                     "end": 134,
                     "ctxt": 0
                   },
-                  "value": "This is heading 4"
+                  "data": "This is heading 4"
                 }
               ],
               "content": null
@@ -188,13 +188,13 @@
                 "end": 140,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 140,
-                "end": 161,
+                "end": 166,
                 "ctxt": 0
               },
               "tagName": "h5",
@@ -208,7 +208,7 @@
                     "end": 161,
                     "ctxt": 0
                   },
-                  "value": "This is heading 5"
+                  "data": "This is heading 5"
                 }
               ],
               "content": null
@@ -220,13 +220,13 @@
                 "end": 167,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 167,
-                "end": 188,
+                "end": 193,
                 "ctxt": 0
               },
               "tagName": "h6",
@@ -240,7 +240,7 @@
                     "end": 188,
                     "ctxt": 0
                   },
-                  "value": "This is heading 6"
+                  "data": "This is heading 6"
                 }
               ],
               "content": null
@@ -252,7 +252,7 @@
                 "end": 211,
                 "ctxt": 0
               },
-              "value": "\n\n\n\n"
+              "data": "\n\n\n\n"
             }
           ],
           "content": null

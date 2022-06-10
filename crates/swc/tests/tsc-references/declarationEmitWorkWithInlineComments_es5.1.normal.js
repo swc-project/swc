@@ -1,9 +1,9 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 // @declaration: true
 // @stripInternal:true
 export var Foo = function Foo(isInternal1, isInternal2, isInternal3, isInternal4, isInternal5, isInternal6 /* trailing */ , isInternal7, notInternal1, notInternal2, notInternal3) {
     "use strict";
-    swcHelpers.classCallCheck(this, Foo);
+    _class_call_check(this, Foo);
     this.isInternal1 = isInternal1;
     this.isInternal2 = isInternal2;
     this.isInternal3 = isInternal3;
@@ -17,11 +17,11 @@ export var Foo = function Foo(isInternal1, isInternal2, isInternal3, isInternal4
 };
 export var Bar = function Bar(isInternal1) {
     "use strict";
-    swcHelpers.classCallCheck(this, Bar);
+    _class_call_check(this, Bar);
     this.isInternal1 = isInternal1;
 };
 export var Baz = function Baz(isInternal) {
     "use strict";
-    swcHelpers.classCallCheck(this, Baz);
+    _class_call_check(this, Baz);
     this.isInternal = isInternal;
 };

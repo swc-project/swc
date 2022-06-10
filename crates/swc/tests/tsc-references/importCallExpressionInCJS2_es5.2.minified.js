@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
 import regeneratorRuntime from "regenerator-runtime";
 export function foo() {
     return "foo";
@@ -7,7 +7,7 @@ export function backup() {
     return "backup";
 }
 function _compute() {
-    return (_compute = swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee(promise) {
+    return (_compute = _async_to_generator(regeneratorRuntime.mark(function _callee(promise) {
         var j;
         return regeneratorRuntime.wrap(function(_ctx) {
             for(;;)switch(_ctx.prev = _ctx.next){

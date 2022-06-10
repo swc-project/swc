@@ -2,8 +2,7 @@
 class C {
 }
 C.f = 1;
-C.arrowFunctionBoundary = ()=>C.f + 1
-;
+C.arrowFunctionBoundary = ()=>C.f + 1;
 C.functionExprBoundary = function() {
     return this.f + 2;
 };

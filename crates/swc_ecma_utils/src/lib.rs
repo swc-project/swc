@@ -534,8 +534,28 @@ pub trait ExprExt {
         matches!(*self.as_expr(), Expr::Lit(Lit::Num(..)))
     }
 
+    // TODO: remove this after a proper evaluator
     fn is_str(&self) -> bool {
-        matches!(*self.as_expr(), Expr::Lit(Lit::Str(..)))
+        match self.as_expr() {
+            Expr::Lit(Lit::Str(..)) | Expr::Tpl(_) => true,
+            Expr::Unary(UnaryExpr {
+                op: op!("typeof"), ..
+            }) => true,
+            Expr::Bin(BinExpr {
+                op: op!(bin, "+"),
+                left,
+                right,
+                ..
+            }) => left.is_str() || right.is_str(),
+            Expr::Assign(AssignExpr {
+                op: op!("=") | op!("+="),
+                right,
+                ..
+            }) => right.is_str(),
+            Expr::Seq(s) => s.exprs.last().unwrap().is_str(),
+            Expr::Cond(CondExpr { cons, alt, .. }) => cons.is_str() && alt.is_str(),
+            _ => false,
+        }
     }
 
     fn is_array_lit(&self) -> bool {
@@ -1158,8 +1178,8 @@ pub trait ExprExt {
             return true;
         }
 
-        match *self.as_expr() {
-            Expr::Member(MemberExpr { ref obj, .. }) => {
+        match self.as_expr() {
+            Expr::Member(MemberExpr { obj, .. }) => {
                 obj.is_global_ref_to(ctx, "Math")
                     || match &**obj {
                         // Allow dummy span
@@ -1175,11 +1195,12 @@ pub trait ExprExt {
             Expr::Fn(FnExpr {
                 function:
                     Function {
-                        body: Some(BlockStmt { ref stmts, .. }),
+                        params,
+                        body: Some(BlockStmt { stmts, .. }),
                         ..
                     },
                 ..
-            }) if stmts.is_empty() => true,
+            }) if params.iter().all(|p| p.pat.is_ident()) && stmts.is_empty() => true,
 
             _ => false,
         }
@@ -2271,6 +2292,27 @@ impl VisitMut for IdentReplacer<'_> {
 
     visit_mut_obj_and_computed!();
 
+    fn visit_mut_prop(&mut self, node: &mut Prop) {
+        match node {
+            Prop::Shorthand(i) => {
+                let cloned = i.clone();
+                i.visit_mut_with(self);
+                if i.sym != cloned.sym || i.span.ctxt != cloned.span.ctxt {
+                    *node = Prop::KeyValue(KeyValueProp {
+                        key: PropName::Ident(Ident::new(
+                            cloned.sym,
+                            cloned.span.with_ctxt(SyntaxContext::empty()),
+                        )),
+                        value: Box::new(Expr::Ident(i.clone())),
+                    });
+                }
+            }
+            _ => {
+                node.visit_mut_children_with(self);
+            }
+        }
+    }
+
     fn visit_mut_ident(&mut self, node: &mut Ident) {
         if node.sym == self.from.0 && node.span.ctxt == self.from.1 {
             *node = self.to.clone();
@@ -2359,34 +2401,6 @@ where
         self.add(&node.local);
     }
 
-    fn visit_module_items(&mut self, nodes: &[ModuleItem]) {
-        #[cfg(feature = "concurrent")]
-        if nodes.len() > 16 {
-            use rayon::prelude::*;
-            let set = nodes
-                .par_iter()
-                .map(|node| {
-                    let mut v = BindingCollector {
-                        only: self.only,
-                        bindings: Default::default(),
-                        is_pat_decl: self.is_pat_decl,
-                    };
-                    node.visit_with(&mut v);
-                    v.bindings
-                })
-                .reduce(AHashSet::default, |mut a, b| {
-                    a.extend(b);
-                    a
-                });
-            self.bindings.extend(set);
-            return;
-        }
-
-        for node in nodes {
-            node.visit_children_with(self)
-        }
-    }
-
     fn visit_param(&mut self, node: &Param) {
         let old = self.is_pat_decl;
         self.is_pat_decl = true;
@@ -2401,34 +2415,6 @@ where
             if let Pat::Ident(i) = node {
                 self.add(&i.id)
             }
-        }
-    }
-
-    fn visit_stmts(&mut self, nodes: &[Stmt]) {
-        #[cfg(feature = "concurrent")]
-        if nodes.len() > 16 {
-            use rayon::prelude::*;
-            let set = nodes
-                .par_iter()
-                .map(|node| {
-                    let mut v = BindingCollector {
-                        only: self.only,
-                        bindings: Default::default(),
-                        is_pat_decl: self.is_pat_decl,
-                    };
-                    node.visit_with(&mut v);
-                    v.bindings
-                })
-                .reduce(AHashSet::default, |mut a, b| {
-                    a.extend(b);
-                    a
-                });
-            self.bindings.extend(set);
-            return;
-        }
-
-        for node in nodes {
-            node.visit_children_with(self)
         }
     }
 

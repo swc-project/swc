@@ -72,7 +72,7 @@ pub trait NodeTrait: Copy + Ord + Hash {}
 impl<N> NodeTrait for N where N: Copy + Ord + Hash {}
 
 // non-repr(usize) version of Direction
-#[derive(Copy, Clone, Debug, PartialEq)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
 enum CompactDirection {
     Outgoing,
     Incoming,

@@ -1,3 +1,5 @@
+#![allow(unused)]
+
 macro_rules! opt_leading_space {
     ($emitter:expr, $e:expr) => {
         if let Some(ref e) = $e {
@@ -105,13 +107,13 @@ macro_rules! semi {
 /// - `srcmap!(false)` for end (span.hi)
 macro_rules! srcmap {
     ($emitter:expr, $n:expr, true) => {{
-        let bp = $n.span().lo;
-        if !bp.is_dummy() {
-            $emitter.wr.add_srcmap(bp)?;
+        let lo = $n.span_lo();
+        if !lo.is_dummy() {
+            $emitter.wr.add_srcmap(lo)?;
         }
     }};
     ($emitter:expr, $n:expr, false) => {
-        let hi = $n.span().hi;
+        let hi = $n.span_hi();
         if !hi.is_dummy() {
             $emitter.wr.add_srcmap(hi)?;
         }

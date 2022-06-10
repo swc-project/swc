@@ -1,13 +1,16 @@
 use std::sync::Arc;
 
-use binding_commons::{deserialize_json, get_deserialized, MapErr};
 use napi::{
     bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
     Task,
 };
 use serde::Deserialize;
-use swc::{config::JsMinifyOptions, TransformOutput};
+use swc::{
+    config::{ErrorFormat, JsMinifyOptions},
+    TransformOutput,
+};
 use swc_common::{collections::AHashMap, sync::Lrc, FileName, SourceFile, SourceMap};
+use swc_nodejs_common::{deserialize_json, get_deserialized, MapErr};
 
 use crate::{get_compiler, util::try_with};
 
@@ -54,7 +57,7 @@ impl Task for MinifyTask {
         let input: MinifyTarget = deserialize_json(&self.code)?;
         let options: JsMinifyOptions = deserialize_json(&self.options)?;
 
-        try_with(self.c.cm.clone(), false, |handler| {
+        try_with(self.c.cm.clone(), false, ErrorFormat::Normal, |handler| {
             let fm = input.to_file(self.c.cm.clone());
 
             self.c.minify(fm, handler, &options)
@@ -69,7 +72,7 @@ impl Task for MinifyTask {
 
 #[napi]
 fn minify(code: Buffer, opts: Buffer, signal: Option<AbortSignal>) -> AsyncTask<MinifyTask> {
-    binding_commons::init_default_trace_subscriber();
+    swc_nodejs_common::init_default_trace_subscriber();
     let code = String::from_utf8_lossy(code.as_ref()).to_string();
     let options = String::from_utf8_lossy(opts.as_ref()).to_string();
 
@@ -82,7 +85,7 @@ fn minify(code: Buffer, opts: Buffer, signal: Option<AbortSignal>) -> AsyncTask<
 
 #[napi]
 pub fn minify_sync(code: Buffer, opts: Buffer) -> napi::Result<TransformOutput> {
-    binding_commons::init_default_trace_subscriber();
+    swc_nodejs_common::init_default_trace_subscriber();
     let code: MinifyTarget = get_deserialized(code)?;
     let opts = get_deserialized(opts)?;
 
@@ -90,5 +93,12 @@ pub fn minify_sync(code: Buffer, opts: Buffer) -> napi::Result<TransformOutput> 
 
     let fm = code.to_file(c.cm.clone());
 
-    try_with(c.cm.clone(), false, |handler| c.minify(fm, handler, &opts)).convert_err()
+    try_with(
+        c.cm.clone(),
+        false,
+        // TODO(kdy1): Maybe make this configurable?
+        ErrorFormat::Normal,
+        |handler| c.minify(fm, handler, &opts),
+    )
+    .convert_err()
 }

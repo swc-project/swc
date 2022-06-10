@@ -4,6 +4,7 @@ use std::{
     rc::{Rc, Weak},
 };
 
+use swc_atoms::JsWord;
 use swc_common::Span;
 use swc_html_ast::*;
 
@@ -16,26 +17,43 @@ pub struct TokenAndInfo {
 
 #[derive(Debug, Clone)]
 pub enum Data {
-    Document(Document),
-    DocumentType(DocumentType),
-    Element(Element),
-    Text(Text),
-    Comment(Comment),
+    Document {
+        mode: RefCell<DocumentMode>,
+    },
+    DocumentType {
+        name: Option<JsWord>,
+        public_id: Option<JsWord>,
+        system_id: Option<JsWord>,
+    },
+    Element {
+        namespace: Namespace,
+        tag_name: JsWord,
+        attributes: RefCell<Vec<Attribute>>,
+    },
+    Text {
+        data: RefCell<String>,
+    },
+    Comment {
+        data: JsWord,
+    },
 }
 
-// TODO `<template>` and reduce memory usage for `children` in token
 pub struct Node {
     pub parent: Cell<Option<WeakNode>>,
     pub children: RefCell<Vec<RcNode>>,
     pub data: Data,
+    pub start_span: RefCell<Span>,
+    pub end_span: RefCell<Option<Span>>,
 }
 
 impl Node {
     /// Create a new node from its contents
-    pub fn new(data: Data) -> Rc<Self> {
+    pub fn new(data: Data, span: Span) -> Rc<Self> {
         Rc::new(Node {
             parent: Cell::new(None),
-            children: RefCell::new(Vec::new()),
+            children: RefCell::new(vec![]),
+            start_span: RefCell::new(span),
+            end_span: RefCell::new(None),
             data,
         })
     }
@@ -49,13 +67,6 @@ impl Drop for Node {
             let children = mem::take(&mut *node.children.borrow_mut());
 
             nodes.extend(children.into_iter());
-
-            // TODO fix me
-            // if let Element { ref children, .. } = node.data {
-            //     if let Some(template_contents) = children.borrow_mut().take()
-            //     {     nodes.push(template_contents);
-            //     }
-            // }
         }
     }
 }

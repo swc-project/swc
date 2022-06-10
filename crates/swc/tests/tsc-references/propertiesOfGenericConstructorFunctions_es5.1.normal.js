@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _define_property from "@swc/helpers/lib/_define_property.js";
 // @Filename: propertiesOfGenericConstructorFunctions.js
 // @allowJs: true
 // @checkJs: true
@@ -11,7 +11,7 @@ import * as swcHelpers from "@swc/helpers";
  */ function Multimap(ik, iv) {
     /** @type {{ [s: string]: V }} */ this._map = {};
     // without type annotation
-    this._map2 = swcHelpers.defineProperty({}, ik, iv);
+    this._map2 = _define_property({}, ik, iv);
 }
 /** @type {Multimap<"a" | "b", number>} with type annotation */ var map = new Multimap("a", 1);
 // without type annotation

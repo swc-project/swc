@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 17,
-        "end": 220,
+        "end": 227,
         "ctxt": 0
       },
       "tagName": "html",
@@ -31,8 +31,8 @@
         {
           "type": "Attribute",
           "span": {
-            "start": 0,
-            "end": 0,
+            "start": 23,
+            "end": 32,
             "ctxt": 0
           },
           "namespace": null,
@@ -46,7 +46,7 @@
           "type": "Element",
           "span": {
             "start": 34,
-            "end": 69,
+            "end": 76,
             "ctxt": 0
           },
           "tagName": "head",
@@ -60,13 +60,13 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
               "span": {
                 "start": 45,
-                "end": 60,
+                "end": 68,
                 "ctxt": 0
               },
               "tagName": "title",
@@ -80,7 +80,7 @@
                     "end": 60,
                     "ctxt": 0
                   },
-                  "value": "Document"
+                  "data": "Document"
                 }
               ],
               "content": null
@@ -92,7 +92,7 @@
                 "end": 69,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             }
           ],
           "content": null
@@ -104,7 +104,7 @@
             "end": 77,
             "ctxt": 0
           },
-          "value": "\n"
+          "data": "\n"
         },
         {
           "type": "Element",
@@ -124,13 +124,13 @@
                 "end": 85,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 85,
-                "end": 104,
+                "end": 97,
                 "ctxt": 0
               },
               "tagName": "table",
@@ -141,10 +141,10 @@
                   "type": "Text",
                   "span": {
                     "start": 92,
-                    "end": 104,
+                    "end": 97,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 }
               ],
               "content": null
@@ -164,16 +164,16 @@
                   "type": "Text",
                   "span": {
                     "start": 104,
-                    "end": 117,
+                    "end": 113,
                     "ctxt": 0
                   },
-                  "value": "\n        "
+                  "data": "\n        "
                 },
                 {
                   "type": "Element",
                   "span": {
                     "start": 0,
-                    "end": 201,
+                    "end": 0,
                     "ctxt": 0
                   },
                   "tagName": "tbody",
@@ -195,16 +195,16 @@
                           "type": "Text",
                           "span": {
                             "start": 117,
-                            "end": 134,
+                            "end": 130,
                             "ctxt": 0
                           },
-                          "value": "\n            "
+                          "data": "\n            "
                         },
                         {
                           "type": "Element",
                           "span": {
                             "start": 130,
-                            "end": 169,
+                            "end": 174,
                             "ctxt": 0
                           },
                           "tagName": "td",
@@ -218,7 +218,7 @@
                                 "end": 169,
                                 "ctxt": 0
                               },
-                              "value": "\n                Table\n            "
+                              "data": "\n                Table\n            "
                             }
                           ],
                           "content": null
@@ -227,10 +227,10 @@
                           "type": "Text",
                           "span": {
                             "start": 174,
-                            "end": 188,
+                            "end": 183,
                             "ctxt": 0
                           },
-                          "value": "\n        "
+                          "data": "\n        "
                         }
                       ],
                       "content": null
@@ -239,10 +239,10 @@
                       "type": "Text",
                       "span": {
                         "start": 188,
-                        "end": 201,
+                        "end": 193,
                         "ctxt": 0
                       },
-                      "value": "\n    "
+                      "data": "\n    "
                     }
                   ],
                   "content": null
@@ -257,7 +257,7 @@
                 "end": 220,
                 "ctxt": 0
               },
-              "value": "\n\n\n\n"
+              "data": "\n\n\n\n"
             }
           ],
           "content": null

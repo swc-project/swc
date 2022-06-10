@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _object_spread from "@swc/helpers/lib/_object_spread.js";
+import _object_spread_props from "@swc/helpers/lib/_object_spread_props.js";
 // @target: es5
 // @strictNullChecks: true
 let o = {
@@ -10,10 +11,10 @@ class PrivateOptionalX {
 }
 class PublicX {
 }
-let o2 = swcHelpers.objectSpread({}, publicX, privateOptionalX);
+let o2 = _object_spread({}, publicX, privateOptionalX);
 let sn = o2.x; // error, x is private
-let allOptional = swcHelpers.objectSpread({}, optionalString, optionalNumber);
-let spread = swcHelpers.objectSpread({}, {
+let allOptional = _object_spread({}, optionalString, optionalNumber);
+let spread = _object_spread({}, {
     b: true
 }, {
     s: "foo"
@@ -26,16 +27,16 @@ let b = {
 };
 spread = b; // error, missing 's'
 // literal repeats are not allowed, but spread repeats are fine
-let duplicated = swcHelpers.objectSpread({
+let duplicated = _object_spread_props(_object_spread(_object_spread_props(_object_spread({
     b: 'bad'
-}, o, {
+}, o), {
     b: 'bad'
-}, o2, {
+}), o2), {
     b: 'bad'
 });
-let duplicatedSpread = swcHelpers.objectSpread({}, o, o);
+let duplicatedSpread = _object_spread({}, o, o);
 // Note: ignore changes the order that properties are printed
-let ignore = swcHelpers.objectSpread({
+let ignore = _object_spread({
     b: 'ignored'
 }, o);
 let o3 = {
@@ -46,45 +47,45 @@ let o4 = {
     b: 'yes',
     c: true
 };
-let combinedBefore = swcHelpers.objectSpread({
+let combinedBefore = _object_spread({
     b: 'ok'
 }, o3, o4);
-let combinedMid = swcHelpers.objectSpread({}, o3, {
+let combinedMid = _object_spread(_object_spread_props(_object_spread({}, o3), {
     b: 'ok'
-}, o4);
-let combinedNested = swcHelpers.objectSpread({}, swcHelpers.objectSpread({
+}), o4);
+let combinedNested = _object_spread(_object_spread_props(_object_spread({}, _object_spread({
     a: 4
 }, {
     b: false,
     c: 'overriden'
-}), {
+})), {
     d: 'actually new'
-}, {
+}), {
     a: 5,
     d: 'maybe new'
 });
-let changeTypeBefore = swcHelpers.objectSpread({
+let changeTypeBefore = _object_spread({
     a: 'wrong type?'
 }, o3);
-let computedMiddle = swcHelpers.objectSpread({}, o3, {
+let computedMiddle = _object_spread(_object_spread_props(_object_spread({}, o3), {
     ['in the middle']: 13,
     b: 'maybe?'
-}, o4);
+}), o4);
 // primitives are not allowed, except for falsy ones
-let spreadNum = swcHelpers.objectSpread({}, 12);
-let spreadSum = swcHelpers.objectSpread({}, 1 + 1);
-let spreadZero = swcHelpers.objectSpread({}, 0);
+let spreadNum = _object_spread({}, 12);
+let spreadSum = _object_spread({}, 1 + 1);
+let spreadZero = _object_spread({}, 0);
 spreadZero.toFixed(); // error, no methods even from a falsy number
-let spreadBool = swcHelpers.objectSpread({}, true);
+let spreadBool = _object_spread({}, true);
 spreadBool.valueOf();
-let spreadStr = swcHelpers.objectSpread({}, 'foo');
+let spreadStr = _object_spread({}, 'foo');
 spreadStr.length; // error, no 'length'
 spreadStr.charAt(1); // error, no methods either
 // functions are skipped
-let spreadFunc = swcHelpers.objectSpread({}, function() {});
+let spreadFunc = _object_spread({}, function() {});
 spreadFunc(); // error, no call signature
 // write-only properties get skipped
-let setterOnly = swcHelpers.objectSpread({}, {
+let setterOnly = _object_spread({}, {
     set b (bad){}
 });
 setterOnly.b = 12; // error, 'b' does not exist
@@ -96,11 +97,11 @@ class C {
     }
 }
 let c = new C();
-let spreadC = swcHelpers.objectSpread({}, c);
+let spreadC = _object_spread({}, c);
 spreadC.m(); // error 'm' is not in '{ ... c }'
 // non primitive
 let obj = {
     a: 123
 };
-let spreadObj = swcHelpers.objectSpread({}, obj);
+let spreadObj = _object_spread({}, obj);
 spreadObj.a; // error 'a' is not in {}

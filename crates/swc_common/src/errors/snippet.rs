@@ -175,7 +175,7 @@ pub struct StyledString {
 }
 
 #[allow(clippy::enum_variant_names)]
-#[derive(Copy, Clone, Debug, PartialEq, Hash)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
 #[cfg_attr(
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)

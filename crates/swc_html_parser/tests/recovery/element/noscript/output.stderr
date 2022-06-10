@@ -1,5 +1,11 @@
 
-  x Misplaced doctype
+  x Start tag seen without seeing a doctype firs, expected "<!DOCTYPE html>"
+   ,-[$DIR/tests/recovery/element/noscript/input.html:1:1]
+ 1 | <head><noscript><!doctype html><!--foo--></noscript>
+   : ^^^^^^
+   `----
+
+  x Stray doctype
    ,-[$DIR/tests/recovery/element/noscript/input.html:1:1]
  1 | <head><noscript><!doctype html><!--foo--></noscript>
    :                 ^^^^^^^^^^^^^^^

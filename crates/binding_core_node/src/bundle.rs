@@ -4,7 +4,6 @@ use std::{
 };
 
 use anyhow::{bail, Error};
-use binding_commons::{get_deserialized, MapErr};
 use napi::{
     bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
     Env, Status, Task,
@@ -23,6 +22,7 @@ use swc_ecma_ast::{
     PropName, Str,
 };
 use swc_ecma_loader::{TargetEnv, NODE_BUILTINS};
+use swc_nodejs_common::{get_deserialized, MapErr};
 
 use crate::get_compiler;
 
@@ -130,6 +130,8 @@ impl Task for BundleTask {
                             None,
                             minify,
                             None,
+                            true,
+                            false,
                         )?;
 
                         Ok((k, output))
@@ -184,7 +186,7 @@ pub(crate) fn bundle(
     conf_items: Buffer,
     signal: Option<AbortSignal>,
 ) -> napi::Result<AsyncTask<BundleTask>> {
-    binding_commons::init_default_trace_subscriber();
+    swc_nodejs_common::init_default_trace_subscriber();
 
     let c: Arc<Compiler> = get_compiler();
 

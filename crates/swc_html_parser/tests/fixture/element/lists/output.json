@@ -33,7 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 30,
+            "end": 0,
             "ctxt": 0
           },
           "tagName": "head",
@@ -60,13 +60,13 @@
                 "end": 32,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 32,
-                "end": 75,
+                "end": 80,
                 "ctxt": 0
               },
               "tagName": "h2",
@@ -75,8 +75,8 @@
                 {
                   "type": "Attribute",
                   "span": {
-                    "start": 0,
-                    "end": 0,
+                    "start": 36,
+                    "end": 52,
                     "ctxt": 0
                   },
                   "namespace": null,
@@ -93,7 +93,7 @@
                     "end": 75,
                     "ctxt": 0
                   },
-                  "value": "An Unordered HTML List"
+                  "data": "An Unordered HTML List"
                 }
               ],
               "content": null
@@ -105,13 +105,13 @@
                 "end": 82,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 82,
-                "end": 142,
+                "end": 147,
                 "ctxt": 0
               },
               "tagName": "ul",
@@ -125,13 +125,13 @@
                     "end": 91,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
                   "span": {
                     "start": 91,
-                    "end": 101,
+                    "end": 106,
                     "ctxt": 0
                   },
                   "tagName": "li",
@@ -145,7 +145,7 @@
                         "end": 101,
                         "ctxt": 0
                       },
-                      "value": "Coffee"
+                      "data": "Coffee"
                     }
                   ],
                   "content": null
@@ -157,13 +157,13 @@
                     "end": 111,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
                   "span": {
                     "start": 111,
-                    "end": 118,
+                    "end": 123,
                     "ctxt": 0
                   },
                   "tagName": "li",
@@ -177,7 +177,7 @@
                         "end": 118,
                         "ctxt": 0
                       },
-                      "value": "Tea"
+                      "data": "Tea"
                     }
                   ],
                   "content": null
@@ -189,13 +189,13 @@
                     "end": 128,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
                   "span": {
                     "start": 128,
-                    "end": 136,
+                    "end": 141,
                     "ctxt": 0
                   },
                   "tagName": "li",
@@ -209,7 +209,7 @@
                         "end": 136,
                         "ctxt": 0
                       },
-                      "value": "Milk"
+                      "data": "Milk"
                     }
                   ],
                   "content": null
@@ -221,7 +221,7 @@
                     "end": 142,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
               "content": null
@@ -233,13 +233,13 @@
                 "end": 149,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 149,
-                "end": 173,
+                "end": 178,
                 "ctxt": 0
               },
               "tagName": "h2",
@@ -253,7 +253,7 @@
                     "end": 173,
                     "ctxt": 0
                   },
-                  "value": "An Ordered HTML List"
+                  "data": "An Ordered HTML List"
                 }
               ],
               "content": null
@@ -265,13 +265,13 @@
                 "end": 180,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 180,
-                "end": 240,
+                "end": 245,
                 "ctxt": 0
               },
               "tagName": "ol",
@@ -285,13 +285,13 @@
                     "end": 189,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
                   "span": {
                     "start": 189,
-                    "end": 199,
+                    "end": 204,
                     "ctxt": 0
                   },
                   "tagName": "li",
@@ -305,7 +305,7 @@
                         "end": 199,
                         "ctxt": 0
                       },
-                      "value": "Coffee"
+                      "data": "Coffee"
                     }
                   ],
                   "content": null
@@ -317,13 +317,13 @@
                     "end": 209,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
                   "span": {
                     "start": 209,
-                    "end": 216,
+                    "end": 221,
                     "ctxt": 0
                   },
                   "tagName": "li",
@@ -337,7 +337,7 @@
                         "end": 216,
                         "ctxt": 0
                       },
-                      "value": "Tea"
+                      "data": "Tea"
                     }
                   ],
                   "content": null
@@ -349,13 +349,13 @@
                     "end": 226,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
                   "span": {
                     "start": 226,
-                    "end": 234,
+                    "end": 239,
                     "ctxt": 0
                   },
                   "tagName": "li",
@@ -369,7 +369,7 @@
                         "end": 234,
                         "ctxt": 0
                       },
-                      "value": "Milk"
+                      "data": "Milk"
                     }
                   ],
                   "content": null
@@ -381,7 +381,7 @@
                     "end": 240,
                     "ctxt": 0
                   },
-                  "value": "\n"
+                  "data": "\n"
                 }
               ],
               "content": null
@@ -393,13 +393,13 @@
                 "end": 247,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 247,
-                "end": 280,
+                "end": 285,
                 "ctxt": 0
               },
               "tagName": "ul",
@@ -413,7 +413,7 @@
                     "end": 256,
                     "ctxt": 0
                   },
-                  "value": "\n    "
+                  "data": "\n    "
                 },
                 {
                   "type": "Element",
@@ -433,7 +433,7 @@
                         "end": 270,
                         "ctxt": 0
                       },
-                      "value": "item1\n    "
+                      "data": "item1\n    "
                     }
                   ],
                   "content": null
@@ -456,7 +456,7 @@
                         "end": 280,
                         "ctxt": 0
                       },
-                      "value": "item2\n"
+                      "data": "item2\n"
                     }
                   ],
                   "content": null
@@ -471,13 +471,13 @@
                 "end": 291,
                 "ctxt": 0
               },
-              "value": "\n\n    "
+              "data": "\n\n    "
             },
             {
               "type": "Element",
               "span": {
                 "start": 291,
-                "end": 336,
+                "end": 341,
                 "ctxt": 0
               },
               "tagName": "ul",
@@ -491,7 +491,7 @@
                     "end": 304,
                     "ctxt": 0
                   },
-                  "value": "\n        "
+                  "data": "\n        "
                 },
                 {
                   "type": "Element",
@@ -511,7 +511,7 @@
                         "end": 322,
                         "ctxt": 0
                       },
-                      "value": "item1\n        "
+                      "data": "item1\n        "
                     }
                   ],
                   "content": null
@@ -534,7 +534,7 @@
                         "end": 336,
                         "ctxt": 0
                       },
-                      "value": "item2\n    "
+                      "data": "item2\n    "
                     }
                   ],
                   "content": null
@@ -549,7 +549,7 @@
                 "end": 358,
                 "ctxt": 0
               },
-              "value": "\n\n\n"
+              "data": "\n\n\n"
             }
           ],
           "content": null

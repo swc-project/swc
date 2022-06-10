@@ -16,10 +16,6 @@
   x Element
 
   x Child
-
-  x Element
-
-  x Child
    ,-[$DIR/tests/recovery/element/select-1/input.html:1:1]
  1 | ,-> <select>
  2 | |       <option value="test">
@@ -27,8 +23,8 @@
  4 | |           <option value="test-2">
  5 | |               2
  6 | |           </option>
- 7 | `->     </option>
- 8 |     </select>
+ 7 | |       </option>
+ 8 | `-> </select>
    `----
 
   x Element
@@ -39,8 +35,8 @@
  4 | |           <option value="test-2">
  5 | |               2
  6 | |           </option>
- 7 | `->     </option>
- 8 |     </select>
+ 7 | |       </option>
+ 8 | `-> </select>
    `----
 
   x Child
@@ -70,6 +66,10 @@
    `----
 
   x Attribute
+   ,-[$DIR/tests/recovery/element/select-1/input.html:2:5]
+ 2 | <option value="test">
+   :         ^^^^^^^^^^^^
+   `----
 
   x Child
    ,-[$DIR/tests/recovery/element/select-1/input.html:2:5]
@@ -97,6 +97,12 @@
  4 | ,-> <option value="test-2">
  5 | |               2
  6 | `->         </option>
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/recovery/element/select-1/input.html:4:9]
+ 4 | <option value="test-2">
+   :         ^^^^^^^^^^^^^^
    `----
 
   x Child

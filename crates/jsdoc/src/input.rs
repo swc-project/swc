@@ -17,7 +17,7 @@ pub struct Input<'i> {
     src: &'i str,
 }
 
-impl<'a, 'b> From<&'a Comment> for Input<'a> {
+impl<'a> From<&'a Comment> for Input<'a> {
     fn from(c: &'a Comment) -> Self {
         Self::new(c.span.lo, c.span.hi, &c.text)
     }
@@ -25,7 +25,7 @@ impl<'a, 'b> From<&'a Comment> for Input<'a> {
 
 impl<'i> Input<'i> {
     pub const fn empty() -> Self {
-        Self::new(BytePos(0), BytePos(0), "")
+        Self::new(BytePos::DUMMY, BytePos::DUMMY, "")
     }
 
     pub const fn new(start: BytePos, end: BytePos, src: &'i str) -> Self {

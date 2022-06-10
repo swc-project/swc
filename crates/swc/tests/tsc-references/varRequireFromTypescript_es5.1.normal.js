@@ -1,7 +1,7 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 export var Crunch = function Crunch() {
     "use strict";
-    swcHelpers.classCallCheck(this, Crunch);
+    _class_call_check(this, Crunch);
 };
 // @Filename: use.js
 var ex = require("./ex");

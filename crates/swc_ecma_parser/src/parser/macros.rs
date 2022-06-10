@@ -79,6 +79,7 @@ macro_rules! is {
     };
 }
 
+#[allow(unused)]
 macro_rules! peeked_is {
     ($p:expr, BindingIdent) => {{
         let ctx = $p.ctx();

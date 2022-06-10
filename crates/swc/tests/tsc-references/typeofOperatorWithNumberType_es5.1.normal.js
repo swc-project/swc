@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _type_of from "@swc/helpers/lib/_type_of.js";
 // @allowUnusedLabels: true
 // typeof  operator on number type
 var NUMBER;
@@ -12,7 +13,7 @@ function foo() {
 var A = /*#__PURE__*/ function() {
     "use strict";
     function A() {
-        swcHelpers.classCallCheck(this, A);
+        _class_call_check(this, A);
     }
     A.foo = function foo() {
         return 1;
@@ -26,49 +27,49 @@ var M;
 })(M || (M = {}));
 var objA = new A();
 // number type var
-var ResultIsString1 = typeof NUMBER === "undefined" ? "undefined" : swcHelpers.typeOf(NUMBER);
-var ResultIsString2 = typeof NUMBER1 === "undefined" ? "undefined" : swcHelpers.typeOf(NUMBER1);
+var ResultIsString1 = typeof NUMBER === "undefined" ? "undefined" : _type_of(NUMBER);
+var ResultIsString2 = typeof NUMBER1 === "undefined" ? "undefined" : _type_of(NUMBER1);
 // number type literal
-var ResultIsString3 = swcHelpers.typeOf(1);
-var ResultIsString4 = swcHelpers.typeOf({
+var ResultIsString3 = _type_of(1);
+var ResultIsString4 = _type_of({
     x: 1,
     y: 2
 });
-var ResultIsString5 = swcHelpers.typeOf({
+var ResultIsString5 = _type_of({
     x: 1,
     y: function(n) {
         return n;
     }
 });
 // number type expressions
-var ResultIsString6 = swcHelpers.typeOf(objA.a);
-var ResultIsString7 = swcHelpers.typeOf(M.n);
-var ResultIsString8 = swcHelpers.typeOf(NUMBER1[0]);
-var ResultIsString9 = swcHelpers.typeOf(foo());
-var ResultIsString10 = swcHelpers.typeOf(A.foo());
-var ResultIsString11 = swcHelpers.typeOf(NUMBER + NUMBER);
+var ResultIsString6 = _type_of(objA.a);
+var ResultIsString7 = _type_of(M.n);
+var ResultIsString8 = _type_of(NUMBER1[0]);
+var ResultIsString9 = _type_of(foo());
+var ResultIsString10 = _type_of(A.foo());
+var ResultIsString11 = _type_of(NUMBER + NUMBER);
 // multiple typeof  operators
-var ResultIsString12 = swcHelpers.typeOf(typeof NUMBER === "undefined" ? "undefined" : swcHelpers.typeOf(NUMBER));
-var ResultIsString13 = swcHelpers.typeOf(swcHelpers.typeOf(swcHelpers.typeOf(NUMBER + NUMBER)));
+var ResultIsString12 = _type_of(typeof NUMBER === "undefined" ? "undefined" : _type_of(NUMBER));
+var ResultIsString13 = _type_of(_type_of(_type_of(NUMBER + NUMBER)));
 // miss assignment operators
-swcHelpers.typeOf(1);
-typeof NUMBER === "undefined" ? "undefined" : swcHelpers.typeOf(NUMBER);
-typeof NUMBER1 === "undefined" ? "undefined" : swcHelpers.typeOf(NUMBER1);
-swcHelpers.typeOf(foo());
-swcHelpers.typeOf(objA.a);
-swcHelpers.typeOf(M.n);
-swcHelpers.typeOf(objA.a), M.n;
+_type_of(1);
+typeof NUMBER === "undefined" ? "undefined" : _type_of(NUMBER);
+typeof NUMBER1 === "undefined" ? "undefined" : _type_of(NUMBER1);
+_type_of(foo());
+_type_of(objA.a);
+_type_of(M.n);
+_type_of(objA.a), M.n;
 // use typeof in type query
 var z;
 var x;
-z: typeof NUMBER === "undefined" ? "undefined" : swcHelpers.typeOf(NUMBER);
-x: typeof NUMBER1 === "undefined" ? "undefined" : swcHelpers.typeOf(NUMBER1);
-r: typeof foo === "undefined" ? "undefined" : swcHelpers.typeOf(foo);
+z: typeof NUMBER === "undefined" ? "undefined" : _type_of(NUMBER);
+x: typeof NUMBER1 === "undefined" ? "undefined" : _type_of(NUMBER1);
+r: typeof foo === "undefined" ? "undefined" : _type_of(foo);
 var y = {
     a: 1,
     b: 2
 };
-z: swcHelpers.typeOf(y.a);
-z: swcHelpers.typeOf(objA.a);
-z: swcHelpers.typeOf(A.foo);
-z: swcHelpers.typeOf(M.n);
+z: _type_of(y.a);
+z: _type_of(objA.a);
+z: _type_of(A.foo);
+z: _type_of(M.n);

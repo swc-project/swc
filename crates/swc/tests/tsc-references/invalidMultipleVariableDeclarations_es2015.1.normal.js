@@ -28,8 +28,7 @@ var b;
 var b = new C();
 var b = new C2();
 var f = F;
-var f = (x)=>''
-;
+var f = (x)=>'';
 var arr;
 var arr = [
     1,

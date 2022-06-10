@@ -2,10 +2,8 @@
 
 extern crate swc_node_base;
 
-use std::process::Command;
-
 use ansi_term::Color;
-use anyhow::{bail, Context, Error};
+use anyhow::Error;
 use serde::Deserialize;
 use swc_common::{
     comments::SingleThreadedComments, errors::Handler, sync::Lrc, FileName, Mark, SourceMap,
@@ -23,6 +21,7 @@ use swc_ecma_minifier::{
     },
 };
 use swc_ecma_parser::{parse_file_as_module, EsConfig, Syntax};
+use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
 use swc_ecma_visit::{FoldWith, VisitMutWith};
 use testing::DebugUsingDisplay;
@@ -46,21 +45,13 @@ fn parse_compressor_config(cm: Lrc<SourceMap>, s: &str) -> (bool, CompressOption
 }
 
 fn stdout_of(code: &str) -> Result<String, Error> {
-    let actual_output = Command::new("node")
-        .arg("-e")
-        .arg(&code)
-        .output()
-        .context("failed to execute output of minifier")?;
-
-    if !actual_output.status.success() {
-        bail!(
-            "failed to execute:\n{}\n{}",
-            String::from_utf8_lossy(&actual_output.stdout),
-            String::from_utf8_lossy(&actual_output.stderr)
-        )
-    }
-
-    let stdout = String::from_utf8_lossy(&actual_output.stdout).to_string();
+    let stdout = exec_node_js(
+        code,
+        JsExecOptions {
+            cache: true,
+            module: false,
+        },
+    )?;
 
     info!("Stdout: {}", stdout);
 
@@ -82,7 +73,10 @@ fn print<N: swc_ecma_codegen::Node>(
         }
 
         let mut emitter = Emitter {
-            cfg: swc_ecma_codegen::Config { minify },
+            cfg: swc_ecma_codegen::Config {
+                minify,
+                ..Default::default()
+            },
             cm,
             comments: None,
             wr,
@@ -9210,6 +9204,7 @@ g = 42;
 }
 
 #[test]
+#[ignore]
 fn terser_pure_funcs_issue_3065_4() {
     let src = r###"var debug = function (msg) {
     console.log(msg);
@@ -9232,6 +9227,7 @@ debug(
 }
 
 #[test]
+#[ignore]
 fn terser_pure_funcs_issue_3065_3() {
     let src = r###"function debug(msg) {
     console.log(msg);
@@ -9856,4 +9852,104 @@ fn issue_4444_1() {
     "###;
 
     run_exec_test(src, config, false);
+}
+
+#[test]
+fn terser_insane_1() {
+    let src = r###"
+    function f() {
+        a--;
+        try {
+            a++;
+            x();
+        } catch (a) {
+            if (a) var a;
+            var a = 10;
+        }
+        console.log(a)
+    }
+    f();
+    "###;
+
+    let config = r###"
+    {
+        "conditionals": true,
+        "negate_iife": true,
+        "passes": 2,
+        "reduce_funcs": true,
+        "reduce_vars": true,
+        "side_effects": true,
+        "toplevel": true,
+        "unused": true
+    }
+    "###;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
+fn terser_insane_2() {
+    let src = r###"
+    function f() {
+        console.log(a)
+        a--;
+        console.log(a)
+        try {
+            console.log(a)
+            a++;
+            console.log(a)
+            x();
+        } catch (a) {
+            if (a) var a;
+            var a = 10;
+        }
+        console.log(a)
+    }
+    f();
+    "###;
+
+    let config = r###"
+    {
+        "conditionals": true,
+        "negate_iife": true,
+        "passes": 2,
+        "reduce_funcs": true,
+        "reduce_vars": true,
+        "side_effects": true,
+        "toplevel": true,
+        "unused": true
+    }
+    "###;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
+fn issue_4788_1() {
+    let src = r###"
+    let id = 0;
+
+    const obj = {
+        get foo() {
+            console.log("foo", id++);
+        },
+    };
+
+    obj.foo;
+
+    const obj2 = {
+        ...obj,
+    };
+
+    obj2.foo;
+
+    const obj3 = {
+        ...obj,
+        foo: 1,
+    };
+
+    obj3.foo;
+    "###;
+
+    run_default_exec_test(src);
 }

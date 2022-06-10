@@ -332,7 +332,7 @@ pub struct MediaFeatureBoolean {
     pub name: MediaFeatureName,
 }
 
-#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
+#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, Is, EqIgnoreSpan)]
 pub enum MediaFeatureRangeComparison {
     /// `<`
     Lt,

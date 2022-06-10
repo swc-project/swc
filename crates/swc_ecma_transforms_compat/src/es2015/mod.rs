@@ -431,4 +431,36 @@ return new B(20).print()"
         expect(obj.constructor).toBe(MyObject);
         "
     );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |t| es2015(
+            Mark::fresh(Mark::root()),
+            Some(t.comments.clone()),
+            Config {
+                classes: classes::Config {
+                    set_class_methods: true,
+                    ..classes::Config::default()
+                },
+                ..Config::default()
+            }
+        ),
+        should_escape_keyword_in_method,
+        r#"
+export class Foo {
+	let() {}
+}
+"#,
+        r#"
+export var Foo = function() {
+    "use strict";
+    function Foo() {
+        _classCallCheck(this, Foo);
+    }
+    var _proto = Foo.prototype;
+    _proto.let = function _let() {};
+    return Foo;
+}();
+"#
+    );
 }

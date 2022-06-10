@@ -1,0 +1,19 @@
+{
+  "type": "DocumentFragment",
+  "span": {
+    "start": 1,
+    "end": 50,
+    "ctxt": 0
+  },
+  "children": [
+    {
+      "type": "Text",
+      "span": {
+        "start": 1,
+        "end": 50,
+        "ctxt": 0
+      },
+      "data": "textarea content with <em>pseudo</em> <foo>markup"
+    }
+  ]
+}

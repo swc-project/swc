@@ -1,33 +1,25 @@
-import * as swcHelpers from "@swc/helpers";
+import _object_spread from "@swc/helpers/lib/_object_spread.js";
 export const a = f`
     hello
-    ${(stuff)=>stuff.x
-}
+    ${(stuff)=>stuff.x}
     brave
-    ${(stuff)=>stuff.y
-}
+    ${(stuff)=>stuff.y}
     world
-    ${(stuff)=>stuff.z
-}
+    ${(stuff)=>stuff.z}
 `;
 export const b = g`
     hello
-    ${(stuff)=>stuff.x
-}
+    ${(stuff)=>stuff.x}
     brave
-    ${(stuff)=>stuff.y
-}
+    ${(stuff)=>stuff.y}
     world
-    ${(stuff)=>stuff.z
-}
+    ${(stuff)=>stuff.z}
 `;
-export let c = obj["prop"]`${(input)=>swcHelpers.objectSpread({}, input)
-}`;
+export let c = obj["prop"]`${(input)=>_object_spread({}, input)}`;
 c.returnedObjProp.x;
 c.returnedObjProp.y;
 c.returnedObjProp.z;
-c = obj.prop`${(input)=>swcHelpers.objectSpread({}, input)
-}`;
+c = obj.prop`${(input)=>_object_spread({}, input)}`;
 c.returnedObjProp.x;
 c.returnedObjProp.y;
 c.returnedObjProp.z;

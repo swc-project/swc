@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _object_spread from "@swc/helpers/lib/_object_spread.js";
+import _object_spread_props from "@swc/helpers/lib/_object_spread_props.js";
 // @strict: true
 // @declaration: true
 // Object literals in unions are normalized upon widening
@@ -59,10 +60,10 @@ a2 = {
 a2 = {
     a: 1
 }; // Error
-let b2 = swcHelpers.objectSpread({}, b1, {
+let b2 = _object_spread_props(_object_spread({}, b1), {
     z: 55
 });
-let b3 = swcHelpers.objectSpread({}, b2);
+let b3 = _object_spread({}, b2);
 let c1 = !true ? {} : opts;
 let c2 = !true ? opts : {};
 let c3 = !true ? {

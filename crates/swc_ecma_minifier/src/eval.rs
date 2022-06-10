@@ -50,7 +50,7 @@ struct EvalStore {
     cache: AHashMap<Id, Box<Expr>>,
 }
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum EvalResult {
     Lit(Lit),
     Undefined,

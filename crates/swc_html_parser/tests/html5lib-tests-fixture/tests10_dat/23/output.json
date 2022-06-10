@@ -1,0 +1,140 @@
+{
+  "type": "Document",
+  "span": {
+    "start": 1,
+    "end": 94,
+    "ctxt": 0
+  },
+  "mode": "no-quirks",
+  "children": [
+    {
+      "type": "DocumentType",
+      "span": {
+        "start": 1,
+        "end": 16,
+        "ctxt": 0
+      },
+      "name": "html",
+      "publicId": null,
+      "systemId": null
+    },
+    {
+      "type": "Element",
+      "span": {
+        "start": 0,
+        "end": 0,
+        "ctxt": 0
+      },
+      "tagName": "html",
+      "namespace": "http://www.w3.org/1999/xhtml",
+      "attributes": [],
+      "children": [
+        {
+          "type": "Element",
+          "span": {
+            "start": 0,
+            "end": 0,
+            "ctxt": 0
+          },
+          "tagName": "head",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [],
+          "content": null
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 16,
+            "end": 94,
+            "ctxt": 0
+          },
+          "tagName": "body",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 22,
+                "end": 36,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "xlink:href",
+              "value": "foo"
+            },
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 37,
+                "end": 48,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "xml:lang",
+              "value": "en"
+            }
+          ],
+          "children": [
+            {
+              "type": "Element",
+              "span": {
+                "start": 49,
+                "end": 94,
+                "ctxt": 0
+              },
+              "tagName": "svg",
+              "namespace": "http://www.w3.org/2000/svg",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 54,
+                    "end": 88,
+                    "ctxt": 0
+                  },
+                  "tagName": "g",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [
+                    {
+                      "type": "Attribute",
+                      "span": {
+                        "start": 57,
+                        "end": 68,
+                        "ctxt": 0
+                      },
+                      "namespace": "http://www.w3.org/XML/1998/namespace",
+                      "prefix": "xml",
+                      "name": "lang",
+                      "value": "en"
+                    },
+                    {
+                      "type": "Attribute",
+                      "span": {
+                        "start": 69,
+                        "end": 83,
+                        "ctxt": 0
+                      },
+                      "namespace": "http://www.w3.org/1999/xlink",
+                      "prefix": "xlink",
+                      "name": "href",
+                      "value": "foo"
+                    }
+                  ],
+                  "children": [],
+                  "content": null
+                }
+              ],
+              "content": null
+            }
+          ],
+          "content": null
+        }
+      ],
+      "content": null
+    }
+  ]
+}

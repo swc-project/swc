@@ -22,7 +22,7 @@
       "type": "Element",
       "span": {
         "start": 17,
-        "end": 119,
+        "end": 126,
         "ctxt": 0
       },
       "tagName": "html",
@@ -31,8 +31,8 @@
         {
           "type": "Attribute",
           "span": {
-            "start": 0,
-            "end": 0,
+            "start": 23,
+            "end": 32,
             "ctxt": 0
           },
           "namespace": null,
@@ -46,7 +46,7 @@
           "type": "Element",
           "span": {
             "start": 34,
-            "end": 69,
+            "end": 76,
             "ctxt": 0
           },
           "tagName": "head",
@@ -60,13 +60,13 @@
                 "end": 45,
                 "ctxt": 0
               },
-              "value": "\n    "
+              "data": "\n    "
             },
             {
               "type": "Element",
               "span": {
                 "start": 45,
-                "end": 60,
+                "end": 68,
                 "ctxt": 0
               },
               "tagName": "title",
@@ -80,7 +80,7 @@
                     "end": 60,
                     "ctxt": 0
                   },
-                  "value": "Document"
+                  "data": "Document"
                 }
               ],
               "content": null
@@ -92,7 +92,7 @@
                 "end": 69,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             }
           ],
           "content": null
@@ -104,7 +104,7 @@
             "end": 77,
             "ctxt": 0
           },
-          "value": "\n"
+          "data": "\n"
         },
         {
           "type": "Element",
@@ -124,13 +124,13 @@
                 "end": 84,
                 "ctxt": 0
               },
-              "value": "\n"
+              "data": "\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 84,
-                "end": 106,
+                "end": 110,
                 "ctxt": 0
               },
               "tagName": "p",
@@ -144,13 +144,13 @@
                     "end": 88,
                     "ctxt": 0
                   },
-                  "value": "1"
+                  "data": "1"
                 },
                 {
                   "type": "Element",
                   "span": {
                     "start": 88,
-                    "end": 96,
+                    "end": 100,
                     "ctxt": 0
                   },
                   "tagName": "b",
@@ -164,7 +164,7 @@
                         "end": 92,
                         "ctxt": 0
                       },
-                      "value": "2"
+                      "data": "2"
                     },
                     {
                       "type": "Element",
@@ -184,7 +184,7 @@
                             "end": 96,
                             "ctxt": 0
                           },
-                          "value": "3"
+                          "data": "3"
                         }
                       ],
                       "content": null
@@ -196,7 +196,7 @@
                   "type": "Element",
                   "span": {
                     "start": 92,
-                    "end": 101,
+                    "end": 105,
                     "ctxt": 0
                   },
                   "tagName": "i",
@@ -210,7 +210,7 @@
                         "end": 101,
                         "ctxt": 0
                       },
-                      "value": "4"
+                      "data": "4"
                     }
                   ],
                   "content": null
@@ -222,7 +222,7 @@
                     "end": 106,
                     "ctxt": 0
                   },
-                  "value": "5"
+                  "data": "5"
                 }
               ],
               "content": null
@@ -234,7 +234,7 @@
                 "end": 119,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             }
           ],
           "content": null

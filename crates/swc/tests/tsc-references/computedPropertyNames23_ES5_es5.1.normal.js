@@ -1,15 +1,15 @@
-import * as swcHelpers from "@swc/helpers";
-var tmp = swcHelpers.defineProperty({}, this.bar(), 1)[0];
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _define_property from "@swc/helpers/lib/_define_property.js";
 // @target: es5
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
     }
     var _proto = C.prototype;
     _proto.bar = function bar() {
         return 0;
     };
-    _proto[tmp] = function() {};
+    _proto[_define_property({}, this.bar(), 1)[0]] = function() {};
     return C;
 }();

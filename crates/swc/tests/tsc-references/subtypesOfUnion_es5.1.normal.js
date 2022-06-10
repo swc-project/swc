@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var E;
 (function(E) {
     E[E["e1"] = 0] = "e1";
@@ -6,11 +6,11 @@ var E;
 })(E || (E = {}));
 var A = function A() {
     "use strict";
-    swcHelpers.classCallCheck(this, A);
+    _class_call_check(this, A);
 };
 var A2 = function A2() {
     "use strict";
-    swcHelpers.classCallCheck(this, A2);
+    _class_call_check(this, A2);
 };
 function f() {}
 (function(f1) {
@@ -18,7 +18,7 @@ function f() {}
 })(f || (f = {}));
 var c = function c() {
     "use strict";
-    swcHelpers.classCallCheck(this, c);
+    _class_call_check(this, c);
 };
 (function(c) {
     var bar = c.bar = 1;

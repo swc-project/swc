@@ -1,4 +1,4 @@
-<!doctype html><html><head></head><body>
+<!doctype html><body>
 
 <label><input type=checkbox checked name=cheese disabled> Cheese</label>
 <label><input type=checkbox checked=checked name=cheese disabled=disabled> Cheese</label>
@@ -50,8 +50,7 @@
 <p x='x"'>x</p>
 <a href=#><p>Click me</p></a>
 <span><button>Hit me</button></span>
-<!--TODO FIX ME -->
-<!--<object type="image/svg+xml" data="image.svg"><div>[fallback image]</div></object>-->
+<object type=image/svg+xml data=image.svg><div>[fallback image]</div></object>
 
 <img class=user-image src=http://adasdasdasd.cloudfront.net/users/2011/05/24/4asdasd/asdasd.jpg>
 
@@ -89,6 +88,61 @@ foo
 <div data-test=\foo class=bar>test</div>
 <div data-test=\\foo class=bar>test</div>
 
+<span title='test "with" &amp;quot;'>test</span>
+<span title='test "with" & quot'>test</span>
+<span title='test "with" &test'>test</span>
+<span title='test "with" &amp;amptest'>test</span>
+<span title='test "with" <'>test</span>
+<span title='test "with" >'>test</span>
+<span title=foo>Test</span>
+<span title="foo<bar">Test</span>
+<span title="foo=bar">Test</span>
+<span title="foo>bar">Test</span>
+<span title='foo"bar'>Test</span>
+<span title="foo'bar">Test</span>
+
+<div>
+    &amp;quot;
+</div>
+
+<script>
+    let foo = "&amp;";
+</script>
+
+<style>
+    .class::before {
+        content: "&amp;";
+    }
+</style>
+
+<div>
+    foo & bar
+    foo&<i>bar</i>
+    foo&&& bar
+</div>
+
+<pre><code>Label current;
+// Load effective address of current instruction into rcx.
+__ leaq(rcx, Operand(&amp;current));
+__ bind(&amp;current);
+</code></pre>
+
+<div>
+    &xxx; &xxx &amp;thorn; &amp;thorn &amp;curren;t &amp;current &amp;current; &&
+    &amp;gt
+    &unknown;
+    &amp;current
+    &amp;current;
+    &amp;current
+    &amp;current;
+
+    ø &osLash Ø
+    &ø &&osLash; &Ø
+    &ø &&osLash; &Ø
+
+    &amp;oslash; &osLash; &amp;Oslash;
+    &amp;oslash; &osLash; &amp;Oslash;
+</div>
 
 
-</body></html>
+

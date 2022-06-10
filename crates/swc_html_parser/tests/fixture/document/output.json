@@ -33,7 +33,7 @@
           "type": "Element",
           "span": {
             "start": 0,
-            "end": 30,
+            "end": 0,
             "ctxt": 0
           },
           "tagName": "head",
@@ -60,13 +60,13 @@
                 "end": 32,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 32,
-                "end": 52,
+                "end": 57,
                 "ctxt": 0
               },
               "tagName": "h1",
@@ -80,7 +80,7 @@
                     "end": 52,
                     "ctxt": 0
                   },
-                  "value": "My First Heading"
+                  "data": "My First Heading"
                 }
               ],
               "content": null
@@ -92,13 +92,13 @@
                 "end": 59,
                 "ctxt": 0
               },
-              "value": "\n\n"
+              "data": "\n\n"
             },
             {
               "type": "Element",
               "span": {
                 "start": 59,
-                "end": 81,
+                "end": 85,
                 "ctxt": 0
               },
               "tagName": "p",
@@ -112,7 +112,7 @@
                     "end": 81,
                     "ctxt": 0
                   },
-                  "value": "My first paragraph."
+                  "data": "My first paragraph."
                 }
               ],
               "content": null
@@ -124,7 +124,7 @@
                 "end": 103,
                 "ctxt": 0
               },
-              "value": "\n\n\n\n"
+              "data": "\n\n\n\n"
             }
           ],
           "content": null

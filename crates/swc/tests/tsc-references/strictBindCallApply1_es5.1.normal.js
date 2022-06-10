@@ -1,4 +1,4 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 var f00 = foo.bind(undefined);
 var f01 = foo.bind(undefined, 10);
 var f02 = foo.bind(undefined, 10, "hello");
@@ -28,7 +28,7 @@ var a03 = foo.apply(undefined, [
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C(a, b) {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
     }
     var _proto = C.prototype;
     _proto.foo = function foo(a, b) {

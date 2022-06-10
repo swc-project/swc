@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _type_of from "@swc/helpers/lib/_type_of.js";
 var STRING, M, STRING1 = [
     "",
     "abc"
@@ -9,7 +10,7 @@ function foo() {
 var A = function() {
     "use strict";
     function A() {
-        swcHelpers.classCallCheck(this, A);
+        _class_call_check(this, A);
     }
     return A.foo = function() {
         return "";
@@ -20,19 +21,19 @@ var A = function() {
     M1.n = n;
 }(M || (M = {}));
 var objA = new A();
-void 0 === STRING || swcHelpers.typeOf(STRING), swcHelpers.typeOf(STRING1), swcHelpers.typeOf(""), swcHelpers.typeOf({
+void 0 === STRING || _type_of(STRING), _type_of(STRING1), _type_of(""), _type_of({
     x: "",
     y: ""
-}), swcHelpers.typeOf({
+}), _type_of({
     x: "",
     y: function(s) {
         return s;
     }
-}), swcHelpers.typeOf(objA.a), swcHelpers.typeOf(M.n), swcHelpers.typeOf(STRING1[0]), swcHelpers.typeOf("abc"), swcHelpers.typeOf(A.foo()), swcHelpers.typeOf(STRING + STRING), swcHelpers.typeOf(STRING.charAt(0)), swcHelpers.typeOf(void 0 === STRING ? "undefined" : swcHelpers.typeOf(STRING)), swcHelpers.typeOf(swcHelpers.typeOf(swcHelpers.typeOf(STRING + STRING))), swcHelpers.typeOf(""), void 0 === STRING || swcHelpers.typeOf(STRING), swcHelpers.typeOf(STRING1), swcHelpers.typeOf("abc"), swcHelpers.typeOf(objA.a), M.n;
-z: void 0 === STRING || swcHelpers.typeOf(STRING);
-x: swcHelpers.typeOf(STRING1);
-r: swcHelpers.typeOf(foo);
-z: swcHelpers.typeOf("");
-z: swcHelpers.typeOf(objA.a);
-z: swcHelpers.typeOf(A.foo);
-z: swcHelpers.typeOf(M.n);
+}), _type_of(objA.a), _type_of(M.n), _type_of(STRING1[0]), _type_of(foo()), _type_of(A.foo()), _type_of(STRING + STRING), _type_of(STRING.charAt(0)), _type_of(void 0 === STRING ? "undefined" : _type_of(STRING)), _type_of(_type_of(_type_of(STRING + STRING))), _type_of(""), void 0 === STRING || _type_of(STRING), _type_of(STRING1), _type_of(foo()), _type_of(objA.a), M.n;
+z: void 0 === STRING || _type_of(STRING);
+x: _type_of(STRING1);
+r: _type_of(foo);
+z: _type_of("");
+z: _type_of(objA.a);
+z: _type_of(A.foo);
+z: _type_of(M.n);

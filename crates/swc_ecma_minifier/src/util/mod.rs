@@ -416,6 +416,12 @@ impl Visit for IdentUsageCollector {
         self.ids.insert(n.to_id());
     }
 
+    fn visit_member_prop(&mut self, n: &MemberProp) {
+        if let MemberProp::Computed(..) = n {
+            n.visit_children_with(self);
+        }
+    }
+
     fn visit_prop_name(&mut self, n: &PropName) {
         if let PropName::Computed(..) = n {
             n.visit_children_with(self);

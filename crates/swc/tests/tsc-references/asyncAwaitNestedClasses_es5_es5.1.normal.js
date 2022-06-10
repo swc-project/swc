@@ -1,4 +1,5 @@
-import * as swcHelpers from "@swc/helpers";
+import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
+import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 import regeneratorRuntime from "regenerator-runtime";
 var _B;
 // @target: ES5
@@ -7,12 +8,12 @@ var _B;
 // https://github.com/Microsoft/TypeScript/issues/20744
 var A = function A() {
     "use strict";
-    swcHelpers.classCallCheck(this, A);
+    _class_call_check(this, A);
 };
 A.B = (_B = /*#__PURE__*/ function() {
     "use strict";
     function B() {
-        swcHelpers.classCallCheck(this, B);
+        _class_call_check(this, B);
     }
     B.func2 = function func2() {
         return new Promise(function(resolve) {
@@ -23,10 +24,10 @@ A.B = (_B = /*#__PURE__*/ function() {
 }(), _B.C = /*#__PURE__*/ function() {
     "use strict";
     function C() {
-        swcHelpers.classCallCheck(this, C);
+        _class_call_check(this, C);
     }
     C.func = function func() {
-        return swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return _async_to_generator(regeneratorRuntime.mark(function _callee() {
             return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:

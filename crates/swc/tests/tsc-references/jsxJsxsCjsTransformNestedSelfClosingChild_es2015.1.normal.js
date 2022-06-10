@@ -5,8 +5,7 @@ console.log(/*#__PURE__*/ React.createElement("div", null, [
     2
 ].map((i)=>/*#__PURE__*/ React.createElement("div", {
         key: i
-    }, i)
-)));
+    }, i))));
 // @jsx: react-jsx,react-jsxdev
 // @strict: true
 // @module: commonjs

@@ -1,0 +1,18 @@
+{
+    "jsc": {
+        "externalHelpers": true,
+        "parser": {
+            "syntax": "ecmascript",
+            "jsx": false
+        },
+        "target": "es2022",
+        "loose": false,
+        "minify": {
+            "compress": true,
+            "mangle": true
+        }
+    },
+    "module": {
+        "type": "es6"
+    }
+}

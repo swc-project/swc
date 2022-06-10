@@ -1,9 +1,9 @@
-let _iterator = Symbol.iterator;
-for (var v of new class {
+class StringIterator {
     next() {
         return v;
     }
-    [_iterator]() {
+    [Symbol.iterator]() {
         return this;
     }
-});
+}
+for (var v of new StringIterator);

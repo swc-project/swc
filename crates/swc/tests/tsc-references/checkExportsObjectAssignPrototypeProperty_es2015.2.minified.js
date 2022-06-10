@@ -11,8 +11,7 @@ Person.prototype.describe = function() {
     value: "Smith",
     writable: !1
 }), Object.defineProperty(Person.prototype, "rwAccessors", {
-    get: ()=>98122
-    ,
+    get: ()=>98122,
     set (_) {}
 }), Object.defineProperty(Person.prototype, "readonlyAccessor", {
     get: ()=>21.75

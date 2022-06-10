@@ -10,7 +10,7 @@ use anyhow::Error;
 
 use crate::{syntax_pos::Mark, SyntaxContext};
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 #[non_exhaustive]
 #[cfg_attr(
     feature = "plugin-base",
