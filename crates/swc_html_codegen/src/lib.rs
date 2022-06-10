@@ -288,25 +288,8 @@ where
                 _ => false,
             };
 
-        if !can_omit_start_tag {
-            write_raw!(self, "<");
-            write_raw!(self, &n.tag_name);
-
-            if has_attributes {
-                space!(self);
-
-                self.emit_list(&n.attributes, ListFormat::SpaceDelimited)?;
-            }
-
-            write_raw!(self, ">");
-
-            if !self.config.minify && n.namespace == Namespace::HTML && &*n.tag_name == "html" {
-                newline!(self);
-            }
-        }
-
-        let no_children = n.namespace == Namespace::HTML
-            && matches!(
+        let no_children = match n.namespace {
+            Namespace::HTML => matches!(
                 &*n.tag_name,
                 "area"
                     | "base"
@@ -326,7 +309,66 @@ where
                     | "source"
                     | "track"
                     | "wbr"
-            );
+            ),
+            Namespace::SVG => {
+                matches!(
+                    &*n.tag_name,
+                    "circle"
+                        | "ellipse"
+                        | "line"
+                        | "path"
+                        | "polygon"
+                        | "polyline"
+                        | "rect"
+                        | "stop"
+                        | "use"
+                ) && n.children.is_empty()
+            }
+            _ => false,
+        };
+
+        if !can_omit_start_tag {
+            write_raw!(self, "<");
+            write_raw!(self, &n.tag_name);
+
+            if has_attributes {
+                space!(self);
+
+                self.emit_list(&n.attributes, ListFormat::SpaceDelimited)?;
+            }
+
+            if no_children && n.namespace == Namespace::SVG {
+                if self.config.minify {
+                    let need_space = match n.attributes.last() {
+                        Some(Attribute {
+                            value: Some(value), ..
+                        }) => !value.chars().any(|c| match c {
+                            c if c.is_ascii_whitespace() => true,
+                            '`' | '=' | '<' | '>' | '"' | '\'' => true,
+                            _ => false,
+                        }),
+                        _ => false,
+                    };
+
+                    println!("{:?}", n.attributes.last());
+                    println!("{:?}", need_space);
+
+                    if need_space {
+                        write_raw!(self, " ");
+                    }
+                } else {
+                    write_raw!(self, " ");
+                }
+
+                write_raw!(self, "/");
+            }
+
+            write_raw!(self, ">");
+
+            if !self.config.minify && n.namespace == Namespace::HTML && &*n.tag_name == "html" {
+                newline!(self);
+            }
+        }
 
         if no_children {
             return Ok(());
