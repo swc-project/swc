@@ -24,6 +24,7 @@ where
     last_pos: Option<BytePos>,
     config: ParserConfig,
     buf: Rc<RefCell<String>>,
+    raw_buf: Rc<RefCell<String>>,
 }
 
 impl<I> Lexer<I>
@@ -41,6 +42,7 @@ where
             last_pos: None,
             config,
             buf: Rc::new(RefCell::new(String::with_capacity(256))),
+            raw_buf: Rc::new(RefCell::new(String::with_capacity(256))),
         }
     }
 
@@ -54,6 +56,21 @@ where
         buf.clear();
 
         op(self, &mut buf)
+    }
+
+    fn with_buf_and_raw_buf<F, Ret>(&mut self, op: F) -> LexResult<Ret>
+    where
+        F: for<'any> FnOnce(&mut Lexer<I>, &mut String, &mut String) -> LexResult<Ret>,
+    {
+        let b = self.buf.clone();
+        let r = self.raw_buf.clone();
+        let mut buf = b.borrow_mut();
+        let mut raw = r.borrow_mut();
+
+        buf.clear();
+        raw.clear();
+
+        op(self, &mut buf, &mut raw)
     }
 }
 
@@ -473,7 +490,7 @@ where
     // <dimension-token>.
     fn read_numeric(&mut self) -> LexResult<Token> {
         // Consume a number and let number be the result.
-        let number = self.read_number();
+        let number = self.read_number()?;
 
         let next_first = self.next();
         let next_second = self.next_next();
@@ -613,14 +630,14 @@ where
     // This section describes how to consume a string token from a stream of code
     // points. It returns either a <string-token> or <bad-string-token>.
     fn read_str(&mut self, maybe_ending_code_point: Option<char>) -> LexResult<Token> {
-        self.with_buf(|l, buf| {
+        self.with_buf_and_raw_buf(|l, buf, raw| {
             // This algorithm may be called with an ending code point, which denotes the
             // code point that ends the string. If an ending code point is not specified,
             // the current input code point is used.
             let ending_code_point = maybe_ending_code_point.or_else(|| l.cur());
 
             // Initially create a <string-token> with its value set to the empty string.
-            let mut raw = String::new();
+            // Done above
 
             raw.push(ending_code_point.unwrap());
 
@@ -642,7 +659,7 @@ where
                     None => {
                         return Ok(Token::String {
                             value: (&**buf).into(),
-                            raw: raw.into(),
+                            raw: (&**raw).into(),
                         })
                     }
 
@@ -654,7 +671,7 @@ where
 
                         return Ok(Token::BadString {
                             value: (&**buf).into(),
-                            raw: raw.into(),
+                            raw: (&**raw).into(),
                         });
                     }
 
@@ -696,7 +713,7 @@ where
 
             Ok(Token::String {
                 value: (&**buf).into(),
-                raw: raw.into(),
+                raw: (&**raw).into(),
             })
         })
     }
@@ -705,175 +722,175 @@ where
     // points. It returns either a <url-token> or a <bad-url-token>.
     fn read_url(&mut self, name: (JsWord, JsWord), mut before: String) -> LexResult<Token> {
         // Initially create a <url-token> with its value set to the empty string.
-        let mut value = String::new();
-        let mut raw = String::new();
+        self.with_buf_and_raw_buf(|l, out, raw| {
+            // Consume as much whitespace as possible.
+            while let Some(c) = l.next() {
+                if is_whitespace(c) {
+                    l.consume();
 
-        // Consume as much whitespace as possible.
-        while let Some(c) = self.next() {
-            if is_whitespace(c) {
-                self.consume();
-
-                before.push(c);
-            } else {
-                break;
+                    before.push(c);
+                } else {
+                    break;
+                }
             }
-        }
 
-        // Repeatedly consume the next input code point from the stream:
-        loop {
-            self.consume();
+            // Repeatedly consume the next input code point from the stream:
+            loop {
+                l.consume();
 
-            match self.cur() {
-                // U+0029 RIGHT PARENTHESIS ())
-                // Return the <url-token>.
-                Some(')') => {
-                    return Ok(Token::Url {
-                        name: name.0,
-                        raw_name: name.1,
-                        value: value.into(),
-                        raw_value: raw.into(),
-                        before: before.into(),
-                        after: js_word!(""),
-                    });
-                }
-
-                // EOF
-                // This is a parse error. Return the <url-token>.
-                None => {
-                    return Ok(Token::Url {
-                        name: name.0,
-                        raw_name: name.1,
-                        value: value.into(),
-                        raw_value: raw.into(),
-                        before: before.into(),
-                        after: js_word!(""),
-                    });
-                }
-
-                // whitespace
-                Some(c) if is_whitespace(c) => {
-                    let mut whitespaces = String::new();
-
-                    whitespaces.push(c);
-
-                    // Consume as much whitespace as possible.
-                    while let Some(c) = self.next() {
-                        if is_whitespace(c) {
-                            self.consume();
-
-                            whitespaces.push(c);
-                        } else {
-                            break;
-                        }
+                match l.cur() {
+                    // U+0029 RIGHT PARENTHESIS ())
+                    // Return the <url-token>.
+                    Some(')') => {
+                        return Ok(Token::Url {
+                            name: name.0,
+                            raw_name: name.1,
+                            value: (&**out).into(),
+                            raw_value: (&**raw).into(),
+                            before: before.into(),
+                            after: js_word!(""),
+                        });
                     }
 
-                    // if the next input code point is U+0029 RIGHT PARENTHESIS ()) or EOF, consume
-                    // it and return the <url-token> (if EOF was encountered, this is a parse
-                    // error);
-                    match self.next() {
-                        Some(')') => {
-                            self.consume();
-
-                            return Ok(Token::Url {
-                                name: name.0,
-                                raw_name: name.1,
-                                value: value.into(),
-                                raw_value: raw.into(),
-                                before: before.into(),
-                                after: whitespaces.into(),
-                            });
-                        }
-                        None => {
-                            return Ok(Token::Url {
-                                name: name.0,
-                                raw_name: name.1,
-                                value: value.into(),
-                                raw_value: raw.into(),
-                                before: before.into(),
-                                after: whitespaces.into(),
-                            });
-                        }
-                        _ => {}
+                    // EOF
+                    // This is a parse error. Return the <url-token>.
+                    None => {
+                        return Ok(Token::Url {
+                            name: name.0,
+                            raw_name: name.1,
+                            value: (&**out).into(),
+                            raw_value: (&**raw).into(),
+                            before: before.into(),
+                            after: js_word!(""),
+                        });
                     }
 
-                    value.push_str(&whitespaces);
-                    raw.push_str(&whitespaces);
+                    // whitespace
+                    Some(c) if is_whitespace(c) => {
+                        let mut whitespaces = String::new();
 
-                    // otherwise, consume the remnants of a bad url, create a <bad-url-token>, and
-                    // return it.
-                    let remnants = self.read_bad_url_remnants()?;
+                        whitespaces.push(c);
 
-                    value.push_str(&remnants.0);
-                    raw.push_str(&remnants.1);
+                        // Consume as much whitespace as possible.
+                        while let Some(c) = l.next() {
+                            if is_whitespace(c) {
+                                l.consume();
 
-                    return Ok(Token::BadUrl {
-                        name: name.0,
-                        raw_name: name.1,
-                        value: (before.to_owned() + &raw.to_owned()).into(),
-                        raw_value: (before.to_owned() + &raw.to_owned()).into(),
-                    });
-                }
+                                whitespaces.push(c);
+                            } else {
+                                break;
+                            }
+                        }
 
-                // U+0022 QUOTATION MARK (")
-                // U+0027 APOSTROPHE (')
-                // U+0028 LEFT PARENTHESIS (()
-                // non-printable code point
-                // This is a parse error. Consume the remnants of a bad url, create a
-                // <bad-url-token>, and return it.
-                Some(c) if c == '"' || c == '\'' || c == '(' || is_non_printable(c) => {
-                    let remnants = self.read_bad_url_remnants()?;
+                        // if the next input code point is U+0029 RIGHT PARENTHESIS ()) or EOF,
+                        // consume it and return the <url-token> (if EOF was
+                        // encountered, this is a parse error);
+                        match l.next() {
+                            Some(')') => {
+                                l.consume();
 
-                    value.push(c);
-                    value.push_str(&remnants.0);
-                    raw.push(c);
-                    raw.push_str(&remnants.1);
+                                return Ok(Token::Url {
+                                    name: name.0,
+                                    raw_name: name.1,
+                                    value: (&**out).into(),
+                                    raw_value: (&**raw).into(),
+                                    before: before.into(),
+                                    after: whitespaces.into(),
+                                });
+                            }
+                            None => {
+                                return Ok(Token::Url {
+                                    name: name.0,
+                                    raw_name: name.1,
+                                    value: (&**out).into(),
+                                    raw_value: (&**raw).into(),
+                                    before: before.into(),
+                                    after: whitespaces.into(),
+                                });
+                            }
+                            _ => {}
+                        }
 
-                    return Ok(Token::BadUrl {
-                        name: name.0,
-                        raw_name: name.1,
-                        value: (before.to_owned() + &raw.to_owned()).into(),
-                        raw_value: (before.to_owned() + &raw.to_owned()).into(),
-                    });
-                }
+                        out.push_str(&whitespaces);
+                        raw.push_str(&whitespaces);
 
-                // U+005C REVERSE SOLIDUS (\)
-                Some(c) if c == '\\' => {
-                    // If the stream starts with a valid escape, consume an escaped code point and
-                    // append the returned code point to the <url-token>’s value.
-                    if self.is_valid_escape(None, None)? {
-                        let escaped = self.read_escape()?;
+                        // otherwise, consume the remnants of a bad url, create a <bad-url-token>,
+                        // and return it.
+                        let remnants = l.read_bad_url_remnants()?;
 
-                        value.push(escaped.0);
-                        raw.push(c);
-                        raw.push_str(&escaped.1);
+                        out.push_str(&remnants.0);
+                        raw.push_str(&remnants.1);
+
+                        return Ok(Token::BadUrl {
+                            name: name.0,
+                            raw_name: name.1,
+                            value: (before.clone() + (&**raw)).into(),
+                            raw_value: (before.clone() + (&**raw)).into(),
+                        });
                     }
-                    // Otherwise, this is a parse error. Consume the remnants of a bad url, create a
+
+                    // U+0022 QUOTATION MARK (")
+                    // U+0027 APOSTROPHE (')
+                    // U+0028 LEFT PARENTHESIS (()
+                    // non-printable code point
+                    // This is a parse error. Consume the remnants of a bad url, create a
                     // <bad-url-token>, and return it.
-                    else {
-                        let remnants = self.read_bad_url_remnants()?;
+                    Some(c) if c == '"' || c == '\'' || c == '(' || is_non_printable(c) => {
+                        let remnants = l.read_bad_url_remnants()?;
 
-                        value.push(c);
-                        value.push_str(&remnants.0);
+                        out.push(c);
+                        out.push_str(&remnants.0);
                         raw.push(c);
                         raw.push_str(&remnants.1);
 
                         return Ok(Token::BadUrl {
                             name: name.0,
                             raw_name: name.1,
-                            value: (before.to_owned() + &raw.to_owned()).into(),
-                            raw_value: (before.to_owned() + &raw.to_owned()).into(),
+                            value: (before.clone() + (&**raw)).into(),
+                            raw_value: (before.clone() + (&**raw)).into(),
                         });
                     }
-                }
 
-                // anything else
-                // Append the current input code point to the <url-token>’s value.
-                Some(c) => {
-                    value.push(c);
-                    raw.push(c);
+                    // U+005C REVERSE SOLIDUS (\)
+                    Some(c) if c == '\\' => {
+                        // If the stream starts with a valid escape, consume an escaped code point
+                        // and append the returned code point to the
+                        // <url-token>’s value.
+                        if l.is_valid_escape(None, None)? {
+                            let escaped = l.read_escape()?;
+
+                            out.push(escaped.0);
+                            raw.push(c);
+                            raw.push_str(&escaped.1);
+                        }
+                        // Otherwise, this is a parse error. Consume the remnants of a bad url,
+                        // create a <bad-url-token>, and return it.
+                        else {
+                            let remnants = l.read_bad_url_remnants()?;
+
+                            out.push(c);
+                            out.push_str(&remnants.0);
+                            raw.push(c);
+                            raw.push_str(&remnants.1);
+
+                            return Ok(Token::BadUrl {
+                                name: name.0,
+                                raw_name: name.1,
+                                value: (before.clone() + (&**raw)).into(),
+                                raw_value: (before.clone() + (&**raw)).into(),
+                            });
+                        }
+                    }
+
+                    // anything else
+                    // Append the current input code point to the <url-token>’s value.
+                    Some(c) => {
+                        out.push(c);
+                        raw.push(c);
+                    }
                 }
             }
-        }
+        })
     }
 
     // Consume an escaped code point
@@ -1096,9 +1113,9 @@ where
     // points. It returns a string containing the largest name that can be formed
     // from adjacent code points in the stream, starting from the first.
     fn read_ident_sequence(&mut self) -> LexResult<(JsWord, JsWord)> {
-        self.with_buf(|l, buf| {
+        self.with_buf_and_raw_buf(|l, buf, raw| {
             // Let result initially be an empty string.
-            let mut raw = String::new();
+            // Done above
 
             // Repeatedly consume the next input code point from the stream:
             loop {
@@ -1130,118 +1147,122 @@ where
                 }
             }
 
-            Ok(((&**buf).into(), raw.into()))
+            Ok(((&**buf).into(), (&**raw).into()))
         })
     }
 
     // This section describes how to consume a number from a stream of code points.
     // It returns a numeric value, and a type which is either "integer" or "number".
-    fn read_number(&mut self) -> (f64, String, NumberType) {
-        // Initially set type to "integer". Let repr be the empty string.
-        let mut repr = String::new();
-        let mut type_flag = NumberType::Integer;
+    fn read_number(&mut self) -> LexResult<(f64, String, NumberType)> {
+        let parsed =
+            // Initially set type to "integer". Let repr be the empty string.
+            self.with_buf(|l, out| {
+            let mut type_flag = NumberType::Integer;
 
-        // If the next input code point is U+002B PLUS SIGN (+) or U+002D HYPHEN-MINUS
-        // (-), consume it and append it to repr.
-        let next = self.next();
+            // If the next input code point is U+002B PLUS SIGN (+) or U+002D HYPHEN-MINUS
+            // (-), consume it and append it to repr.
+            let next = l.next();
 
-        if next == Some('+') || next == Some('-') {
-            self.consume();
+            if next == Some('+') || next == Some('-') {
+                l.consume();
 
-            repr.push(next.unwrap());
-        }
-
-        // While the next input code point is a digit, consume it and append it to repr.
-        while let Some(c) = self.next() {
-            if c.is_ascii_digit() {
-                self.consume();
-
-                repr.push(c);
-            } else {
-                break;
+                out.push(next.unwrap());
             }
-        }
 
-        // If the next 2 input code points are U+002E FULL STOP (.) followed by a digit,
-        // then:
-        let next = self.next();
+            // While the next input code point is a digit, consume it and append it to repr.
+            while let Some(c) = l.next() {
+                if c.is_ascii_digit() {
+                    l.consume();
 
-        if next == Some('.') {
-            if let Some(n) = self.next_next() {
-                if n.is_ascii_digit() {
+                    out.push(c);
+                } else {
+                    break;
+                }
+            }
+
+            // If the next 2 input code points are U+002E FULL STOP (.) followed by a digit,
+            // then:
+            let next = l.next();
+
+            if next == Some('.') {
+                if let Some(n) = l.next_next() {
+                    if n.is_ascii_digit() {
+                        // Consume them.
+                        l.consume();
+                        l.consume();
+
+                        // Append them to repr.
+                        out.push(next.unwrap());
+                        out.push(n);
+
+                        // Set type to "number".
+                        type_flag = NumberType::Number;
+
+                        // While the next input code point is a digit, consume it and append it to
+                        // repr.
+                        while let Some(c) = l.next() {
+                            if c.is_ascii_digit() {
+                                l.consume();
+
+                                out.push(c);
+                            } else {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // If the next 2 or 3 input code points are U+0045 LATIN CAPITAL LETTER E (E) or
+            // U+0065 LATIN SMALL LETTER E (e), optionally followed by U+002D HYPHEN-MINUS
+            // (-) or U+002B PLUS SIGN (+), followed by a digit, then:
+            let next = l.next();
+
+            if next == Some('E') || next == Some('e') {
+                let next_next = l.next_next();
+                let next_next_next = l.next_next_next();
+
+                if (next_next == Some('-')
+                    || next_next == Some('+')
+                        && next_next_next.is_some()
+                        && next_next_next.unwrap().is_ascii_digit())
+                    || next_next.is_some() && next_next.unwrap().is_ascii_digit()
+                {
                     // Consume them.
-                    self.consume();
-                    self.consume();
+                    l.consume();
+                    l.consume();
 
                     // Append them to repr.
-                    repr.push(next.unwrap());
-                    repr.push(n);
+                    out.push(next.unwrap());
+                    out.push(next_next.unwrap());
 
                     // Set type to "number".
                     type_flag = NumberType::Number;
 
-                    // While the next input code point is a digit, consume it and append it to
-                    // repr.
-                    while let Some(c) = self.next() {
+                    // While the next input code point is a digit, consume it and append it
+                    // to repr.
+                    while let Some(c) = l.next() {
                         if c.is_ascii_digit() {
-                            self.consume();
+                            l.consume();
 
-                            repr.push(c);
+                            out.push(c);
                         } else {
                             break;
                         }
                     }
                 }
             }
-        }
 
-        // If the next 2 or 3 input code points are U+0045 LATIN CAPITAL LETTER E (E) or
-        // U+0065 LATIN SMALL LETTER E (e), optionally followed by U+002D HYPHEN-MINUS
-        // (-) or U+002B PLUS SIGN (+), followed by a digit, then:
-        let next = self.next();
-
-        if next == Some('E') || next == Some('e') {
-            let next_next = self.next_next();
-            let next_next_next = self.next_next_next();
-
-            if (next_next == Some('-')
-                || next_next == Some('+')
-                    && next_next_next.is_some()
-                    && next_next_next.unwrap().is_ascii_digit())
-                || next_next.is_some() && next_next.unwrap().is_ascii_digit()
-            {
-                // Consume them.
-                self.consume();
-                self.consume();
-
-                // Append them to repr.
-                repr.push(next.unwrap());
-                repr.push(next_next.unwrap());
-
-                // Set type to "number".
-                type_flag = NumberType::Number;
-
-                // While the next input code point is a digit, consume it and append it
-                // to repr.
-                while let Some(c) = self.next() {
-                    if c.is_ascii_digit() {
-                        self.consume();
-
-                        repr.push(c);
-                    } else {
-                        break;
-                    }
-                }
-            }
-        }
+            // Return value and type.
+            Ok((out.clone(), type_flag))
+        })?;
 
         // Convert repr to a number, and set the value to the returned value.
-        let parsed = lexical::parse(&repr.as_bytes()).unwrap_or_else(|err| {
-            unreachable!("failed to parse `{}` using lexical: {:?}", repr, err)
+        let value = lexical::parse(&parsed.0).unwrap_or_else(|err| {
+            unreachable!("failed to parse `{}` using lexical: {:?}", parsed.0, err)
         });
 
-        // Return value and type.
-        (parsed, repr, type_flag)
+        Ok((value, parsed.0.into(), parsed.1))
     }
 
     // Consume the remnants of a bad url
@@ -1252,44 +1273,43 @@ where
     // point where normal tokenizing can resume. But for recovery purpose we return
     // bad URL remnants.
     fn read_bad_url_remnants(&mut self) -> LexResult<(String, String)> {
-        self.with_buf(|l, buf| {
-            let mut raw = String::new();
+        let mut value = String::new();
+        let mut raw = String::new();
 
-            // Repeatedly consume the next input code point from the stream:
-            loop {
-                l.consume();
+        // Repeatedly consume the next input code point from the stream:
+        loop {
+            self.consume();
 
-                match l.cur() {
-                    // U+0029 RIGHT PARENTHESIS ())
-                    // EOF
-                    // Return.
-                    Some(')') => {
-                        break;
-                    }
-                    None => {
-                        break;
-                    }
-                    // the input stream starts with a valid escape
-                    Some(c) if l.is_valid_escape(None, None) == Ok(true) => {
-                        // Consume an escaped code point. This allows an escaped right parenthesis
-                        // ("\)") to be encountered without ending the <bad-url-token>.
-                        let escaped = l.read_escape()?;
+            match self.cur() {
+                // U+0029 RIGHT PARENTHESIS ())
+                // EOF
+                // Return.
+                Some(')') => {
+                    break;
+                }
+                None => {
+                    break;
+                }
+                // the input stream starts with a valid escape
+                Some(c) if self.is_valid_escape(None, None) == Ok(true) => {
+                    // Consume an escaped code point. This allows an escaped right parenthesis
+                    // ("\)") to be encountered without ending the <bad-url-token>.
+                    let escaped = self.read_escape()?;
 
-                        buf.push(escaped.0);
-                        raw.push(c);
-                        raw.push_str(&escaped.1);
-                    }
-                    // anything else
-                    // Do nothing.
-                    Some(c) => {
-                        buf.push(c);
-                        raw.push(c);
-                    }
+                    value.push(escaped.0);
+                    raw.push(c);
+                    raw.push_str(&escaped.1);
+                }
+                // anything else
+                // Do nothing.
+                Some(c) => {
+                    value.push(c);
+                    raw.push(c);
                 }
             }
+        }
 
-            Ok(((&**buf).into(), raw))
-        })
+        Ok((value, raw))
     }
 }
 
