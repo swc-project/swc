@@ -11,15 +11,15 @@ var E, E1, array = [
     3
 ];
 function foo() {
-    for(var _len = arguments.length, a = new Array(_len), _key = 0; _key < _len; _key++)a[_key] = arguments[_key];
+    for(var _len = arguments.length, a = Array(_len), _key = 0; _key < _len; _key++)a[_key] = arguments[_key];
 }
 function foo1() {
-    for(var _len = arguments.length, a = new Array(_len), _key = 0; _key < _len; _key++)a[_key] = arguments[_key];
+    for(var _len = arguments.length, a = Array(_len), _key = 0; _key < _len; _key++)a[_key] = arguments[_key];
 }
 !function() {
-    for(var _len = arguments.length, a = new Array(_len), _key = 0; _key < _len; _key++)a[_key] = arguments[_key];
+    for(var _len = arguments.length, a = Array(_len), _key = 0; _key < _len; _key++)a[_key] = arguments[_key];
 }(_to_consumable_array(array)), (function() {
-    for(var _len = arguments.length, x = new Array(_len), _key = 0; _key < _len; _key++)x[_key] = arguments[_key];
+    for(var _len = arguments.length, x = Array(_len), _key = 0; _key < _len; _key++)x[_key] = arguments[_key];
 }).apply(void 0, _to_consumable_array(array)), function(param) {
     var _param = _sliced_to_array(param, 3), ref = (_param[0], _param[1], _sliced_to_array(_param[2], 1)), ref2 = _sliced_to_array(ref[0], 1);
     ref2[0];

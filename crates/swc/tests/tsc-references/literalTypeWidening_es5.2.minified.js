@@ -1,7 +1,7 @@
 import _object_spread from "@swc/helpers/lib/_object_spread.js";
 import _object_without_properties from "@swc/helpers/lib/_object_without_properties.js";
 export function Set() {
-    for(var _len = arguments.length, _$keys = new Array(_len), _key = 0; _key < _len; _key++)_$keys[_key] = arguments[_key];
+    for(var _len = arguments.length, _$keys = Array(_len), _key = 0; _key < _len; _key++)_$keys[_key] = arguments[_key];
     var result = {};
     return _$keys.forEach(function(key) {
         return result[key] = !0;

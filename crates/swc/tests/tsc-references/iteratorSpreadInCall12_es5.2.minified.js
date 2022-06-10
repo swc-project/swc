@@ -3,7 +3,7 @@ import _construct from "@swc/helpers/lib/_construct.js";
 import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
 var Foo = function() {
     "use strict";
-    for(var _len = arguments.length, s = new Array(_len), _key = 0; _key < _len; _key++)s[_key] = arguments[_key];
+    for(var _len = arguments.length, s = Array(_len), _key = 0; _key < _len; _key++)s[_key] = arguments[_key];
     _class_call_check(this, Foo);
 }, SymbolIterator = function() {
     "use strict";

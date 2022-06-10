@@ -1,6 +1,6 @@
 import _instanceof from "@swc/helpers/lib/_instanceof.js";
 export function Vec(len) {
-    this.storage = new Array(len);
+    this.storage = Array(len);
 }
 Vec.prototype = {
     dot: function(other) {

@@ -1,6 +1,6 @@
 import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
 function bar() {
-    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
     return args;
 }
 f1("foo", "abc"), f1("foo", 10, !0), f1.apply(void 0, [

@@ -8,7 +8,7 @@ var EventEmitter = function() {
         _class_call_check(this, EventEmitter);
     }
     return EventEmitter.prototype.off = function() {
-        for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+        for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
     }, EventEmitter;
 }(), TableBaseEnum = function() {
     "use strict";

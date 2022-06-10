@@ -19,4 +19,4 @@ for(;;);
 for(;;);
 for(;;);
 for(;;);
-for(;;);
+for(Array();;);

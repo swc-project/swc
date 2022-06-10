@@ -2,11 +2,11 @@ import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
 import _construct from "@swc/helpers/lib/_construct.js";
 import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
 function f(x, y) {
-    for(var _len = arguments.length, z = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)z[_key - 2] = arguments[_key];
+    for(var _len = arguments.length, z = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)z[_key - 2] = arguments[_key];
 }
 var a, b, c, d, e, g, h, i, B = function(x, y) {
     "use strict";
-    for(var _len = arguments.length, z = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)z[_key - 2] = arguments[_key];
+    for(var _len = arguments.length, z = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)z[_key - 2] = arguments[_key];
     _class_call_check(this, B);
 };
 new f(1, 2, "string"), _construct(f, [
@@ -18,7 +18,7 @@ new f(1, 2, "string"), _construct(f, [
 ].concat(_to_consumable_array(a), [
     "string"
 ])), _construct(function() {
-    for(var _len = arguments.length, x = new Array(_len), _key = 0; _key < _len; _key++)x[_key] = arguments[_key];
+    for(var _len = arguments.length, x = Array(_len), _key = 0; _key < _len; _key++)x[_key] = arguments[_key];
 }, _to_consumable_array(a).concat(_to_consumable_array(a))), _construct(f, [
     1,
     2

@@ -42,7 +42,7 @@ import _create_super from "@swc/helpers/lib/_create_super.js";
             return null;
         };
     }), foo10(function() {
-        for(var _len = arguments.length, x = new Array(_len), _key = 0; _key < _len; _key++)x[_key] = arguments[_key];
+        for(var _len = arguments.length, x = Array(_len), _key = 0; _key < _len; _key++)x[_key] = arguments[_key];
         return null;
     }), foo11(function(x, y) {
         return null;

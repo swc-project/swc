@@ -25,6 +25,6 @@ for(;;);
 for(;;);
 for(new C(), new C2(), new D();;);
 for(new D();;);
-for(;;);
+for(Array();;);
 for(;;);
 M.A;
