@@ -7,6 +7,9 @@
 
 - **(html/codegen)** Fix quotes in attributes (#4918) ([064e504](https://github.com/swc-project/swc/commit/064e50448fb3a916ce52c537f73cedec2253ed50))
 
+
+- **(html/codegen)** Emit newline in `textarea`/`pre` (#4919) ([4f1e046](https://github.com/swc-project/swc/commit/4f1e04671dcf33fe30dcc0915ea5aa5b0bc19973))
+
 ### Miscellaneous Tasks
 
 
