@@ -6,7 +6,7 @@ use swc_html_ast::{Token, TokenAndSpan};
 use super::PResult;
 use crate::{error::Error, lexer::State};
 
-pub trait ParserInput: Clone + Iterator<Item = TokenAndSpan> {
+pub trait ParserInput: Iterator<Item = TokenAndSpan> {
     fn start_pos(&mut self) -> BytePos;
 
     fn last_pos(&mut self) -> BytePos;
