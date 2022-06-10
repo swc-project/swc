@@ -3,11 +3,17 @@ use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::hygiene::rename;
+use swc_ecma_utils::{collect_decls, BindingCollector};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use tracing::info;
 
 use super::{analyzer::Analyzer, preserver::idents_to_preserve};
-use crate::{debug::dump, marks::Marks, option::MangleOptions, util::contains_eval};
+use crate::{
+    debug::dump,
+    marks::Marks,
+    option::MangleOptions,
+    util::{contains_eval, idents_used_by, IdentUsageCollector},
+};
 
 pub(crate) fn name_mangler(options: MangleOptions, marks: Marks) -> impl VisitMut {
     Mangler {
@@ -30,7 +36,7 @@ struct Mangler {
 impl Mangler {
     fn get_map<N>(&self, node: &N, skip_one: bool) -> AHashMap<Id, JsWord>
     where
-        N: VisitWith<Analyzer>,
+        N: VisitWith<Analyzer> + VisitWith<IdentUsageCollector> + VisitWith<BindingCollector<Id>>,
     {
         let mut analyzer = Analyzer {
             scope: Default::default(),
@@ -42,7 +48,16 @@ impl Mangler {
             node.visit_with(&mut analyzer);
         }
 
-        analyzer.into_rename_map(&self.preserved, &self.unresolved)
+        let used = idents_used_by(node);
+        let local_decls = collect_decls(node);
+
+        let mut unresolved = self.unresolved.clone();
+        for id in used {
+            if !local_decls.contains(&id) {
+                unresolved.insert(id.0);
+            }
+        }
+        analyzer.into_rename_map(&self.preserved, &unresolved)
     }
 }
 
