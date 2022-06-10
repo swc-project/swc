@@ -5,6 +5,9 @@
 
 
 
+- **(es/fixer)** Preserve parens in optional calls (#4923) ([5bb417e](https://github.com/swc-project/swc/commit/5bb417ef88b545505d24ccf5dad8b72b13a58fcd))
+
+
 - **(html/codegen)** Fix quotes in attributes (#4918) ([064e504](https://github.com/swc-project/swc/commit/064e50448fb3a916ce52c537f73cedec2253ed50))
 
 
