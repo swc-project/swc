@@ -199,4 +199,8 @@ pub struct LintConfig {
     #[cfg(feature = "non_critical_lints")]
     #[serde(default, alias = "noSparseArrays")]
     pub no_sparse_arrays: RuleConfig<()>,
+
+    #[cfg(feature = "non_critical_lints")]
+    #[serde(default, alias = "defaultCaseLast")]
+    pub default_case_last: RuleConfig<()>,
 }
