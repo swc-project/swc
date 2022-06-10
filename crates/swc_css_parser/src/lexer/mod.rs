@@ -25,6 +25,8 @@ where
     config: ParserConfig,
     buf: Rc<RefCell<String>>,
     raw_buf: Rc<RefCell<String>>,
+    sub_buf: Rc<RefCell<String>>,
+    sub_raw_buf: Rc<RefCell<String>>,
 }
 
 impl<I> Lexer<I>
@@ -43,6 +45,8 @@ where
             config,
             buf: Rc::new(RefCell::new(String::with_capacity(256))),
             raw_buf: Rc::new(RefCell::new(String::with_capacity(256))),
+            sub_buf: Rc::new(RefCell::new(String::with_capacity(32))),
+            sub_raw_buf: Rc::new(RefCell::new(String::with_capacity(32))),
         }
     }
 
@@ -58,6 +62,18 @@ where
         op(self, &mut buf)
     }
 
+    fn with_sub_buf<F, Ret>(&mut self, op: F) -> LexResult<Ret>
+    where
+        F: for<'any> FnOnce(&mut Lexer<I>, &mut String) -> LexResult<Ret>,
+    {
+        let b = self.sub_buf.clone();
+        let mut sub_buf = b.borrow_mut();
+
+        sub_buf.clear();
+
+        op(self, &mut sub_buf)
+    }
+
     fn with_buf_and_raw_buf<F, Ret>(&mut self, op: F) -> LexResult<Ret>
     where
         F: for<'any> FnOnce(&mut Lexer<I>, &mut String, &mut String) -> LexResult<Ret>,
@@ -71,6 +87,21 @@ where
         raw.clear();
 
         op(self, &mut buf, &mut raw)
+    }
+
+    fn with_sub_buf_and_raw_buf<F, Ret>(&mut self, op: F) -> LexResult<Ret>
+    where
+        F: for<'any> FnOnce(&mut Lexer<I>, &mut String, &mut String) -> LexResult<Ret>,
+    {
+        let b = self.sub_buf.clone();
+        let r = self.sub_raw_buf.clone();
+        let mut sub_buf = b.borrow_mut();
+        let mut sub_raw_buf = r.borrow_mut();
+
+        sub_buf.clear();
+        sub_raw_buf.clear();
+
+        op(self, &mut sub_buf, &mut sub_raw_buf)
     }
 }
 
@@ -136,27 +167,27 @@ impl<I> Lexer<I>
 where
     I: Input,
 {
-    #[inline]
+    #[inline(always)]
     fn cur(&mut self) -> Option<char> {
         self.cur
     }
 
-    #[inline]
+    #[inline(always)]
     fn next(&mut self) -> Option<char> {
         self.input.cur()
     }
 
-    #[inline]
+    #[inline(always)]
     fn next_next(&mut self) -> Option<char> {
         self.input.peek()
     }
 
-    #[inline]
+    #[inline(always)]
     fn next_next_next(&mut self) -> Option<char> {
         self.input.peek_ahead()
     }
 
-    #[inline]
+    #[inline(always)]
     fn consume(&mut self) {
         self.cur = self.input.cur();
         self.cur_pos = self.input.cur_pos();
@@ -166,7 +197,7 @@ where
         }
     }
 
-    #[inline]
+    #[inline(always)]
     fn reconsume(&mut self) {
         self.input.reset_to(self.cur_pos);
     }
@@ -418,10 +449,7 @@ where
             }
             // EOF
             // Return an <EOF-token>.
-            None => {
-                // TODO: Return an <EOF-token>.
-                Err(ErrorKind::Eof)
-            }
+            None => Err(ErrorKind::Eof),
             // anything else
             // Return a <delim-token> with its value set to the current input code point.
             Some(c) => Ok(Token::Delim { value: c }),
@@ -767,20 +795,22 @@ where
 
                     // whitespace
                     Some(c) if is_whitespace(c) => {
-                        let mut whitespaces = String::new();
-
-                        whitespaces.push(c);
-
                         // Consume as much whitespace as possible.
-                        while let Some(c) = l.next() {
-                            if is_whitespace(c) {
-                                l.consume();
+                        let whitespaces: String = l.with_sub_buf(|l, buf| {
+                            buf.push(c);
 
-                                whitespaces.push(c);
-                            } else {
-                                break;
+                            while let Some(c) = l.next() {
+                                if is_whitespace(c) {
+                                    l.consume();
+
+                                    buf.push(c);
+                                } else {
+                                    break;
+                                }
                             }
-                        }
+
+                            Ok((&**buf).into())
+                        })?;
 
                         // if the next input code point is U+0029 RIGHT PARENTHESIS ()) or EOF,
                         // consume it and return the <url-token> (if EOF was
@@ -811,11 +841,11 @@ where
                             _ => {}
                         }
 
+                        // otherwise, consume the remnants of a bad url, create a <bad-url-token>,
+                        // and return it.
                         out.push_str(&whitespaces);
                         raw.push_str(&whitespaces);
 
-                        // otherwise, consume the remnants of a bad url, create a <bad-url-token>,
-                        // and return it.
                         let remnants = l.read_bad_url_remnants()?;
 
                         out.push_str(&remnants.0);
@@ -899,77 +929,77 @@ where
     // input code point has already been verified to be part of a valid escape. It
     // will return a code point.
     fn read_escape(&mut self) -> LexResult<(char, String)> {
-        let mut raw = String::new();
+        self.with_sub_buf(|l, buf| {
+            // Consume the next input code point.
+            l.consume();
 
-        // Consume the next input code point.
-        self.consume();
+            match l.cur() {
+                // hex digit
+                Some(c) if is_hex_digit(c) => {
+                    let mut hex = c.to_digit(16).unwrap();
 
-        match self.cur() {
-            // hex digit
-            Some(c) if is_hex_digit(c) => {
-                let mut hex = c.to_digit(16).unwrap();
+                    buf.push(c);
 
-                raw.push(c);
+                    // Consume as many hex digits as possible, but no more than 5.
+                    // Note that this means 1-6 hex digits have been consumed in total.
+                    for _ in 0..5 {
+                        let next = l.next();
+                        let digit = match next.and_then(|c| c.to_digit(16)) {
+                            Some(v) => v,
+                            None => break,
+                        };
 
-                // Consume as many hex digits as possible, but no more than 5.
-                // Note that this means 1-6 hex digits have been consumed in total.
-                for _ in 0..5 {
-                    let next = self.next();
-                    let digit = match next.and_then(|c| c.to_digit(16)) {
-                        Some(v) => v,
-                        None => break,
+                        l.consume();
+
+                        buf.push(next.unwrap());
+                        hex = hex * 16 + digit;
+                    }
+
+                    // If the next input code point is whitespace, consume it as well.
+                    let next = l.next();
+
+                    if let Some(next) = next {
+                        if is_whitespace(next) {
+                            l.consume();
+
+                            buf.push(next);
+                        }
+                    }
+
+                    // Interpret the hex digits as a hexadecimal number. If this number is zero, or
+                    // is for a surrogate, or is greater than the maximum allowed code point, return
+                    // U+FFFD REPLACEMENT CHARACTER (�).
+                    let hex = match hex {
+                        // If this number is zero
+                        0 => REPLACEMENT_CHARACTER,
+                        // or is for a surrogate
+                        55296..=57343 => REPLACEMENT_CHARACTER,
+                        // or is greater than the maximum allowed code point
+                        1114112.. => REPLACEMENT_CHARACTER,
+                        _ => char::from_u32(hex).unwrap_or(REPLACEMENT_CHARACTER),
                     };
 
-                    self.consume();
-
-                    raw.push(next.unwrap());
-                    hex = hex * 16 + digit;
+                    // Otherwise, return the code point with that value.
+                    Ok((hex, (&**buf).into()))
                 }
+                // EOF
+                // This is a parse error. Return U+FFFD REPLACEMENT CHARACTER (�).
+                None => {
+                    let value = REPLACEMENT_CHARACTER;
 
-                // If the next input code point is whitespace, consume it as well.
-                let next = self.next();
+                    buf.push(value);
 
-                if let Some(next) = next {
-                    if is_whitespace(next) {
-                        self.consume();
-
-                        raw.push(next);
-                    }
+                    Ok((value, (&**buf).into()))
                 }
+                // anything else
+                // Return the current input code point.
+                Some(c) => {
+                    buf.push(c);
 
-                // Interpret the hex digits as a hexadecimal number. If this number is zero, or
-                // is for a surrogate, or is greater than the maximum allowed code point, return
-                // U+FFFD REPLACEMENT CHARACTER (�).
-                let hex = match hex {
-                    // If this number is zero
-                    0 => REPLACEMENT_CHARACTER,
-                    // or is for a surrogate
-                    55296..=57343 => REPLACEMENT_CHARACTER,
-                    // or is greater than the maximum allowed code point
-                    1114112.. => REPLACEMENT_CHARACTER,
-                    _ => char::from_u32(hex).unwrap_or(REPLACEMENT_CHARACTER),
-                };
-
-                // Otherwise, return the code point with that value.
-                Ok((hex, raw))
+                    Ok((c, (&**buf).into()))
+                }
             }
-            // EOF
-            // This is a parse error. Return U+FFFD REPLACEMENT CHARACTER (�).
-            None => {
-                let value = REPLACEMENT_CHARACTER;
-
-                raw.push(value);
-
-                Ok((value, raw))
-            }
-            // anything else
-            // Return the current input code point.
-            Some(c) => {
-                raw.push(c);
-
-                Ok((c, raw))
-            }
-        }
+        })
     }
 
     // Check if two code points are a valid escape
@@ -1254,7 +1284,7 @@ where
             }
 
             // Return value and type.
-            Ok((out.clone(), type_flag))
+            Ok(((&**out).into(), type_flag))
         })?;
 
         // Convert repr to a number, and set the value to the returned value.
@@ -1262,7 +1292,7 @@ where
             unreachable!("failed to parse `{}` using lexical: {:?}", parsed.0, err)
         });
 
-        Ok((value, parsed.0.into(), parsed.1))
+        Ok((value, parsed.0, parsed.1))
     }
 
     // Consume the remnants of a bad url
@@ -1273,43 +1303,42 @@ where
     // point where normal tokenizing can resume. But for recovery purpose we return
     // bad URL remnants.
     fn read_bad_url_remnants(&mut self) -> LexResult<(String, String)> {
-        let mut value = String::new();
-        let mut raw = String::new();
+        self.with_sub_buf_and_raw_buf(|l, buf, raw| {
+            // Repeatedly consume the next input code point from the stream:
+            loop {
+                l.consume();
 
-        // Repeatedly consume the next input code point from the stream:
-        loop {
-            self.consume();
+                match l.cur() {
+                    // U+0029 RIGHT PARENTHESIS ())
+                    // EOF
+                    // Return.
+                    Some(')') => {
+                        break;
+                    }
+                    None => {
+                        break;
+                    }
+                    // the input stream starts with a valid escape
+                    Some(c) if l.is_valid_escape(None, None) == Ok(true) => {
+                        // Consume an escaped code point. This allows an escaped right parenthesis
+                        // ("\)") to be encountered without ending the <bad-url-token>.
+                        let escaped = l.read_escape()?;
 
-            match self.cur() {
-                // U+0029 RIGHT PARENTHESIS ())
-                // EOF
-                // Return.
-                Some(')') => {
-                    break;
-                }
-                None => {
-                    break;
-                }
-                // the input stream starts with a valid escape
-                Some(c) if self.is_valid_escape(None, None) == Ok(true) => {
-                    // Consume an escaped code point. This allows an escaped right parenthesis
-                    // ("\)") to be encountered without ending the <bad-url-token>.
-                    let escaped = self.read_escape()?;
-
-                    value.push(escaped.0);
-                    raw.push(c);
-                    raw.push_str(&escaped.1);
-                }
-                // anything else
-                // Do nothing.
-                Some(c) => {
-                    value.push(c);
-                    raw.push(c);
+                        buf.push(escaped.0);
+                        raw.push(c);
+                        raw.push_str(&escaped.1);
+                    }
+                    // anything else
+                    // Do nothing.
+                    Some(c) => {
+                        buf.push(c);
+                        raw.push(c);
+                    }
                 }
             }
-        }
 
-        Ok((value, raw))
+            Ok(((&**buf).into(), (&**raw).into()))
+        })
     }
 }
 
