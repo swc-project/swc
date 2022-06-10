@@ -3,7 +3,8 @@ Promise.all(assignAll).then(function() {
     var b = a(function*(c) {
         for(let b in obj){
             let a = obj[b];
-            a.id, (yield listOfUser(a.id)).forEach((b)=>{
+            a.id;
+            (yield listOfUser(a.id)).forEach((b)=>{
                 insertQuery += `INSERT INTO "TABLE"("UUID", id, other_ids_here) VALUES ('${uuidv4()}', '${a.id}', now());`;
             });
         }
