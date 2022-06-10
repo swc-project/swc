@@ -176,6 +176,8 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
 
         rules.extend(constructor_super::constructor_super(
             &lint_config.constructor_super,
+        ));
+
         rules.extend(no_sparse_arrays::no_sparse_arrays(
             &lint_config.no_sparse_arrays,
         ));
