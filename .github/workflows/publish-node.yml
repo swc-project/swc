@@ -110,7 +110,7 @@ jobs:
               cp ./target/aarch64-linux-android/release/swc .
               chmod +x ./swc
               yarn build --target aarch64-linux-android
-              ${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android-strip *.node
+              ${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip *.node
           - host: ubuntu-latest
             target: armv7-linux-androideabi
             build: |
@@ -122,7 +122,7 @@ jobs:
               cp ./target/armv7-linux-androideabi/release/swc .
               chmod +x ./swc
               yarn build --target armv7-linux-androideabi --cargo-flags='--no-default-features --features swc_v1'
-              ${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/arm-linux-androideabi-strip *.node
+              ${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip *.node
           - host: ubuntu-latest
             target: aarch64-unknown-linux-musl
             downloadTarget: aarch64-unknown-linux-musl
