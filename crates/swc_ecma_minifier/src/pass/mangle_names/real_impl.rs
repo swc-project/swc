@@ -208,6 +208,16 @@ where
         }
     }
 
+    fn visit_catch_clause(&mut self, node: &CatchClause) {
+        let old = self.is_pat_decl;
+        self.is_pat_decl = true;
+        node.param.visit_with(self);
+
+        self.is_pat_decl = false;
+        node.body.visit_with(self);
+        self.is_pat_decl = old;
+    }
+
     fn visit_class_decl(&mut self, node: &ClassDecl) {
         node.visit_children_with(self);
 
