@@ -7,7 +7,7 @@ include = ["Cargo.toml", "src/**/*.rs"]
 license = "Apache-2.0"
 name = "swc_html_codegen"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.12.2"
+version = "0.12.3"
 
 [lib]
 bench = false
