@@ -1,11 +1,32 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(html/codegen)** Fix quotes in attributes (#4918) ([064e504](https://github.com/swc-project/swc/commit/064e50448fb3a916ce52c537f73cedec2253ed50))
+
+
+- **(html/codegen)** Emit newline in `textarea`/`pre` (#4919) ([4f1e046](https://github.com/swc-project/swc/commit/4f1e04671dcf33fe30dcc0915ea5aa5b0bc19973))
+
+### Features
+
+
+
+- **(es/lints)** Add `default-case-last` rule (#4913) ([4fb932d](https://github.com/swc-project/swc/commit/4fb932dd0818c76feac01df7ea0c371626b62143))
+
 ### Miscellaneous Tasks
 
 
 
 - **(html/parser)** Remove unused dependencies (#4922) ([299da10](https://github.com/swc-project/swc/commit/299da10ff947eddc4a44d24f8e43a435b89e7b89))
+
+### Performance
+
+
+
+- **(html/parser)** Add a benchmark for document fragment (#4920) ([d669454](https://github.com/swc-project/swc/commit/d669454157da62f9bec4b078230e4e372efd91e3))
 
 ## [1.2.198] - 2022-06-08
 
