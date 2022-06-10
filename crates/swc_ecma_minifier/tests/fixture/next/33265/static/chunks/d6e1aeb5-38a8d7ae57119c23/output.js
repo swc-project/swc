@@ -64,7 +64,7 @@
                     logByType("log", level1, args);
                 };
                 return logByType = (name1 = name, log = log1, function(type, level, args) {
-                    var lvl = log.levels[level], lvlRegExp = new RegExp("^(" + lvl + ")$");
+                    var lvl = log.levels[level], lvlRegExp = RegExp("^(" + lvl + ")$");
                     if ("log" !== type && args.unshift(type.toUpperCase() + ":"), args.unshift(name1 + ":"), history) {
                         history.push([].concat(args));
                         var splice = history.length - 1000;
@@ -86,7 +86,7 @@
                     DEFAULT: level1
                 }, log1.level = function(lvl) {
                     if ("string" == typeof lvl) {
-                        if (!log1.levels.hasOwnProperty(lvl)) throw new Error('"' + lvl + '" in not a valid log level');
+                        if (!log1.levels.hasOwnProperty(lvl)) throw Error('"' + lvl + '" in not a valid log level');
                         level1 = lvl;
                     }
                     return level1;
@@ -94,7 +94,7 @@
                     return history ? [].concat(history) : [];
                 }, log1.history.filter = function(fname) {
                     return (history || []).filter(function(historyItem) {
-                        return new RegExp(".*" + fname + ".*").test(historyItem[0]);
+                        return RegExp(".*" + fname + ".*").test(historyItem[0]);
                     });
                 }, log1.history.clear = function() {
                     history && (history.length = 0);
@@ -179,7 +179,7 @@
                 return "string" == typeof str && Boolean(str.trim());
             }
             function throwIfWhitespace(str) {
-                if (str.indexOf(" ") >= 0) throw new Error("class has illegal whitespace characters");
+                if (str.indexOf(" ") >= 0) throw Error("class has illegal whitespace characters");
             }
             function isReal() {
                 return global_document__WEBPACK_IMPORTED_MODULE_1___default() === global_window__WEBPACK_IMPORTED_MODULE_0___default().document;
@@ -219,8 +219,7 @@
                 parent.firstChild ? parent.insertBefore(child, parent.firstChild) : parent.appendChild(child);
             }
             function hasClass(element, classToCheck) {
-                var className;
-                return (throwIfWhitespace(classToCheck), element.classList) ? element.classList.contains(classToCheck) : (className = classToCheck, new RegExp("(^|\\s)" + className + "($|\\s)")).test(element.className);
+                return (throwIfWhitespace(classToCheck), element.classList) ? element.classList.contains(classToCheck) : RegExp("(^|\\s)" + classToCheck + "($|\\s)").test(element.className);
             }
             function addClass(element, classToAdd) {
                 return element.classList ? element.classList.add(classToAdd) : hasClass(element, classToAdd) || (element.className = (element.className + " " + classToAdd).trim()), element;
@@ -623,11 +622,11 @@
             }, isValidEventType = function(type) {
                 return "string" == typeof type && /\S/.test(type) || Array.isArray(type) && !!type.length;
             }, validateTarget = function(target, obj, fnName) {
-                if (!target || !target.nodeName && !isEvented(target)) throw new Error("Invalid target for " + objName(obj) + "#" + fnName + "; must be a DOM node or evented object.");
+                if (!target || !target.nodeName && !isEvented(target)) throw Error("Invalid target for " + objName(obj) + "#" + fnName + "; must be a DOM node or evented object.");
             }, validateEventType = function(type, obj, fnName) {
-                if (!isValidEventType(type)) throw new Error("Invalid event type for " + objName(obj) + "#" + fnName + "; must be a non-empty string or array.");
+                if (!isValidEventType(type)) throw Error("Invalid event type for " + objName(obj) + "#" + fnName + "; must be a non-empty string or array.");
             }, validateListener = function(listener, obj, fnName) {
-                if ("function" != typeof listener) throw new Error("Invalid listener for " + objName(obj) + "#" + fnName + "; must be a function.");
+                if ("function" != typeof listener) throw Error("Invalid listener for " + objName(obj) + "#" + fnName + "; must be a function.");
             }, normalizeListenArgs = function(self, args, fnName) {
                 var target, type, listener, isTargetingSelf = args.length < 3 || args[0] === self || args[0] === self.eventBusEl_;
                 return isTargetingSelf ? (target = self.eventBusEl_, args.length >= 3 && args.shift(), type = args[0], listener = args[1]) : (target = args[0], type = args[1], listener = args[2]), validateTarget(target, self, fnName), validateEventType(type, self, fnName), validateListener(listener, self, fnName), listener = bind(self, listener), {
@@ -690,7 +689,7 @@
                     if (validateTarget(this.eventBusEl_, this, "trigger"), !isValidEventType(event && "string" != typeof event ? event.type : event)) {
                         var error = "Invalid event type for " + objName(this) + "#trigger; must be a non-empty string or object with a type key that has a non-empty value.";
                         if (event) (this.log || log$1).error(error);
-                        else throw new Error(error);
+                        else throw Error(error);
                     }
                     return trigger(this.eventBusEl_, event, hash);
                 }
@@ -699,7 +698,7 @@
                 void 0 === options && (options = {});
                 var eventBusKey = options.eventBusKey;
                 if (eventBusKey) {
-                    if (!target[eventBusKey].nodeName) throw new Error('The eventBusKey "' + eventBusKey + '" does not refer to an element.');
+                    if (!target[eventBusKey].nodeName) throw Error('The eventBusKey "' + eventBusKey + '" does not refer to an element.');
                     target.eventBusEl_ = target[eventBusKey];
                 } else target.eventBusEl_ = createEl("span", {
                     className: "vjs-event-bus"
@@ -848,7 +847,7 @@
                         var component, componentName, componentClassName = options.componentClass || componentName;
                         options.name = componentName;
                         var ComponentClass = Component.getComponent(componentClassName);
-                        if (!ComponentClass) throw new Error("Component " + componentClassName + " does not exist");
+                        if (!ComponentClass) throw Error("Component " + componentClassName + " does not exist");
                         if ("function" != typeof ComponentClass) return null;
                         component = new ComponentClass(this.player_ || this, options);
                     } else component = child;
@@ -954,7 +953,7 @@
                     return -1 !== pxIndex ? parseInt(val.slice(0, pxIndex), 10) : parseInt(this.el_["offset" + toTitleCase$1(widthOrHeight)], 10);
                 }, _proto.currentDimension = function(widthOrHeight) {
                     var computedWidthOrHeight = 0;
-                    if ("width" !== widthOrHeight && "height" !== widthOrHeight) throw new Error("currentDimension only accepts width or height value");
+                    if ("width" !== widthOrHeight && "height" !== widthOrHeight) throw Error("currentDimension only accepts width or height value");
                     if (computedWidthOrHeight = computedStyle(this.el_, widthOrHeight), 0 === (computedWidthOrHeight = parseFloat(computedWidthOrHeight)) || isNaN(computedWidthOrHeight)) {
                         var rule = "offset" + toTitleCase$1(widthOrHeight);
                         computedWidthOrHeight = this.el_[rule];
@@ -1067,16 +1066,16 @@
                         }), _this5.clearingTimersOnDispose_ = !1;
                     }));
                 }, Component.registerComponent = function(name, ComponentToRegister) {
-                    if ("string" != typeof name || !name) throw new Error('Illegal component name, "' + name + '"; must be a non-empty string.');
-                    var reason, Tech = Component.getComponent("Tech"), isTech = Tech && Tech.isTech(ComponentToRegister), isComp = Component === ComponentToRegister || Component.prototype.isPrototypeOf(ComponentToRegister.prototype);
-                    if (isTech || !isComp) throw reason = isTech ? "techs must be registered using Tech.registerTech()" : "must be a Component subclass", new Error('Illegal component, "' + name + '"; ' + reason + ".");
+                    if ("string" != typeof name || !name) throw Error('Illegal component name, "' + name + '"; must be a non-empty string.');
+                    var Tech = Component.getComponent("Tech"), isTech = Tech && Tech.isTech(ComponentToRegister), isComp = Component === ComponentToRegister || Component.prototype.isPrototypeOf(ComponentToRegister.prototype);
+                    if (isTech || !isComp) throw Error('Illegal component, "' + name + '"; ' + (isTech ? "techs must be registered using Tech.registerTech()" : "must be a Component subclass") + ".");
                     name = toTitleCase$1(name), Component.components_ || (Component.components_ = {});
                     var Player = Component.getComponent("Player");
                     if ("Player" === name && Player && Player.players) {
                         var players = Player.players, playerNames = Object.keys(players);
                         if (players && playerNames.length > 0 && playerNames.map(function(pname) {
                             return players[pname];
-                        }).every(Boolean)) throw new Error("Can not register Player component after player has been created.");
+                        }).every(Boolean)) throw Error("Can not register Player component after player has been created.");
                     }
                     return Component.components_[name] = ComponentToRegister, Component.components_[toLowerCase(name)] = ComponentToRegister, ComponentToRegister;
                 }, Component.getComponent = function(name) {
@@ -1085,7 +1084,7 @@
             }();
             function getRange(fnName1, valueIndex, ranges, rangeIndex) {
                 return !function(fnName, index, maxIndex) {
-                    if ("number" != typeof index || index < 0 || index > maxIndex) throw new Error("Failed to execute '" + fnName + "' on 'TimeRanges': The index provided (" + index + ") is non-numeric or out of bounds (0-" + maxIndex + ").");
+                    if ("number" != typeof index || index < 0 || index > maxIndex) throw Error("Failed to execute '" + fnName + "' on 'TimeRanges': The index provided (" + index + ") is non-numeric or out of bounds (0-" + maxIndex + ").");
                 }(fnName1, rangeIndex, ranges.length - 1), ranges[rangeIndex][valueIndex];
             }
             function createTimeRangesObj(ranges) {
@@ -1093,10 +1092,10 @@
                 return timeRangesObj = void 0 === ranges || 0 === ranges.length ? {
                     length: 0,
                     start: function() {
-                        throw new Error("This TimeRanges object is empty");
+                        throw Error("This TimeRanges object is empty");
                     },
                     end: function() {
-                        throw new Error("This TimeRanges object is empty");
+                        throw Error("This TimeRanges object is empty");
                     }
                 } : {
                     length: ranges.length,
@@ -1593,7 +1592,7 @@
                 }));
             }, TextTrack1 = function(_Track) {
                 function TextTrack(options) {
-                    if (void 0 === options && (options = {}), !options.tech) throw new Error("A tech was not provided.");
+                    if (void 0 === options && (options = {}), !options.tech) throw Error("A tech was not provided.");
                     var _this, settings = mergeOptions$3(options, {
                         kind: TextTrackKind[options.kind] || "subtitles",
                         language: options.language || options.srclang || ""
@@ -1914,7 +1913,7 @@
                     });
                 }, _proto.addTextTrack = function(kind, label, language) {
                     var self, kind1, label1, language1, options, tracks, track;
-                    if (!kind) throw new Error("TextTrack kind is required but was not provided");
+                    if (!kind) throw Error("TextTrack kind is required but was not provided");
                     return self = this, kind1 = kind, label1 = label, language1 = language, void 0 === options && (options = {}), tracks = self.textTracks(), options.kind = kind1, label1 && (options.label = label1), language1 && (options.language = language1), options.tech = self, track = new ALL.text.TrackClass(options), tracks.addTrack(track), track;
                 }, _proto.createRemoteTextTrack = function(options) {
                     var track = mergeOptions$3(options, {
@@ -1947,9 +1946,9 @@
                 }, Tech.isTech = function(component) {
                     return component.prototype instanceof Tech || component instanceof Tech || component === Tech;
                 }, Tech.registerTech = function(name, tech) {
-                    if (Tech.techs_ || (Tech.techs_ = {}), !Tech.isTech(tech)) throw new Error("Tech " + name + " must be a Tech");
-                    if (!Tech.canPlayType) throw new Error("Techs must have a static canPlayType method on them");
-                    if (!Tech.canPlaySource) throw new Error("Techs must have a static canPlaySource method on them");
+                    if (Tech.techs_ || (Tech.techs_ = {}), !Tech.isTech(tech)) throw Error("Tech " + name + " must be a Tech");
+                    if (!Tech.canPlayType) throw Error("Techs must have a static canPlayType method on them");
+                    if (!Tech.canPlaySource) throw Error("Techs must have a static canPlaySource method on them");
                     return name = toTitleCase$1(name), Tech.techs_[name] = tech, Tech.techs_[toLowerCase(name)] = tech, "Tech" !== name && Tech.defaultTechOrder_.push(name), tech;
                 }, Tech.getTech = function(name) {
                     return name ? Tech.techs_ && Tech.techs_[name] ? Tech.techs_[name] : (name = toTitleCase$1(name), global_window__WEBPACK_IMPORTED_MODULE_0___default() && global_window__WEBPACK_IMPORTED_MODULE_0___default().videojs && global_window__WEBPACK_IMPORTED_MODULE_0___default().videojs[name]) ? (log$1.warn("The " + name + " tech was added to the videojs object when it should be registered using videojs.registerTech(name, tech)"), global_window__WEBPACK_IMPORTED_MODULE_0___default().videojs[name]) : void 0 : void 0;
@@ -2238,7 +2237,7 @@
                 var hex;
                 if (4 === color.length) hex = color[1] + color[1] + color[2] + color[2] + color[3] + color[3];
                 else if (7 === color.length) hex = color.slice(1);
-                else throw new Error("Invalid color code provided, " + color + "; must be formatted as e.g. #f0e or #f604e2.");
+                else throw Error("Invalid color code provided, " + color + "; must be formatted as e.g. #f0e or #f604e2.");
                 return "rgba(" + parseInt(hex.slice(0, 2), 16) + "," + parseInt(hex.slice(2, 4), 16) + "," + parseInt(hex.slice(4, 6), 16) + "," + opacity + ")";
             }
             function tryUpdateStyle(el, style, rule) {
@@ -4893,7 +4892,7 @@
                     }
                 }, _proto.exitFullScreen = function() {
                     if (!this.el_.webkitDisplayingFullscreen) {
-                        this.trigger("fullscreenerror", new Error("The video is not fullscreen"));
+                        this.trigger("fullscreenerror", Error("The video is not fullscreen"));
                         return;
                     }
                     this.el_.webkitExitFullScreen();
@@ -5228,7 +5227,7 @@
                         return _this.handleTechTouchEnd_(e);
                     }, _this.boundHandleTechTap_ = function(e) {
                         return _this.handleTechTap_(e);
-                    }, _this.isFullscreen_ = !1, _this.log = createLogger(_this.id_), _this.fsApi_ = FullscreenApi, _this.isPosterFromTech_ = !1, _this.queuedCallbacks_ = [], _this.isReady_ = !1, _this.hasStarted_ = !1, _this.userActive_ = !1, _this.debugEnabled_ = !1, !_this.options_ || !_this.options_.techOrder || !_this.options_.techOrder.length) throw new Error("No techOrder specified. Did you overwrite videojs.options instead of just changing the properties you want to override?");
+                    }, _this.isFullscreen_ = !1, _this.log = createLogger(_this.id_), _this.fsApi_ = FullscreenApi, _this.isPosterFromTech_ = !1, _this.queuedCallbacks_ = [], _this.isReady_ = !1, _this.hasStarted_ = !1, _this.userActive_ = !1, _this.debugEnabled_ = !1, !_this.options_ || !_this.options_.techOrder || !_this.options_.techOrder.length) throw Error("No techOrder specified. Did you overwrite videojs.options instead of just changing the properties you want to override?");
                     if (_this.tag = tag, _this.tagAttributes = tag && getAttributes(tag), _this.language(_this.options_.language), options.languages) {
                         var languagesToLower = {};
                         Object.getOwnPropertyNames(options.languages).forEach(function(name) {
@@ -5236,7 +5235,7 @@
                         }), _this.languages_ = languagesToLower;
                     } else _this.languages_ = Player.prototype.options_.languages;
                     _this.resetCache_(), _this.poster_ = options.poster || "", _this.controls_ = !!options.controls, tag.controls = !1, tag.removeAttribute("controls"), _this.changingSrc_ = !1, _this.playCallbacks_ = [], _this.playTerminatedQueue_ = [], tag.hasAttribute("autoplay") ? _this.autoplay(!0) : _this.autoplay(_this.options_.autoplay), options.plugins && Object.keys(options.plugins).forEach(function(name) {
-                        if ("function" != typeof _this[name]) throw new Error('plugin "' + name + '" does not exist');
+                        if ("function" != typeof _this[name]) throw Error('plugin "' + name + '" does not exist');
                     }), _this.scrubbing_ = !1, _this.el_ = _this.createEl(), evented((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), {
                         eventBusKey: "el_"
                     }), _this.fsApi_.requestFullscreen && (on(global_document__WEBPACK_IMPORTED_MODULE_1___default(), _this.fsApi_.fullscreenchange, _this.boundDocumentFullscreenChange_), _this.on(_this.fsApi_.fullscreenchange, _this.boundDocumentFullscreenChange_)), _this.fluid_ && _this.on([
@@ -5332,7 +5331,7 @@
                     this.fill_ = !!bool, bool ? (this.addClass("vjs-fill"), this.fluid(!1)) : this.removeClass("vjs-fill");
                 }, _proto.aspectRatio = function(ratio) {
                     if (void 0 === ratio) return this.aspectRatio_;
-                    if (!/^\d+\:\d+$/.test(ratio)) throw new Error("Improper value supplied for aspect ratio. The format should be width:height, for example 16:9.");
+                    if (!/^\d+\:\d+$/.test(ratio)) throw Error("Improper value supplied for aspect ratio. The format should be width:height, for example 16:9.");
                     this.aspectRatio_ = ratio, this.fluid(!0), this.updateStyleEl_();
                 }, _proto.updateStyleEl_ = function() {
                     if (!0 === global_window__WEBPACK_IMPORTED_MODULE_0___default().VIDEOJS_NO_DYNAMIC_STYLE) {
@@ -5373,7 +5372,7 @@
                         techOptions[props.getterName] = _this4[props.privateName];
                     }), assign(techOptions, this.options_[titleTechName]), assign(techOptions, this.options_[camelTechName]), assign(techOptions, this.options_[techName.toLowerCase()]), this.tag && (techOptions.tag = this.tag), source && source.src === this.cache_.src && this.cache_.currentTime > 0 && (techOptions.startTime = this.cache_.currentTime);
                     var TechClass = Tech1.getTech(techName);
-                    if (!TechClass) throw new Error("No Tech named '" + titleTechName + "' exists! '" + titleTechName + "' should be registered using videojs.registerTech()'");
+                    if (!TechClass) throw Error("No Tech named '" + titleTechName + "' exists! '" + titleTechName + "' should be registered using videojs.registerTech()'");
                     this.tech_ = new TechClass(techOptions), this.tech_.ready(bind(this, this.handleTechReady_), !0), textTrackConverter.jsonToTextTracks(this.textTracksJson_ || [], this.tech_), TECH_EVENTS_RETRIGGER.forEach(function(event) {
                         _this4.on(_this4.tech_, event, function(e) {
                             return _this4["handleTech" + toTitleCase$1(event) + "_"](e);
@@ -5452,7 +5451,7 @@
                             _this6.playTerminatedQueue_.push(restoreMuted);
                             var mutedPromise = _this6.play();
                             if (isPromise(mutedPromise)) return mutedPromise.catch(function(err) {
-                                throw restoreMuted(), new Error("Rejection at manualAutoplay. Restoring muted value. " + (err || ""));
+                                throw restoreMuted(), Error("Rejection at manualAutoplay. Restoring muted value. " + (err || ""));
                             });
                         };
                         if ("any" !== type || this.muted() ? promise = "muted" !== type || this.muted() ? this.play() : resolveMuted() : isPromise(promise = this.play()) && (promise = promise.catch(resolveMuted)), isPromise(promise)) return promise.then(function() {
@@ -6267,7 +6266,7 @@
                 };
             }, Plugin1 = function() {
                 function Plugin(player) {
-                    if (this.constructor === Plugin) throw new Error("Plugin must be sub-classed; not directly instantiated.");
+                    if (this.constructor === Plugin) throw Error("Plugin must be sub-classed; not directly instantiated.");
                     this.player = player, this.log || (this.log = this.player.log.createLogger(this.name)), evented(this), delete this.trigger, stateful(this, this.constructor.defaultState), markPluginAsActive(player, this.name), this.dispose = this.dispose.bind(this), player.on("dispose", this.dispose);
                 }
                 var _proto = Plugin.prototype;
@@ -6284,13 +6283,13 @@
                     var p = "string" == typeof plugin ? getPlugin(plugin) : plugin;
                     return "function" == typeof p && !Plugin.prototype.isPrototypeOf(p.prototype);
                 }, Plugin.registerPlugin = function(name, plugin) {
-                    if ("string" != typeof name) throw new Error('Illegal plugin name, "' + name + '", must be a string, was ' + typeof name + ".");
+                    if ("string" != typeof name) throw Error('Illegal plugin name, "' + name + '", must be a string, was ' + typeof name + ".");
                     if (pluginExists(name)) log$1.warn('A plugin named "' + name + '" already exists. You may want to avoid re-registering plugins!');
-                    else if (Player1.prototype.hasOwnProperty(name)) throw new Error('Illegal plugin name, "' + name + '", cannot share a name with an existing player method!');
-                    if ("function" != typeof plugin) throw new Error('Illegal plugin for "' + name + '", must be a function, was ' + typeof plugin + ".");
+                    else if (Player1.prototype.hasOwnProperty(name)) throw Error('Illegal plugin name, "' + name + '", cannot share a name with an existing player method!');
+                    if ("function" != typeof plugin) throw Error('Illegal plugin for "' + name + '", must be a function, was ' + typeof plugin + ".");
                     return pluginStorage[name] = plugin, name !== BASE_PLUGIN_NAME && (Plugin.isBasic(plugin) ? Player1.prototype[name] = createBasicPlugin(name, plugin) : Player1.prototype[name] = createPluginFactory(name, plugin)), plugin;
                 }, Plugin.deregisterPlugin = function(name) {
-                    if (name === BASE_PLUGIN_NAME) throw new Error("Cannot de-register base plugin.");
+                    if (name === BASE_PLUGIN_NAME) throw Error("Cannot de-register base plugin.");
                     pluginExists(name) && (delete pluginStorage[name], delete Player1.prototype[name]);
                 }, Plugin.getPlugins = function(names) {
                     var result;
@@ -6923,7 +6922,7 @@
                 return update && lastDuration ? 1000 * lastDuration : 500 * (media.partTargetDuration || media.targetDuration || 10);
             }, PlaylistLoader1 = function(_EventTarget) {
                 function PlaylistLoader(src, vhs, options) {
-                    if (void 0 === options && (options = {}), _this = _EventTarget.call(this) || this, !src) throw new Error("A non-empty playlist URL or object is required");
+                    if (void 0 === options && (options = {}), _this = _EventTarget.call(this) || this, !src) throw Error("A non-empty playlist URL or object is required");
                     _this.logger_ = logger("PlaylistLoader");
                     var _this, _options = options, _options$withCredenti = _options.withCredentials, _options$handleManife = _options.handleManifestRedirects;
                     _this.src = src, _this.vhs_ = vhs, _this.withCredentials = void 0 !== _options$withCredenti && _options$withCredenti, _this.handleManifestRedirects = void 0 !== _options$handleManife && _options$handleManife;
@@ -6999,9 +6998,9 @@
                 }, _proto.media = function(playlist, shouldDelay) {
                     var _this4 = this;
                     if (!playlist) return this.media_;
-                    if ("HAVE_NOTHING" === this.state) throw new Error("Cannot switch media playlist from " + this.state);
+                    if ("HAVE_NOTHING" === this.state) throw Error("Cannot switch media playlist from " + this.state);
                     if ("string" == typeof playlist) {
-                        if (!this.master.playlists[playlist]) throw new Error("Unknown playlist URI: " + playlist);
+                        if (!this.master.playlists[playlist]) throw Error("Unknown playlist URI: " + playlist);
                         playlist = this.master.playlists[playlist];
                     }
                     if (global_window__WEBPACK_IMPORTED_MODULE_0___default().clearTimeout(this.finalRenditionTimeout), shouldDelay) {
@@ -7103,7 +7102,7 @@
                 }, PlaylistLoader;
             }(EventTarget$1), videojsXHR = videojs.xhr, mergeOptions$1 = videojs.mergeOptions, callbackWrapper = function(request, error, response, callback) {
                 var reqResponse = "arraybuffer" === request.responseType ? request.response : request.responseText;
-                error || !reqResponse || (request.responseTime = Date.now(), request.roundTripTime = request.responseTime - request.requestTime, request.bytesReceived = reqResponse.byteLength || reqResponse.length, request.bandwidth || (request.bandwidth = Math.floor(request.bytesReceived / request.roundTripTime * 8000))), response.headers && (request.responseHeaders = response.headers), error && "ETIMEDOUT" === error.code && (request.timedout = !0), error || request.aborted || 200 === response.statusCode || 206 === response.statusCode || 0 === response.statusCode || (error = new Error("XHR Failed with a response of: " + (request && (reqResponse || request.responseText)))), callback(error, request);
+                error || !reqResponse || (request.responseTime = Date.now(), request.roundTripTime = request.responseTime - request.requestTime, request.bytesReceived = reqResponse.byteLength || reqResponse.length, request.bandwidth || (request.bandwidth = Math.floor(request.bytesReceived / request.roundTripTime * 8000))), response.headers && (request.responseHeaders = response.headers), error && "ETIMEDOUT" === error.code && (request.timedout = !0), error || request.aborted || 200 === response.statusCode || 206 === response.statusCode || 0 === response.statusCode || (error = Error("XHR Failed with a response of: " + (request && (reqResponse || request.responseText)))), callback(error, request);
             }, xhrFactory = function() {
                 var xhr = function XhrFunction(options, callback) {
                     options = mergeOptions$1({
@@ -7222,7 +7221,7 @@
                 return !0;
             }, getProgramTime = function(_ref) {
                 var playlist = _ref.playlist, _ref$time = _ref.time, time = void 0 === _ref$time ? void 0 : _ref$time, callback = _ref.callback;
-                if (!callback) throw new Error("getProgramTime: callback must be provided");
+                if (!callback) throw Error("getProgramTime: callback must be provided");
                 if (!playlist || void 0 === time) return callback({
                     message: "getProgramTime: playlist and time must be provided"
                 });
@@ -7240,7 +7239,7 @@
                 return programTime && (programTimeObject.programDateTime = programTime.toISOString()), callback(null, programTimeObject);
             }, seekToProgramTime1 = function seekToProgramTime(_ref2) {
                 var programTime = _ref2.programTime, playlist = _ref2.playlist, _ref2$retryCount = _ref2.retryCount, retryCount = void 0 === _ref2$retryCount ? 2 : _ref2$retryCount, seekTo = _ref2.seekTo, _ref2$pauseAfterSeek = _ref2.pauseAfterSeek, pauseAfterSeek = void 0 === _ref2$pauseAfterSeek || _ref2$pauseAfterSeek, tech = _ref2.tech, callback = _ref2.callback;
-                if (!callback) throw new Error("seekToProgramTime: callback must be provided");
+                if (!callback) throw Error("seekToProgramTime: callback must be provided");
                 if (void 0 === programTime || !playlist || !seekTo) return callback({
                     message: "seekToProgramTime: programTime, seekTo and playlist must be provided"
                 });
@@ -7360,7 +7359,7 @@
                 function DashPlaylistLoader(srcUrlOrPlaylist, vhs, options, masterPlaylistLoader) {
                     void 0 === options && (options = {}), (_this = _EventTarget.call(this) || this).masterPlaylistLoader_ = masterPlaylistLoader || (0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), masterPlaylistLoader || (_this.isMaster_ = !0);
                     var _this, _options = options, _options$withCredenti = _options.withCredentials, _options$handleManife = _options.handleManifestRedirects;
-                    if (_this.vhs_ = vhs, _this.withCredentials = void 0 !== _options$withCredenti && _options$withCredenti, _this.handleManifestRedirects = void 0 !== _options$handleManife && _options$handleManife, !srcUrlOrPlaylist) throw new Error("A non-empty playlist URL or object is required");
+                    if (_this.vhs_ = vhs, _this.withCredentials = void 0 !== _options$withCredenti && _options$withCredenti, _this.handleManifestRedirects = void 0 !== _options$handleManife && _options$handleManife, !srcUrlOrPlaylist) throw Error("A non-empty playlist URL or object is required");
                     return _this.on("minimumUpdatePeriod", function() {
                         _this.refreshXml_();
                     }), _this.on("mediaupdatetimeout", function() {
@@ -7436,10 +7435,10 @@
                 }, _proto.media = function(playlist) {
                     var _this3 = this;
                     if (!playlist) return this.media_;
-                    if ("HAVE_NOTHING" === this.state) throw new Error("Cannot switch media playlist from " + this.state);
+                    if ("HAVE_NOTHING" === this.state) throw Error("Cannot switch media playlist from " + this.state);
                     var startingState = this.state;
                     if ("string" == typeof playlist) {
-                        if (!this.masterPlaylistLoader_.master.playlists[playlist]) throw new Error("Unknown playlist URI: " + playlist);
+                        if (!this.masterPlaylistLoader_.master.playlists[playlist]) throw Error("Unknown playlist URI: " + playlist);
                         playlist = this.masterPlaylistLoader_.master.playlists[playlist];
                     }
                     var mediaChange = !this.media_ || playlist.id !== this.media_.id;
@@ -7553,7 +7552,7 @@
                     });
                 }, _proto.refreshMedia_ = function(mediaID) {
                     var _this9 = this;
-                    if (!mediaID) throw new Error("refreshMedia_ must take a media id");
+                    if (!mediaID) throw Error("refreshMedia_ must take a media id");
                     this.media_ && this.isMaster_ && this.handleMaster_();
                     var playlists = this.masterPlaylistLoader_.master.playlists, mediaChanged = !this.media_ || this.media_ !== playlists[mediaID];
                     mediaChanged ? this.media_ = playlists[mediaID] : this.trigger("playlistunchanged"), this.mediaUpdateTimeout || _this9.media().endList || (_this9.mediaUpdateTimeout = global_window__WEBPACK_IMPORTED_MODULE_0___default().setTimeout(function() {
@@ -9644,7 +9643,7 @@
                         return 8 * workingBytesAvailable + workingBitsAvailable;
                     }, this.loadWord = function() {
                         var position = workingData.byteLength - workingBytesAvailable, workingBytes = new Uint8Array(4), availableBytes = Math.min(4, workingBytesAvailable);
-                        if (0 === availableBytes) throw new Error("no bytes available");
+                        if (0 === availableBytes) throw Error("no bytes available");
                         workingBytes.set(workingData.subarray(position, position + availableBytes)), workingWord = new DataView(workingBytes.buffer).getUint32(0), workingBitsAvailable = 8 * availableBytes, workingBytesAvailable -= availableBytes;
                     }, this.skipBits = function(count) {
                         var skipBytes;
@@ -12782,7 +12781,7 @@
                     });
                 }, _proto.addOrChangeSourceBuffers = function(codecs) {
                     var _this2 = this;
-                    if (!codecs || "object" != typeof codecs || 0 === Object.keys(codecs).length) throw new Error("Cannot addOrChangeSourceBuffers to undefined codecs");
+                    if (!codecs || "object" != typeof codecs || 0 === Object.keys(codecs).length) throw Error("Cannot addOrChangeSourceBuffers to undefined codecs");
                     Object.keys(codecs).forEach(function(type) {
                         var codec = codecs[type];
                         if (!_this2.hasCreatedSourceBuffers()) return _this2.addSourceBuffer(type, codec);
@@ -13317,7 +13316,7 @@
                     }, fn(module, module.exports), module.exports;
                 }
                 function commonjsRequire() {
-                    throw new Error("Dynamic requires are not currently supported by @rollup/plugin-commonjs");
+                    throw Error("Dynamic requires are not currently supported by @rollup/plugin-commonjs");
                 }
                 var createClass = createCommonjsModule(function(module) {
                     function _defineProperties(target, props) {
@@ -13404,7 +13403,7 @@
                             ], 
                         ];
                         var i, j, tmp, sbox = this._tables[0][4], decTable = this._tables[1], keyLen = key.length, rcon = 1;
-                        if (4 !== keyLen && 6 !== keyLen && 8 !== keyLen) throw new Error("Invalid aes key size");
+                        if (4 !== keyLen && 6 !== keyLen && 8 !== keyLen) throw Error("Invalid aes key size");
                         var encKey = key.slice(0), decKey = [];
                         for(this._key = [
                             encKey,
@@ -13799,7 +13798,7 @@
                 function MasterPlaylistController(options) {
                     _this = _videojs$EventTarget.call(this) || this;
                     var _this, src = options.src, handleManifestRedirects = options.handleManifestRedirects, withCredentials = options.withCredentials, tech = options.tech, bandwidth = options.bandwidth, externVhs = options.externVhs, useCueTags = options.useCueTags, blacklistDuration = options.blacklistDuration, enableLowInitialPlaylist = options.enableLowInitialPlaylist, sourceType = options.sourceType, cacheEncryptionKeys = options.cacheEncryptionKeys, experimentalBufferBasedABR = options.experimentalBufferBasedABR, experimentalLeastPixelDiffSelector = options.experimentalLeastPixelDiffSelector, captionServices = options.captionServices;
-                    if (!src) throw new Error("A non-empty playlist URL or JSON manifest string is required");
+                    if (!src) throw Error("A non-empty playlist URL or JSON manifest string is required");
                     var maxPlaylistRetries = options.maxPlaylistRetries;
                     null == maxPlaylistRetries && (maxPlaylistRetries = 1 / 0), Vhs$1 = externVhs, _this.experimentalBufferBasedABR = Boolean(experimentalBufferBasedABR), _this.experimentalLeastPixelDiffSelector = Boolean(experimentalLeastPixelDiffSelector), _this.withCredentials = withCredentials, _this.tech_ = tech, _this.vhs_ = tech.vhs, _this.sourceType_ = sourceType, _this.useCueTags_ = useCueTags, _this.blacklistDuration = blacklistDuration, _this.maxPlaylistRetries = maxPlaylistRetries, _this.enableLowInitialPlaylist = enableLowInitialPlaylist, _this.useCueTags_ && (_this.cueTagsTrack_ = _this.tech_.addTextTrack("metadata", "ad-cues"), _this.cueTagsTrack_.inBandMetadataTrackDispatchType = ""), _this.requestOptions_ = {
                         withCredentials: withCredentials,
@@ -14661,7 +14660,7 @@
                 lastBandwidthSelector: lastBandwidthSelector,
                 movingAverageBandwidthSelector: function(decay) {
                     var average = -1, lastSystemBandwidth = -1;
-                    if (decay < 0 || decay > 1) throw new Error("Moving average bandwidth decay must be between 0 and 1.");
+                    if (decay < 0 || decay > 1) throw Error("Moving average bandwidth decay must be between 0 and 1.");
                     return function() {
                         var pixelRatio = this.useDevicePixelRatio && global_window__WEBPACK_IMPORTED_MODULE_0___default().devicePixelRatio || 1;
                         return average < 0 && (average = this.systemBandwidth, lastSystemBandwidth = this.systemBandwidth), this.systemBandwidth > 0 && this.systemBandwidth !== lastSystemBandwidth && (average = decay * this.systemBandwidth + (1 - decay) * average, lastSystemBandwidth = this.systemBandwidth), simpleSelector(this.playlists.master, average, parseInt(safeGetComputedStyle(this.tech_.el(), "width"), 10) * pixelRatio, parseInt(safeGetComputedStyle(this.tech_.el(), "height"), 10) * pixelRatio, this.limitRenditionByPlayerDimensions, this.masterPlaylistController_);
@@ -14816,7 +14815,7 @@
                         }), _this.player_ = _player;
                     }
                     if (_this.tech_ = tech, _this.source_ = source, _this.stats = {}, _this.ignoreNextSeekingEvent_ = !1, _this.setOptions_(), _this.options_.overrideNative && tech.overrideNativeAudioTracks && tech.overrideNativeVideoTracks) tech.overrideNativeAudioTracks(!0), tech.overrideNativeVideoTracks(!0);
-                    else if (_this.options_.overrideNative && (tech.featuresNativeVideoTracks || tech.featuresNativeAudioTracks)) throw new Error("Overriding native HLS requires emulated tracks. See https://git.io/vMpjB");
+                    else if (_this.options_.overrideNative && (tech.featuresNativeVideoTracks || tech.featuresNativeAudioTracks)) throw Error("Overriding native HLS requires emulated tracks. See https://git.io/vMpjB");
                     return _this.on(global_document__WEBPACK_IMPORTED_MODULE_1___default(), [
                         "fullscreenchange",
                         "webkitfullscreenchange",

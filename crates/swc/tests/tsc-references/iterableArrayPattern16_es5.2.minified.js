@@ -4,7 +4,7 @@ import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
 import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
 import _create_super from "@swc/helpers/lib/_create_super.js";
 (function() {
-    for(var _len = arguments.length, _tmp = Array(_len), _key = 0; _key < _len; _key++)_tmp[_key] = arguments[_key];
+    for(var _len = arguments.length, _tmp = new Array(_len), _key = 0; _key < _len; _key++)_tmp[_key] = arguments[_key];
     var __tmp = _sliced_to_array(_tmp, 2);
     __tmp[0], __tmp[1];
 }).apply(void 0, _to_consumable_array(new FooIteratorIterator));

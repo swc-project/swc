@@ -9,5 +9,5 @@ function _templateObject() {
     }, data;
 }
 !function(x) {
-    for(var _len = arguments.length, ys = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)ys[_key - 1] = arguments[_key];
+    for(var _len = arguments.length, ys = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)ys[_key - 1] = arguments[_key];
 }(_templateObject(), 0);

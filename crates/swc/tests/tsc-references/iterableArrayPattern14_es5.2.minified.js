@@ -29,7 +29,7 @@ var Bar = function() {
     }, FooIterator;
 }();
 !function() {
-    for(var _len = arguments.length, _tmp = Array(_len), _key = 0; _key < _len; _key++)_tmp[_key] = arguments[_key];
+    for(var _len = arguments.length, _tmp = new Array(_len), _key = 0; _key < _len; _key++)_tmp[_key] = arguments[_key];
     var __tmp = _to_array(_tmp);
     __tmp[0], __tmp.slice(1);
 }(new FooIterator);

@@ -43,7 +43,7 @@ function _templateObject3() {
     }, data;
 }
 function tempTag1() {
-    for(var _len = arguments.length, rest = Array(_len), _key = 0; _key < _len; _key++)rest[_key] = arguments[_key];
+    for(var _len = arguments.length, rest = new Array(_len), _key = 0; _key < _len; _key++)rest[_key] = arguments[_key];
 }
 tempTag1(_templateObject(), function(x) {
     return x(void 0), x;

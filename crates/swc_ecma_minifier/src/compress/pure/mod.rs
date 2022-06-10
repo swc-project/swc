@@ -17,7 +17,6 @@ use crate::{
     MAX_PAR_DEPTH,
 };
 
-mod array;
 mod arrows;
 mod bools;
 mod conds;
@@ -372,7 +371,7 @@ impl VisitMut for Pure<'_> {
 
         self.compress_useless_cond_expr(e);
 
-        self.remove_array_new(e);
+        self.remove_new(e);
     }
 
     fn visit_mut_expr_stmt(&mut self, s: &mut ExprStmt) {

@@ -237,7 +237,7 @@ function u(a) {
     return a.replace(s, "\\$&");
 }
 function v(a) {
-    return new RegExp("^(?:" + a.map(u).join("|") + ")", "i");
+    return RegExp("^(?:" + a.map(u).join("|") + ")", "i");
 }
 function w(a) {
     return new Map(a.map(function(a, b) {

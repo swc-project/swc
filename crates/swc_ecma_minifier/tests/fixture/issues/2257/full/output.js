@@ -274,7 +274,7 @@
                             "auth",
                             "setAuth", 
                         ])), pageConfigAuth = pageConfig.auth;
-                        if (pageConfigAuth && !Array.isArray(pageConfigAuth)) throw new Error("pageConfig.auth must be an array");
+                        if (pageConfigAuth && !Array.isArray(pageConfigAuth)) throw Error("pageConfig.auth must be an array");
                         return Array.isArray(pageConfigAuth) && pageConfigAuth.length && !Object.keys(auth).filter(function(item) {
                             return !!pageConfigAuth.includes(item) && auth[item];
                         }).length ? authConfig.NoAuthFallback ? "function" == typeof authConfig.NoAuthFallback ? _jsxRuntime.jsx(authConfig.NoAuthFallback, {}) : authConfig.NoAuthFallback : null : _jsxRuntime.jsx(PageComponent, swcHelpers.objectSpread({}, rest));
@@ -583,7 +583,7 @@
                     return "" !== str;
                 });
                 return filterStrArray.forEach(function(str, index) {
-                    if ("string" != typeof str) throw new Error("Path must be a string. Received ".concat(str));
+                    if ("string" != typeof str) throw Error("Path must be a string. Received ".concat(str));
                     var routePath = str;
                     index > 0 && (routePath = routePath.replace(/^[/]+/, "")), routePath = index < filterStrArray.length - 1 ? routePath.replace(/[/]+$/, "") : routePath.replace(/[/]+$/, "/"), resultArray.push(routePath);
                 }), resultArray.join("/");
@@ -715,7 +715,7 @@
             var _react_17_0_2_react = __webpack_require__(59301), objectWithoutPropertiesLoose = __webpack_require__(21617), esm_extends = __webpack_require__(87062), inheritsLoose = __webpack_require__(48861), _react_is_16_13_1_react_is = __webpack_require__(99234), hoist_non_react_statics_cjs = __webpack_require__(94266), hoist_non_react_statics_cjs_default = __webpack_require__.n(hoist_non_react_statics_cjs);
             function invariant(condition, message) {
                 if (!condition) {
-                    var error = new Error("loadable: " + message);
+                    var error = Error("loadable: " + message);
                     throw error.framesToPop = 1, error.name = "Invariant Violation", error;
                 }
             }
@@ -759,7 +759,7 @@
                     }
                     function resolve(module, props, Loadable) {
                         var Component = options.resolveComponent ? options.resolveComponent(module, props) : defaultResolveComponent(module);
-                        if (options.resolveComponent && !(0, _react_is_16_13_1_react_is.isValidElementType)(Component)) throw new Error("resolveComponent returned something that is not a React component!");
+                        if (options.resolveComponent && !(0, _react_is_16_13_1_react_is.isValidElementType)(Component)) throw Error("resolveComponent returned something that is not a React component!");
                         return hoist_non_react_statics_cjs_default()(Loadable, Component, {
                             preload: !0
                         }), Component;
@@ -919,7 +919,7 @@
                         if (extElement) JSON.parse(extElement.textContent).namedChunks.forEach(function(chunkName) {
                             LOADABLE_SHARED.initialChunks[chunkName] = !0;
                         });
-                        else throw new Error("loadable-component: @loadable/server does not match @loadable/component");
+                        else throw Error("loadable-component: @loadable/server does not match @loadable/component");
                     }
                 }
                 if (!requiredChunks) return warn("`loadableReady()` requires state, please use `getScriptTags` or `getScriptElements` server-side"), done(), Promise.resolve();
@@ -1079,7 +1079,7 @@
                 if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
             }
             function _classNameTDZError(name) {
-                throw new Error('Class "' + name + '" cannot be referenced in computed property keys.');
+                throw Error('Class "' + name + '" cannot be referenced in computed property keys.');
             }
             function _classPrivateFieldGet(receiver, privateMap) {
                 if (!privateMap.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
@@ -1494,7 +1494,7 @@
                 });
             }
             function _initializerWarningHelper(descriptor, context) {
-                throw new Error("Decorating class property failed. Please ensure that proposal-class-properties is enabled and set to use loose mode. To use proposal-class-properties in spec mode with decorators, wait for the next major version of decorators in stage 2.");
+                throw Error("Decorating class property failed. Please ensure that proposal-class-properties is enabled and set to use loose mode. To use proposal-class-properties in spec mode with decorators, wait for the next major version of decorators in stage 2.");
             }
             function _instanceof(left, right) {
                 return null != right && "undefined" != typeof Symbol && right[Symbol.hasInstance] ? right[Symbol.hasInstance](left) : left instanceof right;
@@ -1594,7 +1594,7 @@
                 return call && ("object" === _type_of_typeof(call) || "function" == typeof call) ? call : _assertThisInitialized(self);
             }
             function _readOnlyError(name) {
-                throw new Error('"' + name + '" is read-only');
+                throw Error('"' + name + '" is read-only');
             }
             function set(target2, property2, value1, receiver2) {
                 return (set = "undefined" != typeof Reflect && Reflect.set ? Reflect.set : function(target, property, value, receiver) {
@@ -1611,7 +1611,7 @@
                 })(target2, property2, value1, receiver2);
             }
             function _set(target, property, value, receiver, isStrict) {
-                if (!set(target, property, value, receiver || target) && isStrict) throw new Error("failed to set property");
+                if (!set(target, property, value, receiver || target) && isStrict) throw Error("failed to set property");
                 return value;
             }
             function _skipFirstGeneratorNext(fn) {
@@ -2136,7 +2136,7 @@
             "use strict";
             var enhanceError = __webpack_require__(16488);
             module.exports = function(message, config, code, request, response) {
-                var error = new Error(message);
+                var error = Error(message);
                 return enhanceError(error, config, code, request, response);
             };
         },
@@ -2380,7 +2380,7 @@
                     cookie.push(name + "=" + encodeURIComponent(value)), utils.isNumber(expires) && cookie.push("expires=" + new Date(expires).toGMTString()), utils.isString(path) && cookie.push("path=" + path), utils.isString(domain) && cookie.push("domain=" + domain), !0 === secure && cookie.push("secure"), document.cookie = cookie.join("; ");
                 },
                 read: function(name) {
-                    var match = document.cookie.match(new RegExp("(^|;\\s*)(" + name + ")=([^;]*)"));
+                    var match = document.cookie.match(RegExp("(^|;\\s*)(" + name + ")=([^;]*)"));
                     return match ? decodeURIComponent(match[3]) : null;
                 },
                 remove: function(name) {
@@ -2508,7 +2508,7 @@
                     return "[Axios v" + pkg.version + "] Transitional option '" + opt + "'" + desc + (message ? ". " + message : "");
                 }
                 return function(value, opt, opts) {
-                    if (!1 === validator) throw new Error(formatMessage(opt, " has been removed in " + version));
+                    if (!1 === validator) throw Error(formatMessage(opt, " has been removed in " + version));
                     return isDeprecated && !deprecatedWarnings[opt] && (deprecatedWarnings[opt] = !0, console.warn(formatMessage(opt, " has been deprecated since v" + version + " and will be removed in the near future"))), !validator || validator(value, opt, opts);
                 };
             }, module.exports = {
@@ -4525,7 +4525,7 @@
                 var result, reCopy, lastIndex, match, i, object, group, re = this, state = getInternalState(re), str = toString(string), raw = state.raw;
                 if (raw) return raw.lastIndex = re.lastIndex, result = patchedExec.call(raw, str), re.lastIndex = raw.lastIndex, result;
                 var groups = state.groups, sticky = UNSUPPORTED_Y && re.sticky, flags = regexpFlags.call(re), source = re.source, charsAdded = 0, strCopy = str;
-                if (sticky && (-1 === (flags = flags.replace("y", "")).indexOf("g") && (flags += "g"), strCopy = str.slice(re.lastIndex), re.lastIndex > 0 && (!re.multiline || re.multiline && "\n" !== str.charAt(re.lastIndex - 1)) && (source = "(?: " + source + ")", strCopy = " " + strCopy, charsAdded++), reCopy = new RegExp("^(?:" + source + ")", flags)), NPCG_INCLUDED && (reCopy = new RegExp("^" + source + "$(?!\\s)", flags)), UPDATES_LAST_INDEX_WRONG && (lastIndex = re.lastIndex), match = nativeExec.call(sticky ? reCopy : re, strCopy), sticky ? match ? (match.input = match.input.slice(charsAdded), match[0] = match[0].slice(charsAdded), match.index = re.lastIndex, re.lastIndex += match[0].length) : re.lastIndex = 0 : UPDATES_LAST_INDEX_WRONG && match && (re.lastIndex = re.global ? match.index + match[0].length : lastIndex), NPCG_INCLUDED && match && match.length > 1 && nativeReplace.call(match[0], reCopy, function() {
+                if (sticky && (-1 === (flags = flags.replace("y", "")).indexOf("g") && (flags += "g"), strCopy = str.slice(re.lastIndex), re.lastIndex > 0 && (!re.multiline || re.multiline && "\n" !== str.charAt(re.lastIndex - 1)) && (source = "(?: " + source + ")", strCopy = " " + strCopy, charsAdded++), reCopy = RegExp("^(?:" + source + ")", flags)), NPCG_INCLUDED && (reCopy = RegExp("^" + source + "$(?!\\s)", flags)), UPDATES_LAST_INDEX_WRONG && (lastIndex = re.lastIndex), match = nativeExec.call(sticky ? reCopy : re, strCopy), sticky ? match ? (match.input = match.input.slice(charsAdded), match[0] = match[0].slice(charsAdded), match.index = re.lastIndex, re.lastIndex += match[0].length) : re.lastIndex = 0 : UPDATES_LAST_INDEX_WRONG && match && (re.lastIndex = re.global ? match.index + match[0].length : lastIndex), NPCG_INCLUDED && match && match.length > 1 && nativeReplace.call(match[0], reCopy, function() {
                     for(i = 1; i < arguments.length - 2; i++)void 0 === arguments[i] && (match[i] = void 0);
                 }), match && groups) for(i = 0, match.groups = object = create(null); i < groups.length; i++)object[(group = groups[i])[0]] = match[group[1]];
                 return match;
@@ -5035,7 +5035,7 @@
             var $ = __webpack_require__(35437), getPrototypeOf = __webpack_require__(39311), setPrototypeOf = __webpack_require__(59057), create = __webpack_require__(18255), createNonEnumerableProperty = __webpack_require__(48181), createPropertyDescriptor = __webpack_require__(93608), iterate = __webpack_require__(7261), toString = __webpack_require__(72729), $AggregateError = function(errors, message) {
                 var that = this;
                 if (!(that instanceof $AggregateError)) return new $AggregateError(errors, message);
-                setPrototypeOf && (that = setPrototypeOf(new Error(void 0), getPrototypeOf(that))), void 0 !== message && createNonEnumerableProperty(that, "message", toString(message));
+                setPrototypeOf && (that = setPrototypeOf(Error(void 0), getPrototypeOf(that))), void 0 !== message && createNonEnumerableProperty(that, "message", toString(message));
                 var errorsArray = [];
                 return iterate(errors, errorsArray.push, {
                     that: errorsArray
@@ -7074,7 +7074,7 @@
                     var exec = this.exec;
                     if (!isCallable(exec)) return nativeTest.call(this, str);
                     var result = exec.call(this, str);
-                    if (null !== result && !isObject(result)) throw new Error("RegExp exec method returned something other than an Object or null");
+                    if (null !== result && !isObject(result)) throw Error("RegExp exec method returned something other than an Object or null");
                     return !!result;
                 }
             });
@@ -7359,7 +7359,7 @@
                         if (WORKS_WITH_NON_GLOBAL_REGEX) return nativeMatchAll.apply(O, arguments);
                         if (void 0 === (matcher = getMethod(regexp, MATCH_ALL)) && IS_PURE && "RegExp" == classof(regexp) && (matcher = $matchAll), matcher) return matcher.call(regexp, O);
                     } else if (WORKS_WITH_NON_GLOBAL_REGEX) return nativeMatchAll.apply(O, arguments);
-                    return S = toString(O), rx = new RegExp(regexp, "g"), IS_PURE ? $matchAll.call(rx, S) : rx[MATCH_ALL](S);
+                    return S = toString(O), rx = RegExp(regexp, "g"), IS_PURE ? $matchAll.call(rx, S) : rx[MATCH_ALL](S);
                 }
             }), IS_PURE || MATCH_ALL in RegExpPrototype || redefine(RegExpPrototype, MATCH_ALL, $matchAll);
         },
@@ -7370,7 +7370,7 @@
                 return [
                     function(regexp) {
                         var O = requireObjectCoercible(this), matcher = void 0 == regexp ? void 0 : getMethod(regexp, MATCH);
-                        return matcher ? matcher.call(regexp, O) : new RegExp(regexp)[MATCH](toString(O));
+                        return matcher ? matcher.call(regexp, O) : RegExp(regexp)[MATCH](toString(O));
                     },
                     function(string) {
                         var result, rx = anObject(this), S = toString(string), res = maybeCallNative(nativeMatch, rx, S);
@@ -7515,7 +7515,7 @@
                 return [
                     function(regexp) {
                         var O = requireObjectCoercible(this), searcher = void 0 == regexp ? void 0 : getMethod(regexp, SEARCH);
-                        return searcher ? searcher.call(regexp, O) : new RegExp(regexp)[SEARCH](toString(O));
+                        return searcher ? searcher.call(regexp, O) : RegExp(regexp)[SEARCH](toString(O));
                     },
                     function(string) {
                         var rx = anObject(this), S = toString(string), res = maybeCallNative(nativeSearch, rx, S);
@@ -7560,7 +7560,7 @@
                         string
                     ];
                     if (!isRegExp(separator)) return nativeSplit.call(string, separator, lim);
-                    for(var output = [], flags = (separator.ignoreCase ? "i" : "") + (separator.multiline ? "m" : "") + (separator.unicode ? "u" : "") + (separator.sticky ? "y" : ""), lastLastIndex = 0, separatorCopy = new RegExp(separator.source, flags + "g"); (match = regexpExec.call(separatorCopy, string)) && (!((lastIndex = separatorCopy.lastIndex) > lastLastIndex) || (output.push(string.slice(lastLastIndex, match.index)), match.length > 1 && match.index < string.length && arrayPush.apply(output, match.slice(1)), lastLength = match[0].length, lastLastIndex = lastIndex, !(output.length >= lim)));)separatorCopy.lastIndex === match.index && separatorCopy.lastIndex++;
+                    for(var output = [], flags = (separator.ignoreCase ? "i" : "") + (separator.multiline ? "m" : "") + (separator.unicode ? "u" : "") + (separator.sticky ? "y" : ""), lastLastIndex = 0, separatorCopy = RegExp(separator.source, flags + "g"); (match = regexpExec.call(separatorCopy, string)) && (!((lastIndex = separatorCopy.lastIndex) > lastLastIndex) || (output.push(string.slice(lastLastIndex, match.index)), match.length > 1 && match.index < string.length && arrayPush.apply(output, match.slice(1)), lastLength = match[0].length, lastLastIndex = lastIndex, !(output.length >= lim)));)separatorCopy.lastIndex === match.index && separatorCopy.lastIndex++;
                     return lastLastIndex === string.length ? (lastLength || !separatorCopy.test("")) && output.push("") : output.push(string.slice(lastLastIndex)), output.length > lim ? output.slice(0, lim) : output;
                 } : "0".split(void 0, 0).length ? function(separator, limit) {
                     return void 0 === separator && 0 === limit ? [] : nativeSplit.call(this, separator, limit);
@@ -9398,7 +9398,7 @@
         },
         74677: function(module) {
             "use strict";
-            var token = "%[a-f0-9]{2}", singleMatcher = new RegExp(token, "gi"), multiMatcher = new RegExp("(" + token + ")+", "gi");
+            var token = "%[a-f0-9]{2}", singleMatcher = RegExp(token, "gi"), multiMatcher = RegExp("(" + token + ")+", "gi");
             function decodeComponents(components, split) {
                 try {
                     return decodeURIComponent(components.join(""));
@@ -9437,7 +9437,7 @@
                         replaceMap["%C2"] = "\uFFFD";
                         for(var entries = Object.keys(replaceMap), i = 0; i < entries.length; i++){
                             var key = entries[i];
-                            input = input.replace(new RegExp(key, "g"), replaceMap[key]);
+                            input = input.replace(RegExp(key, "g"), replaceMap[key]);
                         }
                         return input;
                     }(encodedURI);
@@ -10063,7 +10063,7 @@
             module.exports = pathToRegexp, module.exports.parse = parse, module.exports.compile = function(str, options) {
                 return tokensToFunction(parse(str, options), options);
             }, module.exports.tokensToFunction = tokensToFunction, module.exports.tokensToRegExp = tokensToRegExp;
-            var PATH_REGEXP = new RegExp("(\\\\.)|([\\/.])?(?:(?:\\:(\\w+)(?:\\(((?:\\\\.|[^\\\\()])+)\\))?|\\(((?:\\\\.|[^\\\\()])+)\\))([+*?])?|(\\*))", "g");
+            var PATH_REGEXP = RegExp("(\\\\.)|([\\/.])?(?:(?:\\:(\\w+)(?:\\(((?:\\\\.|[^\\\\()])+)\\))?|\\(((?:\\\\.|[^\\\\()])+)\\))([+*?])?|(\\*))", "g");
             function parse(str, options) {
                 for(var res, tokens = [], key = 0, index = 0, path = "", defaultDelimiter = options && options.delimiter || "/"; null != (res = PATH_REGEXP.exec(str));){
                     var m = res[0], escaped = res[1], offset = res.index;
@@ -10098,7 +10098,7 @@
                 });
             }
             function tokensToFunction(tokens, options) {
-                for(var matches = Array(tokens.length), i1 = 0; i1 < tokens.length; i1++)"object" == typeof tokens[i1] && (matches[i1] = new RegExp("^(?:" + tokens[i1].pattern + ")$", flags(options)));
+                for(var matches = Array(tokens.length), i1 = 0; i1 < tokens.length; i1++)"object" == typeof tokens[i1] && (matches[i1] = RegExp("^(?:" + tokens[i1].pattern + ")$", flags(options)));
                 return function(obj, opts) {
                     for(var path = "", data = obj || {}, encode = (opts || {}).pretty ? encodeURIComponentPretty : encodeURIComponent, i = 0; i < tokens.length; i++){
                         var segment, token = tokens[i];
@@ -10155,7 +10155,7 @@
                     }
                 }
                 var delimiter = escapeString(options.delimiter || "/"), endsWithDelimiter = route.slice(-delimiter.length) === delimiter;
-                return strict || (route = (endsWithDelimiter ? route.slice(0, -delimiter.length) : route) + "(?:" + delimiter + "(?=$))?"), end ? route += "$" : route += strict && endsWithDelimiter ? "" : "(?=" + delimiter + "|$)", attachKeys(new RegExp("^" + route, flags(options)), keys);
+                return strict || (route = (endsWithDelimiter ? route.slice(0, -delimiter.length) : route) + "(?:" + delimiter + "(?=$))?"), end ? route += "$" : route += strict && endsWithDelimiter ? "" : "(?=" + delimiter + "|$)", attachKeys(RegExp("^" + route, flags(options)), keys);
             }
             function pathToRegexp(path7, keys2, options2) {
                 var path6, keys1, options1;
@@ -10174,7 +10174,7 @@
                     return attachKeys(path, keys);
                 }(path7, keys2) : isarray(path7) ? function(path, keys, options) {
                     for(var parts = [], i = 0; i < path.length; i++)parts.push(pathToRegexp(path[i], keys, options).source);
-                    var regexp = new RegExp("(?:" + parts.join("|") + ")", flags(options));
+                    var regexp = RegExp("(?:" + parts.join("|") + ")", flags(options));
                     return attachKeys(regexp, keys);
                 }(path7, keys2, options2) : (path6 = path7, keys1 = keys2, tokensToRegExp(parse(path6, options1 = options2), keys1, options1));
             }
@@ -10182,10 +10182,10 @@
         97671: function(module) {
             var cachedSetTimeout, cachedClearTimeout, currentQueue, process = module.exports = {};
             function defaultSetTimout() {
-                throw new Error("setTimeout has not been defined");
+                throw Error("setTimeout has not been defined");
             }
             function defaultClearTimeout() {
-                throw new Error("clearTimeout has not been defined");
+                throw Error("clearTimeout has not been defined");
             }
             function runTimeout(fun) {
                 if (cachedSetTimeout === setTimeout) return setTimeout(fun, 0);
@@ -10252,11 +10252,11 @@
             }, process.title = "browser", process.browser = !0, process.env = {}, process.argv = [], process.version = "", process.versions = {}, process.on = noop, process.addListener = noop, process.once = noop, process.off = noop, process.removeListener = noop, process.removeAllListeners = noop, process.emit = noop, process.prependListener = noop, process.prependOnceListener = noop, process.listeners = function(name) {
                 return [];
             }, process.binding = function(name) {
-                throw new Error("process.binding is not supported");
+                throw Error("process.binding is not supported");
             }, process.cwd = function() {
                 return "/";
             }, process.chdir = function(dir) {
-                throw new Error("process.chdir is not supported");
+                throw Error("process.chdir is not supported");
             }, process.umask = function() {
                 return 0;
             };
@@ -10269,7 +10269,7 @@
             emptyFunctionWithReset.resetWarningCache = emptyFunction, module.exports = function() {
                 function shim(props, propName, componentName, location, propFullName, secret) {
                     if (secret !== ReactPropTypesSecret) {
-                        var err = new Error("Calling PropTypes validators directly is not supported by the `prop-types` package. Use PropTypes.checkPropTypes() to call them. Read more at http://fb.me/use-check-prop-types");
+                        var err = Error("Calling PropTypes validators directly is not supported by the `prop-types` package. Use PropTypes.checkPropTypes() to call them. Read more at http://fb.me/use-check-prop-types");
                         throw err.name = "Invariant Violation", err;
                     }
                 }
@@ -16883,7 +16883,7 @@
                 function makeInvokeMethod(innerFn, self, context) {
                     var state = GenStateSuspendedStart;
                     return function(method, arg) {
-                        if (state === GenStateExecuting) throw new Error("Generator is already running");
+                        if (state === GenStateExecuting) throw Error("Generator is already running");
                         if (state === GenStateCompleted) {
                             if ("throw" === method) throw arg;
                             return doneResult();
@@ -17029,7 +17029,7 @@
                                     if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0);
                                 } else if (hasFinally) {
                                     if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc);
-                                } else throw new Error("try statement without catch or finally");
+                                } else throw Error("try statement without catch or finally");
                             }
                         }
                     },
@@ -17067,7 +17067,7 @@
                                 return thrown;
                             }
                         }
-                        throw new Error("illegal catch attempt");
+                        throw Error("illegal catch attempt");
                     },
                     delegateYield: function(iterable, resultName, nextLoc) {
                         return this.delegate = {
@@ -17332,7 +17332,7 @@
         87832: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__), __webpack_exports__.default = function(condition, message) {
-                if (!condition) throw new Error("Invariant failed");
+                if (!condition) throw Error("Invariant failed");
             };
         },
         98009: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
@@ -17373,7 +17373,7 @@
     }, __webpack_require__1.g = function() {
         if ("object" == typeof globalThis) return globalThis;
         try {
-            return this || new Function("return this")();
+            return this || Function("return this")();
         } catch (e) {
             if ("object" == typeof window) return window;
         }

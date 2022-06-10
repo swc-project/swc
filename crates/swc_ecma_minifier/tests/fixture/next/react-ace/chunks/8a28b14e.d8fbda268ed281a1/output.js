@@ -1715,7 +1715,7 @@
                     "undefined" != typeof console && console.warn && console.warn.apply(console, arguments);
                 }
                 function reportError(msg, data) {
-                    var e = new Error(msg);
+                    var e = Error(msg);
                     e.data = data, "object" == typeof console && console.error && console.error(e), setTimeout(function() {
                         throw e;
                     });
@@ -1778,11 +1778,11 @@
                     useStrictCSP: null
                 };
                 exports.get = function(key) {
-                    if (!options.hasOwnProperty(key)) throw new Error("Unknown config key: " + key);
+                    if (!options.hasOwnProperty(key)) throw Error("Unknown config key: " + key);
                     return options[key];
                 }, exports.set = function(key, value) {
                     if (options.hasOwnProperty(key)) options[key] = value;
-                    else if (!1 == this.setDefaultValue("", key, value)) throw new Error("Unknown config key: " + key);
+                    else if (!1 == this.setDefaultValue("", key, value)) throw Error("Unknown config key: " + key);
                     "useStrictCSP" == key && dom.useStrictCSP(value);
                 }, exports.all = function() {
                     return lang.copyObject(options);
@@ -1790,7 +1790,7 @@
                     if (options.$moduleUrls[name]) return options.$moduleUrls[name];
                     var parts = name.split("/"), sep = "snippets" == (component = component || parts[parts.length - 2] || "") ? "/" : "-", base = parts[parts.length - 1];
                     if ("worker" == component && "-" == sep) {
-                        var re = new RegExp("^" + component + "[\\-_]|[\\-_]" + component + "$", "g");
+                        var re = RegExp("^" + component + "[\\-_]|[\\-_]" + component + "$", "g");
                         base = base.replace(re, "");
                     }
                     (!base || base == component) && parts.length > 1 && (base = parts[parts.length - 2]);
@@ -2922,7 +2922,7 @@
                             var rule = state[i];
                             if (rule.defaultToken && (mapping.defaultToken = rule.defaultToken), rule.caseInsensitive && (flag = "gi"), null != rule.regex) {
                                 rule.regex instanceof RegExp && (rule.regex = rule.regex.toString().slice(1, -1));
-                                var adjustedregex = rule.regex, matchcount = new RegExp("(?:(" + adjustedregex + ")|(.))").exec("a").length - 2;
+                                var adjustedregex = rule.regex, matchcount = RegExp("(?:(" + adjustedregex + ")|(.))").exec("a").length - 2;
                                 Array.isArray(rule.token) ? 1 == rule.token.length || 1 == matchcount ? rule.token = rule.token[0] : matchcount - 1 != rule.token.length ? (this.reportError("number of classes and regexp groups doesn't match", {
                                     rule: rule,
                                     groupCount: matchcount - 1
@@ -2933,7 +2933,7 @@
                         }
                         ruleRegExps.length || (mapping[0] = 0, ruleRegExps.push("$")), splitterRurles.forEach(function(rule) {
                             rule.splitRegex = this.createSplitterRegexp(rule.regex, flag);
-                        }, this), this.regExps[key] = new RegExp("(" + ruleRegExps.join(")|(") + ")|($)", flag);
+                        }, this), this.regExps[key] = RegExp("(" + ruleRegExps.join(")|(") + ")|($)", flag);
                     }
                 };
                 (function() {
@@ -2972,7 +2972,7 @@
                                 return inChClass ? inChClass = "]" != square : square ? inChClass = !0 : parenClose ? (stack == lastCapture.stack && (lastCapture.end = index + 1, lastCapture.stack = -1), stack--) : parenOpen && (stack++, 1 != parenOpen.length && (lastCapture.stack = stack, lastCapture.start = index)), m;
                             }), null != lastCapture.end && /^\)*$/.test(src.substr(lastCapture.end)) && (src = src.substring(0, lastCapture.start) + src.substr(lastCapture.end));
                         }
-                        return "^" != src.charAt(0) && (src = "^" + src), "$" != src.charAt(src.length - 1) && (src += "$"), new RegExp(src, (flag || "").replace("g", ""));
+                        return "^" != src.charAt(0) && (src = "^" + src), "$" != src.charAt(src.length - 1) && (src += "$"), RegExp(src, (flag || "").replace("g", ""));
                     }, this.getLineTokens = function(line, startState) {
                         if (startState && "string" != typeof startState) {
                             var stack = startState.slice(0);
@@ -4320,14 +4320,14 @@
                     this.HighlightRules = TextHighlightRules;
                 };
                 (function() {
-                    this.$defaultBehaviour = new CstyleBehaviour(), this.tokenRe = new RegExp("^[" + unicode.wordChars + "\\$_]+", "g"), this.nonTokenRe = new RegExp("^(?:[^" + unicode.wordChars + "\\$_]|\\s])+", "g"), this.getTokenizer = function() {
+                    this.$defaultBehaviour = new CstyleBehaviour(), this.tokenRe = RegExp("^[" + unicode.wordChars + "\\$_]+", "g"), this.nonTokenRe = RegExp("^(?:[^" + unicode.wordChars + "\\$_]|\\s])+", "g"), this.getTokenizer = function() {
                         return this.$tokenizer || (this.$highlightRules = this.$highlightRules || new this.HighlightRules(this.$highlightRuleConfig), this.$tokenizer = new Tokenizer(this.$highlightRules.getRules())), this.$tokenizer;
                     }, this.lineCommentStart = "", this.blockComment = "", this.toggleCommentLines = function(state, session, startRow, endRow) {
                         var doc = session.doc, ignoreBlankLines = !0, shouldRemove = !0, minIndent = 1 / 0, tabSize = session.getTabSize(), insertAtTabStop = !1;
                         if (this.lineCommentStart) {
                             if (Array.isArray(this.lineCommentStart)) var regexpStart = this.lineCommentStart.map(lang.escapeRegExp).join("|"), lineCommentStart = this.lineCommentStart[0];
                             else var regexpStart = lang.escapeRegExp(this.lineCommentStart), lineCommentStart = this.lineCommentStart;
-                            regexpStart = new RegExp("^(\\s*)(?:" + regexpStart + ") ?"), insertAtTabStop = session.getUseSoftTabs();
+                            regexpStart = RegExp("^(\\s*)(?:" + regexpStart + ") ?"), insertAtTabStop = session.getUseSoftTabs();
                             var uncomment = function(line, i) {
                                 var m = line.match(regexpStart);
                                 if (m) {
@@ -4352,7 +4352,7 @@
                             };
                         } else {
                             if (!this.blockComment) return !1;
-                            var lineCommentStart = this.blockComment.start, lineCommentEnd = this.blockComment.end, regexpStart = new RegExp("^(\\s*)(?:" + lang.escapeRegExp(lineCommentStart) + ")"), regexpEnd = new RegExp("(?:" + lang.escapeRegExp(lineCommentEnd) + ")\\s*$"), comment = function(line, i) {
+                            var lineCommentStart = this.blockComment.start, lineCommentEnd = this.blockComment.end, regexpStart = RegExp("^(\\s*)(?:" + lang.escapeRegExp(lineCommentStart) + ")"), regexpEnd = RegExp("(?:" + lang.escapeRegExp(lineCommentEnd) + ")\\s*$"), comment = function(line, i) {
                                 !testRemove(line, i) && (!ignoreBlankLines || /\S/.test(line)) && (doc.insertInLine({
                                     row: i,
                                     column: line.length
@@ -4915,13 +4915,13 @@
                         });
                     }, this.addFold = function(fold) {
                         if (fold.sameRow) {
-                            if (fold.start.row < this.startRow || fold.endRow > this.endRow) throw new Error("Can't add a fold to this FoldLine as it has no connection");
+                            if (fold.start.row < this.startRow || fold.endRow > this.endRow) throw Error("Can't add a fold to this FoldLine as it has no connection");
                             this.folds.push(fold), this.folds.sort(function(a, b) {
                                 return -a.range.compareEnd(b.start.row, b.start.column);
                             }), this.range.compareEnd(fold.start.row, fold.start.column) > 0 ? (this.end.row = fold.end.row, this.end.column = fold.end.column) : 0 > this.range.compareStart(fold.end.row, fold.end.column) && (this.start.row = fold.start.row, this.start.column = fold.start.column);
                         } else if (fold.start.row == this.end.row) this.folds.push(fold), this.end.row = fold.end.row, this.end.column = fold.end.column;
                         else if (fold.end.row == this.start.row) this.folds.unshift(fold), this.start.row = fold.start.row, this.start.column = fold.start.column;
-                        else throw new Error("Trying to add fold to FoldRow that doesn't have a matching row");
+                        else throw Error("Trying to add fold to FoldRow that doesn't have a matching row");
                         fold.foldLine = this;
                     }, this.containsRow = function(row) {
                         return row >= this.start.row && row <= this.end.row;
@@ -5374,7 +5374,7 @@
                         var iterator = new TokenIterator(this, row, column), token = iterator.getCurrentToken(), type = token && token.type;
                         if (token && /^comment|string/.test(type)) {
                             "comment" == (type = type.match(/comment|string/)[0]) && (type += "|doc-start");
-                            var re = new RegExp(type), range = new Range();
+                            var re = RegExp(type), range = new Range();
                             if (1 != dir) {
                                 do token = iterator.stepBackward();
                                 while (token && re.test(token.type))
@@ -5419,7 +5419,7 @@
                         markbegin: 1,
                         markbeginend: 1
                     }, this.$foldStyle = "markbegin", this.setFoldStyle = function(style) {
-                        if (!this.$foldStyles[style]) throw new Error("invalid fold style: " + style + "[" + Object.keys(this.$foldStyles).join(", ") + "]");
+                        if (!this.$foldStyles[style]) throw Error("invalid fold style: " + style + "[" + Object.keys(this.$foldStyles).join(", ") + "]");
                         if (this.$foldStyle != style) {
                             this.$foldStyle = style, "manual" == style && this.unfold();
                             var mode = this.$foldMode;
@@ -5555,7 +5555,7 @@
                     }, this.$findOpeningBracket = function(bracket, position, typeRe) {
                         var openBracket = this.$brackets[bracket], depth = 1, iterator = new TokenIterator(this, position.row, position.column), token = iterator.getCurrentToken();
                         if (token || (token = iterator.stepForward()), token) {
-                            typeRe || (typeRe = new RegExp("(\\.?" + token.type.replace(".", "\\.").replace("rparen", ".paren").replace(/\b(?:end)\b/, "(?:start|begin|end)") + ")+"));
+                            typeRe || (typeRe = RegExp("(\\.?" + token.type.replace(".", "\\.").replace("rparen", ".paren").replace(/\b(?:end)\b/, "(?:start|begin|end)") + ")+"));
                             for(var valueIndex = position.column - iterator.getCurrentTokenColumn() - 2, value = token.value;;){
                                 for(; valueIndex >= 0;){
                                     var chr = value.charAt(valueIndex);
@@ -5577,7 +5577,7 @@
                     }, this.$findClosingBracket = function(bracket, position, typeRe) {
                         var closingBracket = this.$brackets[bracket], depth = 1, iterator = new TokenIterator(this, position.row, position.column), token = iterator.getCurrentToken();
                         if (token || (token = iterator.stepForward()), token) {
-                            typeRe || (typeRe = new RegExp("(\\.?" + token.type.replace(".", "\\.").replace("lparen", ".paren").replace(/\b(?:start|begin)\b/, "(?:start|begin|end)") + ")+"));
+                            typeRe || (typeRe = RegExp("(\\.?" + token.type.replace(".", "\\.").replace("lparen", ".paren").replace(/\b(?:start|begin)\b/, "(?:start|begin|end)") + ")+"));
                             for(var valueIndex = position.column - iterator.getCurrentTokenColumn();;){
                                 for(var value = token.value, valueLength = value.length; valueIndex < valueLength;){
                                     var chr = value.charAt(valueIndex);
@@ -6431,14 +6431,14 @@
                         var modifier = options1.caseSensitive ? "gm" : "gmi";
                         if (options1.$isMultiLine = !$disableFakeMultiline && /[\n\r]/.test(needle1), options1.$isMultiLine) return options1.re = this.$assembleMultilineRegExp(needle1, modifier);
                         try {
-                            var re = new RegExp(needle1, modifier);
+                            var re = RegExp(needle1, modifier);
                         } catch (e) {
                             re = !1;
                         }
                         return options1.re = re;
                     }, this.$assembleMultilineRegExp = function(needle, modifier) {
                         for(var parts = needle.replace(/\r\n|\r|\n/g, "$\n^").split("\n"), re = [], i = 0; i < parts.length; i++)try {
-                            re.push(new RegExp(parts[i], modifier));
+                            re.push(RegExp(parts[i], modifier));
                         } catch (e) {
                             return !1;
                         }
@@ -8425,8 +8425,8 @@
                             itLength = curLength + item.length, delta >= curLength && delta <= itLength && (currentState = item, that.selection.clearSelection(), that.moveCursorTo(row, curLength + currWordStart), that.selection.selectTo(row, itLength + currWordStart)), curLength = itLength;
                         });
                         for(var wordPairs = this.$toggleWordPairs, i = 0; i < wordPairs.length; i++)for(var item1 = wordPairs[i], j = 0; j <= 1; j++){
-                            var negate = +!j, firstCondition = currentState.match(new RegExp("^\\s?_?(" + lang.escapeRegExp(item1[j]) + ")\\s?$", "i"));
-                            firstCondition && currentState.match(new RegExp("([_]|^|\\s)(" + lang.escapeRegExp(firstCondition[1]) + ")($|\\s)", "g")) && (reg = currentState.replace(new RegExp(lang.escapeRegExp(item1[j]), "i"), function(result) {
+                            var negate = +!j, firstCondition = currentState.match(RegExp("^\\s?_?(" + lang.escapeRegExp(item1[j]) + ")\\s?$", "i"));
+                            firstCondition && currentState.match(RegExp("([_]|^|\\s)(" + lang.escapeRegExp(firstCondition[1]) + ")($|\\s)", "g")) && (reg = currentState.replace(RegExp(lang.escapeRegExp(item1[j]), "i"), function(result) {
                                 var res = item1[negate];
                                 return result.toUpperCase() == result ? res = res.toUpperCase() : result.charAt(0).toUpperCase() == result.charAt(0) && (res = res.substr(0, 0) + item1[negate].charAt(0).toUpperCase() + res.substr(1)), res;
                             }), this.insert(reg), reg = "");
@@ -10901,7 +10901,7 @@ margin: 0 10px;\
                         }
                         function afterLoad(module) {
                             if (_self.$themeId != theme) return cb && cb();
-                            if (!module || !module.cssClass) throw new Error("couldn't load module " + theme + " or it didn't call define");
+                            if (!module || !module.cssClass) throw Error("couldn't load module " + theme + " or it didn't call define");
                             module.$id && (_self.$themeId = module.$id), dom.importCssString(module.cssText, module.cssClass, _self.container), _self.theme && dom.removeCssClass(_self.container, _self.theme.cssClass);
                             var padding = "padding" in module ? module.padding : "padding" in (_self.theme || {}) ? 4 : _self.$padding;
                             _self.$padding && padding != _self.$padding && _self.setPadding(padding), _self.$theme = module.cssClass, _self.theme = module, dom.addCssClass(_self.container, module.cssClass), dom.setCssClass(_self.container, "ace_dark", module.isDark), _self.$size && (_self.$size.width = 0, _self.$updateSizeAsync()), _self._dispatchEvent("themeLoaded", {
@@ -12349,7 +12349,7 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
                 require("./worker/worker_client"), require("./keyboard/hash_handler"), require("./placeholder"), require("./multi_select"), require("./mode/folding/fold_mode"), require("./theme/textmate"), require("./ext/error_marker"), exports.config = require("./config"), exports.require = require, exports.define = __webpack_require__.amdD, exports.edit = function(el, options) {
                     if ("string" == typeof el) {
                         var _id = el;
-                        if (!(el = document.getElementById(_id))) throw new Error("ace.edit can't find div #" + _id);
+                        if (!(el = document.getElementById(_id))) throw Error("ace.edit can't find div #" + _id);
                     }
                     if (el && el.env && el.env.editor instanceof Editor) return el.env.editor;
                     var value = "";

@@ -256,7 +256,7 @@
         };
     }, _.bindAll = function(obj) {
         var funcs = slice.call(arguments, 1);
-        if (0 === funcs.length) throw new Error("bindAll must be passed function names");
+        if (0 === funcs.length) throw Error("bindAll must be passed function names");
         return each(funcs, function(f) {
             obj[f] = _.bind(obj[f], obj);
         }), obj;
@@ -460,8 +460,8 @@
     };
     entityMap.unescape = _.invert(entityMap.escape);
     var entityRegexes = {
-        escape: new RegExp("[" + _.keys(entityMap.escape).join("") + "]", "g"),
-        unescape: new RegExp("(" + _.keys(entityMap.unescape).join("|") + ")", "g")
+        escape: RegExp("[" + _.keys(entityMap.escape).join("") + "]", "g"),
+        unescape: RegExp("(" + _.keys(entityMap.unescape).join("|") + ")", "g")
     };
     _.each([
         "escape",
@@ -508,7 +508,7 @@
     }, escaper = /\\|'|\r|\n|\t|\u2028|\u2029/g;
     _.template = function(text, data1, settings) {
         settings = _.defaults({}, settings, _.templateSettings);
-        var render, matcher = new RegExp([
+        var render, matcher = RegExp([
             (settings.escape || noMatch).source,
             (settings.interpolate || noMatch).source,
             (settings.evaluate || noMatch).source, 
@@ -519,7 +519,7 @@
             }), escape && (source += "'+\n((__t=(" + escape + "))==null?'':_.escape(__t))+\n'"), interpolate && (source += "'+\n((__t=(" + interpolate + "))==null?'':__t)+\n'"), evaluate && (source += "';\n" + evaluate + "\n__p+='"), index = offset + match1.length, match1;
         }), source += "';\n", settings.variable || (source = "with(obj||{}){\n" + source + "}\n"), source = "var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};\n" + source + "return __p;\n";
         try {
-            render = new Function(settings.variable || "obj", "_", source);
+            render = Function(settings.variable || "obj", "_", source);
         } catch (e) {
             throw e.source = source, e;
         }

@@ -1802,8 +1802,8 @@
                 var src1, staticSrc = "";
                 if ("object" == typeof (src1 = src2) && (isStaticRequire(src1) || void 0 !== src1.src)) {
                     var staticImageData = isStaticRequire(src2) ? src2.default : src2;
-                    if (!staticImageData.src) throw new Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include src. Received ".concat(JSON.stringify(staticImageData)));
-                    if (blurDataURL = blurDataURL || staticImageData.blurDataURL, staticSrc = staticImageData.src, (!layout || "fill" !== layout) && (height = height || staticImageData.height, width = width || staticImageData.width, !staticImageData.height || !staticImageData.width)) throw new Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include height and width. Received ".concat(JSON.stringify(staticImageData)));
+                    if (!staticImageData.src) throw Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include src. Received ".concat(JSON.stringify(staticImageData)));
+                    if (blurDataURL = blurDataURL || staticImageData.blurDataURL, staticSrc = staticImageData.src, (!layout || "fill" !== layout) && (height = height || staticImageData.height, width = width || staticImageData.width, !staticImageData.height || !staticImageData.width)) throw Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include height and width. Received ".concat(JSON.stringify(staticImageData)));
                 }
                 src2 = "string" == typeof src2 ? src2 : staticSrc;
                 var widthInt = getInt(width), heightInt = getInt(height), qualityInt = getInt(quality), isLazy = !priority && ("lazy" === loading || void 0 === loading);
@@ -2027,7 +2027,7 @@
                     "custom",
                     function(param) {
                         var src = param.src;
-                        throw new Error('Image with src "'.concat(src, '" is missing "loader" prop.') + "\nRead more: https://nextjs.org/docs/messages/next-image-missing-loader");
+                        throw Error('Image with src "'.concat(src, '" is missing "loader" prop.') + "\nRead more: https://nextjs.org/docs/messages/next-image-missing-loader");
                     }
                 ], 
             ]);
@@ -2123,7 +2123,7 @@
                 if (load) return load(_objectSpread({
                     root: configPath
                 }, loaderProps));
-                throw new Error('Unknown "loader" found in "next.config.js". Expected: '.concat(_imageConfig.VALID_LOADERS.join(", "), ". Received: ").concat(configLoader));
+                throw Error('Unknown "loader" found in "next.config.js". Expected: '.concat(_imageConfig.VALID_LOADERS.join(", "), ". Received: ").concat(configLoader));
             }
             function normalizeSrc(src) {
                 return "/" === src[0] ? src.slice(1) : src;
@@ -2421,7 +2421,7 @@
                         if (logType < instance.logLevel) return;
                         const now = new Date().toISOString(), method = ConsoleMethod[logType];
                         if (method) console[method](`[${now}]  ${instance.name}:`, ...args);
-                        else throw new Error(`Attempted to log a message with an invalid logType (value: ${logType})`);
+                        else throw Error(`Attempted to log a message with an invalid logType (value: ${logType})`);
                     }, this._userLogHandler = null, [].push(this);
                 }
                 get logLevel() {

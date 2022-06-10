@@ -3497,7 +3497,7 @@
                 }), destination);
             }
             deepmerge.all = function(array, options) {
-                if (!Array.isArray(array)) throw new Error("first argument should be an array");
+                if (!Array.isArray(array)) throw Error("first argument should be an array");
                 return array.reduce(function(prev, next) {
                     return deepmerge(prev, next, options);
                 }, {});
@@ -4456,7 +4456,7 @@
             var A1 = void 0 !== process && (process.env.REACT_APP_SC_ATTR || process.env.SC_ATTR) || "data-styled", I1 = "undefined" != typeof window && "HTMLElement" in window, P1 = Boolean("boolean" == typeof SC_DISABLE_SPEEDY ? SC_DISABLE_SPEEDY : void 0 !== process && void 0 !== process.env.REACT_APP_SC_DISABLE_SPEEDY && "" !== process.env.REACT_APP_SC_DISABLE_SPEEDY ? "false" !== process.env.REACT_APP_SC_DISABLE_SPEEDY && process.env.REACT_APP_SC_DISABLE_SPEEDY : void 0 !== process && void 0 !== process.env.SC_DISABLE_SPEEDY && "" !== process.env.SC_DISABLE_SPEEDY && "false" !== process.env.SC_DISABLE_SPEEDY && process.env.SC_DISABLE_SPEEDY), O1 = {};
             function j(e) {
                 for(var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++)n[r - 1] = arguments[r];
-                throw new Error("An error occurred. See https://git.io/JUIaE#" + e + " for more information." + (n.length > 0 ? " Args: " + n.join(", ") : ""));
+                throw Error("An error occurred. See https://git.io/JUIaE#" + e + " for more information." + (n.length > 0 ? " Args: " + n.join(", ") : ""));
             }
             var T1 = function() {
                 function e1(e) {
@@ -4492,7 +4492,7 @@
                 return x1.set(e, t), k1.set(t, e), t;
             }, M1 = function(e, t) {
                 t >= V1 && (V1 = t + 1), x1.set(e, t), k1.set(t, e);
-            }, G1 = "style[" + A1 + '][data-styled-version="5.3.5"]', L1 = new RegExp("^" + A1 + '\\.g(\\d+)\\[id="([\\w\\d-]+)"\\].*?"([^"]*)'), F1 = function(e, t, n) {
+            }, G1 = "style[" + A1 + '][data-styled-version="5.3.5"]', L1 = RegExp("^" + A1 + '\\.g(\\d+)\\[id="([\\w\\d-]+)"\\].*?"([^"]*)'), F1 = function(e, t, n) {
                 for(var r, o = n.split(","), s = 0, i = o.length; s < i; s++)(r = o[s]) && e.registerName(t, r);
             }, Y1 = function(e, t) {
                 for(var n = (t.textContent || "").split("/*!sc*/\n"), r = [], o = 0, s = n.length; o < s; o++){
@@ -4725,7 +4725,7 @@
                 function m(e, s, i, a) {
                     void 0 === a && (a = "&");
                     var c = e.replace(ie, "");
-                    return t10 = a, n3 = s, r2 = new RegExp("\\" + n3 + "\\b", "g"), o1 = new RegExp("(\\" + n3 + "\\b){2,}"), l1(i || !s ? "" : s, s && i ? i + " " + s + " { " + c + " }" : c);
+                    return t10 = a, r2 = RegExp("\\" + (n3 = s) + "\\b", "g"), o1 = RegExp("(\\" + n3 + "\\b){2,}"), l1(i || !s ? "" : s, s && i ? i + " " + s + " { " + c + " }" : c);
                 }
                 return l1.use([].concat(u1, [
                     function(e, t, o) {
@@ -6496,10 +6496,10 @@
                     162: function(e31) {
                         var r8, n, u, t24 = e31.exports = {};
                         function defaultSetTimout() {
-                            throw new Error("setTimeout has not been defined");
+                            throw Error("setTimeout has not been defined");
                         }
                         function defaultClearTimeout() {
-                            throw new Error("clearTimeout has not been defined");
+                            throw Error("clearTimeout has not been defined");
                         }
                         function runTimeout(e) {
                             if (r8 === setTimeout) return setTimeout(e, 0);
@@ -6566,11 +6566,11 @@
                         }, t24.title = "browser", t24.browser = !0, t24.env = {}, t24.argv = [], t24.version = "", t24.versions = {}, t24.on = noop, t24.addListener = noop, t24.once = noop, t24.off = noop, t24.removeListener = noop, t24.removeAllListeners = noop, t24.emit = noop, t24.prependListener = noop, t24.prependOnceListener = noop, t24.listeners = function(e) {
                             return [];
                         }, t24.binding = function(e) {
-                            throw new Error("process.binding is not supported");
+                            throw Error("process.binding is not supported");
                         }, t24.cwd = function() {
                             return "/";
                         }, t24.chdir = function(e) {
-                            throw new Error("process.chdir is not supported");
+                            throw Error("process.chdir is not supported");
                         }, t24.umask = function() {
                             return 0;
                         };

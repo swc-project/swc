@@ -357,7 +357,7 @@
                 return s.replace(requoteRe, "\\$&");
             }
             function formatRe(names) {
-                return new RegExp("^(?:" + names.map(requote).join("|") + ")", "i");
+                return RegExp("^(?:" + names.map(requote).join("|") + ")", "i");
             }
             function formatLookup(names) {
                 return new Map(names.map((name, i)=>[

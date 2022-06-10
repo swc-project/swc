@@ -351,7 +351,7 @@
             return this.where(attrs, !0);
         },
         sort: function(options) {
-            if (!this.comparator) throw new Error("Cannot sort a set without a comparator");
+            if (!this.comparator) throw Error("Cannot sort a set without a comparator");
             return options || (options = {}), _.isString(this.comparator) || 1 === this.comparator.length ? this.models = this.sortBy(this.comparator, this) : this.models.sort(_.bind(this.comparator, this)), options.silent || this.trigger("sort", this, options), this;
         },
         pluck: function(attr) {
@@ -561,9 +561,9 @@
             }
         },
         _routeToRegExp: function(route) {
-            return route = route.replace(escapeRegExp, "\\$&").replace(optionalParam, "(?:$1)?").replace(namedParam, function(match, optional) {
+            return RegExp("^" + (route = route.replace(escapeRegExp, "\\$&").replace(optionalParam, "(?:$1)?").replace(namedParam, function(match, optional) {
                 return optional ? match : "([^/]+)";
-            }).replace(splatParam, "(.*?)"), new RegExp("^" + route + "$");
+            }).replace(splatParam, "(.*?)")) + "$");
         },
         _extractParameters: function(route, fragment) {
             var params = route.exec(fragment).slice(1);
@@ -592,7 +592,7 @@
             return fragment.replace(routeStripper, "");
         },
         start: function(options) {
-            if (History.started) throw new Error("Backbone.history has already been started");
+            if (History.started) throw Error("Backbone.history has already been started");
             History.started = !0, this.options = _.extend({
                 root: "/"
             }, this.options, options), this.root = this.options.root, this._wantsHashChange = !1 !== this.options.hashChange, this._wantsPushState = !!this.options.pushState, this._hasPushState = !!(this.options.pushState && this.history && this.history.pushState);
@@ -656,7 +656,7 @@
         return Surrogate.prototype = parent.prototype, child.prototype = new Surrogate(), protoProps && _.extend(child.prototype, protoProps), child.__super__ = parent.prototype, child;
     };
     var urlError = function() {
-        throw new Error('A "url" property or function must be specified');
+        throw Error('A "url" property or function must be specified');
     }, wrapError = function(model, options) {
         var error = options.error;
         options.error = function(resp) {

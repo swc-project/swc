@@ -6,7 +6,7 @@ function fun2(x, y) {
     return randBool() ? x : y;
 }
 function fun3() {
-    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
     return args[+randBool()];
 }
 !function(n11) {

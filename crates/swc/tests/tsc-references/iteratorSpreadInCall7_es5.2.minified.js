@@ -30,6 +30,6 @@ var SymbolIterator = function() {
     }, _StringIterator;
 }();
 (function() {
-    for(var _len = arguments.length, s = Array(_len), _key = 0; _key < _len; _key++)s[_key] = arguments[_key];
+    for(var _len = arguments.length, s = new Array(_len), _key = 0; _key < _len; _key++)s[_key] = arguments[_key];
     return s[0];
 }).apply(void 0, _to_consumable_array(new SymbolIterator).concat(_to_consumable_array(new _StringIterator)));

@@ -5,7 +5,7 @@ import _inherits from "@swc/helpers/lib/_inherits.js";
 import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
 import _create_super from "@swc/helpers/lib/_create_super.js";
 function foo(x, y) {
-    for(var _len = arguments.length, z = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)z[_key - 2] = arguments[_key];
+    for(var _len = arguments.length, z = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)z[_key - 2] = arguments[_key];
 }
 foo(1, 2, "abc"), foo.apply(void 0, [
     1,
@@ -47,14 +47,14 @@ foo(1, 2, "abc"), foo.apply(void 0, [
 var _obj, _obj1, _instance, _instance1, a, obj, xa, C = function() {
     "use strict";
     function C(x, y) {
-        for(var _len = arguments.length, z = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)z[_key - 2] = arguments[_key];
+        for(var _len = arguments.length, z = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)z[_key - 2] = arguments[_key];
         _class_call_check(this, C), this.foo(x, y), this.foo.apply(this, [
             x,
             y
         ].concat(_to_consumable_array(z)));
     }
     return C.prototype.foo = function(x, y) {
-        for(var _len = arguments.length, z = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)z[_key - 2] = arguments[_key];
+        for(var _len = arguments.length, z = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)z[_key - 2] = arguments[_key];
     }, C;
 }(), D = function(C) {
     "use strict";

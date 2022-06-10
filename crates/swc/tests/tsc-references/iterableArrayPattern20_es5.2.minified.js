@@ -32,7 +32,7 @@ var Bar = function() {
     }, FooArrayIterator;
 }();
 (function() {
-    for(var _len = arguments.length, _tmp = Array(_len), _key = 0; _key < _len; _key++)_tmp[_key] = arguments[_key];
+    for(var _len = arguments.length, _tmp = new Array(_len), _key = 0; _key < _len; _key++)_tmp[_key] = arguments[_key];
     var __tmp = _sliced_to_array(_tmp, 2);
     void 0 === (void 0 === _sliced_to_array(__tmp[0], 1)[0] && new Foo, __tmp[1]) && new Foo;
 }).apply(void 0, _to_consumable_array(new FooArrayIterator));

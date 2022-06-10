@@ -454,7 +454,7 @@ var fireEvent, $pick = function() {
 };
 String.implement({
     test: function(regex, params) {
-        return ("regexp" == typeOf(regex) ? regex : new RegExp("" + regex, params)).test(this);
+        return ("regexp" == typeOf(regex) ? regex : RegExp("" + regex, params)).test(this);
     },
     contains: function(string, separator) {
         return separator ? (separator + this + separator).indexOf(separator + string + separator) > -1 : String(this).indexOf(string) > -1;
@@ -954,9 +954,9 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
         }).extend(this).implement(params);
         return newClass.$constructor = Class, newClass.prototype.$constructor = newClass, newClass.prototype.parent = parent1, newClass;
     }), parent1 = function() {
-        if (!this.$caller) throw new Error('The method "parent" cannot be called.');
+        if (!this.$caller) throw Error('The method "parent" cannot be called.');
         var name = this.$caller.$name, parent = this.$caller.$owner.parent, previous = parent ? parent.prototype[name] : null;
-        if (!previous) throw new Error('The method "' + name + '" has no parent.');
+        if (!previous) throw Error('The method "' + name + '" has no parent.');
         return previous.apply(this, arguments);
     }, reset = function(object) {
         for(var key in object){
@@ -974,7 +974,7 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
     }, wrap = function(self, key, method) {
         method.$origin && (method = method.$origin);
         var wrapper = (function() {
-            if (method.$protected && null == this.$caller) throw new Error('The method "' + key + '" cannot be called.');
+            if (method.$protected && null == this.$caller) throw Error('The method "' + key + '" cannot be called.');
             var caller = this.caller, current = this.$caller;
             this.caller = current, this.$caller = wrapper;
             var result = method.apply(this, arguments);
@@ -1105,7 +1105,7 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
         return string.replace(/[-[\]{}()*+?.\\^$|,#\s]/g, function(match) {
             return "\\" + match;
         });
-    }, regexp1 = new RegExp("^(?:\\s*(,)\\s*|\\s*(<combinator>+)\\s*|(\\s+)|(<unicode>+|\\*)|\\#(<unicode>+)|\\.(<unicode>+)|\\[\\s*(<unicode1>+)(?:\\s*([*^$!~|]?=)(?:\\s*(?:([\"']?)(.*?)\\9)))?\\s*\\](?!\\])|(:+)(<unicode>+)(?:\\((?:(?:([\"'])([^\\13]*)\\13)|((?:\\([^)]+\\)|[^()]*)+))\\))?)".replace(/<combinator>/, "[" + escapeRegExp(">+~`!@$%^&={}\\;</") + "]").replace(/<unicode>/g, "(?:[\\w\\u00a1-\\uFFFF-]|\\\\[^\\s0-9a-f])").replace(/<unicode1>/g, "(?:[:\\w\\u00a1-\\uFFFF-]|\\\\[^\\s0-9a-f])"));
+    }, regexp1 = RegExp("^(?:\\s*(,)\\s*|\\s*(<combinator>+)\\s*|(\\s+)|(<unicode>+|\\*)|\\#(<unicode>+)|\\.(<unicode>+)|\\[\\s*(<unicode1>+)(?:\\s*([*^$!~|]?=)(?:\\s*(?:([\"']?)(.*?)\\9)))?\\s*\\](?!\\])|(:+)(<unicode>+)(?:\\((?:(?:([\"'])([^\\13]*)\\13)|((?:\\([^)]+\\)|[^()]*)+))\\))?)".replace(/<combinator>/, "[" + escapeRegExp(">+~`!@$%^&={}\\;</") + "]").replace(/<unicode>/g, "(?:[\\w\\u00a1-\\uFFFF-]|\\\\[^\\s0-9a-f])").replace(/<unicode1>/g, "(?:[:\\w\\u00a1-\\uFFFF-]|\\\\[^\\s0-9a-f])"));
     function parser(rawMatch, separator, combinator, combinatorChildren, tagName, id, className, attributeKey, attributeOperator, attributeQuote, attributeValue, pseudoMarker, pseudoClass, pseudoQuote, pseudoClassQuotedValue, pseudoClassValue) {
         if ((separator || -1 === separatorIndex) && (parsed.expressions[++separatorIndex] = [], combinatorIndex = -1, separator)) return "";
         if (combinator || combinatorChildren || -1 === combinatorIndex) {
@@ -1121,7 +1121,7 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
         else if (id) currentParsed.id = id.replace(reUnescape, "");
         else if (className) className = className.replace(reUnescape, ""), currentParsed.classList || (currentParsed.classList = []), currentParsed.classes || (currentParsed.classes = []), currentParsed.classList.push(className), currentParsed.classes.push({
             value: className,
-            regexp: new RegExp("(^|\\s)" + escapeRegExp(className) + "(\\s|$)")
+            regexp: RegExp("(^|\\s)" + escapeRegExp(className) + "(\\s|$)")
         });
         else if (pseudoClass) pseudoClassValue = (pseudoClassValue = pseudoClassValue || pseudoClassQuotedValue) ? pseudoClassValue.replace(reUnescape, "") : null, currentParsed.pseudos || (currentParsed.pseudos = []), currentParsed.pseudos.push({
             key: pseudoClass.replace(reUnescape, ""),
@@ -1131,16 +1131,16 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
         else if (attributeKey) {
             switch(attributeKey = attributeKey.replace(reUnescape, ""), attributeValue = (attributeValue || "").replace(reUnescape, ""), attributeOperator){
                 case "^=":
-                    regexp = new RegExp("^" + escapeRegExp(attributeValue));
+                    regexp = RegExp("^" + escapeRegExp(attributeValue));
                     break;
                 case "$=":
-                    regexp = new RegExp(escapeRegExp(attributeValue) + "$");
+                    regexp = RegExp(escapeRegExp(attributeValue) + "$");
                     break;
                 case "~=":
-                    regexp = new RegExp("(^|\\s)" + escapeRegExp(attributeValue) + "(\\s|$)");
+                    regexp = RegExp("(^|\\s)" + escapeRegExp(attributeValue) + "(\\s|$)");
                     break;
                 case "|=":
-                    regexp = new RegExp("^" + escapeRegExp(attributeValue) + "(-|$)");
+                    regexp = RegExp("^" + escapeRegExp(attributeValue) + "(-|$)");
                     break;
                 case "=":
                     test = function(value) {
@@ -1310,7 +1310,7 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
                             if (nodes = context.getElementsByClassName(name), first) return nodes[0] || null;
                             for(i = 0; node = nodes[i++];)hasOthers && uniques[this.getUID(node)] || found.push(node);
                         } else {
-                            var matchClass = new RegExp("(^|\\s)" + Slick.escapeRegExp(name) + "(\\s|$)");
+                            var matchClass = RegExp("(^|\\s)" + Slick.escapeRegExp(name) + "(\\s|$)");
                             for(i = 0, nodes = context.getElementsByTagName("*"); node = nodes[i++];)if ((className = node.className) && matchClass.test(className)) {
                                 if (first) return node;
                                 hasOthers && uniques[this.getUID(node)] || found.push(node);
@@ -2083,7 +2083,7 @@ Elements.prototype = {
             return this.hasClass(className) || (this.className = (this.className + " " + className).clean()), this;
         },
         removeClass: function(className) {
-            return this.className = this.className.replace(new RegExp("(^|\\s)" + className + "(?:\\s|$)"), "$1"), this;
+            return this.className = this.className.replace(RegExp("(^|\\s)" + className + "(?:\\s|$)"), "$1"), this;
         },
         toggleClass: function(className, force) {
             return null == force && (force = !this.hasClass(className)), force ? this.addClass(className) : this.removeClass(className);
@@ -3070,7 +3070,7 @@ Elements.prototype = {
     },
     search: function(selector) {
         if (Fx.CSS.Cache[selector]) return Fx.CSS.Cache[selector];
-        var to = {}, selectorTest = new RegExp("^" + selector.escapeRegExp() + "$");
+        var to = {}, selectorTest = RegExp("^" + selector.escapeRegExp() + "$");
         return Array.each(document.styleSheets, function(sheet, j) {
             var href = sheet.href;
             (!(href && href.contains("://")) || href.contains(document.domain)) && Array.each(sheet.rules || sheet.cssRules, function(rule, i) {
@@ -3571,7 +3571,7 @@ Elements.prototype = {
         if (!string || "string" != typeOf(string)) return null;
         if (secure || JSON.secure) {
             if (JSON.parse) return JSON.parse(string);
-            if (!JSON.validate(string)) throw new Error("JSON could not decode the input; security is enabled and the value is not secure.");
+            if (!JSON.validate(string)) throw Error("JSON could not decode the input; security is enabled and the value is not secure.");
         }
         return eval("(" + string + ")");
     };

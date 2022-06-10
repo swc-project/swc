@@ -843,12 +843,12 @@
                 return _createXHR(options = initParams(uri, options, callback));
             }
             function _createXHR(options) {
-                if (void 0 === options.callback) throw new Error("callback argument missing");
+                if (void 0 === options.callback) throw Error("callback argument missing");
                 var key, aborted, timeoutTimer, called = !1, callback = function(err, response, body) {
                     called || (called = !0, options.callback(err, response, body));
                 };
                 function errorFunc(evt) {
-                    return clearTimeout(timeoutTimer), evt instanceof Error || (evt = new Error("" + (evt || "Unknown XMLHttpRequest Error"))), evt.statusCode = 0, callback(evt, failureResponse);
+                    return clearTimeout(timeoutTimer), evt instanceof Error || (evt = Error("" + (evt || "Unknown XMLHttpRequest Error"))), evt.statusCode = 0, callback(evt, failureResponse);
                 }
                 function loadFunc() {
                     if (!aborted) {
@@ -867,7 +867,7 @@
                             headers: {},
                             url: uri,
                             rawRequest: xhr
-                        }, xhr.getAllResponseHeaders && (response.headers = parseHeaders(xhr.getAllResponseHeaders()))) : err = new Error("Internal XMLHttpRequest Error"), callback(err, response, response.body);
+                        }, xhr.getAllResponseHeaders && (response.headers = parseHeaders(xhr.getAllResponseHeaders()))) : err = Error("Internal XMLHttpRequest Error"), callback(err, response, response.body);
                     }
                 }
                 var xhr = options.xhr || null;
@@ -887,14 +887,14 @@
                 }, xhr.ontimeout = errorFunc, xhr.open(method, uri, !sync, options.username, options.password), sync || (xhr.withCredentials = !!options.withCredentials), !sync && options.timeout > 0 && (timeoutTimer = setTimeout(function() {
                     if (!aborted) {
                         aborted = !0, xhr.abort("timeout");
-                        var e = new Error("XMLHttpRequest timeout");
+                        var e = Error("XMLHttpRequest timeout");
                         e.code = "ETIMEDOUT", errorFunc(e);
                     }
                 }, options.timeout)), xhr.setRequestHeader) for(key in headers)headers.hasOwnProperty(key) && xhr.setRequestHeader(key, headers[key]);
                 else if (options.headers && !function(obj) {
                     for(var i in obj)if (obj.hasOwnProperty(i)) return !1;
                     return !0;
-                }(options.headers)) throw new Error("Headers cannot be set on an XDomainRequest object");
+                }(options.headers)) throw Error("Headers cannot be set on an XDomainRequest object");
                 return "responseType" in options && (xhr.responseType = options.responseType), "beforeSend" in options && "function" == typeof options.beforeSend && options.beforeSend(xhr), xhr.send(body1 || null), xhr;
             }
             function getXml(xhr) {
@@ -1120,7 +1120,7 @@
                         var doc = el.ownerDocument;
                         doc && (_onRemoveAttribute(doc, el, attr), attr.ownerElement = null);
                     }
-                } else throw DOMException(NOT_FOUND_ERR, new Error(el.tagName + "@" + attr));
+                } else throw DOMException(NOT_FOUND_ERR, Error(el.tagName + "@" + attr));
             }
             function DOMImplementation() {}
             function Node() {}
@@ -1640,7 +1640,7 @@
                     this.replaceData(offset, 0, text);
                 },
                 appendChild: function(newChild) {
-                    throw new Error(ExceptionMessage[HIERARCHY_REQUEST_ERR]);
+                    throw Error(ExceptionMessage[HIERARCHY_REQUEST_ERR]);
                 },
                 deleteData: function(offset, count) {
                     this.replaceData(offset, count, "");
@@ -1962,7 +1962,7 @@
             dom.DOMImplementation, dom.XMLSerializer, exports.DOMParser = __webpack_require__(6129).DOMParser;
         },
         6925: function(__unused_webpack_module, exports, __webpack_require__) {
-            var NAMESPACE = __webpack_require__(2167).NAMESPACE, nameStartChar = /[A-Z_a-z\xC0-\xD6\xD8-\xF6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD]/, nameChar = new RegExp("[\\-\\.0-9" + nameStartChar.source.slice(1, -1) + "\\u00B7\\u0300-\\u036F\\u203F-\\u2040]"), tagNamePattern = new RegExp("^" + nameStartChar.source + nameChar.source + "*(?::" + nameStartChar.source + nameChar.source + "*)?$");
+            var NAMESPACE = __webpack_require__(2167).NAMESPACE, nameStartChar = /[A-Z_a-z\xC0-\xD6\xD8-\xF6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD]/, nameChar = RegExp("[\\-\\.0-9" + nameStartChar.source.slice(1, -1) + "\\u00B7\\u0300-\\u036F\\u203F-\\u2040]"), tagNamePattern = RegExp("^" + nameStartChar.source + nameChar.source + "*(?::" + nameStartChar.source + nameChar.source + "*)?$");
             function ParseError(message, locator) {
                 this.message = message, this.locator = locator, Error.captureStackTrace && Error.captureStackTrace(this, ParseError);
             }
@@ -1980,15 +1980,15 @@
                         case "=":
                             if (1 === s) attrName = source.slice(start, p), s = 3;
                             else if (2 === s) s = 3;
-                            else throw new Error("attribute equal must after attrName");
+                            else throw Error("attribute equal must after attrName");
                             break;
                         case "'":
                         case '"':
                             if (3 === s || 1 === s) {
                                 if (1 === s && (errorHandler.warning('attribute value must after "="'), attrName = source.slice(start, p)), start = p + 1, (p = source.indexOf(c, start)) > 0) addAttribute(attrName, value1 = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), start - 1), s = 5;
-                                else throw new Error("attribute value no end '" + c + "' match");
+                                else throw Error("attribute value no end '" + c + "' match");
                             } else if (4 == s) addAttribute(attrName, value1 = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), start), errorHandler.warning('attribute "' + attrName + '" missed start quot(' + c + ")!!"), start = p + 1, s = 5;
-                            else throw new Error('attribute value must after "="');
+                            else throw Error('attribute value must after "="');
                             break;
                         case "/":
                             switch(s){
@@ -2003,7 +2003,7 @@
                                 case 2:
                                     break;
                                 default:
-                                    throw new Error("attribute invalid close char('/')");
+                                    throw Error("attribute invalid close char('/')");
                             }
                             break;
                         case "":
@@ -2023,7 +2023,7 @@
                                     2 === s && (value1 = attrName), 4 == s ? (errorHandler.warning('attribute "' + value1 + '" missed quot(")!'), addAttribute(attrName, value1.replace(/&#?\w+;/g, entityReplacer), start)) : (NAMESPACE.isHTML(currentNSMap[""]) && value1.match(/^(?:disabled|checked|selected)$/i) || errorHandler.warning('attribute "' + value1 + '" missed value!! "' + value1 + '" instead!!'), addAttribute(value1, value1, start));
                                     break;
                                 case 3:
-                                    throw new Error("attribute value missed!!");
+                                    throw Error("attribute value missed!!");
                             }
                             return p;
                         case "\u0080":
@@ -2055,7 +2055,7 @@
                                     s = 4, start = p;
                                     break;
                                 case 7:
-                                    throw new Error("elements closed character '/' and '>' must be connected to");
+                                    throw Error("elements closed character '/' and '>' must be connected to");
                             }
                     }
                     p++;
@@ -2129,7 +2129,7 @@
                 var match, buf = [], reg = /'[^']+'|"[^"]+"|[^\s<>\/=]+=?|(\/?\s*>|<)/g;
                 for(reg.lastIndex = start, reg.exec(source); match = reg.exec(source);)if (buf.push(match), match[1]) return buf;
             }
-            ParseError.prototype = new Error(), ParseError.prototype.name = ParseError.name, XMLReader.prototype = {
+            ParseError.prototype = Error(), ParseError.prototype.name = ParseError.name, XMLReader.prototype = {
                 parse: function(source1, defaultNSMap, entityMap1) {
                     var domBuilder2 = this.domBuilder;
                     domBuilder2.startDocument(), _copy(defaultNSMap, defaultNSMap = {}), function(source, defaultNSMapCopy, entityMap, domBuilder, errorHandler) {
@@ -2204,11 +2204,11 @@
                 }
             }, ElementAttributes.prototype = {
                 setTagName: function(tagName) {
-                    if (!tagNamePattern.test(tagName)) throw new Error("invalid tagName:" + tagName);
+                    if (!tagNamePattern.test(tagName)) throw Error("invalid tagName:" + tagName);
                     this.tagName = tagName;
                 },
                 addValue: function(qName, value, offset) {
-                    if (!tagNamePattern.test(qName)) throw new Error("invalid attribute:" + qName);
+                    if (!tagNamePattern.test(qName)) throw Error("invalid attribute:" + qName);
                     this.attributeNames[qName] = this.length, this[this.length++] = {
                         qName: qName,
                         value: value,
@@ -2392,7 +2392,7 @@
                 var match = /([0-9.]*)?@?([0-9.]*)?/.exec(byterangeString || ""), result = {};
                 return match[1] && (result.length = parseInt(match[1], 10)), match[2] && (result.offset = parseInt(match[2], 10)), result;
             }, attributeSeparator = function() {
-                return new RegExp('(?:^|,)((?:[^=]*)=(?:"[^"]*"|[^,]*))');
+                return RegExp('(?:^|,)((?:[^=]*)=(?:"[^"]*"|[^,]*))');
             }, parseAttributes = function(attributes) {
                 for(var attr, attrs = attributes.split(attributeSeparator()), result = {}, i = attrs.length; i--;)"" !== attrs[i] && ((attr = /([^=]*)=(.*)/.exec(attrs[i]).slice(1))[0] = attr[0].replace(/^\s+|\s+$/g, ""), attr[1] = attr[1].replace(/^\s+|\s+$/g, ""), attr[1] = attr[1].replace(/^['"](.*)['"]$/g, "$1"), result[attr[0]] = attr[1]);
                 return result;
@@ -3094,7 +3094,7 @@
                 return segments;
             }, segmentsFromBase = function(attributes) {
                 var baseUrl = attributes.baseUrl, _attributes$initializ = attributes.initialization, initialization = void 0 === _attributes$initializ ? {} : _attributes$initializ, sourceDuration = attributes.sourceDuration, _attributes$indexRang = attributes.indexRange, duration = attributes.duration;
-                if (!baseUrl) throw new Error(errors.NO_BASE_URL);
+                if (!baseUrl) throw Error(errors.NO_BASE_URL);
                 var initSegment = urlTypeToSegment({
                     baseUrl: baseUrl,
                     source: initialization.sourceURL,
@@ -3357,7 +3357,7 @@
                 return segment.map = initSegment, segment;
             }, segmentsFromList = function(attributes, segmentTimeline) {
                 var segmentTimeInfo, duration = attributes.duration, _attributes$segmentUr = attributes.segmentUrls, periodStart = attributes.periodStart;
-                if (!duration && !segmentTimeline || duration && segmentTimeline) throw new Error(errors.SEGMENT_TIME_UNSPECIFIED);
+                if (!duration && !segmentTimeline || duration && segmentTimeline) throw Error(errors.SEGMENT_TIME_UNSPECIFIED);
                 var segmentUrlMap = (void 0 === _attributes$segmentUr ? [] : _attributes$segmentUr).map(function(segmentUrlObject) {
                     return SegmentURLToSegmentObject(attributes, segmentUrlObject);
                 });
@@ -3526,7 +3526,7 @@
             }, inheritAttributes = function(mpd, options) {
                 void 0 === options && (options = {});
                 var _options = options, _options$manifestUri = _options.manifestUri, _options$NOW = _options.NOW, NOW = void 0 === _options$NOW ? Date.now() : _options$NOW, _options$clientOffset = _options.clientOffset, periodNodes = findChildren(mpd, "Period");
-                if (!periodNodes.length) throw new Error(errors.INVALID_NUMBER_OF_PERIOD);
+                if (!periodNodes.length) throw Error(errors.INVALID_NUMBER_OF_PERIOD);
                 var locations = findChildren(mpd, "Location"), mpdAttributes = parseAttributes(mpd), mpdBaseUrls = buildBaseUrls([
                     void 0 === _options$manifestUri ? "" : _options$manifestUri
                 ], findChildren(mpd, "BaseURL"));
@@ -3595,12 +3595,12 @@
                     })))
                 };
             }, stringToMpdXml = function(manifestString) {
-                if ("" === manifestString) throw new Error(errors.DASH_EMPTY_MANIFEST);
+                if ("" === manifestString) throw Error(errors.DASH_EMPTY_MANIFEST);
                 var xml, mpd, parser = new _xmldom_xmldom__WEBPACK_IMPORTED_MODULE_3__.DOMParser();
                 try {
                     mpd = (xml = parser.parseFromString(manifestString, "application/xml")) && "MPD" === xml.documentElement.tagName ? xml.documentElement : null;
                 } catch (e) {}
-                if (!mpd || mpd && mpd.getElementsByTagName("parsererror").length > 0) throw new Error(errors.DASH_INVALID_XML);
+                if (!mpd || mpd && mpd.getElementsByTagName("parsererror").length > 0) throw Error(errors.DASH_INVALID_XML);
                 return mpd;
             }, parseUTCTimingScheme = function(mpd) {
                 var UTCTimingNode = findChildren(mpd, "UTCTiming")[0];
@@ -3622,7 +3622,7 @@
                         attributes.method = "DIRECT", attributes.value = Date.parse(attributes.value);
                         break;
                     default:
-                        throw new Error(errors.UNSUPPORTED_UTC_TIMING_SCHEME);
+                        throw Error(errors.UNSUPPORTED_UTC_TIMING_SCHEME);
                 }
                 return attributes;
             }, parse = function(manifestString, options) {
@@ -3793,14 +3793,14 @@
                     if (opts = opts || {}, baseURL = baseURL.trim(), !(relativeURL = relativeURL.trim())) {
                         if (!opts.alwaysNormalize) return baseURL;
                         var basePartsForNormalise = URLToolkit.parseURL(baseURL);
-                        if (!basePartsForNormalise) throw new Error("Error trying to parse base URL.");
+                        if (!basePartsForNormalise) throw Error("Error trying to parse base URL.");
                         return basePartsForNormalise.path = URLToolkit.normalizePath(basePartsForNormalise.path), URLToolkit.buildURLFromParts(basePartsForNormalise);
                     }
                     var relativeParts = URLToolkit.parseURL(relativeURL);
-                    if (!relativeParts) throw new Error("Error trying to parse relative URL.");
+                    if (!relativeParts) throw Error("Error trying to parse relative URL.");
                     if (relativeParts.scheme) return opts.alwaysNormalize ? (relativeParts.path = URLToolkit.normalizePath(relativeParts.path), URLToolkit.buildURLFromParts(relativeParts)) : relativeURL;
                     var baseParts = URLToolkit.parseURL(baseURL);
-                    if (!baseParts) throw new Error("Error trying to parse base URL.");
+                    if (!baseParts) throw Error("Error trying to parse base URL.");
                     if (!baseParts.netLoc && baseParts.path && "/" !== baseParts.path[0]) {
                         var pathParts = FIRST_SEGMENT_REGEX.exec(baseParts.path);
                         baseParts.netLoc = pathParts[1], baseParts.path = pathParts[2];
@@ -3860,7 +3860,7 @@
             var document = __webpack_require__(9144), _objCreate = Object.create || function() {
                 function F() {}
                 return function(o) {
-                    if (1 !== arguments.length) throw new Error("Object.create shim only accepts one parameter.");
+                    if (1 !== arguments.length) throw Error("Object.create shim only accepts one parameter.");
                     return F.prototype = o, new F();
                 };
             }();
@@ -4725,7 +4725,7 @@
                 return {
                     decode: function(data) {
                         if (!data) return "";
-                        if ("string" != typeof data) throw new Error("Error - expected string data.");
+                        if ("string" != typeof data) throw Error("Error - expected string data.");
                         return decodeURIComponent(encodeURIComponent(data));
                     }
                 };
@@ -5010,7 +5010,7 @@
                             return _position;
                         },
                         set: function(value) {
-                            if (value < 0 || value > 100) throw new Error("Position must be between 0 and 100.");
+                            if (value < 0 || value > 100) throw Error("Position must be between 0 and 100.");
                             _position = value, this.hasBeenReset = !0;
                         }
                     },
@@ -5030,7 +5030,7 @@
                             return _size;
                         },
                         set: function(value) {
-                            if (value < 0 || value > 100) throw new Error("Size must be between 0 and 100.");
+                            if (value < 0 || value > 100) throw Error("Size must be between 0 and 100.");
                             _size = value, this.hasBeenReset = !0;
                         }
                     },
@@ -5068,7 +5068,7 @@
                             return _width;
                         },
                         set: function(value) {
-                            if (!isValidPercentValue(value)) throw new Error("Width must be between 0 and 100.");
+                            if (!isValidPercentValue(value)) throw Error("Width must be between 0 and 100.");
                             _width = value;
                         }
                     },
@@ -5088,7 +5088,7 @@
                             return _regionAnchorY;
                         },
                         set: function(value) {
-                            if (!isValidPercentValue(value)) throw new Error("RegionAnchorX must be between 0 and 100.");
+                            if (!isValidPercentValue(value)) throw Error("RegionAnchorX must be between 0 and 100.");
                             _regionAnchorY = value;
                         }
                     },
@@ -5098,7 +5098,7 @@
                             return _regionAnchorX;
                         },
                         set: function(value) {
-                            if (!isValidPercentValue(value)) throw new Error("RegionAnchorY must be between 0 and 100.");
+                            if (!isValidPercentValue(value)) throw Error("RegionAnchorY must be between 0 and 100.");
                             _regionAnchorX = value;
                         }
                     },
@@ -5108,7 +5108,7 @@
                             return _viewportAnchorY;
                         },
                         set: function(value) {
-                            if (!isValidPercentValue(value)) throw new Error("ViewportAnchorY must be between 0 and 100.");
+                            if (!isValidPercentValue(value)) throw Error("ViewportAnchorY must be between 0 and 100.");
                             _viewportAnchorY = value;
                         }
                     },
@@ -5118,7 +5118,7 @@
                             return _viewportAnchorX;
                         },
                         set: function(value) {
-                            if (!isValidPercentValue(value)) throw new Error("ViewportAnchorX must be between 0 and 100.");
+                            if (!isValidPercentValue(value)) throw Error("ViewportAnchorX must be between 0 and 100.");
                             _viewportAnchorX = value;
                         }
                     },
@@ -5151,7 +5151,7 @@
             for(var lookup = [], revLookup = [], Arr = "undefined" != typeof Uint8Array ? Uint8Array : Array, code = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", i3 = 0, len1 = code.length; i3 < len1; ++i3)lookup[i3] = code[i3], revLookup[code.charCodeAt(i3)] = i3;
             function getLens(b64) {
                 var len = b64.length;
-                if (len % 4 > 0) throw new Error("Invalid string. Length must be a multiple of 4");
+                if (len % 4 > 0) throw Error("Invalid string. Length must be a multiple of 4");
                 var validLen = b64.indexOf("=");
                 -1 === validLen && (validLen = len);
                 var placeHoldersLen = validLen === len ? 0 : 4 - validLen % 4;
@@ -5541,7 +5541,7 @@
                 if (void 0 === offset) encoding = "utf8", length = this.length, offset = 0;
                 else if (void 0 === length && "string" == typeof offset) encoding = offset, length = this.length, offset = 0;
                 else if (isFinite(offset)) offset >>>= 0, isFinite(length) ? (length >>>= 0, void 0 === encoding && (encoding = "utf8")) : (encoding = length, length = void 0);
-                else throw new Error("Buffer.write(string, encoding, offset[, length]) is no longer supported");
+                else throw Error("Buffer.write(string, encoding, offset[, length]) is no longer supported");
                 var remaining = this.length - offset;
                 if ((void 0 === length || length > remaining) && (length = remaining), string.length > 0 && (length < 0 || offset < 0) || offset > this.length) throw new RangeError("Attempt to write outside buffer bounds");
                 encoding || (encoding = "utf8");
@@ -5747,7 +5747,7 @@
                     } else if (codePoint < 0x110000) {
                         if ((units -= 4) < 0) break;
                         bytes.push(codePoint >> 0x12 | 0xf0, codePoint >> 0xc & 0x3f | 0x80, codePoint >> 0x6 & 0x3f | 0x80, 0x3f & codePoint | 0x80);
-                    } else throw new Error("Invalid code point");
+                    } else throw Error("Invalid code point");
                 }
                 return bytes;
             }

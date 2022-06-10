@@ -457,7 +457,7 @@
                 clone: gl_vec2__WEBPACK_IMPORTED_MODULE_4__.clone
             };
             function assertNumberPositive(val) {
-                if (val < 0) throw new Error("expected positive number, received ".concat(val));
+                if (val < 0) throw Error("expected positive number, received ".concat(val));
             }
             var ImageWrapper1 = function() {
                 function ImageWrapper(size, data) {
@@ -551,7 +551,7 @@
                         key: "show",
                         value: function(canvas) {
                             var scale = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 1.0, ctx = canvas.getContext("2d");
-                            if (!ctx) throw new Error("Unable to get canvas context");
+                            if (!ctx) throw Error("Unable to get canvas context");
                             var frame = ctx.getImageData(0, 0, canvas.width, canvas.height), data = this.getAsRGBA(scale);
                             canvas.width = this.size.x, canvas.height = this.size.y;
                             var newFrame = new ImageData(data, frame.width, frame.height);
@@ -578,7 +578,7 @@
                                 0,
                                 0
                             ], result = [], ctx = canvas.getContext("2d");
-                            if (!ctx) throw new Error("Unable to get canvas context");
+                            if (!ctx) throw Error("Unable to get canvas context");
                             for(var frame = ctx.getImageData(from.x, from.y, this.size.x, this.size.y), data = frame.data, length = this.data.length; length--;){
                                 hsv[0] = this.data[length] * adjustedScale, result = hsv[0] <= 0 ? whiteRgb : hsv[0] >= 360 ? blackRgb : Object(_cv_utils__WEBPACK_IMPORTED_MODULE_5__.g)(hsv, rgb);
                                 var pos = 4 * length, _result = result, _result2 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_result, 3);
@@ -992,7 +992,7 @@
                             y: Math.floor(height * thisHalfSample)
                         };
                         if (patchSize = Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.a)(config.patchSize, size), console.log("Patch-Size: ".concat(JSON.stringify(patchSize))), inputStream.setWidth(Math.floor(Math.floor(size.x / patchSize.x) * (1 / thisHalfSample) * patchSize.x)), inputStream.setHeight(Math.floor(Math.floor(size.y / patchSize.y) * (1 / thisHalfSample) * patchSize.y)), inputStream.getWidth() % patchSize.x == 0 && inputStream.getHeight() % patchSize.y == 0) return !0;
-                        throw new Error("Image dimensions do not comply with the current settings: Width (".concat(width, " )and height (").concat(height, ") must a multiple of ").concat(patchSize.x));
+                        throw Error("Image dimensions do not comply with the current settings: Width (".concat(width, " )and height (").concat(height, ") must a multiple of ").concat(patchSize.x));
                     }
                 };
             }).call(this, __webpack_require__(46));
@@ -1170,7 +1170,7 @@
                 return this;
             }();
             try {
-                g = g || new Function("return this")();
+                g = g || Function("return this")();
             } catch (e) {
                 "object" == typeof window && (g = window);
             }
@@ -2701,7 +2701,7 @@
                 function makeInvokeMethod(innerFn, self, context) {
                     var state = GenStateSuspendedStart;
                     return function(method, arg) {
-                        if (state === GenStateExecuting) throw new Error("Generator is already running");
+                        if (state === GenStateExecuting) throw Error("Generator is already running");
                         if (state === GenStateCompleted) {
                             if ("throw" === method) throw arg;
                             return doneResult();
@@ -2847,7 +2847,7 @@
                                     if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0);
                                 } else if (hasFinally) {
                                     if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc);
-                                } else throw new Error("try statement without catch or finally");
+                                } else throw Error("try statement without catch or finally");
                             }
                         }
                     },
@@ -2885,7 +2885,7 @@
                                 return thrown;
                             }
                         }
-                        throw new Error("illegal catch attempt");
+                        throw Error("illegal catch attempt");
                     },
                     delegateYield: function(iterable, resultName, nextLoc) {
                         return this.delegate = {
@@ -6536,7 +6536,7 @@
                             }(inputImageWrapper);
                         },
                         registerReader: function(name, reader) {
-                            if (READERS[name]) throw new Error("cannot register existing reader", name);
+                            if (READERS[name]) throw Error("cannot register existing reader", name);
                             READERS[name] = reader;
                         },
                         setReaders: function(readers) {
@@ -6562,7 +6562,7 @@
                         callback: callback,
                         async: async
                     };
-                    else if (!(subscription = callback).callback) throw new Error("Callback was not specified on options");
+                    else if (!(subscription = callback).callback) throw Error("Callback was not specified on options");
                     getEvent(event).subscribers.push(subscription);
                 }
                 return {

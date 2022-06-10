@@ -32,7 +32,7 @@ function _templateObject2() {
     }, data;
 }
 function tempTag2() {
-    for(var _len = arguments.length, rest = Array(_len), _key = 0; _key < _len; _key++)rest[_key] = arguments[_key];
+    for(var _len = arguments.length, rest = new Array(_len), _key = 0; _key < _len; _key++)rest[_key] = arguments[_key];
 }
 tempTag2(_templateObject(), function(x) {
     return x(void 0), x;

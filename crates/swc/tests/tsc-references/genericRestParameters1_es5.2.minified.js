@@ -1,6 +1,6 @@
 import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
 function call(f) {
-    for(var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)args[_key - 1] = arguments[_key];
+    for(var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)args[_key - 1] = arguments[_key];
     return f.apply(void 0, _to_consumable_array(args));
 }
 function callr(args, f) {
@@ -8,7 +8,7 @@ function callr(args, f) {
 }
 function bind(f, x) {
     return function() {
-        for(var _len = arguments.length, rest = Array(_len), _key = 0; _key < _len; _key++)rest[_key] = arguments[_key];
+        for(var _len = arguments.length, rest = new Array(_len), _key = 0; _key < _len; _key++)rest[_key] = arguments[_key];
         return f.apply(void 0, [
             x
         ].concat(_to_consumable_array(rest)));

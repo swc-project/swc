@@ -118,7 +118,7 @@
                         for(var t2 = [], f1 = [], n1 = "undefined" != typeof Uint8Array ? Uint8Array : Array, i1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", o1 = 0, u1 = i1.length; o1 < u1; ++o1)t2[o1] = i1[o1], f1[i1.charCodeAt(o1)] = o1;
                         function getLens(e) {
                             var r = e.length;
-                            if (r % 4 > 0) throw new Error("Invalid string. Length must be a multiple of 4");
+                            if (r % 4 > 0) throw Error("Invalid string. Length must be a multiple of 4");
                             var t = e.indexOf("=");
                             -1 === t && (t = r);
                             var f = t === r ? 0 : 4 - t % 4;
@@ -508,7 +508,7 @@
                             if (void 0 === r) f = "utf8", t = this.length, r = 0;
                             else if (void 0 === t && "string" == typeof r) f = r, t = this.length, r = 0;
                             else if (isFinite(r)) r >>>= 0, isFinite(t) ? (t >>>= 0, void 0 === f && (f = "utf8")) : (f = t, t = void 0);
-                            else throw new Error("Buffer.write(string, encoding, offset[, length]) is no longer supported");
+                            else throw Error("Buffer.write(string, encoding, offset[, length]) is no longer supported");
                             var n = this.length - r;
                             if ((void 0 === t || t > n) && (t = n), e.length > 0 && (t < 0 || r < 0) || r > this.length) throw new RangeError("Attempt to write outside buffer bounds");
                             f || (f = "utf8");
@@ -714,7 +714,7 @@
                                 } else if (t < 1114112) {
                                     if ((r -= 4) < 0) break;
                                     i.push(t >> 18 | 240, t >> 12 & 63 | 128, t >> 6 & 63 | 128, 63 & t | 128);
-                                } else throw new Error("Invalid code point");
+                                } else throw Error("Invalid code point");
                             }
                             return i;
                         }
@@ -789,10 +789,10 @@
                     162: function(e12) {
                         var r8, n, u, t7 = e12.exports = {};
                         function defaultSetTimout() {
-                            throw new Error("setTimeout has not been defined");
+                            throw Error("setTimeout has not been defined");
                         }
                         function defaultClearTimeout() {
-                            throw new Error("clearTimeout has not been defined");
+                            throw Error("clearTimeout has not been defined");
                         }
                         function runTimeout(e) {
                             if (r8 === setTimeout) return setTimeout(e, 0);
@@ -859,11 +859,11 @@
                         }, t7.title = "browser", t7.browser = !0, t7.env = {}, t7.argv = [], t7.version = "", t7.versions = {}, t7.on = noop, t7.addListener = noop, t7.once = noop, t7.off = noop, t7.removeListener = noop, t7.removeAllListeners = noop, t7.emit = noop, t7.prependListener = noop, t7.prependOnceListener = noop, t7.listeners = function(e) {
                             return [];
                         }, t7.binding = function(e) {
-                            throw new Error("process.binding is not supported");
+                            throw Error("process.binding is not supported");
                         }, t7.cwd = function() {
                             return "/";
                         }, t7.chdir = function(e) {
-                            throw new Error("process.chdir is not supported");
+                            throw Error("process.chdir is not supported");
                         }, t7.umask = function() {
                             return 0;
                         };
@@ -1924,7 +1924,7 @@
                             Object.defineProperty(t16, r, {
                                 enumerable: !1,
                                 value: function() {
-                                    throw new Error(r + " is not supported in userland");
+                                    throw Error(r + " is not supported in userland");
                                 }
                             });
                         });
@@ -1966,7 +1966,7 @@
                             var o = !1;
                             return function() {
                                 if (!o) {
-                                    if (process.throwDeprecation) throw new Error(e);
+                                    if (process.throwDeprecation) throw Error(e);
                                     process.traceDeprecation ? console.trace(e) : console.error(e), o = !0;
                                 }
                                 return r.apply(this, arguments);
@@ -1975,7 +1975,7 @@
                         var i4 = {}, a2 = /^$/;
                         if (process.env.NODE_DEBUG) {
                             var y1 = process.env.NODE_DEBUG;
-                            y1 = y1.replace(/[|\\{}()[\]^$+?.]/g, "\\$&").replace(/\*/g, ".*").replace(/,/g, "$|^").toUpperCase(), a2 = new RegExp("^" + y1 + "$", "i");
+                            a2 = RegExp("^" + (y1 = y1.replace(/[|\\{}()[\]^$+?.]/g, "\\$&").replace(/\*/g, ".*").replace(/,/g, "$|^").toUpperCase()) + "$", "i");
                         }
                         function inspect(r, e) {
                             var o = {
@@ -2215,7 +2215,7 @@
                         var f5 = "undefined" != typeof Symbol ? Symbol("util.promisify.custom") : void 0;
                         function callbackifyOnRejected(r, t) {
                             if (!r) {
-                                var e = new Error("Promise was rejected with a falsy value");
+                                var e = Error("Promise was rejected with a falsy value");
                                 e.reason = r, r = e;
                             }
                             return t(r);

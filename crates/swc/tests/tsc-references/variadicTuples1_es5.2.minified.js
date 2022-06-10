@@ -4,9 +4,9 @@ function concat(t, u2) {
     return _to_consumable_array(t).concat(_to_consumable_array(u2));
 }
 function curry(f) {
-    for(var _len1 = arguments.length, _$a = Array(_len1 > 1 ? _len1 - 1 : 0), _key1 = 1; _key1 < _len1; _key1++)_$a[_key1 - 1] = arguments[_key1];
+    for(var _len1 = arguments.length, _$a = new Array(_len1 > 1 ? _len1 - 1 : 0), _key1 = 1; _key1 < _len1; _key1++)_$a[_key1 - 1] = arguments[_key1];
     return function() {
-        for(var _len = arguments.length, b = Array(_len), _key = 0; _key < _len; _key++)b[_key] = arguments[_key];
+        for(var _len = arguments.length, b = new Array(_len), _key = 0; _key < _len; _key++)b[_key] = arguments[_key];
         return f.apply(void 0, _to_consumable_array(_$a).concat(_to_consumable_array(b)));
     };
 }
@@ -75,12 +75,12 @@ curry(fn1), curry(fn1, 1), curry(fn1, 1, "abc"), curry(fn1, 1, "abc", !0), curry
     "y"
 ]);
 var fn2 = function(x, b) {
-    for(var _len = arguments.length, args = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)args[_key - 2] = arguments[_key];
+    for(var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++)args[_key - 2] = arguments[_key];
     return 0;
 };
 curry(fn2), curry(fn2, 1), curry(fn2, 1, !0), curry(fn2, 1, !0, "abc", "def");
 var fn3 = function() {
-    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
     return 0;
 };
 function curry2(f, t, u3) {
@@ -88,7 +88,7 @@ function curry2(f, t, u3) {
 }
 function callApi(method) {
     return function() {
-        for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+        for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
         return method.apply(void 0, _to_consumable_array(args).concat([
             {}
         ]));
@@ -138,7 +138,7 @@ curry(fn3), curry(fn3, "abc", "def"), curry.apply(void 0, [
     return 42;
 }), call.apply(void 0, _to_consumable_array(sa).concat([
     function() {
-        for(var _len = arguments.length, x = Array(_len), _key = 0; _key < _len; _key++)x[_key] = arguments[_key];
+        for(var _len = arguments.length, x = new Array(_len), _key = 0; _key < _len; _key++)x[_key] = arguments[_key];
         return 42;
     }
 ])), a.bind("", 1), callApi(getUser), callApi(getOrgUser);
