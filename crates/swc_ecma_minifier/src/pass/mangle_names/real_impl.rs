@@ -218,7 +218,7 @@ where
         node.visit_children_with(self);
 
         if let Some(id) = &node.ident {
-            self.add(&id);
+            self.add(id);
         }
     }
 
@@ -239,7 +239,7 @@ where
         node.visit_children_with(self);
 
         if let Some(id) = &node.ident {
-            self.add(&id);
+            self.add(id);
         }
     }
 
