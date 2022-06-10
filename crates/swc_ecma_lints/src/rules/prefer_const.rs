@@ -1,3 +1,4 @@
+use serde::{Deserialize, Serialize};
 use swc_common::{collections::AHashMap, errors::HANDLER, Span};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Visit, VisitWith};
@@ -11,15 +12,21 @@ use crate::{
 // todo: implement option destructuring: all | any
 // https://eslint.org/docs/rules/prefer-const#destructuring
 
-// todo: implement option ignoreReadBeforeAssign
-// https://eslint.org/docs/rules/prefer-const#ignorereadbeforeassign
+#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct PreferConstConfig {
+    ignore_read_before_assign: Option<bool>,
+}
 
-pub fn prefer_const(config: &RuleConfig<()>) -> Option<Box<dyn Rule>> {
+pub fn prefer_const(config: &RuleConfig<PreferConstConfig>) -> Option<Box<dyn Rule>> {
     let rule_reaction = config.get_rule_reaction();
 
     match rule_reaction {
         LintRuleReaction::Off => None,
-        _ => Some(visitor_rule(PreferConst::new(rule_reaction))),
+        _ => Some(visitor_rule(PreferConst::new(
+            rule_reaction,
+            config.get_rule_config(),
+        ))),
     }
 }
 
@@ -40,6 +47,8 @@ struct VariableMeta {
     // let a;
     // a = 10;
     postinitialized: bool,
+
+    used_before_initialize: bool,
 }
 
 #[derive(Debug, Default)]
@@ -49,16 +58,20 @@ struct PreferConst {
     scope_vars_idx: usize,
     block_depth: usize,
     cycle_head_depth: usize,
+
+    ignore_read_before_assign: bool,
 }
 
 impl PreferConst {
-    fn new(expected_reaction: LintRuleReaction) -> Self {
+    fn new(expected_reaction: LintRuleReaction, rule_config: &PreferConstConfig) -> Self {
         Self {
             expected_reaction,
             vars_meta: Default::default(),
             scope_vars_idx: 0,
             block_depth: 0,
             cycle_head_depth: 0,
+
+            ignore_read_before_assign: rule_config.ignore_read_before_assign.unwrap_or(false),
         }
     }
 
@@ -89,6 +102,7 @@ impl PreferConst {
                 destructuring_assign: false,
                 declared_into_cycle_head: self.cycle_head_depth != 0,
                 postinitialized: false,
+                used_before_initialize: false,
             },
         );
     }
@@ -178,8 +192,14 @@ impl PreferConst {
         vars.sort_by(|(_, a), (_, b)| a.order.cmp(&b.order));
 
         vars.into_iter().for_each(|(id, var_meta)| {
+            let postinitialized = if self.ignore_read_before_assign {
+                var_meta.postinitialized && !var_meta.used_before_initialize
+            } else {
+                var_meta.postinitialized
+            };
+
             if var_meta.initialized
-                || var_meta.postinitialized
+                || postinitialized
                 || var_meta.destructuring_assign
                 || var_meta.declared_into_cycle_head
             {
@@ -254,5 +274,15 @@ impl Visit for PreferConst {
         }
 
         update_expr.visit_children_with(self);
+    }
+
+    fn visit_ident(&mut self, ident: &Ident) {
+        if let Some(var_meta) = self.vars_meta.get_mut(&ident.to_id()) {
+            if self.block_depth > var_meta.block_depth {
+                var_meta.used_before_initialize = true;
+            }
+        }
+
+        ident.visit_children_with(self);
     }
 }
