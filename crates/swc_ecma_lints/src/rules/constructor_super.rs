@@ -39,17 +39,10 @@ impl Default for SuperClass {
 }
 
 #[derive(Debug, Default)]
-struct ClassMarkers {
-    already_reported: bool, // ?
+struct ClassMeta {
     super_class: SuperClass,
-    super_called_into_constructor: bool,
-    current_constructor_block_depth: usize,
-    inside_constructor: bool,
-
-    code_path: CodePath,
-
     constructor_scope: usize,
-    loop_depth: usize,
+    code_path: CodePath,
     loop_span: Option<Span>,
 }
 
@@ -59,14 +52,14 @@ struct CodePath {
     possibly_returned: bool,
     super_call_missed: bool,
 
-    // switch-case
+    // only for switch-case
     break_exists: bool,
 }
 
 #[derive(Debug, Default)]
 struct ConstructorSuper {
     expected_reaction: LintRuleReaction,
-    class_markers: ClassMarkers,
+    class_meta: ClassMeta,
     scope: usize,
 }
 
@@ -75,7 +68,7 @@ impl ConstructorSuper {
         Self {
             expected_reaction,
             scope: 0,
-            class_markers: Default::default(),
+            class_meta: Default::default(),
         }
     }
 
@@ -92,7 +85,7 @@ impl ConstructorSuper {
     }
 
     fn collect_class(&mut self, class: &Class) {
-        self.class_markers.super_class = match &class.super_class {
+        self.class_meta.super_class = match &class.super_class {
             Some(super_class) => match unwrap_seqs_and_parens(super_class.as_ref()) {
                 Expr::Ident(_) | Expr::Class(_) => SuperClass::Valid,
                 _ => SuperClass::Invalid,
@@ -102,24 +95,23 @@ impl ConstructorSuper {
     }
 
     fn check_on_super_call(&mut self, span: Span) {
-        match self.class_markers.super_class {
+        match self.class_meta.super_class {
             SuperClass::Invalid => {
-                self.class_markers.already_reported = true;
-
                 self.emit_report(span, BAD_SUPER_MESSAGE);
             }
             SuperClass::NotSetted => {
-                self.class_markers.already_reported = true;
-
-                self.emit_report(span, CALL_SUPER_EXCPECTED_MESSAGE);
+                if let Some(span) = self.class_meta.loop_span {
+                    self.emit_report(span, MORE_THAN_ONE_CALL_POSSIBLE_MESSAGE);
+                } else if self.class_meta.code_path.super_calls_count > 1 {
+                    self.emit_report(span, UNEXPECTED_DUPLICATE_SUPER_CALL_MESSAGE);
+                } else {
+                    self.emit_report(span, CALL_SUPER_EXCPECTED_MESSAGE);
+                }
             }
             SuperClass::Valid => {
-                if self.class_markers.loop_depth > 0 {
-                    self.emit_report(
-                        self.class_markers.loop_span.unwrap(),
-                        MORE_THAN_ONE_CALL_POSSIBLE_MESSAGE,
-                    );
-                } else if self.class_markers.code_path.super_calls_count > 1 {
+                if let Some(span) = self.class_meta.loop_span {
+                    self.emit_report(span, MORE_THAN_ONE_CALL_POSSIBLE_MESSAGE);
+                } else if self.class_meta.code_path.super_calls_count > 1 {
                     self.emit_report(span, UNEXPECTED_DUPLICATE_SUPER_CALL_MESSAGE);
                 }
             }
@@ -127,23 +119,27 @@ impl ConstructorSuper {
     }
 
     fn check_on_constructor(&self, span: Span) {
-        match self.class_markers.super_class {
+        match self.class_meta.super_class {
             SuperClass::Valid => {
-                if self.class_markers.code_path.super_call_missed {
+                if self.class_meta.code_path.super_call_missed {
                     self.emit_report(span, LACKED_CALL_SUPER_MESSAGE);
                 }
 
-                if self.class_markers.code_path.super_calls_count == 0 {
+                if self.class_meta.code_path.super_calls_count == 0 {
                     self.emit_report(span, CALL_SUPER_EXCPECTED_MESSAGE);
                 }
             }
             SuperClass::NotSetted => {}
-            SuperClass::Invalid => {}
+            SuperClass::Invalid => {
+                if self.class_meta.code_path.super_calls_count == 0 {
+                    self.emit_report(span, CALL_SUPER_EXCPECTED_MESSAGE);
+                }
+            }
         }
     }
 
-    fn update_code_path(&mut self, ordered_pathes: &[CodePath]) {
-        let current_code_path = &mut self.class_markers.code_path;
+    fn update_current_code_path(&mut self, ordered_pathes: &[CodePath]) {
+        let current_code_path = &mut self.class_meta.code_path;
 
         for code_path in ordered_pathes.iter() {
             current_code_path.possibly_returned =
@@ -158,34 +154,26 @@ impl ConstructorSuper {
                 || code_path.super_call_missed
                 || code_path.super_calls_count == 0;
         }
-
-        println!("upd input {:?}", ordered_pathes);
-        println!("update??? {:?}", current_code_path);
     }
 }
 
 impl Visit for ConstructorSuper {
     fn visit_class(&mut self, class: &Class) {
-        let prev_class_markers = mem::take(&mut self.class_markers);
+        let prev_class_markers = mem::take(&mut self.class_meta);
 
         self.collect_class(class);
 
         class.visit_children_with(self);
 
-        self.class_markers = prev_class_markers;
+        self.class_meta = prev_class_markers;
     }
 
     fn visit_constructor(&mut self, constructor: &Constructor) {
         self.scope += 1;
 
-        self.class_markers.current_constructor_block_depth = self.scope; // ?
-
-        self.class_markers.constructor_scope = self.scope;
-        self.class_markers.inside_constructor = true;
+        self.class_meta.constructor_scope = self.scope;
 
         constructor.visit_children_with(self);
-
-        self.class_markers.inside_constructor = false;
 
         self.check_on_constructor(constructor.span);
 
@@ -194,14 +182,12 @@ impl Visit for ConstructorSuper {
 
     fn visit_call_expr(&mut self, call_expr: &CallExpr) {
         if let Callee::Super(super_call) = &call_expr.callee {
-            self.class_markers.super_called_into_constructor =
-                self.class_markers.current_constructor_block_depth == self.scope;
-
-            if !self.class_markers.code_path.possibly_returned {
-                self.class_markers.code_path.super_calls_count += 1;
-                self.class_markers.code_path.super_call_missed = false;
+            if !self.class_meta.code_path.possibly_returned
+                && self.class_meta.constructor_scope == self.scope
+            {
+                self.class_meta.code_path.super_calls_count += 1;
+                self.class_meta.code_path.super_call_missed = false;
             }
-            println!("super() {:?}", self.class_markers.code_path);
 
             self.check_on_super_call(super_call.span);
         }
@@ -210,31 +196,24 @@ impl Visit for ConstructorSuper {
     }
 
     fn visit_if_stmt(&mut self, if_stmt: &IfStmt) {
-        // println!("if stmt {:?}", if_stmt.test);
         if_stmt.test.visit_children_with(self);
 
-        let code_path = self.class_markers.code_path.clone();
-
-        let parent_code_path = mem::replace(&mut self.class_markers.code_path, code_path.clone());
+        let parent_code_path = self.class_meta.code_path.clone();
 
         if_stmt.cons.visit_children_with(self);
 
-        let cons_code_path = mem::replace(&mut self.class_markers.code_path, code_path);
+        let cons_code_path = mem::replace(&mut self.class_meta.code_path, parent_code_path.clone());
 
-        if if_stmt.alt.is_some() {
-            if_stmt.alt.visit_children_with(self);
+        if_stmt.alt.visit_children_with(self);
 
-            let alt_code_path = mem::replace(&mut self.class_markers.code_path, parent_code_path);
+        let alt_code_path = mem::replace(&mut self.class_meta.code_path, parent_code_path);
 
-            self.update_code_path(&[cons_code_path, alt_code_path]);
-        } else {
-            self.update_code_path(&[cons_code_path]);
-        }
+        self.update_current_code_path(&[cons_code_path, alt_code_path]);
     }
 
     fn visit_return_stmt(&mut self, n: &ReturnStmt) {
-        if self.scope == self.class_markers.constructor_scope {
-            self.class_markers.code_path.possibly_returned = true;
+        if self.scope == self.class_meta.constructor_scope {
+            self.class_meta.code_path.possibly_returned = true;
         }
 
         n.visit_children_with(self);
@@ -243,19 +222,51 @@ impl Visit for ConstructorSuper {
     fn visit_cond_expr(&mut self, cond_expr: &CondExpr) {
         cond_expr.test.visit_children_with(self);
 
-        let code_path = self.class_markers.code_path.clone();
-
-        let parent_code_path = mem::replace(&mut self.class_markers.code_path, code_path.clone());
+        let parent_code_path = self.class_meta.code_path.clone();
 
         cond_expr.cons.visit_children_with(self);
 
-        let cons_code_path = mem::replace(&mut self.class_markers.code_path, code_path);
+        let cons_code_path = mem::replace(&mut self.class_meta.code_path, parent_code_path.clone());
 
         cond_expr.alt.visit_children_with(self);
 
-        let alt_code_path = mem::replace(&mut self.class_markers.code_path, parent_code_path);
+        let alt_code_path = mem::replace(&mut self.class_meta.code_path, parent_code_path);
 
-        self.update_code_path(&[cons_code_path, alt_code_path]);
+        self.update_current_code_path(&[cons_code_path, alt_code_path]);
+    }
+
+    fn visit_switch_stmt(&mut self, switch_stmt: &SwitchStmt) {
+        switch_stmt.discriminant.visit_children_with(self);
+
+        let parent_code_path = self.class_meta.code_path.clone();
+
+        let mut cases: Vec<CodePath> = Vec::with_capacity(switch_stmt.cases.len());
+
+        for switch_case in switch_stmt.cases.iter() {
+            switch_case.visit_children_with(self);
+
+            if self.class_meta.code_path.break_exists {
+                cases.push(mem::replace(
+                    &mut self.class_meta.code_path,
+                    parent_code_path.clone(),
+                ));
+            }
+        }
+
+        if cases.is_empty() {
+            cases.push(mem::replace(
+                &mut self.class_meta.code_path,
+                parent_code_path,
+            ));
+        }
+
+        self.update_current_code_path(cases.as_slice());
+    }
+
+    fn visit_break_stmt(&mut self, break_stmt: &BreakStmt) {
+        self.class_meta.code_path.break_exists = true;
+
+        break_stmt.visit_children_with(self);
     }
 
     fn visit_function(&mut self, function: &Function) {
@@ -266,63 +277,28 @@ impl Visit for ConstructorSuper {
         self.scope -= 1;
     }
 
-    fn visit_switch_stmt(&mut self, n: &SwitchStmt) {
-        n.discriminant.visit_children_with(self);
-
-        let parent_code_path = self.class_markers.code_path.clone();
-
-        let mut x: Vec<CodePath> = Vec::with_capacity(n.cases.len());
-
-        for ca in n.cases.iter() {
-            ca.visit_children_with(self);
-
-            if self.class_markers.code_path.break_exists {
-                x.push(mem::replace(
-                    &mut self.class_markers.code_path,
-                    parent_code_path.clone(),
-                ));
-            }
-        }
-
-        if x.is_empty() {
-            x.push(mem::replace(
-                &mut self.class_markers.code_path,
-                parent_code_path,
-            ));
-        }
-
-        self.update_code_path(x.as_slice());
-    }
-
-    fn visit_break_stmt(&mut self, n: &BreakStmt) {
-        self.class_markers.code_path.break_exists = true;
-        n.visit_children_with(self);
-    }
-
     fn visit_for_in_stmt(&mut self, for_in_stmt: &ForInStmt) {
-        self.class_markers.loop_depth += 1;
+        let prev_loop_span = mem::replace(&mut self.class_meta.loop_span, Some(for_in_stmt.span));
 
         for_in_stmt.visit_children_with(self);
 
-        self.class_markers.loop_depth -= 1;
+        self.class_meta.loop_span = prev_loop_span;
     }
 
     fn visit_for_of_stmt(&mut self, for_of_stmt: &ForOfStmt) {
-        self.class_markers.loop_depth += 1;
+        let prev_loop_span = mem::replace(&mut self.class_meta.loop_span, Some(for_of_stmt.span));
 
         for_of_stmt.visit_children_with(self);
 
-        self.class_markers.loop_depth -= 1;
+        self.class_meta.loop_span = prev_loop_span;
     }
 
     fn visit_for_stmt(&mut self, for_stmt: &ForStmt) {
-        let prev_loop_span = mem::replace(&mut self.class_markers.loop_span, Some(for_stmt.span));
-        self.class_markers.loop_depth += 1;
+        let prev_loop_span = mem::replace(&mut self.class_meta.loop_span, Some(for_stmt.span));
 
         for_stmt.visit_children_with(self);
 
-        self.class_markers.loop_span = prev_loop_span;
-        self.class_markers.loop_depth -= 1;
+        self.class_meta.loop_span = prev_loop_span;
     }
 
     fn visit_arrow_expr(&mut self, arrow_expr: &ArrowExpr) {

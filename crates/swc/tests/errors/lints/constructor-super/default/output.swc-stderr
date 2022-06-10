@@ -125,14 +125,38 @@
     :                                                                          ^^^^^^^^^^^^^^^^^
     `----
 
-  x Expected to call 'super()'
+  x Lacked a call of 'super()' in some code path
     ,----
  22 | class A23 extends B { constructor() { if (a) super(); } }
     :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x Expected to call 'super()'
+  x Lacked a call of 'super()' in some code path
     ,----
  23 | class A24 extends B { constructor() { x ? super() : null; } }
     :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x More than one call 'super()' possible into loop
+    ,----
+ 25 | class A26 { constructor() { for (let i = 0; i < a.length; i++) { super(); } } }
+    :                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x More than one call 'super()' possible into loop
+    ,----
+ 26 | class A27 { constructor() { for (let i = 0; i < a.length; i++) { super(); } super(); } }
+    :                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Unexpected duplicate 'super()'
+    ,----
+ 26 | class A27 { constructor() { for (let i = 0; i < a.length; i++) { super(); } super(); } }
+    :                                                                             ^^^^^
+    `----
+
+  x Expected to call 'super()'
+    ,----
+ 27 | class A28 extends B { constructor() { return; super(); } }
+    :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
