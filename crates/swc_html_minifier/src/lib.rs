@@ -533,16 +533,6 @@ impl Minifier {
         }
     }
 
-    fn is_all_whitespace(&self, data: &str) -> bool {
-        for c in data.chars() {
-            if !is_whitespace(c) {
-                return false;
-            };
-        }
-
-        true
-    }
-
     fn collapse_whitespace(&self, data: &str) -> String {
         let mut collapsed = String::with_capacity(data.len());
         let mut in_whitespace = false;
@@ -684,7 +674,7 @@ impl VisitMut for Minifier {
                         value
                     };
 
-                    if mode.destroy_whole && self.is_all_whitespace(value) {
+                    if mode.destroy_whole && value.chars().all(is_whitespace) {
                         false
                     } else if mode.collapse {
                         text.data = self.collapse_whitespace(value).into();
