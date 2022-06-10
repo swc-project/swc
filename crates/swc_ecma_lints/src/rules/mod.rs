@@ -15,6 +15,7 @@ mod utils;
 #[cfg(feature = "non_critical_lints")]
 #[path = ""]
 pub(crate) mod non_critical_lints {
+    pub mod default_case_last;
     pub mod default_param_last;
     pub mod dot_notation;
     pub mod eqeqeq;
@@ -175,6 +176,10 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
 
         rules.extend(no_sparse_arrays::no_sparse_arrays(
             &lint_config.no_sparse_arrays,
+        ));
+
+        rules.extend(default_case_last::default_case_last(
+            &lint_config.default_case_last,
         ));
     }
 
