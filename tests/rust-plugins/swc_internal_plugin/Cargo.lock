@@ -717,7 +717,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.18.7"
+version = "0.18.8"
 dependencies = [
  "ahash",
  "anyhow",
@@ -743,7 +743,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.78.1"
+version = "0.79.0"
 dependencies = [
  "bitflags",
  "is-macro",
@@ -759,7 +759,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.104.2"
+version = "0.105.0"
 dependencies = [
  "either",
  "enum_kind",
@@ -776,7 +776,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.85.1"
+version = "0.86.1"
 dependencies = [
  "indexmap",
  "once_cell",
@@ -789,7 +789,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "0.64.0"
+version = "0.65.0"
 dependencies = [
  "num-bigint",
  "swc_atoms",
@@ -801,7 +801,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.159.0"
+version = "0.161.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_parser",
@@ -839,7 +839,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin"
-version = "0.56.0"
+version = "0.58.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -859,7 +859,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "0.3.1"
+version = "0.4.0"
 dependencies = [
  "better_scoped_tls",
  "rkyv",

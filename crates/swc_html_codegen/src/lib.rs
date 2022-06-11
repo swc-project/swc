@@ -288,25 +288,8 @@ where
                 _ => false,
             };
 
-        if !can_omit_start_tag {
-            write_raw!(self, "<");
-            write_raw!(self, &n.tag_name);
-
-            if has_attributes {
-                space!(self);
-
-                self.emit_list(&n.attributes, ListFormat::SpaceDelimited)?;
-            }
-
-            write_raw!(self, ">");
-
-            if !self.config.minify && n.namespace == Namespace::HTML && &*n.tag_name == "html" {
-                newline!(self);
-            }
-        }
-
-        let no_children = n.namespace == Namespace::HTML
-            && matches!(
+        let no_children = match n.namespace {
+            Namespace::HTML => matches!(
                 &*n.tag_name,
                 "area"
                     | "base"
@@ -326,7 +309,66 @@ where
                     | "source"
                     | "track"
                     | "wbr"
-            );
+            ),
+            Namespace::SVG => {
+                matches!(
+                    &*n.tag_name,
+                    "circle"
+                        | "ellipse"
+                        | "line"
+                        | "path"
+                        | "polygon"
+                        | "polyline"
+                        | "rect"
+                        | "stop"
+                        | "use"
+                ) && n.children.is_empty()
+            }
+            _ => false,
+        };
+
+        if !can_omit_start_tag {
+            write_raw!(self, "<");
+            write_raw!(self, &n.tag_name);
+
+            if has_attributes {
+                space!(self);
+
+                self.emit_list(&n.attributes, ListFormat::SpaceDelimited)?;
+            }
+
+            if no_children && n.namespace == Namespace::SVG {
+                if self.config.minify {
+                    let need_space = match n.attributes.last() {
+                        Some(Attribute {
+                            value: Some(value), ..
+                        }) => !value.chars().any(|c| match c {
+                            c if c.is_ascii_whitespace() => true,
+                            '`' | '=' | '<' | '>' | '"' | '\'' => true,
+                            _ => false,
+                        }),
+                        _ => false,
+                    };
+
+                    println!("{:?}", n.attributes.last());
+                    println!("{:?}", need_space);
+
+                    if need_space {
+                        write_raw!(self, " ");
+                    }
+                } else {
+                    write_raw!(self, " ");
+                }
+
+                write_raw!(self, "/");
+            }
+
+            write_raw!(self, ">");
+
+            if !self.config.minify && n.namespace == Namespace::HTML && &*n.tag_name == "html" {
+                newline!(self);
+            }
+        }
 
         if no_children {
             return Ok(());
@@ -340,6 +382,19 @@ where
             emit!(self, content);
         } else if !n.children.is_empty() {
             let ctx = self.create_context_for_element(n);
+
+            let need_extra_newline =
+                n.namespace == Namespace::HTML && matches!(&*n.tag_name, "textarea" | "pre");
+
+            if need_extra_newline {
+                if let Some(Child::Text(Text { data, .. })) = &n.children.first() {
+                    if data.contains('\n') {
+                        newline!(self);
+                    } else {
+                        formatting_newline!(self);
+                    }
+                }
+            }
 
             if self.config.minify {
                 self.with_ctx(ctx)
@@ -706,10 +761,6 @@ where
         if self.ctx.need_escape_text {
             let mut data = String::with_capacity(n.data.len());
 
-            if self.ctx.need_extra_newline_in_text && n.data.contains('\n') {
-                data.push('\n');
-            }
-
             if self.config.minify {
                 data.push_str(&minify_text(&n.data));
             } else {
@@ -740,12 +791,9 @@ where
             _ if self.is_plaintext => false,
             _ => true,
         };
-        let need_extra_newline_in_text =
-            n.namespace == Namespace::HTML && matches!(&*n.tag_name, "textarea" | "pre");
 
         Ctx {
             need_escape_text,
-            need_extra_newline_in_text,
             ..self.ctx
         }
     }
@@ -857,9 +905,9 @@ fn minify_attribute_value(value: &str) -> String {
     }
 
     if dq > sq {
-        format!("'{}'", minified)
+        format!("'{}'", minified.replace('\'', "&apos;"))
     } else {
-        format!("\"{}\"", minified)
+        format!("\"{}\"", minified.replace('"', "&quot;"))
     }
 }
 

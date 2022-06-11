@@ -287,7 +287,10 @@ impl<I: Tokens> Parser<I> {
                         }
                     }
 
-                    if can_be_arrow && peeked_is!(self, '(') {
+                    if can_be_arrow
+                        && peeked_is!(self, '(')
+                        && !self.input.has_linebreak_between_cur_and_peeked()
+                    {
                         expect!(self, "async");
                         let async_span = self.input.prev_span();
                         return self.parse_paren_expr_or_arrow_fn(can_be_arrow, Some(async_span));
@@ -380,7 +383,11 @@ impl<I: Tokens> Parser<I> {
                 );
             }
 
-            if can_be_arrow && id.sym == js_word!("async") && is!(self, BindingIdent) {
+            if can_be_arrow
+                && id.sym == js_word!("async")
+                && !self.input.had_line_break_before_cur()
+                && is!(self, BindingIdent)
+            {
                 let ident = self.parse_binding_ident()?;
                 if self.input.syntax().typescript()
                     && ident.id.sym == js_word!("as")

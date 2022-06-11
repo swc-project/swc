@@ -9,4 +9,4 @@ var C = function() {
     "use strict";
     _class_call_check(this, C2);
 };
-new Function();
+Function();

@@ -2058,8 +2058,8 @@ impl<I: Tokens> Parser<I> {
 
                 bump!(self);
 
-                if !matches!(*cur!(self, true)?, Token::Num { .. }) {
-                    unexpected!(self, "a numeric literal")
+                if !matches!(*cur!(self, true)?, Token::Num { .. } | Token::BigInt { .. }) {
+                    unexpected!(self, "numeric literal or bigint literal")
                 }
 
                 let lit = self.parse_lit()?;
@@ -2077,6 +2077,24 @@ impl<I: Tokens> Parser<I> {
                         };
 
                         TsLit::Number(Number {
+                            span,
+                            value: -value,
+                            raw: Some(new_raw.into()),
+                        })
+                    }
+                    Lit::BigInt(BigInt { span, value, raw }) => {
+                        let mut new_raw = String::from("-");
+
+                        match raw {
+                            Some(raw) => {
+                                new_raw.push_str(&raw);
+                            }
+                            _ => {
+                                write!(new_raw, "{}", value).unwrap();
+                            }
+                        };
+
+                        TsLit::BigInt(BigInt {
                             span,
                             value: -value,
                             raw: Some(new_raw.into()),

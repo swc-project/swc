@@ -10,7 +10,7 @@ var Test = function() {
     }
     var _proto = Test.prototype;
     return _proto.fail = function(message) {
-        throw new Error(message);
+        throw Error(message);
     }, _proto.f1 = function(x) {
         void 0 === x && this.fail("undefined argument"), x.length;
     }, _proto.f2 = function(x) {
@@ -53,7 +53,7 @@ var MyThrowable = function() {
         _class_call_check(this, MyThrowable);
     }
     return MyThrowable.prototype.throw = function() {
-        throw new Error();
+        throw Error();
     }, MyThrowable;
 }(), SuperThrowable = function(MyThrowable) {
     "use strict";

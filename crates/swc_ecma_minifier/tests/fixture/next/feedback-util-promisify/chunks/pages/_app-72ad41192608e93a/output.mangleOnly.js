@@ -2262,86 +2262,86 @@
                             });
                             return d;
                         };
-                        var j = function f(b, e) {
-                            var a = b;
-                            var c;
-                            if (b(A, a)) {
-                                c = A[a];
-                                a = "%" + c[0] + "%";
+                        var j = function i(d, h) {
+                            var c = d;
+                            var e;
+                            if (b(A, c)) {
+                                e = A[c];
+                                c = "%" + e[0] + "%";
                             }
-                            if (b(g, a)) {
-                                var d = g[a];
-                                if (typeof d === "undefined" && !e) {
-                                    throw new a("intrinsic " + b + " exists, but is not available. Please file an issue!");
+                            if (b(g, c)) {
+                                var f = g[c];
+                                if (typeof f === "undefined" && !h) {
+                                    throw new a("intrinsic " + d + " exists, but is not available. Please file an issue!");
                                 }
                                 return {
-                                    alias: c,
-                                    name: a,
-                                    value: d
+                                    alias: e,
+                                    name: c,
+                                    value: f
                                 };
                             }
-                            throw new n("intrinsic " + b + " does not exist!");
+                            throw new n("intrinsic " + d + " does not exist!");
                         };
-                        r.exports = function p(e, l) {
-                            if (typeof e !== "string" || e.length === 0) {
+                        r.exports = function x(i, t) {
+                            if (typeof i !== "string" || i.length === 0) {
                                 throw new a("intrinsic name must be a non-empty string");
                             }
-                            if (arguments.length > 1 && typeof l !== "boolean") {
+                            if (arguments.length > 1 && typeof t !== "boolean") {
                                 throw new a('"allowMissing" argument must be a boolean');
                             }
-                            var c = E(e);
-                            var f = c.length > 0 ? c[0] : "";
-                            var m = j("%" + f + "%", l);
-                            var g = m.name;
-                            var a = m.value;
-                            var o = false;
-                            var n = m.alias;
-                            if (n) {
-                                f = n[0];
-                                m(c, S([
+                            var e = E(i);
+                            var k = e.length > 0 ? e[0] : "";
+                            var u = j("%" + k + "%", t);
+                            var l = u.name;
+                            var c = u.value;
+                            var w = false;
+                            var v = u.alias;
+                            if (v) {
+                                k = v[0];
+                                m(e, S([
                                     0,
                                     1
-                                ], n));
+                                ], v));
                             }
-                            for(var h = 1, d = true; h < c.length; h += 1){
-                                var b = c[h];
-                                var i = h(b, 0, 1);
-                                var j = h(b, -1);
-                                if ((i === '"' || i === "'" || i === "`" || j === '"' || j === "'" || j === "`") && i !== j) {
+                            for(var p = 1, f = true; p < e.length; p += 1){
+                                var d = e[p];
+                                var q = h(d, 0, 1);
+                                var r = h(d, -1);
+                                if ((q === '"' || q === "'" || q === "`" || r === '"' || r === "'" || r === "`") && q !== r) {
                                     throw new n("property names with quotes must have matching quotes");
                                 }
-                                if (b === "constructor" || !d) {
-                                    o = true;
+                                if (d === "constructor" || !f) {
+                                    w = true;
                                 }
-                                f += "." + b;
-                                g = "%" + f + "%";
-                                if (b(g, g)) {
-                                    a = g[g];
-                                } else if (a != null) {
-                                    if (!(b in a)) {
-                                        if (!l) {
-                                            throw new a("base intrinsic for " + e + " exists, but the property is not available.");
+                                k += "." + d;
+                                l = "%" + k + "%";
+                                if (b(g, l)) {
+                                    c = g[l];
+                                } else if (c != null) {
+                                    if (!(d in c)) {
+                                        if (!t) {
+                                            throw new a("base intrinsic for " + i + " exists, but the property is not available.");
                                         }
                                         return void o;
                                     }
-                                    if (y && h + 1 >= c.length) {
-                                        var k = y(a, b);
-                                        d = !!k;
-                                        if (d && "get" in k && !("originalValue" in k.get)) {
-                                            a = k.get;
+                                    if (y && p + 1 >= e.length) {
+                                        var s = y(c, d);
+                                        f = !!s;
+                                        if (f && "get" in s && !("originalValue" in s.get)) {
+                                            c = s.get;
                                         } else {
-                                            a = a[b];
+                                            c = c[d];
                                         }
                                     } else {
-                                        d = b(a, b);
-                                        a = a[b];
+                                        f = b(c, d);
+                                        c = c[d];
                                     }
-                                    if (d && !o) {
-                                        g[g] = a;
+                                    if (f && !w) {
+                                        g[l] = c;
                                     }
                                 }
                             }
-                            return a;
+                            return c;
                         };
                     },
                     219: function(a) {
@@ -2774,89 +2774,89 @@
                             });
                             return d;
                         };
-                        var E = function f(c, e) {
-                            var a = c;
-                            var d;
-                            if (v(g, a)) {
-                                d = g[a];
-                                a = "%" + d[0] + "%";
+                        var E = function i(e, h) {
+                            var b = e;
+                            var f;
+                            if (v(g, b)) {
+                                f = g[b];
+                                b = "%" + f[0] + "%";
                             }
-                            if (v(l, a)) {
-                                var b = l[a];
-                                if (b === s) {
-                                    b = d(a);
+                            if (v(l, b)) {
+                                var c = l[b];
+                                if (c === s) {
+                                    c = d(b);
                                 }
-                                if (typeof b === "undefined" && !e) {
-                                    throw new a("intrinsic " + c + " exists, but is not available. Please file an issue!");
+                                if (typeof c === "undefined" && !h) {
+                                    throw new a("intrinsic " + e + " exists, but is not available. Please file an issue!");
                                 }
                                 return {
-                                    alias: d,
-                                    name: a,
-                                    value: b
+                                    alias: f,
+                                    name: b,
+                                    value: c
                                 };
                             }
-                            throw new n("intrinsic " + c + " does not exist!");
+                            throw new n("intrinsic " + e + " does not exist!");
                         };
-                        r.exports = function p(e, l) {
-                            if (typeof e !== "string" || e.length === 0) {
+                        r.exports = function u(g, q) {
+                            if (typeof g !== "string" || g.length === 0) {
                                 throw new a("intrinsic name must be a non-empty string");
                             }
-                            if (arguments.length > 1 && typeof l !== "boolean") {
+                            if (arguments.length > 1 && typeof q !== "boolean") {
                                 throw new a('"allowMissing" argument must be a boolean');
                             }
-                            var c = w(e);
-                            var f = c.length > 0 ? c[0] : "";
-                            var m = E("%" + f + "%", l);
-                            var g = m.name;
-                            var a = m.value;
-                            var o = false;
-                            var n = m.alias;
-                            if (n) {
-                                f = n[0];
-                                S(c, b([
+                            var e = w(g);
+                            var h = e.length > 0 ? e[0] : "";
+                            var r = E("%" + h + "%", q);
+                            var i = r.name;
+                            var c = r.value;
+                            var t = false;
+                            var s = r.alias;
+                            if (s) {
+                                h = s[0];
+                                S(e, b([
                                     0,
                                     1
-                                ], n));
+                                ], s));
                             }
-                            for(var h = 1, d = true; h < c.length; h += 1){
-                                var b = c[h];
-                                var i = P(b, 0, 1);
-                                var j = P(b, -1);
-                                if ((i === '"' || i === "'" || i === "`" || j === '"' || j === "'" || j === "`") && i !== j) {
+                            for(var j = 1, f = true; j < e.length; j += 1){
+                                var d = e[j];
+                                var k = P(d, 0, 1);
+                                var m = P(d, -1);
+                                if ((k === '"' || k === "'" || k === "`" || m === '"' || m === "'" || m === "`") && k !== m) {
                                     throw new n("property names with quotes must have matching quotes");
                                 }
-                                if (b === "constructor" || !d) {
-                                    o = true;
+                                if (d === "constructor" || !f) {
+                                    t = true;
                                 }
-                                f += "." + b;
-                                g = "%" + f + "%";
-                                if (v(l, g)) {
-                                    a = l[g];
-                                } else if (a != null) {
-                                    if (!(b in a)) {
-                                        if (!l) {
-                                            throw new a("base intrinsic for " + e + " exists, but the property is not available.");
+                                h += "." + d;
+                                i = "%" + h + "%";
+                                if (v(l, i)) {
+                                    c = l[i];
+                                } else if (c != null) {
+                                    if (!(d in c)) {
+                                        if (!q) {
+                                            throw new a("base intrinsic for " + g + " exists, but the property is not available.");
                                         }
                                         return void o;
                                     }
-                                    if (y && h + 1 >= c.length) {
-                                        var k = y(a, b);
-                                        d = !!k;
-                                        if (d && "get" in k && !("originalValue" in k.get)) {
-                                            a = k.get;
+                                    if (y && j + 1 >= e.length) {
+                                        var p = y(c, d);
+                                        f = !!p;
+                                        if (f && "get" in p && !("originalValue" in p.get)) {
+                                            c = p.get;
                                         } else {
-                                            a = a[b];
+                                            c = c[d];
                                         }
                                     } else {
-                                        d = v(a, b);
-                                        a = a[b];
+                                        f = v(c, d);
+                                        c = c[d];
                                     }
-                                    if (d && !o) {
-                                        l[g] = a;
+                                    if (f && !t) {
+                                        l[i] = c;
                                     }
                                 }
                             }
-                            return a;
+                            return c;
                         };
                     },
                     449: function(a, c, b) {
@@ -4283,78 +4283,78 @@
                             });
                             return b;
                         };
-                        var E = function f(b, e) {
-                            var a = b;
-                            var c;
-                            if (b(A, a)) {
-                                c = A[a];
-                                a = "%" + c[0] + "%";
+                        var E = function i(d, h) {
+                            var c = d;
+                            var e;
+                            if (b(A, c)) {
+                                e = A[c];
+                                c = "%" + e[0] + "%";
                             }
-                            if (b(g, a)) {
-                                var d = g[a];
-                                if (typeof d === "undefined" && !e) {
-                                    throw new a("intrinsic " + b + " exists, but is not available. Please file an issue!");
+                            if (b(g, c)) {
+                                var f = g[c];
+                                if (typeof f === "undefined" && !h) {
+                                    throw new a("intrinsic " + d + " exists, but is not available. Please file an issue!");
                                 }
                                 return {
-                                    alias: c,
-                                    name: a,
-                                    value: d
+                                    alias: e,
+                                    name: c,
+                                    value: f
                                 };
                             }
-                            throw new n("intrinsic " + b + " does not exist!");
+                            throw new n("intrinsic " + d + " does not exist!");
                         };
-                        r.exports = function n(e, j) {
-                            if (typeof e !== "string" || e.length === 0) {
+                        r.exports = function r(h, n) {
+                            if (typeof h !== "string" || h.length === 0) {
                                 throw new a("intrinsic name must be a non-empty string");
                             }
-                            if (arguments.length > 1 && typeof j !== "boolean") {
+                            if (arguments.length > 1 && typeof n !== "boolean") {
                                 throw new a('"allowMissing" argument must be a boolean');
                             }
-                            var c = w(e);
-                            var f = c.length > 0 ? c[0] : "";
-                            var k = E("%" + f + "%", j);
-                            var g = k.name;
-                            var a = k.value;
-                            var m = false;
-                            var l = k.alias;
-                            if (l) {
-                                f = l[0];
-                                m(c, S([
+                            var e = w(h);
+                            var i = e.length > 0 ? e[0] : "";
+                            var o = E("%" + i + "%", n);
+                            var j = o.name;
+                            var c = o.value;
+                            var q = false;
+                            var p = o.alias;
+                            if (p) {
+                                i = p[0];
+                                m(e, S([
                                     0,
                                     1
-                                ], l));
+                                ], p));
                             }
-                            for(var h = 1, d = true; h < c.length; h += 1){
-                                var b = c[h];
-                                if (b === "constructor" || !d) {
-                                    m = true;
+                            for(var k = 1, f = true; k < e.length; k += 1){
+                                var d = e[k];
+                                if (d === "constructor" || !f) {
+                                    q = true;
                                 }
-                                f += "." + b;
-                                g = "%" + f + "%";
-                                if (b(g, g)) {
-                                    a = g[g];
-                                } else if (a != null) {
-                                    if (y && h + 1 >= c.length) {
-                                        var i = y(a, b);
-                                        d = !!i;
-                                        if (!j && !(b in a)) {
-                                            throw new a("base intrinsic for " + e + " exists, but the property is not available.");
+                                i += "." + d;
+                                j = "%" + i + "%";
+                                if (b(g, j)) {
+                                    c = g[j];
+                                } else if (c != null) {
+                                    if (y && k + 1 >= e.length) {
+                                        var l = y(c, d);
+                                        f = !!l;
+                                        if (!n && !(d in c)) {
+                                            throw new a("base intrinsic for " + h + " exists, but the property is not available.");
                                         }
-                                        if (d && "get" in i && !("originalValue" in i.get)) {
-                                            a = i.get;
+                                        if (f && "get" in l && !("originalValue" in l.get)) {
+                                            c = l.get;
                                         } else {
-                                            a = a[b];
+                                            c = c[d];
                                         }
                                     } else {
-                                        d = b(a, b);
-                                        a = a[b];
+                                        f = b(c, d);
+                                        c = c[d];
                                     }
-                                    if (d && !m) {
-                                        g[g] = a;
+                                    if (f && !q) {
+                                        g[j] = c;
                                     }
                                 }
                             }
-                            return a;
+                            return c;
                         };
                     },
                     850: function(b, e, c) {

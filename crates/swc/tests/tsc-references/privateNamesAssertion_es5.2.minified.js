@@ -9,7 +9,7 @@ var _p1 = new WeakMap(), Foo = function() {
         _class_call_check(this, Foo), _class_private_field_init(this, _p1, {
             writable: !0,
             value: function(v) {
-                if ("string" != typeof v) throw new Error();
+                if ("string" != typeof v) throw Error();
             }
         });
     }
@@ -26,5 +26,5 @@ var _p1 = new WeakMap(), Foo = function() {
     }, Foo2;
 }();
 function p1(v) {
-    if ("string" != typeof v) throw new Error();
+    if ("string" != typeof v) throw Error();
 }

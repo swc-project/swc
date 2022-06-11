@@ -64,7 +64,7 @@
             }
             function L(t = "Unexpected state") {
                 const e = `FIRESTORE (${C}) INTERNAL ASSERTION FAILED: ` + t;
-                throw O(e), new Error(e);
+                throw O(e), Error(e);
             }
             const K = {
                 OK: "ok",
@@ -463,7 +463,7 @@
                 }
             }
             _t.EMPTY_BYTE_STRING = new _t("");
-            const mt = new RegExp(/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(?:\.(\d+))?Z$/);
+            const mt = RegExp(/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(?:\.(\d+))?Z$/);
             function gt(t) {
                 if (t || L(), "string" == typeof t) {
                     let e = 0;
@@ -5831,7 +5831,7 @@
                     throw "an object" === s ? e.Uc(t + " a custom object") : e.Uc(t + " " + s);
                 }
             }
-            const Au = new RegExp("[~\\*/\\[\\]]");
+            const Au = RegExp("[~\\*/\\[\\]]");
             function bu(t, e, n, s, i) {
                 const r = s && !s.isEmpty(), o = void 0 !== i;
                 let c = `Function ${e}() called with invalid data`;

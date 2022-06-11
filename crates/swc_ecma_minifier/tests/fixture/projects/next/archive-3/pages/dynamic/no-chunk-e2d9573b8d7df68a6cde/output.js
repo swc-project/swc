@@ -6,7 +6,7 @@
         2911: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
             "use strict";
             function _assertThisInitialized(self) {
-                if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+                if (void 0 === self) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                 return self;
             }
             __webpack_require__.d(__webpack_exports__, {
@@ -18,7 +18,7 @@
         8436: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
             "use strict";
             function _classCallCheck(instance, Constructor) {
-                if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
+                if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
             }
             __webpack_require__.d(__webpack_exports__, {
                 Z: function() {
@@ -80,7 +80,7 @@
                 })(o2, p1);
             }
             function _inherits(subClass, superClass) {
-                if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
+                if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
                 subClass.prototype = Object.create(superClass && superClass.prototype, {
                     constructor: {
                         value: subClass,
@@ -198,7 +198,7 @@
             }
             function _arrayLikeToArray(arr, len) {
                 (null == len || len > arr.length) && (len = arr.length);
-                for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
+                for(var i = 0, arr2 = Array(len); i < len; i++)arr2[i] = arr[i];
                 return arr2;
             }
             Object.defineProperty(exports, "__esModule", {
@@ -342,7 +342,7 @@
                                             f: F
                                         };
                                     }
-                                    throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+                                    throw TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
                                 }
                                 var it, err, normalCompletion = !0, didErr = !1;
                                 return {
@@ -456,7 +456,7 @@
                 function Welcome() {
                     var _this;
                     (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_5__.Z)(this, Welcome);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_6__.Z)((0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__.Z)(_this), "state", {
