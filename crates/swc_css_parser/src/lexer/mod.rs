@@ -504,12 +504,6 @@ where
                             break;
                         }
                         None => {
-                            let end = self.last_pos.take().unwrap_or_else(|| self.input.cur_pos());
-                            let span = Span::new(self.start_pos, end, Default::default());
-
-                            self.errors
-                                .push(Error::new(span, ErrorKind::UnterminatedBlockComment));
-
                             return Ok(());
                         }
                         _ => {}
