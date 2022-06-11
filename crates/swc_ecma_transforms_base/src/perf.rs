@@ -25,7 +25,7 @@ pub fn cpu_count() -> usize {
     *CPU_COUNT
 }
 
-pub trait Parallel {
+pub trait Parallel: swc_common::sync::Send + swc_common::sync::Sync {
     /// Used to create visitor.
     fn create(&self) -> Self;
 
@@ -52,7 +52,7 @@ pub trait ParExplode: Parallel {
 }
 
 pub trait ParVisit: Visit + Parallel {
-    fn visit_par<N>(&mut self, threashold: usize, nodes: &[N])
+    fn visit_par<N>(&mut self, threshold: usize, nodes: &[N])
     where
         N: Send + Sync + VisitWith<Self>;
 }
@@ -61,7 +61,7 @@ impl<T> ParVisit for T
 where
     T: Visit + Parallel,
 {
-    fn visit_par<N>(&mut self, threashold: usize, nodes: &[N])
+    fn visit_par<N>(&mut self, threshold: usize, nodes: &[N])
     where
         N: Send + Sync + VisitWith<Self>,
     {
@@ -126,7 +126,7 @@ where
 }
 
 pub trait ParVisitMut: VisitMut + Parallel {
-    fn visit_mut_par<N>(&mut self, threashold: usize, nodes: &[N])
+    fn visit_mut_par<N>(&mut self, threshold: usize, nodes: &[N])
     where
         N: Send + Sync + VisitMutWith<Self>;
 }
@@ -134,7 +134,7 @@ pub trait ParVisitMut: VisitMut + Parallel {
 impl<T> ParVisitMut for T where T: VisitMut + Parallel {}
 
 pub trait ParFold: Fold + Parallel {
-    fn fold_par<N>(&mut self, threashold: usize, nodes: &[N])
+    fn fold_par<N>(&mut self, threshold: usize, nodes: &[N])
     where
         N: Send + Sync + FoldWith<Self>;
 }
