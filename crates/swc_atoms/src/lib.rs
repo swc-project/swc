@@ -30,8 +30,11 @@ impl Atom {
     /// Creates a bad [Atom] from a string.
     ///
     /// This [Atom] is bad because it doesn't help reducing memory usage.
-    pub fn new_bad(s: impl AsRef<str>) -> Self {
-        Self(s.as_ref().into())
+    pub fn new_bad<S>(s: S) -> Self
+    where
+        Arc<str>: From<S>,
+    {
+        Self(s.into())
     }
 }
 
