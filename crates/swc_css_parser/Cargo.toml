@@ -23,7 +23,21 @@ swc_common = { version = "0.18.0", path = "../swc_common" }
 swc_css_ast = { version = "0.93.0", path = "../swc_css_ast" }
 
 [dev-dependencies]
+criterion = "0.3"
 serde = "1.0.127"
 serde_json = "1.0.66"
 swc_css_visit = { version = "0.92.0", path = "../swc_css_visit" }
+swc_node_base = { version = "0.5.0", path = "../swc_node_base" }
 testing = { version = "0.20.0", path = "../testing" }
+
+[[bench]]
+harness = false
+name = "compare"
+
+[[bench]]
+harness = false
+name = "lexer"
+
+[[bench]]
+harness = false
+name = "parser"
