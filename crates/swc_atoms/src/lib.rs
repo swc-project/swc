@@ -20,6 +20,7 @@ use std::{
 };
 
 use rustc_hash::FxHashSet;
+use serde::Serializer;
 
 include!(concat!(env!("OUT_DIR"), "/js_word.rs"));
 
@@ -114,5 +115,23 @@ impl AtomGenerator {
 
         self.inner.insert(new.clone());
         new
+    }
+}
+
+impl serde::ser::Serialize for Atom {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        serializer.serialize_str(&self.0)
+    }
+}
+
+impl<'de> serde::de::Deserialize<'de> for Atom {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        String::deserialize(deserializer).map(Self::new_bad)
     }
 }
