@@ -133,7 +133,7 @@ where
                         let visitor = nodes
                             .into_par_iter()
                             .map(|node| {
-                                GLOBALS.set(&globals, || {
+                                GLOBALS.set(globals, || {
                                     HELPERS.set(helpers, || {
                                         HANDLER.set(handler, || {
                                             let mut visitor = Parallel::create(&*self);
@@ -185,13 +185,13 @@ where
         if nodes.len() >= threshold {
             use rayon::prelude::*;
 
-            let (visitor, mut nodes) = GLOBALS.with(|globals| {
+            let (visitor, nodes) = GLOBALS.with(|globals| {
                 HELPERS.with(|helpers| {
                     HANDLER.with(|handler| {
                         nodes
                             .into_par_iter()
                             .map(|node| {
-                                GLOBALS.set(&globals, || {
+                                GLOBALS.set(globals, || {
                                     HELPERS.set(helpers, || {
                                         HANDLER.set(handler, || {
                                             let mut visitor = Parallel::create(&*self);
