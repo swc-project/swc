@@ -1,5 +1,7 @@
 use swc_common::util::take::Take;
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::perf::Parallel;
+use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::quote_ident;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
@@ -46,7 +48,16 @@ pub fn shorthand() -> impl 'static + Fold + VisitMut {
 #[derive(Clone, Copy)]
 struct Shorthand;
 
+impl Parallel for Shorthand {
+    fn create(&self) -> Self {
+        *self
+    }
+
+    fn merge(&mut self, _: Self) {}
+}
+
 #[swc_trace]
+#[parallel]
 impl VisitMut for Shorthand {
     noop_visit_mut_type!();
 
