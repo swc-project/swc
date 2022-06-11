@@ -29,10 +29,10 @@ pub fn expand(attr: TokenStream, mut item: ItemImpl) -> ItemImpl {
         mode,
         "module_items",
         explode,
-        100,
+        1,
     )));
     item.items.push(ImplItem::Method(make_par_visit_method(
-        mode, "stmts", explode, 100,
+        mode, "stmts", explode, 1,
     )));
 
     item
