@@ -10,7 +10,7 @@ createCommonjsModule(function(module, exports) {
     module.exports = {
         findConfig: function(from) {
             return function(dir) {
-                throw new Error("");
+                throw Error("");
             };
         }
     };

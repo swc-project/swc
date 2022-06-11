@@ -107,7 +107,7 @@
                     } else arg = arguments[i];
                     args.push(arg);
                 }
-                warn(msg + "\nArguments: " + Array.prototype.slice.call(args).join("") + "\n" + new Error().stack), firstTime = !1;
+                warn(msg + "\nArguments: " + Array.prototype.slice.call(args).join("") + "\n" + Error().stack), firstTime = !1;
             }
             return fn.apply(this, arguments);
         }, fn);
@@ -215,7 +215,7 @@
         };
     }
     function getParseRegexForToken(token, config) {
-        return hasOwnProp(regexes, token) ? regexes[token](config._strict, config._locale) : new RegExp(unescapeFormat(token));
+        return hasOwnProp(regexes, token) ? regexes[token](config._strict, config._locale) : RegExp(unescapeFormat(token));
     }
     function unescapeFormat(s) {
         return regexEscape(s.replace("\\", "").replace(/\\(\[)|\\(\])|\[([^\]\[]*)\]|\\(.)/g, function(matched, p1, p2, p3, p4) {
@@ -309,7 +309,7 @@
         ]), shortPieces.push(this.monthsShort(mom, "")), longPieces.push(this.months(mom, "")), mixedPieces.push(this.months(mom, "")), mixedPieces.push(this.monthsShort(mom, ""));
         for(shortPieces.sort(cmpLenRev), longPieces.sort(cmpLenRev), mixedPieces.sort(cmpLenRev), i = 0; i < 12; i++)shortPieces[i] = regexEscape(shortPieces[i]), longPieces[i] = regexEscape(longPieces[i]);
         for(i = 0; i < 24; i++)mixedPieces[i] = regexEscape(mixedPieces[i]);
-        this._monthsRegex = new RegExp("^(" + mixedPieces.join("|") + ")", "i"), this._monthsShortRegex = this._monthsRegex, this._monthsStrictRegex = new RegExp("^(" + longPieces.join("|") + ")", "i"), this._monthsShortStrictRegex = new RegExp("^(" + shortPieces.join("|") + ")", "i");
+        this._monthsRegex = RegExp("^(" + mixedPieces.join("|") + ")", "i"), this._monthsShortRegex = this._monthsRegex, this._monthsStrictRegex = RegExp("^(" + longPieces.join("|") + ")", "i"), this._monthsShortStrictRegex = RegExp("^(" + shortPieces.join("|") + ")", "i");
     }
     function daysInYear(year) {
         return isLeapYear(year) ? 366 : 365;
@@ -435,7 +435,7 @@
             2000,
             1
         ]).day(i), minp = regexEscape(this.weekdaysMin(mom, "")), shortp = regexEscape(this.weekdaysShort(mom, "")), longp = regexEscape(this.weekdays(mom, "")), minPieces.push(minp), shortPieces.push(shortp), longPieces.push(longp), mixedPieces.push(minp), mixedPieces.push(shortp), mixedPieces.push(longp);
-        minPieces.sort(cmpLenRev), shortPieces.sort(cmpLenRev), longPieces.sort(cmpLenRev), mixedPieces.sort(cmpLenRev), this._weekdaysRegex = new RegExp("^(" + mixedPieces.join("|") + ")", "i"), this._weekdaysShortRegex = this._weekdaysRegex, this._weekdaysMinRegex = this._weekdaysRegex, this._weekdaysStrictRegex = new RegExp("^(" + longPieces.join("|") + ")", "i"), this._weekdaysShortStrictRegex = new RegExp("^(" + shortPieces.join("|") + ")", "i"), this._weekdaysMinStrictRegex = new RegExp("^(" + minPieces.join("|") + ")", "i");
+        minPieces.sort(cmpLenRev), shortPieces.sort(cmpLenRev), longPieces.sort(cmpLenRev), mixedPieces.sort(cmpLenRev), this._weekdaysRegex = RegExp("^(" + mixedPieces.join("|") + ")", "i"), this._weekdaysShortRegex = this._weekdaysRegex, this._weekdaysMinRegex = this._weekdaysRegex, this._weekdaysStrictRegex = RegExp("^(" + longPieces.join("|") + ")", "i"), this._weekdaysShortStrictRegex = RegExp("^(" + shortPieces.join("|") + ")", "i"), this._weekdaysMinStrictRegex = RegExp("^(" + minPieces.join("|") + ")", "i");
     }
     function hFormat() {
         return this.hours() % 12 || 12;
@@ -1026,7 +1026,7 @@
     function computeErasParse() {
         var i, l, abbrPieces = [], namePieces = [], narrowPieces = [], mixedPieces = [], eras = this.eras();
         for(i = 0, l = eras.length; i < l; ++i)namePieces.push(regexEscape(eras[i].name)), abbrPieces.push(regexEscape(eras[i].abbr)), narrowPieces.push(regexEscape(eras[i].narrow)), mixedPieces.push(regexEscape(eras[i].name)), mixedPieces.push(regexEscape(eras[i].abbr)), mixedPieces.push(regexEscape(eras[i].narrow));
-        this._erasRegex = new RegExp("^(" + mixedPieces.join("|") + ")", "i"), this._erasNameRegex = new RegExp("^(" + namePieces.join("|") + ")", "i"), this._erasAbbrRegex = new RegExp("^(" + abbrPieces.join("|") + ")", "i"), this._erasNarrowRegex = new RegExp("^(" + narrowPieces.join("|") + ")", "i");
+        this._erasRegex = RegExp("^(" + mixedPieces.join("|") + ")", "i"), this._erasNameRegex = RegExp("^(" + namePieces.join("|") + ")", "i"), this._erasAbbrRegex = RegExp("^(" + abbrPieces.join("|") + ")", "i"), this._erasNarrowRegex = RegExp("^(" + narrowPieces.join("|") + ")", "i");
     }
     function addWeekYearFormatToken(token, getter) {
         addFormatToken(0, [
@@ -1584,7 +1584,7 @@
     }, proto$1.set = function(config) {
         var prop, i;
         for(i in config)hasOwnProp(config, i) && (isFunction(prop = config[i]) ? this[i] = prop : this["_" + i] = prop);
-        this._config = config, this._dayOfMonthOrdinalParseLenient = new RegExp((this._dayOfMonthOrdinalParse.source || this._ordinalParse.source) + "|" + /\d{1,2}/.source);
+        this._config = config, this._dayOfMonthOrdinalParseLenient = RegExp((this._dayOfMonthOrdinalParse.source || this._ordinalParse.source) + "|" + /\d{1,2}/.source);
     }, proto$1.eras = function(m, format) {
         var i, l, date, eras = this._eras || getLocale("en")._eras;
         for(i = 0, l = eras.length; i < l; ++i)switch("string" == typeof eras[i].since && (date = hooks(eras[i].since).startOf("day"), eras[i].since = date.valueOf()), typeof eras[i].until){
@@ -1633,7 +1633,7 @@
         for(this._monthsParse || (this._monthsParse = [], this._longMonthsParse = [], this._shortMonthsParse = []), i = 0; i < 12; i++)if (mom = createUTC([
             2000,
             i
-        ]), strict && !this._longMonthsParse[i] && (this._longMonthsParse[i] = new RegExp("^" + this.months(mom, "").replace(".", "") + "$", "i"), this._shortMonthsParse[i] = new RegExp("^" + this.monthsShort(mom, "").replace(".", "") + "$", "i")), strict || this._monthsParse[i] || (regex = "^" + this.months(mom, "") + "|^" + this.monthsShort(mom, ""), this._monthsParse[i] = new RegExp(regex.replace(".", ""), "i")), strict && "MMMM" === format && this._longMonthsParse[i].test(monthName) || strict && "MMM" === format && this._shortMonthsParse[i].test(monthName) || !strict && this._monthsParse[i].test(monthName)) return i;
+        ]), strict && !this._longMonthsParse[i] && (this._longMonthsParse[i] = RegExp("^" + this.months(mom, "").replace(".", "") + "$", "i"), this._shortMonthsParse[i] = RegExp("^" + this.monthsShort(mom, "").replace(".", "") + "$", "i")), strict || this._monthsParse[i] || (regex = "^" + this.months(mom, "") + "|^" + this.monthsShort(mom, ""), this._monthsParse[i] = RegExp(regex.replace(".", ""), "i")), strict && "MMMM" === format && this._longMonthsParse[i].test(monthName) || strict && "MMM" === format && this._shortMonthsParse[i].test(monthName) || !strict && this._monthsParse[i].test(monthName)) return i;
     }, proto$1.monthsRegex = function(isStrict) {
         return this._monthsParseExact ? (hasOwnProp(this, "_monthsRegex") || computeMonthsParse.call(this), isStrict) ? this._monthsStrictRegex : this._monthsRegex : (hasOwnProp(this, "_monthsRegex") || (this._monthsRegex = defaultMonthsRegex), this._monthsStrictRegex && isStrict ? this._monthsStrictRegex : this._monthsRegex);
     }, proto$1.monthsShortRegex = function(isStrict) {
@@ -1657,7 +1657,7 @@
         for(this._weekdaysParse || (this._weekdaysParse = [], this._minWeekdaysParse = [], this._shortWeekdaysParse = [], this._fullWeekdaysParse = []), i = 0; i < 7; i++)if (mom = createUTC([
             2000,
             1
-        ]).day(i), strict && !this._fullWeekdaysParse[i] && (this._fullWeekdaysParse[i] = new RegExp("^" + this.weekdays(mom, "").replace(".", "\\.?") + "$", "i"), this._shortWeekdaysParse[i] = new RegExp("^" + this.weekdaysShort(mom, "").replace(".", "\\.?") + "$", "i"), this._minWeekdaysParse[i] = new RegExp("^" + this.weekdaysMin(mom, "").replace(".", "\\.?") + "$", "i")), this._weekdaysParse[i] || (regex = "^" + this.weekdays(mom, "") + "|^" + this.weekdaysShort(mom, "") + "|^" + this.weekdaysMin(mom, ""), this._weekdaysParse[i] = new RegExp(regex.replace(".", ""), "i")), strict && "dddd" === format && this._fullWeekdaysParse[i].test(weekdayName) || strict && "ddd" === format && this._shortWeekdaysParse[i].test(weekdayName) || strict && "dd" === format && this._minWeekdaysParse[i].test(weekdayName) || !strict && this._weekdaysParse[i].test(weekdayName)) return i;
+        ]).day(i), strict && !this._fullWeekdaysParse[i] && (this._fullWeekdaysParse[i] = RegExp("^" + this.weekdays(mom, "").replace(".", "\\.?") + "$", "i"), this._shortWeekdaysParse[i] = RegExp("^" + this.weekdaysShort(mom, "").replace(".", "\\.?") + "$", "i"), this._minWeekdaysParse[i] = RegExp("^" + this.weekdaysMin(mom, "").replace(".", "\\.?") + "$", "i")), this._weekdaysParse[i] || (regex = "^" + this.weekdays(mom, "") + "|^" + this.weekdaysShort(mom, "") + "|^" + this.weekdaysMin(mom, ""), this._weekdaysParse[i] = RegExp(regex.replace(".", ""), "i")), strict && "dddd" === format && this._fullWeekdaysParse[i].test(weekdayName) || strict && "ddd" === format && this._shortWeekdaysParse[i].test(weekdayName) || strict && "dd" === format && this._minWeekdaysParse[i].test(weekdayName) || !strict && this._weekdaysParse[i].test(weekdayName)) return i;
     }, proto$1.weekdaysRegex = function(isStrict) {
         return this._weekdaysParseExact ? (hasOwnProp(this, "_weekdaysRegex") || computeWeekdaysParse.call(this), isStrict) ? this._weekdaysStrictRegex : this._weekdaysRegex : (hasOwnProp(this, "_weekdaysRegex") || (this._weekdaysRegex = defaultWeekdaysRegex), this._weekdaysStrictRegex && isStrict ? this._weekdaysStrictRegex : this._weekdaysRegex);
     }, proto$1.weekdaysShortRegex = function(isStrict) {
@@ -1774,7 +1774,7 @@
             case "millisecond":
                 return Math.floor(864e5 * days) + milliseconds;
             default:
-                throw new Error("Unknown unit " + units);
+                throw Error("Unknown unit " + units);
         }
     }, proto$2.asMilliseconds = asMilliseconds, proto$2.asSeconds = asSeconds, proto$2.asMinutes = asMinutes, proto$2.asHours = asHours, proto$2.asDays = asDays, proto$2.asWeeks = asWeeks, proto$2.asMonths = asMonths, proto$2.asQuarters = asQuarters, proto$2.asYears = asYears, proto$2.valueOf = function() {
         return this.isValid() ? this._milliseconds + 864e5 * this._days + this._months % 12 * 2592e6 + 31536e6 * toInt(this._months / 12) : NaN;

@@ -1,10 +1,10 @@
 import _instanceof from "@swc/helpers/lib/_instanceof.js";
 export function Vec(len) {
-    this.storage = new Array(len);
+    this.storage = Array(len);
 }
 Vec.prototype = {
     dot: function(other) {
-        if (other.storage.length !== this.storage.length) throw new Error("Dot product only applicable for vectors of equal length");
+        if (other.storage.length !== this.storage.length) throw Error("Dot product only applicable for vectors of equal length");
         for(var sum = 0, i = 0; i < this.storage.length; i++)sum += this.storage[i] * other.storage[i];
         return sum;
     },
