@@ -1,3 +1,4 @@
+use once_cell::sync::Lazy;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Visit, VisitWith};
 
@@ -13,6 +14,12 @@ where
     let mut checker = C::default();
     n.visit_with(&mut checker);
     checker.should_handle()
+}
+
+static CPU_COUNT: Lazy<usize> = Lazy::new(num_cpus::get);
+
+pub fn cpu_count() -> usize {
+    *CPU_COUNT
 }
 
 pub trait Parallel {
