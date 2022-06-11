@@ -1,0 +1,84 @@
+
+  x Unexpected `await` inside a loop
+   ,----
+ 1 | async function foo() { while (baz) { await bar; } }
+   :                                      ^^^^^^^^^
+   `----
+
+  x Unexpected `await` inside a loop
+   ,----
+ 2 | async function foo() { while (await foo()) { } }
+   :                               ^^^^^^^^^^^
+   `----
+
+  x Unexpected `await` inside a loop
+   ,----
+ 3 | async function foo() { while (baz) { for await (x of xs); } }
+   :                                      ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Unexpected `await` inside a loop
+   ,----
+ 4 | async function foo() { for (var bar of baz) { await bar; } }
+   :                                               ^^^^^^^^^
+   `----
+
+  x Unexpected `await` inside a loop
+   ,----
+ 5 | async function foo() { for (var bar of baz) await bar; }
+   :                                             ^^^^^^^^^
+   `----
+
+  x Unexpected `await` inside a loop
+   ,----
+ 6 | async function foo() { for (var bar in baz) { await bar; } }
+   :                                               ^^^^^^^^^
+   `----
+
+  x Unexpected `await` inside a loop
+   ,----
+ 7 | async function foo() { for (var i; i < n; i++) { await bar; } }
+   :                                                  ^^^^^^^^^
+   `----
+
+  x Unexpected `await` inside a loop
+   ,----
+ 8 | async function foo() { for (var i; await foo(i); i++) { } }
+   :                                    ^^^^^^^^^^^^
+   `----
+
+  x Unexpected `await` inside a loop
+   ,----
+ 9 | async function foo() { for (var i; i < n; i = await bar) { } }
+   :                                               ^^^^^^^^^
+   `----
+
+  x Unexpected `await` inside a loop
+    ,----
+ 10 | async function foo() { do { await bar; } while (baz); }
+    :                             ^^^^^^^^^
+    `----
+
+  x Unexpected `await` inside a loop
+    ,----
+ 11 | async function foo() { do { } while (await bar); }
+    :                                      ^^^^^^^^^
+    `----
+
+  x Unexpected `await` inside a loop
+    ,----
+ 12 | async function foo() { while (true) { if (bar) { foo(await bar); } } }
+    :                                                      ^^^^^^^^^
+    `----
+
+  x Unexpected `await` inside a loop
+    ,----
+ 13 | async function foo() { while (xyz || 5 > await x) { } }
+    :                                          ^^^^^^^
+    `----
+
+  x Unexpected `await` inside a loop
+    ,----
+ 14 | async function foo() { for await (var x of xs) { while (1) await f(x) } }
+    :                                                            ^^^^^^^^^^
+    `----

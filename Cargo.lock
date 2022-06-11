@@ -3345,7 +3345,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.43.1"
+version = "0.43.2"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -3429,7 +3429,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.105.0"
+version = "0.105.1"
 dependencies = [
  "criterion",
  "either",
@@ -3961,7 +3961,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.12.1"
+version = "0.12.2"
 dependencies = [
  "criterion",
  "serde",
