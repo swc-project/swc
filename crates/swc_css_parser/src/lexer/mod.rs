@@ -1,4 +1,4 @@
-use std::{cell::RefCell, char::REPLACEMENT_CHARACTER, rc::Rc};
+use std::{cell::RefCell, char::REPLACEMENT_CHARACTER, mem::take, rc::Rc};
 
 use swc_atoms::{js_word, JsWord};
 use swc_common::{input::Input, BytePos, Span};
@@ -6,7 +6,7 @@ use swc_css_ast::{NumberType, Token, TokenAndSpan};
 
 use crate::{
     error::{Error, ErrorKind},
-    parser::{input::ParserInput, PResult, ParserConfig},
+    parser::{input::ParserInput, ParserConfig},
 };
 
 pub(crate) type LexResult<T> = Result<T, ErrorKind>;
@@ -27,6 +27,7 @@ where
     raw_buf: Rc<RefCell<String>>,
     sub_buf: Rc<RefCell<String>>,
     sub_raw_buf: Rc<RefCell<String>>,
+    errors: Vec<Error>,
 }
 
 impl<I> Lexer<I>
@@ -47,6 +48,7 @@ where
             raw_buf: Rc::new(RefCell::new(String::with_capacity(256))),
             sub_buf: Rc::new(RefCell::new(String::with_capacity(32))),
             sub_raw_buf: Rc::new(RefCell::new(String::with_capacity(32))),
+            errors: vec![],
         }
     }
 
@@ -138,16 +140,6 @@ where
 {
     type State = LexerState;
 
-    fn next(&mut self) -> PResult<TokenAndSpan> {
-        let token = self.read_token();
-        let end = self.last_pos.take().unwrap_or_else(|| self.input.cur_pos());
-        let span = Span::new(self.start_pos, end, Default::default());
-
-        token
-            .map(|token| TokenAndSpan { span, token })
-            .map_err(|kind| Error::new(span, kind))
-    }
-
     fn start_pos(&mut self) -> swc_common::BytePos {
         self.input.cur_pos()
     }
@@ -160,6 +152,10 @@ where
 
     fn reset(&mut self, state: &Self::State) {
         self.input.reset_to(state.pos);
+    }
+
+    fn take_errors(&mut self) -> Vec<Error> {
+        take(&mut self.errors)
     }
 }
 
@@ -479,10 +475,16 @@ where
 
                             break;
                         }
-                        Some(_) => {}
                         None => {
-                            return Err(ErrorKind::UnterminatedBlockComment);
+                            let end = self.last_pos.take().unwrap_or_else(|| self.input.cur_pos());
+                            let span = Span::new(self.start_pos, end, Default::default());
+
+                            self.errors
+                                .push(Error::new(span, ErrorKind::UnterminatedBlockComment));
+
+                            return Ok(());
                         }
+                        _ => {}
                     }
                 }
             }
@@ -501,10 +503,16 @@ where
                         Some(c) if is_newline(c) => {
                             break;
                         }
-                        Some(_) => {}
                         None => {
-                            return Err(ErrorKind::UnterminatedBlockComment);
+                            let end = self.last_pos.take().unwrap_or_else(|| self.input.cur_pos());
+                            let span = Span::new(self.start_pos, end, Default::default());
+
+                            self.errors
+                                .push(Error::new(span, ErrorKind::UnterminatedBlockComment));
+
+                            return Ok(());
                         }
+                        _ => {}
                     }
                 }
             }

@@ -1,4 +1,4 @@
-use std::fmt::Debug;
+use std::{fmt::Debug, mem::take};
 
 use swc_common::{BytePos, Span, SyntaxContext};
 use swc_css_ast::{Token, TokenAndSpan, Tokens};
@@ -9,13 +9,13 @@ use crate::error::{Error, ErrorKind};
 pub trait ParserInput: Iterator<Item = TokenAndSpan> {
     type State: Debug;
 
-    fn next(&mut self) -> PResult<TokenAndSpan>;
-
     fn start_pos(&mut self) -> BytePos;
 
     fn state(&mut self) -> Self::State;
 
     fn reset(&mut self, state: &Self::State);
+
+    fn take_errors(&mut self) -> Vec<Error>;
 }
 
 #[derive(Debug)]
@@ -35,6 +35,7 @@ where
 {
     pub fn new(mut input: I) -> Self {
         let last_pos = input.start_pos();
+
         Buffer {
             cur: None,
             peeked: None,
@@ -73,7 +74,7 @@ where
         self.cur()?;
 
         if self.peeked.is_none() {
-            self.peeked = Some(ParserInput::next(&mut self.input)?);
+            self.peeked = self.input.next();
         }
 
         Ok(self.peeked.as_ref().map(|v| &v.token))
@@ -109,18 +110,16 @@ where
         }
 
         if self.cur.is_none() {
-            let res = ParserInput::next(&mut self.input);
+            let token_and_span = self.input.next();
 
-            if let Err(err) = &res {
-                if let ErrorKind::Eof = err.kind() {
-                    return Ok(());
-                }
-            }
-
-            self.cur = res.map(Some)?;
+            self.cur = token_and_span;
         }
 
         Ok(())
+    }
+
+    pub fn take_errors(&mut self) -> Vec<Error> {
+        take(&mut self.input.take_errors())
     }
 
     pub(super) fn skip_ws(&mut self) -> PResult<()> {
@@ -171,29 +170,22 @@ impl<'a> TokensInput<'a> {
     }
 
     fn cur(&mut self) -> PResult<&TokenAndSpan> {
-        let ret = self.tokens.tokens.get(self.idx);
-        let ret = match ret {
+        let token_and_span = match self.tokens.tokens.get(self.idx) {
             Some(v) => v,
             None => {
                 let bp = self.tokens.span.hi;
                 let span = Span::new(bp, bp, SyntaxContext::empty());
+
                 return Err(Error::new(span, ErrorKind::Eof));
             }
         };
 
-        Ok(ret)
+        Ok(token_and_span)
     }
 }
 
 impl<'a> ParserInput for TokensInput<'a> {
     type State = TokensState;
-
-    fn next(&mut self) -> PResult<TokenAndSpan> {
-        let ret = self.cur()?.clone();
-        self.idx += 1;
-
-        Ok(ret)
-    }
 
     fn start_pos(&mut self) -> BytePos {
         self.tokens.span.lo
@@ -206,21 +198,23 @@ impl<'a> ParserInput for TokensInput<'a> {
     fn reset(&mut self, state: &Self::State) {
         self.idx = state.idx;
     }
+
+    fn take_errors(&mut self) -> Vec<Error> {
+        vec![]
+    }
 }
 
 impl<'a> Iterator for TokensInput<'a> {
     type Item = TokenAndSpan;
 
     fn next(&mut self) -> Option<Self::Item> {
-        let token_and_span = ParserInput::next(self);
+        let token_and_span = match self.cur() {
+            Ok(token_and_span) => token_and_span.clone(),
+            _ => return None,
+        };
 
-        match token_and_span {
-            Ok(token_and_span) => {
-                return Some(token_and_span);
-            }
-            Err(..) => {
-                return None;
-            }
-        }
+        self.idx += 1;
+
+        Some(token_and_span)
     }
 }
