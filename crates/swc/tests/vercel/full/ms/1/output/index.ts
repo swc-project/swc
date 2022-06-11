@@ -2,7 +2,7 @@ var b = 3600000, a = 24 * b, c = 7 * a, d = 365.25 * a;
 export default function(g, i) {
     try {
         if ("string" == typeof g && g.length > 0) return function i(f) {
-            if ((f = String(f)).length > 100) throw new Error("Value exceeds the maximum length of 100 characters.");
+            if ((f = String(f)).length > 100) throw Error("Value exceeds the maximum length of 100 characters.");
             var g = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(f);
             if (!g) return NaN;
             var e = parseFloat(g[1]), h = (g[2] || "ms").toLowerCase();
@@ -46,14 +46,13 @@ export default function(g, i) {
                 case "ms":
                     return e;
                 default:
-                    throw new Error("The unit ".concat(h, " was matched, but no matching case exists."));
+                    throw Error("The unit ".concat(h, " was matched, but no matching case exists."));
             }
         }(g);
         if ("number" == typeof g && isFinite(g)) return (null == i ? void 0 : i.long) ? f(g) : e(g);
-        throw new Error("Value is not a string or number.");
+        throw Error("Value is not a string or number.");
     } catch (j) {
-        var k = h(j) ? "".concat(j.message, ". value=").concat(JSON.stringify(g)) : "An unknown error has occurred.";
-        throw new Error(k);
+        throw Error(h(j) ? "".concat(j.message, ". value=").concat(JSON.stringify(g)) : "An unknown error has occurred.");
     }
 };
 function e(c) {

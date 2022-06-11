@@ -1762,13 +1762,13 @@
             function _toConsumableArray(arr1) {
                 return function(arr) {
                     if (Array.isArray(arr)) {
-                        for(var i = 0, arr2 = new Array(arr.length); i < arr.length; i++)arr2[i] = arr[i];
+                        for(var i = 0, arr2 = Array(arr.length); i < arr.length; i++)arr2[i] = arr[i];
                         return arr2;
                     }
                 }(arr1) || function(iter) {
                     if (Symbol.iterator in Object(iter) || "[object Arguments]" === Object.prototype.toString.call(iter)) return Array.from(iter);
                 }(arr1) || function() {
-                    throw new TypeError("Invalid attempt to spread non-iterable instance");
+                    throw TypeError("Invalid attempt to spread non-iterable instance");
                 }();
             }
             exports.default = function(_param) {
@@ -1802,8 +1802,8 @@
                 var src1, staticSrc = "";
                 if ("object" == typeof (src1 = src2) && (isStaticRequire(src1) || void 0 !== src1.src)) {
                     var staticImageData = isStaticRequire(src2) ? src2.default : src2;
-                    if (!staticImageData.src) throw new Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include src. Received ".concat(JSON.stringify(staticImageData)));
-                    if (blurDataURL = blurDataURL || staticImageData.blurDataURL, staticSrc = staticImageData.src, (!layout || "fill" !== layout) && (height = height || staticImageData.height, width = width || staticImageData.width, !staticImageData.height || !staticImageData.width)) throw new Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include height and width. Received ".concat(JSON.stringify(staticImageData)));
+                    if (!staticImageData.src) throw Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include src. Received ".concat(JSON.stringify(staticImageData)));
+                    if (blurDataURL = blurDataURL || staticImageData.blurDataURL, staticSrc = staticImageData.src, (!layout || "fill" !== layout) && (height = height || staticImageData.height, width = width || staticImageData.width, !staticImageData.height || !staticImageData.width)) throw Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include height and width. Received ".concat(JSON.stringify(staticImageData)));
                 }
                 src2 = "string" == typeof src2 ? src2 : staticSrc;
                 var widthInt = getInt(width), heightInt = getInt(height), qualityInt = getInt(quality), isLazy = !priority && ("lazy" === loading || void 0 === loading);
@@ -1828,7 +1828,7 @@
                     }
                     return _arr;
                 }(arr3, 2) || function() {
-                    throw new TypeError("Invalid attempt to destructure non-iterable instance");
+                    throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), setRef = ref2[0], isIntersected = ref2[1], isVisible = !isLazy || isIntersected, wrapperStyle = {
                     boxSizing: "border-box",
                     display: "block",
@@ -2027,7 +2027,7 @@
                     "custom",
                     function(param) {
                         var src = param.src;
-                        throw new Error('Image with src "'.concat(src, '" is missing "loader" prop.') + "\nRead more: https://nextjs.org/docs/messages/next-image-missing-loader");
+                        throw Error('Image with src "'.concat(src, '" is missing "loader" prop.') + "\nRead more: https://nextjs.org/docs/messages/next-image-missing-loader");
                     }
                 ], 
             ]);
@@ -2123,7 +2123,7 @@
                 if (load) return load(_objectSpread({
                     root: configPath
                 }, loaderProps));
-                throw new Error('Unknown "loader" found in "next.config.js". Expected: '.concat(_imageConfig.VALID_LOADERS.join(", "), ". Received: ").concat(configLoader));
+                throw Error('Unknown "loader" found in "next.config.js". Expected: '.concat(_imageConfig.VALID_LOADERS.join(", "), ". Received: ").concat(configLoader));
             }
             function normalizeSrc(src) {
                 return "/" === src[0] ? src.slice(1) : src;
@@ -2156,7 +2156,7 @@
                     }
                     return _arr;
                 }(arr4, 2) || function() {
-                    throw new TypeError("Invalid attempt to destructure non-iterable instance");
+                    throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), visible = ref[0], setVisible = ref[1], setRef = _react.useCallback(function(el) {
                     unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (unobserve.current = observe(el, function(isVisible) {
                         return isVisible && setVisible(isVisible);
@@ -2421,14 +2421,14 @@
                         if (logType < instance.logLevel) return;
                         const now = new Date().toISOString(), method = ConsoleMethod[logType];
                         if (method) console[method](`[${now}]  ${instance.name}:`, ...args);
-                        else throw new Error(`Attempted to log a message with an invalid logType (value: ${logType})`);
+                        else throw Error(`Attempted to log a message with an invalid logType (value: ${logType})`);
                     }, this._userLogHandler = null, [].push(this);
                 }
                 get logLevel() {
                     return this._logLevel;
                 }
                 set logLevel(val) {
-                    if (!(val in LogLevel)) throw new TypeError(`Invalid value "${val}" assigned to \`logLevel\``);
+                    if (!(val in LogLevel)) throw TypeError(`Invalid value "${val}" assigned to \`logLevel\``);
                     this._logLevel = val;
                 }
                 setLogLevel(val) {
@@ -2438,7 +2438,7 @@
                     return this._logHandler;
                 }
                 set logHandler(val) {
-                    if ("function" != typeof val) throw new TypeError("Value assigned to `logHandler` must be a function");
+                    if ("function" != typeof val) throw TypeError("Value assigned to `logHandler` must be a function");
                     this._logHandler = val;
                 }
                 get userLogHandler() {

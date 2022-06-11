@@ -7,7 +7,7 @@
                 var arg, index = +match.slice(1, -1);
                 return index + 2 < templateArgs.length ? "function" == typeof (arg = templateArgs[index + 2]) ? arg.toString().replace(/ ?\{[\s\S]*$/, "") : void 0 === arg ? "undefined" : "string" != typeof arg ? toJson(arg) : arg : match;
             })) + "\nhttp://errors.angularjs.org/1.2.5/" + (module ? module + "/" : "") + code; i < arguments.length; i++)message = message + (2 == i ? "?" : "&") + "p" + (i - 2) + "=" + encodeURIComponent((obj = arguments[i], "function" == typeof obj ? obj.toString().replace(/ \{[\s\S]*$/, "") : void 0 === obj ? "undefined" : "string" != typeof obj ? JSON.stringify(obj) : obj));
-            return new Error(message);
+            return Error(message);
         };
     }
     var promiseWarning, msie, jqLite, jQuery, angularModule, nodeName_, lowercase = function(string) {
@@ -145,7 +145,7 @@
                 }), source)destination[key1] = copy(source[key1]);
                 setHashKey(destination, h);
             }
-        } else destination = source, source && (isArray(source) ? destination = copy(source, []) : isDate(source) ? destination = new Date(source.getTime()) : isRegExp(source) ? destination = new RegExp(source.source) : isObject(source) && (destination = copy(source, {})));
+        } else destination = source, source && (isArray(source) ? destination = copy(source, []) : isDate(source) ? destination = new Date(source.getTime()) : isRegExp(source) ? destination = RegExp(source.source) : isObject(source) && (destination = copy(source, {})));
         return destination;
     }
     function equals(o1, o2) {
@@ -2511,8 +2511,8 @@
             var code = "var l, fn, p;\n";
             forEach(pathKeys, function(key, index) {
                 ensureSafeMemberName(key, fullExp), code += "if(s === null || s === undefined) return s;\nl=s;\ns=" + (index ? "s" : '((k&&k.hasOwnProperty("' + key + '"))?k:s)') + '["' + key + '"];\n' + (options.unwrapPromises ? 'if (s && s.then) {\n pw("' + fullExp.replace(/(["\r\n])/g, "\\$1") + '");\n if (!("$$v" in s)) {\n p=s;\n p.$$v = undefined;\n p.then(function(v) {p.$$v=v;});\n}\n s=s.$$v\n}\n' : "");
-            }), code += "return s;";
-            var evaledFnGetter = new Function("s", "k", "pw", code);
+            });
+            var evaledFnGetter = Function("s", "k", "pw", code += "return s;");
             evaledFnGetter.toString = function() {
                 return code;
             }, fn = function(scope, locals) {
@@ -2957,9 +2957,9 @@
                 if (isString(matcher)) {
                     var s;
                     if (matcher.indexOf("***") > -1) throw $sceMinErr("iwcard", "Illegal sequence *** in string matcher.  String: {0}", matcher);
-                    return matcher = matcher.replace(/([-()\[\]{}+?*.$\^|,:#<!\\])/g, "\\$1").replace(/\x08/g, "\\x08").replace("\\*\\*", ".*").replace("\\*", "[^:/.?&;]*"), new RegExp("^" + matcher + "$");
+                    return RegExp("^" + (matcher = matcher.replace(/([-()\[\]{}+?*.$\^|,:#<!\\])/g, "\\$1").replace(/\x08/g, "\\x08").replace("\\*\\*", ".*").replace("\\*", "[^:/.?&;]*")) + "$");
                 }
-                if (isRegExp(matcher)) return new RegExp("^" + matcher.source + "$");
+                if (isRegExp(matcher)) return RegExp("^" + matcher.source + "$");
                 throw $sceMinErr("imatcher", 'Matchers may only be "self", string patterns or RegExp objects');
             }(matcher1));
         }), adjustedMatchers;
@@ -3630,7 +3630,7 @@
             if (ctrl.$isEmpty(value) || regexp.test(value)) return ctrl.$setValidity("pattern", !0), value;
             ctrl.$setValidity("pattern", !1);
         };
-        if (pattern && ((match = pattern.match(/^\/(.*)\/([gim]*)$/)) ? (pattern = new RegExp(match[1], match[2]), patternValidator = function(value) {
+        if (pattern && ((match = pattern.match(/^\/(.*)\/([gim]*)$/)) ? (pattern = RegExp(match[1], match[2]), patternValidator = function(value) {
             return validate(pattern, value);
         }) : patternValidator = function(value) {
             var patternObj = scope.$eval(pattern);
@@ -3747,7 +3747,7 @@
         return {
             require: "ngModel",
             link: function(scope, element, attr, ctrl) {
-                var match = /\/(.*)\//.exec(attr.ngList), separator = match && new RegExp(match[1]) || attr.ngList || ",";
+                var match = /\/(.*)\//.exec(attr.ngList), separator = match && RegExp(match[1]) || attr.ngList || ",";
                 ctrl.$parsers.push(function(viewValue) {
                     if (!isUndefined(viewValue)) {
                         var list = [];

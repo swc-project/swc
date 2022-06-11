@@ -3,7 +3,7 @@ var C = function() {
     "use strict";
     _class_call_check(this, C);
 };
-new Function();
+Function();
 var C2 = function() {
     "use strict";
     _class_call_check(this, C2);

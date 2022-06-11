@@ -1,1 +1,1 @@
-new Function();
+Function();

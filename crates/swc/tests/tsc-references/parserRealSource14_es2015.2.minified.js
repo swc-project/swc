@@ -28,11 +28,11 @@ var TypeScript;
             this.top = this.asts.length, this.asts.push(ast);
         }
         up() {
-            if (this.top <= -1) throw new Error("Invalid call to 'up'");
+            if (this.top <= -1) throw Error("Invalid call to 'up'");
             this.top--;
         }
         down() {
-            if (this.top == this.ast.length - 1) throw new Error("Invalid call to 'down'");
+            if (this.top == this.ast.length - 1) throw Error("Invalid call to 'down'");
             this.top++;
         }
         nodeType() {

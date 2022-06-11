@@ -22,7 +22,7 @@ var Sql = function(Wagon1) {
         return _class_call_check(this, Sql), (_this = _super.call(this)).foonly = 12, _this;
     }
     return Sql.prototype.load = function(files, format) {
-        if ("xmlolololol" === format) throw new Error("please do not use XML. It was a joke.");
+        if ("xmlolololol" === format) throw Error("please do not use XML. It was a joke.");
         _get(_get_prototype_of(Sql.prototype), "speed", this).call(this), _get(_get_prototype_of(Sql.prototype), "weight", this).call(this);
     }, Sql;
 }(Wagon), db = new Sql();
