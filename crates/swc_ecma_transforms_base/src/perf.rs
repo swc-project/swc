@@ -57,6 +57,7 @@ pub trait ParVisit: Visit + Parallel {
         N: Send + Sync + VisitWith<Self>;
 }
 
+#[cfg(feature = "rayon")]
 impl<T> ParVisit for T
 where
     T: Visit + Parallel,
@@ -65,7 +66,6 @@ where
     where
         N: Send + Sync + VisitWith<Self>,
     {
-        #[cfg(feature = "rayon")]
         if nodes.len() >= threshold {
             GLOBALS.with(|globals| {
                 HELPERS.with(|helpers| {
@@ -115,6 +115,7 @@ pub trait ParVisitMut: VisitMut + Parallel {
         N: Send + Sync + VisitMutWith<Self>;
 }
 
+#[cfg(feature = "rayon")]
 impl<T> ParVisitMut for T
 where
     T: VisitMut + Parallel,
@@ -123,7 +124,6 @@ where
     where
         N: Send + Sync + VisitMutWith<Self>,
     {
-        #[cfg(feature = "rayon")]
         if nodes.len() >= threshold {
             GLOBALS.with(|globals| {
                 HELPERS.with(|helpers| {
@@ -173,6 +173,7 @@ pub trait ParFold: Fold + Parallel {
         N: Send + Sync + FoldWith<Self>;
 }
 
+#[cfg(feature = "rayon")]
 impl<T> ParFold for T
 where
     T: Fold + Parallel,
@@ -181,7 +182,6 @@ where
     where
         N: Send + Sync + FoldWith<Self>,
     {
-        #[cfg(feature = "rayon")]
         if nodes.len() >= threshold {
             use rayon::prelude::*;
 
@@ -231,6 +231,49 @@ where
             return nodes;
         }
 
+        nodes.move_map(|n| n.fold_with(self))
+    }
+}
+
+#[cfg(not(feature = "rayon"))]
+impl<T> ParVisit for T
+where
+    T: Fold + Parallel,
+{
+    fn visit_par<N>(&mut self, threshold: usize, nodes: &[N])
+    where
+        N: Send + Sync + VisitWith<Self>,
+    {
+        for n in nodes {
+            n.visit_with(self);
+        }
+    }
+}
+
+#[cfg(not(feature = "rayon"))]
+impl<T> ParVisitMut for T
+where
+    T: Fold + Parallel,
+{
+    fn visit_mut_par<N>(&mut self, threshold: usize, nodes: &mut [N])
+    where
+        N: Send + Sync + VisitMutWith<Self>,
+    {
+        for n in nodes {
+            n.visit_mut_with(self);
+        }
+    }
+}
+
+#[cfg(not(feature = "rayon"))]
+impl<T> ParFold for T
+where
+    T: Fold + Parallel,
+{
+    fn fold_par<N>(&mut self, threshold: usize, nodes: Vec<N>) -> Vec<N>
+    where
+        N: Send + Sync + FoldWith<Self>,
+    {
         nodes.move_map(|n| n.fold_with(self))
     }
 }
