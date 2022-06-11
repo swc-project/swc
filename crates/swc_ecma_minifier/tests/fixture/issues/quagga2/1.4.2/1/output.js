@@ -4778,7 +4778,7 @@
                     {
                         key: "decode",
                         value: function(row, start) {
-                            var result = Array(), decodedCodes = Array(), resultInfo = {}, startInfo = this._findStart();
+                            var result = [], decodedCodes = [], resultInfo = {}, startInfo = this._findStart();
                             if (!startInfo) return null;
                             var code = {
                                 start: startInfo.start,
@@ -5854,7 +5854,7 @@
                     {
                         key: "decode",
                         value: function(row, start) {
-                            var result = Array(), decodedCodes = Array(), startInfo = this._findStart();
+                            var result = [], decodedCodes = [], startInfo = this._findStart();
                             if (!startInfo) return null;
                             decodedCodes.push(startInfo);
                             var endInfo = this._findEnd();

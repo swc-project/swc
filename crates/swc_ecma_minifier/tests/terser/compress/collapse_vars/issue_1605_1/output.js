@@ -1,5 +1,5 @@
 function foo(x) {
     return x;
 }
-var o = new Object();
+var o = {};
 o.p = 1;
