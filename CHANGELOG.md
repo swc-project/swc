@@ -5,6 +5,14 @@
 
 
 
+- **(common)** Don't use `get_unchecked` after setting the length to 0 (#4943) ([f479951](https://github.com/swc-project/swc/commit/f479951ef2f1c9eff8e020c9fc46e78e16855a24))
+
+## [1.2.199] - 2022-06-11
+
+### Bug Fixes
+
+
+
 - **(ci)** Fix android build issue caused by NDK 21 -> 23 (#4942) ([52e2347](https://github.com/swc-project/swc/commit/52e23470e71e769e980f1e0d291ebf4a984bbfb8))
 
 
