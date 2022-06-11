@@ -13,13 +13,13 @@
 use std::{
     borrow::{Borrow, Cow},
     fmt::{self, Display, Formatter},
-    hash::{Hash, Hasher},
+    hash::Hash,
     ops::Deref,
     rc::Rc,
     sync::Arc,
 };
 
-use rustc_hash::{FxHashMap, FxHasher};
+use rustc_hash::FxHashSet;
 
 include!(concat!(env!("OUT_DIR"), "/js_word.rs"));
 
@@ -97,26 +97,18 @@ impl Display for Atom {
 /// A lexer is expected to store this in it.
 #[derive(Debug, Default)]
 pub struct AtomGenerator {
-    inner: FxHashMap<u64, Vec<Atom>>,
+    inner: FxHashSet<Atom>,
 }
 
 impl AtomGenerator {
     pub fn gen(&mut self, s: &str) -> Atom {
-        let mut h = FxHasher::default();
-        s.hash(&mut h);
-        h.finish();
-
-        let v = self.inner.entry(h.finish()).or_insert_with(|| {
-            // I don't expect hash to collide.
-            Vec::with_capacity(1)
-        });
-
-        if let Some(atom) = v.iter().find(|atom| *atom == s).cloned() {
-            return atom;
+        if let Some(v) = self.inner.get(s).cloned() {
+            return v;
         }
+
         let new = Atom::new_bad(s);
 
-        v.push(new.clone());
+        self.inner.insert(new.clone());
         new
     }
 }
