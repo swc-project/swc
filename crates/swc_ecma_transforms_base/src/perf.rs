@@ -1,6 +1,6 @@
 use once_cell::sync::Lazy;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Visit, VisitWith};
+use swc_ecma_visit::{Fold, FoldWith, Visit, VisitMut, VisitMutWith, VisitWith};
 
 pub trait Check: Visit + Default {
     fn should_handle(&self) -> bool;
@@ -47,3 +47,27 @@ pub trait ParExplode: Parallel {
     /// Implementor should not delete/prepend to `stmts`.
     fn after_one_module_item(&mut self, stmts: &mut Vec<ModuleItem>);
 }
+
+pub trait ParVisit: Visit + Parallel {
+    fn visit_par<N>(&mut self, threashold: usize, node: &[N])
+    where
+        N: VisitWith<Self>;
+}
+
+impl<T> ParVisit for T where T: ?Sized + Visit + Parallel {}
+
+pub trait ParVisitMut: VisitMut + Parallel {
+    fn visit_mut_par<N>(&mut self, threashold: usize, node: &[N])
+    where
+        N: VisitMutWith<Self>;
+}
+
+impl<T> ParVisitMut for T where T: ?Sized + VisitMut + Parallel {}
+
+pub trait ParFold: Fold + Parallel {
+    fn fold_par<N>(&mut self, threashold: usize, node: &[N])
+    where
+        N: FoldWith<Self>;
+}
+
+impl<T> ParFold for T where T: ?Sized + Fold + Parallel {}
