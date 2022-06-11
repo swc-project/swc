@@ -11,6 +11,9 @@
 
 
 
+- **(common)** Add `Atom` type (#4945) ([4ada9c7](https://github.com/swc-project/swc/commit/4ada9c7e05d1d61e061bf6af5830d10580d671eb))
+
+
 - **(css/parser)** Improve performance of lexer (#4921) ([327969d](https://github.com/swc-project/swc/commit/327969d0d96159ed45a45a92e943d9d426de303c))
 
 ## [1.2.199] - 2022-06-11

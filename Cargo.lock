@@ -2992,7 +2992,7 @@ dependencies = [
 
 [[package]]
 name = "swc_atoms"
-version = "0.2.11"
+version = "0.2.12"
 dependencies = [
  "once_cell",
  "rkyv",
