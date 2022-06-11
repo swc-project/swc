@@ -3064,7 +3064,6 @@ dependencies = [
  "atty",
  "clap 3.1.0",
  "glob",
- "napi-build",
  "path-absolutize",
  "rayon",
  "relative-path",
