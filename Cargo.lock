@@ -2996,6 +2996,7 @@ version = "0.2.11"
 dependencies = [
  "rkyv",
  "rustc-hash",
+ "serde",
  "string_cache",
  "string_cache_codegen",
 ]
