@@ -37,11 +37,11 @@ swc_plugin_proxy = { version = "0.4.0", path = "../swc_plugin_proxy", features =
   "plugin-rt",
 ] }
 tracing = "0.1.32"
-wasmer = { version = "2.2.1", default-features = false }
-wasmer-wasi = { version = "2.2.1", default-features = false }
+wasmer = { version = "2.3.0", default-features = false }
+wasmer-wasi = { version = "2.3.0", default-features = false }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
-wasmer-cache = { version = "2.2.1", optional = true }
+wasmer-cache = { version = "2.3.0", optional = true }
 
 [dev-dependencies]
 criterion = "0.3"
@@ -52,8 +52,8 @@ swc_ecma_visit = { version = "0.65.0", path = "../swc_ecma_visit" }
 swc_node_base = { path = "../swc_node_base" }
 testing = { version = "0.20.0", path = "../testing" }
 # This allows we can run non-wasm32 target build command while some pkg select features for wasmer/js omits its transitive deps
-wasmer = "2.2.1"
-wasmer-wasi = "2.2.1"
+wasmer = "2.3.0"
+wasmer-wasi = "2.3.0"
 
 [[bench]]
 harness = false
