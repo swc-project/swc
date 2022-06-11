@@ -67,50 +67,38 @@ where
     {
         #[cfg(feature = "rayon")]
         if nodes.len() >= threshold {
-            use rayon::prelude::*;
-
-            let (visitor, mut nodes) = GLOBALS.with(|globals| {
+            GLOBALS.with(|globals| {
                 HELPERS.with(|helpers| {
                     HANDLER.with(|handler| {
-                        nodes
+                        use rayon::prelude::*;
+
+                        let visitor = nodes
                             .into_par_iter()
                             .map(|node| {
                                 GLOBALS.set(globals, || {
                                     HELPERS.set(helpers, || {
                                         HANDLER.set(handler, || {
                                             let mut visitor = Parallel::create(&*self);
-                                            let node = node.visit_with(&mut visitor);
+                                            node.visit_with(&mut visitor);
 
-                                            (visitor, node)
+                                            visitor
                                         })
                                     })
                                 })
                             })
-                            .fold(
-                                || (Parallel::create(&*self), vec![]),
-                                |mut a, b| {
-                                    Parallel::merge(&mut a.0, b.0);
-
-                                    a.1.push(b.1);
-
-                                    a
-                                },
-                            )
                             .reduce(
-                                || (Parallel::create(&*self), vec![]),
+                                || Parallel::create(&*self),
                                 |mut a, b| {
-                                    Parallel::merge(&mut a.0, b.0);
-
-                                    a.1.extend(b.1);
+                                    Parallel::merge(&mut a, b);
 
                                     a
                                 },
-                            )
+                            );
+
+                        Parallel::merge(self, visitor);
                     })
                 })
             });
-
-            Parallel::merge(self, visitor);
 
             return;
         }
@@ -137,50 +125,38 @@ where
     {
         #[cfg(feature = "rayon")]
         if nodes.len() >= threshold {
-            use rayon::prelude::*;
-
-            let (visitor, mut nodes) = GLOBALS.with(|globals| {
+            GLOBALS.with(|globals| {
                 HELPERS.with(|helpers| {
                     HANDLER.with(|handler| {
-                        nodes
+                        use rayon::prelude::*;
+
+                        let visitor = nodes
                             .into_par_iter()
                             .map(|node| {
                                 GLOBALS.set(&globals, || {
                                     HELPERS.set(helpers, || {
                                         HANDLER.set(handler, || {
                                             let mut visitor = Parallel::create(&*self);
-                                            let node = node.visit_mut_with(&mut visitor);
+                                            node.visit_mut_with(&mut visitor);
 
-                                            (visitor, node)
+                                            visitor
                                         })
                                     })
                                 })
                             })
-                            .fold(
-                                || (Parallel::create(&*self), vec![]),
-                                |mut a, b| {
-                                    Parallel::merge(&mut a.0, b.0);
-
-                                    a.1.push(b.1);
-
-                                    a
-                                },
-                            )
                             .reduce(
-                                || (Parallel::create(&*self), vec![]),
+                                || Parallel::create(&*self),
                                 |mut a, b| {
-                                    Parallel::merge(&mut a.0, b.0);
-
-                                    a.1.extend(b.1);
+                                    Parallel::merge(&mut a, b);
 
                                     a
                                 },
-                            )
+                            );
+
+                        Parallel::merge(self, visitor);
                     })
                 })
             });
-
-            Parallel::merge(self, visitor);
 
             return;
         }
