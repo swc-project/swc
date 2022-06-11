@@ -2994,6 +2994,7 @@ dependencies = [
 name = "swc_atoms"
 version = "0.2.11"
 dependencies = [
+ "rkyv",
  "rustc-hash",
  "string_cache",
  "string_cache_codegen",

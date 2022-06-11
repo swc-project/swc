@@ -27,6 +27,10 @@ include!(concat!(env!("OUT_DIR"), "/js_word.rs"));
 ///
 /// Use [AtomGenerator] and [LocalAtomGenerator] to create [Atom]s.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 pub struct Atom(Arc<str>);
 
 impl Atom {

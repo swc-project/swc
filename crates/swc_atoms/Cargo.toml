@@ -13,6 +13,7 @@ version = "0.2.11"
 bench = false
 
 [dependencies]
+rkyv = { version = "0.7", optional = true }
 rustc-hash = "1.1.0"
 string_cache = "0.8.4"
 
