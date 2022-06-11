@@ -238,7 +238,7 @@ where
 #[cfg(not(feature = "rayon"))]
 impl<T> ParVisit for T
 where
-    T: Fold + Parallel,
+    T: Visit + Parallel,
 {
     fn visit_par<N>(&mut self, threshold: usize, nodes: &[N])
     where
@@ -253,7 +253,7 @@ where
 #[cfg(not(feature = "rayon"))]
 impl<T> ParVisitMut for T
 where
-    T: Fold + Parallel,
+    T: VisitMut + Parallel,
 {
     fn visit_mut_par<N>(&mut self, threshold: usize, nodes: &mut [N])
     where
