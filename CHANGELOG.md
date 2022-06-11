@@ -23,6 +23,9 @@
 - **(es/parser)** Allow negative bigint literal in types (#4938) ([11db191](https://github.com/swc-project/swc/commit/11db191af5fe41b5b752b8bc77cc61a05372e0bd))
 
 
+- **(es/parser)** Check for line break after async (#4940) ([381d273](https://github.com/swc-project/swc/commit/381d273f11584f25343a54b37a0ff9357192f488))
+
+
 - **(es/resolver)** Hoist namespaces (#4902) ([a9f91dc](https://github.com/swc-project/swc/commit/a9f91dc797cc5d1e96010aa541ba5aa5221b5779))
 
 
