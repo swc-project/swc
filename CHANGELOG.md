@@ -95,6 +95,9 @@
 
 
 
+- **(es/lints)** Simplify `no-empty-pattern` rule (#4928) ([286f265](https://github.com/swc-project/swc/commit/286f265632b1af6a2b6ebdd495a0c9a5e7af6260))
+
+
 - **(html/ast)** Avoid `TokenAndSpan` (#4885) ([b14719c](https://github.com/swc-project/swc/commit/b14719c046584878424f794a86c7a0793f7033be))
 
 ## [1.2.197] - 2022-06-05
