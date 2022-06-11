@@ -11,6 +11,9 @@
 - **(es/minifier)** Reserve more symbols on `eval` (#4925) ([be87494](https://github.com/swc-project/swc/commit/be87494495a7708769430362f1852f52f77eb47f))
 
 
+- **(es/parser)** Allow negative bigint literal in types (#4938) ([11db191](https://github.com/swc-project/swc/commit/11db191af5fe41b5b752b8bc77cc61a05372e0bd))
+
+
 - **(html/codegen)** Fix quotes in attributes (#4918) ([064e504](https://github.com/swc-project/swc/commit/064e50448fb3a916ce52c537f73cedec2253ed50))
 
 
@@ -24,6 +27,9 @@
 
 
 - **(html/codegen)** Minify svg attributes (#4917) ([f157aae](https://github.com/swc-project/swc/commit/f157aae40cb11d3ecb18f03f5a32cb4423cfab8b))
+
+
+- **(plugin)** Upgrade `wasmer` (#4929) ([b30032d](https://github.com/swc-project/swc/commit/b30032dd46124b476c3e0ebd94a1845120161ff1))
 
 ### Miscellaneous Tasks
 
@@ -39,6 +45,9 @@
 
 
 - **(html/parser)** Add a benchmark for document fragment (#4920) ([d669454](https://github.com/swc-project/swc/commit/d669454157da62f9bec4b078230e4e372efd91e3))
+
+
+- **(html/parser)** Improve performance (#4934) ([f993a52](https://github.com/swc-project/swc/commit/f993a526797ec3e2119828b129bf9aad3b1c28d8))
 
 ## [1.2.198] - 2022-06-08
 
