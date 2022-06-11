@@ -7,6 +7,12 @@
 
 - **(common)** Don't use `get_unchecked` after setting the length to 0 (#4943) ([f479951](https://github.com/swc-project/swc/commit/f479951ef2f1c9eff8e020c9fc46e78e16855a24))
 
+### Performance
+
+
+
+- **(css/parser)** Improve performance of lexer (#4921) ([327969d](https://github.com/swc-project/swc/commit/327969d0d96159ed45a45a92e943d9d426de303c))
+
 ## [1.2.199] - 2022-06-11
 
 ### Bug Fixes
