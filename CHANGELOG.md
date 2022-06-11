@@ -26,6 +26,9 @@
 - **(es/lints)** Add `default-case-last` rule (#4913) ([4fb932d](https://github.com/swc-project/swc/commit/4fb932dd0818c76feac01df7ea0c371626b62143))
 
 
+- **(es/lints)** Add `no-await-in-loop` rule (#4936) ([b041f29](https://github.com/swc-project/swc/commit/b041f2911f65b964f0cf1056afcb78e68ace55d9))
+
+
 - **(html/codegen)** Minify svg attributes (#4917) ([f157aae](https://github.com/swc-project/swc/commit/f157aae40cb11d3ecb18f03f5a32cb4423cfab8b))
 
 
