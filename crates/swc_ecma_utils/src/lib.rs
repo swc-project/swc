@@ -2401,34 +2401,6 @@ where
         self.add(&node.local);
     }
 
-    fn visit_module_items(&mut self, nodes: &[ModuleItem]) {
-        #[cfg(feature = "concurrent")]
-        if nodes.len() > 16 {
-            use rayon::prelude::*;
-            let set = nodes
-                .par_iter()
-                .map(|node| {
-                    let mut v = BindingCollector {
-                        only: self.only,
-                        bindings: Default::default(),
-                        is_pat_decl: self.is_pat_decl,
-                    };
-                    node.visit_with(&mut v);
-                    v.bindings
-                })
-                .reduce(AHashSet::default, |mut a, b| {
-                    a.extend(b);
-                    a
-                });
-            self.bindings.extend(set);
-            return;
-        }
-
-        for node in nodes {
-            node.visit_children_with(self)
-        }
-    }
-
     fn visit_param(&mut self, node: &Param) {
         let old = self.is_pat_decl;
         self.is_pat_decl = true;
@@ -2443,34 +2415,6 @@ where
             if let Pat::Ident(i) = node {
                 self.add(&i.id)
             }
-        }
-    }
-
-    fn visit_stmts(&mut self, nodes: &[Stmt]) {
-        #[cfg(feature = "concurrent")]
-        if nodes.len() > 16 {
-            use rayon::prelude::*;
-            let set = nodes
-                .par_iter()
-                .map(|node| {
-                    let mut v = BindingCollector {
-                        only: self.only,
-                        bindings: Default::default(),
-                        is_pat_decl: self.is_pat_decl,
-                    };
-                    node.visit_with(&mut v);
-                    v.bindings
-                })
-                .reduce(AHashSet::default, |mut a, b| {
-                    a.extend(b);
-                    a
-                });
-            self.bindings.extend(set);
-            return;
-        }
-
-        for node in nodes {
-            node.visit_children_with(self)
         }
     }
 
