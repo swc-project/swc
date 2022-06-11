@@ -77,6 +77,9 @@
 - **(es/minifier)** Change default pass limit to 2 (#4924) ([fc0d8e3](https://github.com/swc-project/swc/commit/fc0d8e3f74d61ccbf37d5bb2e2ba6bf85561db97))
 
 
+- **(es/transforms)** Make transforms parallel (#4939) ([35c93be](https://github.com/swc-project/swc/commit/35c93be60f645fb71bc67f8c7e4fbe6ad5120615))
+
+
 - **(html/parser)** Improve performance (#4881) ([5abe847](https://github.com/swc-project/swc/commit/5abe847c2358ee9876140772f16d303c388cbbb5))
 
 
