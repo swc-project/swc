@@ -10,7 +10,7 @@
 
 #![allow(clippy::unreadable_literal)]
 
-use std::{borrow::Cow, ops::Deref, sync::Arc};
+use std::{borrow::Cow, ops::Deref, rc::Rc, sync::Arc};
 
 include!(concat!(env!("OUT_DIR"), "/js_word.rs"));
 
@@ -44,6 +44,9 @@ impl PartialEq<str> for Atom {
 }
 
 impl_eq!(&'_ str);
+impl_eq!(Box<str>);
+impl_eq!(Arc<str>);
+impl_eq!(Rc<str>);
 impl_eq!(Cow<'_, str>);
 impl_eq!(String);
 impl_eq!(JsWord);
