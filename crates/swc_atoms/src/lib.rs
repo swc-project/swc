@@ -10,7 +10,13 @@
 
 #![allow(clippy::unreadable_literal)]
 
-use std::{borrow::Cow, ops::Deref, rc::Rc, sync::Arc};
+use std::{
+    borrow::{Borrow, Cow},
+    fmt::{self, Display, Formatter},
+    ops::Deref,
+    rc::Rc,
+    sync::Arc,
+};
 
 include!(concat!(env!("OUT_DIR"), "/js_word.rs"));
 
@@ -19,6 +25,15 @@ include!(concat!(env!("OUT_DIR"), "/js_word.rs"));
 /// Use [AtomGenerator] and [LocalAtomGenerator] to create [Atom]s.
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Atom(Arc<str>);
+
+impl Atom {
+    /// Creates a bad [Atom] from a string.
+    ///
+    /// This [Atom] is bad because it doesn't help reducing memory usage.
+    pub fn new_bad(s: impl AsRef<str>) -> Self {
+        Self(s.as_ref().into())
+    }
+}
 
 impl Deref for Atom {
     type Target = str;
@@ -53,6 +68,27 @@ impl_eq!(Cow<'_, str>);
 impl_eq!(String);
 impl_eq!(JsWord);
 
+impl AsRef<str> for Atom {
+    fn as_ref(&self) -> &str {
+        &self.0
+    }
+}
+
+impl Borrow<str> for Atom {
+    fn borrow(&self) -> &str {
+        &self.0
+    }
+}
+
+impl Display for Atom {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        Display::fmt(&self.0, f)
+    }
+}
+
+/// Generates an interned string.
 pub struct AtomGenerator {}
 
-pub struct LocalAtomGenerator {}
+impl AtomGenerator {
+    pub fn gen(&mut self, s: &str) {}
+}
