@@ -10,6 +10,10 @@
 
 #![allow(clippy::unreadable_literal)]
 
+/// Not a publish API.
+#[doc(hidden)]
+pub extern crate once_cell;
+
 use std::{
     borrow::{Borrow, Cow},
     fmt::{self, Display, Formatter},
@@ -134,4 +138,15 @@ impl<'de> serde::de::Deserialize<'de> for Atom {
     {
         String::deserialize(deserializer).map(Self::new_bad)
     }
+}
+
+/// Creates an atom from a constant.
+#[macro_export]
+macro_rules! atom {
+    ($s:literal) => {{
+        static CACHE: $crate::once_cell::sync::Lazy<$crate::Atom> =
+            $crate::once_cell::sync::Lazy::new(|| $crate::Atom::new_bad($s));
+
+        $crate::Atom::clone(*CACHE)
+    }};
 }
