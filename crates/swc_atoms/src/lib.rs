@@ -94,7 +94,7 @@ impl Display for Atom {
 
 /// Generator for an interned strings.
 ///
-/// The lexer is expected to store this in it.
+/// A lexer is expected to store this in it.
 #[derive(Debug)]
 pub struct AtomGenerator {
     inner: FxHashMap<u64, Vec<Atom>>,
