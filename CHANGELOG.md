@@ -26,6 +26,9 @@
 - **(es/resolver)** Hoist namespaces (#4902) ([a9f91dc](https://github.com/swc-project/swc/commit/a9f91dc797cc5d1e96010aa541ba5aa5221b5779))
 
 
+- **(es/transforms)** Fix threshold ([a70c737](https://github.com/swc-project/swc/commit/a70c7375062f828fd47dd2bc0562b18a3c9cdd6f))
+
+
 - **(html/codegen)** Fix quotes in attributes (#4918) ([064e504](https://github.com/swc-project/swc/commit/064e50448fb3a916ce52c537f73cedec2253ed50))
 
 
