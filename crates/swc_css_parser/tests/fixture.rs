@@ -27,7 +27,7 @@ fn tokens_input(input: PathBuf) {
 
             let mut tokens = vec![];
 
-            while let Ok(t) = lexer.next() {
+            while let Ok(t) = ParserInput::next(&mut lexer) {
                 tokens.push(t);
             }
             Tokens {
@@ -85,7 +85,8 @@ fn test_pass(input: PathBuf, config: ParserConfig) {
                     };
 
                     loop {
-                        let res = lexer.next();
+                        let res = ParserInput::next(&mut lexer);
+
                         match res {
                             Ok(t) => {
                                 tokens.tokens.push(t);
@@ -196,7 +197,8 @@ fn recovery(input: PathBuf) {
                     };
 
                     loop {
-                        let res = lexer.next();
+                        let res = ParserInput::next(&mut lexer);
+
                         match res {
                             Ok(t) => {
                                 tokens.tokens.push(t);

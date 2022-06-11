@@ -6,7 +6,7 @@ use swc_css_ast::{Token, TokenAndSpan, Tokens};
 use super::PResult;
 use crate::error::{Error, ErrorKind};
 
-pub trait ParserInput {
+pub trait ParserInput: Iterator<Item = TokenAndSpan> {
     type State: Debug;
 
     fn next(&mut self) -> PResult<TokenAndSpan>;
@@ -73,7 +73,7 @@ where
         self.cur()?;
 
         if self.peeked.is_none() {
-            self.peeked = Some(self.input.next()?);
+            self.peeked = Some(ParserInput::next(&mut self.input)?);
         }
 
         Ok(self.peeked.as_ref().map(|v| &v.token))
@@ -109,7 +109,7 @@ where
         }
 
         if self.cur.is_none() {
-            let res = self.input.next();
+            let res = ParserInput::next(&mut self.input);
 
             if let Err(err) = &res {
                 if let ErrorKind::Eof = err.kind() {
@@ -159,6 +159,7 @@ pub struct TokensState {
     idx: usize,
 }
 
+#[derive(Debug)]
 pub struct TokensInput<'a> {
     tokens: &'a Tokens,
     idx: usize,
@@ -184,7 +185,7 @@ impl<'a> TokensInput<'a> {
     }
 }
 
-impl ParserInput for TokensInput<'_> {
+impl<'a> ParserInput for TokensInput<'a> {
     type State = TokensState;
 
     fn next(&mut self) -> PResult<TokenAndSpan> {
@@ -204,5 +205,22 @@ impl ParserInput for TokensInput<'_> {
 
     fn reset(&mut self, state: &Self::State) {
         self.idx = state.idx;
+    }
+}
+
+impl<'a> Iterator for TokensInput<'a> {
+    type Item = TokenAndSpan;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        let token_and_span = ParserInput::next(self);
+
+        match token_and_span {
+            Ok(token_and_span) => {
+                return Some(token_and_span);
+            }
+            Err(..) => {
+                return None;
+            }
+        }
     }
 }
