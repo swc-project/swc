@@ -1,5 +1,5 @@
 runTestCase(function() {
-    var a = new Array(!1, void 0, null, "0", {
+    var a = Array(!1, void 0, null, "0", {
         toString: function() {
             return 0;
         }

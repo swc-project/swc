@@ -56,7 +56,7 @@
         },
         function(module, exports) {
             module.exports = function(self) {
-                if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+                if (void 0 === self) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                 return self;
             }, module.exports.default = module.exports, module.exports.__esModule = !0;
         },
@@ -70,7 +70,7 @@
         },
         function(module, exports) {
             module.exports = function(instance, Constructor) {
-                if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
+                if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
             }, module.exports.default = module.exports, module.exports.__esModule = !0;
         },
         function(module, exports) {
@@ -88,14 +88,14 @@
             var _typeof = __webpack_require__(19).default, assertThisInitialized = __webpack_require__(1);
             module.exports = function(self, call) {
                 if (call && ("object" === _typeof(call) || "function" == typeof call)) return call;
-                if (void 0 !== call) throw new TypeError("Derived constructors may only return object or undefined");
+                if (void 0 !== call) throw TypeError("Derived constructors may only return object or undefined");
                 return assertThisInitialized(self);
             }, module.exports.default = module.exports, module.exports.__esModule = !0;
         },
         function(module, exports, __webpack_require__) {
             var setPrototypeOf = __webpack_require__(41);
             module.exports = function(subClass, superClass) {
-                if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
+                if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
                 subClass.prototype = Object.create(superClass && superClass.prototype, {
                     constructor: {
                         value: subClass,
@@ -457,7 +457,7 @@
                 clone: gl_vec2__WEBPACK_IMPORTED_MODULE_4__.clone
             };
             function assertNumberPositive(val) {
-                if (val < 0) throw new Error("expected positive number, received ".concat(val));
+                if (val < 0) throw Error("expected positive number, received ".concat(val));
             }
             var ImageWrapper1 = function() {
                 function ImageWrapper(size, data) {
@@ -551,7 +551,7 @@
                         key: "show",
                         value: function(canvas) {
                             var scale = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 1.0, ctx = canvas.getContext("2d");
-                            if (!ctx) throw new Error("Unable to get canvas context");
+                            if (!ctx) throw Error("Unable to get canvas context");
                             var frame = ctx.getImageData(0, 0, canvas.width, canvas.height), data = this.getAsRGBA(scale);
                             canvas.width = this.size.x, canvas.height = this.size.y;
                             var newFrame = new ImageData(data, frame.width, frame.height);
@@ -578,7 +578,7 @@
                                 0,
                                 0
                             ], result = [], ctx = canvas.getContext("2d");
-                            if (!ctx) throw new Error("Unable to get canvas context");
+                            if (!ctx) throw Error("Unable to get canvas context");
                             for(var frame = ctx.getImageData(from.x, from.y, this.size.x, this.size.y), data = frame.data, length = this.data.length; length--;){
                                 hsv[0] = this.data[length] * adjustedScale, result = hsv[0] <= 0 ? whiteRgb : hsv[0] >= 360 ? blackRgb : Object(_cv_utils__WEBPACK_IMPORTED_MODULE_5__.g)(hsv, rgb);
                                 var pos = 4 * length, _result = result, _result2 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_result, 3);
@@ -992,7 +992,7 @@
                             y: Math.floor(height * thisHalfSample)
                         };
                         if (patchSize = Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.a)(config.patchSize, size), console.log("Patch-Size: ".concat(JSON.stringify(patchSize))), inputStream.setWidth(Math.floor(Math.floor(size.x / patchSize.x) * (1 / thisHalfSample) * patchSize.x)), inputStream.setHeight(Math.floor(Math.floor(size.y / patchSize.y) * (1 / thisHalfSample) * patchSize.y)), inputStream.getWidth() % patchSize.x == 0 && inputStream.getHeight() % patchSize.y == 0) return !0;
-                        throw new Error("Image dimensions do not comply with the current settings: Width (".concat(width, " )and height (").concat(height, ") must a multiple of ").concat(patchSize.x));
+                        throw Error("Image dimensions do not comply with the current settings: Width (".concat(width, " )and height (").concat(height, ") must a multiple of ").concat(patchSize.x));
                     }
                 };
             }).call(this, __webpack_require__(46));
@@ -1170,7 +1170,7 @@
                 return this;
             }();
             try {
-                g = g || new Function("return this")();
+                g = g || Function("return this")();
             } catch (e) {
                 "object" == typeof window && (g = window);
             }
@@ -1276,7 +1276,7 @@
         function(module, exports) {
             module.exports = function(arr, len) {
                 (null == len || len > arr.length) && (len = arr.length);
-                for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
+                for(var i = 0, arr2 = Array(len); i < len; i++)arr2[i] = arr[i];
                 return arr2;
             }, module.exports.default = module.exports, module.exports.__esModule = !0;
         },
@@ -1460,7 +1460,7 @@
                 var _cache = "function" == typeof Map ? new Map() : void 0;
                 return module.exports = _wrapNativeSuper = function(Class) {
                     if (null === Class || !isNativeFunction(Class)) return Class;
-                    if ("function" != typeof Class) throw new TypeError("Super expression must either be null or a function");
+                    if ("function" != typeof Class) throw TypeError("Super expression must either be null or a function");
                     if (void 0 !== _cache) {
                         if (_cache.has(Class)) return _cache.get(Class);
                         _cache.set(Class, Wrapper);
@@ -2213,7 +2213,7 @@
                 return al * bl + ((a >>> 16 & 0xffff) * bl + al * (b >>> 16 & 0xffff) << 16 >>> 0) | 0;
             }), "function" != typeof Object.assign && (Object.assign = function(target) {
                 "use strict";
-                if (null === target) throw new TypeError("Cannot convert undefined or null to object");
+                if (null === target) throw TypeError("Cannot convert undefined or null to object");
                 for(var to = Object(target), index = 1; index < arguments.length; index++){
                     var nextSource = arguments[index];
                     if (null !== nextSource) for(var nextKey in nextSource)Object.prototype.hasOwnProperty.call(nextSource, nextKey) && (to[nextKey] = nextSource[nextKey]);
@@ -2248,7 +2248,7 @@
         },
         function(module, exports) {
             module.exports = function() {
-                throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+                throw TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
             }, module.exports.default = module.exports, module.exports.__esModule = !0;
         },
         function(module, exports) {
@@ -2617,7 +2617,7 @@
         },
         function(module, exports) {
             module.exports = function() {
-                throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+                throw TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
             }, module.exports.default = module.exports, module.exports.__esModule = !0;
         },
         function(module, exports, __webpack_require__) {
@@ -2701,7 +2701,7 @@
                 function makeInvokeMethod(innerFn, self, context) {
                     var state = GenStateSuspendedStart;
                     return function(method, arg) {
-                        if (state === GenStateExecuting) throw new Error("Generator is already running");
+                        if (state === GenStateExecuting) throw Error("Generator is already running");
                         if (state === GenStateCompleted) {
                             if ("throw" === method) throw arg;
                             return doneResult();
@@ -2738,14 +2738,14 @@
                     if (method === undefined) {
                         if (context.delegate = null, "throw" === context.method) {
                             if (delegate.iterator.return && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel;
-                            context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method");
+                            context.method = "throw", context.arg = TypeError("The iterator does not provide a 'throw' method");
                         }
                         return ContinueSentinel;
                     }
                     var record = tryCatch(method, delegate.iterator, context.arg);
                     if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel;
                     var info = record.arg;
-                    return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel);
+                    return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel);
                 }
                 function pushTryEntry(locs) {
                     var entry = {
@@ -2847,7 +2847,7 @@
                                     if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0);
                                 } else if (hasFinally) {
                                     if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc);
-                                } else throw new Error("try statement without catch or finally");
+                                } else throw Error("try statement without catch or finally");
                             }
                         }
                     },
@@ -2885,7 +2885,7 @@
                                 return thrown;
                             }
                         }
-                        throw new Error("illegal catch attempt");
+                        throw Error("illegal catch attempt");
                     },
                     delegateYield: function(iterable, resultName, nextLoc) {
                         return this.delegate = {
@@ -2957,7 +2957,7 @@
         function(module, exports, __webpack_require__) {
             var MapCache = __webpack_require__(47);
             function memoize(func, resolver) {
-                if ("function" != typeof func || null != resolver && "function" != typeof resolver) throw new TypeError("Expected a function");
+                if ("function" != typeof func || null != resolver && "function" != typeof resolver) throw TypeError("Expected a function");
                 var memoized = function() {
                     var args = arguments, key = resolver ? resolver.apply(this, args) : args[0], cache = memoized.cache;
                     if (cache.has(key)) return cache.get(key);
@@ -3383,7 +3383,7 @@
                 function Code128Reader() {
                     var _this;
                     classCallCheck_default()(this, Code128Reader);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "CODE_SHIFT", 98), defineProperty_default()(assertThisInitialized_default()(_this), "CODE_C", 99), defineProperty_default()(assertThisInitialized_default()(_this), "CODE_B", 100), defineProperty_default()(assertThisInitialized_default()(_this), "CODE_A", 101), defineProperty_default()(assertThisInitialized_default()(_this), "START_CODE_A", 103), defineProperty_default()(assertThisInitialized_default()(_this), "START_CODE_B", 104), defineProperty_default()(assertThisInitialized_default()(_this), "START_CODE_C", 105), defineProperty_default()(assertThisInitialized_default()(_this), "STOP_CODE", 106), defineProperty_default()(assertThisInitialized_default()(_this), "CODE_PATTERN", [
@@ -4640,7 +4640,7 @@
                     {
                         key: "_findPattern",
                         value: function(pattern, offset, isWhite, tryHarder) {
-                            var counter = new Array(pattern.length).fill(0), bestMatch = {
+                            var counter = Array(pattern.length).fill(0), bestMatch = {
                                 error: Number.MAX_VALUE,
                                 start: 0,
                                 end: 0
@@ -4778,7 +4778,7 @@
                     {
                         key: "decode",
                         value: function(row, start) {
-                            var result = new Array(), decodedCodes = new Array(), resultInfo = {}, startInfo = this._findStart();
+                            var result = Array(), decodedCodes = Array(), resultInfo = {}, startInfo = this._findStart();
                             if (!startInfo) return null;
                             var code = {
                                 start: startInfo.start,
@@ -4878,7 +4878,7 @@
                 function Code39Reader() {
                     var _this;
                     classCallCheck_default()(this, Code39Reader);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "code_39"), _this;
@@ -5008,7 +5008,7 @@
                 function Code39VINReader() {
                     var _this;
                     classCallCheck_default()(this, Code39VINReader);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "code_39_vin"), _this;
@@ -5098,7 +5098,7 @@
                 function NewCodabarReader() {
                     var _this;
                     classCallCheck_default()(this, NewCodabarReader);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "_counters", []), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "codabar"), _this;
@@ -5286,7 +5286,7 @@
                 function UPCReader() {
                     var _this;
                     classCallCheck_default()(this, UPCReader);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "upc_a"), _this;
@@ -5321,7 +5321,7 @@
                 function EAN8Reader() {
                     var _this;
                     classCallCheck_default()(this, EAN8Reader);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "ean_8"), _this;
@@ -5365,7 +5365,7 @@
                 function EAN2Reader() {
                     var _this;
                     classCallCheck_default()(this, EAN2Reader);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "ean_2"), _this;
@@ -5426,7 +5426,7 @@
                 function EAN5Reader() {
                     var _this;
                     classCallCheck_default()(this, EAN5Reader);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "ean_5"), _this;
@@ -5494,7 +5494,7 @@
                 function UPCEReader() {
                     var _this;
                     classCallCheck_default()(this, UPCEReader);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "CODE_FREQUENCY", [
@@ -5744,7 +5744,7 @@
                     {
                         key: "_findPattern",
                         value: function(pattern, offset) {
-                            var isWhite = arguments.length > 2 && void 0 !== arguments[2] && arguments[2], tryHarder = arguments.length > 3 && void 0 !== arguments[3] && arguments[3], counter = new Array(pattern.length).fill(0), counterPos = 0, bestMatch = {
+                            var isWhite = arguments.length > 2 && void 0 !== arguments[2] && arguments[2], tryHarder = arguments.length > 3 && void 0 !== arguments[3] && arguments[3], counter = Array(pattern.length).fill(0), counterPos = 0, bestMatch = {
                                 error: Number.MAX_VALUE,
                                 start: 0,
                                 end: 0
@@ -5854,7 +5854,7 @@
                     {
                         key: "decode",
                         value: function(row, start) {
-                            var result = new Array(), decodedCodes = new Array(), startInfo = this._findStart();
+                            var result = Array(), decodedCodes = Array(), startInfo = this._findStart();
                             if (!startInfo) return null;
                             decodedCodes.push(startInfo);
                             var endInfo = this._findEnd();
@@ -5978,7 +5978,7 @@
                 function TwoOfFiveReader() {
                     var _this;
                     classCallCheck_default()(this, TwoOfFiveReader);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "barSpaceRatio", [
@@ -6174,7 +6174,7 @@
                 function Code93Reader() {
                     var _this;
                     classCallCheck_default()(this, Code93Reader);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "code_93"), _this;
@@ -6347,7 +6347,7 @@
                 function Code32Reader() {
                     var _this;
                     classCallCheck_default()(this, Code32Reader);
-                    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return _this = _super.call.apply(_super, [
                         this
                     ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "code_32_reader"), _this;
@@ -6536,7 +6536,7 @@
                             }(inputImageWrapper);
                         },
                         registerReader: function(name, reader) {
-                            if (READERS[name]) throw new Error("cannot register existing reader", name);
+                            if (READERS[name]) throw Error("cannot register existing reader", name);
                             READERS[name] = reader;
                         },
                         setReaders: function(readers) {
@@ -6562,7 +6562,7 @@
                         callback: callback,
                         async: async
                     };
-                    else if (!(subscription = callback).callback) throw new Error("Callback was not specified on options");
+                    else if (!(subscription = callback).callback) throw Error("Callback was not specified on options");
                     getEvent(event).subscribers.push(subscription);
                 }
                 return {
@@ -6871,7 +6871,7 @@
                 };
             }
             ImageLoader.load = function(directory, callback, offset1, size, sequence) {
-                var i, img, num, htmlImagesSrcArray = new Array(size), htmlImagesArray = new Array(htmlImagesSrcArray.length);
+                var i, img, num, htmlImagesSrcArray = Array(size), htmlImagesArray = Array(htmlImagesSrcArray.length);
                 if (!1 === sequence) htmlImagesSrcArray[0] = directory;
                 else for(i = 0; i < htmlImagesSrcArray.length; i++)num = offset1 + i, htmlImagesSrcArray[i] = "".concat(directory, "image-").concat("00".concat(num).slice(-3), ".jpg");
                 for(i = 0, htmlImagesArray.notLoaded = [], htmlImagesArray.addImage = function(image) {

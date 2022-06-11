@@ -4,7 +4,7 @@ use swc_atoms::js_word;
 use swc_common::{iter::IdentifyLast, util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    ExprExt, Type,
+    ExprExt, ExprFactory, Type,
     Value::{self, Known},
 };
 
@@ -227,6 +227,56 @@ impl Pure<'_> {
             self.changed = true;
             report_change!("misc: Removing useless return");
             stmts.pop();
+        }
+    }
+
+    /// new Array(...) -> Array(...)
+    pub(super) fn remove_new(&mut self, e: &mut Expr) {
+        if !self.options.pristine_globals {
+            return;
+        }
+
+        match e {
+            Expr::New(NewExpr {
+                span,
+                callee,
+                args,
+                type_args,
+            }) if callee.is_one_of_global_ref_to(
+                &self.expr_ctx,
+                &[
+                    // https://262.ecma-international.org/12.0/#sec-array-constructor
+                    "Array",
+                    // https://262.ecma-international.org/12.0/#sec-function-constructor
+                    "Function",
+                    // https://262.ecma-international.org/12.0/#sec-regexp-constructor
+                    "RegExp",
+                    // https://262.ecma-international.org/12.0/#sec-error-constructor
+                    "Error",
+                    // https://262.ecma-international.org/12.0/#sec-aggregate-error-constructor
+                    "AggregateError",
+                    // https://262.ecma-international.org/12.0/#sec-nativeerror-object-structure
+                    "EvalError",
+                    "RangeError",
+                    "ReferenceError",
+                    "SyntaxError",
+                    "TypeError",
+                    "URIError",
+                ],
+            ) =>
+            {
+                self.changed = true;
+                report_change!(
+                    "new operator: Compressing `new Array/RegExp/..` => `Array()/RegExp()/..`"
+                );
+                *e = Expr::Call(CallExpr {
+                    span: *span,
+                    callee: callee.take().as_callee(),
+                    args: args.take().unwrap_or_default(),
+                    type_args: type_args.take(),
+                })
+            }
+            _ => {}
         }
     }
 
@@ -761,25 +811,37 @@ impl Pure<'_> {
 
         if self.options.side_effects && self.options.pristine_globals {
             match e {
-                Expr::New(NewExpr { callee, args, .. }) => {
-                    if let Expr::Ident(i) = &**callee {
-                        match &*i.sym {
-                            "Map" | "Set" | "Array" | "Object" | "Boolean" | "Number" => {
-                                if i.span.ctxt.outer() == self.marks.unresolved_mark {
-                                    report_change!("Dropping a pure new expression");
+                Expr::New(NewExpr { callee, args, .. })
+                    if callee.is_one_of_global_ref_to(
+                        &self.expr_ctx,
+                        &["Map", "Set", "Array", "Object", "Boolean", "Number"],
+                    ) =>
+                {
+                    report_change!("Dropping a pure new expression");
 
-                                    self.changed = true;
-                                    *e = self
-                                        .make_ignored_expr(
-                                            args.iter_mut().flatten().map(|arg| arg.expr.take()),
-                                        )
-                                        .unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
-                                    return;
-                                }
-                            }
-                            _ => {}
-                        }
-                    }
+                    self.changed = true;
+                    *e = self
+                        .make_ignored_expr(args.iter_mut().flatten().map(|arg| arg.expr.take()))
+                        .unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
+                    return;
+                }
+
+                Expr::Call(CallExpr {
+                    callee: Callee::Expr(callee),
+                    args,
+                    ..
+                }) if callee.is_one_of_global_ref_to(
+                    &self.expr_ctx,
+                    &["Array", "Object", "Boolean", "Number"],
+                ) =>
+                {
+                    report_change!("Dropping a pure call expression");
+
+                    self.changed = true;
+                    *e = self
+                        .make_ignored_expr(args.iter_mut().map(|arg| arg.expr.take()))
+                        .unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
+                    return;
                 }
 
                 Expr::Object(obj) => {

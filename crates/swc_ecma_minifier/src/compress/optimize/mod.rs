@@ -1105,7 +1105,16 @@ where
     fn compress_regexp(&mut self, e: &mut Expr) {
         let (span, args) = match e {
             Expr::New(NewExpr {
-                span, callee, args, ..
+                span,
+                callee,
+                args: Some(args),
+                ..
+            })
+            | Expr::Call(CallExpr {
+                span,
+                callee: Callee::Expr(callee),
+                args,
+                ..
             }) => match &**callee {
                 Expr::Ident(Ident {
                     sym: js_word!("RegExp"),
@@ -1116,10 +1125,6 @@ where
             _ => return,
         };
 
-        let args = match args {
-            Some(v) => v,
-            None => return,
-        };
         if args.is_empty() || args.len() > 2 {
             return;
         }

@@ -1,5 +1,5 @@
 function error(message) {
-    throw new Error(message);
+    throw Error(message);
 }
 (function(cb) {
     cb();
@@ -8,7 +8,7 @@ function error(message) {
 }(()=>error("Something failed")), function(cb) {
     cb();
 }(()=>{
-    throw new Error();
+    throw Error();
 }), function(cb) {
     cb();
 }(()=>error("Error callback"));

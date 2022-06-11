@@ -471,7 +471,7 @@
                 return 0 == child.size || child.emptyChildAt(side);
             }, ViewDesc1.prototype.domAfterPos = function(pos) {
                 var ref = this.domFromPos(pos, 0), node = ref.node, offset = ref.offset;
-                if (1 != node.nodeType || offset == node.childNodes.length) throw new RangeError("No node after pos " + pos);
+                if (1 != node.nodeType || offset == node.childNodes.length) throw RangeError("No node after pos " + pos);
                 return node.childNodes[offset];
             }, ViewDesc1.prototype.setSelection = function(anchor, head, root, force) {
                 for(var from = Math.min(anchor, head), to = Math.max(anchor, head), i = 0, offset = 0; i < this.children.length; i++){
@@ -654,7 +654,7 @@
                     }, outerDeco, innerDeco), dom = spec && spec.dom, contentDOM = spec && spec.contentDOM;
                     if (node.isText) {
                         if (dom) {
-                            if (3 != dom.nodeType) throw new RangeError("Text must be rendered as a DOM text node");
+                            if (3 != dom.nodeType) throw RangeError("Text must be rendered as a DOM text node");
                         } else dom = document.createTextNode(node.text);
                     } else dom || (dom = (assign = prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.DOMSerializer.renderSpec(document, node.type.spec.toDOM(node))).dom, contentDOM = assign.contentDOM);
                     contentDOM || node.isText || "BR" == dom.nodeName || (dom.hasAttribute("contenteditable") || (dom.contentEditable = !1), node.type.spec.draggable && (dom.draggable = !0));
@@ -2514,7 +2514,7 @@
                 }), result;
             }
             function checkStateComponent(plugin) {
-                if (plugin.spec.state || plugin.spec.filterTransaction || plugin.spec.appendTransaction) throw new RangeError("Plugins passed directly to the view must not have a state component");
+                if (plugin.spec.state || plugin.spec.filterTransaction || plugin.spec.appendTransaction) throw RangeError("Plugins passed directly to the view must not have a state component");
             }
             prototypeAccessors$21.props.get = function() {
                 if (this._props.state != this.state) {
@@ -2696,7 +2696,7 @@
             }, EditorView.prototype.posAtDOM = function(node, offset, bias) {
                 void 0 === bias && (bias = -1);
                 var pos = this.docView.posFromDOM(node, offset, bias);
-                if (null == pos) throw new RangeError("DOM position not inside the editor");
+                if (null == pos) throw RangeError("DOM position not inside the editor");
                 return pos;
             }, EditorView.prototype.endOfTextblock = function(dir3, state3) {
                 var view12, state1, dir1, view11, state2, dir2, sel3, $pos;

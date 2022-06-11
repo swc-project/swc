@@ -3345,7 +3345,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.43.2"
+version = "0.43.3"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -3778,7 +3778,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.86.1"
+version = "0.86.2"
 dependencies = [
  "indexmap",
  "once_cell",

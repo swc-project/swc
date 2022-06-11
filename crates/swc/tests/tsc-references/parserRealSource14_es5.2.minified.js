@@ -61,10 +61,10 @@ import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
             for(; this.asts.length > this.count();)this.asts.pop();
             this.top = this.asts.length, this.asts.push(ast);
         }, _proto.up = function() {
-            if (this.top <= -1) throw new Error("Invalid call to 'up'");
+            if (this.top <= -1) throw Error("Invalid call to 'up'");
             this.top--;
         }, _proto.down = function() {
-            if (this.top == this.ast.length - 1) throw new Error("Invalid call to 'down'");
+            if (this.top == this.ast.length - 1) throw Error("Invalid call to 'down'");
             this.top++;
         }, _proto.nodeType = function() {
             return null == this.ast() ? TypeScript.NodeType.None : this.ast().nodeType;

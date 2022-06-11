@@ -271,7 +271,7 @@ var YUI = function() {
         error: function(msg, e, src) {
             var ret;
             if (this.config.errorFn && (ret = this.config.errorFn.apply(this, arguments)), ret) this.message(msg, "error", "" + src);
-            else throw e || new Error(msg);
+            else throw e || Error(msg);
             return this;
         },
         guid: function(pre) {
@@ -308,7 +308,7 @@ var YUI = function() {
         "[object Array]": "array",
         "[object Date]": "date",
         "[object Error]": "error"
-    }, SUBREGEX = /\{\s*([^|}]+?)\s*(?:\|([^}]*))?\s*\}/g, WHITESPACE = "\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u2028\u2029\u202F\u205F\u3000\uFEFF", WHITESPACE_CLASS = "[\x09-\x0D\x20\xA0\u1680\u180E\u2000-\u200A\u2028\u2029\u202F\u205F\u3000\uFEFF]+", TRIM_LEFT_REGEX = new RegExp("^" + WHITESPACE_CLASS), TRIM_RIGHT_REGEX = new RegExp(WHITESPACE_CLASS + "$"), TRIMREGEX = new RegExp(TRIM_LEFT_REGEX.source + "|" + TRIM_RIGHT_REGEX.source, "g"), NATIVE_FN_REGEX = /\{\s*\[(?:native code|function)\]\s*\}/i;
+    }, SUBREGEX = /\{\s*([^|}]+?)\s*(?:\|([^}]*))?\s*\}/g, WHITESPACE = "\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u2028\u2029\u202F\u205F\u3000\uFEFF", WHITESPACE_CLASS = "[\x09-\x0D\x20\xA0\u1680\u180E\u2000-\u200A\u2028\u2029\u202F\u205F\u3000\uFEFF]+", TRIM_LEFT_REGEX = RegExp("^" + WHITESPACE_CLASS), TRIM_RIGHT_REGEX = RegExp(WHITESPACE_CLASS + "$"), TRIMREGEX = RegExp(TRIM_LEFT_REGEX.source + "|" + TRIM_RIGHT_REGEX.source, "g"), NATIVE_FN_REGEX = /\{\s*\[(?:native code|function)\]\s*\}/i;
     L._isNative = function(fn) {
         return !!(Y.config.useNativeES5 && fn && NATIVE_FN_REGEX.test(fn));
     }, L.isArray = L._isNative(Array.isArray) ? Array.isArray : function(o) {
@@ -481,7 +481,7 @@ var YUI = function() {
         return !!obj && hasOwn.call(obj, key);
     };
     O.hasKey = owns, O.keys = Lang._isNative(Object.keys) && !hasProtoEnumBug ? Object.keys : function(obj) {
-        if (!Lang.isObject(obj)) throw new TypeError("Object.keys called on a non-object");
+        if (!Lang.isObject(obj)) throw TypeError("Object.keys called on a non-object");
         var i, key, len, keys = [];
         if (hasProtoEnumBug && "function" == typeof obj) for(key in obj)owns(obj, key) && "prototype" !== key && keys.push(key);
         else for(key in obj)owns(obj, key) && keys.push(key);
@@ -1717,7 +1717,7 @@ var YUI = function() {
         loadNext: function() {},
         _filter: function(u, name, group) {
             var f = this.filter, hasFilter = name && name in this.filters, modFilter = hasFilter && this.filters[name], groupName = group || (this.moduleInfo[name] ? this.moduleInfo[name].group : null);
-            return groupName && this.groups[groupName] && this.groups[groupName].filter && (modFilter = this.groups[groupName].filter, hasFilter = !0), u && (hasFilter && (f = L.isString(modFilter) ? this.FILTER_DEFS[modFilter.toUpperCase()] || null : modFilter), f && (u = u.replace(new RegExp(f.searchExp, "g"), f.replaceStr))), u;
+            return groupName && this.groups[groupName] && this.groups[groupName].filter && (modFilter = this.groups[groupName].filter, hasFilter = !0), u && (hasFilter && (f = L.isString(modFilter) ? this.FILTER_DEFS[modFilter.toUpperCase()] || null : modFilter), f && (u = u.replace(RegExp(f.searchExp, "g"), f.replaceStr))), u;
         },
         _url: function(path, name, base) {
             return this._filter((base || this.base || "") + path, name);

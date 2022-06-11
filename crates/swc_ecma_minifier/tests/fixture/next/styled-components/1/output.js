@@ -3497,7 +3497,7 @@
                 }), destination);
             }
             deepmerge.all = function(array, options) {
-                if (!Array.isArray(array)) throw new Error("first argument should be an array");
+                if (!Array.isArray(array)) throw Error("first argument should be an array");
                 return array.reduce(function(prev, next) {
                     return deepmerge(prev, next, options);
                 }, {});
@@ -4455,8 +4455,8 @@
             }
             var A1 = void 0 !== process && (process.env.REACT_APP_SC_ATTR || process.env.SC_ATTR) || "data-styled", I1 = "undefined" != typeof window && "HTMLElement" in window, P1 = Boolean("boolean" == typeof SC_DISABLE_SPEEDY ? SC_DISABLE_SPEEDY : void 0 !== process && void 0 !== process.env.REACT_APP_SC_DISABLE_SPEEDY && "" !== process.env.REACT_APP_SC_DISABLE_SPEEDY ? "false" !== process.env.REACT_APP_SC_DISABLE_SPEEDY && process.env.REACT_APP_SC_DISABLE_SPEEDY : void 0 !== process && void 0 !== process.env.SC_DISABLE_SPEEDY && "" !== process.env.SC_DISABLE_SPEEDY && "false" !== process.env.SC_DISABLE_SPEEDY && process.env.SC_DISABLE_SPEEDY), O1 = {};
             function j(e) {
-                for(var t = arguments.length, n = new Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++)n[r - 1] = arguments[r];
-                throw new Error("An error occurred. See https://git.io/JUIaE#" + e + " for more information." + (n.length > 0 ? " Args: " + n.join(", ") : ""));
+                for(var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++)n[r - 1] = arguments[r];
+                throw Error("An error occurred. See https://git.io/JUIaE#" + e + " for more information." + (n.length > 0 ? " Args: " + n.join(", ") : ""));
             }
             var T1 = function() {
                 function e1(e) {
@@ -4492,7 +4492,7 @@
                 return x1.set(e, t), k1.set(t, e), t;
             }, M1 = function(e, t) {
                 t >= V1 && (V1 = t + 1), x1.set(e, t), k1.set(t, e);
-            }, G1 = "style[" + A1 + '][data-styled-version="5.3.5"]', L1 = new RegExp("^" + A1 + '\\.g(\\d+)\\[id="([\\w\\d-]+)"\\].*?"([^"]*)'), F1 = function(e, t, n) {
+            }, G1 = "style[" + A1 + '][data-styled-version="5.3.5"]', L1 = RegExp("^" + A1 + '\\.g(\\d+)\\[id="([\\w\\d-]+)"\\].*?"([^"]*)'), F1 = function(e, t, n) {
                 for(var r, o = n.split(","), s = 0, i = o.length; s < i; s++)(r = o[s]) && e.registerName(t, r);
             }, Y1 = function(e, t) {
                 for(var n = (t.textContent || "").split("/*!sc*/\n"), r = [], o = 0, s = n.length; o < s; o++){
@@ -4725,7 +4725,7 @@
                 function m(e, s, i, a) {
                     void 0 === a && (a = "&");
                     var c = e.replace(ie, "");
-                    return t10 = a, n3 = s, r2 = new RegExp("\\" + n3 + "\\b", "g"), o1 = new RegExp("(\\" + n3 + "\\b){2,}"), l1(i || !s ? "" : s, s && i ? i + " " + s + " { " + c + " }" : c);
+                    return t10 = a, r2 = RegExp("\\" + (n3 = s) + "\\b", "g"), o1 = RegExp("(\\" + n3 + "\\b){2,}"), l1(i || !s ? "" : s, s && i ? i + " " + s + " { " + c + " }" : c);
                 }
                 return l1.use([].concat(u1, [
                     function(e, t, o) {
@@ -4824,7 +4824,7 @@
                 return Array.isArray(e) && (e.isCss = !0), e;
             };
             function Ce(e) {
-                for(var t = arguments.length, n = new Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++)n[r - 1] = arguments[r];
+                for(var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++)n[r - 1] = arguments[r];
                 return b1(e) || S1(e) ? Ae(Ne(g1(w1, [
                     e
                 ].concat(n)))) : 0 === n.length && 1 === e.length && "string" == typeof e[0] ? e : Ae(Ne(g1(e, n)));
@@ -4849,7 +4849,7 @@
                 Ve(t) && Ve(r) ? Me(r, t) : e[n] = t;
             }
             function Me(e) {
-                for(var t = arguments.length, n = new Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++)n[r - 1] = arguments[r];
+                for(var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++)n[r - 1] = arguments[r];
                 for(var o = 0, s = n; o < s.length; o++){
                     var e17, i = s[o];
                     if (Ve(i)) for(var a in i)"__proto__" !== (e17 = a) && "constructor" !== e17 && "prototype" !== e17 && ze(e, i[a], a);
@@ -5233,7 +5233,7 @@
                     config[key] = createStyleFunction(conf);
                 }), createParser1(config);
             }, compose = function() {
-                for(var config = {}, _len = arguments.length, parsers = new Array(_len), _key = 0; _key < _len; _key++)parsers[_key] = arguments[_key];
+                for(var config = {}, _len = arguments.length, parsers = Array(_len), _key = 0; _key < _len; _key++)parsers[_key] = arguments[_key];
                 return parsers.forEach(function(parser) {
                     parser && parser.config && object_assign_default()(config, parser.config);
                 }), createParser1(config);
@@ -6419,9 +6419,9 @@
                     return target;
                 }).apply(this, arguments);
             }
-            Boolean("undefined" != typeof window && window.document && window.document.createElement);
+            "undefined" != typeof window && window.document && window.document.createElement;
             const GlobalStyle = function(e29) {
-                for(var t22 = arguments.length, n11 = new Array(t22 > 1 ? t22 - 1 : 0), o7 = 1; o7 < t22; o7++)n11[o7 - 1] = arguments[o7];
+                for(var t22 = arguments.length, n11 = Array(t22 > 1 ? t22 - 1 : 0), o7 = 1; o7 < t22; o7++)n11[o7 - 1] = arguments[o7];
                 var i = Ce.apply(void 0, [
                     e29
                 ].concat(n11)), a = "sc-global-" + xe(JSON.stringify(i)), u = new $e(i, a);
@@ -6496,10 +6496,10 @@
                     162: function(e31) {
                         var r8, n, u, t24 = e31.exports = {};
                         function defaultSetTimout() {
-                            throw new Error("setTimeout has not been defined");
+                            throw Error("setTimeout has not been defined");
                         }
                         function defaultClearTimeout() {
-                            throw new Error("clearTimeout has not been defined");
+                            throw Error("clearTimeout has not been defined");
                         }
                         function runTimeout(e) {
                             if (r8 === setTimeout) return setTimeout(e, 0);
@@ -6558,7 +6558,7 @@
                         }
                         function noop() {}
                         t24.nextTick = function(e) {
-                            var t = new Array(arguments.length - 1);
+                            var t = Array(arguments.length - 1);
                             if (arguments.length > 1) for(var r = 1; r < arguments.length; r++)t[r - 1] = arguments[r];
                             i.push(new Item(e, t)), 1 !== i.length || o || runTimeout(drainQueue);
                         }, Item.prototype.run = function() {
@@ -6566,11 +6566,11 @@
                         }, t24.title = "browser", t24.browser = !0, t24.env = {}, t24.argv = [], t24.version = "", t24.versions = {}, t24.on = noop, t24.addListener = noop, t24.once = noop, t24.off = noop, t24.removeListener = noop, t24.removeAllListeners = noop, t24.emit = noop, t24.prependListener = noop, t24.prependOnceListener = noop, t24.listeners = function(e) {
                             return [];
                         }, t24.binding = function(e) {
-                            throw new Error("process.binding is not supported");
+                            throw Error("process.binding is not supported");
                         }, t24.cwd = function() {
                             return "/";
                         }, t24.chdir = function(e) {
-                            throw new Error("process.chdir is not supported");
+                            throw Error("process.chdir is not supported");
                         }, t24.umask = function() {
                             return 0;
                         };
