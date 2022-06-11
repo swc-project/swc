@@ -71,16 +71,16 @@
         "*.rs": [
             "rustfmt --"
         ],
-        "*.js": [
+        "!(**/tests/**/*)*.js": [
             "prettier --write"
         ],
-        "*.ts": [
+        "!(**/tests/**/*)*.ts": [
             "prettier --write"
         ],
-        "*.jsx": [
+        "!(**/tests/**/*)*.jsx": [
             "prettier --write"
         ],
-        "*.tsx": [
+        "!(**/tests/**/*)*.tsx": [
             "prettier --write"
         ]
     },
