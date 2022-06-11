@@ -15,6 +15,8 @@ use std::{borrow::Cow, ops::Deref, rc::Rc, sync::Arc};
 include!(concat!(env!("OUT_DIR"), "/js_word.rs"));
 
 /// An interned string.
+///
+/// Use [AtomGenerator] and [LocalAtomGenerator] to create [Atom]s.
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Atom(Arc<str>);
 
@@ -50,3 +52,7 @@ impl_eq!(Rc<str>);
 impl_eq!(Cow<'_, str>);
 impl_eq!(String);
 impl_eq!(JsWord);
+
+pub struct AtomGenerator {}
+
+pub struct LocalAtomGenerator {}
