@@ -18,6 +18,11 @@ bench = false
 
 [features]
 compat = ["swc_ecma_transforms_compat"]
+concurrent = [
+  "swc_ecma_transforms_compat?/concurrent",
+  "swc_ecma_transforms_optimization?/concurrent",
+  "swc_ecma_transforms_react?/concurrent",
+]
 module = ["swc_ecma_transforms_module"]
 multi-module-decorator = ["swc_ecma_transforms_proposal/multi-module"]
 optimization = ["swc_ecma_transforms_optimization"]

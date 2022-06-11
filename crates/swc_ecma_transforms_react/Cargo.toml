@@ -12,12 +12,16 @@ version = "0.118.0"
 [lib]
 bench = false
 
+[features]
+concurrent = ["rayon"]
+
 [dependencies]
 ahash = "0.7.4"
 base64 = "0.13.0"
 dashmap = "5.1.0"
 indexmap = "1.6.1"
 once_cell = "1.10.0"
+rayon = {version = "1.5.1", optional = true}
 regex = "1.4.2"
 serde = {version = "1.0.118", features = ["derive"]}
 sha-1 = "0.10.0"

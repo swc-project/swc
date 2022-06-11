@@ -3552,6 +3552,7 @@ version = "0.87.3"
 dependencies = [
  "better_scoped_tls",
  "criterion",
+ "num_cpus",
  "once_cell",
  "phf",
  "rayon",
@@ -3711,6 +3712,7 @@ dependencies = [
  "dashmap",
  "indexmap",
  "once_cell",
+ "rayon",
  "regex",
  "serde",
  "sha-1",

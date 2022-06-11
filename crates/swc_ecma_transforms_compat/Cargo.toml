@@ -12,6 +12,13 @@ version = "0.102.0"
 [lib]
 bench = false
 
+[features]
+concurrent = [
+  "rayon",
+  "swc_ecma_transforms_base/concurrent",
+  "swc_ecma_utils/concurrent",
+]
+
 [dependencies]
 ahash = "0.7.4"
 arrayvec = "0.7.2"
