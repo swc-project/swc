@@ -10,12 +10,12 @@
 
 #![allow(clippy::unreadable_literal)]
 
-use std::{ops::Deref, sync::Arc};
+use std::{borrow::Cow, ops::Deref, sync::Arc};
 
 include!(concat!(env!("OUT_DIR"), "/js_word.rs"));
 
 /// An interned string.
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Atom(Arc<str>);
 
 impl Deref for Atom {
@@ -26,3 +26,24 @@ impl Deref for Atom {
         &self.0
     }
 }
+
+macro_rules! impl_eq {
+    ($T:ty) => {
+        impl PartialEq<$T> for Atom {
+            fn eq(&self, other: &$T) -> bool {
+                *self.0 == **other
+            }
+        }
+    };
+}
+
+impl PartialEq<str> for Atom {
+    fn eq(&self, other: &str) -> bool {
+        &*self.0 == other
+    }
+}
+
+impl_eq!(&'_ str);
+impl_eq!(Cow<'_, str>);
+impl_eq!(String);
+impl_eq!(JsWord);
