@@ -10,8 +10,19 @@
 
 #![allow(clippy::unreadable_literal)]
 
+use std::{ops::Deref, sync::Arc};
+
 include!(concat!(env!("OUT_DIR"), "/js_word.rs"));
 
 /// An interned string.
 #[derive(Debug)]
 pub struct Atom(Arc<str>);
+
+impl Deref for Atom {
+    type Target = str;
+
+    #[inline]
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
