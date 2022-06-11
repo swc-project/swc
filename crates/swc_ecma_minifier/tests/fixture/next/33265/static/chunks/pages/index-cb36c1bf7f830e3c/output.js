@@ -4932,7 +4932,7 @@
                             return _startTime;
                         },
                         set: function(value) {
-                            if ("number" != typeof value) throw new TypeError("Start time must be set to a number.");
+                            if ("number" != typeof value) throw TypeError("Start time must be set to a number.");
                             _startTime = value, this.hasBeenReset = !0;
                         }
                     },
@@ -4942,7 +4942,7 @@
                             return _endTime;
                         },
                         set: function(value) {
-                            if ("number" != typeof value) throw new TypeError("End time must be set to a number.");
+                            if ("number" != typeof value) throw TypeError("End time must be set to a number.");
                             _endTime = value, this.hasBeenReset = !0;
                         }
                     },
@@ -4971,7 +4971,7 @@
                         },
                         set: function(value) {
                             var value2, setting = "string" == typeof (value2 = value) && !!directionSetting[value2.toLowerCase()] && value2.toLowerCase();
-                            if (!1 === setting) throw new SyntaxError("Vertical: an invalid or illegal direction string was specified.");
+                            if (!1 === setting) throw SyntaxError("Vertical: an invalid or illegal direction string was specified.");
                             _vertical = setting, this.hasBeenReset = !0;
                         }
                     },
@@ -4990,7 +4990,7 @@
                             return _line;
                         },
                         set: function(value) {
-                            if ("number" != typeof value && "auto" !== value) throw new SyntaxError("Line: an invalid number or illegal string was specified.");
+                            if ("number" != typeof value && "auto" !== value) throw SyntaxError("Line: an invalid number or illegal string was specified.");
                             _line = value, this.hasBeenReset = !0;
                         }
                     },
@@ -5041,7 +5041,7 @@
                         },
                         set: function(value) {
                             var setting = findAlignSetting(value);
-                            if (!setting) throw new SyntaxError("align: an invalid or illegal alignment string was specified.");
+                            if (!setting) throw SyntaxError("align: an invalid or illegal alignment string was specified.");
                             _align = setting, this.hasBeenReset = !0;
                         }
                     }
@@ -5078,7 +5078,7 @@
                             return _lines;
                         },
                         set: function(value) {
-                            if ("number" != typeof value) throw new TypeError("Lines must be set to a number.");
+                            if ("number" != typeof value) throw TypeError("Lines must be set to a number.");
                             _lines = value;
                         }
                     },
@@ -5173,13 +5173,13 @@
             "use strict";
             var base64 = __webpack_require__(4782), ieee754 = __webpack_require__(8898), customInspectSymbol = "function" == typeof Symbol && "function" == typeof Symbol.for ? Symbol.for("nodejs.util.inspect.custom") : null;
             function createBuffer(length) {
-                if (length > 0x7fffffff) throw new RangeError('The value "' + length + '" is invalid for option "size"');
+                if (length > 0x7fffffff) throw RangeError('The value "' + length + '" is invalid for option "size"');
                 var buf = new Uint8Array(length);
                 return Object.setPrototypeOf(buf, Buffer.prototype), buf;
             }
             function Buffer(arg, encodingOrOffset, length) {
                 if ("number" == typeof arg) {
-                    if ("string" == typeof encodingOrOffset) throw new TypeError('The "string" argument must be of type string. Received type number');
+                    if ("string" == typeof encodingOrOffset) throw TypeError('The "string" argument must be of type string. Received type number');
                     return allocUnsafe(arg);
                 }
                 return from(arg, encodingOrOffset, length);
@@ -5187,25 +5187,25 @@
             function from(value, encodingOrOffset, length) {
                 if ("string" == typeof value) return fromString(value, encodingOrOffset);
                 if (ArrayBuffer.isView(value)) return fromArrayLike(value);
-                if (null == value) throw new TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value);
+                if (null == value) throw TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value);
                 if (isInstance(value, ArrayBuffer) || value && isInstance(value.buffer, ArrayBuffer) || "undefined" != typeof SharedArrayBuffer && (isInstance(value, SharedArrayBuffer) || value && isInstance(value.buffer, SharedArrayBuffer))) return fromArrayBuffer(value, encodingOrOffset, length);
-                if ("number" == typeof value) throw new TypeError('The "value" argument must not be of type number. Received type number');
+                if ("number" == typeof value) throw TypeError('The "value" argument must not be of type number. Received type number');
                 var valueOf = value.valueOf && value.valueOf();
                 if (null != valueOf && valueOf !== value) return Buffer.from(valueOf, encodingOrOffset, length);
                 var b = fromObject(value);
                 if (b) return b;
                 if ("undefined" != typeof Symbol && null != Symbol.toPrimitive && "function" == typeof value[Symbol.toPrimitive]) return Buffer.from(value[Symbol.toPrimitive]("string"), encodingOrOffset, length);
-                throw new TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value);
+                throw TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value);
             }
             function assertSize(size) {
-                if ("number" != typeof size) throw new TypeError('"size" argument must be of type number');
-                if (size < 0) throw new RangeError('The value "' + size + '" is invalid for option "size"');
+                if ("number" != typeof size) throw TypeError('"size" argument must be of type number');
+                if (size < 0) throw RangeError('The value "' + size + '" is invalid for option "size"');
             }
             function allocUnsafe(size) {
                 return assertSize(size), createBuffer(size < 0 ? 0 : 0 | checked(size));
             }
             function fromString(string, encoding) {
-                if (("string" != typeof encoding || "" === encoding) && (encoding = "utf8"), !Buffer.isEncoding(encoding)) throw new TypeError("Unknown encoding: " + encoding);
+                if (("string" != typeof encoding || "" === encoding) && (encoding = "utf8"), !Buffer.isEncoding(encoding)) throw TypeError("Unknown encoding: " + encoding);
                 var length = 0 | byteLength1(string, encoding), buf = createBuffer(length), actual = buf.write(string, encoding);
                 return actual !== length && (buf = buf.slice(0, actual)), buf;
             }
@@ -5215,8 +5215,8 @@
             }
             function fromArrayBuffer(array, byteOffset, length) {
                 var buf;
-                if (byteOffset < 0 || array.byteLength < byteOffset) throw new RangeError('"offset" is outside of buffer bounds');
-                if (array.byteLength < byteOffset + (length || 0)) throw new RangeError('"length" is outside of buffer bounds');
+                if (byteOffset < 0 || array.byteLength < byteOffset) throw RangeError('"offset" is outside of buffer bounds');
+                if (array.byteLength < byteOffset + (length || 0)) throw RangeError('"length" is outside of buffer bounds');
                 return Object.setPrototypeOf(buf = void 0 === byteOffset && void 0 === length ? new Uint8Array(array) : void 0 === length ? new Uint8Array(array, byteOffset) : new Uint8Array(array, byteOffset, length), Buffer.prototype), buf;
             }
             function fromObject(obj) {
@@ -5227,13 +5227,13 @@
                 return void 0 !== obj.length ? "number" != typeof obj.length || (obj1 = obj.length) != obj1 ? createBuffer(0) : fromArrayLike(obj) : "Buffer" === obj.type && Array.isArray(obj.data) ? fromArrayLike(obj.data) : void 0;
             }
             function checked(length) {
-                if (length >= 0x7fffffff) throw new RangeError("Attempt to allocate Buffer larger than maximum size: 0x" + 0x7fffffff.toString(16) + " bytes");
+                if (length >= 0x7fffffff) throw RangeError("Attempt to allocate Buffer larger than maximum size: 0x" + 0x7fffffff.toString(16) + " bytes");
                 return 0 | length;
             }
             function byteLength1(string, encoding) {
                 if (Buffer.isBuffer(string)) return string.length;
                 if (ArrayBuffer.isView(string) || isInstance(string, ArrayBuffer)) return string.byteLength;
-                if ("string" != typeof string) throw new TypeError('The "string" argument must be one of type string, Buffer, or ArrayBuffer. Received type ' + typeof string);
+                if ("string" != typeof string) throw TypeError('The "string" argument must be one of type string, Buffer, or ArrayBuffer. Received type ' + typeof string);
                 var len = string.length, mustMatch = arguments.length > 2 && !0 === arguments[2];
                 if (!mustMatch && 0 === len) return 0;
                 for(var loweredCase = !1;;)switch(encoding){
@@ -5280,7 +5280,7 @@
                     case "utf-16le":
                         return utf16leSlice(this, start, end);
                     default:
-                        if (loweredCase) throw new TypeError("Unknown encoding: " + encoding);
+                        if (loweredCase) throw TypeError("Unknown encoding: " + encoding);
                         encoding = (encoding + "").toLowerCase(), loweredCase = !0;
                 }
             }
@@ -5302,7 +5302,7 @@
                 if ("number" == typeof val) return (val &= 0xff, "function" == typeof Uint8Array.prototype.indexOf) ? dir ? Uint8Array.prototype.indexOf.call(buffer, val, byteOffset) : Uint8Array.prototype.lastIndexOf.call(buffer, val, byteOffset) : arrayIndexOf(buffer, [
                     val
                 ], byteOffset, encoding, dir);
-                throw new TypeError("val must be string, number or Buffer");
+                throw TypeError("val must be string, number or Buffer");
             }
             function arrayIndexOf(arr, val, byteOffset, encoding, dir) {
                 var i4, indexSize = 1, arrLength = arr.length, valLength = val.length;
@@ -5408,16 +5408,16 @@
                 return res;
             }
             function checkOffset(offset, ext, length) {
-                if (offset % 1 != 0 || offset < 0) throw new RangeError("offset is not uint");
-                if (offset + ext > length) throw new RangeError("Trying to access beyond buffer length");
+                if (offset % 1 != 0 || offset < 0) throw RangeError("offset is not uint");
+                if (offset + ext > length) throw RangeError("Trying to access beyond buffer length");
             }
             function checkInt(buf, value, offset, ext, max, min) {
-                if (!Buffer.isBuffer(buf)) throw new TypeError('"buffer" argument must be a Buffer instance');
-                if (value > max || value < min) throw new RangeError('"value" argument is out of bounds');
-                if (offset + ext > buf.length) throw new RangeError("Index out of range");
+                if (!Buffer.isBuffer(buf)) throw TypeError('"buffer" argument must be a Buffer instance');
+                if (value > max || value < min) throw RangeError('"value" argument is out of bounds');
+                if (offset + ext > buf.length) throw RangeError("Index out of range");
             }
             function checkIEEE754(buf, value, offset, ext, max, min) {
-                if (offset + ext > buf.length || offset < 0) throw new RangeError("Index out of range");
+                if (offset + ext > buf.length || offset < 0) throw RangeError("Index out of range");
             }
             function writeFloat(buf, value, offset, littleEndian, noAssert) {
                 return value = +value, offset >>>= 0, noAssert || checkIEEE754(buf, value, offset, 4, 3.4028234663852886e38, -340282346638528860000000000000000000000), ieee754.write(buf, value, offset, littleEndian, 23, 4), offset + 4;
@@ -5460,7 +5460,7 @@
             }, Buffer.isBuffer = function(b) {
                 return null != b && !0 === b._isBuffer && b !== Buffer.prototype;
             }, Buffer.compare = function(a, b) {
-                if (isInstance(a, Uint8Array) && (a = Buffer.from(a, a.offset, a.byteLength)), isInstance(b, Uint8Array) && (b = Buffer.from(b, b.offset, b.byteLength)), !Buffer.isBuffer(a) || !Buffer.isBuffer(b)) throw new TypeError('The "buf1", "buf2" arguments must be one of type Buffer or Uint8Array');
+                if (isInstance(a, Uint8Array) && (a = Buffer.from(a, a.offset, a.byteLength)), isInstance(b, Uint8Array) && (b = Buffer.from(b, b.offset, b.byteLength)), !Buffer.isBuffer(a) || !Buffer.isBuffer(b)) throw TypeError('The "buf1", "buf2" arguments must be one of type Buffer or Uint8Array');
                 if (a === b) return 0;
                 for(var x = a.length, y = b.length, i = 0, len = Math.min(x, y); i < len; ++i)if (a[i] !== b[i]) {
                     x = a[i], y = b[i];
@@ -5485,43 +5485,43 @@
                         return !1;
                 }
             }, Buffer.concat = function(list, length) {
-                if (!Array.isArray(list)) throw new TypeError('"list" argument must be an Array of Buffers');
+                if (!Array.isArray(list)) throw TypeError('"list" argument must be an Array of Buffers');
                 if (0 === list.length) return Buffer.alloc(0);
                 if (void 0 === length) for(i = 0, length = 0; i < list.length; ++i)length += list[i].length;
                 var i, buffer = Buffer.allocUnsafe(length), pos = 0;
                 for(i = 0; i < list.length; ++i){
                     var buf = list[i];
-                    if (isInstance(buf, Uint8Array) && (buf = Buffer.from(buf)), !Buffer.isBuffer(buf)) throw new TypeError('"list" argument must be an Array of Buffers');
+                    if (isInstance(buf, Uint8Array) && (buf = Buffer.from(buf)), !Buffer.isBuffer(buf)) throw TypeError('"list" argument must be an Array of Buffers');
                     buf.copy(buffer, pos), pos += buf.length;
                 }
                 return buffer;
             }, Buffer.byteLength = byteLength1, Buffer.prototype._isBuffer = !0, Buffer.prototype.swap16 = function() {
                 var len = this.length;
-                if (len % 2 != 0) throw new RangeError("Buffer size must be a multiple of 16-bits");
+                if (len % 2 != 0) throw RangeError("Buffer size must be a multiple of 16-bits");
                 for(var i = 0; i < len; i += 2)swap(this, i, i + 1);
                 return this;
             }, Buffer.prototype.swap32 = function() {
                 var len = this.length;
-                if (len % 4 != 0) throw new RangeError("Buffer size must be a multiple of 32-bits");
+                if (len % 4 != 0) throw RangeError("Buffer size must be a multiple of 32-bits");
                 for(var i = 0; i < len; i += 4)swap(this, i, i + 3), swap(this, i + 1, i + 2);
                 return this;
             }, Buffer.prototype.swap64 = function() {
                 var len = this.length;
-                if (len % 8 != 0) throw new RangeError("Buffer size must be a multiple of 64-bits");
+                if (len % 8 != 0) throw RangeError("Buffer size must be a multiple of 64-bits");
                 for(var i = 0; i < len; i += 8)swap(this, i, i + 7), swap(this, i + 1, i + 6), swap(this, i + 2, i + 5), swap(this, i + 3, i + 4);
                 return this;
             }, Buffer.prototype.toString = function() {
                 var length = this.length;
                 return 0 === length ? "" : 0 === arguments.length ? utf8Slice(this, 0, length) : slowToString.apply(this, arguments);
             }, Buffer.prototype.toLocaleString = Buffer.prototype.toString, Buffer.prototype.equals = function(b) {
-                if (!Buffer.isBuffer(b)) throw new TypeError("Argument must be a Buffer");
+                if (!Buffer.isBuffer(b)) throw TypeError("Argument must be a Buffer");
                 return this === b || 0 === Buffer.compare(this, b);
             }, Buffer.prototype.inspect = function() {
                 var str = "", max = exports.INSPECT_MAX_BYTES;
                 return str = this.toString("hex", 0, max).replace(/(.{2})/g, "$1 ").trim(), this.length > max && (str += " ... "), "<Buffer " + str + ">";
             }, customInspectSymbol && (Buffer.prototype[customInspectSymbol] = Buffer.prototype.inspect), Buffer.prototype.compare = function(target, start, end, thisStart, thisEnd) {
-                if (isInstance(target, Uint8Array) && (target = Buffer.from(target, target.offset, target.byteLength)), !Buffer.isBuffer(target)) throw new TypeError('The "target" argument must be one of type Buffer or Uint8Array. Received type ' + typeof target);
-                if (void 0 === start && (start = 0), void 0 === end && (end = target ? target.length : 0), void 0 === thisStart && (thisStart = 0), void 0 === thisEnd && (thisEnd = this.length), start < 0 || end > target.length || thisStart < 0 || thisEnd > this.length) throw new RangeError("out of range index");
+                if (isInstance(target, Uint8Array) && (target = Buffer.from(target, target.offset, target.byteLength)), !Buffer.isBuffer(target)) throw TypeError('The "target" argument must be one of type Buffer or Uint8Array. Received type ' + typeof target);
+                if (void 0 === start && (start = 0), void 0 === end && (end = target ? target.length : 0), void 0 === thisStart && (thisStart = 0), void 0 === thisEnd && (thisEnd = this.length), start < 0 || end > target.length || thisStart < 0 || thisEnd > this.length) throw RangeError("out of range index");
                 if (thisStart >= thisEnd && start >= end) return 0;
                 if (thisStart >= thisEnd) return -1;
                 if (start >= end) return 1;
@@ -5543,7 +5543,7 @@
                 else if (isFinite(offset)) offset >>>= 0, isFinite(length) ? (length >>>= 0, void 0 === encoding && (encoding = "utf8")) : (encoding = length, length = void 0);
                 else throw Error("Buffer.write(string, encoding, offset[, length]) is no longer supported");
                 var remaining = this.length - offset;
-                if ((void 0 === length || length > remaining) && (length = remaining), string.length > 0 && (length < 0 || offset < 0) || offset > this.length) throw new RangeError("Attempt to write outside buffer bounds");
+                if ((void 0 === length || length > remaining) && (length = remaining), string.length > 0 && (length < 0 || offset < 0) || offset > this.length) throw RangeError("Attempt to write outside buffer bounds");
                 encoding || (encoding = "utf8");
                 for(var loweredCase = !1;;)switch(encoding){
                     case "hex":
@@ -5564,7 +5564,7 @@
                     case "utf-16le":
                         return ucs2Write(this, string, offset, length);
                     default:
-                        if (loweredCase) throw new TypeError("Unknown encoding: " + encoding);
+                        if (loweredCase) throw TypeError("Unknown encoding: " + encoding);
                         encoding = ("" + encoding).toLowerCase(), loweredCase = !0;
                 }
             }, Buffer.prototype.toJSON = function() {
@@ -5686,11 +5686,11 @@
             }, Buffer.prototype.writeDoubleBE = function(value, offset, noAssert) {
                 return writeDouble(this, value, offset, !1, noAssert);
             }, Buffer.prototype.copy = function(target, targetStart, start, end) {
-                if (!Buffer.isBuffer(target)) throw new TypeError("argument should be a Buffer");
+                if (!Buffer.isBuffer(target)) throw TypeError("argument should be a Buffer");
                 if (start || (start = 0), end || 0 === end || (end = this.length), targetStart >= target.length && (targetStart = target.length), targetStart || (targetStart = 0), end > 0 && end < start && (end = start), end === start || 0 === target.length || 0 === this.length) return 0;
-                if (targetStart < 0) throw new RangeError("targetStart out of bounds");
-                if (start < 0 || start >= this.length) throw new RangeError("Index out of range");
-                if (end < 0) throw new RangeError("sourceEnd out of bounds");
+                if (targetStart < 0) throw RangeError("targetStart out of bounds");
+                if (start < 0 || start >= this.length) throw RangeError("Index out of range");
+                if (end < 0) throw RangeError("sourceEnd out of bounds");
                 end > this.length && (end = this.length), target.length - targetStart < end - start && (end = target.length - targetStart + start);
                 var len = end - start;
                 if (this === target && "function" == typeof Uint8Array.prototype.copyWithin) this.copyWithin(targetStart, start, end);
@@ -5699,19 +5699,19 @@
                 return len;
             }, Buffer.prototype.fill = function(val, start, end, encoding) {
                 if ("string" == typeof val) {
-                    if ("string" == typeof start ? (encoding = start, start = 0, end = this.length) : "string" == typeof end && (encoding = end, end = this.length), void 0 !== encoding && "string" != typeof encoding) throw new TypeError("encoding must be a string");
-                    if ("string" == typeof encoding && !Buffer.isEncoding(encoding)) throw new TypeError("Unknown encoding: " + encoding);
+                    if ("string" == typeof start ? (encoding = start, start = 0, end = this.length) : "string" == typeof end && (encoding = end, end = this.length), void 0 !== encoding && "string" != typeof encoding) throw TypeError("encoding must be a string");
+                    if ("string" == typeof encoding && !Buffer.isEncoding(encoding)) throw TypeError("Unknown encoding: " + encoding);
                     if (1 === val.length) {
                         var i, code = val.charCodeAt(0);
                         ("utf8" === encoding && code < 128 || "latin1" === encoding) && (val = code);
                     }
                 } else "number" == typeof val ? val &= 255 : "boolean" == typeof val && (val = Number(val));
-                if (start < 0 || this.length < start || this.length < end) throw new RangeError("Out of range index");
+                if (start < 0 || this.length < start || this.length < end) throw RangeError("Out of range index");
                 if (end <= start) return this;
                 if (start >>>= 0, end = void 0 === end ? this.length : end >>> 0, val || (val = 0), "number" == typeof val) for(i = start; i < end; ++i)this[i] = val;
                 else {
                     var bytes = Buffer.isBuffer(val) ? val : Buffer.from(val, encoding), len = bytes.length;
-                    if (0 === len) throw new TypeError('The value "' + val + '" is invalid for argument "value"');
+                    if (0 === len) throw TypeError('The value "' + val + '" is invalid for argument "value"');
                     for(i = 0; i < end - start; ++i)this[i + start] = bytes[i % len];
                 }
                 return this;
@@ -5800,7 +5800,7 @@
         7326: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
             "use strict";
             function _assertThisInitialized(self) {
-                if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+                if (void 0 === self) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                 return self;
             }
             __webpack_require__.d(__webpack_exports__, {
@@ -5862,7 +5862,7 @@
             });
             var _setPrototypeOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9611);
             function _inherits(subClass, superClass) {
-                if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
+                if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
                 Object.defineProperty(subClass, "prototype", {
                     value: Object.create(superClass && superClass.prototype, {
                         constructor: {

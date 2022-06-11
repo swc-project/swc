@@ -231,7 +231,7 @@
                                             f: F
                                         };
                                     }
-                                    throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+                                    throw TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
                                 }
                                 var it, err, normalCompletion = !0, didErr = !1;
                                 return {

@@ -56,7 +56,7 @@
         },
         function(module, exports) {
             module.exports = function(self) {
-                if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+                if (void 0 === self) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                 return self;
             }, module.exports.default = module.exports, module.exports.__esModule = !0;
         },
@@ -70,7 +70,7 @@
         },
         function(module, exports) {
             module.exports = function(instance, Constructor) {
-                if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
+                if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
             }, module.exports.default = module.exports, module.exports.__esModule = !0;
         },
         function(module, exports) {
@@ -88,14 +88,14 @@
             var _typeof = __webpack_require__(19).default, assertThisInitialized = __webpack_require__(1);
             module.exports = function(self, call) {
                 if (call && ("object" === _typeof(call) || "function" == typeof call)) return call;
-                if (void 0 !== call) throw new TypeError("Derived constructors may only return object or undefined");
+                if (void 0 !== call) throw TypeError("Derived constructors may only return object or undefined");
                 return assertThisInitialized(self);
             }, module.exports.default = module.exports, module.exports.__esModule = !0;
         },
         function(module, exports, __webpack_require__) {
             var setPrototypeOf = __webpack_require__(41);
             module.exports = function(subClass, superClass) {
-                if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
+                if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
                 subClass.prototype = Object.create(superClass && superClass.prototype, {
                     constructor: {
                         value: subClass,
@@ -1460,7 +1460,7 @@
                 var _cache = "function" == typeof Map ? new Map() : void 0;
                 return module.exports = _wrapNativeSuper = function(Class) {
                     if (null === Class || !isNativeFunction(Class)) return Class;
-                    if ("function" != typeof Class) throw new TypeError("Super expression must either be null or a function");
+                    if ("function" != typeof Class) throw TypeError("Super expression must either be null or a function");
                     if (void 0 !== _cache) {
                         if (_cache.has(Class)) return _cache.get(Class);
                         _cache.set(Class, Wrapper);
@@ -2213,7 +2213,7 @@
                 return al * bl + ((a >>> 16 & 0xffff) * bl + al * (b >>> 16 & 0xffff) << 16 >>> 0) | 0;
             }), "function" != typeof Object.assign && (Object.assign = function(target) {
                 "use strict";
-                if (null === target) throw new TypeError("Cannot convert undefined or null to object");
+                if (null === target) throw TypeError("Cannot convert undefined or null to object");
                 for(var to = Object(target), index = 1; index < arguments.length; index++){
                     var nextSource = arguments[index];
                     if (null !== nextSource) for(var nextKey in nextSource)Object.prototype.hasOwnProperty.call(nextSource, nextKey) && (to[nextKey] = nextSource[nextKey]);
@@ -2248,7 +2248,7 @@
         },
         function(module, exports) {
             module.exports = function() {
-                throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+                throw TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
             }, module.exports.default = module.exports, module.exports.__esModule = !0;
         },
         function(module, exports) {
@@ -2617,7 +2617,7 @@
         },
         function(module, exports) {
             module.exports = function() {
-                throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+                throw TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
             }, module.exports.default = module.exports, module.exports.__esModule = !0;
         },
         function(module, exports, __webpack_require__) {
@@ -2738,14 +2738,14 @@
                     if (method === undefined) {
                         if (context.delegate = null, "throw" === context.method) {
                             if (delegate.iterator.return && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel;
-                            context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method");
+                            context.method = "throw", context.arg = TypeError("The iterator does not provide a 'throw' method");
                         }
                         return ContinueSentinel;
                     }
                     var record = tryCatch(method, delegate.iterator, context.arg);
                     if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel;
                     var info = record.arg;
-                    return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel);
+                    return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel);
                 }
                 function pushTryEntry(locs) {
                     var entry = {
@@ -2957,7 +2957,7 @@
         function(module, exports, __webpack_require__) {
             var MapCache = __webpack_require__(47);
             function memoize(func, resolver) {
-                if ("function" != typeof func || null != resolver && "function" != typeof resolver) throw new TypeError("Expected a function");
+                if ("function" != typeof func || null != resolver && "function" != typeof resolver) throw TypeError("Expected a function");
                 var memoized = function() {
                     var args = arguments, key = resolver ? resolver.apply(this, args) : args[0], cache = memoized.cache;
                     if (cache.has(key)) return cache.get(key);

@@ -91,7 +91,7 @@
                 }(arr1) || function(iter) {
                     if (Symbol.iterator in Object(iter) || "[object Arguments]" === Object.prototype.toString.call(iter)) return Array.from(iter);
                 }(arr1) || function() {
-                    throw new TypeError("Invalid attempt to spread non-iterable instance");
+                    throw TypeError("Invalid attempt to spread non-iterable instance");
                 }();
             }
             exports.default = function(_param) {
@@ -151,7 +151,7 @@
                     }
                     return _arr;
                 }(arr3, 2) || function() {
-                    throw new TypeError("Invalid attempt to destructure non-iterable instance");
+                    throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), setRef = ref2[0], isIntersected = ref2[1], isVisible = !isLazy || isIntersected, wrapperStyle = {
                     boxSizing: "border-box",
                     display: "block",
@@ -479,7 +479,7 @@
                     }
                     return _arr;
                 }(arr4, 2) || function() {
-                    throw new TypeError("Invalid attempt to destructure non-iterable instance");
+                    throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), visible = ref[0], setVisible = ref[1], setRef = _react.useCallback(function(el) {
                     unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (unobserve.current = observe(el, function(isVisible) {
                         return isVisible && setVisible(isVisible);

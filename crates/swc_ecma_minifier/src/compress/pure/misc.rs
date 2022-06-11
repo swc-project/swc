@@ -255,6 +255,13 @@ impl Pure<'_> {
                     "Error",
                     // https://262.ecma-international.org/12.0/#sec-aggregate-error-constructor
                     "AggregateError",
+                    // https://262.ecma-international.org/12.0/#sec-nativeerror-object-structure
+                    "EvalError",
+                    "RangeError",
+                    "ReferenceError",
+                    "SyntaxError",
+                    "TypeError",
+                    "URIError",
                 ],
             ) =>
             {

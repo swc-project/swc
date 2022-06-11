@@ -481,7 +481,7 @@ var YUI = function() {
         return !!obj && hasOwn.call(obj, key);
     };
     O.hasKey = owns, O.keys = Lang._isNative(Object.keys) && !hasProtoEnumBug ? Object.keys : function(obj) {
-        if (!Lang.isObject(obj)) throw new TypeError("Object.keys called on a non-object");
+        if (!Lang.isObject(obj)) throw TypeError("Object.keys called on a non-object");
         var i, key, len, keys = [];
         if (hasProtoEnumBug && "function" == typeof obj) for(key in obj)owns(obj, key) && "prototype" !== key && keys.push(key);
         else for(key in obj)owns(obj, key) && keys.push(key);

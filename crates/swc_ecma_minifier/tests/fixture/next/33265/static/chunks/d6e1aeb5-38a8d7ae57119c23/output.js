@@ -6314,7 +6314,7 @@
                 var player = videojs.getPlayer(id);
                 if (player) return options && log$1.warn('Player "' + id + '" is already initialised. Options will not be applied.'), ready && player.ready(ready), player;
                 var el = "string" == typeof id ? $("#" + normalizeId(id)) : id;
-                if (!isEl(el)) throw new TypeError("The element or ID supplied is not valid. (videojs)");
+                if (!isEl(el)) throw TypeError("The element or ID supplied is not valid. (videojs)");
                 return el.ownerDocument.defaultView && el.ownerDocument.body.contains(el) || log$1.warn("The element supplied is not included in the DOM"), options = options || {}, hooks("beforesetup").forEach(function(hookFunction) {
                     var opts = hookFunction(el, mergeOptions$3(options));
                     if (!isObject(opts) || Array.isArray(opts)) {
@@ -11844,9 +11844,9 @@
             }, SegmentLoader1 = function(_videojs$EventTarget) {
                 function SegmentLoader(settings, options) {
                     var _this;
-                    if (_this = _videojs$EventTarget.call(this) || this, !settings) throw new TypeError("Initialization settings are required");
-                    if ("function" != typeof settings.currentTime) throw new TypeError("No currentTime getter specified");
-                    if (!settings.mediaSource) throw new TypeError("No MediaSource specified");
+                    if (_this = _videojs$EventTarget.call(this) || this, !settings) throw TypeError("Initialization settings are required");
+                    if ("function" != typeof settings.currentTime) throw TypeError("No currentTime getter specified");
+                    if (!settings.mediaSource) throw TypeError("No MediaSource specified");
                     return _this.bandwidth = settings.bandwidth, _this.throughput = {
                         rate: 0,
                         count: 0

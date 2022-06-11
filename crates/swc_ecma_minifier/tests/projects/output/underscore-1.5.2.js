@@ -23,7 +23,7 @@
         if (null == obj && (obj = []), nativeReduce && obj.reduce === nativeReduce) return context && (iterator = _.bind(iterator, context)), initial ? obj.reduce(iterator, memo) : obj.reduce(iterator);
         if (each(obj, function(value, index, list) {
             initial ? memo = iterator.call(context, memo, value, index, list) : (memo = value, initial = !0);
-        }), !initial) throw new TypeError(reduceError);
+        }), !initial) throw TypeError(reduceError);
         return memo;
     }, _.reduceRight = _.foldr = function(obj, iterator, memo, context) {
         var initial = arguments.length > 2;
@@ -35,7 +35,7 @@
         }
         if (each(obj, function(value, index, list) {
             index = keys ? keys[--length] : --length, initial ? memo = iterator.call(context, memo, obj[index], index, list) : (memo = obj[index], initial = !0);
-        }), !initial) throw new TypeError(reduceError);
+        }), !initial) throw TypeError(reduceError);
         return memo;
     }, _.find = _.detect = function(obj, iterator, context) {
         var result;
@@ -240,7 +240,7 @@
     _.bind = function(func, context) {
         var args, bound;
         if (nativeBind && func.bind === nativeBind) return nativeBind.apply(func, slice.call(arguments, 1));
-        if (!_.isFunction(func)) throw new TypeError();
+        if (!_.isFunction(func)) throw TypeError();
         return args = slice.call(arguments, 2), bound = function() {
             if (!(this instanceof bound)) return func.apply(context, args.concat(slice.call(arguments)));
             ctor.prototype = func.prototype;
@@ -323,7 +323,7 @@
             if (--times < 1) return func.apply(this, arguments);
         };
     }, _.keys = nativeKeys || function(obj) {
-        if (obj !== Object(obj)) throw new TypeError("Invalid object");
+        if (obj !== Object(obj)) throw TypeError("Invalid object");
         var keys = [];
         for(var key in obj)_.has(obj, key) && keys.push(key);
         return keys;
