@@ -35,12 +35,12 @@ impl<T> MoveMap<T> for Vec<T> {
             while read_i < old_len {
                 // move the read_i'th item out of the vector and map it
                 // to an iterator
-                let e = ptr::read(self.get_unchecked(read_i));
+                let e = ptr::read(self.as_ptr().add(read_i));
                 let e = f(e);
                 read_i += 1;
 
                 assert!(write_i < read_i);
-                ptr::write(self.get_unchecked_mut(write_i), e);
+                ptr::write(self.as_mut_ptr().add(write_i), e);
                 write_i += 1;
             }
 
@@ -65,13 +65,13 @@ impl<T> MoveMap<T> for Vec<T> {
             while read_i < old_len {
                 // move the read_i'th item out of the vector and map it
                 // to an iterator
-                let e = ptr::read(self.get_unchecked(read_i));
+                let e = ptr::read(self.as_ptr().add(read_i));
                 let iter = f(e).into_iter();
                 read_i += 1;
 
                 for e in iter {
                     if write_i < read_i {
-                        ptr::write(self.get_unchecked_mut(write_i), e);
+                        ptr::write(self.as_mut_ptr().add(write_i), e);
                         write_i += 1;
                     } else {
                         // If this is reached we ran out of space
