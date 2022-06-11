@@ -41,7 +41,7 @@ pretty_assertions = "1.1"
 swc = {version = "0.187.0", path = "../swc"}
 swc_ecma_ast = {version = "0.79.0", path = "../swc_ecma_ast"}
 swc_ecma_parser = {version = "0.105.0", path = "../swc_ecma_parser"}
-swc_ecma_transforms = {version = "0.159.0", path = "../swc_ecma_transforms/"}
+swc_ecma_transforms = {version = "0.160.0", path = "../swc_ecma_transforms/"}
 testing = {version = "0.20.0", path = "../testing"}
 walkdir = "2"
 

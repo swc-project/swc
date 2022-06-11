@@ -24,7 +24,7 @@ swc_common = { version = "0.18.0", path = "../swc_common", features = [
   "plugin-mode",
 ] }
 swc_ecma_quote = { version = "0.18.0", path = "../swc_ecma_quote", optional = true }
-swc_ecmascript = { version = "0.162.0", path = "../swc_ecmascript", features = ["utils", "visit", "rkyv-impl"] }
+swc_ecmascript = { version = "0.163.0", path = "../swc_ecmascript", features = ["utils", "visit", "rkyv-impl"] }
 swc_plugin_proxy = { version = "0.4.0", path = "../swc_plugin_proxy", features = [
   "plugin-mode",
 ] }
