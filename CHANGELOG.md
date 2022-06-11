@@ -11,6 +11,9 @@
 - **(es/minifier)** Reserve more symbols on `eval` (#4925) ([be87494](https://github.com/swc-project/swc/commit/be87494495a7708769430362f1852f52f77eb47f))
 
 
+- **(es/parser)** Allow negative bigint literal in types (#4938) ([11db191](https://github.com/swc-project/swc/commit/11db191af5fe41b5b752b8bc77cc61a05372e0bd))
+
+
 - **(html/codegen)** Fix quotes in attributes (#4918) ([064e504](https://github.com/swc-project/swc/commit/064e50448fb3a916ce52c537f73cedec2253ed50))
 
 
