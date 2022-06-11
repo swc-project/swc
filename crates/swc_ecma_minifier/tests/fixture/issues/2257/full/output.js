@@ -274,7 +274,7 @@
                             "auth",
                             "setAuth", 
                         ])), pageConfigAuth = pageConfig.auth;
-                        if (pageConfigAuth && !Array.isArray(pageConfigAuth)) throw new Error("pageConfig.auth must be an array");
+                        if (pageConfigAuth && !Array.isArray(pageConfigAuth)) throw Error("pageConfig.auth must be an array");
                         return Array.isArray(pageConfigAuth) && pageConfigAuth.length && !Object.keys(auth).filter(function(item) {
                             return !!pageConfigAuth.includes(item) && auth[item];
                         }).length ? authConfig.NoAuthFallback ? "function" == typeof authConfig.NoAuthFallback ? _jsxRuntime.jsx(authConfig.NoAuthFallback, {}) : authConfig.NoAuthFallback : null : _jsxRuntime.jsx(PageComponent, swcHelpers.objectSpread({}, rest));
@@ -577,13 +577,13 @@
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.default = void 0, exports.default = function() {
-                for(var _len = arguments.length, strArray = new Array(_len), _key = 0; _key < _len; _key++)strArray[_key] = arguments[_key];
+                for(var _len = arguments.length, strArray = Array(_len), _key = 0; _key < _len; _key++)strArray[_key] = arguments[_key];
                 if (0 === strArray.length) return "";
                 var resultArray = [], filterStrArray = strArray.filter(function(str) {
                     return "" !== str;
                 });
                 return filterStrArray.forEach(function(str, index) {
-                    if ("string" != typeof str) throw new Error("Path must be a string. Received ".concat(str));
+                    if ("string" != typeof str) throw Error("Path must be a string. Received ".concat(str));
                     var routePath = str;
                     index > 0 && (routePath = routePath.replace(/^[/]+/, "")), routePath = index < filterStrArray.length - 1 ? routePath.replace(/[/]+$/, "") : routePath.replace(/[/]+$/, "/"), resultArray.push(routePath);
                 }), resultArray.join("/");
@@ -715,7 +715,7 @@
             var _react_17_0_2_react = __webpack_require__(59301), objectWithoutPropertiesLoose = __webpack_require__(21617), esm_extends = __webpack_require__(87062), inheritsLoose = __webpack_require__(48861), _react_is_16_13_1_react_is = __webpack_require__(99234), hoist_non_react_statics_cjs = __webpack_require__(94266), hoist_non_react_statics_cjs_default = __webpack_require__.n(hoist_non_react_statics_cjs);
             function invariant(condition, message) {
                 if (!condition) {
-                    var error = new Error("loadable: " + message);
+                    var error = Error("loadable: " + message);
                     throw error.framesToPop = 1, error.name = "Invariant Violation", error;
                 }
             }
@@ -759,7 +759,7 @@
                     }
                     function resolve(module, props, Loadable) {
                         var Component = options.resolveComponent ? options.resolveComponent(module, props) : defaultResolveComponent(module);
-                        if (options.resolveComponent && !(0, _react_is_16_13_1_react_is.isValidElementType)(Component)) throw new Error("resolveComponent returned something that is not a React component!");
+                        if (options.resolveComponent && !(0, _react_is_16_13_1_react_is.isValidElementType)(Component)) throw Error("resolveComponent returned something that is not a React component!");
                         return hoist_non_react_statics_cjs_default()(Loadable, Component, {
                             preload: !0
                         }), Component;
@@ -775,7 +775,7 @@
                             }, invariant(!props.__chunkExtractor || ctor1.requireSync, "SSR requires `@loadable/babel-plugin`, please install it"), props.__chunkExtractor) ? (!1 === options.ssr || (ctor1.requireAsync(props).catch(function() {
                                 return null;
                             }), _this.loadSync(), props.__chunkExtractor.addChunk(ctor1.chunkName(props))), function(self) {
-                                if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+                                if (void 0 === self) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                                 return self;
                             }(_this)) : (!1 !== options.ssr && (ctor1.isReady && ctor1.isReady(props) || ctor1.chunkName && LOADABLE_SHARED.initialChunks[ctor1.chunkName(props)]) && _this.loadSync(), _this);
                         }
@@ -919,7 +919,7 @@
                         if (extElement) JSON.parse(extElement.textContent).namedChunks.forEach(function(chunkName) {
                             LOADABLE_SHARED.initialChunks[chunkName] = !0;
                         });
-                        else throw new Error("loadable-component: @loadable/server does not match @loadable/component");
+                        else throw Error("loadable-component: @loadable/server does not match @loadable/component");
                     }
                 }
                 if (!requiredChunks) return warn("`loadableReady()` requires state, please use `getScriptTags` or `getScriptElements` server-side"), done(), Promise.resolve();
@@ -961,12 +961,12 @@
             }
             function _arrayWithoutHoles(arr) {
                 if (Array.isArray(arr)) {
-                    for(var i = 0, arr2 = new Array(arr.length); i < arr.length; i++)arr2[i] = arr[i];
+                    for(var i = 0, arr2 = Array(arr.length); i < arr.length; i++)arr2[i] = arr[i];
                     return arr2;
                 }
             }
             function _assertThisInitialized(self) {
-                if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+                if (void 0 === self) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                 return self;
             }
             function _AwaitValue(value) {
@@ -1046,7 +1046,7 @@
             function _asyncIterator(iterable) {
                 var method;
                 if ("function" == typeof Symbol && (Symbol.asyncIterator && null != (method = iterable[Symbol.asyncIterator]) || Symbol.iterator && null != (method = iterable[Symbol.iterator]))) return method.call(iterable);
-                throw new TypeError("Object is not async iterable");
+                throw TypeError("Object is not async iterable");
             }
             function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
                 try {
@@ -1076,39 +1076,39 @@
                 return new _AwaitValue(value);
             }
             function _classCallCheck(instance, Constructor) {
-                if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
+                if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
             }
             function _classNameTDZError(name) {
-                throw new Error('Class "' + name + '" cannot be referenced in computed property keys.');
+                throw Error('Class "' + name + '" cannot be referenced in computed property keys.');
             }
             function _classPrivateFieldGet(receiver, privateMap) {
-                if (!privateMap.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
+                if (!privateMap.has(receiver)) throw TypeError("attempted to get private field on non-instance");
                 return privateMap.get(receiver).value;
             }
             function _classPrivateFieldBase(receiver, privateKey) {
-                if (!Object.prototype.hasOwnProperty.call(receiver, privateKey)) throw new TypeError("attempted to use private field on non-instance");
+                if (!Object.prototype.hasOwnProperty.call(receiver, privateKey)) throw TypeError("attempted to use private field on non-instance");
                 return receiver;
             }
             function _classPrivateFieldSet(receiver, privateMap, value) {
-                if (!privateMap.has(receiver)) throw new TypeError("attempted to set private field on non-instance");
+                if (!privateMap.has(receiver)) throw TypeError("attempted to set private field on non-instance");
                 var descriptor = privateMap.get(receiver);
-                if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
+                if (!descriptor.writable) throw TypeError("attempted to set read only private field");
                 return descriptor.value = value, value;
             }
             function _classPrivateMethodGet(receiver, privateSet, fn) {
-                if (!privateSet.has(receiver)) throw new TypeError("attempted to get private field on non-instance");
+                if (!privateSet.has(receiver)) throw TypeError("attempted to get private field on non-instance");
                 return fn;
             }
             function _classPrivateMethodSet() {
-                throw new TypeError("attempted to reassign private method");
+                throw TypeError("attempted to reassign private method");
             }
             function _classStaticPrivateFieldSpecGet(receiver, classConstructor, descriptor) {
-                if (receiver !== classConstructor) throw new TypeError("Private static access of wrong provenance");
+                if (receiver !== classConstructor) throw TypeError("Private static access of wrong provenance");
                 return descriptor.value;
             }
             function _classStaticPrivateFieldSpecSet(receiver, classConstructor, descriptor, value) {
-                if (receiver !== classConstructor) throw new TypeError("Private static access of wrong provenance");
-                if (!descriptor.writable) throw new TypeError("attempted to set read only private field");
+                if (receiver !== classConstructor) throw TypeError("Private static access of wrong provenance");
+                if (!descriptor.writable) throw TypeError("attempted to set read only private field");
                 return descriptor.value = value, value;
             }
             function construct(Parent1, args1, Class1) {
@@ -1145,7 +1145,7 @@
                 if (Symbol.iterator in Object(iter) || "[object Arguments]" === Object.prototype.toString.call(iter)) return Array.from(iter);
             }
             function _nonIterableRest() {
-                throw new TypeError("Invalid attempt to destructure non-iterable instance");
+                throw TypeError("Invalid attempt to destructure non-iterable instance");
             }
             function _toArray(arr) {
                 return _arrayWithHoles(arr) || _iterableToArray(arr) || _nonIterableRest();
@@ -1159,7 +1159,7 @@
                 if (void 0 !== prim) {
                     var res = prim.call(input, hint || "default");
                     if ("object" !== _type_of_typeof(res)) return res;
-                    throw new TypeError("@@toPrimitive must return a primitive value.");
+                    throw TypeError("@@toPrimitive must return a primitive value.");
                 }
                 return ("string" === hint ? String : Number)(input);
             }
@@ -1214,11 +1214,11 @@
                         return "method" === other.kind && other.key === element.key && other.placement === element.placement;
                     }))) {
                         if (_isDataDescriptor(element.descriptor) || _isDataDescriptor(other1.descriptor)) {
-                            if (_hasDecorators(element) || _hasDecorators(other1)) throw new ReferenceError("Duplicated methods (" + element.key + ") can't be decorated.");
+                            if (_hasDecorators(element) || _hasDecorators(other1)) throw ReferenceError("Duplicated methods (" + element.key + ") can't be decorated.");
                             other1.descriptor = element.descriptor;
                         } else {
                             if (_hasDecorators(element)) {
-                                if (_hasDecorators(other1)) throw new ReferenceError("Decorators can't be placed on different accessors with for the same property (" + element.key + ").");
+                                if (_hasDecorators(other1)) throw ReferenceError("Decorators can't be placed on different accessors with for the same property (" + element.key + ").");
                                 other1.decorators = element.decorators;
                             }
                             _coalesceGetterSetter(element, other1);
@@ -1289,7 +1289,7 @@
             }
             function _addElementPlacement(element, placements, silent) {
                 var keys = placements[element.placement];
-                if (!silent && -1 !== keys.indexOf(element.key)) throw new TypeError("Duplicated element (" + element.key + ")");
+                if (!silent && -1 !== keys.indexOf(element.key)) throw TypeError("Duplicated element (" + element.key + ")");
                 keys.push(element.key);
             }
             function _decorateElement(element, placements) {
@@ -1315,7 +1315,7 @@
                     var obj = _fromClassDescriptor(elements), elementsAndFinisher = _toClassDescriptor((0, decorators[i])(obj) || obj);
                     if (void 0 !== elementsAndFinisher.finisher && finishers.push(elementsAndFinisher.finisher), void 0 !== elementsAndFinisher.elements) {
                         elements = elementsAndFinisher.elements;
-                        for(var j = 0; j < elements.length - 1; j++)for(var k = j + 1; k < elements.length; k++)if (elements[j].key === elements[k].key && elements[j].placement === elements[k].placement) throw new TypeError("Duplicated element (" + elements[j].key + ")");
+                        for(var j = 0; j < elements.length - 1; j++)for(var k = j + 1; k < elements.length; k++)if (elements[j].key === elements[k].key && elements[j].placement === elements[k].placement) throw TypeError("Duplicated element (" + elements[j].key + ")");
                     }
                 }
                 return {
@@ -1343,9 +1343,9 @@
             }
             function _toElementDescriptor(elementObject) {
                 var kind = String(elementObject.kind);
-                if ("method" !== kind && "field" !== kind) throw new TypeError('An element descriptor\'s .kind property must be either "method" or "field", but a decorator created an element descriptor with .kind "' + kind + '"');
+                if ("method" !== kind && "field" !== kind) throw TypeError('An element descriptor\'s .kind property must be either "method" or "field", but a decorator created an element descriptor with .kind "' + kind + '"');
                 var key = _toPropertyKey(elementObject.key), placement = String(elementObject.placement);
-                if ("static" !== placement && "prototype" !== placement && "own" !== placement) throw new TypeError('An element descriptor\'s .placement property must be one of "static", "prototype" or "own", but a decorator created an element descriptor with .placement "' + placement + '"');
+                if ("static" !== placement && "prototype" !== placement && "own" !== placement) throw TypeError('An element descriptor\'s .placement property must be one of "static", "prototype" or "own", but a decorator created an element descriptor with .placement "' + placement + '"');
                 var descriptor = elementObject.descriptor;
                 _disallowProperty(elementObject, "elements", "An element descriptor");
                 var element = {
@@ -1376,7 +1376,7 @@
             }
             function _toClassDescriptor(obj) {
                 var kind = String(obj.kind);
-                if ("class" !== kind) throw new TypeError('A class descriptor\'s .kind property must be "class", but a decorator created a class descriptor with .kind "' + kind + '"');
+                if ("class" !== kind) throw TypeError('A class descriptor\'s .kind property must be "class", but a decorator created a class descriptor with .kind "' + kind + '"');
                 _disallowProperty(obj, "key", "A class descriptor"), _disallowProperty(obj, "placement", "A class descriptor"), _disallowProperty(obj, "descriptor", "A class descriptor"), _disallowProperty(obj, "initializer", "A class descriptor"), _disallowProperty(obj, "extras", "A class descriptor");
                 var finisher = _optionalCallableProperty(obj, "finisher");
                 return {
@@ -1385,18 +1385,18 @@
                 };
             }
             function _disallowProperty(obj, name, objectType) {
-                if (void 0 !== obj[name]) throw new TypeError(objectType + " can't have a ." + name + " property.");
+                if (void 0 !== obj[name]) throw TypeError(objectType + " can't have a ." + name + " property.");
             }
             function _optionalCallableProperty(obj, name) {
                 var value = obj[name];
-                if (void 0 !== value && "function" != typeof value) throw new TypeError("Expected '" + name + "' to be a function");
+                if (void 0 !== value && "function" != typeof value) throw TypeError("Expected '" + name + "' to be a function");
                 return value;
             }
             function _runClassFinishers(constructor, finishers) {
                 for(var i = 0; i < finishers.length; i++){
                     var newConstructor = (0, finishers[i])(constructor);
                     if (void 0 !== newConstructor) {
-                        if ("function" != typeof newConstructor) throw new TypeError("Finishers must return a constructor.");
+                        if ("function" != typeof newConstructor) throw TypeError("Finishers must return a constructor.");
                         constructor = newConstructor;
                     }
                 }
@@ -1473,7 +1473,7 @@
                 return setPrototypeOf(o, p);
             }
             function _inherits(subClass, superClass) {
-                if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
+                if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
                 subClass.prototype = Object.create(superClass && superClass.prototype, {
                     constructor: {
                         value: subClass,
@@ -1494,7 +1494,7 @@
                 });
             }
             function _initializerWarningHelper(descriptor, context) {
-                throw new Error("Decorating class property failed. Please ensure that proposal-class-properties is enabled and set to use loose mode. To use proposal-class-properties in spec mode with decorators, wait for the next major version of decorators in stage 2.");
+                throw Error("Decorating class property failed. Please ensure that proposal-class-properties is enabled and set to use loose mode. To use proposal-class-properties in spec mode with decorators, wait for the next major version of decorators in stage 2.");
             }
             function _instanceof(left, right) {
                 return null != right && "undefined" != typeof Symbol && right[Symbol.hasInstance] ? right[Symbol.hasInstance](left) : left instanceof right;
@@ -1546,7 +1546,7 @@
                 else props || (props = defaultProps || {});
                 if (1 === childrenLength) props.children = children;
                 else if (childrenLength > 1) {
-                    for(var childArray = new Array(childrenLength), i = 0; i < childrenLength; i++)childArray[i] = arguments[i + 3];
+                    for(var childArray = Array(childrenLength), i = 0; i < childrenLength; i++)childArray[i] = arguments[i + 3];
                     props.children = childArray;
                 }
                 return {
@@ -1559,10 +1559,10 @@
                 };
             }
             function _newArrowCheck(innerThis, boundThis) {
-                if (innerThis !== boundThis) throw new TypeError("Cannot instantiate an arrow function");
+                if (innerThis !== boundThis) throw TypeError("Cannot instantiate an arrow function");
             }
             function _nonIterableSpread() {
-                throw new TypeError("Invalid attempt to spread non-iterable instance");
+                throw TypeError("Invalid attempt to spread non-iterable instance");
             }
             function _objectSpread(target) {
                 for(var i = 1; i < arguments.length; i++){
@@ -1594,7 +1594,7 @@
                 return call && ("object" === _type_of_typeof(call) || "function" == typeof call) ? call : _assertThisInitialized(self);
             }
             function _readOnlyError(name) {
-                throw new Error('"' + name + '" is read-only');
+                throw Error('"' + name + '" is read-only');
             }
             function set(target2, property2, value1, receiver2) {
                 return (set = "undefined" != typeof Reflect && Reflect.set ? Reflect.set : function(target, property, value, receiver) {
@@ -1611,7 +1611,7 @@
                 })(target2, property2, value1, receiver2);
             }
             function _set(target, property, value, receiver, isStrict) {
-                if (!set(target, property, value, receiver || target) && isStrict) throw new Error("failed to set property");
+                if (!set(target, property, value, receiver || target) && isStrict) throw Error("failed to set property");
                 return value;
             }
             function _skipFirstGeneratorNext(fn) {
@@ -1651,7 +1651,7 @@
                 var _cache = "function" == typeof Map ? new Map() : void 0;
                 return (wrapNativeSuper = function(Class) {
                     if (null === Class || !_isNativeFunction(Class)) return Class;
-                    if ("function" != typeof Class) throw new TypeError("Super expression must either be null or a function");
+                    if ("function" != typeof Class) throw TypeError("Super expression must either be null or a function");
                     if (void 0 !== _cache) {
                         if (_cache.has(Class)) return _cache.get(Class);
                         _cache.set(Class, Wrapper);
@@ -2000,7 +2000,7 @@
             "use strict";
             var Cancel = __webpack_require__(69651);
             function CancelToken(executor) {
-                if ("function" != typeof executor) throw new TypeError("executor must be a function.");
+                if ("function" != typeof executor) throw TypeError("executor must be a function.");
                 this.promise = new Promise(function(resolve) {
                     resolvePromise = resolve;
                 });
@@ -2136,7 +2136,7 @@
             "use strict";
             var enhanceError = __webpack_require__(16488);
             module.exports = function(message, config, code, request, response) {
-                var error = new Error(message);
+                var error = Error(message);
                 return enhanceError(error, config, code, request, response);
             };
         },
@@ -2333,7 +2333,7 @@
             "use strict";
             module.exports = function(fn, thisArg) {
                 return function() {
-                    for(var args = new Array(arguments.length), i = 0; i < args.length; i++)args[i] = arguments[i];
+                    for(var args = Array(arguments.length), i = 0; i < args.length; i++)args[i] = arguments[i];
                     return fn.apply(thisArg, args);
                 };
             };
@@ -2380,7 +2380,7 @@
                     cookie.push(name + "=" + encodeURIComponent(value)), utils.isNumber(expires) && cookie.push("expires=" + new Date(expires).toGMTString()), utils.isString(path) && cookie.push("path=" + path), utils.isString(domain) && cookie.push("domain=" + domain), !0 === secure && cookie.push("secure"), document.cookie = cookie.join("; ");
                 },
                 read: function(name) {
-                    var match = document.cookie.match(new RegExp("(^|;\\s*)(" + name + ")=([^;]*)"));
+                    var match = document.cookie.match(RegExp("(^|;\\s*)(" + name + ")=([^;]*)"));
                     return match ? decodeURIComponent(match[3]) : null;
                 },
                 remove: function(name) {
@@ -2508,18 +2508,18 @@
                     return "[Axios v" + pkg.version + "] Transitional option '" + opt + "'" + desc + (message ? ". " + message : "");
                 }
                 return function(value, opt, opts) {
-                    if (!1 === validator) throw new Error(formatMessage(opt, " has been removed in " + version));
+                    if (!1 === validator) throw Error(formatMessage(opt, " has been removed in " + version));
                     return isDeprecated && !deprecatedWarnings[opt] && (deprecatedWarnings[opt] = !0, console.warn(formatMessage(opt, " has been deprecated since v" + version + " and will be removed in the near future"))), !validator || validator(value, opt, opts);
                 };
             }, module.exports = {
                 isOlderVersion: isOlderVersion,
                 assertOptions: function(options, schema, allowUnknown) {
-                    if ("object" != typeof options) throw new TypeError("options must be an object");
+                    if ("object" != typeof options) throw TypeError("options must be an object");
                     for(var keys = Object.keys(options), i = keys.length; i-- > 0;){
                         var opt = keys[i], validator = schema[opt];
                         if (validator) {
                             var value = options[opt], result = void 0 === value || validator(value, opt, options);
-                            if (!0 !== result) throw new TypeError("option " + opt + " must be " + result);
+                            if (!0 !== result) throw TypeError("option " + opt + " must be " + result);
                             continue;
                         }
                         if (!0 !== allowUnknown) throw Error("Unknown option " + opt);
@@ -2829,7 +2829,7 @@
                 anInstance(this, $ArrayBuffer, ARRAY_BUFFER);
                 var byteLength = toIndex(length);
                 setInternalState(this, {
-                    bytes: arrayFill.call(new Array(byteLength), 0),
+                    bytes: arrayFill.call(Array(byteLength), 0),
                     byteLength: byteLength
                 }), DESCRIPTORS || (this.byteLength = byteLength);
             }, $DataView = function(buffer, byteOffset, byteLength) {
@@ -3862,7 +3862,7 @@
             var abs = Math.abs, pow = Math.pow, floor = Math.floor, log = Math.log, LN2 = Math.LN2;
             module.exports = {
                 pack: function(number, mantissaLength, bytes) {
-                    var exponent, mantissa, c, buffer = new Array(bytes), exponentLength = 8 * bytes - mantissaLength - 1, eMax = (1 << exponentLength) - 1, eBias = eMax >> 1, rt = 23 === mantissaLength ? pow(2, -24) - pow(2, -77) : 0, sign = number < 0 || 0 === number && 1 / number < 0 ? 1 : 0, index = 0;
+                    var exponent, mantissa, c, buffer = Array(bytes), exponentLength = 8 * bytes - mantissaLength - 1, eMax = (1 << exponentLength) - 1, eBias = eMax >> 1, rt = 23 === mantissaLength ? pow(2, -24) - pow(2, -77) : 0, sign = number < 0 || 0 === number && 1 / number < 0 ? 1 : 0, index = 0;
                     for((number = abs(number)) != number || number === 1 / 0 ? (mantissa = number != number ? 1 : 0, exponent = eMax) : (exponent = floor(log(number) / LN2), number * (c = pow(2, -exponent)) < 1 && (exponent--, c *= 2), exponent + eBias >= 1 ? number += rt / c : number += rt * pow(2, 1 - eBias), number * c >= 2 && (exponent++, c /= 2), exponent + eBias >= eMax ? (mantissa = 0, exponent = eMax) : exponent + eBias >= 1 ? (mantissa = (number * c - 1) * pow(2, mantissaLength), exponent += eBias) : (mantissa = number * pow(2, eBias - 1) * pow(2, mantissaLength), exponent = 0)); mantissaLength >= 8; buffer[index++] = 255 & mantissa, mantissa /= 256, mantissaLength -= 8);
                     for(exponent = exponent << mantissaLength | mantissa, exponentLength += mantissaLength; exponentLength > 0; buffer[index++] = 255 & exponent, exponent /= 256, exponentLength -= 8);
                     return buffer[--index] |= 128 * sign, buffer;
@@ -3957,7 +3957,7 @@
             if (NATIVE_WEAK_MAP || shared.state) {
                 var store = shared.state || (shared.state = new WeakMap()), wmget = store.get, wmhas = store.has, wmset = store.set;
                 set = function(it, metadata) {
-                    if (wmhas.call(store, it)) throw new TypeError(OBJECT_ALREADY_INITIALIZED);
+                    if (wmhas.call(store, it)) throw TypeError(OBJECT_ALREADY_INITIALIZED);
                     return metadata.facade = it, wmset.call(store, it, metadata), metadata;
                 }, get = function(it) {
                     return wmget.call(store, it) || {};
@@ -3967,7 +3967,7 @@
             } else {
                 var STATE = sharedKey("state");
                 hiddenKeys[STATE] = !0, set = function(it, metadata) {
-                    if (objectHas(it, STATE)) throw new TypeError(OBJECT_ALREADY_INITIALIZED);
+                    if (objectHas(it, STATE)) throw TypeError(OBJECT_ALREADY_INITIALIZED);
                     return metadata.facade = it, createNonEnumerableProperty(it, STATE, metadata), metadata;
                 }, get = function(it) {
                     return objectHas(it, STATE) ? it[STATE] : {};
@@ -4525,7 +4525,7 @@
                 var result, reCopy, lastIndex, match, i, object, group, re = this, state = getInternalState(re), str = toString(string), raw = state.raw;
                 if (raw) return raw.lastIndex = re.lastIndex, result = patchedExec.call(raw, str), re.lastIndex = raw.lastIndex, result;
                 var groups = state.groups, sticky = UNSUPPORTED_Y && re.sticky, flags = regexpFlags.call(re), source = re.source, charsAdded = 0, strCopy = str;
-                if (sticky && (-1 === (flags = flags.replace("y", "")).indexOf("g") && (flags += "g"), strCopy = str.slice(re.lastIndex), re.lastIndex > 0 && (!re.multiline || re.multiline && "\n" !== str.charAt(re.lastIndex - 1)) && (source = "(?: " + source + ")", strCopy = " " + strCopy, charsAdded++), reCopy = new RegExp("^(?:" + source + ")", flags)), NPCG_INCLUDED && (reCopy = new RegExp("^" + source + "$(?!\\s)", flags)), UPDATES_LAST_INDEX_WRONG && (lastIndex = re.lastIndex), match = nativeExec.call(sticky ? reCopy : re, strCopy), sticky ? match ? (match.input = match.input.slice(charsAdded), match[0] = match[0].slice(charsAdded), match.index = re.lastIndex, re.lastIndex += match[0].length) : re.lastIndex = 0 : UPDATES_LAST_INDEX_WRONG && match && (re.lastIndex = re.global ? match.index + match[0].length : lastIndex), NPCG_INCLUDED && match && match.length > 1 && nativeReplace.call(match[0], reCopy, function() {
+                if (sticky && (-1 === (flags = flags.replace("y", "")).indexOf("g") && (flags += "g"), strCopy = str.slice(re.lastIndex), re.lastIndex > 0 && (!re.multiline || re.multiline && "\n" !== str.charAt(re.lastIndex - 1)) && (source = "(?: " + source + ")", strCopy = " " + strCopy, charsAdded++), reCopy = RegExp("^(?:" + source + ")", flags)), NPCG_INCLUDED && (reCopy = RegExp("^" + source + "$(?!\\s)", flags)), UPDATES_LAST_INDEX_WRONG && (lastIndex = re.lastIndex), match = nativeExec.call(sticky ? reCopy : re, strCopy), sticky ? match ? (match.input = match.input.slice(charsAdded), match[0] = match[0].slice(charsAdded), match.index = re.lastIndex, re.lastIndex += match[0].length) : re.lastIndex = 0 : UPDATES_LAST_INDEX_WRONG && match && (re.lastIndex = re.global ? match.index + match[0].length : lastIndex), NPCG_INCLUDED && match && match.length > 1 && nativeReplace.call(match[0], reCopy, function() {
                     for(i = 1; i < arguments.length - 2; i++)void 0 === arguments[i] && (match[i] = void 0);
                 }), match && groups) for(i = 0, match.groups = object = create(null); i < groups.length; i++)object[(group = groups[i])[0]] = match[group[1]];
                 return match;
@@ -5035,7 +5035,7 @@
             var $ = __webpack_require__(35437), getPrototypeOf = __webpack_require__(39311), setPrototypeOf = __webpack_require__(59057), create = __webpack_require__(18255), createNonEnumerableProperty = __webpack_require__(48181), createPropertyDescriptor = __webpack_require__(93608), iterate = __webpack_require__(7261), toString = __webpack_require__(72729), $AggregateError = function(errors, message) {
                 var that = this;
                 if (!(that instanceof $AggregateError)) return new $AggregateError(errors, message);
-                setPrototypeOf && (that = setPrototypeOf(new Error(void 0), getPrototypeOf(that))), void 0 !== message && createNonEnumerableProperty(that, "message", toString(message));
+                setPrototypeOf && (that = setPrototypeOf(Error(void 0), getPrototypeOf(that))), void 0 !== message && createNonEnumerableProperty(that, "message", toString(message));
                 var errorsArray = [];
                 return iterate(errors, errorsArray.push, {
                     that: errorsArray
@@ -6975,7 +6975,7 @@
                             IS_NCG.test(string.slice(index + 1)) && (index += 2, ncg = !0), result += chr, groupid++;
                             continue;
                         case ">" === chr && ncg:
-                            if ("" === groupname || has(names, groupname)) throw new SyntaxError("Invalid capture group name");
+                            if ("" === groupname || has(names, groupname)) throw SyntaxError("Invalid capture group name");
                             names[groupname] = !0, named.push([
                                 groupname,
                                 groupid
@@ -7074,7 +7074,7 @@
                     var exec = this.exec;
                     if (!isCallable(exec)) return nativeTest.call(this, str);
                     var result = exec.call(this, str);
-                    if (null !== result && !isObject(result)) throw new Error("RegExp exec method returned something other than an Object or null");
+                    if (null !== result && !isObject(result)) throw Error("RegExp exec method returned something other than an Object or null");
                     return !!result;
                 }
             });
@@ -7359,7 +7359,7 @@
                         if (WORKS_WITH_NON_GLOBAL_REGEX) return nativeMatchAll.apply(O, arguments);
                         if (void 0 === (matcher = getMethod(regexp, MATCH_ALL)) && IS_PURE && "RegExp" == classof(regexp) && (matcher = $matchAll), matcher) return matcher.call(regexp, O);
                     } else if (WORKS_WITH_NON_GLOBAL_REGEX) return nativeMatchAll.apply(O, arguments);
-                    return S = toString(O), rx = new RegExp(regexp, "g"), IS_PURE ? $matchAll.call(rx, S) : rx[MATCH_ALL](S);
+                    return S = toString(O), rx = RegExp(regexp, "g"), IS_PURE ? $matchAll.call(rx, S) : rx[MATCH_ALL](S);
                 }
             }), IS_PURE || MATCH_ALL in RegExpPrototype || redefine(RegExpPrototype, MATCH_ALL, $matchAll);
         },
@@ -7370,7 +7370,7 @@
                 return [
                     function(regexp) {
                         var O = requireObjectCoercible(this), matcher = void 0 == regexp ? void 0 : getMethod(regexp, MATCH);
-                        return matcher ? matcher.call(regexp, O) : new RegExp(regexp)[MATCH](toString(O));
+                        return matcher ? matcher.call(regexp, O) : RegExp(regexp)[MATCH](toString(O));
                     },
                     function(string) {
                         var result, rx = anObject(this), S = toString(string), res = maybeCallNative(nativeMatch, rx, S);
@@ -7515,7 +7515,7 @@
                 return [
                     function(regexp) {
                         var O = requireObjectCoercible(this), searcher = void 0 == regexp ? void 0 : getMethod(regexp, SEARCH);
-                        return searcher ? searcher.call(regexp, O) : new RegExp(regexp)[SEARCH](toString(O));
+                        return searcher ? searcher.call(regexp, O) : RegExp(regexp)[SEARCH](toString(O));
                     },
                     function(string) {
                         var rx = anObject(this), S = toString(string), res = maybeCallNative(nativeSearch, rx, S);
@@ -7560,7 +7560,7 @@
                         string
                     ];
                     if (!isRegExp(separator)) return nativeSplit.call(string, separator, lim);
-                    for(var output = [], flags = (separator.ignoreCase ? "i" : "") + (separator.multiline ? "m" : "") + (separator.unicode ? "u" : "") + (separator.sticky ? "y" : ""), lastLastIndex = 0, separatorCopy = new RegExp(separator.source, flags + "g"); (match = regexpExec.call(separatorCopy, string)) && (!((lastIndex = separatorCopy.lastIndex) > lastLastIndex) || (output.push(string.slice(lastLastIndex, match.index)), match.length > 1 && match.index < string.length && arrayPush.apply(output, match.slice(1)), lastLength = match[0].length, lastLastIndex = lastIndex, !(output.length >= lim)));)separatorCopy.lastIndex === match.index && separatorCopy.lastIndex++;
+                    for(var output = [], flags = (separator.ignoreCase ? "i" : "") + (separator.multiline ? "m" : "") + (separator.unicode ? "u" : "") + (separator.sticky ? "y" : ""), lastLastIndex = 0, separatorCopy = RegExp(separator.source, flags + "g"); (match = regexpExec.call(separatorCopy, string)) && (!((lastIndex = separatorCopy.lastIndex) > lastLastIndex) || (output.push(string.slice(lastLastIndex, match.index)), match.length > 1 && match.index < string.length && arrayPush.apply(output, match.slice(1)), lastLength = match[0].length, lastLastIndex = lastIndex, !(output.length >= lim)));)separatorCopy.lastIndex === match.index && separatorCopy.lastIndex++;
                     return lastLastIndex === string.length ? (lastLength || !separatorCopy.test("")) && output.push("") : output.push(string.slice(lastLastIndex)), output.length > lim ? output.slice(0, lim) : output;
                 } : "0".split(void 0, 0).length ? function(separator, limit) {
                     return void 0 === separator && 0 === limit ? [] : nativeSplit.call(this, separator, limit);
@@ -9167,7 +9167,7 @@
                     for(var p in b)Object.prototype.hasOwnProperty.call(b, p) && (d[p] = b[p]);
                 })(d1, b1);
             }, function(d, b) {
-                if ("function" != typeof b && null !== b) throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+                if ("function" != typeof b && null !== b) throw TypeError("Class extends value " + String(b) + " is not a constructor or null");
                 function __() {
                     this.constructor = d;
                 }
@@ -9398,7 +9398,7 @@
         },
         74677: function(module) {
             "use strict";
-            var token = "%[a-f0-9]{2}", singleMatcher = new RegExp(token, "gi"), multiMatcher = new RegExp("(" + token + ")+", "gi");
+            var token = "%[a-f0-9]{2}", singleMatcher = RegExp(token, "gi"), multiMatcher = RegExp("(" + token + ")+", "gi");
             function decodeComponents(components, split) {
                 try {
                     return decodeURIComponent(components.join(""));
@@ -9417,7 +9417,7 @@
                 }
             }
             module.exports = function(encodedURI) {
-                if ("string" != typeof encodedURI) throw new TypeError("Expected `encodedURI` to be of type `string`, got `" + typeof encodedURI + "`");
+                if ("string" != typeof encodedURI) throw TypeError("Expected `encodedURI` to be of type `string`, got `" + typeof encodedURI + "`");
                 try {
                     return encodedURI = encodedURI.replace(/\+/g, " "), decodeURIComponent(encodedURI);
                 } catch (err) {
@@ -9437,7 +9437,7 @@
                         replaceMap["%C2"] = "\uFFFD";
                         for(var entries = Object.keys(replaceMap), i = 0; i < entries.length; i++){
                             var key = entries[i];
-                            input = input.replace(new RegExp(key, "g"), replaceMap[key]);
+                            input = input.replace(RegExp(key, "g"), replaceMap[key]);
                         }
                         return input;
                     }(encodedURI);
@@ -9555,7 +9555,7 @@
                 try {
                     location.pathname = decodeURI(location.pathname);
                 } catch (e) {
-                    if (e instanceof URIError) throw new URIError('Pathname "' + location.pathname + '" could not be decoded. This is likely caused by an invalid percent-encoding.');
+                    if (e instanceof URIError) throw URIError('Pathname "' + location.pathname + '" could not be decoded. This is likely caused by an invalid percent-encoding.');
                     throw e;
                 }
                 return key && (location.key = key), currentLocation ? location.pathname ? "/" !== location.pathname.charAt(0) && (location.pathname = resolve_pathname(location.pathname, currentLocation.pathname)) : location.pathname = currentLocation.pathname : location.pathname || (location.pathname = "/"), location;
@@ -9589,7 +9589,7 @@
                         };
                     },
                     notifyListeners: function() {
-                        for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                        for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                         listeners.forEach(function(listener) {
                             return listener.apply(void 0, args);
                         });
@@ -10046,7 +10046,7 @@
                 }
             }() ? function(target, source) {
                 for(var from, symbols, to = function(val) {
-                    if (null == val) throw new TypeError("Object.assign cannot be called with null or undefined");
+                    if (null == val) throw TypeError("Object.assign cannot be called with null or undefined");
                     return Object(val);
                 }(target), s = 1; s < arguments.length; s++){
                     for(var key in from = Object(arguments[s]))hasOwnProperty.call(from, key) && (to[key] = from[key]);
@@ -10063,7 +10063,7 @@
             module.exports = pathToRegexp, module.exports.parse = parse, module.exports.compile = function(str, options) {
                 return tokensToFunction(parse(str, options), options);
             }, module.exports.tokensToFunction = tokensToFunction, module.exports.tokensToRegExp = tokensToRegExp;
-            var PATH_REGEXP = new RegExp("(\\\\.)|([\\/.])?(?:(?:\\:(\\w+)(?:\\(((?:\\\\.|[^\\\\()])+)\\))?|\\(((?:\\\\.|[^\\\\()])+)\\))([+*?])?|(\\*))", "g");
+            var PATH_REGEXP = RegExp("(\\\\.)|([\\/.])?(?:(?:\\:(\\w+)(?:\\(((?:\\\\.|[^\\\\()])+)\\))?|\\(((?:\\\\.|[^\\\\()])+)\\))([+*?])?|(\\*))", "g");
             function parse(str, options) {
                 for(var res, tokens = [], key = 0, index = 0, path = "", defaultDelimiter = options && options.delimiter || "/"; null != (res = PATH_REGEXP.exec(str));){
                     var m = res[0], escaped = res[1], offset = res.index;
@@ -10098,7 +10098,7 @@
                 });
             }
             function tokensToFunction(tokens, options) {
-                for(var matches = new Array(tokens.length), i1 = 0; i1 < tokens.length; i1++)"object" == typeof tokens[i1] && (matches[i1] = new RegExp("^(?:" + tokens[i1].pattern + ")$", flags(options)));
+                for(var matches = Array(tokens.length), i1 = 0; i1 < tokens.length; i1++)"object" == typeof tokens[i1] && (matches[i1] = RegExp("^(?:" + tokens[i1].pattern + ")$", flags(options)));
                 return function(obj, opts) {
                     for(var path = "", data = obj || {}, encode = (opts || {}).pretty ? encodeURIComponentPretty : encodeURIComponent, i = 0; i < tokens.length; i++){
                         var segment, token = tokens[i];
@@ -10112,21 +10112,21 @@
                                 token.partial && (path += token.prefix);
                                 continue;
                             }
-                            throw new TypeError('Expected "' + token.name + '" to be defined');
+                            throw TypeError('Expected "' + token.name + '" to be defined');
                         }
                         if (isarray(value)) {
-                            if (!token.repeat) throw new TypeError('Expected "' + token.name + '" to not repeat, but received `' + JSON.stringify(value) + "`");
+                            if (!token.repeat) throw TypeError('Expected "' + token.name + '" to not repeat, but received `' + JSON.stringify(value) + "`");
                             if (0 === value.length) {
                                 if (token.optional) continue;
-                                throw new TypeError('Expected "' + token.name + '" to not be empty');
+                                throw TypeError('Expected "' + token.name + '" to not be empty');
                             }
                             for(var j = 0; j < value.length; j++){
-                                if (segment = encode(value[j]), !matches[i].test(segment)) throw new TypeError('Expected all "' + token.name + '" to match "' + token.pattern + '", but received `' + JSON.stringify(segment) + "`");
+                                if (segment = encode(value[j]), !matches[i].test(segment)) throw TypeError('Expected all "' + token.name + '" to match "' + token.pattern + '", but received `' + JSON.stringify(segment) + "`");
                                 path += (0 === j ? token.prefix : token.delimiter) + segment;
                             }
                             continue;
                         }
-                        if (segment = token.asterisk ? encodeAsterisk(value) : encode(value), !matches[i].test(segment)) throw new TypeError('Expected "' + token.name + '" to match "' + token.pattern + '", but received "' + segment + '"');
+                        if (segment = token.asterisk ? encodeAsterisk(value) : encode(value), !matches[i].test(segment)) throw TypeError('Expected "' + token.name + '" to match "' + token.pattern + '", but received "' + segment + '"');
                         path += token.prefix + segment;
                     }
                     return path;
@@ -10155,7 +10155,7 @@
                     }
                 }
                 var delimiter = escapeString(options.delimiter || "/"), endsWithDelimiter = route.slice(-delimiter.length) === delimiter;
-                return strict || (route = (endsWithDelimiter ? route.slice(0, -delimiter.length) : route) + "(?:" + delimiter + "(?=$))?"), end ? route += "$" : route += strict && endsWithDelimiter ? "" : "(?=" + delimiter + "|$)", attachKeys(new RegExp("^" + route, flags(options)), keys);
+                return strict || (route = (endsWithDelimiter ? route.slice(0, -delimiter.length) : route) + "(?:" + delimiter + "(?=$))?"), end ? route += "$" : route += strict && endsWithDelimiter ? "" : "(?=" + delimiter + "|$)", attachKeys(RegExp("^" + route, flags(options)), keys);
             }
             function pathToRegexp(path7, keys2, options2) {
                 var path6, keys1, options1;
@@ -10174,7 +10174,7 @@
                     return attachKeys(path, keys);
                 }(path7, keys2) : isarray(path7) ? function(path, keys, options) {
                     for(var parts = [], i = 0; i < path.length; i++)parts.push(pathToRegexp(path[i], keys, options).source);
-                    var regexp = new RegExp("(?:" + parts.join("|") + ")", flags(options));
+                    var regexp = RegExp("(?:" + parts.join("|") + ")", flags(options));
                     return attachKeys(regexp, keys);
                 }(path7, keys2, options2) : (path6 = path7, keys1 = keys2, tokensToRegExp(parse(path6, options1 = options2), keys1, options1));
             }
@@ -10182,10 +10182,10 @@
         97671: function(module) {
             var cachedSetTimeout, cachedClearTimeout, currentQueue, process = module.exports = {};
             function defaultSetTimout() {
-                throw new Error("setTimeout has not been defined");
+                throw Error("setTimeout has not been defined");
             }
             function defaultClearTimeout() {
-                throw new Error("clearTimeout has not been defined");
+                throw Error("clearTimeout has not been defined");
             }
             function runTimeout(fun) {
                 if (cachedSetTimeout === setTimeout) return setTimeout(fun, 0);
@@ -10244,7 +10244,7 @@
             }
             function noop() {}
             process.nextTick = function(fun) {
-                var args = new Array(arguments.length - 1);
+                var args = Array(arguments.length - 1);
                 if (arguments.length > 1) for(var i = 1; i < arguments.length; i++)args[i - 1] = arguments[i];
                 queue.push(new Item(fun, args)), 1 !== queue.length || draining || runTimeout(drainQueue);
             }, Item.prototype.run = function() {
@@ -10252,11 +10252,11 @@
             }, process.title = "browser", process.browser = !0, process.env = {}, process.argv = [], process.version = "", process.versions = {}, process.on = noop, process.addListener = noop, process.once = noop, process.off = noop, process.removeListener = noop, process.removeAllListeners = noop, process.emit = noop, process.prependListener = noop, process.prependOnceListener = noop, process.listeners = function(name) {
                 return [];
             }, process.binding = function(name) {
-                throw new Error("process.binding is not supported");
+                throw Error("process.binding is not supported");
             }, process.cwd = function() {
                 return "/";
             }, process.chdir = function(dir) {
-                throw new Error("process.chdir is not supported");
+                throw Error("process.chdir is not supported");
             }, process.umask = function() {
                 return 0;
             };
@@ -10269,7 +10269,7 @@
             emptyFunctionWithReset.resetWarningCache = emptyFunction, module.exports = function() {
                 function shim(props, propName, componentName, location, propFullName, secret) {
                     if (secret !== ReactPropTypesSecret) {
-                        var err = new Error("Calling PropTypes validators directly is not supported by the `prop-types` package. Use PropTypes.checkPropTypes() to call them. Read more at http://fb.me/use-check-prop-types");
+                        var err = Error("Calling PropTypes validators directly is not supported by the `prop-types` package. Use PropTypes.checkPropTypes() to call them. Read more at http://fb.me/use-check-prop-types");
                         throw err.name = "Invariant Violation", err;
                     }
                 }
@@ -10313,7 +10313,7 @@
             "use strict";
             const strictUriEncode = __webpack_require__(76487), decodeComponent = __webpack_require__(74677), splitOnFirst = __webpack_require__(97044), filterObject = __webpack_require__(47560), isNullOrUndefined = (value)=>null == value;
             function validateArrayFormatSeparator(value) {
-                if ("string" != typeof value || 1 !== value.length) throw new TypeError("arrayFormatSeparator must be single character string");
+                if ("string" != typeof value || 1 !== value.length) throw TypeError("arrayFormatSeparator must be single character string");
             }
             function encode(value, options) {
                 return options.encode ? options.strict ? strictUriEncode(value) : encodeURIComponent(value) : value;
@@ -10605,7 +10605,7 @@
                     };
                 }
                 function step(op) {
-                    if (f) throw new TypeError("Generator is already executing.");
+                    if (f) throw TypeError("Generator is already executing.");
                     for(; _;)try {
                         if (f = 1, y && (t = 2 & op[0] ? y.return : op[0] ? y.throw || ((t = y.return) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
                         switch(y = 0, t && (op = [
@@ -15902,7 +15902,7 @@
             }
             var BrowserRouter = function(n) {
                 function e7() {
-                    for(var e, t = arguments.length, r = new Array(t), o = 0; o < t; o++)r[o] = arguments[o];
+                    for(var e, t = arguments.length, r = Array(t), o = 0; o < t; o++)r[o] = arguments[o];
                     return (e = n.call.apply(n, [
                         this
                     ].concat(r)) || this).history = history.createBrowserHistory(e.props), e;
@@ -15915,7 +15915,7 @@
                 }, e7;
             }(React.Component), HashRouter = function(n) {
                 function e8() {
-                    for(var e, t = arguments.length, r = new Array(t), o = 0; o < t; o++)r[o] = arguments[o];
+                    for(var e, t = arguments.length, r = Array(t), o = 0; o < t; o++)r[o] = arguments[o];
                     return (e = n.call.apply(n, [
                         this
                     ].concat(r)) || this).history = history.createHashHistory(e.props), e;
@@ -15997,7 +15997,7 @@
                         strict: b
                     }) : null, i = !!(d ? d(a, t6) : a), c = "function" == typeof h ? h(i) : h, u = "function" == typeof P ? P(i) : P;
                     i && (c = function() {
-                        for(var e15 = arguments.length, t = new Array(e15), r = 0; r < e15; r++)t[r] = arguments[r];
+                        for(var e15 = arguments.length, t = Array(e15), r = 0; r < e15; r++)t[r] = arguments[r];
                         return t.filter(function(e) {
                             return e;
                         }).join(" ");
@@ -16256,7 +16256,7 @@
                 }, Router;
             }(_react_17_0_2_react.Component), MemoryRouter1 = function(_React$Component) {
                 function MemoryRouter() {
-                    for(var _this, _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _this, _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return (_this = _React$Component.call.apply(_React$Component, [
                         this
                     ].concat(args)) || this).history = (0, esm_history.createMemoryHistory)(_this.props), _this;
@@ -16399,7 +16399,7 @@
             function noop() {}
             var StaticRouter1 = function(_React$Component) {
                 function StaticRouter() {
-                    for(var _this, _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    for(var _this, _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return (_this = _React$Component.call.apply(_React$Component, [
                         this
                     ].concat(args)) || this).handlePush = function(location) {
@@ -16883,7 +16883,7 @@
                 function makeInvokeMethod(innerFn, self, context) {
                     var state = GenStateSuspendedStart;
                     return function(method, arg) {
-                        if (state === GenStateExecuting) throw new Error("Generator is already running");
+                        if (state === GenStateExecuting) throw Error("Generator is already running");
                         if (state === GenStateCompleted) {
                             if ("throw" === method) throw arg;
                             return doneResult();
@@ -16920,14 +16920,14 @@
                     if (method === undefined) {
                         if (context.delegate = null, "throw" === context.method) {
                             if (delegate.iterator.return && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel;
-                            context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method");
+                            context.method = "throw", context.arg = TypeError("The iterator does not provide a 'throw' method");
                         }
                         return ContinueSentinel;
                     }
                     var record = tryCatch(method, delegate.iterator, context.arg);
                     if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel;
                     var info = record.arg;
-                    return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel);
+                    return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel);
                 }
                 function pushTryEntry(locs) {
                     var entry = {
@@ -17029,7 +17029,7 @@
                                     if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0);
                                 } else if (hasFinally) {
                                     if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc);
-                                } else throw new Error("try statement without catch or finally");
+                                } else throw Error("try statement without catch or finally");
                             }
                         }
                     },
@@ -17067,7 +17067,7 @@
                                 return thrown;
                             }
                         }
-                        throw new Error("illegal catch attempt");
+                        throw Error("illegal catch attempt");
                     },
                     delegateYield: function(iterable, resultName, nextLoc) {
                         return this.delegate = {
@@ -17312,7 +17312,7 @@
         97044: function(module) {
             "use strict";
             module.exports = (string, separator)=>{
-                if (!("string" == typeof string && "string" == typeof separator)) throw new TypeError("Expected the arguments to be of type `string`");
+                if (!("string" == typeof string && "string" == typeof separator)) throw TypeError("Expected the arguments to be of type `string`");
                 if ("" === separator) return [
                     string
                 ];
@@ -17332,7 +17332,7 @@
         87832: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__), __webpack_exports__.default = function(condition, message) {
-                if (!condition) throw new Error("Invariant failed");
+                if (!condition) throw Error("Invariant failed");
             };
         },
         98009: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
@@ -17373,7 +17373,7 @@
     }, __webpack_require__1.g = function() {
         if ("object" == typeof globalThis) return globalThis;
         try {
-            return this || new Function("return this")();
+            return this || Function("return this")();
         } catch (e) {
             if ("object" == typeof window) return window;
         }

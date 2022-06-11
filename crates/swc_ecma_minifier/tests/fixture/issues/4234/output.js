@@ -1,4 +1,4 @@
-bar(new RegExp(""));
-bar(new RegExp("", "u"));
+bar(RegExp(""));
+bar(RegExp("", "u"));
 bar(/a/);
 bar(/a/u);

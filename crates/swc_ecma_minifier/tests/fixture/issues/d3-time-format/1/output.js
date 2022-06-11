@@ -233,13 +233,13 @@ var pads = {
 }, numberRe = /^\s*\d+/, percentRe = /^%/, requoteRe = /[\\^$*+?|[\]().{}]/g;
 function pad(value, fill, width) {
     var sign = value < 0 ? "-" : "", string = (sign ? -value : value) + "", length = string.length;
-    return sign + (length < width ? new Array(width - length + 1).join(fill) + string : string);
+    return sign + (length < width ? Array(width - length + 1).join(fill) + string : string);
 }
 function requote(s) {
     return s.replace(requoteRe, "\\$&");
 }
 function formatRe(names) {
-    return new RegExp("^(?:" + names.map(requote).join("|") + ")", "i");
+    return RegExp("^(?:" + names.map(requote).join("|") + ")", "i");
 }
 function formatLookup(names) {
     return new Map(names.map((name, i)=>[

@@ -91,7 +91,7 @@
                 for(var view = new Uint8Array(string.length), i = 0; i < string.length; i++)view[i] = string.charCodeAt(i);
                 return view;
             }, concatTypedArrays = function() {
-                for(var _len = arguments.length, buffers = new Array(_len), _key = 0; _key < _len; _key++)buffers[_key] = arguments[_key];
+                for(var _len = arguments.length, buffers = Array(_len), _key = 0; _key < _len; _key++)buffers[_key] = arguments[_key];
                 if ((buffers = buffers.filter(function(b) {
                     return b && (b.byteLength || b.length) && "string" != typeof b;
                 })).length <= 1) return toUint8(buffers[0]);
@@ -843,12 +843,12 @@
                 return _createXHR(options = initParams(uri, options, callback));
             }
             function _createXHR(options) {
-                if (void 0 === options.callback) throw new Error("callback argument missing");
+                if (void 0 === options.callback) throw Error("callback argument missing");
                 var key, aborted, timeoutTimer, called = !1, callback = function(err, response, body) {
                     called || (called = !0, options.callback(err, response, body));
                 };
                 function errorFunc(evt) {
-                    return clearTimeout(timeoutTimer), evt instanceof Error || (evt = new Error("" + (evt || "Unknown XMLHttpRequest Error"))), evt.statusCode = 0, callback(evt, failureResponse);
+                    return clearTimeout(timeoutTimer), evt instanceof Error || (evt = Error("" + (evt || "Unknown XMLHttpRequest Error"))), evt.statusCode = 0, callback(evt, failureResponse);
                 }
                 function loadFunc() {
                     if (!aborted) {
@@ -867,7 +867,7 @@
                             headers: {},
                             url: uri,
                             rawRequest: xhr
-                        }, xhr.getAllResponseHeaders && (response.headers = parseHeaders(xhr.getAllResponseHeaders()))) : err = new Error("Internal XMLHttpRequest Error"), callback(err, response, response.body);
+                        }, xhr.getAllResponseHeaders && (response.headers = parseHeaders(xhr.getAllResponseHeaders()))) : err = Error("Internal XMLHttpRequest Error"), callback(err, response, response.body);
                     }
                 }
                 var xhr = options.xhr || null;
@@ -887,14 +887,14 @@
                 }, xhr.ontimeout = errorFunc, xhr.open(method, uri, !sync, options.username, options.password), sync || (xhr.withCredentials = !!options.withCredentials), !sync && options.timeout > 0 && (timeoutTimer = setTimeout(function() {
                     if (!aborted) {
                         aborted = !0, xhr.abort("timeout");
-                        var e = new Error("XMLHttpRequest timeout");
+                        var e = Error("XMLHttpRequest timeout");
                         e.code = "ETIMEDOUT", errorFunc(e);
                     }
                 }, options.timeout)), xhr.setRequestHeader) for(key in headers)headers.hasOwnProperty(key) && xhr.setRequestHeader(key, headers[key]);
                 else if (options.headers && !function(obj) {
                     for(var i in obj)if (obj.hasOwnProperty(i)) return !1;
                     return !0;
-                }(options.headers)) throw new Error("Headers cannot be set on an XDomainRequest object");
+                }(options.headers)) throw Error("Headers cannot be set on an XDomainRequest object");
                 return "responseType" in options && (xhr.responseType = options.responseType), "beforeSend" in options && "function" == typeof options.beforeSend && options.beforeSend(xhr), xhr.send(body1 || null), xhr;
             }
             function getXml(xhr) {
@@ -1120,7 +1120,7 @@
                         var doc = el.ownerDocument;
                         doc && (_onRemoveAttribute(doc, el, attr), attr.ownerElement = null);
                     }
-                } else throw DOMException(NOT_FOUND_ERR, new Error(el.tagName + "@" + attr));
+                } else throw DOMException(NOT_FOUND_ERR, Error(el.tagName + "@" + attr));
             }
             function DOMImplementation() {}
             function Node() {}
@@ -1640,7 +1640,7 @@
                     this.replaceData(offset, 0, text);
                 },
                 appendChild: function(newChild) {
-                    throw new Error(ExceptionMessage[HIERARCHY_REQUEST_ERR]);
+                    throw Error(ExceptionMessage[HIERARCHY_REQUEST_ERR]);
                 },
                 deleteData: function(offset, count) {
                     this.replaceData(offset, count, "");
@@ -1962,7 +1962,7 @@
             dom.DOMImplementation, dom.XMLSerializer, exports.DOMParser = __webpack_require__(6129).DOMParser;
         },
         6925: function(__unused_webpack_module, exports, __webpack_require__) {
-            var NAMESPACE = __webpack_require__(2167).NAMESPACE, nameStartChar = /[A-Z_a-z\xC0-\xD6\xD8-\xF6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD]/, nameChar = new RegExp("[\\-\\.0-9" + nameStartChar.source.slice(1, -1) + "\\u00B7\\u0300-\\u036F\\u203F-\\u2040]"), tagNamePattern = new RegExp("^" + nameStartChar.source + nameChar.source + "*(?::" + nameStartChar.source + nameChar.source + "*)?$");
+            var NAMESPACE = __webpack_require__(2167).NAMESPACE, nameStartChar = /[A-Z_a-z\xC0-\xD6\xD8-\xF6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD]/, nameChar = RegExp("[\\-\\.0-9" + nameStartChar.source.slice(1, -1) + "\\u00B7\\u0300-\\u036F\\u203F-\\u2040]"), tagNamePattern = RegExp("^" + nameStartChar.source + nameChar.source + "*(?::" + nameStartChar.source + nameChar.source + "*)?$");
             function ParseError(message, locator) {
                 this.message = message, this.locator = locator, Error.captureStackTrace && Error.captureStackTrace(this, ParseError);
             }
@@ -1980,15 +1980,15 @@
                         case "=":
                             if (1 === s) attrName = source.slice(start, p), s = 3;
                             else if (2 === s) s = 3;
-                            else throw new Error("attribute equal must after attrName");
+                            else throw Error("attribute equal must after attrName");
                             break;
                         case "'":
                         case '"':
                             if (3 === s || 1 === s) {
                                 if (1 === s && (errorHandler.warning('attribute value must after "="'), attrName = source.slice(start, p)), start = p + 1, (p = source.indexOf(c, start)) > 0) addAttribute(attrName, value1 = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), start - 1), s = 5;
-                                else throw new Error("attribute value no end '" + c + "' match");
+                                else throw Error("attribute value no end '" + c + "' match");
                             } else if (4 == s) addAttribute(attrName, value1 = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), start), errorHandler.warning('attribute "' + attrName + '" missed start quot(' + c + ")!!"), start = p + 1, s = 5;
-                            else throw new Error('attribute value must after "="');
+                            else throw Error('attribute value must after "="');
                             break;
                         case "/":
                             switch(s){
@@ -2003,7 +2003,7 @@
                                 case 2:
                                     break;
                                 default:
-                                    throw new Error("attribute invalid close char('/')");
+                                    throw Error("attribute invalid close char('/')");
                             }
                             break;
                         case "":
@@ -2023,7 +2023,7 @@
                                     2 === s && (value1 = attrName), 4 == s ? (errorHandler.warning('attribute "' + value1 + '" missed quot(")!'), addAttribute(attrName, value1.replace(/&#?\w+;/g, entityReplacer), start)) : (NAMESPACE.isHTML(currentNSMap[""]) && value1.match(/^(?:disabled|checked|selected)$/i) || errorHandler.warning('attribute "' + value1 + '" missed value!! "' + value1 + '" instead!!'), addAttribute(value1, value1, start));
                                     break;
                                 case 3:
-                                    throw new Error("attribute value missed!!");
+                                    throw Error("attribute value missed!!");
                             }
                             return p;
                         case "\u0080":
@@ -2055,7 +2055,7 @@
                                     s = 4, start = p;
                                     break;
                                 case 7:
-                                    throw new Error("elements closed character '/' and '>' must be connected to");
+                                    throw Error("elements closed character '/' and '>' must be connected to");
                             }
                     }
                     p++;
@@ -2129,7 +2129,7 @@
                 var match, buf = [], reg = /'[^']+'|"[^"]+"|[^\s<>\/=]+=?|(\/?\s*>|<)/g;
                 for(reg.lastIndex = start, reg.exec(source); match = reg.exec(source);)if (buf.push(match), match[1]) return buf;
             }
-            ParseError.prototype = new Error(), ParseError.prototype.name = ParseError.name, XMLReader.prototype = {
+            ParseError.prototype = Error(), ParseError.prototype.name = ParseError.name, XMLReader.prototype = {
                 parse: function(source1, defaultNSMap, entityMap1) {
                     var domBuilder2 = this.domBuilder;
                     domBuilder2.startDocument(), _copy(defaultNSMap, defaultNSMap = {}), function(source, defaultNSMapCopy, entityMap, domBuilder, errorHandler) {
@@ -2204,11 +2204,11 @@
                 }
             }, ElementAttributes.prototype = {
                 setTagName: function(tagName) {
-                    if (!tagNamePattern.test(tagName)) throw new Error("invalid tagName:" + tagName);
+                    if (!tagNamePattern.test(tagName)) throw Error("invalid tagName:" + tagName);
                     this.tagName = tagName;
                 },
                 addValue: function(qName, value, offset) {
-                    if (!tagNamePattern.test(qName)) throw new Error("invalid attribute:" + qName);
+                    if (!tagNamePattern.test(qName)) throw Error("invalid attribute:" + qName);
                     this.attributeNames[qName] = this.length, this[this.length++] = {
                         qName: qName,
                         value: value,
@@ -2392,7 +2392,7 @@
                 var match = /([0-9.]*)?@?([0-9.]*)?/.exec(byterangeString || ""), result = {};
                 return match[1] && (result.length = parseInt(match[1], 10)), match[2] && (result.offset = parseInt(match[2], 10)), result;
             }, attributeSeparator = function() {
-                return new RegExp('(?:^|,)((?:[^=]*)=(?:"[^"]*"|[^,]*))');
+                return RegExp('(?:^|,)((?:[^=]*)=(?:"[^"]*"|[^,]*))');
             }, parseAttributes = function(attributes) {
                 for(var attr, attrs = attributes.split(attributeSeparator()), result = {}, i = attrs.length; i--;)"" !== attrs[i] && ((attr = /([^=]*)=(.*)/.exec(attrs[i]).slice(1))[0] = attr[0].replace(/^\s+|\s+$/g, ""), attr[1] = attr[1].replace(/^\s+|\s+$/g, ""), attr[1] = attr[1].replace(/^['"](.*)['"]$/g, "$1"), result[attr[0]] = attr[1]);
                 return result;
@@ -3013,7 +3013,7 @@
             var _videojs_vhs_utils_es_resolve_url__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(779), global_window__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8908), global_window__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(global_window__WEBPACK_IMPORTED_MODULE_1__), _videojs_vhs_utils_es_decode_b64_to_uint8_array__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(6722), _xmldom_xmldom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(3969), isObject = function(obj) {
                 return !!obj && "object" == typeof obj;
             }, merge1 = function merge() {
-                for(var _len = arguments.length, objects = new Array(_len), _key = 0; _key < _len; _key++)objects[_key] = arguments[_key];
+                for(var _len = arguments.length, objects = Array(_len), _key = 0; _key < _len; _key++)objects[_key] = arguments[_key];
                 return objects.reduce(function(result, source) {
                     return "object" != typeof source || Object.keys(source).forEach(function(key) {
                         Array.isArray(result[key]) && Array.isArray(source[key]) ? result[key] = result[key].concat(source[key]) : isObject(result[key]) && isObject(source[key]) ? result[key] = merge(result[key], source[key]) : result[key] = source[key];
@@ -3094,7 +3094,7 @@
                 return segments;
             }, segmentsFromBase = function(attributes) {
                 var baseUrl = attributes.baseUrl, _attributes$initializ = attributes.initialization, initialization = void 0 === _attributes$initializ ? {} : _attributes$initializ, sourceDuration = attributes.sourceDuration, _attributes$indexRang = attributes.indexRange, duration = attributes.duration;
-                if (!baseUrl) throw new Error(errors.NO_BASE_URL);
+                if (!baseUrl) throw Error(errors.NO_BASE_URL);
                 var initSegment = urlTypeToSegment({
                     baseUrl: baseUrl,
                     source: initialization.sourceURL,
@@ -3310,7 +3310,7 @@
                     if ("$$" === match) return "$";
                     if (void 0 === values1[identifier]) return match;
                     var value = "" + values1[identifier];
-                    return "RepresentationID" === identifier ? value : (width = format ? parseInt(width, 10) : 1, value.length >= width) ? value : "" + new Array(width - value.length + 1).join("0") + value;
+                    return "RepresentationID" === identifier ? value : (width = format ? parseInt(width, 10) : 1, value.length >= width) ? value : "" + Array(width - value.length + 1).join("0") + value;
                 }));
             }, segmentsFromTemplate = function(attributes, segmentTimeline) {
                 var attributes2, segmentTimeline1, templateValues = {
@@ -3357,7 +3357,7 @@
                 return segment.map = initSegment, segment;
             }, segmentsFromList = function(attributes, segmentTimeline) {
                 var segmentTimeInfo, duration = attributes.duration, _attributes$segmentUr = attributes.segmentUrls, periodStart = attributes.periodStart;
-                if (!duration && !segmentTimeline || duration && segmentTimeline) throw new Error(errors.SEGMENT_TIME_UNSPECIFIED);
+                if (!duration && !segmentTimeline || duration && segmentTimeline) throw Error(errors.SEGMENT_TIME_UNSPECIFIED);
                 var segmentUrlMap = (void 0 === _attributes$segmentUr ? [] : _attributes$segmentUr).map(function(segmentUrlObject) {
                     return SegmentURLToSegmentObject(attributes, segmentUrlObject);
                 });
@@ -3526,7 +3526,7 @@
             }, inheritAttributes = function(mpd, options) {
                 void 0 === options && (options = {});
                 var _options = options, _options$manifestUri = _options.manifestUri, _options$NOW = _options.NOW, NOW = void 0 === _options$NOW ? Date.now() : _options$NOW, _options$clientOffset = _options.clientOffset, periodNodes = findChildren(mpd, "Period");
-                if (!periodNodes.length) throw new Error(errors.INVALID_NUMBER_OF_PERIOD);
+                if (!periodNodes.length) throw Error(errors.INVALID_NUMBER_OF_PERIOD);
                 var locations = findChildren(mpd, "Location"), mpdAttributes = parseAttributes(mpd), mpdBaseUrls = buildBaseUrls([
                     void 0 === _options$manifestUri ? "" : _options$manifestUri
                 ], findChildren(mpd, "BaseURL"));
@@ -3595,12 +3595,12 @@
                     })))
                 };
             }, stringToMpdXml = function(manifestString) {
-                if ("" === manifestString) throw new Error(errors.DASH_EMPTY_MANIFEST);
+                if ("" === manifestString) throw Error(errors.DASH_EMPTY_MANIFEST);
                 var xml, mpd, parser = new _xmldom_xmldom__WEBPACK_IMPORTED_MODULE_3__.DOMParser();
                 try {
                     mpd = (xml = parser.parseFromString(manifestString, "application/xml")) && "MPD" === xml.documentElement.tagName ? xml.documentElement : null;
                 } catch (e) {}
-                if (!mpd || mpd && mpd.getElementsByTagName("parsererror").length > 0) throw new Error(errors.DASH_INVALID_XML);
+                if (!mpd || mpd && mpd.getElementsByTagName("parsererror").length > 0) throw Error(errors.DASH_INVALID_XML);
                 return mpd;
             }, parseUTCTimingScheme = function(mpd) {
                 var UTCTimingNode = findChildren(mpd, "UTCTiming")[0];
@@ -3622,7 +3622,7 @@
                         attributes.method = "DIRECT", attributes.value = Date.parse(attributes.value);
                         break;
                     default:
-                        throw new Error(errors.UNSUPPORTED_UTC_TIMING_SCHEME);
+                        throw Error(errors.UNSUPPORTED_UTC_TIMING_SCHEME);
                 }
                 return attributes;
             }, parse = function(manifestString, options) {
@@ -3793,14 +3793,14 @@
                     if (opts = opts || {}, baseURL = baseURL.trim(), !(relativeURL = relativeURL.trim())) {
                         if (!opts.alwaysNormalize) return baseURL;
                         var basePartsForNormalise = URLToolkit.parseURL(baseURL);
-                        if (!basePartsForNormalise) throw new Error("Error trying to parse base URL.");
+                        if (!basePartsForNormalise) throw Error("Error trying to parse base URL.");
                         return basePartsForNormalise.path = URLToolkit.normalizePath(basePartsForNormalise.path), URLToolkit.buildURLFromParts(basePartsForNormalise);
                     }
                     var relativeParts = URLToolkit.parseURL(relativeURL);
-                    if (!relativeParts) throw new Error("Error trying to parse relative URL.");
+                    if (!relativeParts) throw Error("Error trying to parse relative URL.");
                     if (relativeParts.scheme) return opts.alwaysNormalize ? (relativeParts.path = URLToolkit.normalizePath(relativeParts.path), URLToolkit.buildURLFromParts(relativeParts)) : relativeURL;
                     var baseParts = URLToolkit.parseURL(baseURL);
-                    if (!baseParts) throw new Error("Error trying to parse base URL.");
+                    if (!baseParts) throw Error("Error trying to parse base URL.");
                     if (!baseParts.netLoc && baseParts.path && "/" !== baseParts.path[0]) {
                         var pathParts = FIRST_SEGMENT_REGEX.exec(baseParts.path);
                         baseParts.netLoc = pathParts[1], baseParts.path = pathParts[2];
@@ -3860,7 +3860,7 @@
             var document = __webpack_require__(9144), _objCreate = Object.create || function() {
                 function F() {}
                 return function(o) {
-                    if (1 !== arguments.length) throw new Error("Object.create shim only accepts one parameter.");
+                    if (1 !== arguments.length) throw Error("Object.create shim only accepts one parameter.");
                     return F.prototype = o, new F();
                 };
             }();
@@ -4725,7 +4725,7 @@
                 return {
                     decode: function(data) {
                         if (!data) return "";
-                        if ("string" != typeof data) throw new Error("Error - expected string data.");
+                        if ("string" != typeof data) throw Error("Error - expected string data.");
                         return decodeURIComponent(encodeURIComponent(data));
                     }
                 };
@@ -4932,7 +4932,7 @@
                             return _startTime;
                         },
                         set: function(value) {
-                            if ("number" != typeof value) throw new TypeError("Start time must be set to a number.");
+                            if ("number" != typeof value) throw TypeError("Start time must be set to a number.");
                             _startTime = value, this.hasBeenReset = !0;
                         }
                     },
@@ -4942,7 +4942,7 @@
                             return _endTime;
                         },
                         set: function(value) {
-                            if ("number" != typeof value) throw new TypeError("End time must be set to a number.");
+                            if ("number" != typeof value) throw TypeError("End time must be set to a number.");
                             _endTime = value, this.hasBeenReset = !0;
                         }
                     },
@@ -4971,7 +4971,7 @@
                         },
                         set: function(value) {
                             var value2, setting = "string" == typeof (value2 = value) && !!directionSetting[value2.toLowerCase()] && value2.toLowerCase();
-                            if (!1 === setting) throw new SyntaxError("Vertical: an invalid or illegal direction string was specified.");
+                            if (!1 === setting) throw SyntaxError("Vertical: an invalid or illegal direction string was specified.");
                             _vertical = setting, this.hasBeenReset = !0;
                         }
                     },
@@ -4990,7 +4990,7 @@
                             return _line;
                         },
                         set: function(value) {
-                            if ("number" != typeof value && "auto" !== value) throw new SyntaxError("Line: an invalid number or illegal string was specified.");
+                            if ("number" != typeof value && "auto" !== value) throw SyntaxError("Line: an invalid number or illegal string was specified.");
                             _line = value, this.hasBeenReset = !0;
                         }
                     },
@@ -5010,7 +5010,7 @@
                             return _position;
                         },
                         set: function(value) {
-                            if (value < 0 || value > 100) throw new Error("Position must be between 0 and 100.");
+                            if (value < 0 || value > 100) throw Error("Position must be between 0 and 100.");
                             _position = value, this.hasBeenReset = !0;
                         }
                     },
@@ -5030,7 +5030,7 @@
                             return _size;
                         },
                         set: function(value) {
-                            if (value < 0 || value > 100) throw new Error("Size must be between 0 and 100.");
+                            if (value < 0 || value > 100) throw Error("Size must be between 0 and 100.");
                             _size = value, this.hasBeenReset = !0;
                         }
                     },
@@ -5041,7 +5041,7 @@
                         },
                         set: function(value) {
                             var setting = findAlignSetting(value);
-                            if (!setting) throw new SyntaxError("align: an invalid or illegal alignment string was specified.");
+                            if (!setting) throw SyntaxError("align: an invalid or illegal alignment string was specified.");
                             _align = setting, this.hasBeenReset = !0;
                         }
                     }
@@ -5068,7 +5068,7 @@
                             return _width;
                         },
                         set: function(value) {
-                            if (!isValidPercentValue(value)) throw new Error("Width must be between 0 and 100.");
+                            if (!isValidPercentValue(value)) throw Error("Width must be between 0 and 100.");
                             _width = value;
                         }
                     },
@@ -5078,7 +5078,7 @@
                             return _lines;
                         },
                         set: function(value) {
-                            if ("number" != typeof value) throw new TypeError("Lines must be set to a number.");
+                            if ("number" != typeof value) throw TypeError("Lines must be set to a number.");
                             _lines = value;
                         }
                     },
@@ -5088,7 +5088,7 @@
                             return _regionAnchorY;
                         },
                         set: function(value) {
-                            if (!isValidPercentValue(value)) throw new Error("RegionAnchorX must be between 0 and 100.");
+                            if (!isValidPercentValue(value)) throw Error("RegionAnchorX must be between 0 and 100.");
                             _regionAnchorY = value;
                         }
                     },
@@ -5098,7 +5098,7 @@
                             return _regionAnchorX;
                         },
                         set: function(value) {
-                            if (!isValidPercentValue(value)) throw new Error("RegionAnchorY must be between 0 and 100.");
+                            if (!isValidPercentValue(value)) throw Error("RegionAnchorY must be between 0 and 100.");
                             _regionAnchorX = value;
                         }
                     },
@@ -5108,7 +5108,7 @@
                             return _viewportAnchorY;
                         },
                         set: function(value) {
-                            if (!isValidPercentValue(value)) throw new Error("ViewportAnchorY must be between 0 and 100.");
+                            if (!isValidPercentValue(value)) throw Error("ViewportAnchorY must be between 0 and 100.");
                             _viewportAnchorY = value;
                         }
                     },
@@ -5118,7 +5118,7 @@
                             return _viewportAnchorX;
                         },
                         set: function(value) {
-                            if (!isValidPercentValue(value)) throw new Error("ViewportAnchorX must be between 0 and 100.");
+                            if (!isValidPercentValue(value)) throw Error("ViewportAnchorX must be between 0 and 100.");
                             _viewportAnchorX = value;
                         }
                     },
@@ -5151,7 +5151,7 @@
             for(var lookup = [], revLookup = [], Arr = "undefined" != typeof Uint8Array ? Uint8Array : Array, code = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", i3 = 0, len1 = code.length; i3 < len1; ++i3)lookup[i3] = code[i3], revLookup[code.charCodeAt(i3)] = i3;
             function getLens(b64) {
                 var len = b64.length;
-                if (len % 4 > 0) throw new Error("Invalid string. Length must be a multiple of 4");
+                if (len % 4 > 0) throw Error("Invalid string. Length must be a multiple of 4");
                 var validLen = b64.indexOf("=");
                 -1 === validLen && (validLen = len);
                 var placeHoldersLen = validLen === len ? 0 : 4 - validLen % 4;
@@ -5173,13 +5173,13 @@
             "use strict";
             var base64 = __webpack_require__(4782), ieee754 = __webpack_require__(8898), customInspectSymbol = "function" == typeof Symbol && "function" == typeof Symbol.for ? Symbol.for("nodejs.util.inspect.custom") : null;
             function createBuffer(length) {
-                if (length > 0x7fffffff) throw new RangeError('The value "' + length + '" is invalid for option "size"');
+                if (length > 0x7fffffff) throw RangeError('The value "' + length + '" is invalid for option "size"');
                 var buf = new Uint8Array(length);
                 return Object.setPrototypeOf(buf, Buffer.prototype), buf;
             }
             function Buffer(arg, encodingOrOffset, length) {
                 if ("number" == typeof arg) {
-                    if ("string" == typeof encodingOrOffset) throw new TypeError('The "string" argument must be of type string. Received type number');
+                    if ("string" == typeof encodingOrOffset) throw TypeError('The "string" argument must be of type string. Received type number');
                     return allocUnsafe(arg);
                 }
                 return from(arg, encodingOrOffset, length);
@@ -5187,25 +5187,25 @@
             function from(value, encodingOrOffset, length) {
                 if ("string" == typeof value) return fromString(value, encodingOrOffset);
                 if (ArrayBuffer.isView(value)) return fromArrayLike(value);
-                if (null == value) throw new TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value);
+                if (null == value) throw TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value);
                 if (isInstance(value, ArrayBuffer) || value && isInstance(value.buffer, ArrayBuffer) || "undefined" != typeof SharedArrayBuffer && (isInstance(value, SharedArrayBuffer) || value && isInstance(value.buffer, SharedArrayBuffer))) return fromArrayBuffer(value, encodingOrOffset, length);
-                if ("number" == typeof value) throw new TypeError('The "value" argument must not be of type number. Received type number');
+                if ("number" == typeof value) throw TypeError('The "value" argument must not be of type number. Received type number');
                 var valueOf = value.valueOf && value.valueOf();
                 if (null != valueOf && valueOf !== value) return Buffer.from(valueOf, encodingOrOffset, length);
                 var b = fromObject(value);
                 if (b) return b;
                 if ("undefined" != typeof Symbol && null != Symbol.toPrimitive && "function" == typeof value[Symbol.toPrimitive]) return Buffer.from(value[Symbol.toPrimitive]("string"), encodingOrOffset, length);
-                throw new TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value);
+                throw TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value);
             }
             function assertSize(size) {
-                if ("number" != typeof size) throw new TypeError('"size" argument must be of type number');
-                if (size < 0) throw new RangeError('The value "' + size + '" is invalid for option "size"');
+                if ("number" != typeof size) throw TypeError('"size" argument must be of type number');
+                if (size < 0) throw RangeError('The value "' + size + '" is invalid for option "size"');
             }
             function allocUnsafe(size) {
                 return assertSize(size), createBuffer(size < 0 ? 0 : 0 | checked(size));
             }
             function fromString(string, encoding) {
-                if (("string" != typeof encoding || "" === encoding) && (encoding = "utf8"), !Buffer.isEncoding(encoding)) throw new TypeError("Unknown encoding: " + encoding);
+                if (("string" != typeof encoding || "" === encoding) && (encoding = "utf8"), !Buffer.isEncoding(encoding)) throw TypeError("Unknown encoding: " + encoding);
                 var length = 0 | byteLength1(string, encoding), buf = createBuffer(length), actual = buf.write(string, encoding);
                 return actual !== length && (buf = buf.slice(0, actual)), buf;
             }
@@ -5215,8 +5215,8 @@
             }
             function fromArrayBuffer(array, byteOffset, length) {
                 var buf;
-                if (byteOffset < 0 || array.byteLength < byteOffset) throw new RangeError('"offset" is outside of buffer bounds');
-                if (array.byteLength < byteOffset + (length || 0)) throw new RangeError('"length" is outside of buffer bounds');
+                if (byteOffset < 0 || array.byteLength < byteOffset) throw RangeError('"offset" is outside of buffer bounds');
+                if (array.byteLength < byteOffset + (length || 0)) throw RangeError('"length" is outside of buffer bounds');
                 return Object.setPrototypeOf(buf = void 0 === byteOffset && void 0 === length ? new Uint8Array(array) : void 0 === length ? new Uint8Array(array, byteOffset) : new Uint8Array(array, byteOffset, length), Buffer.prototype), buf;
             }
             function fromObject(obj) {
@@ -5227,13 +5227,13 @@
                 return void 0 !== obj.length ? "number" != typeof obj.length || (obj1 = obj.length) != obj1 ? createBuffer(0) : fromArrayLike(obj) : "Buffer" === obj.type && Array.isArray(obj.data) ? fromArrayLike(obj.data) : void 0;
             }
             function checked(length) {
-                if (length >= 0x7fffffff) throw new RangeError("Attempt to allocate Buffer larger than maximum size: 0x" + 0x7fffffff.toString(16) + " bytes");
+                if (length >= 0x7fffffff) throw RangeError("Attempt to allocate Buffer larger than maximum size: 0x" + 0x7fffffff.toString(16) + " bytes");
                 return 0 | length;
             }
             function byteLength1(string, encoding) {
                 if (Buffer.isBuffer(string)) return string.length;
                 if (ArrayBuffer.isView(string) || isInstance(string, ArrayBuffer)) return string.byteLength;
-                if ("string" != typeof string) throw new TypeError('The "string" argument must be one of type string, Buffer, or ArrayBuffer. Received type ' + typeof string);
+                if ("string" != typeof string) throw TypeError('The "string" argument must be one of type string, Buffer, or ArrayBuffer. Received type ' + typeof string);
                 var len = string.length, mustMatch = arguments.length > 2 && !0 === arguments[2];
                 if (!mustMatch && 0 === len) return 0;
                 for(var loweredCase = !1;;)switch(encoding){
@@ -5280,7 +5280,7 @@
                     case "utf-16le":
                         return utf16leSlice(this, start, end);
                     default:
-                        if (loweredCase) throw new TypeError("Unknown encoding: " + encoding);
+                        if (loweredCase) throw TypeError("Unknown encoding: " + encoding);
                         encoding = (encoding + "").toLowerCase(), loweredCase = !0;
                 }
             }
@@ -5302,7 +5302,7 @@
                 if ("number" == typeof val) return (val &= 0xff, "function" == typeof Uint8Array.prototype.indexOf) ? dir ? Uint8Array.prototype.indexOf.call(buffer, val, byteOffset) : Uint8Array.prototype.lastIndexOf.call(buffer, val, byteOffset) : arrayIndexOf(buffer, [
                     val
                 ], byteOffset, encoding, dir);
-                throw new TypeError("val must be string, number or Buffer");
+                throw TypeError("val must be string, number or Buffer");
             }
             function arrayIndexOf(arr, val, byteOffset, encoding, dir) {
                 var i4, indexSize = 1, arrLength = arr.length, valLength = val.length;
@@ -5408,16 +5408,16 @@
                 return res;
             }
             function checkOffset(offset, ext, length) {
-                if (offset % 1 != 0 || offset < 0) throw new RangeError("offset is not uint");
-                if (offset + ext > length) throw new RangeError("Trying to access beyond buffer length");
+                if (offset % 1 != 0 || offset < 0) throw RangeError("offset is not uint");
+                if (offset + ext > length) throw RangeError("Trying to access beyond buffer length");
             }
             function checkInt(buf, value, offset, ext, max, min) {
-                if (!Buffer.isBuffer(buf)) throw new TypeError('"buffer" argument must be a Buffer instance');
-                if (value > max || value < min) throw new RangeError('"value" argument is out of bounds');
-                if (offset + ext > buf.length) throw new RangeError("Index out of range");
+                if (!Buffer.isBuffer(buf)) throw TypeError('"buffer" argument must be a Buffer instance');
+                if (value > max || value < min) throw RangeError('"value" argument is out of bounds');
+                if (offset + ext > buf.length) throw RangeError("Index out of range");
             }
             function checkIEEE754(buf, value, offset, ext, max, min) {
-                if (offset + ext > buf.length || offset < 0) throw new RangeError("Index out of range");
+                if (offset + ext > buf.length || offset < 0) throw RangeError("Index out of range");
             }
             function writeFloat(buf, value, offset, littleEndian, noAssert) {
                 return value = +value, offset >>>= 0, noAssert || checkIEEE754(buf, value, offset, 4, 3.4028234663852886e38, -340282346638528860000000000000000000000), ieee754.write(buf, value, offset, littleEndian, 23, 4), offset + 4;
@@ -5460,7 +5460,7 @@
             }, Buffer.isBuffer = function(b) {
                 return null != b && !0 === b._isBuffer && b !== Buffer.prototype;
             }, Buffer.compare = function(a, b) {
-                if (isInstance(a, Uint8Array) && (a = Buffer.from(a, a.offset, a.byteLength)), isInstance(b, Uint8Array) && (b = Buffer.from(b, b.offset, b.byteLength)), !Buffer.isBuffer(a) || !Buffer.isBuffer(b)) throw new TypeError('The "buf1", "buf2" arguments must be one of type Buffer or Uint8Array');
+                if (isInstance(a, Uint8Array) && (a = Buffer.from(a, a.offset, a.byteLength)), isInstance(b, Uint8Array) && (b = Buffer.from(b, b.offset, b.byteLength)), !Buffer.isBuffer(a) || !Buffer.isBuffer(b)) throw TypeError('The "buf1", "buf2" arguments must be one of type Buffer or Uint8Array');
                 if (a === b) return 0;
                 for(var x = a.length, y = b.length, i = 0, len = Math.min(x, y); i < len; ++i)if (a[i] !== b[i]) {
                     x = a[i], y = b[i];
@@ -5485,43 +5485,43 @@
                         return !1;
                 }
             }, Buffer.concat = function(list, length) {
-                if (!Array.isArray(list)) throw new TypeError('"list" argument must be an Array of Buffers');
+                if (!Array.isArray(list)) throw TypeError('"list" argument must be an Array of Buffers');
                 if (0 === list.length) return Buffer.alloc(0);
                 if (void 0 === length) for(i = 0, length = 0; i < list.length; ++i)length += list[i].length;
                 var i, buffer = Buffer.allocUnsafe(length), pos = 0;
                 for(i = 0; i < list.length; ++i){
                     var buf = list[i];
-                    if (isInstance(buf, Uint8Array) && (buf = Buffer.from(buf)), !Buffer.isBuffer(buf)) throw new TypeError('"list" argument must be an Array of Buffers');
+                    if (isInstance(buf, Uint8Array) && (buf = Buffer.from(buf)), !Buffer.isBuffer(buf)) throw TypeError('"list" argument must be an Array of Buffers');
                     buf.copy(buffer, pos), pos += buf.length;
                 }
                 return buffer;
             }, Buffer.byteLength = byteLength1, Buffer.prototype._isBuffer = !0, Buffer.prototype.swap16 = function() {
                 var len = this.length;
-                if (len % 2 != 0) throw new RangeError("Buffer size must be a multiple of 16-bits");
+                if (len % 2 != 0) throw RangeError("Buffer size must be a multiple of 16-bits");
                 for(var i = 0; i < len; i += 2)swap(this, i, i + 1);
                 return this;
             }, Buffer.prototype.swap32 = function() {
                 var len = this.length;
-                if (len % 4 != 0) throw new RangeError("Buffer size must be a multiple of 32-bits");
+                if (len % 4 != 0) throw RangeError("Buffer size must be a multiple of 32-bits");
                 for(var i = 0; i < len; i += 4)swap(this, i, i + 3), swap(this, i + 1, i + 2);
                 return this;
             }, Buffer.prototype.swap64 = function() {
                 var len = this.length;
-                if (len % 8 != 0) throw new RangeError("Buffer size must be a multiple of 64-bits");
+                if (len % 8 != 0) throw RangeError("Buffer size must be a multiple of 64-bits");
                 for(var i = 0; i < len; i += 8)swap(this, i, i + 7), swap(this, i + 1, i + 6), swap(this, i + 2, i + 5), swap(this, i + 3, i + 4);
                 return this;
             }, Buffer.prototype.toString = function() {
                 var length = this.length;
                 return 0 === length ? "" : 0 === arguments.length ? utf8Slice(this, 0, length) : slowToString.apply(this, arguments);
             }, Buffer.prototype.toLocaleString = Buffer.prototype.toString, Buffer.prototype.equals = function(b) {
-                if (!Buffer.isBuffer(b)) throw new TypeError("Argument must be a Buffer");
+                if (!Buffer.isBuffer(b)) throw TypeError("Argument must be a Buffer");
                 return this === b || 0 === Buffer.compare(this, b);
             }, Buffer.prototype.inspect = function() {
                 var str = "", max = exports.INSPECT_MAX_BYTES;
                 return str = this.toString("hex", 0, max).replace(/(.{2})/g, "$1 ").trim(), this.length > max && (str += " ... "), "<Buffer " + str + ">";
             }, customInspectSymbol && (Buffer.prototype[customInspectSymbol] = Buffer.prototype.inspect), Buffer.prototype.compare = function(target, start, end, thisStart, thisEnd) {
-                if (isInstance(target, Uint8Array) && (target = Buffer.from(target, target.offset, target.byteLength)), !Buffer.isBuffer(target)) throw new TypeError('The "target" argument must be one of type Buffer or Uint8Array. Received type ' + typeof target);
-                if (void 0 === start && (start = 0), void 0 === end && (end = target ? target.length : 0), void 0 === thisStart && (thisStart = 0), void 0 === thisEnd && (thisEnd = this.length), start < 0 || end > target.length || thisStart < 0 || thisEnd > this.length) throw new RangeError("out of range index");
+                if (isInstance(target, Uint8Array) && (target = Buffer.from(target, target.offset, target.byteLength)), !Buffer.isBuffer(target)) throw TypeError('The "target" argument must be one of type Buffer or Uint8Array. Received type ' + typeof target);
+                if (void 0 === start && (start = 0), void 0 === end && (end = target ? target.length : 0), void 0 === thisStart && (thisStart = 0), void 0 === thisEnd && (thisEnd = this.length), start < 0 || end > target.length || thisStart < 0 || thisEnd > this.length) throw RangeError("out of range index");
                 if (thisStart >= thisEnd && start >= end) return 0;
                 if (thisStart >= thisEnd) return -1;
                 if (start >= end) return 1;
@@ -5541,9 +5541,9 @@
                 if (void 0 === offset) encoding = "utf8", length = this.length, offset = 0;
                 else if (void 0 === length && "string" == typeof offset) encoding = offset, length = this.length, offset = 0;
                 else if (isFinite(offset)) offset >>>= 0, isFinite(length) ? (length >>>= 0, void 0 === encoding && (encoding = "utf8")) : (encoding = length, length = void 0);
-                else throw new Error("Buffer.write(string, encoding, offset[, length]) is no longer supported");
+                else throw Error("Buffer.write(string, encoding, offset[, length]) is no longer supported");
                 var remaining = this.length - offset;
-                if ((void 0 === length || length > remaining) && (length = remaining), string.length > 0 && (length < 0 || offset < 0) || offset > this.length) throw new RangeError("Attempt to write outside buffer bounds");
+                if ((void 0 === length || length > remaining) && (length = remaining), string.length > 0 && (length < 0 || offset < 0) || offset > this.length) throw RangeError("Attempt to write outside buffer bounds");
                 encoding || (encoding = "utf8");
                 for(var loweredCase = !1;;)switch(encoding){
                     case "hex":
@@ -5564,7 +5564,7 @@
                     case "utf-16le":
                         return ucs2Write(this, string, offset, length);
                     default:
-                        if (loweredCase) throw new TypeError("Unknown encoding: " + encoding);
+                        if (loweredCase) throw TypeError("Unknown encoding: " + encoding);
                         encoding = ("" + encoding).toLowerCase(), loweredCase = !0;
                 }
             }, Buffer.prototype.toJSON = function() {
@@ -5686,11 +5686,11 @@
             }, Buffer.prototype.writeDoubleBE = function(value, offset, noAssert) {
                 return writeDouble(this, value, offset, !1, noAssert);
             }, Buffer.prototype.copy = function(target, targetStart, start, end) {
-                if (!Buffer.isBuffer(target)) throw new TypeError("argument should be a Buffer");
+                if (!Buffer.isBuffer(target)) throw TypeError("argument should be a Buffer");
                 if (start || (start = 0), end || 0 === end || (end = this.length), targetStart >= target.length && (targetStart = target.length), targetStart || (targetStart = 0), end > 0 && end < start && (end = start), end === start || 0 === target.length || 0 === this.length) return 0;
-                if (targetStart < 0) throw new RangeError("targetStart out of bounds");
-                if (start < 0 || start >= this.length) throw new RangeError("Index out of range");
-                if (end < 0) throw new RangeError("sourceEnd out of bounds");
+                if (targetStart < 0) throw RangeError("targetStart out of bounds");
+                if (start < 0 || start >= this.length) throw RangeError("Index out of range");
+                if (end < 0) throw RangeError("sourceEnd out of bounds");
                 end > this.length && (end = this.length), target.length - targetStart < end - start && (end = target.length - targetStart + start);
                 var len = end - start;
                 if (this === target && "function" == typeof Uint8Array.prototype.copyWithin) this.copyWithin(targetStart, start, end);
@@ -5699,19 +5699,19 @@
                 return len;
             }, Buffer.prototype.fill = function(val, start, end, encoding) {
                 if ("string" == typeof val) {
-                    if ("string" == typeof start ? (encoding = start, start = 0, end = this.length) : "string" == typeof end && (encoding = end, end = this.length), void 0 !== encoding && "string" != typeof encoding) throw new TypeError("encoding must be a string");
-                    if ("string" == typeof encoding && !Buffer.isEncoding(encoding)) throw new TypeError("Unknown encoding: " + encoding);
+                    if ("string" == typeof start ? (encoding = start, start = 0, end = this.length) : "string" == typeof end && (encoding = end, end = this.length), void 0 !== encoding && "string" != typeof encoding) throw TypeError("encoding must be a string");
+                    if ("string" == typeof encoding && !Buffer.isEncoding(encoding)) throw TypeError("Unknown encoding: " + encoding);
                     if (1 === val.length) {
                         var i, code = val.charCodeAt(0);
                         ("utf8" === encoding && code < 128 || "latin1" === encoding) && (val = code);
                     }
                 } else "number" == typeof val ? val &= 255 : "boolean" == typeof val && (val = Number(val));
-                if (start < 0 || this.length < start || this.length < end) throw new RangeError("Out of range index");
+                if (start < 0 || this.length < start || this.length < end) throw RangeError("Out of range index");
                 if (end <= start) return this;
                 if (start >>>= 0, end = void 0 === end ? this.length : end >>> 0, val || (val = 0), "number" == typeof val) for(i = start; i < end; ++i)this[i] = val;
                 else {
                     var bytes = Buffer.isBuffer(val) ? val : Buffer.from(val, encoding), len = bytes.length;
-                    if (0 === len) throw new TypeError('The value "' + val + '" is invalid for argument "value"');
+                    if (0 === len) throw TypeError('The value "' + val + '" is invalid for argument "value"');
                     for(i = 0; i < end - start; ++i)this[i + start] = bytes[i % len];
                 }
                 return this;
@@ -5747,7 +5747,7 @@
                     } else if (codePoint < 0x110000) {
                         if ((units -= 4) < 0) break;
                         bytes.push(codePoint >> 0x12 | 0xf0, codePoint >> 0xc & 0x3f | 0x80, codePoint >> 0x6 & 0x3f | 0x80, 0x3f & codePoint | 0x80);
-                    } else throw new Error("Invalid code point");
+                    } else throw Error("Invalid code point");
                 }
                 return bytes;
             }
@@ -5774,7 +5774,7 @@
                 return obj instanceof type || null != obj && null != obj.constructor && null != obj.constructor.name && obj.constructor.name === type.name;
             }
             var hexSliceLookupTable = function() {
-                for(var alphabet = "0123456789abcdef", table = new Array(256), i = 0; i < 16; ++i)for(var i16 = 16 * i, j = 0; j < 16; ++j)table[i16 + j] = alphabet[i] + alphabet[j];
+                for(var alphabet = "0123456789abcdef", table = Array(256), i = 0; i < 16; ++i)for(var i16 = 16 * i, j = 0; j < 16; ++j)table[i16 + j] = alphabet[i] + alphabet[j];
                 return table;
             }();
         },
@@ -5800,7 +5800,7 @@
         7326: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
             "use strict";
             function _assertThisInitialized(self) {
-                if (void 0 === self) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+                if (void 0 === self) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                 return self;
             }
             __webpack_require__.d(__webpack_exports__, {
@@ -5862,7 +5862,7 @@
             });
             var _setPrototypeOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9611);
             function _inherits(subClass, superClass) {
-                if ("function" != typeof superClass && null !== superClass) throw new TypeError("Super expression must either be null or a function");
+                if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
                 Object.defineProperty(subClass, "prototype", {
                     value: Object.create(superClass && superClass.prototype, {
                         constructor: {
