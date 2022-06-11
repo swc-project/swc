@@ -29,7 +29,8 @@
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
           "children": [],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         },
         {
           "type": "Element",
@@ -119,10 +120,12 @@
                                       "namespace": "http://www.w3.org/2000/svg",
                                       "attributes": [],
                                       "children": [],
-                                      "content": null
+                                      "content": null,
+                                      "isSelfClosing": false
                                     }
                                   ],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": false
                                 },
                                 {
                                   "type": "Element",
@@ -135,10 +138,12 @@
                                   "namespace": "http://www.w3.org/1998/Math/MathML",
                                   "attributes": [],
                                   "children": [],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": false
                                 }
                               ],
-                              "content": null
+                              "content": null,
+                              "isSelfClosing": false
                             },
                             {
                               "type": "Element",
@@ -151,10 +156,12 @@
                               "namespace": "http://www.w3.org/1999/xhtml",
                               "attributes": [],
                               "children": [],
-                              "content": null
+                              "content": null,
+                              "isSelfClosing": false
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Element",
@@ -167,13 +174,16 @@
                           "namespace": "http://www.w3.org/2000/svg",
                           "attributes": [],
                           "children": [],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Element",
@@ -186,16 +196,20 @@
                   "namespace": "http://www.w3.org/1998/Math/MathML",
                   "attributes": [],
                   "children": [],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         }
       ],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }

@@ -57,6 +57,7 @@ define!({
         pub attributes: Vec<Attribute>,
         pub children: Vec<Child>,
         pub content: Option<DocumentFragment>,
+        pub is_self_closing: bool,
     }
 
     pub struct Attribute {

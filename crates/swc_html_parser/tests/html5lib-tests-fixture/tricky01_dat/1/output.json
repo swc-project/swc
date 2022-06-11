@@ -29,7 +29,8 @@
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
           "children": [],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         },
         {
           "type": "Element",
@@ -87,10 +88,12 @@
                       "data": "Italic and Red"
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Element",
@@ -148,7 +151,8 @@
                           "data": "Italic and Red "
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -160,7 +164,8 @@
                       "data": " Just italic."
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -172,7 +177,8 @@
                   "data": " Italic only."
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -257,13 +263,16 @@
                           "data": "Italic and red."
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Element",
@@ -310,10 +319,12 @@
                       "data": "\n"
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Element",
@@ -371,7 +382,8 @@
                           "data": "Italic and red. "
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -383,7 +395,8 @@
                       "data": " Red."
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -395,7 +408,8 @@
                   "data": " I should not be red."
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -447,10 +461,12 @@
                       "data": "Bold and italic"
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Element",
@@ -473,7 +489,8 @@
                   "data": " Only Italic "
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -485,10 +502,12 @@
               "data": " Plain"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         }
       ],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }

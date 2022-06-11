@@ -29,7 +29,8 @@
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
           "children": [],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         },
         {
           "type": "Element",
@@ -76,7 +77,8 @@
                   "data": "aba"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Element",
@@ -112,7 +114,8 @@
                   "data": "x"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Element",
@@ -192,19 +195,24 @@
                                   "data": "br"
                                 }
                               ],
-                              "content": null
+                              "content": null,
+                              "isSelfClosing": false
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Element",
@@ -240,13 +248,16 @@
                   "data": "aoe"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         }
       ],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }

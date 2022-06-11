@@ -83,7 +83,8 @@
                   "data": "XTech SVG Demo"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -115,7 +116,8 @@
                   "data": "\n        stop.begin { stop-color:yellow; }\n        stop.end { stop-color:green; }\n        body.invalid stop.end { stop-color:red; }\n        #err { display:none; }\n        body.invalid #err { display:inline; }\n    "
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -147,7 +149,8 @@
                   "data": "\n        function signalError() {\n            document.getElementById('body').setAttribute(\"class\", \"invalid\");\n        }\n    "
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -159,7 +162,8 @@
               "data": "\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         },
         {
           "type": "Text",
@@ -276,7 +280,8 @@
                           "data": "HTML Form"
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -319,7 +324,8 @@
                               "data": "Введите что-нибудь:"
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Text",
@@ -354,7 +360,8 @@
                             }
                           ],
                           "children": [],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": true
                         },
                         {
                           "type": "Text",
@@ -399,10 +406,12 @@
                               "data": "Incorrect value!"
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -472,10 +481,12 @@
                             }
                           ],
                           "children": [],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": true
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -487,7 +498,8 @@
                       "data": "\n    "
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -499,7 +511,8 @@
                   "data": "\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -672,7 +685,8 @@
                         }
                       ],
                       "children": [],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": true
                     },
                     {
                       "type": "Text",
@@ -719,7 +733,8 @@
                         }
                       ],
                       "children": [],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": true
                     },
                     {
                       "type": "Text",
@@ -731,7 +746,8 @@
                       "data": "\n    "
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -814,7 +830,8 @@
                     }
                   ],
                   "children": [],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": true
                 },
                 {
                   "type": "Text",
@@ -885,7 +902,8 @@
                     }
                   ],
                   "children": [],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": true
                 },
                 {
                   "type": "Text",
@@ -897,7 +915,8 @@
                   "data": "\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -1058,7 +1077,8 @@
                         }
                       ],
                       "children": [],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": true
                     },
                     {
                       "type": "Text",
@@ -1070,7 +1090,8 @@
                       "data": "\n    "
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -1186,7 +1207,8 @@
                         }
                       ],
                       "children": [],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": true
                     },
                     {
                       "type": "Text",
@@ -1198,7 +1220,8 @@
                       "data": "\n    "
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -1281,7 +1304,8 @@
                     }
                   ],
                   "children": [],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": true
                 },
                 {
                   "type": "Text",
@@ -1364,7 +1388,8 @@
                     }
                   ],
                   "children": [],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": true
                 },
                 {
                   "type": "Text",
@@ -1376,7 +1401,8 @@
                   "data": "\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -1466,7 +1492,8 @@
                       "data": "This is some English text"
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -1478,7 +1505,8 @@
                   "data": "\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -1654,7 +1682,8 @@
                     }
                   ],
                   "children": [],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": true
                 },
                 {
                   "type": "Text",
@@ -1666,7 +1695,8 @@
                   "data": "\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -1768,7 +1798,8 @@
                       "data": "Default   spacing"
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -1825,7 +1856,8 @@
                       "data": "Preserved   spacing"
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -1837,7 +1869,8 @@
                   "data": "\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -1927,7 +1960,8 @@
                       "data": "This is some English text"
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -2029,7 +2063,8 @@
                           "data": "An example link."
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -2041,7 +2076,8 @@
                       "data": "\n    "
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -2053,7 +2089,8 @@
                   "data": "\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -2130,7 +2167,8 @@
                       "data": "\n        div {\n            color: white;\n            font: 18px serif;\n            height: 100%;\n            overflow: auto;\n        }\n    "
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -2165,7 +2203,8 @@
                     }
                   ],
                   "children": [],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": true
                 },
                 {
                   "type": "Text",
@@ -2315,7 +2354,8 @@
                           "data": "\n            Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n            Sed mollis mollis mi ut ultricies. Nullam magna ipsum,\n            porta vel dui convallis, rutrum imperdiet eros. Aliquam\n            erat volutpat.\n        "
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -2327,7 +2367,8 @@
                       "data": "\n    "
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -2339,7 +2380,8 @@
                   "data": "\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -2500,7 +2542,8 @@
                         }
                       ],
                       "children": [],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -2545,7 +2588,8 @@
                           "data": "1"
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -2707,7 +2751,8 @@
                                           "data": "2"
                                         }
                                       ],
-                                      "content": null
+                                      "content": null,
+                                      "isSelfClosing": false
                                     },
                                     {
                                       "type": "Text",
@@ -2739,7 +2784,8 @@
                                           "data": "r"
                                         }
                                       ],
-                                      "content": null
+                                      "content": null,
+                                      "isSelfClosing": false
                                     },
                                     {
                                       "type": "Text",
@@ -2771,7 +2817,8 @@
                                           "data": "−"
                                         }
                                       ],
-                                      "content": null
+                                      "content": null,
+                                      "isSelfClosing": false
                                     },
                                     {
                                       "type": "Text",
@@ -2803,7 +2850,8 @@
                                           "data": "1"
                                         }
                                       ],
-                                      "content": null
+                                      "content": null,
+                                      "isSelfClosing": false
                                     },
                                     {
                                       "type": "Text",
@@ -2815,7 +2863,8 @@
                                       "data": "\n                    "
                                     }
                                   ],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": false
                                 },
                                 {
                                   "type": "Text",
@@ -2827,7 +2876,8 @@
                                   "data": "\n                "
                                 }
                               ],
-                              "content": null
+                              "content": null,
+                              "isSelfClosing": false
                             },
                             {
                               "type": "Text",
@@ -2839,7 +2889,8 @@
                               "data": "\n            "
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Text",
@@ -2871,7 +2922,8 @@
                               "data": "\\sqrt{2r - 1}"
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Text",
@@ -2883,7 +2935,8 @@
                           "data": "\n        "
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -2895,7 +2948,8 @@
                       "data": "\n    "
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -2907,7 +2961,8 @@
                   "data": "\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -2919,10 +2974,12 @@
               "data": "\n\n\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         }
       ],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }

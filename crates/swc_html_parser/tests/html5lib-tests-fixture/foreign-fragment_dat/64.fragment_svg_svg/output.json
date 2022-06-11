@@ -17,7 +17,8 @@
       "namespace": "http://www.w3.org/2000/svg",
       "attributes": [],
       "children": [],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }

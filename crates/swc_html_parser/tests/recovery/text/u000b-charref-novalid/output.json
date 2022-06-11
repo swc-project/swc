@@ -64,7 +64,8 @@
                 }
               ],
               "children": [],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Element",
@@ -87,10 +88,12 @@
                   "data": "&#x000B;"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         },
         {
           "type": "Element",
@@ -124,13 +127,16 @@
                   "data": "There should be an error.\u000b"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         }
       ],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }
