@@ -1,5 +1,5 @@
 use once_cell::sync::Lazy;
-use swc_common::{errors::HANDLER, GLOBALS};
+use swc_common::{errors::HANDLER, util::move_map::MoveMap, GLOBALS};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Fold, FoldWith, Visit, VisitMut, VisitMutWith, VisitWith};
 
@@ -75,6 +75,146 @@ where
                         nodes
                             .into_par_iter()
                             .map(|node| {
+                                GLOBALS.set(globals, || {
+                                    HELPERS.set(helpers, || {
+                                        HANDLER.set(handler, || {
+                                            let mut visitor = Parallel::create(&*self);
+                                            let node = node.visit_with(&mut visitor);
+
+                                            (visitor, node)
+                                        })
+                                    })
+                                })
+                            })
+                            .fold(
+                                || (Parallel::create(&*self), vec![]),
+                                |mut a, b| {
+                                    Parallel::merge(&mut a.0, b.0);
+
+                                    a.1.push(b.1);
+
+                                    a
+                                },
+                            )
+                            .reduce(
+                                || (Parallel::create(&*self), vec![]),
+                                |mut a, b| {
+                                    Parallel::merge(&mut a.0, b.0);
+
+                                    a.1.extend(b.1);
+
+                                    a
+                                },
+                            )
+                    })
+                })
+            });
+
+            Parallel::merge(self, visitor);
+
+            return;
+        }
+
+        for n in nodes {
+            n.visit_with(self);
+        }
+    }
+}
+
+pub trait ParVisitMut: VisitMut + Parallel {
+    fn visit_mut_par<N>(&mut self, threshold: usize, nodes: &mut [N])
+    where
+        N: Send + Sync + VisitMutWith<Self>;
+}
+
+impl<T> ParVisitMut for T
+where
+    T: VisitMut + Parallel,
+{
+    fn visit_mut_par<N>(&mut self, threshold: usize, nodes: &mut [N])
+    where
+        N: Send + Sync + VisitMutWith<Self>,
+    {
+        #[cfg(feature = "rayon")]
+        if nodes.len() >= threshold {
+            use rayon::prelude::*;
+
+            let (visitor, mut nodes) = GLOBALS.with(|globals| {
+                HELPERS.with(|helpers| {
+                    HANDLER.with(|handler| {
+                        nodes
+                            .into_par_iter()
+                            .map(|node| {
+                                GLOBALS.set(&globals, || {
+                                    HELPERS.set(helpers, || {
+                                        HANDLER.set(handler, || {
+                                            let mut visitor = Parallel::create(&*self);
+                                            let node = node.visit_mut_with(&mut visitor);
+
+                                            (visitor, node)
+                                        })
+                                    })
+                                })
+                            })
+                            .fold(
+                                || (Parallel::create(&*self), vec![]),
+                                |mut a, b| {
+                                    Parallel::merge(&mut a.0, b.0);
+
+                                    a.1.push(b.1);
+
+                                    a
+                                },
+                            )
+                            .reduce(
+                                || (Parallel::create(&*self), vec![]),
+                                |mut a, b| {
+                                    Parallel::merge(&mut a.0, b.0);
+
+                                    a.1.extend(b.1);
+
+                                    a
+                                },
+                            )
+                    })
+                })
+            });
+
+            Parallel::merge(self, visitor);
+
+            return;
+        }
+
+        for n in nodes {
+            n.visit_mut_with(self);
+        }
+    }
+}
+
+pub trait ParFold: Fold + Parallel {
+    fn fold_par<N>(&mut self, threshold: usize, nodes: Vec<N>) -> Vec<N>
+    where
+        N: Send + Sync + FoldWith<Self>;
+}
+
+impl<T> ParFold for T
+where
+    T: Fold + Parallel,
+{
+    fn fold_par<N>(&mut self, threshold: usize, nodes: Vec<N>) -> Vec<N>
+    where
+        N: Send + Sync + FoldWith<Self>,
+    {
+        #[cfg(feature = "rayon")]
+        if nodes.len() >= threshold {
+            use rayon::prelude::*;
+
+            let (visitor, mut nodes) = GLOBALS.with(|globals| {
+                HELPERS.with(|helpers| {
+                    HANDLER.with(|handler| {
+                        nodes
+                            .into_par_iter()
+                            .map(|node| {
                                 GLOBALS.set(&globals, || {
                                     HELPERS.set(helpers, || {
                                         HANDLER.set(handler, || {
@@ -112,31 +252,9 @@ where
 
             Parallel::merge(self, visitor);
 
-            {
-                hook;
-            }
-
             return nodes;
         }
 
-        for n in nodes {
-            n.visit_with(self);
-        }
+        nodes.move_map(|n| n.fold_with(self))
     }
 }
-
-pub trait ParVisitMut: VisitMut + Parallel {
-    fn visit_mut_par<N>(&mut self, threshold: usize, nodes: &[N])
-    where
-        N: Send + Sync + VisitMutWith<Self>;
-}
-
-impl<T> ParVisitMut for T where T: VisitMut + Parallel {}
-
-pub trait ParFold: Fold + Parallel {
-    fn fold_par<N>(&mut self, threshold: usize, nodes: &[N])
-    where
-        N: Send + Sync + FoldWith<Self>;
-}
-
-impl<T> ParFold for T where T: Fold + Parallel {}
