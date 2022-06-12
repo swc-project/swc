@@ -7,6 +7,12 @@
 
 - **(common)** Don't use `get_unchecked` after setting the length to 0 (#4943) ([f479951](https://github.com/swc-project/swc/commit/f479951ef2f1c9eff8e020c9fc46e78e16855a24))
 
+### Features
+
+
+
+- **(es/minifier)** Turn `Array`/`Object` calls into literals (#4947) ([47bdc6a](https://github.com/swc-project/swc/commit/47bdc6a6b13c5a4d6b85d4e3a0e729126c7b5f9d))
+
 ### Performance
 
 
