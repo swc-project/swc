@@ -1,7 +1,7 @@
 var E, F, x;
 function foo(x, a, b) {}
 function foo2(x, a, b) {}
-foo('', (x)=>'', (x)=>null), foo('', (x)=>'', (x)=>null), foo('', (x)=>'', (x)=>''), foo(null, (x)=>'', (x)=>''), foo(null, (x)=>'', (x)=>''), foo(new Object(), (x)=>'', (x)=>''), function(E) {
+foo('', (x)=>'', (x)=>null), foo('', (x)=>'', (x)=>null), foo('', (x)=>'', (x)=>''), foo(null, (x)=>'', (x)=>''), foo(null, (x)=>'', (x)=>''), foo({}, (x)=>'', (x)=>''), function(E) {
     E[E.A = 0] = "A";
 }(E || (E = {})), function(F) {
     F[F.A = 0] = "A";

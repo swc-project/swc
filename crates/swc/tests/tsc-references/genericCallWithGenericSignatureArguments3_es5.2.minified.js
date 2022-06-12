@@ -21,7 +21,7 @@ foo("", function(x) {
     return "";
 }, function(x) {
     return "";
-}), foo(new Object(), function(x) {
+}), foo({}, function(x) {
     return "";
 }, function(x) {
     return "";
