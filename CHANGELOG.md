@@ -22,6 +22,12 @@
 
 - **(css/parser)** Improve performance of lexer (#4921) ([327969d](https://github.com/swc-project/swc/commit/327969d0d96159ed45a45a92e943d9d426de303c))
 
+### Refactor
+
+
+
+- **(html/parser)** Remove unused code (#4949) ([42a1d7c](https://github.com/swc-project/swc/commit/42a1d7c7a11120b8be8dbd7a29a6401d60062d70))
+
 ## [1.2.199] - 2022-06-11
 
 ### Bug Fixes
