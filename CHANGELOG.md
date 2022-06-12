@@ -7,6 +7,9 @@
 
 - **(common)** Don't use `get_unchecked` after setting the length to 0 (#4943) ([f479951](https://github.com/swc-project/swc/commit/f479951ef2f1c9eff8e020c9fc46e78e16855a24))
 
+
+- **(css/parser)** Fix input buffer and improve error recovery (#4948) ([bf74d05](https://github.com/swc-project/swc/commit/bf74d05f3fb6ddb2f29a4808b64860021cbd4f5b))
+
 ### Features
 
 
