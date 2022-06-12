@@ -2992,8 +2992,12 @@ dependencies = [
 
 [[package]]
 name = "swc_atoms"
-version = "0.2.11"
+version = "0.2.12"
 dependencies = [
+ "once_cell",
+ "rkyv",
+ "rustc-hash",
+ "serde",
  "string_cache",
  "string_cache_codegen",
 ]
@@ -3394,7 +3398,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.120.0"
+version = "0.120.1"
 dependencies = [
  "ahash",
  "ansi_term",

@@ -21,11 +21,13 @@ var a1 = [
 var a2 = [
     ,
     ,
+    , 
 ].concat(_to_consumable_array(a0), [
     "hello"
 ]);
 var a3 = [
     ,
+    , 
 ].concat(_to_consumable_array(a0));
 var a4 = [
     function() {

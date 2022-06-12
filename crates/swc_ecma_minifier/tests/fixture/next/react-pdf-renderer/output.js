@@ -19888,7 +19888,7 @@
                                 for(; a <= 279;)d[2 * a + 1] = 7, a++, l[7]++;
                                 for(; a <= 287;)d[2 * a + 1] = 8, a++, l[8]++;
                                 for(D(d, 287, l), a = 0; a < 30; a++)f[2 * a + 1] = 5, f[2 * a] = C(a, 5);
-                                n = new w(d, r, 257, 286, 15), o = new w(f, s, 0, 30, 15), p = new w(Array(0), u, 0, 19, 7);
+                                n = new w(d, r, 257, 286, 15), o = new w(f, s, 0, 30, 15), p = new w([], u, 0, 19, 7);
                             }(), M = !0), a.l_desc = new x(a.dyn_ltree, n), a.d_desc = new x(a.dyn_dtree, o), a.bl_desc = new x(a.bl_tree, p), a.bi_buf = 0, a.bi_valid = 0, E(a);
                         }, b._tr_stored_block = l, b._tr_flush_block = function(a, j, h, g) {
                             var b, c, k = 0;
