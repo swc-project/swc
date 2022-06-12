@@ -79,10 +79,11 @@ add_bitflags!(
         /// If the literal is empty, do not add spaces between braces.
         NoSpaceIfEmpty: 1 << 18,
         SingleElement: 1 << 19,
+        ForceTrailingComma: 1 << 20,
     },
     // Optimization.
     Values {
-        CanSkipTrailingComma: 1 << 20
+        CanSkipTrailingComma: 1 << 21
     },
     /// Precomputed Formats
     Values {
