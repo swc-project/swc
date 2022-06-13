@@ -137,13 +137,17 @@ pub fn resolver(
         Mark::root(),
         "Marker provided to resolver should not be the root mark"
     );
-    as_folder(Resolver::new(
-        Scope::new(ScopeKind::Fn, top_level_mark, None),
-        InnerConfig {
+
+    as_folder(Resolver {
+        current: Scope::new(ScopeKind::Fn, top_level_mark, None),
+        ident_type: IdentType::Ref,
+        in_type: false,
+        in_ts_module: false,
+        config: InnerConfig {
             handle_types: typescript,
             unresolved_mark,
         },
-    ))
+    })
 }
 
 #[derive(Debug, Clone)]
@@ -222,12 +226,10 @@ impl<'a> Resolver<'a> {
 
     fn visit_mut_stmt_within_child_scope(&mut self, s: &mut Stmt) {
         let child_mark = Mark::fresh(Mark::root());
-        let mut child = Resolver::new(
-            Scope::new(ScopeKind::Block, child_mark, Some(&self.current)),
-            self.config,
-        );
 
-        child.visit_mut_stmt_within_same_scope(s)
+        self.with_child(ScopeKind::Block, |child| {
+            child.visit_mut_stmt_within_same_scope(s)
+        });
     }
 
     fn visit_mut_stmt_within_same_scope(&mut self, s: &mut Stmt) {
@@ -509,27 +511,23 @@ impl<'a> VisitMut for Resolver<'a> {
     fn visit_mut_arrow_expr(&mut self, e: &mut ArrowExpr) {
         let child_mark = Mark::fresh(Mark::root());
 
-        // Child folder
-        let mut folder = Resolver::new(
-            Scope::new(ScopeKind::Fn, child_mark, Some(&self.current)),
-            self.config,
-        );
+        self.with_child(ScopeKind::Fn, |child| {
+            e.type_params.visit_mut_with(&mut child);
 
-        e.type_params.visit_mut_with(&mut folder);
+            let old = child.ident_type;
+            child.ident_type = IdentType::Binding;
+            e.params.visit_mut_with(&mut child);
+            child.ident_type = old;
 
-        let old = folder.ident_type;
-        folder.ident_type = IdentType::Binding;
-        e.params.visit_mut_with(&mut folder);
-        folder.ident_type = old;
-
-        {
-            match &mut e.body {
-                BlockStmtOrExpr::BlockStmt(s) => s.stmts.visit_mut_with(&mut folder),
-                BlockStmtOrExpr::Expr(e) => e.visit_mut_with(&mut folder),
+            {
+                match &mut e.body {
+                    BlockStmtOrExpr::BlockStmt(s) => s.stmts.visit_mut_with(&mut child),
+                    BlockStmtOrExpr::Expr(e) => e.visit_mut_with(&mut child),
+                }
             }
-        }
 
-        e.return_type.visit_mut_with(&mut folder);
+            e.return_type.visit_mut_with(&mut child);
+        });
     }
 
     fn visit_mut_binding_ident(&mut self, i: &mut BindingIdent) {
