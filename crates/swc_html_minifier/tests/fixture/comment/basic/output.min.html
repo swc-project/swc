@@ -1,0 +1,64 @@
+<!doctype html><html lang=en><meta charset=UTF-8><meta name=viewport content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0"><meta http-equiv=X-UA-Compatible content="ie=edge"><title>Document</title><!--[if !IE]>--><link href=non-ie.css rel=stylesheet><!--<![endif]--><!--[if IE]>
+        <link type="text/css" rel="stylesheet" href="/stylesheets/no-ie.css">
+        <![endif]--><!--[if IE 8]>
+        <link href="ie8only.css" rel="stylesheet">
+        <![endif]--><!--   [if   IE   8]>
+        <link href="ie8only.css" rel="stylesheet">
+        <![endif]   --><body>
+
+
+    <p>This is a paragraph.</p>
+
+    
+    <div>baz</div>
+    <script><!-- alert(1) --></script>
+    <script><!--
+    alert(1);
+    --></script>
+    <style><!-- p { color: red } --></style>
+    <script>/*<![CDATA[*/alert(8)/*]]>*/</script>
+    <script> /*
+      <![CDATA[  */
+    alert(10)
+    /*  ]]>  */
+    </script>
+    <!-- @preserve foo -->
+    <!-- @copyright foo -->
+    <!-- @lic foo -->
+    <!-- @cc_on foo -->
+    <!--! my custom comment -->
+    <!--#include virtual="/cgi-bin/counter.pl" -->
+
+    <p class=accent>
+        <!--[if IE]>
+        According to the conditional comment this is IE<br />
+        <![endif]-->
+        <!--[if IE 6]>
+        According to the conditional comment this is IE 6<br />
+        <![endif]-->
+        <!--[if IE 7]>
+        According to the conditional comment this is IE 7<br />
+        <![endif]-->
+        <!--[if IE 8]>
+        According to the conditional comment this is IE 8<br />
+        <![endif]-->
+        <!--[if IE 9]>
+        According to the conditional comment this is IE 9<br />
+        <![endif]-->
+        <!--[if gte IE 8]>
+        According to the conditional comment this is IE 8 or higher<br />
+        <![endif]-->
+        <!--[if lt IE 9]>
+        According to the conditional comment this is IE lower than 9<br />
+        <![endif]-->
+        <!--[if lte IE 7]>
+        According to the conditional comment this is IE lower or equal to 7<br />
+        <![endif]-->
+        <!--[if gt IE 6]>
+        According to the conditional comment this is IE greater than 6<br />
+        <![endif]-->
+        <!--[if !IE]> -->
+        According to the conditional comment this is not IE 5-9<br>
+        <!-- <![endif]-->
+    </p>
+
