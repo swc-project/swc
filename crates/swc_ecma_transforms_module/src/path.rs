@@ -43,6 +43,14 @@ impl Resolver {
     ) -> Expr {
         let src = self.resolve(src);
 
+        if let Some(suffix) = src.strip_prefix("@swc/helpers/src/") {
+            return self.make_require_call(
+                unresolved_mark,
+                format!("@swc/helpers/lib/{}", suffix).into(),
+                src_span,
+            );
+        }
+
         Expr::Call(CallExpr {
             span: DUMMY_SP,
             callee: quote_ident!(DUMMY_SP.apply_mark(unresolved_mark), "require").as_callee(),
