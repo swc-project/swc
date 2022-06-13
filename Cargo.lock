@@ -3225,6 +3225,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_css_modules"
+version = "0.102.0"
+dependencies = [
+ "serde",
+ "serde_json",
+ "swc_atoms",
+ "swc_common",
+ "swc_css",
+ "swc_css_ast",
+ "swc_css_codegen",
+ "swc_css_codegen_macros",
+ "swc_css_parser",
+ "swc_css_visit",
+]
+
+[[package]]
 name = "swc_css_parser"
 version = "0.102.0"
 dependencies = [

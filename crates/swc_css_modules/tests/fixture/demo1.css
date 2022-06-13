@@ -1,0 +1,38 @@
+:global .x {
+    display: inline-block;
+    width: 20px;
+}
+h2,
+h3 {
+    font-size: 10px;
+    display: block;
+}
+h2 .a,
+h3 .a {
+    display: block;
+    box-sizing: border-box;
+}
+h2 .m :global(.tap #h2),
+h3 .m :global(.tap #h2) {
+    word-break: break-all;
+    width: 40px;
+}
+.kol h2 .m :global(.tap #h2),
+.kol h3 .m :global(.tap #h2) {
+    width: 100px;
+}
+.u h2,
+.u h3 {
+    display: inline-block;
+    width: 20px;
+}
+h2 :global .b,
+h3 :global .b {
+    display: inline-block;
+    width: 20px;
+}
+.c h2 :global,
+.c h3 :global {
+    display: inline-block;
+    width: 20px;
+}

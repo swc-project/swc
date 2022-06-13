@@ -1,0 +1,3 @@
+:global .x  :local(.b > .c){
+    width: 20px;
+}

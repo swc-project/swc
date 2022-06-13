@@ -1,0 +1,28 @@
+:local .a{
+    width: 20px;
+}
+
+.x :global .a .c,.d :global .b {
+    width: 40px;
+}
+
+
+.b :global(.a>.b,.c) .x{
+    width: 30px;
+}
+
+:global .a :local .b,:global .x :local {
+    width: 40px;
+}
+
+:local,:local .b{
+    width: 40px;
+}
+
+:global .a :local .b,:global .x :local .m {
+    width: 40px;
+}
+
+.a:global.b .c{
+    width: 50px;
+}

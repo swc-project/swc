@@ -8,6 +8,7 @@ members = [
   "crates/swc_css",
   "crates/swc_css_lints",
   "crates/swc_css_prefixer",
+  "crates/swc_css_modules",
   "crates/swc_ecmascript",
   "crates/swc_ecma_lints",
   "crates/swc_ecma_quote",

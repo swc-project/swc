@@ -1,0 +1,31 @@
+[package]
+authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+description = "CSS Modules Transform"
+documentation = "https://rustdoc.swc.rs/swc_css_parser/"
+edition = "2021"
+include = ["Cargo.toml", "src/**/*.rs"]
+license = "Apache-2.0"
+name = "swc_css_modules"
+repository = "https://github.com/swc-project/swc.git"
+version = "0.102.0"
+
+[lib]
+bench = false
+
+[features]
+debug = []
+
+[dependencies]
+swc_atoms = { path = "../swc_atoms" }
+swc_css = { path = "../swc_css" }
+swc_css_ast = { path = "../swc_css_ast" }
+swc_css_parser = { path = "../swc_css_parser" }
+swc_css_visit = { path = "../swc_css_visit" }
+swc_common = { path = "../swc_common" }
+
+[dev-dependencies]
+serde = "1.0.127"
+serde_json = "1.0.66"
+swc_css_codegen = { path = "../swc_css_codegen" }
+swc_css_codegen_macros = { path = "../swc_css_codegen_macros" }
+
