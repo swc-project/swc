@@ -13,9 +13,10 @@ use super::{
     util::{MultiReplacer, MultiReplacerMode},
     Optimizer,
 };
+#[cfg(feature = "debug")]
+use crate::debug::dump;
 use crate::{
     compress::optimize::{util::Remapper, Ctx},
-    debug::dump,
     mode::Mode,
     util::{idents_captured_by, idents_used_by, make_number},
 };

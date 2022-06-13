@@ -3,6 +3,7 @@ use swc_atoms::JsWord;
 use swc_common::collections::AHashMap;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+#[cfg(feature = "debug")]
 use tracing::trace;
 
 use self::scope::Scope;
@@ -47,17 +48,18 @@ impl Analyzer {
     }
 
     fn add_decl(&mut self, id: Id) {
-        if cfg!(feature = "debug") {
+        #[cfg(feature = "debug")]
+        {
             trace!("add_decl({:?})", id);
         }
         self.scope.add_decl(&id);
     }
 
     fn add_usage(&mut self, id: Id) {
-        if cfg!(feature = "debug") {
+        #[cfg(feature = "debug")]
+        {
             trace!("add_usage({:?})", id);
         }
-
         self.scope.add_usage(&id);
     }
 

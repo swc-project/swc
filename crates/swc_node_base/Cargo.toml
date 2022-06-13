@@ -14,7 +14,7 @@ bench = false
 [dependencies]
 
 [target.'cfg(not(target_os = "linux"))'.dependencies]
-mimalloc-rust = { version = "0.1" }
+mimalloc-rust = { version = "0.2" }
 
-[target.'cfg(all(target_os = "linux", target_env = "gnu", any(target_arch = "x86_64", target_arch = "aarch64")))'.dependencies]
-tikv-jemallocator = { version = "0.4", features = ["disable_initial_exec_tls"] }
+[target.'cfg(all(target_os = "linux", not(all(target_env = "musl", target_arch = "aarch64"))))'.dependencies]
+mimalloc-rust = { version = "0.2", features = ["local-dynamic-tls"] }

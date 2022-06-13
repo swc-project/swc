@@ -504,7 +504,7 @@ where
                     let mut args = vec![];
 
                     if cons.args.as_ref().map(|v| v.len()).unwrap_or(0) == 1 {
-                        args.push(ExprOrSpread {
+                        args = vec![ExprOrSpread {
                             spread: None,
                             expr: Box::new(Expr::Cond(CondExpr {
                                 span: DUMMY_SP,
@@ -512,7 +512,7 @@ where
                                 cons: cons.args.as_mut().unwrap()[0].expr.take(),
                                 alt: alt.args.as_mut().unwrap()[0].expr.take(),
                             })),
-                        });
+                        }];
                     }
 
                     report_change!(
@@ -715,10 +715,8 @@ where
             return;
         }
         //
-
-        let mut new_stmts = vec![];
-
-        for stmt in stmts.take() {
+        let mut new_stmts = Vec::with_capacity(stmts.len() * 2);
+        stmts.take().into_iter().for_each(|stmt| {
             match stmt.try_into_stmt() {
                 Ok(stmt) => match stmt {
                     Stmt::If(IfStmt {
@@ -753,7 +751,7 @@ where
                 },
                 Err(stmt) => new_stmts.push(stmt),
             }
-        }
+        });
 
         self.changed = true;
         report_change!("conditionals: Dropped useless `else` token");

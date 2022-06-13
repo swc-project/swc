@@ -4,7 +4,9 @@ use swc_ecma_utils::{undefined, StmtExt, StmtLike};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Optimizer;
-use crate::{compress::util::is_pure_undefined, debug::dump, mode::Mode, util::ExprOptExt};
+#[cfg(feature = "debug")]
+use crate::debug::dump;
+use crate::{compress::util::is_pure_undefined, mode::Mode, util::ExprOptExt};
 
 /// Methods related to the option `if_return`. All methods are noop if
 /// `if_return` is false.
