@@ -194,7 +194,6 @@ impl<'a> Scope<'a> {
 ///
 /// ## Resolving phase
 struct Resolver<'a> {
-    hoist: bool,
     current: Scope<'a>,
     ident_type: IdentType,
     in_type: bool,
@@ -212,7 +211,6 @@ struct InnerConfig {
 impl<'a> Resolver<'a> {
     fn new(current: Scope<'a>, config: InnerConfig) -> Self {
         Resolver {
-            hoist: false,
             current,
             ident_type: IdentType::Ref,
             config,
@@ -332,77 +330,9 @@ impl<'a> Resolver<'a> {
             return;
         }
 
-        if self.hoist {
-            // If there's no binding with same name, it means the code depends on hoisting
-            //
-            //   e.g.
-            //
-            //      function test() {
-            //          if (typeof Missing == typeof EXTENDS) {
-            //              console.log("missing")
-            //          }
-            //          var EXTENDS = "test";
-            //      }
-            let val = (|| {
-                let mut cursor = Some(&self.current);
-                let mut mark = self.current.mark;
-
-                while let Some(c) = cursor {
-                    if c.declared_symbols.contains(&ident.sym)
-                        || c.hoisted_symbols.borrow().contains(&ident.sym)
-                    {
-                        c.hoisted_symbols.borrow_mut().insert(ident.sym.clone());
-                        return None;
-                    }
-                    cursor = c.parent;
-                    let m = if let Some(parent) = &c.parent {
-                        parent.mark
-                    } else {
-                        Mark::root()
-                    };
-                    if m == Mark::root() {
-                        return Some(mark);
-                    }
-                    mark = m;
-                }
-
-                None
-            })();
-            if let Some(mark) = val {
-                ident.span = ident.span.apply_mark(mark);
-                return;
-            }
-        }
-
         let mut mark = self.current.mark;
 
-        if self.hoist {
-            let mut cursor = Some(&self.current);
-
-            match kind {
-                Some(VarDeclKind::Var) | None => {
-                    while let Some(c) = cursor {
-                        if c.kind == ScopeKind::Fn {
-                            c.hoisted_symbols.borrow_mut().insert(ident.sym.clone());
-                            break;
-                        }
-                        cursor = c.parent;
-
-                        if let Some(parent) = &c.parent {
-                            mark = parent.mark;
-                        }
-                    }
-                }
-                Some(VarDeclKind::Let) | Some(VarDeclKind::Const) => {
-                    self.current
-                        .hoisted_symbols
-                        .borrow_mut()
-                        .insert(ident.sym.clone());
-                }
-            }
-        } else {
-            self.current.declared_symbols.insert(ident.sym.clone());
-        }
+        self.current.declared_symbols.insert(ident.sym.clone());
 
         ident.span = if mark == Mark::root() {
             ident.span
@@ -586,17 +516,12 @@ impl<'a> VisitMut for Resolver<'a> {
 
         e.type_params.visit_mut_with(&mut folder);
 
-        let old_hoist = self.hoist;
         let old = folder.ident_type;
         folder.ident_type = IdentType::Binding;
-        folder.hoist = false;
         e.params.visit_mut_with(&mut folder);
         folder.ident_type = old;
-        folder.hoist = old_hoist;
 
         {
-            folder.hoist = false;
-
             match &mut e.body {
                 BlockStmtOrExpr::BlockStmt(s) => s.stmts.visit_mut_with(&mut folder),
                 BlockStmtOrExpr::Expr(e) => e.visit_mut_with(&mut folder),
@@ -1462,12 +1387,7 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_var_decl(&mut self, decl: &mut VarDecl) {
-        let old_hoist = self.hoist;
-
-        self.hoist = false;
         decl.decls.visit_mut_with(self);
-
-        self.hoist = old_hoist;
     }
 
     fn visit_mut_var_declarator(&mut self, decl: &mut VarDeclarator) {
@@ -1782,8 +1702,6 @@ impl VisitMut for Hoister<'_, '_> {
 
         let old_kind = self.kind;
         self.kind = Some(node.kind);
-
-        self.resolver.hoist = false;
 
         node.visit_mut_children_with(self);
 
