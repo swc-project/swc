@@ -194,7 +194,7 @@ struct Hygiene<'a> {
 }
 
 impl Hygiene<'_> {
-    fn analyze<N>(&mut self, n: &mut N)
+    fn analyze_root<N>(&mut self, n: &mut N)
     where
         N: for<'aa> VisitWith<UsageAnalyzer<'aa>>,
         N: for<'aa> VisitMutWith<Operator<'aa>>,
@@ -229,10 +229,10 @@ impl VisitMut for Hygiene<'_> {
     noop_visit_mut_type!();
 
     fn visit_mut_module(&mut self, n: &mut Module) {
-        self.analyze(n);
+        self.analyze_root(n);
     }
 
     fn visit_mut_script(&mut self, n: &mut Script) {
-        self.analyze(n);
+        self.analyze_root(n);
     }
 }
