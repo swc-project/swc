@@ -23,23 +23,23 @@ pub(super) struct Data {
 pub(super) struct ScopeData {
     pub kind: ScopeKind,
 
-    pub direct_decls: RefCell<AHashMap<JsWord, Vec<SyntaxContext>>>,
-    pub decls: RefCell<AHashMap<JsWord, Vec<(u16, SyntaxContext)>>>,
+    pub direct_decls: AHashMap<JsWord, Vec<SyntaxContext>>,
+    pub decls: AHashMap<JsWord, Vec<(u16, SyntaxContext)>>,
 
     /// Usages in current scope.
-    pub direct_usages: RefCell<AHashMap<JsWord, Vec<SyntaxContext>>>,
-    pub usages: RefCell<AHashMap<JsWord, Vec<SyntaxContext>>>,
+    pub direct_usages: AHashMap<JsWord, Vec<SyntaxContext>>,
+    pub usages: AHashMap<JsWord, Vec<SyntaxContext>>,
 }
 
 pub(super) struct CurScope<'a> {
     pub parent: Option<&'a CurScope<'a>>,
-    pub data: ScopeData,
+    pub data: RefCell<ScopeData>,
     pub depth: u16,
 }
 
 impl CurScope<'_> {
     fn contains_decl_with_symbol(&self, sym: &JsWord) -> bool {
-        if let Some(ctxts) = self.data.decls.borrow().get(sym) {
+        if let Some(ctxts) = self.data.borrow().decls.get(sym) {
             if !ctxts.is_empty() {
                 return true;
             }
@@ -52,7 +52,7 @@ impl CurScope<'_> {
 
     fn remove_usage(&self, id: &Id) {
         {
-            let mut b = self.data.usages.borrow_mut();
+            let mut b = &mut self.data.borrow_mut().usages;
             let ctxts_of_decls = b.get_mut(&id.0);
 
             if let Some(ctxts_of_decls) = ctxts_of_decls {
@@ -70,7 +70,7 @@ impl CurScope<'_> {
 
     fn remove_decl(&self, id: &Id) {
         {
-            let mut b = self.data.decls.borrow_mut();
+            let mut b = &mut self.data.borrow_mut().decls;
             let ctxts_of_decls = b.get_mut(&id.0);
 
             if let Some(ctxts_of_decls) = ctxts_of_decls {
@@ -89,7 +89,7 @@ impl CurScope<'_> {
     /// Called when we are exiting a scope.
     fn remove_decls_from_map(&self, map: &AHashMap<JsWord, Vec<SyntaxContext>>) {
         for (sym, dropped_ctxts) in map {
-            let mut b = self.data.decls.borrow_mut();
+            let mut b = &mut self.data.borrow_mut().decls;
             let ctxts_of_decls = b.get_mut(sym);
 
             if let Some(ctxts_of_decls) = ctxts_of_decls {
@@ -109,7 +109,7 @@ impl CurScope<'_> {
 
     fn add_decl_inner(&self, id: Id, direct: bool) {
         if direct {
-            let mut b = self.data.direct_decls.borrow_mut();
+            let mut b = &mut self.data.borrow_mut().direct_decls;
             let ctxts_of_decls = b.entry(id.0.clone()).or_default();
             if !ctxts_of_decls.contains(&id.1) {
                 ctxts_of_decls.push(id.1);
@@ -117,14 +117,14 @@ impl CurScope<'_> {
         }
 
         {
-            let mut b = self.data.decls.borrow_mut();
+            let mut b = &mut self.data.borrow_mut().decls;
             let ctxts_of_decls = b.entry(id.0.clone()).or_default();
             if !ctxts_of_decls.iter().any(|(_, ctxt)| ctxt == &id.1) {
                 ctxts_of_decls.push((self.depth, id.1));
             }
         }
 
-        if let ScopeKind::Fn = self.data.kind {
+        if let ScopeKind::Fn = self.data.borrow().kind {
             return;
         }
 
@@ -142,7 +142,7 @@ impl CurScope<'_> {
             None => vec![],
         };
 
-        if let Some(ctxts) = self.data.decls.borrow().get(sym) {
+        if let Some(ctxts) = self.data.borrow().decls.get(sym) {
             if ctxts.len() > 1 {
                 return conflicts;
             }
@@ -153,7 +153,7 @@ impl CurScope<'_> {
     }
 
     fn scope_depth(&self, id: &Id) -> u16 {
-        if let Some(ctxts) = self.data.decls.borrow().get(&id.0) {
+        if let Some(ctxts) = self.data.borrow().decls.get(&id.0) {
             for (scope_depth, ctxt) in ctxts.iter() {
                 if ctxt == &id.1 {
                     return *scope_depth;
@@ -173,7 +173,7 @@ impl CurScope<'_> {
 
     fn add_usage_inner(&self, id: Id, direct: bool) {
         if direct {
-            let mut b = self.data.direct_usages.borrow_mut();
+            let mut b = &mut self.data.borrow_mut().direct_usages;
             let v = b.entry(id.0.clone()).or_default();
             if !v.contains(&id.1) {
                 v.push(id.1);
@@ -181,7 +181,7 @@ impl CurScope<'_> {
         }
 
         {
-            let mut b = self.data.usages.borrow_mut();
+            let mut b = &mut self.data.borrow_mut().usages;
             let v = b.entry(id.0.clone()).or_default();
             if !v.contains(&id.1) {
                 v.push(id.1);
@@ -257,10 +257,10 @@ impl UsageAnalyzer<'_> {
             data: self.data,
             cur: CurScope {
                 parent: Some(&self.cur),
-                data: ScopeData {
+                data: RefCell::new(ScopeData {
                     kind,
                     ..Default::default()
-                },
+                }),
                 depth: self.cur.depth + 1,
             },
             is_pat_decl: self.is_pat_decl,
@@ -271,12 +271,12 @@ impl UsageAnalyzer<'_> {
         let v = take(&mut child.cur.data);
 
         {
-            let decls_in_scope = take(&mut *v.direct_decls.borrow_mut());
+            let decls_in_scope = take(&mut v.borrow_mut().direct_decls);
 
             self.cur.remove_decls_from_map(&decls_in_scope);
         }
 
-        *self.data.scopes.entry(scope_ctxt).or_default() = v;
+        *self.data.scopes.entry(scope_ctxt).or_default() = v.into_inner();
     }
 
     fn visit_stmt_likes<N>(&mut self, stmts: &[N])
@@ -319,7 +319,7 @@ impl UsageAnalyzer<'_> {
         let id = self.get_renamed_id(id);
 
         let need_rename = {
-            let b = self.cur.data.decls.borrow();
+            let b = &self.cur.data.borrow().decls;
             let ctxts_of_decls = b.get(&id.0);
 
             if let Some(ctxts_of_decls) = ctxts_of_decls {
