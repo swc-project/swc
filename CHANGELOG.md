@@ -17,6 +17,9 @@
 
 
 
+- **(es/lints)** Add `constructor-super` rule (#4912) ([6daeeb0](https://github.com/swc-project/swc/commit/6daeeb0652513af7435c2197d74734c89965d66e))
+
+
 - **(es/minifier)** Turn `Array`/`Object` calls into literals (#4947) ([47bdc6a](https://github.com/swc-project/swc/commit/47bdc6a6b13c5a4d6b85d4e3a0e729126c7b5f9d))
 
 
