@@ -1,5 +1,3 @@
-use std::cell::RefCell;
-
 use rustc_hash::FxHashSet;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashSet, Mark, SyntaxContext};
@@ -161,7 +159,6 @@ struct Scope<'a> {
 
     /// All declarations in the scope
     declared_symbols: AHashSet<JsWord>,
-    hoisted_symbols: RefCell<AHashSet<JsWord>>,
 
     /// All types declared in the scope
     declared_types: AHashSet<JsWord>,
@@ -174,7 +171,6 @@ impl<'a> Scope<'a> {
             kind,
             mark,
             declared_symbols: Default::default(),
-            hoisted_symbols: Default::default(),
             declared_types: Default::default(),
         }
     }
@@ -278,7 +274,7 @@ impl<'a> Resolver<'a> {
         let mut scope = Some(&self.current);
 
         while let Some(cur) = scope {
-            if cur.declared_symbols.contains(sym) || cur.hoisted_symbols.borrow().contains(sym) {
+            if cur.declared_symbols.contains(sym) {
                 if mark == Mark::root() {
                     return None;
                 }
@@ -330,7 +326,7 @@ impl<'a> Resolver<'a> {
             return;
         }
 
-        let mut mark = self.current.mark;
+        let mark = self.current.mark;
 
         self.current.declared_symbols.insert(ident.sym.clone());
 
