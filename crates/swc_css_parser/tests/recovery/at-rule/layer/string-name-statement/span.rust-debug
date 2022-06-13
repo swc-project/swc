@@ -1,0 +1,54 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-statement/input.css:1:1]
+ 1 | @layer "default";
+   : ^^^^^^^^^^^^^^^^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-statement/input.css:1:1]
+ 1 | @layer "default";
+   : ^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-statement/input.css:1:1]
+ 1 | @layer "default";
+   : ^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-statement/input.css:1:1]
+ 1 | @layer "default";
+   :  ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-statement/input.css:1:1]
+ 1 | @layer "default";
+   :  ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-statement/input.css:1:1]
+ 1 | @layer "default";
+   :       ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-statement/input.css:1:1]
+ 1 | @layer "default";
+   :       ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-statement/input.css:1:1]
+ 1 | @layer "default";
+   :        ^^^^^^^^^
+   `----
+
+  x String { value: Atom('default' type=static), raw: Atom('"default"' type=dynamic) }
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-statement/input.css:1:1]
+ 1 | @layer "default";
+   :        ^^^^^^^^^
+   `----

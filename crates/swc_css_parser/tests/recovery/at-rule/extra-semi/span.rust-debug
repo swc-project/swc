@@ -1,0 +1,131 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:1:1]
+ 1 | ,-> @import "x.css";;
+ 2 | |   
+ 3 | |   .color {
+ 4 | `->     color: red;
+ 5 |     }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:1:1]
+ 1 | @import "x.css";;
+   : ^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:1:1]
+ 1 | @import "x.css";;
+   : ^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:1:1]
+ 1 | @import "x.css";;
+   :  ^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:1:1]
+ 1 | @import "x.css";;
+   :  ^^^^^^
+   `----
+
+  x Str
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:1:1]
+ 1 | @import "x.css";;
+   :         ^^^^^^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:1:1]
+ 1 | ,-> @import "x.css";;
+ 2 | |   
+ 3 | |   .color {
+ 4 | `->     color: red;
+   `----
+
+  x Tokens
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:1:1]
+ 1 | ,-> @import "x.css";;
+ 2 | |   
+ 3 | |   .color {
+ 4 | `->     color: red;
+   `----
+
+  x Semi
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:1:1]
+ 1 | @import "x.css";;
+   :                 ^
+   `----
+
+  x WhiteSpace { value: Atom('
+  | 
+  | ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:1:1]
+ 1 | ,-> @import "x.css";;
+ 2 | `-> 
+ 3 |     .color {
+   `----
+
+  x Delim { value: '.' }
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:3:1]
+ 3 | .color {
+   : ^
+   `----
+
+  x Ident { value: Atom('color' type=inline), raw: Atom('color' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:3:1]
+ 3 | .color {
+   :  ^^^^^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:3:1]
+ 3 | .color {
+   :       ^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:3:1]
+ 3 | .color {
+   :        ^
+   `----
+
+  x WhiteSpace { value: Atom('
+  |     ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:3:1]
+ 3 | ,-> .color {
+ 4 | `->     color: red;
+   `----
+
+  x Ident { value: Atom('color' type=inline), raw: Atom('color' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:4:5]
+ 4 | color: red;
+   : ^^^^^
+   `----
+
+  x Colon
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:4:5]
+ 4 | color: red;
+   :      ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:4:5]
+ 4 | color: red;
+   :       ^
+   `----
+
+  x Ident { value: Atom('red' type=inline), raw: Atom('red' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:4:5]
+ 4 | color: red;
+   :        ^^^
+   `----
+
+  x Semi
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:4:5]
+ 4 | color: red;
+   :           ^
+   `----

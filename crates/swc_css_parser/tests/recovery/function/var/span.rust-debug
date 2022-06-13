@@ -1,0 +1,402 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/function/var/input.css:1:1]
+ 1 | ,-> .style {
+ 2 | |   	border: var(#fff);
+ 3 | |   	border: var(calc(10px + 10px));
+ 4 | |   	border: var(90rem);
+ 5 | `-> }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/function/var/input.css:1:1]
+ 1 | ,-> .style {
+ 2 | |   	border: var(#fff);
+ 3 | |   	border: var(calc(10px + 10px));
+ 4 | |   	border: var(90rem);
+ 5 | `-> }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/function/var/input.css:1:1]
+ 1 | ,-> .style {
+ 2 | |   	border: var(#fff);
+ 3 | |   	border: var(calc(10px + 10px));
+ 4 | |   	border: var(90rem);
+ 5 | `-> }
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/recovery/function/var/input.css:1:1]
+ 1 | .style {
+   : ^^^^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/recovery/function/var/input.css:1:1]
+ 1 | .style {
+   : ^^^^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/recovery/function/var/input.css:1:1]
+ 1 | .style {
+   : ^^^^^^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/recovery/function/var/input.css:1:1]
+ 1 | .style {
+   : ^^^^^^
+   `----
+
+  x ClassSelector
+   ,-[$DIR/tests/recovery/function/var/input.css:1:1]
+ 1 | .style {
+   : ^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/var/input.css:1:1]
+ 1 | .style {
+   :  ^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/function/var/input.css:1:1]
+ 1 | ,-> .style {
+ 2 | |   	border: var(#fff);
+ 3 | |   	border: var(calc(10px + 10px));
+ 4 | |   	border: var(90rem);
+ 5 | `-> }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/var/input.css:2:5]
+ 2 | border: var(#fff);
+   : ^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/function/var/input.css:2:5]
+ 2 | border: var(#fff);
+   : ^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/function/var/input.css:2:5]
+ 2 | border: var(#fff);
+   : ^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/function/var/input.css:2:5]
+ 2 | border: var(#fff);
+   : ^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/var/input.css:2:5]
+ 2 | border: var(#fff);
+   : ^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/var/input.css:2:5]
+ 2 | border: var(#fff);
+   :         ^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/recovery/function/var/input.css:2:5]
+ 2 | border: var(#fff);
+   :         ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/var/input.css:2:5]
+ 2 | border: var(#fff);
+   :         ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/var/input.css:2:5]
+ 2 | border: var(#fff);
+   :             ^^^^
+   `----
+
+  x Color
+   ,-[$DIR/tests/recovery/function/var/input.css:2:5]
+ 2 | border: var(#fff);
+   :             ^^^^
+   `----
+
+  x HexColor
+   ,-[$DIR/tests/recovery/function/var/input.css:2:5]
+ 2 | border: var(#fff);
+   :             ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/var/input.css:3:5]
+ 3 | border: var(calc(10px + 10px));
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/function/var/input.css:3:5]
+ 3 | border: var(calc(10px + 10px));
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/function/var/input.css:3:5]
+ 3 | border: var(calc(10px + 10px));
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/function/var/input.css:3:5]
+ 3 | border: var(calc(10px + 10px));
+   : ^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/var/input.css:3:5]
+ 3 | border: var(calc(10px + 10px));
+   : ^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/var/input.css:3:5]
+ 3 | border: var(calc(10px + 10px));
+   :         ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/recovery/function/var/input.css:3:5]
+ 3 | border: var(calc(10px + 10px));
+   :         ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/var/input.css:3:5]
+ 3 | border: var(calc(10px + 10px));
+   :         ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/var/input.css:3:5]
+ 3 | border: var(calc(10px + 10px));
+   :             ^^^^^^^^^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/recovery/function/var/input.css:3:5]
+ 3 | border: var(calc(10px + 10px));
+   :             ^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/var/input.css:3:5]
+ 3 | border: var(calc(10px + 10px));
+   :             ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/var/input.css:3:5]
+ 3 | border: var(calc(10px + 10px));
+   :                  ^^^^^^^^^^^
+   `----
+
+  x CalcSum
+   ,-[$DIR/tests/recovery/function/var/input.css:3:5]
+ 3 | border: var(calc(10px + 10px));
+   :                  ^^^^^^^^^^^
+   `----
+
+  x CalcProductOrOperator
+   ,-[$DIR/tests/recovery/function/var/input.css:3:5]
+ 3 | border: var(calc(10px + 10px));
+   :                  ^^^^
+   `----
+
+  x CalcProduct
+   ,-[$DIR/tests/recovery/function/var/input.css:3:5]
+ 3 | border: var(calc(10px + 10px));
+   :                  ^^^^
+   `----
+
+  x CalcValueOrOperator
+   ,-[$DIR/tests/recovery/function/var/input.css:3:5]
+ 3 | border: var(calc(10px + 10px));
+   :                  ^^^^
+   `----
+
+  x CalcValue
+   ,-[$DIR/tests/recovery/function/var/input.css:3:5]
+ 3 | border: var(calc(10px + 10px));
+   :                  ^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/recovery/function/var/input.css:3:5]
+ 3 | border: var(calc(10px + 10px));
+   :                  ^^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/recovery/function/var/input.css:3:5]
+ 3 | border: var(calc(10px + 10px));
+   :                  ^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/recovery/function/var/input.css:3:5]
+ 3 | border: var(calc(10px + 10px));
+   :                  ^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/var/input.css:3:5]
+ 3 | border: var(calc(10px + 10px));
+   :                    ^^
+   `----
+
+  x CalcProductOrOperator
+   ,-[$DIR/tests/recovery/function/var/input.css:3:5]
+ 3 | border: var(calc(10px + 10px));
+   :                       ^
+   `----
+
+  x CalcOperator
+   ,-[$DIR/tests/recovery/function/var/input.css:3:5]
+ 3 | border: var(calc(10px + 10px));
+   :                       ^
+   `----
+
+  x CalcProductOrOperator
+   ,-[$DIR/tests/recovery/function/var/input.css:3:5]
+ 3 | border: var(calc(10px + 10px));
+   :                         ^^^^
+   `----
+
+  x CalcProduct
+   ,-[$DIR/tests/recovery/function/var/input.css:3:5]
+ 3 | border: var(calc(10px + 10px));
+   :                         ^^^^
+   `----
+
+  x CalcValueOrOperator
+   ,-[$DIR/tests/recovery/function/var/input.css:3:5]
+ 3 | border: var(calc(10px + 10px));
+   :                         ^^^^
+   `----
+
+  x CalcValue
+   ,-[$DIR/tests/recovery/function/var/input.css:3:5]
+ 3 | border: var(calc(10px + 10px));
+   :                         ^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/recovery/function/var/input.css:3:5]
+ 3 | border: var(calc(10px + 10px));
+   :                         ^^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/recovery/function/var/input.css:3:5]
+ 3 | border: var(calc(10px + 10px));
+   :                         ^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/recovery/function/var/input.css:3:5]
+ 3 | border: var(calc(10px + 10px));
+   :                         ^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/var/input.css:3:5]
+ 3 | border: var(calc(10px + 10px));
+   :                           ^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/var/input.css:4:5]
+ 4 | border: var(90rem);
+   : ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/function/var/input.css:4:5]
+ 4 | border: var(90rem);
+   : ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/function/var/input.css:4:5]
+ 4 | border: var(90rem);
+   : ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/function/var/input.css:4:5]
+ 4 | border: var(90rem);
+   : ^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/var/input.css:4:5]
+ 4 | border: var(90rem);
+   : ^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/var/input.css:4:5]
+ 4 | border: var(90rem);
+   :         ^^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/recovery/function/var/input.css:4:5]
+ 4 | border: var(90rem);
+   :         ^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/var/input.css:4:5]
+ 4 | border: var(90rem);
+   :         ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/var/input.css:4:5]
+ 4 | border: var(90rem);
+   :             ^^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/recovery/function/var/input.css:4:5]
+ 4 | border: var(90rem);
+   :             ^^^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/recovery/function/var/input.css:4:5]
+ 4 | border: var(90rem);
+   :             ^^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/recovery/function/var/input.css:4:5]
+ 4 | border: var(90rem);
+   :             ^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/var/input.css:4:5]
+ 4 | border: var(90rem);
+   :               ^^^
+   `----

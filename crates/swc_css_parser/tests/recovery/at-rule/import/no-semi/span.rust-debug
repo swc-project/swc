@@ -1,0 +1,126 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/at-rule/import/no-semi/input.css:1:1]
+ 1 | @import url('http://') :root {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/at-rule/import/no-semi/input.css:1:1]
+ 1 | @import url('http://') :root {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/recovery/at-rule/import/no-semi/input.css:1:1]
+ 1 | @import url('http://') :root {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/recovery/at-rule/import/no-semi/input.css:1:1]
+ 1 | @import url('http://') :root {}
+   :  ^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/import/no-semi/input.css:1:1]
+ 1 | @import url('http://') :root {}
+   :  ^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/import/no-semi/input.css:1:1]
+ 1 | @import url('http://') :root {}
+   :        ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/import/no-semi/input.css:1:1]
+ 1 | @import url('http://') :root {}
+   :        ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/import/no-semi/input.css:1:1]
+ 1 | @import url('http://') :root {}
+   :         ^^^^^^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/recovery/at-rule/import/no-semi/input.css:1:1]
+ 1 | @import url('http://') :root {}
+   :         ^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/import/no-semi/input.css:1:1]
+ 1 | @import url('http://') :root {}
+   :         ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/import/no-semi/input.css:1:1]
+ 1 | @import url('http://') :root {}
+   :             ^^^^^^^^^
+   `----
+
+  x String { value: Atom('http://' type=inline), raw: Atom(''http://'' type=dynamic) }
+   ,-[$DIR/tests/recovery/at-rule/import/no-semi/input.css:1:1]
+ 1 | @import url('http://') :root {}
+   :             ^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/import/no-semi/input.css:1:1]
+ 1 | @import url('http://') :root {}
+   :                       ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/import/no-semi/input.css:1:1]
+ 1 | @import url('http://') :root {}
+   :                       ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/import/no-semi/input.css:1:1]
+ 1 | @import url('http://') :root {}
+   :                        ^
+   `----
+
+  x Colon
+   ,-[$DIR/tests/recovery/at-rule/import/no-semi/input.css:1:1]
+ 1 | @import url('http://') :root {}
+   :                        ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/import/no-semi/input.css:1:1]
+ 1 | @import url('http://') :root {}
+   :                         ^^^^
+   `----
+
+  x Ident { value: Atom('root' type=inline), raw: Atom('root' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/import/no-semi/input.css:1:1]
+ 1 | @import url('http://') :root {}
+   :                         ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/import/no-semi/input.css:1:1]
+ 1 | @import url('http://') :root {}
+   :                             ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/import/no-semi/input.css:1:1]
+ 1 | @import url('http://') :root {}
+   :                             ^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/at-rule/import/no-semi/input.css:1:1]
+ 1 | @import url('http://') :root {}
+   :                              ^^
+   `----

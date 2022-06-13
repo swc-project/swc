@@ -1,0 +1,216 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
+ 1 | @media (400px > = width > = 700px) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
+ 1 | @media (400px > = width > = 700px) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
+ 1 | @media (400px > = width > = 700px) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
+ 1 | @media (400px > = width > = 700px) {}
+   :  ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
+ 1 | @media (400px > = width > = 700px) {}
+   :  ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
+ 1 | @media (400px > = width > = 700px) {}
+   :       ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
+ 1 | @media (400px > = width > = 700px) {}
+   :       ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
+ 1 | @media (400px > = width > = 700px) {}
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
+ 1 | @media (400px > = width > = 700px) {}
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
+ 1 | @media (400px > = width > = 700px) {}
+   :         ^^^^^
+   `----
+
+  x Dimension { value: 400.0, raw_value: Atom('400' type=inline), unit: Atom('px' type=inline), raw_unit: Atom('px' type=inline), type_flag: Integer }
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
+ 1 | @media (400px > = width > = 700px) {}
+   :         ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
+ 1 | @media (400px > = width > = 700px) {}
+   :              ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
+ 1 | @media (400px > = width > = 700px) {}
+   :              ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
+ 1 | @media (400px > = width > = 700px) {}
+   :               ^
+   `----
+
+  x Delim { value: '>' }
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
+ 1 | @media (400px > = width > = 700px) {}
+   :               ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
+ 1 | @media (400px > = width > = 700px) {}
+   :                ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
+ 1 | @media (400px > = width > = 700px) {}
+   :                ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
+ 1 | @media (400px > = width > = 700px) {}
+   :                 ^
+   `----
+
+  x Delim { value: '=' }
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
+ 1 | @media (400px > = width > = 700px) {}
+   :                 ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
+ 1 | @media (400px > = width > = 700px) {}
+   :                  ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
+ 1 | @media (400px > = width > = 700px) {}
+   :                  ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
+ 1 | @media (400px > = width > = 700px) {}
+   :                   ^^^^^
+   `----
+
+  x Ident { value: Atom('width' type=inline), raw: Atom('width' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
+ 1 | @media (400px > = width > = 700px) {}
+   :                   ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
+ 1 | @media (400px > = width > = 700px) {}
+   :                        ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
+ 1 | @media (400px > = width > = 700px) {}
+   :                        ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
+ 1 | @media (400px > = width > = 700px) {}
+   :                         ^
+   `----
+
+  x Delim { value: '>' }
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
+ 1 | @media (400px > = width > = 700px) {}
+   :                         ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
+ 1 | @media (400px > = width > = 700px) {}
+   :                          ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
+ 1 | @media (400px > = width > = 700px) {}
+   :                          ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
+ 1 | @media (400px > = width > = 700px) {}
+   :                           ^
+   `----
+
+  x Delim { value: '=' }
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
+ 1 | @media (400px > = width > = 700px) {}
+   :                           ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
+ 1 | @media (400px > = width > = 700px) {}
+   :                            ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
+ 1 | @media (400px > = width > = 700px) {}
+   :                            ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
+ 1 | @media (400px > = width > = 700px) {}
+   :                             ^^^^^
+   `----
+
+  x Dimension { value: 700.0, raw_value: Atom('700' type=inline), unit: Atom('px' type=inline), raw_unit: Atom('px' type=inline), type_flag: Integer }
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
+ 1 | @media (400px > = width > = 700px) {}
+   :                             ^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
+ 1 | @media (400px > = width > = 700px) {}
+   :                                    ^^
+   `----
