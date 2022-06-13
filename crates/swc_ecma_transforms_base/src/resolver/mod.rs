@@ -1464,7 +1464,7 @@ impl<'a> VisitMut for Resolver<'a> {
     fn visit_mut_var_decl(&mut self, decl: &mut VarDecl) {
         let old_hoist = self.hoist;
 
-        self.hoist = VarDeclKind::Var == decl.kind;
+        self.hoist = false;
         decl.decls.visit_mut_with(self);
 
         self.hoist = old_hoist;
