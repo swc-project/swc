@@ -1,0 +1,274 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/number/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       prop: 10.10px
+ 3 | |       prop1: 10px
+ 4 | |       prop2: 10
+ 5 | |       prop3: 10.10
+ 6 | `-> }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/number/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       prop: 10.10px
+ 3 | |       prop1: 10px
+ 4 | |       prop2: 10
+ 5 | |       prop3: 10.10
+ 6 | `-> }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/number/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       prop: 10.10px
+ 3 | |       prop1: 10px
+ 4 | |       prop2: 10
+ 5 | |       prop3: 10.10
+ 6 | `-> }
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/recovery/number/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/recovery/number/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/recovery/number/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/recovery/number/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/recovery/number/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/recovery/number/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/number/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/number/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       prop: 10.10px
+ 3 | |       prop1: 10px
+ 4 | |       prop2: 10
+ 5 | |       prop3: 10.10
+ 6 | `-> }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/number/input.css:2:5]
+ 2 | ,-> prop: 10.10px
+ 3 | |       prop1: 10px
+ 4 | |       prop2: 10
+ 5 | `->     prop3: 10.10
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/number/input.css:2:5]
+ 2 | ,-> prop: 10.10px
+ 3 | |       prop1: 10px
+ 4 | |       prop2: 10
+ 5 | `->     prop3: 10.10
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/number/input.css:2:5]
+ 2 | ,-> prop: 10.10px
+ 3 | |       prop1: 10px
+ 4 | |       prop2: 10
+ 5 | `->     prop3: 10.10
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/number/input.css:2:5]
+ 2 | prop: 10.10px
+   : ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/number/input.css:2:5]
+ 2 | prop: 10.10px
+   : ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/number/input.css:2:5]
+ 2 | prop: 10.10px
+   :       ^^^^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/recovery/number/input.css:2:5]
+ 2 | prop: 10.10px
+   :       ^^^^^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/recovery/number/input.css:2:5]
+ 2 | prop: 10.10px
+   :       ^^^^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/recovery/number/input.css:2:5]
+ 2 | prop: 10.10px
+   :       ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/number/input.css:2:5]
+ 2 | prop: 10.10px
+   :            ^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/number/input.css:3:5]
+ 3 | prop1: 10px
+   : ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/number/input.css:3:5]
+ 3 | prop1: 10px
+   : ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/number/input.css:3:5]
+ 3 | prop1: 10px
+   :      ^
+   `----
+
+  x Colon
+   ,-[$DIR/tests/recovery/number/input.css:3:5]
+ 3 | prop1: 10px
+   :      ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/number/input.css:3:5]
+ 3 | prop1: 10px
+   :        ^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/recovery/number/input.css:3:5]
+ 3 | prop1: 10px
+   :        ^^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/recovery/number/input.css:3:5]
+ 3 | prop1: 10px
+   :        ^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/recovery/number/input.css:3:5]
+ 3 | prop1: 10px
+   :        ^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/number/input.css:3:5]
+ 3 | prop1: 10px
+   :          ^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/number/input.css:4:5]
+ 4 | prop2: 10
+   : ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/number/input.css:4:5]
+ 4 | prop2: 10
+   : ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/number/input.css:4:5]
+ 4 | prop2: 10
+   :      ^
+   `----
+
+  x Colon
+   ,-[$DIR/tests/recovery/number/input.css:4:5]
+ 4 | prop2: 10
+   :      ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/number/input.css:4:5]
+ 4 | prop2: 10
+   :        ^^
+   `----
+
+  x Integer
+   ,-[$DIR/tests/recovery/number/input.css:4:5]
+ 4 | prop2: 10
+   :        ^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/number/input.css:5:5]
+ 5 | prop3: 10.10
+   : ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/number/input.css:5:5]
+ 5 | prop3: 10.10
+   : ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/number/input.css:5:5]
+ 5 | prop3: 10.10
+   :      ^
+   `----
+
+  x Colon
+   ,-[$DIR/tests/recovery/number/input.css:5:5]
+ 5 | prop3: 10.10
+   :      ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/number/input.css:5:5]
+ 5 | prop3: 10.10
+   :        ^^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/recovery/number/input.css:5:5]
+ 5 | prop3: 10.10
+   :        ^^^^^
+   `----

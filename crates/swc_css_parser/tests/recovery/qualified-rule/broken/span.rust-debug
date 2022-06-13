@@ -1,0 +1,114 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:1:1]
+ 1 | ,-> foo
+ 2 | |   
+ 3 | |   {
+ 4 | `->     color: red;
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:1:1]
+ 1 | ,-> foo
+ 2 | |   
+ 3 | |   {
+ 4 | `->     color: red;
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:1:1]
+ 1 | ,-> foo
+ 2 | |   
+ 3 | |   {
+ 4 | `->     color: red;
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:1:1]
+ 1 | foo
+   : ^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:1:1]
+ 1 | foo
+   : ^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:1:1]
+ 1 | foo
+   : ^^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:1:1]
+ 1 | foo
+   : ^^^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:1:1]
+ 1 | foo
+   : ^^^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:1:1]
+ 1 | foo
+   : ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:1:1]
+ 1 | foo
+   : ^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:3:1]
+ 3 | ,-> {
+ 4 | `->     color: red;
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:4:5]
+ 4 | color: red;
+   : ^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:4:5]
+ 4 | color: red;
+   : ^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:4:5]
+ 4 | color: red;
+   : ^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:4:5]
+ 4 | color: red;
+   : ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:4:5]
+ 4 | color: red;
+   : ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:4:5]
+ 4 | color: red;
+   :        ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:4:5]
+ 4 | color: red;
+   :        ^^^
+   `----

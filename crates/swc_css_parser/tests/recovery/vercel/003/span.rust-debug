@@ -1,0 +1,574 @@
+
+  x Stylesheet
+    ,-[$DIR/tests/recovery/vercel/003/input.css:1:1]
+  1 | ,-> .geist-list {
+  2 | |       display: flex;
+  3 | |       flex-wrap: wrap;
+  4 | |       margin: __ident__;
+  5 | |       box-sizing: border-box;
+  6 | |   }
+  7 | |   .geist-list :global(> .geist-list-item) {
+  8 | |       padding: __ident__;
+  9 | |       flex-grow: 0;
+ 10 | |       flex-basis: __ident__%;
+ 11 | |       min-width: 0;
+ 12 | `-> }
+    `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/vercel/003/input.css:1:1]
+ 1 | ,-> .geist-list {
+ 2 | |       display: flex;
+ 3 | |       flex-wrap: wrap;
+ 4 | |       margin: __ident__;
+ 5 | |       box-sizing: border-box;
+ 6 | `-> }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/vercel/003/input.css:1:1]
+ 1 | ,-> .geist-list {
+ 2 | |       display: flex;
+ 3 | |       flex-wrap: wrap;
+ 4 | |       margin: __ident__;
+ 5 | |       box-sizing: border-box;
+ 6 | `-> }
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/recovery/vercel/003/input.css:1:1]
+ 1 | .geist-list {
+   : ^^^^^^^^^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/recovery/vercel/003/input.css:1:1]
+ 1 | .geist-list {
+   : ^^^^^^^^^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/recovery/vercel/003/input.css:1:1]
+ 1 | .geist-list {
+   : ^^^^^^^^^^^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/recovery/vercel/003/input.css:1:1]
+ 1 | .geist-list {
+   : ^^^^^^^^^^^
+   `----
+
+  x ClassSelector
+   ,-[$DIR/tests/recovery/vercel/003/input.css:1:1]
+ 1 | .geist-list {
+   : ^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/003/input.css:1:1]
+ 1 | .geist-list {
+   :  ^^^^^^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/vercel/003/input.css:1:1]
+ 1 | ,-> .geist-list {
+ 2 | |       display: flex;
+ 3 | |       flex-wrap: wrap;
+ 4 | |       margin: __ident__;
+ 5 | |       box-sizing: border-box;
+ 6 | `-> }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/003/input.css:2:5]
+ 2 | display: flex;
+   : ^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/vercel/003/input.css:2:5]
+ 2 | display: flex;
+   : ^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/vercel/003/input.css:2:5]
+ 2 | display: flex;
+   : ^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/vercel/003/input.css:2:5]
+ 2 | display: flex;
+   : ^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/003/input.css:2:5]
+ 2 | display: flex;
+   : ^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/003/input.css:2:5]
+ 2 | display: flex;
+   :          ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/003/input.css:2:5]
+ 2 | display: flex;
+   :          ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/003/input.css:3:5]
+ 3 | flex-wrap: wrap;
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/vercel/003/input.css:3:5]
+ 3 | flex-wrap: wrap;
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/vercel/003/input.css:3:5]
+ 3 | flex-wrap: wrap;
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/vercel/003/input.css:3:5]
+ 3 | flex-wrap: wrap;
+   : ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/003/input.css:3:5]
+ 3 | flex-wrap: wrap;
+   : ^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/003/input.css:3:5]
+ 3 | flex-wrap: wrap;
+   :            ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/003/input.css:3:5]
+ 3 | flex-wrap: wrap;
+   :            ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/003/input.css:4:5]
+ 4 | margin: __ident__;
+   : ^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/vercel/003/input.css:4:5]
+ 4 | margin: __ident__;
+   : ^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/vercel/003/input.css:4:5]
+ 4 | margin: __ident__;
+   : ^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/vercel/003/input.css:4:5]
+ 4 | margin: __ident__;
+   : ^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/003/input.css:4:5]
+ 4 | margin: __ident__;
+   : ^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/003/input.css:4:5]
+ 4 | margin: __ident__;
+   :         ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/003/input.css:4:5]
+ 4 | margin: __ident__;
+   :         ^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/003/input.css:5:5]
+ 5 | box-sizing: border-box;
+   : ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/vercel/003/input.css:5:5]
+ 5 | box-sizing: border-box;
+   : ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/vercel/003/input.css:5:5]
+ 5 | box-sizing: border-box;
+   : ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/vercel/003/input.css:5:5]
+ 5 | box-sizing: border-box;
+   : ^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/003/input.css:5:5]
+ 5 | box-sizing: border-box;
+   : ^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/003/input.css:5:5]
+ 5 | box-sizing: border-box;
+   :             ^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/003/input.css:5:5]
+ 5 | box-sizing: border-box;
+   :             ^^^^^^^^^^
+   `----
+
+  x Rule
+    ,-[$DIR/tests/recovery/vercel/003/input.css:7:1]
+  7 | ,-> .geist-list :global(> .geist-list-item) {
+  8 | |       padding: __ident__;
+  9 | |       flex-grow: 0;
+ 10 | |       flex-basis: __ident__%;
+ 11 | |       min-width: 0;
+ 12 | `-> }
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/recovery/vercel/003/input.css:7:1]
+  7 | ,-> .geist-list :global(> .geist-list-item) {
+  8 | |       padding: __ident__;
+  9 | |       flex-grow: 0;
+ 10 | |       flex-basis: __ident__%;
+ 11 | |       min-width: 0;
+ 12 | `-> }
+    `----
+
+  x SelectorList
+   ,-[$DIR/tests/recovery/vercel/003/input.css:7:1]
+ 7 | .geist-list :global(> .geist-list-item) {
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/recovery/vercel/003/input.css:7:1]
+ 7 | .geist-list :global(> .geist-list-item) {
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/recovery/vercel/003/input.css:7:1]
+ 7 | .geist-list :global(> .geist-list-item) {
+   : ^^^^^^^^^^^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/recovery/vercel/003/input.css:7:1]
+ 7 | .geist-list :global(> .geist-list-item) {
+   : ^^^^^^^^^^^
+   `----
+
+  x ClassSelector
+   ,-[$DIR/tests/recovery/vercel/003/input.css:7:1]
+ 7 | .geist-list :global(> .geist-list-item) {
+   : ^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/003/input.css:7:1]
+ 7 | .geist-list :global(> .geist-list-item) {
+   :  ^^^^^^^^^^
+   `----
+
+  x Combinator
+   ,-[$DIR/tests/recovery/vercel/003/input.css:7:1]
+ 7 | .geist-list :global(> .geist-list-item) {
+   :            ^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/recovery/vercel/003/input.css:7:1]
+ 7 | .geist-list :global(> .geist-list-item) {
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/recovery/vercel/003/input.css:7:1]
+ 7 | .geist-list :global(> .geist-list-item) {
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x PseudoClassSelector
+   ,-[$DIR/tests/recovery/vercel/003/input.css:7:1]
+ 7 | .geist-list :global(> .geist-list-item) {
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/003/input.css:7:1]
+ 7 | .geist-list :global(> .geist-list-item) {
+   :              ^^^^^^
+   `----
+
+  x PseudoClassSelectorChildren
+   ,-[$DIR/tests/recovery/vercel/003/input.css:7:1]
+ 7 | .geist-list :global(> .geist-list-item) {
+   :                     ^
+   `----
+
+  x Delim { value: '>' }
+   ,-[$DIR/tests/recovery/vercel/003/input.css:7:1]
+ 7 | .geist-list :global(> .geist-list-item) {
+   :                     ^
+   `----
+
+  x PseudoClassSelectorChildren
+   ,-[$DIR/tests/recovery/vercel/003/input.css:7:1]
+ 7 | .geist-list :global(> .geist-list-item) {
+   :                      ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/vercel/003/input.css:7:1]
+ 7 | .geist-list :global(> .geist-list-item) {
+   :                      ^
+   `----
+
+  x PseudoClassSelectorChildren
+   ,-[$DIR/tests/recovery/vercel/003/input.css:7:1]
+ 7 | .geist-list :global(> .geist-list-item) {
+   :                       ^
+   `----
+
+  x Delim { value: '.' }
+   ,-[$DIR/tests/recovery/vercel/003/input.css:7:1]
+ 7 | .geist-list :global(> .geist-list-item) {
+   :                       ^
+   `----
+
+  x PseudoClassSelectorChildren
+   ,-[$DIR/tests/recovery/vercel/003/input.css:7:1]
+ 7 | .geist-list :global(> .geist-list-item) {
+   :                        ^^^^^^^^^^^^^^^
+   `----
+
+  x Ident { value: Atom('geist-list-item' type=dynamic), raw: Atom('geist-list-item' type=dynamic) }
+   ,-[$DIR/tests/recovery/vercel/003/input.css:7:1]
+ 7 | .geist-list :global(> .geist-list-item) {
+   :                        ^^^^^^^^^^^^^^^
+   `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/recovery/vercel/003/input.css:7:1]
+  7 | ,-> .geist-list :global(> .geist-list-item) {
+  8 | |       padding: __ident__;
+  9 | |       flex-grow: 0;
+ 10 | |       flex-basis: __ident__%;
+ 11 | |       min-width: 0;
+ 12 | `-> }
+    `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/003/input.css:8:5]
+ 8 | padding: __ident__;
+   : ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/vercel/003/input.css:8:5]
+ 8 | padding: __ident__;
+   : ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/vercel/003/input.css:8:5]
+ 8 | padding: __ident__;
+   : ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/vercel/003/input.css:8:5]
+ 8 | padding: __ident__;
+   : ^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/003/input.css:8:5]
+ 8 | padding: __ident__;
+   : ^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/003/input.css:8:5]
+ 8 | padding: __ident__;
+   :          ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/003/input.css:8:5]
+ 8 | padding: __ident__;
+   :          ^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/003/input.css:9:5]
+ 9 | flex-grow: 0;
+   : ^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/vercel/003/input.css:9:5]
+ 9 | flex-grow: 0;
+   : ^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/vercel/003/input.css:9:5]
+ 9 | flex-grow: 0;
+   : ^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/vercel/003/input.css:9:5]
+ 9 | flex-grow: 0;
+   : ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/003/input.css:9:5]
+ 9 | flex-grow: 0;
+   : ^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/003/input.css:9:5]
+ 9 | flex-grow: 0;
+   :            ^
+   `----
+
+  x Integer
+   ,-[$DIR/tests/recovery/vercel/003/input.css:9:5]
+ 9 | flex-grow: 0;
+   :            ^
+   `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/vercel/003/input.css:10:5]
+ 10 | flex-basis: __ident__%;
+    : ^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/recovery/vercel/003/input.css:10:5]
+ 10 | flex-basis: __ident__%;
+    : ^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/recovery/vercel/003/input.css:10:5]
+ 10 | flex-basis: __ident__%;
+    : ^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/recovery/vercel/003/input.css:10:5]
+ 10 | flex-basis: __ident__%;
+    : ^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/recovery/vercel/003/input.css:10:5]
+ 10 | flex-basis: __ident__%;
+    : ^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/vercel/003/input.css:10:5]
+ 10 | flex-basis: __ident__%;
+    :             ^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/recovery/vercel/003/input.css:10:5]
+ 10 | flex-basis: __ident__%;
+    :             ^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/vercel/003/input.css:10:5]
+ 10 | flex-basis: __ident__%;
+    :                      ^
+    `----
+
+  x Delim { value: '%' }
+    ,-[$DIR/tests/recovery/vercel/003/input.css:10:5]
+ 10 | flex-basis: __ident__%;
+    :                      ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/vercel/003/input.css:11:5]
+ 11 | min-width: 0;
+    : ^^^^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/recovery/vercel/003/input.css:11:5]
+ 11 | min-width: 0;
+    : ^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/recovery/vercel/003/input.css:11:5]
+ 11 | min-width: 0;
+    : ^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/recovery/vercel/003/input.css:11:5]
+ 11 | min-width: 0;
+    : ^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/recovery/vercel/003/input.css:11:5]
+ 11 | min-width: 0;
+    : ^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/vercel/003/input.css:11:5]
+ 11 | min-width: 0;
+    :            ^
+    `----
+
+  x Integer
+    ,-[$DIR/tests/recovery/vercel/003/input.css:11:5]
+ 11 | min-width: 0;
+    :            ^
+    `----

@@ -1,0 +1,6 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/comments/bad-comment-2/input.css:1:1]
+ 1 | /*! bad comment *
+   : ^
+   `----
