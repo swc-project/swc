@@ -5,5 +5,5 @@ import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
         "use strict";
         _class_call_check(this, B);
     };
-    A1.beez2 = Array(), A1.beez = beez;
+    A1.beez2 = [], A1.beez = beez;
 }(A || (A = {}));

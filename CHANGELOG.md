@@ -7,11 +7,38 @@
 
 - **(common)** Don't use `get_unchecked` after setting the length to 0 (#4943) ([f479951](https://github.com/swc-project/swc/commit/f479951ef2f1c9eff8e020c9fc46e78e16855a24))
 
+
+- **(css/parser)** Fix input buffer and improve error recovery (#4948) ([bf74d05](https://github.com/swc-project/swc/commit/bf74d05f3fb6ddb2f29a4808b64860021cbd4f5b))
+
+### Features
+
+
+
+- **(es/minifier)** Turn `Array`/`Object` calls into literals (#4947) ([47bdc6a](https://github.com/swc-project/swc/commit/47bdc6a6b13c5a4d6b85d4e3a0e729126c7b5f9d))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Test `concurrent` (#4955) ([1a9f935](https://github.com/swc-project/swc/commit/1a9f93546bf1c9192baa562a419648cfe5d199fc))
+
 ### Performance
 
 
 
+- **(common)** Add `Atom` type (#4945) ([4ada9c7](https://github.com/swc-project/swc/commit/4ada9c7e05d1d61e061bf6af5830d10580d671eb))
+
+
 - **(css/parser)** Improve performance of lexer (#4921) ([327969d](https://github.com/swc-project/swc/commit/327969d0d96159ed45a45a92e943d9d426de303c))
+
+
+- **(es/transforms)** Make rename operator parallel (#4951) ([445d585](https://github.com/swc-project/swc/commit/445d58518dc1ea5ab670f4e3d9e8b833108e1cf7))
+
+### Refactor
+
+
+
+- **(html/parser)** Remove unused code (#4949) ([42a1d7c](https://github.com/swc-project/swc/commit/42a1d7c7a11120b8be8dbd7a29a6401d60062d70))
 
 ## [1.2.199] - 2022-06-11
 

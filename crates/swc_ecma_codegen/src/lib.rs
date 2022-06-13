@@ -1835,11 +1835,12 @@ where
         srcmap!(node, true);
 
         punct!("[");
-        self.emit_list(
-            node.span(),
-            Some(&node.elems),
-            ListFormat::ArrayLiteralExpressionElements,
-        )?;
+        let mut format = ListFormat::ArrayLiteralExpressionElements;
+        if let Some(None) = node.elems.last() {
+            format |= ListFormat::ForceTrailingComma;
+        }
+
+        self.emit_list(node.span(), Some(&node.elems), format)?;
         punct!("]");
 
         srcmap!(node, false);
@@ -2224,25 +2225,26 @@ where
             }
 
             // Write a trailing comma, if requested.
-            let has_trailing_comma = format.contains(ListFormat::AllowTrailingComma) && {
-                if parent_node.is_dummy() {
-                    false
-                } else {
-                    match self.cm.span_to_snippet(parent_node) {
-                        Ok(snippet) => {
-                            if snippet.len() < 3 {
-                                false
-                            } else {
-                                let last_char = snippet.chars().last().unwrap();
-                                snippet[..snippet.len() - last_char.len_utf8()]
-                                    .trim()
-                                    .ends_with(',')
+            let has_trailing_comma = format.contains(ListFormat::ForceTrailingComma)
+                || format.contains(ListFormat::AllowTrailingComma) && {
+                    if parent_node.is_dummy() {
+                        false
+                    } else {
+                        match self.cm.span_to_snippet(parent_node) {
+                            Ok(snippet) => {
+                                if snippet.len() < 3 {
+                                    false
+                                } else {
+                                    let last_char = snippet.chars().last().unwrap();
+                                    snippet[..snippet.len() - last_char.len_utf8()]
+                                        .trim()
+                                        .ends_with(',')
+                                }
                             }
+                            _ => false,
                         }
-                        _ => false,
                     }
-                }
-            };
+                };
 
             if has_trailing_comma
                 && format.contains(ListFormat::CommaDelimited)
