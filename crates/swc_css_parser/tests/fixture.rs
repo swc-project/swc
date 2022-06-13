@@ -595,7 +595,7 @@ fn pass(input: PathBuf) {
 }
 
 #[testing::fixture("tests/line-comment/**/input.css")]
-fn line_comments(input: PathBuf) {
+fn line_comments_pass(input: PathBuf) {
     stylesheet_test(
         input,
         ParserConfig {
@@ -606,7 +606,7 @@ fn line_comments(input: PathBuf) {
 }
 
 #[testing::fixture("tests/recovery/**/input.css")]
-fn recovery_tokens(input: PathBuf) {
+fn recovery(input: PathBuf) {
     stylesheet_recovery_test(input.clone(), Default::default());
     stylesheet_recovery_test_tokens(input, Default::default());
 }
