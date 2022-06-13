@@ -339,22 +339,31 @@ impl<'a> VisitMut for Operator<'a> {
                     decl.init.visit_mut_with(self);
                     decl
                 });
-                if renamed.is_empty() {
-                    var.decls = decls;
-                } else {
-                    var.decls = decls;
 
-                    self.extra
-                        .push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
-                            NamedExport {
-                                span,
-                                specifiers: renamed,
-                                src: None,
-                                type_only: false,
-                                asserts: None,
-                            },
-                        )));
+                if renamed.is_empty() {
+                    *item = ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                        span,
+                        decl: Decl::Var(VarDecl {
+                            decls,
+                            ..var.take()
+                        }),
+                    }));
+                    return;
                 }
+                *item = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    decls,
+                    ..var.take()
+                })));
+                self.extra
+                    .push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                        NamedExport {
+                            span,
+                            specifiers: renamed,
+                            src: None,
+                            type_only: false,
+                            asserts: None,
+                        },
+                    )));
             }
             _ => {
                 item.visit_mut_children_with(self);
