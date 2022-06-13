@@ -10,6 +10,7 @@ use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use super::Config;
+use crate::perf::{cpu_count, ParExplode, Parallel};
 #[derive(Debug, Default)]
 pub(super) struct Operations {
     pub rename: AHashMap<Id, JsWord>,
@@ -43,11 +44,16 @@ impl Operations {
     }
 }
 
-pub(super) struct Operator<'a>(pub &'a AHashMap<Id, JsWord>, pub Config);
+pub(super) struct Operator<'a> {
+    pub rename: &'a AHashMap<Id, JsWord>,
+    pub config: Config,
+
+    pub extra: Vec<ModuleItem>,
+}
 
 impl Operator<'_> {
     fn keep_class_name(&mut self, ident: &mut Ident, class: &mut Class) -> Option<ClassExpr> {
-        if !self.1.keep_class_names {
+        if !self.config.keep_class_names {
             return None;
         }
 
@@ -60,7 +66,11 @@ impl Operator<'_> {
 
             rename.insert(ident.to_id(), orig_name.sym.clone());
 
-            let mut operator = Operator(&rename, self.1.clone());
+            let mut operator = Operator {
+                rename: &rename,
+                config: self.config.clone(),
+                extra: Default::default(),
+            };
 
             class.visit_mut_with(&mut operator);
         }
@@ -74,6 +84,32 @@ impl Operator<'_> {
         };
 
         Some(class_expr)
+    }
+}
+
+impl Parallel for Operator<'_> {
+    fn create(&self) -> Self {
+        Self {
+            rename: self.rename,
+            config: self.config.clone(),
+            extra: Default::default(),
+        }
+    }
+
+    fn merge(&mut self, other: Self) {
+        self.extra.extend(other.extra);
+    }
+
+    fn after_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
+        stmts.append(&mut self.extra);
+    }
+}
+
+impl ParExplode for Operator<'_> {
+    fn after_one_stmt(&mut self, _: &mut Vec<Stmt>) {}
+
+    fn after_one_module_item(&mut self, stmts: &mut Vec<ModuleItem>) {
+        stmts.append(&mut self.extra);
     }
 }
 
@@ -105,7 +141,7 @@ impl<'a> VisitMut for Operator<'a> {
 
     fn visit_mut_decl(&mut self, decl: &mut Decl) {
         match decl {
-            Decl::Class(cls) if self.1.keep_class_names => {
+            Decl::Class(cls) if self.config.keep_class_names => {
                 let span = cls.class.span;
 
                 let expr = self.keep_class_name(&mut cls.ident, &mut cls.class);
@@ -188,15 +224,13 @@ impl<'a> VisitMut for Operator<'a> {
         }
     }
 
-    fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
-        let mut stmts = Vec::with_capacity(items.len());
+    fn visit_mut_module_item(&mut self, item: &mut ModuleItem) {
+        let span = item.span();
 
-        for mut item in items.take() {
-            let span = item.span();
-
-            macro_rules! export {
-                ($orig:expr, $ident:expr) => {
-                    stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+        macro_rules! export {
+            ($orig:expr, $ident:expr) => {
+                self.extra
+                    .push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                         NamedExport {
                             span,
                             specifiers: vec![ExportSpecifier::Named(ExportNamedSpecifier {
@@ -210,107 +244,118 @@ impl<'a> VisitMut for Operator<'a> {
                             asserts: None,
                         },
                     )));
-                };
-            }
+            };
+        }
 
-            match item {
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                    span,
-                    decl:
-                        Decl::Class(ClassDecl {
-                            mut ident,
-                            mut class,
-                            declare,
-                        }),
-                })) => {
-                    class.visit_mut_with(self);
-                    let orig_ident = ident.clone();
-                    match self.rename_ident(&mut ident) {
-                        Ok(..) => {
-                            stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Class(ClassDecl {
-                                ident: ident.clone(),
-                                class,
-                                declare,
-                            }))));
-                            export!(
-                                ModuleExportName::Ident(orig_ident),
-                                ModuleExportName::Ident(ident)
-                            );
-                        }
-                        Err(..) => {
-                            stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                                span,
-                                decl: Decl::Class(ClassDecl {
-                                    ident,
-                                    class,
-                                    declare,
-                                }),
-                            })))
-                        }
-                    }
-                }
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                    span,
-                    decl:
-                        Decl::Fn(FnDecl {
-                            mut ident,
-                            mut function,
-                            declare,
-                        }),
-                })) => {
-                    function.visit_mut_with(self);
-                    let orig_ident = ident.clone();
-                    match self.rename_ident(&mut ident) {
-                        Ok(..) => {
-                            stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
-                                ident: ident.clone(),
-                                function,
-                                declare,
-                            }))));
-                            export!(
-                                ModuleExportName::Ident(orig_ident),
-                                ModuleExportName::Ident(ident)
-                            );
-                        }
-                        Err(..) => {
-                            stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                                span,
-                                decl: Decl::Fn(FnDecl {
-                                    ident,
-                                    function,
-                                    declare,
-                                }),
-                            })))
-                        }
-                    }
-                }
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                    decl: Decl::Var(var),
-                    ..
-                })) => {
-                    let decls = var.decls;
+        match item {
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                span,
+                decl:
+                    Decl::Class(ClassDecl {
+                        ident,
+                        class,
+                        declare,
+                    }),
+            })) => {
+                let mut ident = ident.take();
+                let mut class = class.take();
 
-                    let mut renamed: Vec<ExportSpecifier> = vec![];
-                    let decls = decls.move_map(|mut decl| {
-                        decl.name.visit_mut_with(&mut VarFolder {
-                            orig: self,
-                            renamed: &mut renamed,
-                        });
-                        decl.init.visit_mut_with(self);
-                        decl
-                    });
-                    if renamed.is_empty() {
-                        stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                            span,
-                            decl: Decl::Var(VarDecl { decls, ..var }),
+                class.visit_mut_with(self);
+                let orig_ident = ident.clone();
+                match self.rename_ident(&mut ident) {
+                    Ok(..) => {
+                        *item = ModuleItem::Stmt(Stmt::Decl(Decl::Class(ClassDecl {
+                            ident: ident.clone(),
+                            class: class.take(),
+                            declare: *declare,
                         })));
-                        continue;
+                        export!(
+                            ModuleExportName::Ident(orig_ident),
+                            ModuleExportName::Ident(ident.take())
+                        );
                     }
-                    stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                        decls,
-                        ..var
-                    }))));
-                    stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                    Err(..) => {
+                        *item = ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                            span: *span,
+                            decl: Decl::Class(ClassDecl {
+                                ident: ident.take(),
+                                class: class.take(),
+                                declare: *declare,
+                            }),
+                        }))
+                    }
+                }
+            }
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                span,
+                decl:
+                    Decl::Fn(FnDecl {
+                        ident,
+                        function,
+                        declare,
+                    }),
+            })) => {
+                let mut ident = ident.take();
+                let mut function = function.take();
+
+                function.visit_mut_with(self);
+                let orig_ident = ident.clone();
+                match self.rename_ident(&mut ident) {
+                    Ok(..) => {
+                        *item = ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
+                            ident: ident.clone(),
+                            function,
+                            declare: *declare,
+                        })));
+                        export!(
+                            ModuleExportName::Ident(orig_ident),
+                            ModuleExportName::Ident(ident)
+                        );
+                    }
+                    Err(..) => {
+                        *item = ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                            span: *span,
+                            decl: Decl::Fn(FnDecl {
+                                ident,
+                                function,
+                                declare: *declare,
+                            }),
+                        }))
+                    }
+                }
+            }
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                decl: Decl::Var(var),
+                ..
+            })) => {
+                let decls = var.decls.take();
+
+                let mut renamed: Vec<ExportSpecifier> = vec![];
+                let decls = decls.move_map(|mut decl| {
+                    decl.name.visit_mut_with(&mut VarFolder {
+                        orig: self,
+                        renamed: &mut renamed,
+                    });
+                    decl.init.visit_mut_with(self);
+                    decl
+                });
+
+                if renamed.is_empty() {
+                    *item = ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                        span,
+                        decl: Decl::Var(VarDecl {
+                            decls,
+                            ..var.take()
+                        }),
+                    }));
+                    return;
+                }
+                *item = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    decls,
+                    ..var.take()
+                })));
+                self.extra
+                    .push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                         NamedExport {
                             span,
                             specifiers: renamed,
@@ -319,15 +364,87 @@ impl<'a> VisitMut for Operator<'a> {
                             asserts: None,
                         },
                     )));
-                }
-                _ => {
-                    item.visit_mut_with(self);
-                    stmts.push(item)
-                }
+            }
+            _ => {
+                item.visit_mut_children_with(self);
             }
         }
+    }
 
-        *items = stmts
+    fn visit_mut_module_items(&mut self, nodes: &mut Vec<ModuleItem>) {
+        use std::mem::take;
+
+        #[cfg(feature = "rayon")]
+        if nodes.len() >= 64 * cpu_count() {
+            use swc_common::errors::HANDLER;
+
+            use crate::helpers::HELPERS;
+
+            ::swc_common::GLOBALS.with(|globals| {
+                HELPERS.with(|helpers| {
+                    HANDLER.with(|handler| {
+                        use rayon::prelude::*;
+
+                        let (visitor, new_nodes) = take(nodes)
+                            .into_par_iter()
+                            .map(|mut node| {
+                                ::swc_common::GLOBALS.set(globals, || {
+                                    HELPERS.set(helpers, || {
+                                        HANDLER.set(handler, || {
+                                            let mut visitor = Parallel::create(&*self);
+                                            node.visit_mut_with(&mut visitor);
+
+                                            let mut nodes = Vec::with_capacity(4);
+
+                                            ParExplode::after_one_module_item(
+                                                &mut visitor,
+                                                &mut nodes,
+                                            );
+
+                                            nodes.push(node);
+
+                                            (visitor, nodes)
+                                        })
+                                    })
+                                })
+                            })
+                            .reduce(
+                                || (Parallel::create(&*self), vec![]),
+                                |mut a, b| {
+                                    Parallel::merge(&mut a.0, b.0);
+
+                                    a.1.extend(b.1);
+
+                                    a
+                                },
+                            );
+
+                        Parallel::merge(self, visitor);
+
+                        {
+                            self.after_module_items(nodes);
+                        }
+
+                        *nodes = new_nodes;
+                    })
+                })
+            });
+
+            return;
+        }
+
+        let mut buf = Vec::with_capacity(nodes.len());
+
+        for mut node in take(nodes) {
+            let mut visitor = Parallel::create(&*self);
+            node.visit_mut_with(&mut visitor);
+            buf.push(node);
+            visitor.after_one_module_item(&mut buf);
+        }
+
+        self.after_module_items(&mut buf);
+
+        *nodes = buf;
     }
 
     fn visit_mut_named_export(&mut self, e: &mut NamedExport) {
@@ -422,7 +539,7 @@ impl VisitMut for VarFolder<'_, '_> {
 impl<'a> Operator<'a> {
     /// Returns `Ok(renamed_ident)` if ident should be renamed.
     fn rename_ident(&mut self, ident: &mut Ident) -> Result<(), ()> {
-        if let Some(sym) = self.0.get(&ident.to_id()) {
+        if let Some(sym) = self.rename.get(&ident.to_id()) {
             ident.span = ident.span.with_ctxt(SyntaxContext::empty());
             ident.sym = sym.clone();
             return Ok(());

@@ -1,5 +1,5 @@
-import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
-import _throw from "@swc/helpers/lib/_throw.js";
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
+import _throw from "@swc/helpers/src/_throw.mjs";
 function foo(_$param, param) {
     var _$param = _$param !== null ? _$param : _throw(new TypeError("Cannot destructure undefined")), foo = param.foo, bar = param.bar;
 }

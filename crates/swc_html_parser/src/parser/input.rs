@@ -6,7 +6,7 @@ use swc_html_ast::{Token, TokenAndSpan};
 use super::PResult;
 use crate::{error::Error, lexer::State};
 
-pub trait ParserInput: Clone + Iterator<Item = TokenAndSpan> {
+pub trait ParserInput: Iterator<Item = TokenAndSpan> {
     fn start_pos(&mut self) -> BytePos;
 
     fn last_pos(&mut self) -> BytePos;
@@ -26,7 +26,6 @@ where
     I: ParserInput,
 {
     cur: Option<TokenAndSpan>,
-    peeked: Option<TokenAndSpan>,
     input: I,
 }
 
@@ -35,11 +34,7 @@ where
     I: ParserInput,
 {
     pub fn new(input: I) -> Self {
-        Buffer {
-            cur: None,
-            peeked: None,
-            input,
-        }
+        Buffer { cur: None, input }
     }
 
     /// Last start position
@@ -82,10 +77,6 @@ where
 
     fn bump_inner(&mut self) -> PResult<()> {
         self.cur = None;
-
-        if let Some(next) = self.peeked.take() {
-            self.cur = Some(next);
-        }
 
         if self.cur.is_none() {
             let result = self.input.next();

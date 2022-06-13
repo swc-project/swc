@@ -196,12 +196,12 @@ export default function createInstantSearchManager(param1) {
                 client._cacheHydrated = !0;
                 var baseMethod = client.search;
                 client.search = function(requests) {
-                    for(var _len1 = arguments.length, methodArgs = new Array(_len1 > 1 ? _len1 - 1 : 0), _key1 = 1; _key1 < _len1; _key1++)methodArgs[_key1 - 1] = arguments[_key1];
+                    for(var _len1 = arguments.length, methodArgs = Array(_len1 > 1 ? _len1 - 1 : 0), _key1 = 1; _key1 < _len1; _key1++)methodArgs[_key1 - 1] = arguments[_key1];
                     var requestsWithSerializedParams = requests.map(function(request) {
                         var parameters, encode;
                         return swcHelpers.objectSpread({}, request, {
                             params: (parameters = request.params, encode = function(format) {
-                                for(var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)args[_key - 1] = arguments[_key];
+                                for(var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)args[_key - 1] = arguments[_key];
                                 var i = 0;
                                 return format.replace(/%s/g, function() {
                                     return encodeURIComponent(args[i++]);

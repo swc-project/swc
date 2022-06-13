@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 //type of 'this' in constructor param list is the class instance type (error)
 var ErrClass = function ErrClass() {
     "use strict";

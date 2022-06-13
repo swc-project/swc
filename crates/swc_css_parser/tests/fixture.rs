@@ -5,7 +5,6 @@ use std::path::PathBuf;
 use swc_common::{errors::Handler, input::SourceFileInput, Span, Spanned};
 use swc_css_ast::*;
 use swc_css_parser::{
-    error::ErrorKind,
     lexer::Lexer,
     parse_tokens,
     parser::{input::ParserInput, Parser, ParserConfig},
@@ -24,12 +23,12 @@ fn tokens_input(input: PathBuf) {
 
         let tokens = {
             let mut lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default());
-
             let mut tokens = vec![];
 
-            while let Ok(t) = lexer.next() {
-                tokens.push(t);
+            for token_and_span in lexer.by_ref() {
+                tokens.push(token_and_span);
             }
+
             Tokens {
                 span: Span::new(fm.start_pos, fm.end_pos, Default::default()),
                 tokens,
@@ -78,29 +77,20 @@ fn test_pass(input: PathBuf, config: ParserConfig) {
                 actual_json.clone().compare_to_file(&ref_json_path).unwrap();
 
                 if !config.allow_wrong_line_comments {
+                    let mut errors = vec![];
+
                     let mut lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default());
                     let mut tokens = Tokens {
                         span: Span::new(fm.start_pos, fm.end_pos, Default::default()),
                         tokens: vec![],
                     };
 
-                    loop {
-                        let res = lexer.next();
-                        match res {
-                            Ok(t) => {
-                                tokens.tokens.push(t);
-                            }
-
-                            Err(e) => {
-                                if matches!(e.kind(), ErrorKind::Eof) {
-                                    break;
-                                }
-                                panic!("failed to lex tokens: {:?}", e)
-                            }
-                        }
+                    for token_and_span in lexer.by_ref() {
+                        tokens.tokens.push(token_and_span);
                     }
 
-                    let mut errors = vec![];
+                    errors.extend(lexer.take_errors());
+
                     let ss_tok: Stylesheet = parse_tokens(
                         &tokens,
                         ParserConfig {
@@ -189,29 +179,20 @@ fn recovery(input: PathBuf) {
                 actual_json.clone().compare_to_file(&ref_json_path).unwrap();
 
                 {
+                    let mut errors = vec![];
+
                     let mut lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default());
                     let mut tokens = Tokens {
                         span: Span::new(fm.start_pos, fm.end_pos, Default::default()),
                         tokens: vec![],
                     };
 
-                    loop {
-                        let res = lexer.next();
-                        match res {
-                            Ok(t) => {
-                                tokens.tokens.push(t);
-                            }
-
-                            Err(e) => {
-                                if matches!(e.kind(), ErrorKind::Eof) {
-                                    break;
-                                }
-                                panic!("failed to lex tokens: {:?}", e)
-                            }
-                        }
+                    for token_and_span in lexer.by_ref() {
+                        tokens.tokens.push(token_and_span);
                     }
 
-                    let mut errors = vec![];
+                    errors.extend(lexer.take_errors());
+
                     let ss_tok: Stylesheet = parse_tokens(
                         &tokens,
                         ParserConfig {
@@ -538,41 +519,4 @@ fn span(input: PathBuf) {
     output
         .compare_to_file(&dir.join("span.rust-debug"))
         .unwrap();
-}
-
-#[testing::fixture("tests/errors/**/input.css")]
-fn fail(input: PathBuf) {
-    let stderr_path = input.parent().unwrap().join("output.stderr");
-
-    let stderr = testing::run_test2(false, |cm, handler| -> Result<(), _> {
-        let config = ParserConfig {
-            ..Default::default()
-        };
-
-        let fm = cm.load_file(&input).unwrap();
-        let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
-        let mut parser = Parser::new(lexer, config);
-
-        let stylesheet = parser.parse_all();
-
-        match stylesheet {
-            Ok(..) => {}
-            Err(err) => {
-                err.to_diagnostics(&handler).emit();
-            }
-        }
-
-        for err in parser.take_errors() {
-            err.to_diagnostics(&handler).emit();
-        }
-
-        if !handler.has_errors() {
-            panic!("should error")
-        }
-
-        Err(())
-    })
-    .unwrap_err();
-
-    stderr.compare_to_file(&stderr_path).unwrap();
 }

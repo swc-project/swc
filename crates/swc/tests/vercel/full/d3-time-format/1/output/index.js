@@ -1,4 +1,4 @@
-import a from "@swc/helpers/lib/_instanceof.js";
+import a from "@swc/helpers/src/_instanceof.mjs";
 import { timeDay as b, timeSunday as c, timeMonday as d, timeThursday as e, timeYear as f, utcDay as g, utcSunday as h, utcMonday as i, utcThursday as j, utcYear as k } from "d3-time";
 function l(a) {
     if (0 <= a.y && a.y < 100) {
@@ -231,13 +231,13 @@ var p = {
 }, q = /^\s*\d+/, r = /^%/, s = /[\\^$*+?|[\]().{}]/g;
 function t(a, f, c) {
     var d = a < 0 ? "-" : "", b = (d ? -a : a) + "", e = b.length;
-    return d + (e < c ? new Array(c - e + 1).join(f) + b : b);
+    return d + (e < c ? Array(c - e + 1).join(f) + b : b);
 }
 function u(a) {
     return a.replace(s, "\\$&");
 }
 function v(a) {
-    return new RegExp("^(?:" + a.map(u).join("|") + ")", "i");
+    return RegExp("^(?:" + a.map(u).join("|") + ")", "i");
 }
 function w(a) {
     return new Map(a.map(function(a, b) {

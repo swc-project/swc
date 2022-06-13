@@ -1,8 +1,8 @@
 var _ref, _super_a, _tmp;
-import _extends from "@swc/helpers/lib/_extends.js";
-import _get from "@swc/helpers/lib/_get.js";
-import _get_prototype_of from "@swc/helpers/lib/_get_prototype_of.js";
-import _set from "@swc/helpers/lib/_set.js";
+import _extends from "@swc/helpers/src/_extends.mjs";
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
+import _set from "@swc/helpers/src/_set.mjs";
 class C extends B {
     constructor(...args){
         super(...args), this.x = 1, this.y = this.x, this.z = super.f();

@@ -1,6 +1,9 @@
 #![deny(warnings)]
 
-use std::path::PathBuf;
+use std::{
+    fs::read_to_string,
+    path::{Path, PathBuf},
+};
 
 use swc_html_ast::Document;
 use swc_html_codegen::{
@@ -10,6 +13,18 @@ use swc_html_codegen::{
 use swc_html_minifier::minify;
 use swc_html_parser::parse_file_as_document;
 use testing::NormalizedOutput;
+
+fn find_config(dir: &Path) -> Option<String> {
+    let config = dir.join("config.json");
+
+    if config.exists() {
+        let config = read_to_string(&config).expect("failed to read config.json");
+
+        return Some(config);
+    }
+
+    None
+}
 
 #[testing::fixture("tests/fixture/**/input.html")]
 fn minify_fixtures(input: PathBuf) {
@@ -35,9 +50,13 @@ fn minify_fixtures(input: PathBuf) {
         }
 
         let mut ss = result.unwrap();
+        let config = match find_config(dir) {
+            Some(config) => serde_json::from_str(&config).unwrap(),
+            None => Default::default(),
+        };
 
         // Apply transforms
-        minify(&mut ss);
+        minify(&mut ss, &config);
 
         let mut html_str = String::new();
         {
@@ -89,8 +108,13 @@ fn minify_recovery(input: PathBuf) {
 
         let mut ss = result.unwrap();
 
+        let config = match find_config(dir) {
+            Some(config) => serde_json::from_str(&config).unwrap(),
+            None => Default::default(),
+        };
+
         // Apply transforms
-        minify(&mut ss);
+        minify(&mut ss, &config);
 
         let mut html_str = String::new();
         {

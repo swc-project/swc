@@ -1,6 +1,6 @@
-import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
-import _throw from "@swc/helpers/lib/_throw.js";
-import _to_array from "@swc/helpers/lib/_to_array.js";
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
+import _throw from "@swc/helpers/src/_throw.mjs";
+import _to_array from "@swc/helpers/src/_to_array.mjs";
 function f0() {
     var ref = [
         1,

@@ -1101,99 +1101,6 @@ where
         Some(e.take())
     }
 
-    /// `new RegExp("([Sap]+)", "ig")` => `/([Sap]+)/gi`
-    fn compress_regexp(&mut self, e: &mut Expr) {
-        let (span, args) = match e {
-            Expr::New(NewExpr {
-                span, callee, args, ..
-            }) => match &**callee {
-                Expr::Ident(Ident {
-                    sym: js_word!("RegExp"),
-                    ..
-                }) => (*span, args),
-                _ => return,
-            },
-            _ => return,
-        };
-
-        let args = match args {
-            Some(v) => v,
-            None => return,
-        };
-        if args.is_empty() || args.len() > 2 {
-            return;
-        }
-
-        // We aborts the method if arguments are not literals.
-        if args.iter().any(|v| {
-            v.spread.is_some()
-                || match &*v.expr {
-                    Expr::Lit(Lit::Str(s)) => {
-                        if s.value.contains(|c: char| {
-                            // whitelist
-                            !c.is_ascii_alphanumeric()
-                                && !matches!(c, '%' | '[' | ']' | '(' | ')' | '{' | '}' | '-' | '+')
-                        }) {
-                            return true;
-                        }
-                        if s.value.contains("\\\0") || s.value.contains('/') {
-                            return true;
-                        }
-
-                        false
-                    }
-                    _ => true,
-                }
-        }) {
-            return;
-        }
-
-        //
-        let pattern = args[0].expr.take();
-
-        let pattern = match *pattern {
-            Expr::Lit(Lit::Str(s)) => s.value,
-            _ => {
-                unreachable!()
-            }
-        };
-
-        if pattern.is_empty() {
-            // For some expressions `RegExp()` and `RegExp("")`
-            // Theoretically we can use `/(?:)/` to achieve shorter code
-            // But some browsers released in 2015 don't support them yet.
-            args[0].expr = pattern.into();
-            return;
-        }
-
-        let flags = args
-            .get_mut(1)
-            .map(|v| v.expr.take())
-            .map(|v| match *v {
-                Expr::Lit(Lit::Str(s)) => {
-                    assert!(s.value.is_ascii());
-
-                    let s = s.value.to_string();
-                    let mut bytes = s.into_bytes();
-                    bytes.sort_unstable();
-
-                    String::from_utf8(bytes).unwrap().into()
-                }
-                _ => {
-                    unreachable!()
-                }
-            })
-            .unwrap_or(js_word!(""));
-
-        report_change!("Converting call to RegExp into a regexp literal");
-        self.changed = true;
-        *e = Expr::Lit(Lit::Regex(Regex {
-            span,
-            exp: pattern,
-            flags,
-        }))
-    }
-
     fn merge_var_decls(&mut self, stmts: &mut Vec<Stmt>) {
         if !self.options.join_vars && !self.options.hoist_vars {
             return;
@@ -1733,8 +1640,6 @@ where
         self.replace_props(e);
 
         self.drop_unused_assignments(e);
-
-        self.compress_regexp(e);
 
         self.compress_lits(e);
 

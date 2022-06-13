@@ -1,4 +1,4 @@
-import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 function f1(t1, t2, t3, t4, x1) {
     var _t1 = _sliced_to_array(t1, 3), d10 = _t1[0], d11 = _t1[1], d12 = _t1[2]; // string, number
     var _t2 = _sliced_to_array(t2, 3), d20 = _t2[0], d21 = _t2[1], d22 = _t2[2]; // string | boolean, number | undefined

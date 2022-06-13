@@ -1,6 +1,7 @@
 use swc_common::{util::take::Take, Span, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::helper;
+use swc_ecma_transforms_base::{helper, perf::Parallel};
+use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::ExprFactory;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
@@ -36,7 +37,16 @@ pub fn instance_of() -> impl Fold + VisitMut {
 }
 struct InstanceOf;
 
+impl Parallel for InstanceOf {
+    fn merge(&mut self, _: Self) {}
+
+    fn create(&self) -> Self {
+        InstanceOf
+    }
+}
+
 #[swc_trace]
+#[parallel]
 impl VisitMut for InstanceOf {
     noop_visit_mut_type!();
 

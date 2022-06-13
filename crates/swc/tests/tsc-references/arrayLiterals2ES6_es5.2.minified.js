@@ -1,4 +1,4 @@
-import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
+import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 var a0 = [
     ,
     ,
@@ -8,10 +8,12 @@ var a0 = [
 ], a2 = [
     ,
     ,
+    , 
 ].concat(_to_consumable_array(a0), [
     "hello"
 ]), a3 = [
     ,
+    , 
 ].concat(_to_consumable_array(a0));
 _to_consumable_array(a0).concat([
     , 

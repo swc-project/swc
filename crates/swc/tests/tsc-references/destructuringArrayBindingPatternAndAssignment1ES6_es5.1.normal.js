@@ -1,6 +1,6 @@
-import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
-import _to_array from "@swc/helpers/lib/_to_array.js";
-import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
+import _to_array from "@swc/helpers/src/_to_array.mjs";
+import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 // @target: es6
 /* AssignmentPattern:
  *      ObjectAssignmentPattern

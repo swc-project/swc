@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 var x181, x182, x183, x184, x185, x186, x187, x188, x189, x190, x191, x192, x193, x194, x195, x196, x197, x198, x199, x200, x201, x202, x203, x204, Base = function() {
     "use strict";
     _class_call_check(this, Base);

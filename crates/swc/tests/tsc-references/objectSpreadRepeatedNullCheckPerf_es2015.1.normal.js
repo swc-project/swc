@@ -1,4 +1,4 @@
-import _object_spread from "@swc/helpers/lib/_object_spread.js";
+import _object_spread from "@swc/helpers/src/_object_spread.mjs";
 function parseWithSpread(config) {
     return _object_spread({}, config.a !== undefined && {
         a: config.a.toString()

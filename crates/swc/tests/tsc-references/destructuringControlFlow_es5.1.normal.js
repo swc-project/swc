@@ -1,4 +1,4 @@
-import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 // @strict: true
 function f1(obj) {
     if (obj.a) {

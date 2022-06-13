@@ -803,7 +803,7 @@
                     }
                     return _arr;
                 }(arr1, i1) || function() {
-                    throw new TypeError("Invalid attempt to destructure non-iterable instance");
+                    throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }();
             }
             exports.default = void 0;
@@ -895,7 +895,7 @@
                     }
                     return _arr;
                 }(arr2, 2) || function() {
-                    throw new TypeError("Invalid attempt to destructure non-iterable instance");
+                    throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), visible = ref[0], setVisible = ref[1], setRef = _react.useCallback(function(el) {
                     unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (unobserve.current = observe(el, function(isVisible) {
                         return isVisible && setVisible(isVisible);

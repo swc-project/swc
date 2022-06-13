@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _class_private_field_set from "@swc/helpers/lib/_class_private_field_set.js";
-import _class_private_method_init from "@swc/helpers/lib/_class_private_method_init.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _class_private_field_set from "@swc/helpers/src/_class_private_field_set.mjs";
+import _class_private_method_init from "@swc/helpers/src/_class_private_method_init.mjs";
 var _bar, _class;
 // @target: es2015
 var C = (_bar = /*#__PURE__*/ new WeakSet(), _class = /*#__PURE__*/ function() {

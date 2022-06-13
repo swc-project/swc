@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _ts_decorate from "@swc/helpers/lib/_ts_decorate.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _ts_decorate from "@swc/helpers/src/_ts_decorate.mjs";
 var _TestClass;
 var TestClass = (_TestClass = function TestClass1() {
     "use strict";

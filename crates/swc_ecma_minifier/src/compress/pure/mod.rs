@@ -370,6 +370,8 @@ impl VisitMut for Pure<'_> {
         self.compress_negated_bin_eq(e);
 
         self.compress_useless_cond_expr(e);
+
+        self.optimize_builtin_object(e);
     }
 
     fn visit_mut_expr_stmt(&mut self, s: &mut ExprStmt) {

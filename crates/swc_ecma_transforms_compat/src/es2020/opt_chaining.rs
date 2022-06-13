@@ -116,51 +116,6 @@ impl OptChaining {
         T: Send + Sync + StmtLike + VisitMutWith<Self>,
         Vec<T>: VisitMutWith<Self>,
     {
-        #[cfg(feature = "rayon")]
-        if stmts.len() > 4 {
-            use rayon::prelude::*;
-            use swc_common::GLOBALS;
-
-            let (mut stmts_updated, mut vars_without_init) = GLOBALS.with(|globals| {
-                stmts
-                    .take()
-                    .into_par_iter()
-                    .map(|stmt| {
-                        GLOBALS.set(globals, || {
-                            let mut visitor = OptChaining {
-                                c: self.c,
-                                ..Self::default()
-                            };
-                            visitor.c = self.c;
-                            let mut stmts = Vec::with_capacity(3);
-                            visitor.visit_mut_one_stmt_to(stmt, &mut stmts);
-
-                            (stmts, visitor.vars_without_init)
-                        })
-                    })
-                    .reduce(Default::default, |mut a, b| {
-                        a.0.extend(b.0);
-                        a.1.extend(b.1);
-
-                        a
-                    })
-            });
-
-            if !vars_without_init.is_empty() {
-                prepend_stmt(
-                    &mut stmts_updated,
-                    T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                        span: DUMMY_SP,
-                        declare: false,
-                        kind: VarDeclKind::Var,
-                        decls: mem::take(&mut vars_without_init),
-                    }))),
-                );
-            }
-            *stmts = stmts_updated;
-            return;
-        }
-
         let mut new: Vec<T> = vec![];
 
         let init = self.vars_with_init.take();

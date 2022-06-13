@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 f3(1);
 var f3, i, i2, a, a2, C = function() {
     "use strict";

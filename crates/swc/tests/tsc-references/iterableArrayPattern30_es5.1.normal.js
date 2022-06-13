@@ -1,4 +1,4 @@
-import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 //@target: ES6
 var ref = _sliced_to_array(new Map([
     [

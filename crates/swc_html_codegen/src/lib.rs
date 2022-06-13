@@ -198,7 +198,8 @@ where
                     if n.children.is_empty()
                         || (match n.children.get(0) {
                             Some(Child::Text(text))
-                                if text.data.chars().next().unwrap().is_ascii_whitespace() =>
+                                if text.data.len() > 0
+                                    && text.data.chars().next().unwrap().is_ascii_whitespace() =>
                             {
                                 false
                             }

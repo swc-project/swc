@@ -6,7 +6,7 @@
     presto_version && (presto_version = Number(presto_version[1])), presto_version && presto_version >= 15 && (presto = !1, webkit = !0);
     var flipCtrlCmd = mac && (qtwebkit || presto && (null == presto_version || presto_version < 12.11)), captureRightClick = gecko || ie && ie_version >= 9;
     function classTest(cls) {
-        return new RegExp("(^|\\s)" + cls + "(?:$|\\s)\\s*");
+        return RegExp("(^|\\s)" + cls + "(?:$|\\s)\\s*");
     }
     var rmClass = function(node, cls) {
         var current = node.className, match = classTest(cls).exec(current);
@@ -417,7 +417,7 @@
         this.pos = this.start = 0, this.string = string, this.tabSize = tabSize || 8, this.lastColumnPos = this.lastColumnValue = 0, this.lineStart = 0, this.lineOracle = lineOracle;
     };
     function getLine(doc, n) {
-        if ((n -= doc.first) < 0 || n >= doc.size) throw new Error("There is no line " + (n + doc.first) + " in the document.");
+        if ((n -= doc.first) < 0 || n >= doc.size) throw Error("There is no line " + (n + doc.first) + " in the document.");
         for(var chunk = doc; !chunk.lines;)for(var i = 0;; ++i){
             var child = chunk.children[i], sz = child.chunkSize();
             if (n < sz) {
@@ -633,7 +633,7 @@
             var style = mode.token(stream, state);
             if (stream.pos > stream.start) return style;
         }
-        throw new Error("Mode " + mode.name + " failed to advance stream.");
+        throw Error("Mode " + mode.name + " failed to advance stream.");
     }
     Context.prototype.lookAhead = function(n) {
         var line = this.doc.getLine(this.line + n);
@@ -670,7 +670,7 @@
             if (!lineClass) break;
             type = type.slice(0, lineClass.index) + type.slice(lineClass.index + lineClass[0].length);
             var prop = lineClass[1] ? "bgClass" : "textClass";
-            null == output[prop] ? output[prop] = lineClass[2] : new RegExp("(?:^|\\s)" + lineClass[2] + "(?:$|\\s)").test(output[prop]) || (output[prop] += " " + lineClass[2]);
+            null == output[prop] ? output[prop] = lineClass[2] : RegExp("(?:^|\\s)" + lineClass[2] + "(?:$|\\s)").test(output[prop]) || (output[prop] += " " + lineClass[2]);
         }
         return type;
     }
@@ -2425,7 +2425,7 @@
         propagate(doc1, null, !0);
     }
     function attachDoc(cm, doc) {
-        if (doc.cm) throw new Error("This document is already in use.");
+        if (doc.cm) throw Error("This document is already in use.");
         cm.doc = doc, doc.cm = cm, estimateLineHeights(cm), loadMode(cm), setDirectionClass(cm), cm.options.direction = doc.direction, cm.options.lineWrapping || findMaxLine(cm), cm.options.mode = doc.modeOption, regChange(cm);
     }
     function setDirectionClass(cm) {
@@ -2998,7 +2998,7 @@
         if (marker.replacedWith && (marker.collapsed = !0, marker.widgetNode = eltP("span", [
             marker.replacedWith
         ], "CodeMirror-widget"), options.handleMouseEvents || marker.widgetNode.setAttribute("cm-ignore-events", "true"), options.insertLeft && (marker.widgetNode.insertLeft = !0)), marker.collapsed) {
-            if (conflictingCollapsedRange(doc, from.line, from, to, marker) || from.line != to.line && conflictingCollapsedRange(doc, to.line, from, to, marker)) throw new Error("Inserting collapsed marker partially overlapping an existing one");
+            if (conflictingCollapsedRange(doc, from.line, from, to, marker) || from.line != to.line && conflictingCollapsedRange(doc, to.line, from, to, marker)) throw Error("Inserting collapsed marker partially overlapping an existing one");
             sawCollapsedSpans = !0;
         }
         marker.addToHistory && addChangeToHistory(doc, {
@@ -3657,7 +3657,7 @@
             else if (/^a(lt)?$/i.test(mod)) alt = !0;
             else if (/^(c|ctrl|control)$/i.test(mod)) ctrl = !0;
             else if (/^s(hift)?$/i.test(mod)) shift = !0;
-            else throw new Error("Unrecognized modifier name: " + mod);
+            else throw Error("Unrecognized modifier name: " + mod);
         }
         return alt && (name = "Alt-" + name), ctrl && (name = "Ctrl-" + name), cmd && (name = "Cmd-" + name), shift && (name = "Shift-" + name), name;
     }
@@ -5148,11 +5148,11 @@
                 for(var i = newBreaks.length - 1; i >= 0; i--)replaceRange(cm.doc, val, newBreaks[i], Pos(newBreaks[i].line, newBreaks[i].ch + val.length));
             }
         }), option("specialChars", /[\u0000-\u001f\u007f-\u009f\u00ad\u061c\u200b\u200e\u200f\u2028\u2029\ufeff\ufff9-\ufffc]/g, function(cm, val, old) {
-            cm.state.specialChars = new RegExp(val.source + (val.test("\t") ? "" : "|\t"), "g"), old != Init && cm.refresh();
+            cm.state.specialChars = RegExp(val.source + (val.test("\t") ? "" : "|\t"), "g"), old != Init && cm.refresh();
         }), option("specialCharPlaceholder", defaultSpecialCharPlaceholder, function(cm) {
             return cm.refresh();
         }, !0), option("electricChars", !0), option("inputStyle", mobile ? "contenteditable" : "textarea", function() {
-            throw new Error("inputStyle can not (yet) be changed in a running editor");
+            throw Error("inputStyle can not (yet) be changed in a running editor");
         }, !0), option("spellcheck", !1, function(cm, val) {
             return cm.getInputField().spellcheck = val;
         }, !0), option("autocorrect", !1, function(cm, val) {
@@ -5216,7 +5216,7 @@
         },
         addOverlay: methodOp(function(spec, options) {
             var mode = spec.token ? spec : CodeMirror3.getMode(this.options, spec);
-            if (mode.startState) throw new Error("Overlays may not be stateful.");
+            if (mode.startState) throw Error("Overlays may not be stateful.");
             (function(array, value, score) {
                 for(var pos = 0, priority = score(value); pos < array.length && score(array[pos]) <= priority;)pos++;
                 array.splice(pos, 0, value);
@@ -5593,7 +5593,7 @@
                 i == keys.length - 1 ? (name = keys.join(" "), val = value) : (name = keys.slice(0, i + 1).join(" "), val = "...");
                 var prev = copy[name];
                 if (prev) {
-                    if (prev != val) throw new Error("Inconsistent bindings for " + name);
+                    if (prev != val) throw Error("Inconsistent bindings for " + name);
                 } else copy[name] = val;
             }
             delete keymap[keyname];

@@ -21,6 +21,7 @@ pub(crate) mod non_critical_lints {
     pub mod dot_notation;
     pub mod eqeqeq;
     pub mod no_alert;
+    pub mod no_await_in_loop;
     pub mod no_bitwise;
     pub mod no_compare_neg_zero;
     pub mod no_console;
@@ -185,6 +186,10 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
 
         rules.extend(default_case_last::default_case_last(
             &lint_config.default_case_last,
+        ));
+
+        rules.extend(no_await_in_loop::no_await_in_loop(
+            &lint_config.no_await_in_loop,
         ));
     }
 

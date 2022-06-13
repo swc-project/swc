@@ -1,4 +1,4 @@
-import _instanceof from "@swc/helpers/lib/_instanceof.js";
+import _instanceof from "@swc/helpers/src/_instanceof.mjs";
 // Repro from #10697
 (function(define, undefined) {
     define(function() {

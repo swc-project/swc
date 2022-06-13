@@ -1,7 +1,7 @@
-import _extends from "@swc/helpers/lib/_extends.js";
-import _object_without_properties from "@swc/helpers/lib/_object_without_properties.js";
-import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
-import _to_array from "@swc/helpers/lib/_to_array.js";
+import _extends from "@swc/helpers/src/_extends.mjs";
+import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
+import _to_array from "@swc/helpers/src/_to_array.mjs";
 // Declaration forms for array destructuring
 // Destructuring from a simple array -> include undefined
 var _strArray = _sliced_to_array(strArray, 1), s1 = _strArray[0];

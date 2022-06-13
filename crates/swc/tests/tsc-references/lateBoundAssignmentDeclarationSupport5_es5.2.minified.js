@@ -1,4 +1,4 @@
-import _define_property from "@swc/helpers/lib/_define_property.js";
+import _define_property from "@swc/helpers/src/_define_property.mjs";
 var _obj, _sym = Symbol(), _str = "my-fake-sym";
 function F() {}
 F.prototype = (_define_property(_obj = {}, _sym, "ok"), _define_property(_obj, _str, "ok"), _obj);

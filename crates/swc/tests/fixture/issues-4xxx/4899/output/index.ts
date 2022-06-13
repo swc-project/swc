@@ -1,6 +1,6 @@
 define([
     "require",
-    "@swc/helpers/lib/_ts_decorate.js"
+    "@swc/helpers/src/_ts_decorate.mjs"
 ], function(require, _ts_decorate) {
     "use strict";
     function es5ClassCompat(target) {
