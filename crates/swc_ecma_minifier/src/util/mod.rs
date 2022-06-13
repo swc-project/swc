@@ -139,7 +139,6 @@ pub(crate) trait ExprOptExt: Sized {
         }
     }
 
-    #[inline]
     fn prepend_exprs(&mut self, mut exprs: Vec<Box<Expr>>) {
         if exprs.is_empty() {
             return;
@@ -164,24 +163,20 @@ pub(crate) trait ExprOptExt: Sized {
 }
 
 impl ExprOptExt for Box<Expr> {
-    #[inline]
     fn as_expr(&self) -> &Expr {
         self
     }
 
-    #[inline]
     fn as_mut(&mut self) -> &mut Expr {
         self
     }
 }
 
 impl ExprOptExt for Expr {
-    #[inline]
     fn as_expr(&self) -> &Expr {
         self
     }
 
-    #[inline]
     fn as_mut(&mut self) -> &mut Expr {
         self
     }
@@ -279,14 +274,12 @@ pub(crate) trait IsModuleItem {
 }
 
 impl IsModuleItem for Stmt {
-    #[inline]
     fn is_module_item() -> bool {
         false
     }
 }
 
 impl IsModuleItem for ModuleItem {
-    #[inline]
     fn is_module_item() -> bool {
         true
     }
@@ -315,7 +308,6 @@ impl<V> Repeated for Optional<V>
 where
     V: Repeated,
 {
-    #[inline]
     fn changed(&self) -> bool {
         if self.enabled {
             return false;
@@ -324,7 +316,6 @@ where
         self.visitor.changed()
     }
 
-    #[inline]
     fn reset(&mut self) {
         if self.enabled {
             return;
@@ -347,7 +338,6 @@ impl<V> Fold for Optional<V>
 where
     V: Fold,
 {
-    #[inline(always)]
     fn fold_module(&mut self, module: Module) -> Module {
         if !self.enabled {
             return module;
@@ -548,9 +538,12 @@ pub(crate) fn can_end_conditionally(s: &Stmt) -> bool {
 }
 
 pub fn now() -> Option<Instant> {
-    if cfg!(target_arch = "wasm32") {
+    #[cfg(target_arch = "wasm32")]
+    {
         None
-    } else {
+    }
+    #[cfg(not(target_arch = "wasm32"))]
+    {
         Some(Instant::now())
     }
 }
@@ -591,4 +584,98 @@ impl Visit for EvalFinder {
             s.visit_children_with(self);
         }
     }
+}
+
+#[macro_export(local_inner_macros)]
+#[allow(clippy::crate_in_macro_def)]
+macro_rules! maybe_par {
+  ($prefix:ident.$name:ident.iter().$operator:ident($($rest:expr)*), $threshold:expr) => {
+      if $prefix.$name.len() >= $threshold {
+          use rayon::prelude::*;
+          $prefix.$name.par_iter().$operator($($rest)*)
+      } else {
+          $prefix.$name.iter().$operator($($rest)*)
+      }
+  };
+
+  ($prefix:ident.$name:ident.into_iter().$operator:ident($($rest:expr)*), $threshold:expr) => {
+      if $prefix.$name.len() >= $threshold {
+          use rayon::prelude::*;
+          $prefix.$name.into_par_iter().$operator($($rest)*)
+      } else {
+          $prefix.$name.into_iter().$operator($($rest)*)
+      }
+  };
+
+  ($name:ident.iter().$operator:ident($($rest:expr)*), $threshold:expr) => {
+      if $name.len() >= $threshold {
+          use rayon::prelude::*;
+          $name.par_iter().$operator($($rest)*)
+      } else {
+          $name.iter().$operator($($rest)*)
+      }
+  };
+
+  ($name:ident.into_iter().$operator:ident($($rest:expr)*), $threshold:expr) => {
+      if $name.len() >= $threshold {
+          use rayon::prelude::*;
+          $name.into_par_iter().$operator($($rest)*)
+      } else {
+          $name.into_iter().$operator($($rest)*)
+      }
+  };
+
+  ($name:ident.iter_mut().$operator:ident($($rest:expr)*), $threshold:expr) => {
+      if $name.len() >= $threshold {
+          use rayon::prelude::*;
+          $name.par_iter_mut().$operator($($rest)*)
+      } else {
+          $name.iter_mut().$operator($($rest)*)
+      }
+  };
+
+  ($name:ident.iter().$operator:ident($($rest:expr)*).$operator2:ident($($rest2:expr)*), $threshold:expr) => {
+      if $name.len() >= $threshold {
+          use rayon::prelude::*;
+          $name.par_iter().$operator($($rest)*).$operator2($($rest2)*)
+      } else {
+          $name.iter().$operator($($rest)*).$operator2($($rest2)*)
+      }
+  };
+
+  ($name:ident.into_iter().$operator:ident($($rest:expr)*).$operator2:ident($($rest2:expr)*), $threshold:expr) => {
+      if $name.len() >= $threshold {
+          use rayon::prelude::*;
+          $name.into_par_iter().$operator($($rest)*).$operator2($($rest2)*)
+      } else {
+          $name.into_iter().$operator($($rest)*).$operator2($($rest2)*)
+      }
+  };
+
+  ($name:ident.iter_mut().$operator:ident($($rest:expr)*).$operator2:ident($($rest2:expr)*), $threshold:expr) => {
+      if $name.len() >= $threshold {
+          use rayon::prelude::*;
+          $name.par_iter_mut().$operator($($rest)*).$operator2($($rest2)*)
+      } else {
+          $name.iter_mut().$operator($($rest)*).$operator2($($rest2)*)
+      }
+  };
+
+  ($name:ident.iter().$operator:ident($($rest:expr)*).$operator2:ident::<$t:ty>($($rest2:expr)*), $threshold:expr) => {
+      if $name.len() >= $threshold {
+          use rayon::prelude::*;
+          $name.par_iter().$operator($($rest)*).$operator2::<$t>($($rest2)*)
+      } else {
+          $name.iter().$operator($($rest)*).$operator2::<$t>($($rest2)*)
+      }
+  };
+
+  ($name:ident.iter().$operator:ident($($rest:expr)*).$operator2:ident($($rest2:expr)*).$operator3:ident($($rest3:expr)*), $threshold:expr) => {
+      if $name.len() >= $threshold {
+          use rayon::prelude::*;
+          $name.par_iter().$operator($($rest)*).$operator2($($rest2)*).$operator3($($rest3)*)
+      } else {
+          $name.iter().$operator($($rest)*).$operator2($($rest2)*).$operator3($($rest3)*)
+      }
+  };
 }

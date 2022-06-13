@@ -34,9 +34,9 @@ where
     }
 
     /// RAII guard to change context temporarically
-    #[inline]
     pub(super) fn with_ctx(&mut self, ctx: Ctx) -> WithCtx<'_, 'b, M> {
-        if cfg!(debug_assertions) {
+        #[cfg(debug_assertions)]
+        {
             let scope_ctxt = ctx.scope;
             if self.ctx.scope != scope_ctxt {
                 self.data.scopes.get(&scope_ctxt).expect("scope not found");
@@ -250,7 +250,8 @@ impl VisitMut for MultiReplacer<'_> {
             items.visit_mut_children_with(self);
 
             if !self.changed {
-                if cfg!(feature = "debug") {
+                #[cfg(feature = "debug")]
+                {
                     let keys = self.vars.iter().map(|(k, _)| k.clone()).collect::<Vec<_>>();
                     debug!("Dropping {:?}", keys);
                 }

@@ -6,7 +6,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{undefined, ExprExt, Value::Known};
 
 use super::Optimizer;
-use crate::{compress::util::eval_as_number, mode::Mode, DISABLE_BUGGY_PASSES};
+use crate::{compress::util::eval_as_number, maybe_par, mode::Mode, DISABLE_BUGGY_PASSES};
 
 /// Methods related to the option `evaluate`.
 impl<M> Optimizer<'_, M>
@@ -399,12 +399,12 @@ where
                     match (ln.classify(), rn.classify()) {
                         (FpCategory::Zero, FpCategory::Zero) => {
                             // If a variable named `NaN` is in scope, don't convert e into NaN.
-                            if self
-                                .data
-                                .vars
-                                .iter()
-                                .any(|(name, v)| v.declared && name.0 == js_word!("NaN"))
-                            {
+                            let data = &self.data.vars;
+                            if maybe_par!(
+                                data.iter()
+                                    .any(|(name, v)| v.declared && name.0 == js_word!("NaN")),
+                                *crate::LIGHT_TASK_PARALLELS
+                            ) {
                                 return;
                             }
 

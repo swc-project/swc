@@ -647,7 +647,6 @@ impl Pure<'_> {
         }))
     }
 
-    #[inline(never)]
     pub(super) fn ignore_return_value(&mut self, e: &mut Expr, opts: DropOpts) {
         self.optimize_expr_in_bool_ctx(e, true);
 
