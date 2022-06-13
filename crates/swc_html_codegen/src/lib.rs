@@ -311,8 +311,8 @@ where
                     | "track"
                     | "wbr"
             ),
-            Namespace::SVG => n.is_self_closing && n.children.is_empty(),
-            Namespace::MATHML => n.is_self_closing && n.children.is_empty(),
+            Namespace::SVG => n.children.is_empty(),
+            Namespace::MATHML => n.children.is_empty(),
             _ => false,
         };
 
@@ -327,7 +327,10 @@ where
             }
 
             if (matches!(n.namespace, Namespace::SVG | Namespace::MATHML) && is_void_element)
-                || (matches!(n.namespace, Namespace::HTML) && n.is_self_closing && is_void_element)
+                || (!self.config.minify
+                    && matches!(n.namespace, Namespace::HTML)
+                    && n.is_self_closing
+                    && is_void_element)
             {
                 if self.config.minify {
                     let need_space = match n.attributes.last() {

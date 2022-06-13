@@ -321,9 +321,9 @@ impl VisitMut for DropSpan {
     fn visit_mut_element(&mut self, n: &mut Element) {
         n.visit_mut_children_with(self);
 
-        if n.is_self_closing && n.children.len() > 0 {
-            n.is_self_closing = false;
-        }
+        // In normal output we respect `is_self_closing`
+        // In minified output we always avoid end tag for SVG and MathML namespace
+        n.is_self_closing = Default::default();
     }
 
     fn visit_mut_span(&mut self, n: &mut Span) {
