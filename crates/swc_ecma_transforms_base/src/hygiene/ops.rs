@@ -43,11 +43,14 @@ impl Operations {
     }
 }
 
-pub(super) struct Operator<'a>(pub &'a AHashMap<Id, JsWord>, pub Config);
+pub(super) struct Operator<'a> {
+    pub rename: &'a AHashMap<Id, JsWord>,
+    pub config: Config,
+}
 
 impl Operator<'_> {
     fn keep_class_name(&mut self, ident: &mut Ident, class: &mut Class) -> Option<ClassExpr> {
-        if !self.1.keep_class_names {
+        if !self.config.keep_class_names {
             return None;
         }
 
@@ -60,7 +63,10 @@ impl Operator<'_> {
 
             rename.insert(ident.to_id(), orig_name.sym.clone());
 
-            let mut operator = Operator(&rename, self.1.clone());
+            let mut operator = Operator {
+                rename: &rename,
+                config: self.config.clone(),
+            };
 
             class.visit_mut_with(&mut operator);
         }
@@ -105,7 +111,7 @@ impl<'a> VisitMut for Operator<'a> {
 
     fn visit_mut_decl(&mut self, decl: &mut Decl) {
         match decl {
-            Decl::Class(cls) if self.1.keep_class_names => {
+            Decl::Class(cls) if self.config.keep_class_names => {
                 let span = cls.class.span;
 
                 let expr = self.keep_class_name(&mut cls.ident, &mut cls.class);
@@ -422,7 +428,7 @@ impl VisitMut for VarFolder<'_, '_> {
 impl<'a> Operator<'a> {
     /// Returns `Ok(renamed_ident)` if ident should be renamed.
     fn rename_ident(&mut self, ident: &mut Ident) -> Result<(), ()> {
-        if let Some(sym) = self.0.get(&ident.to_id()) {
+        if let Some(sym) = self.rename.get(&ident.to_id()) {
             ident.span = ident.span.with_ctxt(SyntaxContext::empty());
             ident.sym = sym.clone();
             return Ok(());

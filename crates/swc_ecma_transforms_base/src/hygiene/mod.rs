@@ -126,7 +126,10 @@ pub struct Config {
 }
 
 pub fn rename(map: &AHashMap<Id, JsWord>) -> impl '_ + Fold + VisitMut {
-    as_folder(Operator(map, Default::default()))
+    as_folder(Operator {
+        rename: map,
+        config: Default::default(),
+    })
 }
 
 /// See [hygiene_with_config] for doc. Creates a `hygiene` pass with default
@@ -202,7 +205,10 @@ impl Hygiene {
         }
 
         let ops = data.ops.into_inner();
-        n.visit_mut_with(&mut Operator(&ops.rename, self.config.clone()));
+        n.visit_mut_with(&mut Operator {
+            rename: &ops.rename,
+            config: self.config.clone(),
+        });
     }
 }
 
