@@ -10,7 +10,7 @@ use swc_html_codegen::{
     writer::basic::{BasicHtmlWriter, BasicHtmlWriterConfig},
     CodeGenerator, CodegenConfig, Emit,
 };
-use swc_html_minifier::minify;
+use swc_html_minifier::{minify, option::MinifyOptions};
 use swc_html_parser::parse_file_as_document;
 use testing::NormalizedOutput;
 
@@ -52,7 +52,7 @@ fn minify_fixtures(input: PathBuf) {
         let mut ss = result.unwrap();
         let config = match find_config(dir) {
             Some(config) => serde_json::from_str(&config).unwrap(),
-            None => Default::default(),
+            None => MinifyOptions::default(),
         };
 
         // Apply transforms
@@ -110,7 +110,7 @@ fn minify_recovery(input: PathBuf) {
 
         let config = match find_config(dir) {
             Some(config) => serde_json::from_str(&config).unwrap(),
-            None => Default::default(),
+            None => MinifyOptions::default(),
         };
 
         // Apply transforms
