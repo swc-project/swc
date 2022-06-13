@@ -438,7 +438,7 @@ impl<'a> VisitMut for Operator<'a> {
         for mut node in take(nodes) {
             let mut visitor = Parallel::create(&*self);
             node.visit_mut_with(&mut visitor);
-            self.after_one_module_item(&mut buf);
+            visitor.after_one_module_item(&mut buf);
             buf.push(node);
         }
 
