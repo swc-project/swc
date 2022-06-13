@@ -41,6 +41,9 @@
 
 
 
+- **(es/resolver)** Prepare parallel `resolver` (#4957) ([ea92a6a](https://github.com/swc-project/swc/commit/ea92a6ab8a17a03d6f8d301fe3373d8282d09218))
+
+
 - **(html/parser)** Remove unused code (#4949) ([42a1d7c](https://github.com/swc-project/swc/commit/42a1d7c7a11120b8be8dbd7a29a6401d60062d70))
 
 ## [1.2.199] - 2022-06-11
