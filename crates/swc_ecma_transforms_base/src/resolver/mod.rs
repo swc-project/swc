@@ -552,8 +552,6 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_block_stmt(&mut self, block: &mut BlockStmt) {
-        let child_mark = Mark::fresh(Mark::root());
-
         self.with_child(ScopeKind::Block, |child| {
             block.visit_mut_children_with(child);
         })
@@ -568,8 +566,6 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_catch_clause(&mut self, c: &mut CatchClause) {
-        let child_mark = Mark::fresh(Mark::root());
-
         // Child folder
 
         self.with_child(ScopeKind::Fn, |child| {
@@ -587,7 +583,6 @@ impl<'a> VisitMut for Resolver<'a> {
         n.class.decorators.visit_mut_with(self);
 
         // Create a child scope. The class name is only accessible within the class.
-        let child_mark = Mark::fresh(Mark::root());
 
         self.with_child(ScopeKind::Fn, |child| {
             child.ident_type = IdentType::Ref;
@@ -673,8 +668,6 @@ impl<'a> VisitMut for Resolver<'a> {
         match &mut e.decl {
             DefaultDecl::Fn(f) => {
                 if f.ident.is_some() {
-                    let child_mark = Mark::fresh(Mark::root());
-
                     self.with_child(ScopeKind::Fn, |child| {
                         f.function.visit_mut_with(child);
                     });
@@ -871,8 +864,6 @@ impl<'a> VisitMut for Resolver<'a> {
     fn visit_mut_method_prop(&mut self, m: &mut MethodProp) {
         m.key.visit_mut_with(self);
 
-        let child_mark = Mark::fresh(Mark::root());
-
         // Child folder
         self.with_child(ScopeKind::Fn, |child| m.function.visit_mut_with(child));
     }
@@ -941,8 +932,6 @@ impl<'a> VisitMut for Resolver<'a> {
         m.key.visit_mut_with(self);
 
         {
-            let child_mark = Mark::fresh(Mark::root());
-
             // Child folder
 
             self.with_child(ScopeKind::Fn, |child| m.function.visit_mut_with(child));
@@ -955,8 +944,6 @@ impl<'a> VisitMut for Resolver<'a> {
         n.key.visit_mut_with(self);
 
         {
-            let child_mark = Mark::fresh(Mark::root());
-
             self.with_child(ScopeKind::Fn, |child| {
                 child.ident_type = IdentType::Binding;
                 n.param.visit_mut_with(child);
@@ -998,8 +985,6 @@ impl<'a> VisitMut for Resolver<'a> {
     fn visit_mut_switch_stmt(&mut self, s: &mut SwitchStmt) {
         s.discriminant.visit_mut_with(self);
 
-        let child_mark = Mark::fresh(Mark::root());
-
         self.with_child(ScopeKind::Block, |child| {
             s.cases.visit_mut_with(child);
         });
@@ -1018,8 +1003,6 @@ impl<'a> VisitMut for Resolver<'a> {
             return;
         }
 
-        let child_mark = Mark::fresh(Mark::root());
-
         self.with_child(ScopeKind::Fn, |child| {
             child.in_type = true;
 
@@ -1033,7 +1016,6 @@ impl<'a> VisitMut for Resolver<'a> {
         if !self.config.handle_types {
             return;
         }
-        let child_mark = Mark::fresh(Mark::root());
 
         // Child folder
         self.with_child(ScopeKind::Fn, |child| {
@@ -1051,8 +1033,6 @@ impl<'a> VisitMut for Resolver<'a> {
             return;
         }
 
-        let child_mark = Mark::fresh(Mark::root());
-
         self.with_child(ScopeKind::Fn, |child| {
             child.in_type = true;
 
@@ -1064,8 +1044,6 @@ impl<'a> VisitMut for Resolver<'a> {
 
     fn visit_mut_ts_enum_decl(&mut self, decl: &mut TsEnumDecl) {
         self.modify(&mut decl.id, Some(VarDeclKind::Let));
-
-        let child_mark = Mark::fresh(Mark::root());
 
         self.with_child(ScopeKind::Block, |child| {
             // add the enum member names as declared symbols for this scope
