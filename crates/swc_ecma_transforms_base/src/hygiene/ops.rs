@@ -10,7 +10,7 @@ use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use super::Config;
-use crate::perf::{ParExplode, Parallel};
+use crate::perf::{cpu_count, ParExplode, Parallel};
 #[derive(Debug, Default)]
 pub(super) struct Operations {
     pub rename: AHashMap<Id, JsWord>,
@@ -364,6 +364,82 @@ impl<'a> VisitMut for Operator<'a> {
                 item.visit_mut_children_with(self);
             }
         }
+    }
+
+    fn visit_mut_module_items(&mut self, nodes: &mut Vec<ModuleItem>) {
+        use std::mem::take;
+
+        #[cfg(feature = "rayon")]
+        if nodes.len() >= 64 * cpu_count() {
+            use swc_common::errors::HANDLER;
+
+            use crate::helpers::HELPERS;
+
+            ::swc_common::GLOBALS.with(|globals| {
+                HELPERS.with(|helpers| {
+                    HANDLER.with(|handler| {
+                        use rayon::prelude::*;
+
+                        let (visitor, new_nodes) = take(nodes)
+                            .into_par_iter()
+                            .map(|mut node| {
+                                ::swc_common::GLOBALS.set(globals, || {
+                                    HELPERS.set(helpers, || {
+                                        HANDLER.set(handler, || {
+                                            let mut visitor = Parallel::create(&*self);
+                                            node.visit_mut_with(&mut visitor);
+
+                                            let mut nodes = Vec::with_capacity(4);
+
+                                            ParExplode::after_one_module_item(
+                                                &mut visitor,
+                                                &mut nodes,
+                                            );
+
+                                            nodes.push(node);
+
+                                            (visitor, nodes)
+                                        })
+                                    })
+                                })
+                            })
+                            .reduce(
+                                || (Parallel::create(&*self), vec![]),
+                                |mut a, b| {
+                                    Parallel::merge(&mut a.0, b.0);
+
+                                    a.1.extend(b.1);
+
+                                    a
+                                },
+                            );
+
+                        Parallel::merge(self, visitor);
+
+                        {
+                            self.after_module_items(nodes);
+                        }
+
+                        *nodes = new_nodes;
+                    })
+                })
+            });
+
+            return;
+        }
+
+        let mut buf = Vec::with_capacity(nodes.len());
+
+        for mut node in take(nodes) {
+            let mut visitor = Parallel::create(&*self);
+            node.visit_mut_with(&mut visitor);
+            self.after_one_module_item(&mut buf);
+            buf.push(node);
+        }
+
+        self.after_module_items(&mut buf);
+
+        *nodes = buf;
     }
 
     fn visit_mut_named_export(&mut self, e: &mut NamedExport) {
