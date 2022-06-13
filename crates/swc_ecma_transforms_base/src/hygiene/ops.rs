@@ -361,7 +361,7 @@ impl<'a> VisitMut for Operator<'a> {
                 }
             }
             _ => {
-                item.visit_mut_with(self);
+                item.visit_mut_children_with(self);
             }
         }
     }
