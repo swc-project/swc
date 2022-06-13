@@ -547,12 +547,9 @@ impl<'a> VisitMut for Resolver<'a> {
     fn visit_mut_block_stmt(&mut self, block: &mut BlockStmt) {
         let child_mark = Mark::fresh(Mark::root());
 
-        let mut child_folder = Resolver::new(
-            Scope::new(ScopeKind::Block, child_mark, Some(&self.current)),
-            self.config,
-        );
-
-        block.visit_mut_children_with(&mut child_folder);
+        self.with_child(ScopeKind::Block, |child| {
+            block.visit_mut_children_with(&mut child);
+        })
     }
 
     /// Handle body of the arrow functions
@@ -567,16 +564,14 @@ impl<'a> VisitMut for Resolver<'a> {
         let child_mark = Mark::fresh(Mark::root());
 
         // Child folder
-        let mut folder = Resolver::new(
-            Scope::new(ScopeKind::Fn, child_mark, Some(&self.current)),
-            self.config,
-        );
 
-        folder.ident_type = IdentType::Binding;
-        c.param.visit_mut_with(&mut folder);
-        folder.ident_type = IdentType::Ref;
+        self.with_child(ScopeKind::Fn, |child| {
+            child.ident_type = IdentType::Binding;
+            c.param.visit_mut_with(&mut child);
+            child.ident_type = IdentType::Ref;
 
-        c.body.visit_mut_children_with(&mut folder);
+            c.body.visit_mut_children_with(&mut child);
+        });
     }
 
     fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
@@ -587,30 +582,23 @@ impl<'a> VisitMut for Resolver<'a> {
         // Create a child scope. The class name is only accessible within the class.
         let child_mark = Mark::fresh(Mark::root());
 
-        let mut folder = Resolver::new(
-            Scope::new(ScopeKind::Fn, child_mark, Some(&self.current)),
-            self.config,
-        );
+        self.with_child(ScopeKind::Fn, |child| {
+            child.ident_type = IdentType::Ref;
 
-        folder.ident_type = IdentType::Ref;
-
-        n.class.visit_mut_with(&mut folder);
+            n.class.visit_mut_with(&mut child);
+        });
     }
 
     fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
         // Create a child scope. The class name is only accessible within the class.
-        let child_mark = Mark::fresh(Mark::root());
 
-        let mut folder = Resolver::new(
-            Scope::new(ScopeKind::Fn, child_mark, Some(&self.current)),
-            self.config,
-        );
+        self.with_child(ScopeKind::Fn, |child| {
+            child.ident_type = IdentType::Binding;
+            n.ident.visit_mut_with(&mut child);
+            child.ident_type = IdentType::Ref;
 
-        folder.ident_type = IdentType::Binding;
-        n.ident.visit_mut_with(&mut folder);
-        folder.ident_type = IdentType::Ref;
-
-        n.class.visit_mut_with(&mut folder);
+            n.class.visit_mut_with(&mut child);
+        });
     }
 
     fn visit_mut_class_method(&mut self, m: &mut ClassMethod) {
