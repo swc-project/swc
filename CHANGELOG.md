@@ -10,6 +10,9 @@
 
 - **(css/parser)** Fix input buffer and improve error recovery (#4948) ([bf74d05](https://github.com/swc-project/swc/commit/bf74d05f3fb6ddb2f29a4808b64860021cbd4f5b))
 
+
+- **(es/helpers)** Allow using external helpers with `type: module` (#4962) ([4a27e6f](https://github.com/swc-project/swc/commit/4a27e6f84a9a4e99d161664fa1441b1278756023))
+
 ### Features
 
 
