@@ -269,12 +269,14 @@ struct Minifier {
     current_element_namespace: Option<Namespace>,
     current_element_tag_name: Option<JsWord>,
 
-    descendant_of_pre: bool,
-    collapse_whitespaces: Option<CollapseWhitespaces>,
-
     current_element_text_children_type: Option<TextChildrenType>,
 
     meta_element_content_type: Option<MetaElementContentType>,
+
+    descendant_of_pre: bool,
+    collapse_whitespaces: Option<CollapseWhitespaces>,
+
+    remove_empty_attributes: bool,
 }
 
 impl Minifier {
@@ -731,13 +733,15 @@ impl VisitMut for Minifier {
                 return false;
             }
 
-            let value = &*attribute.value.as_ref().unwrap();
+            if self.remove_empty_attributes {
+                let value = &*attribute.value.as_ref().unwrap();
 
-            if (matches!(&*attribute.name, "id") && value.is_empty())
-                || (matches!(&*attribute.name, "class" | "style") && value.is_empty())
-                || self.is_event_handler_attribute(&attribute.name) && value.is_empty()
-            {
-                return false;
+                if (matches!(&*attribute.name, "id") && value.is_empty())
+                    || (matches!(&*attribute.name, "class" | "style") && value.is_empty())
+                    || self.is_event_handler_attribute(&attribute.name) && value.is_empty()
+                {
+                    return false;
+                }
             }
 
             true
@@ -868,11 +872,13 @@ pub fn minify(document: &mut Document, options: &MinifyOptions) {
         current_element_namespace: None,
         current_element_tag_name: None,
 
-        descendant_of_pre: false,
-        collapse_whitespaces: options.collapse_whitespaces.clone(),
-
         current_element_text_children_type: None,
 
         meta_element_content_type: None,
+
+        descendant_of_pre: false,
+        collapse_whitespaces: options.collapse_whitespaces.clone(),
+
+        remove_empty_attributes: options.remove_empty_attributes,
     });
 }
