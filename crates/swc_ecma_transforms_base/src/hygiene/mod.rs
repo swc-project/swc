@@ -129,6 +129,7 @@ pub fn rename(map: &AHashMap<Id, JsWord>) -> impl '_ + Fold + VisitMut {
     as_folder(Operator {
         rename: map,
         config: Default::default(),
+        extra: Default::default(),
     })
 }
 
@@ -208,6 +209,7 @@ impl Hygiene {
         n.visit_mut_with(&mut Operator {
             rename: &ops.rename,
             config: self.config.clone(),
+            extra: Default::default(),
         });
     }
 }

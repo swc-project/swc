@@ -10,6 +10,7 @@ use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use super::Config;
+use crate::perf::{ParExplode, Parallel};
 #[derive(Debug, Default)]
 pub(super) struct Operations {
     pub rename: AHashMap<Id, JsWord>,
@@ -46,6 +47,8 @@ impl Operations {
 pub(super) struct Operator<'a> {
     pub rename: &'a AHashMap<Id, JsWord>,
     pub config: Config,
+
+    pub extra: Vec<ModuleItem>,
 }
 
 impl Operator<'_> {
@@ -66,6 +69,7 @@ impl Operator<'_> {
             let mut operator = Operator {
                 rename: &rename,
                 config: self.config.clone(),
+                extra: Default::default(),
             };
 
             class.visit_mut_with(&mut operator);
@@ -80,6 +84,28 @@ impl Operator<'_> {
         };
 
         Some(class_expr)
+    }
+}
+
+impl Parallel for Operator<'_> {
+    fn create(&self) -> Self {
+        Self {
+            rename: self.rename,
+            config: self.config.clone(),
+            extra: Default::default(),
+        }
+    }
+
+    fn merge(&mut self, other: Self) {
+        self.extra.extend(other.extra);
+    }
+}
+
+impl ParExplode for Operator<'_> {
+    fn after_one_stmt(&mut self, stmts: &mut Vec<Stmt>) {}
+
+    fn after_one_module_item(&mut self, stmts: &mut Vec<ModuleItem>) {
+        stmts.append(&mut self.extra);
     }
 }
 
