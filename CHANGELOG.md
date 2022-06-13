@@ -16,6 +16,12 @@
 
 - **(es/minifier)** Turn `Array`/`Object` calls into literals (#4947) ([47bdc6a](https://github.com/swc-project/swc/commit/47bdc6a6b13c5a4d6b85d4e3a0e729126c7b5f9d))
 
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Test `concurrent` (#4955) ([1a9f935](https://github.com/swc-project/swc/commit/1a9f93546bf1c9192baa562a419648cfe5d199fc))
+
 ### Performance
 
 
