@@ -336,18 +336,10 @@ impl<'a> VisitMut for Operator<'a> {
                     decl
                 });
                 if renamed.is_empty() {
-                    *item = ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                        span,
-                        decl: Decl::Var(VarDecl {
-                            decls,
-                            ..var.take()
-                        }),
-                    }));
+                    var.decls = decls;
                 } else {
-                    *item = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                        decls,
-                        ..var.take()
-                    })));
+                    var.decls = decls;
+
                     self.extra
                         .push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                             NamedExport {
