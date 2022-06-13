@@ -1,2 +1,2 @@
-import _extends from "@swc/helpers/lib/_extends.js";
-import _object_spread from "@swc/helpers/lib/_object_spread.js";
+import _extends from "@swc/helpers/src/_extends.mjs";
+import _object_spread from "@swc/helpers/src/_object_spread.mjs";

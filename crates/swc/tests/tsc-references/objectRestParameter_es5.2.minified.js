@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _create_class from "@swc/helpers/lib/_create_class.js";
-import _object_without_properties from "@swc/helpers/lib/_object_without_properties.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _create_class from "@swc/helpers/src/_create_class.mjs";
+import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
 suddenly(function(_param) {
     return _param.x, _object_without_properties(_param, [
         "x"

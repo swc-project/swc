@@ -1,4 +1,4 @@
-import _extends from "@swc/helpers/lib/_extends.js";
+import _extends from "@swc/helpers/src/_extends.mjs";
 import { Writable } from "stream";
 import React from "react";
 import * as ReactDOMServer from "react-dom/server";

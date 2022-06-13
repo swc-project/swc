@@ -1,4 +1,4 @@
-import _wrap_async_generator from "@swc/helpers/lib/_wrap_async_generator.js";
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 f1(function*() {
     const a = yield 0;
     return 0;

@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _construct from "@swc/helpers/lib/_construct.js";
-import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _construct from "@swc/helpers/src/_construct.mjs";
+import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 var Foo = function() {
     "use strict";
     for(var _len = arguments.length, s = new Array(_len), _key = 0; _key < _len; _key++)s[_key] = arguments[_key];

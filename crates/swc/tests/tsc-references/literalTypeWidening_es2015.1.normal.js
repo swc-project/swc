@@ -1,5 +1,5 @@
-import _object_spread from "@swc/helpers/lib/_object_spread.js";
-import _object_without_properties from "@swc/helpers/lib/_object_without_properties.js";
+import _object_spread from "@swc/helpers/src/_object_spread.mjs";
+import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
 // Widening vs. non-widening literal types
 function f1() {
     const c1 = "hello"; // Widening type "hello"

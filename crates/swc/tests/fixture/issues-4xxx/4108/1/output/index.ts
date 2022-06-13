@@ -1,6 +1,6 @@
-import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
-import _instanceof from "@swc/helpers/lib/_instanceof.js";
-import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
+import _instanceof from "@swc/helpers/src/_instanceof.mjs";
+import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 import { Transaction } from "@solana/web3.js";
 import { WalletNotConnectedError } from "@solana/wallet-adapter-base";

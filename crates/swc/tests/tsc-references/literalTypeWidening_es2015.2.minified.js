@@ -1,6 +1,6 @@
 var E;
-import _object_spread from "@swc/helpers/lib/_object_spread.js";
-import _object_without_properties from "@swc/helpers/lib/_object_without_properties.js";
+import _object_spread from "@swc/helpers/src/_object_spread.mjs";
+import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
 export function Set(...keys1) {
     let result = {};
     return keys1.forEach((key)=>result[key] = !0), result;

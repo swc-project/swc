@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // Duplicate overloads of construct signatures should generate errors
 var C = function C(x) {
     "use strict";

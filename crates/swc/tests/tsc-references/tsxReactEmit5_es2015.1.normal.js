@@ -1,4 +1,4 @@
-import _extends from "@swc/helpers/lib/_extends.js";
+import _extends from "@swc/helpers/src/_extends.mjs";
 //@filename: react-consumer.tsx
 import { React } from "./test";
 //@filename: test.d.ts

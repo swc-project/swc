@@ -3354,7 +3354,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.44.0"
+version = "0.44.1"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -3595,7 +3595,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.104.0"
+version = "0.104.1"
 dependencies = [
  "ahash",
  "arrayvec",
@@ -3959,7 +3959,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.9.0"
+version = "0.9.1"
 dependencies = [
  "serde",
  "serde_json",

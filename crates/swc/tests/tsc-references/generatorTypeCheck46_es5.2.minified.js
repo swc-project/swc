@@ -1,4 +1,4 @@
-import _define_property from "@swc/helpers/lib/_define_property.js";
+import _define_property from "@swc/helpers/src/_define_property.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 foo("", regeneratorRuntime.mark(function _callee1() {
     return regeneratorRuntime.wrap(function(_ctx1) {

@@ -1,4 +1,4 @@
-import _type_of from "@swc/helpers/lib/_type_of.js";
+import _type_of from "@swc/helpers/src/_type_of.mjs";
 //Cond ? Expr1 : Expr2,  Cond is of string type, Expr1 and Expr2 have the same type
 var condString;
 var exprAny1;

@@ -1,4 +1,4 @@
-import _to_array from "@swc/helpers/lib/_to_array.js";
+import _to_array from "@swc/helpers/src/_to_array.mjs";
 function foo1() {
     var ref = _to_array(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : null), r = ref.slice(0);
 }

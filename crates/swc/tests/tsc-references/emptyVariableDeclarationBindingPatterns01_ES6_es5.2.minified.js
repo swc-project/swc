@@ -1,5 +1,5 @@
-import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
-import _throw from "@swc/helpers/lib/_throw.js";
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
+import _throw from "@swc/helpers/src/_throw.mjs";
 !function() {
     var a, a = null !== a ? a : _throw(new TypeError("Cannot destructure undefined")), a = null !== a ? a : _throw(new TypeError("Cannot destructure undefined")), a = null !== a ? a : _throw(new TypeError("Cannot destructure undefined"));
     _sliced_to_array(a, 0), _sliced_to_array(a, 0), _sliced_to_array(a, 0);

@@ -1,4 +1,4 @@
-import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 f1(), _sliced_to_array(f2(), 1)[0], f3().x, _sliced_to_array([
     42
 ], 1)[0], _sliced_to_array(selectJohn(), 1)[0];

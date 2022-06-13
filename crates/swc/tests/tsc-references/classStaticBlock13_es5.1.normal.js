@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _class_static_private_field_spec_get from "@swc/helpers/lib/_class_static_private_field_spec_get.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _class_static_private_field_spec_get from "@swc/helpers/src/_class_static_private_field_spec_get.mjs";
 // @target: esnext, es2022, es2015
 // @useDefineForClassFields: true
 var C = /*#__PURE__*/ function() {

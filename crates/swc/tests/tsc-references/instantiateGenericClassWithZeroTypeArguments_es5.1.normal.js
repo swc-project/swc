@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // no errors expected when instantiating a generic type with no type arguments provided
 var C = function C() {
     "use strict";

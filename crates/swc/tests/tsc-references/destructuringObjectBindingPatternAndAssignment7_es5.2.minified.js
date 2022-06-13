@@ -1,4 +1,4 @@
-import _define_property from "@swc/helpers/lib/_define_property.js";
+import _define_property from "@swc/helpers/src/_define_property.mjs";
 !function(K) {
     K.a = "a", K.b = "b";
 }(K || (K = {}));

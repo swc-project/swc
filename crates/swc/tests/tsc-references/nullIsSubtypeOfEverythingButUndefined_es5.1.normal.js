@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // null is a subtype of any other types except undefined
 var r0 = true ? null : null;
 var r0 = true ? null : null;

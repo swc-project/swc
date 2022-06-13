@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 (M || (M = {})).Point = 1;
 var M, M2, m2, a2, M3, m3, a3, m = M;
 M.Point, m.Point, function(M21) {

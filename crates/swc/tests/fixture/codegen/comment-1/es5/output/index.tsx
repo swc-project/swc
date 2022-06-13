@@ -1,4 +1,4 @@
-import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
+import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 function a(param) {
     var _b = param.b, b = _b === void 0 ? [] : _b;
     var t = useMemo(function() {

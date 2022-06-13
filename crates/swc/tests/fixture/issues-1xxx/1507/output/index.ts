@@ -1,4 +1,4 @@
-import _ts_decorate from "@swc/helpers/lib/_ts_decorate.js";
+import _ts_decorate from "@swc/helpers/src/_ts_decorate.mjs";
 import { Entity, BaseEntity } from "typeorm";
 export let Location = class Location extends BaseEntity {
 };

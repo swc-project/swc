@@ -1,5 +1,5 @@
 var _Foo;
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 (_Foo = function Foo() {
     "use strict";
     _class_call_check(this, Foo);

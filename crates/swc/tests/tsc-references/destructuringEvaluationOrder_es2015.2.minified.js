@@ -1,6 +1,6 @@
-import _extends from "@swc/helpers/lib/_extends.js";
-import _object_without_properties from "@swc/helpers/lib/_object_without_properties.js";
-import _to_property_key from "@swc/helpers/lib/_to_property_key.js";
+import _extends from "@swc/helpers/src/_extends.mjs";
+import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
+import _to_property_key from "@swc/helpers/src/_to_property_key.mjs";
 let trace = [], order = (n)=>trace.push(n), [{ [order(1)]: x  } = order(0)] = [], [{ [order(1)]: y  } = order(0)] = [
     {}
 ], _ref = {}, key = order(0), key1 = order(2), { [key]: { [key1]: z  } = order(1)  } = _ref;

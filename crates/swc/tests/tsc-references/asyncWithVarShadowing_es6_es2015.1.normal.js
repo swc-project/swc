@@ -1,5 +1,5 @@
-import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
-import _extends from "@swc/helpers/lib/_extends.js";
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
+import _extends from "@swc/helpers/src/_extends.mjs";
 function fn1(x) {
     return _fn1.apply(this, arguments);
 }

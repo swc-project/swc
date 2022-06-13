@@ -1,4 +1,4 @@
-import _throw from "@swc/helpers/lib/_throw.js";
+import _throw from "@swc/helpers/src/_throw.mjs";
 // Missing properties
 function f1() {
     var ref = {}, x = ref.x, y = ref.y;

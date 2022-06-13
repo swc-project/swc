@@ -1,0 +1,9 @@
+{
+    "jsc": {
+        "lints": {
+            "constructor-super": [
+                "error"
+            ]
+        }
+    }
+}
