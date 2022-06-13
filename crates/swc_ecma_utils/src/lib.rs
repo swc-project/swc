@@ -1900,7 +1900,6 @@ pub fn opt_chain_test(
 }
 
 /// inject `branch` after directives
-#[inline(never)]
 pub fn prepend_stmt<T: StmtLike>(stmts: &mut Vec<T>, stmt: T) {
     let idx = stmts
         .iter()

@@ -6,9 +6,10 @@ use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashMap, util::take::Take};
 use swc_ecma_ast::Id;
+#[cfg(debug_assertions)]
 use tracing::debug;
 
-use crate::util::base54;
+use crate::{maybe_par, util::base54};
 
 #[derive(Debug, Default)]
 pub(crate) struct Scope {
@@ -128,7 +129,6 @@ impl Scope {
         }
     }
 
-    #[inline(never)]
     fn rename_one_scope(
         &self,
         to: &mut AHashMap<Id, JsWord>,
@@ -158,7 +158,8 @@ impl Scope {
                 }
 
                 if self.can_rename(&id, &sym, cloned_reverse) {
-                    if cfg!(debug_assertions) {
+                    #[cfg(debug_assertions)]
+                    {
                         debug!("mangle: `{}{:?}` -> {}", id.0, id.1, sym);
                     }
 
@@ -173,7 +174,6 @@ impl Scope {
         }
     }
 
-    #[inline(never)]
     fn can_rename(&self, id: &Id, symbol: &JsWord, reverse: &FxHashMap<JsWord, Vec<Id>>) -> bool {
         // We can optimize this
         // We only need to check the current scope and parents (ignoring `a` generated
@@ -194,6 +194,11 @@ impl Scope {
     }
 
     pub fn rename_cost(&self) -> usize {
-        self.data.queue.len() + self.children.iter().map(|v| v.rename_cost()).sum::<usize>()
+        let children = &self.children;
+        self.data.queue.len()
+            + maybe_par!(
+                children.iter().map(|v| v.rename_cost()).sum::<usize>(),
+                *crate::LIGHT_TASK_PARALLELS
+            )
     }
 }

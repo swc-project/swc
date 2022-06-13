@@ -5,16 +5,15 @@ use swc_common::{pass::Repeated, util::take::Take, SyntaxContext, DUMMY_SP, GLOB
 use swc_ecma_ast::*;
 use swc_ecma_utils::{undefined, ExprCtx};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
+#[cfg(feature = "debug")]
 use tracing::{debug, span, Level};
 
 use self::{ctx::Ctx, misc::DropOpts};
+#[cfg(feature = "debug")]
+use crate::debug::dump;
 use crate::{
-    analyzer::ProgramData,
-    debug::{dump, AssertValid},
-    marks::Marks,
-    option::CompressOptions,
-    util::ModuleItemExt,
-    MAX_PAR_DEPTH,
+    analyzer::ProgramData, debug::AssertValid, marks::Marks, maybe_par, option::CompressOptions,
+    util::ModuleItemExt, MAX_PAR_DEPTH,
 };
 
 mod arrows;
@@ -40,6 +39,8 @@ pub(crate) struct PureOptimizerConfig {
     pub enable_join_vars: bool,
 
     pub force_str_for_tpl: bool,
+
+    #[cfg(feature = "debug")]
     pub debug_infinite_loop: bool,
 }
 
@@ -101,32 +102,37 @@ impl Pure<'_> {
     {
         self.remove_dead_branch(stmts);
 
-        if cfg!(debug_assertions) {
+        #[cfg(debug_assertions)]
+        {
             stmts.visit_with(&mut AssertValid);
         }
 
         self.drop_unreachable_stmts(stmts);
 
-        if cfg!(debug_assertions) {
+        #[cfg(debug_assertions)]
+        {
             stmts.visit_with(&mut AssertValid);
         }
 
         self.drop_useless_blocks(stmts);
 
-        if cfg!(debug_assertions) {
+        #[cfg(debug_assertions)]
+        {
             stmts.visit_with(&mut AssertValid);
         }
 
         self.collapse_vars_without_init(stmts);
 
-        if cfg!(debug_assertions) {
+        #[cfg(debug_assertions)]
+        {
             stmts.visit_with(&mut AssertValid);
         }
 
         if self.config.enable_join_vars {
             self.join_vars(stmts);
 
-            if cfg!(debug_assertions) {
+            #[cfg(debug_assertions)]
+            {
                 stmts.visit_with(&mut AssertValid);
             }
         }
@@ -174,29 +180,50 @@ impl Pure<'_> {
                 self.changed |= v.changed;
             }
         } else {
-            GLOBALS.with(|globals| {
-                let changed = nodes
-                    .par_iter_mut()
-                    .map(|node| {
-                        GLOBALS.set(globals, || {
-                            let mut v = Pure {
-                                expr_ctx: self.expr_ctx.clone(),
-                                ctx: Ctx {
-                                    par_depth: self.ctx.par_depth + 1,
-                                    ..self.ctx
-                                },
-                                changed: false,
-                                ..*self
-                            };
-                            node.visit_mut_with(&mut v);
+            let mut changed = false;
+            if nodes.len() >= *crate::HEAVY_TASK_PARALLELS {
+                GLOBALS.with(|globals| {
+                    changed = nodes
+                        .par_iter_mut()
+                        .map(|node| {
+                            GLOBALS.set(globals, || {
+                                let mut v = Pure {
+                                    expr_ctx: self.expr_ctx.clone(),
+                                    ctx: Ctx {
+                                        par_depth: self.ctx.par_depth + 1,
+                                        ..self.ctx
+                                    },
+                                    changed: false,
+                                    ..*self
+                                };
+                                node.visit_mut_with(&mut v);
 
-                            v.changed
+                                v.changed
+                            })
                         })
-                    })
-                    .reduce(|| false, |a, b| a || b);
+                        .reduce(|| false, |a, b| a || b);
+                })
+            } else {
+                changed = nodes
+                    .iter_mut()
+                    .map(|node| {
+                        let mut v = Pure {
+                            expr_ctx: self.expr_ctx.clone(),
+                            ctx: Ctx {
+                                par_depth: self.ctx.par_depth + 1,
+                                ..self.ctx
+                            },
+                            changed: false,
+                            ..*self
+                        };
+                        node.visit_mut_with(&mut v);
 
-                self.changed |= changed;
-            });
+                        v.changed
+                    })
+                    .reduce(|a, b| a || b)
+                    .unwrap_or(false);
+            }
+            self.changed |= changed;
         }
     }
 }
@@ -217,7 +244,8 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_bin_expr(&mut self, e: &mut BinExpr) {
-        e.visit_mut_children_with(self);
+        self.visit_mut_expr(&mut e.left);
+        self.visit_mut_expr(&mut e.right);
 
         self.compress_cmp_with_long_op(e);
 
@@ -545,7 +573,8 @@ impl VisitMut for Pure<'_> {
 
         self.optimize_arrow_method_prop(p);
 
-        if cfg!(debug_assertions) {
+        #[cfg(debug_assertions)]
+        {
             p.visit_with(&mut AssertValid);
         }
     }
@@ -570,7 +599,11 @@ impl VisitMut for Pure<'_> {
     fn visit_mut_seq_expr(&mut self, e: &mut SeqExpr) {
         e.visit_mut_children_with(self);
 
-        if e.exprs.iter().any(|e| e.is_seq()) {
+        let exprs = &e.exprs;
+        if maybe_par!(
+            exprs.iter().any(|e| e.is_seq()),
+            *crate::LIGHT_TASK_PARALLELS
+        ) {
             let mut exprs = vec![];
 
             for e in e.exprs.take() {
@@ -620,13 +653,15 @@ impl VisitMut for Pure<'_> {
 
         e.exprs.retain(|e| !e.is_invalid());
 
-        if cfg!(debug_assertions) {
+        #[cfg(debug_assertions)]
+        {
             e.visit_with(&mut AssertValid);
         }
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
-        let _tracing = if cfg!(feature = "debug") && self.config.debug_infinite_loop {
+        #[cfg(feature = "debug")]
+        let _tracing = if self.config.debug_infinite_loop {
             let text = dump(&*s, false);
 
             if text.lines().count() < 10 {
@@ -649,7 +684,8 @@ impl VisitMut for Pure<'_> {
             s.visit_mut_children_with(&mut *self.with_ctx(ctx));
         }
 
-        if cfg!(feature = "debug") && self.config.debug_infinite_loop {
+        #[cfg(feature = "debug")]
+        if self.config.debug_infinite_loop {
             let text = dump(&*s, false);
 
             if text.lines().count() < 10 {
@@ -683,7 +719,8 @@ impl VisitMut for Pure<'_> {
             }
         }
 
-        if cfg!(feature = "debug") && self.config.debug_infinite_loop {
+        #[cfg(feature = "debug")]
+        if self.config.debug_infinite_loop {
             let text = dump(&*s, false);
 
             if text.lines().count() < 10 {
@@ -691,7 +728,8 @@ impl VisitMut for Pure<'_> {
             }
         }
 
-        if cfg!(debug_assertions) {
+        #[cfg(debug_assertions)]
+        {
             s.visit_with(&mut AssertValid);
         }
     }
@@ -717,7 +755,8 @@ impl VisitMut for Pure<'_> {
 
         items.retain(|s| !matches!(s, Stmt::Empty(..)));
 
-        if cfg!(debug_assertions) {
+        #[cfg(debug_assertions)]
+        {
             items.visit_with(&mut AssertValid);
         }
     }

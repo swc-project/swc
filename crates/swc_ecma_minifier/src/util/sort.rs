@@ -1,30 +1,22 @@
 use std::cmp::Ordering;
 
-pub(crate) fn is_sorted_by<T, F>(mut items: impl Iterator<Item = T>, mut compare: F) -> bool
+pub(crate) fn is_sorted_by<I, T, F>(mut items: I, mut compare: F) -> bool
 where
+    I: Iterator<Item = T>,
     T: Copy,
     F: FnMut(&T, &T) -> Option<Ordering>,
 {
-    let mut last = match items.next() {
+    let last = match items.next() {
         Some(e) => e,
         None => return true,
     };
 
-    for curr in items {
-        if let Some(Ordering::Greater) | None = compare(&last, &curr) {
-            return false;
-        }
-        last = curr;
-    }
-
-    true
-}
-
-pub(crate) fn is_sorted_by_key<T, F, K>(items: impl Iterator<Item = T>, key: F) -> bool
-where
-    T: Copy,
-    F: FnMut(T) -> K,
-    K: Copy + PartialOrd,
-{
-    is_sorted_by(items.map(key), PartialOrd::partial_cmp)
+    items
+        .try_fold(last, |last, curr| {
+            if let Some(Ordering::Greater) | None = compare(&last, &curr) {
+                return Err(());
+            }
+            Ok(curr)
+        })
+        .is_ok()
 }
