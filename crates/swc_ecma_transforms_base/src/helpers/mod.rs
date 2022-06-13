@@ -79,7 +79,7 @@ macro_rules! add_import_to {
                 ),
             });
 
-            let src: Str = concat!("@swc/helpers/lib/_", stringify!($name), ".js").into();
+            let src: Str = concat!("@swc/helpers/src/_", stringify!($name), ".js").into();
 
             $buf.push(ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                 span: DUMMY_SP,
@@ -514,7 +514,7 @@ mod tests {
                     }),
                     "output.js",
                     Default::default(),
-                    "import _throw1 from \"@swc/helpers/lib/_throw.js\";
+                    "import _throw1 from \"@swc/helpers/src/_throw.js\";
 _throw();",
                 )?;
                 enable_helper!(throw);
