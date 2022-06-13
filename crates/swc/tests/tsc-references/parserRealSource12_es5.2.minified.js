@@ -1,5 +1,5 @@
 var TypeScript;
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 !function(TypeScript1) {
     var globalAstWalkerFactory, ChildrenWalkers1, getAstWalkerFactory = function() {
         return globalAstWalkerFactory || (globalAstWalkerFactory = new AstWalkerFactory()), globalAstWalkerFactory;

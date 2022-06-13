@@ -1,4 +1,4 @@
-import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
+import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 pli.apply(void 0, [
     reads
 ].concat(_to_consumable_array(gun), [

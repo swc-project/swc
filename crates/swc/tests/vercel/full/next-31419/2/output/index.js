@@ -1,4 +1,4 @@
-import a from "@swc/helpers/lib/_async_to_generator.js";
+import a from "@swc/helpers/src/_async_to_generator.mjs";
 Promise.all(assignAll).then(function() {
     var b = a(function*(c) {
         for(let b in obj){

@@ -1,5 +1,5 @@
 var A, C, X, Z, K, M;
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 !function(A1) {
     A1.x = "hello world";
     var Point = function(x, y) {

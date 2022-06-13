@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 // A parameter declaration may specify either an identifier or a binding pattern.
 // The identifiers specified in parameter declarations and binding patterns
 // in a parameter list must be unique within that parameter list.

@@ -1,7 +1,7 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _instanceof from "@swc/helpers/lib/_instanceof.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _instanceof from "@swc/helpers/src/_instanceof.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 export var C = function() {
     "use strict";
     function C() {

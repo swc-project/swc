@@ -1,4 +1,4 @@
-import _object_without_properties from "@swc/helpers/lib/_object_without_properties.js";
+import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
 function foobar(_param = {}) {
     var { bar ={}  } = _param;
     _object_without_properties(_param, [

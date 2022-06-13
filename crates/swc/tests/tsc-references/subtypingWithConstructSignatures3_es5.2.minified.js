@@ -1,7 +1,7 @@
 var Errors, WithGenericSignaturesInBaseType;
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 !function(Errors) {
     var r1arg1, r2arg1, r3arg1, r4arg1, r5arg1, r6arg1, r7arg1, r7arg3, r8arg, r9arg, Base1 = function() {
         "use strict";

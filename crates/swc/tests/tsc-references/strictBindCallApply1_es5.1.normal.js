@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var f00 = foo.bind(undefined);
 var f01 = foo.bind(undefined, 10);
 var f02 = foo.bind(undefined, 10, "hello");

@@ -1,4 +1,4 @@
-import _extends from "@swc/helpers/lib/_extends.js";
+import _extends from "@swc/helpers/src/_extends.mjs";
 require("react");
 var obj2, obj = {
     yy: 10,

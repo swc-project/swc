@@ -1,4 +1,4 @@
-import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(g311);
 var _marked1 = regeneratorRuntime.mark(g310);

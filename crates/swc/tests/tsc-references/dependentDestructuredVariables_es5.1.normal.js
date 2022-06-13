@@ -1,4 +1,4 @@
-import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 function f10(param) {
     var kind = param.kind, payload = param.payload;
     if (kind === "A") {

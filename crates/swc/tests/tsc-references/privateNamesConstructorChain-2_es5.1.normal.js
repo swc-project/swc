@@ -1,10 +1,10 @@
-import _assert_this_initialized from "@swc/helpers/lib/_assert_this_initialized.js";
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _class_private_field_get from "@swc/helpers/lib/_class_private_field_get.js";
-import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
-import _class_static_private_field_spec_get from "@swc/helpers/lib/_class_static_private_field_spec_get.js";
-import _inherits from "@swc/helpers/lib/_inherits.js";
-import _create_super from "@swc/helpers/lib/_create_super.js";
+import _assert_this_initialized from "@swc/helpers/src/_assert_this_initialized.mjs";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _class_private_field_get from "@swc/helpers/src/_class_private_field_get.mjs";
+import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
+import _class_static_private_field_spec_get from "@swc/helpers/src/_class_static_private_field_spec_get.mjs";
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";
 var _foo = /*#__PURE__*/ new WeakMap();
 // @target: es2015
 var Parent = /*#__PURE__*/ function() {

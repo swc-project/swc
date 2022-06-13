@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _instanceof from "@swc/helpers/lib/_instanceof.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _instanceof from "@swc/helpers/src/_instanceof.mjs";
 var x, a1, a2, a3, a4, b1, b2, b3, b4, o1, o2, o3, C = function() {
     "use strict";
     function C() {

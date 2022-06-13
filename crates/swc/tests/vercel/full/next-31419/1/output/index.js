@@ -1,4 +1,4 @@
-import a from "@swc/helpers/lib/_async_to_generator.js";
+import a from "@swc/helpers/src/_async_to_generator.mjs";
 import b from "regenerator-runtime";
 Promise.all(assignAll).then(function() {
     var c = a(b.mark(function a(c) {

@@ -412,7 +412,7 @@ impl Scope {
                     }
                     ImportSpecifier::Default(i) => {
                         // Helpers are special.
-                        if import.src.value.starts_with("@swc/helpers/lib") {
+                        if import.src.value.starts_with("@swc/helpers/src/") {
                             let ident = i.local.clone();
 
                             self.imports

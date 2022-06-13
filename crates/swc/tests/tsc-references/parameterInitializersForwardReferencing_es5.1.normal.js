@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 function left(a) {
     var b = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : a, c = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : b;
     a;

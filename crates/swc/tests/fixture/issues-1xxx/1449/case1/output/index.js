@@ -1,5 +1,5 @@
-import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
-import _throw from "@swc/helpers/lib/_throw.js";
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
+import _throw from "@swc/helpers/src/_throw.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 function foo() {
     return _foo.apply(this, arguments);
