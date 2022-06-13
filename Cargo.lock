@@ -3576,6 +3576,7 @@ dependencies = [
  "swc_ecma_transforms_macros",
  "swc_ecma_utils",
  "swc_ecma_visit",
+ "swc_node_base",
  "testing",
  "tracing",
 ]
