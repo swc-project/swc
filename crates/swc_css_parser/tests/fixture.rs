@@ -25,7 +25,7 @@ fn tokens_input(input: PathBuf) {
             let mut lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default());
             let mut tokens = vec![];
 
-            while let Some(token_and_span) = lexer.next() {
+            for token_and_span in lexer.by_ref() {
                 tokens.push(token_and_span);
             }
 
@@ -85,7 +85,7 @@ fn test_pass(input: PathBuf, config: ParserConfig) {
                         tokens: vec![],
                     };
 
-                    while let Some(token_and_span) = lexer.next() {
+                    for token_and_span in lexer.by_ref() {
                         tokens.tokens.push(token_and_span);
                     }
 
@@ -187,7 +187,7 @@ fn recovery(input: PathBuf) {
                         tokens: vec![],
                     };
 
-                    while let Some(token_and_span) = lexer.next() {
+                    for token_and_span in lexer.by_ref() {
                         tokens.tokens.push(token_and_span);
                     }
 

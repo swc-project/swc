@@ -1,5 +1,5 @@
-import _class_static_private_field_spec_get from "@swc/helpers/lib/_class_static_private_field_spec_get.js";
-import _class_static_private_field_spec_set from "@swc/helpers/lib/_class_static_private_field_spec_set.js";
+import _class_static_private_field_spec_get from "@swc/helpers/src/_class_static_private_field_spec_get.mjs";
+import _class_static_private_field_spec_set from "@swc/helpers/src/_class_static_private_field_spec_set.mjs";
 class A {
     static test() {
         _class_static_private_field_spec_get(this, A, _fieldFunc).call(A);

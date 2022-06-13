@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _construct from "@swc/helpers/lib/_construct.js";
-import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _construct from "@swc/helpers/src/_construct.mjs";
+import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 function createConstructor(callback) {
     var klass;
     return function() {

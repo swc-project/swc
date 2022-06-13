@@ -1,6 +1,6 @@
-import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
-import _to_array from "@swc/helpers/lib/_to_array.js";
-import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
+import _to_array from "@swc/helpers/src/_to_array.mjs";
+import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 function a10(param) {
     var _param = _to_array(param), ref = (_param[0], _param[1], _sliced_to_array(_param[2], 1)), ref1 = _sliced_to_array(ref[0], 1);
     ref1[0], _param.slice(3);

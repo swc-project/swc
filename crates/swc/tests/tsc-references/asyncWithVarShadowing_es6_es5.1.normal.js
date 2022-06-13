@@ -1,7 +1,7 @@
-import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
-import _extends from "@swc/helpers/lib/_extends.js";
-import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
-import _to_array from "@swc/helpers/lib/_to_array.js";
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
+import _extends from "@swc/helpers/src/_extends.mjs";
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
+import _to_array from "@swc/helpers/src/_to_array.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 function fn1(x) {
     return _fn1.apply(this, arguments);

@@ -10,6 +10,9 @@
 
 - **(css/parser)** Fix input buffer and improve error recovery (#4948) ([bf74d05](https://github.com/swc-project/swc/commit/bf74d05f3fb6ddb2f29a4808b64860021cbd4f5b))
 
+
+- **(es/helpers)** Allow using external helpers with `type: module` (#4962) ([4a27e6f](https://github.com/swc-project/swc/commit/4a27e6f84a9a4e99d161664fa1441b1278756023))
+
 ### Features
 
 
@@ -39,6 +42,9 @@
 
 ### Refactor
 
+
+
+- **(es/resolver)** Prepare parallel `resolver` (#4957) ([ea92a6a](https://github.com/swc-project/swc/commit/ea92a6ab8a17a03d6f8d301fe3373d8282d09218))
 
 
 - **(html/parser)** Remove unused code (#4949) ([42a1d7c](https://github.com/swc-project/swc/commit/42a1d7c7a11120b8be8dbd7a29a6401d60062d70))

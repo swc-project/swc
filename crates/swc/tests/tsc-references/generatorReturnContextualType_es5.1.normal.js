@@ -1,4 +1,4 @@
-import _wrap_async_generator from "@swc/helpers/lib/_wrap_async_generator.js";
+import _wrap_async_generator from "@swc/helpers/src/_wrap_async_generator.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(f1);
 // @target: esnext

@@ -1,1 +1,1 @@
-import _to_array from "@swc/helpers/lib/_to_array.js";
+import _to_array from "@swc/helpers/src/_to_array.mjs";

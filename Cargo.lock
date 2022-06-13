@@ -3557,7 +3557,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.89.1"
+version = "0.89.2"
 dependencies = [
  "better_scoped_tls",
  "criterion",
@@ -3576,6 +3576,7 @@ dependencies = [
  "swc_ecma_transforms_macros",
  "swc_ecma_utils",
  "swc_ecma_visit",
+ "swc_node_base",
  "testing",
  "tracing",
 ]
@@ -3594,7 +3595,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.104.0"
+version = "0.104.1"
 dependencies = [
  "ahash",
  "arrayvec",

@@ -1,5 +1,5 @@
-import _instanceof from "@swc/helpers/lib/_instanceof.js";
-import _type_of from "@swc/helpers/lib/_type_of.js";
+import _instanceof from "@swc/helpers/src/_instanceof.mjs";
+import _type_of from "@swc/helpers/src/_type_of.mjs";
 /*
  Copyright (c) 2018-2020 Xiamen Yaji Software Co., Ltd.
 

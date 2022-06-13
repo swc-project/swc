@@ -1,4 +1,4 @@
-import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
+import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 // @strict: true
 // @declaration: true
 function f0(a, b) {

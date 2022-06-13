@@ -1,5 +1,5 @@
 var M;
-import _extends from "@swc/helpers/lib/_extends.js";
+import _extends from "@swc/helpers/src/_extends.mjs";
 !function(M1) {
     var React;
     M1.React = React;

@@ -1,5 +1,5 @@
-import _class_private_field_init from "@swc/helpers/lib/_class_private_field_init.js";
-import _class_private_method_init from "@swc/helpers/lib/_class_private_method_init.js";
+import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
+import _class_private_method_init from "@swc/helpers/src/_class_private_method_init.mjs";
 var _fooField = /*#__PURE__*/ new WeakMap(), _fooMethod = /*#__PURE__*/ new WeakSet(), _fooProp = /*#__PURE__*/ new WeakMap();
 // @strict: true
 // @target: es6

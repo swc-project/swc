@@ -1,4 +1,4 @@
-import _extends from "@swc/helpers/lib/_extends.js";
+import _extends from "@swc/helpers/src/_extends.mjs";
 require('react');
 export function MainButton(props) {
     return props.goTo ? this._buildMainLink(props) : this._buildMainButton(props);

@@ -1,5 +1,5 @@
-import _extends from "@swc/helpers/lib/_extends.js";
-import _object_without_properties from "@swc/helpers/lib/_object_without_properties.js";
+import _extends from "@swc/helpers/src/_extends.mjs";
+import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
 // Declaration forms for array destructuring
 // Destructuring from a simple array -> include undefined
 const [s1] = strArray;
