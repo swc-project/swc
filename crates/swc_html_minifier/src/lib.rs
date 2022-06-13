@@ -277,6 +277,7 @@ struct Minifier {
     collapse_whitespaces: Option<CollapseWhitespaces>,
 
     remove_empty_attributes: bool,
+    collapse_boolean_attributes: bool,
 }
 
 impl Minifier {
@@ -764,7 +765,10 @@ impl VisitMut for Minifier {
 
         let is_element_html_namespace = self.current_element_namespace == Some(Namespace::HTML);
 
-        if is_element_html_namespace && self.is_boolean_attribute(&n.name) {
+        if self.collapse_boolean_attributes
+            && is_element_html_namespace
+            && self.is_boolean_attribute(&n.name)
+        {
             n.value = None;
 
             return;
@@ -880,5 +884,6 @@ pub fn minify(document: &mut Document, options: &MinifyOptions) {
         collapse_whitespaces: options.collapse_whitespaces.clone(),
 
         remove_empty_attributes: options.remove_empty_attributes,
+        collapse_boolean_attributes: options.collapse_boolean_attributes,
     });
 }
