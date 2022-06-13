@@ -205,14 +205,19 @@ struct InnerConfig {
 }
 
 impl<'a> Resolver<'a> {
-    fn new(current: Scope<'a>, config: InnerConfig) -> Self {
-        Resolver {
-            current,
+    fn with_child<F>(&self, kind: ScopeKind, op: F)
+    where
+        F: for<'aa> FnOnce(&mut Resolver<'aa>),
+    {
+        let mut child = Resolver {
+            current: Scope::new(kind, Mark::new(), Some(&self.current)),
             ident_type: IdentType::Ref,
-            config,
-            in_type: false,
-            in_ts_module: false,
-        }
+            config: self.config,
+            in_type: self.in_type,
+            in_ts_module: self.in_ts_module,
+        };
+
+        op(&mut child);
     }
 
     fn visit_mut_stmt_within_child_scope(&mut self, s: &mut Stmt) {
