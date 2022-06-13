@@ -25,6 +25,9 @@
 
 - **(css/parser)** Improve performance of lexer (#4921) ([327969d](https://github.com/swc-project/swc/commit/327969d0d96159ed45a45a92e943d9d426de303c))
 
+
+- **(es/transforms)** Make rename operator parallel (#4951) ([445d585](https://github.com/swc-project/swc/commit/445d58518dc1ea5ab670f4e3d9e8b833108e1cf7))
+
 ### Refactor
 
 
