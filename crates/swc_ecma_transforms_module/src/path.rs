@@ -44,11 +44,13 @@ impl Resolver {
         let src = self.resolve(src);
 
         if let Some(suffix) = src.strip_prefix("@swc/helpers/src/") {
-            return self.make_require_call(
-                unresolved_mark,
-                format!("@swc/helpers/lib/{}", suffix).into(),
-                src_span,
-            );
+            if let Some(prefix) = suffix.strip_suffix(".mjs") {
+                return self.make_require_call(
+                    unresolved_mark,
+                    format!("@swc/helpers/lib/{}.js", prefix).into(),
+                    src_span,
+                );
+            }
         }
 
         Expr::Call(CallExpr {
