@@ -3932,7 +3932,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_codegen"
-version = "0.12.3"
+version = "0.12.4"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -3961,6 +3961,7 @@ dependencies = [
 name = "swc_html_minifier"
 version = "0.9.0"
 dependencies = [
+ "serde",
  "serde_json",
  "swc_atoms",
  "swc_common",
