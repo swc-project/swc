@@ -7,7 +7,7 @@ use swc_css_ast::*;
 use swc_css_parser::{
     lexer::Lexer,
     parse_tokens,
-    parser::{PResult, Parser, ParserConfig},
+    parser::{input::ParserInput, PResult, Parser, ParserConfig},
 };
 use swc_css_visit::{Visit, VisitWith};
 use testing::NormalizedOutput;
@@ -58,6 +58,7 @@ fn stylesheet_test_tokens(input: PathBuf, config: ParserConfig) {
 
     testing::run_test2(false, |cm, handler| {
         let fm = cm.load_file(&input).unwrap();
+        let mut errors = vec![];
         let tokens = {
             let mut lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default());
             let mut tokens = vec![];
@@ -66,13 +67,14 @@ fn stylesheet_test_tokens(input: PathBuf, config: ParserConfig) {
                 tokens.push(token_and_span);
             }
 
+            errors.extend(lexer.take_errors());
+
             Tokens {
                 span: Span::new(fm.start_pos, fm.end_pos, Default::default()),
                 tokens,
             }
         };
 
-        let mut errors = vec![];
         let stylesheet: PResult<Stylesheet> = parse_tokens(&tokens, config, &mut errors);
 
         for err in &errors {
@@ -90,41 +92,6 @@ fn stylesheet_test_tokens(input: PathBuf, config: ParserConfig) {
                     .expect("failed to serialize stylesheet");
 
                 actual_json.clone().compare_to_file(&ref_json_path).unwrap();
-
-                if !config.allow_wrong_line_comments {
-                    let mut errors = vec![];
-
-                    let mut lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default());
-                    let mut tokens = Tokens {
-                        span: Span::new(fm.start_pos, fm.end_pos, Default::default()),
-                        tokens: vec![],
-                    };
-
-                    for token_and_span in lexer.by_ref() {
-                        tokens.tokens.push(token_and_span);
-                    }
-
-                    errors.extend(lexer.take_errors());
-
-                    let ss_tok: Stylesheet = parse_tokens(
-                        &tokens,
-                        ParserConfig {
-                            ..Default::default()
-                        },
-                        &mut errors,
-                    )
-                    .expect("failed to parse token");
-
-                    for err in errors {
-                        err.to_diagnostics(&handler).emit();
-                    }
-
-                    let json_from_tokens = serde_json::to_string_pretty(&ss_tok)
-                        .map(NormalizedOutput::from)
-                        .expect("failed to serialize stylesheet from tokens");
-
-                    assert_eq!(actual_json, json_from_tokens);
-                }
 
                 Ok(())
             }
@@ -174,41 +141,6 @@ fn stylesheet_recovery_test(input: PathBuf, config: ParserConfig) {
 
                 actual_json.clone().compare_to_file(&ref_json_path).unwrap();
 
-                {
-                    let mut errors = vec![];
-
-                    let mut lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default());
-                    let mut tokens = Tokens {
-                        span: Span::new(fm.start_pos, fm.end_pos, Default::default()),
-                        tokens: vec![],
-                    };
-
-                    for token_and_span in lexer.by_ref() {
-                        tokens.tokens.push(token_and_span);
-                    }
-
-                    errors.extend(lexer.take_errors());
-
-                    let ss_tok: Stylesheet = parse_tokens(
-                        &tokens,
-                        ParserConfig {
-                            ..Default::default()
-                        },
-                        &mut errors,
-                    )
-                    .expect("failed to parse token");
-
-                    for err in errors {
-                        err.to_diagnostics(&handler).emit();
-                    }
-
-                    let json_from_tokens = serde_json::to_string_pretty(&ss_tok)
-                        .map(NormalizedOutput::from)
-                        .expect("failed to serialize stylesheet from tokens");
-
-                    assert_eq!(actual_json, json_from_tokens);
-                }
-
                 Err(())
             }
             Err(err) => {
@@ -247,6 +179,7 @@ fn stylesheet_recovery_test_tokens(input: PathBuf, config: ParserConfig) {
         }
 
         let fm = cm.load_file(&input).unwrap();
+        let mut errors = vec![];
         let tokens = {
             let mut lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default());
             let mut tokens = vec![];
@@ -255,13 +188,14 @@ fn stylesheet_recovery_test_tokens(input: PathBuf, config: ParserConfig) {
                 tokens.push(token_and_span);
             }
 
+            errors.extend(lexer.take_errors());
+
             Tokens {
                 span: Span::new(fm.start_pos, fm.end_pos, Default::default()),
                 tokens,
             }
         };
 
-        let mut errors = vec![];
         let stylesheet: PResult<Stylesheet> = parse_tokens(&tokens, config, &mut errors);
 
         for err in &errors {
