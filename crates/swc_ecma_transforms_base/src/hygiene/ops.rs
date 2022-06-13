@@ -99,6 +99,10 @@ impl Parallel for Operator<'_> {
     fn merge(&mut self, other: Self) {
         self.extra.extend(other.extra);
     }
+
+    fn after_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
+        stmts.append(&mut self.extra);
+    }
 }
 
 impl ParExplode for Operator<'_> {
