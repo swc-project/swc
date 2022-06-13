@@ -1,0 +1,124 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/delim-token/bang/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       color: !!;
+ 3 | `-> }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/delim-token/bang/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       color: !!;
+ 3 | `-> }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/delim-token/bang/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       color: !!;
+ 3 | `-> }
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/recovery/delim-token/bang/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/recovery/delim-token/bang/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/recovery/delim-token/bang/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/recovery/delim-token/bang/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/recovery/delim-token/bang/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/recovery/delim-token/bang/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/delim-token/bang/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/delim-token/bang/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       color: !!;
+ 3 | `-> }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/delim-token/bang/input.css:2:5]
+ 2 | color: !!;
+   : ^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/delim-token/bang/input.css:2:5]
+ 2 | color: !!;
+   : ^^^^^^^^^^
+   `----
+
+  x Tokens
+   ,-[$DIR/tests/recovery/delim-token/bang/input.css:2:5]
+ 2 | color: !!;
+   : ^^^^^^^^^^
+   `----
+
+  x Ident { value: Atom('color' type=inline), raw: Atom('color' type=inline) }
+   ,-[$DIR/tests/recovery/delim-token/bang/input.css:2:5]
+ 2 | color: !!;
+   : ^^^^^
+   `----
+
+  x Colon
+   ,-[$DIR/tests/recovery/delim-token/bang/input.css:2:5]
+ 2 | color: !!;
+   :      ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/delim-token/bang/input.css:2:5]
+ 2 | color: !!;
+   :       ^
+   `----
+
+  x Delim { value: '!' }
+   ,-[$DIR/tests/recovery/delim-token/bang/input.css:2:5]
+ 2 | color: !!;
+   :        ^
+   `----
+
+  x Delim { value: '!' }
+   ,-[$DIR/tests/recovery/delim-token/bang/input.css:2:5]
+ 2 | color: !!;
+   :         ^
+   `----
+
+  x Semi
+   ,-[$DIR/tests/recovery/delim-token/bang/input.css:2:5]
+ 2 | color: !!;
+   :          ^
+   `----

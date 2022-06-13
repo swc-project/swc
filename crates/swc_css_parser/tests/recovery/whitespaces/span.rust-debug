@@ -1,0 +1,224 @@
+
+  x Stylesheet
+    ,-[$DIR/tests/recovery/whitespaces/input.css:1:1]
+  1 | ,-> a {
+  2 | |       prop: ;
+  3 | |       prop:    ;
+  4 | |       prop:
+  5 | |   
+  6 | |   ;
+  7 | |       prop:    
+  8 | |   
+  9 | |       ;
+ 10 | `-> }
+    `----
+
+  x Rule
+    ,-[$DIR/tests/recovery/whitespaces/input.css:1:1]
+  1 | ,-> a {
+  2 | |       prop: ;
+  3 | |       prop:    ;
+  4 | |       prop:
+  5 | |   
+  6 | |   ;
+  7 | |       prop:    
+  8 | |   
+  9 | |       ;
+ 10 | `-> }
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/recovery/whitespaces/input.css:1:1]
+  1 | ,-> a {
+  2 | |       prop: ;
+  3 | |       prop:    ;
+  4 | |       prop:
+  5 | |   
+  6 | |   ;
+  7 | |       prop:    
+  8 | |   
+  9 | |       ;
+ 10 | `-> }
+    `----
+
+  x SelectorList
+   ,-[$DIR/tests/recovery/whitespaces/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/recovery/whitespaces/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/recovery/whitespaces/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/recovery/whitespaces/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/recovery/whitespaces/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/recovery/whitespaces/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/whitespaces/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/recovery/whitespaces/input.css:1:1]
+  1 | ,-> a {
+  2 | |       prop: ;
+  3 | |       prop:    ;
+  4 | |       prop:
+  5 | |   
+  6 | |   ;
+  7 | |       prop:    
+  8 | |   
+  9 | |       ;
+ 10 | `-> }
+    `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/whitespaces/input.css:2:5]
+ 2 | prop: ;
+   : ^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/whitespaces/input.css:2:5]
+ 2 | prop: ;
+   : ^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/whitespaces/input.css:2:5]
+ 2 | prop: ;
+   : ^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/whitespaces/input.css:2:5]
+ 2 | prop: ;
+   : ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/whitespaces/input.css:2:5]
+ 2 | prop: ;
+   : ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/whitespaces/input.css:3:5]
+ 3 | prop:    ;
+   : ^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/whitespaces/input.css:3:5]
+ 3 | prop:    ;
+   : ^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/whitespaces/input.css:3:5]
+ 3 | prop:    ;
+   : ^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/whitespaces/input.css:3:5]
+ 3 | prop:    ;
+   : ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/whitespaces/input.css:3:5]
+ 3 | prop:    ;
+   : ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/whitespaces/input.css:4:5]
+ 4 | ,-> prop:
+ 5 | |   
+ 6 | `-> ;
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/whitespaces/input.css:4:5]
+ 4 | ,-> prop:
+ 5 | |   
+ 6 | `-> ;
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/whitespaces/input.css:4:5]
+ 4 | ,-> prop:
+ 5 | |   
+ 6 | `-> ;
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/whitespaces/input.css:4:5]
+ 4 | prop:
+   : ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/whitespaces/input.css:4:5]
+ 4 | prop:
+   : ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/whitespaces/input.css:7:5]
+ 7 | ,-> prop:    
+ 8 | |   
+ 9 | `->     ;
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/whitespaces/input.css:7:5]
+ 7 | ,-> prop:    
+ 8 | |   
+ 9 | `->     ;
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/whitespaces/input.css:7:5]
+ 7 | ,-> prop:    
+ 8 | |   
+ 9 | `->     ;
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/whitespaces/input.css:7:5]
+ 7 | prop:
+   : ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/whitespaces/input.css:7:5]
+ 7 | prop:
+   : ^^^^
+   `----

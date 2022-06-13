@@ -1,0 +1,268 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/vercel/005/input.css:1:1]
+ 1 | ,-> @font-face {
+ 2 | |       margin: 0;
+ 3 | |       __ident__
+ 4 | |       border-radius: 7px;
+ 5 | |       color: white;
+ 6 | |       background:  __ident__;
+ 7 | |       __ident__
+ 8 | |       __ident__
+ 9 | `-> }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/vercel/005/input.css:1:1]
+ 1 | ,-> @font-face {
+ 2 | |       margin: 0;
+ 3 | |       __ident__
+ 4 | |       border-radius: 7px;
+ 5 | |       color: white;
+ 6 | |       background:  __ident__;
+ 7 | |       __ident__
+ 8 | |       __ident__
+ 9 | `-> }
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/recovery/vercel/005/input.css:1:1]
+ 1 | ,-> @font-face {
+ 2 | |       margin: 0;
+ 3 | |       __ident__
+ 4 | |       border-radius: 7px;
+ 5 | |       color: white;
+ 6 | |       background:  __ident__;
+ 7 | |       __ident__
+ 8 | |       __ident__
+ 9 | `-> }
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/recovery/vercel/005/input.css:1:1]
+ 1 | @font-face {
+   :  ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/005/input.css:1:1]
+ 1 | @font-face {
+   :  ^^^^^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/vercel/005/input.css:1:1]
+ 1 | ,-> @font-face {
+ 2 | |       margin: 0;
+ 3 | |       __ident__
+ 4 | |       border-radius: 7px;
+ 5 | |       color: white;
+ 6 | |       background:  __ident__;
+ 7 | |       __ident__
+ 8 | |       __ident__
+ 9 | `-> }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/005/input.css:2:5]
+ 2 | margin: 0;
+   : ^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/vercel/005/input.css:2:5]
+ 2 | margin: 0;
+   : ^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/vercel/005/input.css:2:5]
+ 2 | margin: 0;
+   : ^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/005/input.css:2:5]
+ 2 | margin: 0;
+   : ^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/005/input.css:2:5]
+ 2 | margin: 0;
+   :         ^
+   `----
+
+  x Integer
+   ,-[$DIR/tests/recovery/vercel/005/input.css:2:5]
+ 2 | margin: 0;
+   :         ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/005/input.css:3:5]
+ 3 | ,-> __ident__
+ 4 | `->     border-radius: 7px;
+   `----
+
+  x Tokens
+   ,-[$DIR/tests/recovery/vercel/005/input.css:3:5]
+ 3 | ,-> __ident__
+ 4 | `->     border-radius: 7px;
+   `----
+
+  x Ident { value: Atom('__ident__' type=dynamic), raw: Atom('__ident__' type=dynamic) }
+   ,-[$DIR/tests/recovery/vercel/005/input.css:3:5]
+ 3 | __ident__
+   : ^^^^^^^^^
+   `----
+
+  x WhiteSpace { value: Atom('
+  |     ' type=inline) }
+   ,-[$DIR/tests/recovery/vercel/005/input.css:3:5]
+ 3 | ,-> __ident__
+ 4 | `->     border-radius: 7px;
+   `----
+
+  x Ident { value: Atom('border-radius' type=dynamic), raw: Atom('border-radius' type=dynamic) }
+   ,-[$DIR/tests/recovery/vercel/005/input.css:4:5]
+ 4 | border-radius: 7px;
+   : ^^^^^^^^^^^^^
+   `----
+
+  x Colon
+   ,-[$DIR/tests/recovery/vercel/005/input.css:4:5]
+ 4 | border-radius: 7px;
+   :              ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/vercel/005/input.css:4:5]
+ 4 | border-radius: 7px;
+   :               ^
+   `----
+
+  x Dimension { value: 7.0, raw_value: Atom('7' type=inline), unit: Atom('px' type=inline), raw_unit: Atom('px' type=inline), type_flag: Integer }
+   ,-[$DIR/tests/recovery/vercel/005/input.css:4:5]
+ 4 | border-radius: 7px;
+   :                ^^^
+   `----
+
+  x Semi
+   ,-[$DIR/tests/recovery/vercel/005/input.css:4:5]
+ 4 | border-radius: 7px;
+   :                   ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/005/input.css:5:5]
+ 5 | color: white;
+   : ^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/vercel/005/input.css:5:5]
+ 5 | color: white;
+   : ^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/vercel/005/input.css:5:5]
+ 5 | color: white;
+   : ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/005/input.css:5:5]
+ 5 | color: white;
+   : ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/005/input.css:5:5]
+ 5 | color: white;
+   :        ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/005/input.css:5:5]
+ 5 | color: white;
+   :        ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/005/input.css:6:5]
+ 6 | background:  __ident__;
+   : ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/vercel/005/input.css:6:5]
+ 6 | background:  __ident__;
+   : ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/vercel/005/input.css:6:5]
+ 6 | background:  __ident__;
+   : ^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/005/input.css:6:5]
+ 6 | background:  __ident__;
+   : ^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/005/input.css:6:5]
+ 6 | background:  __ident__;
+   :              ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/005/input.css:6:5]
+ 6 | background:  __ident__;
+   :              ^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/005/input.css:7:5]
+ 7 | ,-> __ident__
+ 8 | `->     __ident__
+ 9 |     }
+   `----
+
+  x Tokens
+   ,-[$DIR/tests/recovery/vercel/005/input.css:7:5]
+ 7 | ,-> __ident__
+ 8 | `->     __ident__
+ 9 |     }
+   `----
+
+  x Ident { value: Atom('__ident__' type=dynamic), raw: Atom('__ident__' type=dynamic) }
+   ,-[$DIR/tests/recovery/vercel/005/input.css:7:5]
+ 7 | __ident__
+   : ^^^^^^^^^
+   `----
+
+  x WhiteSpace { value: Atom('
+  |     ' type=inline) }
+   ,-[$DIR/tests/recovery/vercel/005/input.css:7:5]
+ 7 | ,-> __ident__
+ 8 | `->     __ident__
+   `----
+
+  x Ident { value: Atom('__ident__' type=dynamic), raw: Atom('__ident__' type=dynamic) }
+   ,-[$DIR/tests/recovery/vercel/005/input.css:8:5]
+ 8 | __ident__
+   : ^^^^^^^^^
+   `----
+
+  x WhiteSpace { value: Atom('
+  | ' type=inline) }
+   ,-[$DIR/tests/recovery/vercel/005/input.css:8:5]
+ 8 | __ident__
+   :          ^
+ 9 | }
+   `----

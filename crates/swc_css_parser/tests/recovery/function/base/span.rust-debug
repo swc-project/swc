@@ -1,0 +1,754 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/function/base/input.css:1:1]
+ 1 | ,-> div {
+ 2 | |       prop: func(1 + 2);
+ 3 | |       prop: func(ident.ident);
+ 4 | |       prop: func3(   ident.ident   );
+ 5 | |       prop: func([foo bar]);
+ 6 | |       prop: func((foo, bar));
+ 7 | |       prop: func({ foo: bar });
+ 8 | |       prop: func(1, 2);
+ 9 | `-> }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/function/base/input.css:1:1]
+ 1 | ,-> div {
+ 2 | |       prop: func(1 + 2);
+ 3 | |       prop: func(ident.ident);
+ 4 | |       prop: func3(   ident.ident   );
+ 5 | |       prop: func([foo bar]);
+ 6 | |       prop: func((foo, bar));
+ 7 | |       prop: func({ foo: bar });
+ 8 | |       prop: func(1, 2);
+ 9 | `-> }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/function/base/input.css:1:1]
+ 1 | ,-> div {
+ 2 | |       prop: func(1 + 2);
+ 3 | |       prop: func(ident.ident);
+ 4 | |       prop: func3(   ident.ident   );
+ 5 | |       prop: func([foo bar]);
+ 6 | |       prop: func((foo, bar));
+ 7 | |       prop: func({ foo: bar });
+ 8 | |       prop: func(1, 2);
+ 9 | `-> }
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/recovery/function/base/input.css:1:1]
+ 1 | div {
+   : ^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/recovery/function/base/input.css:1:1]
+ 1 | div {
+   : ^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/recovery/function/base/input.css:1:1]
+ 1 | div {
+   : ^^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/recovery/function/base/input.css:1:1]
+ 1 | div {
+   : ^^^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/recovery/function/base/input.css:1:1]
+ 1 | div {
+   : ^^^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/recovery/function/base/input.css:1:1]
+ 1 | div {
+   : ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/base/input.css:1:1]
+ 1 | div {
+   : ^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/function/base/input.css:1:1]
+ 1 | ,-> div {
+ 2 | |       prop: func(1 + 2);
+ 3 | |       prop: func(ident.ident);
+ 4 | |       prop: func3(   ident.ident   );
+ 5 | |       prop: func([foo bar]);
+ 6 | |       prop: func((foo, bar));
+ 7 | |       prop: func({ foo: bar });
+ 8 | |       prop: func(1, 2);
+ 9 | `-> }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:2:5]
+ 2 | prop: func(1 + 2);
+   : ^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/function/base/input.css:2:5]
+ 2 | prop: func(1 + 2);
+   : ^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/function/base/input.css:2:5]
+ 2 | prop: func(1 + 2);
+   : ^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/function/base/input.css:2:5]
+ 2 | prop: func(1 + 2);
+   : ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/base/input.css:2:5]
+ 2 | prop: func(1 + 2);
+   : ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:2:5]
+ 2 | prop: func(1 + 2);
+   :       ^^^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/recovery/function/base/input.css:2:5]
+ 2 | prop: func(1 + 2);
+   :       ^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/base/input.css:2:5]
+ 2 | prop: func(1 + 2);
+   :       ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:2:5]
+ 2 | prop: func(1 + 2);
+   :            ^
+   `----
+
+  x Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
+   ,-[$DIR/tests/recovery/function/base/input.css:2:5]
+ 2 | prop: func(1 + 2);
+   :            ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:2:5]
+ 2 | prop: func(1 + 2);
+   :             ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/function/base/input.css:2:5]
+ 2 | prop: func(1 + 2);
+   :             ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:2:5]
+ 2 | prop: func(1 + 2);
+   :              ^
+   `----
+
+  x Delim { value: '+' }
+   ,-[$DIR/tests/recovery/function/base/input.css:2:5]
+ 2 | prop: func(1 + 2);
+   :              ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:2:5]
+ 2 | prop: func(1 + 2);
+   :               ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/function/base/input.css:2:5]
+ 2 | prop: func(1 + 2);
+   :               ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:2:5]
+ 2 | prop: func(1 + 2);
+   :                ^
+   `----
+
+  x Number { value: 2.0, raw: Atom('2' type=inline), type_flag: Integer }
+   ,-[$DIR/tests/recovery/function/base/input.css:2:5]
+ 2 | prop: func(1 + 2);
+   :                ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:3:5]
+ 3 | prop: func(ident.ident);
+   : ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/function/base/input.css:3:5]
+ 3 | prop: func(ident.ident);
+   : ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/function/base/input.css:3:5]
+ 3 | prop: func(ident.ident);
+   : ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/function/base/input.css:3:5]
+ 3 | prop: func(ident.ident);
+   : ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/base/input.css:3:5]
+ 3 | prop: func(ident.ident);
+   : ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:3:5]
+ 3 | prop: func(ident.ident);
+   :       ^^^^^^^^^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/recovery/function/base/input.css:3:5]
+ 3 | prop: func(ident.ident);
+   :       ^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/base/input.css:3:5]
+ 3 | prop: func(ident.ident);
+   :       ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:3:5]
+ 3 | prop: func(ident.ident);
+   :            ^^^^^
+   `----
+
+  x Ident { value: Atom('ident' type=inline), raw: Atom('ident' type=inline) }
+   ,-[$DIR/tests/recovery/function/base/input.css:3:5]
+ 3 | prop: func(ident.ident);
+   :            ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:3:5]
+ 3 | prop: func(ident.ident);
+   :                 ^
+   `----
+
+  x Delim { value: '.' }
+   ,-[$DIR/tests/recovery/function/base/input.css:3:5]
+ 3 | prop: func(ident.ident);
+   :                 ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:3:5]
+ 3 | prop: func(ident.ident);
+   :                  ^^^^^
+   `----
+
+  x Ident { value: Atom('ident' type=inline), raw: Atom('ident' type=inline) }
+   ,-[$DIR/tests/recovery/function/base/input.css:3:5]
+ 3 | prop: func(ident.ident);
+   :                  ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:4:5]
+ 4 | prop: func3(   ident.ident   );
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/function/base/input.css:4:5]
+ 4 | prop: func3(   ident.ident   );
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/function/base/input.css:4:5]
+ 4 | prop: func3(   ident.ident   );
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/function/base/input.css:4:5]
+ 4 | prop: func3(   ident.ident   );
+   : ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/base/input.css:4:5]
+ 4 | prop: func3(   ident.ident   );
+   : ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:4:5]
+ 4 | prop: func3(   ident.ident   );
+   :       ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/recovery/function/base/input.css:4:5]
+ 4 | prop: func3(   ident.ident   );
+   :       ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/base/input.css:4:5]
+ 4 | prop: func3(   ident.ident   );
+   :       ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:4:5]
+ 4 | prop: func3(   ident.ident   );
+   :             ^^^
+   `----
+
+  x WhiteSpace { value: Atom('   ' type=inline) }
+   ,-[$DIR/tests/recovery/function/base/input.css:4:5]
+ 4 | prop: func3(   ident.ident   );
+   :             ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:4:5]
+ 4 | prop: func3(   ident.ident   );
+   :                ^^^^^
+   `----
+
+  x Ident { value: Atom('ident' type=inline), raw: Atom('ident' type=inline) }
+   ,-[$DIR/tests/recovery/function/base/input.css:4:5]
+ 4 | prop: func3(   ident.ident   );
+   :                ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:4:5]
+ 4 | prop: func3(   ident.ident   );
+   :                     ^
+   `----
+
+  x Delim { value: '.' }
+   ,-[$DIR/tests/recovery/function/base/input.css:4:5]
+ 4 | prop: func3(   ident.ident   );
+   :                     ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:4:5]
+ 4 | prop: func3(   ident.ident   );
+   :                      ^^^^^
+   `----
+
+  x Ident { value: Atom('ident' type=inline), raw: Atom('ident' type=inline) }
+   ,-[$DIR/tests/recovery/function/base/input.css:4:5]
+ 4 | prop: func3(   ident.ident   );
+   :                      ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:4:5]
+ 4 | prop: func3(   ident.ident   );
+   :                           ^^^
+   `----
+
+  x WhiteSpace { value: Atom('   ' type=inline) }
+   ,-[$DIR/tests/recovery/function/base/input.css:4:5]
+ 4 | prop: func3(   ident.ident   );
+   :                           ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:5:5]
+ 5 | prop: func([foo bar]);
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/function/base/input.css:5:5]
+ 5 | prop: func([foo bar]);
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/function/base/input.css:5:5]
+ 5 | prop: func([foo bar]);
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/function/base/input.css:5:5]
+ 5 | prop: func([foo bar]);
+   : ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/base/input.css:5:5]
+ 5 | prop: func([foo bar]);
+   : ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:5:5]
+ 5 | prop: func([foo bar]);
+   :       ^^^^^^^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/recovery/function/base/input.css:5:5]
+ 5 | prop: func([foo bar]);
+   :       ^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/base/input.css:5:5]
+ 5 | prop: func([foo bar]);
+   :       ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:5:5]
+ 5 | prop: func([foo bar]);
+   :            ^^^^^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/function/base/input.css:5:5]
+ 5 | prop: func([foo bar]);
+   :            ^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:5:5]
+ 5 | prop: func([foo bar]);
+   :             ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/base/input.css:5:5]
+ 5 | prop: func([foo bar]);
+   :             ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:5:5]
+ 5 | prop: func([foo bar]);
+   :                 ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/base/input.css:5:5]
+ 5 | prop: func([foo bar]);
+   :                 ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:6:5]
+ 6 | prop: func((foo, bar));
+   : ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/function/base/input.css:6:5]
+ 6 | prop: func((foo, bar));
+   : ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/function/base/input.css:6:5]
+ 6 | prop: func((foo, bar));
+   : ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/function/base/input.css:6:5]
+ 6 | prop: func((foo, bar));
+   : ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/base/input.css:6:5]
+ 6 | prop: func((foo, bar));
+   : ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:6:5]
+ 6 | prop: func((foo, bar));
+   :       ^^^^^^^^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/recovery/function/base/input.css:6:5]
+ 6 | prop: func((foo, bar));
+   :       ^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/base/input.css:6:5]
+ 6 | prop: func((foo, bar));
+   :       ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:6:5]
+ 6 | prop: func((foo, bar));
+   :            ^^^^^^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/function/base/input.css:6:5]
+ 6 | prop: func((foo, bar));
+   :            ^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:6:5]
+ 6 | prop: func((foo, bar));
+   :             ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/base/input.css:6:5]
+ 6 | prop: func((foo, bar));
+   :             ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:6:5]
+ 6 | prop: func((foo, bar));
+   :                ^
+   `----
+
+  x Delimiter
+   ,-[$DIR/tests/recovery/function/base/input.css:6:5]
+ 6 | prop: func((foo, bar));
+   :                ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:6:5]
+ 6 | prop: func((foo, bar));
+   :                  ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/base/input.css:6:5]
+ 6 | prop: func((foo, bar));
+   :                  ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:7:5]
+ 7 | prop: func({ foo: bar });
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/function/base/input.css:7:5]
+ 7 | prop: func({ foo: bar });
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/function/base/input.css:7:5]
+ 7 | prop: func({ foo: bar });
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/function/base/input.css:7:5]
+ 7 | prop: func({ foo: bar });
+   : ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/base/input.css:7:5]
+ 7 | prop: func({ foo: bar });
+   : ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:7:5]
+ 7 | prop: func({ foo: bar });
+   :       ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/recovery/function/base/input.css:7:5]
+ 7 | prop: func({ foo: bar });
+   :       ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/base/input.css:7:5]
+ 7 | prop: func({ foo: bar });
+   :       ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:7:5]
+ 7 | prop: func({ foo: bar });
+   :            ^^^^^^^^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/function/base/input.css:7:5]
+ 7 | prop: func({ foo: bar });
+   :            ^^^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:7:5]
+ 7 | prop: func({ foo: bar });
+   :              ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/base/input.css:7:5]
+ 7 | prop: func({ foo: bar });
+   :              ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:7:5]
+ 7 | prop: func({ foo: bar });
+   :                 ^
+   `----
+
+  x Colon
+   ,-[$DIR/tests/recovery/function/base/input.css:7:5]
+ 7 | prop: func({ foo: bar });
+   :                 ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:7:5]
+ 7 | prop: func({ foo: bar });
+   :                   ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/base/input.css:7:5]
+ 7 | prop: func({ foo: bar });
+   :                   ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:8:5]
+ 8 | prop: func(1, 2);
+   : ^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/function/base/input.css:8:5]
+ 8 | prop: func(1, 2);
+   : ^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/function/base/input.css:8:5]
+ 8 | prop: func(1, 2);
+   : ^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/function/base/input.css:8:5]
+ 8 | prop: func(1, 2);
+   : ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/base/input.css:8:5]
+ 8 | prop: func(1, 2);
+   : ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:8:5]
+ 8 | prop: func(1, 2);
+   :       ^^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/recovery/function/base/input.css:8:5]
+ 8 | prop: func(1, 2);
+   :       ^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/base/input.css:8:5]
+ 8 | prop: func(1, 2);
+   :       ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:8:5]
+ 8 | prop: func(1, 2);
+   :            ^
+   `----
+
+  x Integer
+   ,-[$DIR/tests/recovery/function/base/input.css:8:5]
+ 8 | prop: func(1, 2);
+   :            ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:8:5]
+ 8 | prop: func(1, 2);
+   :             ^
+   `----
+
+  x Delimiter
+   ,-[$DIR/tests/recovery/function/base/input.css:8:5]
+ 8 | prop: func(1, 2);
+   :             ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:8:5]
+ 8 | prop: func(1, 2);
+   :               ^
+   `----
+
+  x Integer
+   ,-[$DIR/tests/recovery/function/base/input.css:8:5]
+ 8 | prop: func(1, 2);
+   :               ^
+   `----

@@ -1,0 +1,181 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/line-comment/css-in-js/3/input.css:1:1]
+ 1 | ,-> foo {
+ 2 | |       color: red;
+ 3 | |       // Line comment
+ 4 | `-> }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/line-comment/css-in-js/3/input.css:1:1]
+ 1 | ,-> foo {
+ 2 | |       color: red;
+ 3 | |       // Line comment
+ 4 | `-> }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/line-comment/css-in-js/3/input.css:1:1]
+ 1 | ,-> foo {
+ 2 | |       color: red;
+ 3 | |       // Line comment
+ 4 | `-> }
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/line-comment/css-in-js/3/input.css:1:1]
+ 1 | foo {
+   : ^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/line-comment/css-in-js/3/input.css:1:1]
+ 1 | foo {
+   : ^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/line-comment/css-in-js/3/input.css:1:1]
+ 1 | foo {
+   : ^^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/line-comment/css-in-js/3/input.css:1:1]
+ 1 | foo {
+   : ^^^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/line-comment/css-in-js/3/input.css:1:1]
+ 1 | foo {
+   : ^^^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/line-comment/css-in-js/3/input.css:1:1]
+ 1 | foo {
+   : ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/line-comment/css-in-js/3/input.css:1:1]
+ 1 | foo {
+   : ^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/line-comment/css-in-js/3/input.css:1:1]
+ 1 | ,-> foo {
+ 2 | |       color: red;
+ 3 | |       // Line comment
+ 4 | `-> }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/line-comment/css-in-js/3/input.css:2:5]
+ 2 | color: red;
+   : ^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/line-comment/css-in-js/3/input.css:2:5]
+ 2 | color: red;
+   : ^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/line-comment/css-in-js/3/input.css:2:5]
+ 2 | color: red;
+   : ^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/line-comment/css-in-js/3/input.css:2:5]
+ 2 | color: red;
+   : ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/line-comment/css-in-js/3/input.css:2:5]
+ 2 | color: red;
+   : ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/line-comment/css-in-js/3/input.css:2:5]
+ 2 | color: red;
+   :        ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/line-comment/css-in-js/3/input.css:2:5]
+ 2 | color: red;
+   :        ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/line-comment/css-in-js/3/input.css:3:5]
+ 3 | // Line comment
+   : ^^^^^^^^^^^^^^^^
+ 4 | }
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/line-comment/css-in-js/3/input.css:3:5]
+ 3 | // Line comment
+   : ^^^^^^^^^^^^^^^^
+ 4 | }
+   `----
+
+  x Tokens
+   ,-[$DIR/tests/line-comment/css-in-js/3/input.css:3:5]
+ 3 | // Line comment
+   : ^^^^^^^^^^^^^^^^
+ 4 | }
+   `----
+
+  x Delim { value: '/' }
+   ,-[$DIR/tests/line-comment/css-in-js/3/input.css:3:5]
+ 3 | // Line comment
+   : ^
+   `----
+
+  x Delim { value: '/' }
+   ,-[$DIR/tests/line-comment/css-in-js/3/input.css:3:5]
+ 3 | // Line comment
+   :  ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/line-comment/css-in-js/3/input.css:3:5]
+ 3 | // Line comment
+   :   ^
+   `----
+
+  x Ident { value: Atom('Line' type=inline), raw: Atom('Line' type=inline) }
+   ,-[$DIR/tests/line-comment/css-in-js/3/input.css:3:5]
+ 3 | // Line comment
+   :    ^^^^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/line-comment/css-in-js/3/input.css:3:5]
+ 3 | // Line comment
+   :        ^
+   `----
+
+  x Ident { value: Atom('comment' type=inline), raw: Atom('comment' type=inline) }
+   ,-[$DIR/tests/line-comment/css-in-js/3/input.css:3:5]
+ 3 | // Line comment
+   :         ^^^^^^^
+   `----
+
+  x WhiteSpace { value: Atom('
+  | ' type=inline) }
+   ,-[$DIR/tests/line-comment/css-in-js/3/input.css:3:5]
+ 3 | // Line comment
+   :                ^
+ 4 | }
+   `----
