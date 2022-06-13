@@ -1,5 +1,5 @@
 var A, M2;
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 !function(A1) {
     var B, C, Point;
     C = (B = A1.B || (A1.B = {})).C || (B.C = {}), Point = function() {

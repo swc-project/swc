@@ -1,5 +1,5 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _to_array from "@swc/helpers/lib/_to_array.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _to_array from "@swc/helpers/src/_to_array.mjs";
 //@target: ES6
 var SymbolIterator = /*#__PURE__*/ function() {
     "use strict";

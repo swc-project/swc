@@ -1,4 +1,4 @@
-import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
+import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 f10(42, "hello");
 f10(42, "hello", true);
 f10(42, "hello", true, false);

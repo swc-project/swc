@@ -1,4 +1,4 @@
-import _extends from "@swc/helpers/lib/_extends.js";
+import _extends from "@swc/helpers/src/_extends.mjs";
 let React = require('react');
 class Poisoned extends React.Component {
     render() {

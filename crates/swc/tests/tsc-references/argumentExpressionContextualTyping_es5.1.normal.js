@@ -1,5 +1,5 @@
-import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
-import _to_consumable_array from "@swc/helpers/lib/_to_consumable_array.js";
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
+import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 // In a typed function call, argument expressions are contextually typed by their corresponding parameter types.
 function foo(param) {
     var _x = _sliced_to_array(param.x, 2), a = _x[0], b = _x[1], _y = param.y, c = _y.c, d = _y.d, e = _y.e;

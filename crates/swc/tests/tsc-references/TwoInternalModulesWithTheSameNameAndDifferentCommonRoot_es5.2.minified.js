@@ -1,5 +1,5 @@
 var Root, otherRoot;
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 !function(Root1) {
     var A;
     ((A = Root1.A || (Root1.A = {})).Utils || (A.Utils = {})).mirror = function(p) {

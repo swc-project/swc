@@ -1,8 +1,8 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _create_class from "@swc/helpers/lib/_create_class.js";
-import _extends from "@swc/helpers/lib/_extends.js";
-import _object_without_properties from "@swc/helpers/lib/_object_without_properties.js";
-import _to_property_key from "@swc/helpers/lib/_to_property_key.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _create_class from "@swc/helpers/src/_create_class.mjs";
+import _extends from "@swc/helpers/src/_extends.mjs";
+import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
+import _to_property_key from "@swc/helpers/src/_to_property_key.mjs";
 var nestedrest, complex, _complex, ref, _tmp, _o, ref1, o = {
     a: 1,
     b: "no"

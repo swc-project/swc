@@ -1,5 +1,5 @@
-import a from "@swc/helpers/lib/_async_to_generator.js";
-import b from "@swc/helpers/lib/_sliced_to_array.js";
+import a from "@swc/helpers/src/_async_to_generator.mjs";
+import b from "@swc/helpers/src/_sliced_to_array.mjs";
 import c from "regenerator-runtime";
 import { jsx as d, jsxs as e, Fragment as f } from "react/jsx-runtime";
 import * as g from "react";

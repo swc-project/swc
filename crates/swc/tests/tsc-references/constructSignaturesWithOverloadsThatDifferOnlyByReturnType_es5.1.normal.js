@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // Error for construct signature overloads to differ only by return type
 var C = function C(x) {
     "use strict";

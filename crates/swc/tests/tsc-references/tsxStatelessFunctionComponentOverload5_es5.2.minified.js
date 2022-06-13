@@ -1,4 +1,4 @@
-import _extends from "@swc/helpers/lib/_extends.js";
+import _extends from "@swc/helpers/src/_extends.mjs";
 require("react");
 var obj3, obj0 = {
     to: "world"

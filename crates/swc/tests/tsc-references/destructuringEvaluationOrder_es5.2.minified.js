@@ -1,8 +1,8 @@
-import _extends from "@swc/helpers/lib/_extends.js";
-import _object_without_properties from "@swc/helpers/lib/_object_without_properties.js";
-import _sliced_to_array from "@swc/helpers/lib/_sliced_to_array.js";
-import _throw from "@swc/helpers/lib/_throw.js";
-import _to_property_key from "@swc/helpers/lib/_to_property_key.js";
+import _extends from "@swc/helpers/src/_extends.mjs";
+import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
+import _throw from "@swc/helpers/src/_throw.mjs";
+import _to_property_key from "@swc/helpers/src/_to_property_key.mjs";
 var trace = [], order = function(n) {
     return trace.push(n);
 }, tmp = void 0;
