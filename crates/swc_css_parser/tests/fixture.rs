@@ -539,7 +539,22 @@ fn line_comments_pass(input: PathBuf) {
     )
 }
 
-#[testing::fixture("tests/recovery/**/input.css")]
+// TODO fix exclude
+#[testing::fixture(
+    "tests/recovery/**/input.css",
+    exclude(
+        "at-rule/media/condition/input.css",
+        "at-rule/media/condition-1/input.css",
+        "at-rule/page/invalid-nesting/input.css",
+        "at-rule/page/without-page/input.css",
+        "at-rule/unknown/input.css",
+        "function/calc/division/input.css",
+        "function/calc/space/input.css",
+        "function/var/input.css",
+        "qualified-rule/only-block/input.css",
+        "whitespaces/input.css",
+    )
+)]
 fn recovery(input: PathBuf) {
     stylesheet_recovery_test(input.clone(), Default::default());
     stylesheet_recovery_test_tokens(input, Default::default());
