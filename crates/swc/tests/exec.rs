@@ -82,7 +82,7 @@ fn create_matrix(entry: &Path) -> Vec<Options> {
                 jsc: JscConfig {
                     syntax: Some(syntax),
                     transform: None.into(),
-                    external_helpers: true.into(),
+                    external_helpers: false.into(),
                     target: Some(target),
                     minify: if minify {
                         Some(JsMinifyOptions {
