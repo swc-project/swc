@@ -58,6 +58,12 @@
 
 - **(html/parser)** Remove unused code (#4949) ([42a1d7c](https://github.com/swc-project/swc/commit/42a1d7c7a11120b8be8dbd7a29a6401d60062d70))
 
+### Testing
+
+
+
+- **(css/parser)** Improve tests (#4963) ([1b7b4f0](https://github.com/swc-project/swc/commit/1b7b4f0cb4b331d5ad861e3721c2fcd14322b2e4))
+
 ## [1.2.199] - 2022-06-11
 
 ### Bug Fixes
