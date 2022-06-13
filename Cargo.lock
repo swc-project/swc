@@ -3959,7 +3959,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.9.0"
+version = "0.9.1"
 dependencies = [
  "serde",
  "serde_json",

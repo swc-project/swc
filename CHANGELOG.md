@@ -25,6 +25,9 @@
 
 - **(html/minifier)** Compress whitespaces (#4916) ([f2690cc](https://github.com/swc-project/swc/commit/f2690cce08bf2e922b7eb9146288ca78ad0eeed4))
 
+
+- **(html/minifier)** Add `remove_empty_attributes` option (#4958) ([63d630d](https://github.com/swc-project/swc/commit/63d630d47761f1ab9c60a40c5bedf8542366f975))
+
 ### Miscellaneous Tasks
 
 
