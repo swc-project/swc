@@ -1421,7 +1421,11 @@ test!(
     "
     <div title=\"\u{2028}\"/>
     ",
-    r#""#
+    r#"
+    React.createElement("div", {
+      title: "\u2028"
+    });
+  "#
 );
 
 #[testing::fixture("tests/jsx/fixture/**/input.js")]
