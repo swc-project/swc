@@ -41,6 +41,8 @@ pub enum CollapseWhitespaces {
 
 const fn true_by_default() -> bool {
     true
+}
+
 fn default_preserve_comments() -> Option<Vec<CachedRegex>> {
     Some(vec![
         // License comments
