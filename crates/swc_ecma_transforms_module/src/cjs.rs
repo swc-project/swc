@@ -1,20 +1,39 @@
 use swc_atoms::{js_word, JsWord};
-use swc_common::{collections::AHashMap, util::take::Take, Span, DUMMY_SP};
+use swc_common::{collections::AHashMap, util::take::Take, FileName, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{is_valid_prop_ident, quote_ident, quote_str, ExprFactory, IntoIndirectCall};
+use swc_ecma_utils::{is_valid_prop_ident, quote_ident, ExprFactory, IntoIndirectCall};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub use super::util::Config;
 use crate::{
     module_decl_strip::{Export, Link, LinkItem, ModuleDeclStrip, Specifier},
+    path::{ImportResolver, Resolver},
     util::{has_use_strict, lazy_ident_from_src, prop_function, prop_name, use_strict},
 };
 
-pub fn cjs() -> impl Fold + VisitMut {
-    as_folder(Cjs::default())
+pub fn cjs(unresolved_mark: Mark, config: Config) -> impl Fold + VisitMut {
+    as_folder(Cjs {
+        config,
+        import_map: Default::default(),
+        resolver: Resolver::Default,
+        unresolved_mark,
+    })
 }
 
-#[derive(Debug, Default)]
+pub fn cjs_with_resolver(
+    resolver: Box<dyn ImportResolver>,
+    base: FileName,
+    unresolved_mark: Mark,
+    config: Config,
+) -> impl Fold + VisitMut {
+    as_folder(Cjs {
+        config,
+        import_map: Default::default(),
+        resolver: Resolver::Real { base, resolver },
+        unresolved_mark,
+    })
+}
+
 pub struct Cjs {
     config: Config,
 
@@ -37,6 +56,9 @@ pub struct Cjs {
     /// )
     /// ```
     import_map: AHashMap<Id, (Ident, Option<JsWord>)>,
+
+    resolver: Resolver,
+    unresolved_mark: Mark,
 }
 
 impl VisitMut for Cjs {
@@ -182,9 +204,9 @@ impl Cjs {
             });
 
             // require("mod");
-            // TODO: use make_require
-            let import_expr =
-                quote_ident!("require").as_call(DUMMY_SP, vec![quote_str!(src_span, src).as_arg()]);
+            let import_expr = self
+                .resolver
+                .make_require_call(self.unresolved_mark, src, src_span);
 
             // __reExport(_module_exports, require("mod"), module.exports);
             let import_expr = if should_re_export {
