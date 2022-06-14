@@ -1408,7 +1408,7 @@ test!(
         let top_level_mark = Mark::new();
 
         chain!(
-            resolver(unresolved_mark, top_level_mark),
+            resolver(unresolved_mark, top_level_mark, false),
             jsx(
                 t.cm.clone(),
                 Some(t.comments.clone()),
