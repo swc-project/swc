@@ -121,7 +121,7 @@ fn snapshot_compress_fixture(input: PathBuf) {
         m.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
 
         let m = optimize(
-            m,
+            m.into(),
             cm.clone(),
             None,
             None,
@@ -137,7 +137,8 @@ fn snapshot_compress_fixture(input: PathBuf) {
                 unresolved_mark,
                 top_level_mark,
             },
-        );
+        )
+        .expect_module();
 
         let mangled = print(cm, &m, false);
 
@@ -160,7 +161,7 @@ fn fixture(input: PathBuf) {
         m.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
 
         let m = optimize(
-            m,
+            m.into(),
             cm.clone(),
             None,
             None,
@@ -176,7 +177,8 @@ fn fixture(input: PathBuf) {
                 unresolved_mark,
                 top_level_mark,
             },
-        );
+        )
+        .expect_module();
 
         let mangled = print(cm, &m, false);
 
@@ -199,7 +201,7 @@ fn assert_mangled(src: &str, expected: &str, opts: MangleOptions) {
         let top_level_mark = Mark::fresh(Mark::root());
 
         let m = optimize(
-            m,
+            m.into(),
             cm.clone(),
             None,
             None,
@@ -212,7 +214,8 @@ fn assert_mangled(src: &str, expected: &str, opts: MangleOptions) {
                 unresolved_mark,
                 top_level_mark,
             },
-        );
+        )
+        .expect_module();
 
         let mangled = print(cm, &m, false);
 
