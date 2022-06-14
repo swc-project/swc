@@ -350,7 +350,6 @@ fn test_document(input: PathBuf) {
         Some(CodegenConfig {
             scripting_enabled: false,
             minify: true,
-            tag_omission: true,
             ..Default::default()
         }),
     );
@@ -387,7 +386,37 @@ fn test_document_fragment(input: PathBuf) {
         Some(CodegenConfig {
             scripting_enabled: false,
             minify: true,
-            tag_omission: true,
+            ..Default::default()
+        }),
+    );
+}
+
+#[testing::fixture("tests/options/self_closing_void_elements/true/**/input.html")]
+fn test_self_closing_void_elements_true(input: PathBuf) {
+    print_document(
+        &input,
+        None,
+        None,
+        Some(CodegenConfig {
+            scripting_enabled: false,
+            minify: false,
+            tag_omission: Some(false),
+            self_closing_void_elements: Some(true),
+            ..Default::default()
+        }),
+    );
+}
+
+#[testing::fixture("tests/options/self_closing_void_elements/false/**/input.html")]
+fn test_self_closing_void_elements_false(input: PathBuf) {
+    print_document(
+        &input,
+        None,
+        None,
+        Some(CodegenConfig {
+            scripting_enabled: false,
+            minify: false,
+            self_closing_void_elements: Some(false),
             ..Default::default()
         }),
     );
@@ -417,7 +446,7 @@ fn parser_verify(input: PathBuf) {
         Some(CodegenConfig {
             scripting_enabled: false,
             minify: true,
-            tag_omission: false,
+            tag_omission: Some(false),
             ..Default::default()
         }),
         false,
@@ -429,7 +458,7 @@ fn parser_verify(input: PathBuf) {
         Some(CodegenConfig {
             scripting_enabled: false,
             minify: true,
-            tag_omission: true,
+            tag_omission: Some(true),
             ..Default::default()
         }),
         false,
@@ -455,7 +484,7 @@ fn parser_recovery_verify(input: PathBuf) {
         Some(CodegenConfig {
             scripting_enabled: false,
             minify: true,
-            tag_omission: false,
+            tag_omission: Some(false),
             ..Default::default()
         }),
         true,
@@ -467,7 +496,7 @@ fn parser_recovery_verify(input: PathBuf) {
         Some(CodegenConfig {
             scripting_enabled: false,
             minify: true,
-            tag_omission: true,
+            tag_omission: Some(true),
             ..Default::default()
         }),
         true,
@@ -550,13 +579,13 @@ fn html5lib_tests_verify(input: PathBuf) {
     };
     let minified_codegen_config = CodegenConfig {
         minify: true,
-        tag_omission: true,
+        tag_omission: Some(true),
         scripting_enabled,
         ..Default::default()
     };
     let minified_codegen_config_no_tag_omission = CodegenConfig {
         minify: true,
-        tag_omission: false,
+        tag_omission: Some(false),
         scripting_enabled,
         ..Default::default()
     };

@@ -24,9 +24,12 @@ pub mod writer;
 pub struct CodegenConfig {
     pub minify: bool,
     pub scripting_enabled: bool,
-    pub tag_omission: bool,
     /// Should be used only for `DocumentFragment` code generation
     pub context_element: Option<Element>,
+    /// By default `true` when `minify` enabled, otherwise `false`
+    pub tag_omission: Option<bool>,
+    /// By default `false` when `minify` enabled, otherwise `true`
+    pub self_closing_void_elements: Option<bool>,
 }
 
 enum TagOmissionParent<'a> {
@@ -45,6 +48,8 @@ where
     ctx: Ctx,
     // For legacy `<plaintext>`
     is_plaintext: bool,
+    tag_omission: bool,
+    self_closing_void_elements: bool,
 }
 
 impl<W> CodeGenerator<W>
@@ -52,17 +57,22 @@ where
     W: HtmlWriter,
 {
     pub fn new(wr: W, config: CodegenConfig) -> Self {
+        let tag_omission = config.tag_omission.unwrap_or(config.minify);
+        let self_closing_void_elements = config.tag_omission.unwrap_or(!config.minify);
+
         CodeGenerator {
             wr,
             config,
             ctx: Default::default(),
             is_plaintext: false,
+            tag_omission,
+            self_closing_void_elements,
         }
     }
 
     #[emitter]
     fn emit_document(&mut self, n: &Document) -> Result {
-        if self.config.tag_omission {
+        if self.tag_omission {
             self.emit_list_for_tag_omission(TagOmissionParent::Document(n))?;
         } else {
             self.emit_list(&n.children, ListFormat::NotDelimited)?;
@@ -77,7 +87,7 @@ where
             Default::default()
         };
 
-        if self.config.tag_omission {
+        if self.tag_omission {
             self.with_ctx(ctx)
                 .emit_list_for_tag_omission(TagOmissionParent::DocumentFragment(n))?;
         } else {
@@ -175,7 +185,7 @@ where
         }
 
         let has_attributes = !n.attributes.is_empty();
-        let can_omit_start_tag = self.config.tag_omission
+        let can_omit_start_tag = self.tag_omission
             && !has_attributes
             && n.namespace == Namespace::HTML
             && match &*n.tag_name {
@@ -328,10 +338,10 @@ where
             }
 
             if (matches!(n.namespace, Namespace::SVG | Namespace::MATHML) && is_void_element)
-                || (!self.config.minify
-                    && matches!(n.namespace, Namespace::HTML)
+                || (self.self_closing_void_elements
                     && n.is_self_closing
-                    && is_void_element)
+                    && is_void_element
+                    && matches!(n.namespace, Namespace::HTML))
             {
                 if self.config.minify {
                     let need_space = match n.attributes.last() {
@@ -388,7 +398,7 @@ where
                 }
             }
 
-            if self.config.tag_omission {
+            if self.tag_omission {
                 self.with_ctx(ctx)
                     .emit_list_for_tag_omission(TagOmissionParent::Element(n))?;
             } else {
@@ -398,7 +408,7 @@ where
         }
 
         let can_omit_end_tag = self.is_plaintext
-            || (self.config.tag_omission
+            || (self.tag_omission
                 && n.namespace == Namespace::HTML
                 && match &*n.tag_name {
                     // Tag omission in text/html:
