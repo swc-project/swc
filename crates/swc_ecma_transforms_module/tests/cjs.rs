@@ -41,8 +41,7 @@ test!(
 "#,
     r#"
     "use strict";
-    var _exports = {};
-    __export(_exports, {
+    __export(exports, {
         "1": function() { return _modB.b; },
         "2": function() { return _modB["1"]; },
         "4": function() { return _modD["3"]; },
@@ -55,13 +54,13 @@ test!(
         g: function() { return g; },
         h: function() { return h; }
     });
-    module.exports = __toCJS(_exports);
+    module.exports = __toCJS(exports);
     require("./mod_a");
     var _modB = __toESM(require("./mod_b"));
     var _modC = __toESM(require("./mod_c"));
     var _modD = require("./mod_d");
     var _modE = __toESM(require("./mod_e"));
-    __reExport(_exports, require("./mod_f"), module.exports);
+    __reExport(exports, require("./mod_f"), module.exports);
     function g() {}
     const h = 42;
     class _default {}

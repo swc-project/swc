@@ -1,6 +1,5 @@
 "use strict";
-var _exports = {};
-__export(_exports, {
+__export(exports, {
     bar: function() {
         return bar;
     },
@@ -17,7 +16,7 @@ __export(_exports, {
         return foo;
     }
 });
-module.exports = __toCJS(_exports);
+module.exports = __toCJS(exports);
 let foo = 1n;
 foo++;
 let bar = ++foo;

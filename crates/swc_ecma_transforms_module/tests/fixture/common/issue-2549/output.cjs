@@ -1,6 +1,5 @@
 "use strict";
-var _exports = {};
-__export(_exports, {
+__export(exports, {
     addOne: function() {
         return addOne;
     },
@@ -20,7 +19,7 @@ __export(_exports, {
         return warn;
     }
 });
-module.exports = __toCJS(_exports);
+module.exports = __toCJS(exports);
 function log() {
     console.log("unexported");
 }

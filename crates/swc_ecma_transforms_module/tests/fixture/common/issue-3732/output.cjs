@@ -1,6 +1,5 @@
 "use strict";
-var _exports = {};
-__export(_exports, {
+__export(exports, {
     byID: function() {
         return byID;
     },
@@ -8,7 +7,7 @@ __export(_exports, {
         return _get;
     }
 });
-module.exports = __toCJS(_exports);
+module.exports = __toCJS(exports);
 var _get = __toESM(require("./get"));
 const byID = (id)=>{
     // Do some async stuff

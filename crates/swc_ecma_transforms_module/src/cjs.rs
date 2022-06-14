@@ -7,10 +7,7 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 pub use super::util::Config;
 use crate::{
     module_decl_strip::{Export, Link, LinkItem, ModuleDeclStrip, Specifier},
-    util::{
-        has_use_strict, lazy_ident_from_src, lazy_module_exports_ident, prop_function, prop_name,
-        use_strict,
-    },
+    util::{has_use_strict, lazy_ident_from_src, prop_function, prop_name, use_strict},
 };
 
 pub fn cjs() -> impl Fold + VisitMut {
@@ -113,7 +110,7 @@ impl Cjs {
     fn handle_import_export(&mut self, link: Link, export: Export) -> impl Iterator<Item = Stmt> {
         let mut stmts = Vec::with_capacity(link.len());
 
-        let mut module_export = None;
+        let exports = quote_ident!("exports");
         let mut export_obj_prop_list: Vec<(JsWord, Span, Expr)> = export
             .into_iter()
             .map(|((key, span), ident)| (key, span, ident.into()))
@@ -191,13 +188,11 @@ impl Cjs {
 
             // __reExport(_module_exports, require("mod"), module.exports);
             let import_expr = if should_re_export {
-                let module_export = lazy_module_exports_ident(&mut module_export);
-
                 // TODO: use swc helper
                 quote_ident!("__reExport").as_call(
                     DUMMY_SP,
                     vec![
-                        module_export.as_arg(),
+                        exports.clone().as_arg(),
                         import_expr.as_arg(),
                         quote_ident!("module")
                             .make_member(quote_ident!("exports"))
@@ -251,17 +246,15 @@ impl Cjs {
                 props,
             };
 
-            let module_export = lazy_module_exports_ident(&mut module_export);
-
             // TODO: use swc helper
             quote_ident!("__export")
-                .as_call(DUMMY_SP, vec![module_export.as_arg(), obj_lit.as_arg()])
+                .as_call(DUMMY_SP, vec![exports.clone().as_arg(), obj_lit.as_arg()])
                 .into_stmt()
         });
 
-        let to_cjs = module_export.clone().map(|ident| {
+        let to_cjs = export_call.as_ref().map(|_| {
             quote_ident!("__toCJS")
-                .as_call(DUMMY_SP, vec![ident.as_arg()])
+                .as_call(DUMMY_SP, vec![exports.clone().as_arg()])
                 .make_assign_to(
                     op!("="),
                     quote_ident!("module").make_member(quote_ident!("exports")),
@@ -269,28 +262,6 @@ impl Cjs {
                 .into_stmt()
         });
 
-        let export_init = module_export.map(|ident| {
-            let var_declarator = VarDeclarator {
-                span: DUMMY_SP,
-                name: ident.into(),
-                init: Some(Box::new(ObjectLit::dummy().into())),
-                definite: false,
-            };
-
-            let var_decl = VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Var,
-                declare: false,
-                decls: vec![var_declarator],
-            };
-
-            Stmt::Decl(Decl::Var(var_decl))
-        });
-
-        export_init
-            .into_iter()
-            .chain(export_call)
-            .chain(to_cjs)
-            .chain(stmts)
+        export_call.into_iter().chain(to_cjs).chain(stmts)
     }
 }

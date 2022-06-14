@@ -1,9 +1,8 @@
 "use strict";
-var _exports = {};
-__export(_exports, {
+__export(exports, {
     X: function() {
         return _z.default;
     }
 });
-module.exports = __toCJS(_exports);
+module.exports = __toCJS(exports);
 var _z = require("./Z");

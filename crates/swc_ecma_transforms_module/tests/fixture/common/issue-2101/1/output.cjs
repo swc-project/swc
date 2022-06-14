@@ -1,10 +1,9 @@
 "use strict";
-var _exports = {};
-__export(_exports, {
+__export(exports, {
     render: function() {
         return _customRender.customRender;
     }
 });
-module.exports = __toCJS(_exports);
+module.exports = __toCJS(exports);
 var _customRender = require("./customRender");
-__reExport(_exports, require("@testing-library/react"), module.exports);
+__reExport(exports, require("@testing-library/react"), module.exports);

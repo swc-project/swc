@@ -1,6 +1,5 @@
 "use strict";
-var _exports = {};
-__export(_exports, {
+__export(exports, {
     a000: function() {
         return a000;
     },
@@ -752,7 +751,7 @@ __export(_exports, {
         return a249;
     }
 });
-module.exports = __toCJS(_exports);
+module.exports = __toCJS(exports);
 const a000 = 0;
 const a001 = 1;
 const a002 = 2;

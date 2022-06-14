@@ -1,6 +1,5 @@
 "use strict";
-var _exports = {};
-__export(_exports, {
+__export(exports, {
     X: function() {
         return _z.default;
     },
@@ -11,5 +10,5 @@ __export(_exports, {
         return _z.Y;
     }
 });
-module.exports = __toCJS(_exports);
-var _z = __reExport(_exports, require("./Z"), module.exports);
+module.exports = __toCJS(exports);
+var _z = __reExport(exports, require("./Z"), module.exports);

@@ -1,6 +1,5 @@
 "use strict";
-var _exports = {};
-__export(_exports, {
+__export(exports, {
     notExportName: function() {
         return notExportName;
     },
@@ -11,8 +10,8 @@ __export(_exports, {
         return whatever;
     }
 });
-module.exports = __toCJS(_exports);
-__reExport(_exports, require("another-module"), module.exports);
+module.exports = __toCJS(exports);
+__reExport(exports, require("another-module"), module.exports);
 function whatever(notExportName) {
     const shouldNotBeExportNameAsWell = 123;
     return shouldNotBeExportNameAsWell + notExportName;

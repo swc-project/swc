@@ -1,6 +1,5 @@
 "use strict";
-var _exports = {};
-__export(_exports, {
+__export(exports, {
     default: function() {
         return someCall;
     },
@@ -11,7 +10,7 @@ __export(_exports, {
         return warn;
     }
 });
-module.exports = __toCJS(_exports);
+module.exports = __toCJS(exports);
 function someCall() {
     throw new Error("this should not be called");
 }
