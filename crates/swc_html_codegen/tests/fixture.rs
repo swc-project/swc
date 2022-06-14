@@ -350,6 +350,7 @@ fn test_document(input: PathBuf) {
         Some(CodegenConfig {
             scripting_enabled: false,
             minify: true,
+            tag_omission: true,
             ..Default::default()
         }),
     );
@@ -386,6 +387,7 @@ fn test_document_fragment(input: PathBuf) {
         Some(CodegenConfig {
             scripting_enabled: false,
             minify: true,
+            tag_omission: true,
             ..Default::default()
         }),
     );
@@ -415,6 +417,19 @@ fn parser_verify(input: PathBuf) {
         Some(CodegenConfig {
             scripting_enabled: false,
             minify: true,
+            tag_omission: false,
+            ..Default::default()
+        }),
+        false,
+    );
+    verify_document(
+        &input,
+        None,
+        None,
+        Some(CodegenConfig {
+            scripting_enabled: false,
+            minify: true,
+            tag_omission: true,
             ..Default::default()
         }),
         false,
@@ -440,6 +455,19 @@ fn parser_recovery_verify(input: PathBuf) {
         Some(CodegenConfig {
             scripting_enabled: false,
             minify: true,
+            tag_omission: false,
+            ..Default::default()
+        }),
+        true,
+    );
+    verify_document(
+        &input,
+        None,
+        None,
+        Some(CodegenConfig {
+            scripting_enabled: false,
+            minify: true,
+            tag_omission: true,
             ..Default::default()
         }),
         true,
@@ -522,6 +550,13 @@ fn html5lib_tests_verify(input: PathBuf) {
     };
     let minified_codegen_config = CodegenConfig {
         minify: true,
+        tag_omission: true,
+        scripting_enabled,
+        ..Default::default()
+    };
+    let minified_codegen_config_no_tag_omission = CodegenConfig {
+        minify: true,
+        tag_omission: false,
         scripting_enabled,
         ..Default::default()
     };
@@ -575,10 +610,18 @@ fn html5lib_tests_verify(input: PathBuf) {
         );
         verify_document_fragment(
             &input,
-            context_element,
+            context_element.clone(),
             Some(parser_config),
             None,
             Some(minified_codegen_config),
+            true,
+        );
+        verify_document_fragment(
+            &input,
+            context_element,
+            Some(parser_config),
+            None,
+            Some(minified_codegen_config_no_tag_omission),
             true,
         );
     } else {
@@ -587,6 +630,14 @@ fn html5lib_tests_verify(input: PathBuf) {
             Some(parser_config),
             None,
             Some(codegen_config),
+            true,
+        );
+
+        verify_document(
+            &input,
+            Some(parser_config),
+            None,
+            Some(minified_codegen_config_no_tag_omission),
             true,
         );
 

@@ -24,6 +24,7 @@ pub mod writer;
 pub struct CodegenConfig {
     pub minify: bool,
     pub scripting_enabled: bool,
+    pub tag_omission: bool,
     /// Should be used only for `DocumentFragment` code generation
     pub context_element: Option<Element>,
 }
@@ -61,7 +62,7 @@ where
 
     #[emitter]
     fn emit_document(&mut self, n: &Document) -> Result {
-        if self.config.minify {
+        if self.config.tag_omission {
             self.emit_list_for_tag_omission(TagOmissionParent::Document(n))?;
         } else {
             self.emit_list(&n.children, ListFormat::NotDelimited)?;
@@ -76,7 +77,7 @@ where
             Default::default()
         };
 
-        if self.config.minify {
+        if self.config.tag_omission {
             self.with_ctx(ctx)
                 .emit_list_for_tag_omission(TagOmissionParent::DocumentFragment(n))?;
         } else {
@@ -174,7 +175,7 @@ where
         }
 
         let has_attributes = !n.attributes.is_empty();
-        let can_omit_start_tag = self.config.minify
+        let can_omit_start_tag = self.config.tag_omission
             && !has_attributes
             && n.namespace == Namespace::HTML
             && match &*n.tag_name {
@@ -387,7 +388,7 @@ where
                 }
             }
 
-            if self.config.minify {
+            if self.config.tag_omission {
                 self.with_ctx(ctx)
                     .emit_list_for_tag_omission(TagOmissionParent::Element(n))?;
             } else {
@@ -397,7 +398,7 @@ where
         }
 
         let can_omit_end_tag = self.is_plaintext
-            || (self.config.minify
+            || (self.config.tag_omission
                 && n.namespace == Namespace::HTML
                 && match &*n.tag_name {
                     // Tag omission in text/html:
