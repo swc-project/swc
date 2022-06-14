@@ -1,28 +1,13 @@
 # Changelog
 ## [unreleased]
 
-### Bug Fixes
+### Refactor
 
 
 
-- **(es/parser)** Don't assume the length of char (#4967) ([3e03ebf](https://github.com/swc-project/swc/commit/3e03ebf8bb527d3237b309c3df3a24bc9ebf7314))
+- **(es/minifier)** Use `Program` instead of `Module` (#4969) ([99a474c](https://github.com/swc-project/swc/commit/99a474cb2d18f2741277a64b8524300d3977cc66))
 
-### Features
-
-
-
-- **(html)** Support self-closing flag (#4950) ([5c2a918](https://github.com/swc-project/swc/commit/5c2a918946105d26d107b8bd869ee5dc76c9c04d))
-
-### Miscellaneous Tasks
-
-
-
-- **(ci)** Use macos for release builds (#4968) ([1bf2b80](https://github.com/swc-project/swc/commit/1bf2b80f97c736cc7aae1a9c04325044839d0a3b))
-
-
-- **(ci)** Fix publish build on Windows (#4970) ([db9f7a5](https://github.com/swc-project/swc/commit/db9f7a5ad4d830b1b1e42e7aa09a2edc935a8ad1))
-
-## [1.2.202] - 2022-06-14
+## [1.2.203] - 2022-06-14
 
 ### Bug Fixes
 
@@ -39,6 +24,9 @@
 
 - **(es/helpers)** Allow using external helpers with `type: module` (#4962) ([4a27e6f](https://github.com/swc-project/swc/commit/4a27e6f84a9a4e99d161664fa1441b1278756023))
 
+
+- **(es/parser)** Don't assume the length of char (#4967) ([3e03ebf](https://github.com/swc-project/swc/commit/3e03ebf8bb527d3237b309c3df3a24bc9ebf7314))
+
 ### Features
 
 
@@ -47,6 +35,9 @@
 
 
 - **(es/minifier)** Turn `Array`/`Object` calls into literals (#4947) ([47bdc6a](https://github.com/swc-project/swc/commit/47bdc6a6b13c5a4d6b85d4e3a0e729126c7b5f9d))
+
+
+- **(html)** Support self-closing flag (#4950) ([5c2a918](https://github.com/swc-project/swc/commit/5c2a918946105d26d107b8bd869ee5dc76c9c04d))
 
 
 - **(html/minifier)** Compress whitespaces (#4916) ([f2690cc](https://github.com/swc-project/swc/commit/f2690cce08bf2e922b7eb9146288ca78ad0eeed4))
@@ -62,6 +53,12 @@
 
 
 - **(ci)** Test `concurrent` (#4955) ([1a9f935](https://github.com/swc-project/swc/commit/1a9f93546bf1c9192baa562a419648cfe5d199fc))
+
+
+- **(ci)** Use macos for release builds (#4968) ([1bf2b80](https://github.com/swc-project/swc/commit/1bf2b80f97c736cc7aae1a9c04325044839d0a3b))
+
+
+- **(ci)** Fix publish build on Windows (#4970) ([db9f7a5](https://github.com/swc-project/swc/commit/db9f7a5ad4d830b1b1e42e7aa09a2edc935a8ad1))
 
 ### Performance
 
