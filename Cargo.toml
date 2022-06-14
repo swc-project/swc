@@ -23,7 +23,7 @@ members = [
 ]
 
 [profile.release]
-lto = true
+# lto = true
 
 # We use CARGO_PROFILE_RELEASE_LTO for production builds
 # lto = "fat"
@@ -32,8 +32,8 @@ lto = true
 # opt-level = 'z'
 
 [profile.bench]
-lto = true
 debug = true
+lto = true
 
 # Without this, printing diff consumes more than a minute.
 
@@ -44,5 +44,5 @@ opt-level = 3
 opt-level = 3
 
 [patch.crates-io]
-cranelift-codegen = { git = "https://github.com/kdy1/wasmtime", branch = "tls" }
-cranelift-entity = { git = "https://github.com/kdy1/wasmtime", branch = "tls" }
+cranelift-codegen = {git = "https://github.com/kdy1/wasmtime", branch = "tls"}
+cranelift-entity = {git = "https://github.com/kdy1/wasmtime", branch = "tls"}
