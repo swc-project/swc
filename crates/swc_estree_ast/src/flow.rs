@@ -176,7 +176,7 @@ pub enum FlowType {
     Void(VoidTypeAnnotation),
 }
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 #[ast_serde]
 pub enum FlowBaseAnnotation {
     #[tag("AnyTypeAnnotation")]
@@ -250,7 +250,7 @@ pub struct TypeAnnotation {
     pub type_annotation: FlowType,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(tag = "type")]
 pub struct AnyTypeAnnotation {
     #[serde(flatten)]
@@ -266,14 +266,14 @@ pub struct ArrayTypeAnnotation {
     pub element_type: Box<FlowType>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(tag = "type")]
 pub struct BooleanTypeAnnotation {
     #[serde(flatten)]
     pub base: BaseNode,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(tag = "type")]
 pub struct BooleanLiteralTypeAnnotation {
     #[serde(flatten)]
@@ -282,14 +282,14 @@ pub struct BooleanLiteralTypeAnnotation {
     pub value: bool,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(tag = "type")]
 pub struct NullLiteralTypeAnnotation {
     #[serde(flatten)]
     pub base: BaseNode,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(tag = "type")]
 pub struct ExistsTypeAnnotation {
     #[serde(flatten)]
@@ -335,14 +335,14 @@ pub struct TypeParameterDeclaration {
     pub params: Vec<TypeParameter>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "lowercase")]
 pub enum PlusOrMinus {
     Plus,
     Minus,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(tag = "type")]
 pub struct Variance {
     #[serde(flatten)]
@@ -396,7 +396,7 @@ pub struct InterfaceExtends {
     pub type_parameters: Option<TypeParameterInstantiation>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "lowercase")]
 pub enum ObjectTypePropKind {
     Init,
@@ -521,14 +521,14 @@ pub struct IntersectionTypeAnnotation {
     pub types: Vec<FlowType>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(tag = "type")]
 pub struct MixedTypeAnnotation {
     #[serde(flatten)]
     pub base: BaseNode,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(tag = "type")]
 pub struct EmptyTypeAnnotation {
     #[serde(flatten)]
@@ -552,14 +552,14 @@ pub struct NumberLiteralTypeAnnotation {
     pub value: f64,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(tag = "type")]
 pub struct NumberTypeAnnotation {
     #[serde(flatten)]
     pub base: BaseNode,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(tag = "type")]
 pub struct StringLiteralTypeAnnotation {
     #[serde(flatten)]
@@ -568,21 +568,21 @@ pub struct StringLiteralTypeAnnotation {
     pub value: JsWord,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(tag = "type")]
 pub struct StringTypeAnnotation {
     #[serde(flatten)]
     pub base: BaseNode,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(tag = "type")]
 pub struct SymbolTypeAnnotation {
     #[serde(flatten)]
     pub base: BaseNode,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(tag = "type")]
 pub struct ThisTypeAnnotation {
     #[serde(flatten)]
@@ -615,7 +615,7 @@ pub struct UnionTypeAnnotation {
     pub types: Vec<FlowType>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(tag = "type")]
 pub struct VoidTypeAnnotation {
     #[serde(flatten)]
@@ -718,7 +718,7 @@ pub struct DeclareInterface {
     pub mixins: Option<Vec<InterfaceExtends>>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub enum ModuleKind {
     #[serde(rename = "CommonJS")]
     CommonJs,
@@ -790,7 +790,7 @@ pub struct DeclareExportDeclaration {
     pub default: Option<bool>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
 pub struct DeclareExportAllDeclaration {
@@ -809,7 +809,7 @@ pub struct DeclaredPredicate {
     pub value: Box<Flow>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(tag = "type")]
 pub struct InferredPredicate {
     #[serde(flatten)]

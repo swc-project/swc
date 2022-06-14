@@ -352,7 +352,7 @@ where
                 ..
             }) = &self.current_tag_token
             {
-                return &*last_start_tag_name == tag_name;
+                return last_start_tag_name == tag_name;
             }
         }
 

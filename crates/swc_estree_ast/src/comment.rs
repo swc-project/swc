@@ -10,7 +10,7 @@ pub enum CommentType {
     #[serde(rename = "CommentBlock")]
     Block,
 }
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct BaseComment {
     #[serde(rename = "type")]
     pub type_: CommentType,
@@ -20,7 +20,7 @@ pub struct BaseComment {
     pub loc: Loc,
 }
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 #[ast_serde]
 pub enum Comment {
     #[tag("CommentBlock")]
@@ -29,7 +29,7 @@ pub enum Comment {
     Line(BaseComment),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "lowercase")]
 pub enum CommentTypeShorthand {
     Leading,

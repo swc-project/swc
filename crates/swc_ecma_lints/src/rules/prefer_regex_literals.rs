@@ -213,7 +213,7 @@ impl Visit for PreferRegexLiterals {
             }
             MemberProp::Computed(comp) => {
                 if let Expr::Lit(Lit::Str(Str { value, .. })) = comp.expr.as_ref() {
-                    self.check(&*value);
+                    self.check(value);
                 }
             }
             _ => {}
