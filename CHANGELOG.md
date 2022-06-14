@@ -19,6 +19,9 @@
 
 - **(ci)** Use macos for release builds (#4968) ([1bf2b80](https://github.com/swc-project/swc/commit/1bf2b80f97c736cc7aae1a9c04325044839d0a3b))
 
+
+- **(ci)** Fix publish build on Windows (#4970) ([db9f7a5](https://github.com/swc-project/swc/commit/db9f7a5ad4d830b1b1e42e7aa09a2edc935a8ad1))
+
 ## [1.2.202] - 2022-06-14
 
 ### Bug Fixes
