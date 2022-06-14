@@ -1,4 +1,4 @@
-#![deny(clippy::all)]
+#![deny(warnings)]
 
 pub use self::resolver::resolver;
 
