@@ -28,6 +28,7 @@
 
 use compress::{pure_optimizer, PureOptimizerConfig};
 use mode::Mode;
+use once_cell::sync::Lazy;
 use swc_common::{comments::Comments, pass::Repeat, sync::Lrc, SourceMap, GLOBALS};
 use swc_ecma_ast::Module;
 use swc_ecma_visit::{FoldWith, VisitMutWith};
@@ -67,7 +68,10 @@ mod util;
 const DISABLE_BUGGY_PASSES: bool = true;
 const MAX_PAR_DEPTH: u8 = 3;
 
-#[inline]
+pub(crate) static CPU_COUNT: Lazy<usize> = Lazy::new(num_cpus::get);
+pub(crate) static HEAVY_TASK_PARALLELS: Lazy<usize> = Lazy::new(|| *CPU_COUNT * 8);
+pub(crate) static LIGHT_TASK_PARALLELS: Lazy<usize> = Lazy::new(|| *CPU_COUNT * 100);
+
 pub fn optimize(
     mut m: Module,
     _cm: Lrc<SourceMap>,
@@ -163,6 +167,7 @@ pub fn optimize(
             PureOptimizerConfig {
                 force_str_for_tpl: Minification::force_str_for_tpl(),
                 enable_join_vars: true,
+                #[cfg(feature = "debug")]
                 debug_infinite_loop: false,
             },
         )));
@@ -194,9 +199,6 @@ pub fn optimize(
 
     if let Some(ref mut t) = timings {
         t.section("hygiene");
-    }
-
-    if let Some(ref mut t) = timings {
         t.end_section();
     }
 

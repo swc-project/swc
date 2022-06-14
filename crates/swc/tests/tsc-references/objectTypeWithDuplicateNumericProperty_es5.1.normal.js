@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // numeric properties must be distinct after a ToNumber operation
 // so the below are all errors
 var C = function C() {

@@ -1,5 +1,5 @@
 var TargetIsPublic;
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 !function(TargetIsPublic) {
     var a, b, i, d, e, Base = function() {
         "use strict";

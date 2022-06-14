@@ -1,4 +1,4 @@
-import a from "@swc/helpers/lib/_instanceof.js";
+import a from "@swc/helpers/src/_instanceof.mjs";
 import { timeDay as b, timeSunday as c, timeMonday as d, timeThursday as e, timeYear as f, utcDay as g, utcSunday as h, utcMonday as i, utcThursday as j, utcYear as k } from "d3-time";
 function l(a) {
     if (0 <= a.y && a.y < 100) {

@@ -23,7 +23,7 @@ members = [
 ]
 
 [profile.release]
-codegen-units = 1
+# lto = true
 
 # We use CARGO_PROFILE_RELEASE_LTO for production builds
 # lto = "fat"
@@ -32,8 +32,8 @@ codegen-units = 1
 # opt-level = 'z'
 
 [profile.bench]
-codegen-units = 1
 debug = true
+lto = true
 
 # Without this, printing diff consumes more than a minute.
 

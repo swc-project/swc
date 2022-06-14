@@ -1,8 +1,11 @@
 use once_cell::sync::Lazy;
-use swc_common::{errors::HANDLER, util::move_map::MoveMap, GLOBALS};
+use swc_common::util::move_map::MoveMap;
+#[cfg(feature = "rayon")]
+use swc_common::{errors::HANDLER, GLOBALS};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Fold, FoldWith, Visit, VisitMut, VisitMutWith, VisitWith};
 
+#[cfg(feature = "rayon")]
 use crate::helpers::HELPERS;
 
 pub trait Check: Visit + Default {
@@ -240,7 +243,7 @@ impl<T> ParVisit for T
 where
     T: Visit + Parallel,
 {
-    fn visit_par<N>(&mut self, threshold: usize, nodes: &[N])
+    fn visit_par<N>(&mut self, _: usize, nodes: &[N])
     where
         N: Send + Sync + VisitWith<Self>,
     {
@@ -255,7 +258,7 @@ impl<T> ParVisitMut for T
 where
     T: VisitMut + Parallel,
 {
-    fn visit_mut_par<N>(&mut self, threshold: usize, nodes: &mut [N])
+    fn visit_mut_par<N>(&mut self, _: usize, nodes: &mut [N])
     where
         N: Send + Sync + VisitMutWith<Self>,
     {
@@ -270,7 +273,7 @@ impl<T> ParFold for T
 where
     T: Fold + Parallel,
 {
-    fn fold_par<N>(&mut self, threshold: usize, nodes: Vec<N>) -> Vec<N>
+    fn fold_par<N>(&mut self, _: usize, nodes: Vec<N>) -> Vec<N>
     where
         N: Send + Sync + FoldWith<Self>,
     {

@@ -1,0 +1,128 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:1:1]
+ 1 | ,-> // test
+ 2 | |   
+ 3 | |   a {
+ 4 | |       color: red;
+ 5 | `-> }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:1:1]
+ 1 | ,-> // test
+ 2 | |   
+ 3 | |   a {
+ 4 | |       color: red;
+ 5 | `-> }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:1:1]
+ 1 | ,-> // test
+ 2 | |   
+ 3 | |   a {
+ 4 | |       color: red;
+ 5 | `-> }
+   `----
+
+  x Tokens
+   ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:1:1]
+ 1 | ,-> // test
+ 2 | |   
+ 3 | `-> a {
+   `----
+
+  x Delim { value: '/' }
+   ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:1:1]
+ 1 | // test
+   : ^
+   `----
+
+  x Delim { value: '/' }
+   ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:1:1]
+ 1 | // test
+   :  ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:1:1]
+ 1 | // test
+   :   ^
+   `----
+
+  x Ident { value: Atom('test' type=inline), raw: Atom('test' type=inline) }
+   ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:1:1]
+ 1 | // test
+   :    ^^^^
+   `----
+
+  x WhiteSpace { value: Atom('
+  | 
+  | ' type=inline) }
+   ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:1:1]
+ 1 | ,-> // test
+ 2 | `-> 
+ 3 |     a {
+   `----
+
+  x Ident { value: Atom('a' type=inline), raw: Atom('a' type=inline) }
+   ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:3:1]
+ 3 | a {
+   : ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:3:1]
+ 3 | a {
+   :  ^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:3:1]
+ 3 | ,-> a {
+ 4 | |       color: red;
+ 5 | `-> }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:4:5]
+ 4 | color: red;
+   : ^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:4:5]
+ 4 | color: red;
+   : ^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:4:5]
+ 4 | color: red;
+   : ^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:4:5]
+ 4 | color: red;
+   : ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:4:5]
+ 4 | color: red;
+   : ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:4:5]
+ 4 | color: red;
+   :        ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:4:5]
+ 4 | color: red;
+   :        ^^^
+   `----

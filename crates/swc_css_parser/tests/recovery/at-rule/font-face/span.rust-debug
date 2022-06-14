@@ -1,0 +1,399 @@
+
+  x Stylesheet
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:1:1]
+  1 | ,-> @font-face {
+  2 | |       invalid
+  3 | |   }
+  4 | |   
+  5 | |   @font-face {
+  6 | |       invalid;
+  7 | |   }
+  8 | |   
+  9 | |   @font-face {
+ 10 | |       123
+ 11 | |   }
+ 12 | |   
+ 13 | |   @font-face {
+ 14 | |       123;
+ 15 | |   }
+ 16 | |   
+ 17 | |   @font-face foo {}
+ 18 | |   
+ 19 | |   @font-face foo;
+ 20 | |   
+ 21 | `-> @font-face ;
+    `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:1:1]
+ 1 | ,-> @font-face {
+ 2 | |       invalid
+ 3 | `-> }
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:1:1]
+ 1 | ,-> @font-face {
+ 2 | |       invalid
+ 3 | `-> }
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:1:1]
+ 1 | @font-face {
+   :  ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:1:1]
+ 1 | @font-face {
+   :  ^^^^^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:1:1]
+ 1 | ,-> @font-face {
+ 2 | |       invalid
+ 3 | `-> }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:2:5]
+ 2 | invalid
+   : ^^^^^^^^
+ 3 | }
+   `----
+
+  x Tokens
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:2:5]
+ 2 | invalid
+   : ^^^^^^^^
+ 3 | }
+   `----
+
+  x Ident { value: Atom('invalid' type=inline), raw: Atom('invalid' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:2:5]
+ 2 | invalid
+   : ^^^^^^^
+   `----
+
+  x WhiteSpace { value: Atom('
+  | ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:2:5]
+ 2 | invalid
+   :        ^
+ 3 | }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:5:1]
+ 5 | ,-> @font-face {
+ 6 | |       invalid;
+ 7 | `-> }
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:5:1]
+ 5 | ,-> @font-face {
+ 6 | |       invalid;
+ 7 | `-> }
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:5:1]
+ 5 | @font-face {
+   :  ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:5:1]
+ 5 | @font-face {
+   :  ^^^^^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:5:1]
+ 5 | ,-> @font-face {
+ 6 | |       invalid;
+ 7 | `-> }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:6:5]
+ 6 | invalid;
+   : ^^^^^^^^
+   `----
+
+  x Tokens
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:6:5]
+ 6 | invalid;
+   : ^^^^^^^^
+   `----
+
+  x Ident { value: Atom('invalid' type=inline), raw: Atom('invalid' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:6:5]
+ 6 | invalid;
+   : ^^^^^^^
+   `----
+
+  x Semi
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:6:5]
+ 6 | invalid;
+   :        ^
+   `----
+
+  x Rule
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:9:1]
+  9 | ,-> @font-face {
+ 10 | |       123
+ 11 | `-> }
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:9:1]
+  9 | ,-> @font-face {
+ 10 | |       123
+ 11 | `-> }
+    `----
+
+  x AtRuleName
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:9:1]
+ 9 | @font-face {
+   :  ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:9:1]
+ 9 | @font-face {
+   :  ^^^^^^^^^
+   `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:9:1]
+  9 | ,-> @font-face {
+ 10 | |       123
+ 11 | `-> }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:10:5]
+ 10 | 123
+    : ^^^^
+ 11 | }
+    `----
+
+  x Tokens
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:10:5]
+ 10 | 123
+    : ^^^^
+ 11 | }
+    `----
+
+  x Number { value: 123.0, raw: Atom('123' type=inline), type_flag: Integer }
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:10:5]
+ 10 | 123
+    : ^^^
+    `----
+
+  x WhiteSpace { value: Atom('
+  | ' type=inline) }
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:10:5]
+ 10 | 123
+    :    ^
+ 11 | }
+    `----
+
+  x Rule
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:13:1]
+ 13 | ,-> @font-face {
+ 14 | |       123;
+ 15 | `-> }
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:13:1]
+ 13 | ,-> @font-face {
+ 14 | |       123;
+ 15 | `-> }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:13:1]
+ 13 | @font-face {
+    :  ^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:13:1]
+ 13 | @font-face {
+    :  ^^^^^^^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:13:1]
+ 13 | ,-> @font-face {
+ 14 | |       123;
+ 15 | `-> }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:14:5]
+ 14 | 123;
+    : ^^^^
+    `----
+
+  x Tokens
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:14:5]
+ 14 | 123;
+    : ^^^^
+    `----
+
+  x Number { value: 123.0, raw: Atom('123' type=inline), type_flag: Integer }
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:14:5]
+ 14 | 123;
+    : ^^^
+    `----
+
+  x Semi
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:14:5]
+ 14 | 123;
+    :    ^
+    `----
+
+  x Rule
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:17:1]
+ 17 | @font-face foo {}
+    : ^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:17:1]
+ 17 | @font-face foo {}
+    : ^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:17:1]
+ 17 | @font-face foo {}
+    :  ^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:17:1]
+ 17 | @font-face foo {}
+    :  ^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:17:1]
+ 17 | @font-face foo {}
+    :           ^
+    `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:17:1]
+ 17 | @font-face foo {}
+    :           ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:17:1]
+ 17 | @font-face foo {}
+    :            ^^^
+    `----
+
+  x Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:17:1]
+ 17 | @font-face foo {}
+    :            ^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:17:1]
+ 17 | @font-face foo {}
+    :                ^^
+    `----
+
+  x Rule
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:19:1]
+ 19 | @font-face foo;
+    : ^^^^^^^^^^^^^^^
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:19:1]
+ 19 | @font-face foo;
+    : ^^^^^^^^^^^^^^^
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:19:1]
+ 19 | @font-face foo;
+    :  ^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:19:1]
+ 19 | @font-face foo;
+    :  ^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:19:1]
+ 19 | @font-face foo;
+    :           ^
+    `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:19:1]
+ 19 | @font-face foo;
+    :           ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:19:1]
+ 19 | @font-face foo;
+    :            ^^^
+    `----
+
+  x Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:19:1]
+ 19 | @font-face foo;
+    :            ^^^
+    `----
+
+  x Rule
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:21:1]
+ 21 | @font-face ;
+    : ^^^^^^^^^^^^
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:21:1]
+ 21 | @font-face ;
+    : ^^^^^^^^^^^^
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:21:1]
+ 21 | @font-face ;
+    :  ^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:21:1]
+ 21 | @font-face ;
+    :  ^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:21:1]
+ 21 | @font-face ;
+    :           ^
+    `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:21:1]
+ 21 | @font-face ;
+    :           ^
+    `----

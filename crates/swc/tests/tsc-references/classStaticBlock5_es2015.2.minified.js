@@ -1,5 +1,5 @@
-import _get from "@swc/helpers/lib/_get.js";
-import _get_prototype_of from "@swc/helpers/lib/_get_prototype_of.js";
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 class B {
 }
 B.a = 1, B.b = 2;

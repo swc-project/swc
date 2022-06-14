@@ -1,0 +1,232 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:1:1]
+ 1 | ,-> .style {
+ 2 | |   	width: calc(2px+1px);
+ 3 | `-> }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:1:1]
+ 1 | ,-> .style {
+ 2 | |   	width: calc(2px+1px);
+ 3 | `-> }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:1:1]
+ 1 | ,-> .style {
+ 2 | |   	width: calc(2px+1px);
+ 3 | `-> }
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:1:1]
+ 1 | .style {
+   : ^^^^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:1:1]
+ 1 | .style {
+   : ^^^^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:1:1]
+ 1 | .style {
+   : ^^^^^^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:1:1]
+ 1 | .style {
+   : ^^^^^^
+   `----
+
+  x ClassSelector
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:1:1]
+ 1 | .style {
+   : ^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:1:1]
+ 1 | .style {
+   :  ^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:1:1]
+ 1 | ,-> .style {
+ 2 | |   	width: calc(2px+1px);
+ 3 | `-> }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   : ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   : ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   : ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   : ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   : ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   :        ^^^^^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   :        ^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   :        ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   :             ^^^
+   `----
+
+  x CalcSum
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   :             ^^^
+   `----
+
+  x CalcProductOrOperator
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   :             ^^^
+   `----
+
+  x CalcProduct
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   :             ^^^
+   `----
+
+  x CalcValueOrOperator
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   :             ^^^
+   `----
+
+  x CalcValue
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   :             ^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   :             ^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   :             ^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   :             ^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   :              ^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   :                ^^^^
+   `----
+
+  x CalcSum
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   :                ^^^^
+   `----
+
+  x CalcProductOrOperator
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   :                ^^^^
+   `----
+
+  x CalcProduct
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   :                ^^^^
+   `----
+
+  x CalcValueOrOperator
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   :                ^^^^
+   `----
+
+  x CalcValue
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   :                ^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   :                ^^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   :                ^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   :                ^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   :                  ^^
+   `----

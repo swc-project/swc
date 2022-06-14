@@ -1,4 +1,4 @@
-#![deny(clippy::all)]
+#![cfg_attr(test, deny(warnings))]
 
 pub use self::resolver::resolver;
 

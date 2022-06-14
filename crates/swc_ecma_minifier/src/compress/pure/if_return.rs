@@ -85,8 +85,8 @@ impl Pure<'_> {
             "if_return: Negating `foo` in `if (foo) return; bar()` to make it `if (!foo) bar()`"
         );
 
-        let mut new = vec![];
-        let mut fn_decls = vec![];
+        let mut new = Vec::with_capacity(stmts.len());
+        let mut fn_decls = Vec::with_capacity(stmts.len());
         new.extend(stmts.drain(..pos_of_if));
         let cons = stmts
             .drain(1..)

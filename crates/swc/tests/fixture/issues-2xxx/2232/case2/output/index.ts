@@ -1,5 +1,5 @@
-import _async_to_generator from "@swc/helpers/lib/_async_to_generator.js";
-import _object_without_properties from "@swc/helpers/lib/_object_without_properties.js";
+import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
+import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 var resolver = {
     sendSomeMessage: function sendSomeMessage(_parent, _param, _param1) {

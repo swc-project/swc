@@ -1,0 +1,183 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/line-comment/css-in-js/5/input.css:1:1]
+ 1 | ,-> // Line comment
+ 2 | |   // Line comment
+ 3 | |   foo {
+ 4 | |       color: red;
+ 5 | `-> }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/line-comment/css-in-js/5/input.css:1:1]
+ 1 | ,-> // Line comment
+ 2 | |   // Line comment
+ 3 | |   foo {
+ 4 | |       color: red;
+ 5 | `-> }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/line-comment/css-in-js/5/input.css:1:1]
+ 1 | ,-> // Line comment
+ 2 | |   // Line comment
+ 3 | |   foo {
+ 4 | |       color: red;
+ 5 | `-> }
+   `----
+
+  x Tokens
+   ,-[$DIR/tests/line-comment/css-in-js/5/input.css:1:1]
+ 1 | ,-> // Line comment
+ 2 | |   // Line comment
+ 3 | `-> foo {
+   `----
+
+  x Delim { value: '/' }
+   ,-[$DIR/tests/line-comment/css-in-js/5/input.css:1:1]
+ 1 | // Line comment
+   : ^
+   `----
+
+  x Delim { value: '/' }
+   ,-[$DIR/tests/line-comment/css-in-js/5/input.css:1:1]
+ 1 | // Line comment
+   :  ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/line-comment/css-in-js/5/input.css:1:1]
+ 1 | // Line comment
+   :   ^
+   `----
+
+  x Ident { value: Atom('Line' type=inline), raw: Atom('Line' type=inline) }
+   ,-[$DIR/tests/line-comment/css-in-js/5/input.css:1:1]
+ 1 | // Line comment
+   :    ^^^^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/line-comment/css-in-js/5/input.css:1:1]
+ 1 | // Line comment
+   :        ^
+   `----
+
+  x Ident { value: Atom('comment' type=inline), raw: Atom('comment' type=inline) }
+   ,-[$DIR/tests/line-comment/css-in-js/5/input.css:1:1]
+ 1 | // Line comment
+   :         ^^^^^^^
+   `----
+
+  x WhiteSpace { value: Atom('
+  | ' type=inline) }
+   ,-[$DIR/tests/line-comment/css-in-js/5/input.css:1:1]
+ 1 | // Line comment
+   :                ^
+ 2 | // Line comment
+   `----
+
+  x Delim { value: '/' }
+   ,-[$DIR/tests/line-comment/css-in-js/5/input.css:2:1]
+ 2 | // Line comment
+   : ^
+   `----
+
+  x Delim { value: '/' }
+   ,-[$DIR/tests/line-comment/css-in-js/5/input.css:2:1]
+ 2 | // Line comment
+   :  ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/line-comment/css-in-js/5/input.css:2:1]
+ 2 | // Line comment
+   :   ^
+   `----
+
+  x Ident { value: Atom('Line' type=inline), raw: Atom('Line' type=inline) }
+   ,-[$DIR/tests/line-comment/css-in-js/5/input.css:2:1]
+ 2 | // Line comment
+   :    ^^^^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/line-comment/css-in-js/5/input.css:2:1]
+ 2 | // Line comment
+   :        ^
+   `----
+
+  x Ident { value: Atom('comment' type=inline), raw: Atom('comment' type=inline) }
+   ,-[$DIR/tests/line-comment/css-in-js/5/input.css:2:1]
+ 2 | // Line comment
+   :         ^^^^^^^
+   `----
+
+  x WhiteSpace { value: Atom('
+  | ' type=inline) }
+   ,-[$DIR/tests/line-comment/css-in-js/5/input.css:2:1]
+ 2 | // Line comment
+   :                ^
+ 3 | foo {
+   `----
+
+  x Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
+   ,-[$DIR/tests/line-comment/css-in-js/5/input.css:3:1]
+ 3 | foo {
+   : ^^^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/line-comment/css-in-js/5/input.css:3:1]
+ 3 | foo {
+   :    ^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/line-comment/css-in-js/5/input.css:3:1]
+ 3 | ,-> foo {
+ 4 | |       color: red;
+ 5 | `-> }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/line-comment/css-in-js/5/input.css:4:5]
+ 4 | color: red;
+   : ^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/line-comment/css-in-js/5/input.css:4:5]
+ 4 | color: red;
+   : ^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/line-comment/css-in-js/5/input.css:4:5]
+ 4 | color: red;
+   : ^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/line-comment/css-in-js/5/input.css:4:5]
+ 4 | color: red;
+   : ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/line-comment/css-in-js/5/input.css:4:5]
+ 4 | color: red;
+   : ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/line-comment/css-in-js/5/input.css:4:5]
+ 4 | color: red;
+   :        ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/line-comment/css-in-js/5/input.css:4:5]
+ 4 | color: red;
+   :        ^^^
+   `----

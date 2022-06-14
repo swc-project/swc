@@ -1,8 +1,9 @@
+#[cfg(feature = "debug")]
+use std::thread;
 use std::{
     borrow::Cow,
     fmt,
     fmt::{Debug, Display, Formatter, Write},
-    thread,
     time::Instant,
 };
 
@@ -31,6 +32,7 @@ use crate::{
     compress::hoist_decls::decl_hoister,
     debug::{dump, AssertValid},
     marks::Marks,
+    maybe_par,
     mode::Mode,
     option::CompressOptions,
     util::{now, unit::CompileUnit, Optional},
@@ -107,14 +109,17 @@ where
         Vec<T>: VisitMutWith<Self> + for<'aa> VisitMutWith<hoist_decls::Hoister<'aa>>,
     {
         // Skip if `use asm` exists.
-        if stmts.iter().any(|stmt| match stmt.as_stmt() {
-            Some(Stmt::Expr(stmt)) => match &*stmt.expr {
-                // TODO improve check, directives can contain escaped characters
-                Expr::Lit(Lit::Str(Str { value, .. })) => &**value == "use asm",
+        if maybe_par!(
+            stmts.iter().any(|stmt| match stmt.as_stmt() {
+                Some(Stmt::Expr(stmt)) => match &*stmt.expr {
+                    // TODO improve check, directives can contain escaped characters
+                    Expr::Lit(Lit::Str(Str { value, .. })) => &**value == "use asm",
+                    _ => false,
+                },
                 _ => false,
-            },
-            _ => false,
-        }) {
+            }),
+            *crate::LIGHT_TASK_PARALLELS
+        ) {
             return;
         }
 
@@ -262,12 +267,11 @@ where
             }
         }
 
-        let start = if cfg!(feature = "debug") {
+        #[cfg(feature = "debug")]
+        let start = {
             let start = n.dump();
             debug!("===== Start =====\n{}", start);
             start
-        } else {
-            String::new()
         };
 
         {
@@ -284,7 +288,8 @@ where
             self.changed |= visitor.changed();
             if visitor.changed() {
                 debug!("compressor: Simplified expressions");
-                if cfg!(feature = "debug") {
+                #[cfg(feature = "debug")]
+                {
                     debug!("===== Simplified =====\n{}", dump(&*n, false));
                 }
             }
@@ -299,7 +304,8 @@ where
                 );
             }
 
-            if cfg!(feature = "debug") && !visitor.changed() {
+            #[cfg(feature = "debug")]
+            if !visitor.changed() {
                 let simplified = n.dump();
                 if start != simplified {
                     assert_eq!(
@@ -322,6 +328,7 @@ where
                 PureOptimizerConfig {
                     enable_join_vars: self.pass > 1,
                     force_str_for_tpl: M::force_str_for_tpl(),
+                    #[cfg(feature = "debug")]
                     debug_infinite_loop: self.pass >= 20,
                 },
             );
@@ -329,13 +336,15 @@ where
 
             self.changed |= visitor.changed();
 
-            if cfg!(feature = "debug") && visitor.changed() {
+            #[cfg(feature = "debug")]
+            if visitor.changed() {
                 let src = n.dump();
                 debug!("===== After pure =====\n{}\n{}", start, src);
             }
         }
 
-        if cfg!(debug_assertions) {
+        #[cfg(debug_assertions)]
+        {
             n.visit_with(&mut AssertValid);
         }
 
@@ -364,11 +373,8 @@ where
         }
 
         if self.options.conditionals || self.options.dead_code {
-            let start = if cfg!(feature = "debug") {
-                dump(&*n, false)
-            } else {
-                "".into()
-            };
+            #[cfg(feature = "debug")]
+            let start = dump(&*n, false);
 
             let start_time = now();
 
@@ -385,7 +391,8 @@ where
                 );
             }
 
-            if cfg!(feature = "debug") {
+            #[cfg(feature = "debug")]
+            {
                 let simplified = dump(&*n, false);
 
                 if start != simplified {

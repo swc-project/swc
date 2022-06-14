@@ -1,6 +1,6 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
-import _get from "@swc/helpers/lib/_get.js";
-import _get_prototype_of from "@swc/helpers/lib/_get_prototype_of.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 var M1, C = function() {
     "use strict";
     function C() {

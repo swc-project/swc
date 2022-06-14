@@ -1349,15 +1349,15 @@ import React, {Component} from 'react';
 
 export default class RandomComponent extends Component {
 constructor(){
-  super();
+super();
 }
 
 render() {
-  return (
-    <div className='sui-RandomComponent'>
-      <h2>Hi there!</h2>
-    </div>
-  );
+return (
+  <div className='sui-RandomComponent'>
+    <h2>Hi there!</h2>
+  </div>
+);
 }
 }
 
@@ -1378,17 +1378,17 @@ function (_Component) {
 _inherits(RandomComponent, _Component);
 
 function RandomComponent() {
-  _classCallCheck(this, RandomComponent);
-  return _possibleConstructorReturn(this, _getPrototypeOf(RandomComponent).call(this));
+_classCallCheck(this, RandomComponent);
+return _possibleConstructorReturn(this, _getPrototypeOf(RandomComponent).call(this));
 }
 
 _createClass(RandomComponent, [{
-  key: "render",
-  value: function render() {
-    return _react.default.createElement("div", {
-      className: "sui-RandomComponent"
-    }, _react.default.createElement("h2", null, "Hi there!"));
-  }
+key: "render",
+value: function render() {
+  return _react.default.createElement("div", {
+    className: "sui-RandomComponent"
+  }, _react.default.createElement("h2", null, "Hi there!"));
+}
 }]);
 return RandomComponent;
 }(_react.Component);
@@ -1396,6 +1396,36 @@ return RandomComponent;
 exports.default = RandomComponent;
 
 "#
+);
+
+test!(
+    Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            jsx(
+                t.cm.clone(),
+                Some(t.comments.clone()),
+                Default::default(),
+                top_level_mark
+            )
+        )
+    },
+    issue_4956,
+    "
+    <div title=\"\u{2028}\"/>
+    ",
+    r#"
+    React.createElement("div", {
+      title: "\u2028"
+    });
+  "#
 );
 
 #[testing::fixture("tests/jsx/fixture/**/input.js")]

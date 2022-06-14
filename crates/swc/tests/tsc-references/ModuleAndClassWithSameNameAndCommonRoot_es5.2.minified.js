@@ -1,4 +1,4 @@
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 !function(X1) {
     var Y, Point;
     (Point = (Y = X1.Y || (X1.Y = {})).Point || (Y.Point = {})).Origin = new Point(0, 0);

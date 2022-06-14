@@ -1,4 +1,4 @@
-import _object_spread from "@swc/helpers/lib/_object_spread.js";
+import _object_spread from "@swc/helpers/src/_object_spread.mjs";
 !function(config) {
     return _object_spread({}, void 0 !== config.a && {
         a: config.a.toString()

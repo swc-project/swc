@@ -1,5 +1,5 @@
-import _define_enumerable_properties from "@swc/helpers/lib/_define_enumerable_properties.js";
-import _define_property from "@swc/helpers/lib/_define_property.js";
+import _define_enumerable_properties from "@swc/helpers/src/_define_enumerable_properties.mjs";
+import _define_property from "@swc/helpers/src/_define_property.mjs";
 //@target: ES6
 var s = Symbol;
 var _obj, _mutatorMap = {};

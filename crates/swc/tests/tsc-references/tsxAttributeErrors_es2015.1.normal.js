@@ -1,4 +1,4 @@
-import _extends from "@swc/helpers/lib/_extends.js";
+import _extends from "@swc/helpers/src/_extends.mjs";
 // Error, number is not assignable to string
 /*#__PURE__*/ React.createElement("div", {
     text: 42

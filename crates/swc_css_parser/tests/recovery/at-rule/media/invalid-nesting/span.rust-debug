@@ -1,0 +1,172 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:1:1]
+ 1 | ,-> @media (min-width: 480px) {
+ 2 | |       max-inline-size: 1024px;
+ 3 | `-> }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:1:1]
+ 1 | ,-> @media (min-width: 480px) {
+ 2 | |       max-inline-size: 1024px;
+ 3 | `-> }
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:1:1]
+ 1 | ,-> @media (min-width: 480px) {
+ 2 | |       max-inline-size: 1024px;
+ 3 | `-> }
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:1:1]
+ 1 | @media (min-width: 480px) {
+   :  ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:1:1]
+ 1 | @media (min-width: 480px) {
+   :  ^^^^^
+   `----
+
+  x MediaQueryList
+   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:1:1]
+ 1 | @media (min-width: 480px) {
+   :        ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaQuery
+   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:1:1]
+ 1 | @media (min-width: 480px) {
+   :        ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaCondition
+   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:1:1]
+ 1 | @media (min-width: 480px) {
+   :        ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaConditionAllType
+   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:1:1]
+ 1 | @media (min-width: 480px) {
+   :        ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaInParens
+   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:1:1]
+ 1 | @media (min-width: 480px) {
+   :        ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeature
+   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:1:1]
+ 1 | @media (min-width: 480px) {
+   :        ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeaturePlain
+   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:1:1]
+ 1 | @media (min-width: 480px) {
+   :        ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeatureName
+   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:1:1]
+ 1 | @media (min-width: 480px) {
+   :         ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:1:1]
+ 1 | @media (min-width: 480px) {
+   :         ^^^^^^^^^
+   `----
+
+  x MediaFeatureValue
+   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:1:1]
+ 1 | @media (min-width: 480px) {
+   :                    ^^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:1:1]
+ 1 | @media (min-width: 480px) {
+   :                    ^^^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:1:1]
+ 1 | @media (min-width: 480px) {
+   :                    ^^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:1:1]
+ 1 | @media (min-width: 480px) {
+   :                    ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:1:1]
+ 1 | @media (min-width: 480px) {
+   :                       ^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:1:1]
+ 1 | ,-> @media (min-width: 480px) {
+ 2 | |       max-inline-size: 1024px;
+ 3 | `-> }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:2:5]
+ 2 | max-inline-size: 1024px;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:2:5]
+ 2 | max-inline-size: 1024px;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Tokens
+   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:2:5]
+ 2 | max-inline-size: 1024px;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident { value: Atom('max-inline-size' type=dynamic), raw: Atom('max-inline-size' type=dynamic) }
+   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:2:5]
+ 2 | max-inline-size: 1024px;
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Colon
+   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:2:5]
+ 2 | max-inline-size: 1024px;
+   :                ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:2:5]
+ 2 | max-inline-size: 1024px;
+   :                 ^
+   `----
+
+  x Dimension { value: 1024.0, raw_value: Atom('1024' type=inline), unit: Atom('px' type=inline), raw_unit: Atom('px' type=inline), type_flag: Integer }
+   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:2:5]
+ 2 | max-inline-size: 1024px;
+   :                  ^^^^^^
+   `----
+
+  x Semi
+   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:2:5]
+ 2 | max-inline-size: 1024px;
+   :                        ^
+   `----

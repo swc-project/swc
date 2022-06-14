@@ -1,0 +1,102 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :  ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :  ^^^^^
+   `----
+
+  x MediaQueryList
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                                                 ^^^^^^^^^^
+   `----
+
+  x MediaQuery
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                                                 ^^^^^^^^^^
+   `----
+
+  x MediaCondition
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                                                 ^^^^^^^^^^
+   `----
+
+  x MediaConditionAllType
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                                                 ^^^^^^^^^^
+   `----
+
+  x MediaInParens
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                                                 ^^^^^^^^^^
+   `----
+
+  x MediaFeature
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                                                 ^^^^^^^^^^
+   `----
+
+  x MediaFeaturePlain
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                                                 ^^^^^^^^^^
+   `----
+
+  x MediaFeatureName
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                                                  ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                                                  ^^^^^
+   `----
+
+  x MediaFeatureValue
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                                                         ^
+   `----
+
+  x Number
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                                                         ^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                                                            ^^
+   `----

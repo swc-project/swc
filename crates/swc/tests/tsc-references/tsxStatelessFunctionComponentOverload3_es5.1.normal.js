@@ -1,4 +1,4 @@
-import _extends from "@swc/helpers/lib/_extends.js";
+import _extends from "@swc/helpers/src/_extends.mjs";
 var obj2;
 // OK
 var two1 = /*#__PURE__*/ React.createElement(ZeroThingOrTwoThing, null);

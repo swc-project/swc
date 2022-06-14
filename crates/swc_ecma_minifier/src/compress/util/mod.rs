@@ -3,15 +3,19 @@ use std::f64;
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
+#[cfg(feature = "debug")]
 use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_utils::{ExprCtx, ExprExt, IdentUsageFinder, Value};
+#[cfg(feature = "debug")]
+use swc_ecma_visit::{as_folder, FoldWith};
 use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, FoldWith, Visit, VisitMut, VisitMutWith,
-    VisitWith,
+    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use unicode_id::UnicodeID;
 
-use crate::{debug::dump, util::ModuleItemExt};
+#[cfg(feature = "debug")]
+use crate::debug::dump;
+use crate::util::ModuleItemExt;
 
 #[cfg(test)]
 mod tests;
@@ -40,6 +44,7 @@ fn negate_inner(
     in_bool_ctx: bool,
     is_ret_val_ignored: bool,
 ) -> bool {
+    #[cfg(feature = "debug")]
     let start_str = dump(&*e, false);
 
     match e {
@@ -225,7 +230,8 @@ pub(crate) fn is_ok_to_negate_rhs(expr_ctx: &ExprCtx, rhs: &Expr) -> bool {
                 return true;
             }
 
-            if cfg!(feature = "debug") {
+            #[cfg(feature = "debug")]
+            {
                 tracing::warn!(
                     "unimplemented: is_ok_to_negate_rhs: `{}`",
                     dump(&*rhs, false)
@@ -239,6 +245,7 @@ pub(crate) fn is_ok_to_negate_rhs(expr_ctx: &ExprCtx, rhs: &Expr) -> bool {
 
 /// A negative value means that it's efficient to negate the expression.
 #[cfg_attr(feature = "debug", tracing::instrument(skip(e)))]
+#[allow(clippy::let_and_return)]
 pub(crate) fn negate_cost(
     expr_ctx: &ExprCtx,
     e: &Expr,
@@ -359,7 +366,8 @@ pub(crate) fn negate_cost(
         })();
 
         // Print more info while testing negate_cost
-        if cfg!(test) {
+        #[cfg(test)]
+        {
             trace_op!(
                 "negation cost of `{}` = {}",
                 dump(&e.clone().fold_with(&mut as_folder(fixer(None))), true),

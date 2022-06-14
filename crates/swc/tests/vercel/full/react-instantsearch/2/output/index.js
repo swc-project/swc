@@ -1,8 +1,8 @@
-import a from "@swc/helpers/lib/_define_property.js";
-import b from "@swc/helpers/lib/_object_spread.js";
-import c from "@swc/helpers/lib/_object_spread_props.js";
-import d from "@swc/helpers/lib/_object_without_properties.js";
-import e from "@swc/helpers/lib/_to_consumable_array.js";
+import a from "@swc/helpers/src/_define_property.mjs";
+import b from "@swc/helpers/src/_object_spread.mjs";
+import c from "@swc/helpers/src/_object_spread_props.mjs";
+import d from "@swc/helpers/src/_object_without_properties.mjs";
+import e from "@swc/helpers/src/_to_consumable_array.mjs";
 import f from "algoliasearch-helper";
 import g from "./createWidgetsManager";
 import { HIGHLIGHT_TAGS as h } from "./highlight";

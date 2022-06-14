@@ -1,5 +1,5 @@
-import _class_private_field_loose_base from "@swc/helpers/lib/_class_private_field_loose_base.js";
-import _class_private_field_loose_key from "@swc/helpers/lib/_class_private_field_loose_key.js";
+import _class_private_field_loose_base from "@swc/helpers/src/_class_private_field_loose_base.mjs";
+import _class_private_field_loose_key from "@swc/helpers/src/_class_private_field_loose_key.mjs";
 var _channelName = _class_private_field_loose_key("_channelName"), _listeners = _class_private_field_loose_key("_listeners");
 export class LocalStorageChannel {
     constructor(channelName){

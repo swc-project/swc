@@ -1,5 +1,5 @@
 var A, B, C, D, E, F;
-import _class_call_check from "@swc/helpers/lib/_class_call_check.js";
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 (A || (A = {})).x = 12, B || (B = {}), C || (C = {}), (D || (D = {})).yes = function() {
     return !0;
 }, function(E1) {
