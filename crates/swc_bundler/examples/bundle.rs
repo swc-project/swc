@@ -118,7 +118,7 @@ fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool, mini
                 .map(|mut b| {
                     GLOBALS.set(globals, || {
                         b.module = swc_ecma_minifier::optimize(
-                            b.module,
+                            b.module.into(),
                             cm.clone(),
                             None,
                             None,
@@ -137,7 +137,8 @@ fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool, mini
                                 unresolved_mark: Mark::new(),
                                 top_level_mark: Mark::new(),
                             },
-                        );
+                        )
+                        .expect_module();
                         b.module.visit_mut_with(&mut fixer(None));
                         b
                     })

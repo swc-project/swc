@@ -43,7 +43,7 @@ fn main() {
         .unwrap();
 
         let output = optimize(
-            program,
+            program.into(),
             cm.clone(),
             None,
             None,
@@ -56,7 +56,8 @@ fn main() {
                 unresolved_mark,
                 top_level_mark,
             },
-        );
+        )
+        .expect_module();
 
         let output = output.fold_with(&mut fixer(None));
 

@@ -68,7 +68,7 @@ fn run(src: &str) {
         .unwrap();
 
         let output = optimize(
-            program,
+            program.into(),
             cm.clone(),
             None,
             None,
@@ -94,7 +94,8 @@ fn run(src: &str) {
                 unresolved_mark,
                 top_level_mark,
             },
-        );
+        )
+        .expect_module();
 
         let output = output.fold_with(&mut fixer(None));
 

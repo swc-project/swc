@@ -60,7 +60,7 @@ impl TestMinifiedBundleCommand {
         let mut minified = {
             let _timer = timer!("minify");
             swc_ecma_minifier::optimize(
-                bundle.module,
+                bundle.module.into(),
                 cm.clone(),
                 None,
                 None,
@@ -74,6 +74,7 @@ impl TestMinifiedBundleCommand {
                     top_level_mark: bundle.top_level_mark,
                 },
             )
+            .expect_module()
         };
 
         minified.visit_mut_with(&mut fixer(None));

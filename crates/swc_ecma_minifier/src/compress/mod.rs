@@ -12,11 +12,10 @@ use pretty_assertions::assert_eq;
 use rayon::prelude::*;
 use swc_common::{
     chain,
-    pass::{CompilerPass, Repeated},
+    pass::{CompilerPass, Optional, Repeated},
     Globals,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::pass::JsPass;
 use swc_ecma_transforms_optimization::simplify::{
     dead_branch_remover, expr_simplifier, ExprSimplifierConfig,
 };
@@ -35,7 +34,7 @@ use crate::{
     maybe_par,
     mode::Mode,
     option::CompressOptions,
-    util::{now, unit::CompileUnit, Optional},
+    util::{now, unit::CompileUnit},
     DISABLE_BUGGY_PASSES, MAX_PAR_DEPTH,
 };
 
@@ -49,7 +48,7 @@ pub(crate) fn compressor<'a, M>(
     marks: Marks,
     options: &'a CompressOptions,
     mode: &'a M,
-) -> impl 'a + JsPass
+) -> impl 'a + VisitMut
 where
     M: Mode,
 {
@@ -68,7 +67,10 @@ where
         as_folder(compressor),
         Optional {
             enabled: options.evaluate || options.side_effects,
-            visitor: expr_simplifier(marks.unresolved_mark, ExprSimplifierConfig {})
+            visitor: as_folder(expr_simplifier(
+                marks.unresolved_mark,
+                ExprSimplifierConfig {}
+            ))
         }
     )
 }
