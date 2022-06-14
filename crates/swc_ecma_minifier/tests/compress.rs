@@ -206,7 +206,7 @@ fn run(
 
     let optimization_start = Instant::now();
     let mut output = optimize(
-        program,
+        program.into(),
         cm,
         Some(&comments),
         None,
@@ -231,7 +231,8 @@ fn run(
             unresolved_mark,
             top_level_mark,
         },
-    );
+    )
+    .expect_module();
     let end = Instant::now();
     tracing::info!(
         "optimize({}) took {:?}",

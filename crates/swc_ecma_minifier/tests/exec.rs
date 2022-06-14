@@ -137,7 +137,7 @@ fn run(
     let run_hygiene = mangle.is_none();
 
     let mut output = optimize(
-        program,
+        program.into(),
         cm,
         Some(&comments),
         None,
@@ -150,7 +150,8 @@ fn run(
             unresolved_mark,
             top_level_mark,
         },
-    );
+    )
+    .expect_module();
 
     if run_hygiene {
         output.visit_mut_with(&mut hygiene());

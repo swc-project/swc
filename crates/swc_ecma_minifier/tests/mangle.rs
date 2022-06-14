@@ -72,7 +72,7 @@ fn compressed(compressed_file: PathBuf) {
         m.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
 
         let m = optimize(
-            m,
+            m.into(),
             cm.clone(),
             None,
             None,
@@ -96,7 +96,8 @@ fn compressed(compressed_file: PathBuf) {
                 unresolved_mark,
                 top_level_mark,
             },
-        );
+        )
+        .expect_module();
 
         let mangled = print(cm.clone(), &m, false);
         let minified = print(cm.clone(), &m, true);
