@@ -12,10 +12,6 @@
 //! If you enable this cargo feature and set the environment variable named
 //! `SWC_RUN` to `1`, the minifier will validate the code using node before each
 //! step.
-//!
-//! Note: Passes should be visited only with [Module] and it's an error to feed
-//! them something other. Don't call methods like `visit_mut_script` nor
-//! `visit_mut_module_items`.
 #![deny(clippy::all)]
 #![deny(unused)]
 #![allow(clippy::blocks_in_if_conditions)]
@@ -30,7 +26,7 @@ use compress::{pure_optimizer, PureOptimizerConfig};
 use mode::Mode;
 use once_cell::sync::Lazy;
 use swc_common::{comments::Comments, pass::Repeat, sync::Lrc, SourceMap, GLOBALS};
-use swc_ecma_ast::Module;
+use swc_ecma_ast::Program;
 use swc_ecma_visit::{FoldWith, VisitMutWith};
 use swc_timer::timer;
 use timing::Timings;
@@ -73,13 +69,13 @@ pub(crate) static HEAVY_TASK_PARALLELS: Lazy<usize> = Lazy::new(|| *CPU_COUNT * 
 pub(crate) static LIGHT_TASK_PARALLELS: Lazy<usize> = Lazy::new(|| *CPU_COUNT * 100);
 
 pub fn optimize(
-    mut m: Module,
+    mut m: Program,
     _cm: Lrc<SourceMap>,
     comments: Option<&dyn Comments>,
     mut timings: Option<&mut Timings>,
     options: &MinifyOptions,
     extra: &ExtraOptions,
-) -> Module {
+) -> Program {
     let _timer = timer!("minify");
 
     let mut marks = Marks::new();
