@@ -384,7 +384,7 @@ impl VisitMut for MinifierPass {
 
             m.map_with_mut(|m| {
                 swc_ecma_minifier::optimize(
-                    m,
+                    m.into(),
                     self.cm.clone(),
                     self.comments.as_ref().map(|v| v as &dyn Comments),
                     None,
@@ -394,6 +394,7 @@ impl VisitMut for MinifierPass {
                         top_level_mark: self.top_level_mark,
                     },
                 )
+                .expect_module()
             })
         }
     }

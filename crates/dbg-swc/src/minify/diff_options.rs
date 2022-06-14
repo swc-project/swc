@@ -64,7 +64,7 @@ impl DiffOptionCommand {
         let orig = {
             let m = m.clone();
             let mut m = swc_ecma_minifier::optimize(
-                m.module,
+                m.module.into(),
                 cm.clone(),
                 Some(&m.comments),
                 None,
@@ -77,14 +77,15 @@ impl DiffOptionCommand {
                     unresolved_mark: m.unresolved_mark,
                     top_level_mark: m.top_level_mark,
                 },
-            );
+            )
+            .expect_module();
             m.visit_mut_with(&mut fixer(None));
             print_js(cm.clone(), &m, false)?
         };
 
         let new = {
             let mut m = swc_ecma_minifier::optimize(
-                m.module,
+                m.module.into(),
                 cm.clone(),
                 Some(&m.comments),
                 None,
@@ -100,7 +101,8 @@ impl DiffOptionCommand {
                     unresolved_mark: m.unresolved_mark,
                     top_level_mark: m.top_level_mark,
                 },
-            );
+            )
+            .expect_module();
             m.visit_mut_with(&mut fixer(None));
             print_js(cm, &m, false)?
         };
