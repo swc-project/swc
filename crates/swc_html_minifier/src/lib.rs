@@ -283,6 +283,7 @@ struct Minifier {
 
     remove_empty_attributes: bool,
     collapse_boolean_attributes: bool,
+    minify_css: bool,
 }
 
 impl Minifier {
@@ -565,6 +566,7 @@ impl Minifier {
         collapsed
     }
 
+    // TODO source map url output?
     fn minify_css(&self, data: String) -> Option<String> {
         let mut errors: Vec<_> = vec![];
 
@@ -595,53 +597,6 @@ impl Minifier {
 
 impl VisitMut for Minifier {
     fn visit_mut_element(&mut self, n: &mut Element) {
-        let mut already_seen: AHashSet<JsWord> = Default::default();
-
-        n.attributes.retain(|attribute| {
-            if already_seen.contains(&attribute.name) {
-                return false;
-            }
-
-            already_seen.insert(attribute.name.clone());
-
-            if attribute.value.is_none() {
-                return true;
-            }
-
-            if self.is_default_attribute_value(
-                n.namespace,
-                &n.tag_name,
-                &attribute.name,
-                match &*n.tag_name {
-                    "script" if n.namespace == Namespace::HTML => {
-                        let original_value = attribute.value.as_ref().unwrap();
-
-                        if let Some(next) = original_value.split(';').next() {
-                            next
-                        } else {
-                            original_value
-                        }
-                    }
-                    _ => attribute.value.as_ref().unwrap(),
-                },
-            ) {
-                return false;
-            }
-
-            if self.remove_empty_attributes {
-                let value = attribute.value.as_ref().unwrap();
-
-                if (matches!(&*attribute.name, "id") && value.is_empty())
-                    || (matches!(&*attribute.name, "class" | "style") && value.is_empty())
-                    || self.is_event_handler_attribute(&attribute.name) && value.is_empty()
-                {
-                    return false;
-                }
-            }
-
-            true
-        });
-
         self.current_element_namespace = Some(n.namespace);
         self.current_element_tag_name = Some(n.tag_name.clone());
 
@@ -707,18 +662,27 @@ impl VisitMut for Minifier {
                 {
                     self.current_element_text_children_type = Some(TextChildrenType::Json);
                 }
-                "style" => {
+                "style" if self.minify_css => {
                     let mut type_attribute_value = None;
 
                     for attribute in &n.attributes {
                         if &*attribute.name == "type" && attribute.value.is_some() {
-                            type_attribute_value = Some(&**attribute.value.as_ref().unwrap());
+                            type_attribute_value = Some(
+                                attribute
+                                    .value
+                                    .as_ref()
+                                    .unwrap()
+                                    .trim()
+                                    .to_ascii_lowercase(),
+                            );
 
                             break;
                         }
                     }
 
-                    if type_attribute_value.is_none() || type_attribute_value == Some("text/css") {
+                    if type_attribute_value.is_none()
+                        || type_attribute_value == Some("text/css".into())
+                    {
                         self.current_element_text_children_type = Some(TextChildrenType::Css);
                     } else {
                         self.current_element_text_children_type = None;
@@ -798,6 +762,53 @@ impl VisitMut for Minifier {
         if whitespace_minification_mode.is_some() {
             self.descendant_of_pre = old_descendant_of_pre;
         }
+
+        let mut already_seen: AHashSet<JsWord> = Default::default();
+
+        n.attributes.retain(|attribute| {
+            if already_seen.contains(&attribute.name) {
+                return false;
+            }
+
+            already_seen.insert(attribute.name.clone());
+
+            if attribute.value.is_none() {
+                return true;
+            }
+
+            if self.is_default_attribute_value(
+                n.namespace,
+                &n.tag_name,
+                &attribute.name,
+                match &*n.tag_name {
+                    "script" if n.namespace == Namespace::HTML => {
+                        let original_value = attribute.value.as_ref().unwrap();
+
+                        if let Some(next) = original_value.split(';').next() {
+                            next
+                        } else {
+                            original_value
+                        }
+                    }
+                    _ => attribute.value.as_ref().unwrap(),
+                },
+            ) {
+                return false;
+            }
+
+            if self.remove_empty_attributes {
+                let value = attribute.value.as_ref().unwrap();
+
+                if (matches!(&*attribute.name, "id") && value.is_empty())
+                    || (matches!(&*attribute.name, "class" | "style") && value.is_empty())
+                    || self.is_event_handler_attribute(&attribute.name) && value.is_empty()
+                {
+                    return false;
+                }
+            }
+
+            true
+        });
     }
 
     fn visit_mut_attribute(&mut self, n: &mut Attribute) {
@@ -908,7 +919,7 @@ impl VisitMut for Minifier {
         n.visit_mut_children_with(self);
 
         match self.current_element_text_children_type {
-            Some(TextChildrenType::Json) => {
+            Some(TextChildrenType::Json) if n.data.len() > 0 => {
                 let json = match serde_json::from_str::<Value>(&*n.data) {
                     Ok(json) => json,
                     _ => return,
@@ -920,8 +931,7 @@ impl VisitMut for Minifier {
 
                 n.data = minified.into()
             }
-            // TODO source map url output?
-            Some(TextChildrenType::Css) => {
+            Some(TextChildrenType::Css) if n.data.len() > 0 => {
                 let minified = match self.minify_css(n.data.to_string()) {
                     Some(minified) => minified,
                     None => return,
@@ -948,5 +958,7 @@ pub fn minify(document: &mut Document, options: &MinifyOptions) {
 
         remove_empty_attributes: options.remove_empty_attributes,
         collapse_boolean_attributes: options.collapse_boolean_attributes,
+
+        minify_css: options.minify_css,
     });
 }

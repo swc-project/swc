@@ -16,6 +16,8 @@ pub struct MinifyOptions {
     pub remove_empty_attributes: bool,
     #[serde(default = "true_by_default")]
     pub collapse_boolean_attributes: bool,
+    #[serde(default = "true_by_default")]
+    pub minify_css: bool,
 }
 
 /// Implement default using serde.
