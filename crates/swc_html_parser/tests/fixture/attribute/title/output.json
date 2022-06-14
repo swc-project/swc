@@ -40,7 +40,8 @@
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
           "children": [],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         },
         {
           "type": "Element",
@@ -96,7 +97,8 @@
                   "data": "The title Attribute"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -141,7 +143,8 @@
                   "data": "Mouse over this paragraph, to display the title attribute as a tooltip."
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -153,10 +156,12 @@
               "data": "\n\n\n\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         }
       ],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }

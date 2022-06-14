@@ -40,7 +40,8 @@
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
           "children": [],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         },
         {
           "type": "Element",
@@ -83,7 +84,8 @@
                   "data": "HTML Entity Example"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -115,7 +117,8 @@
                   "data": "A space character: &"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -147,7 +150,8 @@
                   "data": "A space character: &"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -179,7 +183,8 @@
                   "data": "A space character: &;"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -211,7 +216,8 @@
                   "data": "A space character:  "
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -243,7 +249,8 @@
                   "data": "The less-than sign: <"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -275,7 +282,8 @@
                   "data": "The greater-than sign: >"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -307,7 +315,8 @@
                   "data": "The double quote sign: \""
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -339,7 +348,8 @@
                   "data": "The single quote sign: '"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -371,7 +381,8 @@
                   "data": "The cent sign: ¢"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -403,7 +414,8 @@
                   "data": "The pound sign: £"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -435,7 +447,8 @@
                   "data": "The yen sign: ¥"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -467,7 +480,8 @@
                   "data": "The euro sign: €"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -499,7 +513,8 @@
                   "data": "The copyright sign: ©"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -531,7 +546,8 @@
                   "data": "The registered trade mark sign: ®"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -563,7 +579,8 @@
                   "data": "®"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -595,7 +612,8 @@
                   "data": "®"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -627,7 +645,8 @@
                   "data": "®;"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -659,7 +678,8 @@
                   "data": "reg"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -691,7 +711,8 @@
                   "data": "∳"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -723,7 +744,8 @@
                   "data": "&®"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -755,7 +777,8 @@
                   "data": "An a with a grave accent: à"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -787,7 +810,8 @@
                   "data": "An a with an acute accent: á"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -819,7 +843,8 @@
                   "data": "An a with a circumflex accent: â"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -851,7 +876,8 @@
                   "data": "An a with a tilde: ã"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -883,7 +909,8 @@
                   "data": "An o with a grave accent: ò"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -915,7 +942,8 @@
                   "data": "An o with an acute accent: ó"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -947,7 +975,8 @@
                   "data": "An o with a circumflex accent: ô"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -979,7 +1008,8 @@
                   "data": "An o with a tilde: õ"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -1011,7 +1041,8 @@
                   "data": "A space character: &&"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -1043,7 +1074,8 @@
                   "data": "I'm ∉ I tell you"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -1075,7 +1107,8 @@
                   "data": "I'm ¬ I tell you"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -1120,7 +1153,8 @@
                   "data": "tired meme"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -1177,7 +1211,8 @@
                   "data": "\n    kablammo!\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -1209,7 +1244,8 @@
                   "data": "✕"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -1241,7 +1277,8 @@
                   "data": "✕"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -1273,7 +1310,8 @@
                   "data": "✕"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -1305,7 +1343,8 @@
                   "data": "$"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -1337,7 +1376,8 @@
                   "data": "$"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -1369,7 +1409,8 @@
                   "data": "$"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -1401,7 +1442,8 @@
                   "data": "$"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -1433,7 +1475,8 @@
                   "data": "$"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -1465,7 +1508,8 @@
                   "data": "I'm ∉ I tell you"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -1497,7 +1541,8 @@
                   "data": "⋹̸"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -1542,7 +1587,8 @@
                   "data": "test"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -1587,7 +1633,8 @@
                   "data": "test"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -1632,7 +1679,8 @@
                   "data": "test"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -1677,7 +1725,8 @@
                   "data": "test"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -1689,10 +1738,12 @@
               "data": "\n\n\n\n\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         }
       ],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }

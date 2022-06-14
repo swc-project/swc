@@ -40,7 +40,8 @@
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
           "children": [],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         },
         {
           "type": "Element",
@@ -105,10 +106,12 @@
                           "data": "baz"
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Element",
@@ -164,10 +167,12 @@
                                   "data": "eggs"
                                 }
                               ],
-                              "content": null
+                              "content": null,
+                              "isSelfClosing": false
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Element",
@@ -212,7 +217,8 @@
                                       "data": "spam"
                                     }
                                   ],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": false
                                 },
                                 {
                                   "type": "Element",
@@ -269,25 +275,32 @@
                                                   "namespace": "http://www.w3.org/1999/xhtml",
                                                   "attributes": [],
                                                   "children": [],
-                                                  "content": null
+                                                  "content": null,
+                                                  "isSelfClosing": false
                                                 }
                                               ],
-                                              "content": null
+                                              "content": null,
+                                              "isSelfClosing": false
                                             }
                                           ],
-                                          "content": null
+                                          "content": null,
+                                          "isSelfClosing": false
                                         }
                                       ],
-                                      "content": null
+                                      "content": null,
+                                      "isSelfClosing": false
                                     }
                                   ],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": false
                                 }
                               ],
-                              "content": null
+                              "content": null,
+                              "isSelfClosing": false
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Element",
@@ -310,16 +323,20 @@
                               "data": "quux"
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -331,10 +348,12 @@
               "data": "bar"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         }
       ],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }

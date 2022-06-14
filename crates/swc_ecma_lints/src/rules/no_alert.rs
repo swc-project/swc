@@ -89,7 +89,7 @@ impl NoAlert {
 
     fn check(&self, call_span: Span, obj: &Option<JsWord>, prop: &JsWord) {
         if let Some(obj) = obj {
-            let obj_name: &str = &*obj;
+            let obj_name: &str = obj;
 
             if self.pass_call_on_global_this && obj_name == GLOBAL_THIS_PROP {
                 return;
@@ -100,7 +100,7 @@ impl NoAlert {
             }
         }
 
-        let fn_name: &str = &*prop;
+        let fn_name: &str = prop;
 
         if FN_NAMES.contains(&fn_name) {
             self.emit_report(call_span, fn_name);

@@ -87,14 +87,14 @@ impl Quotes {
 
         match (&self.prefer, &found_quote_type) {
             (QuotesType::Double, QuotesType::Single) => {
-                if self.avoid_escape && self.is_mirroring_escape(&*value) {
+                if self.avoid_escape && self.is_mirroring_escape(value) {
                     return;
                 }
 
                 self.emit_report(*span);
             }
             (QuotesType::Single, QuotesType::Double) => {
-                if self.avoid_escape && self.is_mirroring_escape(&*value) {
+                if self.avoid_escape && self.is_mirroring_escape(value) {
                     return;
                 }
 
@@ -105,7 +105,7 @@ impl Quotes {
                     return;
                 }
 
-                if self.avoid_escape && self.is_mirroring_escape(&*value) {
+                if self.avoid_escape && self.is_mirroring_escape(value) {
                     return;
                 }
 
@@ -153,7 +153,7 @@ impl Visit for Quotes {
 
     fn visit_expr_stmt(&mut self, expr_stmt: &ExprStmt) {
         if let Expr::Lit(Lit::Str(Str { value, .. })) = expr_stmt.expr.as_ref() {
-            let value: &str = &*value;
+            let value: &str = value;
 
             if DIRECTIVES.contains(&value) {
                 return;

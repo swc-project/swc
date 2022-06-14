@@ -74,7 +74,8 @@
                   "data": "\n//<![CDATA[\ndocument.write(\"<\");\n//]]>\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -106,10 +107,12 @@
                   "data": "\n    let foo = \"<!--<script>-->\";\n\n    console.log(foo);\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         },
         {
           "type": "Element",
@@ -122,10 +125,12 @@
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
           "children": [],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         }
       ],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }

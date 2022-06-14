@@ -15,7 +15,7 @@
  12 | |       Hardly a breath;<br>
  13 | |       The birds are asleep in the trees:<br>
  14 | |       Wait, soon like these<br>
- 15 | |       Thou too shalt rest.
+ 15 | |       Thou too shalt rest.<br/>
  16 | |   </p>
  17 | |   
  18 | |   </body>
@@ -49,7 +49,7 @@
  12 | |       Hardly a breath;<br>
  13 | |       The birds are asleep in the trees:<br>
  14 | |       Wait, soon like these<br>
- 15 | |       Thou too shalt rest.
+ 15 | |       Thou too shalt rest.<br/>
  16 | |   </p>
  17 | |   
  18 | |   </body>
@@ -71,7 +71,7 @@
  12 | |       Hardly a breath;<br>
  13 | |       The birds are asleep in the trees:<br>
  14 | |       Wait, soon like these<br>
- 15 | |       Thou too shalt rest.
+ 15 | |       Thou too shalt rest.<br/>
  16 | |   </p>
  17 | |   
  18 | |   </body>
@@ -173,7 +173,7 @@
  12 | |       Hardly a breath;<br>
  13 | |       The birds are asleep in the trees:<br>
  14 | |       Wait, soon like these<br>
- 15 | |       Thou too shalt rest.
+ 15 | |       Thou too shalt rest.<br/>
  16 | |   </p>
  17 | |   
  18 | `-> </body>
@@ -191,7 +191,7 @@
  12 | |       Hardly a breath;<br>
  13 | |       The birds are asleep in the trees:<br>
  14 | |       Wait, soon like these<br>
- 15 | |       Thou too shalt rest.
+ 15 | |       Thou too shalt rest.<br/>
  16 | |   </p>
  17 | |   
  18 | `-> </body>
@@ -221,7 +221,7 @@
  12 | |       Hardly a breath;<br>
  13 | |       The birds are asleep in the trees:<br>
  14 | |       Wait, soon like these<br>
- 15 | |       Thou too shalt rest.
+ 15 | |       Thou too shalt rest.<br/>
  16 | `-> </p>
     `----
 
@@ -234,7 +234,7 @@
  12 | |       Hardly a breath;<br>
  13 | |       The birds are asleep in the trees:<br>
  14 | |       Wait, soon like these<br>
- 15 | |       Thou too shalt rest.
+ 15 | |       Thou too shalt rest.<br/>
  16 | `-> </p>
     `----
 
@@ -409,15 +409,39 @@
   x Child
     ,-[$DIR/tests/fixture/element/br/input.html:14:5]
  14 | ,-> Wait, soon like these<br>
- 15 | `->     Thou too shalt rest.
- 16 |     </p>
+ 15 | `->     Thou too shalt rest.<br/>
     `----
 
   x Text
     ,-[$DIR/tests/fixture/element/br/input.html:14:5]
  14 | ,-> Wait, soon like these<br>
- 15 | `->     Thou too shalt rest.
- 16 |     </p>
+ 15 | `->     Thou too shalt rest.<br/>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/br/input.html:15:5]
+ 15 | Thou too shalt rest.<br/>
+    :                     ^^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/br/input.html:15:5]
+ 15 | Thou too shalt rest.<br/>
+    :                     ^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/br/input.html:15:5]
+ 15 | Thou too shalt rest.<br/>
+    :                          ^
+ 16 | </p>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/element/br/input.html:15:5]
+ 15 | Thou too shalt rest.<br/>
+    :                          ^
+ 16 | </p>
     `----
 
   x Child

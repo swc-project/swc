@@ -289,7 +289,7 @@ where
                 _ => false,
             };
 
-        let no_children = match n.namespace {
+        let is_void_element = match n.namespace {
             Namespace::HTML => matches!(
                 &*n.tag_name,
                 "area"
@@ -311,20 +311,8 @@ where
                     | "track"
                     | "wbr"
             ),
-            Namespace::SVG => {
-                matches!(
-                    &*n.tag_name,
-                    "circle"
-                        | "ellipse"
-                        | "line"
-                        | "path"
-                        | "polygon"
-                        | "polyline"
-                        | "rect"
-                        | "stop"
-                        | "use"
-                ) && n.children.is_empty()
-            }
+            Namespace::SVG => n.children.is_empty(),
+            Namespace::MATHML => n.children.is_empty(),
             _ => false,
         };
 
@@ -338,7 +326,12 @@ where
                 self.emit_list(&n.attributes, ListFormat::SpaceDelimited)?;
             }
 
-            if no_children && n.namespace == Namespace::SVG {
+            if (matches!(n.namespace, Namespace::SVG | Namespace::MATHML) && is_void_element)
+                || (!self.config.minify
+                    && matches!(n.namespace, Namespace::HTML)
+                    && n.is_self_closing
+                    && is_void_element)
+            {
                 if self.config.minify {
                     let need_space = match n.attributes.last() {
                         Some(Attribute {
@@ -350,9 +343,6 @@ where
                         }),
                         _ => false,
                     };
-
-                    println!("{:?}", n.attributes.last());
-                    println!("{:?}", need_space);
 
                     if need_space {
                         write_raw!(self, " ");
@@ -371,7 +361,7 @@ where
             }
         }
 
-        if no_children {
+        if is_void_element {
             return Ok(());
         }
 

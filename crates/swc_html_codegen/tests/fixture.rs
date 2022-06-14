@@ -318,6 +318,14 @@ fn verify_document_fragment(
 struct DropSpan;
 
 impl VisitMut for DropSpan {
+    fn visit_mut_element(&mut self, n: &mut Element) {
+        n.visit_mut_children_with(self);
+
+        // In normal output we respect `is_self_closing`
+        // In minified output we always avoid end tag for SVG and MathML namespace
+        n.is_self_closing = Default::default();
+    }
+
     fn visit_mut_span(&mut self, n: &mut Span) {
         *n = Default::default()
     }
@@ -354,6 +362,7 @@ fn test_document_fragment(input: PathBuf) {
         tag_name: "template".into(),
         namespace: Namespace::HTML,
         attributes: vec![],
+        is_self_closing: false,
         children: vec![],
         content: None,
     };
@@ -551,6 +560,7 @@ fn html5lib_tests_verify(input: PathBuf) {
             namespace: context_element_namespace,
             tag_name: context_element_tag_name.into(),
             attributes: vec![],
+            is_self_closing: false,
             children: vec![],
             content: None,
         };

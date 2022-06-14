@@ -85,7 +85,8 @@
                 }
               ],
               "children": [],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -117,7 +118,8 @@
                   "data": "Тег PLAINTEXT"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -129,7 +131,8 @@
               "data": "\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         },
         {
           "type": "Text",
@@ -181,7 +184,8 @@
                   "data": "Пример программы"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -213,13 +217,16 @@
                   "data": "\n    <h1>Демонстрация метода Подборского</h1>\n    while (<>) {\n    $org=$_;\n    s/\\\\[\"']//g;\n    s/\\/\\/[^:].*//;\n    s/\\/\\*.*\\*\\///g;\n    if ($comment == 1) {\n    if (s/.*\\*\\///) {\n    $comment = 0;\n    }\n    else {\n    next;\n    }\n    }\n    if (s/\\/\\*.*//) {\n    $comment = 1;\n    }\n    if (/^\\s*#/) {\n    next;\n    }\n    }</plaintext>\n</body>\n</html>"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         }
       ],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }

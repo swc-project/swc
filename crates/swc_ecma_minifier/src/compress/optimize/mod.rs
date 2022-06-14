@@ -2786,7 +2786,7 @@ where
 
 /// If true, `0` in `(0, foo.bar)()` is preserved.
 fn is_callee_this_aware(callee: &Expr) -> bool {
-    match &*callee {
+    match callee {
         Expr::Arrow(..) => return false,
         Expr::Seq(..) => return true,
         Expr::Member(MemberExpr { obj, .. }) => {

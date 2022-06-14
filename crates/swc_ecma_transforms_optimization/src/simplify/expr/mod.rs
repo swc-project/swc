@@ -282,7 +282,7 @@ impl SimplifyExpr {
                         return;
                     }
 
-                    let idx = props.iter().rev().position(|p| match &*p {
+                    let idx = props.iter().rev().position(|p| match p {
                         PropOrSpread::Prop(p) => match &**p {
                             Prop::Shorthand(i) => i.sym == key,
                             Prop::KeyValue(k) => prop_name_eq(&k.key, &key),
@@ -989,14 +989,14 @@ impl SimplifyExpr {
         };
 
         match op {
-            op!("&") => return try_replace!(i32, to_int32(lv) & to_int32(rv)),
-            op!("|") => return try_replace!(i32, to_int32(lv) | to_int32(rv)),
-            op!("^") => return try_replace!(i32, to_int32(lv) ^ to_int32(rv)),
+            op!("&") => try_replace!(i32, to_int32(lv) & to_int32(rv)),
+            op!("|") => try_replace!(i32, to_int32(lv) | to_int32(rv)),
+            op!("^") => try_replace!(i32, to_int32(lv) ^ to_int32(rv)),
             op!("%") => {
                 if rv == 0.0 {
                     return Unknown;
                 }
-                return try_replace!(lv % rv);
+                try_replace!(lv % rv)
             }
             _ => unreachable!("unknown binary operator: {:?}", op),
         }
@@ -1369,9 +1369,7 @@ impl VisitMut for SimplifyExpr {
             }
 
             Expr::Object(ObjectLit { props, .. }) => {
-                let should_work = props
-                    .iter()
-                    .any(|p| matches!(&*p, PropOrSpread::Spread(..)));
+                let should_work = props.iter().any(|p| matches!(p, PropOrSpread::Spread(..)));
                 if !should_work {
                     return;
                 }

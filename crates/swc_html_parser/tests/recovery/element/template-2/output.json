@@ -83,7 +83,8 @@
                   "data": "Document"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -95,7 +96,8 @@
               "data": "\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         },
         {
           "type": "Text",
@@ -240,7 +242,8 @@
                                 "data": "Orphan div content"
                               }
                             ],
-                            "content": null
+                            "content": null,
+                            "isSelfClosing": false
                           },
                           {
                             "type": "Element",
@@ -309,10 +312,12 @@
                                             "data": "Cell 1"
                                           }
                                         ],
-                                        "content": null
+                                        "content": null,
+                                        "isSelfClosing": false
                                       }
                                     ],
-                                    "content": null
+                                    "content": null,
+                                    "isSelfClosing": false
                                   },
                                   {
                                     "type": "Element",
@@ -346,25 +351,32 @@
                                             "data": "Cell 2"
                                           }
                                         ],
-                                        "content": null
+                                        "content": null,
+                                        "isSelfClosing": false
                                       }
                                     ],
-                                    "content": null
+                                    "content": null,
+                                    "isSelfClosing": false
                                   }
                                 ],
-                                "content": null
+                                "content": null,
+                                "isSelfClosing": false
                               }
                             ],
-                            "content": null
+                            "content": null,
+                            "isSelfClosing": false
                           }
                         ],
-                        "content": null
+                        "content": null,
+                        "isSelfClosing": false
                       }
                     ]
-                  }
+                  },
+                  "isSelfClosing": false
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -376,10 +388,12 @@
               "data": "\n\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         }
       ],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }

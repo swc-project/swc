@@ -1634,7 +1634,7 @@ where
                         let mut v = UsageCounter {
                             expr_usage: Default::default(),
                             pat_usage: Default::default(),
-                            target: &*a_id,
+                            target: a_id,
                             in_lhs: false,
                         };
                         b.visit_with(&mut v);
@@ -1706,7 +1706,7 @@ where
                         let mut v = UsageCounter {
                             expr_usage: Default::default(),
                             pat_usage: Default::default(),
-                            target: &*a_id,
+                            target: a_id,
                             in_lhs: false,
                         };
                         b.visit_with(&mut v);

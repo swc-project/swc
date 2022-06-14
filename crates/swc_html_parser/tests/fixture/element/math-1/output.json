@@ -83,7 +83,8 @@
                   "data": "Document"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -95,7 +96,8 @@
               "data": "\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         },
         {
           "type": "Text",
@@ -205,13 +207,16 @@
                           "namespace": "http://www.w3.org/1998/Math/MathML",
                           "attributes": [],
                           "children": [],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": true
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -268,7 +273,8 @@
                           "namespace": "http://www.w3.org/1998/Math/MathML",
                           "attributes": [],
                           "children": [],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": true
                         },
                         {
                           "type": "Element",
@@ -281,13 +287,16 @@
                           "namespace": "http://www.w3.org/1998/Math/MathML",
                           "attributes": [],
                           "children": [],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": true
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -376,10 +385,12 @@
                                       "data": "1"
                                     }
                                   ],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": false
                                 }
                               ],
-                              "content": null
+                              "content": null,
+                              "isSelfClosing": false
                             },
                             {
                               "type": "Element",
@@ -402,16 +413,20 @@
                                   "data": "a"
                                 }
                               ],
-                              "content": null
+                              "content": null,
+                              "isSelfClosing": false
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -456,7 +471,8 @@
                       "data": "⟨⟩"
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -501,7 +517,8 @@
                       "data": "𝕂"
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -579,7 +596,8 @@
                                   "data": "a"
                                 }
                               ],
-                              "content": null
+                              "content": null,
+                              "isSelfClosing": false
                             },
                             {
                               "type": "Element",
@@ -603,7 +621,8 @@
                                   "namespace": "http://www.w3.org/1998/Math/MathML",
                                   "attributes": [],
                                   "children": [],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": true
                                 },
                                 {
                                   "type": "Element",
@@ -616,19 +635,24 @@
                                   "namespace": "http://www.w3.org/1998/Math/MathML",
                                   "attributes": [],
                                   "children": [],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": true
                                 }
                               ],
-                              "content": null
+                              "content": null,
+                              "isSelfClosing": false
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -706,7 +730,8 @@
                                   "data": "a"
                                 }
                               ],
-                              "content": null
+                              "content": null,
+                              "isSelfClosing": false
                             },
                             {
                               "type": "Element",
@@ -743,13 +768,16 @@
                                   "namespace": "http://www.w3.org/1999/xhtml",
                                   "attributes": [],
                                   "children": [],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": false
                                 }
                               ],
-                              "content": null
+                              "content": null,
+                              "isSelfClosing": false
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Element",
@@ -762,13 +790,16 @@
                           "namespace": "http://www.w3.org/1998/Math/MathML",
                           "attributes": [],
                           "children": [],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": true
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -780,7 +811,8 @@
                   "data": "\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -857,13 +889,16 @@
                           "namespace": "http://www.w3.org/1998/Math/MathML",
                           "attributes": [],
                           "children": [],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": true
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -933,13 +968,16 @@
                             }
                           ],
                           "children": [],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": true
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -1030,7 +1068,8 @@
                                   "data": "a"
                                 }
                               ],
-                              "content": null
+                              "content": null,
+                              "isSelfClosing": false
                             },
                             {
                               "type": "Element",
@@ -1054,7 +1093,8 @@
                                   "namespace": "http://www.w3.org/1998/Math/MathML",
                                   "attributes": [],
                                   "children": [],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": true
                                 },
                                 {
                                   "type": "Element",
@@ -1067,19 +1107,24 @@
                                   "namespace": "http://www.w3.org/1998/Math/MathML",
                                   "attributes": [],
                                   "children": [],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": true
                                 }
                               ],
-                              "content": null
+                              "content": null,
+                              "isSelfClosing": false
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -1157,16 +1202,20 @@
                                   "data": "x"
                                 }
                               ],
-                              "content": null
+                              "content": null,
+                              "isSelfClosing": false
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -1244,16 +1293,20 @@
                                   "data": "x"
                                 }
                               ],
-                              "content": null
+                              "content": null,
+                              "isSelfClosing": false
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -1331,16 +1384,20 @@
                                   "data": "x"
                                 }
                               ],
-                              "content": null
+                              "content": null,
+                              "isSelfClosing": false
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -1418,16 +1475,20 @@
                                   "data": "x"
                                 }
                               ],
-                              "content": null
+                              "content": null,
+                              "isSelfClosing": false
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -1439,7 +1500,8 @@
                   "data": "\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -1451,10 +1513,12 @@
               "data": "\n\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         }
       ],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }

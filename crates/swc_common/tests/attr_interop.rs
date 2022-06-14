@@ -13,7 +13,7 @@ pub struct Class {
 #[ast_node("Tuple")]
 pub struct Tuple(#[span] HasSpan, usize, usize);
 
-#[derive(Debug, Clone, PartialEq, Spanned, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Spanned, Serialize, Deserialize)]
 #[cfg_attr(
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)

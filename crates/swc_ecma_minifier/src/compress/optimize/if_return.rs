@@ -458,7 +458,11 @@ where
     }
 
     fn can_merge_stmt_as_if_return(&self, s: &Stmt, _is_last: bool) -> bool {
-        let res = match s {
+        // if !res {
+        //     trace!("Cannot merge: {}", dump(s));
+        // }
+
+        match s {
             Stmt::Expr(..) => true,
             Stmt::Return(..) => true,
             Stmt::Block(s) => {
@@ -472,12 +476,7 @@ where
                     )
             }
             _ => false,
-        };
-        // if !res {
-        //     trace!("Cannot merge: {}", dump(s));
-        // }
-
-        res
+        }
     }
 }
 

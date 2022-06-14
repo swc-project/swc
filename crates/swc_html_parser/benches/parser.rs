@@ -36,6 +36,7 @@ fn bench_document_fragment(b: &mut Bencher, src: &'static str) {
                     tag_name: "template".into(),
                     namespace: Namespace::HTML,
                     attributes: vec![],
+                    is_self_closing: false,
                     children: vec![],
                     content: None,
                 })

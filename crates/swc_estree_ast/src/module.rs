@@ -67,7 +67,7 @@ pub struct File {
     pub tokens: Option<Vec<Value>>, // TODO: is this the right way to model any?
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(tag = "type")]
 pub struct InterpreterDirective {
     #[serde(flatten)]
@@ -76,7 +76,7 @@ pub struct InterpreterDirective {
     pub value: JsWord,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "lowercase")]
 pub enum SrcType {
     Script,
@@ -101,7 +101,7 @@ pub struct Program {
     pub source_file: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "lowercase")]
 pub enum ExportKind {
     Type,
@@ -197,7 +197,7 @@ pub struct ExportNamedDeclaration {
     pub export_kind: Option<ExportKind>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(tag = "type")]
 pub struct Import {
     #[serde(flatten)]
@@ -252,7 +252,7 @@ pub enum ImportSpecifierType {
     Namespace(ImportNamespaceSpecifier),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "lowercase")]
 pub enum ImportKind {
     Type,

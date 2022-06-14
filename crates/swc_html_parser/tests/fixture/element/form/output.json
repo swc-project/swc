@@ -83,7 +83,8 @@
                   "data": "Document"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -95,7 +96,8 @@
               "data": "\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         },
         {
           "type": "Text",
@@ -250,7 +252,8 @@
                           "data": "Enter your name: "
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -321,7 +324,8 @@
                         }
                       ],
                       "children": [],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -333,7 +337,8 @@
                       "data": "\n    "
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -411,7 +416,8 @@
                           "data": "Enter your email: "
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -482,7 +488,8 @@
                         }
                       ],
                       "children": [],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -494,7 +501,8 @@
                       "data": "\n    "
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -574,7 +582,8 @@
                         }
                       ],
                       "children": [],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -586,7 +595,8 @@
                       "data": "\n    "
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -598,7 +608,8 @@
                   "data": "\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -683,7 +694,8 @@
                           "data": "Title"
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -741,7 +753,8 @@
                             }
                           ],
                           "children": [],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Text",
@@ -753,7 +766,8 @@
                           "data": " Select me"
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -765,7 +779,8 @@
                       "data": "\n    "
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -777,7 +792,8 @@
                   "data": "\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -789,10 +805,12 @@
               "data": "\n\n\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         }
       ],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }

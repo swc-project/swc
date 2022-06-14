@@ -29,7 +29,8 @@
           "namespace": "http://www.w3.org/1999/xhtml",
           "attributes": [],
           "children": [],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         },
         {
           "type": "Element",
@@ -63,7 +64,8 @@
                   "data": "Hello"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -95,7 +97,8 @@
                   "data": "\nconsole.log(\"FOO<span>BAR</span>BAZ\");\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -127,13 +130,16 @@
                   "data": "Bye"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         }
       ],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }

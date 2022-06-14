@@ -637,11 +637,11 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                     Token::EndTag {
                         ref mut raw_tag_name,
                         ref mut attributes,
-                        ref mut self_closing,
+                        ref mut is_self_closing,
                         ..
                     } => {
                         *raw_tag_name = None;
-                        *self_closing = false;
+                        *is_self_closing = false;
                         *attributes = vec![];
                     }
                     Token::Character { ref mut raw, .. } => {
@@ -659,7 +659,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                 for output_token in output_tokens {
                     match output_token {
                         Value::Array(token_parts) => {
-                            let tokens = match &*token_parts[0].as_str().expect("failed") {
+                            let tokens = match token_parts[0].as_str().expect("failed") {
                                 "DOCTYPE" => {
                                     let name: Option<String> =
                                         serde_json::from_value(token_parts[1].clone())
@@ -723,14 +723,14 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                                         }
                                     }
 
-                                    let mut self_closing = false;
+                                    let mut is_self_closing = false;
 
-                                    if let Some(json_self_closing) = token_parts.get(3) {
+                                    if let Some(json_is_self_closing) = token_parts.get(3) {
                                         let value: bool =
-                                            serde_json::from_value(json_self_closing.clone())
+                                            serde_json::from_value(json_is_self_closing.clone())
                                                 .expect("failed to deserialize");
 
-                                        self_closing = value;
+                                        is_self_closing = value;
                                     }
 
                                     attributes.sort_by(|a, b| a.name.partial_cmp(&b.name).unwrap());
@@ -738,7 +738,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                                     vec![Token::StartTag {
                                         tag_name: tag_name.into(),
                                         raw_tag_name: None,
-                                        self_closing,
+                                        is_self_closing,
                                         attributes,
                                     }]
                                 }
@@ -750,7 +750,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                                     vec![Token::EndTag {
                                         tag_name: tag_name.into(),
                                         raw_tag_name: None,
-                                        self_closing: false,
+                                        is_self_closing: false,
                                         attributes: vec![],
                                     }]
                                 }
@@ -1195,6 +1195,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                 namespace: context_element_namespace,
                 tag_name: context_element_tag_name.into(),
                 attributes: vec![],
+                is_self_closing: false,
                 children: vec![],
                 content: None,
             };

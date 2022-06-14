@@ -282,7 +282,7 @@ impl StmtLike for ModuleItem {
 
     #[inline]
     fn as_stmt(&self) -> Option<&Stmt> {
-        match &*self {
+        match self {
             ModuleItem::Stmt(stmt) => Some(stmt),
             _ => None,
         }
@@ -341,7 +341,7 @@ impl<T: IsEmpty> IsEmpty for Option<T> {
 impl<T: IsEmpty> IsEmpty for Box<T> {
     #[inline]
     fn is_empty(&self) -> bool {
-        <T as IsEmpty>::is_empty(&*self)
+        <T as IsEmpty>::is_empty(self)
     }
 }
 
@@ -2264,7 +2264,7 @@ impl ExprCtx {
 }
 
 pub fn prop_name_eq(p: &PropName, key: &str) -> bool {
-    match &*p {
+    match p {
         PropName::Ident(i) => i.sym == *key,
         PropName::Str(s) => s.value == *key,
         PropName::Num(_) => false,

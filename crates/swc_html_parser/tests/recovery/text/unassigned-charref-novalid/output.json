@@ -64,7 +64,8 @@
                 }
               ],
               "children": [],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Element",
@@ -87,10 +88,12 @@
                   "data": "&#xfdd0;"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         },
         {
           "type": "Element",
@@ -124,13 +127,16 @@
                   "data": "There should be an error.﷐"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         }
       ],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }

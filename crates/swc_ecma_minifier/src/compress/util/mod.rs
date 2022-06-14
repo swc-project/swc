@@ -470,7 +470,7 @@ pub(crate) fn eval_as_number(expr_ctx: &ExprCtx, e: &Expr) -> Option<f64> {
             args,
             ..
         }) => {
-            for arg in &*args {
+            for arg in args {
                 if arg.spread.is_some() || arg.expr.may_have_side_effects(expr_ctx) {
                     return None;
                 }

@@ -83,7 +83,8 @@
                   "data": "Document"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -95,7 +96,8 @@
               "data": "\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         },
         {
           "type": "Text",
@@ -147,7 +149,8 @@
                   "data": "This text will scroll from right to left"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -192,7 +195,8 @@
                   "data": "This text will scroll from bottom to top"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -318,7 +322,8 @@
                       "data": "\n        This text will bounce\n    "
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -330,7 +335,8 @@
                   "data": "\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -342,10 +348,12 @@
               "data": "\n\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         }
       ],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }
