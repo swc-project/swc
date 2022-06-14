@@ -1,20 +1,20 @@
 use swc_atoms::{js_word, JsWord};
-use swc_common::{collections::AHashMap, util::take::Take, FileName, Mark, Span, DUMMY_SP};
+use swc_common::{util::take::Take, FileName, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{is_valid_prop_ident, quote_ident, ExprFactory, IntoIndirectCall};
+use swc_ecma_utils::{is_valid_prop_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub use super::util::Config;
 use crate::{
+    import_ref_rewriter::{ImportMap, ImportRefRewriter},
     module_decl_strip::{Export, Link, LinkItem, ModuleDeclStrip, Specifier},
     path::{ImportResolver, Resolver},
-    util::{has_use_strict, lazy_ident_from_src, prop_function, prop_name, use_strict},
+    util::{has_use_strict, lazy_ident_from_src, prop_function, use_strict},
 };
 
 pub fn cjs(unresolved_mark: Mark, config: Config) -> impl Fold + VisitMut {
     as_folder(Cjs {
         config,
-        import_map: Default::default(),
         resolver: Resolver::Default,
         unresolved_mark,
     })
@@ -28,7 +28,6 @@ pub fn cjs_with_resolver(
 ) -> impl Fold + VisitMut {
     as_folder(Cjs {
         config,
-        import_map: Default::default(),
         resolver: Resolver::Real { base, resolver },
         unresolved_mark,
     })
@@ -36,26 +35,6 @@ pub fn cjs_with_resolver(
 
 pub struct Cjs {
     config: Config,
-
-    /// ```javascript
-    /// import foo, { a as b, c } from "mod";
-    /// import * as x from "x";
-    /// foo, b, c;
-    /// x;
-    /// ```
-    /// ->
-    /// ```javascript
-    /// _mod.default, _mod.a, _mod.c;
-    /// _x;
-    ///
-    /// Map(
-    ///     foo => (_mod, Some("default")),
-    ///     b => (_mod, Some("a")),
-    ///     c => (_mod, Some("c")),
-    ///     x => (_x, None),
-    /// )
-    /// ```
-    import_map: AHashMap<Id, (Ident, Option<JsWord>)>,
 
     resolver: Resolver,
     unresolved_mark: Mark,
@@ -77,59 +56,28 @@ impl VisitMut for Cjs {
 
         let ModuleDeclStrip { link, export, .. } = strip;
 
-        stmts.extend(self.handle_import_export(link, export).map(Into::into));
+        let mut import_map = Default::default();
+
+        stmts.extend(
+            self.handle_import_export(&mut import_map, link, export)
+                .map(Into::into),
+        );
 
         stmts.extend(n.take());
 
-        stmts.visit_mut_children_with(self);
+        stmts.visit_mut_children_with(&mut ImportRefRewriter { import_map });
 
         *n = stmts;
-    }
-
-    fn visit_mut_expr(&mut self, n: &mut Expr) {
-        match n {
-            Expr::Ident(ref_ident) => {
-                if let Some((mod_ident, mod_prop)) = self.import_map.get(&ref_ident.to_id()) {
-                    if let Some(imported_name) = mod_prop {
-                        let prop = prop_name(imported_name, ref_ident.span).into();
-
-                        *n = MemberExpr {
-                            obj: Box::new(mod_ident.clone().into()),
-                            span: DUMMY_SP,
-                            prop,
-                        }
-                        .into()
-                    } else {
-                        let span = ref_ident.span.with_ctxt(mod_ident.span.ctxt);
-                        *ref_ident = mod_ident.clone();
-                        ref_ident.span = span;
-                    }
-                }
-            }
-
-            _ => n.visit_mut_children_with(self),
-        };
-    }
-
-    fn visit_mut_callee(&mut self, n: &mut Callee) {
-        match n {
-            Callee::Expr(e) if e.is_ident() => {
-                let is_call_imported =
-                    matches!(e.as_ident(), Some(i) if self.import_map.contains_key(&i.to_id()));
-
-                e.visit_mut_with(self);
-
-                if is_call_imported {
-                    *n = n.take().into_indirect()
-                }
-            }
-            _ => n.visit_mut_children_with(self),
-        }
     }
 }
 
 impl Cjs {
-    fn handle_import_export(&mut self, link: Link, export: Export) -> impl Iterator<Item = Stmt> {
+    fn handle_import_export(
+        &self,
+        import_map: &mut ImportMap,
+        link: Link,
+        export: Export,
+    ) -> impl Iterator<Item = Stmt> {
         let mut stmts = Vec::with_capacity(link.len());
 
         let exports = quote_ident!("exports");
@@ -147,8 +95,7 @@ impl Cjs {
                 Specifier::ImportNamed { imported, local } => {
                     let binding_ident = lazy_ident_from_src(&src, &mut mod_ident);
 
-                    self.import_map
-                        .insert(local.clone(), (binding_ident, imported.or(Some(local.0))));
+                    import_map.insert(local.clone(), (binding_ident, imported.or(Some(local.0))));
                 }
                 Specifier::ImportDefault(id) => {
                     let binding_ident = lazy_ident_from_src(&src, &mut mod_ident);
@@ -157,8 +104,7 @@ impl Cjs {
                         should_wrap_with_to_esm = true;
                     }
 
-                    self.import_map
-                        .insert(id, (binding_ident, Some(js_word!("default"))));
+                    import_map.insert(id, (binding_ident, Some(js_word!("default"))));
                 }
                 Specifier::ImportStarAs(id) => {
                     let binding_ident = lazy_ident_from_src(&src, &mut mod_ident);
@@ -167,7 +113,7 @@ impl Cjs {
                         should_wrap_with_to_esm = true;
                     }
 
-                    self.import_map.insert(id, (binding_ident, None));
+                    import_map.insert(id, (binding_ident, None));
                 }
                 Specifier::ExportNamed { orig, exported } => {
                     let binding_ident = lazy_ident_from_src(&src, &mut mod_ident);

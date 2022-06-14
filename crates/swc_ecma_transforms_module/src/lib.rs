@@ -13,6 +13,7 @@ pub mod cjs;
 pub mod common_js;
 pub mod hoist;
 pub mod import_analysis;
+pub(crate) mod import_ref_rewriter;
 pub(crate) mod module_decl_strip;
 pub mod path;
 pub mod rewriter;
