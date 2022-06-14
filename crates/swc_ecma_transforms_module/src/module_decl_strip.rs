@@ -84,11 +84,26 @@ impl VisitMut for ModuleDeclStrip {
     /// class y {}
     /// ```
     fn visit_mut_export_decl(&mut self, n: &mut ExportDecl) {
-        self.export
-            .extend(find_pat_ids::<_, Ident>(&n.decl).into_iter().map(|id| {
-                let ident = id.clone();
-                ((id.sym, id.span), ident)
-            }));
+        match &n.decl {
+            Decl::Class(c) => {
+                let ident = c.ident.clone();
+
+                self.export.insert((ident.sym.clone(), ident.span), ident);
+            }
+            Decl::Fn(f) => {
+                let ident = f.ident.clone();
+
+                self.export.insert((ident.sym.clone(), ident.span), ident);
+            }
+            Decl::Var(v) => {
+                self.export
+                    .extend(find_pat_ids::<_, Ident>(&v.decls).into_iter().map(|id| {
+                        let ident = id.clone();
+                        ((id.sym, id.span), ident)
+                    }));
+            }
+            _ => unreachable!(),
+        };
 
         self.set_stmt(n.decl.take());
     }

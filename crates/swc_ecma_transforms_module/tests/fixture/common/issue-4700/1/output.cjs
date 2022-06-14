@@ -1,11 +1,5 @@
 "use strict";
 __export(exports, {
-    notExportName: function() {
-        return notExportName;
-    },
-    shouldNotBeExportNameAsWell: function() {
-        return shouldNotBeExportNameAsWell;
-    },
     whatever: function() {
         return whatever;
     }
