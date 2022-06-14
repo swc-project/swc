@@ -217,7 +217,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     }
                 }
 
-                chunk_start = cur_pos + BytePos(1);
+                chunk_start = cur_pos + BytePos(ch.len_utf8() as _);
             } else {
                 self.input.bump();
             }

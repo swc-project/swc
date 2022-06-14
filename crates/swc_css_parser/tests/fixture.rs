@@ -1,3 +1,4 @@
+#![deny(warnings)]
 #![allow(clippy::needless_update)]
 
 use std::path::PathBuf;
@@ -36,7 +37,7 @@ fn stylesheet_test(input: PathBuf, config: ParserConfig) {
                     .map(NormalizedOutput::from)
                     .expect("failed to serialize stylesheet");
 
-                actual_json.clone().compare_to_file(&ref_json_path).unwrap();
+                actual_json.compare_to_file(&ref_json_path).unwrap();
 
                 Ok(())
             }
@@ -91,7 +92,7 @@ fn stylesheet_test_tokens(input: PathBuf, config: ParserConfig) {
                     .map(NormalizedOutput::from)
                     .expect("failed to serialize stylesheet");
 
-                actual_json.clone().compare_to_file(&ref_json_path).unwrap();
+                actual_json.compare_to_file(&ref_json_path).unwrap();
 
                 Ok(())
             }
@@ -139,7 +140,7 @@ fn stylesheet_recovery_test(input: PathBuf, config: ParserConfig) {
                     .map(NormalizedOutput::from)
                     .expect("failed to serialize stylesheet");
 
-                actual_json.clone().compare_to_file(&ref_json_path).unwrap();
+                actual_json.compare_to_file(&ref_json_path).unwrap();
 
                 Err(())
             }
@@ -212,7 +213,7 @@ fn stylesheet_recovery_test_tokens(input: PathBuf, config: ParserConfig) {
                     .map(NormalizedOutput::from)
                     .expect("failed to serialize stylesheet");
 
-                actual_json.clone().compare_to_file(&ref_json_path).unwrap();
+                actual_json.compare_to_file(&ref_json_path).unwrap();
 
                 Err(())
             }
