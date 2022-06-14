@@ -95,7 +95,7 @@ where
 
         if let Some(ref shebang) = node.shebang {
             punct!("#!");
-            self.wr.write_str_lit(DUMMY_SP, &*shebang)?;
+            self.wr.write_str_lit(DUMMY_SP, shebang)?;
             self.wr.write_line()?;
         }
         for stmt in &node.body {
@@ -113,7 +113,7 @@ where
 
         if let Some(ref shebang) = node.shebang {
             punct!("#!");
-            self.wr.write_str_lit(DUMMY_SP, &*shebang)?;
+            self.wr.write_str_lit(DUMMY_SP, shebang)?;
             self.wr.write_line()?;
         }
         for stmt in &node.body {

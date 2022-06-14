@@ -659,7 +659,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                 for output_token in output_tokens {
                     match output_token {
                         Value::Array(token_parts) => {
-                            let tokens = match &*token_parts[0].as_str().expect("failed") {
+                            let tokens = match token_parts[0].as_str().expect("failed") {
                                 "DOCTYPE" => {
                                     let name: Option<String> =
                                         serde_json::from_value(token_parts[1].clone())

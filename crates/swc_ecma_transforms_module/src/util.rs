@@ -935,9 +935,9 @@ pub(super) fn has_use_strict(stmts: &[ModuleItem]) -> bool {
         return false;
     }
 
-    if let ModuleItem::Stmt(Stmt::Expr(ExprStmt { expr, .. })) = &*stmts.first().unwrap() {
+    if let ModuleItem::Stmt(Stmt::Expr(ExprStmt { expr, .. })) = stmts.first().unwrap() {
         if let Expr::Lit(Lit::Str(Str { ref value, .. })) = &**expr {
-            return &*value == "use strict";
+            return value == "use strict";
         }
     }
 

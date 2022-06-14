@@ -663,7 +663,7 @@ impl VisitMut for Minifier {
                         && (index == 1
                             || self.collapse_whitespaces == Some(CollapseWhitespaces::All))
                     {
-                        &*text.data.trim_start_matches(is_whitespace)
+                        text.data.trim_start_matches(is_whitespace)
                     } else {
                         &*text.data
                     };
@@ -735,7 +735,7 @@ impl VisitMut for Minifier {
             }
 
             if self.remove_empty_attributes {
-                let value = &*attribute.value.as_ref().unwrap();
+                let value = attribute.value.as_ref().unwrap();
 
                 if (matches!(&*attribute.name, "id") && value.is_empty())
                     || (matches!(&*attribute.name, "class" | "style") && value.is_empty())

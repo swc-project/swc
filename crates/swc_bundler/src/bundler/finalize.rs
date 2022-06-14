@@ -89,12 +89,8 @@ where
                                     )
                                     .into();
                                 }
-                                return format!(
-                                    "{}-{}",
-                                    path.file_stem().unwrap().to_string_lossy(),
-                                    hash,
-                                )
-                                .into();
+                                format!("{}-{}", path.file_stem().unwrap().to_string_lossy(), hash,)
+                                    .into()
                             })
                             .expect("javascript file should have name");
                         new_name.pop();
@@ -403,7 +399,7 @@ where
                 .as_os_str()
                 .to_string_lossy();
             let base = RelativePath::new(&*base);
-            let v = base.relative(&*v);
+            let v = base.relative(v);
             let value = v.as_str();
             return ImportDecl {
                 src: Str {

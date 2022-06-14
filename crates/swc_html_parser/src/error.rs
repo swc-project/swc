@@ -7,7 +7,7 @@ use swc_common::{
 };
 
 /// Size is same as a size of a pointer.
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Error {
     inner: Box<(Span, ErrorKind)>,
 }
@@ -258,7 +258,7 @@ impl Error {
     }
 }
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 #[non_exhaustive]
 pub enum ErrorKind {
     Eof,

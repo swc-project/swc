@@ -1527,7 +1527,7 @@ impl GlobalPassOption {
                             cm,
                             handler,
                             env::vars()
-                                .filter(|(k, _)| env_list.contains(&*k))
+                                .filter(|(k, _)| env_list.contains(k))
                                 .map(|(k, v)| (k.into(), v.into())),
                             true,
                         );

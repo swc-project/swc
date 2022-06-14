@@ -603,11 +603,11 @@ where
         if self.open_elements_stack.items.is_empty()
             || is_element_in_html_namespace
             || (is_mathml_text_integration_point
-                && matches!(&token_and_info.token, Token::StartTag { tag_name, .. } if &*tag_name != "mglyph" &&  &*tag_name != "malignmark"))
+                && matches!(&token_and_info.token, Token::StartTag { tag_name, .. } if tag_name != "mglyph" &&  tag_name != "malignmark"))
             || (is_mathml_text_integration_point
                 && matches!(&token_and_info.token, Token::Character { .. }))
             || (is_mathml_annotation_xml
-                && matches!(&token_and_info.token, Token::StartTag { tag_name, .. } if &*tag_name == "svg"))
+                && matches!(&token_and_info.token, Token::StartTag { tag_name, .. } if tag_name == "svg"))
             || (is_html_integration_point
                 && matches!(&token_and_info.token, Token::StartTag { .. }))
             || (is_html_integration_point
@@ -2057,7 +2057,7 @@ where
                 let anything_else = |parser: &mut Parser<I>,
                                      token_and_info: &mut TokenAndInfo|
                  -> PResult<()> {
-                    let span = if matches!(&token_and_info.token, Token::EndTag { tag_name, .. } if &*tag_name == "body")
+                    let span = if matches!(&token_and_info.token, Token::EndTag { tag_name, .. } if tag_name == "body")
                     {
                         Some(token_and_info.span)
                     } else {
@@ -6557,7 +6557,7 @@ where
     fn any_other_end_tag_for_in_body_insertion_mode(&mut self, token_and_info: &mut TokenAndInfo) {
         let mut match_idx = None;
         let tag_name = match &token_and_info.token {
-            Token::StartTag { tag_name, .. } | Token::EndTag { tag_name, .. } => &*tag_name,
+            Token::StartTag { tag_name, .. } | Token::EndTag { tag_name, .. } => tag_name,
             _ => {
                 unreachable!();
             }
@@ -8425,7 +8425,7 @@ fn is_mathml_annotation_xml(node: Option<&RcNode>) -> bool {
                 namespace,
                 tag_name,
                 ..
-            } if *namespace == Namespace::MATHML && &*tag_name == "annotation-xml" => {
+            } if *namespace == Namespace::MATHML && tag_name == "annotation-xml" => {
                 return true;
             }
             _ => {
