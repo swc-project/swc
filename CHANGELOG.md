@@ -1,6 +1,22 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(html/minifier)** Add `collapse_boolean_attributes` option (#4960) ([3957bc6](https://github.com/swc-project/swc/commit/3957bc64b7d278cdf737e9da514fa94780044be2))
+
+## [1.2.201] - 2022-06-14
+
+### Bug Fixes
+
+
+
+- **(ci)** Revert malloc changes ([709ad3e](https://github.com/swc-project/swc/commit/709ad3e087e833c5bc69c887ca963e4b7a9a81f7))
+
+## [1.2.200] - 2022-06-14
+
 ### Bug Fixes
 
 
