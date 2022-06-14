@@ -27,7 +27,7 @@ use mode::Mode;
 use once_cell::sync::Lazy;
 use swc_common::{comments::Comments, pass::Repeat, sync::Lrc, SourceMap, GLOBALS};
 use swc_ecma_ast::Program;
-use swc_ecma_visit::{FoldWith, VisitMutWith};
+use swc_ecma_visit::VisitMutWith;
 use swc_timer::timer;
 use timing::Timings;
 
@@ -147,7 +147,7 @@ pub fn optimize(
             let _timer = timer!("compress ast");
 
             m = GLOBALS.with(|globals| {
-                m.fold_with(&mut compressor(globals, marks, options, &Minification))
+                m.visit_mut_with(&mut compressor(globals, marks, options, &Minification))
             });
         }
 
