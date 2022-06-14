@@ -7,6 +7,12 @@
 
 - **(es/parser)** Don't assume the length of char (#4967) ([3e03ebf](https://github.com/swc-project/swc/commit/3e03ebf8bb527d3237b309c3df3a24bc9ebf7314))
 
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Use macos for release builds (#4968) ([1bf2b80](https://github.com/swc-project/swc/commit/1bf2b80f97c736cc7aae1a9c04325044839d0a3b))
+
 ## [1.2.202] - 2022-06-14
 
 ### Bug Fixes
