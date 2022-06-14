@@ -2,12 +2,16 @@
 
 use serde_json::Value;
 use swc_atoms::{js_word, JsWord};
-use swc_common::collections::AHashSet;
+use swc_common::{collections::AHashSet, sync::Lrc, FileName, FilePathMapping, SourceMap};
+use swc_css_codegen::{
+    writer::basic::{BasicCssWriter, BasicCssWriterConfig},
+    CodeGenerator, CodegenConfig, Emit,
+};
+use swc_css_parser::parse_file;
 use swc_html_ast::*;
 use swc_html_visit::{VisitMut, VisitMutWith};
 
 use crate::option::{CollapseWhitespaces, MinifyOptions};
-
 pub mod option;
 
 static HTML_BOOLEAN_ATTRIBUTES: &[&str] = &[
@@ -251,6 +255,7 @@ enum MetaElementContentType {
 
 enum TextChildrenType {
     Json,
+    Css,
 }
 
 #[inline(always)]
@@ -559,10 +564,84 @@ impl Minifier {
 
         collapsed
     }
+
+    fn minify_css(&self, data: String) -> Option<String> {
+        let mut errors: Vec<_> = vec![];
+
+        let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
+        let fm = cm.new_source_file(FileName::Anon, data);
+
+        let mut stylesheet = match parse_file(&fm, Default::default(), &mut errors) {
+            Ok(stylesheet) => stylesheet,
+            _ => return None,
+        };
+
+        // Avoid compress potential invalid CSS
+        if !errors.is_empty() {
+            return None;
+        }
+
+        swc_css_minifier::minify(&mut stylesheet);
+
+        let mut minified = String::new();
+        let wr = BasicCssWriter::new(&mut minified, None, BasicCssWriterConfig::default());
+        let mut gen = CodeGenerator::new(wr, CodegenConfig { minify: true });
+
+        gen.emit(&stylesheet).unwrap();
+
+        Some(minified)
+    }
 }
 
 impl VisitMut for Minifier {
     fn visit_mut_element(&mut self, n: &mut Element) {
+        let mut already_seen: AHashSet<JsWord> = Default::default();
+
+        n.attributes.retain(|attribute| {
+            if already_seen.contains(&attribute.name) {
+                return false;
+            }
+
+            already_seen.insert(attribute.name.clone());
+
+            if attribute.value.is_none() {
+                return true;
+            }
+
+            if self.is_default_attribute_value(
+                n.namespace,
+                &n.tag_name,
+                &attribute.name,
+                match &*n.tag_name {
+                    "script" if n.namespace == Namespace::HTML => {
+                        let original_value = attribute.value.as_ref().unwrap();
+
+                        if let Some(next) = original_value.split(';').next() {
+                            next
+                        } else {
+                            original_value
+                        }
+                    }
+                    _ => attribute.value.as_ref().unwrap(),
+                },
+            ) {
+                return false;
+            }
+
+            if self.remove_empty_attributes {
+                let value = attribute.value.as_ref().unwrap();
+
+                if (matches!(&*attribute.name, "id") && value.is_empty())
+                    || (matches!(&*attribute.name, "class" | "style") && value.is_empty())
+                    || self.is_event_handler_attribute(&attribute.name) && value.is_empty()
+                {
+                    return false;
+                }
+            }
+
+            true
+        });
+
         self.current_element_namespace = Some(n.namespace);
         self.current_element_tag_name = Some(n.tag_name.clone());
 
@@ -627,6 +706,25 @@ impl VisitMut for Minifier {
                     }) =>
                 {
                     self.current_element_text_children_type = Some(TextChildrenType::Json);
+                }
+                "style" => {
+                    let mut type_attribute_value = None;
+
+                    for attribute in &n.attributes {
+                        if &*attribute.name == "type" && attribute.value.is_some() {
+                            type_attribute_value = Some(&**attribute.value.as_ref().unwrap());
+
+                            break;
+                        }
+                    }
+
+                    if type_attribute_value.is_none() || type_attribute_value == Some("text/css") {
+                        self.current_element_text_children_type = Some(TextChildrenType::Css);
+                    } else {
+                        self.current_element_text_children_type = None;
+                    }
+
+                    self.meta_element_content_type = None;
                 }
                 "pre" if whitespace_minification_mode.is_some() => {
                     self.descendant_of_pre = true;
@@ -700,53 +798,6 @@ impl VisitMut for Minifier {
         if whitespace_minification_mode.is_some() {
             self.descendant_of_pre = old_descendant_of_pre;
         }
-
-        let mut already_seen: AHashSet<JsWord> = Default::default();
-
-        n.attributes.retain(|attribute| {
-            if already_seen.contains(&attribute.name) {
-                return false;
-            }
-
-            already_seen.insert(attribute.name.clone());
-
-            if attribute.value.is_none() {
-                return true;
-            }
-
-            if self.is_default_attribute_value(
-                n.namespace,
-                &n.tag_name,
-                &attribute.name,
-                match &*n.tag_name {
-                    "script" if n.namespace == Namespace::HTML => {
-                        let original_value = attribute.value.as_ref().unwrap();
-
-                        if let Some(next) = original_value.split(';').next() {
-                            next
-                        } else {
-                            original_value
-                        }
-                    }
-                    _ => attribute.value.as_ref().unwrap(),
-                },
-            ) {
-                return false;
-            }
-
-            if self.remove_empty_attributes {
-                let value = attribute.value.as_ref().unwrap();
-
-                if (matches!(&*attribute.name, "id") && value.is_empty())
-                    || (matches!(&*attribute.name, "class" | "style") && value.is_empty())
-                    || self.is_event_handler_attribute(&attribute.name) && value.is_empty()
-                {
-                    return false;
-                }
-            }
-
-            true
-        });
     }
 
     fn visit_mut_attribute(&mut self, n: &mut Attribute) {
@@ -856,17 +907,29 @@ impl VisitMut for Minifier {
     fn visit_mut_text(&mut self, n: &mut Text) {
         n.visit_mut_children_with(self);
 
-        if let Some(TextChildrenType::Json) = self.current_element_text_children_type {
-            let json = match serde_json::from_str::<Value>(&*n.data) {
-                Ok(json) => json,
-                _ => return,
-            };
-            let minified_json = match serde_json::to_string(&json) {
-                Ok(minified_json) => minified_json,
-                _ => return,
-            };
+        match self.current_element_text_children_type {
+            Some(TextChildrenType::Json) => {
+                let json = match serde_json::from_str::<Value>(&*n.data) {
+                    Ok(json) => json,
+                    _ => return,
+                };
+                let minified = match serde_json::to_string(&json) {
+                    Ok(minified_json) => minified_json,
+                    _ => return,
+                };
 
-            n.data = minified_json.into()
+                n.data = minified.into()
+            }
+            // TODO source map url output?
+            Some(TextChildrenType::Css) => {
+                let minified = match self.minify_css(n.data.to_string()) {
+                    Some(minified) => minified,
+                    None => return,
+                };
+
+                n.data = minified.into()
+            }
+            _ => {}
         }
     }
 }
