@@ -1,24 +1,19 @@
 # Changelog
 ## [unreleased]
 
-### Features
+### Bug Fixes
 
 
 
-- **(html/minifier)** Add `collapse_boolean_attributes` option (#4960) ([3957bc6](https://github.com/swc-project/swc/commit/3957bc64b7d278cdf737e9da514fa94780044be2))
+- **(es/parser)** Don't assume the length of char (#4967) ([3e03ebf](https://github.com/swc-project/swc/commit/3e03ebf8bb527d3237b309c3df3a24bc9ebf7314))
 
-## [1.2.201] - 2022-06-14
+## [1.2.202] - 2022-06-14
 
 ### Bug Fixes
 
 
 
 - **(ci)** Revert malloc changes ([709ad3e](https://github.com/swc-project/swc/commit/709ad3e087e833c5bc69c887ca963e4b7a9a81f7))
-
-## [1.2.200] - 2022-06-14
-
-### Bug Fixes
-
 
 
 - **(common)** Don't use `get_unchecked` after setting the length to 0 (#4943) ([f479951](https://github.com/swc-project/swc/commit/f479951ef2f1c9eff8e020c9fc46e78e16855a24))
@@ -43,6 +38,9 @@
 
 
 - **(html/minifier)** Add `remove_empty_attributes` option (#4958) ([63d630d](https://github.com/swc-project/swc/commit/63d630d47761f1ab9c60a40c5bedf8542366f975))
+
+
+- **(html/minifier)** Add `collapse_boolean_attributes` option (#4960) ([3957bc6](https://github.com/swc-project/swc/commit/3957bc64b7d278cdf737e9da514fa94780044be2))
 
 ### Miscellaneous Tasks
 
