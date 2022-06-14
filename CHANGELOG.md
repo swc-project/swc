@@ -7,6 +7,12 @@
 
 - **(es/parser)** Don't assume the length of char (#4967) ([3e03ebf](https://github.com/swc-project/swc/commit/3e03ebf8bb527d3237b309c3df3a24bc9ebf7314))
 
+### Features
+
+
+
+- **(html)** Support self-closing flag (#4950) ([5c2a918](https://github.com/swc-project/swc/commit/5c2a918946105d26d107b8bd869ee5dc76c9c04d))
+
 ### Miscellaneous Tasks
 
 
