@@ -41,12 +41,16 @@ fn minify_fixtures(input: PathBuf) {
         let result: Result<Document, _> =
             parse_file_as_document(&fm, Default::default(), &mut errors);
 
-        for err in errors {
-            err.to_diagnostics(handler).emit();
-        }
+        let skip_errors = input.to_string_lossy().contains("pages");
 
-        if handler.has_errors() {
-            return Err(());
+        if !skip_errors {
+            for err in errors {
+                err.to_diagnostics(handler).emit();
+            }
+
+            if handler.has_errors() {
+                return Err(());
+            }
         }
 
         let mut ss = result.unwrap();
