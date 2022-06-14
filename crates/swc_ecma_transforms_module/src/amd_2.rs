@@ -1,5 +1,5 @@
 use swc_atoms::{js_word, JsWord};
-use swc_common::{util::take::Take, Span, DUMMY_SP};
+use swc_common::{util::take::Take, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{is_valid_prop_ident, private_ident, quote_ident, quote_str, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
@@ -8,23 +8,26 @@ pub use super::util::Config;
 use crate::{
     import_ref_rewriter::{ImportMap, ImportRefRewriter},
     module_decl_strip::{Export, Link, LinkItem, ModuleDeclStrip, Specifier},
-    util::{
-        define_es_module, has_use_strict, lazy_module_exports_ident, local_name_for_src,
-        prop_function, use_strict,
-    },
+    util::{define_es_module, has_use_strict, local_name_for_src, prop_function, use_strict},
 };
 
-pub fn amd() -> impl Fold + VisitMut {
-    as_folder(Amd::default())
+pub fn amd(unresolved_mark: Mark, config: Config) -> impl Fold + VisitMut {
+    as_folder(Amd {
+        config,
+        unresolved_mark,
+        dep_list: Default::default(),
+        exports: Default::default(),
+    })
 }
 
-#[derive(Debug, Default)]
 pub struct Amd {
     config: Config,
 
+    unresolved_mark: Mark,
+
     dep_list: Vec<(Ident, JsWord, Span)>,
 
-    module_exports: Option<Ident>,
+    exports: Option<Ident>,
 }
 
 impl VisitMut for Amd {
@@ -59,18 +62,24 @@ impl VisitMut for Amd {
 
         stmts.visit_mut_children_with(&mut ImportRefRewriter { import_map });
 
-        let mut elems = vec![Some(quote_str!("require").as_arg())];
-        let mut params = vec![quote_ident!("require").into()];
+        // ====================
+        //  Emit
+        // ====================
 
-        if let Some(module_exports) = self.module_exports.take() {
+        let mut elems = vec![Some(quote_str!("require").as_arg())];
+        let mut params =
+            vec![quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "require").into()];
+
+        if let Some(exports) = self.exports.take() {
             elems.push(Some(quote_str!("exports").as_arg()));
-            params.push(module_exports.into())
+            params.push(exports.into())
         }
 
         self.dep_list
             .take()
             .into_iter()
             .for_each(|(ident, src_path, src_span)| {
+                // TODO: handle swc helpers import
                 elems.push(Some(quote_str!(src_span, src_path).as_arg()));
                 params.push(ident.into());
             });
@@ -105,7 +114,6 @@ impl VisitMut for Amd {
             )
             .into_stmt()
             .into()];
-        // *n = stmts;
     }
 }
 
@@ -182,14 +190,12 @@ impl Amd {
             });
 
             if should_re_export || should_wrap_with_to_esm {
-                // __reExport(_module_exports, require("mod"));
+                // __reExport(_exports, require("mod"));
                 let import_expr: Expr = if should_re_export {
-                    let module_export = lazy_module_exports_ident(&mut self.module_exports);
-
                     // TODO: use swc helper
                     quote_ident!("__reExport").as_call(
                         DUMMY_SP,
-                        vec![module_export.as_arg(), mod_ident.clone().as_arg()],
+                        vec![self.exports().as_arg(), mod_ident.clone().as_arg()],
                     )
                 } else {
                     mod_ident.clone().into()
@@ -222,19 +228,25 @@ impl Amd {
                 props,
             };
 
-            let module_export = lazy_module_exports_ident(&mut self.module_exports);
-
             // TODO: use swc helper
             quote_ident!("__export")
-                .as_call(DUMMY_SP, vec![module_export.as_arg(), obj_lit.as_arg()])
+                .as_call(DUMMY_SP, vec![self.exports().as_arg(), obj_lit.as_arg()])
                 .into_stmt()
         });
 
-        self.module_exports
+        self.exports
             .clone()
             .map(define_es_module)
             .into_iter()
             .chain(export_call)
             .chain(stmts)
+    }
+
+    fn exports(&mut self) -> Ident {
+        self.exports.clone().unwrap_or_else(|| {
+            let new_ident = private_ident!("_exports");
+            self.exports = Some(new_ident.clone());
+            new_ident
+        })
     }
 }
