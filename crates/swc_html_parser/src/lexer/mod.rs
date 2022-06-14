@@ -119,7 +119,7 @@ struct Tag {
     kind: TagKind,
     tag_name: String,
     raw_tag_name: Option<String>,
-    self_closing: bool,
+    is_self_closing: bool,
     attributes: Vec<Attribute>,
 }
 
@@ -546,7 +546,7 @@ where
             // Maximum known html tags are `blockquote` and `figcaption`
             tag_name: String::with_capacity(10),
             raw_tag_name: Some(String::with_capacity(10)),
-            self_closing: false,
+            is_self_closing: false,
             attributes: Vec::with_capacity(255),
         });
     }
@@ -557,7 +557,7 @@ where
             // Maximum known html tags are `blockquote` and `figcaption`
             tag_name: String::with_capacity(10),
             raw_tag_name: Some(String::with_capacity(10)),
-            self_closing: false,
+            is_self_closing: false,
             attributes: Vec::with_capacity(255),
         });
     }
@@ -671,7 +671,7 @@ where
                     let start_tag_token = Token::StartTag {
                         tag_name: current_tag_token.tag_name.into(),
                         raw_tag_name: current_tag_token.raw_tag_name.map(JsWord::from),
-                        self_closing: current_tag_token.self_closing,
+                        is_self_closing: current_tag_token.is_self_closing,
                         attributes: current_tag_token
                             .attributes
                             .drain(..)
@@ -703,7 +703,7 @@ where
                         self.emit_error(ErrorKind::EndTagWithAttributes);
                     }
 
-                    if current_tag_token.self_closing {
+                    if current_tag_token.is_self_closing {
                         self.emit_error(ErrorKind::EndTagWithTrailingSolidus);
                     }
 
@@ -712,7 +712,7 @@ where
                     let end_tag_token = Token::EndTag {
                         tag_name: current_tag_token.tag_name.into(),
                         raw_tag_name: current_tag_token.raw_tag_name.map(JsWord::from),
-                        self_closing: current_tag_token.self_closing,
+                        is_self_closing: current_tag_token.is_self_closing,
                         attributes: current_tag_token
                             .attributes
                             .drain(..)
@@ -2468,7 +2468,7 @@ where
                     // state. Emit the current tag token.
                     Some('>') => {
                         if let Some(current_tag_token) = &mut self.current_tag_token {
-                            current_tag_token.self_closing = true;
+                            current_tag_token.is_self_closing = true;
                         }
 
                         self.state = State::Data;

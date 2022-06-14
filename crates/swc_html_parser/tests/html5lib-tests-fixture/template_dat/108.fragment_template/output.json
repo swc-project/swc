@@ -60,10 +60,12 @@
                   }
                 ],
                 "children": [],
-                "content": null
+                "content": null,
+                "isSelfClosing": false
               }
             ],
-            "content": null
+            "content": null,
+            "isSelfClosing": false
           },
           {
             "type": "Element",
@@ -86,10 +88,12 @@
                 "data": "second"
               }
             ],
-            "content": null
+            "content": null,
+            "isSelfClosing": false
           }
         ]
-      }
+      },
+      "isSelfClosing": false
     }
   ]
 }

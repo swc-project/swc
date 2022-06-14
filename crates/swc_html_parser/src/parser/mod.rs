@@ -278,6 +278,7 @@ where
                 namespace: context_element.namespace,
                 tag_name: context_element.tag_name,
                 attributes: RefCell::new(context_element.attributes),
+                is_self_closing: context_element.is_self_closing,
             },
             DUMMY_SP,
         );
@@ -386,6 +387,7 @@ where
                 namespace,
                 tag_name,
                 attributes,
+                is_self_closing,
             } => {
                 let nodes = node.children.take();
                 let mut new_children = Vec::with_capacity(nodes.len());
@@ -429,6 +431,7 @@ where
                             namespace,
                             tag_name,
                             attributes,
+                            is_self_closing,
                             children: new_children,
                             content: None,
                         })
@@ -470,6 +473,7 @@ where
                             namespace,
                             tag_name,
                             attributes,
+                            is_self_closing,
                             children,
                             content,
                         })
@@ -541,8 +545,11 @@ where
             // When a start tag token is emitted with its self-closing flag set,
             // if the flag is not acknowledged when it is processed by the tree
             // construction stage, that is a parse error.
-            if let Token::StartTag { self_closing, .. } = &token_and_info.token {
-                if *self_closing && !token_and_info.acknowledged {
+            if let Token::StartTag {
+                is_self_closing, ..
+            } = &token_and_info.token
+            {
+                if *is_self_closing && !token_and_info.acknowledged {
                     self.errors.push(Error::new(
                         token_and_info.span,
                         ErrorKind::NonVoidHtmlElementStartTagWithTrailingSolidus,
@@ -860,10 +867,10 @@ where
             Token::StartTag {
                 tag_name,
                 raw_tag_name,
-                self_closing,
+                is_self_closing,
                 attributes,
             } => {
-                let is_self_closing = *self_closing;
+                let is_self_closing = *is_self_closing;
                 let is_script = tag_name == "script";
                 let adjusted_current_node = self.get_adjusted_current_node();
                 let namespace = match adjusted_current_node {
@@ -926,7 +933,7 @@ where
                         token_and_info.token = Token::StartTag {
                             tag_name: new_tag_name.into(),
                             raw_tag_name: raw_tag_name.clone(),
-                            self_closing: *self_closing,
+                            is_self_closing,
                             attributes: attributes.clone(),
                         }
                     }
@@ -1451,6 +1458,7 @@ where
                     Token::StartTag {
                         tag_name,
                         attributes,
+                        is_self_closing,
                         ..
                     } if tag_name == "html" => {
                         let element = Node::new(
@@ -1469,6 +1477,7 @@ where
                                         })
                                         .collect(),
                                 ),
+                                is_self_closing: *is_self_closing,
                             },
                             token_and_info.span,
                         );
@@ -1657,10 +1666,10 @@ where
                     // Acknowledge the token's self-closing flag, if it is set.
                     Token::StartTag {
                         tag_name,
-                        self_closing,
+                        is_self_closing,
                         ..
                     } if matches!(tag_name.as_ref(), "base" | "basefont" | "bgsound" | "link") => {
-                        let is_self_closing = *self_closing;
+                        let is_self_closing = *is_self_closing;
 
                         self.insert_html_element(token_and_info)?;
                         self.open_elements_stack.pop();
@@ -1690,10 +1699,10 @@ where
                     // extracted encoding.
                     Token::StartTag {
                         tag_name,
-                        self_closing,
+                        is_self_closing,
                         ..
                     } if tag_name == "meta" => {
-                        let is_self_closing = *self_closing;
+                        let is_self_closing = *is_self_closing;
 
                         self.insert_html_element(token_and_info)?;
                         self.open_elements_stack.pop();
@@ -3599,10 +3608,10 @@ where
                     // attributes, rather than the end tag token that it actually is.
                     Token::EndTag {
                         tag_name,
-                        self_closing,
+                        is_self_closing,
                         ..
                     } if tag_name == "br" => {
-                        let is_self_closing = *self_closing;
+                        let is_self_closing = *is_self_closing;
 
                         self.errors
                             .push(Error::new(token_and_info.span, ErrorKind::EndTagBr));
@@ -3632,14 +3641,14 @@ where
                     // Set the frameset-ok flag to "not ok".
                     Token::StartTag {
                         tag_name,
-                        self_closing,
+                        is_self_closing,
                         ..
                     } if matches!(
                         tag_name.as_ref(),
                         "area" | "br" | "embed" | "img" | "keygen" | "wbr"
                     ) =>
                     {
-                        let is_self_closing = *self_closing;
+                        let is_self_closing = *is_self_closing;
 
                         self.reconstruct_active_formatting_elements()?;
                         self.insert_html_element(token_and_info)?;
@@ -3665,11 +3674,11 @@ where
                     // string "hidden", then: set the frameset-ok flag to "not ok".
                     Token::StartTag {
                         tag_name,
-                        self_closing,
+                        is_self_closing,
                         attributes,
                         ..
                     } if tag_name == "input" => {
-                        let is_self_closing = *self_closing;
+                        let is_self_closing = *is_self_closing;
                         let input_type = attributes
                             .iter()
                             .find(|attribute| attribute.name.as_ref() == "type");
@@ -3705,10 +3714,10 @@ where
                     // Acknowledge the token's self-closing flag, if it is set.
                     Token::StartTag {
                         tag_name,
-                        self_closing,
+                        is_self_closing,
                         ..
                     } if matches!(tag_name.as_ref(), "param" | "source" | "track") => {
-                        let is_self_closing = *self_closing;
+                        let is_self_closing = *is_self_closing;
 
                         self.insert_html_element(token_and_info)?;
                         self.open_elements_stack.pop();
@@ -3730,10 +3739,10 @@ where
                     // Set the frameset-ok flag to "not ok".
                     Token::StartTag {
                         tag_name,
-                        self_closing,
+                        is_self_closing,
                         ..
                     } if tag_name == "hr" => {
-                        let is_self_closing = *self_closing;
+                        let is_self_closing = *is_self_closing;
 
                         if self.open_elements_stack.has_in_button_scope("p") {
                             self.close_p_element(token_and_info, false);
@@ -3984,10 +3993,10 @@ where
                     // stack of open elements and acknowledge the token's self-closing flag.
                     Token::StartTag {
                         tag_name,
-                        self_closing,
+                        is_self_closing,
                         ..
                     } if tag_name == "math" => {
-                        let is_self_closing = *self_closing;
+                        let is_self_closing = *is_self_closing;
 
                         self.reconstruct_active_formatting_elements()?;
                         self.insert_foreign_element(
@@ -4018,10 +4027,10 @@ where
                     // stack of open elements and acknowledge the token's self-closing flag.
                     Token::StartTag {
                         tag_name,
-                        self_closing,
+                        is_self_closing,
                         ..
                     } if tag_name == "svg" => {
-                        let is_self_closing = *self_closing;
+                        let is_self_closing = *is_self_closing;
 
                         self.reconstruct_active_formatting_elements()?;
                         self.insert_foreign_element(
@@ -4575,10 +4584,10 @@ where
                     Token::StartTag {
                         tag_name,
                         attributes,
-                        self_closing,
+                        is_self_closing,
                         ..
                     } if tag_name == "input" => {
-                        let is_self_closing = *self_closing;
+                        let is_self_closing = *is_self_closing;
                         let input_type = attributes
                             .iter()
                             .find(|attribute| attribute.name.as_ref() == "type");
@@ -4937,10 +4946,10 @@ where
                     // Acknowledge the token's self-closing flag, if it is set.
                     Token::StartTag {
                         tag_name,
-                        self_closing,
+                        is_self_closing,
                         ..
                     } if tag_name == "col" => {
-                        let is_self_closing = *self_closing;
+                        let is_self_closing = *is_self_closing;
 
                         self.insert_html_element(token_and_info)?;
                         self.open_elements_stack.pop();
@@ -6173,10 +6182,10 @@ where
                     // Acknowledge the token's self-closing flag, if it is set.
                     Token::StartTag {
                         tag_name,
-                        self_closing,
+                        is_self_closing,
                         ..
                     } if tag_name == "frame" => {
-                        let is_self_closing = *self_closing;
+                        let is_self_closing = *is_self_closing;
 
                         self.insert_html_element(token_and_info)?;
                         self.open_elements_stack.pop();
@@ -6850,11 +6859,13 @@ where
             Token::StartTag {
                 tag_name,
                 attributes,
+                is_self_closing,
                 ..
             }
             | Token::EndTag {
                 tag_name,
                 attributes,
+                is_self_closing,
                 ..
             } => {
                 let attributes = attributes
@@ -6888,6 +6899,7 @@ where
                     tag_name,
                     namespace: namespace.unwrap(),
                     attributes: RefCell::new(attributes),
+                    is_self_closing,
                 }
             }
             _ => {
@@ -7445,6 +7457,7 @@ where
                 tag_name: "html".into(),
                 namespace: Namespace::HTML,
                 attributes: RefCell::new(vec![]),
+                is_self_closing: false,
             },
             DUMMY_SP,
         )
@@ -7460,7 +7473,7 @@ where
             token: Token::StartTag {
                 tag_name: tag_name.into(),
                 raw_tag_name: None,
-                self_closing: false,
+                is_self_closing: false,
                 attributes: vec![],
             },
         }

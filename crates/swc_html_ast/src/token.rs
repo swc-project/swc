@@ -50,13 +50,13 @@ pub enum Token {
     StartTag {
         tag_name: JsWord,
         raw_tag_name: Option<JsWord>,
-        self_closing: bool,
+        is_self_closing: bool,
         attributes: Vec<AttributeToken>,
     },
     EndTag {
         tag_name: JsWord,
         raw_tag_name: Option<JsWord>,
-        self_closing: bool,
+        is_self_closing: bool,
         attributes: Vec<AttributeToken>,
     },
     Comment {

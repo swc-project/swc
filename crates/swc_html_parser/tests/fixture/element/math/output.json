@@ -70,7 +70,8 @@
                   "data": "MathML in HTML5"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -82,7 +83,8 @@
               "data": "\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         },
         {
           "type": "Text",
@@ -214,7 +216,8 @@
                                   "data": "a"
                                 }
                               ],
-                              "content": null
+                              "content": null,
+                              "isSelfClosing": false
                             },
                             {
                               "type": "Text",
@@ -246,7 +249,8 @@
                                   "data": "2"
                                 }
                               ],
-                              "content": null
+                              "content": null,
+                              "isSelfClosing": false
                             },
                             {
                               "type": "Text",
@@ -258,7 +262,8 @@
                               "data": "\n            "
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Text",
@@ -290,7 +295,8 @@
                               "data": "+"
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Text",
@@ -342,7 +348,8 @@
                                   "data": "b"
                                 }
                               ],
-                              "content": null
+                              "content": null,
+                              "isSelfClosing": false
                             },
                             {
                               "type": "Text",
@@ -374,7 +381,8 @@
                                   "data": "2"
                                 }
                               ],
-                              "content": null
+                              "content": null,
+                              "isSelfClosing": false
                             },
                             {
                               "type": "Text",
@@ -386,7 +394,8 @@
                               "data": "\n            "
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Text",
@@ -398,7 +407,8 @@
                           "data": "\n        "
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -430,7 +440,8 @@
                           "data": "="
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -482,7 +493,8 @@
                               "data": "c"
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Text",
@@ -514,7 +526,8 @@
                               "data": "2"
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Text",
@@ -526,7 +539,8 @@
                           "data": "\n        "
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -538,7 +552,8 @@
                       "data": "\n    "
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -550,7 +565,8 @@
                   "data": "\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -655,7 +671,8 @@
                               "data": " 0 "
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Text",
@@ -687,7 +704,8 @@
                               "data": " 1 "
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Text",
@@ -719,7 +737,8 @@
                               "data": " 0 "
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Text",
@@ -731,7 +750,8 @@
                           "data": "\n        "
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -783,7 +803,8 @@
                               "data": " 0 "
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Text",
@@ -815,7 +836,8 @@
                               "data": " 0 "
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Text",
@@ -847,7 +869,8 @@
                               "data": " 1 "
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Text",
@@ -859,7 +882,8 @@
                           "data": "\n        "
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -911,7 +935,8 @@
                               "data": " 1 "
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Text",
@@ -943,7 +968,8 @@
                               "data": " 0 "
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Text",
@@ -975,7 +1001,8 @@
                               "data": " 0 "
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Text",
@@ -987,7 +1014,8 @@
                           "data": "\n        "
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -999,7 +1027,8 @@
                       "data": "\n    "
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -1011,7 +1040,8 @@
                   "data": "\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -1066,7 +1096,8 @@
                   "namespace": "http://www.w3.org/1998/Math/MathML",
                   "attributes": [],
                   "children": [],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": true
                 },
                 {
                   "type": "Text",
@@ -1078,7 +1109,8 @@
                   "data": "\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -1208,7 +1240,8 @@
                                   "data": "x"
                                 }
                               ],
-                              "content": null
+                              "content": null,
+                              "isSelfClosing": false
                             },
                             {
                               "type": "Text",
@@ -1240,7 +1273,8 @@
                                   "data": "2"
                                 }
                               ],
-                              "content": null
+                              "content": null,
+                              "isSelfClosing": false
                             },
                             {
                               "type": "Text",
@@ -1252,7 +1286,8 @@
                               "data": "\n            "
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Text",
@@ -1284,7 +1319,8 @@
                               "data": "+"
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Text",
@@ -1316,7 +1352,8 @@
                               "data": "y"
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Text",
@@ -1328,7 +1365,8 @@
                           "data": "\n        "
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -1421,7 +1459,8 @@
                               "namespace": "http://www.w3.org/1998/Math/MathML",
                               "attributes": [],
                               "children": [],
-                              "content": null
+                              "content": null,
+                              "isSelfClosing": true
                             },
                             {
                               "type": "Text",
@@ -1463,7 +1502,8 @@
                                   "namespace": "http://www.w3.org/1998/Math/MathML",
                                   "attributes": [],
                                   "children": [],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": true
                                 },
                                 {
                                   "type": "Text",
@@ -1495,7 +1535,8 @@
                                       "data": "x"
                                     }
                                   ],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": false
                                 },
                                 {
                                   "type": "Text",
@@ -1540,7 +1581,8 @@
                                       "data": "2"
                                     }
                                   ],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": false
                                 },
                                 {
                                   "type": "Text",
@@ -1552,7 +1594,8 @@
                                   "data": "\n                "
                                 }
                               ],
-                              "content": null
+                              "content": null,
+                              "isSelfClosing": false
                             },
                             {
                               "type": "Text",
@@ -1584,7 +1627,8 @@
                                   "data": "y"
                                 }
                               ],
-                              "content": null
+                              "content": null,
+                              "isSelfClosing": false
                             },
                             {
                               "type": "Text",
@@ -1596,7 +1640,8 @@
                               "data": "\n            "
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Text",
@@ -1608,7 +1653,8 @@
                           "data": "\n        "
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -1673,7 +1719,8 @@
                         }
                       ],
                       "children": [],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": true
                     },
                     {
                       "type": "Text",
@@ -1736,7 +1783,8 @@
                           "data": "\n            x^{2} + y\n        "
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -1748,7 +1796,8 @@
                       "data": "\n\n    "
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -1760,7 +1809,8 @@
                   "data": "\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -1905,7 +1955,8 @@
                                       "data": "2"
                                     }
                                   ],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": false
                                 },
                                 {
                                   "type": "Text",
@@ -1937,7 +1988,8 @@
                                       "data": "⁢"
                                     }
                                   ],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": false
                                 },
                                 {
                                   "type": "Text",
@@ -1959,7 +2011,8 @@
                                   "namespace": "http://www.w3.org/1998/Math/MathML",
                                   "attributes": [],
                                   "children": [],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": true
                                 },
                                 {
                                   "type": "Element",
@@ -1982,7 +2035,8 @@
                                       "data": "x"
                                     }
                                   ],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": false
                                 },
                                 {
                                   "type": "Text",
@@ -2004,7 +2058,8 @@
                                   "namespace": "http://www.w3.org/1998/Math/MathML",
                                   "attributes": [],
                                   "children": [],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": true
                                 },
                                 {
                                   "type": "Element",
@@ -2027,7 +2082,8 @@
                                       "data": "+"
                                     }
                                   ],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": false
                                 },
                                 {
                                   "type": "Text",
@@ -2049,7 +2105,8 @@
                                   "namespace": "http://www.w3.org/1998/Math/MathML",
                                   "attributes": [],
                                   "children": [],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": true
                                 },
                                 {
                                   "type": "Element",
@@ -2072,7 +2129,8 @@
                                       "data": "y"
                                     }
                                   ],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": false
                                 },
                                 {
                                   "type": "Text",
@@ -2094,7 +2152,8 @@
                                   "namespace": "http://www.w3.org/1998/Math/MathML",
                                   "attributes": [],
                                   "children": [],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": true
                                 },
                                 {
                                   "type": "Element",
@@ -2117,7 +2176,8 @@
                                       "data": "="
                                     }
                                   ],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": false
                                 },
                                 {
                                   "type": "Text",
@@ -2149,7 +2209,8 @@
                                       "data": "-"
                                     }
                                   ],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": false
                                 },
                                 {
                                   "type": "Text",
@@ -2171,7 +2232,8 @@
                                   "namespace": "http://www.w3.org/1998/Math/MathML",
                                   "attributes": [],
                                   "children": [],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": true
                                 },
                                 {
                                   "type": "Element",
@@ -2194,7 +2256,8 @@
                                       "data": "5"
                                     }
                                   ],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": false
                                 },
                                 {
                                   "type": "Text",
@@ -2206,7 +2269,8 @@
                                   "data": "\n                "
                                 }
                               ],
-                              "content": null
+                              "content": null,
+                              "isSelfClosing": false
                             },
                             {
                               "type": "Text",
@@ -2218,7 +2282,8 @@
                               "data": "\n            "
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Text",
@@ -2230,7 +2295,8 @@
                           "data": "\n        "
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -2312,7 +2378,8 @@
                                   "namespace": "http://www.w3.org/1998/Math/MathML",
                                   "attributes": [],
                                   "children": [],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": true
                                 },
                                 {
                                   "type": "Element",
@@ -2335,7 +2402,8 @@
                                       "data": "x"
                                     }
                                   ],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": false
                                 },
                                 {
                                   "type": "Text",
@@ -2357,7 +2425,8 @@
                                   "namespace": "http://www.w3.org/1998/Math/MathML",
                                   "attributes": [],
                                   "children": [],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": true
                                 },
                                 {
                                   "type": "Element",
@@ -2380,7 +2449,8 @@
                                       "data": "-"
                                     }
                                   ],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": false
                                 },
                                 {
                                   "type": "Text",
@@ -2412,7 +2482,8 @@
                                       "data": "2"
                                     }
                                   ],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": false
                                 },
                                 {
                                   "type": "Text",
@@ -2444,7 +2515,8 @@
                                       "data": "⁢"
                                     }
                                   ],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": false
                                 },
                                 {
                                   "type": "Text",
@@ -2466,7 +2538,8 @@
                                   "namespace": "http://www.w3.org/1998/Math/MathML",
                                   "attributes": [],
                                   "children": [],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": true
                                 },
                                 {
                                   "type": "Element",
@@ -2489,7 +2562,8 @@
                                       "data": "y"
                                     }
                                   ],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": false
                                 },
                                 {
                                   "type": "Text",
@@ -2511,7 +2585,8 @@
                                   "namespace": "http://www.w3.org/1998/Math/MathML",
                                   "attributes": [],
                                   "children": [],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": true
                                 },
                                 {
                                   "type": "Element",
@@ -2534,7 +2609,8 @@
                                       "data": "="
                                     }
                                   ],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": false
                                 },
                                 {
                                   "type": "Text",
@@ -2556,7 +2632,8 @@
                                   "namespace": "http://www.w3.org/1998/Math/MathML",
                                   "attributes": [],
                                   "children": [],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": true
                                 },
                                 {
                                   "type": "Element",
@@ -2579,7 +2656,8 @@
                                       "data": "1"
                                     }
                                   ],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": false
                                 },
                                 {
                                   "type": "Text",
@@ -2591,7 +2669,8 @@
                                   "data": "\n                "
                                 }
                               ],
-                              "content": null
+                              "content": null,
+                              "isSelfClosing": false
                             },
                             {
                               "type": "Text",
@@ -2603,7 +2682,8 @@
                               "data": "\n            "
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Text",
@@ -2615,7 +2695,8 @@
                           "data": "\n        "
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -2627,7 +2708,8 @@
                       "data": "\n    "
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -2639,7 +2721,8 @@
                   "data": "\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -2691,7 +2774,8 @@
                       "data": " Theorem of Pythagoras "
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -2723,7 +2807,8 @@
                       "data": " /* comment here */ "
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -2735,7 +2820,8 @@
                   "data": "\n\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -2807,7 +2893,8 @@
                           "data": "test"
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -2819,7 +2906,8 @@
                       "data": "\n    "
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -2831,7 +2919,8 @@
                   "data": "\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -2923,7 +3012,8 @@
                               "data": " x "
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Text",
@@ -2958,7 +3048,8 @@
                             }
                           ],
                           "children": [],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": true
                         },
                         {
                           "type": "Text",
@@ -2970,7 +3061,8 @@
                           "data": "\n        "
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -3002,7 +3094,8 @@
                           "data": " 2 "
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -3014,7 +3107,8 @@
                       "data": "\n    "
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -3026,7 +3120,8 @@
                   "data": "\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -3227,7 +3322,8 @@
                                 }
                               ],
                               "children": [],
-                              "content": null
+                              "content": null,
+                              "isSelfClosing": false
                             },
                             {
                               "type": "Text",
@@ -3272,7 +3368,8 @@
                                   "data": "1"
                                 }
                               ],
-                              "content": null
+                              "content": null,
+                              "isSelfClosing": false
                             },
                             {
                               "type": "Text",
@@ -3434,7 +3531,8 @@
                                                   "data": "2"
                                                 }
                                               ],
-                                              "content": null
+                                              "content": null,
+                                              "isSelfClosing": false
                                             },
                                             {
                                               "type": "Text",
@@ -3466,7 +3564,8 @@
                                                   "data": "r"
                                                 }
                                               ],
-                                              "content": null
+                                              "content": null,
+                                              "isSelfClosing": false
                                             },
                                             {
                                               "type": "Text",
@@ -3498,7 +3597,8 @@
                                                   "data": "−"
                                                 }
                                               ],
-                                              "content": null
+                                              "content": null,
+                                              "isSelfClosing": false
                                             },
                                             {
                                               "type": "Text",
@@ -3530,7 +3630,8 @@
                                                   "data": "1"
                                                 }
                                               ],
-                                              "content": null
+                                              "content": null,
+                                              "isSelfClosing": false
                                             },
                                             {
                                               "type": "Text",
@@ -3542,7 +3643,8 @@
                                               "data": "\n                            "
                                             }
                                           ],
-                                          "content": null
+                                          "content": null,
+                                          "isSelfClosing": false
                                         },
                                         {
                                           "type": "Text",
@@ -3554,7 +3656,8 @@
                                           "data": "\n                        "
                                         }
                                       ],
-                                      "content": null
+                                      "content": null,
+                                      "isSelfClosing": false
                                     },
                                     {
                                       "type": "Text",
@@ -3566,7 +3669,8 @@
                                       "data": "\n                    "
                                     }
                                   ],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": false
                                 },
                                 {
                                   "type": "Text",
@@ -3598,7 +3702,8 @@
                                       "data": "\\sqrt{2r - 1}"
                                     }
                                   ],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": false
                                 },
                                 {
                                   "type": "Text",
@@ -3610,7 +3715,8 @@
                                   "data": "\n                "
                                 }
                               ],
-                              "content": null
+                              "content": null,
+                              "isSelfClosing": false
                             },
                             {
                               "type": "Text",
@@ -3622,7 +3728,8 @@
                               "data": "\n            "
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Text",
@@ -3634,7 +3741,8 @@
                           "data": "\n        "
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -3646,7 +3754,8 @@
                       "data": "\n    "
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -3658,7 +3767,8 @@
                   "data": "\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -3670,10 +3780,12 @@
               "data": "\n\n\n\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         }
       ],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }

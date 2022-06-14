@@ -29,6 +29,7 @@ pub enum Data {
         namespace: Namespace,
         tag_name: JsWord,
         attributes: RefCell<Vec<Attribute>>,
+        is_self_closing: bool,
     },
     Text {
         data: RefCell<String>,

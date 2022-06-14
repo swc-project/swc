@@ -104,7 +104,8 @@
                   "data": "XHTML 1.0 Strict Example"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -149,7 +150,8 @@
                   "data": "\n        <![CDATA[\n        function loadpdf() {\n            document.getElementById(\"pdf-object\").src=\"http://www.w3.org/TR/xhtml1/xhtml1.pdf\";\n        }\n        ]]>\n    "
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -161,7 +163,8 @@
               "data": "\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         },
         {
           "type": "Text",
@@ -259,7 +262,8 @@
                       "data": "XHTML"
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -281,7 +285,8 @@
                   "namespace": "http://www.w3.org/1999/xhtml",
                   "attributes": [],
                   "children": [],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": true
                 },
                 {
                   "type": "Text",
@@ -340,7 +345,8 @@
                     }
                   ],
                   "children": [],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": true
                 },
                 {
                   "type": "Element",
@@ -353,7 +359,8 @@
                   "namespace": "http://www.w3.org/1999/xhtml",
                   "attributes": [],
                   "children": [],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": true
                 },
                 {
                   "type": "Text",
@@ -436,7 +443,8 @@
                     }
                   ],
                   "children": [],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -448,7 +456,8 @@
                   "data": "\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -460,10 +469,12 @@
               "data": "\n\n\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         }
       ],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }

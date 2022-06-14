@@ -45,6 +45,7 @@ where
                 tag_name: "template".into(),
                 namespace: Namespace::HTML,
                 attributes: vec![],
+                is_self_closing: false,
                 children: vec![],
                 content: None,
             })

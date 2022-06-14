@@ -83,7 +83,8 @@
                   "data": "MathML in HTML5"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -95,7 +96,8 @@
               "data": "\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         },
         {
           "type": "Text",
@@ -245,7 +247,8 @@
                                   "data": "x"
                                 }
                               ],
-                              "content": null
+                              "content": null,
+                              "isSelfClosing": false
                             },
                             {
                               "type": "Text",
@@ -277,7 +280,8 @@
                                   "data": "2"
                                 }
                               ],
-                              "content": null
+                              "content": null,
+                              "isSelfClosing": false
                             },
                             {
                               "type": "Text",
@@ -289,7 +293,8 @@
                               "data": "\n            "
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Text",
@@ -321,7 +326,8 @@
                               "data": "+"
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Text",
@@ -353,7 +359,8 @@
                               "data": "y"
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Text",
@@ -365,7 +372,8 @@
                           "data": "\n        "
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -458,7 +466,8 @@
                               "namespace": "http://www.w3.org/1998/Math/MathML",
                               "attributes": [],
                               "children": [],
-                              "content": null
+                              "content": null,
+                              "isSelfClosing": true
                             },
                             {
                               "type": "Text",
@@ -500,7 +509,8 @@
                                   "namespace": "http://www.w3.org/1998/Math/MathML",
                                   "attributes": [],
                                   "children": [],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": true
                                 },
                                 {
                                   "type": "Text",
@@ -532,7 +542,8 @@
                                       "data": "x"
                                     }
                                   ],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": false
                                 },
                                 {
                                   "type": "Text",
@@ -577,7 +588,8 @@
                                       "data": "2"
                                     }
                                   ],
-                                  "content": null
+                                  "content": null,
+                                  "isSelfClosing": false
                                 },
                                 {
                                   "type": "Text",
@@ -589,7 +601,8 @@
                                   "data": "\n                "
                                 }
                               ],
-                              "content": null
+                              "content": null,
+                              "isSelfClosing": false
                             },
                             {
                               "type": "Text",
@@ -621,7 +634,8 @@
                                   "data": "y"
                                 }
                               ],
-                              "content": null
+                              "content": null,
+                              "isSelfClosing": false
                             },
                             {
                               "type": "Text",
@@ -633,7 +647,8 @@
                               "data": "\n            "
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Text",
@@ -645,7 +660,8 @@
                           "data": "\n        "
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -728,7 +744,8 @@
                               "data": "INNER HTML TITLE"
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Text",
@@ -760,7 +777,8 @@
                               "data": "The base of the natural logarithms, approximately 2.71828."
                             }
                           ],
-                          "content": null
+                          "content": null,
+                          "isSelfClosing": false
                         },
                         {
                           "type": "Text",
@@ -772,7 +790,8 @@
                           "data": "\n            \n            \n        "
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -837,7 +856,8 @@
                         }
                       ],
                       "children": [],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": true
                     },
                     {
                       "type": "Text",
@@ -900,7 +920,8 @@
                           "data": "\n            x^{2} + y\n        "
                         }
                       ],
-                      "content": null
+                      "content": null,
+                      "isSelfClosing": false
                     },
                     {
                       "type": "Text",
@@ -912,7 +933,8 @@
                       "data": "\n\n    "
                     }
                   ],
-                  "content": null
+                  "content": null,
+                  "isSelfClosing": false
                 },
                 {
                   "type": "Text",
@@ -924,7 +946,8 @@
                   "data": "\n"
                 }
               ],
-              "content": null
+              "content": null,
+              "isSelfClosing": false
             },
             {
               "type": "Text",
@@ -936,10 +959,12 @@
               "data": "\n\n\n\n"
             }
           ],
-          "content": null
+          "content": null,
+          "isSelfClosing": false
         }
       ],
-      "content": null
+      "content": null,
+      "isSelfClosing": false
     }
   ]
 }
