@@ -128,9 +128,12 @@ where
         } else {
             Cow::Borrowed(&self.unresolved)
         };
-        unresolved
-            .to_mut()
-            .extend(self.preserved.iter().map(|v| v.0.clone()));
+
+        if !self.preserved.is_empty() {
+            unresolved
+                .to_mut()
+                .extend(self.preserved.iter().map(|v| v.0.clone()));
+        }
 
         if R::PARALLEL {
             let cost = scope.rename_cost();
