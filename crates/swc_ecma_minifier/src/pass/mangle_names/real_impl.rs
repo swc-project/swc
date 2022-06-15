@@ -19,6 +19,8 @@ use crate::{
     util::{contains_eval, idents_used_by, IdentUsageCollector},
 };
 
+/// TODO: Use [swc_ecma_transforms_base::rename::renamer] after merging parallel
+/// logic and eval handling
 pub(crate) fn name_mangler(options: MangleOptions, marks: Marks) -> impl VisitMut {
     Mangler {
         options,
