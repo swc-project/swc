@@ -24,7 +24,6 @@ pub(super) struct CustomBindingCollector<I>
 where
     I: IdentLike + Eq + Hash + Send + Sync,
 {
-    only: Option<SyntaxContext>,
     bindings: FxHashSet<I>,
     is_pat_decl: bool,
 }
@@ -34,12 +33,6 @@ where
     I: IdentLike + Eq + Hash + Send + Sync,
 {
     fn add(&mut self, i: &Ident) {
-        if let Some(only) = self.only {
-            if only != i.span.ctxt {
-                return;
-            }
-        }
-
         self.bindings.insert(I::from_ident(i));
     }
 }
@@ -161,7 +154,6 @@ where
     N: VisitWith<CustomBindingCollector<I>>,
 {
     let mut v = CustomBindingCollector {
-        only: None,
         bindings: Default::default(),
         is_pat_decl: false,
     };
