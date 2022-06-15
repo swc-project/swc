@@ -2523,9 +2523,9 @@ class Child extends Base {
 
 "#,
     r#"
-var Child = function(Base) {
+var Child = function(Base1) {
     "use strict";
-    _inherits(Child, Base);
+    _inherits(Child, Base1);
     var _super = _createSuper(Child);
     function Child() {
         _classCallCheck(this, Child);
@@ -2719,9 +2719,9 @@ class Child extends Base {
 
 "#,
     r#"
-var Child = function(Base) {
+var Child = function(Base1) {
     "use strict";
-    _inherits(Child, Base);
+    _inherits(Child, Base1);
     var _super = _createSuper(Child);
     function Child() {
         _classCallCheck(this, Child);
@@ -3978,10 +3978,10 @@ class Test extends Foo { }
     r#"
 var Test =
 /*#__PURE__*/
-function (Foo) {
+function (Foo1) {
   "use strict";
 
-  _inherits(Test, Foo);
+  _inherits(Test, Foo1);
   var _super = _createSuper(Test);
 
   function Test() {
@@ -4083,10 +4083,10 @@ class Foo extends Bar {
     r#"
 var Foo =
 /*#__PURE__*/
-function (Bar) {
+function (Bar1) {
   "use strict";
 
-  _inherits(Foo, Bar);
+  _inherits(Foo, Bar1);
   var _super = _createSuper(Foo);
   function Foo() {
     _classCallCheck(this, Foo);
@@ -4450,10 +4450,10 @@ class Foo extends Bar {
     r#"
 var Foo =
 /*#__PURE__*/
-function (Bar) {
+function (Bar1) {
   "use strict";
 
-  _inherits(Foo, Bar);
+  _inherits(Foo, Bar1);
   var _super = _createSuper(Foo);
   function Foo() {
     _classCallCheck(this, Foo);
@@ -4779,9 +4779,9 @@ export default class extends A {}
     r#"
 var _default =
 /*#__PURE__*/
-function (A) {
+function (A1) {
   "use strict";
-  _inherits(_default, A);
+  _inherits(_default, A1);
   var _super = _createSuper(_default);
   function _default() {
     _classCallCheck(this, _default);
