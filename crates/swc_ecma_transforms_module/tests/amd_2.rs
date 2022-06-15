@@ -68,7 +68,7 @@ define(
             g: function() { return g; },
             h: function() { return h; }
         });
-        _modB = _interopRequireDefault(_modB);
+        _modB = _interopRequireWildcard(_modB);
         _modC = _interopRequireWildcard(_modC);
         _modE = _interopRequireWildcard(_modE);
         _reExport(exports, _modF);

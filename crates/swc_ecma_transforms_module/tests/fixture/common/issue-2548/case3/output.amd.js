@@ -18,5 +18,5 @@ define([
             return _z.Y;
         }
     });
-    _reExport(exports, _z);
+    _z = _interopRequireWildcard(_reExport(exports, _z));
 });

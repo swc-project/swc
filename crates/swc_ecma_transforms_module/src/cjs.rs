@@ -103,35 +103,49 @@ impl Cjs {
 
         link.into_iter().for_each(|(src, LinkItem(src_span, set))| {
             let mut mod_ident = None;
-            let mut should_wrap_interop_default = false;
-            let mut should_wrap_interop_namespace = false;
+
+            // - 0b01 named
+            // - 0b10 default
+            // - 0b11 star
+            let mut import_flag = 0u8;
+
             let mut should_re_export = false;
 
             set.into_iter().for_each(|s| match s {
                 Specifier::ImportNamed { imported, local } => {
+                    // `import { default as bar } from "foo"`
+                    if imported == Some(js_word!("default")) {
+                        import_flag |= 0b10;
+                    } else {
+                        import_flag |= 0b01;
+                    }
+
                     let binding_ident = lazy_ident_from_src(&src, &mut mod_ident);
 
                     import_map.insert(local.clone(), (binding_ident, imported.or(Some(local.0))));
                 }
                 Specifier::ImportDefault(id) => {
-                    let binding_ident = lazy_ident_from_src(&src, &mut mod_ident);
+                    import_flag |= 0b10;
 
-                    if !self.config.no_interop {
-                        should_wrap_interop_default = true;
-                    }
+                    let binding_ident = lazy_ident_from_src(&src, &mut mod_ident);
 
                     import_map.insert(id, (binding_ident, Some(js_word!("default"))));
                 }
                 Specifier::ImportStarAs(id) => {
-                    let binding_ident = lazy_ident_from_src(&src, &mut mod_ident);
+                    import_flag |= 0b11;
 
-                    if !self.config.no_interop {
-                        should_wrap_interop_namespace = true;
-                    }
+                    let binding_ident = lazy_ident_from_src(&src, &mut mod_ident);
 
                     import_map.insert(id, (binding_ident, None));
                 }
                 Specifier::ExportNamed { orig, exported } => {
+                    // `export { default as bar } from "foo"`
+                    if orig.0 == js_word!("default") {
+                        import_flag |= 0b10;
+                    } else {
+                        import_flag |= 0b01;
+                    }
+
                     let binding_ident = lazy_ident_from_src(&src, &mut mod_ident);
 
                     let (key, span) = exported.unwrap_or_else(|| orig.clone());
@@ -151,11 +165,9 @@ impl Cjs {
                     export_obj_prop_list.push((key, span, expr))
                 }
                 Specifier::ExportStarAs(key, span) => {
-                    let binding_ident = lazy_ident_from_src(&src, &mut mod_ident);
+                    import_flag |= 0b11;
 
-                    if !self.config.no_interop {
-                        should_wrap_interop_default = true;
-                    }
+                    let binding_ident = lazy_ident_from_src(&src, &mut mod_ident);
 
                     let expr = binding_ident.into();
                     export_obj_prop_list.push((key, span, expr))
@@ -164,6 +176,10 @@ impl Cjs {
                     should_re_export = true;
                 }
             });
+
+            if self.config.no_interop {
+                import_flag &= 1;
+            }
 
             // require("mod");
             let import_expr = self
@@ -184,7 +200,7 @@ impl Cjs {
             };
 
             // _introp(require("mod"));
-            let import_expr = if should_wrap_interop_namespace {
+            let import_expr = if import_flag == 0b11 {
                 CallExpr {
                     span: DUMMY_SP,
                     callee: helper!(interop_require_wildcard, "interopRequireWildcard"),
@@ -192,7 +208,7 @@ impl Cjs {
                     type_args: Default::default(),
                 }
                 .into()
-            } else if should_wrap_interop_default {
+            } else if import_flag == 0b10 {
                 CallExpr {
                     span: DUMMY_SP,
                     callee: helper!(interop_require_default, "interopRequireDefault"),

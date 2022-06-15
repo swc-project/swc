@@ -10,7 +10,7 @@ _export(exports, {
         return _get;
     }
 });
-var _get = _interopRequireDefault(require("./get"));
+var _get = _interopRequireWildcard(require("./get"));
 const byID = (id)=>{
     // Do some async stuff
     return new Promise((resolve)=>setTimeout(()=>{

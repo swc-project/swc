@@ -12,5 +12,5 @@ define([
             return _z.default;
         }
     });
-    _reExport(exports, _z);
+    _z = _interopRequireDefault(_reExport(exports, _z));
 });

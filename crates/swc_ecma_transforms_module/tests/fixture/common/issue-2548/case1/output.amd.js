@@ -12,4 +12,5 @@ define([
             return _z.default;
         }
     });
+    _z = _interopRequireDefault(_z);
 });

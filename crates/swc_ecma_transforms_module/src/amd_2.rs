@@ -173,32 +173,46 @@ impl Amd {
             let mod_ident = private_ident!(local_name_for_src(&src));
             self.dep_list.push((mod_ident.clone(), src, src_span));
 
-            let mut should_wrap_interop_default = false;
-            let mut should_wrap_interop_namespace = false;
+            // - 0b01 named
+            // - 0b10 default
+            // - 0b11 star
+            let mut import_flag = 0u8;
+
             let mut should_re_export = false;
 
             set.into_iter().for_each(|s| match s {
                 Specifier::ImportNamed { imported, local } => {
+                    // `import { default as bar } from "foo"`
+                    if imported == Some(js_word!("default")) {
+                        import_flag |= 0b10;
+                    } else {
+                        import_flag |= 0b01;
+                    }
+
                     import_map.insert(
                         local.clone(),
                         (mod_ident.clone(), imported.or(Some(local.0))),
                     );
                 }
                 Specifier::ImportDefault(id) => {
-                    if !self.config.no_interop {
-                        should_wrap_interop_default = true;
-                    }
+                    import_flag |= 0b10;
 
                     import_map.insert(id, (mod_ident.clone(), Some(js_word!("default"))));
                 }
                 Specifier::ImportStarAs(id) => {
-                    if !self.config.no_interop {
-                        should_wrap_interop_namespace = true;
-                    }
+                    import_flag |= 0b11;
 
                     import_map.insert(id, (mod_ident.clone(), None));
                 }
                 Specifier::ExportNamed { orig, exported } => {
+                    // `export { default as bar } from "foo"`
+
+                    if orig.0 == js_word!("default") {
+                        import_flag |= 0b10;
+                    } else {
+                        import_flag |= 0b01;
+                    }
+
                     let (key, span) = exported.unwrap_or_else(|| orig.clone());
 
                     let expr = {
@@ -216,9 +230,7 @@ impl Amd {
                     export_obj_prop_list.push((key, span, expr))
                 }
                 Specifier::ExportStarAs(key, span) => {
-                    if !self.config.no_interop {
-                        should_wrap_interop_namespace = true;
-                    }
+                    import_flag |= 0b11;
 
                     let expr = mod_ident.clone().into();
                     export_obj_prop_list.push((key, span, expr))
@@ -228,8 +240,12 @@ impl Amd {
                 }
             });
 
-            if should_re_export || should_wrap_interop_default || should_wrap_interop_namespace {
-                // _reExport(exports, require("mod"));
+            if self.config.no_interop {
+                import_flag &= 1;
+            }
+
+            if should_re_export || import_flag > 1 {
+                // _reExport(exports, mod);
                 let import_expr: Expr = if should_re_export {
                     CallExpr {
                         span: DUMMY_SP,
@@ -242,8 +258,8 @@ impl Amd {
                     mod_ident.clone().into()
                 };
 
-                // mod = _introp(require("mod"));
-                let import_expr = if should_wrap_interop_namespace {
+                // mod = _introp(mod);
+                let import_expr = if import_flag == 0b11 {
                     CallExpr {
                         span: DUMMY_SP,
                         callee: helper!(interop_require_wildcard, "interopRequireWildcard"),
@@ -251,7 +267,7 @@ impl Amd {
                         type_args: Default::default(),
                     }
                     .make_assign_to(op!("="), mod_ident.as_pat_or_expr())
-                } else if should_wrap_interop_default {
+                } else if import_flag == 0b10 {
                     CallExpr {
                         span: DUMMY_SP,
                         callee: helper!(interop_require_default, "interopRequireDefault"),
