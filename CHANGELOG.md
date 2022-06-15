@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/resolver)** Make catch parameter not disturb resolving (#4976) ([b3f6f20](https://github.com/swc-project/swc/commit/b3f6f20721b90b03a67c1db5d9680147ffe13923))
+
 ### Features
 
 
