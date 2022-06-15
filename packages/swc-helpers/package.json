@@ -2,8 +2,8 @@
     "name": "@swc/helpers",
     "version": "0.4.0",
     "description": "External helpers for the swc project.",
-    "esnext": "src/index.js",
-    "module": "src/index.js",
+    "esnext": "src/index.mjs",
+    "module": "src/index.mjs",
     "main": "lib/index.js",
     "sideEffects": false,
     "scripts": {
