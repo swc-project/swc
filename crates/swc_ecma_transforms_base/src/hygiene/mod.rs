@@ -1,4 +1,3 @@
-use rustc_hash::FxHashSet;
 use swc_atoms::JsWord;
 use swc_common::{chain, collections::AHashMap};
 use swc_ecma_ast::*;
@@ -168,14 +167,7 @@ pub fn hygiene() -> impl Fold + VisitMut + 'static {
 ///
 ///  At third phase, we rename all identifiers in the queue.
 pub fn hygiene_with_config(config: Config) -> impl 'static + Fold + VisitMut {
-    as_folder(chain!(
-        unique_scope(),
-        Hygiene {
-            config,
-            reserved: None
-        },
-        HygieneRemover
-    ))
+    as_folder(chain!(unique_scope(), Hygiene { config }, HygieneRemover))
 }
 
 struct HygieneRemover;
@@ -189,12 +181,11 @@ impl VisitMut for HygieneRemover {
 }
 
 #[derive(Debug, Default)]
-struct Hygiene<'a> {
+struct Hygiene {
     config: Config,
-    reserved: Option<&'a FxHashSet<JsWord>>,
 }
 
-impl Hygiene<'_> {
+impl Hygiene {
     fn analyze_root<N>(&mut self, n: &mut N)
     where
         N: for<'aa> VisitWith<UsageAnalyzer<'aa>>,
@@ -226,7 +217,7 @@ impl Hygiene<'_> {
     }
 }
 
-impl VisitMut for Hygiene<'_> {
+impl VisitMut for Hygiene {
     noop_visit_mut_type!();
 
     fn visit_mut_module(&mut self, n: &mut Module) {
