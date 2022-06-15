@@ -172,8 +172,8 @@ mod tests {
         single_tag,
         "t`a`;",
         r#"
-        let _ = t1 => t1, t2;
-        t(t2 || (t2 = _`a`));
+        let _ = t1 => t1, t1;
+        t(t1 || (t1 = _`a`));
         "#
     );
 
@@ -183,7 +183,7 @@ mod tests {
         single_tag_empty,
         "x``;",
         r#"
-        let _ = t1 => t1, t;
+        let _ = t => t, t;
         x(t || (t = _``));
         "#
     );
@@ -197,9 +197,9 @@ mod tests {
         x``;
         "#,
         r#"
-        let _ = t2 => t2, t3, t1;
-        t(t3 || (t3 = _`a`));
-        x(t1 || (t1 = _``));
+        let _ = t1 => t1, t1, t2;
+        t(t1 || (t = _`a`));
+        x(t2 || (t2 = _``));
         "#
     );
 
@@ -253,7 +253,7 @@ mod tests {
         shared_strings_safari_11,
         "x`a` === y`a`;",
         r#"
-        let _ = t2 => t2, t, t1;
+        let _ = t => t, t, t1;
         x(t || (t = _`a`)) === y(t1 || (t1 = _`a`));
         "#
     );
