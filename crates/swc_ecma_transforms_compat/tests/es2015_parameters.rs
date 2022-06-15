@@ -495,10 +495,10 @@ function foo(...args) {
 }"#,
     r#"var args = 'bar';
 function foo() {
-    for(var _len = arguments.length, args1 = new Array(_len), _key = 0; _key < _len; _key++){
-        args1[_key] = arguments[_key];
+    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
+        args[_key] = arguments[_key];
     }
-    return args1;
+    return args;
 }
 "#
 );
@@ -1270,9 +1270,9 @@ test!(
         foo[_key - 1] = arguments[_key];
     }
     if (true) {
-        let Foo = function(Bar) {
+        let Foo = function(Bar1) {
             "use strict";
-            _inherits(Foo, Bar);
+            _inherits(Foo, Bar1);
             var _super = _createSuper(Foo);
             function Foo() {
                 _classCallCheck(this, Foo);
@@ -1785,9 +1785,8 @@ test!(
     "
     var _this = this;
     const arrow = function() {
-        for(var _len1 = arguments.length, args = new Array(_len1), _key1 = 0; _key1 < _len1; \
-     _key1++){
-            args[_key1] = arguments[_key1];
+        for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
+            args[_key] = arguments[_key];
         }
         return _this, ()=>{
             var _this1 = _this;
