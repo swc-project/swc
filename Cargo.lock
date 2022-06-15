@@ -3558,7 +3558,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.89.2"
+version = "0.89.3"
 dependencies = [
  "better_scoped_tls",
  "criterion",
@@ -3637,7 +3637,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.118.0"
+version = "0.118.1"
 dependencies = [
  "Inflector",
  "ahash",
