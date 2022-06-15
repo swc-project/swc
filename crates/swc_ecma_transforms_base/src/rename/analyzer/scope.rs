@@ -208,18 +208,19 @@ impl Scope {
             for (k, v) in iter.into_iter().flatten() {
                 to.entry(k).or_insert(v);
             }
-        } else {
-            for child in &mut self.children {
-                child.rename_parallel(
-                    renamer,
-                    to,
-                    &Default::default(),
-                    &cloned_reverse,
-                    preserved,
-                    preserved_symbols,
-                    parallel,
-                );
-            }
+            return;
+        }
+
+        for child in &mut self.children {
+            child.rename_parallel(
+                renamer,
+                to,
+                &Default::default(),
+                &cloned_reverse,
+                preserved,
+                preserved_symbols,
+                parallel,
+            );
         }
     }
 
