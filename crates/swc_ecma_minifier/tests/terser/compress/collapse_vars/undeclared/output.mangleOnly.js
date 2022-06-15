@@ -1,6 +1,6 @@
-function a(c, d) {
-    var a;
-    a = c;
-    b = d;
-    return b + a;
+function a(a, c) {
+    var d;
+    d = a;
+    b = c;
+    return b + d;
 }

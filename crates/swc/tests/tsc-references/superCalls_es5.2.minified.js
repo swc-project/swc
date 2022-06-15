@@ -4,9 +4,9 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
 var Base = function(n) {
     "use strict";
     _class_call_check(this, Base), this.x = 43;
-}, Derived = function(Base1) {
+}, Derived = function(Base) {
     "use strict";
-    _inherits(Derived, Base1);
+    _inherits(Derived, Base);
     var _super = _create_super(Derived);
     function Derived(q) {
         var _this;
@@ -16,9 +16,9 @@ var Base = function(n) {
 }(Base), OtherBase = function() {
     "use strict";
     _class_call_check(this, OtherBase);
-}, OtherDerived = function(OtherBase1) {
+}, OtherDerived = function(OtherBase) {
     "use strict";
-    _inherits(OtherDerived, OtherBase1);
+    _inherits(OtherDerived, OtherBase);
     var _super = _create_super(OtherDerived);
     function OtherDerived() {
         return _class_call_check(this, OtherDerived), _super.call(this);

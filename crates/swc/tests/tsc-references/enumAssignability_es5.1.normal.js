@@ -18,8 +18,8 @@ var x = e; // ok
 x = f; // ok
 var Others;
 (function(Others) {
-    var foo = function foo(x1, y, z) {
-        x1 = e;
+    var foo = function foo(x, y, z) {
+        x = e;
         y = e;
         z = e;
         var a = e;

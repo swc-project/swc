@@ -16,9 +16,9 @@ var A = function() {
         return "";
     }, A;
 }();
-!function(M1) {
+!function(M) {
     var n;
-    M1.n = n;
+    M.n = n;
 }(M || (M = {}));
 var objA = new A();
 void 0 === STRING || _type_of(STRING), _type_of(STRING1), _type_of(""), _type_of({

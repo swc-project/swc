@@ -3,8 +3,8 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var varInit = varInit; // any
 var pInit;
 function fn() {
-    var pInit1 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : pInit1;
-    var pInit1;
+    var pInit = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : pInit;
+    var pInit;
 }
 var InitClass = /*#__PURE__*/ function() {
     "use strict";
@@ -92,14 +92,14 @@ var C = /*#__PURE__*/ function() {
         return new (this.fn2());
     };
     _proto.fn3 = function fn3() {
-        var a1;
-        return new a1(this.fn3);
+        var a;
+        return new a(this.fn3);
     };
     return C;
 }();
 function fn5() {
-    var a2;
-    return new a2(fn5);
+    var a;
+    return new a(fn5);
 }
 var fn5r = fn5(); // fn5r: should be 'any', but is 'number'
 // Property access

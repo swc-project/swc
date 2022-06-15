@@ -1,6 +1,6 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var A;
-(function(A1) {
+(function(A) {
     var fromOrigin = function fromOrigin(p) {
         return new Line({
             x: 0,
@@ -11,12 +11,12 @@ var A;
         "use strict";
         _class_call_check(this, Point);
     };
-    A1.Point = Point;
+    A.Point = Point;
     var Line = function Line(start, end) {
         "use strict";
         _class_call_check(this, Line);
         this.start = start;
         this.end = end;
     };
-    A1.fromOrigin = fromOrigin;
+    A.fromOrigin = fromOrigin;
 })(A || (A = {}));

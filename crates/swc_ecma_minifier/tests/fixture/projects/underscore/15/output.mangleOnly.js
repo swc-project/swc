@@ -1,6 +1,6 @@
-function a(c, d) {
-    var a = c.constructor, b = d.constructor;
-    if (a !== b && !(_.isFunction(a) && a instanceof a && _.isFunction(b) && b instanceof b)) {
+function a(a, b) {
+    var c = a.constructor, d = b.constructor;
+    if (c !== d && !(_.isFunction(c) && c instanceof c && _.isFunction(d) && d instanceof d)) {
         return false;
     }
 }

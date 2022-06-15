@@ -86,9 +86,9 @@ new c4(10), i2_i.i2_f1(), i2_i.i2_nc_f1(), i2_i.f1(), i2_i.nc_f1(), i2_i.i2_l1()
 var c5 = function() {
     "use strict";
     _class_call_check(this, c5);
-}, c6 = function(c51) {
+}, c6 = function(c5) {
     "use strict";
-    _inherits(c6, c51);
+    _inherits(c6, c5);
     var _super = _create_super(c6);
     function c6() {
         var _this;

@@ -7,8 +7,8 @@ var C = /*#__PURE__*/ function() {
     var _proto = C.prototype;
     _proto.f = function f() {
         var x;
-        var a1 = x["notHere"](); // should be string
-        return a1 + x.notHere();
+        var a = x["notHere"](); // should be string
+        return a + x.notHere();
     };
     return C;
 }();
@@ -21,8 +21,8 @@ var r3 = a().notHere();
 var r3b = a()["notHere"]();
 var b = {
     foo: function(x) {
-        var a2 = x["notHere"](); // should be string
-        return a2 + x.notHere();
+        var a = x["notHere"](); // should be string
+        return a + x.notHere();
     },
     bar: b.foo().notHere()
 };

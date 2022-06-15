@@ -1,9 +1,9 @@
-function a(b) {
-    function a() {
-        var { b: a , c: c  } = b;
-        console.log(a, c);
+function a(a) {
+    function b() {
+        var { b: b , c: c  } = a;
+        console.log(b, c);
     }
-    a();
+    b();
 }
 a({
     b: 2,

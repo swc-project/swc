@@ -1,23 +1,23 @@
 (function() {
-    let b = [];
-    function a() {
-        var a = [
+    let a = [];
+    function b() {
+        var b = [
             2,
             1,
             0
-        ].map((a)=>{
-            b.push(a);
+        ].map((b)=>{
+            a.push(b);
             return c();
         });
-        return a;
+        return b;
     }
     function c() {
-        var a = [
+        var b = [
             "A",
             "B",
             "C"
-        ], c = b.shift();
-        return ()=>console.log(a[c] + c);
+        ], c = a.shift();
+        return ()=>console.log(b[c] + c);
     }
-    a().map((a)=>a());
+    b().map((a)=>a());
 })();

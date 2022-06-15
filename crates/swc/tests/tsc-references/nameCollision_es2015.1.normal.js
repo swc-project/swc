@@ -16,33 +16,33 @@ var B;
     }
 })(B || (B = {}));
 var X;
-(function(X2) {
+(function(X) {
     var X1 = 13;
-    let Y2;
-    (function(Y3) {
+    let Y;
+    (function(Y) {
         var Y1 = 13;
         let Z;
         (function(Z) {
             var X = 12;
             var Y = 12;
             var Z1 = 12;
-        })(Z = Y3.Z || (Y3.Z = {}));
-    })(Y2 = X2.Y || (X2.Y = {}));
+        })(Z = Y.Z || (Y.Z = {}));
+    })(Y = X.Y || (X.Y = {}));
 })(X || (X = {}));
 var Y;
-(function(Y5) {
-    let Y4;
-    (function(Y6) {
-        let Y4;
-        (function(Y4) {
-            Y4[Y4["Red"] = 0] = "Red";
-            Y4[Y4["Blue"] = 1] = "Blue";
-        })(Y4 = Y6.Y || (Y6.Y = {}));
-    })(Y4 = Y5.Y || (Y5.Y = {}));
+(function(Y) {
+    let Y1;
+    (function(Y) {
+        let Y1;
+        (function(Y1) {
+            Y1[Y1["Red"] = 0] = "Red";
+            Y1[Y1["Blue"] = 1] = "Blue";
+        })(Y1 = Y.Y || (Y.Y = {}));
+    })(Y1 = Y.Y || (Y.Y = {}));
 })(Y || (Y = {}));
 // no collision, since interface doesn't
 // generate code.
 var D;
-(function(D1) {
-    var E = D1.E = 'hello';
+(function(D) {
+    var E = D.E = 'hello';
 })(D || (D = {}));

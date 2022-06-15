@@ -1,7 +1,7 @@
-function b(a) {
+function a(a) {
     a();
 }
-class a {
+class b {
     constructor(a){
         this.message = a;
     }
@@ -10,9 +10,9 @@ class a {
         console.log(this.message);
     }
     run() {
-        b(()=>{
+        a(()=>{
             this.go();
         });
     }
 }
-new a("FAIL").run();
+new b("FAIL").run();

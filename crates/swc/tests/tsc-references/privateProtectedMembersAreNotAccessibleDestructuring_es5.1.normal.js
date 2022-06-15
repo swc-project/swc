@@ -25,7 +25,7 @@ var C = /*#__PURE__*/ function(K) {
     var _proto = C.prototype;
     _proto.m2 = function m2() {
         var ref = this, a = ref.priv; // error
-        var ref2 = this, b = ref2.prot; // ok
+        var ref1 = this, b = ref1.prot; // ok
     };
     return C;
 }(K);

@@ -6,8 +6,8 @@ var x, E, a, b, M, C = function() {
     "use strict";
     _class_call_check(this, C);
 };
-function f(a1) {
-    x = a1;
+function f(a) {
+    x = a;
 }
 x = a, x = b, x = {
     f: function() {}

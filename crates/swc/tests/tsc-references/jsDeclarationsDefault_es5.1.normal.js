@@ -25,9 +25,9 @@ var Foo = function Foo() {
 export { Foo as default };
 export var X = Foo;
 export { Foo as Bar };
-var Bar = /*#__PURE__*/ function(Fab1) {
+var Bar = /*#__PURE__*/ function(Fab) {
     "use strict";
-    _inherits(Bar, Fab1);
+    _inherits(Bar, Fab);
     var _super = _create_super(Bar);
     function Bar() {
         _class_call_check(this, Bar);

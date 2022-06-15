@@ -1,12 +1,12 @@
-function d(a) {
+function a(a) {
     return a.count++;
 }
-function a(b, c) {
-    var e = d(b);
-    return (a.amount = c.count), e;
+function b(c, d) {
+    var e = a(c);
+    return (b.amount = d.count), e;
 }
-var b = {
+var c = {
     count: 0
 };
-var c = a(b, b);
-console.log(a.amount, c);
+var d = b(c, c);
+console.log(b.amount, d);

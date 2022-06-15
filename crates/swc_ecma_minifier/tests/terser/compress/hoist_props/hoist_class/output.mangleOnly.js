@@ -1,7 +1,7 @@
-function b(a, b) {
+function a(a, b) {
     return new a(b).value;
 }
-var a = {
+var b = {
     p: class a {
         constructor(a){
             this.value = a * 10;
@@ -10,4 +10,4 @@ var a = {
     x: 1,
     y: 2
 };
-console.log(a.p.name, a.p === a.p, b(a.p, a.x), b(a.p, a.y));
+console.log(b.p.name, b.p === b.p, a(b.p, b.x), a(b.p, b.y));

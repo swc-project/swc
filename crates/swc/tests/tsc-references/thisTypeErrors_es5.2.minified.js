@@ -9,9 +9,9 @@ var N1, C1 = function() {
     }
     return C2.foo = function(x) {}, C2;
 }();
-C2.y = void 0, function(N11) {
+C2.y = void 0, function(N1) {
     var x;
-    N11.y = this, N11.x = x;
+    N1.y = this, N1.x = x;
 }(N1 || (N1 = {}));
 var C3 = function() {
     "use strict";

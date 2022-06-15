@@ -5,11 +5,11 @@ var enumdule;
     enumdule[enumdule["Blue"] = 1] = "Blue";
 })(enumdule || (enumdule = {}));
 (function(enumdule) {
-    var Point = function Point(x1, y1) {
+    var Point = function Point(x, y) {
         "use strict";
         _class_call_check(this, Point);
-        this.x = x1;
-        this.y = y1;
+        this.x = x;
+        this.y = y;
     };
     enumdule.Point = Point;
 })(enumdule || (enumdule = {}));

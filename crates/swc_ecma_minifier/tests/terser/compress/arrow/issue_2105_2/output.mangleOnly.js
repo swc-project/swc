@@ -4,14 +4,14 @@
         a()().prop();
     })(()=>{
         let a = ()=>{
-            var b = ()=>{
+            var a = ()=>{
                 console.log("PASS");
-            }, a = ()=>{
+            }, b = ()=>{
                 console.log;
-                b();
+                a();
             };
             return {
-                prop: a
+                prop: b
             };
         };
         return a;

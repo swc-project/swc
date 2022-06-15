@@ -6,16 +6,16 @@ class C {
 var __ = {
     writable: true,
     value: (()=>{
-        const a1 = 11;
-        a1;
+        const a = 11;
+        a;
         b;
     })()
 };
 var __1 = {
     writable: true,
     value: (()=>{
-        const a2 = 11;
-        a2;
+        const a = 11;
+        a;
         b;
     })()
 };

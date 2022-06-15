@@ -13,31 +13,36 @@ version = "0.89.4"
 bench = false
 
 [features]
-concurrent = ["rayon", "swc_ecma_utils/concurrent"]
+concurrent = [
+  "concurrent-renamer",
+  "rayon",
+  "swc_ecma_utils/concurrent",
+]
+concurrent-renamer = ["rayon"]
 
 [dependencies]
-better_scoped_tls = { version = "0.1.0", path = "../better_scoped_tls" }
+better_scoped_tls = {version = "0.1.0", path = "../better_scoped_tls"}
 num_cpus = "1.13.1"
 once_cell = "1.10.0"
-phf = { version = "0.10", features = ["macros"] }
-rayon = { version = "1", optional = true }
+phf = {version = "0.10", features = ["macros"]}
+rayon = {version = "1", optional = true}
 rustc-hash = "1.1.0"
-serde = { version = "1", features = ["derive"] }
+serde = {version = "1", features = ["derive"]}
 smallvec = "1.8.0"
-swc_atoms = { version = "0.2", path = "../swc_atoms" }
-swc_common = { version = "0.18.0", path = "../swc_common" }
-swc_ecma_ast = { version = "0.79.0", path = "../swc_ecma_ast" }
-swc_ecma_parser = { version = "0.105.0", path = "../swc_ecma_parser" }
-swc_ecma_utils = { version = "0.86.0", path = "../swc_ecma_utils" }
-swc_ecma_visit = { version = "0.65.0", path = "../swc_ecma_visit" }
+swc_atoms = {version = "0.2", path = "../swc_atoms"}
+swc_common = {version = "0.18.0", path = "../swc_common"}
+swc_ecma_ast = {version = "0.79.0", path = "../swc_ecma_ast"}
+swc_ecma_parser = {version = "0.105.0", path = "../swc_ecma_parser"}
+swc_ecma_utils = {version = "0.86.0", path = "../swc_ecma_utils"}
+swc_ecma_visit = {version = "0.65.0", path = "../swc_ecma_visit"}
 tracing = "0.1.32"
 
 [dev-dependencies]
 criterion = "0.3"
-swc_ecma_codegen = { version = "0.109.0", path = "../swc_ecma_codegen" }
-swc_ecma_transforms_macros = { version = "0.5.0", path = "../swc_ecma_transforms_macros" }
-swc_node_base = { version = "0.5.5", path = "../swc_node_base" }
-testing = { version = "0.20.0", path = "../testing" }
+swc_ecma_codegen = {version = "0.109.0", path = "../swc_ecma_codegen"}
+swc_ecma_transforms_macros = {version = "0.5.0", path = "../swc_ecma_transforms_macros"}
+swc_node_base = {version = "0.5.5", path = "../swc_node_base"}
+testing = {version = "0.20.0", path = "../testing"}
 
 [[bench]]
 harness = false

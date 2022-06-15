@@ -42,10 +42,10 @@ var GH14865;
         type: "A",
         data: "whatevs"
     };
-    let b;
+    let b1;
     a.type; // "A" | "B"
-    b.type; // "A" | "B"
-    b = a; // should be assignable
+    b1.type; // "A" | "B"
+    b1 = a; // should be assignable
 })(GH14865 || (GH14865 = {}));
 // https://github.com/Microsoft/TypeScript/issues/30170
 var GH30170;

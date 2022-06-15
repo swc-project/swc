@@ -1,7 +1,7 @@
 function* gen(i) {
-    const result = yield (x1 = i, -x1);
-    var x1;
-    console.log(x1);
+    const result = yield (x = i, -x);
+    var x;
+    console.log(x);
     console.log(result);
     yield 2;
 }

@@ -1,4 +1,4 @@
-var b = "";
-for(var a = 0; a < netmaskBits; ++a){
-    b += "1";
+var a = "";
+for(var b = 0; b < netmaskBits; ++b){
+    a += "1";
 }

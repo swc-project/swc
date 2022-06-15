@@ -98,11 +98,11 @@ function f40(...[kind, data]) {
     }
 }
 function unrefined1(ab) {
-    const { variant , value: value1  } = ab;
+    const { variant , value  } = ab;
     if (variant === 'a') {
-        printValue(value1);
+        printValue(value);
     } else {
-        printValueList(value1);
+        printValueList(value);
     }
 }
 const reducerBroken = (state, { type , payload  })=>{

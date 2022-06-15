@@ -4,18 +4,18 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
 var Base = function() {
     "use strict";
     _class_call_check(this, Base);
-}, Sub = function(Base1) {
+}, Sub = function(Base) {
     "use strict";
-    _inherits(Sub, Base1);
+    _inherits(Sub, Base);
     var _super = _create_super(Sub);
     function Sub(p) {
         var _this;
         return _class_call_check(this, Sub), console.log("hi"), (_this = _super.call(this)).p = p, _this.field = 0, _this;
     }
     return Sub;
-}(Base), Test = function(Base2) {
+}(Base), Test = function(Base) {
     "use strict";
-    _inherits(Test, Base2);
+    _inherits(Test, Base);
     var _super = _create_super(Test);
     function Test(p) {
         var _this;

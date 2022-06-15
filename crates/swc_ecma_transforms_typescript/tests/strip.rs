@@ -3397,13 +3397,13 @@ class A {
 }",
     "import { bind } from 'some';
 let A = _decorate([], function(_initialize) {
-    class A1{
+    class A {
         constructor(){
             _initialize(this);
         }
     }
     return {
-        F: A1,
+        F: A,
         d: [{
                 kind: \"get\",
                 decorators: [bind],
@@ -3477,18 +3477,18 @@ to!(
     ",
     "
     export var util;
-    (function (util1) {
+    (function (util) {
         function assertNever(_x) {
             throw new Error();
         }
-        util1.assertNever = assertNever;
-        var arrayToEnum = util1.arrayToEnum = (items)=>{
+        util.assertNever = assertNever;
+        var arrayToEnum = util.arrayToEnum = (items)=>{
         };
-        var getValidEnumValues = util1.getValidEnumValues = (obj)=>{
+        var getValidEnumValues = util.getValidEnumValues = (obj)=>{
         };
-        var getValues = util1.getValues = (obj)=>{
+        var getValues = util.getValues = (obj)=>{
         };
-        var objectValues = util1.objectValues = (obj)=>{
+        var objectValues = util.objectValues = (obj)=>{
         };
     })(util || (util = {}));
     "
@@ -3504,9 +3504,9 @@ to!(
     ",
     "
     export var util;
-    (function (util1) {
+    (function (util) {
         const c = 3;
-        [util1.a, util1.b] = [1, 2, 3];
+        [util.a, util.b] = [1, 2, 3];
     })(util || (util = {}));
     "
 );
@@ -3527,11 +3527,11 @@ to!(
     ",
     "
     export var util;
-    (function (util1) {
+    (function (util) {
         const c = 3;
         function foo() {
         }
-        util1.foo = foo;
+        util.foo = foo;
         function bar() {
         }
     })(util || (util = {}));
@@ -3550,11 +3550,11 @@ to!(
     ",
     "
     var Test;
-    (function (Test1) {
-        let Inner1;
+    (function (Test) {
+        let Inner;
         (function (Inner) {
             var c = Inner.c = 3;
-        })(Inner1 = Test1.Inner || (Test1.Inner = {}));
+        })(Inner = Test.Inner || (Test.Inner = {}));
     })(Test || (Test = {}));
     "
 );
@@ -3588,28 +3588,28 @@ to!(
     ",
     r#"
     var MyNamespace;
-    (function (MyNamespace1) {
+    (function (MyNamespace) {
         let MyEnum;
         (function (MyEnum) {
             MyEnum[MyEnum["A"] = 1] = "A";
-        })(MyEnum = MyNamespace1.MyEnum || (MyNamespace1.MyEnum = {}));
-        let MyInnerNamespace1;
+        })(MyEnum = MyNamespace.MyEnum || (MyNamespace.MyEnum = {}));
+        let MyInnerNamespace;
         (function (MyInnerNamespace) {
             let MyEnum;
             (function (MyEnum) {
                 MyEnum[MyEnum["A"] = 1] = "A";
             })(MyEnum = MyInnerNamespace.MyEnum || (MyInnerNamespace.MyEnum = {}));
-        })(MyInnerNamespace1 = MyNamespace1.MyInnerNamespace || (MyNamespace1.MyInnerNamespace = {}));
+        })(MyInnerNamespace = MyNamespace.MyInnerNamespace || (MyNamespace.MyInnerNamespace = {}));
     })(MyNamespace || (MyNamespace = {}));
-    (function (MyNamespace2) {
+    (function (MyNamespace) {
         let MyEnum;
         (function (MyEnum) {
             MyEnum[MyEnum["B"] = 1] = "B";
-        })(MyEnum = MyNamespace2.MyEnum || (MyNamespace2.MyEnum = {}));
-        let MyInnerNamespace2;
+        })(MyEnum = MyNamespace.MyEnum || (MyNamespace.MyEnum = {}));
+        let MyInnerNamespace;
         (function (MyInnerNamespace) {
             var Dec2 = MyInnerNamespace.Dec2 = 2;
-        })(MyInnerNamespace2 = MyNamespace2.MyInnerNamespace || (MyNamespace2.MyInnerNamespace = {}));
+        })(MyInnerNamespace = MyNamespace.MyInnerNamespace || (MyNamespace.MyInnerNamespace = {}));
     })(MyNamespace || (MyNamespace = {}));
     (function (MyNamespace) {
         let MyEnum;
@@ -3635,15 +3635,15 @@ to!(
     ",
     r#"
     var A;
-    (function (A1) {
+    (function (A) {
         class Test {
         }
-        A1.Test = Test;
+        A.Test = Test;
     })(A || (A = {}));
     var B;
-    (function (B1) {
+    (function (B) {
         var a = A;
-        B1.a = a;
+        B.a = a;
         console.log(a.Test);
         var b = A;
         console.log(b.Test);
@@ -3665,12 +3665,12 @@ to!(
     ",
     "
     var Test;
-    (function(Test1) {
+    (function(Test) {
         let DummyValues;
         (function(DummyValues) {
             DummyValues[\"A\"] = \"A\";
             DummyValues[\"B\"] = \"B\";
-        })(DummyValues = Test1.DummyValues || (Test1.DummyValues = {}));
+        })(DummyValues = Test.DummyValues || (Test.DummyValues = {}));
     })(Test || (Test = {
     }));
     console(Test.DummyValues.A);
@@ -4464,42 +4464,42 @@ export var Enum;
     Enum[Enum["test"] = 1] = "test";
 })(Enum || (Enum = {}));
 var Namespace;
-(function(Namespace1) {
+(function(Namespace) {
     let Enum;
     (function(Enum) {
         Enum[Enum["test"] = 1] = "test";
-    })(Enum = Namespace1.Enum || (Namespace1.Enum = {}));
+    })(Enum = Namespace.Enum || (Namespace.Enum = {}));
     (function(Enum) {
         Enum[Enum["test2"] = 1] = "test2";
-    })(Enum = Namespace1.Enum || (Namespace1.Enum = {}));
+    })(Enum = Namespace.Enum || (Namespace.Enum = {}));
 })(Namespace || (Namespace = {
 }));
 {
-    let Enum;
-    (function (Enum) {
-        Enum[Enum["test"] = 1] = "test";
-    })(Enum || (Enum = {}));
-    let Namespace2;
-    (function(Namespace3) {
+    let Enum1;
+    (function (Enum1) {
+        Enum1[Enum1["test"] = 1] = "test";
+    })(Enum1 || (Enum1 = {}));
+    let Namespace1;
+    (function(Namespace) {
         let Enum;
         (function(Enum) {
             Enum[Enum["test"] = 1] = "test";
-        })(Enum = Namespace3.Enum || (Namespace3.Enum = {}));
-    })(Namespace2 || (Namespace2 = {
+        })(Enum = Namespace.Enum || (Namespace.Enum = {}));
+    })(Namespace1 || (Namespace1 = {
     }));
 }
 {
-    let Enum;
-    (function (Enum) {
-        Enum[Enum["test"] = 1] = "test";
-    })(Enum || (Enum = {}));
-    let Namespace4;
-    (function(Namespace5) {
+    let Enum2;
+    (function (Enum2) {
+        Enum2[Enum2["test"] = 1] = "test";
+    })(Enum2 || (Enum2 = {}));
+    let Namespace2;
+    (function(Namespace) {
         let Enum;
         (function(Enum) {
             Enum[Enum["test"] = 1] = "test";
-        })(Enum = Namespace5.Enum || (Namespace5.Enum = {}));
-    })(Namespace4 || (Namespace4 = {
+        })(Enum = Namespace.Enum || (Namespace.Enum = {}));
+    })(Namespace2 || (Namespace2 = {
     }));
 }
     "#

@@ -1,5 +1,5 @@
-function validatePropTypes(element1) {
-    var propTypes, type = element1.type;
+function validatePropTypes(element) {
+    var propTypes, type = element.type;
     if (null != type && "string" != typeof type) {
         if ("function" == typeof type) propTypes = type.propTypes;
         else {
@@ -23,7 +23,7 @@ function validatePropTypes(element1) {
                     }
                     !error$1 || error$1 instanceof Error || (setCurrentlyValidatingElement(element), error("%s: type specification of %s `%s` is invalid; the type checker function must return `null` or an `Error` but returned a %s. You may have forgotten to pass an argument to the type checker creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and shape all require an argument).", componentName || "React class", location, typeSpecName, typeof error$1), setCurrentlyValidatingElement(null)), error$1 instanceof Error && !(error$1.message in loggedTypeFailures) && (loggedTypeFailures[error$1.message] = !0, setCurrentlyValidatingElement(element), error("Failed %s type: %s", location, error$1.message), setCurrentlyValidatingElement(null));
                 }
-            }(propTypes, element1.props, "prop", name, element1);
+            }(propTypes, element.props, "prop", name, element);
         } else void 0 === type.PropTypes || propTypesMisspellWarningShown || (propTypesMisspellWarningShown = !0, error("Component %s declared `PropTypes` instead of `propTypes`. Did you misspell the property assignment?", getComponentName(type) || "Unknown"));
         "function" != typeof type.getDefaultProps || type.getDefaultProps.isReactClassApproved || error("getDefaultProps is only used on classic React.createClass definitions. Use a static property named `defaultProps` instead.");
     }

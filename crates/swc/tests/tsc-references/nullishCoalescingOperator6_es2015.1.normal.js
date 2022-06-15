@@ -1,2 +1,2 @@
 // @strict: true
-function foo(foo1, bar = foo1 !== null && foo1 !== void 0 ? foo1 : "bar") {}
+function foo(foo, bar = foo !== null && foo !== void 0 ? foo : "bar") {}

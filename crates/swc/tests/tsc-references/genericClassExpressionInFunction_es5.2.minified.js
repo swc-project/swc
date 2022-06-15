@@ -6,8 +6,8 @@ var A = function() {
     _class_call_check(this, A);
 }, B2 = function() {
     "use strict";
-    _class_call_check(this, B2), this.anon = function(A1) {
-        _inherits(_class, A1);
+    _class_call_check(this, B2), this.anon = function(A) {
+        _inherits(_class, A);
         var _super = _create_super(_class);
         function _class() {
             return _class_call_check(this, _class), _super.apply(this, arguments);
@@ -22,9 +22,9 @@ var A = function() {
         return _class_call_check(this, K), _super.apply(this, arguments);
     }
     return K;
-}(function(A2) {
+}(function(A) {
     "use strict";
-    _inherits(_class, A2);
+    _inherits(_class, A);
     var _super = _create_super(_class);
     function _class() {
         return _class_call_check(this, _class), _super.apply(this, arguments);
@@ -46,9 +46,9 @@ var A = function() {
         return _class_call_check(this, S), _super.apply(this, arguments);
     }
     return S;
-}(function(A3) {
+}(function(A) {
     "use strict";
-    _inherits(Inner, A3);
+    _inherits(Inner, A);
     var _super = _create_super(Inner);
     function Inner() {
         return _class_call_check(this, Inner), _super.apply(this, arguments);

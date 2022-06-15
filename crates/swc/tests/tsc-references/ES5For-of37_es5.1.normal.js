@@ -39,8 +39,8 @@ try {
                 }
             }
             console.log(i);
-        } catch (err) {
-            console.log("E %s %s", i, err);
+        } catch (err1) {
+            console.log("E %s %s", i, err1);
         }
     }
 } catch (err) {

@@ -1,10 +1,10 @@
-function* b(a) {
+function* a(a) {
     const b = yield ((c = a), -c);
     var c;
     console.log(c);
     console.log(b);
     yield 2;
 }
-var a = b(1);
-console.log(a.next("first").value);
-console.log(a.next("second").value);
+var b = a(1);
+console.log(b.next("first").value);
+console.log(b.next("second").value);

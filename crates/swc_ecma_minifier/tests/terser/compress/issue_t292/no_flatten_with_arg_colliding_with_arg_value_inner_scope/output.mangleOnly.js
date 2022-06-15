@@ -1,19 +1,19 @@
-var b = [
+var a = [
     "a"
 ];
+function b(b) {
+    return a.indexOf(b);
+}
 function c(a) {
-    return b.indexOf(a);
+    return b(a);
 }
 function d(a) {
-    return c(a);
+    return b(a);
 }
-function e(a) {
-    return c(a);
+function e(b) {
+    return a[b];
 }
 function f(a) {
-    return b[a];
+    return e(d(a));
 }
-function a(a) {
-    return f(e(a));
-}
-console.log(a("a"));
+console.log(f("a"));

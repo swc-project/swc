@@ -5,9 +5,9 @@ var _get = require("@swc/helpers/lib/_get.js").default;
 var _get_prototype_of = require("@swc/helpers/lib/_get_prototype_of.js").default;
 var _inherits = require("@swc/helpers/lib/_inherits.js").default;
 var _create_super = require("@swc/helpers/lib/_create_super.js").default;
-var ColouredCanvasElement = /*#__PURE__*/ function(CanvasElement) {
+var ColouredCanvasElement = /*#__PURE__*/ function(CanvasElement1) {
     "use strict";
-    _inherits(ColouredCanvasElement, CanvasElement);
+    _inherits(ColouredCanvasElement, CanvasElement1);
     var _super = _create_super(ColouredCanvasElement);
     function ColouredCanvasElement() {
         _class_call_check(this, ColouredCanvasElement);

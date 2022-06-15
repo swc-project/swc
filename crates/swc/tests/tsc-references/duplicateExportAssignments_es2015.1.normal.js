@@ -9,8 +9,8 @@ class y {
 }
 module.exports = x;
 module.exports = y;
-(function(x2) {
-    var x1 = x2.x = 10;
+(function(x) {
+    var x1 = x.x = 10;
 })(x || (x = {}));
 class y {
 }

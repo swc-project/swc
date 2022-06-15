@@ -3,13 +3,13 @@ var B, Geometry;
     constructor(start, end){
         this.start = start, this.end = end;
     }
-}, function(Geometry1) {
-    Geometry1.Points = A;
-    var Lines = B, Origin = Geometry1.Origin = {
+}, function(Geometry) {
+    Geometry.Points = A;
+    var Lines = B, Origin = Geometry.Origin = {
         x: 0,
         y: 0
     };
-    Geometry1.Unit = new Lines.Line(Origin, {
+    Geometry.Unit = new Lines.Line(Origin, {
         x: 1,
         y: 0
     });

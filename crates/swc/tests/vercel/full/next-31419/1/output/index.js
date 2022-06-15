@@ -28,22 +28,22 @@ Promise.all(assignAll).then(function() {
         return c.apply(this, arguments);
     };
 }());
-export var listOfUser = function(d) {
-    var c;
-    return new Promise((c = a(b.mark(function a(c, e) {
+export var listOfUser = function(c) {
+    var d;
+    return new Promise((d = a(b.mark(function a(d, e) {
         var f;
         return b.wrap(function(a) {
             for(;;)switch(a.prev = a.next){
                 case 0:
-                    f = 'Select Distinct id from "TABLE" Where id = \''.concat(d, "' And user_id IS not null"), postgreSQL.query(f, null, function(a, b) {
-                        a ? e(a) : c(b.rows);
+                    f = 'Select Distinct id from "TABLE" Where id = \''.concat(c, "' And user_id IS not null"), postgreSQL.query(f, null, function(a, b) {
+                        a ? e(a) : d(b.rows);
                     });
                 case 2:
                 case "end":
                     return a.stop();
             }
         }, a);
-    })), function(c, e) {
-        return c.apply(this, arguments);
+    })), function(d, e) {
+        return d.apply(this, arguments);
     }));
 };

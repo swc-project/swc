@@ -61,26 +61,26 @@ function g(e) {
     }
 }
 function area(s) {
-    let area1;
+    let area;
     switch(s.kind){
         case "square":
-            area1 = s.size * s.size;
+            area = s.size * s.size;
             break;
         case "rectangle":
-            area1 = s.width * s.height;
+            area = s.width * s.height;
             break;
         case "circle":
-            area1 = Math.PI * s.radius * s.radius;
+            area = Math.PI * s.radius * s.radius;
             break;
         case "triangle":
-            area1 = Math.sqrt(3) / 4 * s.side * s.side;
+            area = Math.sqrt(3) / 4 * s.side * s.side;
             break;
     }
-    return area1;
+    return area;
 }
 function areaWrapped(s) {
-    let area2;
-    area2 = (()=>{
+    let area;
+    area = (()=>{
         switch(s.kind){
             case "square":
                 return s.size * s.size;
@@ -92,7 +92,7 @@ function areaWrapped(s) {
                 return Math.sqrt(3) / 4 * s.side * s.side;
         }
     })();
-    return area2;
+    return area;
 }
 var // Repro from #13241
 MyEnum;
@@ -211,9 +211,9 @@ function expression() {
 }
 // Repro from #34840
 function foo() {
-    const foo1 = 0;
+    const foo = 0;
     while(true){
-        const stats = foo1;
+        const stats = foo;
         switch(stats){
             case 1:
                 break;

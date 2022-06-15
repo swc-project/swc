@@ -2,11 +2,11 @@ function a() {
     function a(a) {
         c.call(null, a);
     }
-    function c(b) {
-        var c = 4;
-        var d = b || never_called();
-        var a = (c - 1) * d;
-        console.log(a == 6 ? "PASS" : a);
+    function c(a) {
+        var b = 4;
+        var c = a || never_called();
+        var d = (b - 1) * c;
+        console.log(d == 6 ? "PASS" : d);
     }
     b = a;
 }

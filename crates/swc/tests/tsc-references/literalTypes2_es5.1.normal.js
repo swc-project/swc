@@ -222,8 +222,8 @@ function makeArray(x) {
         x
     ];
 }
-function append(a1, x) {
-    var result = a1.slice();
+function append(a, x) {
+    var result = a.slice();
     result.push(x);
     return result;
 }

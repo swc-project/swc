@@ -1,22 +1,22 @@
-class d {
+class a {
     num() {
-        return a;
+        return g;
     }
 }
-class e {
+class b {
     num() {
-        return b;
+        return h;
     }
 }
-class f {
+class c {
     num() {
-        return c;
+        return i;
     }
 }
-function g() {
-    return a;
+function d() {
+    return g;
 }
-const h = ()=>b;
-const i = ()=>c;
-let a = 2, b = 3, c = 4;
-console.log(a, b, c, a * b, a * c, b * c, g(), h(), i(), new d().num(), new e().num(), new f().num());
+const e = ()=>h;
+const f = ()=>i;
+let g = 2, h = 3, i = 4;
+console.log(g, h, i, g * h, g * i, h * i, d(), e(), f(), new a().num(), new b().num(), new c().num());

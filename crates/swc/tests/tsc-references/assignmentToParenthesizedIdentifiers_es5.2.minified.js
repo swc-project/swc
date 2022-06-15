@@ -1,14 +1,14 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-!function(M1) {
+!function(M) {
     var y;
-    M1.y = y;
+    M.y = y;
 }(M || (M = {})), M.y = 3, M.y = 3, M.y = 3, M.y = "", M.y = "", M.y = "", M = {
     y: 3
 }, M = {
     y: 3
-}, function(M21) {
+}, function(M2) {
     var x;
-    (M21.M3 || (M21.M3 = {})).x = x;
+    (M2.M3 || (M2.M3 = {})).x = x;
 }(M2 || (M2 = {})), M2.M3 = {
     x: 3
 }, M2.M3 = {

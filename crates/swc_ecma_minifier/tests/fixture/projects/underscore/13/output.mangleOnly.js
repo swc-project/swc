@@ -1,5 +1,5 @@
-_.result = function(a, c) {
+_.result = function(a, b) {
     if (a == null) return void 0;
-    var b = a[c];
-    return _.isFunction(b) ? b.call(a) : b;
+    var c = a[b];
+    return _.isFunction(c) ? c.call(a) : c;
 };

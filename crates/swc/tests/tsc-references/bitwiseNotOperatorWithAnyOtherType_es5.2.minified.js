@@ -12,9 +12,9 @@ var M, ANY2 = [
     }
     return A.foo = function() {}, A;
 }();
-!function(M1) {
+!function(M) {
     var n;
-    M1.n = n;
+    M.n = n;
 }(M || (M = {}));
 var objA = new A();
 ANY2[0], obj1.x, obj1.y, objA.a, M.n, A.foo(), ANY2[0], obj1.y, objA.a, M.n, obj1.x;

@@ -8,7 +8,7 @@ var C = function C() {
 var __ = {
     writable: true,
     value: function() {
-        var a1 = 1;
-        a1;
+        var a = 1;
+        a;
     }()
 };

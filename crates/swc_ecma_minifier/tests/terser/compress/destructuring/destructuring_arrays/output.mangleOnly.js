@@ -1,12 +1,12 @@
 {
-    const [c, d] = m;
+    const [a, b] = m;
 }{
-    const [e, [f, g]] = dd;
+    const [c, [d, e]] = dd;
 }{
-    let [h, i] = m;
+    let [f, g] = m;
 }{
-    let [j, [k, l]] = dd;
-}var [a, b] = m;
-var [a, [b, m]] = dd;
+    let [h, [i, j]] = dd;
+}var [k, l] = m;
+var [k, [l, m]] = dd;
 var [, [], , , n] = xx;
 var [, , o, ] = xxx;

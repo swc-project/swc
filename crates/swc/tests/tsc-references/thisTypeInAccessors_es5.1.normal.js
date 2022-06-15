@@ -48,8 +48,8 @@ var Explicit = /*#__PURE__*/ function() {
             get: function get() {
                 return this.n;
             },
-            set: function set(n) {
-                this.n = n;
+            set: function set(n1) {
+                this.n = n1;
             }
         }
     ]);

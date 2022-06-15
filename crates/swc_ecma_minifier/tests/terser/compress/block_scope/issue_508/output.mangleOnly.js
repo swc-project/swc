@@ -1,16 +1,16 @@
 const a = ()=>{
     let a;
     {
-        let c = [];
+        let b = [];
         {
             console.log();
         }
-        a = c;
+        a = b;
         {
-            let d = a;
-            let b = 123456;
-            console.log(b);
-            d.push(b);
+            let c = a;
+            let d = 123456;
+            console.log(d);
+            c.push(d);
         }
     }
 };

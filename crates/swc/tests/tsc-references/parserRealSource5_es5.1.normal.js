@@ -3,7 +3,7 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
 var TypeScript;
-(function(TypeScript1) {
+(function(TypeScript) {
     var prePrintAST = function prePrintAST(ast, parent, walker) {
         var pc = walker.state;
         ast.print(pc);
@@ -57,7 +57,7 @@ var TypeScript;
         };
         return PrintContext;
     }();
-    TypeScript1.PrintContext = PrintContext;
-    TypeScript1.prePrintAST = prePrintAST;
-    TypeScript1.postPrintAST = postPrintAST;
+    TypeScript.PrintContext = PrintContext;
+    TypeScript.prePrintAST = prePrintAST;
+    TypeScript.postPrintAST = postPrintAST;
 })(TypeScript || (TypeScript = {}));

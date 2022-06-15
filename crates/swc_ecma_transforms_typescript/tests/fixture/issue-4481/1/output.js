@@ -1,10 +1,10 @@
 import * as I from "./ABC";
 export var IE;
-(function(IE1) {
+(function(IE) {
     var A = I.A;
-    IE1.A = A;
+    IE.A = A;
     var C = I.C;
-    IE1.C = C;
+    IE.C = C;
     var D = I.D;
-    IE1.D = D;
+    IE.D = D;
 })(IE || (IE = {}));

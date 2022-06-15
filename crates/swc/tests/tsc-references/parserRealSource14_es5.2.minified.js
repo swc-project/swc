@@ -31,13 +31,13 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
         };
         return TypeScript.getAstWalkerFactory().walk(script, pre), bestOffset;
     }, walkAST = function(ast, callback) {
-        var path1 = new AstPath();
+        var path = new AstPath();
         TypeScript.getAstWalkerFactory().walk(ast, function(cur, parent, walker) {
             var path = walker.state;
             return path.push(cur), callback(path, walker), cur;
         }, function(cur, parent, walker) {
             return walker.state.pop(), cur;
-        }, null, path1);
+        }, null, path);
     };
     TypeScript1.lastOf = lastOf, TypeScript1.max = max, TypeScript1.min = function(a, b) {
         return a <= b ? a : b;

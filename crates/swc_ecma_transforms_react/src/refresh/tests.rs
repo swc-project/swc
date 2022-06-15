@@ -893,28 +893,28 @@ test!(
     r#"
     var _s = $RefreshSig$(), _s1 = $RefreshSig$();
 
-    export const A = _s(React.memo(_c1 = _s(React.forwardRef(_c = _s((props, ref) => {
+    export const A = _s(React.memo(_c1 = _s(React.forwardRef(_c = _s((props, ref1) => {
       _s();
 
       const [foo, setFoo] = useState(0);
       React.useEffect(() => {});
-      return <h1 ref={ref}>{foo}</h1>;
+      return <h1 ref={ref1}>{foo}</h1>;
     }, "useState{[foo, setFoo](0)}\nuseEffect{}")), "useState{[foo, setFoo](0)}\nuseEffect{}")), "useState{[foo, setFoo](0)}\nuseEffect{}");
     _c2 = A;
-    export const B = _s1(React.memo(_c4 = _s1(React.forwardRef(_c3 = _s1(function (props, ref) {
+    export const B = _s1(React.memo(_c4 = _s1(React.forwardRef(_c3 = _s1(function (props, ref1) {
       _s1();
 
       const [foo, setFoo] = useState(0);
       React.useEffect(() => {});
-      return <h1 ref={ref}>{foo}</h1>;
+      return <h1 ref={ref1}>{foo}</h1>;
     }, "useState{[foo, setFoo](0)}\nuseEffect{}")), "useState{[foo, setFoo](0)}\nuseEffect{}")), "useState{[foo, setFoo](0)}\nuseEffect{}");
     _c5 = B;
 
     function hoc() {
-      var _s2 = $RefreshSig$();
+      var _s = $RefreshSig$();
 
-      return _s2(function Inner() {
-        _s2();
+      return _s(function Inner() {
+        _s();
 
         const [foo, setFoo] = useState(0);
         React.useEffect(() => {});
@@ -1356,7 +1356,7 @@ test!(
     while (item) {
       var _s = $RefreshSig$();
 
-      _s(item => {
+      _s(item1 => {
         _s();
 
         useFoo();
@@ -1511,12 +1511,12 @@ const a = (a) => {
 }
 "#,
     r#"
-const a = (a1)=>{
+const a = (a)=>{
     var _s = $RefreshSig$();
     const useE = useEffect;
     return _s(function useFoo() {
         _s();
-        useE(()=>console.log(a1)
+        useE(()=>console.log(a)
         , []);
         return useState(123);
     }, "useE{}\nuseState{(123)}", false, function () {

@@ -1,9 +1,9 @@
 var M;
-(function(M1) {
+(function(M) {
     function fn(x) {
         return '';
     }
-    M1.fn = fn;
+    M.fn = fn;
 })(M || (M = {}));
 var x;
 switch(x){

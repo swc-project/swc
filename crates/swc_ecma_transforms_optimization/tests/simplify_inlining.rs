@@ -175,7 +175,7 @@ to!(
 ",
     "let y;
     {
-        let y;
+        let y1;
         x;
     }
     y;"
@@ -211,8 +211,8 @@ to!(
     x;
     const g = 2;
     {
-        const g = 3;
-        let y;
+        const g1 = 3;
+        let y1;
         3;
     }
     x;
@@ -1133,7 +1133,7 @@ fn test_inline_function_declaration() {
 fn test_recursive_function1() {
     test(
         "var x = 0; (function x() { return x ? x() : 3; })();",
-        "var x; (function x1() { return x1 ? x1() : 3; })();",
+        "var x; (function x() { return x? x() : 3; })();",
     );
 }
 
@@ -2050,7 +2050,7 @@ fn test_let_const() {
         concat!(
             "function f(x) {",
             "  let y;",
-            "  { let y;",
+            "  { let y1;",
             "    x;",
             "  }",
             "}"
@@ -2070,7 +2070,7 @@ fn test_let_const() {
             "function f(x) {",
             "  let y; ",
             "  x; const g = 2;",
-            "  { const g = 3; let y; 3;}",
+            "  { const g1 = 3; let y1; 3;}",
             "}"
         ),
     );
@@ -2323,9 +2323,9 @@ const STATUS_TEXT = new Map([
     "#,
     r#"
     var Status;
-    (function(Status1) {
-        Status1[Status1["Continue"] = 100] = "Continue";
-        Status1[Status1["SwitchingProtocols"] = 101] = "SwitchingProtocols";
+    (function(Status) {
+        Status[Status["Continue"] = 100] = "Continue";
+        Status[Status["SwitchingProtocols"] = 101] = "SwitchingProtocols";
     })(Status || (Status = {
     }));
     const STATUS_TEXT = new Map([

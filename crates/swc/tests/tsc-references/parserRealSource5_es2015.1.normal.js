@@ -2,7 +2,7 @@
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
 var TypeScript;
-(function(TypeScript1) {
+(function(TypeScript) {
     class PrintContext {
         increaseIndent() {
             this.indentAmt++;
@@ -41,18 +41,18 @@ var TypeScript;
             this.indentAmt = 0;
         }
     }
-    TypeScript1.PrintContext = PrintContext;
+    TypeScript.PrintContext = PrintContext;
     function prePrintAST(ast, parent, walker) {
         var pc = walker.state;
         ast.print(pc);
         pc.increaseIndent();
         return ast;
     }
-    TypeScript1.prePrintAST = prePrintAST;
+    TypeScript.prePrintAST = prePrintAST;
     function postPrintAST(ast, parent, walker) {
         var pc = walker.state;
         pc.decreaseIndent();
         return ast;
     }
-    TypeScript1.postPrintAST = postPrintAST;
+    TypeScript.postPrintAST = postPrintAST;
 })(TypeScript || (TypeScript = {}));

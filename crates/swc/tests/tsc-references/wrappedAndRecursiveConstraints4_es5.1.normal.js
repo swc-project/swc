@@ -5,7 +5,7 @@ var C = /*#__PURE__*/ function() {
         _class_call_check(this, C);
     }
     var _proto = C.prototype;
-    _proto.foo = function foo(x1) {
+    _proto.foo = function foo(x) {
         var bar = function bar(x) {
             return x;
         };

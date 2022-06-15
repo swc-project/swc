@@ -1,4 +1,4 @@
-function a(b, a) {
-    Math.floor(b / a);
-    Math.floor(c / a);
+function a(a, b) {
+    Math.floor(a / b);
+    Math.floor(c / b);
 }

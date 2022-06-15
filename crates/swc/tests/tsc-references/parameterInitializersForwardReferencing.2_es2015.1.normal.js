@@ -15,5 +15,5 @@ function c(_param = a(), d = x) {
     var { b  } = _param, c = _object_without_properties(_param, [
         "b"
     ]);
-    var x;
+    var x1;
 }

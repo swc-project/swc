@@ -223,8 +223,8 @@ async function s(x, ...args) {
 }
 function _s() {
     _s = _asyncToGenerator(function*(x) {
-        for(var _len1 = arguments.length, args = new Array(_len1 > 1 ? _len1 - 1 : 0), _key1 = 1; _key1 < _len1; _key1++){
-            args[_key1 - 1] = arguments[_key1];
+        for(var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
+            args[_key - 1] = arguments[_key];
         }
         var _this = this, _arguments = arguments;
         let t = function() {
@@ -368,18 +368,18 @@ class Class {
     r#"
     class Class {
       method() {
-          var _this2 = this;
+          var _this = this;
           return _asyncToGenerator(function*() {
-              var _this1 = _this2;
-              _this2;
+              var _this1 = _this;
+              _this;
               (function() {
                   return _this1;
               });
               (function() {
-                  var _this3 = _this1;
+                  var _this = _this1;
                   _this1;
                   (function() {
-                      return _this3;
+                      return _this;
                   });
                   function x() {
                       var _this = this;
@@ -982,14 +982,14 @@ class Class {
     r#"
     class Class {
       method() {
-        var _this1 = this;
+        var _this = this;
         return _asyncToGenerator(function*() {
-            _this1;
-            ()=>_this1
+            _this;
+            ()=>_this
             ;
             ()=>{
-                _this1;
-                ()=>_this1
+                _this;
+                ()=>_this
                 ;
                 function x() {
                     this;
@@ -1722,7 +1722,7 @@ function _s() {
   _s = _asyncToGenerator(function* (x, ...args) {
       var _this = this, _arguments = arguments;
       let t = function () {
-          var _ref1 = _asyncToGenerator(
+          var _ref = _asyncToGenerator(
               function* (y, a) {
                   let r = function () {
                       var _ref = _asyncToGenerator(
@@ -1742,7 +1742,7 @@ function _s() {
               }
           );
           return function t(y, a) {
-              return _ref1.apply(this, arguments);
+              return _ref.apply(this, arguments);
           };
       }();
       yield t();
@@ -2149,7 +2149,7 @@ test!(
     ",
     "
     const x = function() {
-        var _ref1 = _asyncToGenerator(function*() {
+        var _ref = _asyncToGenerator(function*() {
             console.log((yield Promise.all([
                 [
                     1
@@ -2171,7 +2171,7 @@ test!(
             }()))));
         });
         return function x() {
-            return _ref1.apply(this, arguments);
+            return _ref.apply(this, arguments);
         };
     }();
 "
@@ -3403,11 +3403,11 @@ function _ref() {
         function _bar() {
             _bar = _asyncToGenerator(function*(y) {
                 (function() {
-                    var _ref1 = _asyncToGenerator(function*(z) {
+                    var _ref = _asyncToGenerator(function*(z) {
                         return x(y)(z);
                     });
                     return function(z) {
-                        return _ref1.apply(this, arguments);
+                        return _ref.apply(this, arguments);
                     };
                 })()();
             });

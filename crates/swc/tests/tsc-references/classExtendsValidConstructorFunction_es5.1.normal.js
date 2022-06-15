@@ -3,9 +3,9 @@ import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
 function foo() {}
 var x = new foo(); // can be used as a constructor function
-var C = /*#__PURE__*/ function(foo1) {
+var C = /*#__PURE__*/ function(foo) {
     "use strict";
-    _inherits(C, foo1);
+    _inherits(C, foo);
     var _super = _create_super(C);
     function C() {
         _class_call_check(this, C);

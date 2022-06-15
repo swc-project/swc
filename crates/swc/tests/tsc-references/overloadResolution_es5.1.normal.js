@@ -84,9 +84,9 @@ fn4(null, true); // Error
 function fn5() {
     return undefined;
 }
-var n = fn5(function(n1) {
-    return n1.toFixed();
+var n = fn5(function(n) {
+    return n.toFixed();
 });
-var s = fn5(function(n2) {
-    return n2.substr(0);
+var s = fn5(function(n) {
+    return n.substr(0);
 });

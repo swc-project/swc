@@ -1,5 +1,5 @@
-for(var b = console.log, a = 1; a <= 3;){
-    var c = a;
-    b(c);
-    a++;
+for(var a = console.log, b = 1; b <= 3;){
+    var c = b;
+    a(c);
+    b++;
 }

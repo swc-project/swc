@@ -18,11 +18,11 @@ var g = x;
 var h = x;
 var h2 = x; // no error
 var M;
-(function(M1) {
-    var a = M1.a = 1;
+(function(M) {
+    var a = M.a = 1;
 })(M || (M = {}));
 M = x;
-function i(a1) {
-    a1 = x;
+function i(a) {
+    a = x;
 }
 i = x;

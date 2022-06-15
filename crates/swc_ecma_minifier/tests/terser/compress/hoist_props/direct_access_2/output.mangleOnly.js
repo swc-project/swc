@@ -1,7 +1,7 @@
-var b = {
+var a = {
     a: 1
 };
-var a = function(a) {
-    if (b[a]) return "PASS";
+var b = function(b) {
+    if (a[b]) return "PASS";
 };
-console.log(a("a"));
+console.log(b("a"));

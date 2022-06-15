@@ -1,12 +1,12 @@
 var a = 0;
 (function() {
+    function b() {
+        while(d());
+    }
+    var c;
     function d() {
-        while(c());
+        c && c[a++];
     }
-    var b;
-    function c() {
-        b && b[a++];
-    }
-    c((b = 1));
+    d((c = 1));
 })();
 console.log(a);

@@ -5,10 +5,10 @@ var CharacterInfo = /*#__PURE__*/ function() {
     function CharacterInfo() {
         _class_call_check(this, CharacterInfo);
     }
-    CharacterInfo.isDecimalDigit = function isDecimalDigit(c) {
+    CharacterInfo.isDecimalDigit = function isDecimalDigit1(c) {
         return c >= CharacterCodes._0 && c <= CharacterCodes._9;
     };
-    CharacterInfo.isHexDigit = function isHexDigit(c) {
+    CharacterInfo.isHexDigit = function isHexDigit1(c) {
         return isDecimalDigit(c) || c >= CharacterCodes.A && c <= CharacterCodes.F || c >= CharacterCodes.a && c <= CharacterCodes.f;
     };
     CharacterInfo.hexValue = function hexValue(c) {

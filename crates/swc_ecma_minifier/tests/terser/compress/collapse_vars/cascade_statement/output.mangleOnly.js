@@ -1,14 +1,14 @@
-function a(b, c) {
-    var a;
-    if (b) return (a = c), a || b;
-    else (a = b), a(c);
+function a(a, b) {
+    var c;
+    if (a) return (c = b), c || a;
+    else (c = a), c(b);
 }
-function b(b, c) {
-    var a;
-    while(b)(a = c), (b = a + c);
+function b(a, b) {
+    var c;
+    while(a)(c = b), (a = c + b);
     do {
-        throw ((a = b + c), a);
-    }while (a)
+        throw ((c = a + b), c);
+    }while (c)
 }
 function c(a, b) {
     for(; a < b; a++)if (((c = a), c && b)) var c = ((c = b(a)), c);

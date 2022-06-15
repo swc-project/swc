@@ -14,9 +14,9 @@ Vec.prototype = {
         return Math.sqrt(sum);
     }
 };
-export function Point2D(x, y) {
-    if (!(this instanceof Point2D)) return new Point2D(x, y);
-    Vec.call(this, 2), this.x = x, this.y = y;
+export function Point2D(x1, y1) {
+    if (!(this instanceof Point2D)) return new Point2D(x1, y1);
+    Vec.call(this, 2), this.x = x1, this.y = y1;
 }
 Point2D.prototype = {
     __proto__: Vec,

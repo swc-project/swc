@@ -20,8 +20,8 @@ function c2(param) {
     param.z;
 }
 function c5(param) {
-    var _param = _sliced_to_array(param, 3), ref = (_param[0], _param[1], _sliced_to_array(_param[2], 1)), ref2 = _sliced_to_array(ref[0], 1);
-    ref2[0];
+    var _param = _sliced_to_array(param, 3), ref = (_param[0], _param[1], _sliced_to_array(_param[2], 1)), ref1 = _sliced_to_array(ref[0], 1);
+    ref1[0];
 }
 a1([
     1,

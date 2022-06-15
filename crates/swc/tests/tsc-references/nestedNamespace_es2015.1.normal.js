@@ -1,7 +1,7 @@
 // @Filename: a.ts
 export var types;
-(function(types1) {
+(function(types) {
     class A {
     }
-    types1.A = A;
+    types.A = A;
 })(types || (types = {}));

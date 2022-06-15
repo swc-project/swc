@@ -11,12 +11,12 @@ function fun3() {
     return args[+randBool()];
 }
 var n1;
-(function(n11) {
-    var a = n11.a = fun1("Hello", "World");
-    var b = n11.b = fun1("Hello", "Hello");
-    var c = n11.c = fun2("Hello", "World");
-    var d = n11.d = fun2("Hello", "Hello");
-    var e = n11.e = fun3("Hello", "Hello", "World", "Foo");
+(function(n1) {
+    var a = n1.a = fun1("Hello", "World");
+    var b = n1.b = fun1("Hello", "Hello");
+    var c = n1.c = fun2("Hello", "World");
+    var d = n1.d = fun2("Hello", "Hello");
+    var e = n1.e = fun3("Hello", "Hello", "World", "Foo");
     // Should be valid
     a = takeReturnString(a);
     b = takeReturnString(b);
@@ -37,12 +37,12 @@ var n1;
     e = takeReturnHelloWorld(e);
 })(n1 || (n1 = {}));
 var n2;
-(function(n21) {
-    var a = n21.a = fun1("Hello", "Hello");
-    var b = n21.b = fun1("Hello", "World");
-    var c = n21.c = fun2("Hello", "Hello");
-    var d = n21.d = fun2("Hello", "World");
-    var e = n21.e = fun3("Hello", "World");
+(function(n2) {
+    var a = n2.a = fun1("Hello", "Hello");
+    var b = n2.b = fun1("Hello", "World");
+    var c = n2.c = fun2("Hello", "Hello");
+    var d = n2.d = fun2("Hello", "World");
+    var e = n2.e = fun3("Hello", "World");
     // Assignment from the returned value should cause an error.
     a = takeReturnString(a);
     b = takeReturnString(b);
@@ -63,12 +63,12 @@ var n2;
     e = takeReturnHelloWorld(e);
 })(n2 || (n2 = {}));
 var n3;
-(function(n31) {
-    var a = n31.a = fun2("Hello", "World");
-    var b = n31.b = fun2("World", "Hello");
-    var c = n31.c = fun2("Hello", "Hello");
-    var d = n31.d = fun2("World", "World");
-    var e = n31.e = fun3("Hello", "World");
+(function(n3) {
+    var a = n3.a = fun2("Hello", "World");
+    var b = n3.b = fun2("World", "Hello");
+    var c = n3.c = fun2("Hello", "Hello");
+    var d = n3.d = fun2("World", "World");
+    var e = n3.e = fun3("Hello", "World");
     // Assignment from the returned value should cause an error.
     a = takeReturnString(a);
     b = takeReturnString(b);
