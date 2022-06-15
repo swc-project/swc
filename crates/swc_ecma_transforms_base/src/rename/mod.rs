@@ -19,9 +19,17 @@ mod collector;
 mod eval;
 mod ops;
 
-pub trait Renamer: Sized + swc_common::sync::Send + swc_common::sync::Sync {
+pub trait Renamer: swc_common::sync::Send + swc_common::sync::Sync {
     /// Should reset `n` to 0 for each identifier?
     const RESET_N: bool;
+
+    fn preserved_ids_for_module(&mut self, _: &Module) -> FxHashSet<Id> {
+        Default::default()
+    }
+
+    fn preserved_ids_for_script(&mut self, _: &Script) -> FxHashSet<Id> {
+        Default::default()
+    }
 
     fn new_name_for(&self, orig: &Id, n: u32) -> JsWord;
 }
@@ -45,6 +53,7 @@ where
     as_folder(RenamePass {
         config,
         renamer,
+        preserved: Default::default(),
         unresolved: Default::default(),
     })
 }
@@ -57,6 +66,7 @@ where
     config: Config,
     renamer: R,
 
+    preserved: FxHashSet<Id>,
     unresolved: FxHashSet<JsWord>,
 }
 
@@ -190,6 +200,7 @@ where
     unit!(visit_mut_class_decl, ClassDecl, true);
 
     fn visit_mut_module(&mut self, m: &mut Module) {
+        self.preserved = self.renamer.preserved_ids_for_module(m);
         self.unresolved = self.get_unresolved(m);
 
         if contains_eval(m, true) {
@@ -202,6 +213,7 @@ where
     }
 
     fn visit_mut_script(&mut self, s: &mut Script) {
+        self.preserved = self.renamer.preserved_ids_for_script(s);
         self.unresolved = self.get_unresolved(s);
 
         if contains_eval(s, true) {
