@@ -18,6 +18,9 @@ mod collector;
 mod ops;
 
 pub trait Renamer: swc_common::sync::Send + swc_common::sync::Sync {
+    /// Should reset `n` to 0 for each identifier?
+    const RESET_N: bool;
+
     fn new_name_for(&self, orig: &Id, n: u32) -> JsWord;
 }
 

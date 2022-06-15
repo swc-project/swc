@@ -343,6 +343,10 @@ impl Scope {
                 continue;
             }
 
+            if R::RESET_N {
+                n = 0;
+            }
+
             loop {
                 let sym = renamer.new_name_for(&id, n);
 
