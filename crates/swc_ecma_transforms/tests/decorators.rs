@@ -94,7 +94,7 @@ class A {}
 let A = _decorate([dec()], function (_initialize) {
 
 
-  class A1 {
+  class A {
     constructor() {
       _initialize(this);
     }
@@ -102,7 +102,7 @@ let A = _decorate([dec()], function (_initialize) {
   }
 
   return {
-    F: A1,
+    F: A,
     d: []
   };
 });
@@ -618,7 +618,7 @@ class A {
 let A = _decorate([dec(a, b, ...c)], function (_initialize) {
 
 
-  class A1 {
+  class A {
     constructor() {
       _initialize(this);
     }
@@ -626,7 +626,7 @@ let A = _decorate([dec(a, b, ...c)], function (_initialize) {
   }
 
   return {
-    F: A1,
+    F: A,
     d: [{
       kind: "method",
       decorators: [dec(a, b, ...c)],
@@ -792,7 +792,7 @@ export default @dec() class Foo {}
 "#,
     r#"
 let Foo = _decorate([dec()], function (_initialize) {
-  class Foo1 {
+  class Foo {
     constructor() {
       _initialize(this);
     }
@@ -800,7 +800,7 @@ let Foo = _decorate([dec()], function (_initialize) {
   }
 
   return {
-    F: Foo1,
+    F: Foo,
     d: []
   };
 });
