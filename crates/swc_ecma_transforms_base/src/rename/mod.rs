@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::{borrow::Cow, collections::HashMap};
 
 use rustc_hash::FxHashSet;
 use swc_atoms::JsWord;
@@ -121,16 +121,24 @@ where
 
         let mut map = HashMap::default();
 
-        if !is_module_or_script {
+        let unresolved = if !is_module_or_script {
             let mut unresolved = self.unresolved.clone();
             unresolved.extend(self.get_unresolved(node));
+            Cow::Owned(unresolved)
+        } else {
+            Cow::Borrowed(&self.unresolved)
+        };
 
-            scope.rename_single_thread(
+        if R::PARALLEL {
+            let cost = scope.rename_cost();
+            scope.rename_parallel(
                 &self.renamer,
                 &mut map,
                 &Default::default(),
-                &mut Default::default(),
+                &Default::default(),
+                &self.preserved,
                 &unresolved,
+                cost > 1024,
             );
         } else {
             scope.rename_single_thread(
@@ -138,7 +146,7 @@ where
                 &mut map,
                 &Default::default(),
                 &mut Default::default(),
-                &self.unresolved,
+                &unresolved,
             );
         }
 

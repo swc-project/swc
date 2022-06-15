@@ -153,7 +153,7 @@ impl Scope {
         true
     }
 
-    pub(super) fn rename_parallel<R>(
+    pub(crate) fn rename_parallel<R>(
         &mut self,
         renamer: &R,
         to: &mut AHashMap<Id, JsWord>,
@@ -165,7 +165,7 @@ impl Scope {
     ) where
         R: Renamer,
     {
-        let mut queue = self.data.queue.take();
+        let queue = self.data.queue.take();
 
         let mut cloned_reverse = reverse.clone();
 
