@@ -79,6 +79,7 @@ where
             scope.prepare_renaming();
 
             scope.rename(
+                &self.renamer,
                 &mut map,
                 &Default::default(),
                 &mut Default::default(),

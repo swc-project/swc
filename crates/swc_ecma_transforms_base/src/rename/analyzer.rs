@@ -4,6 +4,8 @@ use swc_common::{collections::AHashMap, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
+use super::Renamer;
+
 #[derive(Debug, Default)]
 pub(super) struct Analyzer {
     pub scope: Scope,
@@ -301,32 +303,38 @@ impl Scope {
         });
     }
 
-    pub(super) fn rename(
+    pub(super) fn rename<R>(
         &mut self,
+        renamer: &R,
         to: &mut AHashMap<Id, JsWord>,
         previous: &AHashMap<Id, JsWord>,
         reverse: &mut FxHashMap<JsWord, Vec<Id>>,
         preserved_symbols: &FxHashSet<JsWord>,
-    ) {
+    ) where
+        R: Renamer,
+    {
         let queue = self.data.queue.take();
 
         // let mut cloned_reverse = reverse.clone();
 
-        self.rename_one_scope(to, previous, reverse, queue, preserved_symbols);
+        self.rename_one_scope(renamer, to, previous, reverse, queue, preserved_symbols);
 
         for child in &mut self.children {
-            child.rename(to, &Default::default(), reverse, preserved_symbols);
+            child.rename(renamer, to, &Default::default(), reverse, preserved_symbols);
         }
     }
 
-    fn rename_one_scope(
+    fn rename_one_scope<R>(
         &self,
+        renamer: &R,
         to: &mut AHashMap<Id, JsWord>,
         previous: &AHashMap<Id, JsWord>,
         reverse: &mut FxHashMap<JsWord, Vec<Id>>,
         queue: Vec<Id>,
         preserved_symbols: &FxHashSet<JsWord>,
-    ) {
+    ) where
+        R: Renamer,
+    {
         let mut n = 0;
 
         for id in queue {
@@ -335,11 +343,7 @@ impl Scope {
             }
 
             loop {
-                let sym = if n == 0 {
-                    id.0.clone()
-                } else {
-                    format!("{}{}", id.0, n).into()
-                };
+                let sym = renamer.new_name_for(&id, n);
 
                 n += 1;
 

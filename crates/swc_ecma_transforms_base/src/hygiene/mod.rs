@@ -2,6 +2,7 @@ use swc_common::chain;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut};
 
+pub use crate::rename::rename;
 use crate::rename::{renamer, Renamer};
 
 #[cfg(test)]
