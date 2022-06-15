@@ -179,6 +179,10 @@ impl<'a> VisitMut for Operator<'a> {
         let local = self.rename_ident(&mut s.local);
 
         if let Ok(..) = local {
+            if s.local.sym == imported.sym {
+                return;
+            }
+
             s.imported = Some(ModuleExportName::Ident(imported));
         }
     }
