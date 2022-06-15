@@ -15,6 +15,7 @@ use crate::hygiene::Config;
 
 mod analyzer;
 mod collector;
+mod eval;
 mod ops;
 
 pub trait Renamer: swc_common::sync::Send + swc_common::sync::Sync {
