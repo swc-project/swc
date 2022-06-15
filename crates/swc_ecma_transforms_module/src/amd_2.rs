@@ -1,5 +1,6 @@
+use anyhow::Context;
 use swc_atoms::{js_word, JsWord};
-use swc_common::{util::take::Take, Mark, Span, DUMMY_SP};
+use swc_common::{util::take::Take, FileName, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{is_valid_prop_ident, private_ident, quote_ident, quote_str, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
@@ -8,6 +9,7 @@ pub use super::util::Config;
 use crate::{
     import_ref_rewriter::{ImportMap, ImportRefRewriter},
     module_decl_strip::{Export, Link, LinkItem, ModuleDeclStrip, Specifier},
+    path::{ImportResolver, Resolver},
     util::{define_es_module, has_use_strict, local_name_for_src, prop_function, use_strict},
 };
 
@@ -15,6 +17,24 @@ pub fn amd(unresolved_mark: Mark, config: Config) -> impl Fold + VisitMut {
     as_folder(Amd {
         config,
         unresolved_mark,
+        resolver: Resolver::Default,
+
+        dep_list: Default::default(),
+        exports: Default::default(),
+    })
+}
+
+pub fn amd_with_resolver(
+    resolver: Box<dyn ImportResolver>,
+    base: FileName,
+    unresolved_mark: Mark,
+    config: Config,
+) -> impl Fold + VisitMut {
+    as_folder(Amd {
+        config,
+        unresolved_mark,
+        resolver: Resolver::Real { base, resolver },
+
         dep_list: Default::default(),
         exports: Default::default(),
     })
@@ -22,11 +42,10 @@ pub fn amd(unresolved_mark: Mark, config: Config) -> impl Fold + VisitMut {
 
 pub struct Amd {
     config: Config,
-
     unresolved_mark: Mark,
+    resolver: Resolver,
 
     dep_list: Vec<(Ident, JsWord, Span)>,
-
     exports: Option<Ident>,
 }
 
@@ -79,7 +98,14 @@ impl VisitMut for Amd {
             .take()
             .into_iter()
             .for_each(|(ident, src_path, src_span)| {
-                // TODO: handle swc helpers import
+                let src_path = match &self.resolver {
+                    Resolver::Real { resolver, base } => resolver
+                        .resolve_import(base, &src_path)
+                        .with_context(|| format!("failed to resolve `{}`", src_path))
+                        .unwrap(),
+                    Resolver::Default => src_path,
+                };
+
                 elems.push(Some(quote_str!(src_span, src_path).as_arg()));
                 params.push(ident.into());
             });
