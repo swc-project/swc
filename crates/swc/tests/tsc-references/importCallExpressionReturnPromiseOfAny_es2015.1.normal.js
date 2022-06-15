@@ -16,8 +16,8 @@ p1.then((zero)=>{
 let j;
 var p3 = import(j = getSpecifier());
 function* loadModule(directories) {
-    for (const directory of directories){
-        const path = `${directory}\\moduleFile`;
+    for (const directory1 of directories){
+        const path = `${directory1}\\moduleFile`;
         import((yield path));
     }
 }

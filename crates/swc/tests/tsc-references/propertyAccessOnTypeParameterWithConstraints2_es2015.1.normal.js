@@ -12,12 +12,12 @@ class B extends A {
 class C {
     f() {
         var x;
-        var a1 = x['foo'](); // should be string
-        return a1 + x.foo();
+        var a = x['foo'](); // should be string
+        return a + x.foo();
     }
     g(x) {
-        var a2 = x['foo'](); // should be string
-        return a2 + x.foo();
+        var a = x['foo'](); // should be string
+        return a + x.foo();
     }
 }
 //class C<U extends T, T extends A> {
@@ -53,8 +53,8 @@ var r3c = a(aB, aB).foo();
 var r3d = a(aB, aB)['foo']();
 var b = {
     foo: (x, y)=>{
-        var a3 = x['foo'](); // should be string
-        return a3 + x.foo();
+        var a = x['foo'](); // should be string
+        return a + x.foo();
     }
 };
 //var b = {

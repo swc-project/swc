@@ -1,6 +1,6 @@
 var A;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-!function(A1) {
+!function(A) {
     var Point = function() {
         "use strict";
         _class_call_check(this, Point);
@@ -8,5 +8,5 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
         "use strict";
         _class_call_check(this, points);
     };
-    A1.points = points;
+    A.points = points;
 }(A || (A = {}));

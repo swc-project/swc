@@ -1,26 +1,26 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 //@filename: part1.ts
 var A;
-(function(A1) {
-    var Utils1;
+(function(A) {
+    var Utils;
     (function(Utils) {
-        function mirror(p1) {
+        function mirror(p) {
             return {
-                x: p1.y,
-                y: p1.x
+                x: p.y,
+                y: p.x
             };
         }
         Utils.mirror = mirror;
-    })(Utils1 = A1.Utils || (A1.Utils = {}));
-    var Origin = A1.Origin = {
+    })(Utils = A.Utils || (A.Utils = {}));
+    var Origin = A.Origin = {
         x: 0,
         y: 0
     };
 })(A || (A = {}));
-(function(A2) {
+(function(A) {
     // not a collision, since we don't export
     var Origin = "0,0";
-    var Utils2;
+    var Utils;
     (function(Utils) {
         var Plane = function Plane(tl, br) {
             "use strict";
@@ -29,7 +29,7 @@ var A;
             this.br = br;
         };
         Utils.Plane = Plane;
-    })(Utils2 = A2.Utils || (A2.Utils = {}));
+    })(Utils = A.Utils || (A.Utils = {}));
 })(A || (A = {}));
 //@filename: part3.ts
 // test the merging actually worked

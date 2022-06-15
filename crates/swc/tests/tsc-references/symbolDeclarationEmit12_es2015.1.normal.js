@@ -1,7 +1,7 @@
 //@target: ES6
 //@declaration: true
 var M;
-(function(M1) {
+(function(M) {
     class C {
         [Symbol.toPrimitive](x) {}
         [Symbol.isConcatSpreadable]() {
@@ -12,5 +12,5 @@ var M;
         }
         set [Symbol.toPrimitive](x) {}
     }
-    M1.C = C;
+    M.C = C;
 })(M || (M = {}));

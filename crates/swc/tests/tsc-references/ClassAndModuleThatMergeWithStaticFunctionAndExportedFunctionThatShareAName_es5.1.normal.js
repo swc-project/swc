@@ -23,7 +23,7 @@ var Point = /*#__PURE__*/ function() {
     Point.Origin = Origin;
 })(Point || (Point = {}));
 var A;
-(function(A1) {
+(function(A) {
     var Point = /*#__PURE__*/ function() {
         "use strict";
         function Point(x, y) {
@@ -40,11 +40,11 @@ var A;
         };
         return Point;
     }();
-    A1.Point = Point;
+    A.Point = Point;
     (function(Point) {
         function Origin() {
             return "";
         } //expected duplicate identifier error
         Point.Origin = Origin;
-    })(Point = A1.Point || (A1.Point = {}));
+    })(Point = A.Point || (A.Point = {}));
 })(A || (A = {}));

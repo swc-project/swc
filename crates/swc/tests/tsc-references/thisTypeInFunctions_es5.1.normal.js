@@ -43,8 +43,8 @@ function explicitStructural(x) {
 function justThis() {
     return this.y;
 }
-function implicitThis(n1) {
-    return this.m + n1 + 12;
+function implicitThis(n) {
+    return this.m + n + 12;
 }
 var impl = {
     a: 12,
@@ -189,8 +189,8 @@ c.explicitC = function(m) {
     return this.n + m;
 };
 // this:void compatibility
-c.explicitVoid = function(n2) {
-    return n2;
+c.explicitVoid = function(n) {
+    return n;
 };
 // class-based assignability
 var Base1 = /*#__PURE__*/ function() {

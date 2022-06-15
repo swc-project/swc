@@ -6,8 +6,8 @@ import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
 var _obj, _obj1, _instance, _instance1;
 function foo(x, y) {
-    for(var _len = arguments.length, z1 = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
-        z1[_key - 2] = arguments[_key];
+    for(var _len = arguments.length, z = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
+        z[_key - 2] = arguments[_key];
     }
 }
 var a;
@@ -66,20 +66,20 @@ xa[1].foo.apply(this, [
 var C = /*#__PURE__*/ function() {
     "use strict";
     function C(x, y) {
-        for(var _len = arguments.length, z2 = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
-            z2[_key - 2] = arguments[_key];
+        for(var _len = arguments.length, z = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
+            z[_key - 2] = arguments[_key];
         }
         _class_call_check(this, C);
         this.foo(x, y);
         this.foo.apply(this, [
             x,
             y
-        ].concat(_to_consumable_array(z2)));
+        ].concat(_to_consumable_array(z)));
     }
     var _proto = C.prototype;
     _proto.foo = function foo(x, y) {
-        for(var _len = arguments.length, z3 = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
-            z3[_key - 2] = arguments[_key];
+        for(var _len = arguments.length, z = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
+            z[_key - 2] = arguments[_key];
         }
     };
     return C;
@@ -99,9 +99,9 @@ var D = /*#__PURE__*/ function(C) {
     }
     var _proto = D.prototype;
     _proto.foo = function foo() {
-        var _instance2;
+        var _instance;
         _get(_get_prototype_of(D.prototype), "foo", this).call(this, 1, 2);
-        (_instance2 = _get(_get_prototype_of(D.prototype), "foo", this)).call.apply(_instance2, [
+        (_instance = _get(_get_prototype_of(D.prototype), "foo", this)).call.apply(_instance, [
             this,
             1,
             2

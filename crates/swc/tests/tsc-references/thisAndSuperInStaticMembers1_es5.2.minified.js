@@ -15,9 +15,9 @@ function _templateObject() {
         return data;
     }, data;
 }
-var _ref, _super_a, ref, ref1, ref2, ref3, ref4, ref5, ref6, _tmp, C = function(B) {
+var _ref, _super_a, ref, ref1, ref2, ref3, ref4, ref5, ref6, _tmp, C = function(B1) {
     "use strict";
-    _inherits(C, B);
+    _inherits(C, B1);
     var _super = _create_super(C);
     function C() {
         var _this;

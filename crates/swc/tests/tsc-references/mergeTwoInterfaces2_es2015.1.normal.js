@@ -11,19 +11,19 @@ var M2;
     var r1 = a.foo;
     var r2 = a.bar;
 })(M2 || (M2 = {}));
-(function(M21) {
+(function(M2) {
     let M3;
     (function(M3) {
         var a;
         var r1 = a.foo;
         var r2 = a.bar;
-    })(M3 = M21.M3 || (M21.M3 = {}));
+    })(M3 = M2.M3 || (M2.M3 = {}));
 })(M2 || (M2 = {}));
-(function(M22) {
+(function(M2) {
     let M3;
     (function(M3) {
         var a;
         var r1 = a.foo;
         var r2 = a.bar;
-    })(M3 = M22.M3 || (M22.M3 = {}));
+    })(M3 = M2.M3 || (M2.M3 = {}));
 })(M2 || (M2 = {}));

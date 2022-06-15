@@ -1,7 +1,7 @@
 var ns;
-!function(ns1) {
-    ns1.Class = class {
-    }, ns1.Value = "", (ns1.nested || (ns1.nested = {})).NestedClass = class {
+!function(ns) {
+    ns.Class = class {
+    }, ns.Value = "", (ns.nested || (ns.nested = {})).NestedClass = class {
     };
 }(ns || (ns = {}));
 export default ns;

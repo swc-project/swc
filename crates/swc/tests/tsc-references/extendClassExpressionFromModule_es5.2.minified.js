@@ -6,9 +6,9 @@ var x = function() {
     _class_call_check(this, x);
 };
 module.exports = x;
-var x = require("./foo1"), y = function(x1) {
+var x = require("./foo1"), y = function(x) {
     "use strict";
-    _inherits(y, x1);
+    _inherits(y, x);
     var _super = _create_super(y);
     function y() {
         return _class_call_check(this, y), _super.apply(this, arguments);

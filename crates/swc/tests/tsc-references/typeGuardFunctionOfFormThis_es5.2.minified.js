@@ -43,17 +43,17 @@ var ArrowGuard = function() {
     }, this.isMedic = function() {
         return _instanceof(_this, ArrowMedic);
     };
-}, ArrowElite = function(ArrowGuard1) {
+}, ArrowElite = function(ArrowGuard) {
     "use strict";
-    _inherits(ArrowElite, ArrowGuard1);
+    _inherits(ArrowElite, ArrowGuard);
     var _super = _create_super(ArrowElite);
     function ArrowElite() {
         return _class_call_check(this, ArrowElite), _super.apply(this, arguments);
     }
     return ArrowElite.prototype.defend = function() {}, ArrowElite;
-}(ArrowGuard), ArrowMedic = function(ArrowGuard2) {
+}(ArrowGuard), ArrowMedic = function(ArrowGuard) {
     "use strict";
-    _inherits(ArrowMedic, ArrowGuard2);
+    _inherits(ArrowMedic, ArrowGuard);
     var _super = _create_super(ArrowMedic);
     function ArrowMedic() {
         return _class_call_check(this, ArrowMedic), _super.apply(this, arguments);

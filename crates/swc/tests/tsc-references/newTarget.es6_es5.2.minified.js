@@ -11,9 +11,9 @@ var A = function() {
 A.c = function _target() {
     return _instanceof(this, _target) ? this.constructor : void 0;
 };
-var B = function(A1) {
+var B = function(A) {
     "use strict";
-    _inherits(B, A1);
+    _inherits(B, A);
     var _super = _create_super(B);
     function B() {
         _instanceof(this, B) && this.constructor, _class_call_check(this, B);

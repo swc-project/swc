@@ -22,7 +22,7 @@ function f12(x) {
     if (isString || isNumber) {
         var t = x;
     } else {
-        var t2 = x;
+        var t1 = x;
     }
 }
 function f13(x) {
@@ -32,92 +32,92 @@ function f13(x) {
     if (isStringOrNumber) {
         var t = x;
     } else {
-        var t3 = x;
+        var t1 = x;
     }
 }
 function f14(x) {
     var notUndefined = x !== undefined;
     return notUndefined ? x : 0;
 }
-function f15(obj1) {
-    var isString = typeof obj1.x === "string";
+function f15(obj) {
+    var isString = typeof obj.x === "string";
     if (isString) {
-        var s = obj1.x;
+        var s = obj.x;
     }
 }
-function f16(obj2) {
-    var isString = typeof obj2.x === "string";
-    obj2 = {
+function f16(obj) {
+    var isString = typeof obj.x === "string";
+    obj = {
         x: 42
     };
     if (isString) {
-        var s = obj2.x; // Not narrowed because of is assigned in function body
+        var s = obj.x; // Not narrowed because of is assigned in function body
     }
 }
-function f17(obj3) {
-    var isString = typeof obj3[0] === "string";
+function f17(obj) {
+    var isString = typeof obj[0] === "string";
     if (isString) {
-        var s = obj3[0];
+        var s = obj[0];
     }
 }
-function f18(obj4) {
-    var isString = typeof obj4[0] === "string";
-    obj4 = [
+function f18(obj) {
+    var isString = typeof obj[0] === "string";
+    obj = [
         42
     ];
     if (isString) {
-        var s = obj4[0]; // Not narrowed because of is assigned in function body
+        var s = obj[0]; // Not narrowed because of is assigned in function body
     }
 }
-function f20(obj5) {
-    var isFoo = obj5.kind === "foo";
+function f20(obj) {
+    var isFoo = obj.kind === "foo";
     if (isFoo) {
-        obj5.foo;
+        obj.foo;
     } else {
-        obj5.bar;
+        obj.bar;
     }
 }
-function f21(obj6) {
-    var isFoo = obj6.kind === "foo";
+function f21(obj) {
+    var isFoo = obj.kind === "foo";
     if (isFoo) {
-        obj6.foo; // Not narrowed because isFoo has type annotation
+        obj.foo; // Not narrowed because isFoo has type annotation
     } else {
-        obj6.bar; // Not narrowed because isFoo has type annotation
+        obj.bar; // Not narrowed because isFoo has type annotation
     }
 }
-function f22(obj7) {
-    var isFoo = obj7.kind === "foo";
+function f22(obj) {
+    var isFoo = obj.kind === "foo";
     if (isFoo) {
-        obj7.foo; // Not narrowed because isFoo is mutable
+        obj.foo; // Not narrowed because isFoo is mutable
     } else {
-        obj7.bar; // Not narrowed because isFoo is mutable
+        obj.bar; // Not narrowed because isFoo is mutable
     }
 }
-function f23(obj8) {
-    var isFoo = obj8.kind === "foo";
-    obj8 = obj8;
+function f23(obj) {
+    var isFoo = obj.kind === "foo";
+    obj = obj;
     if (isFoo) {
-        obj8.foo; // Not narrowed because obj is assigned in function body
+        obj.foo; // Not narrowed because obj is assigned in function body
     } else {
-        obj8.bar; // Not narrowed because obj is assigned in function body
+        obj.bar; // Not narrowed because obj is assigned in function body
     }
 }
 function f24(arg) {
-    var obj9 = arg;
-    var isFoo = obj9.kind === "foo";
+    var obj = arg;
+    var isFoo = obj.kind === "foo";
     if (isFoo) {
-        obj9.foo;
+        obj.foo;
     } else {
-        obj9.bar;
+        obj.bar;
     }
 }
 function f25(arg) {
-    var obj10 = arg;
-    var isFoo = obj10.kind === "foo";
+    var obj = arg;
+    var isFoo = obj.kind === "foo";
     if (isFoo) {
-        obj10.foo; // Not narrowed because obj is mutable
+        obj.foo; // Not narrowed because obj is mutable
     } else {
-        obj10.bar; // Not narrowed because obj is mutable
+        obj.bar; // Not narrowed because obj is mutable
     }
 }
 function f26(outer) {
@@ -136,49 +136,49 @@ function f27(outer) {
         outer.obj.bar; // Not narrowed because obj is mutable
     }
 }
-function f28(obj11) {
-    var isFoo = obj11 && obj11.kind === "foo";
-    var isBar = obj11 && obj11.kind === "bar";
+function f28(obj) {
+    var isFoo = obj && obj.kind === "foo";
+    var isBar = obj && obj.kind === "bar";
     if (isFoo) {
-        obj11.foo;
+        obj.foo;
     }
     if (isBar) {
-        obj11.bar;
+        obj.bar;
     }
 }
 // Narrowing by aliased discriminant property access
-function f30(obj12) {
-    var kind = obj12.kind;
+function f30(obj) {
+    var kind = obj.kind;
     if (kind === "foo") {
-        obj12.foo;
+        obj.foo;
     } else {
-        obj12.bar;
+        obj.bar;
     }
 }
-function f31(obj13) {
-    var kind = obj13.kind;
+function f31(obj) {
+    var kind = obj.kind;
     if (kind === "foo") {
-        obj13.foo;
+        obj.foo;
     } else {
-        obj13.bar;
+        obj.bar;
     }
 }
-function f32(obj14) {
-    var k = obj14.kind;
+function f32(obj) {
+    var k = obj.kind;
     if (k === "foo") {
-        obj14.foo;
+        obj.foo;
     } else {
-        obj14.bar;
+        obj.bar;
     }
 }
-function f33(obj15) {
-    var kind = obj15.kind;
+function f33(obj) {
+    var kind = obj.kind;
     switch(kind){
         case "foo":
-            obj15.foo;
+            obj.foo;
             break;
         case "bar":
-            obj15.bar;
+            obj.bar;
             break;
     }
 }
@@ -211,18 +211,18 @@ var C11 = function C11(x) {
     }
 };
 // Mixing of aliased discriminants and conditionals
-function f40(obj16) {
-    var kind = obj16.kind;
+function f40(obj) {
+    var kind = obj.kind;
     var isFoo = kind == "foo";
-    if (isFoo && obj16.foo) {
-        var t = obj16.foo;
+    if (isFoo && obj.foo) {
+        var t = obj.foo;
     }
 }
-function gg2(obj17) {
-    if (obj17.kind === "str") {
-        var t = obj17.payload;
+function gg2(obj) {
+    if (obj.kind === "str") {
+        var t = obj.payload;
     } else {
-        var t4 = obj17.payload;
+        var t1 = obj.payload;
     }
 }
 function foo(param) {
@@ -230,7 +230,7 @@ function foo(param) {
     if (kind === "str") {
         var t = payload;
     } else {
-        var t5 = payload;
+        var t1 = payload;
     }
 }
 // Repro from #45830

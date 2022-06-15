@@ -7,7 +7,7 @@ var C = function() {
     var _proto = C.prototype;
     return _proto.foo = function() {
         C.prototype.foo = function() {};
-    }, _proto.bar = function(x1) {
+    }, _proto.bar = function(x) {
         return C.prototype.bar = function() {}, C.prototype.bar = function(x) {
             return x;
         }, C.prototype.bar = function(x) {

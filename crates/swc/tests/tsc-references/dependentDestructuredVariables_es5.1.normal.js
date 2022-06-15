@@ -108,11 +108,11 @@ function f40() {
     }
 }
 function unrefined1(ab) {
-    var variant = ab.variant, value1 = ab.value;
+    var variant = ab.variant, value = ab.value;
     if (variant === "a") {
-        printValue(value1);
+        printValue(value);
     } else {
-        printValueList(value1);
+        printValueList(value);
     }
 }
 var reducerBroken = function(state, param) {

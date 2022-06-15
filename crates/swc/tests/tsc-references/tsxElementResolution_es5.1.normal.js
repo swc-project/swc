@@ -8,12 +8,12 @@ var Other = function Other() {
     _class_call_check(this, Other);
 };
 var Dotted;
-(function(Dotted1) {
+(function(Dotted) {
     var Name = function Name() {
         "use strict";
         _class_call_check(this, Name);
     };
-    Dotted1.Name = Name;
+    Dotted.Name = Name;
 })(Dotted || (Dotted = {}));
 // Should find the intrinsic element, not the class element
 var a = /*#__PURE__*/ React.createElement("foundFirst", {

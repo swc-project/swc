@@ -1,9 +1,9 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var Component = /*#__PURE__*/ function(ReactComponent) {
+var Component = /*#__PURE__*/ function(ReactComponent1) {
     "use strict";
-    _inherits(Component, ReactComponent);
+    _inherits(Component, ReactComponent1);
     var _super = _create_super(Component);
     function Component() {
         _class_call_check(this, Component);
@@ -46,9 +46,9 @@ var f = /*#__PURE__*/ React.createElement(Component, {
     bar: "yeah",
     baz: null
 }); // Error, baz is _not_ nullable/undefinable since it's marked `isRequired`
-var JustPropTypes = /*#__PURE__*/ function(ReactComponent) {
+var JustPropTypes = /*#__PURE__*/ function(ReactComponent1) {
     "use strict";
-    _inherits(JustPropTypes, ReactComponent);
+    _inherits(JustPropTypes, ReactComponent1);
     var _super = _create_super(JustPropTypes);
     function JustPropTypes() {
         _class_call_check(this, JustPropTypes);
@@ -75,9 +75,9 @@ var j = /*#__PURE__*/ React.createElement(JustPropTypes, {
     foo: 12,
     bar: null
 }); // error, bar is required
-var JustDefaultProps = /*#__PURE__*/ function(ReactComponent) {
+var JustDefaultProps = /*#__PURE__*/ function(ReactComponent1) {
     "use strict";
-    _inherits(JustDefaultProps, ReactComponent);
+    _inherits(JustDefaultProps, ReactComponent1);
     var _super = _create_super(JustDefaultProps);
     function JustDefaultProps() {
         _class_call_check(this, JustDefaultProps);
@@ -98,9 +98,9 @@ var l = /*#__PURE__*/ React.createElement(JustDefaultProps, {
 var m = /*#__PURE__*/ React.createElement(JustDefaultProps, {
     foo: "no"
 }); // error, wrong type
-var BothWithSpecifiedGeneric = /*#__PURE__*/ function(ReactComponent) {
+var BothWithSpecifiedGeneric = /*#__PURE__*/ function(ReactComponent1) {
     "use strict";
-    _inherits(BothWithSpecifiedGeneric, ReactComponent);
+    _inherits(BothWithSpecifiedGeneric, ReactComponent1);
     var _super = _create_super(BothWithSpecifiedGeneric);
     function BothWithSpecifiedGeneric() {
         _class_call_check(this, BothWithSpecifiedGeneric);
@@ -143,9 +143,9 @@ var s = /*#__PURE__*/ React.createElement(BothWithSpecifiedGeneric, {
     bar: "yeah",
     baz: null
 }); // Error, baz is _not_ nullable/undefinable since it's marked `isRequired`
-var JustPropTypesWithSpecifiedGeneric = /*#__PURE__*/ function(ReactComponent) {
+var JustPropTypesWithSpecifiedGeneric = /*#__PURE__*/ function(ReactComponent1) {
     "use strict";
-    _inherits(JustPropTypesWithSpecifiedGeneric, ReactComponent);
+    _inherits(JustPropTypesWithSpecifiedGeneric, ReactComponent1);
     var _super = _create_super(JustPropTypesWithSpecifiedGeneric);
     function JustPropTypesWithSpecifiedGeneric() {
         _class_call_check(this, JustPropTypesWithSpecifiedGeneric);
@@ -172,9 +172,9 @@ var w = /*#__PURE__*/ React.createElement(JustPropTypesWithSpecifiedGeneric, {
     foo: "cool",
     bar: null
 }); // error, bar is required
-var JustDefaultPropsWithSpecifiedGeneric = /*#__PURE__*/ function(ReactComponent) {
+var JustDefaultPropsWithSpecifiedGeneric = /*#__PURE__*/ function(ReactComponent1) {
     "use strict";
-    _inherits(JustDefaultPropsWithSpecifiedGeneric, ReactComponent);
+    _inherits(JustDefaultPropsWithSpecifiedGeneric, ReactComponent1);
     var _super = _create_super(JustDefaultPropsWithSpecifiedGeneric);
     function JustDefaultPropsWithSpecifiedGeneric() {
         _class_call_check(this, JustDefaultPropsWithSpecifiedGeneric);

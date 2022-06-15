@@ -10,8 +10,8 @@ var props = {
     a: 1,
     b: 1
 };
-var Foo = function(props1) {
-    return /*#__PURE__*/ React.createElement("div", null, props1.a);
+var Foo = function(props) {
+    return /*#__PURE__*/ React.createElement("div", null, props.a);
 };
 // ok
 var a1 = /*#__PURE__*/ React.createElement(Foo, _extends({}, props));

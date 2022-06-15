@@ -1,6 +1,6 @@
 import _instanceof from "@swc/helpers/src/_instanceof.mjs";
-!function(define, undefined) {
-    define(function() {
+!function(define1, undefined) {
+    define1(function() {
         "use strict";
         var equalIC = function(a, b) {
             return null != a && null != b && a.toLowerCase() === b.toLowerCase();

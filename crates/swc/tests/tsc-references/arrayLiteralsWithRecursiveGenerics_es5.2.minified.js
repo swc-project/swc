@@ -4,9 +4,9 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
 var List = function() {
     "use strict";
     _class_call_check(this, List);
-}, DerivedList = function(List1) {
+}, DerivedList = function(List) {
     "use strict";
-    _inherits(DerivedList, List1);
+    _inherits(DerivedList, List);
     var _super = _create_super(DerivedList);
     function DerivedList() {
         return _class_call_check(this, DerivedList), _super.apply(this, arguments);

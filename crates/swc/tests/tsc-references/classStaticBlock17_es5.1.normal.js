@@ -34,11 +34,11 @@ var __ = {
         };
     }()
 };
-var B = function B(a1) {
+var B = function B(a) {
     "use strict";
     _class_call_check(this, B);
-    var x = friendA.getX(a1); // ok
-    friendA.setX(a1, x + 1); // ok
+    var x = friendA.getX(a); // ok
+    friendA.setX(a, x + 1); // ok
 };
 var a = new A(41);
 var b = new B(a);

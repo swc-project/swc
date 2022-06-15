@@ -35,12 +35,12 @@ var C = /*#__PURE__*/ function() {
     var _proto = C.prototype;
     _proto.f = function f() {
         var x;
-        var a1 = x["foo"](); // should be string
-        return a1 + x.foo();
+        var a = x["foo"](); // should be string
+        return a + x.foo();
     };
     _proto.g = function g(x) {
-        var a2 = x["foo"](); // should be string
-        return a2 + x.foo();
+        var a = x["foo"](); // should be string
+        return a + x.foo();
     };
     return C;
 }();
@@ -77,8 +77,8 @@ var r3c = a(aB, aB).foo();
 var r3d = a(aB, aB)["foo"]();
 var b = {
     foo: function(x, y) {
-        var a3 = x["foo"](); // should be string
-        return a3 + x.foo();
+        var a = x["foo"](); // should be string
+        return a + x.foo();
     }
 };
 //var b = {

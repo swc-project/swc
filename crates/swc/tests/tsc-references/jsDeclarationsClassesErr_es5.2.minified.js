@@ -5,9 +5,9 @@ export var M = function() {
     "use strict";
     _class_call_check(this, M);
 };
-export var N = function(M1) {
+export var N = function(M) {
     "use strict";
-    _inherits(N, M1);
+    _inherits(N, M);
     var _super = _create_super(N);
     function N() {
         return _class_call_check(this, N), _super.apply(this, arguments);
@@ -18,36 +18,36 @@ export var O = function() {
     "use strict";
     _class_call_check(this, O);
 };
-export var P = function(O1) {
+export var P = function(O) {
     "use strict";
-    _inherits(P, O1);
+    _inherits(P, O);
     var _super = _create_super(P);
     function P() {
         return _class_call_check(this, P), _super.apply(this, arguments);
     }
     return P;
 }(O);
-export var Q = function(O2) {
+export var Q = function(O) {
     "use strict";
-    _inherits(Q, O2);
+    _inherits(Q, O);
     var _super = _create_super(Q);
     function Q() {
         return _class_call_check(this, Q), _super.apply(this, arguments);
     }
     return Q;
 }(O);
-export var R = function(O3) {
+export var R = function(O) {
     "use strict";
-    _inherits(R, O3);
+    _inherits(R, O);
     var _super = _create_super(R);
     function R() {
         return _class_call_check(this, R), _super.apply(this, arguments);
     }
     return R;
 }(O);
-export var S = function(O4) {
+export var S = function(O) {
     "use strict";
-    _inherits(S, O4);
+    _inherits(S, O);
     var _super = _create_super(S);
     function S() {
         return _class_call_check(this, S), _super.apply(this, arguments);
@@ -58,36 +58,36 @@ export var T = function() {
     "use strict";
     _class_call_check(this, T);
 };
-export var U = function(T1) {
+export var U = function(T) {
     "use strict";
-    _inherits(U, T1);
+    _inherits(U, T);
     var _super = _create_super(U);
     function U() {
         return _class_call_check(this, U), _super.apply(this, arguments);
     }
     return U;
 }(T);
-export var V = function(T2) {
+export var V = function(T) {
     "use strict";
-    _inherits(V, T2);
+    _inherits(V, T);
     var _super = _create_super(V);
     function V() {
         return _class_call_check(this, V), _super.apply(this, arguments);
     }
     return V;
 }(T);
-export var W = function(T3) {
+export var W = function(T) {
     "use strict";
-    _inherits(W, T3);
+    _inherits(W, T);
     var _super = _create_super(W);
     function W() {
         return _class_call_check(this, W), _super.apply(this, arguments);
     }
     return W;
 }(T);
-export var X = function(T4) {
+export var X = function(T) {
     "use strict";
-    _inherits(X, T4);
+    _inherits(X, T);
     var _super = _create_super(X);
     function X() {
         return _class_call_check(this, X), _super.apply(this, arguments);
@@ -98,36 +98,36 @@ export var Y = function() {
     "use strict";
     _class_call_check(this, Y);
 };
-export var Z = function(Y1) {
+export var Z = function(Y) {
     "use strict";
-    _inherits(Z, Y1);
+    _inherits(Z, Y);
     var _super = _create_super(Z);
     function Z() {
         return _class_call_check(this, Z), _super.apply(this, arguments);
     }
     return Z;
 }(Y);
-export var AA = function(Y2) {
+export var AA = function(Y) {
     "use strict";
-    _inherits(AA, Y2);
+    _inherits(AA, Y);
     var _super = _create_super(AA);
     function AA() {
         return _class_call_check(this, AA), _super.apply(this, arguments);
     }
     return AA;
 }(Y);
-export var BB = function(Y3) {
+export var BB = function(Y) {
     "use strict";
-    _inherits(BB, Y3);
+    _inherits(BB, Y);
     var _super = _create_super(BB);
     function BB() {
         return _class_call_check(this, BB), _super.apply(this, arguments);
     }
     return BB;
 }(Y);
-export var CC = function(Y4) {
+export var CC = function(Y) {
     "use strict";
-    _inherits(CC, Y4);
+    _inherits(CC, Y);
     var _super = _create_super(CC);
     function CC() {
         return _class_call_check(this, CC), _super.apply(this, arguments);

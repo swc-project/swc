@@ -64,7 +64,7 @@ if (typeof boolOrC !== "boolean") {
     bool = boolOrC; // boolean
 }
 if (typeof strOrNum !== "boolean") {
-    let z1 = strOrNum; // string | number
+    let z11 = strOrNum; // string | number
 } else {
-    let z2 = strOrNum; // {}
+    let z21 = strOrNum; // {}
 }

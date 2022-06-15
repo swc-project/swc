@@ -197,9 +197,9 @@ export var M = /*#__PURE__*/ function(_superClass) {
     return O;
 }(N);
 var x = /** @type {*} */ (null);
-export var VariableBase = /*#__PURE__*/ function(x1) {
+export var VariableBase = /*#__PURE__*/ function(x) {
     "use strict";
-    _inherits(VariableBase, x1);
+    _inherits(VariableBase, x);
     var _super = _create_super(VariableBase);
     function VariableBase() {
         _class_call_check(this, VariableBase);

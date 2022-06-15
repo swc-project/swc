@@ -9,8 +9,8 @@ var C = /*#__PURE__*/ function() {
     var _proto = C.prototype;
     _proto.f = function f() {
         var x;
-        var a1 = x["getDate"](); // number
-        return a1 + x.getDate();
+        var a = x["getDate"](); // number
+        return a + x.getDate();
     };
     return C;
 }();
@@ -23,8 +23,8 @@ var r3 = a().getDate();
 var r3b = a()["getDate"]();
 var b = {
     foo: function(x) {
-        var a2 = x["getDate"](); // number
-        return a2 + x.getDate();
+        var a = x["getDate"](); // number
+        return a + x.getDate();
     }
 };
 var r4 = b.foo(new Date());

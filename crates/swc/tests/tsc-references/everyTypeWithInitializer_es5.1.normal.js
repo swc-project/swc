@@ -11,16 +11,16 @@ function F(x) {
     return 42;
 }
 var M;
-(function(M1) {
-    var F2 = function F2(x1) {
-        return x1.toString();
+(function(M) {
+    var F2 = function F2(x) {
+        return x.toString();
     };
     var A = function A() {
         "use strict";
         _class_call_check(this, A);
     };
-    M1.A = A;
-    M1.F2 = F2;
+    M.A = A;
+    M.F2 = F2;
 })(M || (M = {}));
 var aNumber = 9.9;
 var aString = "this is a string";

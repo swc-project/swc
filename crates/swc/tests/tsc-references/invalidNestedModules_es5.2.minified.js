@@ -1,24 +1,24 @@
 var A, M2;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-!function(A1) {
+!function(A) {
     var B, C, Point;
-    C = (B = A1.B || (A1.B = {})).C || (B.C = {}), Point = function() {
+    C = (B = A.B || (A.B = {})).C || (B.C = {}), Point = function() {
         "use strict";
         _class_call_check(this, Point);
     }, C.Point = Point;
-}(A || (A = {})), function(A2) {
+}(A || (A = {})), function(A) {
     var B, C;
-    B = A2.B || (A2.B = {}), C = function() {
+    B = A.B || (A.B = {}), C = function() {
         "use strict";
         _class_call_check(this, C);
     }, B.C = C;
-}(A || (A = {})), function(M21) {
+}(A || (A = {})), function(M2) {
     var X, Point;
-    X = M21.X || (M21.X = {}), Point = function() {
+    X = M2.X || (M2.X = {}), Point = function() {
         "use strict";
         _class_call_check(this, Point);
     }, X.Point = Point;
-}(M2 || (M2 = {})), function(M22) {
+}(M2 || (M2 = {})), function(M2) {
     var Point;
-    (M22.X || (M22.X = {})).Point = Point;
+    (M2.X || (M2.X = {})).Point = Point;
 }(M2 || (M2 = {}));

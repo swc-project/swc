@@ -17,9 +17,9 @@ var B = /*#__PURE__*/ function() {
 }();
 var _foo = {
     writable: true,
-    value: (_class = function _class1() {
+    value: (_class = function _class() {
         "use strict";
-        _class_call_check(this, _class1);
+        _class_call_check(this, _class);
         this.field = 10;
         console.log("hello");
         new (_class_static_private_field_spec_get(B, B, _foo2))();

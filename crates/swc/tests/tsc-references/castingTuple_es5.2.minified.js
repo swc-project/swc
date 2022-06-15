@@ -10,17 +10,17 @@ var E1, E2, A = function() {
 }, D = function() {
     "use strict";
     _class_call_check(this, D);
-}, E = function(A1) {
+}, E = function(A) {
     "use strict";
-    _inherits(E, A1);
+    _inherits(E, A);
     var _super = _create_super(E);
     function E() {
         return _class_call_check(this, E), _super.apply(this, arguments);
     }
     return E;
-}(A), F = function(A2) {
+}(A), F = function(A) {
     "use strict";
-    _inherits(F, A2);
+    _inherits(F, A);
     var _super = _create_super(F);
     function F() {
         return _class_call_check(this, F), _super.apply(this, arguments);

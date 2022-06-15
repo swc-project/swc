@@ -6,7 +6,7 @@ var C = function() {
     }
     return C.foo = function() {
         C.foo = function() {};
-    }, C.bar = function(x1) {
+    }, C.bar = function(x) {
         return C.bar = function() {}, C.bar = function(x) {
             return x;
         }, C.bar = function(x) {

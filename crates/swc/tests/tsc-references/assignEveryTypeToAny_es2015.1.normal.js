@@ -36,10 +36,10 @@ x = {
     }
 };
 x = {
-    f (x1) {
-        return x1;
+    f (x) {
+        return x;
     }
 };
-function j(a1) {
-    x = a1;
+function j(a) {
+    x = a;
 }

@@ -4,9 +4,9 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
 var x, StringTreeCollectionBase = function() {
     "use strict";
     _class_call_check(this, StringTreeCollectionBase);
-}, StringTreeCollection = function(StringTreeCollectionBase1) {
+}, StringTreeCollection = function(StringTreeCollectionBase) {
     "use strict";
-    _inherits(StringTreeCollection, StringTreeCollectionBase1);
+    _inherits(StringTreeCollection, StringTreeCollectionBase);
     var _super = _create_super(StringTreeCollection);
     function StringTreeCollection() {
         return _class_call_check(this, StringTreeCollection), _super.apply(this, arguments);

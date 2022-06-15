@@ -13,8 +13,8 @@ var g;
 g = x;
 I = x;
 var M;
-(function(M1) {
-    var x = M1.x = 1;
+(function(M) {
+    var x = M.x = 1;
 })(M || (M = {}));
 M = x;
 function i(a) {}

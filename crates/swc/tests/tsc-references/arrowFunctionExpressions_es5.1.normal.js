@@ -151,10 +151,10 @@ function tryCatchFn() {
         var x = function() {
             return _this;
         };
-    } catch (e1) {
+    } catch (e) {
         var _this1 = this;
         var t = function() {
-            return e1 + _this1;
+            return e + _this1;
         };
     } finally{
         var _this2 = this;

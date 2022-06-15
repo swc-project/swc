@@ -1,6 +1,6 @@
 var TypeScript;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-!function(TypeScript1) {
+!function(TypeScript) {
     var PrintContext = function() {
         "use strict";
         function PrintContext(outfile, parser) {
@@ -26,10 +26,10 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
             this.builder += s, this.outfile.WriteLine(this.builder), this.builder = "";
         }, PrintContext;
     }();
-    TypeScript1.PrintContext = PrintContext, TypeScript1.prePrintAST = function(ast, parent, walker) {
+    TypeScript.PrintContext = PrintContext, TypeScript.prePrintAST = function(ast, parent, walker) {
         var pc = walker.state;
         return ast.print(pc), pc.increaseIndent(), ast;
-    }, TypeScript1.postPrintAST = function(ast, parent, walker) {
+    }, TypeScript.postPrintAST = function(ast, parent, walker) {
         return walker.state.decreaseIndent(), ast;
     };
 }(TypeScript || (TypeScript = {}));

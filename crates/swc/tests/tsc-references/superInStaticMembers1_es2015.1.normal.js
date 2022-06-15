@@ -1,12 +1,11 @@
 import _get from "@swc/helpers/src/_get.mjs";
 import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 var _Reflect, __, _Reflect1, __1;
-class Reflect1 {
-}
 // @target: es5, es2015, es2021, es2022, esnext
 // @noTypesAndSymbols: true
 // @filename: external.ts
-export { Reflect1 as Reflect };
+export class Reflect {
+}
 export var Baz;
 (function(Baz) {})(Baz || (Baz = {}));
 class _class {
@@ -77,7 +76,7 @@ var __2 = {
         super.w();
     })()
 };
-var __111 = {
+var __11 = {
     writable: true,
     value: (()=>{
         var [Reflect] = [
@@ -86,7 +85,7 @@ var __111 = {
         super.w();
     })()
 };
-var __2 = {
+var __21 = {
     writable: true,
     value: (()=>{
         var Reflect; // collision (es2015-es2021 only)
@@ -155,34 +154,23 @@ var __10 = {
         super.w();
     })()
 };
-var Reflect1 = null; // collision (es2015-es2021 only)
+var Reflect = null; // collision (es2015-es2021 only)
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
-var { Reflect: Reflect1  } = {
+var { Reflect  } = {
     Reflect: null
 }; // collision (es2015-es2021 only)
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
-var [Reflect1] = [
+var [Reflect] = [
     null
 ]; // collision (es2015-es2021 only)
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
-var Reflect1 = null; // collision (es2015-es2021 only)
-class C extends B {
-}
-var __11 = {
-    writable: true,
-    value: (()=>{
-        super.w();
-    })()
-};
-var { Reflect: Reflect1  } = {
-    Reflect: null
-}; // collision (es2015-es2021 only)
+var Reflect = null; // collision (es2015-es2021 only)
 class C extends B {
 }
 var __12 = {
@@ -191,9 +179,9 @@ var __12 = {
         super.w();
     })()
 };
-var [Reflect1] = [
-    null
-]; // collision (es2015-es2021 only)
+var { Reflect  } = {
+    Reflect: null
+}; // collision (es2015-es2021 only)
 class C extends B {
 }
 var __13 = {
@@ -202,13 +190,9 @@ var __13 = {
         super.w();
     })()
 };
-class Reflect1 {
-} // collision (es2015-es2021 only)
-class C extends B {
-}
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
-class Reflect1 {
-} // collision (es2015-es2021 only)
+var [Reflect] = [
+    null
+]; // collision (es2015-es2021 only)
 class C extends B {
 }
 var __14 = {
@@ -217,11 +201,13 @@ var __14 = {
         super.w();
     })()
 };
-function Reflect1() {} // collision (es2015-es2021 only)
+class Reflect {
+} // collision (es2015-es2021 only)
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
-function Reflect1() {} // collision (es2015-es2021 only)
+class Reflect {
+} // collision (es2015-es2021 only)
 class C extends B {
 }
 var __15 = {
@@ -230,9 +216,11 @@ var __15 = {
         super.w();
     })()
 };
+function Reflect() {} // collision (es2015-es2021 only)
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
+function Reflect() {} // collision (es2015-es2021 only)
 class C extends B {
 }
 var __16 = {
@@ -241,11 +229,9 @@ var __16 = {
         super.w();
     })()
 };
-(function(Reflect1) {})(Reflect1 || (Reflect1 = {}));
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
-(function(Reflect1) {})(Reflect1 || (Reflect1 = {}));
 class C extends B {
 }
 var __17 = {
@@ -254,11 +240,11 @@ var __17 = {
         super.w();
     })()
 };
-(function(Reflect1) {})(Reflect1 || (Reflect1 = {}));
+(function(Reflect) {})(Reflect || (Reflect = {}));
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
-(function(Reflect1) {})(Reflect1 || (Reflect1 = {}));
+(function(Reflect) {})(Reflect || (Reflect = {}));
 class C extends B {
 }
 var __18 = {
@@ -267,9 +253,11 @@ var __18 = {
         super.w();
     })()
 };
+(function(Reflect) {})(Reflect || (Reflect = {}));
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
+(function(Reflect) {})(Reflect || (Reflect = {}));
 class C extends B {
 }
 var __19 = {
@@ -284,17 +272,6 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 class C extends B {
 }
 var __20 = {
-    writable: true,
-    value: (()=>{
-        super.w();
-    })()
-};
-class C extends B {
-}
-C._ = _get(_get_prototype_of(C), "w", C).call(C);
-class C extends B {
-}
-var __21 = {
     writable: true,
     value: (()=>{
         super.w();
@@ -388,6 +365,28 @@ var __29 = {
         super.w();
     })()
 };
+class C extends B {
+}
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
+class C extends B {
+}
+var __30 = {
+    writable: true,
+    value: (()=>{
+        super.w();
+    })()
+};
+class C extends B {
+}
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
+class C extends B {
+}
+var __31 = {
+    writable: true,
+    value: (()=>{
+        super.w();
+    })()
+};
 (class Reflect {
 }); // no collision
 class C extends B {
@@ -397,7 +396,7 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 }); // no collision
 class C extends B {
 }
-var __30 = {
+var __32 = {
     writable: true,
     value: (()=>{
         super.w();
@@ -407,9 +406,9 @@ _Reflect = class Reflect {
 }, __ = {
     writable: true,
     value: (()=>{
-        class C1 extends B {
+        class C extends B {
         }
-        C1._ = _get(_get_prototype_of(C1), "w", C1).call(C1);
+        C._ = _get(_get_prototype_of(C), "w", C).call(C);
     })()
 }, _Reflect;
 _Reflect1 = class Reflect {
@@ -433,16 +432,16 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 (function Reflect() {}); // no collision
 class C extends B {
 }
-var __31 = {
+var __33 = {
     writable: true,
     value: (()=>{
         super.w();
     })()
 };
 (function Reflect() {
-    class C2 extends B {
+    class C extends B {
     }
-    C2._ = _get(_get_prototype_of(C2), "w", C2).call(C2);
+    C._ = _get(_get_prototype_of(C), "w", C).call(C);
 });
 (function Reflect() {
     class C extends B {

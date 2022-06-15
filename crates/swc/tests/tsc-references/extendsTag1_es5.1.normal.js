@@ -10,9 +10,9 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
 /**
  * @template T
  * @extends {Set<T>} Should prefer this Set<T>, not the Set in the heritage clause
- */ var My = /*#__PURE__*/ function(Set) {
+ */ var My = /*#__PURE__*/ function(Set1) {
     "use strict";
-    _inherits(My, Set);
+    _inherits(My, Set1);
     var _super = _create_super(My);
     function My() {
         _class_call_check(this, My);

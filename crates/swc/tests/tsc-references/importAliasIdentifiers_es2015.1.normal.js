@@ -1,12 +1,12 @@
 var moduleA;
-(function(moduleA1) {
+(function(moduleA) {
     class Point {
         constructor(x, y){
             this.x = x;
             this.y = y;
         }
     }
-    moduleA1.Point = Point;
+    moduleA.Point = Point;
 })(moduleA || (moduleA = {}));
 var p;
 var p;

@@ -13,7 +13,7 @@ var C = /*#__PURE__*/ function() {
     return C;
 }();
 var M1;
-(function(M11) {
+(function(M1) {
     var M2;
     (function(M2) {
         var C = /*#__PURE__*/ function() {
@@ -27,5 +27,5 @@ var M1;
             };
             return C;
         }();
-    })(M2 = M11.M2 || (M11.M2 = {}));
+    })(M2 = M1.M2 || (M1.M2 = {}));
 })(M1 || (M1 = {}));

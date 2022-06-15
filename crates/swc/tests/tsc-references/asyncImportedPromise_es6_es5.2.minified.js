@@ -4,9 +4,9 @@ import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _wrap_native_super from "@swc/helpers/src/_wrap_native_super.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
 import regeneratorRuntime from "regenerator-runtime";
-export var Task = function(Promise) {
+export var Task = function(Promise1) {
     "use strict";
-    _inherits(Task, Promise);
+    _inherits(Task, Promise1);
     var _super = _create_super(Task);
     function Task() {
         return _class_call_check(this, Task), _super.apply(this, arguments);

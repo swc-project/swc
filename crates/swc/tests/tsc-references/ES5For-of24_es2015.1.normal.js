@@ -4,5 +4,5 @@ var a = [
     3
 ];
 for (var v of a){
-    let a = 0;
+    let a1 = 0;
 }

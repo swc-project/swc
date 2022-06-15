@@ -77,9 +77,9 @@ new fn4(null, null); // Error
 new fn4(true, null); // Error
 new fn4(null, true); // Error
 var fn5;
-var n = new fn5(function(n1) {
-    return n1.toFixed();
+var n = new fn5(function(n) {
+    return n.toFixed();
 });
-var s = new fn5(function(n2) {
-    return n2.substr(0);
+var s = new fn5(function(n) {
+    return n.substr(0);
 });

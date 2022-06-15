@@ -17,9 +17,9 @@ rec1(), rec2(), rec3(), rec4();
 var Base = function() {
     "use strict";
     _class_call_check(this, Base);
-}, Derived = function(Base1) {
+}, Derived = function(Base) {
     "use strict";
-    _inherits(Derived, Base1);
+    _inherits(Derived, Base);
     var _super = _create_super(Derived);
     function Derived() {
         return _class_call_check(this, Derived), _super.apply(this, arguments);
@@ -27,9 +27,9 @@ var Base = function() {
     return Derived;
 }(Base);
 new Base(), new Base();
-var Derived2 = function(Base2) {
+var Derived2 = function(Base) {
     "use strict";
-    _inherits(Derived2, Base2);
+    _inherits(Derived2, Base);
     var _super = _create_super(Derived2);
     function Derived2() {
         return _class_call_check(this, Derived2), _super.apply(this, arguments);

@@ -26,8 +26,8 @@ var E;
 })(E || (E = {}));
 var r3 = foo3(a); // any
 function f() {}
-(function(f1) {
-    var bar = f1.bar = 1;
+(function(f) {
+    var bar = f.bar = 1;
 })(f || (f = {}));
 var r3 = foo3(a); // any
 var CC = function CC() {

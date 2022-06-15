@@ -1,8 +1,8 @@
 // Initializers
 var varInit = varInit; // any
 var pInit;
-function fn(pInit1 = pInit1) {
-    var pInit1;
+function fn(pInit = pInit) {
+    var pInit;
 }
 class InitClass {
     fn() {
@@ -81,13 +81,13 @@ class C {
         return new (this.fn2());
     }
     fn3() {
-        var a1;
-        return new a1(this.fn3);
+        var a;
+        return new a(this.fn3);
     }
 }
 function fn5() {
-    var a2;
-    return new a2(fn5);
+    var a;
+    return new a(fn5);
 }
 var fn5r = fn5(); // fn5r: should be 'any', but is 'number'
 // Property access

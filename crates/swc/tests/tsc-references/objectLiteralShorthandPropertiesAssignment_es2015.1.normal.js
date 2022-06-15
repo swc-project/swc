@@ -6,21 +6,21 @@ var person = {
     id
 };
 function foo(obj) {}
-function bar(name1, id1) {
+function bar(name, id) {
     return {
-        name: name1,
-        id: id1
+        name,
+        id
     };
 }
-function bar1(name2, id) {
+function bar1(name, id) {
     return {
-        name: name2
+        name
     };
 }
-function baz(name3, id2) {
+function baz(name, id) {
     return {
-        name: name3,
-        id: id2
+        name,
+        id
     };
 }
 foo(person);

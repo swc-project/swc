@@ -1,22 +1,22 @@
-(function(ExpandoMerge1) {
-    var p3 = ExpandoMerge1.p3 = 333;
-    var p4 = ExpandoMerge1.p4 = 4;
-    var p5 = ExpandoMerge1.p5 = 5;
-    var p6 = ExpandoMerge1.p6 = 6;
-    var p7 = ExpandoMerge1.p7 = 7;
-    var p8 = ExpandoMerge1.p8 = 6;
-    var p9 = ExpandoMerge1.p9 = 7;
+(function(ExpandoMerge) {
+    var p3 = ExpandoMerge.p3 = 333;
+    var p4 = ExpandoMerge.p4 = 4;
+    var p5 = ExpandoMerge.p5 = 5;
+    var p6 = ExpandoMerge.p6 = 6;
+    var p7 = ExpandoMerge.p7 = 7;
+    var p8 = ExpandoMerge.p8 = 6;
+    var p9 = ExpandoMerge.p9 = 7;
 })(ExpandoMerge || (ExpandoMerge = {}));
-(function(ExpandoMerge2) {
-    var p2 = ExpandoMerge2.p2 = 222;
+(function(ExpandoMerge) {
+    var p2 = ExpandoMerge.p2 = 222;
 })(ExpandoMerge || (ExpandoMerge = {}));
 // @Filename: expando.ts
-function ExpandoMerge(n1) {
-    return n1;
+function ExpandoMerge(n) {
+    return n;
 }
 ExpandoMerge.p1 = 111;
-ExpandoMerge.m = function(n2) {
-    return n2 + 1;
+ExpandoMerge.m = function(n) {
+    return n + 1;
 };
 ExpandoMerge.p4 = 44444;
 ExpandoMerge.p5 = 555555;

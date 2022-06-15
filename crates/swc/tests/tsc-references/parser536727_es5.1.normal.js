@@ -1,8 +1,8 @@
 function foo(f) {
     return f("");
 }
-var g = function(x1) {
-    return x1 + "blah";
+var g = function(x) {
+    return x + "blah";
 };
 var x = function() {
     return g;

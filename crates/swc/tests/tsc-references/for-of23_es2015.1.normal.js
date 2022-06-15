@@ -13,5 +13,5 @@ class FooIterator {
     }
 }
 for (const v of new FooIterator){
-    const v = 0; // new scope
+    const v1 = 0; // new scope
 }

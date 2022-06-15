@@ -7,12 +7,12 @@ var M, C = function() {
     "use strict";
     _class_call_check(this, D);
 };
-throw !function(M1) {
+throw !function(M) {
     var A = function() {
         "use strict";
         _class_call_check(this, A);
     };
-    M1.A = A, M1.F2 = function(x) {
+    M.A = A, M.F2 = function(x) {
         return x.toString();
     };
 }(M || (M = {})), 9.9;

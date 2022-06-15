@@ -2,8 +2,8 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(function() {
     var x;
-    return regeneratorRuntime.wrap(function(_ctx1) {
-        for(;;)switch(_ctx1.prev = _ctx1.next){
+    return regeneratorRuntime.wrap(function(_ctx) {
+        for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
                 x = function() {
                     "use strict";
@@ -24,7 +24,7 @@ var _marked = regeneratorRuntime.mark(function() {
                 }();
             case 1:
             case "end":
-                return _ctx1.stop();
+                return _ctx.stop();
         }
     }, _marked);
 });
