@@ -2,12 +2,12 @@ define([
     "require",
     "exports",
     "./Z"
-], function(require, _exports, _z) {
+], function(require, exports, _z) {
     "use strict";
-    Object.defineProperty(_exports, "__esModule", {
+    Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    _export(_exports, {
+    _export(exports, {
         X: function() {
             return _z.default;
         }

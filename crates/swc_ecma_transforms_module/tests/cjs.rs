@@ -66,10 +66,10 @@ test!(
         h: function() { return h; }
     });
     require("./mod_a");
-    var _modB = _toESM(require("./mod_b"));
-    var _modC = _toESM(require("./mod_c"));
+    var _modB = _interopRequireDefault(require("./mod_b"));
+    var _modC = _interopRequireWildcard(require("./mod_c"));
     var _modD = require("./mod_d");
-    var _modE = _toESM(require("./mod_e"));
+    var _modE = _interopRequireDefault(require("./mod_e"));
     _reExport(exports, require("./mod_f"));
     function g() {}
     const h = 42;

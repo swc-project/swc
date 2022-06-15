@@ -1,4 +1,9 @@
 function _reExport(target, mod) {
-  _copyProps(target, mod, "default");
+  Object.keys(mod).forEach(function (k) {
+    if (k !== 'default' && !exports.hasOwnProperty(k)) Object.defineProperty(target, k, {
+      enumerable: true,
+      get: function () { return x[k]; }
+    });
+  });
   return mod;
 }

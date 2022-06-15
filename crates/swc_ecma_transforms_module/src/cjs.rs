@@ -93,7 +93,8 @@ impl Cjs {
 
         link.into_iter().for_each(|(src, LinkItem(src_span, set))| {
             let mut mod_ident = None;
-            let mut should_wrap_with_to_esm = false;
+            let mut should_wrap_interop_default = false;
+            let mut should_wrap_interop_namespace = false;
             let mut should_re_export = false;
 
             set.into_iter().for_each(|s| match s {
@@ -106,7 +107,7 @@ impl Cjs {
                     let binding_ident = lazy_ident_from_src(&src, &mut mod_ident);
 
                     if !self.config.no_interop {
-                        should_wrap_with_to_esm = true;
+                        should_wrap_interop_default = true;
                     }
 
                     import_map.insert(id, (binding_ident, Some(js_word!("default"))));
@@ -115,7 +116,7 @@ impl Cjs {
                     let binding_ident = lazy_ident_from_src(&src, &mut mod_ident);
 
                     if !self.config.no_interop {
-                        should_wrap_with_to_esm = true;
+                        should_wrap_interop_namespace = true;
                     }
 
                     import_map.insert(id, (binding_ident, None));
@@ -143,7 +144,7 @@ impl Cjs {
                     let binding_ident = lazy_ident_from_src(&src, &mut mod_ident);
 
                     if !self.config.no_interop {
-                        should_wrap_with_to_esm = true;
+                        should_wrap_interop_default = true;
                     }
 
                     let expr = binding_ident.into();
@@ -172,11 +173,19 @@ impl Cjs {
                 import_expr
             };
 
-            // _toESM(require("mod"));
-            let import_expr = if should_wrap_with_to_esm {
+            // _introp(require("mod"));
+            let import_expr = if should_wrap_interop_namespace {
                 CallExpr {
                     span: DUMMY_SP,
-                    callee: helper!(to_esm, "toESM"),
+                    callee: helper!(interop_require_wildcard, "interopRequireWildcard"),
+                    args: vec![import_expr.as_arg()],
+                    type_args: Default::default(),
+                }
+                .into()
+            } else if should_wrap_interop_default {
+                CallExpr {
+                    span: DUMMY_SP,
+                    callee: helper!(interop_require_default, "interopRequireDefault"),
                     args: vec![import_expr.as_arg()],
                     type_args: Default::default(),
                 }

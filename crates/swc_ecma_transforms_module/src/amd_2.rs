@@ -162,7 +162,8 @@ impl Amd {
             let mod_ident = private_ident!(local_name_for_src(&src));
             self.dep_list.push((mod_ident.clone(), src, src_span));
 
-            let mut should_wrap_with_to_esm = false;
+            let mut should_wrap_interop_default = false;
+            let mut should_wrap_interop_namespace = false;
             let mut should_re_export = false;
 
             set.into_iter().for_each(|s| match s {
@@ -174,14 +175,14 @@ impl Amd {
                 }
                 Specifier::ImportDefault(id) => {
                     if !self.config.no_interop {
-                        should_wrap_with_to_esm = true;
+                        should_wrap_interop_default = true;
                     }
 
                     import_map.insert(id, (mod_ident.clone(), Some(js_word!("default"))));
                 }
                 Specifier::ImportStarAs(id) => {
                     if !self.config.no_interop {
-                        should_wrap_with_to_esm = true;
+                        should_wrap_interop_namespace = true;
                     }
 
                     import_map.insert(id, (mod_ident.clone(), None));
@@ -205,7 +206,7 @@ impl Amd {
                 }
                 Specifier::ExportStarAs(key, span) => {
                     if !self.config.no_interop {
-                        should_wrap_with_to_esm = true;
+                        should_wrap_interop_namespace = true;
                     }
 
                     let expr = mod_ident.clone().into();
@@ -216,8 +217,8 @@ impl Amd {
                 }
             });
 
-            if should_re_export || should_wrap_with_to_esm {
-                // _reExport(_exports, require("mod"));
+            if should_re_export || should_wrap_interop_default || should_wrap_interop_namespace {
+                // _reExport(exports, require("mod"));
                 let import_expr: Expr = if should_re_export {
                     CallExpr {
                         span: DUMMY_SP,
@@ -230,11 +231,19 @@ impl Amd {
                     mod_ident.clone().into()
                 };
 
-                // _toESM(require("mod"));
-                let import_expr = if should_wrap_with_to_esm {
+                // mod = _introp(require("mod"));
+                let import_expr = if should_wrap_interop_namespace {
                     CallExpr {
                         span: DUMMY_SP,
-                        callee: helper!(to_esm, "toESM"),
+                        callee: helper!(interop_require_wildcard, "interopRequireWildcard"),
+                        args: vec![import_expr.as_arg()],
+                        type_args: Default::default(),
+                    }
+                    .make_assign_to(op!("="), mod_ident.as_pat_or_expr())
+                } else if should_wrap_interop_default {
+                    CallExpr {
+                        span: DUMMY_SP,
+                        callee: helper!(interop_require_default, "interopRequireDefault"),
                         args: vec![import_expr.as_arg()],
                         type_args: Default::default(),
                     }
@@ -279,7 +288,7 @@ impl Amd {
 
     fn exports(&mut self) -> Ident {
         self.exports.clone().unwrap_or_else(|| {
-            let new_ident = private_ident!("_exports");
+            let new_ident = private_ident!("exports");
             self.exports = Some(new_ident.clone());
             new_ident
         })

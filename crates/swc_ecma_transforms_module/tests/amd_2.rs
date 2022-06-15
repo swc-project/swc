@@ -50,12 +50,12 @@ test!(
     r#"
 define(
     ["require", "exports", "./mod_a", "./mod_b", "./mod_c", "./mod_d", "./mod_e", "./mod_f"],
-    function(require, _exports, _modA, _modB, _modC, _modD, _modE, _modF) {
+    function(require, exports, _modA, _modB, _modC, _modD, _modE, _modF) {
         "use strict";
-        Object.defineProperty(_exports, "__esModule", {
+        Object.defineProperty(exports, "__esModule", {
             value: true
         });
-        _export(_exports, {
+        _export(exports, {
             "1": function() { return _modB.b; },
             "2": function() { return _modB["1"]; },
             "4": function() { return _modD["3"]; },
@@ -68,10 +68,10 @@ define(
             g: function() { return g; },
             h: function() { return h; }
         });
-        _modB = _toESM(_modB);
-        _modC = _toESM(_modC);
-        _modE = _toESM(_modE);
-        _reExport(_exports, _modF);
+        _modB = _interopRequireDefault(_modB);
+        _modC = _interopRequireWildcard(_modC);
+        _modE = _interopRequireWildcard(_modE);
+        _reExport(exports, _modF);
         function g() {}
         const h = 42;
         class _default {

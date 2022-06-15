@@ -3,15 +3,15 @@ define([
     "exports",
     "./customRender",
     "@testing-library/react"
-], function(require, _exports, _customRender, _react) {
+], function(require, exports, _customRender, _react) {
     "use strict";
-    Object.defineProperty(_exports, "__esModule", {
+    Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    _export(_exports, {
+    _export(exports, {
         render: function() {
             return _customRender.customRender;
         }
     });
-    _reExport(_exports, _react);
+    _reExport(exports, _react);
 });

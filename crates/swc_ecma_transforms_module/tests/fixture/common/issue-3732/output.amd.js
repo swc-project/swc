@@ -2,12 +2,12 @@ define([
     "require",
     "exports",
     "./get"
-], function(require, _exports, _get) {
+], function(require, exports, _get) {
     "use strict";
-    Object.defineProperty(_exports, "__esModule", {
+    Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    _export(_exports, {
+    _export(exports, {
         byID: function() {
             return byID;
         },
@@ -15,7 +15,7 @@ define([
             return _get;
         }
     });
-    _get = _toESM(_get);
+    _get = _interopRequireWildcard(_get);
     const byID = (id)=>{
         // Do some async stuff
         return new Promise((resolve)=>setTimeout(()=>{
