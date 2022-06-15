@@ -1,5 +1,6 @@
-use rustc_hash::FxHashSet;
-use swc_atoms::js_word;
+use rustc_hash::{FxHashMap, FxHashSet};
+use swc_atoms::{js_word, JsWord};
+use swc_common::collections::AHashMap;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
@@ -289,5 +290,14 @@ impl Scope {
         }
 
         self.data.all.insert(id.clone());
+    }
+
+    pub(super) fn rename(
+        &mut self,
+        to: &mut AHashMap<Id, JsWord>,
+        previous: &AHashMap<Id, JsWord>,
+        reverse: &FxHashMap<JsWord, Vec<Id>>,
+        preserved_symbols: &FxHashSet<JsWord>,
+    ) {
     }
 }

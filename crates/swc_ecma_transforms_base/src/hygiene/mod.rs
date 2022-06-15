@@ -197,7 +197,7 @@ impl Hygiene {
         N: for<'aa> VisitWith<UsageAnalyzer<'aa>>,
         N: for<'aa> VisitMutWith<Operator<'aa>>,
     {
-        let scope = {
+        let mut scope = {
             let mut v = Analyzer {
                 ..Default::default()
             };
@@ -216,6 +216,7 @@ impl Hygiene {
         let unresolved = usages
             .into_iter()
             .filter(|used_id| !decls.contains(&used_id))
+            .map(|v| v.0)
             .collect();
 
         let mut map = HashMap::default();
