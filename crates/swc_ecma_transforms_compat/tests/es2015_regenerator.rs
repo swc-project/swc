@@ -1509,7 +1509,7 @@ function _init() {
                 while (1)
                     switch (_ctx.prev = _ctx.next) {
                         case 0:
-                            fib = function _fib(n) {
+                            fib = function _fib1(n) {
                                 return _fib.apply(this, arguments);
                             };
                             _fib = function __fib() {
