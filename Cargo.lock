@@ -5242,13 +5242,3 @@ checksum = "0120db82e8a1e0b9fb3345a539c478767c0048d842860994d96113d5b667bd69"
 dependencies = [
  "winapi",
 ]
-
-[[patch.unused]]
-name = "cranelift-codegen"
-version = "0.76.0"
-source = "git+https://github.com/kdy1/wasmtime?branch=tls#d59e6148e6b1d01430c217569c7bddb5838f11ed"
-
-[[patch.unused]]
-name = "cranelift-entity"
-version = "0.76.0"
-source = "git+https://github.com/kdy1/wasmtime?branch=tls#d59e6148e6b1d01430c217569c7bddb5838f11ed"
