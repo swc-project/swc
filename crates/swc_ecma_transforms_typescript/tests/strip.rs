@@ -3588,28 +3588,28 @@ to!(
     ",
     r#"
     var MyNamespace;
-    (function (MyNamespace1) {
+    (function (MyNamespace) {
         let MyEnum;
         (function (MyEnum) {
             MyEnum[MyEnum["A"] = 1] = "A";
-        })(MyEnum = MyNamespace1.MyEnum || (MyNamespace1.MyEnum = {}));
-        let MyInnerNamespace1;
+        })(MyEnum = MyNamespace.MyEnum || (MyNamespace.MyEnum = {}));
+        let MyInnerNamespace;
         (function (MyInnerNamespace) {
             let MyEnum;
             (function (MyEnum) {
                 MyEnum[MyEnum["A"] = 1] = "A";
             })(MyEnum = MyInnerNamespace.MyEnum || (MyInnerNamespace.MyEnum = {}));
-        })(MyInnerNamespace1 = MyNamespace1.MyInnerNamespace || (MyNamespace1.MyInnerNamespace = {}));
+        })(MyInnerNamespace = MyNamespace.MyInnerNamespace || (MyNamespace.MyInnerNamespace = {}));
     })(MyNamespace || (MyNamespace = {}));
-    (function (MyNamespace2) {
+    (function (MyNamespace) {
         let MyEnum;
         (function (MyEnum) {
             MyEnum[MyEnum["B"] = 1] = "B";
-        })(MyEnum = MyNamespace2.MyEnum || (MyNamespace2.MyEnum = {}));
-        let MyInnerNamespace2;
+        })(MyEnum = MyNamespace.MyEnum || (MyNamespace.MyEnum = {}));
+        let MyInnerNamespace;
         (function (MyInnerNamespace) {
             var Dec2 = MyInnerNamespace.Dec2 = 2;
-        })(MyInnerNamespace2 = MyNamespace2.MyInnerNamespace || (MyNamespace2.MyInnerNamespace = {}));
+        })(MyInnerNamespace = MyNamespace.MyInnerNamespace || (MyNamespace.MyInnerNamespace = {}));
     })(MyNamespace || (MyNamespace = {}));
     (function (MyNamespace) {
         let MyEnum;
