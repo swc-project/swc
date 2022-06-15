@@ -23,6 +23,8 @@ pub trait Renamer: swc_common::sync::Send + swc_common::sync::Sync {
     /// Should reset `n` to 0 for each identifier?
     const RESET_N: bool;
 
+    const PARALLEL: bool;
+
     fn preserved_ids_for_module(&mut self, _: &Module) -> FxHashSet<Id> {
         Default::default()
     }

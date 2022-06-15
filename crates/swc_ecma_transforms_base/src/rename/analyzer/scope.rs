@@ -148,4 +148,118 @@ impl Scope {
 
         true
     }
+
+    pub(super) fn rename_parallel(
+        &mut self,
+        to: &mut AHashMap<Id, JsWord>,
+        previous: &AHashMap<Id, JsWord>,
+        reverse: &FxHashMap<JsWord, Vec<Id>>,
+        preserved: &FxHashSet<Id>,
+        preserved_symbols: &FxHashSet<JsWord>,
+        parallel: bool,
+    ) {
+        let mut queue = self.data.queue.take();
+
+        let mut cloned_reverse = reverse.clone();
+
+        self.rename_one_scope_parallel(
+            to,
+            previous,
+            &mut cloned_reverse,
+            queue,
+            preserved,
+            preserved_symbols,
+        );
+
+        if parallel {
+            #[cfg(not(target_arch = "wasm32"))]
+            let iter = self.children.par_iter_mut();
+            #[cfg(target_arch = "wasm32")]
+            let iter = self.children.iter_mut();
+
+            let iter = iter
+                .map(|child| {
+                    let mut new_map = HashMap::default();
+                    child.rename(
+                        &mut new_map,
+                        to,
+                        &cloned_reverse,
+                        preserved,
+                        preserved_symbols,
+                        parallel,
+                    );
+                    new_map
+                })
+                .collect::<Vec<_>>();
+
+            for (k, v) in iter.into_iter().flatten() {
+                to.entry(k).or_insert(v);
+            }
+        } else {
+            for child in &mut self.children {
+                child.rename_parallel(
+                    to,
+                    &Default::default(),
+                    &cloned_reverse,
+                    preserved,
+                    preserved_symbols,
+                    parallel,
+                );
+            }
+        }
+    }
+
+    fn rename_one_scope_parallel(
+        &self,
+        to: &mut AHashMap<Id, JsWord>,
+        previous: &AHashMap<Id, JsWord>,
+        cloned_reverse: &mut FxHashMap<JsWord, Vec<Id>>,
+        queue: Vec<Id>,
+        preserved: &FxHashSet<Id>,
+        preserved_symbols: &FxHashSet<JsWord>,
+    ) {
+        let mut n = 0;
+
+        for (id, cnt) in queue {
+            if cnt == 0
+                || preserved.contains(&id)
+                || to.get(&id).is_some()
+                || previous.get(&id).is_some()
+            {
+                continue;
+            }
+
+            loop {
+                let sym = base54::encode(&mut n, true);
+
+                // TODO: Use base54::decode
+                if preserved_symbols.contains(&sym) {
+                    continue;
+                }
+
+                if self.can_rename(&id, &sym, cloned_reverse) {
+                    #[cfg(debug_assertions)]
+                    {
+                        debug!("mangle: `{}{:?}` -> {}", id.0, id.1, sym);
+                    }
+
+                    to.insert(id.clone(), sym.clone());
+                    cloned_reverse.entry(sym).or_default().push(id.clone());
+                    // self.data.decls.remove(&id);
+                    // self.data.usages.remove(&id);
+
+                    break;
+                }
+            }
+        }
+    }
+
+    pub fn rename_cost(&self) -> usize {
+        let children = &self.children;
+        self.data.queue.len()
+            + maybe_par!(
+                children.iter().map(|v| v.rename_cost()).sum::<usize>(),
+                *crate::LIGHT_TASK_PARALLELS
+            )
+    }
 }
