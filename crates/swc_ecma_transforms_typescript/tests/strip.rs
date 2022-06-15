@@ -3397,13 +3397,13 @@ class A {
 }",
     "import { bind } from 'some';
 let A = _decorate([], function(_initialize) {
-    class A1{
+    class A {
         constructor(){
             _initialize(this);
         }
     }
     return {
-        F: A1,
+        F: A,
         d: [{
                 kind: \"get\",
                 decorators: [bind],
