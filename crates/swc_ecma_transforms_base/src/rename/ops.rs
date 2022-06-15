@@ -453,6 +453,10 @@ impl<'a> VisitMut for Operator<'a> {
             Prop::Shorthand(i) => {
                 let mut renamed = i.clone();
                 if let Ok(..) = self.rename_ident(&mut renamed) {
+                    if renamed.sym == i.sym {
+                        return;
+                    }
+
                     *prop = Prop::KeyValue(KeyValueProp {
                         key: PropName::Ident(Ident {
                             // clear mark
