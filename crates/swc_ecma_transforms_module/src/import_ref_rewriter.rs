@@ -61,12 +61,12 @@ impl VisitMut for ImportRefRewriter {
     fn visit_mut_callee(&mut self, n: &mut Callee) {
         match n {
             Callee::Expr(e) if e.is_ident() => {
-                let is_call_imported =
+                let is_imported_callee =
                     matches!(e.as_ident(), Some(i) if self.import_map.contains_key(&i.to_id()));
 
                 e.visit_mut_with(self);
 
-                if is_call_imported {
+                if is_imported_callee {
                     *n = n.take().into_indirect()
                 }
             }
