@@ -1,4 +1,7 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 __export(exports, {
     default: function() {
         return someCall;
@@ -10,7 +13,6 @@ __export(exports, {
         return warn;
     }
 });
-module.exports = __toCJS(exports);
 function someCall() {
     throw new Error("this should not be called");
 }

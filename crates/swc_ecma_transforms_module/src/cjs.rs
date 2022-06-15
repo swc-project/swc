@@ -9,7 +9,7 @@ use crate::{
     import_ref_rewriter::{ImportMap, ImportRefRewriter},
     module_decl_strip::{Export, Link, LinkItem, ModuleDeclStrip, Specifier},
     path::{ImportResolver, Resolver},
-    util::{has_use_strict, lazy_ident_from_src, prop_function, use_strict},
+    util::{define_es_module, has_use_strict, lazy_ident_from_src, prop_function, use_strict},
 };
 
 pub fn cjs(unresolved_mark: Mark, config: Config) -> impl Fold + VisitMut {
@@ -17,6 +17,8 @@ pub fn cjs(unresolved_mark: Mark, config: Config) -> impl Fold + VisitMut {
         config,
         resolver: Resolver::Default,
         unresolved_mark,
+
+        exports: None,
     })
 }
 
@@ -30,14 +32,17 @@ pub fn cjs_with_resolver(
         config,
         resolver: Resolver::Real { base, resolver },
         unresolved_mark,
+
+        exports: None,
     })
 }
 
 pub struct Cjs {
     config: Config,
-
     resolver: Resolver,
     unresolved_mark: Mark,
+
+    exports: Option<Ident>,
 }
 
 impl VisitMut for Cjs {
@@ -73,14 +78,13 @@ impl VisitMut for Cjs {
 
 impl Cjs {
     fn handle_import_export(
-        &self,
+        &mut self,
         import_map: &mut ImportMap,
         link: Link,
         export: Export,
     ) -> impl Iterator<Item = Stmt> {
         let mut stmts = Vec::with_capacity(link.len());
 
-        let exports = quote_ident!("exports");
         let mut export_obj_prop_list: Vec<(JsWord, Span, Expr)> = export
             .into_iter()
             .map(|((key, span), ident)| (key, span, ident.into()))
@@ -154,18 +158,12 @@ impl Cjs {
                 .resolver
                 .make_require_call(self.unresolved_mark, src, src_span);
 
-            // __reExport(_module_exports, require("mod"), module.exports);
+            // __reExport(exports, require("mod"));
             let import_expr = if should_re_export {
                 // TODO: use swc helper
                 quote_ident!("__reExport").as_call(
                     DUMMY_SP,
-                    vec![
-                        exports.clone().as_arg(),
-                        import_expr.as_arg(),
-                        quote_ident!("module")
-                            .make_member(quote_ident!("exports"))
-                            .as_arg(),
-                    ],
+                    vec![self.exports().as_arg(), import_expr.as_arg()],
                 )
             } else {
                 import_expr
@@ -216,20 +214,23 @@ impl Cjs {
 
             // TODO: use swc helper
             quote_ident!("__export")
-                .as_call(DUMMY_SP, vec![exports.clone().as_arg(), obj_lit.as_arg()])
+                .as_call(DUMMY_SP, vec![self.exports().as_arg(), obj_lit.as_arg()])
                 .into_stmt()
         });
 
-        let to_cjs = export_call.as_ref().map(|_| {
-            quote_ident!("__toCJS")
-                .as_call(DUMMY_SP, vec![exports.clone().as_arg()])
-                .make_assign_to(
-                    op!("="),
-                    quote_ident!("module").make_member(quote_ident!("exports")),
-                )
-                .into_stmt()
-        });
+        self.exports
+            .clone()
+            .map(define_es_module)
+            .into_iter()
+            .chain(export_call)
+            .chain(stmts)
+    }
 
-        export_call.into_iter().chain(to_cjs).chain(stmts)
+    fn exports(&mut self) -> Ident {
+        self.exports.clone().unwrap_or_else(|| {
+            let new_ident = quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "exports");
+            self.exports = Some(new_ident.clone());
+            new_ident
+        })
     }
 }

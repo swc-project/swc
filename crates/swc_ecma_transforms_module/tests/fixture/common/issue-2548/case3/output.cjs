@@ -1,4 +1,7 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 __export(exports, {
     X: function() {
         return _z.default;
@@ -10,5 +13,4 @@ __export(exports, {
         return _z.Y;
     }
 });
-module.exports = __toCJS(exports);
-var _z = __reExport(exports, require("./Z"), module.exports);
+var _z = __reExport(exports, require("./Z"));

@@ -1,4 +1,7 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 __export(exports, {
     a000: function() {
         return a000;
@@ -751,7 +754,6 @@ __export(exports, {
         return a249;
     }
 });
-module.exports = __toCJS(exports);
 const a000 = 0;
 const a001 = 1;
 const a002 = 2;

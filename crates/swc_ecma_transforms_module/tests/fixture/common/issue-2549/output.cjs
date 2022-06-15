@@ -1,4 +1,7 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 __export(exports, {
     addOne: function() {
         return addOne;
@@ -19,7 +22,6 @@ __export(exports, {
         return warn;
     }
 });
-module.exports = __toCJS(exports);
 function log() {
     console.log("unexported");
 }

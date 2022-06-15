@@ -1,4 +1,7 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 __export(exports, {
     bar: function() {
         return bar;
@@ -16,7 +19,6 @@ __export(exports, {
         return foo;
     }
 });
-module.exports = __toCJS(exports);
 let foo = 1n;
 foo++;
 let bar = ++foo;
