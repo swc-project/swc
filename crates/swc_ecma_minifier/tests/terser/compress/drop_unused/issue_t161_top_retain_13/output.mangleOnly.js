@@ -1,5 +1,5 @@
-const d = ()=>a;
-const e = ()=>b;
-const f = ()=>c;
-const a = 2, b = 3, c = 4;
-console.log(a, b, c, a * b, a * c, b * c, d(), e(), f());
+const a = ()=>d;
+const b = ()=>e;
+const c = ()=>f;
+const d = 2, e = 3, f = 4;
+console.log(d, e, f, d * e, d * f, e * f, a(), b(), c());

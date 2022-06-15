@@ -23,8 +23,8 @@ var _obj, isMultiIndexContext = function(widget) {
     var isFirstWidgetIndex = isIndexWidget(firstWidget), isSecondWidgetIndex = isIndexWidget(secondWidget);
     return isFirstWidgetIndex && !isSecondWidgetIndex ? -1 : !isFirstWidgetIndex && isSecondWidgetIndex ? 1 : 0;
 };
-export default function createInstantSearchManager(param1) {
-    var indexName = param1.indexName, _initialState = param1.initialState, searchClient = param1.searchClient, resultsState = param1.resultsState, stalledSearchDelay = param1.stalledSearchDelay, getMetadata = function(state) {
+export default function createInstantSearchManager(param) {
+    var indexName = param.indexName, _initialState = param.initialState, searchClient = param.searchClient, resultsState = param.resultsState, stalledSearchDelay = param.stalledSearchDelay, getMetadata = function(state) {
         return widgetsManager.getWidgets().filter(function(widget) {
             return Boolean(widget.getMetadata);
         }).map(function(widget) {
@@ -183,7 +183,7 @@ export default function createInstantSearchManager(param1) {
     }).on("result", handleSearchSuccess({
         indexId: indexName
     })).on("error", handleSearchError);
-    var results1, state1, listeners, skip = !1, stalledSearchTimer = null, initialSearchParameters = helper.state, widgetsManager = createWidgetsManager(function() {
+    var results, state, listeners, skip = !1, stalledSearchTimer = null, initialSearchParameters = helper.state, widgetsManager = createWidgetsManager(function() {
         var metadata = getMetadata(store.getState().widgets);
         store.setState(swcHelpers.objectSpread({}, store.getState(), {
             metadata: metadata,
@@ -196,7 +196,7 @@ export default function createInstantSearchManager(param1) {
                 client._cacheHydrated = !0;
                 var baseMethod = client.search;
                 client.search = function(requests) {
-                    for(var _len1 = arguments.length, methodArgs = Array(_len1 > 1 ? _len1 - 1 : 0), _key1 = 1; _key1 < _len1; _key1++)methodArgs[_key1 - 1] = arguments[_key1];
+                    for(var _len = arguments.length, methodArgs = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)methodArgs[_key - 1] = arguments[_key];
                     var requestsWithSerializedParams = requests.map(function(request) {
                         var parameters, encode;
                         return swcHelpers.objectSpread({}, request, {
@@ -231,22 +231,22 @@ export default function createInstantSearchManager(param1) {
             hydrateSearchClientWithSingleIndexRequest(client, results);
         }
     }(searchClient, resultsState);
-    var store = (state1 = {
+    var store = (state = {
         widgets: void 0 === _initialState ? {} : _initialState,
         metadata: hydrateMetadata(resultsState),
-        results: (results1 = resultsState) ? Array.isArray(results1.results) ? results1.results.reduce(function(acc, result) {
+        results: (results = resultsState) ? Array.isArray(results.results) ? results.results.reduce(function(acc, result) {
             return swcHelpers.objectSpread({}, acc, swcHelpers.defineProperty({}, result._internalIndexId, new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(result.state), result.rawResults)));
-        }, {}) : new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(results1.state), results1.rawResults) : null,
+        }, {}) : new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(results.state), results.rawResults) : null,
         error: null,
         searching: !1,
         isSearchStalled: !0,
         searchingForFacetValues: !1
     }, listeners = [], {
         getState: function() {
-            return state1;
+            return state;
         },
         setState: function(nextState) {
-            state1 = nextState, listeners.forEach(function(listener) {
+            state = nextState, listeners.forEach(function(listener) {
                 return listener();
             });
         },

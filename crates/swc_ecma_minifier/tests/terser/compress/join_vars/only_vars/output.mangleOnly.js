@@ -1,4 +1,4 @@
-let b = "";
-for(let a = 0; a < netmaskBits; ++a){
-    b += "1";
+let a = "";
+for(let b = 0; b < netmaskBits; ++b){
+    a += "1";
 }

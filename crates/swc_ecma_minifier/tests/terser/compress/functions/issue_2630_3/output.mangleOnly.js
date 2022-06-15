@@ -1,12 +1,12 @@
-var b = 2, a = 1;
+var a = 2, b = 1;
 (function() {
-    function c(a) {
+    function c(b) {
         d();
-        --b >= 0 && c({});
+        --a >= 0 && c({});
     }
-    c(a++);
+    c(b++);
     function d() {
-        a++;
+        b++;
     }
 })();
-console.log(a);
+console.log(b);

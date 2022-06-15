@@ -1,4 +1,4 @@
 export var a;
 export var b;
-var c;
-var d;
+var a;
+var b;

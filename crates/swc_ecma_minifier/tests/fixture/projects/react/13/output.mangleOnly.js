@@ -1,12 +1,12 @@
-function a(a, e) {
+function a(a, b) {
     if (typeof a !== "object") {
         return;
     }
     if (Array.isArray(a)) {
-        for(var b = 0; b < a.length; b++){
-            var f = a[b];
-            if (isValidElement(f)) {
-                validateExplicitKey(f, e);
+        for(var c = 0; c < a.length; c++){
+            var d = a[c];
+            if (isValidElement(d)) {
+                validateExplicitKey(d, b);
             }
         }
     } else if (isValidElement(a)) {
@@ -14,14 +14,14 @@ function a(a, e) {
             a._store.validated = true;
         }
     } else if (a) {
-        var c = getIteratorFn(a);
-        if (typeof c === "function") {
-            if (c !== a.entries) {
-                var g = c.call(a);
-                var d;
-                while(!(d = g.next()).done){
-                    if (isValidElement(d.value)) {
-                        validateExplicitKey(d.value, e);
+        var e = getIteratorFn(a);
+        if (typeof e === "function") {
+            if (e !== a.entries) {
+                var f = e.call(a);
+                var g;
+                while(!(g = f.next()).done){
+                    if (isValidElement(g.value)) {
+                        validateExplicitKey(g.value, b);
                     }
                 }
             }

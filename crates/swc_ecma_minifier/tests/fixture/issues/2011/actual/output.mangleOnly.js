@@ -3,13 +3,13 @@ function a(a, b) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
-function b(d, c) {
-    for(var b = 0; b < c.length; b++){
-        var a = c[b];
-        a.enumerable = a.enumerable || false;
-        a.configurable = true;
-        if ("value" in a) a.writable = true;
-        Object.defineProperty(d, a.key, a);
+function b(a, b) {
+    for(var c = 0; c < b.length; c++){
+        var d = b[c];
+        d.enumerable = d.enumerable || false;
+        d.configurable = true;
+        if ("value" in d) d.writable = true;
+        Object.defineProperty(a, d.key, d);
     }
 }
 function c(a, c, d) {

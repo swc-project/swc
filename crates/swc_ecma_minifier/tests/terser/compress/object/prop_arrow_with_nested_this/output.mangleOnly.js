@@ -1,26 +1,26 @@
-function c(b) {
-    console.log(b === this ? "global" : b === a ? "foo" : b);
+function a(a) {
+    console.log(a === this ? "global" : a === b ? "foo" : a);
 }
-var a = {
+var b = {
     func_func_this: function() {
         (function() {
-            c(this);
+            a(this);
         })();
     },
     func_arrow_this: function() {
         (()=>{
-            c(this);
+            a(this);
         })();
     },
     arrow_func_this: ()=>{
         (function() {
-            c(this);
+            a(this);
         })();
     },
     arrow_arrow_this: ()=>{
         (()=>{
-            c(this);
+            a(this);
         })();
     }
 };
-for(var b in a)a[b]();
+for(var c in b)b[c]();

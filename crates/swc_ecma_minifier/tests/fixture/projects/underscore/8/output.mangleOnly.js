@@ -1,25 +1,25 @@
-_.throttle = function(b, c, a) {
+_.throttle = function(a, b, c) {
     var d, e, f;
     var g = null;
     var h = 0;
-    a || (a = {});
+    c || (c = {});
     var i = function() {
-        h = a.leading === false ? 0 : new Date();
+        h = c.leading === false ? 0 : new Date();
         g = null;
-        f = b.apply(d, e);
+        f = a.apply(d, e);
     };
     return function() {
         var j = new Date();
-        if (!h && a.leading === false) h = j;
-        var k = c - (j - h);
+        if (!h && c.leading === false) h = j;
+        var k = b - (j - h);
         d = this;
         e = arguments;
         if (k <= 0) {
             clearTimeout(g);
             g = null;
             h = j;
-            f = b.apply(d, e);
-        } else if (!g && a.trailing !== false) {
+            f = a.apply(d, e);
+        } else if (!g && c.trailing !== false) {
             g = setTimeout(i, k);
         }
         return f;

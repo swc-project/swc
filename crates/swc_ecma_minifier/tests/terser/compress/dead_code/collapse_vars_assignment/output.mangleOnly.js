@@ -1,4 +1,4 @@
-function a(b) {
-    var a = 3 / b;
-    return (a = a);
+function a(a) {
+    var b = 3 / a;
+    return (b = b);
 }

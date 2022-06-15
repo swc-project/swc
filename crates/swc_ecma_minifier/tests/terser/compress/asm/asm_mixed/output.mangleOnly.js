@@ -1,45 +1,45 @@
-function a(a, d, b) {
+function a(a, b, c) {
     "use asm";
-    var e = a.Math.exp;
-    var f = a.Math.log;
-    var g = new a.Float64Array(b);
-    function h(b, c) {
-        b = b | 0;
-        c = c | 0;
-        var d = 0.0, a = 0, e = 0;
-        for(a = b << 3, e = c << 3; (a | 0) < (e | 0); a = (a + 8) | 0){
-            d = d + +f(g[a >> 3]);
-        }
-        return +d;
-    }
-    function c(a, b) {
+    var d = a.Math.exp;
+    var e = a.Math.log;
+    var f = new a.Float64Array(c);
+    function g(a, b) {
         a = a | 0;
         b = b | 0;
-        return +e(+h(a, b) / +((b - a) | 0));
+        var c = 0.0, d = 0, g = 0;
+        for(d = a << 3, g = b << 3; (d | 0) < (g | 0); d = (d + 8) | 0){
+            c = c + +e(f[d >> 3]);
+        }
+        return +c;
+    }
+    function h(a, b) {
+        a = a | 0;
+        b = b | 0;
+        return +d(+g(a, b) / +((b - a) | 0));
     }
     return {
-        geometricMean: c
+        geometricMean: h
     };
 }
-function b(a, d, b) {
-    var e = a.Math.exp;
-    var f = a.Math.log;
-    var g = new a.Float64Array(b);
-    function h(b, c) {
-        b = b | 0;
-        c = c | 0;
-        var d = 0, a = 0, e = 0;
-        for(a = b << 3, e = c << 3; (a | 0) < (e | 0); a = (a + 8) | 0){
-            d = d + +f(g[a >> 3]);
-        }
-        return +d;
-    }
-    function c(a, b) {
+function b(a, b, c) {
+    var d = a.Math.exp;
+    var e = a.Math.log;
+    var f = new a.Float64Array(c);
+    function g(a, b) {
         a = a | 0;
         b = b | 0;
-        return +e(+h(a, b) / +((b - a) | 0));
+        var c = 0, d = 0, g = 0;
+        for(d = a << 3, g = b << 3; (d | 0) < (g | 0); d = (d + 8) | 0){
+            c = c + +e(f[d >> 3]);
+        }
+        return +c;
+    }
+    function h(a, b) {
+        a = a | 0;
+        b = b | 0;
+        return +d(+g(a, b) / +((b - a) | 0));
     }
     return {
-        geometricMean: c
+        geometricMean: h
     };
 }

@@ -1,10 +1,10 @@
-var b = 100, a = 10;
+var a = 100, b = 10;
 var c = 5;
 while(--c > 0){
-    if ((--a, false)) {
-        if (a) {
+    if ((--b, false)) {
+        if (b) {
             var d = 0;
         }
     }
 }
-console.log(b, a);
+console.log(a, b);

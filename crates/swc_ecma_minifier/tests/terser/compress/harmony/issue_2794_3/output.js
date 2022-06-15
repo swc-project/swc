@@ -1,8 +1,8 @@
 (function() {
-    var b, c;
-    for (const a of [
+    var a, b;
+    for (const c of [
         10,
         20,
         30
-    ])console.log(a);
+    ])console.log(c);
 })();

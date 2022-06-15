@@ -1,39 +1,39 @@
 export const obj = {
-    each: function(b, d, e) {
-        var c, a = 0, f = b.length, g = isArraylike(b);
-        if (e) {
+    each: function(a, b, c) {
+        var d, e = 0, f = a.length, g = isArraylike(a);
+        if (c) {
             if (g) {
-                for(; a < f; a++){
-                    c = d.apply(b[a], e);
-                    if (c === false) {
+                for(; e < f; e++){
+                    d = b.apply(a[e], c);
+                    if (d === false) {
                         break;
                     }
                 }
             } else {
-                for(a in b){
-                    c = d.apply(b[a], e);
-                    if (c === false) {
+                for(e in a){
+                    d = b.apply(a[e], c);
+                    if (d === false) {
                         break;
                     }
                 }
             }
         } else {
             if (g) {
-                for(; a < f; a++){
-                    c = d.call(b[a], a, b[a]);
-                    if (c === false) {
+                for(; e < f; e++){
+                    d = b.call(a[e], e, a[e]);
+                    if (d === false) {
                         break;
                     }
                 }
             } else {
-                for(a in b){
-                    c = d.call(b[a], a, b[a]);
-                    if (c === false) {
+                for(e in a){
+                    d = b.call(a[e], e, a[e]);
+                    if (d === false) {
                         break;
                     }
                 }
             }
         }
-        return b;
+        return a;
     }
 };

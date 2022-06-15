@@ -1,9 +1,9 @@
 (function() {
-    var Backbone, root1 = this, previousBackbone = root1.Backbone, slice = [].slice;
-    (Backbone = "undefined" != typeof exports ? exports : root1.Backbone = {}).VERSION = "1.1.0";
-    var _ = root1._;
-    _ || "undefined" == typeof require || (_ = require("underscore")), Backbone.$ = root1.jQuery || root1.Zepto || root1.ender || root1.$, Backbone.noConflict = function() {
-        return root1.Backbone = previousBackbone, this;
+    var Backbone, root = this, previousBackbone = root.Backbone, slice = [].slice;
+    (Backbone = "undefined" != typeof exports ? exports : root.Backbone = {}).VERSION = "1.1.0";
+    var _ = root._;
+    _ || "undefined" == typeof require || (_ = require("underscore")), Backbone.$ = root.jQuery || root.Zepto || root.ender || root.$, Backbone.noConflict = function() {
+        return root.Backbone = previousBackbone, this;
     }, Backbone.emulateHTTP = !1, Backbone.emulateJSON = !1;
     var Events = Backbone.Events = {
         on: function(name, callback, context) {
@@ -364,13 +364,13 @@
                 collection[options.reset ? "reset" : "set"](resp, options), success && success(collection, resp, options), collection.trigger("sync", collection, resp, options);
             }, wrapError(this, options), this.sync("read", this, options);
         },
-        create: function(model1, options1) {
-            if (options1 = options1 ? _.clone(options1) : {}, !(model1 = this._prepareModel(model1, options1))) return !1;
-            options1.wait || this.add(model1, options1);
-            var collection = this, success = options1.success;
-            return options1.success = function(model, resp, options) {
+        create: function(model, options) {
+            if (options = options ? _.clone(options) : {}, !(model = this._prepareModel(model, options))) return !1;
+            options.wait || this.add(model, options);
+            var collection = this, success = options.success;
+            return options.success = function(model, resp, options) {
                 options.wait && collection.add(model, options), success && success(model, resp, options);
-            }, model1.save(null, options1), model1;
+            }, model.save(null, options), model;
         },
         parse: function(resp, options) {
             return resp;
@@ -523,8 +523,8 @@
         "GET" === params.type || options.emulateJSON || (params.processData = !1), "PATCH" === params.type && noXhrPatch && (params.xhr = function() {
             return new ActiveXObject("Microsoft.XMLHTTP");
         });
-        var xhr1 = options.xhr = Backbone.ajax(_.extend(params, options));
-        return model.trigger("request", model, xhr1, options), xhr1;
+        var xhr = options.xhr = Backbone.ajax(_.extend(params, options));
+        return model.trigger("request", model, xhr, options), xhr;
     };
     var noXhrPatch = "undefined" != typeof window && !!window.ActiveXObject && !(window.XMLHttpRequest && new XMLHttpRequest().dispatchEvent), methodMap = {
         create: "POST",
@@ -577,8 +577,8 @@
     }, routeStripper = /^[#\/]|\s+$/g, rootStripper = /^\/+|\/+$/g, isExplorer = /msie [\w.]+/, trailingSlash = /\/$/, pathStripper = /[?#].*$/;
     History.started = !1, _.extend(History.prototype, Events, {
         interval: 50,
-        getHash: function(window) {
-            var match = (window || this).location.href.match(/#(.*)$/);
+        getHash: function(window1) {
+            var match = (window1 || this).location.href.match(/#(.*)$/);
             return match ? match[1] : "";
         },
         getFragment: function(fragment, forcePushState) {

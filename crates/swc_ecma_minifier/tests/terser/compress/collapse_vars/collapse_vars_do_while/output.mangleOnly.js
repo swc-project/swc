@@ -1,6 +1,6 @@
-function a(b) {
-    var a = 9;
-    do {}while (a === 77)
+function a(a) {
+    var b = 9;
+    do {}while (b === 77)
 }
 function b(a) {
     var b = 5 - a;

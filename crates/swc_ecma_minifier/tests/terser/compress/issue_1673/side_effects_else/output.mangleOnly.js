@@ -1,8 +1,8 @@
-function a(b) {
-    function a() {
-        if (b) ;
+function a(a) {
+    function b() {
+        if (a) ;
         else console.log("PASS");
     }
-    a();
+    b();
 }
 a(0);
