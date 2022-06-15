@@ -2,12 +2,16 @@
 
 use serde_json::Value;
 use swc_atoms::{js_word, JsWord};
-use swc_common::collections::AHashSet;
+use swc_common::{collections::AHashSet, sync::Lrc, FileName, FilePathMapping, SourceMap};
+use swc_css_codegen::{
+    writer::basic::{BasicCssWriter, BasicCssWriterConfig},
+    CodeGenerator, CodegenConfig, Emit,
+};
+use swc_css_parser::parse_file;
 use swc_html_ast::*;
 use swc_html_visit::{VisitMut, VisitMutWith};
 
 use crate::option::{CollapseWhitespaces, MinifyOptions};
-
 pub mod option;
 
 static HTML_BOOLEAN_ATTRIBUTES: &[&str] = &[
@@ -251,6 +255,7 @@ enum MetaElementContentType {
 
 enum TextChildrenType {
     Json,
+    Css,
 }
 
 #[inline(always)]
@@ -278,6 +283,7 @@ struct Minifier {
 
     remove_empty_attributes: bool,
     collapse_boolean_attributes: bool,
+    minify_css: bool,
 }
 
 impl Minifier {
@@ -559,6 +565,34 @@ impl Minifier {
 
         collapsed
     }
+
+    // TODO source map url output?
+    fn minify_css(&self, data: String) -> Option<String> {
+        let mut errors: Vec<_> = vec![];
+
+        let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
+        let fm = cm.new_source_file(FileName::Anon, data);
+
+        let mut stylesheet = match parse_file(&fm, Default::default(), &mut errors) {
+            Ok(stylesheet) => stylesheet,
+            _ => return None,
+        };
+
+        // Avoid compress potential invalid CSS
+        if !errors.is_empty() {
+            return None;
+        }
+
+        swc_css_minifier::minify(&mut stylesheet);
+
+        let mut minified = String::new();
+        let wr = BasicCssWriter::new(&mut minified, None, BasicCssWriterConfig::default());
+        let mut gen = CodeGenerator::new(wr, CodegenConfig { minify: true });
+
+        gen.emit(&stylesheet).unwrap();
+
+        Some(minified)
+    }
 }
 
 impl VisitMut for Minifier {
@@ -627,6 +661,34 @@ impl VisitMut for Minifier {
                     }) =>
                 {
                     self.current_element_text_children_type = Some(TextChildrenType::Json);
+                }
+                "style" if self.minify_css => {
+                    let mut type_attribute_value = None;
+
+                    for attribute in &n.attributes {
+                        if &*attribute.name == "type" && attribute.value.is_some() {
+                            type_attribute_value = Some(
+                                attribute
+                                    .value
+                                    .as_ref()
+                                    .unwrap()
+                                    .trim()
+                                    .to_ascii_lowercase(),
+                            );
+
+                            break;
+                        }
+                    }
+
+                    if type_attribute_value.is_none()
+                        || type_attribute_value == Some("text/css".into())
+                    {
+                        self.current_element_text_children_type = Some(TextChildrenType::Css);
+                    } else {
+                        self.current_element_text_children_type = None;
+                    }
+
+                    self.meta_element_content_type = None;
                 }
                 "pre" if whitespace_minification_mode.is_some() => {
                     self.descendant_of_pre = true;
@@ -856,17 +918,28 @@ impl VisitMut for Minifier {
     fn visit_mut_text(&mut self, n: &mut Text) {
         n.visit_mut_children_with(self);
 
-        if let Some(TextChildrenType::Json) = self.current_element_text_children_type {
-            let json = match serde_json::from_str::<Value>(&*n.data) {
-                Ok(json) => json,
-                _ => return,
-            };
-            let minified_json = match serde_json::to_string(&json) {
-                Ok(minified_json) => minified_json,
-                _ => return,
-            };
+        match self.current_element_text_children_type {
+            Some(TextChildrenType::Json) if n.data.len() > 0 => {
+                let json = match serde_json::from_str::<Value>(&*n.data) {
+                    Ok(json) => json,
+                    _ => return,
+                };
+                let minified = match serde_json::to_string(&json) {
+                    Ok(minified_json) => minified_json,
+                    _ => return,
+                };
 
-            n.data = minified_json.into()
+                n.data = minified.into()
+            }
+            Some(TextChildrenType::Css) if n.data.len() > 0 => {
+                let minified = match self.minify_css(n.data.to_string()) {
+                    Some(minified) => minified,
+                    None => return,
+                };
+
+                n.data = minified.into()
+            }
+            _ => {}
         }
     }
 }
@@ -885,5 +958,7 @@ pub fn minify(document: &mut Document, options: &MinifyOptions) {
 
         remove_empty_attributes: options.remove_empty_attributes,
         collapse_boolean_attributes: options.collapse_boolean_attributes,
+
+        minify_css: options.minify_css,
     });
 }
