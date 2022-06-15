@@ -7,8 +7,8 @@
     "main": "lib/index.js",
     "sideEffects": false,
     "scripts": {
-        "build": "swc -V && swc src -d lib",
-        "prepublishOnly": "swc src -d lib"
+        "build": "swc -V && ./scripts/build.sh",
+        "prepublishOnly": "./scripts/build.sh"
     },
     "repository": {
         "type": "git",
