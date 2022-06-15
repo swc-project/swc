@@ -135,10 +135,10 @@ class Foo extends Bar {
     r#"
 var Foo =
 /*#__PURE__*/
-function (Bar) {
+function (Bar1) {
   "use strict";
 
-  _inherits(Foo, Bar);
+  _inherits(Foo, Bar1);
   var _super = _createSuper(Foo);
   function Foo() {
     _classCallCheck(this, Foo);
@@ -276,10 +276,10 @@ class Foo extends Bar {
     r#"
 var Foo =
 /*#__PURE__*/
-function (Bar) {
+function (Bar1) {
   "use strict";
 
-  _inherits(Foo, Bar);
+  _inherits(Foo, Bar1);
   var _super = _createSuper(Foo);
   function Foo() {
     _classCallCheck(this, Foo);
@@ -411,9 +411,9 @@ function withContext(ComposedComponent) {
     r#"
 function withContext(ComposedComponent) {
   var _WithContext
-  return _WithContext = function(Component) {
+  return _WithContext = function(Component1) {
       "use strict";
-      _inherits(WithContext, Component);
+      _inherits(WithContext, Component1);
       var _super = _createSuper(WithContext);
       function WithContext() {
         _classCallCheck(this, WithContext);
@@ -749,9 +749,9 @@ export default class {
 "#,
     r#"
   var _class
-  call((_class = function _class2() {
+  call((_class = function _class() {
           "use strict";
-          _classCallCheck(this, _class2);
+          _classCallCheck(this, _class);
       },
       _defineProperty(_class, "test", true),
       _class
@@ -1525,10 +1525,10 @@ class Foo extends Bar {
 
 "#,
     r#"
-var Foo = function (Bar) {
+var Foo = function (Bar1) {
   "use strict";
 
-  _inherits(Foo, Bar);
+  _inherits(Foo, Bar1);
   var _super = _createSuper(Foo);
   function Foo() {
     _classCallCheck(this, Foo);
@@ -6240,7 +6240,7 @@ class Foo {
   constructor() {
     this.bar = foo;
     var foo1 = "foo";
-    var baz = "baz";
+    var baz1 = "baz";
   }
 }
 
