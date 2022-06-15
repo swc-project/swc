@@ -284,7 +284,9 @@ impl Scope {
         }
 
         self.data.all.insert(id.clone());
-        self.data.queue.push(id.clone());
+        if !self.data.queue.contains(id) {
+            self.data.queue.push(id.clone());
+        }
     }
 
     pub(super) fn add_usage(&mut self, id: &Id) {
