@@ -149,6 +149,15 @@ impl<'a> VisitMut for Operator<'a> {
 
         if let ModuleExportName::Ident(orig) = &mut s.orig {
             if let Ok(..) = self.rename_ident(orig) {
+                match &exported {
+                    ModuleExportName::Ident(exported) => {
+                        if orig.sym == exported.sym {
+                            return;
+                        }
+                    }
+                    ModuleExportName::Str(_) => {}
+                }
+
                 s.exported = Some(exported);
             }
         }
