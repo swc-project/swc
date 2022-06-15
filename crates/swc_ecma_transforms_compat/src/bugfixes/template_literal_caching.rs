@@ -209,8 +209,8 @@ mod tests {
         function_scoped_tag,
         "const f = t => t`a`;",
         r#"
-        let _ = t1 => t1, t;
-        const f = t2 => t2(t || (t = _`a`));
+        let _ = t => t, t;
+        const f = t1 => t1(t || (t = _`a`));
         "#
     );
 
@@ -220,7 +220,7 @@ mod tests {
         dynamic_tag,
         "fn()``;",
         r#"
-        let _ = t1 => t1, t;
+        let _ = t => t, t;
         fn()(t || (t = _``));
         "#
     );
