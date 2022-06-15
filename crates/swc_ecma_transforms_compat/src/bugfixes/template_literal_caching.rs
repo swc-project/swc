@@ -231,7 +231,7 @@ mod tests {
         dynamic_expressions,
         "const f = t => t`a${1}b${t}${[\"hello\"]}`;",
         r#"
-        let _ = t1 => t1, t;
+        let _ = t => t, t;
         const f = t2 => t2(t || (t = _`a${0}b${0}${0}`), 1, t2, ["hello"]);
         "#
     );
