@@ -10,6 +10,7 @@ use self::{
 };
 use crate::hygiene::{unique_scope::unique_scope, usage_analyzer::CurScope};
 
+pub mod analyzer;
 mod ops;
 #[cfg(test)]
 mod tests;
