@@ -1,6 +1,9 @@
 use swc_common::chain;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut};
+
+#[cfg(test)]
+mod tests;
 
 macro_rules! track_ident_mut {
     () => {

@@ -7,10 +7,12 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
-use super::Config;
 #[cfg(feature = "rayon")]
 use crate::perf::cpu_count;
-use crate::perf::{ParExplode, Parallel};
+use crate::{
+    hygiene::Config,
+    perf::{ParExplode, Parallel},
+};
 
 pub(super) struct Operator<'a> {
     pub rename: &'a AHashMap<Id, JsWord>,

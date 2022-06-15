@@ -1,18 +1,17 @@
 use std::collections::HashMap;
 
 use swc_atoms::JsWord;
-use swc_common::{chain, collections::AHashMap};
+use swc_common::collections::AHashMap;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{collect_decls, BindingCollector};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith, VisitWith};
 
 use self::{analyzer::Analyzer, collector::IdCollector, ops::Operator};
+use crate::hygiene::Config;
 
 mod analyzer;
 mod collector;
 mod ops;
-#[cfg(test)]
-mod tests;
 
 pub trait Renamer: swc_common::sync::Send + swc_common::sync::Sync {
     fn new_name_for(&self, previous: &Id, n: u32) -> JsWord;
@@ -25,6 +24,7 @@ pub fn rename(map: &AHashMap<Id, JsWord>) -> impl '_ + Fold + VisitMut {
         extra: Default::default(),
     })
 }
+
 #[derive(Debug, Default)]
 struct Hygiene {
     config: Config,
