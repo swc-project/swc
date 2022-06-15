@@ -29,9 +29,11 @@ mod tests {
     use swc_common::{chain, Mark};
     use swc_ecma_transforms_base::resolver;
     use swc_ecma_transforms_testing::test;
-    use swc_ecma_visit::as_folder;
+    use swc_ecma_visit::{as_folder, Fold};
 
-    pub fn tr() -> impl Fold + VisitMut {
+    use crate::es2019::optional_catch_binding::OptionalCatchBinding;
+
+    pub fn tr() -> impl Fold {
         chain!(
             resolver(Mark::new(), Mark::new(), false),
             as_folder(OptionalCatchBinding)
