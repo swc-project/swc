@@ -2,14 +2,13 @@
 
 use serde_json::Value;
 use swc_atoms::{js_word, JsWord};
+use swc_cached::regex::CachedRegex;
 use swc_common::{collections::AHashSet, sync::Lrc, FileName, FilePathMapping, SourceMap};
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig},
     CodeGenerator, CodegenConfig, Emit,
 };
 use swc_css_parser::parse_file;
-use swc_cached::regex::CachedRegex;
-use swc_common::collections::AHashSet;
 use swc_html_ast::*;
 use swc_html_visit::{VisitMut, VisitMutWith};
 
@@ -961,6 +960,7 @@ pub fn minify(document: &mut Document, options: &MinifyOptions) {
         collapse_boolean_attributes: options.collapse_boolean_attributes,
 
         minify_css: options.minify_css,
+
         preserve_comments: options.preserve_comments.clone(),
     });
 }
