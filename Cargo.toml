@@ -44,5 +44,4 @@ opt-level = 3
 opt-level = 3
 
 [patch.crates-io]
-cranelift-codegen = {git = "https://github.com/kdy1/wasmtime", branch = "tls"}
-cranelift-entity = {git = "https://github.com/kdy1/wasmtime", branch = "tls"}
+cranelift-entity = { git = "https://github.com/kdy1/wasmtime", branch = "tls" }
