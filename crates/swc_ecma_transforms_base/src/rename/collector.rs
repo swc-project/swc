@@ -159,6 +159,15 @@ where
         }
     }
 
+    fn visit_ts_param_prop(&mut self, p: &TsParamProp) {
+        let old = self.is_pat_decl;
+
+        self.is_pat_decl = true;
+        p.visit_children_with(self);
+
+        self.is_pat_decl = old;
+    }
+
     fn visit_var_declarator(&mut self, node: &VarDeclarator) {
         let old = self.is_pat_decl;
         self.is_pat_decl = true;
