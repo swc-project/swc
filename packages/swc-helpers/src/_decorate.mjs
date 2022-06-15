@@ -1,5 +1,5 @@
-import toArray from './_to_array';
-import toPropertyKey from './_to_property_key';
+import toArray from './_to_array.mjs';
+import toPropertyKey from './_to_property_key.mjs';
 
 export default function _decorate(decorators, factory, superClass) {
   var r = factory(function initialize(O) {

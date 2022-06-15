@@ -1,4 +1,4 @@
-import defineProperty from './_define_property';
+import defineProperty from './_define_property.mjs';
 
 export default function _objectSpread(target) {
   for (var i = 1; i < arguments.length; i++) {

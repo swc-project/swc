@@ -1,4 +1,4 @@
-import _arrayLikeToArray from './_array_like_to_array';
+import _arrayLikeToArray from './_array_like_to_array.mjs';
 
 export default function _unsupportedIterableToArray(o, minLen) {
   if (!o) return;

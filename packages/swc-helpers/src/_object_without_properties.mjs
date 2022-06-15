@@ -1,4 +1,4 @@
-import objectWithoutPropertiesLoose from './_object_without_properties_loose';
+import objectWithoutPropertiesLoose from './_object_without_properties_loose.mjs';
 
 export default function _objectWithoutProperties(source, excluded) {
   if (source == null) return {};

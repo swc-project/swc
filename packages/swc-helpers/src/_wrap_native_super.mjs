@@ -1,7 +1,7 @@
-import construct from './_construct';
-import isNativeFunction from './_is_native_function';
-import getPrototypeOf from './_get_prototype_of';
-import setPrototypeOf from './_set_prototype_of';
+import construct from './_construct.mjs';
+import isNativeFunction from './_is_native_function.mjs';
+import getPrototypeOf from './_get_prototype_of.mjs';
+import setPrototypeOf from './_set_prototype_of.mjs';
 
 function wrapNativeSuper(Class) {
   var _cache = typeof Map === "function" ? new Map() : undefined;
