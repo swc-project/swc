@@ -531,6 +531,10 @@ impl<'a> Operator<'a> {
     /// Returns `Ok(renamed_ident)` if ident should be renamed.
     fn rename_ident(&mut self, ident: &mut Ident) -> Result<(), ()> {
         if let Some(sym) = self.rename.get(&ident.to_id()) {
+            if *sym == ident.sym {
+                return Err(());
+            }
+
             ident.span = ident.span.with_ctxt(SyntaxContext::empty());
             ident.sym = sym.clone();
             return Ok(());
