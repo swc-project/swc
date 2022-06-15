@@ -1,8 +1,6 @@
-use std::collections::hash_map::Entry;
-
 use swc_atoms::JsWord;
 use swc_common::{
-    collections::{AHashMap, AHashSet},
+    collections::AHashMap,
     util::{move_map::MoveMap, take::Take},
     Spanned, SyntaxContext, DUMMY_SP,
 };
@@ -13,38 +11,6 @@ use super::Config;
 #[cfg(feature = "rayon")]
 use crate::perf::cpu_count;
 use crate::perf::{ParExplode, Parallel};
-#[derive(Debug, Default)]
-pub(super) struct Operations {
-    pub rename: AHashMap<Id, JsWord>,
-    symbols: AHashSet<JsWord>,
-}
-
-impl Operations {
-    #[inline]
-    pub fn rename(&mut self, from: Id, to: JsWord) {
-        match self.rename.entry(from) {
-            Entry::Occupied(..) => {}
-            Entry::Vacant(e) => {
-                e.insert(to.clone());
-                self.symbols.insert(to);
-            }
-        }
-    }
-
-    pub fn add_used(&mut self, sym: JsWord) {
-        self.symbols.insert(sym);
-    }
-
-    #[inline]
-    pub fn get_renamed(&self, i: &Id) -> Option<JsWord> {
-        self.rename.get(i).cloned()
-    }
-
-    #[inline]
-    pub fn is_used_as_rename_target(&self, symbol: &JsWord) -> bool {
-        self.symbols.contains(symbol)
-    }
-}
 
 pub(super) struct Operator<'a> {
     pub rename: &'a AHashMap<Id, JsWord>,

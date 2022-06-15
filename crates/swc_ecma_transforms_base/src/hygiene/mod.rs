@@ -6,18 +6,13 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{collect_decls, BindingCollector};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith, VisitWith};
 
-use self::{
-    analyzer::Analyzer, collector::IdCollector, ops::Operator, usage_analyzer::UsageAnalyzer,
-};
-use crate::hygiene::unique_scope::unique_scope;
+use self::{analyzer::Analyzer, collector::IdCollector, ops::Operator};
 
 mod analyzer;
 mod collector;
 mod ops;
 #[cfg(test)]
 mod tests;
-mod unique_scope;
-mod usage_analyzer;
 
 macro_rules! track_ident_mut {
     () => {
@@ -121,8 +116,6 @@ macro_rules! track_ident_mut {
     };
 }
 
-const LOG: bool = false;
-
 #[derive(Debug, Clone, Default)]
 pub struct Config {
     /// If true, the `hygiene` pass will preserve class names.
@@ -170,7 +163,7 @@ pub fn hygiene() -> impl Fold + VisitMut + 'static {
 ///
 ///  At third phase, we rename all identifiers in the queue.
 pub fn hygiene_with_config(config: Config) -> impl 'static + Fold + VisitMut {
-    as_folder(chain!(unique_scope(), Hygiene { config }, HygieneRemover))
+    as_folder(chain!(Hygiene { config }, HygieneRemover))
 }
 
 struct HygieneRemover;
@@ -194,7 +187,6 @@ impl Hygiene {
         N: VisitWith<IdCollector>,
         N: VisitWith<Analyzer>,
         N: VisitWith<BindingCollector<Id>>,
-        N: for<'aa> VisitWith<UsageAnalyzer<'aa>>,
         N: for<'aa> VisitMutWith<Operator<'aa>>,
     {
         let mut scope = {
