@@ -1105,11 +1105,11 @@ test!(
     ",
     r#"
     var regeneratorRuntime = require("regenerator-runtime");
-    const x = regeneratorRuntime.mark(function _callee1() {
-        return regeneratorRuntime.wrap(function _callee$(_ctx1) {
-            while(1)switch(_ctx1.prev = _ctx1.next){
+    const x = regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
-                    return _ctx1.abrupt("return", Promise.all([
+                    return _ctx.abrupt("return", Promise.all([
                         [
                             1
                         ],
@@ -1132,9 +1132,9 @@ test!(
                     }))));
                 case 1:
                 case "end":
-                    return _ctx1.stop();
+                    return _ctx.stop();
             }
-        }, _callee1);
+        }, _callee);
     });
     "#
 );
@@ -1258,11 +1258,11 @@ function requester() {
   }
   function _pureRequester() {
     _pureRequester = _asyncToGenerator(
-      regeneratorRuntime.mark(function _callee1() {
+      regeneratorRuntime.mark(function _callee() {
         var refreshThenRequest, _refreshThenRequest;
-        return regeneratorRuntime.wrap(function _callee$(_ctx1) {
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
           while (1)
-            switch (_ctx1.prev = _ctx1.next) {
+            switch (_ctx.prev = _ctx.next) {
               case 0:
                 refreshThenRequest = function _refreshThenRequest1() {
                   return _refreshThenRequest.apply(this, arguments);
@@ -1282,15 +1282,15 @@ function requester() {
                   );
                   return _refreshThenRequest.apply(this, arguments);
                 };
-                _ctx1.next = 4;
+                _ctx.next = 4;
                 return refreshThenRequest();
               case 4:
-                return _ctx1.abrupt("return", true);
+                return _ctx.abrupt("return", true);
               case 7:
               case "end":
-                return _ctx1.stop();
+                return _ctx.stop();
             }
-        }, _callee1);
+        }, _callee);
       })
     );
     return _pureRequester.apply(this, arguments);
@@ -1401,11 +1401,11 @@ function foo(a) {
 }
 function _foo() {
     _foo = _asyncToGenerator(
-        regeneratorRuntime.mark(function _callee1(a) {
+        regeneratorRuntime.mark(function _callee(a) {
             var bar1, _bar1;
-            return regeneratorRuntime.wrap(function _callee$(_ctx1) {
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while (1)
-                    switch (_ctx1.prev = _ctx1.next) {
+                    switch (_ctx.prev = _ctx.next) {
                         case 0:
                             bar1 = function _bar11(b) {
                                 return _bar1.apply(this, arguments);
@@ -1435,12 +1435,12 @@ function _foo() {
                                 );
                                 return _bar1.apply(this, arguments);
                             };
-                            return _ctx1.abrupt("return", bar1);
+                            return _ctx.abrupt("return", bar1);
                         case 5:
                         case "end":
-                            return _ctx1.stop();
+                            return _ctx.stop();
                     }
-            }, _callee1);
+            }, _callee);
         })
     );
     return _foo.apply(this, arguments);
@@ -1503,13 +1503,13 @@ function init() {
 }
 function _init() {
     _init = _asyncToGenerator(
-        regeneratorRuntime.mark(function _callee1() {
-            var fib1, _fib;
-            return regeneratorRuntime.wrap(function _callee$(_ctx1) {
+        regeneratorRuntime.mark(function _callee() {
+            var fib, _fib;
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
                 while (1)
-                    switch (_ctx1.prev = _ctx1.next) {
+                    switch (_ctx.prev = _ctx.next) {
                         case 0:
-                            fib1 = function _fib1(n) {
+                            fib = function _fib(n) {
                                 return _fib.apply(this, arguments);
                             };
                             _fib = function __fib() {
@@ -1533,11 +1533,11 @@ function _init() {
                                                             );
                                                         case 2:
                                                             _ctx.next = 4;
-                                                            return fib1(n - 1);
+                                                            return fib(n - 1);
                                                         case 4:
                                                             x = _ctx.sent;
                                                             _ctx.next = 7;
-                                                            return fib1(n - 2);
+                                                            return fib(n - 2);
                                                         case 7:
                                                             y = _ctx.sent;
                                                             return _ctx.abrupt(
@@ -1555,12 +1555,12 @@ function _init() {
                                 );
                                 return _fib.apply(this, arguments);
                             };
-                            return _ctx1.abrupt("return", fib1);
+                            return _ctx.abrupt("return", fib);
                         case 5:
                         case "end":
-                            return _ctx1.stop();
+                            return _ctx.stop();
                     }
-            }, _callee1);
+            }, _callee);
         })
     );
     return _init.apply(this, arguments);
