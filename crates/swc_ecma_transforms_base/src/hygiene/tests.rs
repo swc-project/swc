@@ -497,6 +497,7 @@ fn fn_args() {
     test(
         |tester| {
             let mark1 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh(Mark::root());
 
             Ok(vec![Stmt::Decl(Decl::Fn(FnDecl {
                 ident: quote_ident!("Foo"),
@@ -508,7 +509,8 @@ fn fn_args() {
                     body: Some(BlockStmt {
                         span: DUMMY_SP,
                         stmts: vec![tester
-                            .parse_stmt("actual1.js", "_defineProperty(this, 'force', force);")?],
+                            .parse_stmt("actual1.js", "_defineProperty(this, 'force', force);")?
+                            .fold_with(&mut marker(&[("force", mark2)]))],
                     }),
                     params: vec![Param {
                         span: DUMMY_SP,
