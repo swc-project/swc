@@ -15,10 +15,24 @@ impl Visit for IdCollector {
 
     visit_obj_and_computed!();
 
+    fn visit_export_default_specifier(&mut self, _: &ExportDefaultSpecifier) {}
+
+    fn visit_export_named_specifier(&mut self, _: &ExportNamedSpecifier) {}
+
+    fn visit_export_namespace_specifier(&mut self, _: &ExportNamespaceSpecifier) {}
+
     fn visit_ident(&mut self, id: &Ident) {
         if id.span.ctxt != SyntaxContext::empty() {
             self.ids.insert(id.to_id());
         }
+    }
+
+    fn visit_named_export(&mut self, e: &NamedExport) {
+        if e.src.is_some() {
+            return;
+        }
+
+        e.visit_children_with(self);
     }
 
     fn visit_prop_name(&mut self, p: &PropName) {
