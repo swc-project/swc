@@ -23,6 +23,7 @@ struct ManglingRenamer {
 }
 
 impl Renamer for ManglingRenamer {
+    const PARALLEL: bool = true;
     const RESET_N: bool = false;
 
     fn preserved_ids_for_module(&mut self, n: &Module) -> FxHashSet<Id> {
