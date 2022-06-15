@@ -4,6 +4,11 @@
         <link href="ie8only.css" rel="stylesheet">
         <![endif]--><!--   [if   IE   8]>
         <link href="ie8only.css" rel="stylesheet">
+        <link rel=stylesheet href=/stylesheets/no-ie.css>
+        <![endif]--><!--[if IE 8]>
+        <link href=ie8only.css rel=stylesheet>
+        <![endif]--><!--   [if   IE   8]>
+        <link href=ie8only.css rel=stylesheet>
         <![endif]   --><body>
 
 
@@ -16,6 +21,8 @@
     alert(1);
     --></script>
     <style>p{color:red}</style><script>/*<![CDATA[*/alert(8)/*]]>*/</script>
+    <style><!-- p { color: red } --></style>
+    <script>/*<![CDATA[*/alert(8)/*]]>*/</script>
     <script> /*
       <![CDATA[  */
     alert(10)
