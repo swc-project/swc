@@ -53,7 +53,7 @@ impl Scope {
         });
     }
 
-    pub(crate) fn rename<R>(
+    pub(crate) fn rename_single_thread<R>(
         &mut self,
         renamer: &R,
         to: &mut AHashMap<Id, JsWord>,
@@ -67,14 +67,27 @@ impl Scope {
 
         // let mut cloned_reverse = reverse.clone();
 
-        self.rename_one_scope(renamer, to, previous, reverse, queue, preserved_symbols);
+        self.rename_one_scope_single_thread(
+            renamer,
+            to,
+            previous,
+            reverse,
+            queue,
+            preserved_symbols,
+        );
 
         for child in &mut self.children {
-            child.rename(renamer, to, &Default::default(), reverse, preserved_symbols);
+            child.rename_single_thread(
+                renamer,
+                to,
+                &Default::default(),
+                reverse,
+                preserved_symbols,
+            );
         }
     }
 
-    fn rename_one_scope<R>(
+    fn rename_one_scope_single_thread<R>(
         &self,
         renamer: &R,
         to: &mut AHashMap<Id, JsWord>,

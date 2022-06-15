@@ -123,7 +123,7 @@ where
             let mut unresolved = self.unresolved.clone();
             unresolved.extend(self.get_unresolved(node));
 
-            scope.rename(
+            scope.rename_single_thread(
                 &self.renamer,
                 &mut map,
                 &Default::default(),
@@ -131,7 +131,7 @@ where
                 &unresolved,
             );
         } else {
-            scope.rename(
+            scope.rename_single_thread(
                 &self.renamer,
                 &mut map,
                 &Default::default(),
