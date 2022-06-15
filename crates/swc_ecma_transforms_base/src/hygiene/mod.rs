@@ -1,15 +1,18 @@
+use std::collections::HashMap;
+
 use swc_atoms::JsWord;
 use swc_common::{chain, collections::AHashMap};
 use swc_ecma_ast::*;
+use swc_ecma_utils::{collect_decls, BindingCollector};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith, VisitWith};
 
 use self::{
-    ops::Operator,
-    usage_analyzer::{Data, UsageAnalyzer},
+    analyzer::Analyzer, collector::IdCollector, ops::Operator, usage_analyzer::UsageAnalyzer,
 };
-use crate::hygiene::{unique_scope::unique_scope, usage_analyzer::CurScope};
+use crate::hygiene::unique_scope::unique_scope;
 
-pub mod analyzer;
+mod analyzer;
+mod collector;
 mod ops;
 #[cfg(test)]
 mod tests;
@@ -188,29 +191,45 @@ struct Hygiene {
 impl Hygiene {
     fn analyze_root<N>(&mut self, n: &mut N)
     where
+        N: VisitWith<IdCollector>,
+        N: VisitWith<Analyzer>,
+        N: VisitWith<BindingCollector<Id>>,
         N: for<'aa> VisitWith<UsageAnalyzer<'aa>>,
         N: for<'aa> VisitMutWith<Operator<'aa>>,
     {
-        // TODO: Reserved
-
-        let mut data = Data::default();
-        {
-            let mut v = UsageAnalyzer {
-                data: &mut data,
-                cur: CurScope {
-                    parent: None,
-                    data: Default::default(),
-                    depth: 0,
-                },
-                is_pat_decl: false,
+        let scope = {
+            let mut v = Analyzer {
+                ..Default::default()
             };
-
             n.visit_with(&mut v);
+            v.scope
+        };
+
+        let usages = {
+            let mut v = IdCollector {
+                ids: Default::default(),
+            };
+            n.visit_with(&mut v);
+            v.ids
+        };
+        let decls = collect_decls(n);
+        let unresolved = usages
+            .into_iter()
+            .filter(|used_id| !decls.contains(&used_id))
+            .collect();
+
+        let mut map = HashMap::default();
+        {
+            scope.rename(
+                &mut map,
+                &Default::default(),
+                &Default::default(),
+                &unresolved,
+            );
         }
 
-        let ops = data.ops.into_inner();
         n.visit_mut_with(&mut Operator {
-            rename: &ops.rename,
+            rename: &map,
             config: self.config.clone(),
             extra: Default::default(),
         });
