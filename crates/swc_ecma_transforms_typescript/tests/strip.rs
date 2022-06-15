@@ -4464,42 +4464,42 @@ export var Enum;
     Enum[Enum["test"] = 1] = "test";
 })(Enum || (Enum = {}));
 var Namespace;
-(function(Namespace1) {
+(function(Namespace) {
     let Enum;
     (function(Enum) {
         Enum[Enum["test"] = 1] = "test";
-    })(Enum = Namespace1.Enum || (Namespace1.Enum = {}));
+    })(Enum = Namespace.Enum || (Namespace.Enum = {}));
     (function(Enum) {
         Enum[Enum["test2"] = 1] = "test2";
-    })(Enum = Namespace1.Enum || (Namespace1.Enum = {}));
+    })(Enum = Namespace.Enum || (Namespace.Enum = {}));
 })(Namespace || (Namespace = {
 }));
 {
-    let Enum;
-    (function (Enum) {
-        Enum[Enum["test"] = 1] = "test";
-    })(Enum || (Enum = {}));
-    let Namespace2;
-    (function(Namespace3) {
+    let Enum1;
+    (function (Enum1) {
+        Enum1[Enum1["test"] = 1] = "test";
+    })(Enum1 || (Enum1 = {}));
+    let Namespace1;
+    (function(Namespace) {
         let Enum;
         (function(Enum) {
             Enum[Enum["test"] = 1] = "test";
-        })(Enum = Namespace3.Enum || (Namespace3.Enum = {}));
-    })(Namespace2 || (Namespace2 = {
+        })(Enum = Namespace.Enum || (Namespace.Enum = {}));
+    })(Namespace1 || (Namespace1 = {
     }));
 }
 {
-    let Enum;
-    (function (Enum) {
-        Enum[Enum["test"] = 1] = "test";
-    })(Enum || (Enum = {}));
-    let Namespace4;
-    (function(Namespace5) {
+    let Enum2;
+    (function (Enum2) {
+        Enum2[Enum2["test"] = 1] = "test";
+    })(Enum2 || (Enum2 = {}));
+    let Namespace2;
+    (function(Namespace) {
         let Enum;
         (function(Enum) {
             Enum[Enum["test"] = 1] = "test";
-        })(Enum = Namespace5.Enum || (Namespace5.Enum = {}));
-    })(Namespace4 || (Namespace4 = {
+        })(Enum = Namespace.Enum || (Namespace.Enum = {}));
+    })(Namespace2 || (Namespace2 = {
     }));
 }
     "#
