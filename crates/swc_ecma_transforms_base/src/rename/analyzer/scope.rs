@@ -1,6 +1,6 @@
 #![allow(clippy::too_many_arguments)]
 
-#[allow(unused)]
+#[cfg(feature = "concurrent-renaming")]
 use rayon::prelude::*;
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{js_word, JsWord};
@@ -153,6 +153,7 @@ impl Scope {
         true
     }
 
+    #[cfg_attr(not(feature = "concurrent-renaming"), allow(unused))]
     pub(crate) fn rename_parallel<R>(
         &mut self,
         renamer: &R,
@@ -179,6 +180,7 @@ impl Scope {
             preserved_symbols,
         );
 
+        #[cfg(feature = "concurrent-renaming")]
         if parallel {
             #[cfg(not(target_arch = "wasm32"))]
             let iter = self.children.par_iter_mut();
