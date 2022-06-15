@@ -3,6 +3,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashMap, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use tracing::debug;
 
 use super::Renamer;
 
@@ -347,12 +348,15 @@ impl Scope {
 
                 n += 1;
 
-                // TODO: Use base54::decode
                 if preserved_symbols.contains(&sym) {
                     continue;
                 }
 
                 if self.can_rename(&id, &sym, reverse) {
+                    if cfg!(debug_assertions) {
+                        debug!("Renaming `{}{:?}` to `{}`", id.0, id.1, sym);
+                    }
+
                     to.insert(id.clone(), sym.clone());
                     reverse.entry(sym).or_default().push(id.clone());
 

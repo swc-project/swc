@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 
+use rustc_hash::FxHashSet;
 use swc_atoms::JsWord;
 use swc_common::collections::AHashMap;
 use swc_ecma_ast::*;
@@ -75,7 +76,7 @@ where
             .into_iter()
             .filter(|used_id| !decls.contains(used_id))
             .map(|v| v.0)
-            .collect();
+            .collect::<FxHashSet<_>>();
 
         let mut map = HashMap::default();
         {
