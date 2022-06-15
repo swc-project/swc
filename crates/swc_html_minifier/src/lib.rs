@@ -608,6 +608,18 @@ impl VisitMut for Minifier {
         n.name = Some("html".into());
         n.system_id = None;
         n.public_id = None;
+    fn visit_mut_document(&mut self, n: &mut Document) {
+        n.visit_mut_children_with(self);
+
+        n.children
+            .retain(|child| !matches!(child, Child::Comment(_)));
+    }
+
+    fn visit_mut_document_fragment(&mut self, n: &mut DocumentFragment) {
+        n.visit_mut_children_with(self);
+
+        n.children
+            .retain(|child| !matches!(child, Child::Comment(_)));
     }
 
     fn visit_mut_element(&mut self, n: &mut Element) {
