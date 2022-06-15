@@ -2,6 +2,8 @@ use swc_common::chain;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut};
 
+use crate::rename::{renamer, Renamer};
+
 #[cfg(test)]
 mod tests;
 
@@ -146,7 +148,19 @@ pub fn hygiene() -> impl Fold + VisitMut + 'static {
 ///
 ///  At third phase, we rename all identifiers in the queue.
 pub fn hygiene_with_config(config: Config) -> impl 'static + Fold + VisitMut {
-    as_folder(chain!(Hygiene { config }, HygieneRemover))
+    chain!(renamer(config, HygieneRenamer), as_folder(HygieneRemover))
+}
+
+struct HygieneRenamer;
+
+impl Renamer for HygieneRenamer {
+    fn new_name_for(&self, orig: &Id, n: u32) -> swc_atoms::JsWord {
+        if n == 0 {
+            orig.0.clone()
+        } else {
+            format!("{}{}", orig.0, n).into()
+        }
+    }
 }
 
 struct HygieneRemover;

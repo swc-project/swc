@@ -14,7 +14,7 @@ mod collector;
 mod ops;
 
 pub trait Renamer: swc_common::sync::Send + swc_common::sync::Sync {
-    fn new_name_for(&self, previous: &Id, n: u32) -> JsWord;
+    fn new_name_for(&self, orig: &Id, n: u32) -> JsWord;
 }
 
 pub fn rename(map: &AHashMap<Id, JsWord>) -> impl '_ + Fold + VisitMut {
@@ -25,12 +25,26 @@ pub fn rename(map: &AHashMap<Id, JsWord>) -> impl '_ + Fold + VisitMut {
     })
 }
 
-#[derive(Debug, Default)]
-struct Hygiene {
-    config: Config,
+pub fn renamer<R>(config: Config, renamer: R) -> impl Fold + VisitMut
+where
+    R: Renamer,
+{
+    as_folder(RenamePass { config, renamer })
 }
 
-impl Hygiene {
+#[derive(Debug, Default)]
+struct RenamePass<R>
+where
+    R: Renamer,
+{
+    config: Config,
+    renamer: R,
+}
+
+impl<R> RenamePass<R>
+where
+    R: Renamer,
+{
     fn analyze_root<N>(&mut self, n: &mut N)
     where
         N: VisitWith<IdCollector>,
@@ -80,7 +94,10 @@ impl Hygiene {
     }
 }
 
-impl VisitMut for Hygiene {
+impl<R> VisitMut for RenamePass<R>
+where
+    R: Renamer,
+{
     noop_visit_mut_type!();
 
     fn visit_mut_module(&mut self, n: &mut Module) {
