@@ -3,10 +3,13 @@ use std::collections::HashMap;
 use swc_atoms::JsWord;
 use swc_common::collections::AHashMap;
 use swc_ecma_ast::*;
-use swc_ecma_utils::{collect_decls, BindingCollector};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith, VisitWith};
 
-use self::{analyzer::Analyzer, collector::IdCollector, ops::Operator};
+use self::{
+    analyzer::Analyzer,
+    collector::{collect_decls, CustomBindingCollector, IdCollector},
+    ops::Operator,
+};
 use crate::hygiene::Config;
 
 mod analyzer;
@@ -49,7 +52,7 @@ where
     where
         N: VisitWith<IdCollector>,
         N: VisitWith<Analyzer>,
-        N: VisitWith<BindingCollector<Id>>,
+        N: VisitWith<CustomBindingCollector<Id>>,
         N: for<'aa> VisitMutWith<Operator<'aa>>,
     {
         let mut scope = {
