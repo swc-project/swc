@@ -427,10 +427,10 @@ class Foo extends Bar {
     r#"
 var Foo =
 /*#__PURE__*/
-function (Bar) {
+function (Bar1) {
   "use strict";
 
-  _inherits(Foo, Bar);
+  _inherits(Foo, Bar1);
 
   var _super = _createSuper(Foo);
 
@@ -2614,10 +2614,10 @@ var Test = function Test() {
 
 var Foo =
 /*#__PURE__*/
-function (Bar) {
+function (Bar1) {
   "use strict";
 
-  _inherits(Foo, Bar);
+  _inherits(Foo, Bar1);
   var _super = _createSuper(Foo);
   function Foo() {
     _classCallCheck(this, Foo);
@@ -4538,10 +4538,10 @@ class Foo extends Bar {
     r#"
 var Foo =
 /*#__PURE__*/
-function (Bar) {
+function (Bar1) {
   "use strict";
 
-  _inherits(Foo, Bar);
+  _inherits(Foo, Bar1);
   var _super = _createSuper(Foo);
   function Foo() {
     _classCallCheck(this, Foo);
