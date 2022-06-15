@@ -11,7 +11,10 @@ use crate::{
     import_ref_rewriter::{ImportMap, ImportRefRewriter},
     module_decl_strip::{Export, Link, LinkItem, ModuleDeclStrip, Specifier},
     path::{ImportResolver, Resolver},
-    util::{define_es_module, has_use_strict, local_name_for_src, prop_function, use_strict},
+    util::{
+        amd_dynamic_import, define_es_module, has_use_strict, local_name_for_src, prop_function,
+        use_strict,
+    },
 };
 
 pub fn amd(unresolved_mark: Mark, config: Config) -> impl Fold + VisitMut {
@@ -82,13 +85,21 @@ impl VisitMut for Amd {
 
         stmts.visit_mut_children_with(&mut ImportRefRewriter { import_map });
 
+        let require = quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "require");
+
+        if !self.config.ignore_dynamic {
+            stmts.visit_mut_children_with(&mut DynamicImport {
+                es_module_interop: !self.config.no_interop,
+                require: require.clone(),
+            })
+        }
+
         // ====================
         //  Emit
         // ====================
 
         let mut elems = vec![Some(quote_str!("require").as_arg())];
-        let mut params =
-            vec![quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "require").into()];
+        let mut params = vec![require.into()];
 
         if let Some(exports) = self.exports.take() {
             elems.push(Some(quote_str!("exports").as_arg()));
@@ -292,5 +303,31 @@ impl Amd {
             self.exports = Some(new_ident.clone());
             new_ident
         })
+    }
+}
+
+struct DynamicImport {
+    es_module_interop: bool,
+    require: Ident,
+}
+
+impl VisitMut for DynamicImport {
+    noop_visit_mut_type!();
+
+    fn visit_mut_expr(&mut self, n: &mut Expr) {
+        match n {
+            Expr::Call(CallExpr {
+                span,
+                callee: Callee::Import(Import { span: import_span }),
+                args,
+                ..
+            }) => {
+                let mut require = self.require.clone();
+                require.span = import_span.apply_mark(require.span.ctxt().outer());
+
+                *n = amd_dynamic_import(*span, args.take(), require, self.es_module_interop);
+            }
+            _ => n.visit_mut_children_with(self),
+        }
     }
 }

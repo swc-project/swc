@@ -73,12 +73,12 @@ pub trait ExprFactory: Into<Expr> {
     }
 
     /// create a ArrowExpr which return self
-    /// - `() => $self`
+    /// - `(params) => $self`
     #[cfg_attr(not(debug_assertions), inline(always))]
-    fn as_lazy_arrow(self) -> ArrowExpr {
+    fn as_arrow(self, params: Vec<Pat>) -> ArrowExpr {
         ArrowExpr {
             span: DUMMY_SP,
-            params: Default::default(),
+            params,
             body: BlockStmtOrExpr::from(self),
             is_async: false,
             is_generator: false,
@@ -88,9 +88,9 @@ pub trait ExprFactory: Into<Expr> {
     }
 
     /// create a FnExpr which return self
-    /// - `function() { return $self; }`
+    /// - `function(params) { return $self; }`
     #[cfg_attr(not(debug_assertions), inline(always))]
-    fn as_lazy_fn(self) -> FnExpr {
+    fn as_fn(self, params: Vec<Param>) -> FnExpr {
         let return_stmt = ReturnStmt {
             span: DUMMY_SP,
             arg: Some(Box::new(self.into())),
@@ -99,17 +99,17 @@ pub trait ExprFactory: Into<Expr> {
         FnExpr {
             ident: None,
             function: Function {
-                params: Default::default(),
+                params,
                 decorators: Default::default(),
                 span: DUMMY_SP,
                 body: Some(BlockStmt {
                     span: DUMMY_SP,
                     stmts: vec![return_stmt.into()],
                 }),
-                is_generator: Default::default(),
-                is_async: Default::default(),
-                type_params: Default::default(),
-                return_type: Default::default(),
+                is_generator: false,
+                is_async: false,
+                type_params: None,
+                return_type: None,
             },
         }
     }

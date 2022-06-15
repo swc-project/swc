@@ -10,7 +10,10 @@ use crate::{
     import_ref_rewriter::{ImportMap, ImportRefRewriter},
     module_decl_strip::{Export, Link, LinkItem, ModuleDeclStrip, Specifier},
     path::{ImportResolver, Resolver},
-    util::{define_es_module, has_use_strict, lazy_ident_from_src, prop_function, use_strict},
+    util::{
+        cjs_dynamic_import, define_es_module, has_use_strict, lazy_ident_from_src, prop_function,
+        use_strict,
+    },
 };
 
 pub fn cjs(unresolved_mark: Mark, config: Config) -> impl Fold + VisitMut {
@@ -72,6 +75,13 @@ impl VisitMut for Cjs {
         stmts.extend(n.take());
 
         stmts.visit_mut_children_with(&mut ImportRefRewriter { import_map });
+
+        if !self.config.ignore_dynamic {
+            stmts.visit_mut_children_with(&mut DynamicImport {
+                unresolved_mark: self.unresolved_mark,
+                es_module_interop: !self.config.no_interop,
+            })
+        }
 
         *n = stmts;
     }
@@ -252,5 +262,34 @@ impl Cjs {
             self.exports = Some(new_ident.clone());
             new_ident
         })
+    }
+}
+
+struct DynamicImport {
+    unresolved_mark: Mark,
+    es_module_interop: bool,
+}
+
+impl VisitMut for DynamicImport {
+    noop_visit_mut_type!();
+
+    fn visit_mut_expr(&mut self, n: &mut Expr) {
+        match n {
+            Expr::Call(CallExpr {
+                span,
+                callee: Callee::Import(Import { span: import_span }),
+                args,
+                ..
+            }) => {
+                let require_span = import_span.apply_mark(self.unresolved_mark);
+                *n = cjs_dynamic_import(
+                    *span,
+                    args.take(),
+                    quote_ident!(require_span, "require"),
+                    self.es_module_interop,
+                );
+            }
+            _ => n.visit_mut_children_with(self),
+        }
     }
 }

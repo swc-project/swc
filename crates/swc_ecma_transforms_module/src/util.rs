@@ -15,6 +15,7 @@ use swc_common::{
     Span, DUMMY_SP,
 };
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
     is_valid_prop_ident, member_expr, private_ident, quote_ident, quote_str, undefined,
     DestructuringFinder, ExprFactory,
@@ -1136,7 +1137,7 @@ pub(crate) fn _prop_arrow((key, span, expr): (JsWord, Span, Expr)) -> PropOrSpre
     PropOrSpread::Prop(Box::new(
         KeyValueProp {
             key,
-            value: Box::new(expr.as_lazy_arrow().into()),
+            value: Box::new(expr.as_arrow(Default::default()).into()),
         }
         .into(),
     ))
@@ -1191,8 +1192,96 @@ pub(crate) fn prop_function((key, span, expr): (JsWord, Span, Expr)) -> PropOrSp
     PropOrSpread::Prop(Box::new(
         KeyValueProp {
             key,
-            value: Box::new(expr.as_lazy_fn().into()),
+            value: Box::new(expr.as_fn(Default::default()).into()),
         }
         .into(),
     ))
+}
+
+/// Promise.resolve(args).then(p => require(p))
+pub(crate) fn cjs_dynamic_import(
+    span: Span,
+    args: Vec<ExprOrSpread>,
+    require: Ident,
+    es_module_interop: bool,
+) -> Expr {
+    let then = member_expr!(DUMMY_SP, Promise.resolve)
+        // TODO: handle import assert
+        .as_call(DUMMY_SP, args)
+        .make_member(quote_ident!("then"));
+
+    let path = private_ident!("p");
+
+    let import_expr = {
+        let require = require.as_call(DUMMY_SP, vec![path.clone().as_arg()]);
+
+        if es_module_interop {
+            CallExpr {
+                span: DUMMY_SP,
+                callee: helper!(interop_require_wildcard, "interopRequireWildcard"),
+                args: vec![require.as_arg()],
+                type_args: None,
+            }
+            .into()
+        } else {
+            require
+        }
+    };
+
+    // TODO: use arrow `=>` if possible
+    then.as_call(span, vec![import_expr.as_fn(vec![path.into()]).as_arg()])
+}
+
+/// new Promise((resolve, reject) => require([arg], m => resolve(m), reject))
+pub(crate) fn amd_dynamic_import(
+    span: Span,
+    args: Vec<ExprOrSpread>,
+    require: Ident,
+    es_module_interop: bool,
+) -> Expr {
+    let resolve = private_ident!("resolve");
+    let reject = private_ident!("reject");
+    let arg = args[..1].iter().cloned().map(Option::Some).collect();
+
+    let module = private_ident!("m");
+
+    let resolved_module: Expr = if es_module_interop {
+        CallExpr {
+            span: DUMMY_SP,
+            callee: helper!(interop_require_wildcard, "interopRequireWildcard"),
+            args: vec![module.clone().as_arg()],
+            type_args: None,
+        }
+        .into()
+    } else {
+        module.clone().into()
+    };
+
+    let resolve_callback = resolve
+        .clone()
+        .as_call(DUMMY_SP, vec![resolved_module.as_arg()])
+        .as_fn(vec![module.into()]);
+
+    let require_call = require.as_call(
+        DUMMY_SP,
+        vec![
+            ArrayLit {
+                span: DUMMY_SP,
+                elems: arg,
+            }
+            .as_arg(),
+            resolve_callback.as_arg(),
+            reject.clone().as_arg(),
+        ],
+    );
+
+    let promise_executer = require_call.as_fn(vec![resolve.into(), reject.into()]);
+
+    NewExpr {
+        span,
+        callee: Box::new(quote_ident!("Promise").into()),
+        args: Some(vec![promise_executer.as_arg()]),
+        type_args: None,
+    }
+    .into()
 }
