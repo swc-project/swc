@@ -358,10 +358,10 @@ var baz = () => () => arguments;
 var _arguments = arguments;
 
 function fn() {
-  var _arguments1 = arguments;
+  var _arguments = arguments;
 
   var foo = function () {
-    return _arguments1;
+    return _arguments;
   };
 }
 
