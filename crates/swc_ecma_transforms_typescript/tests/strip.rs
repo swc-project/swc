@@ -3527,11 +3527,11 @@ to!(
     ",
     "
     export var util;
-    (function (util1) {
+    (function (util) {
         const c = 3;
         function foo() {
         }
-        util1.foo = foo;
+        util.foo = foo;
         function bar() {
         }
     })(util || (util = {}));
@@ -3550,11 +3550,11 @@ to!(
     ",
     "
     var Test;
-    (function (Test1) {
-        let Inner1;
+    (function (Test) {
+        let Inner;
         (function (Inner) {
             var c = Inner.c = 3;
-        })(Inner1 = Test1.Inner || (Test1.Inner = {}));
+        })(Inner = Test.Inner || (Test.Inner = {}));
     })(Test || (Test = {}));
     "
 );
@@ -3635,15 +3635,15 @@ to!(
     ",
     r#"
     var A;
-    (function (A1) {
+    (function (A) {
         class Test {
         }
-        A1.Test = Test;
+        A.Test = Test;
     })(A || (A = {}));
     var B;
-    (function (B1) {
+    (function (B) {
         var a = A;
-        B1.a = a;
+        B.a = a;
         console.log(a.Test);
         var b = A;
         console.log(b.Test);
