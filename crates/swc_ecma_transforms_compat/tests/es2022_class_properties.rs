@@ -205,10 +205,10 @@ class Child extends Parent {
 var _scopedFunctionWithThis = new WeakMap();
 var Child =
 /*#__PURE__*/
-function (Parent) {
+function (Parent1) {
   "use strict";
 
-  _inherits(Child, Parent);
+  _inherits(Child, Parent1);
   var _super = _createSuper(Child);
   function Child() {
     _classCallCheck(this, Child);
@@ -672,10 +672,10 @@ class Foo extends Bar {
 var _bar = new WeakMap();
 var Foo =
 /*#__PURE__*/
-function (Bar) {
+function (Bar1) {
   "use strict";
 
-  _inherits(Foo, Bar);
+  _inherits(Foo, Bar1);
   var _super = _createSuper(Foo);
   function Foo() {
     _classCallCheck(this, Foo);
@@ -1400,10 +1400,10 @@ class Foo extends Bar {
 var _bar = new WeakMap();
 var Foo =
 /*#__PURE__*/
-function (Bar) {
+function (Bar1) {
   "use strict";
 
-  _inherits(Foo, Bar);
+  _inherits(Foo, Bar1);
   var _super = _createSuper(Foo);
   function Foo() {
     _classCallCheck(this, Foo);
@@ -2151,10 +2151,10 @@ class Foo extends Bar {
     r#"
 var Foo =
 /*#__PURE__*/
-function (Bar) {
+function (Bar1) {
   "use strict";
 
-  _inherits(Foo, Bar);
+  _inherits(Foo, Bar1);
   var _super = _createSuper(Foo);
   function Foo() {
     _classCallCheck(this, Foo);
@@ -2637,10 +2637,10 @@ class Foo extends Bar {
 var _bar = new WeakMap();
 var Foo =
 /*#__PURE__*/
-function (Bar) {
+function (Bar1) {
   "use strict";
 
-  _inherits(Foo, Bar);
+  _inherits(Foo, Bar1);
   var _super = _createSuper(Foo);
   function Foo() {
     _classCallCheck(this, Foo);
