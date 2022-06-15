@@ -42,6 +42,3 @@ opt-level = 3
 
 [profile.test.package.pretty_assertions]
 opt-level = 3
-
-[patch.crates-io]
-cranelift-entity = { git = "https://github.com/kdy1/wasmtime", branch = "tls" }
