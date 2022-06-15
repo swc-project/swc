@@ -14,6 +14,7 @@ pub mod native;
 pub mod pass;
 pub mod perf;
 pub mod quote;
+pub mod rename;
 mod resolver;
 pub mod scope;
 #[cfg(test)]

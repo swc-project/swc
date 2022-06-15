@@ -1,18 +1,6 @@
-use std::collections::HashMap;
-
-use swc_atoms::JsWord;
-use swc_common::{chain, collections::AHashMap};
+use swc_common::chain;
 use swc_ecma_ast::*;
-use swc_ecma_utils::{collect_decls, BindingCollector};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith, VisitWith};
-
-use self::{analyzer::Analyzer, collector::IdCollector, ops::Operator};
-
-mod analyzer;
-mod collector;
-mod ops;
-#[cfg(test)]
-mod tests;
 
 macro_rules! track_ident_mut {
     () => {
@@ -122,14 +110,6 @@ pub struct Config {
     pub keep_class_names: bool,
 }
 
-pub fn rename(map: &AHashMap<Id, JsWord>) -> impl '_ + Fold + VisitMut {
-    as_folder(Operator {
-        rename: map,
-        config: Default::default(),
-        extra: Default::default(),
-    })
-}
-
 /// See [hygiene_with_config] for doc. Creates a `hygiene` pass with default
 /// value of [Config].
 pub fn hygiene() -> impl Fold + VisitMut + 'static {
@@ -173,72 +153,5 @@ impl VisitMut for HygieneRemover {
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
         i.span.ctxt = Default::default();
-    }
-}
-
-#[derive(Debug, Default)]
-struct Hygiene {
-    config: Config,
-}
-
-impl Hygiene {
-    fn analyze_root<N>(&mut self, n: &mut N)
-    where
-        N: VisitWith<IdCollector>,
-        N: VisitWith<Analyzer>,
-        N: VisitWith<BindingCollector<Id>>,
-        N: for<'aa> VisitMutWith<Operator<'aa>>,
-    {
-        let mut scope = {
-            let mut v = Analyzer {
-                ..Default::default()
-            };
-            n.visit_with(&mut v);
-            v.scope
-        };
-
-        let usages = {
-            let mut v = IdCollector {
-                ids: Default::default(),
-            };
-            n.visit_with(&mut v);
-            v.ids
-        };
-        let decls = collect_decls(n);
-        let unresolved = usages
-            .into_iter()
-            .filter(|used_id| !decls.contains(used_id))
-            .map(|v| v.0)
-            .collect();
-
-        let mut map = HashMap::default();
-        {
-            scope.prepare_renaming();
-
-            scope.rename(
-                &mut map,
-                &Default::default(),
-                &mut Default::default(),
-                &unresolved,
-            );
-        }
-
-        n.visit_mut_with(&mut Operator {
-            rename: &map,
-            config: self.config.clone(),
-            extra: Default::default(),
-        });
-    }
-}
-
-impl VisitMut for Hygiene {
-    noop_visit_mut_type!();
-
-    fn visit_mut_module(&mut self, n: &mut Module) {
-        self.analyze_root(n);
-    }
-
-    fn visit_mut_script(&mut self, n: &mut Script) {
-        self.analyze_root(n);
     }
 }
