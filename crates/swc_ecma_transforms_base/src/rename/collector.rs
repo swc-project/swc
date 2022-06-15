@@ -4,7 +4,7 @@ use rustc_hash::FxHashSet;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
 
 pub(super) struct IdCollector {
     pub ids: FxHashSet<Id>,
@@ -13,9 +13,17 @@ pub(super) struct IdCollector {
 impl Visit for IdCollector {
     noop_visit_type!();
 
+    visit_obj_and_computed!();
+
     fn visit_ident(&mut self, id: &Ident) {
         if id.span.ctxt != SyntaxContext::empty() {
             self.ids.insert(id.to_id());
+        }
+    }
+
+    fn visit_prop_name(&mut self, p: &PropName) {
+        if let PropName::Computed(n) = p {
+            n.visit_with(self);
         }
     }
 }
