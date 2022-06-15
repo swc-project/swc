@@ -242,7 +242,7 @@ mod tests {
         same_tag_safari_11,
         "x`a` === x`a`;",
         r#"
-        let _ = t2 => t2, t, t1;
+        let _ = t => t, t, t1;
         x(t || (t = _`a`)) === x(t1 || (t1 = _`a`));
         "#
     );
@@ -285,10 +285,10 @@ mod tests {
         t``;
         "#,
         r#"
-        let _ = t1 => t1, t2;
+        let _ = t1 => t1, t1;
 
         const _1 = 1;
-        t(t2 || (t2 = _``));
+        t(t1 || (t1 = _``));
         "#
     );
 
@@ -298,7 +298,7 @@ mod tests {
         block_scoped_tag,
         "for (let t of []) t`a`;",
         r#"
-        let _ = t2 => t2, t;
+        let _ = t => t, t;
         for (let t1 of []) t1(t || (t = _`a`));
         "#
     );
