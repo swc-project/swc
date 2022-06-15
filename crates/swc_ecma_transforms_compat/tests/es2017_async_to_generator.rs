@@ -223,8 +223,8 @@ async function s(x, ...args) {
 }
 function _s() {
     _s = _asyncToGenerator(function*(x) {
-        for(var _len1 = arguments.length, args = new Array(_len1 > 1 ? _len1 - 1 : 0), _key1 = 1; _key1 < _len1; _key1++){
-            args[_key1 - 1] = arguments[_key1];
+        for(var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
+            args[_key - 1] = arguments[_key];
         }
         var _this = this, _arguments = arguments;
         let t = function() {
@@ -3403,11 +3403,11 @@ function _ref() {
         function _bar() {
             _bar = _asyncToGenerator(function*(y) {
                 (function() {
-                    var _ref1 = _asyncToGenerator(function*(z) {
+                    var _ref = _asyncToGenerator(function*(z) {
                         return x(y)(z);
                     });
                     return function(z) {
-                        return _ref1.apply(this, arguments);
+                        return _ref.apply(this, arguments);
                     };
                 })()();
             });
