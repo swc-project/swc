@@ -4967,9 +4967,9 @@ class Foo extends Bar {
 }
 "#,
     r#"
-let Foo = /*#__PURE__*/function (Bar) {
+let Foo = /*#__PURE__*/function (Bar1) {
   "use strict";
-  _inherits(Foo, Bar);
+  _inherits(Foo, Bar1);
 
   var _super = _createSuper(Foo);
 
