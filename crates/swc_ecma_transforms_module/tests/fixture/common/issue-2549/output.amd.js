@@ -1,27 +1,30 @@
-define(["require", "exports"], function (require, _exports) {
+define([
+    "require",
+    "exports"
+], function(require, _exports) {
     "use strict";
     Object.defineProperty(_exports, "__esModule", {
-        value: true,
+        value: true
     });
-    __export(_exports, {
-        addOne: function () {
+    _export(_exports, {
+        addOne: function() {
             return addOne;
         },
-        errors: function () {
+        errors: function() {
             return errors;
         },
-        noassign: function () {
+        noassign: function() {
             return noassign;
         },
-        someFunc: function () {
+        someFunc: function() {
             return someFunc;
         },
-        test: function () {
+        test: function() {
             return test;
         },
-        warn: function () {
+        warn: function() {
             return warn;
-        },
+        }
     });
     function log() {
         console.log("unexported");
@@ -33,10 +36,10 @@ define(["require", "exports"], function (require, _exports) {
         throw new Error("this should not be called");
     }
     const errors = {
-        a: 1,
+        a: 1
     };
-    const addOne = (x) => `${x + 1}`;
-    const someFunc = (x) => `The answer is : ${addOne(x)}`;
+    const addOne = (x)=>`${x + 1}`;
+    const someFunc = (x)=>`The answer is : ${addOne(x)}`;
     const test = {};
     Object.defineProperty(test, "log", {
         get: function get() {
@@ -44,18 +47,18 @@ define(["require", "exports"], function (require, _exports) {
         },
         set: function set(v) {
             log = v;
-        },
+        }
     });
     Object.defineProperty(test, "warn", {
-        get: () => warn,
-        set: (v) => {
+        get: ()=>warn,
+        set: (v)=>{
             warn = v;
-        },
+        }
     });
     Object.defineProperty(test, "errors", {
-        get: () => errors,
-        set: (v) => {
+        get: ()=>errors,
+        set: (v)=>{
             errors = v;
-        },
+        }
     });
 });

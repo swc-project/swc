@@ -1,24 +1,27 @@
-define(["require", "exports"], function (require, _exports) {
+define([
+    "require",
+    "exports"
+], function(require, _exports) {
     "use strict";
     Object.defineProperty(_exports, "__esModule", {
-        value: true,
+        value: true
     });
-    __export(_exports, {
-        bar: function () {
+    _export(_exports, {
+        bar: function() {
             return bar;
         },
-        baz: function () {
+        baz: function() {
             return baz;
         },
-        bazbar: function () {
+        bazbar: function() {
             return baz;
         },
-        foo: function () {
+        foo: function() {
             return foo;
         },
-        foobar: function () {
+        foobar: function() {
             return foo;
-        },
+        }
     });
     let foo = 1n;
     foo++;

@@ -52,7 +52,7 @@ test!(
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    __export(exports, {
+    _export(exports, {
         "1": function() { return _modB.b; },
         "2": function() { return _modB["1"]; },
         "4": function() { return _modD["3"]; },
@@ -66,11 +66,11 @@ test!(
         h: function() { return h; }
     });
     require("./mod_a");
-    var _modB = __toESM(require("./mod_b"));
-    var _modC = __toESM(require("./mod_c"));
+    var _modB = _toESM(require("./mod_b"));
+    var _modC = _toESM(require("./mod_c"));
     var _modD = require("./mod_d");
-    var _modE = __toESM(require("./mod_e"));
-    __reExport(exports, require("./mod_f"));
+    var _modE = _toESM(require("./mod_e"));
+    _reExport(exports, require("./mod_f"));
     function g() {}
     const h = 42;
     class _default {}

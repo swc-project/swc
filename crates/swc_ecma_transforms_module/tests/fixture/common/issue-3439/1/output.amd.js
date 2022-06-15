@@ -6,7 +6,7 @@ define([
     Object.defineProperty(_exports, "__esModule", {
         value: true
     });
-    __export(_exports, {
+    _export(_exports, {
         a: function() {
             return a;
         }

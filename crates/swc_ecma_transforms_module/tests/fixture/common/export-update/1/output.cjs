@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-__export(exports, {
+_export(exports, {
     bar: function() {
         return bar;
     },

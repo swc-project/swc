@@ -1,6 +1,7 @@
 use swc_atoms::{js_word, JsWord};
 use swc_common::{util::take::Take, FileName, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{is_valid_prop_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -158,21 +159,28 @@ impl Cjs {
                 .resolver
                 .make_require_call(self.unresolved_mark, src, src_span);
 
-            // __reExport(exports, require("mod"));
+            // _reExport(exports, require("mod"));
             let import_expr = if should_re_export {
-                // TODO: use swc helper
-                quote_ident!("__reExport").as_call(
-                    DUMMY_SP,
-                    vec![self.exports().as_arg(), import_expr.as_arg()],
-                )
+                CallExpr {
+                    span: DUMMY_SP,
+                    callee: helper!(re_export, "reExport"),
+                    args: vec![self.exports().as_arg(), import_expr.as_arg()],
+                    type_args: Default::default(),
+                }
+                .into()
             } else {
                 import_expr
             };
 
-            // __toESM(require("mod"));
+            // _toESM(require("mod"));
             let import_expr = if should_wrap_with_to_esm {
-                // TODO: use swc helper
-                quote_ident!("__toESM").as_call(DUMMY_SP, vec![import_expr.as_arg()])
+                CallExpr {
+                    span: DUMMY_SP,
+                    callee: helper!(to_esm, "toESM"),
+                    args: vec![import_expr.as_arg()],
+                    type_args: Default::default(),
+                }
+                .into()
             } else {
                 import_expr
             };
@@ -212,10 +220,13 @@ impl Cjs {
                 props,
             };
 
-            // TODO: use swc helper
-            quote_ident!("__export")
-                .as_call(DUMMY_SP, vec![self.exports().as_arg(), obj_lit.as_arg()])
-                .into_stmt()
+            CallExpr {
+                span: DUMMY_SP,
+                callee: helper!(export, "export"),
+                args: vec![self.exports().as_arg(), obj_lit.as_arg()],
+                type_args: Default::default(),
+            }
+            .into_stmt()
         });
 
         self.exports

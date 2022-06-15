@@ -2,12 +2,12 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-__export(exports, {
+_export(exports, {
     whatever: function() {
         return whatever;
     }
 });
-__reExport(exports, require("another-module"));
+_reExport(exports, require("another-module"));
 function whatever(notExportName) {
     const shouldNotBeExportNameAsWell = 123;
     return shouldNotBeExportNameAsWell + notExportName;

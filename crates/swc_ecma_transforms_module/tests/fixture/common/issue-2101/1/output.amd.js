@@ -8,10 +8,10 @@ define([
     Object.defineProperty(_exports, "__esModule", {
         value: true
     });
-    __export(_exports, {
+    _export(_exports, {
         render: function() {
             return _customRender.customRender;
         }
     });
-    __reExport(_exports, _react);
+    _reExport(_exports, _react);
 });

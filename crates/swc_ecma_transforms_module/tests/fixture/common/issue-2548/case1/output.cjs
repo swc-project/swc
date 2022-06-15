@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-__export(exports, {
+_export(exports, {
     X: function() {
         return _z.default;
     }

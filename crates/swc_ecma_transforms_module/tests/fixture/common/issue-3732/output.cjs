@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-__export(exports, {
+_export(exports, {
     byID: function() {
         return byID;
     },
@@ -10,7 +10,7 @@ __export(exports, {
         return _get;
     }
 });
-var _get = __toESM(require("./get"));
+var _get = _toESM(require("./get"));
 const byID = (id)=>{
     // Do some async stuff
     return new Promise((resolve)=>setTimeout(()=>{

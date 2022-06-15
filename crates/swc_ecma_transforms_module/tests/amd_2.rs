@@ -55,7 +55,7 @@ define(
         Object.defineProperty(_exports, "__esModule", {
             value: true
         });
-        __export(_exports, {
+        _export(_exports, {
             "1": function() { return _modB.b; },
             "2": function() { return _modB["1"]; },
             "4": function() { return _modD["3"]; },
@@ -68,10 +68,10 @@ define(
             g: function() { return g; },
             h: function() { return h; }
         });
-        _modB = __toESM(_modB);
-        _modC = __toESM(_modC);
-        _modE = __toESM(_modE);
-        __reExport(_exports, _modF);
+        _modB = _toESM(_modB);
+        _modC = _toESM(_modC);
+        _modE = _toESM(_modE);
+        _reExport(_exports, _modF);
         function g() {}
         const h = 42;
         class _default {

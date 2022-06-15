@@ -7,12 +7,12 @@ define([
     Object.defineProperty(_exports, "__esModule", {
         value: true
     });
-    __export(_exports, {
+    _export(_exports, {
         whatever: function() {
             return whatever;
         }
     });
-    __reExport(_exports, _anotherModule);
+    _reExport(_exports, _anotherModule);
     function whatever(notExportName) {
         const shouldNotBeExportNameAsWell = 123;
         return shouldNotBeExportNameAsWell + notExportName;

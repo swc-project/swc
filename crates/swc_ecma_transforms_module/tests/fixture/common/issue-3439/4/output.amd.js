@@ -1,15 +1,18 @@
-define(["require", "exports"], function (require, _exports) {
+define([
+    "require",
+    "exports"
+], function(require, _exports) {
     "use strict";
     Object.defineProperty(_exports, "__esModule", {
-        value: true,
+        value: true
     });
-    __export(_exports, {
-        bar: function () {
+    _export(_exports, {
+        bar: function() {
             return foo;
         },
-        default: function () {
+        default: function() {
             return foo;
-        },
+        }
     });
     foo = 1;
     function foo() {}
