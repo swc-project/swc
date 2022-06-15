@@ -3665,12 +3665,12 @@ to!(
     ",
     "
     var Test;
-    (function(Test1) {
+    (function(Test) {
         let DummyValues;
         (function(DummyValues) {
             DummyValues[\"A\"] = \"A\";
             DummyValues[\"B\"] = \"B\";
-        })(DummyValues = Test1.DummyValues || (Test1.DummyValues = {}));
+        })(DummyValues = Test.DummyValues || (Test.DummyValues = {}));
     })(Test || (Test = {
     }));
     console(Test.DummyValues.A);
