@@ -1481,11 +1481,6 @@ impl VisitMut for Hoister<'_, '_> {
         if self.catch_param_decls.contains(&node.ident.sym) {
             return;
         }
-        let _span = if LOG {
-            Some(span!(Level::ERROR, "Hoister.visit_mut_fn_decl").entered())
-        } else {
-            None
-        };
 
         if self.in_block {
             // If we are in nested block, and variable named `foo` is declared, we should
