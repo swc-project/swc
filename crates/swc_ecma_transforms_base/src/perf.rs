@@ -1,11 +1,11 @@
 use once_cell::sync::Lazy;
 use swc_common::util::move_map::MoveMap;
-#[cfg(feature = "rayon")]
+#[cfg(feature = "concurrent")]
 use swc_common::{errors::HANDLER, GLOBALS};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Fold, FoldWith, Visit, VisitMut, VisitMutWith, VisitWith};
 
-#[cfg(feature = "rayon")]
+#[cfg(feature = "concurrent")]
 use crate::helpers::HELPERS;
 
 pub trait Check: Visit + Default {
@@ -60,7 +60,7 @@ pub trait ParVisit: Visit + Parallel {
         N: Send + Sync + VisitWith<Self>;
 }
 
-#[cfg(feature = "rayon")]
+#[cfg(feature = "concurrent")]
 impl<T> ParVisit for T
 where
     T: Visit + Parallel,
@@ -118,7 +118,7 @@ pub trait ParVisitMut: VisitMut + Parallel {
         N: Send + Sync + VisitMutWith<Self>;
 }
 
-#[cfg(feature = "rayon")]
+#[cfg(feature = "concurrent")]
 impl<T> ParVisitMut for T
 where
     T: VisitMut + Parallel,
@@ -176,7 +176,7 @@ pub trait ParFold: Fold + Parallel {
         N: Send + Sync + FoldWith<Self>;
 }
 
-#[cfg(feature = "rayon")]
+#[cfg(feature = "concurrent")]
 impl<T> ParFold for T
 where
     T: Fold + Parallel,
@@ -238,7 +238,7 @@ where
     }
 }
 
-#[cfg(not(feature = "rayon"))]
+#[cfg(not(feature = "concurrent"))]
 impl<T> ParVisit for T
 where
     T: Visit + Parallel,
@@ -253,7 +253,7 @@ where
     }
 }
 
-#[cfg(not(feature = "rayon"))]
+#[cfg(not(feature = "concurrent"))]
 impl<T> ParVisitMut for T
 where
     T: VisitMut + Parallel,
@@ -268,7 +268,7 @@ where
     }
 }
 
-#[cfg(not(feature = "rayon"))]
+#[cfg(not(feature = "concurrent"))]
 impl<T> ParFold for T
 where
     T: Fold + Parallel,

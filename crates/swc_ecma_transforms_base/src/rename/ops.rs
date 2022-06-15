@@ -7,7 +7,7 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
-#[cfg(feature = "rayon")]
+#[cfg(feature = "concurrent")]
 use crate::perf::cpu_count;
 use crate::{
     hygiene::Config,
@@ -357,7 +357,7 @@ impl<'a> VisitMut for Operator<'a> {
     fn visit_mut_module_items(&mut self, nodes: &mut Vec<ModuleItem>) {
         use std::mem::take;
 
-        #[cfg(feature = "rayon")]
+        #[cfg(feature = "concurrent")]
         if nodes.len() >= 64 * cpu_count() {
             use swc_common::errors::HANDLER;
 
