@@ -704,12 +704,12 @@ function fetchWrapper(requestOptions) {
             return response.text();
         }
         return getBufferResponse(response);
-    }).then((data1)=>{
+    }).then((data)=>{
         return {
             status,
             url,
             headers,
-            data: data1
+            data
         };
     }).catch((error)=>{
         if (error instanceof RequestError) {
