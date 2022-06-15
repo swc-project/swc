@@ -135,7 +135,7 @@ class B extends A {
 let B = _decorate([dec], function (_initialize, _A) {
 
 
-  class B1 extends _A {
+  class B extends _A {
     constructor() {
       const foo = () => {
         super();
@@ -165,7 +165,7 @@ let B = _decorate([dec], function (_initialize, _A) {
   }
 
   return {
-    F: B1,
+    F: B,
     d: []
   };
 }, A);
@@ -216,7 +216,7 @@ class B extends A {
 let B = _decorate([dec], function (_initialize, _A) {
 
 
-  class B1 extends _A {
+  class B extends _A {
     constructor() {
       super();
 
@@ -226,7 +226,7 @@ let B = _decorate([dec], function (_initialize, _A) {
   }
 
   return {
-    F: B1,
+    F: B,
     d: []
   };
 }, A);
@@ -561,7 +561,7 @@ class Sub extends Super {
 let Sub = _decorate([decorator(parameter)], function (_initialize, _Super) {
 
 
-  class Sub1 extends _Super {
+  class Sub extends _Super {
     constructor() {
       var _temp;
 
@@ -571,7 +571,7 @@ let Sub = _decorate([decorator(parameter)], function (_initialize, _Super) {
   }
 
   return {
-    F: Sub1,
+    F: Sub,
     d: []
   };
 }, Super);
@@ -742,7 +742,7 @@ class B extends A {
 let B = _decorate([dec], function (_initialize, _A) {
 
 
-  class B1 extends _A {
+  class B extends _A {
     constructor() {
       var _temp;
 
@@ -752,7 +752,7 @@ let B = _decorate([dec], function (_initialize, _A) {
   }
 
   return {
-    F: B1,
+    F: B,
     d: []
   };
 }, A);
@@ -1191,7 +1191,7 @@ test!(
 let A = _decorate([dec], function (_initialize, _B) {
 
 
-  class A1 extends _B {
+  class A extends _B {
     constructor(...args) {
       super(...args);
 
@@ -1201,7 +1201,7 @@ let A = _decorate([dec], function (_initialize, _B) {
   }
 
   return {
-    F: A1,
+    F: A,
     d: []
   };
 }, B);
@@ -1222,7 +1222,7 @@ async function g() {
 "#,
     r#"
 async function g() {
-  let A1 = _decorate([dec], function (_initialize, _super) {
+  let A = _decorate([dec], function (_initialize, _super) {
 
 
     class A extends _super {
@@ -1256,7 +1256,7 @@ function* g() {
 "#,
     r#"
 function* g() {
-  let A1 = _decorate([dec], function (_initialize, _super) {
+  let A = _decorate([dec], function (_initialize, _super) {
 
 
     class A extends _super {
@@ -1450,7 +1450,7 @@ class B extends A {
 let B = _decorate([dec], function (_initialize, _A) {
 
 
-  class B1 extends _A {
+  class B extends _A {
     constructor() {
       super();
 
@@ -1462,7 +1462,7 @@ let B = _decorate([dec], function (_initialize, _A) {
   }
 
   return {
-    F: B1,
+    F: B,
     d: []
   };
 }, A);
