@@ -1,3 +1,7 @@
+#![allow(clippy::too_many_arguments)]
+
+#[allow(unused)]
+use rayon::prelude::*;
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashMap, util::take::Take};
@@ -149,20 +153,24 @@ impl Scope {
         true
     }
 
-    pub(super) fn rename_parallel(
+    pub(super) fn rename_parallel<R>(
         &mut self,
+        renamer: &R,
         to: &mut AHashMap<Id, JsWord>,
         previous: &AHashMap<Id, JsWord>,
         reverse: &FxHashMap<JsWord, Vec<Id>>,
         preserved: &FxHashSet<Id>,
         preserved_symbols: &FxHashSet<JsWord>,
         parallel: bool,
-    ) {
+    ) where
+        R: Renamer,
+    {
         let mut queue = self.data.queue.take();
 
         let mut cloned_reverse = reverse.clone();
 
         self.rename_one_scope_parallel(
+            renamer,
             to,
             previous,
             &mut cloned_reverse,
@@ -179,8 +187,11 @@ impl Scope {
 
             let iter = iter
                 .map(|child| {
+                    use std::collections::HashMap;
+
                     let mut new_map = HashMap::default();
-                    child.rename(
+                    child.rename_parallel(
+                        renamer,
                         &mut new_map,
                         to,
                         &cloned_reverse,
@@ -198,6 +209,7 @@ impl Scope {
         } else {
             for child in &mut self.children {
                 child.rename_parallel(
+                    renamer,
                     to,
                     &Default::default(),
                     &cloned_reverse,
@@ -209,28 +221,27 @@ impl Scope {
         }
     }
 
-    fn rename_one_scope_parallel(
+    fn rename_one_scope_parallel<R>(
         &self,
+        renamer: &R,
         to: &mut AHashMap<Id, JsWord>,
         previous: &AHashMap<Id, JsWord>,
         cloned_reverse: &mut FxHashMap<JsWord, Vec<Id>>,
         queue: Vec<Id>,
         preserved: &FxHashSet<Id>,
         preserved_symbols: &FxHashSet<JsWord>,
-    ) {
+    ) where
+        R: Renamer,
+    {
         let mut n = 0;
 
-        for (id, cnt) in queue {
-            if cnt == 0
-                || preserved.contains(&id)
-                || to.get(&id).is_some()
-                || previous.get(&id).is_some()
-            {
+        for id in queue {
+            if preserved.contains(&id) || to.get(&id).is_some() || previous.get(&id).is_some() {
                 continue;
             }
 
             loop {
-                let sym = base54::encode(&mut n, true);
+                let sym = renamer.new_name_for(&id, &mut n);
 
                 // TODO: Use base54::decode
                 if preserved_symbols.contains(&sym) {
@@ -256,10 +267,6 @@ impl Scope {
 
     pub fn rename_cost(&self) -> usize {
         let children = &self.children;
-        self.data.queue.len()
-            + maybe_par!(
-                children.iter().map(|v| v.rename_cost()).sum::<usize>(),
-                *crate::LIGHT_TASK_PARALLELS
-            )
+        self.data.queue.len() + children.iter().map(|v| v.rename_cost()).sum::<usize>()
     }
 }
