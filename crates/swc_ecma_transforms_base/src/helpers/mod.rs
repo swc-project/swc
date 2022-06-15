@@ -514,7 +514,7 @@ mod tests {
                     }),
                     "output.js",
                     Default::default(),
-                    "import _throw1 from \"@swc/helpers/src/_throw.mjs\";
+                    "import _throw from \"@swc/helpers/src/_throw.mjs\";
 _throw();",
                 )?;
                 enable_helper!(throw);

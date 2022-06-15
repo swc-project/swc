@@ -186,7 +186,7 @@ fn block_scoping_no_usage() {
         "
         let foo;
         {
-            let foo;
+            let foo1;
         }
         ",
     );
@@ -375,8 +375,8 @@ fn shorthand() {
         "
             let a = 1;
             function foo() {
-                let a1 = 2;
-                use({ a: a1 })
+                let a = 2;
+                use({ a })
             }
             ",
     );
@@ -737,8 +737,8 @@ fn for_x() {
             var { a } = _ref1, b = _objectWithoutProperties(_ref1, ['a']);
         }
         async function a() {
-            for await (var _ref2 of []){
-                var { a } = _ref2, b = _objectWithoutProperties(_ref2, ['a']);
+            for await (var _ref of []){
+                var { a } = _ref, b = _objectWithoutProperties(_ref, ['a']);
             }
         }
         ",
@@ -1092,10 +1092,10 @@ fn issue_281_02() {
                     &[mark1, mark2, mark3, mark2],
                 )])))
         },
-        "function foo(e) {
+        "function foo(e1) {
             e: {
                 try {
-                } catch (e) {
+                } catch (e2) {
                     o = null;
                     break e
                 }
