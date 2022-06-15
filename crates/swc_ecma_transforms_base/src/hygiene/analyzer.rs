@@ -322,7 +322,7 @@ impl Scope {
 
             use crate::perf::cpu_count;
 
-            if self.children.len() >= cpu_count() {
+            if self.children.len() >= cpu_count() * 32 {
                 let iter = self.children.par_iter_mut();
 
                 let iter = iter
@@ -336,6 +336,7 @@ impl Scope {
                 for (k, v) in iter.into_iter().flatten() {
                     to.entry(k).or_insert(v);
                 }
+                return;
             }
         }
 
@@ -360,8 +361,13 @@ impl Scope {
             }
 
             loop {
+                let sym = if n == 0 {
+                    id.0.clone()
+                } else {
+                    format!("{}{}", id.0, n).into()
+                };
+
                 n += 1;
-                let sym = format!("{}{}", id.0, n).into();
 
                 // TODO: Use base54::decode
                 if preserved_symbols.contains(&sym) {
