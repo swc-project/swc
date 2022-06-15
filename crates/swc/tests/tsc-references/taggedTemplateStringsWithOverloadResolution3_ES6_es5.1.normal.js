@@ -281,9 +281,9 @@ fn4(_templateObject19(), null, true);
 function fn5() {
     return undefined;
 }
-fn5(_templateObject20(), function(n1) {
-    return n1.toFixed();
+fn5(_templateObject20(), function(n) {
+    return n.toFixed();
 }); // will error; 'n' should have type 'string'.
-fn5(_templateObject21(), function(n2) {
-    return n2.substr(0);
+fn5(_templateObject21(), function(n) {
+    return n.substr(0);
 });

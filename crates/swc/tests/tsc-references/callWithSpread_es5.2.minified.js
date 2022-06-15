@@ -98,8 +98,8 @@ var _obj, _obj1, _obj2, _obj3, _instance, _obj4, _instance1, _instance2, _instan
         return _class_call_check(this, D), _super.call(this, 1, 2);
     }
     return D.prototype.foo = function() {
-        var _instance4;
-        _get(_get_prototype_of(D.prototype), "foo", this).call(this, 1, 2), (_instance4 = _get(_get_prototype_of(D.prototype), "foo", this)).call.apply(_instance4, [
+        var _instance;
+        _get(_get_prototype_of(D.prototype), "foo", this).call(this, 1, 2), (_instance = _get(_get_prototype_of(D.prototype), "foo", this)).call.apply(_instance, [
             this,
             1,
             2

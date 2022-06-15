@@ -2,7 +2,7 @@
 // @target: ES5
 export default function Foo() {};
 var Foo;
-(function(Foo1) {
+(function(Foo) {
     var x;
-    Foo1.x = x;
+    Foo.x = x;
 })(Foo || (Foo = {}));

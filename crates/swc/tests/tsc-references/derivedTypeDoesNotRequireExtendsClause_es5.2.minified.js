@@ -7,9 +7,9 @@ var Base = function() {
 }, Derived = function() {
     "use strict";
     _class_call_check(this, Derived);
-}, Derived2 = function(Base1) {
+}, Derived2 = function(Base) {
     "use strict";
-    _inherits(Derived2, Base1);
+    _inherits(Derived2, Base);
     var _super = _create_super(Derived2);
     function Derived2() {
         return _class_call_check(this, Derived2), _super.apply(this, arguments);

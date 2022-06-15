@@ -1,8 +1,8 @@
 var A;
-(function(A1) {
+(function(A) {
     class Point {
     }
     class points {
     }
-    A1.points = points;
+    A.points = points;
 })(A || (A = {}));

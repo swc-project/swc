@@ -1,7 +1,7 @@
-function* b() {
+function* a() {
     const a = yield 1;
     yield 2;
     return a;
 }
-var a = b();
-console.log(a.next().value, a.next().value);
+var b = a();
+console.log(b.next().value, b.next().value);

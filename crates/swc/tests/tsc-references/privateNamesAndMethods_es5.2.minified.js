@@ -58,9 +58,9 @@ function get_quux() {
 function set_quux(val) {
     _class_private_field_set(this, __quux, val);
 }
-var _foo1 = new WeakSet(), B = function(A1) {
+var _foo1 = new WeakSet(), B = function(A) {
     "use strict";
-    _inherits(B, A1);
+    _inherits(B, A);
     var _super = _create_super(B);
     function B() {
         var _this;

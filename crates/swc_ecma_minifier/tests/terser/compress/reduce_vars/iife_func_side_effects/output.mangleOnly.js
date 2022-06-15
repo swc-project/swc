@@ -1,17 +1,17 @@
 function a() {
     console.log("x");
 }
-function c() {
+function b() {
     console.log("y");
 }
-function b() {
+function c() {
     console.log("z");
 }
-(function(c, a, d) {
-    function b() {
+(function(a, b, c) {
+    function d() {
         console.log("FAIL");
     }
-    return b + a();
+    return d + b();
 })(a(), function() {
-    return c();
-}, b());
+    return b();
+}, c());

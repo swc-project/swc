@@ -17,7 +17,7 @@ var C = /*#__PURE__*/ function() {
             get: function get() {
                 return "";
             },
-            set: function set(v) {} // ok
+            set: function set(v1) {} // ok
         }
     ], [
         {

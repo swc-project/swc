@@ -1,9 +1,9 @@
-var b = ([])=>"foo";
-var c = ({})=>"bar";
-var d = (a = "default")=>a;
-var e = ({ foo: a = "default" , bar: b = "default"  })=>a;
-var a = (...[a])=>a;
-var a = (...{ foo: a  })=>a;
+var a = ([])=>"foo";
+var b = ({})=>"bar";
+var c = (a = "default")=>a;
+var d = ({ foo: a = "default" , bar: b = "default"  })=>a;
+var e = (...[a])=>a;
+var e = (...{ foo: a  })=>a;
 var f = ({ [compute()]: a  })=>{};
 var g = ([, , ...a] = [
     1,

@@ -19,9 +19,9 @@ var Base = function() {
     return Derived1.staticMethod1 = function() {
         Base.x, Derived1.x, Derived2.x, Derived3.x;
     }, Derived1;
-}(Base), Derived2 = function(Base2) {
+}(Base), Derived2 = function(Base1) {
     "use strict";
-    _inherits(Derived2, Base2);
+    _inherits(Derived2, Base1);
     var _super = _create_super(Derived2);
     function Derived2() {
         return _class_call_check(this, Derived2), _super.apply(this, arguments);

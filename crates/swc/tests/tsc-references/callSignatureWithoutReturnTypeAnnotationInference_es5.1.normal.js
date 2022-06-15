@@ -61,13 +61,13 @@ function foo10(x) {
 }
 var r10 = foo10(1);
 var M;
-(function(M1) {
-    var x = M1.x = 1;
+(function(M) {
+    var x = M.x = 1;
     var C = function C() {
         "use strict";
         _class_call_check(this, C);
     };
-    M1.C = C;
+    M.C = C;
 })(M || (M = {}));
 function foo11() {
     return M;
@@ -81,8 +81,8 @@ var r12 = foo12();
 function m1() {
     return 1;
 }
-(function(m11) {
-    var y = m11.y = 2;
+(function(m1) {
+    var y = m1.y = 2;
 })(m1 || (m1 = {}));
 function foo13() {
     return m1;

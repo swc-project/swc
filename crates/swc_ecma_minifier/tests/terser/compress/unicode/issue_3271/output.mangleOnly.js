@@ -1,13 +1,13 @@
-function a(d) {
-    var c = 0, a = new Array(2), b = d.charCodeAt(0);
-    if (b < 2048) {
-        a[c++] = 192 | (b >>> 6);
-        a[c++] = 128 | (b & 63);
+function a(a) {
+    var b = 0, c = new Array(2), d = a.charCodeAt(0);
+    if (d < 2048) {
+        c[b++] = 192 | (d >>> 6);
+        c[b++] = 128 | (d & 63);
     } else {
-        a[c++] = 224 | (b >>> 12);
-        a[c++] = 128 | ((b >>> 6) & 63);
-        a[c++] = 128 | (b & 63);
+        c[b++] = 224 | (d >>> 12);
+        c[b++] = 128 | ((d >>> 6) & 63);
+        c[b++] = 128 | (d & 63);
     }
-    return a;
+    return c;
 }
 console.log(a("é"));

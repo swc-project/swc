@@ -184,7 +184,7 @@ pub fn optimize(
         let _timer = timer!("mangle names");
         // TODO: base54.reset();
 
-        m.visit_mut_with(&mut name_mangler(mangle.clone(), marks));
+        m.visit_mut_with(&mut name_mangler(mangle.clone()));
     }
 
     if let Some(property_mangle_options) = options.mangle.as_ref().and_then(|o| o.props.as_ref()) {

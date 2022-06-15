@@ -1,14 +1,14 @@
 function a(b, c, d) {
-    function f(b) {
-        var a = b.prototype;
-        return !!(a && a.isReactComponent);
+    function e(a) {
+        var b = a.prototype;
+        return !!(b && b.isReactComponent);
     }
     if (b == null) {
         return "";
     }
     if (typeof b === "function") {
         {
-            return describeNativeComponentFrame(b, f(b));
+            return describeNativeComponentFrame(b, e(b));
         }
     }
     if (typeof b === "string") {
@@ -30,9 +30,9 @@ function a(b, c, d) {
                 return describeFunctionComponentFrame(b._render);
             case REACT_LAZY_TYPE:
                 {
-                    var e = b;
-                    var g = e._payload;
-                    var h = e._init;
+                    var f = b;
+                    var g = f._payload;
+                    var h = f._init;
                     try {
                         return a(h(g), c, d);
                     } catch (i) {}

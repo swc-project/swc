@@ -7,11 +7,11 @@ var C = /*#__PURE__*/ function() {
     function C() {
         _class_call_check(this, C);
     }
-    var _proto1 = C.prototype;
-    _proto1.foo = function foo() {
+    var _proto = C.prototype;
+    _proto.foo = function foo() {
         return this.foo;
     };
-    _proto1.bar = function bar() {
+    _proto.bar = function bar() {
         var C2 = /*#__PURE__*/ function() {
             function C2() {
                 _class_call_check(this, C2);

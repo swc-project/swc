@@ -2,7 +2,7 @@
 function f() {
     try {} catch (e) {}
     try {} catch (e1) {
-        try {} catch (e) {}
+        try {} catch (e2) {}
     }
-    try {} catch (e2) {} finally{}
+    try {} catch (e3) {} finally{}
 }

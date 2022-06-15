@@ -1,9 +1,9 @@
 //@filename: part1.ts
 var Root;
-(function(Root1) {
-    let A1;
+(function(Root) {
+    let A;
     (function(A) {
-        let Utils1;
+        let Utils;
         (function(Utils) {
             function mirror(p) {
                 return {
@@ -12,19 +12,19 @@ var Root;
                 };
             }
             Utils.mirror = mirror;
-        })(Utils1 = A.Utils || (A.Utils = {}));
-    })(A1 = Root1.A || (Root1.A = {}));
+        })(Utils = A.Utils || (A.Utils = {}));
+    })(A = Root.A || (Root.A = {}));
 })(Root || (Root = {}));
 //@filename: part2.ts
 var otherRoot;
-(function(otherRoot1) {
-    let A2;
+(function(otherRoot) {
+    let A;
     (function(A) {
         var Origin = A.Origin = {
             x: 0,
             y: 0
         };
-        let Utils2;
+        let Utils;
         (function(Utils) {
             class Plane {
                 constructor(tl, br){
@@ -33,6 +33,6 @@ var otherRoot;
                 }
             }
             Utils.Plane = Plane;
-        })(Utils2 = A.Utils || (A.Utils = {}));
-    })(A2 = otherRoot1.A || (otherRoot1.A = {}));
+        })(Utils = A.Utils || (A.Utils = {}));
+    })(A = otherRoot.A || (otherRoot.A = {}));
 })(otherRoot || (otherRoot = {}));

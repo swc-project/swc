@@ -60,7 +60,7 @@ var B = /*#__PURE__*/ function(A) {
     // async method with assignment/destructuring on 'super' requires a binding
     _proto.advanced = function advanced() {
         var _this = this;
-        var _this2 = this, // call with property access
+        var _this1 = this, // call with property access
         _superprop_get_x = function() {
             return _get(_get_prototype_of(B.prototype), "x", _this);
         }, // call with element access
@@ -79,8 +79,8 @@ var B = /*#__PURE__*/ function(A) {
                 while(1)switch(_ctx.prev = _ctx.next){
                     case 0:
                         f = function() {};
-                        _superprop_get_x().call(_this2);
-                        _superprop_get("x").call(_this2);
+                        _superprop_get_x().call(_this1);
+                        _superprop_get("x").call(_this1);
                         a = _superprop_get_x();
                         b = _superprop_get("x");
                         _superprop_set_x(f);

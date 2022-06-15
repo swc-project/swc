@@ -11,9 +11,9 @@ var Foo = function() {
     var _proto = _class.prototype;
     return _proto.m1 = function() {}, _proto.m2 = function() {}, _class;
 }();
-export var Bar = function(Foo1) {
+export var Bar = function(Foo) {
     "use strict";
-    _inherits(Bar, Foo1);
+    _inherits(Bar, Foo);
     var _super = _create_super(Bar);
     function Bar() {
         return _class_call_check(this, Bar), _super.apply(this, arguments);

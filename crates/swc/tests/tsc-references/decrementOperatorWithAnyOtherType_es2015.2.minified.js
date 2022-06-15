@@ -5,9 +5,9 @@ var ANY, ANY1, M, ANY2 = [
     x: 1,
     y: null
 };
-!function(M1) {
+!function(M) {
     var n;
-    M1.n = n;
+    M.n = n;
 }(M || (M = {}));
 var objA = new class {
 }();

@@ -1,15 +1,15 @@
-export function formatNumber(f) {
-    var g, a, d, b, i = f < 0 ? "-" : "";
-    g = Math.abs(f).toFixed(s.options.decimalPlaces);
-    var e = (g += "").split(".");
-    if (((a = e[0]), (d = e.length > 1 ? s.options.decimal + e[1] : ""), s.options.useGrouping)) {
-        b = "";
-        for(var c = 0, h = a.length; c < h; ++c)0 !== c && c % 3 == 0 && (b = s.options.separator + b), (b = a[h - c - 1] + b);
-        a = b;
+export function formatNumber(a) {
+    var b, c, d, e, f = a < 0 ? "-" : "";
+    b = Math.abs(a).toFixed(s.options.decimalPlaces);
+    var g = (b += "").split(".");
+    if (((c = g[0]), (d = g.length > 1 ? s.options.decimal + g[1] : ""), s.options.useGrouping)) {
+        e = "";
+        for(var h = 0, i = c.length; h < i; ++h)0 !== h && h % 3 == 0 && (e = s.options.separator + e), (e = c[i - h - 1] + e);
+        c = e;
     }
-    return (s.options.numerals && s.options.numerals.length && ((a = a.replace(/[0-9]/g, function(a) {
+    return (s.options.numerals && s.options.numerals.length && ((c = c.replace(/[0-9]/g, function(a) {
         return s.options.numerals[+a];
     })), (d = d.replace(/[0-9]/g, function(a) {
         return s.options.numerals[+a];
-    }))), i + s.options.prefix + a + d + s.options.suffix);
+    }))), f + s.options.prefix + c + d + s.options.suffix);
 }

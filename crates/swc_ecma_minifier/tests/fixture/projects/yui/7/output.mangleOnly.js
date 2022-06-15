@@ -1,28 +1,28 @@
 export const E = {
     _sort: function() {
-        var a = YObject.keys(this.required), h = {}, i = 0, e, f, j, b, c, d, g;
+        var a = YObject.keys(this.required), b = {}, c = 0, d, e, f, g, h, i, j;
         for(;;){
-            e = a.length;
-            d = false;
-            for(b = i; b < e; b++){
-                f = a[b];
-                for(c = b + 1; c < e; c++){
-                    g = f + a[c];
-                    if (!h[g] && this._requires(f, a[c])) {
-                        j = a.splice(c, 1);
-                        a.splice(b, 0, j[0]);
-                        h[g] = true;
-                        d = true;
+            d = a.length;
+            i = false;
+            for(g = c; g < d; g++){
+                e = a[g];
+                for(h = g + 1; h < d; h++){
+                    j = e + a[h];
+                    if (!b[j] && this._requires(e, a[h])) {
+                        f = a.splice(h, 1);
+                        a.splice(g, 0, f[0]);
+                        b[j] = true;
+                        i = true;
                         break;
                     }
                 }
-                if (d) {
+                if (i) {
                     break;
                 } else {
-                    i++;
+                    c++;
                 }
             }
-            if (!d) {
+            if (!i) {
                 break;
             }
         }

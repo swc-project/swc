@@ -10,9 +10,9 @@ var t1, t2, t3, t4, t5, C = function() {
 }, E = function() {
     "use strict";
     _class_call_check(this, E);
-}, F = function(C2) {
+}, F = function(C) {
     "use strict";
-    _inherits(F, C2);
+    _inherits(F, C);
     var _super = _create_super(F);
     function F() {
         return _class_call_check(this, F), _super.apply(this, arguments);
@@ -21,9 +21,9 @@ var t1, t2, t3, t4, t5, C = function() {
 }(C), C1 = function() {
     "use strict";
     _class_call_check(this, C1), this.i = "foo";
-}, D1 = function(C11) {
+}, D1 = function(C1) {
     "use strict";
-    _inherits(D1, C11);
+    _inherits(D1, C1);
     var _super = _create_super(D1);
     function D1() {
         var _this;

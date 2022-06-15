@@ -7,8 +7,8 @@ export function f() {
 }
 // @Filename: test/foo_2.ts
 export var M2;
-(function(M21) {
-    var x = M21.x = true;
+(function(M2) {
+    var x = M2.x = true;
 })(M2 || (M2 = {}));
 // @Filename: test/foo_3.ts
 const foo0 = require('../foo_0');

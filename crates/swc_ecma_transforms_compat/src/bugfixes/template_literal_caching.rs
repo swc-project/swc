@@ -172,8 +172,8 @@ mod tests {
         single_tag,
         "t`a`;",
         r#"
-        let _ = t1 => t1, t2;
-        t(t2 || (t2 = _`a`));
+        let _ = t1 => t1, t1;
+        t(t1 || (t1 = _`a`));
         "#
     );
 
@@ -183,7 +183,7 @@ mod tests {
         single_tag_empty,
         "x``;",
         r#"
-        let _ = t1 => t1, t;
+        let _ = t => t, t;
         x(t || (t = _``));
         "#
     );
@@ -197,9 +197,9 @@ mod tests {
         x``;
         "#,
         r#"
-        let _ = t2 => t2, t3, t1;
-        t(t3 || (t3 = _`a`));
-        x(t1 || (t1 = _``));
+        let _ = t1 => t1, t1, t2;
+        t(t1 || (t1 = _`a`));
+        x(t2 || (t2 = _``));
         "#
     );
 
@@ -209,8 +209,8 @@ mod tests {
         function_scoped_tag,
         "const f = t => t`a`;",
         r#"
-        let _ = t1 => t1, t;
-        const f = t2 => t2(t || (t = _`a`));
+        let _ = t => t, t;
+        const f = t1 => t1(t || (t = _`a`));
         "#
     );
 
@@ -220,7 +220,7 @@ mod tests {
         dynamic_tag,
         "fn()``;",
         r#"
-        let _ = t1 => t1, t;
+        let _ = t => t, t;
         fn()(t || (t = _``));
         "#
     );
@@ -231,8 +231,8 @@ mod tests {
         dynamic_expressions,
         "const f = t => t`a${1}b${t}${[\"hello\"]}`;",
         r#"
-        let _ = t1 => t1, t;
-        const f = t2 => t2(t || (t = _`a${0}b${0}${0}`), 1, t2, ["hello"]);
+        let _ = t => t, t;
+        const f = t1 => t1(t || (t = _`a${0}b${0}${0}`), 1, t1, ["hello"]);
         "#
     );
 
@@ -242,7 +242,7 @@ mod tests {
         same_tag_safari_11,
         "x`a` === x`a`;",
         r#"
-        let _ = t2 => t2, t, t1;
+        let _ = t => t, t, t1;
         x(t || (t = _`a`)) === x(t1 || (t1 = _`a`));
         "#
     );
@@ -253,7 +253,7 @@ mod tests {
         shared_strings_safari_11,
         "x`a` === y`a`;",
         r#"
-        let _ = t2 => t2, t, t1;
+        let _ = t => t, t, t1;
         x(t || (t = _`a`)) === y(t1 || (t1 = _`a`));
         "#
     );
@@ -285,10 +285,10 @@ mod tests {
         t``;
         "#,
         r#"
-        let _ = t1 => t1, t2;
+        let _ = t1 => t1, t1;
 
         const _1 = 1;
-        t(t2 || (t2 = _``));
+        t(t1 || (t1 = _``));
         "#
     );
 
@@ -298,7 +298,7 @@ mod tests {
         block_scoped_tag,
         "for (let t of []) t`a`;",
         r#"
-        let _ = t2 => t2, t;
+        let _ = t => t, t;
         for (let t1 of []) t1(t || (t = _`a`));
         "#
     );

@@ -14,7 +14,7 @@
 //
 ///<reference path='formatting.ts' />
 var Formatting;
-(function(Formatting1) {
+(function(Formatting) {
     class Indenter {
         GetIndentationEdits(token, nextToken, node, sameLineIndent) {
             if (this.logger.information()) {
@@ -556,5 +556,5 @@ var Formatting;
             this.FillInheritedIndentation(this.tree);
         }
     }
-    Formatting1.Indenter = Indenter;
+    Formatting.Indenter = Indenter;
 })(Formatting || (Formatting = {}));

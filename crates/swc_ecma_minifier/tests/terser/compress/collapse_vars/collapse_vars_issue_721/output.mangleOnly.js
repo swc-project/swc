@@ -2,10 +2,10 @@ define([
     "require",
     "exports",
     "handlebars"
-], function(d, e, a) {
-    var b = window;
-    var c = (b.Handlebars = a);
-    return c;
+], function(a, b, c) {
+    var d = window;
+    var e = (d.Handlebars = c);
+    return e;
 });
 def(function(a) {
     var b = window;

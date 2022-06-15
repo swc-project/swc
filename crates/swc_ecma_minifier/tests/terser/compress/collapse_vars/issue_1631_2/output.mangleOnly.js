@@ -1,11 +1,11 @@
-var b = 0, c = 1;
-function d() {
-    b = 2;
+var a = 0, b = 1;
+function c() {
+    a = 2;
     return 4;
 }
-function a() {
-    var a = d();
-    c = b + a;
-    return c;
+function d() {
+    var d = c();
+    b = a + d;
+    return b;
 }
-console.log(a());
+console.log(d());

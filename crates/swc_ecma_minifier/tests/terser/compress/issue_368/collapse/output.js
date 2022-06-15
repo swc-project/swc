@@ -1,14 +1,14 @@
 function f1() {
     return void 0 !== ("function" == typeof b ? b() : b) && c();
 }
-function f2(b) {
-    return "stirng" == typeof ("function" == typeof (b = c()) ? b() : b) && d();
+function f2(b1) {
+    return "stirng" == typeof ("function" == typeof (b1 = c()) ? b1() : b1) && d();
 }
-function f3(c) {
+function f3(c1) {
     var a;
-    if ((a = b(a / 2)) < 0) return a++, ++c / 2;
+    if ((a = b(a / 2)) < 0) return a++, ++c1 / 2;
 }
-function f4(c) {
+function f4(c1) {
     var a;
-    if ((a = b(a / 2)) < 0) return a++, ++c / 2;
+    if ((a = b(a / 2)) < 0) return a++, ++c1 / 2;
 }

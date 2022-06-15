@@ -2,9 +2,9 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
 // Error, no Base constructor function
-var D0 = /*#__PURE__*/ function(Base) {
+var D0 = /*#__PURE__*/ function(Base1) {
     "use strict";
-    _inherits(D0, Base);
+    _inherits(D0, Base1);
     var _super = _create_super(D0);
     function D0() {
         _class_call_check(this, D0);

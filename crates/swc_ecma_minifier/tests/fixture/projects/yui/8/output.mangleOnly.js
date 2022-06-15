@@ -1,13 +1,13 @@
 export const E = {
     _onProgress: function(a) {
-        var c = this, b;
+        var b = this, c;
         if (a.data && a.data.length) {
-            for(b = 0; b < a.data.length; b++){
-                a.data[b] = c.getModule(a.data[b].name);
+            for(c = 0; c < a.data.length; c++){
+                a.data[c] = b.getModule(a.data[c].name);
             }
         }
-        if (c.onProgress) {
-            c.onProgress.call(c.context, {
+        if (b.onProgress) {
+            b.onProgress.call(b.context, {
                 name: a.url,
                 data: a.data
             });

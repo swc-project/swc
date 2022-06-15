@@ -3,7 +3,7 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
 var TypeScript;
-(function(TypeScript1) {
+(function(TypeScript) {
     var timeFunction = function timeFunction(logger, funcDescription, func) {
         var start = +new Date();
         var result = func();
@@ -56,7 +56,7 @@ var TypeScript;
         }
         return result;
     };
-    var CompilerDiagnostics1;
+    var CompilerDiagnostics;
     (function(CompilerDiagnostics) {
         var debug = CompilerDiagnostics.debug = false;
         var diagnosticWriter = CompilerDiagnostics.diagnosticWriter = null;
@@ -81,7 +81,7 @@ var TypeScript;
             }
         }
         CompilerDiagnostics.assert = assert;
-    })(CompilerDiagnostics1 = TypeScript1.CompilerDiagnostics || (TypeScript1.CompilerDiagnostics = {}));
+    })(CompilerDiagnostics = TypeScript.CompilerDiagnostics || (TypeScript.CompilerDiagnostics = {}));
     var NullLogger = /*#__PURE__*/ function() {
         "use strict";
         function NullLogger() {
@@ -106,7 +106,7 @@ var TypeScript;
         _proto.log = function log(s) {};
         return NullLogger;
     }();
-    TypeScript1.NullLogger = NullLogger;
+    TypeScript.NullLogger = NullLogger;
     var LoggerAdapter = /*#__PURE__*/ function() {
         "use strict";
         function LoggerAdapter(logger) {
@@ -139,7 +139,7 @@ var TypeScript;
         };
         return LoggerAdapter;
     }();
-    TypeScript1.LoggerAdapter = LoggerAdapter;
+    TypeScript.LoggerAdapter = LoggerAdapter;
     var BufferedLogger = /*#__PURE__*/ function() {
         "use strict";
         function BufferedLogger() {
@@ -167,7 +167,7 @@ var TypeScript;
         };
         return BufferedLogger;
     }();
-    TypeScript1.BufferedLogger = BufferedLogger;
-    TypeScript1.timeFunction = timeFunction;
-    TypeScript1.stringToLiteral = stringToLiteral;
+    TypeScript.BufferedLogger = BufferedLogger;
+    TypeScript.timeFunction = timeFunction;
+    TypeScript.stringToLiteral = stringToLiteral;
 })(TypeScript || (TypeScript = {}));

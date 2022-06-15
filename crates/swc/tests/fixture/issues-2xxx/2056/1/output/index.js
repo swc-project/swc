@@ -58,11 +58,11 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-function _getPrototypeOf(o1) {
+function _getPrototypeOf(o) {
     _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
         return o.__proto__ || Object.getPrototypeOf(o);
     };
-    return _getPrototypeOf(o1);
+    return _getPrototypeOf(o);
 }
 function _inherits(subClass, superClass) {
     if (typeof superClass !== "function" && superClass !== null) {
@@ -83,12 +83,12 @@ function _possibleConstructorReturn(self, call) {
     }
     return _assertThisInitialized(self);
 }
-function _setPrototypeOf(o2, p1) {
+function _setPrototypeOf(o, p) {
     _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
         o.__proto__ = p;
         return o;
     };
-    return _setPrototypeOf(o2, p1);
+    return _setPrototypeOf(o, p);
 }
 var _typeof = function _typeof(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj === "undefined" ? "undefined" : _type_of(obj);
@@ -124,12 +124,12 @@ export var preTransforms = Object.freeze([
  * @zh 表示四维（4x4）矩阵。
  */ export var Mat4 = /*#__PURE__*/ function(MathBase1) {
     "use strict";
-    _inherits(Mat41, MathBase1);
-    function Mat41(param, param1, param2, param3, param4, param5, param6, param7, param8, param9, param10, param11, param12, param13, param14, param15) {
+    _inherits(Mat4, MathBase1);
+    function Mat4(param, param1, param2, param3, param4, param5, param6, param7, param8, param9, param10, param11, param12, param13, param14, param15) {
         var m00 = param === void 0 ? 1 : param, m01 = param1 === void 0 ? 0 : param1, m02 = param2 === void 0 ? 0 : param2, m03 = param3 === void 0 ? 0 : param3, m04 = param4 === void 0 ? 0 : param4, m05 = param5 === void 0 ? 1 : param5, m06 = param6 === void 0 ? 0 : param6, m07 = param7 === void 0 ? 0 : param7, m08 = param8 === void 0 ? 0 : param8, m09 = param9 === void 0 ? 0 : param9, m10 = param10 === void 0 ? 1 : param10, m11 = param11 === void 0 ? 0 : param11, m12 = param12 === void 0 ? 0 : param12, m13 = param13 === void 0 ? 0 : param13, m14 = param14 === void 0 ? 0 : param14, m15 = param15 === void 0 ? 1 : param15;
-        _classCallCheck(this, Mat41);
+        _classCallCheck(this, Mat4);
         var _this;
-        _this = _possibleConstructorReturn(this, _getPrototypeOf(Mat41).call(this));
+        _this = _possibleConstructorReturn(this, _getPrototypeOf(Mat4).call(this));
         if (m00 && typeof m00 === "object") {
             if (ArrayBuffer.isView(m00)) {
                 _this._array = m00;
@@ -192,7 +192,7 @@ export var preTransforms = Object.freeze([
         }
         return _this;
     }
-    _createClass(Mat41, [
+    _createClass(Mat4, [
         {
             key: "m00",
             get: /**
@@ -392,7 +392,7 @@ export var preTransforms = Object.freeze([
                  * @zh 克隆当前矩阵。
                  */ function clone() {
                 var v = this._array;
-                return new Mat41(v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7], v[8], v[9], v[10], v[11], v[12], v[13], v[14], v[15]);
+                return new Mat4(v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7], v[8], v[9], v[10], v[11], v[12], v[13], v[14], v[15]);
             }
         },
         {
@@ -1069,7 +1069,7 @@ export var preTransforms = Object.freeze([
                  * @en Clone a matrix and save the results to out matrix
                  * @zh 获得指定矩阵的拷贝
                  */ function clone(a) {
-                return new Mat41(a.m00, a.m01, a.m02, a.m03, a.m04, a.m05, a.m06, a.m07, a.m08, a.m09, a.m10, a.m11, a.m12, a.m13, a.m14, a.m15);
+                return new Mat4(a.m00, a.m01, a.m02, a.m03, a.m04, a.m05, a.m06, a.m07, a.m08, a.m09, a.m10, a.m11, a.m12, a.m13, a.m14, a.m15);
             }
         },
         {
@@ -2515,7 +2515,7 @@ export var preTransforms = Object.freeze([
             }
         }, 
     ]);
-    return Mat41;
+    return Mat4;
 }(MathBase);
 Mat4.IDENTITY = Object.freeze(new Mat4());
 var v3_1 = new Vec3();

@@ -16,9 +16,9 @@ var Bar = function() {
 }(), Base = function() {
     "use strict";
     _class_call_check(this, Base);
-}, Derived = function(Base1) {
+}, Derived = function(Base) {
     "use strict";
-    _inherits(Derived, Base1);
+    _inherits(Derived, Base);
     var _super = _create_super(Derived);
     function Derived() {
         var _this;

@@ -29,10 +29,10 @@ function hasKey(obj, keys) {
     keys.slice(0, -1).forEach((key)=>{
         o = get(o, key) ?? {};
     });
-    const key1 = keys[keys.length - 1];
-    return key1 in o;
+    const key = keys[keys.length - 1];
+    return key in o;
 }
-function parse(args1, { "--": doubleDash = false , alias: alias3 = {} , boolean: __boolean = false , default: defaults = {} , stopEarly =false , string =[] , unknown =(i)=>i  } = {}) {
+function parse(args, { "--": doubleDash = false , alias ={} , boolean: __boolean = false , default: defaults = {} , stopEarly =false , string =[] , unknown =(i)=>i  } = {}) {
     const flags = {
         bools: {},
         strings: {},
@@ -52,20 +52,20 @@ function parse(args1, { "--": doubleDash = false , alias: alias3 = {} , boolean:
         }
     }
     const aliases = {};
-    if (alias3 !== undefined) {
-        for(const key in alias3){
-            const val = getForce(alias3, key);
+    if (alias !== undefined) {
+        for(const key1 in alias){
+            const val = getForce(alias, key1);
             if (typeof val === "string") {
-                aliases[key] = [
+                aliases[key1] = [
                     val
                 ];
             } else {
-                aliases[key] = val;
+                aliases[key1] = val;
             }
-            for (const alias1 of getForce(aliases, key)){
+            for (const alias1 of getForce(aliases, key1)){
                 aliases[alias1] = [
-                    key
-                ].concat(aliases[key].filter((y)=>alias1 !== y));
+                    key1
+                ].concat(aliases[key1].filter((y)=>alias1 !== y));
             }
         }
     }
@@ -73,11 +73,11 @@ function parse(args1, { "--": doubleDash = false , alias: alias3 = {} , boolean:
         const stringArgs = typeof string === "string" ? [
             string
         ] : string;
-        for (const key of stringArgs.filter(Boolean)){
-            flags.strings[key] = true;
-            const alias = get(aliases, key);
-            if (alias) {
-                for (const al of alias){
+        for (const key2 of stringArgs.filter(Boolean)){
+            flags.strings[key2] = true;
+            const alias2 = get(aliases, key2);
+            if (alias2) {
+                for (const al of alias2){
                     flags.strings[al] = true;
                 }
             }
@@ -97,14 +97,14 @@ function parse(args1, { "--": doubleDash = false , alias: alias3 = {} , boolean:
             }
             o = get(o, key);
         });
-        const key4 = keys[keys.length - 1];
-        if (get(o, key4) === undefined || get(flags.bools, key4) || typeof get(o, key4) === "boolean") {
-            o[key4] = value;
-        } else if (Array.isArray(get(o, key4))) {
-            o[key4].push(value);
+        const key = keys[keys.length - 1];
+        if (get(o, key) === undefined || get(flags.bools, key) || typeof get(o, key) === "boolean") {
+            o[key] = value;
+        } else if (Array.isArray(get(o, key))) {
+            o[key].push(value);
         } else {
-            o[key4] = [
-                get(o, key4),
+            o[key] = [
+                get(o, key),
                 value
             ];
         }
@@ -129,56 +129,56 @@ function parse(args1, { "--": doubleDash = false , alias: alias3 = {} , boolean:
         setArg(key3, defaults[key3] === undefined ? false : defaults[key3]);
     }
     let notFlags = [];
-    if (args1.includes("--")) {
-        notFlags = args1.slice(args1.indexOf("--") + 1);
-        args1 = args1.slice(0, args1.indexOf("--"));
+    if (args.includes("--")) {
+        notFlags = args.slice(args.indexOf("--") + 1);
+        args = args.slice(0, args.indexOf("--"));
     }
-    for(let i = 0; i < args1.length; i++){
-        const arg = args1[i];
+    for(let i = 0; i < args.length; i++){
+        const arg = args[i];
         if (/^--.+=/.test(arg)) {
             const m = arg.match(/^--([^=]+)=(.*)$/s);
             assert(m != null);
-            const [, key, value] = m;
-            if (flags.bools[key]) {
+            const [, key4, value] = m;
+            if (flags.bools[key4]) {
                 const booleanValue = value !== "false";
-                setArg(key, booleanValue, arg);
+                setArg(key4, booleanValue, arg);
             } else {
-                setArg(key, value, arg);
+                setArg(key4, value, arg);
             }
         } else if (/^--no-.+/.test(arg)) {
-            const m = arg.match(/^--no-(.+)/);
-            assert(m != null);
-            setArg(m[1], false, arg);
+            const m1 = arg.match(/^--no-(.+)/);
+            assert(m1 != null);
+            setArg(m1[1], false, arg);
         } else if (/^--.+/.test(arg)) {
-            const m = arg.match(/^--(.+)/);
-            assert(m != null);
-            const [, key] = m;
-            const next = args1[i + 1];
-            if (next !== undefined && !/^-/.test(next) && !get(flags.bools, key) && !flags.allBools && (get(aliases, key) ? !aliasIsBoolean(key) : true)) {
-                setArg(key, next, arg);
+            const m2 = arg.match(/^--(.+)/);
+            assert(m2 != null);
+            const [, key5] = m2;
+            const next = args[i + 1];
+            if (next !== undefined && !/^-/.test(next) && !get(flags.bools, key5) && !flags.allBools && (get(aliases, key5) ? !aliasIsBoolean(key5) : true)) {
+                setArg(key5, next, arg);
                 i++;
             } else if (/^(true|false)$/.test(next)) {
-                setArg(key, next === "true", arg);
+                setArg(key5, next === "true", arg);
                 i++;
             } else {
-                setArg(key, get(flags.strings, key) ? "" : true, arg);
+                setArg(key5, get(flags.strings, key5) ? "" : true, arg);
             }
         } else if (/^-[^-]+/.test(arg)) {
             const letters = arg.slice(1, -1).split("");
             let broken = false;
             for(let j = 0; j < letters.length; j++){
-                const next = arg.slice(j + 2);
-                if (next === "-") {
-                    setArg(letters[j], next, arg);
+                const next1 = arg.slice(j + 2);
+                if (next1 === "-") {
+                    setArg(letters[j], next1, arg);
                     continue;
                 }
-                if (/[A-Za-z]/.test(letters[j]) && /=/.test(next)) {
-                    setArg(letters[j], next.split(/=(.+)/)[1], arg);
+                if (/[A-Za-z]/.test(letters[j]) && /=/.test(next1)) {
+                    setArg(letters[j], next1.split(/=(.+)/)[1], arg);
                     broken = true;
                     break;
                 }
-                if (/[A-Za-z]/.test(letters[j]) && /-?\d+(\.\d*)?(e-?\d+)?$/.test(next)) {
-                    setArg(letters[j], next, arg);
+                if (/[A-Za-z]/.test(letters[j]) && /-?\d+(\.\d*)?(e-?\d+)?$/.test(next1)) {
+                    setArg(letters[j], next1, arg);
                     broken = true;
                     break;
                 }
@@ -190,16 +190,16 @@ function parse(args1, { "--": doubleDash = false , alias: alias3 = {} , boolean:
                     setArg(letters[j], get(flags.strings, letters[j]) ? "" : true, arg);
                 }
             }
-            const [key] = arg.slice(-1);
-            if (!broken && key !== "-") {
-                if (args1[i + 1] && !/^(-|--)[^-]/.test(args1[i + 1]) && !get(flags.bools, key) && (get(aliases, key) ? !aliasIsBoolean(key) : true)) {
-                    setArg(key, args1[i + 1], arg);
+            const [key6] = arg.slice(-1);
+            if (!broken && key6 !== "-") {
+                if (args[i + 1] && !/^(-|--)[^-]/.test(args[i + 1]) && !get(flags.bools, key6) && (get(aliases, key6) ? !aliasIsBoolean(key6) : true)) {
+                    setArg(key6, args[i + 1], arg);
                     i++;
-                } else if (args1[i + 1] && /^(true|false)$/.test(args1[i + 1])) {
-                    setArg(key, args1[i + 1] === "true", arg);
+                } else if (args[i + 1] && /^(true|false)$/.test(args[i + 1])) {
+                    setArg(key6, args[i + 1] === "true", arg);
                     i++;
                 } else {
-                    setArg(key, get(flags.strings, key) ? "" : true, arg);
+                    setArg(key6, get(flags.strings, key6) ? "" : true, arg);
                 }
             }
         } else {
@@ -207,29 +207,29 @@ function parse(args1, { "--": doubleDash = false , alias: alias3 = {} , boolean:
                 argv._.push(flags.strings["_"] ?? !isNumber(arg) ? arg : Number(arg));
             }
             if (stopEarly) {
-                argv._.push(...args1.slice(i + 1));
+                argv._.push(...args.slice(i + 1));
                 break;
             }
         }
     }
-    for (const key2 of Object.keys(defaults)){
-        if (!hasKey(argv, key2.split("."))) {
-            setKey(argv, key2.split("."), defaults[key2]);
-            if (aliases[key2]) {
-                for (const x of aliases[key2]){
-                    setKey(argv, x.split("."), defaults[key2]);
+    for (const key7 of Object.keys(defaults)){
+        if (!hasKey(argv, key7.split("."))) {
+            setKey(argv, key7.split("."), defaults[key7]);
+            if (aliases[key7]) {
+                for (const x of aliases[key7]){
+                    setKey(argv, x.split("."), defaults[key7]);
                 }
             }
         }
     }
     if (doubleDash) {
         argv["--"] = [];
-        for (const key of notFlags){
-            argv["--"].push(key);
+        for (const key8 of notFlags){
+            argv["--"].push(key8);
         }
     } else {
-        for (const key of notFlags){
-            argv._.push(key);
+        for (const key9 of notFlags){
+            argv._.push(key9);
         }
     }
     return argv;

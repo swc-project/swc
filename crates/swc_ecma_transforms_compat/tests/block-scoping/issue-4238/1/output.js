@@ -1,5 +1,5 @@
 var _loop = function(i) {
-    var _loop1 = function(j) {
+    var _loop = function(j) {
         if (i < 2) return "continue|out";
         [
             1
@@ -8,8 +8,8 @@ var _loop = function(i) {
         });
     };
     for(var j = 0; j < 4; ++j){
-        var _ret1 = _loop1(j);
-        switch(_ret1){
+        var _ret = _loop(j);
+        switch(_ret){
             case "continue|out":
                 return "continue|out";
         }

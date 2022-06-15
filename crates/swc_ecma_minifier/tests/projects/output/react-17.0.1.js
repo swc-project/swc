@@ -43,7 +43,7 @@
         for(var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)args[_key - 1] = arguments[_key];
         printWarning("warn", format, args);
     }
-    function error1(format) {
+    function error(format) {
         for(var _len2 = arguments.length, args = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++)args[_key2 - 1] = arguments[_key2];
         printWarning("error", format, args);
     }
@@ -61,7 +61,7 @@
     var didWarnStateUpdateForUnmountedComponent = {};
     function warnNoop(publicInstance, callerName) {
         var _constructor = publicInstance.constructor, componentName = _constructor && (_constructor.displayName || _constructor.name) || "ReactClass", warningKey = componentName + "." + callerName;
-        didWarnStateUpdateForUnmountedComponent[warningKey] || (error1("Can't call %s on a component that is not yet mounted. This is a no-op, but it might indicate a bug in your application. Instead, assign to `this.state` directly or define a `state = {};` class property with the desired state in the %s component.", callerName, componentName), didWarnStateUpdateForUnmountedComponent[warningKey] = !0);
+        didWarnStateUpdateForUnmountedComponent[warningKey] || (error("Can't call %s on a component that is not yet mounted. This is a no-op, but it might indicate a bug in your application. Instead, assign to `this.state` directly or define a `state = {};` class property with the desired state in the %s component.", callerName, componentName), didWarnStateUpdateForUnmountedComponent[warningKey] = !0);
     }
     var ReactNoopUpdateQueue = {
         isMounted: function(publicInstance) {
@@ -114,7 +114,7 @@
     }
     function getComponentName(type) {
         if (null == type) return null;
-        if ("number" == typeof type.tag && error1("Received an unexpected object in getComponentName(). This is likely a bug in React. Please file an issue."), "function" == typeof type) return type.displayName || type.name || null;
+        if ("number" == typeof type.tag && error("Received an unexpected object in getComponentName(). This is likely a bug in React. Please file an issue."), "function" == typeof type) return type.displayName || type.name || null;
         if ("string" == typeof type) return type;
         switch(type){
             case exports.Fragment:
@@ -197,14 +197,14 @@
             value: source
         }), Object.freeze && (Object.freeze(element.props), Object.freeze(element)), element;
     };
-    function createElement(type, config1, children) {
+    function createElement(type, config, children) {
         var propName, props = {}, key = null, ref = null, self = null, source = null;
-        if (null != config1) for(propName in hasValidRef(config1) && (ref = config1.ref, function(config) {
+        if (null != config) for(propName in hasValidRef(config) && (ref = config.ref, function(config) {
             if ("string" == typeof config.ref && ReactCurrentOwner.current && config.__self && ReactCurrentOwner.current.stateNode !== config.__self) {
                 var componentName = getComponentName(ReactCurrentOwner.current.type);
-                didWarnAboutStringRefs[componentName] || (error1('Component "%s" contains the string ref "%s". Support for string refs will be removed in a future major release. This case cannot be automatically converted to an arrow function. We ask you to manually fix this case by using useRef() or createRef() instead. Learn more about using refs safely here: https://reactjs.org/link/strict-mode-string-ref', componentName, config.ref), didWarnAboutStringRefs[componentName] = !0);
+                didWarnAboutStringRefs[componentName] || (error('Component "%s" contains the string ref "%s". Support for string refs will be removed in a future major release. This case cannot be automatically converted to an arrow function. We ask you to manually fix this case by using useRef() or createRef() instead. Learn more about using refs safely here: https://reactjs.org/link/strict-mode-string-ref', componentName, config.ref), didWarnAboutStringRefs[componentName] = !0);
             }
-        }(config1)), hasValidKey(config1) && (key = "" + config1.key), self = void 0 === config1.__self ? null : config1.__self, source = void 0 === config1.__source ? null : config1.__source, config1)hasOwnProperty.call(config1, propName) && !RESERVED_PROPS.hasOwnProperty(propName) && (props[propName] = config1[propName]);
+        }(config)), hasValidKey(config) && (key = "" + config.key), self = void 0 === config.__self ? null : config.__self, source = void 0 === config.__source ? null : config.__source, config)hasOwnProperty.call(config, propName) && !RESERVED_PROPS.hasOwnProperty(propName) && (props[propName] = config[propName]);
         var childrenLength = arguments.length - 2;
         if (1 === childrenLength) props.children = children;
         else if (childrenLength > 1) {
@@ -218,12 +218,12 @@
         if (key || ref) {
             var props1, displayName, warnAboutAccessingKey, props2, displayName1, warnAboutAccessingRef, displayName2 = "function" == typeof type ? type.displayName || type.name || "Unknown" : type;
             key && (props1 = props, displayName = displayName2, (warnAboutAccessingKey = function() {
-                specialPropKeyWarningShown || (specialPropKeyWarningShown = !0, error1("%s: `key` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://reactjs.org/link/special-props)", displayName));
+                specialPropKeyWarningShown || (specialPropKeyWarningShown = !0, error("%s: `key` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://reactjs.org/link/special-props)", displayName));
             }).isReactWarning = !0, Object.defineProperty(props1, "key", {
                 get: warnAboutAccessingKey,
                 configurable: !0
             })), ref && (props2 = props, displayName1 = displayName2, (warnAboutAccessingRef = function() {
-                specialPropRefWarningShown || (specialPropRefWarningShown = !0, error1("%s: `ref` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://reactjs.org/link/special-props)", displayName1));
+                specialPropRefWarningShown || (specialPropRefWarningShown = !0, error("%s: `ref` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://reactjs.org/link/special-props)", displayName1));
             }).isReactWarning = !0, Object.defineProperty(props2, "ref", {
                 get: warnAboutAccessingRef,
                 configurable: !0
@@ -317,7 +317,7 @@
             pending._status = 0, pending._result = thenable, thenable.then(function(moduleObject) {
                 if (0 === payload._status) {
                     var defaultExport = moduleObject.default;
-                    void 0 === defaultExport && error1("lazy: Expected the result of a dynamic import() call. Instead received: %s\n\nYour code should look like: \n  const MyComponent = lazy(() => import('./MyComponent'))", moduleObject);
+                    void 0 === defaultExport && error("lazy: Expected the result of a dynamic import() call. Instead received: %s\n\nYour code should look like: \n  const MyComponent = lazy(() => import('./MyComponent'))", moduleObject);
                     var resolved = payload;
                     resolved._status = 1, resolved._result = defaultExport;
                 }
@@ -399,16 +399,16 @@
                 } else {
                     try {
                         Fake.call();
-                    } catch (x) {
-                        control = x;
+                    } catch (x1) {
+                        control = x1;
                     }
                     fn.call(Fake.prototype);
                 }
             } else {
                 try {
                     throw Error();
-                } catch (x) {
-                    control = x;
+                } catch (x2) {
+                    control = x2;
                 }
                 fn();
             }
@@ -456,7 +456,7 @@
                         })
                     });
                 }
-                disabledDepth < 0 && error1("disabledDepth fell below zero. This is a bug in React. Please file an issue.");
+                disabledDepth < 0 && error("disabledDepth fell below zero. This is a bug in React. Please file an issue.");
             }(), Error.prepareStackTrace = previousPrepareStackTrace;
         }
         var name = fn ? fn.displayName || fn.name : "", syntheticFrame = name ? describeBuiltInComponentFrame(name) : "";
@@ -510,7 +510,7 @@
     }
     propTypesMisspellWarningShown = !1;
     var ownerHasKeyUseWarning = {};
-    function validateExplicitKey(element, parentType1) {
+    function validateExplicitKey(element, parentType) {
         if (element._store && !element._store.validated && null == element.key) {
             element._store.validated = !0;
             var currentComponentErrorInfo = function(parentType) {
@@ -520,11 +520,11 @@
                     parentName && (info = "\n\nCheck the top-level render call using <" + parentName + ">.");
                 }
                 return info;
-            }(parentType1);
+            }(parentType);
             if (!ownerHasKeyUseWarning[currentComponentErrorInfo]) {
                 ownerHasKeyUseWarning[currentComponentErrorInfo] = !0;
                 var childOwner = "";
-                element && element._owner && element._owner !== ReactCurrentOwner.current && (childOwner = " It was passed a child from " + getComponentName(element._owner.type) + "."), setCurrentlyValidatingElement$1(element), error1('Each child in a list should have a unique "key" prop.%s%s See https://reactjs.org/link/warning-keys for more information.', currentComponentErrorInfo, childOwner), setCurrentlyValidatingElement$1(null);
+                element && element._owner && element._owner !== ReactCurrentOwner.current && (childOwner = " It was passed a child from " + getComponentName(element._owner.type) + "."), setCurrentlyValidatingElement$1(element), error('Each child in a list should have a unique "key" prop.%s%s See https://reactjs.org/link/warning-keys for more information.', currentComponentErrorInfo, childOwner), setCurrentlyValidatingElement$1(null);
             }
         }
     }
@@ -541,8 +541,8 @@
             }
         }
     }
-    function validatePropTypes(element1) {
-        var propTypes, type = element1.type;
+    function validatePropTypes(element) {
+        var propTypes, type = element.type;
         if (null != type && "string" != typeof type) {
             if ("function" == typeof type) propTypes = type.propTypes;
             else {
@@ -564,15 +564,15 @@
                         } catch (ex) {
                             error$1 = ex;
                         }
-                        !error$1 || error$1 instanceof Error || (setCurrentlyValidatingElement(element), error1("%s: type specification of %s `%s` is invalid; the type checker function must return `null` or an `Error` but returned a %s. You may have forgotten to pass an argument to the type checker creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and shape all require an argument).", componentName || "React class", location, typeSpecName, typeof error$1), setCurrentlyValidatingElement(null)), error$1 instanceof Error && !(error$1.message in loggedTypeFailures) && (loggedTypeFailures[error$1.message] = !0, setCurrentlyValidatingElement(element), error1("Failed %s type: %s", location, error$1.message), setCurrentlyValidatingElement(null));
+                        !error$1 || error$1 instanceof Error || (setCurrentlyValidatingElement(element), error("%s: type specification of %s `%s` is invalid; the type checker function must return `null` or an `Error` but returned a %s. You may have forgotten to pass an argument to the type checker creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and shape all require an argument).", componentName || "React class", location, typeSpecName, typeof error$1), setCurrentlyValidatingElement(null)), error$1 instanceof Error && !(error$1.message in loggedTypeFailures) && (loggedTypeFailures[error$1.message] = !0, setCurrentlyValidatingElement(element), error("Failed %s type: %s", location, error$1.message), setCurrentlyValidatingElement(null));
                     }
-                }(propTypes, element1.props, "prop", name, element1);
+                }(propTypes, element.props, "prop", name, element);
             } else if (void 0 !== type.PropTypes && !propTypesMisspellWarningShown) {
                 propTypesMisspellWarningShown = !0;
                 var _name = getComponentName(type);
-                error1("Component %s declared `PropTypes` instead of `propTypes`. Did you misspell the property assignment?", _name || "Unknown");
+                error("Component %s declared `PropTypes` instead of `propTypes`. Did you misspell the property assignment?", _name || "Unknown");
             }
-            "function" != typeof type.getDefaultProps || type.getDefaultProps.isReactClassApproved || error1("getDefaultProps is only used on classic React.createClass definitions. Use a static property named `defaultProps` instead.");
+            "function" != typeof type.getDefaultProps || type.getDefaultProps.isReactClassApproved || error("getDefaultProps is only used on classic React.createClass definitions. Use a static property named `defaultProps` instead.");
         }
     }
     function createElementWithValidation(type, props, children) {
@@ -587,20 +587,20 @@
                 }
                 return "";
             }(elementProps.__source) : "";
-            sourceInfo ? info += sourceInfo : info += getDeclarationErrorAddendum(), null === type ? typeString = "null" : Array.isArray(type) ? typeString = "array" : void 0 !== type && type.$$typeof === REACT_ELEMENT_TYPE ? (typeString = "<" + (getComponentName(type.type) || "Unknown") + " />", info = " Did you accidentally export a JSX literal instead of a component?") : typeString = typeof type, error1("React.createElement: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: %s.%s", typeString, info);
+            sourceInfo ? info += sourceInfo : info += getDeclarationErrorAddendum(), null === type ? typeString = "null" : Array.isArray(type) ? typeString = "array" : void 0 !== type && type.$$typeof === REACT_ELEMENT_TYPE ? (typeString = "<" + (getComponentName(type.type) || "Unknown") + " />", info = " Did you accidentally export a JSX literal instead of a component?") : typeString = typeof type, error("React.createElement: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: %s.%s", typeString, info);
         }
         var element = createElement.apply(this, arguments);
         if (null == element) return element;
-        if (validType) for(var i1 = 2; i1 < arguments.length; i1++)validateChildKeys(arguments[i1], type);
+        if (validType) for(var i = 2; i < arguments.length; i++)validateChildKeys(arguments[i], type);
         return type === exports.Fragment ? function(fragment) {
             for(var keys = Object.keys(fragment.props), i = 0; i < keys.length; i++){
                 var key = keys[i];
                 if ("children" !== key && "key" !== key) {
-                    setCurrentlyValidatingElement$1(fragment), error1("Invalid prop `%s` supplied to `React.Fragment`. React.Fragment can only have `key` and `children` props.", key), setCurrentlyValidatingElement$1(null);
+                    setCurrentlyValidatingElement$1(fragment), error("Invalid prop `%s` supplied to `React.Fragment`. React.Fragment can only have `key` and `children` props.", key), setCurrentlyValidatingElement$1(null);
                     break;
                 }
             }
-            null !== fragment.ref && (setCurrentlyValidatingElement$1(fragment), error1("Invalid attribute `ref` supplied to `React.Fragment`."), setCurrentlyValidatingElement$1(null));
+            null !== fragment.ref && (setCurrentlyValidatingElement$1(fragment), error("Invalid attribute `ref` supplied to `React.Fragment`."), setCurrentlyValidatingElement$1(null));
         }(element) : validatePropTypes(element), element;
     }
     var didWarnAboutDeprecatedCreateFactory = !1;
@@ -633,7 +633,7 @@
         for(var newElement = cloneElement.apply(this, arguments), i = 2; i < arguments.length; i++)validateChildKeys(arguments[i], newElement.type);
         return validatePropTypes(newElement), newElement;
     }, exports.createContext = function(defaultValue, calculateChangedBits) {
-        void 0 === calculateChangedBits ? calculateChangedBits = null : null !== calculateChangedBits && "function" != typeof calculateChangedBits && error1("createContext: Expected the optional second argument to be a function. Instead received: %s", calculateChangedBits);
+        void 0 === calculateChangedBits ? calculateChangedBits = null : null !== calculateChangedBits && "function" != typeof calculateChangedBits && error("createContext: Expected the optional second argument to be a function. Instead received: %s", calculateChangedBits);
         var context = {
             $$typeof: REACT_CONTEXT_TYPE,
             _calculateChangedBits: calculateChangedBits,
@@ -655,7 +655,7 @@
         return Object.defineProperties(Consumer, {
             Provider: {
                 get: function() {
-                    return hasWarnedAboutUsingConsumerProvider || (hasWarnedAboutUsingConsumerProvider = !0, error1("Rendering <Context.Consumer.Provider> is not supported and will be removed in a future major release. Did you mean to render <Context.Provider> instead?")), context.Provider;
+                    return hasWarnedAboutUsingConsumerProvider || (hasWarnedAboutUsingConsumerProvider = !0, error("Rendering <Context.Consumer.Provider> is not supported and will be removed in a future major release. Did you mean to render <Context.Provider> instead?")), context.Provider;
                 },
                 set: function(_Provider) {
                     context.Provider = _Provider;
@@ -687,7 +687,7 @@
             },
             Consumer: {
                 get: function() {
-                    return hasWarnedAboutUsingNestedContextConsumers || (hasWarnedAboutUsingNestedContextConsumers = !0, error1("Rendering <Context.Consumer.Consumer> is not supported and will be removed in a future major release. Did you mean to render <Context.Consumer> instead?")), context.Consumer;
+                    return hasWarnedAboutUsingNestedContextConsumers || (hasWarnedAboutUsingNestedContextConsumers = !0, error("Rendering <Context.Consumer.Consumer> is not supported and will be removed in a future major release. Did you mean to render <Context.Consumer> instead?")), context.Consumer;
                 }
             },
             displayName: {
@@ -715,7 +715,7 @@
         };
         return Object.seal(refObject), refObject;
     }, exports.forwardRef = function(render) {
-        null != render && render.$$typeof === REACT_MEMO_TYPE ? error1("forwardRef requires a render function but received a `memo` component. Instead of forwardRef(memo(...)), use memo(forwardRef(...)).") : "function" != typeof render ? error1("forwardRef requires a render function but was given %s.", null === render ? "null" : typeof render) : 0 !== render.length && 2 !== render.length && error1("forwardRef render functions accept exactly two parameters: props and ref. %s", 1 === render.length ? "Did you forget to use the ref parameter?" : "Any additional parameter will be undefined."), null != render && (null != render.defaultProps || null != render.propTypes) && error1("forwardRef render functions do not support propTypes or defaultProps. Did you accidentally pass a React component?");
+        null != render && render.$$typeof === REACT_MEMO_TYPE ? error("forwardRef requires a render function but received a `memo` component. Instead of forwardRef(memo(...)), use memo(forwardRef(...)).") : "function" != typeof render ? error("forwardRef requires a render function but was given %s.", null === render ? "null" : typeof render) : 0 !== render.length && 2 !== render.length && error("forwardRef render functions accept exactly two parameters: props and ref. %s", 1 === render.length ? "Did you forget to use the ref parameter?" : "Any additional parameter will be undefined."), null != render && (null != render.defaultProps || null != render.propTypes) && error("forwardRef render functions do not support propTypes or defaultProps. Did you accidentally pass a React component?");
         var ownName, elementType = {
             $$typeof: REACT_FORWARD_REF_TYPE,
             render: render
@@ -746,7 +746,7 @@
                     return defaultProps;
                 },
                 set: function(newDefaultProps) {
-                    error1("React.lazy(...): It is not supported to assign `defaultProps` to a lazy component import. Either specify them where the component is defined, or create a wrapping component around it."), defaultProps = newDefaultProps, Object.defineProperty(lazyType, "defaultProps", {
+                    error("React.lazy(...): It is not supported to assign `defaultProps` to a lazy component import. Either specify them where the component is defined, or create a wrapping component around it."), defaultProps = newDefaultProps, Object.defineProperty(lazyType, "defaultProps", {
                         enumerable: !0
                     });
                 }
@@ -757,14 +757,14 @@
                     return propTypes;
                 },
                 set: function(newPropTypes) {
-                    error1("React.lazy(...): It is not supported to assign `propTypes` to a lazy component import. Either specify them where the component is defined, or create a wrapping component around it."), propTypes = newPropTypes, Object.defineProperty(lazyType, "propTypes", {
+                    error("React.lazy(...): It is not supported to assign `propTypes` to a lazy component import. Either specify them where the component is defined, or create a wrapping component around it."), propTypes = newPropTypes, Object.defineProperty(lazyType, "propTypes", {
                         enumerable: !0
                     });
                 }
             }
         }), lazyType;
     }, exports.memo = function(type, compare) {
-        isValidElementType(type) || error1("memo: The first argument must be a component. Instead received: %s", null === type ? "null" : typeof type);
+        isValidElementType(type) || error("memo: The first argument must be a component. Instead received: %s", null === type ? "null" : typeof type);
         var ownName, elementType = {
             $$typeof: REACT_MEMO_TYPE,
             type: type,
@@ -784,9 +784,9 @@
         return resolveDispatcher().useCallback(callback, deps);
     }, exports.useContext = function(Context, unstable_observedBits) {
         var dispatcher = resolveDispatcher();
-        if (void 0 !== unstable_observedBits && error1("useContext() second argument is reserved for future use in React. Passing it is not supported. You passed: %s.%s", unstable_observedBits, "number" == typeof unstable_observedBits && Array.isArray(arguments[2]) ? "\n\nDid you call array.map(useContext)? Calling Hooks inside a loop is not supported. Learn more at https://reactjs.org/link/rules-of-hooks" : ""), void 0 !== Context._context) {
+        if (void 0 !== unstable_observedBits && error("useContext() second argument is reserved for future use in React. Passing it is not supported. You passed: %s.%s", unstable_observedBits, "number" == typeof unstable_observedBits && Array.isArray(arguments[2]) ? "\n\nDid you call array.map(useContext)? Calling Hooks inside a loop is not supported. Learn more at https://reactjs.org/link/rules-of-hooks" : ""), void 0 !== Context._context) {
             var realContext = Context._context;
-            realContext.Consumer === Context ? error1("Calling useContext(Context.Consumer) is not supported, may cause bugs, and will be removed in a future major release. Did you mean to call useContext(Context) instead?") : realContext.Provider === Context && error1("Calling useContext(Context.Provider) is not supported. Did you mean to call useContext(Context) instead?");
+            realContext.Consumer === Context ? error("Calling useContext(Context.Consumer) is not supported, may cause bugs, and will be removed in a future major release. Did you mean to call useContext(Context) instead?") : realContext.Provider === Context && error("Calling useContext(Context.Provider) is not supported. Did you mean to call useContext(Context) instead?");
         }
         return dispatcher.useContext(Context, unstable_observedBits);
     }, exports.useDebugValue = function(value, formatterFn) {

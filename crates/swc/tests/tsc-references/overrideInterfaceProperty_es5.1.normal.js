@@ -2,9 +2,9 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _create_class from "@swc/helpers/src/_create_class.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var Sizz = /*#__PURE__*/ function(Mup) {
+var Sizz = /*#__PURE__*/ function(Mup1) {
     "use strict";
-    _inherits(Sizz, Mup);
+    _inherits(Sizz, Mup1);
     var _super = _create_super(Sizz);
     function Sizz() {
         _class_call_check(this, Sizz);
@@ -21,9 +21,9 @@ var Sizz = /*#__PURE__*/ function(Mup) {
     ]);
     return Sizz;
 }(Mup);
-var Kasizz = /*#__PURE__*/ function(Mup) {
+var Kasizz = /*#__PURE__*/ function(Mup1) {
     "use strict";
-    _inherits(Kasizz, Mup);
+    _inherits(Kasizz, Mup1);
     var _super = _create_super(Kasizz);
     function Kasizz() {
         _class_call_check(this, Kasizz);

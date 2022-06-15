@@ -8,9 +8,9 @@ var B = function() {
     _class_call_check(this, B);
 };
 B.a = 1, B.b = 2;
-var C = function(B1) {
+var C = function(B) {
     "use strict";
-    _inherits(C, B1);
+    _inherits(C, B);
     var _super = _create_super(C);
     function C() {
         return _class_call_check(this, C), _super.apply(this, arguments);

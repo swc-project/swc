@@ -6,9 +6,9 @@ function b(a) {
     var b = (a -= 3);
     return (a += b);
 }
-function c(b) {
-    var a = b, c = ++a;
-    return (a += c);
+function c(a) {
+    var b = a, c = ++b;
+    return (b += c);
 }
 function d(a) {
     var b = (a -= 3), c = a + b;

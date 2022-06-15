@@ -7,9 +7,9 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
 // @outDir: ./out
 // @declaration: true
 // @filename: utils/errors.js
-var FancyError = /*#__PURE__*/ function(Error) {
+var FancyError = /*#__PURE__*/ function(Error1) {
     "use strict";
-    _inherits(FancyError, Error);
+    _inherits(FancyError, Error1);
     var _super = _create_super(FancyError);
     function FancyError(status) {
         _class_call_check(this, FancyError);

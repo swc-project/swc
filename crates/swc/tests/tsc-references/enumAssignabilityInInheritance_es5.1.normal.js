@@ -32,8 +32,8 @@ var E2;
 })(E2 || (E2 = {}));
 var r4 = foo13(E.A);
 function f() {}
-(function(f1) {
-    var bar = f1.bar = 1;
+(function(f) {
+    var bar = f.bar = 1;
 })(f || (f = {}));
 var r4 = foo14(E.A);
 var CC = function CC() {

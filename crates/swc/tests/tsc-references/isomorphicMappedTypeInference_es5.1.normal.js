@@ -86,10 +86,10 @@ function f6(s) {
     var v = unboxify(b);
     var x = v[s];
 }
-function f10(foo1) {
-    var x = validate(foo1); // { a: number, readonly b: string }
-    var y = clone(foo1); // { a?: number, b: string }
-    var z = validateAndClone(foo1); // { a: number, b: string }
+function f10(foo) {
+    var x = validate(foo); // { a: number, readonly b: string }
+    var y = clone(foo); // { a?: number, b: string }
+    var z = validateAndClone(foo); // { a: number, b: string }
 }
 // Infers g1: (...args: any[]) => { sum: number, nested: { mul: string } }
 var g1 = applySpec({

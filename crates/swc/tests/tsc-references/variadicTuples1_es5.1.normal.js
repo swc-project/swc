@@ -47,7 +47,7 @@ var tc5 = concat2([
     5,
     6
 ]); // (1 | 2 | 3 | 4 | 5 | 6)[]
-function foo2(t1, t21, a1) {
+function foo2(t1, t2, a1) {
     foo1(1, "abc", true, 42, 43, 44);
     foo1.apply(void 0, _to_consumable_array(t1).concat([
         true,
@@ -55,12 +55,12 @@ function foo2(t1, t21, a1) {
         43,
         44
     ]));
-    foo1.apply(void 0, _to_consumable_array(t1).concat(_to_consumable_array(t21), [
+    foo1.apply(void 0, _to_consumable_array(t1).concat(_to_consumable_array(t2), [
         42,
         43,
         44
     ]));
-    foo1.apply(void 0, _to_consumable_array(t1).concat(_to_consumable_array(t21), _to_consumable_array(a1)));
+    foo1.apply(void 0, _to_consumable_array(t1).concat(_to_consumable_array(t2), _to_consumable_array(a1)));
     foo1.apply(void 0, _to_consumable_array(t1)); // Error
     foo1.apply(void 0, _to_consumable_array(t1).concat([
         45
@@ -114,8 +114,8 @@ function f2(t) {
 }
 function f3(t) {
     var _t = _to_array(t), ax = _t.slice(0); // [string, ...T, number]
-    var _t3 = _to_array(t), b1 = _t3[0], bx = _t3.slice(1); // string, [...T, number]
-    var _t4 = _to_array(t), c1 = _t4[0], c2 = _t4[1], cx = _t4.slice(2); // string, [string, ...T, number][1], (number | T[number])[]
+    var _t1 = _to_array(t), b1 = _t1[0], bx = _t1.slice(1); // string, [...T, number]
+    var _t2 = _to_array(t), c1 = _t2[0], c2 = _t2[1], cx = _t2.slice(2); // string, [string, ...T, number][1], (number | T[number])[]
 }
 var tm1 = fm1([
     [
@@ -188,21 +188,21 @@ function f12(t, m, r) {
     r = t;
     r = m;
 }
-function f13(t0, t1, t22) {
+function f13(t0, t1, t2) {
     t0 = t1;
-    t0 = t22;
+    t0 = t2;
     t1 = t0;
-    t1 = t22;
-    t22 = t0; // Error
-    t22 = t1; // Error
+    t1 = t2;
+    t2 = t0; // Error
+    t2 = t1; // Error
 }
-function f14(t0, t1, t23) {
+function f14(t0, t1, t2) {
     t0 = t1;
-    t0 = t23;
+    t0 = t2;
     t1 = t0; // Error
-    t1 = t23;
-    t23 = t0; // Error
-    t23 = t1; // Error
+    t1 = t2;
+    t2 = t0; // Error
+    t2 = t1; // Error
 }
 function f15(k0, k1, k2, k3) {
     k0 = "length";
@@ -217,17 +217,17 @@ function f15(k0, k1, k2, k3) {
 }
 // Inference to [...T, ...U] with implied arity for T
 function curry(f) {
-    for(var _len1 = arguments.length, _$a = new Array(_len1 > 1 ? _len1 - 1 : 0), _key1 = 1; _key1 < _len1; _key1++){
-        _$a[_key1 - 1] = arguments[_key1];
+    for(var _len = arguments.length, _$a = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
+        _$a[_key - 1] = arguments[_key];
     }
     return function() {
-        for(var _len = arguments.length, b2 = new Array(_len), _key = 0; _key < _len; _key++){
-            b2[_key] = arguments[_key];
+        for(var _len = arguments.length, b = new Array(_len), _key = 0; _key < _len; _key++){
+            b[_key] = arguments[_key];
         }
-        return f.apply(void 0, _to_consumable_array(_$a).concat(_to_consumable_array(b2)));
+        return f.apply(void 0, _to_consumable_array(_$a).concat(_to_consumable_array(b)));
     };
 }
-var fn1 = function(a, b, c, d) {
+var fn1 = function(a1, b, c, d) {
     return 0;
 };
 var c0 = curry(fn1); // (a: number, b: string, c: boolean, d: string[]) => number
@@ -307,7 +307,7 @@ ft([
     "d",
     42
 ]);
-call("hello", 32, function(a, b) {
+call("hello", 32, function(a1, b) {
     return 42;
 });
 call.apply(void 0, _to_consumable_array(sa).concat([

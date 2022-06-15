@@ -126,8 +126,8 @@
             return obj[value];
         };
     };
-    _.sortBy = function(obj, value1, context) {
-        var iterator = lookupIterator(value1);
+    _.sortBy = function(obj, value, context) {
+        var iterator = lookupIterator(value);
         return _.pluck(_.map(obj, function(value, index, list) {
             return {
                 value: value,
@@ -144,8 +144,8 @@
         }), "value");
     };
     var group = function(behavior) {
-        return function(obj, value2, context) {
-            var result = {}, iterator = null == value2 ? _.identity : lookupIterator(value2);
+        return function(obj, value, context) {
+            var result = {}, iterator = null == value ? _.identity : lookupIterator(value);
             return each(obj, function(value, index) {
                 var key = iterator.call(context, value, index, obj);
                 behavior(result, key, value);
@@ -484,7 +484,7 @@
                 var args = [
                     this._wrapped
                 ];
-                return push.apply(args, arguments), result1.call(this, func.apply(_, args));
+                return push.apply(args, arguments), result.call(this, func.apply(_, args));
             };
         });
     };
@@ -506,24 +506,24 @@
         "\u2028": "u2028",
         "\u2029": "u2029"
     }, escaper = /\\|'|\r|\n|\t|\u2028|\u2029/g;
-    _.template = function(text, data1, settings) {
+    _.template = function(text, data, settings) {
         settings = _.defaults({}, settings, _.templateSettings);
         var render, matcher = RegExp([
             (settings.escape || noMatch).source,
             (settings.interpolate || noMatch).source,
             (settings.evaluate || noMatch).source, 
         ].join("|") + "|$", "g"), index = 0, source = "__p+='";
-        text.replace(matcher, function(match1, escape, interpolate, evaluate, offset) {
+        text.replace(matcher, function(match, escape, interpolate, evaluate, offset) {
             return source += text.slice(index, offset).replace(escaper, function(match) {
                 return "\\" + escapes[match];
-            }), escape && (source += "'+\n((__t=(" + escape + "))==null?'':_.escape(__t))+\n'"), interpolate && (source += "'+\n((__t=(" + interpolate + "))==null?'':__t)+\n'"), evaluate && (source += "';\n" + evaluate + "\n__p+='"), index = offset + match1.length, match1;
+            }), escape && (source += "'+\n((__t=(" + escape + "))==null?'':_.escape(__t))+\n'"), interpolate && (source += "'+\n((__t=(" + interpolate + "))==null?'':__t)+\n'"), evaluate && (source += "';\n" + evaluate + "\n__p+='"), index = offset + match.length, match;
         }), source += "';\n", settings.variable || (source = "with(obj||{}){\n" + source + "}\n"), source = "var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};\n" + source + "return __p;\n";
         try {
             render = Function(settings.variable || "obj", "_", source);
         } catch (e) {
             throw e.source = source, e;
         }
-        if (data1) return render(data1, _);
+        if (data) return render(data, _);
         var template = function(data) {
             return render.call(this, data, _);
         };
@@ -531,7 +531,7 @@
     }, _.chain = function(obj) {
         return _(obj).chain();
     };
-    var result1 = function(obj) {
+    var result = function(obj) {
         return this._chain ? _(obj).chain() : obj;
     };
     _.mixin(_), each([
@@ -546,7 +546,7 @@
         var method = ArrayProto[name];
         _.prototype[name] = function() {
             var obj = this._wrapped;
-            return method.apply(obj, arguments), ("shift" == name || "splice" == name) && 0 === obj.length && delete obj[0], result1.call(this, obj);
+            return method.apply(obj, arguments), ("shift" == name || "splice" == name) && 0 === obj.length && delete obj[0], result.call(this, obj);
         };
     }), each([
         "concat",
@@ -555,7 +555,7 @@
     ], function(name) {
         var method = ArrayProto[name];
         _.prototype[name] = function() {
-            return result1.call(this, method.apply(this._wrapped, arguments));
+            return result.call(this, method.apply(this._wrapped, arguments));
         };
     }), _.extend(_.prototype, {
         chain: function() {

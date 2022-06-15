@@ -40,14 +40,14 @@ class Test5 {
     }
 }
 var Test6;
-(function(Test61) {
-    var f = Test61.f = ()=>{
+(function(Test6) {
+    var f = Test6.f = ()=>{
         let x = 1;
     };
 })(Test6 || (Test6 = {}));
 var Test7;
-(function(Test71) {
-    var f = Test71.f = ()=>{
+(function(Test7) {
+    var f = Test7.f = ()=>{
         let x = 1;
     };
 })(Test7 || (Test7 = {}));
@@ -70,7 +70,7 @@ class Test9 {
             const no = this.no;
         }
         if (this.this === 1) {
-            const no = this.this;
+            const no1 = this.this;
         }
     }
     constructor(){
@@ -88,10 +88,10 @@ class Test10 {
     foo() {
         let a = undefined;
         if (this.a) {
-            let a = undefined; // should narrow to { b?: string }
+            let a1 = undefined; // should narrow to { b?: string }
             let b = undefined;
             if (this.a.b) {
-                let b = undefined; // should narrow to string
+                let b1 = undefined; // should narrow to string
             }
         }
     }

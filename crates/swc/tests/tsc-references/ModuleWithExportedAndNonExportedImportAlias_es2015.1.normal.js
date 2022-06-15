@@ -1,23 +1,23 @@
 var B;
-(function(B1) {
+(function(B) {
     class Line {
         constructor(start, end){
             this.start = start;
             this.end = end;
         }
     }
-    B1.Line = Line;
+    B.Line = Line;
 })(B || (B = {}));
 var Geometry;
-(function(Geometry1) {
+(function(Geometry) {
     var Points = A;
-    Geometry1.Points = Points;
+    Geometry.Points = Points;
     var Lines = B;
-    var Origin = Geometry1.Origin = {
+    var Origin = Geometry.Origin = {
         x: 0,
         y: 0
     };
-    var Unit = Geometry1.Unit = new Lines.Line(Origin, {
+    var Unit = Geometry.Unit = new Lines.Line(Origin, {
         x: 1,
         y: 0
     });

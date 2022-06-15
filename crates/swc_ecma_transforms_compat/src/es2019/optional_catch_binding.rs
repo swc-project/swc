@@ -26,9 +26,19 @@ impl VisitMut for OptionalCatchBinding {
 
 #[cfg(test)]
 mod tests {
+    use swc_common::{chain, Mark};
+    use swc_ecma_transforms_base::resolver;
     use swc_ecma_transforms_testing::test;
+    use swc_ecma_visit::{as_folder, Fold};
 
-    use super::optional_catch_binding as tr;
+    use crate::es2019::optional_catch_binding::OptionalCatchBinding;
+
+    pub fn tr() -> impl Fold {
+        chain!(
+            resolver(Mark::new(), Mark::new(), false),
+            as_folder(OptionalCatchBinding)
+        )
+    }
 
     test!(
         ::swc_ecma_parser::Syntax::default(),

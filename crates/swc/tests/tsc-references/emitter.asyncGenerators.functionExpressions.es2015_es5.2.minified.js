@@ -53,12 +53,12 @@ _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
                 return _ctx.stop();
         }
     }, _callee);
-})), _wrap_async_generator(regeneratorRuntime.mark(function _callee1() {
+})), _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
     var x;
-    return regeneratorRuntime.wrap(function(_ctx1) {
-        for(;;)switch(_ctx1.prev = _ctx1.next){
+    return regeneratorRuntime.wrap(function(_ctx) {
+        for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
-                return _ctx1.delegateYield(_async_generator_delegate(_async_iterator(_wrap_async_generator(regeneratorRuntime.mark(function _callee() {
+                return _ctx.delegateYield(_async_generator_delegate(_async_iterator(_wrap_async_generator(regeneratorRuntime.mark(function _callee() {
                     return regeneratorRuntime.wrap(function(_ctx) {
                         for(;;)switch(_ctx.prev = _ctx.next){
                             case 0:
@@ -70,12 +70,12 @@ _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
                     }, _callee);
                 }))()), _await_async_generator), "t0", 1);
             case 1:
-                x = _ctx1.t0;
+                x = _ctx.t0;
             case 2:
             case "end":
-                return _ctx1.stop();
+                return _ctx.stop();
         }
-    }, _callee1);
+    }, _callee);
 })), _wrap_async_generator(regeneratorRuntime.mark(function _callee() {
     var x;
     return regeneratorRuntime.wrap(function(_ctx) {

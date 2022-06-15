@@ -8,11 +8,11 @@ _async_to_generator(function*() {}), _async_to_generator(function*() {}), _async
     return mp;
 }), _async_to_generator(function*() {
     return p;
-}), function(M1) {
+}), function(M) {
     function _f1() {
         return (_f1 = _async_to_generator(function*() {})).apply(this, arguments);
     }
-    M1.f1 = function() {
+    M.f1 = function() {
         return _f1.apply(this, arguments);
     };
 }(M || (M = {}));

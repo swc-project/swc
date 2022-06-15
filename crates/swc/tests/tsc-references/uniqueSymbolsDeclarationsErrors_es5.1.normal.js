@@ -23,8 +23,8 @@ export var classExpression = /*#__PURE__*/ function() {
     };
     return _class;
 }();
-export function funcInferredReturnType(obj1) {
-    return obj1;
+export function funcInferredReturnType(obj) {
+    return obj;
 }
 export var ClassWithPrivateNamedProperties = function ClassWithPrivateNamedProperties() {
     "use strict";

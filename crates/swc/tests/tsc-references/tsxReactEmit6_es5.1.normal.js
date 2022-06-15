@@ -1,9 +1,9 @@
 import _extends from "@swc/helpers/src/_extends.mjs";
 //@filename: react-consumer.tsx
 var M;
-(function(M1) {
-    var React;
-    M1.React = React;
+(function(M) {
+    var React1;
+    M.React = React1;
 })(M || (M = {}));
 (function(M) {
     // Should emit M.React.createElement

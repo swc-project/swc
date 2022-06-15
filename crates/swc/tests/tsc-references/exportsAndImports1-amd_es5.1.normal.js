@@ -23,9 +23,9 @@ var D;
     D[D["C"] = 2] = "C";
 })(D || (D = {}));
 var M;
-(function(M1) {
+(function(M) {
     var x;
-    M1.x = x;
+    M.x = x;
 })(M || (M = {}));
 var a = M.x;
 export { v, f, C, E, D, M, N, a };

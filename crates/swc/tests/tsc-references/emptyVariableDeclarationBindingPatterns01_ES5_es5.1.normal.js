@@ -3,9 +3,9 @@ import _throw from "@swc/helpers/src/_throw.mjs";
 // @target: es5
 (function() {
     var f = function f() {
-        var ref9 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : a, ref9 = ref9 !== null ? ref9 : _throw(new TypeError("Cannot destructure undefined")), ref2 = _sliced_to_array(arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : a, 0), ref3 = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : a, tmp1 = ref3.p, ref4 = tmp1 === void 0 ? a : tmp1, ref4 = ref4 !== null ? ref4 : _throw(new TypeError("Cannot destructure undefined"));
+        var ref = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : a, ref = ref !== null ? ref : _throw(new TypeError("Cannot destructure undefined")), ref1 = _sliced_to_array(arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : a, 0), ref2 = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : a, tmp = ref2.p, ref3 = tmp === void 0 ? a : tmp, ref3 = ref3 !== null ? ref3 : _throw(new TypeError("Cannot destructure undefined"));
         return function() {
-            var ref = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : a, ref = ref !== null ? ref : _throw(new TypeError("Cannot destructure undefined")), ref6 = _sliced_to_array(arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : a, 0), ref7 = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : a, tmp = ref7.p, ref8 = tmp === void 0 ? a : tmp, ref8 = ref8 !== null ? ref8 : _throw(new TypeError("Cannot destructure undefined"));
+            var ref = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : a, ref = ref !== null ? ref : _throw(new TypeError("Cannot destructure undefined")), ref1 = _sliced_to_array(arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : a, 0), ref2 = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : a, tmp = ref2.p, ref3 = tmp === void 0 ? a : tmp, ref3 = ref3 !== null ? ref3 : _throw(new TypeError("Cannot destructure undefined"));
             return a;
         };
     };
@@ -22,7 +22,7 @@ import _throw from "@swc/helpers/src/_throw.mjs";
     var _p1 = a.p1, _p1 = _p1 !== null ? _p1 : _throw(new TypeError("Cannot destructure undefined")), _p2 = _sliced_to_array(a.p2, 0);
     var _p11 = a.p1, _p11 = _p11 !== null ? _p11 : _throw(new TypeError("Cannot destructure undefined")), _p21 = _sliced_to_array(a.p2, 0);
     var _p12 = a.p1, _p12 = _p12 !== null ? _p12 : _throw(new TypeError("Cannot destructure undefined")), _p22 = _sliced_to_array(a.p2, 0);
-    for(var ref5 = {}, ref5 = ref5 !== null ? ref5 : _throw(new TypeError("Cannot destructure undefined")), ref1 = {}, ref1 = ref1 !== null ? ref1 : _throw(new TypeError("Cannot destructure undefined")); false; void 0){}
+    for(var ref = {}, ref = ref !== null ? ref : _throw(new TypeError("Cannot destructure undefined")), ref1 = {}, ref1 = ref1 !== null ? ref1 : _throw(new TypeError("Cannot destructure undefined")); false; void 0){}
 })();
 (function() {
     var ns = [];

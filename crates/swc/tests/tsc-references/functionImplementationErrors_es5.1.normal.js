@@ -37,7 +37,7 @@ function f6() {
 }
 // Function signature with initializer referencing other parameter to the right
 function f7() {
-    var n = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : m, m2 = arguments.length > 1 ? arguments[1] : void 0;
+    var n = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : m, m1 = arguments.length > 1 ? arguments[1] : void 0;
 }
 // FunctionExpression with non -void return type annotation with a throw, no return, and other code
 // Should be error but isn't

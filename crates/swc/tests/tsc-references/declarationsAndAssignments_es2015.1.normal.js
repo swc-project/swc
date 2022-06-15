@@ -226,8 +226,8 @@ f14([
     ]
 ]); // Error, no x
 var M;
-(function(M1) {
-    [M1.a, M1.b] = [
+(function(M) {
+    [M.a, M.b] = [
         1,
         2
     ];

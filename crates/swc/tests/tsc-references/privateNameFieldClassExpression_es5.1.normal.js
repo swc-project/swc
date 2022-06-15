@@ -8,8 +8,8 @@ var B = function B() {
     _class_call_check(this, B);
     _class_private_field_init(this, _foo, {
         writable: true,
-        value: (_class = function _class1() {
-            _class_call_check(this, _class1);
+        value: (_class = function _class() {
+            _class_call_check(this, _class);
             console.log("hello");
         }, _class.test = 123, _class)
     });

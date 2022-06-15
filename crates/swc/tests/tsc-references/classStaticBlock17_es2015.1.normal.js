@@ -30,9 +30,9 @@ var __ = {
     })()
 };
 class B {
-    constructor(a1){
-        const x = friendA.getX(a1); // ok
-        friendA.setX(a1, x + 1); // ok
+    constructor(a){
+        const x = friendA.getX(a); // ok
+        friendA.setX(a, x + 1); // ok
     }
 }
 const a = new A(41);

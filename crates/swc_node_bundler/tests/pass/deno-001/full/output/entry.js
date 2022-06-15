@@ -87,10 +87,10 @@ class BufReader {
         if (p.byteLength === 0) return rr;
         if (this.r === this.w) {
             if (p.byteLength >= this.buf.byteLength) {
-                const rr = await this.rd.read(p);
-                const nread = rr ?? 0;
+                const rr1 = await this.rd.read(p);
+                const nread = rr1 ?? 0;
                 assert(nread >= 0, "negative read");
-                return rr;
+                return rr1;
             }
             this.r = 0;
             this.w = 0;
@@ -530,8 +530,8 @@ function chunkedBodyReader(h, r) {
                 return buf.byteLength;
             } else {
                 const bufToFill = buf.subarray(0, chunkSize);
-                const eof = await r.readFull(bufToFill);
-                if (eof === null) throw new Deno.errors.UnexpectedEof();
+                const eof1 = await r.readFull(bufToFill);
+                if (eof1 === null) throw new Deno.errors.UnexpectedEof();
                 if (await tp.readLine() === null) throw new Deno.errors.UnexpectedEof();
                 return chunkSize;
             }
@@ -568,7 +568,7 @@ async function readTrailers(headers, r) {
         ...result.keys()
     ].filter((k)=>!trailerNames.includes(k));
     if (undeclared.length > 0) throw new Deno.errors.InvalidData(`Undeclared trailers: ${Deno.inspect(undeclared)}.`);
-    for (const [k1, v] of result)headers.append(k1, v);
+    for (const [k, v] of result)headers.append(k, v);
     const missingTrailers = trailerNames.filter((k)=>!result.has(k));
     if (missingTrailers.length > 0) throw new Deno.errors.InvalidData(`Missing trailers: ${Deno.inspect(missingTrailers)}.`);
     headers.delete("trailer");
@@ -635,14 +635,14 @@ async function writeResponse(w, r) {
     const n = await writer.write(header);
     assert(n === header.byteLength);
     if (r.body instanceof Uint8Array) {
-        const n = await writer.write(r.body);
-        assert(n === r.body.byteLength);
+        const n1 = await writer.write(r.body);
+        assert(n1 === r.body.byteLength);
     } else if (headers.has("content-length")) {
         const contentLength = headers.get("content-length");
         assert(contentLength != null);
         const bodyLength = parseInt(contentLength);
-        const n = await Deno.copy(r.body, writer);
-        assert(n === bodyLength);
+        const n2 = await Deno.copy(r.body, writer);
+        assert(n2 === bodyLength);
     } else await writeChunkedBody(writer, r.body);
     if (r.trailers) {
         const t = await r.trailers();

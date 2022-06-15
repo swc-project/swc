@@ -1,12 +1,12 @@
-const { a: d , b: a , ...e } = {
+const { a: a , b: b , ...c } = {
     b: 7
 };
-let { e: b , f: f , ...g } = {
+let { e: d , f: e , ...f } = {
     e: 8
 };
-var { w: h , x: i , ...c } = {
+var { w: g , x: h , ...i } = {
     w: 4,
     x: 5,
     y: 6
 };
-console.log(a, b, c.y);
+console.log(b, d, i.y);

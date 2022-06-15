@@ -6,16 +6,16 @@ var Generics, A = function() {
     _class_call_check(this, A);
 };
 !function(Generics) {
-    var A1 = function() {
+    var A = function() {
         "use strict";
-        _class_call_check(this, A1);
-    }, B = function(A2) {
+        _class_call_check(this, A);
+    }, B = function(A) {
         "use strict";
-        _inherits(B, A2);
+        _inherits(B, A);
         var _super = _create_super(B);
         function B() {
             return _class_call_check(this, B), _super.apply(this, arguments);
         }
         return B;
-    }(A1);
+    }(A);
 }(Generics || (Generics = {}));

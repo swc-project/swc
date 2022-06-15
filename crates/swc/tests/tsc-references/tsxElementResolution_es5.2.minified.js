@@ -6,10 +6,10 @@ var Dotted, foundFirst = function() {
     "use strict";
     _class_call_check(this, Other);
 };
-!function(Dotted1) {
+!function(Dotted) {
     var Name = function() {
         "use strict";
         _class_call_check(this, Name);
     };
-    Dotted1.Name = Name;
+    Dotted.Name = Name;
 }(Dotted || (Dotted = {})), Dotted.Name;

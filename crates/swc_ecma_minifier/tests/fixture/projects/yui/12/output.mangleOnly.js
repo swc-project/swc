@@ -1,21 +1,21 @@
 export const E = {
-    test: function(g, h, d) {
-        d = d || [];
-        var a, c, e, f = feature_tests[g], b = f && f[h];
-        if (!b) {} else {
-            a = b.result;
-            if (Y.Lang.isUndefined(a)) {
-                c = b.ua;
-                if (c) {
-                    a = Y.UA[c];
+    test: function(a, b, c) {
+        c = c || [];
+        var d, e, f, g = feature_tests[a], h = g && g[b];
+        if (!h) {} else {
+            d = h.result;
+            if (Y.Lang.isUndefined(d)) {
+                e = h.ua;
+                if (e) {
+                    d = Y.UA[e];
                 }
-                e = b.test;
-                if (e && (!c || a)) {
-                    a = e.apply(Y, d);
+                f = h.test;
+                if (f && (!e || d)) {
+                    d = f.apply(Y, c);
                 }
-                b.result = a;
+                h.result = d;
             }
         }
-        return a;
+        return d;
     }
 };

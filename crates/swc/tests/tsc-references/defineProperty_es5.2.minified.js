@@ -10,9 +10,9 @@ var A = function() {
 }(), B = function() {
     "use strict";
     _class_call_check(this, B);
-}, C = function(B1) {
+}, C = function(B) {
     "use strict";
-    _inherits(C, B1);
+    _inherits(C, B);
     var _super = _create_super(C);
     function C(ka) {
         var _this;

@@ -1,5 +1,5 @@
-function a(b) {
-    if (b) var a = 1;
-    else var a = 2;
-    console.log(a + 1);
+function a(a) {
+    if (a) var b = 1;
+    else var b = 2;
+    console.log(b + 1);
 }

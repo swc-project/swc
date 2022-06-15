@@ -50,8 +50,8 @@ function f20(carrier) {
         const error = carrier.error;
         const data = carrier.data;
     } else {
-        const error = carrier.error;
-        const data = carrier.data;
+        const error1 = carrier.error;
+        const data1 = carrier.data;
     }
 }
 function f30(foo) {

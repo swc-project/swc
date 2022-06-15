@@ -3,18 +3,18 @@
         463
     ],
     {
-        8273: function(c, a, b) {
+        8273: function(a, b, c) {
             "use strict";
-            b.r(a);
-            b.d(a, {
+            c.r(b);
+            c.d(b, {
                 CountUp: function() {
                     return e;
                 }
             });
             var d = (undefined && undefined.__assign) || function() {
-                return (d = Object.assign || function(d) {
-                    for(var a, b = 1, e = arguments.length; b < e; b++)for(var c in (a = arguments[b]))Object.prototype.hasOwnProperty.call(a, c) && (d[c] = a[c]);
-                    return d;
+                return (d = Object.assign || function(a) {
+                    for(var b, c = 1, d = arguments.length; c < d; c++)for(var e in (b = arguments[c]))Object.prototype.hasOwnProperty.call(b, e) && (a[e] = b[e]);
+                    return a;
                 }).apply(this, arguments);
             }, e = (function() {
                 function a(a, b, c) {
@@ -31,24 +31,24 @@
                         decimal: ".",
                         prefix: "",
                         suffix: ""
-                    }), (this.finalEndVal = null), (this.useEasing = !0), (this.countDown = !1), (this.error = ""), (this.startVal = 0), (this.paused = !0), (this.count = function(b) {
-                        e.startTime || (e.startTime = b);
-                        var a = b - e.startTime;
-                        (e.remaining = e.duration - a), e.useEasing ? e.countDown ? (e.frameVal = e.startVal - e.easingFn(a, 0, e.startVal - e.endVal, e.duration)) : (e.frameVal = e.easingFn(a, e.startVal, e.endVal - e.startVal, e.duration)) : e.countDown ? (e.frameVal = e.startVal - (e.startVal - e.endVal) * (a / e.duration)) : (e.frameVal = e.startVal + (e.endVal - e.startVal) * (a / e.duration)), e.countDown ? (e.frameVal = e.frameVal < e.endVal ? e.endVal : e.frameVal) : (e.frameVal = e.frameVal > e.endVal ? e.endVal : e.frameVal), (e.frameVal = Number(e.frameVal.toFixed(e.options.decimalPlaces))), e.printValue(e.frameVal), a < e.duration ? (e.rAF = requestAnimationFrame(e.count)) : null !== e.finalEndVal ? e.update(e.finalEndVal) : e.callback && e.callback();
-                    }), (this.formatNumber = function(g) {
-                        var h, a, d, b, j = g < 0 ? "-" : "";
-                        h = Math.abs(g).toFixed(e.options.decimalPlaces);
-                        var f = (h += "").split(".");
-                        if (((a = f[0]), (d = f.length > 1 ? e.options.decimal + f[1] : ""), e.options.useGrouping)) {
-                            b = "";
-                            for(var c = 0, i = a.length; c < i; ++c)0 !== c && c % 3 == 0 && (b = e.options.separator + b), (b = a[i - c - 1] + b);
-                            a = b;
+                    }), (this.finalEndVal = null), (this.useEasing = !0), (this.countDown = !1), (this.error = ""), (this.startVal = 0), (this.paused = !0), (this.count = function(a) {
+                        e.startTime || (e.startTime = a);
+                        var b = a - e.startTime;
+                        (e.remaining = e.duration - b), e.useEasing ? e.countDown ? (e.frameVal = e.startVal - e.easingFn(b, 0, e.startVal - e.endVal, e.duration)) : (e.frameVal = e.easingFn(b, e.startVal, e.endVal - e.startVal, e.duration)) : e.countDown ? (e.frameVal = e.startVal - (e.startVal - e.endVal) * (b / e.duration)) : (e.frameVal = e.startVal + (e.endVal - e.startVal) * (b / e.duration)), e.countDown ? (e.frameVal = e.frameVal < e.endVal ? e.endVal : e.frameVal) : (e.frameVal = e.frameVal > e.endVal ? e.endVal : e.frameVal), (e.frameVal = Number(e.frameVal.toFixed(e.options.decimalPlaces))), e.printValue(e.frameVal), b < e.duration ? (e.rAF = requestAnimationFrame(e.count)) : null !== e.finalEndVal ? e.update(e.finalEndVal) : e.callback && e.callback();
+                    }), (this.formatNumber = function(a) {
+                        var b, c, d, f, g = a < 0 ? "-" : "";
+                        b = Math.abs(a).toFixed(e.options.decimalPlaces);
+                        var h = (b += "").split(".");
+                        if (((c = h[0]), (d = h.length > 1 ? e.options.decimal + h[1] : ""), e.options.useGrouping)) {
+                            f = "";
+                            for(var i = 0, j = c.length; i < j; ++i)0 !== i && i % 3 == 0 && (f = e.options.separator + f), (f = c[j - i - 1] + f);
+                            c = f;
                         }
-                        return (e.options.numerals && e.options.numerals.length && ((a = a.replace(/[0-9]/g, function(a) {
+                        return (e.options.numerals && e.options.numerals.length && ((c = c.replace(/[0-9]/g, function(a) {
                             return e.options.numerals[+a];
                         })), (d = d.replace(/[0-9]/g, function(a) {
                             return e.options.numerals[+a];
-                        }))), j + e.options.prefix + a + d + e.options.suffix);
+                        }))), g + e.options.prefix + c + d + e.options.suffix);
                     }), (this.easeOutExpo = function(a, b, c, d) {
                         return ((c * (1 - Math.pow(2, (-10 * a) / d)) * 1024) / 1023 + b);
                     }), (this.options = d(d({}, this.defaults), c)), (this.formattingFn = this.options.formattingFn ? this.options.formattingFn : this.formatNumber), (this.easingFn = this.options.easingFn ? this.options.easingFn : this.easeOutExpo), (this.startVal = this.validateValue(this.options.startVal)), (this.frameVal = this.startVal), (this.endVal = this.validateValue(b)), (this.options.decimalPlaces = Math.max(this.options.decimalPlaces)), this.resetDuration(), (this.options.separator = String(this.options.separator)), (this.useEasing = this.options.useEasing), "" === this.options.separator && (this.options.useGrouping = !1), (this.el = "string" == typeof a ? document.getElementById(a) : a), this.el ? this.printValue(this.startVal) : (this.error = "[CountUp] target is null or undefined");
@@ -71,9 +71,9 @@
                     cancelAnimationFrame(this.rAF), (this.paused = !0), this.resetDuration(), (this.startVal = this.validateValue(this.options.startVal)), (this.frameVal = this.startVal), this.printValue(this.startVal);
                 }), (a.prototype.update = function(a) {
                     cancelAnimationFrame(this.rAF), (this.startTime = null), (this.endVal = this.validateValue(a)), this.endVal !== this.frameVal && ((this.startVal = this.frameVal), this.finalEndVal || this.resetDuration(), (this.finalEndVal = null), this.determineDirectionAndSmartEasing(), (this.rAF = requestAnimationFrame(this.count)));
-                }), (a.prototype.printValue = function(b) {
-                    var a = this.formattingFn(b);
-                    "INPUT" === this.el.tagName ? (this.el.value = a) : "text" === this.el.tagName || "tspan" === this.el.tagName ? (this.el.textContent = a) : (this.el.innerHTML = a);
+                }), (a.prototype.printValue = function(a) {
+                    var b = this.formattingFn(a);
+                    "INPUT" === this.el.tagName ? (this.el.value = b) : "text" === this.el.tagName || "tspan" === this.el.tagName ? (this.el.textContent = b) : (this.el.innerHTML = b);
                 }), (a.prototype.ensureNumber = function(a) {
                     return "number" == typeof a && !isNaN(a);
                 }), (a.prototype.validateValue = function(a) {
@@ -84,13 +84,13 @@
                 }), a);
             })();
         },
-        8045: function(j, e, a) {
+        8045: function(a, b, c) {
             "use strict";
-            var f;
-            function k(a) {
+            var d;
+            function e(a) {
                 if (Array.isArray(a)) return a;
             }
-            function l(a) {
+            function f(a) {
                 if (Array.isArray(a)) {
                     for(var b = 0, c = new Array(a.length); b < a.length; b++){
                         c[b] = a[b];
@@ -98,53 +98,53 @@
                     return c;
                 }
             }
-            function m(a) {
+            function g(a) {
                 if (Symbol.iterator in Object(a) || Object.prototype.toString.call(a) === "[object Arguments]") return Array.from(a);
             }
-            function n(h, d) {
-                var a = [];
-                var b = true;
+            function h(a, b) {
+                var c = [];
+                var d = true;
                 var e = false;
                 var f = undefined;
                 try {
-                    for(var c = h[Symbol.iterator](), g; !(b = (g = c.next()).done); b = true){
-                        a.push(g.value);
-                        if (d && a.length === d) break;
+                    for(var g = a[Symbol.iterator](), h; !(d = (h = g.next()).done); d = true){
+                        c.push(h.value);
+                        if (b && c.length === b) break;
                     }
                 } catch (i) {
                     e = true;
                     f = i;
                 } finally{
                     try {
-                        if (!b && c["return"] != null) c["return"]();
+                        if (!d && g["return"] != null) g["return"]();
                     } finally{
                         if (e) throw f;
                     }
                 }
-                return a;
+                return c;
             }
-            function o() {
+            function i() {
                 throw new TypeError("Invalid attempt to destructure non-iterable instance");
             }
-            function p() {
+            function j() {
                 throw new TypeError("Invalid attempt to spread non-iterable instance");
             }
-            function q(a, b) {
-                return (k(a) || n(a, b) || o());
+            function k(a, b) {
+                return (e(a) || h(a, b) || i());
             }
-            function c(a) {
-                return (l(a) || m(a) || p());
+            function l(a) {
+                return (f(a) || g(a) || j());
             }
-            f = {
+            d = {
                 value: true
             };
-            e["default"] = S;
-            var r = w(a(7294));
-            var s = w(a(5443));
-            var t = a(6978);
-            var g = a(5809);
-            var u = a(7190);
-            function v(a, b, c) {
+            b["default"] = S;
+            var m = s(c(7294));
+            var n = s(c(5443));
+            var o = c(6978);
+            var p = c(5809);
+            var q = c(7190);
+            function r(a, b, c) {
                 if (b in a) {
                     Object.defineProperty(a, b, {
                         value: c,
@@ -157,65 +157,65 @@
                 }
                 return a;
             }
-            function w(a) {
+            function s(a) {
                 return a && a.__esModule ? a : {
                     default: a
                 };
             }
-            function x(b) {
-                var d = arguments, c = function(c) {
-                    var e = d[c] != null ? d[c] : {};
-                    var a = Object.keys(e);
+            function t(a) {
+                var b = arguments, c = function(c) {
+                    var d = b[c] != null ? b[c] : {};
+                    var e = Object.keys(d);
                     if (typeof Object.getOwnPropertySymbols === "function") {
-                        a = a.concat(Object.getOwnPropertySymbols(e).filter(function(a) {
-                            return Object.getOwnPropertyDescriptor(e, a).enumerable;
+                        e = e.concat(Object.getOwnPropertySymbols(d).filter(function(a) {
+                            return Object.getOwnPropertyDescriptor(d, a).enumerable;
                         }));
                     }
-                    a.forEach(function(a) {
-                        v(b, a, e[a]);
+                    e.forEach(function(b) {
+                        r(a, b, d[b]);
                     });
                 };
-                for(var a = 1; a < arguments.length; a++)c(a);
-                return b;
+                for(var d = 1; d < arguments.length; d++)c(d);
+                return a;
             }
-            function y(a, d) {
+            function u(a, b) {
                 if (a == null) return {};
-                var e = z(a, d);
-                var b, c;
+                var c = v(a, b);
+                var d, e;
                 if (Object.getOwnPropertySymbols) {
                     var f = Object.getOwnPropertySymbols(a);
-                    for(c = 0; c < f.length; c++){
-                        b = f[c];
-                        if (d.indexOf(b) >= 0) continue;
-                        if (!Object.prototype.propertyIsEnumerable.call(a, b)) continue;
-                        e[b] = a[b];
+                    for(e = 0; e < f.length; e++){
+                        d = f[e];
+                        if (b.indexOf(d) >= 0) continue;
+                        if (!Object.prototype.propertyIsEnumerable.call(a, d)) continue;
+                        c[d] = a[d];
                     }
                 }
-                return e;
+                return c;
             }
-            function z(c, f) {
-                if (c == null) return {};
-                var d = {};
-                var e = Object.keys(c);
-                var a, b;
-                for(b = 0; b < e.length; b++){
-                    a = e[b];
-                    if (f.indexOf(a) >= 0) continue;
-                    d[a] = c[a];
+            function v(a, b) {
+                if (a == null) return {};
+                var c = {};
+                var d = Object.keys(a);
+                var e, f;
+                for(f = 0; f < d.length; f++){
+                    e = d[f];
+                    if (b.indexOf(e) >= 0) continue;
+                    c[e] = a[e];
                 }
-                return d;
+                return c;
             }
-            var A = new Set();
-            var B = new Map();
-            var C;
-            var D = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+            var w = new Set();
+            var x = new Map();
+            var y;
+            var z = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
             if (false) {}
-            var E = [
+            var A = [
                 "lazy",
                 "eager",
                 undefined
             ];
-            var F = new Map([
+            var B = new Map([
                 [
                     "default",
                     Y
@@ -237,23 +237,23 @@
                     X
                 ], 
             ]);
-            var G = [
+            var C = [
                 "fill",
                 "fixed",
                 "intrinsic",
                 "responsive",
                 undefined, 
             ];
-            function H(a) {
+            function D(a) {
                 return a.default !== undefined;
             }
-            function I(a) {
+            function E(a) {
                 return a.src !== undefined;
             }
-            function J(a) {
-                return (typeof a === "object" && (H(a) || I(a)));
+            function F(a) {
+                return (typeof a === "object" && (D(a) || E(a)));
             }
-            var b = {
+            var G = {
                 deviceSizes: [
                     640,
                     750,
@@ -276,79 +276,79 @@
                 ],
                 path: "/_next/image",
                 loader: "default"
-            } || g.imageConfigDefault, d = b.deviceSizes, h = b.imageSizes, K = b.loader, L = b.path, M = b.domains;
-            var i = c(d).concat(c(h));
-            d.sort(function(a, b) {
+            } || p.imageConfigDefault, H = G.deviceSizes, I = G.imageSizes, J = G.loader, K = G.path, L = G.domains;
+            var M = l(H).concat(l(I));
+            H.sort(function(a, b) {
                 return a - b;
             });
-            i.sort(function(a, b) {
+            M.sort(function(a, b) {
                 return a - b;
             });
-            function N(b, a, g) {
-                if (g && (a === "fill" || a === "responsive")) {
-                    var j = /(^|\s)(1?\d?\d)vw/g;
+            function N(a, b, c) {
+                if (c && (b === "fill" || b === "responsive")) {
+                    var d = /(^|\s)(1?\d?\d)vw/g;
                     var e = [];
-                    for(var f; (f = j.exec(g)); f){
+                    for(var f; (f = d.exec(c)); f){
                         e.push(parseInt(f[2]));
                     }
                     if (e.length) {
-                        var h;
-                        var l = (h = Math).min.apply(h, c(e)) * 0.01;
+                        var g;
+                        var h = (g = Math).min.apply(g, l(e)) * 0.01;
                         return {
-                            widths: i.filter(function(a) {
-                                return (a >= d[0] * l);
+                            widths: M.filter(function(a) {
+                                return (a >= H[0] * h);
                             }),
                             kind: "w"
                         };
                     }
                     return {
-                        widths: i,
+                        widths: M,
                         kind: "w"
                     };
                 }
-                if (typeof b !== "number" || a === "fill" || a === "responsive") {
+                if (typeof a !== "number" || b === "fill" || b === "responsive") {
                     return {
-                        widths: d,
+                        widths: H,
                         kind: "w"
                     };
                 }
-                var k = c(new Set([
-                    b,
-                    b * 2
+                var i = l(new Set([
+                    a,
+                    a * 2
                 ].map(function(a) {
-                    return (i.find(function(b) {
+                    return (M.find(function(b) {
                         return b >= a;
-                    }) || i[i.length - 1]);
+                    }) || M[M.length - 1]);
                 })));
                 return {
-                    widths: k,
+                    widths: i,
                     kind: "x"
                 };
             }
             function O(a) {
-                var d = a.src, f = a.unoptimized, g = a.layout, h = a.width, i = a.quality, b = a.sizes, j = a.loader;
-                if (f) {
+                var b = a.src, c = a.unoptimized, d = a.layout, e = a.width, f = a.quality, g = a.sizes, h = a.loader;
+                if (c) {
                     return {
-                        src: d,
+                        src: b,
                         srcSet: undefined,
                         sizes: undefined
                     };
                 }
-                var e = N(h, g, b), c = e.widths, k = e.kind;
-                var l = c.length - 1;
+                var i = N(e, d, g), j = i.widths, k = i.kind;
+                var l = j.length - 1;
                 return {
-                    sizes: !b && k === "w" ? "100vw" : b,
-                    srcSet: c.map(function(a, b) {
-                        return "".concat(j({
-                            src: d,
-                            quality: i,
+                    sizes: !g && k === "w" ? "100vw" : g,
+                    srcSet: j.map(function(a, c) {
+                        return "".concat(h({
+                            src: b,
+                            quality: f,
                             width: a
-                        }), " ").concat(k === "w" ? a : b + 1).concat(k);
+                        }), " ").concat(k === "w" ? a : c + 1).concat(k);
                     }).join(", "),
-                    src: j({
-                        src: d,
-                        quality: i,
-                        width: c[l]
+                    src: h({
+                        src: b,
+                        quality: f,
+                        width: j[l]
                     })
                 };
             }
@@ -361,34 +361,34 @@
                 }
                 return undefined;
             }
-            function Q(b) {
-                var a = F.get(K);
-                if (a) {
-                    return a(x({
-                        root: L
-                    }, b));
+            function Q(a) {
+                var b = B.get(J);
+                if (b) {
+                    return b(t({
+                        root: K
+                    }, a));
                 }
-                throw new Error('Unknown "loader" found in "next.config.js". Expected: '.concat(g.VALID_LOADERS.join(", "), ". Received: ").concat(K));
+                throw new Error('Unknown "loader" found in "next.config.js". Expected: '.concat(p.VALID_LOADERS.join(", "), ". Received: ").concat(J));
             }
-            function R(a, c, d, e, f) {
+            function R(a, b, c, d, e) {
                 if (!a) {
                     return;
                 }
-                var b = function() {
-                    if (a.src !== D) {
-                        var b = "decode" in a ? a.decode() : Promise.resolve();
-                        b.catch(function() {}).then(function() {
-                            if (e === "blur") {
+                var f = function() {
+                    if (a.src !== z) {
+                        var c = "decode" in a ? a.decode() : Promise.resolve();
+                        c.catch(function() {}).then(function() {
+                            if (d === "blur") {
                                 a.style.filter = "none";
                                 a.style.backgroundSize = "none";
                                 a.style.backgroundImage = "none";
                             }
-                            A.add(c);
-                            if (f) {
-                                var b = a.naturalWidth, d = a.naturalHeight;
-                                f({
-                                    naturalWidth: b,
-                                    naturalHeight: d
+                            w.add(b);
+                            if (e) {
+                                var c = a.naturalWidth, f = a.naturalHeight;
+                                e({
+                                    naturalWidth: c,
+                                    naturalHeight: f
                                 });
                             }
                             if (false) {
@@ -398,13 +398,13 @@
                     }
                 };
                 if (a.complete) {
-                    b();
+                    f();
                 } else {
-                    a.onload = b;
+                    a.onload = f;
                 }
             }
             function S(a) {
-                var c = a.src, k = a.sizes, B = a.unoptimized, l = B === void 0 ? false : B, C = a.priority, E = C === void 0 ? false : C, m = a.loading, F = a.lazyBoundary, X = F === void 0 ? "200px" : F, G = a.className, Y = a.quality, n = a.width, o = a.height, I = a.objectFit, K = a.objectPosition, ad = a.onLoadingComplete, L = a.loader, M = L === void 0 ? Q : L, N = a.placeholder, Z = N === void 0 ? "empty" : N, p = a.blurDataURL, $ = y(a, [
+                var b = a.src, c = a.sizes, d = a.unoptimized, e = d === void 0 ? false : d, f = a.priority, g = f === void 0 ? false : f, h = a.loading, i = a.lazyBoundary, j = i === void 0 ? "200px" : i, l = a.className, p = a.quality, r = a.width, s = a.height, v = a.objectFit, x = a.objectPosition, y = a.onLoadingComplete, A = a.loader, B = A === void 0 ? Q : A, C = a.placeholder, E = C === void 0 ? "empty" : C, G = a.blurDataURL, H = u(a, [
                     "src",
                     "sizes",
                     "unoptimized",
@@ -422,49 +422,49 @@
                     "placeholder",
                     "blurDataURL", 
                 ]);
-                var g = $;
-                var d = k ? "responsive" : "intrinsic";
-                if ("layout" in g) {
-                    if (g.layout) d = g.layout;
-                    delete g["layout"];
+                var I = H;
+                var J = c ? "responsive" : "intrinsic";
+                if ("layout" in I) {
+                    if (I.layout) J = I.layout;
+                    delete I["layout"];
                 }
-                var S = "";
-                if (J(c)) {
-                    var e = H(c) ? c.default : c;
-                    if (!e.src) {
-                        throw new Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include src. Received ".concat(JSON.stringify(e)));
+                var K = "";
+                if (F(b)) {
+                    var L = D(b) ? b.default : b;
+                    if (!L.src) {
+                        throw new Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include src. Received ".concat(JSON.stringify(L)));
                     }
-                    p = p || e.blurDataURL;
-                    S = e.src;
-                    if (!d || d !== "fill") {
-                        o = o || e.height;
-                        n = n || e.width;
-                        if (!e.height || !e.width) {
-                            throw new Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include height and width. Received ".concat(JSON.stringify(e)));
+                    G = G || L.blurDataURL;
+                    K = L.src;
+                    if (!J || J !== "fill") {
+                        s = s || L.height;
+                        r = r || L.width;
+                        if (!L.height || !L.width) {
+                            throw new Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include height and width. Received ".concat(JSON.stringify(L)));
                         }
                     }
                 }
-                c = typeof c === "string" ? c : S;
-                var h = P(n);
-                var i = P(o);
-                var T = P(Y);
-                var j = !E && (m === "lazy" || typeof m === "undefined");
-                if (c.startsWith("data:") || c.startsWith("blob:")) {
-                    l = true;
-                    j = false;
+                b = typeof b === "string" ? b : K;
+                var M = P(r);
+                var N = P(s);
+                var S = P(p);
+                var T = !g && (h === "lazy" || typeof h === "undefined");
+                if (b.startsWith("data:") || b.startsWith("blob:")) {
+                    e = true;
+                    T = false;
                 }
-                if (true && A.has(c)) {
-                    j = false;
+                if (true && w.has(b)) {
+                    T = false;
                 }
                 if (false) {
-                    var ae, af, ag;
+                    var U, V, W;
                 }
-                var U = q((0, u).useIntersection({
-                    rootMargin: X,
-                    disabled: !j
-                }), 2), ah = U[0], _ = U[1];
-                var aa = !j || _;
-                var b = {
+                var X = k((0, q).useIntersection({
+                    rootMargin: j,
+                    disabled: !T
+                }), 2), Y = X[0], Z = X[1];
+                var $ = !T || Z;
+                var _ = {
                     boxSizing: "border-box",
                     display: "block",
                     overflow: "hidden",
@@ -476,7 +476,7 @@
                     margin: 0,
                     padding: 0
                 };
-                var v = {
+                var aa = {
                     boxSizing: "border-box",
                     display: "block",
                     width: "initial",
@@ -487,9 +487,9 @@
                     margin: 0,
                     padding: 0
                 };
-                var w = false;
-                var z;
-                var V = {
+                var ab = false;
+                var ac;
+                var ad = {
                     position: "absolute",
                     top: 0,
                     left: 0,
@@ -506,71 +506,71 @@
                     maxWidth: "100%",
                     minHeight: "100%",
                     maxHeight: "100%",
-                    objectFit: I,
-                    objectPosition: K
+                    objectFit: v,
+                    objectPosition: x
                 };
-                var ab = Z === "blur" ? {
+                var ae = E === "blur" ? {
                     filter: "blur(20px)",
-                    backgroundSize: I || "cover",
-                    backgroundImage: 'url("'.concat(p, '")'),
-                    backgroundPosition: K || "0% 0%"
+                    backgroundSize: v || "cover",
+                    backgroundImage: 'url("'.concat(G, '")'),
+                    backgroundPosition: x || "0% 0%"
                 } : {};
-                if (d === "fill") {
-                    b.display = "block";
-                    b.position = "absolute";
-                    b.top = 0;
-                    b.left = 0;
-                    b.bottom = 0;
-                    b.right = 0;
-                } else if (typeof h !== "undefined" && typeof i !== "undefined") {
-                    var W = i / h;
-                    var ac = isNaN(W) ? "100%" : "".concat(W * 100, "%");
-                    if (d === "responsive") {
-                        b.display = "block";
-                        b.position = "relative";
-                        w = true;
-                        v.paddingTop = ac;
-                    } else if (d === "intrinsic") {
-                        b.display = "inline-block";
-                        b.position = "relative";
-                        b.maxWidth = "100%";
-                        w = true;
-                        v.maxWidth = "100%";
-                        z = '<svg width="'.concat(h, '" height="').concat(i, '" xmlns="http://www.w3.org/2000/svg" version="1.1"/>');
-                    } else if (d === "fixed") {
-                        b.display = "inline-block";
-                        b.position = "relative";
-                        b.width = h;
-                        b.height = i;
+                if (J === "fill") {
+                    _.display = "block";
+                    _.position = "absolute";
+                    _.top = 0;
+                    _.left = 0;
+                    _.bottom = 0;
+                    _.right = 0;
+                } else if (typeof M !== "undefined" && typeof N !== "undefined") {
+                    var af = N / M;
+                    var ag = isNaN(af) ? "100%" : "".concat(af * 100, "%");
+                    if (J === "responsive") {
+                        _.display = "block";
+                        _.position = "relative";
+                        ab = true;
+                        aa.paddingTop = ag;
+                    } else if (J === "intrinsic") {
+                        _.display = "inline-block";
+                        _.position = "relative";
+                        _.maxWidth = "100%";
+                        ab = true;
+                        aa.maxWidth = "100%";
+                        ac = '<svg width="'.concat(M, '" height="').concat(N, '" xmlns="http://www.w3.org/2000/svg" version="1.1"/>');
+                    } else if (J === "fixed") {
+                        _.display = "inline-block";
+                        _.position = "relative";
+                        _.width = M;
+                        _.height = N;
                     }
                 } else {
                     if (false) {}
                 }
-                var f = {
-                    src: D,
+                var ah = {
+                    src: z,
                     srcSet: undefined,
                     sizes: undefined
                 };
-                if (aa) {
-                    f = O({
-                        src: c,
-                        unoptimized: l,
-                        layout: d,
-                        width: h,
-                        quality: T,
-                        sizes: k,
-                        loader: M
+                if ($) {
+                    ah = O({
+                        src: b,
+                        unoptimized: e,
+                        layout: J,
+                        width: M,
+                        quality: S,
+                        sizes: c,
+                        loader: B
                     });
                 }
-                var ai = c;
+                var ai = b;
                 if (false) {
                     var aj;
                 }
-                return r.default.createElement("span", {
-                    style: b
-                }, w ? r.default.createElement("span", {
-                    style: v
-                }, z ? r.default.createElement("img", {
+                return m.default.createElement("span", {
+                    style: _
+                }, ab ? m.default.createElement("span", {
+                    style: aa
+                }, ac ? m.default.createElement("img", {
                     style: {
                         display: "block",
                         maxWidth: "100%",
@@ -584,53 +584,53 @@
                     },
                     alt: "",
                     "aria-hidden": true,
-                    src: "data:image/svg+xml;base64,".concat((0, t).toBase64(z))
-                }) : null) : null, r.default.createElement("img", Object.assign({}, g, f, {
+                    src: "data:image/svg+xml;base64,".concat((0, o).toBase64(ac))
+                }) : null) : null, m.default.createElement("img", Object.assign({}, I, ah, {
                     decoding: "async",
-                    "data-nimg": d,
-                    className: G,
+                    "data-nimg": J,
+                    className: l,
                     ref: function(a) {
-                        ah(a);
-                        R(a, ai, d, Z, ad);
+                        Y(a);
+                        R(a, ai, J, E, y);
                     },
-                    style: x({}, V, ab)
-                })), r.default.createElement("noscript", null, r.default.createElement("img", Object.assign({}, g, O({
-                    src: c,
-                    unoptimized: l,
-                    layout: d,
-                    width: h,
-                    quality: T,
-                    sizes: k,
-                    loader: M
+                    style: t({}, ad, ae)
+                })), m.default.createElement("noscript", null, m.default.createElement("img", Object.assign({}, I, O({
+                    src: b,
+                    unoptimized: e,
+                    layout: J,
+                    width: M,
+                    quality: S,
+                    sizes: c,
+                    loader: B
                 }), {
                     decoding: "async",
-                    "data-nimg": d,
-                    style: V,
-                    className: G,
-                    loading: m || "lazy"
-                }))), E ? r.default.createElement(s.default, null, r.default.createElement("link", {
-                    key: "__nimg-" + f.src + f.srcSet + f.sizes,
+                    "data-nimg": J,
+                    style: ad,
+                    className: l,
+                    loading: h || "lazy"
+                }))), g ? m.default.createElement(n.default, null, m.default.createElement("link", {
+                    key: "__nimg-" + ah.src + ah.srcSet + ah.sizes,
                     rel: "preload",
                     as: "image",
-                    href: f.srcSet ? undefined : f.src,
-                    imagesrcset: f.srcSet,
-                    imagesizes: f.sizes
+                    href: ah.srcSet ? undefined : ah.src,
+                    imagesrcset: ah.srcSet,
+                    imagesizes: ah.sizes
                 })) : null);
             }
             function T(a) {
                 return a[0] === "/" ? a.slice(1) : a;
             }
-            function U(b) {
-                var e = b.root, f = b.src, g = b.width, c = b.quality;
-                var d = new URL("".concat(e).concat(T(f)));
-                var a = d.searchParams;
-                a.set("auto", a.get("auto") || "format");
-                a.set("fit", a.get("fit") || "max");
-                a.set("w", a.get("w") || g.toString());
-                if (c) {
-                    a.set("q", c.toString());
+            function U(a) {
+                var b = a.root, c = a.src, d = a.width, e = a.quality;
+                var f = new URL("".concat(b).concat(T(c)));
+                var g = f.searchParams;
+                g.set("auto", g.get("auto") || "format");
+                g.set("fit", g.get("fit") || "max");
+                g.set("w", g.get("w") || d.toString());
+                if (e) {
+                    g.set("q", e.toString());
                 }
-                return d.href;
+                return f.href;
             }
             function V(a) {
                 var b = a.root, c = a.src, d = a.width;
@@ -659,32 +659,32 @@
                 return "".concat(b, "?url=").concat(encodeURIComponent(c), "&w=").concat(d, "&q=").concat(e || 75);
             }
         },
-        7190: function(c, a, b) {
+        7190: function(a, b, c) {
             "use strict";
             function d(a) {
                 if (Array.isArray(a)) return a;
             }
-            function e(h, d) {
-                var a = [];
-                var b = true;
+            function e(a, b) {
+                var c = [];
+                var d = true;
                 var e = false;
                 var f = undefined;
                 try {
-                    for(var c = h[Symbol.iterator](), g; !(b = (g = c.next()).done); b = true){
-                        a.push(g.value);
-                        if (d && a.length === d) break;
+                    for(var g = a[Symbol.iterator](), h; !(d = (h = g.next()).done); d = true){
+                        c.push(h.value);
+                        if (b && c.length === b) break;
                     }
                 } catch (i) {
                     e = true;
                     f = i;
                 } finally{
                     try {
-                        if (!b && c["return"] != null) c["return"]();
+                        if (!d && g["return"] != null) g["return"]();
                     } finally{
                         if (e) throw f;
                     }
                 }
-                return a;
+                return c;
             }
             function f() {
                 throw new TypeError("Invalid attempt to destructure non-iterable instance");
@@ -692,74 +692,74 @@
             function g(a, b) {
                 return (d(a) || e(a, b) || f());
             }
-            Object.defineProperty(a, "__esModule", {
+            Object.defineProperty(b, "__esModule", {
                 value: true
             });
-            a.useIntersection = k;
-            var h = b(7294);
-            var i = b(9311);
+            b.useIntersection = k;
+            var h = c(7294);
+            var i = c(9311);
             var j = typeof IntersectionObserver !== "undefined";
-            function k(b) {
-                var d = b.rootMargin, e = b.disabled;
-                var f = e || !j;
-                var m = (0, h).useRef();
-                var c = g((0, h).useState(false), 2), a = c[0], n = c[1];
-                var k = (0, h).useCallback(function(b) {
-                    if (m.current) {
-                        m.current();
-                        m.current = undefined;
+            function k(a) {
+                var b = a.rootMargin, c = a.disabled;
+                var d = c || !j;
+                var e = (0, h).useRef();
+                var f = g((0, h).useState(false), 2), k = f[0], m = f[1];
+                var n = (0, h).useCallback(function(a) {
+                    if (e.current) {
+                        e.current();
+                        e.current = undefined;
                     }
-                    if (f || a) return;
-                    if (b && b.tagName) {
-                        m.current = l(b, function(a) {
-                            return (a && n(a));
+                    if (d || k) return;
+                    if (a && a.tagName) {
+                        e.current = l(a, function(a) {
+                            return (a && m(a));
                         }, {
-                            rootMargin: d
+                            rootMargin: b
                         });
                     }
                 }, [
-                    f,
                     d,
-                    a
+                    b,
+                    k
                 ]);
                 (0, h).useEffect(function() {
                     if (!j) {
-                        if (!a) {
-                            var b = (0, i).requestIdleCallback(function() {
-                                return n(true);
+                        if (!k) {
+                            var a = (0, i).requestIdleCallback(function() {
+                                return m(true);
                             });
                             return function() {
-                                return (0, i).cancelIdleCallback(b);
+                                return (0, i).cancelIdleCallback(a);
                             };
                         }
                     }
                 }, [
-                    a
+                    k
                 ]);
                 return [
-                    k,
-                    a
+                    n,
+                    k
                 ];
             }
-            function l(b, c, d) {
-                var a = n(d), g = a.id, e = a.observer, f = a.elements;
-                f.set(b, c);
-                e.observe(b);
-                return function a() {
-                    f.delete(b);
-                    e.unobserve(b);
-                    if (f.size === 0) {
-                        e.disconnect();
-                        m.delete(g);
+            function l(a, b, c) {
+                var d = n(c), e = d.id, f = d.observer, g = d.elements;
+                g.set(a, b);
+                f.observe(a);
+                return function b() {
+                    g.delete(a);
+                    f.unobserve(a);
+                    if (g.size === 0) {
+                        f.disconnect();
+                        m.delete(e);
                     }
                 };
             }
             var m = new Map();
-            function n(c) {
-                var b = c.rootMargin || "";
-                var a = m.get(b);
-                if (a) {
-                    return a;
+            function n(a) {
+                var b = a.rootMargin || "";
+                var c = m.get(b);
+                if (c) {
+                    return c;
                 }
                 var d = new Map();
                 var e = new IntersectionObserver(function(a) {
@@ -770,42 +770,42 @@
                             b(c);
                         }
                     });
-                }, c);
-                m.set(b, (a = {
+                }, a);
+                m.set(b, (c = {
                     id: b,
                     observer: e,
                     elements: d
                 }));
-                return a;
+                return c;
             }
         },
-        6978: function(b, a) {
+        6978: function(a, b) {
             "use strict";
-            Object.defineProperty(a, "__esModule", {
+            Object.defineProperty(b, "__esModule", {
                 value: true
             });
-            a.toBase64 = c;
+            b.toBase64 = c;
             function c(a) {
                 if (false) {} else {
                     return window.btoa(a);
                 }
             }
         },
-        5809: function(d, a) {
+        5809: function(a, b) {
             "use strict";
-            Object.defineProperty(a, "__esModule", {
+            Object.defineProperty(b, "__esModule", {
                 value: true
             });
-            a.imageConfigDefault = a.VALID_LOADERS = void 0;
-            const b = [
+            b.imageConfigDefault = b.VALID_LOADERS = void 0;
+            const c = [
                 "default",
                 "imgix",
                 "cloudinary",
                 "akamai",
                 "custom", 
             ];
-            a.VALID_LOADERS = b;
-            const c = {
+            b.VALID_LOADERS = c;
+            const d = {
                 deviceSizes: [
                     640,
                     750,
@@ -835,59 +835,59 @@
                     "image/webp"
                 ]
             };
-            a.imageConfigDefault = c;
+            b.imageConfigDefault = d;
         },
-        9008: function(a, c, b) {
-            a.exports = b(5443);
+        9008: function(a, b, c) {
+            a.exports = c(5443);
         },
-        5675: function(a, c, b) {
-            a.exports = b(8045);
+        5675: function(a, b, c) {
+            a.exports = c(8045);
         },
-        7857: function(h, d, b) {
+        7857: function(a, b, c) {
             "use strict";
-            var c;
-            c = {
+            var d;
+            d = {
                 value: true
             };
-            var a = b(7294);
-            var i = b(8273);
-            function e(a) {
+            var e = c(7294);
+            var f = c(8273);
+            function g(a) {
                 return a && typeof a === "object" && "default" in a ? a : {
                     default: a
                 };
             }
-            var j = e(a);
-            function k(c, d) {
-                var a = Object.keys(c);
+            var h = g(e);
+            function i(a, b) {
+                var c = Object.keys(a);
                 if (Object.getOwnPropertySymbols) {
-                    var b = Object.getOwnPropertySymbols(c);
-                    if (d) {
-                        b = b.filter(function(a) {
-                            return Object.getOwnPropertyDescriptor(c, a).enumerable;
+                    var d = Object.getOwnPropertySymbols(a);
+                    if (b) {
+                        d = d.filter(function(b) {
+                            return Object.getOwnPropertyDescriptor(a, b).enumerable;
                         });
                     }
-                    a.push.apply(a, b);
-                }
-                return a;
-            }
-            function l(c) {
-                for(var a = 1; a < arguments.length; a++){
-                    var b = arguments[a] != null ? arguments[a] : {};
-                    if (a % 2) {
-                        k(Object(b), true).forEach(function(a) {
-                            m(c, a, b[a]);
-                        });
-                    } else if (Object.getOwnPropertyDescriptors) {
-                        Object.defineProperties(c, Object.getOwnPropertyDescriptors(b));
-                    } else {
-                        k(Object(b)).forEach(function(a) {
-                            Object.defineProperty(c, a, Object.getOwnPropertyDescriptor(b, a));
-                        });
-                    }
+                    c.push.apply(c, d);
                 }
                 return c;
             }
-            function m(a, b, c) {
+            function j(a) {
+                for(var b = 1; b < arguments.length; b++){
+                    var c = arguments[b] != null ? arguments[b] : {};
+                    if (b % 2) {
+                        i(Object(c), true).forEach(function(b) {
+                            k(a, b, c[b]);
+                        });
+                    } else if (Object.getOwnPropertyDescriptors) {
+                        Object.defineProperties(a, Object.getOwnPropertyDescriptors(c));
+                    } else {
+                        i(Object(c)).forEach(function(b) {
+                            Object.defineProperty(a, b, Object.getOwnPropertyDescriptor(c, b));
+                        });
+                    }
+                }
+                return a;
+            }
+            function k(a, b, c) {
                 if (b in a) {
                     Object.defineProperty(a, b, {
                         value: c,
@@ -900,78 +900,78 @@
                 }
                 return a;
             }
-            function n() {
-                n = Object.assign || function(d) {
-                    for(var a = 1; a < arguments.length; a++){
-                        var b = arguments[a];
-                        for(var c in b){
-                            if (Object.prototype.hasOwnProperty.call(b, c)) {
-                                d[c] = b[c];
+            function l() {
+                l = Object.assign || function(a) {
+                    for(var b = 1; b < arguments.length; b++){
+                        var c = arguments[b];
+                        for(var d in c){
+                            if (Object.prototype.hasOwnProperty.call(c, d)) {
+                                a[d] = c[d];
                             }
                         }
                     }
-                    return d;
+                    return a;
                 };
-                return n.apply(this, arguments);
+                return l.apply(this, arguments);
             }
-            function o(c, f) {
-                if (c == null) return {};
-                var d = {};
-                var e = Object.keys(c);
-                var a, b;
-                for(b = 0; b < e.length; b++){
-                    a = e[b];
-                    if (f.indexOf(a) >= 0) continue;
-                    d[a] = c[a];
-                }
-                return d;
-            }
-            function p(a, d) {
+            function m(a, b) {
                 if (a == null) return {};
-                var e = o(a, d);
-                var b, c;
+                var c = {};
+                var d = Object.keys(a);
+                var e, f;
+                for(f = 0; f < d.length; f++){
+                    e = d[f];
+                    if (b.indexOf(e) >= 0) continue;
+                    c[e] = a[e];
+                }
+                return c;
+            }
+            function n(a, b) {
+                if (a == null) return {};
+                var c = m(a, b);
+                var d, e;
                 if (Object.getOwnPropertySymbols) {
                     var f = Object.getOwnPropertySymbols(a);
-                    for(c = 0; c < f.length; c++){
-                        b = f[c];
-                        if (d.indexOf(b) >= 0) continue;
-                        if (!Object.prototype.propertyIsEnumerable.call(a, b)) continue;
-                        e[b] = a[b];
+                    for(e = 0; e < f.length; e++){
+                        d = f[e];
+                        if (b.indexOf(d) >= 0) continue;
+                        if (!Object.prototype.propertyIsEnumerable.call(a, d)) continue;
+                        c[d] = a[d];
                     }
                 }
-                return e;
+                return c;
             }
-            var q = typeof window !== "undefined" && typeof window.document !== "undefined" && typeof window.document.createElement !== "undefined" ? a.useLayoutEffect : a.useEffect;
-            function r(b) {
-                var c = a.useRef(b);
-                q(function() {
-                    c.current = b;
+            var o = typeof window !== "undefined" && typeof window.document !== "undefined" && typeof window.document.createElement !== "undefined" ? e.useLayoutEffect : e.useEffect;
+            function p(a) {
+                var b = e.useRef(a);
+                o(function() {
+                    b.current = a;
                 });
-                return a.useCallback(function() {
-                    for(var b = arguments.length, d = new Array(b), a = 0; a < b; a++){
-                        d[a] = arguments[a];
+                return e.useCallback(function() {
+                    for(var a = arguments.length, c = new Array(a), d = 0; d < a; d++){
+                        c[d] = arguments[d];
                     }
-                    return c.current.apply(void 0, d);
+                    return b.current.apply(void 0, c);
                 }, []);
             }
-            var s = function p(c, a) {
-                var d = a.decimal, e = a.decimals, f = a.duration, g = a.easingFn, h = a.end, j = a.formattingFn, k = a.numerals, l = a.prefix, b = a.separator, m = a.start, n = a.suffix, o = a.useEasing;
-                return new i.CountUp(c, h, {
-                    startVal: m,
-                    duration: f,
+            var q = function a(b, c) {
+                var d = c.decimal, e = c.decimals, g = c.duration, h = c.easingFn, i = c.end, j = c.formattingFn, k = c.numerals, l = c.prefix, m = c.separator, n = c.start, o = c.suffix, p = c.useEasing;
+                return new f.CountUp(b, i, {
+                    startVal: n,
+                    duration: g,
                     decimal: d,
                     decimalPlaces: e,
-                    easingFn: g,
+                    easingFn: h,
                     formattingFn: j,
                     numerals: k,
-                    separator: b,
+                    separator: m,
                     prefix: l,
-                    suffix: n,
-                    useEasing: o,
-                    useGrouping: !!b
+                    suffix: o,
+                    useEasing: p,
+                    useGrouping: !!m
                 });
             };
-            var t = [
+            var r = [
                 "ref",
                 "startOnMount",
                 "enableReinitialize",
@@ -982,7 +982,7 @@
                 "onReset",
                 "onUpdate", 
             ];
-            var u = {
+            var s = {
                 decimal: ".",
                 delay: null,
                 prefix: "",
@@ -991,185 +991,185 @@
                 startOnMount: true,
                 enableReinitialize: true
             };
-            var f = function n(c) {
-                var b = a.useMemo(function() {
-                    return l(l({}, u), c);
+            var t = function a(b) {
+                var c = e.useMemo(function() {
+                    return j(j({}, s), b);
                 }, [
-                    c
-                ]), o = b.ref, q = b.startOnMount, e = b.enableReinitialize, f = b.delay, v = b.onEnd, w = b.onStart, x = b.onPauseResume, y = b.onReset, z = b.onUpdate, A = p(b, t);
-                var B = a.useRef();
-                var C = a.useRef();
-                var g = a.useRef(false);
-                var D = r(function() {
-                    return s(typeof o === "string" ? o : o.current, A);
+                    b
+                ]), d = c.ref, f = c.startOnMount, g = c.enableReinitialize, h = c.delay, i = c.onEnd, k = c.onStart, l = c.onPauseResume, m = c.onReset, o = c.onUpdate, t = n(c, r);
+                var u = e.useRef();
+                var v = e.useRef();
+                var w = e.useRef(false);
+                var x = p(function() {
+                    return q(typeof d === "string" ? d : d.current, t);
                 });
-                var h = r(function(c) {
-                    var a = B.current;
-                    if (a && !c) {
-                        return a;
+                var y = p(function(a) {
+                    var b = u.current;
+                    if (b && !a) {
+                        return b;
                     }
-                    var b = D();
-                    B.current = b;
-                    return b;
+                    var c = x();
+                    u.current = c;
+                    return c;
                 });
-                var E = r(function() {
+                var z = p(function() {
                     var a = function a() {
-                        return h(true).start(function() {
-                            v === null || v === void 0 ? void 0 : v({
-                                pauseResume: i,
-                                reset: d,
-                                start: k,
-                                update: j
+                        return y(true).start(function() {
+                            i === null || i === void 0 ? void 0 : i({
+                                pauseResume: A,
+                                reset: B,
+                                start: D,
+                                update: C
                             });
                         });
                     };
-                    if (f && f > 0) {
-                        C.current = setTimeout(a, f * 1000);
+                    if (h && h > 0) {
+                        v.current = setTimeout(a, h * 1000);
                     } else {
                         a();
                     }
-                    w === null || w === void 0 ? void 0 : w({
-                        pauseResume: i,
-                        reset: d,
-                        update: j
+                    k === null || k === void 0 ? void 0 : k({
+                        pauseResume: A,
+                        reset: B,
+                        update: C
                     });
                 });
-                var i = r(function() {
-                    h().pauseResume();
-                    x === null || x === void 0 ? void 0 : x({
-                        reset: d,
-                        start: k,
-                        update: j
+                var A = p(function() {
+                    y().pauseResume();
+                    l === null || l === void 0 ? void 0 : l({
+                        reset: B,
+                        start: D,
+                        update: C
                     });
                 });
-                var d = r(function() {
-                    C.current && clearTimeout(C.current);
-                    h().reset();
-                    y === null || y === void 0 ? void 0 : y({
-                        pauseResume: i,
-                        start: k,
-                        update: j
+                var B = p(function() {
+                    v.current && clearTimeout(v.current);
+                    y().reset();
+                    m === null || m === void 0 ? void 0 : m({
+                        pauseResume: A,
+                        start: D,
+                        update: C
                     });
                 });
-                var j = r(function(a) {
-                    h().update(a);
-                    z === null || z === void 0 ? void 0 : z({
-                        pauseResume: i,
-                        reset: d,
-                        start: k
+                var C = p(function(a) {
+                    y().update(a);
+                    o === null || o === void 0 ? void 0 : o({
+                        pauseResume: A,
+                        reset: B,
+                        start: D
                     });
                 });
-                var k = r(function() {
-                    d();
-                    E();
+                var D = p(function() {
+                    B();
+                    z();
                 });
-                var m = r(function(a) {
-                    if (q) {
+                var E = p(function(a) {
+                    if (f) {
                         if (a) {
-                            d();
+                            B();
                         }
-                        E();
+                        z();
                     }
                 });
-                a.useEffect(function() {
-                    if (!g.current) {
-                        g.current = true;
-                        m();
-                    } else if (e) {
-                        m(true);
+                e.useEffect(function() {
+                    if (!w.current) {
+                        w.current = true;
+                        E();
+                    } else if (g) {
+                        E(true);
                     }
                 }, [
-                    e,
                     g,
-                    m,
-                    f,
-                    c.start,
-                    c.suffix,
-                    c.prefix,
-                    c.duration,
-                    c.separator,
-                    c.decimals,
-                    c.decimal,
-                    c.formattingFn, 
+                    w,
+                    E,
+                    h,
+                    b.start,
+                    b.suffix,
+                    b.prefix,
+                    b.duration,
+                    b.separator,
+                    b.decimals,
+                    b.decimal,
+                    b.formattingFn, 
                 ]);
-                a.useEffect(function() {
+                e.useEffect(function() {
                     return function() {
-                        d();
+                        B();
                     };
                 }, [
-                    d
+                    B
                 ]);
                 return {
-                    start: k,
-                    pauseResume: i,
-                    reset: d,
-                    update: j,
-                    getCountUp: h
+                    start: D,
+                    pauseResume: A,
+                    reset: B,
+                    update: C,
+                    getCountUp: y
                 };
             };
-            var v = [
+            var u = [
                 "className",
                 "redraw",
                 "containerProps",
                 "children",
                 "style", 
             ];
-            var g = function A(b) {
-                var i = b.className, d = b.redraw, k = b.containerProps, e = b.children, m = b.style, o = p(b, v);
-                var g = j["default"].useRef(null);
-                var B = j["default"].useRef(false);
-                var c = f(l(l({}, o), {}, {
-                    ref: g,
-                    startOnMount: typeof e !== "function" || b.delay === 0,
+            var v = function a(b) {
+                var c = b.className, d = b.redraw, f = b.containerProps, g = b.children, i = b.style, k = n(b, u);
+                var m = h["default"].useRef(null);
+                var o = h["default"].useRef(false);
+                var q = t(j(j({}, k), {}, {
+                    ref: m,
+                    startOnMount: typeof g !== "function" || b.delay === 0,
                     enableReinitialize: false
-                })), q = c.start, s = c.reset, t = c.update, u = c.pauseResume, w = c.getCountUp;
-                var h = r(function() {
-                    q();
+                })), r = q.start, s = q.reset, v = q.update, w = q.pauseResume, x = q.getCountUp;
+                var y = p(function() {
+                    r();
                 });
-                var x = r(function(a) {
+                var z = p(function(a) {
                     if (!b.preserveValue) {
                         s();
                     }
-                    t(a);
+                    v(a);
                 });
-                var y = r(function() {
+                var A = p(function() {
                     if (typeof b.children === "function") {
-                        if (!(g.current instanceof Element)) {
+                        if (!(m.current instanceof Element)) {
                             console.error('Couldn\'t find attached element to hook the CountUp instance into! Try to attach "containerRef" from the render prop to a an Element, eg. <span ref={containerRef} />.');
                             return;
                         }
                     }
-                    w();
+                    x();
                 });
-                a.useEffect(function() {
-                    y();
+                e.useEffect(function() {
+                    A();
                 }, [
-                    y
+                    A
                 ]);
-                a.useEffect(function() {
-                    if (B.current) {
-                        x(b.end);
+                e.useEffect(function() {
+                    if (o.current) {
+                        z(b.end);
                     }
                 }, [
                     b.end,
-                    x
-                ]);
-                var z = d && b;
-                a.useEffect(function() {
-                    if (d && B.current) {
-                        h();
-                    }
-                }, [
-                    h,
-                    d,
                     z
                 ]);
-                a.useEffect(function() {
-                    if (!d && B.current) {
-                        h();
+                var B = d && b;
+                e.useEffect(function() {
+                    if (d && o.current) {
+                        y();
                     }
                 }, [
-                    h,
+                    y,
+                    d,
+                    B
+                ]);
+                e.useEffect(function() {
+                    if (!d && o.current) {
+                        y();
+                    }
+                }, [
+                    y,
                     d,
                     b.start,
                     b.suffix,
@@ -1181,27 +1181,27 @@
                     b.className,
                     b.formattingFn, 
                 ]);
-                a.useEffect(function() {
-                    B.current = true;
+                e.useEffect(function() {
+                    o.current = true;
                 }, []);
-                if (typeof e === "function") {
-                    return e({
-                        countUpRef: g,
-                        start: q,
+                if (typeof g === "function") {
+                    return g({
+                        countUpRef: m,
+                        start: r,
                         reset: s,
-                        update: t,
-                        pauseResume: u,
-                        getCountUp: w
+                        update: v,
+                        pauseResume: w,
+                        getCountUp: x
                     });
                 }
-                return j["default"].createElement("span", n({
-                    className: i,
-                    ref: g,
-                    style: m
-                }, k));
+                return h["default"].createElement("span", l({
+                    className: c,
+                    ref: m,
+                    style: i
+                }, f));
             };
-            d.ZP = g;
-            c = f;
+            b.ZP = v;
+            d = t;
         }
     }, 
 ]);

@@ -16,15 +16,15 @@ x = b;
 var c;
 x = c;
 var M;
-(function(M1) {
-    var x = M1.x = 1;
+(function(M) {
+    var x = M.x = 1;
 })(M || (M = {}));
 x = M;
 x = {
     f: function f() {}
 };
-function f(a1) {
-    x = a1;
+function f(a) {
+    x = a;
 }
 x = f;
 var E;

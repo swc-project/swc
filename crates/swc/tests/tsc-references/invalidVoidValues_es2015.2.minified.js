@@ -1,6 +1,6 @@
 var x, E, a, b, M;
-function f(a1) {
-    x = a1;
+function f(a) {
+    x = a;
 }
 x = 1, x = '', x = !0, function(E) {
     E[E.A = 0] = "A";

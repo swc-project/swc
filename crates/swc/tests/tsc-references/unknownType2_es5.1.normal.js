@@ -163,18 +163,18 @@ function f2(x) {
     }
     return x;
 }
-function notNotEquals(u1) {
-    if (u1 !== NumberEnum) {} else {
-        var o = u1;
+function notNotEquals(u) {
+    if (u !== NumberEnum) {} else {
+        var o = u;
     }
-    if (u1 !== NumberEnum.A) {} else {
-        var a = u1;
+    if (u !== NumberEnum.A) {} else {
+        var a = u;
     }
-    if (u1 !== NumberEnum.A && u1 !== NumberEnum.B && u1 !== StringEnum.A) {} else {
-        var aOrB = u1;
+    if (u !== NumberEnum.A && u !== NumberEnum.B && u !== StringEnum.A) {} else {
+        var aOrB = u;
     }
     // equivalent to
-    if (!(u1 === NumberEnum.A || u1 === NumberEnum.B || u1 === StringEnum.A)) {} else {
-        var aOrB1 = u1;
+    if (!(u === NumberEnum.A || u === NumberEnum.B || u === StringEnum.A)) {} else {
+        var aOrB1 = u;
     }
 }
