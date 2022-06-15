@@ -431,6 +431,10 @@ impl<'a> VisitMut for Operator<'a> {
         if let ObjectPatProp::Assign(p) = n {
             let mut renamed = p.key.clone();
             if let Ok(..) = self.rename_ident(&mut renamed) {
+                if renamed.sym == p.key.sym {
+                    return;
+                }
+
                 *n = KeyValuePatProp {
                     key: PropName::Ident(p.key.take()),
                     value: match p.value.take() {
