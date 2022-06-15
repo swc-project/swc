@@ -1,5 +1,3 @@
-use std::collections::HashMap;
-
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashMap, util::take::Take};
@@ -307,41 +305,17 @@ impl Scope {
         &mut self,
         to: &mut AHashMap<Id, JsWord>,
         previous: &AHashMap<Id, JsWord>,
-        reverse: &FxHashMap<JsWord, Vec<Id>>,
+        reverse: &mut FxHashMap<JsWord, Vec<Id>>,
         preserved_symbols: &FxHashSet<JsWord>,
     ) {
         let queue = self.data.queue.take();
 
-        let mut cloned_reverse = reverse.clone();
+        // let mut cloned_reverse = reverse.clone();
 
-        self.rename_one_scope(to, previous, &mut cloned_reverse, queue, preserved_symbols);
-
-        #[cfg(feature = "rayon")]
-        {
-            use rayon::prelude::*;
-
-            use crate::perf::cpu_count;
-
-            if self.children.len() >= cpu_count() * 32 {
-                let iter = self.children.par_iter_mut();
-
-                let iter = iter
-                    .map(|child| {
-                        let mut new_map = HashMap::default();
-                        child.rename(&mut new_map, to, &cloned_reverse, preserved_symbols);
-                        new_map
-                    })
-                    .collect::<Vec<_>>();
-
-                for (k, v) in iter.into_iter().flatten() {
-                    to.entry(k).or_insert(v);
-                }
-                return;
-            }
-        }
+        self.rename_one_scope(to, previous, reverse, queue, preserved_symbols);
 
         for child in &mut self.children {
-            child.rename(to, &Default::default(), &cloned_reverse, preserved_symbols);
+            child.rename(to, &Default::default(), reverse, preserved_symbols);
         }
     }
 

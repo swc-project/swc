@@ -226,7 +226,7 @@ impl Hygiene {
             scope.rename(
                 &mut map,
                 &Default::default(),
-                &Default::default(),
+                &mut Default::default(),
                 &unresolved,
             );
         }
