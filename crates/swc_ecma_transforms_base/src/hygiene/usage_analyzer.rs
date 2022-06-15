@@ -52,7 +52,7 @@ impl CurScope<'_> {
 
     fn remove_usage(&self, id: &Id) {
         {
-            let mut b = &mut self.data.borrow_mut().usages;
+            let b = &mut self.data.borrow_mut().usages;
             let ctxts_of_decls = b.get_mut(&id.0);
 
             if let Some(ctxts_of_decls) = ctxts_of_decls {
@@ -70,7 +70,7 @@ impl CurScope<'_> {
 
     fn remove_decl(&self, id: &Id) {
         {
-            let mut b = &mut self.data.borrow_mut().decls;
+            let b = &mut self.data.borrow_mut().decls;
             let ctxts_of_decls = b.get_mut(&id.0);
 
             if let Some(ctxts_of_decls) = ctxts_of_decls {
@@ -89,7 +89,7 @@ impl CurScope<'_> {
     /// Called when we are exiting a scope.
     fn remove_decls_from_map(&self, map: &AHashMap<JsWord, Vec<SyntaxContext>>) {
         for (sym, dropped_ctxts) in map {
-            let mut b = &mut self.data.borrow_mut().decls;
+            let b = &mut self.data.borrow_mut().decls;
             let ctxts_of_decls = b.get_mut(sym);
 
             if let Some(ctxts_of_decls) = ctxts_of_decls {
@@ -109,7 +109,7 @@ impl CurScope<'_> {
 
     fn add_decl_inner(&self, id: Id, direct: bool) {
         if direct {
-            let mut b = &mut self.data.borrow_mut().direct_decls;
+            let b = &mut self.data.borrow_mut().direct_decls;
             let ctxts_of_decls = b.entry(id.0.clone()).or_default();
             if !ctxts_of_decls.contains(&id.1) {
                 ctxts_of_decls.push(id.1);
@@ -117,7 +117,7 @@ impl CurScope<'_> {
         }
 
         {
-            let mut b = &mut self.data.borrow_mut().decls;
+            let b = &mut self.data.borrow_mut().decls;
             let ctxts_of_decls = b.entry(id.0.clone()).or_default();
             if !ctxts_of_decls.iter().any(|(_, ctxt)| ctxt == &id.1) {
                 ctxts_of_decls.push((self.depth, id.1));
@@ -173,7 +173,7 @@ impl CurScope<'_> {
 
     fn add_usage_inner(&self, id: Id, direct: bool) {
         if direct {
-            let mut b = &mut self.data.borrow_mut().direct_usages;
+            let b = &mut self.data.borrow_mut().direct_usages;
             let v = b.entry(id.0.clone()).or_default();
             if !v.contains(&id.1) {
                 v.push(id.1);
@@ -181,7 +181,7 @@ impl CurScope<'_> {
         }
 
         {
-            let mut b = &mut self.data.borrow_mut().usages;
+            let b = &mut self.data.borrow_mut().usages;
             let v = b.entry(id.0.clone()).or_default();
             if !v.contains(&id.1) {
                 v.push(id.1);
