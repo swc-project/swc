@@ -1,6 +1,8 @@
+use std::collections::HashMap;
+
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{js_word, JsWord};
-use swc_common::collections::AHashMap;
+use swc_common::{collections::AHashMap, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
@@ -292,6 +294,15 @@ impl Scope {
         self.data.all.insert(id.clone());
     }
 
+    /// Copy `children.data.all` to `self.data.all`.
+    pub(super) fn prepare_renaming(&mut self) {
+        self.children.iter_mut().for_each(|child| {
+            child.prepare_renaming();
+
+            self.data.all.extend(child.data.all.iter().cloned());
+        });
+    }
+
     pub(super) fn rename(
         &mut self,
         to: &mut AHashMap<Id, JsWord>,
@@ -299,5 +310,90 @@ impl Scope {
         reverse: &FxHashMap<JsWord, Vec<Id>>,
         preserved_symbols: &FxHashSet<JsWord>,
     ) {
+        let queue = self.data.queue.take();
+
+        let mut cloned_reverse = reverse.clone();
+
+        self.rename_one_scope(to, previous, &mut cloned_reverse, queue, preserved_symbols);
+
+        #[cfg(feature = "rayon")]
+        {
+            use rayon::prelude::*;
+
+            use crate::perf::cpu_count;
+
+            if self.children.len() >= cpu_count() {
+                let iter = self.children.par_iter_mut();
+
+                let iter = iter
+                    .map(|child| {
+                        let mut new_map = HashMap::default();
+                        child.rename(&mut new_map, to, &cloned_reverse, preserved_symbols);
+                        new_map
+                    })
+                    .collect::<Vec<_>>();
+
+                for (k, v) in iter.into_iter().flatten() {
+                    to.entry(k).or_insert(v);
+                }
+            }
+        }
+
+        for child in &mut self.children {
+            child.rename(to, &Default::default(), &cloned_reverse, preserved_symbols);
+        }
+    }
+
+    fn rename_one_scope(
+        &self,
+        to: &mut AHashMap<Id, JsWord>,
+        previous: &AHashMap<Id, JsWord>,
+        reverse: &mut FxHashMap<JsWord, Vec<Id>>,
+        queue: Vec<Id>,
+        preserved_symbols: &FxHashSet<JsWord>,
+    ) {
+        let mut n = 0;
+
+        for id in queue {
+            if to.get(&id).is_some() || previous.get(&id).is_some() {
+                continue;
+            }
+
+            loop {
+                n += 1;
+                let sym = format!("{}{}", id.0, n).into();
+
+                // TODO: Use base54::decode
+                if preserved_symbols.contains(&sym) {
+                    continue;
+                }
+
+                if self.can_rename(&id, &sym, reverse) {
+                    to.insert(id.clone(), sym.clone());
+                    reverse.entry(sym).or_default().push(id.clone());
+
+                    break;
+                }
+            }
+        }
+    }
+
+    fn can_rename(&self, id: &Id, symbol: &JsWord, reverse: &FxHashMap<JsWord, Vec<Id>>) -> bool {
+        // We can optimize this
+        // We only need to check the current scope and parents (ignoring `a` generated
+        // for unrelated scopes)
+        if let Some(lefts) = reverse.get(symbol) {
+            for left in lefts {
+                if *left == *id {
+                    continue;
+                }
+
+                if self.data.all.contains(left) {
+                    return false;
+                }
+            }
+        }
+
+        true
     }
 }

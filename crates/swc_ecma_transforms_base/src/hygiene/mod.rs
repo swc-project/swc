@@ -215,12 +215,14 @@ impl Hygiene {
         let decls = collect_decls(n);
         let unresolved = usages
             .into_iter()
-            .filter(|used_id| !decls.contains(&used_id))
+            .filter(|used_id| !decls.contains(used_id))
             .map(|v| v.0)
             .collect();
 
         let mut map = HashMap::default();
         {
+            scope.prepare_renaming();
+
             scope.rename(
                 &mut map,
                 &Default::default(),
