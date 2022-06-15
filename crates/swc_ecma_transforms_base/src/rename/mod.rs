@@ -31,7 +31,8 @@ pub trait Renamer: swc_common::sync::Send + swc_common::sync::Sync {
         Default::default()
     }
 
-    fn new_name_for(&self, orig: &Id, n: u32) -> JsWord;
+    /// Should increment `n`.
+    fn new_name_for(&self, orig: &Id, n: &mut usize) -> JsWord;
 }
 
 pub fn rename(map: &AHashMap<Id, JsWord>) -> impl '_ + Fold + VisitMut {

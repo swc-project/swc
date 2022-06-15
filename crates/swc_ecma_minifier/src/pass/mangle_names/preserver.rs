@@ -1,6 +1,4 @@
 use rustc_hash::FxHashSet;
-use swc_atoms::JsWord;
-use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_pat_ids;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
@@ -8,31 +6,23 @@ use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use crate::option::MangleOptions;
 
 /// Returns `(preserved, unresolved)`
-pub(super) fn idents_to_preserve<N>(
-    options: MangleOptions,
-    unresolved_ctxt: SyntaxContext,
-    n: &N,
-) -> (FxHashSet<Id>, FxHashSet<JsWord>)
+pub(super) fn idents_to_preserve<N>(options: MangleOptions, n: &N) -> FxHashSet<Id>
 where
     N: VisitWith<Preserver>,
 {
     let mut v = Preserver {
         options,
-        unresolved_ctxt,
         preserved: Default::default(),
-        unresolved: Default::default(),
         should_preserve: false,
         in_top_level: false,
     };
     n.visit_with(&mut v);
-    (v.preserved, v.unresolved)
+    v.preserved
 }
 pub(super) struct Preserver {
     options: MangleOptions,
-    unresolved_ctxt: SyntaxContext,
 
     preserved: FxHashSet<Id>,
-    unresolved: FxHashSet<JsWord>,
 
     should_preserve: bool,
     in_top_level: bool,
@@ -129,11 +119,7 @@ impl Visit for Preserver {
         }
     }
 
-    fn visit_ident(&mut self, n: &Ident) {
-        if self.unresolved_ctxt == n.span.ctxt {
-            self.unresolved.insert(n.sym.clone());
-        }
-    }
+    fn visit_ident(&mut self, _: &Ident) {}
 
     fn visit_module_items(&mut self, n: &[ModuleItem]) {
         for n in n {

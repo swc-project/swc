@@ -350,9 +350,7 @@ impl Scope {
             }
 
             loop {
-                let sym = renamer.new_name_for(&id, n);
-
-                n += 1;
+                let sym = renamer.new_name_for(&id, &mut n);
 
                 if preserved_symbols.contains(&sym) {
                     continue;

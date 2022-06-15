@@ -157,12 +157,14 @@ struct HygieneRenamer;
 impl Renamer for HygieneRenamer {
     const RESET_N: bool = true;
 
-    fn new_name_for(&self, orig: &Id, n: u32) -> swc_atoms::JsWord {
-        if n == 0 {
+    fn new_name_for(&self, orig: &Id, n: &mut usize) -> swc_atoms::JsWord {
+        let res = if *n == 0 {
             orig.0.clone()
         } else {
             format!("{}{}", orig.0, n).into()
-        }
+        };
+        *n += 1;
+        res
     }
 }
 
