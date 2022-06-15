@@ -121,13 +121,16 @@ where
 
         let mut map = HashMap::default();
 
-        let unresolved = if !is_module_or_script {
+        let mut unresolved = if !is_module_or_script {
             let mut unresolved = self.unresolved.clone();
             unresolved.extend(self.get_unresolved(node));
             Cow::Owned(unresolved)
         } else {
             Cow::Borrowed(&self.unresolved)
         };
+        unresolved
+            .to_mut()
+            .extend(self.preserved.iter().map(|v| v.0.clone()));
 
         if R::PARALLEL {
             let cost = scope.rename_cost();
