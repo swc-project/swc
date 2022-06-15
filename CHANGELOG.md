@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(html/minifier)** Compress CSS (#4973) ([3e6c0f5](https://github.com/swc-project/swc/commit/3e6c0f567a50e1b0a8ba097b3f13b866efd6ebfa))
+
 ### Refactor
 
 
