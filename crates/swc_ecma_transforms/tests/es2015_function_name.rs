@@ -879,13 +879,13 @@ function search({search}) {
 "#,
     r#"
 var obj = {
-    search: function search1({ search: search2 }) {
-        console.log(search2);
+    search: function search({ search: search1 }) {
+        console.log(search1);
     }
 };
 
-function search({ search: search3 }) {
-    console.log(search3);
+function search({ search }) {
+    console.log(search);
 }
 
 "#
