@@ -85,6 +85,14 @@ where
         }
     }
 
+    fn visit_binding_ident(&mut self, n: &BindingIdent) {
+        n.visit_children_with(self);
+
+        if self.is_pat_decl {
+            self.add(&n.id)
+        }
+    }
+
     fn visit_catch_clause(&mut self, node: &CatchClause) {
         let old = self.is_pat_decl;
         self.is_pat_decl = true;
@@ -147,16 +155,6 @@ where
         self.is_pat_decl = true;
         node.visit_children_with(self);
         self.is_pat_decl = old;
-    }
-
-    fn visit_pat(&mut self, node: &Pat) {
-        node.visit_children_with(self);
-
-        if self.is_pat_decl {
-            if let Pat::Ident(i) = node {
-                self.add(&i.id)
-            }
-        }
     }
 
     fn visit_ts_param_prop(&mut self, p: &TsParamProp) {
