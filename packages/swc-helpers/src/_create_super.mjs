@@ -1,6 +1,6 @@
-import _isNativeReflectConstruct from "./_is_native_reflect_construct";
-import _getPrototypeOf from "./_get_prototype_of";
-import _possibleConstructorReturn from './_possible_constructor_return';
+import _isNativeReflectConstruct from "./_is_native_reflect_construct.mjs";
+import _getPrototypeOf from "./_get_prototype_of.mjs";
+import _possibleConstructorReturn from './_possible_constructor_return.mjs';
 
 export default function _createSuper(Derived) {
     var hasNativeReflectConstruct = _isNativeReflectConstruct();

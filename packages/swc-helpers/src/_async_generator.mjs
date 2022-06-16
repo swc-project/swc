@@ -1,4 +1,4 @@
-import AwaitValue from './_await_value';
+import AwaitValue from './_await_value.mjs';
 
 export default function AsyncGenerator(gen) {
   var front, back;

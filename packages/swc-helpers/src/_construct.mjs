@@ -1,4 +1,4 @@
-import _setPrototypeOf from "./_set_prototype_of";
+import _setPrototypeOf from "./_set_prototype_of.mjs";
 
 function isNativeReflectConstruct() {
   if (typeof Reflect === "undefined" || !Reflect.construct) return false;
