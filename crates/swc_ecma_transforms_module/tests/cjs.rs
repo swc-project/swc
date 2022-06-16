@@ -1,14 +1,19 @@
 use std::path::PathBuf;
 
 use swc_common::{chain, Mark};
-use swc_ecma_parser::Syntax;
-use swc_ecma_transforms_base::resolver;
+use swc_ecma_parser::{Syntax, TsConfig};
+use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
 use swc_ecma_transforms_module::cjs::cjs;
 use swc_ecma_transforms_testing::{test, test_fixture};
+use swc_ecma_transforms_typescript::strip::strip_with_config;
 use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
     Default::default()
+}
+
+fn ts_syntax() -> Syntax {
+    Syntax::Typescript(TsConfig::default())
 }
 
 fn tr() -> impl Fold {
@@ -17,14 +22,29 @@ fn tr() -> impl Fold {
 
     chain!(
         resolver(unresolved_mark, top_level_mark, false),
-        cjs(unresolved_mark, Default::default())
+        cjs(unresolved_mark, Default::default()),
+        hygiene(),
+        fixer(None)
+    )
+}
+
+fn ts_tr() -> impl Fold {
+    let unresolved_mark = Mark::new();
+    let top_level_mark = Mark::new();
+
+    chain!(
+        resolver(unresolved_mark, top_level_mark, true),
+        strip_with_config(Default::default(), top_level_mark),
+        cjs(unresolved_mark, Default::default()),
+        hygiene(),
+        fixer(None)
     )
 }
 
 test!(
     syntax(),
     |_| tr(),
-    strip,
+    test_1,
     r#"
     import "./mod_a";
     import a, { b, c as d, "1" as e } from "./mod_b";
@@ -83,10 +103,19 @@ test!(
 );
 
 #[testing::fixture("tests/fixture/common/**/input.js")]
-fn fixture(input: PathBuf) {
+fn esm_to_cjs(input: PathBuf) {
     let dir = input.parent().unwrap().to_path_buf();
 
     let output = dir.join("output.cjs");
 
-    test_fixture(Default::default(), &|_| tr(), &input, &output);
+    test_fixture(syntax(), &|_| tr(), &input, &output);
+}
+
+#[testing::fixture("tests/fixture/common/**/input.ts")]
+fn ts_to_cjs(input: PathBuf) {
+    let dir = input.parent().unwrap().to_path_buf();
+
+    let output = dir.join("output.cjs");
+
+    test_fixture(ts_syntax(), &|_| ts_tr(), &input, &output);
 }
