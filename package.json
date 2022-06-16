@@ -95,7 +95,7 @@
         "@babel/preset-typescript": "^7.13.0",
         "@babel/types": "^7.14.0",
         "@napi-rs/cli": "^2.10.0",
-        "@swc/helpers": "^0.3.8",
+        "@swc/helpers": "^0.4.2",
         "@taplo/cli": "^0.3.2",
         "@types/jest": "^26.0.23",
         "@types/node": "^14.14.41",
