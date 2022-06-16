@@ -1,4 +1,5 @@
-#/bin/bash
+#/usr/bin/env bash
+set -eu
 
 npx swc src -d lib
 ls -alR .
