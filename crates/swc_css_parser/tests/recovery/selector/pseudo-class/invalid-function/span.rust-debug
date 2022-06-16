@@ -1,0 +1,70 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-function/input.css:1:1]
+ 1 | ,-> : nth-child(2) {
+ 2 | |   
+ 3 | `-> }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-function/input.css:1:1]
+ 1 | ,-> : nth-child(2) {
+ 2 | |   
+ 3 | `-> }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-function/input.css:1:1]
+ 1 | ,-> : nth-child(2) {
+ 2 | |   
+ 3 | `-> }
+   `----
+
+  x Tokens
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-function/input.css:1:1]
+ 1 | : nth-child(2) {
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Colon
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-function/input.css:1:1]
+ 1 | : nth-child(2) {
+   : ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-function/input.css:1:1]
+ 1 | : nth-child(2) {
+   :  ^
+   `----
+
+  x Function { value: Atom('nth-child' type=dynamic), raw: Atom('nth-child' type=dynamic) }
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-function/input.css:1:1]
+ 1 | : nth-child(2) {
+   :   ^^^^^^^^^^
+   `----
+
+  x Number { value: 2.0, raw: Atom('2' type=inline), type_flag: Integer }
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-function/input.css:1:1]
+ 1 | : nth-child(2) {
+   :             ^
+   `----
+
+  x RParen
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-function/input.css:1:1]
+ 1 | : nth-child(2) {
+   :              ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-function/input.css:1:1]
+ 1 | : nth-child(2) {
+   :               ^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-function/input.css:1:1]
+ 1 | ,-> : nth-child(2) {
+ 2 | |   
+ 3 | `-> }
+   `----

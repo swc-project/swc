@@ -1,0 +1,112 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       background-image: url(   ./image.jpg  a  );
+ 3 | `-> }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       background-image: url(   ./image.jpg  a  );
+ 3 | `-> }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       background-image: url(   ./image.jpg  a  );
+ 3 | `-> }
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       background-image: url(   ./image.jpg  a  );
+ 3 | `-> }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:2:5]
+ 2 | background-image: url(   ./image.jpg  a  );
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:2:5]
+ 2 | background-image: url(   ./image.jpg  a  );
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:2:5]
+ 2 | background-image: url(   ./image.jpg  a  );
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:2:5]
+ 2 | background-image: url(   ./image.jpg  a  );
+   : ^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:2:5]
+ 2 | background-image: url(   ./image.jpg  a  );
+   : ^^^^^^^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:2:5]
+ 2 | background-image: url(   ./image.jpg  a  );
+   :                   ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x BadUrl { name: Atom('url' type=static), raw_name: Atom('url' type=static), value: Atom('   ./image.jpg  a  ' type=dynamic), raw_value: Atom('   ./image.jpg  a  ' type=dynamic) }
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:2:5]
+ 2 | background-image: url(   ./image.jpg  a  );
+   :                   ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----

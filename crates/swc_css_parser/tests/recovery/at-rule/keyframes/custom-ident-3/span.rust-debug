@@ -1,0 +1,72 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-3/input.css:1:1]
+ 1 | @keyframes unset {}
+   : ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-3/input.css:1:1]
+ 1 | @keyframes unset {}
+   : ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-3/input.css:1:1]
+ 1 | @keyframes unset {}
+   : ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-3/input.css:1:1]
+ 1 | @keyframes unset {}
+   :  ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-3/input.css:1:1]
+ 1 | @keyframes unset {}
+   :  ^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-3/input.css:1:1]
+ 1 | @keyframes unset {}
+   :           ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-3/input.css:1:1]
+ 1 | @keyframes unset {}
+   :           ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-3/input.css:1:1]
+ 1 | @keyframes unset {}
+   :            ^^^^^
+   `----
+
+  x Ident { value: Atom('unset' type=inline), raw: Atom('unset' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-3/input.css:1:1]
+ 1 | @keyframes unset {}
+   :            ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-3/input.css:1:1]
+ 1 | @keyframes unset {}
+   :                 ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-3/input.css:1:1]
+ 1 | @keyframes unset {}
+   :                 ^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-3/input.css:1:1]
+ 1 | @keyframes unset {}
+   :                  ^^
+   `----

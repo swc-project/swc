@@ -1,0 +1,72 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher/input.css:1:1]
+ 1 | [href==".org"] {}
+   : ^^^^^^^^^^^^^^^^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher/input.css:1:1]
+ 1 | [href==".org"] {}
+   : ^^^^^^^^^^^^^^^^^
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher/input.css:1:1]
+ 1 | [href==".org"] {}
+   : ^^^^^^^^^^^^^^^^^
+   `----
+
+  x Tokens
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher/input.css:1:1]
+ 1 | [href==".org"] {}
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x LBracket
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher/input.css:1:1]
+ 1 | [href==".org"] {}
+   : ^
+   `----
+
+  x Ident { value: Atom('href' type=inline), raw: Atom('href' type=inline) }
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher/input.css:1:1]
+ 1 | [href==".org"] {}
+   :  ^^^^
+   `----
+
+  x Delim { value: '=' }
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher/input.css:1:1]
+ 1 | [href==".org"] {}
+   :      ^
+   `----
+
+  x Delim { value: '=' }
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher/input.css:1:1]
+ 1 | [href==".org"] {}
+   :       ^
+   `----
+
+  x String { value: Atom('.org' type=inline), raw: Atom('".org"' type=inline) }
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher/input.css:1:1]
+ 1 | [href==".org"] {}
+   :        ^^^^^^
+   `----
+
+  x RBracket
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher/input.css:1:1]
+ 1 | [href==".org"] {}
+   :              ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher/input.css:1:1]
+ 1 | [href==".org"] {}
+   :               ^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher/input.css:1:1]
+ 1 | [href==".org"] {}
+   :                ^^
+   `----

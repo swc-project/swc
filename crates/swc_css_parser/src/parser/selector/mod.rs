@@ -706,6 +706,7 @@ where
             let mut parse_pseudo_class_children =
                 || -> PResult<Vec<PseudoClassSelectorChildren>> {
                     let mut children = vec![];
+
                     match &*names.0.to_ascii_lowercase() {
                         "-moz-any" | "-webkit-any" => {
                             self.input.skip_ws()?;
@@ -841,11 +842,6 @@ where
 
                             self.input.skip_ws()?;
                         }
-                        "global" | "local" => {
-                            self.input.skip_ws()?;
-                            let selector_list = self.parse()?;
-                            children.push(PseudoClassSelectorChildren::SelectorList(selector_list));
-                        }
                         _ => {
                             return Err(Error::new(span, ErrorKind::Ignore));
                         }
@@ -947,7 +943,9 @@ where
                         }
                         "slotted" => {
                             self.input.skip_ws()?;
+
                             let compound_selector = self.parse()?;
+
                             children.push(PseudoElementSelectorChildren::CompoundSelector(
                                 compound_selector,
                             ));
@@ -1017,225 +1015,225 @@ where
         let span = self.input.cur_span()?;
 
         match cur!(self) {
-      //  odd | even
-      Token::Ident { value, .. }
-      if &(*value).to_ascii_lowercase() == "odd"
-        || &(*value).to_ascii_lowercase() == "even" =>
-        {
-          Ok(AnPlusB::Ident(self.parse()?))
-        }
-      // <integer>
-      tok!("number") => {
-        let number = match bump!(self) {
-          Token::Number { value, raw, .. } => (value, raw),
-          _ => {
-            unreachable!();
-          }
-        };
+            //  odd | even
+            Token::Ident { value, .. }
+            if &(*value).to_ascii_lowercase() == "odd"
+                || &(*value).to_ascii_lowercase() == "even" =>
+                {
+                    Ok(AnPlusB::Ident(self.parse()?))
+                }
+            // <integer>
+            tok!("number") => {
+                let number = match bump!(self) {
+                    Token::Number { value, raw, .. } => (value, raw),
+                    _ => {
+                        unreachable!();
+                    }
+                };
 
-        Ok(AnPlusB::AnPlusBNotation(AnPlusBNotation {
-          span: span!(self, span.lo),
-          a: None,
-          a_raw: None,
-          b: Some(number.0 as i32),
-          b_raw: Some(number.1),
-        }))
-      }
-      // '+'? n
-      // '+'? <ndashdigit-ident>
-      // '+'? n <signed-integer>
-      // '+'? n- <signless-integer>
-      // '+'? n ['+' | '-'] <signless-integer>
-      // -n
-      // <dashndashdigit-ident>
-      // -n <signed-integer>
-      // -n- <signless-integer>
-      // -n ['+' | '-'] <signless-integer>
-      tok!("ident") | tok!("+") |
-      // <n-dimension>
-      // <ndashdigit-dimension>
-      // <ndash-dimension> <signless-integer>
-      // <n-dimension> <signed-integer>
-      // <n-dimension> ['+' | '-'] <signless-integer>
-      tok!("dimension") => {
-        let mut has_plus_sign = false;
-
-        // '+' n
-        if let Token::Delim { value: '+' } = cur!(self) {
-          let peeked = self.input.peek()?;
-
-          if let Some(Token::Ident { .. }) = peeked {
-            bump!(self);
-            has_plus_sign = true;
-          }
-        }
-        let a;
-        let a_raw;
-
-        let n_value;
-
-        match cur!(self) {
-          Token::Ident { .. } => {
-            let ident_value = match bump!(self) {
-              Token::Ident { value, .. } => value,
-              _ => {
-                unreachable!();
-              }
-            };
-
-            let has_minus_sign = ident_value.starts_with('-');
-            let n_char = if has_minus_sign { ident_value.chars().nth(1) } else { ident_value.chars().next() };
-
-            if n_char != Some('n') && n_char != Some('N') {
-              return Err(Error::new(
-                span,
-                ErrorKind::Expected("'n' character in Ident"),
-              ));
+                Ok(AnPlusB::AnPlusBNotation(AnPlusBNotation {
+                    span: span!(self, span.lo),
+                    a: None,
+                    a_raw: None,
+                    b: Some(number.0 as i32),
+                    b_raw: Some(number.1),
+                }))
             }
+            // '+'? n
+            // '+'? <ndashdigit-ident>
+            // '+'? n <signed-integer>
+            // '+'? n- <signless-integer>
+            // '+'? n ['+' | '-'] <signless-integer>
+            // -n
+            // <dashndashdigit-ident>
+            // -n <signed-integer>
+            // -n- <signless-integer>
+            // -n ['+' | '-'] <signless-integer>
+            tok!("ident") | tok!("+") |
+            // <n-dimension>
+            // <ndashdigit-dimension>
+            // <ndash-dimension> <signless-integer>
+            // <n-dimension> <signed-integer>
+            // <n-dimension> ['+' | '-'] <signless-integer>
+            tok!("dimension") => {
+                let mut has_plus_sign = false;
 
-            a = Some(if has_minus_sign { -1 } else { 1 });
-            a_raw = Some((if has_plus_sign { "+" } else if has_minus_sign { "-" } else { "" }).into());
+                // '+' n
+                if let  Token::Delim { value: '+' } = cur!(self){
+                    let peeked = self.input.peek()?;
 
-            n_value = if has_minus_sign { ident_value[1..].to_string() } else { ident_value.to_string() };
-          }
-          tok!("dimension") => {
-            let dimension = match bump!(self) {
-              Token::Dimension { value, raw_value, unit, .. } => (value, raw_value, unit),
-              _ => {
-                unreachable!();
-              }
-            };
+                    if let Some(Token::Ident { .. }) = peeked {
+                        bump!(self);
+                        has_plus_sign = true;
+                    }
+                }
+                let a;
+                let a_raw;
 
-            let n_char = dimension.2.chars().next();
+                let n_value;
 
-            if n_char != Some('n') && n_char != Some('N') {
-              return Err(Error::new(
-                span,
-                ErrorKind::Expected("'n' character in Ident"),
-              ));
+                match cur!(self) {
+                    Token::Ident {  .. } => {
+                        let ident_value = match bump!(self) {
+                            Token::Ident { value, .. } => value,
+                            _ => {
+                                unreachable!();
+                            }
+                        };
+
+                        let has_minus_sign = ident_value.starts_with('-');
+                        let n_char = if has_minus_sign { ident_value.chars().nth(1) } else { ident_value.chars().next() };
+
+                        if n_char != Some('n') && n_char != Some('N') {
+                            return Err(Error::new(
+                                span,
+                                ErrorKind::Expected("'n' character in Ident"),
+                            ));
+                        }
+
+                        a = Some(if has_minus_sign { -1 } else {1 });
+                        a_raw = Some((if has_plus_sign { "+" } else if has_minus_sign { "-" } else { "" }).into());
+
+                        n_value = if has_minus_sign { ident_value[1..].to_string() } else { ident_value.to_string() };
+                    }
+                    tok!("dimension") => {
+                        let dimension = match bump!(self) {
+                            Token::Dimension { value, raw_value, unit, .. } => (value, raw_value, unit),
+                            _ => {
+                                unreachable!();
+                            }
+                        };
+
+                        let n_char = dimension.2.chars().next();
+
+                        if n_char != Some('n') && n_char != Some('N') {
+                            return Err(Error::new(
+                                span,
+                                ErrorKind::Expected("'n' character in Ident"),
+                            ));
+                        }
+
+                        a = Some(dimension.0 as i32);
+                        a_raw = Some(dimension.1);
+
+                        n_value =  (*dimension.2).to_string();
+                    }
+                    _ => {
+                        return Err(Error::new(span, ErrorKind::InvalidAnPlusBMicrosyntax));
+                    }
+                };
+
+                self.input.skip_ws()?;
+
+                let mut b = None;
+                let mut b_raw = None;
+
+                let dash_after_n = n_value.chars().nth(1);
+
+                match cur!(self) {
+                    // '+'? n <signed-integer>
+                    // -n <signed-integer>
+                    // <n-dimension> <signed-integer>
+                    tok!("number") if dash_after_n == None => {
+                        let number = match bump!(self) {
+                            Token::Number { value, raw, .. } => (value, raw),
+                            _ => {
+                                unreachable!();
+                            }
+                        };
+
+                        b = Some(number.0 as i32);
+                        b_raw = Some(number.1);
+                    }
+                    // -n- <signless-integer>
+                    // '+'? n- <signless-integer>
+                    // <ndash-dimension> <signless-integer>
+                    tok!("number") if dash_after_n == Some('-') => {
+                        let number = match bump!(self) {
+                            Token::Number { value, raw, .. } => (value, raw),
+                            _ => {
+                                unreachable!();
+                            }
+                        };
+
+                        b = Some(-number.0 as i32);
+
+                        let mut b_raw_str = String::new();
+
+                        b_raw_str.push_str("- ");
+                        b_raw_str.push_str(&number.1);
+                        b_raw = Some(b_raw_str.into());
+                    }
+                    // '+'? n ['+' | '-'] <signless-integer>
+                    // -n ['+' | '-'] <signless-integer>
+                    // <n-dimension> ['+' | '-'] <signless-integer>
+                    tok!("-") | tok!("+") => {
+                        let (b_sign, b_sign_raw) = match bump!(self) {
+                            Token::Delim { value, .. } => (if value == '-' { -1 } else { 1 }, value),
+                            _ => {
+                                unreachable!();
+                            }
+                        };
+
+                        self.input.skip_ws()?;
+
+                        let number = match bump!(self) {
+                            Token::Number { value, raw, .. } => (value, raw),
+                            _ => {
+                                return Err(Error::new(span, ErrorKind::Expected("Num")));
+                            }
+                        };
+
+                        b = Some(b_sign * number.0 as i32);
+
+                        let mut b_raw_str = String::new();
+
+                        b_raw_str.push(' ');
+                        b_raw_str.push(b_sign_raw);
+                        b_raw_str.push(' ');
+                        b_raw_str.push_str(&number.1);
+                        b_raw = Some(b_raw_str.into());
+                    }
+                    // '+'? <ndashdigit-ident>
+                    // <dashndashdigit-ident>
+                    // <ndashdigit-dimension>
+                    _ if dash_after_n == Some('-') => {
+                        let b_from_ident = &n_value[2..];
+                        let parsed: i32 = lexical::parse(b_from_ident).unwrap_or_else(|err| {
+                            unreachable!(
+                                "failed to parse `{}` using lexical: {:?}",
+                                b_from_ident, err
+                            )
+                        });
+
+                        b = Some(-parsed);
+
+                        let mut b_raw_str = String::new();
+
+                        b_raw_str.push('-');
+                        b_raw_str.push_str(b_from_ident);
+
+                        b_raw = Some(b_raw_str.into());
+                    }
+                    // '+'? n
+                    // -n
+                    _ if dash_after_n == None => {}
+                    _ => {
+                        return Err(Error::new(span, ErrorKind::InvalidAnPlusBMicrosyntax));
+                    }
+                }
+
+                Ok(AnPlusB::AnPlusBNotation(AnPlusBNotation {
+                    span: span!(self, span.lo),
+                    a,
+                    a_raw,
+                    b,
+                    b_raw,
+                }))
             }
-
-            a = Some(dimension.0 as i32);
-            a_raw = Some(dimension.1);
-
-            n_value = (*dimension.2).to_string();
-          }
-          _ => {
-            return Err(Error::new(span, ErrorKind::InvalidAnPlusBMicrosyntax));
-          }
-        };
-
-        self.input.skip_ws()?;
-
-        let mut b = None;
-        let mut b_raw = None;
-
-        let dash_after_n = n_value.chars().nth(1);
-
-        match cur!(self) {
-          // '+'? n <signed-integer>
-          // -n <signed-integer>
-          // <n-dimension> <signed-integer>
-          tok!("number") if dash_after_n == None => {
-            let number = match bump!(self) {
-              Token::Number { value, raw, .. } => (value, raw),
-              _ => {
-                unreachable!();
-              }
-            };
-
-            b = Some(number.0 as i32);
-            b_raw = Some(number.1);
-          }
-          // -n- <signless-integer>
-          // '+'? n- <signless-integer>
-          // <ndash-dimension> <signless-integer>
-          tok!("number") if dash_after_n == Some('-') => {
-            let number = match bump!(self) {
-              Token::Number { value, raw, .. } => (value, raw),
-              _ => {
-                unreachable!();
-              }
-            };
-
-            b = Some(-number.0 as i32);
-
-            let mut b_raw_str = String::new();
-
-            b_raw_str.push_str("- ");
-            b_raw_str.push_str(&number.1);
-            b_raw = Some(b_raw_str.into());
-          }
-          // '+'? n ['+' | '-'] <signless-integer>
-          // -n ['+' | '-'] <signless-integer>
-          // <n-dimension> ['+' | '-'] <signless-integer>
-          tok!("-") | tok!("+") => {
-            let (b_sign, b_sign_raw) = match bump!(self) {
-              Token::Delim { value, .. } => (if value == '-' { -1 } else { 1 }, value),
-              _ => {
-                unreachable!();
-              }
-            };
-
-            self.input.skip_ws()?;
-
-            let number = match bump!(self) {
-              Token::Number { value, raw, .. } => (value, raw),
-              _ => {
-                return Err(Error::new(span, ErrorKind::Expected("Num")));
-              }
-            };
-
-            b = Some(b_sign * number.0 as i32);
-
-            let mut b_raw_str = String::new();
-
-            b_raw_str.push(' ');
-            b_raw_str.push(b_sign_raw);
-            b_raw_str.push(' ');
-            b_raw_str.push_str(&number.1);
-            b_raw = Some(b_raw_str.into());
-          }
-          // '+'? <ndashdigit-ident>
-          // <dashndashdigit-ident>
-          // <ndashdigit-dimension>
-          _ if dash_after_n == Some('-') => {
-            let b_from_ident = &n_value[2..];
-            let parsed: i32 = lexical::parse(b_from_ident).unwrap_or_else(|err| {
-              unreachable!(
-                "failed to parse `{}` using lexical: {:?}",
-                b_from_ident, err
-              )
-            });
-
-            b = Some(-parsed);
-
-            let mut b_raw_str = String::new();
-
-            b_raw_str.push('-');
-            b_raw_str.push_str(b_from_ident);
-
-            b_raw = Some(b_raw_str.into());
-          }
-          // '+'? n
-          // -n
-          _ if dash_after_n == None => {}
-          _ => {
-            return Err(Error::new(span, ErrorKind::InvalidAnPlusBMicrosyntax));
-          }
+            _ => {
+                return Err(Error::new(span, ErrorKind::InvalidAnPlusBMicrosyntax));
+            }
         }
-
-        Ok(AnPlusB::AnPlusBNotation(AnPlusBNotation {
-          span: span!(self, span.lo),
-          a,
-          a_raw,
-          b,
-          b_raw,
-        }))
-      }
-      _ => {
-        return Err(Error::new(span, ErrorKind::InvalidAnPlusBMicrosyntax));
-      }
-    }
     }
 }

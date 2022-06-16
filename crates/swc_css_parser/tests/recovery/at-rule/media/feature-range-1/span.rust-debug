@@ -1,0 +1,132 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-1/input.css:1:1]
+ 1 | @media (height << 600px) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-1/input.css:1:1]
+ 1 | @media (height << 600px) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-1/input.css:1:1]
+ 1 | @media (height << 600px) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-1/input.css:1:1]
+ 1 | @media (height << 600px) {}
+   :  ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-1/input.css:1:1]
+ 1 | @media (height << 600px) {}
+   :  ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-1/input.css:1:1]
+ 1 | @media (height << 600px) {}
+   :       ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-1/input.css:1:1]
+ 1 | @media (height << 600px) {}
+   :       ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-1/input.css:1:1]
+ 1 | @media (height << 600px) {}
+   :        ^^^^^^^^^^^^^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-1/input.css:1:1]
+ 1 | @media (height << 600px) {}
+   :        ^^^^^^^^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-1/input.css:1:1]
+ 1 | @media (height << 600px) {}
+   :         ^^^^^^
+   `----
+
+  x Ident { value: Atom('height' type=inline), raw: Atom('height' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-1/input.css:1:1]
+ 1 | @media (height << 600px) {}
+   :         ^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-1/input.css:1:1]
+ 1 | @media (height << 600px) {}
+   :               ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-1/input.css:1:1]
+ 1 | @media (height << 600px) {}
+   :               ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-1/input.css:1:1]
+ 1 | @media (height << 600px) {}
+   :                ^
+   `----
+
+  x Delim { value: '<' }
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-1/input.css:1:1]
+ 1 | @media (height << 600px) {}
+   :                ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-1/input.css:1:1]
+ 1 | @media (height << 600px) {}
+   :                 ^
+   `----
+
+  x Delim { value: '<' }
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-1/input.css:1:1]
+ 1 | @media (height << 600px) {}
+   :                 ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-1/input.css:1:1]
+ 1 | @media (height << 600px) {}
+   :                  ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-1/input.css:1:1]
+ 1 | @media (height << 600px) {}
+   :                  ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-1/input.css:1:1]
+ 1 | @media (height << 600px) {}
+   :                   ^^^^^
+   `----
+
+  x Dimension { value: 600.0, raw_value: Atom('600' type=inline), unit: Atom('px' type=inline), raw_unit: Atom('px' type=inline), type_flag: Integer }
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-1/input.css:1:1]
+ 1 | @media (height << 600px) {}
+   :                   ^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-1/input.css:1:1]
+ 1 | @media (height << 600px) {}
+   :                          ^^
+   `----

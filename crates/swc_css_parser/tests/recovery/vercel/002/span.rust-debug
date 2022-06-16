@@ -1,0 +1,988 @@
+
+  x Stylesheet
+    ,-[$DIR/tests/recovery/vercel/002/input.css:1:1]
+  1 | ,-> .slide {
+  2 | |       width: __styled-jsx-placeholder__7px;
+  3 | |       height: __styled-jsx-placeholder__7px;
+  4 | |       margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
+  5 | |       border-radius: 7px;
+  6 | |       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+  7 | |           0 5px 12px rgba(0, 0, 0, 0.1);
+  8 | |       transition: all 0.5s ease;
+  9 | |       cursor: pointer;
+ 10 | |       overflow: hidden;
+ 11 | |       background: white;
+ 12 | `-> }
+    `----
+
+  x Rule
+    ,-[$DIR/tests/recovery/vercel/002/input.css:1:1]
+  1 | ,-> .slide {
+  2 | |       width: __styled-jsx-placeholder__7px;
+  3 | |       height: __styled-jsx-placeholder__7px;
+  4 | |       margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
+  5 | |       border-radius: 7px;
+  6 | |       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+  7 | |           0 5px 12px rgba(0, 0, 0, 0.1);
+  8 | |       transition: all 0.5s ease;
+  9 | |       cursor: pointer;
+ 10 | |       overflow: hidden;
+ 11 | |       background: white;
+ 12 | `-> }
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/recovery/vercel/002/input.css:1:1]
+  1 | ,-> .slide {
+  2 | |       width: __styled-jsx-placeholder__7px;
+  3 | |       height: __styled-jsx-placeholder__7px;
+  4 | |       margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
+  5 | |       border-radius: 7px;
+  6 | |       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+  7 | |           0 5px 12px rgba(0, 0, 0, 0.1);
+  8 | |       transition: all 0.5s ease;
+  9 | |       cursor: pointer;
+ 10 | |       overflow: hidden;
+ 11 | |       background: white;
+ 12 | `-> }
+    `----
+
+  x SelectorList
+   ,-[$DIR/tests/recovery/vercel/002/input.css:1:1]
+ 1 | .slide {
+   : ^^^^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/recovery/vercel/002/input.css:1:1]
+ 1 | .slide {
+   : ^^^^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/recovery/vercel/002/input.css:1:1]
+ 1 | .slide {
+   : ^^^^^^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/recovery/vercel/002/input.css:1:1]
+ 1 | .slide {
+   : ^^^^^^
+   `----
+
+  x ClassSelector
+   ,-[$DIR/tests/recovery/vercel/002/input.css:1:1]
+ 1 | .slide {
+   : ^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/002/input.css:1:1]
+ 1 | .slide {
+   :  ^^^^^
+   `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/recovery/vercel/002/input.css:1:1]
+  1 | ,-> .slide {
+  2 | |       width: __styled-jsx-placeholder__7px;
+  3 | |       height: __styled-jsx-placeholder__7px;
+  4 | |       margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
+  5 | |       border-radius: 7px;
+  6 | |       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+  7 | |           0 5px 12px rgba(0, 0, 0, 0.1);
+  8 | |       transition: all 0.5s ease;
+  9 | |       cursor: pointer;
+ 10 | |       overflow: hidden;
+ 11 | |       background: white;
+ 12 | `-> }
+    `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:2:5]
+ 2 | width: __styled-jsx-placeholder__7px;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/vercel/002/input.css:2:5]
+ 2 | width: __styled-jsx-placeholder__7px;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/vercel/002/input.css:2:5]
+ 2 | width: __styled-jsx-placeholder__7px;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/vercel/002/input.css:2:5]
+ 2 | width: __styled-jsx-placeholder__7px;
+   : ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/002/input.css:2:5]
+ 2 | width: __styled-jsx-placeholder__7px;
+   : ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:2:5]
+ 2 | width: __styled-jsx-placeholder__7px;
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/002/input.css:2:5]
+ 2 | width: __styled-jsx-placeholder__7px;
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:3:5]
+ 3 | height: __styled-jsx-placeholder__7px;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/vercel/002/input.css:3:5]
+ 3 | height: __styled-jsx-placeholder__7px;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/vercel/002/input.css:3:5]
+ 3 | height: __styled-jsx-placeholder__7px;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/vercel/002/input.css:3:5]
+ 3 | height: __styled-jsx-placeholder__7px;
+   : ^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/002/input.css:3:5]
+ 3 | height: __styled-jsx-placeholder__7px;
+   : ^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:3:5]
+ 3 | height: __styled-jsx-placeholder__7px;
+   :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/002/input.css:3:5]
+ 3 | height: __styled-jsx-placeholder__7px;
+   :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:4:5]
+ 4 | margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/vercel/002/input.css:4:5]
+ 4 | margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/vercel/002/input.css:4:5]
+ 4 | margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/vercel/002/input.css:4:5]
+ 4 | margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
+   : ^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/002/input.css:4:5]
+ 4 | margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
+   : ^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:4:5]
+ 4 | margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
+   :         ^
+   `----
+
+  x Integer
+   ,-[$DIR/tests/recovery/vercel/002/input.css:4:5]
+ 4 | margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
+   :         ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:4:5]
+ 4 | margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
+   :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/recovery/vercel/002/input.css:4:5]
+ 4 | margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
+   :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/002/input.css:4:5]
+ 4 | margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
+   :           ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:4:5]
+ 4 | margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
+   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident { value: Atom('__styled-jsx-placeholder__7vw' type=dynamic), raw: Atom('__styled-jsx-placeholder__7vw' type=dynamic) }
+   ,-[$DIR/tests/recovery/vercel/002/input.css:4:5]
+ 4 | margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
+   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:4:5]
+ 4 | margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
+   :                                             ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/vercel/002/input.css:4:5]
+ 4 | margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
+   :                                             ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:4:5]
+ 4 | margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
+   :                                              ^
+   `----
+
+  x Delim { value: '-' }
+   ,-[$DIR/tests/recovery/vercel/002/input.css:4:5]
+ 4 | margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
+   :                                              ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:4:5]
+ 4 | margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
+   :                                               ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/vercel/002/input.css:4:5]
+ 4 | margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
+   :                                               ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:4:5]
+ 4 | margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
+   :                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident { value: Atom('__styled-jsx-placeholder__7px' type=dynamic), raw: Atom('__styled-jsx-placeholder__7px' type=dynamic) }
+   ,-[$DIR/tests/recovery/vercel/002/input.css:4:5]
+ 4 | margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
+   :                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:5:5]
+ 5 | border-radius: 7px;
+   : ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/vercel/002/input.css:5:5]
+ 5 | border-radius: 7px;
+   : ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/vercel/002/input.css:5:5]
+ 5 | border-radius: 7px;
+   : ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/vercel/002/input.css:5:5]
+ 5 | border-radius: 7px;
+   : ^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/002/input.css:5:5]
+ 5 | border-radius: 7px;
+   : ^^^^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:5:5]
+ 5 | border-radius: 7px;
+   :                ^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/recovery/vercel/002/input.css:5:5]
+ 5 | border-radius: 7px;
+   :                ^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/recovery/vercel/002/input.css:5:5]
+ 5 | border-radius: 7px;
+   :                ^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/recovery/vercel/002/input.css:5:5]
+ 5 | border-radius: 7px;
+   :                ^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/002/input.css:5:5]
+ 5 | border-radius: 7px;
+   :                 ^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:6:5]
+ 6 | ,-> box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+ 7 | `->         0 5px 12px rgba(0, 0, 0, 0.1);
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/vercel/002/input.css:6:5]
+ 6 | ,-> box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+ 7 | `->         0 5px 12px rgba(0, 0, 0, 0.1);
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/vercel/002/input.css:6:5]
+ 6 | ,-> box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+ 7 | `->         0 5px 12px rgba(0, 0, 0, 0.1);
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/vercel/002/input.css:6:5]
+ 6 | box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+   : ^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/002/input.css:6:5]
+ 6 | box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+   : ^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:6:5]
+ 6 | box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+   :             ^
+   `----
+
+  x Integer
+   ,-[$DIR/tests/recovery/vercel/002/input.css:6:5]
+ 6 | box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+   :             ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:6:5]
+ 6 | box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+   :               ^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/recovery/vercel/002/input.css:6:5]
+ 6 | box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+   :               ^^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/recovery/vercel/002/input.css:6:5]
+ 6 | box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+   :               ^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/recovery/vercel/002/input.css:6:5]
+ 6 | box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+   :               ^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/002/input.css:6:5]
+ 6 | box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+   :                 ^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:6:5]
+ 6 | box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+   :                    ^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/recovery/vercel/002/input.css:6:5]
+ 6 | box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+   :                    ^^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/recovery/vercel/002/input.css:6:5]
+ 6 | box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+   :                    ^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/recovery/vercel/002/input.css:6:5]
+ 6 | box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+   :                    ^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/002/input.css:6:5]
+ 6 | box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+   :                      ^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:6:5]
+ 6 | box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+   :                         ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Color
+   ,-[$DIR/tests/recovery/vercel/002/input.css:6:5]
+ 6 | box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+   :                         ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/recovery/vercel/002/input.css:6:5]
+ 6 | box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+   :                         ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/002/input.css:6:5]
+ 6 | box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+   :                         ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:6:5]
+ 6 | box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+   :                              ^
+   `----
+
+  x Number
+   ,-[$DIR/tests/recovery/vercel/002/input.css:6:5]
+ 6 | box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+   :                              ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:6:5]
+ 6 | box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+   :                               ^
+   `----
+
+  x Delimiter
+   ,-[$DIR/tests/recovery/vercel/002/input.css:6:5]
+ 6 | box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+   :                               ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:6:5]
+ 6 | box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+   :                                 ^
+   `----
+
+  x Number
+   ,-[$DIR/tests/recovery/vercel/002/input.css:6:5]
+ 6 | box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+   :                                 ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:6:5]
+ 6 | box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+   :                                  ^
+   `----
+
+  x Delimiter
+   ,-[$DIR/tests/recovery/vercel/002/input.css:6:5]
+ 6 | box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+   :                                  ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:6:5]
+ 6 | box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+   :                                    ^
+   `----
+
+  x Number
+   ,-[$DIR/tests/recovery/vercel/002/input.css:6:5]
+ 6 | box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+   :                                    ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:6:5]
+ 6 | box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+   :                                     ^
+   `----
+
+  x Delimiter
+   ,-[$DIR/tests/recovery/vercel/002/input.css:6:5]
+ 6 | box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+   :                                     ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:6:5]
+ 6 | box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+   :                                       ^^^^
+   `----
+
+  x AlphaValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:6:5]
+ 6 | box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+   :                                       ^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/recovery/vercel/002/input.css:6:5]
+ 6 | box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+   :                                       ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:6:5]
+ 6 | box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+   :                                            ^
+   `----
+
+  x Delimiter
+   ,-[$DIR/tests/recovery/vercel/002/input.css:6:5]
+ 6 | box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
+   :                                            ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:7:9]
+ 7 | 0 5px 12px rgba(0, 0, 0, 0.1);
+   : ^
+   `----
+
+  x Integer
+   ,-[$DIR/tests/recovery/vercel/002/input.css:7:9]
+ 7 | 0 5px 12px rgba(0, 0, 0, 0.1);
+   : ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:7:9]
+ 7 | 0 5px 12px rgba(0, 0, 0, 0.1);
+   :   ^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/recovery/vercel/002/input.css:7:9]
+ 7 | 0 5px 12px rgba(0, 0, 0, 0.1);
+   :   ^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/recovery/vercel/002/input.css:7:9]
+ 7 | 0 5px 12px rgba(0, 0, 0, 0.1);
+   :   ^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/recovery/vercel/002/input.css:7:9]
+ 7 | 0 5px 12px rgba(0, 0, 0, 0.1);
+   :   ^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/002/input.css:7:9]
+ 7 | 0 5px 12px rgba(0, 0, 0, 0.1);
+   :    ^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:7:9]
+ 7 | 0 5px 12px rgba(0, 0, 0, 0.1);
+   :       ^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/recovery/vercel/002/input.css:7:9]
+ 7 | 0 5px 12px rgba(0, 0, 0, 0.1);
+   :       ^^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/recovery/vercel/002/input.css:7:9]
+ 7 | 0 5px 12px rgba(0, 0, 0, 0.1);
+   :       ^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/recovery/vercel/002/input.css:7:9]
+ 7 | 0 5px 12px rgba(0, 0, 0, 0.1);
+   :       ^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/002/input.css:7:9]
+ 7 | 0 5px 12px rgba(0, 0, 0, 0.1);
+   :         ^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:7:9]
+ 7 | 0 5px 12px rgba(0, 0, 0, 0.1);
+   :            ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Color
+   ,-[$DIR/tests/recovery/vercel/002/input.css:7:9]
+ 7 | 0 5px 12px rgba(0, 0, 0, 0.1);
+   :            ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/recovery/vercel/002/input.css:7:9]
+ 7 | 0 5px 12px rgba(0, 0, 0, 0.1);
+   :            ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/002/input.css:7:9]
+ 7 | 0 5px 12px rgba(0, 0, 0, 0.1);
+   :            ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:7:9]
+ 7 | 0 5px 12px rgba(0, 0, 0, 0.1);
+   :                 ^
+   `----
+
+  x Number
+   ,-[$DIR/tests/recovery/vercel/002/input.css:7:9]
+ 7 | 0 5px 12px rgba(0, 0, 0, 0.1);
+   :                 ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:7:9]
+ 7 | 0 5px 12px rgba(0, 0, 0, 0.1);
+   :                  ^
+   `----
+
+  x Delimiter
+   ,-[$DIR/tests/recovery/vercel/002/input.css:7:9]
+ 7 | 0 5px 12px rgba(0, 0, 0, 0.1);
+   :                  ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:7:9]
+ 7 | 0 5px 12px rgba(0, 0, 0, 0.1);
+   :                    ^
+   `----
+
+  x Number
+   ,-[$DIR/tests/recovery/vercel/002/input.css:7:9]
+ 7 | 0 5px 12px rgba(0, 0, 0, 0.1);
+   :                    ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:7:9]
+ 7 | 0 5px 12px rgba(0, 0, 0, 0.1);
+   :                     ^
+   `----
+
+  x Delimiter
+   ,-[$DIR/tests/recovery/vercel/002/input.css:7:9]
+ 7 | 0 5px 12px rgba(0, 0, 0, 0.1);
+   :                     ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:7:9]
+ 7 | 0 5px 12px rgba(0, 0, 0, 0.1);
+   :                       ^
+   `----
+
+  x Number
+   ,-[$DIR/tests/recovery/vercel/002/input.css:7:9]
+ 7 | 0 5px 12px rgba(0, 0, 0, 0.1);
+   :                       ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:7:9]
+ 7 | 0 5px 12px rgba(0, 0, 0, 0.1);
+   :                        ^
+   `----
+
+  x Delimiter
+   ,-[$DIR/tests/recovery/vercel/002/input.css:7:9]
+ 7 | 0 5px 12px rgba(0, 0, 0, 0.1);
+   :                        ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:7:9]
+ 7 | 0 5px 12px rgba(0, 0, 0, 0.1);
+   :                          ^^^
+   `----
+
+  x AlphaValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:7:9]
+ 7 | 0 5px 12px rgba(0, 0, 0, 0.1);
+   :                          ^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/recovery/vercel/002/input.css:7:9]
+ 7 | 0 5px 12px rgba(0, 0, 0, 0.1);
+   :                          ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:8:5]
+ 8 | transition: all 0.5s ease;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/vercel/002/input.css:8:5]
+ 8 | transition: all 0.5s ease;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/vercel/002/input.css:8:5]
+ 8 | transition: all 0.5s ease;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/vercel/002/input.css:8:5]
+ 8 | transition: all 0.5s ease;
+   : ^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/002/input.css:8:5]
+ 8 | transition: all 0.5s ease;
+   : ^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:8:5]
+ 8 | transition: all 0.5s ease;
+   :             ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/002/input.css:8:5]
+ 8 | transition: all 0.5s ease;
+   :             ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:8:5]
+ 8 | transition: all 0.5s ease;
+   :                 ^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/recovery/vercel/002/input.css:8:5]
+ 8 | transition: all 0.5s ease;
+   :                 ^^^^
+   `----
+
+  x Time
+   ,-[$DIR/tests/recovery/vercel/002/input.css:8:5]
+ 8 | transition: all 0.5s ease;
+   :                 ^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/recovery/vercel/002/input.css:8:5]
+ 8 | transition: all 0.5s ease;
+   :                 ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/002/input.css:8:5]
+ 8 | transition: all 0.5s ease;
+   :                    ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:8:5]
+ 8 | transition: all 0.5s ease;
+   :                      ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/002/input.css:8:5]
+ 8 | transition: all 0.5s ease;
+   :                      ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:9:5]
+ 9 | cursor: pointer;
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/vercel/002/input.css:9:5]
+ 9 | cursor: pointer;
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/vercel/002/input.css:9:5]
+ 9 | cursor: pointer;
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/vercel/002/input.css:9:5]
+ 9 | cursor: pointer;
+   : ^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/002/input.css:9:5]
+ 9 | cursor: pointer;
+   : ^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/vercel/002/input.css:9:5]
+ 9 | cursor: pointer;
+   :         ^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/vercel/002/input.css:9:5]
+ 9 | cursor: pointer;
+   :         ^^^^^^^
+   `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/vercel/002/input.css:10:5]
+ 10 | overflow: hidden;
+    : ^^^^^^^^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/recovery/vercel/002/input.css:10:5]
+ 10 | overflow: hidden;
+    : ^^^^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/recovery/vercel/002/input.css:10:5]
+ 10 | overflow: hidden;
+    : ^^^^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/recovery/vercel/002/input.css:10:5]
+ 10 | overflow: hidden;
+    : ^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/recovery/vercel/002/input.css:10:5]
+ 10 | overflow: hidden;
+    : ^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/vercel/002/input.css:10:5]
+ 10 | overflow: hidden;
+    :           ^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/recovery/vercel/002/input.css:10:5]
+ 10 | overflow: hidden;
+    :           ^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/vercel/002/input.css:11:5]
+ 11 | background: white;
+    : ^^^^^^^^^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/recovery/vercel/002/input.css:11:5]
+ 11 | background: white;
+    : ^^^^^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/recovery/vercel/002/input.css:11:5]
+ 11 | background: white;
+    : ^^^^^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/recovery/vercel/002/input.css:11:5]
+ 11 | background: white;
+    : ^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/recovery/vercel/002/input.css:11:5]
+ 11 | background: white;
+    : ^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/vercel/002/input.css:11:5]
+ 11 | background: white;
+    :             ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/recovery/vercel/002/input.css:11:5]
+ 11 | background: white;
+    :             ^^^^^
+    `----

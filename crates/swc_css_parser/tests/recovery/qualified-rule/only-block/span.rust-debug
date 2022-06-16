@@ -1,0 +1,117 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:1:1]
+ 1 | ,-> {
+ 2 | |   
+ 3 | |   }
+ 4 | |   
+ 5 | |   {}
+ 6 | |   
+ 7 | |   {
+ 8 | |       color: red;
+ 9 | `-> }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:1:1]
+ 1 | ,-> {
+ 2 | |   
+ 3 | `-> }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:1:1]
+ 1 | ,-> {
+ 2 | |   
+ 3 | `-> }
+   `----
+
+  x Tokens
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:1:1]
+ 1 | ,-> {
+ 2 | |   
+ 3 | `-> }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:5:1]
+ 5 | {}
+   : ^^
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:5:1]
+ 5 | {}
+   : ^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:5:1]
+ 5 | {}
+   : ^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:7:1]
+ 7 | ,-> {
+ 8 | |       color: red;
+ 9 | `-> }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:7:1]
+ 7 | ,-> {
+ 8 | |       color: red;
+ 9 | `-> }
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:7:1]
+ 7 | ,-> {
+ 8 | |       color: red;
+ 9 | `-> }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:8:5]
+ 8 | color: red;
+   : ^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:8:5]
+ 8 | color: red;
+   : ^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:8:5]
+ 8 | color: red;
+   : ^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:8:5]
+ 8 | color: red;
+   : ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:8:5]
+ 8 | color: red;
+   : ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:8:5]
+ 8 | color: red;
+   :        ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:8:5]
+ 8 | color: red;
+   :        ^^^
+   `----
