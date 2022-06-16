@@ -4,6 +4,6 @@ set -eux
 npx swc src -d lib
 ls -alR ./lib
 
-fsync
+# fsync
 
-sed -i '' 's/.mjs/.js/g' ./lib/*.js
+sed -i "" 's/.mjs/.js/g' ./lib/*.js
