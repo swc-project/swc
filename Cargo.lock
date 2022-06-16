@@ -3911,7 +3911,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.15.0"
+version = "0.16.0"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -3960,7 +3960,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.12.0"
+version = "0.13.0"
 dependencies = [
  "serde",
  "serde_json",
