@@ -1,4 +1,4 @@
-import AsyncGenerator from './_async_generator';
+import AsyncGenerator from './_async_generator.mjs';
 
 export default function _wrapAsyncGenerator(fn) {
   return function () {

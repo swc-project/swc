@@ -1,4 +1,4 @@
-import _typeof from './_type_of';
+import _typeof from './_type_of.mjs';
 
 export default function _toPrimitive(input, hint) {
   if (_typeof(input) !== "object" || input === null) return input;

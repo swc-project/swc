@@ -1,4 +1,4 @@
-import setPrototypeOf from './_set_prototype_of';
+import setPrototypeOf from './_set_prototype_of.mjs';
 
 export default function _inherits(subClass, superClass) {
   if (typeof superClass !== "function" && superClass !== null) {

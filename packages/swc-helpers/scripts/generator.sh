@@ -20,5 +20,5 @@ for src in $lines; do
   if [ $name = "throw" ]; then
     name='_throw';
   fi
-  echo "export { default as $name } from './$src';"
+  echo "export { default as $name } from './$src.mjs';"
 done

@@ -1,5 +1,5 @@
-import classExtractFieldDescriptor from './_class_extract_field_descriptor';
-import classApplyDescriptorGet from './_class_apply_descriptor_get';
+import classExtractFieldDescriptor from './_class_extract_field_descriptor.mjs';
+import classApplyDescriptorGet from './_class_apply_descriptor_get.mjs';
 
 export default function _classPrivateFieldGet(receiver, privateMap) {
   var descriptor = classExtractFieldDescriptor(receiver, privateMap, "get");
