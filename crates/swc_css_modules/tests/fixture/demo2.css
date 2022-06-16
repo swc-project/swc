@@ -6,11 +6,6 @@
     width: 40px;
 }
 
-
-.b :global(.a>.b,.c) .x{
-    width: 30px;
-}
-
 :global .a :local .b,:global .x :local {
     width: 40px;
 }
@@ -25,4 +20,8 @@
 
 .a:global.b .c{
     width: 50px;
+}
+
+:global .x  :local(.b > .c){
+    width: 20px;
 }

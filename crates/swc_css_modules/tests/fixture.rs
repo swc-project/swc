@@ -53,7 +53,7 @@ fn test_css_modules(filepath: &str) -> String {
     let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
     let mut parser = Parser::new(lexer, config);
     let stylesheet = parser.parse_all().unwrap();
-    let new_stylesheet = transform_with_css_modules(stylesheet, filepath, content.as_str());
+    let new_stylesheet = transform_with_css_modules(stylesheet, filepath);
     let mut css_str = String::new();
     {
         let wr = BasicCssWriter::new(
@@ -65,6 +65,13 @@ fn test_css_modules(filepath: &str) -> String {
         gen.emit(&new_stylesheet).unwrap();
     }
     css_str
+}
+
+#[test]
+fn test() {
+    let case = path_resolve("tests/fixture/demo3.css");
+    let res = test_css_modules(case.as_str());
+    println!("{}", res);
 }
 
 #[test]

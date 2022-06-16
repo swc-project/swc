@@ -1,3 +1,236 @@
-:global .x  :local(.b > .c){
-    width: 20px;
+/*.\\c{*/
+
+/*}*/
+
+/*#\\#test{*/
+
+/*}*/
+
+/*:local(.foobar) {*/
+/*}*/
+
+/*:local(#foobar) {*/
+/*}*/
+
+/*:local(#\\#test) {*/
+/*}*/
+
+/*:local(#u-m\\00002b) {*/
+/*}*/
+
+/*:local(.foo), :local(.baz) {*/
+/*}*/
+
+/*:local(.foo) ~ :local(.baz) {*/
+/*}*/
+
+:local(.foo):after {
 }
+
+.a:local(.foo){
+
+}
+
+/*@media only screen {*/
+/*    :local(.foo) {*/
+/*    }*/
+/*}*/
+
+/*:global(.foo .bar) {*/
+/*}*/
+
+/*:local(.foo .bar) {*/
+/*}*/
+
+/*:global .foo .bar {*/
+/*}*/
+
+/*:local .foo .bar {*/
+/*}*/
+
+/*:global(.foo), :global(.bar) {*/
+/*}*/
+
+/*:global .foo, :global .bar {*/
+/*}*/
+
+/*:local .foo, :local .bar {*/
+/*}*/
+
+/*.foo :global(.foo .bar) {*/
+/*}*/
+
+/*.foo :global .foo .bar {*/
+/*}*/
+
+/*.foo :global(.foo:not(.bar)) {*/
+/*}*/
+
+/*.foo :local(.foo:not(.bar)) {*/
+/*}*/
+
+/*.foo:global(.foo.bar) {*/
+/*}*/
+
+/*:local(.foobar) {*/
+/*}*/
+
+/*:local(.foo) :local(.bar) {*/
+/*}*/
+
+/*:local(.foo), :local(.bar) {*/
+/*}*/
+
+/*:local(.foo) ~ :local(.bar) {*/
+/*}*/
+
+/*:global .foo, .bar :global, .foobar :global {*/
+/*}*/
+
+/*.foo:not(:global .bar).foobar {*/
+/*}*/
+
+/*.foo :global .bar :local .foobar :local .barfoo {*/
+/*}*/
+
+/*.foo {*/
+/*    animation-name: bar;*/
+/*}*/
+
+/*.foo {*/
+/*    animation-delay: 1s;*/
+/*}*/
+
+/*.foo {*/
+/*    animation-name: bar, foobar;*/
+/*}*/
+
+/*.foo {*/
+/*    animation-name: bar, foobar;*/
+/*}*/
+
+/*.foo {*/
+/*    -webkit-animation: bar;*/
+/*    animation: bar;*/
+/*}*/
+
+/*.foo {*/
+/*    content: "animation: bar;"*/
+/*}*/
+
+/*:global .foo {*/
+/*    animation: foo;*/
+/*    animation-name: bar;*/
+/*}*/
+
+/*.foo {*/
+/*    animation: foo, bar 5s linear 2s infinite alternate, barfoo 1s;*/
+/*}*/
+
+/*.foo {*/
+/*    animation: 1s foo;*/
+/*}*/
+
+/*.foo {*/
+/*    animation: 1s normal ease-out infinite foo;*/
+/*}*/
+
+/*.foo {*/
+/*    animation: slide-right 300ms forwards ease-out, fade-in 300ms forwards ease-out;*/
+/*}*/
+
+/*.foo {*/
+/*    animation: spin 1s STEPS(12, start) infinite;*/
+/*}*/
+
+/*.foo {*/
+/*    animation: spin 1s steps(12, END) infinite;*/
+/*}*/
+
+/*.foo {*/
+/*    animation: spin 1s steps(12, START) infinite;*/
+/*}*/
+
+/*.foo {*/
+/*    animation: 1s normal cubic-bezier(0.25, 0.5, 0.5 .0 .75) foo;*/
+/*}*/
+
+/*.foo {*/
+/*    animation: 1s infinite infinite;*/
+/*}*/
+
+/*.foo {*/
+/*    animation: inherit;*/
+/*}*/
+
+/*.foo {*/
+/*    animation: constructor constructor;*/
+/*}*/
+
+/*@keyframes foo {*/
+/*    from {*/
+/*        color: red;*/
+/*    }*/
+/*    to {*/
+/*        color: blue;*/
+/*    }*/
+/*}*/
+
+/*@keyframes: local(foo) {*/
+/*    0% {*/
+/*        color: red;*/
+/*    }*/
+/*    33.3% {*/
+/*        color: yellow;*/
+/*    }*/
+/*    100% {*/
+/*        color: blue;*/
+/*    }*/
+/*}*/
+
+/*@-webkit-keyframes: global(bar) {*/
+/*    from {*/
+/*        color: red;*/
+/*    }*/
+/*    to {*/
+/*        color: blue;*/
+/*    }*/
+/*}*/
+
+/*.bar:not(:global .foo, .baz) {*/
+/*}*/
+
+/*:global(.foo).bar, [type="radio"] ~ .label, :not(.foo), #bar {*/
+
+/*}*/
+
+/*:global(input) {}*/
+
+/*:global([type="radio"]), :not(:global [type="radio"]) {}*/
+
+/*input {}*/
+
+/*.foo input {}*/
+
+/*[type="radio"] {}*/
+
+/*.a { background: url(./image.png); }*/
+
+/*:global .b { background: url(image.png); }*/
+
+/*.c { background: url("./image.png"); }*/
+
+/*.a { content: "\\2193" }*/
+
+/*.a { content: "\\2193\\2193" }*/
+
+/*.a { content: "\\2193 \\2193" }*/
+
+/*.a { content: "\\2193\\2193\\2193" }*/
+
+/*.a { content: "\\2193 \\2193 \\2193" }*/
+
+/*:root { --title-align: center; --sr-only: { position: absolute; } }*/
+
+
+

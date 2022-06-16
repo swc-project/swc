@@ -1,90 +1,62 @@
-use std::collections::HashSet;
+use std::{
+    collections::{hash_map::DefaultHasher, HashSet},
+    hash::{Hash, Hasher},
+    path::Path,
+};
 
 use swc_atoms::JsWord;
-use swc_common::{input::SourceFileInput, sync::Lrc, FileName, SourceMap};
 use swc_css_ast::{
-    ComplexSelector, ComplexSelectorChildren, CompoundSelector, PseudoClassSelectorChildren,
-    SelectorList, SubclassSelector, Token, TokenAndSpan,
+    ComplexSelector, ComplexSelectorChildren, CompoundSelector, PseudoClassSelector,
+    PseudoClassSelectorChildren, SelectorList, SubclassSelector,
 };
-use swc_css_parser::{
-    lexer::Lexer,
-    parser::{Parser, ParserConfig},
-};
-use swc_css_visit::{Fold, FoldWith};
-
-use crate::hash::StyleHash;
+use swc_css_visit::Fold;
 
 #[derive(Default)]
 pub struct CssModuleComponent {
-    pub hash_prefix: String,
     pub class_collect: HashSet<String>,
     pub group_pseudo_ident: Vec<Vec<String>>,
-}
-
-#[derive(Default)]
-pub struct ChildCssModuleComponent {
-    pub selector_list: Option<SelectorList>,
+    pub prefix_filepath: String,
 }
 
 impl CssModuleComponent {
     ///
     /// init css-module context
-    pub fn new(filepath: &str, content: &str) -> Self {
+    pub fn new(filepath: &str) -> Self {
         CssModuleComponent {
-            hash_prefix: StyleHash::generate_css_module_hash(filepath, content),
             class_collect: Default::default(),
             group_pseudo_ident: vec![],
+            prefix_filepath: filepath.to_string(),
         }
     }
 
-    pub fn convert_token_and_span(t: TokenAndSpan) -> Result<String, String> {
-        let res: String;
-        if let Token::Ident { value, .. } = t.token {
-            res = value.to_string();
-        } else if let Token::Hash { value, .. } = t.token {
-            res = value.to_string();
-        } else if let Token::AtKeyword { value, .. } = t.token {
-            res = value.to_string();
-        } else if let Token::WhiteSpace { value } = t.token {
-            res = value.to_string();
-        } else if let Token::Number { value, .. } = t.token {
-            res = value.to_string();
-        } else if let Token::Percentage { value, .. } = t.token {
-            res = value.to_string();
-        } else if let Token::Url { value, .. } = t.token {
-            res = value.to_string();
-        } else if let Token::String { value, .. } = t.token {
-            res = value.to_string();
-        } else if let Token::BadString { value, .. } = t.token {
-            res = value.to_string();
-        } else if let Token::Delim { value, .. } = t.token {
-            res = value.to_string();
-        } else {
-            return Err("convert token has no matching correct type".to_string());
+    ///
+    /// Generated content_hash from article content
+    pub fn generate_hash_by_content(&self, content: &str) -> String {
+        let path = Path::new(self.prefix_filepath.as_str());
+        let mut prefix = "".to_string();
+        if let Some(parent_path) = path.parent() {
+            if let Some(parent_dir) = parent_path.file_name() {
+                prefix += parent_dir.to_str().unwrap();
+                prefix += "_";
+            }
         }
-        if !res.is_empty() {
-            Ok(res)
-        } else {
-            Err("convert token has error".to_string())
-        }
-    }
-
-    pub fn child_select_compile(select_txt: &str) -> ComplexSelector {
-        let content = select_txt.to_string() + "{" + "}";
-        let config = ParserConfig {
-            ..Default::default()
-        };
-        let cm: Lrc<SourceMap> = Default::default();
-        let fm = cm.new_source_file(FileName::Custom("/root/index.css".to_string()), content);
-        let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
-        let mut parser = Parser::new(lexer, config);
-        let stylesheet = parser.parse_all().unwrap();
-        let mut visitor = ChildCssModuleComponent {
-            selector_list: None,
-        };
-        stylesheet.fold_with(&mut visitor);
-        let selector_list = visitor.selector_list.unwrap();
-        selector_list.children.get(0).unwrap().to_owned()
+        prefix += path
+            .file_stem()
+            .unwrap()
+            .to_str()
+            .unwrap()
+            .replace('.', "_")
+            .replace(r#"\\"#, "/")
+            .as_str();
+        let mut hasher = DefaultHasher::new();
+        content.hash(&mut hasher);
+        let content_hash = hasher.finish().to_string();
+        format!(
+            "{}_{}_{}",
+            prefix,
+            content_hash,
+            content.to_string().replace(r#"\\"#, "---")
+        )
     }
 
     ///
@@ -116,28 +88,93 @@ impl CssModuleComponent {
         Some(&":global".to_string()) == list.last()
     }
 
-    pub fn convert_vec_pseudoclasschildren(
-        list: Vec<PseudoClassSelectorChildren>,
-    ) -> ComplexSelector {
-        let mut child_select_txt = "".to_string();
-        for item in list.into_iter() {
-            if let PseudoClassSelectorChildren::PreservedToken(t) = item {
-                if !matches!(t.token, Token::Comma) {
-                    child_select_txt += Self::convert_token_and_span(t).unwrap().as_str();
+    pub fn convert_pseudo_global_class(
+        &self,
+        pseudo_class: PseudoClassSelector,
+    ) -> Vec<ComplexSelectorChildren> {
+        let mut list = vec![];
+        for (index, item) in pseudo_class.children.unwrap().into_iter().enumerate() {
+            if index > 0 {
+                // todo fix error
+            } else {
+                // handle logic limit len = 1
+                if let PseudoClassSelectorChildren::SelectorList(select_list) = item {
+                    for (index, mut select_children_list) in
+                        select_list.children.into_iter().enumerate()
+                    {
+                        if index > 0 {
+                            // todo fix error
+                        } else {
+                            // handle logic limit len = 1
+                            list.append(&mut select_children_list.children)
+                        }
+                    }
+                } else {
+                    // todo fix error
                 }
             }
         }
-        Self::child_select_compile(child_select_txt.as_str())
+        list
     }
-}
 
-impl Fold for ChildCssModuleComponent {
-    fn fold_selector_list(&mut self, n: SelectorList) -> SelectorList {
-        self.selector_list = Some(n);
-        SelectorList {
-            span: Default::default(),
-            children: vec![],
+    pub fn convert_pseudo_local_class(
+        &mut self,
+        pseudo_class: PseudoClassSelector,
+    ) -> Vec<ComplexSelectorChildren> {
+        let mut list = vec![];
+        for (index, item) in pseudo_class.children.unwrap().into_iter().enumerate() {
+            if index > 0 {
+                // todo fix error
+            } else {
+                // handle logic limit len = 1
+                if let PseudoClassSelectorChildren::SelectorList(select_list) = item {
+                    for (index, mut select_children_list) in
+                        select_list.children.into_iter().enumerate()
+                    {
+                        if index > 0 {
+                            // todo fix error
+                        } else {
+                            // handle logic limit len = 1
+                            for complex_selector_children in
+                                select_children_list.children.iter_mut()
+                            {
+                                if let ComplexSelectorChildren::CompoundSelector(
+                                    compound_selector,
+                                ) = complex_selector_children
+                                {
+                                    for selector in compound_selector.subclass_selectors.iter_mut()
+                                    {
+                                        if let SubclassSelector::Class(class) = selector {
+                                            //match :local need transform
+                                            let class_selector_txt_value = self
+                                                .generate_hash_by_content(
+                                                    class.text.raw.to_string().as_str(),
+                                                );
+                                            class.text.raw =
+                                                JsWord::from(class_selector_txt_value.as_str());
+                                            self.class_collect.insert(class_selector_txt_value);
+                                        } else if let SubclassSelector::Id(id) = selector {
+                                            //match :local need transform
+                                            let id_selector_txt_value = self
+                                                .generate_hash_by_content(
+                                                    id.text.raw.to_string().as_str(),
+                                                );
+                                            id.text.raw =
+                                                JsWord::from(id_selector_txt_value.as_str());
+                                            self.class_collect.insert(id_selector_txt_value);
+                                        }
+                                    }
+                                }
+                            }
+                            list.append(&mut select_children_list.children)
+                        }
+                    }
+                } else {
+                    // todo fix error
+                }
+            }
         }
+        list
     }
 }
 
@@ -151,105 +188,146 @@ impl Fold for CssModuleComponent {
         let mut list = vec![];
         self.clear_group_pseudo_ident();
 
-        for (index, complex_selector) in n.children.into_iter().enumerate() {
-            // compare every group pseduo is matched
+        for (index, mut complex_selector) in n.children.into_iter().enumerate() {
+            // compare every group pseudo is matched
             self.add_group_pseudo_ident();
             let mut complex_selector_children_list = vec![];
 
-            for complex_selector_children in complex_selector.children.into_iter() {
+            let mut z_index = 0;
+            while z_index < complex_selector.children.len() {
+                let complex_selector_children = complex_selector.children.remove(index);
                 match complex_selector_children {
                     ComplexSelectorChildren::CompoundSelector(compound_selector) => {
-                        if !compound_selector.subclass_selectors.is_empty() {
-                            // css_modules logic here
-                            let mut sub_list = vec![];
-                            for sub_ss in compound_selector.subclass_selectors.into_iter() {
-                                match sub_ss {
-                                    SubclassSelector::Id(_)
-                                    | SubclassSelector::Attribute(_)
-                                    | SubclassSelector::PseudoElement(_) => {
-                                        sub_list.push(sub_ss);
+                        let mut new_compound_selector = CompoundSelector {
+                            subclass_selectors: vec![],
+                            ..compound_selector
+                        };
+                        let mut sub_list = vec![];
+                        for sub in compound_selector.subclass_selectors.into_iter() {
+                            match sub {
+                                SubclassSelector::Id(mut id) => {
+                                    if !self.get_ident(index) {
+                                        //match :local need transform
+                                        let id_selector_txt_value = self.generate_hash_by_content(
+                                            id.text.raw.to_string().as_str(),
+                                        );
+                                        id.text.raw = JsWord::from(id_selector_txt_value.as_str());
+                                        self.class_collect.insert(id_selector_txt_value);
                                     }
-                                    SubclassSelector::Class(mut class) => {
-                                        if !self.get_ident(index) {
-                                            //match :local need transform
-                                            let mut class_selector_txt_value: String =
-                                                class.text.value.to_string();
-                                            class_selector_txt_value = self.hash_prefix.clone()
-                                                + "_"
-                                                + class_selector_txt_value.as_str();
-                                            class.text.raw =
-                                                JsWord::from(class_selector_txt_value.as_str());
-                                            self.class_collect.insert(class_selector_txt_value);
+                                    sub_list.push(SubclassSelector::Id(id));
+                                }
+                                SubclassSelector::Class(mut class) => {
+                                    if !self.get_ident(index) {
+                                        //match :local need transform
+                                        let class_selector_txt_value = self
+                                            .generate_hash_by_content(
+                                                class.text.raw.to_string().as_str(),
+                                            );
+                                        class.text.raw =
+                                            JsWord::from(class_selector_txt_value.as_str());
+                                        self.class_collect.insert(class_selector_txt_value);
+                                    }
+                                    sub_list.push(SubclassSelector::Class(class));
+                                }
+                                SubclassSelector::Attribute(_) => {
+                                    sub_list.push(sub);
+                                }
+                                SubclassSelector::PseudoClass(pseudo_class) => {
+                                    if pseudo_class.name.value.to_string() == "global" {
+                                        if pseudo_class.children.is_none() {
+                                            // example: -> :global .x
+                                            self.insert_ident(index, ":global");
+                                        } else {
+                                            // example: -> :global(.x h2)
+                                            let mut target_list =
+                                                self.convert_pseudo_global_class(pseudo_class);
+                                            complex_selector_children_list.append(&mut target_list);
+                                            continue;
                                         }
-                                        sub_list.push(SubclassSelector::Class(class));
-                                    }
-                                    SubclassSelector::PseudoClass(prseudo_class) => {
-                                        if prseudo_class.name.value.to_string() == "global" {
-                                            if prseudo_class.children.is_none() {
-                                                // example: -> :global .x
-                                                self.insert_ident(index, ":global");
-                                            } else {
-                                                // example: -> :global(.x h2)
-                                                let mut child_stylesheet =
-                                                    Self::convert_vec_pseudoclasschildren(
-                                                        prseudo_class.children.unwrap(),
-                                                    );
-                                                complex_selector_children_list
-                                                    .append(&mut child_stylesheet.children);
-                                                break;
-                                            }
-                                        } else if prseudo_class.name.value.to_string() == "local" {
-                                            if prseudo_class.children.is_none() {
-                                                // example: -> :local .x
-                                                self.insert_ident(index, ":local");
-                                            } else {
-                                                // example: -> :local(.x h2)
-                                                let mut child_stylesheet =
-                                                    Self::convert_vec_pseudoclasschildren(
-                                                        prseudo_class.children.unwrap(),
-                                                    );
-                                                // :local(.x h2) -> convert .x -> .hash_x
-                                                for child_complex_selector_children in
-                                                    child_stylesheet.children.iter_mut()
-                                                {
-                                                    if let ComplexSelectorChildren::CompoundSelector(child_compound_selector) = child_complex_selector_children {
-                            for child in child_compound_selector.subclass_selectors.iter_mut() {
-                              if let SubclassSelector::Class(child_class) = child {
-                                let mut class_selector_txt_value: String = child_class.text.value.to_string();
-                                class_selector_txt_value = self.hash_prefix.clone() + "_" + class_selector_txt_value.as_str();
-                                child_class.text.raw = JsWord::from(class_selector_txt_value.as_str());
-                                self.class_collect.insert(class_selector_txt_value);
+                                    } else if pseudo_class.name.value.to_string() == "local" {
+                                        if pseudo_class.children.is_none() {
+                                            // example: -> :local .x
+                                            self.insert_ident(index, ":local");
+                                        } else {
+                                            // example: -> :local(.x h2)
+                                            let mut target_list =
+                                                self.convert_pseudo_local_class(pseudo_class);
+                                            let mut index = 0;
+                                            while index < target_list.len() {
+                                                let target_complex_selector_children =
+                                                    target_list.remove(index);
+                                                if index == 0 {
+                                                    match target_complex_selector_children {
+                            ComplexSelectorChildren::CompoundSelector(mut ts) => {
+                              if let Some(type_selector) = ts.type_selector {
+                                if !sub_list.is_empty() && new_compound_selector.type_selector.is_none() {
+                                  let sub_last = sub_list.last_mut().unwrap();
+                                  if let SubclassSelector::Id(id) = sub_last {
+
+                                  } else if let SubclassSelector::Class(class) = sub_last {
+
+                                  }
+                                } else if new_compound_selector.type_selector.is_some() {}
+                              } else {
+                                sub_list.append(&mut ts.subclass_selectors);
+                                new_compound_selector.subclass_selectors = sub_list;
+                                complex_selector_children_list.push(ComplexSelectorChildren::CompoundSelector(new_compound_selector));
+                                sub_list = vec![];
+                                new_compound_selector = CompoundSelector {
+                                  span: Default::default(),
+                                  nesting_selector: None,
+                                  type_selector: None,
+                                  subclass_selectors: vec![],
+                                }
+                              }
+                            }
+                            ComplexSelectorChildren::Combinator(tc) => {
+                              // match :local(> h2) :local(> .a)
+                              if new_compound_selector.type_selector.is_some() || !sub_list.is_empty() {
+                                new_compound_selector.subclass_selectors = sub_list;
+                                complex_selector_children_list.push(ComplexSelectorChildren::CompoundSelector(new_compound_selector));
+                                complex_selector_children_list.push(ComplexSelectorChildren::Combinator(tc));
+                              }
+                              sub_list = vec![];
+                              new_compound_selector = CompoundSelector {
+                                span: Default::default(),
+                                nesting_selector: None,
+                                type_selector: None,
+                                subclass_selectors: vec![],
                               }
                             }
                           }
+                                                } else {
+                                                    complex_selector_children_list
+                                                        .push(target_complex_selector_children);
                                                 }
-                                                complex_selector_children_list
-                                                    .append(&mut child_stylesheet.children);
-                                                break;
+                                                index += 1;
                                             }
-                                        } else {
-                                            sub_list
-                                                .push(SubclassSelector::PseudoClass(prseudo_class));
                                         }
+                                    } else {
+                                        sub_list.push(SubclassSelector::PseudoClass(pseudo_class));
                                     }
                                 }
+                                SubclassSelector::PseudoElement(_) => {
+                                    sub_list.push(sub);
+                                }
                             }
+                        }
+                        if !sub_list.is_empty() || new_compound_selector.type_selector.is_some() {
+                            new_compound_selector.subclass_selectors = sub_list;
                             complex_selector_children_list.push(
-                                ComplexSelectorChildren::CompoundSelector(CompoundSelector {
-                                    subclass_selectors: sub_list,
-                                    ..compound_selector
-                                }),
+                                ComplexSelectorChildren::CompoundSelector(new_compound_selector),
                             );
-                        } else {
-                            complex_selector_children_list
-                                .push(ComplexSelectorChildren::CompoundSelector(compound_selector));
                         }
                     }
-                    ComplexSelectorChildren::Combinator(_) => {
-                        complex_selector_children_list.push(complex_selector_children);
+                    ComplexSelectorChildren::Combinator(combinator) => {
+                        complex_selector_children_list
+                            .push(ComplexSelectorChildren::Combinator(combinator))
                     }
                 }
+                z_index += 1;
             }
+
             // insert group select_txt with ','
 
             list.push(ComplexSelector {
