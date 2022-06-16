@@ -43,6 +43,12 @@
 
 - **(es/minifier)** Use `Program` instead of `Module` (#4969) ([99a474c](https://github.com/swc-project/swc/commit/99a474cb2d18f2741277a64b8524300d3977cc66))
 
+### Testing
+
+
+
+- **(html)** Remove files which are too large too verify (#4983) ([364a34c](https://github.com/swc-project/swc/commit/364a34cd7093a3bc7ca6e7e5cf2cba0844eba9c8))
+
 ## [1.2.203] - 2022-06-14
 
 ### Bug Fixes
