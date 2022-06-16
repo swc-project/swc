@@ -3238,6 +3238,7 @@ dependencies = [
  "swc_css_codegen_macros",
  "swc_css_parser",
  "swc_css_visit",
+ "testing",
 ]
 
 [[package]]

@@ -10,6 +10,7 @@ use swc_css_parser::{
     lexer::Lexer,
     parser::{Parser, ParserConfig},
 };
+use testing::DebugUsingDisplay;
 
 fn path_resolve(path: &str) -> String {
     let work_cwd = env!("CARGO_MANIFEST_DIR");
@@ -77,12 +78,6 @@ fn test() {
 
 #[test]
 fn test_css_modules_case() {
-    let simple_compare = |txt: String| -> String {
-        let mut new_str = txt.replace(' ', "");
-        new_str = new_str.trim().replace('\n', "").replace('\r', "");
-        new_str
-    };
-
     let case_1 = path_resolve("tests/fixture/demo1.css");
     let res1 = test_css_modules(case_1.as_str());
     let target_code = r#"
@@ -125,10 +120,7 @@ h3  .b {
   width: 20px;
 }
   "#;
-    assert_eq!(
-        simple_compare(target_code.to_string()),
-        simple_compare(res1)
-    );
+    assert_eq!(DebugUsingDisplay(target_code), DebugUsingDisplay(&res1));
 
     let case_2 = path_resolve("tests/fixture/demo2.css");
     let res2 = test_css_modules(case_2.as_str());
@@ -159,10 +151,7 @@ h3  .b {
   width: 50px;
 }
   "#;
-    assert_eq!(
-        simple_compare(target_code.to_string()),
-        simple_compare(res2)
-    );
+    assert_eq!(DebugUsingDisplay(target_code), DebugUsingDisplay(&res2));
 
     let case_3 = path_resolve("tests/fixture/demo3.css");
     let res3 = test_css_modules(case_3.as_str());
@@ -171,8 +160,5 @@ h3  .b {
   width: 20px;
 }
   "#;
-    assert_eq!(
-        simple_compare(target_code.to_string()),
-        simple_compare(res3)
-    );
+    assert_eq!(DebugUsingDisplay(target_code), DebugUsingDisplay(&res3));
 }
