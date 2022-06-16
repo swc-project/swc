@@ -57,7 +57,7 @@ fn init_helpers() -> Arc<PathBuf> {
         )
     });
 
-    static HELPER_DIR: Lazy<Arc<PathBuf>> = Lazy::new(|| {
+    static BUILD_HELPERS: Lazy<Arc<PathBuf>> = Lazy::new(|| {
         let dir = (*REAL).clone();
 
         {
@@ -77,7 +77,7 @@ fn init_helpers() -> Arc<PathBuf> {
         Arc::new(dir.join("src"))
     });
 
-    HELPER_DIR.clone()
+    BUILD_HELPERS.clone()
 }
 
 fn create_matrix(entry: &Path) -> Vec<Options> {
