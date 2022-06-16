@@ -31,13 +31,13 @@ var C = /*#__PURE__*/ function() {
         _class_call_check(this, C);
     }
     var _proto = C.prototype;
-    _proto.foo = function foo(a, b) {
+    _proto.foo = function foo1(a, b) {
         return "";
     };
-    _proto.overloaded = function overloaded(x) {
+    _proto.overloaded = function overloaded1(x) {
         return undefined;
     };
-    _proto.generic = function generic(x) {
+    _proto.generic = function generic1(x) {
         return x;
     };
     return C;

@@ -30,9 +30,9 @@ var Derived1 = /*#__PURE__*/ function(Base1) {
     };
     return Derived1;
 }(Base);
-var Derived2 = /*#__PURE__*/ function(Base2) {
+var Derived2 = /*#__PURE__*/ function(Base1) {
     "use strict";
-    _inherits(Derived2, Base2);
+    _inherits(Derived2, Base1);
     var _super = _create_super(Derived2);
     function Derived2() {
         _class_call_check(this, Derived2);

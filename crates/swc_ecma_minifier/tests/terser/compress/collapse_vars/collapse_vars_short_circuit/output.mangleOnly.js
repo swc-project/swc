@@ -1,10 +1,10 @@
 function a(a) {
-    var c = foo(), b = bar();
-    return b || a;
+    var b = foo(), c = bar();
+    return c || a;
 }
 function b(a) {
-    var c = foo(), b = bar();
-    return b && a;
+    var b = foo(), c = bar();
+    return c && a;
 }
 function c(a) {
     var b = foo(), c = bar();

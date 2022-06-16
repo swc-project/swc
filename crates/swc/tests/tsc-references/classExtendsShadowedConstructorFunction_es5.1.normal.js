@@ -7,7 +7,7 @@ var C = function C() {
 };
 var M;
 (function(M) {
-    var C1 = 1;
+    var C = 1;
     var D = /*#__PURE__*/ function(C) {
         "use strict";
         _inherits(D, C);
@@ -17,5 +17,5 @@ var M;
             return _super.apply(this, arguments);
         }
         return D;
-    }(C1);
+    }(C);
 })(M || (M = {}));

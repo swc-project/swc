@@ -1,8 +1,8 @@
 var M;
 import _extends from "@swc/helpers/src/_extends.mjs";
-!function(M1) {
+!function(M) {
     var React;
-    M1.React = React;
+    M.React = React;
 }(M || (M = {})), M || (M = {}), _extends({
     x: ""
 }, void 0, {

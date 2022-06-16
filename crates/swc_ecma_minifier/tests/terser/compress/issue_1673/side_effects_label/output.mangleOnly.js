@@ -1,10 +1,10 @@
-function a(b) {
-    function a() {
+function a(a) {
+    function b() {
         L: {
             console.log("PASS");
             break L;
         }
     }
-    a();
+    b();
 }
 a(0);

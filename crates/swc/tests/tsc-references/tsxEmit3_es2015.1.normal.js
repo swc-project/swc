@@ -1,33 +1,33 @@
 var M;
-(function(M1) {
-    class Foo {
+(function(M) {
+    class Foo1 {
         constructor(){}
     }
-    M1.Foo = Foo;
+    M.Foo = Foo1;
     let S1;
-    (function(S) {
-        class Bar {
+    (function(S1) {
+        class Bar1 {
         }
-        S.Bar = Bar;
-    })(S1 = M1.S || (M1.S = {}));
+        S1.Bar = Bar1;
+    })(S1 = M.S || (M.S = {}));
 })(M || (M = {}));
-(function(M2) {
+(function(M) {
     // Emit M.Foo
     Foo, /*#__PURE__*/ React.createElement(Foo, null);
-    let S;
-    (function(S) {
+    let S1;
+    (function(S1) {
         // Emit M.Foo
         Foo, /*#__PURE__*/ React.createElement(Foo, null);
         // Emit S.Bar
         Bar, /*#__PURE__*/ React.createElement(Bar, null);
-    })(S = M2.S || (M2.S = {}));
+    })(S1 = M.S || (M.S = {}));
 })(M || (M = {}));
 (function(M) {
     // Emit M.S.Bar
     S.Bar, /*#__PURE__*/ React.createElement(S.Bar, null);
 })(M || (M = {}));
 (function(M) {
-    var M3 = 100;
+    var M1 = 100;
     // Emit M_1.Foo
     Foo, /*#__PURE__*/ React.createElement(Foo, null);
 })(M || (M = {}));

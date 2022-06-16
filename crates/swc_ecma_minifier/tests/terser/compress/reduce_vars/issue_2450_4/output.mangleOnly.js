@@ -1,7 +1,7 @@
-var d;
-function a(a) {
-    console.log(d === a);
-    d = a;
+var a;
+function b(b) {
+    console.log(a === b);
+    a = b;
 }
-function b() {}
-for(var c = 3; --c >= 0;)a(b);
+function c() {}
+for(var d = 3; --d >= 0;)b(c);

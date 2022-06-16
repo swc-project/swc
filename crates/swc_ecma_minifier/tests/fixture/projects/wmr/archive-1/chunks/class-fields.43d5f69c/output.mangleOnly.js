@@ -1,5 +1,5 @@
-import { _ as a, m as c } from "../index.f66dda46.js";
-class b extends a {
+import { _ as a, m as b } from "../index.f66dda46.js";
+class c extends a {
     state = {
         value: 1
     };
@@ -9,7 +9,7 @@ class b extends a {
             }));
     };
     render() {
-        return c`<div><p> State: <span>${this.state.value}</span></p><button onClick=${this.onClick}>click me</button></div>`;
+        return b`<div><p> State: <span>${this.state.value}</span></p><button onClick=${this.onClick}>click me</button></div>`;
     }
 }
-export default b;
+export default c;

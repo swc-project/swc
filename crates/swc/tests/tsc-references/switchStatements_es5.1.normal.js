@@ -3,11 +3,11 @@ import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _type_of from "@swc/helpers/src/_type_of.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
 var M;
-(function(M1) {
+(function(M) {
     var fn = function fn(x) {
         return "";
     };
-    M1.fn = fn;
+    M.fn = fn;
 })(M || (M = {}));
 var x;
 switch(x){

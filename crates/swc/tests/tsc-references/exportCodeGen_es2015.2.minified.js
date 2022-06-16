@@ -1,13 +1,13 @@
 var A, B, C, D, E, F;
-(A || (A = {})).x = 12, B || (B = {}), C || (C = {}), function(D1) {
+(A || (A = {})).x = 12, B || (B = {}), C || (C = {}), function(D) {
     function yes() {
         return !0;
     }
-    D1.yes = yes;
-}(D || (D = {})), function(E1) {
+    D.yes = yes;
+}(D || (D = {})), function(E) {
     var Color;
-    (Color = E1.Color || (E1.Color = {}))[Color.Red = 0] = "Red", E1.fn = function() {}, E1.C = class {
-    }, (E1.M || (E1.M = {})).x = 42;
+    (Color = E.Color || (E.Color = {}))[Color.Red = 0] = "Red", E.fn = function() {}, E.C = class {
+    }, (E.M || (E.M = {})).x = 42;
 }(E || (E = {})), function(F) {
     var Color;
     let Color1;

@@ -1,11 +1,11 @@
 var a = 0;
-(function(d, b) {
-    function c() {
-        if (d) a++;
+(function(b, c) {
+    function d() {
+        if (b) a++;
     }
-    b = c();
-    d = 1;
-    b && b.b;
-    c();
+    c = d();
+    b = 1;
+    c && c.b;
+    d();
 })();
 console.log(a);

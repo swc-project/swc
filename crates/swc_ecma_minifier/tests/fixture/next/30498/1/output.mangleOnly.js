@@ -2,24 +2,24 @@ function a() {
     return new b();
 }
 class b extends BaseSchema {
-    matches(d, a) {
-        let e = false;
-        let b;
-        let c;
-        if (a) {
-            if (typeof a === "object") {
-                ({ excludeEmptyString: e = false , message: b , name: c  } = a);
+    matches(a, b) {
+        let c = false;
+        let d;
+        let e;
+        if (b) {
+            if (typeof b === "object") {
+                ({ excludeEmptyString: c = false , message: d , name: e  } = b);
             } else {
-                b = a;
+                d = b;
             }
         }
         return this.test({
-            name: c || "matches",
-            message: b || string.matches,
+            name: e || "matches",
+            message: d || string.matches,
             params: {
-                regex: d
+                regex: a
             },
-            test: (a)=>isAbsent(a) || (a === "" && e) || a.search(d) !== -1
+            test: (b)=>isAbsent(b) || (b === "" && c) || b.search(a) !== -1
         });
     }
 }

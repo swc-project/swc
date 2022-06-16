@@ -1,7 +1,7 @@
 var a = "FAIL";
-(function c(b) {
-    var b;
-    if (!c) b = 0;
-    if (b) a = "PASS";
+(function b(c) {
+    var c;
+    if (!b) c = 0;
+    if (c) a = "PASS";
 })(1);
 console.log(a);

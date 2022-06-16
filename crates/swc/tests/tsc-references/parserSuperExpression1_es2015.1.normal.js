@@ -4,7 +4,7 @@ class C {
     }
 }
 var M1;
-(function(M11) {
+(function(M1) {
     let M2;
     (function(M2) {
         class C {
@@ -12,5 +12,5 @@ var M1;
                 super.foo();
             }
         }
-    })(M2 = M11.M2 || (M11.M2 = {}));
+    })(M2 = M1.M2 || (M1.M2 = {}));
 })(M1 || (M1 = {}));

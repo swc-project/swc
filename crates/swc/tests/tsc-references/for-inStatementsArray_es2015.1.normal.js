@@ -11,9 +11,9 @@ for(let x in a){
 for(let x1 in a){
     for(let y in a){
         for(let z in a){
-            let a1 = a[x1];
-            let a2 = a[y];
-            let a3 = a[z];
+            let a11 = a[x1];
+            let a21 = a[y];
+            let a31 = a[z];
         }
     }
 }
@@ -21,14 +21,14 @@ let i;
 let j;
 for(i in a){
     for(j in b){
-        let a1 = a[i];
-        let a2 = a[j];
+        let a12 = a[i];
+        let a22 = a[j];
     }
 }
 var s;
 for(var s in a){
-    let a1 = a[s];
+    let a13 = a[s];
 }
 for(s in a){
-    let a1 = a[s];
+    let a14 = a[s];
 }

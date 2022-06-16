@@ -1,5 +1,5 @@
-export function formatNumber(t1) {
-    i = Math.abs(t1).toFixed(s.options.decimalPlaces);
+export function formatNumber(t) {
+    i = Math.abs(t).toFixed(s.options.decimalPlaces);
     var i, a, n, e, o = (i += "").split(".");
     if (a = o[0], n = o.length > 1 ? s.options.decimal + o[1] : "", s.options.useGrouping) {
         e = "";
@@ -10,5 +10,5 @@ export function formatNumber(t1) {
         return s.options.numerals[+t];
     }), n = n.replace(/[0-9]/g, function(t) {
         return s.options.numerals[+t];
-    })), (t1 < 0 ? "-" : "") + s.options.prefix + a + n + s.options.suffix;
+    })), (t < 0 ? "-" : "") + s.options.prefix + a + n + s.options.suffix;
 }

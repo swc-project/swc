@@ -52,8 +52,8 @@ class Thing3 extends Thing2 {
     }
 }
 // Repro from #13805
-const Timestamped = (Base1)=>{
-    return class extends Base1 {
+const Timestamped = (Base)=>{
+    return class extends Base {
         constructor(...args){
             super(...args);
             this.timestamp = new Date();

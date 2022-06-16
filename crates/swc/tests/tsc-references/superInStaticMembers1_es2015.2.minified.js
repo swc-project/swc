@@ -25,12 +25,12 @@ C._ = [
     void _get(_get_prototype_of(C), "w", C).call(C),
     void _get(_get_prototype_of(C), "w", C).call(C),
     (()=>{
-        let Reflect1;
-        Reflect1 || (Reflect1 = {}), _get(_get_prototype_of(C), "w", C).call(C);
+        let Reflect;
+        Reflect || (Reflect = {}), _get(_get_prototype_of(C), "w", C).call(C);
     })(),
     (()=>{
-        let Reflect2;
-        Reflect2 || (Reflect2 = {}), _get(_get_prototype_of(C), "w", C).call(C);
+        let Reflect;
+        Reflect || (Reflect = {}), _get(_get_prototype_of(C), "w", C).call(C);
     })(),
     void _get(_get_prototype_of(C), "w", C).call(C),
     void _get(_get_prototype_of(C), "w", C).call(C),
@@ -47,11 +47,11 @@ C._ = [
     ];
     super.w();
 })(), super.w(), super.w(), super.w(), (()=>{
-    let Reflect3;
-    Reflect3 || (Reflect3 = {}), super.w();
+    let Reflect;
+    Reflect || (Reflect = {}), super.w();
 })(), (()=>{
-    let Reflect4;
-    Reflect4 || (Reflect4 = {}), super.w();
+    let Reflect;
+    Reflect || (Reflect = {}), super.w();
 })(), super.w(), super.w(), super.w(), super.w();
 var Reflect = null;
 class C extends B {
@@ -193,9 +193,9 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 class C extends B {
 }
 super.w(), (()=>{
-    class C1 extends B {
+    class C extends B {
     }
-    C1._ = _get(_get_prototype_of(C1), "w", C1).call(C1);
+    C._ = _get(_get_prototype_of(C), "w", C).call(C);
 })(), super.w();
 class C extends B {
 }

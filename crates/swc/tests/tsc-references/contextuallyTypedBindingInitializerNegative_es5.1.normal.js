@@ -1,24 +1,24 @@
 function f(param) {
-    var tmp1 = param.show, showRename = tmp1 === void 0 ? function(v) {
+    var tmp = param.show, showRename = tmp === void 0 ? function(v) {
         return v;
-    } : tmp1;
+    } : tmp;
 }
 function f2(param) {
-    var tmp2 = param["show"], showRename = tmp2 === void 0 ? function(v) {
+    var tmp = param["show"], showRename = tmp === void 0 ? function(v) {
         return v;
-    } : tmp2;
+    } : tmp;
 }
 function f3(param) {
-    var tmp3 = param["show"], showRename = tmp3 === void 0 ? function(v) {
+    var tmp = param["show"], showRename = tmp === void 0 ? function(v) {
         return v;
-    } : tmp3;
+    } : tmp;
 }
 function ff(param) {
-    var tmp4 = param.nested, nestedRename = tmp4 === void 0 ? {
+    var tmp = param.nested, nestedRename = tmp === void 0 ? {
         show: function(v) {
             return v;
         }
-    } : tmp4;
+    } : tmp;
 }
 var ref = {
     stringIdentity: function(x) {

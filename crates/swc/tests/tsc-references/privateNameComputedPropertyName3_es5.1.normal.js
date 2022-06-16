@@ -14,8 +14,8 @@ var Foo = /*#__PURE__*/ function() {
         });
         _class_private_field_set(this, _name, name);
     }
-    var _proto1 = Foo.prototype;
-    _proto1.getValue = function getValue(x) {
+    var _proto = Foo.prototype;
+    _proto.getValue = function getValue(x) {
         var obj = this;
         var _y = /*#__PURE__*/ new WeakMap();
         var tmp = _class_private_field_get(obj, _name);

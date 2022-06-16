@@ -4,10 +4,10 @@
         411
     ],
     {
-        8411: function(c, b, a) {
-            a.r(b);
-            var d = a(4512);
-            var e = a(266);
+        8411: function(a, b, c) {
+            c.r(b);
+            var d = c(4512);
+            var e = c(266);
             b["default"] = function() {
                 return (0, d.jsxs)("div", {
                     id: "dynamic-component",

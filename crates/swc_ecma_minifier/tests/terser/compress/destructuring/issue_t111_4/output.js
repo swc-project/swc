@@ -1,5 +1,4 @@
-let p = (x1)=>(console.log(x1), x1)
-, { length: length  } = [
+let p = (x)=>(console.log(x), x), { length: length  } = [
     0
 ], { x: x  } = {
     x: 2

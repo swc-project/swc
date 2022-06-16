@@ -1,7 +1,7 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-!function(M11) {
+!function(M1) {
     var s;
-    M11.s = s;
+    M1.s = s;
 }(M1 || (M1 = {})), M2 || (M2 = {});
 var M1, M2, M3, C = function() {
     "use strict";

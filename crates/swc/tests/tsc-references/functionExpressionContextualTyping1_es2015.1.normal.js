@@ -14,8 +14,8 @@ var a0 = (num, str)=>{
 class Class {
     foo() {}
 }
-var a1 = (a11)=>{
-    a11.foo();
+var a1 = (a1)=>{
+    a1.foo();
     return 1;
 };
 // A contextual signature S is extracted from a function type T as follows:
@@ -54,7 +54,7 @@ b6 = (i)=>{
 b7 = (j, m)=>{}; // Per spec, no contextual signature can be extracted in this case. (Otherwise clause)
 class C {
     constructor(){
-        var k1 = (j, k)=>{
+        var k = (j, k)=>{
             return [
                 j,
                 k

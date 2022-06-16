@@ -1,65 +1,23 @@
-use rustc_hash::FxHashSet;
-use swc_atoms::JsWord;
-use swc_common::collections::AHashMap;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
-#[cfg(feature = "debug")]
-use tracing::trace;
 
 use self::scope::Scope;
 
-mod scope;
+pub(super) mod scope;
 
+#[derive(Debug, Default)]
 pub(super) struct Analyzer {
-    pub scope: Scope,
-
     pub is_pat_decl: bool,
+
+    pub scope: Scope,
 }
 
 impl Analyzer {
-    pub(super) fn into_rename_map(
-        mut self,
-        preserved: &FxHashSet<Id>,
-        unresolved: &FxHashSet<JsWord>,
-    ) -> AHashMap<Id, JsWord> {
-        let mut map = Default::default();
-
-        self.scope.prepare_renaming();
-
-        let mut preserved_symbols = preserved
-            .iter()
-            .cloned()
-            .map(|v| v.0)
-            .collect::<FxHashSet<_>>();
-        preserved_symbols.extend(unresolved.iter().cloned());
-
-        let cost = self.scope.rename_cost();
-
-        self.scope.rename(
-            &mut map,
-            &Default::default(),
-            &Default::default(),
-            preserved,
-            &preserved_symbols,
-            cost > 1024,
-        );
-
-        map
-    }
-
     fn add_decl(&mut self, id: Id) {
-        #[cfg(feature = "debug")]
-        {
-            trace!("add_decl({:?})", id);
-        }
         self.scope.add_decl(&id);
     }
 
     fn add_usage(&mut self, id: Id) {
-        #[cfg(feature = "debug")]
-        {
-            trace!("add_usage({:?})", id);
-        }
         self.scope.add_usage(&id);
     }
 

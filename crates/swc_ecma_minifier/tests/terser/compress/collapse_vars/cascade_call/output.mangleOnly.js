@@ -1,4 +1,4 @@
-function a(b) {
-    var a;
-    return x(((a = b), y(a)));
+function a(a) {
+    var b;
+    return x(((b = a), y(b)));
 }

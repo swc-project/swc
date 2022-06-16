@@ -65,9 +65,9 @@ var C = /*#__PURE__*/ function(_superClass) {
     return C;
 }(new B2().anon);
 var b3Number = B3();
-var S = /*#__PURE__*/ function(b3Number1) {
+var S = /*#__PURE__*/ function(b3Number) {
     "use strict";
-    _inherits(S, b3Number1);
+    _inherits(S, b3Number);
     var _super = _create_super(S);
     function S() {
         _class_call_check(this, S);

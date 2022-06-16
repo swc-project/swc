@@ -306,7 +306,7 @@ export var sendTransactions = function() {
 }();
 export var sendTransaction = function() {
     var _ref = _async_to_generator(regeneratorRuntime.mark(function _callee(connection, wallet, instructions, signers) {
-        var awaitConfirmation, commitment, includesFeePayer, block, transaction, _transaction, _transaction2, _transaction3, rawTransaction, options, txid, slot, confirmation, errors, _args = arguments;
+        var awaitConfirmation, commitment, includesFeePayer, block, transaction, _transaction, _transaction1, _transaction2, rawTransaction, options, txid, slot, confirmation, errors, _args = arguments;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
@@ -350,7 +350,7 @@ export var sendTransaction = function() {
                         })));
                     } else {
                         ;
-                        (_transaction2 = transaction).setSigners.apply(_transaction2, [
+                        (_transaction1 = transaction).setSigners.apply(_transaction1, [
                             // fee payed by the wallet owner
                             wallet.publicKey
                         ].concat(_to_consumable_array(signers.map(function(s) {
@@ -359,7 +359,7 @@ export var sendTransaction = function() {
                     }
                     if (signers.length > 0) {
                         ;
-                        (_transaction3 = transaction).partialSign.apply(_transaction3, _to_consumable_array(signers));
+                        (_transaction2 = transaction).partialSign.apply(_transaction2, _to_consumable_array(signers));
                     }
                     if (includesFeePayer) {
                         _ctx.next = 22;
@@ -422,7 +422,7 @@ export var sendTransaction = function() {
 }();
 export var sendTransactionWithRetry = function() {
     var _ref = _async_to_generator(regeneratorRuntime.mark(function _callee(connection, wallet, instructions, signers) {
-        var commitment, includesFeePayer, block, beforeSend, transaction, _transaction, _transaction4, _transaction5, ref, txid, slot, _args = arguments;
+        var commitment, includesFeePayer, block, beforeSend, transaction, _transaction, _transaction1, _transaction2, ref, txid, slot, _args = arguments;
         return regeneratorRuntime.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
@@ -455,7 +455,7 @@ export var sendTransactionWithRetry = function() {
                         })));
                     } else {
                         ;
-                        (_transaction4 = transaction).setSigners.apply(_transaction4, [
+                        (_transaction1 = transaction).setSigners.apply(_transaction1, [
                             // fee payed by the wallet owner
                             wallet.publicKey
                         ].concat(_to_consumable_array(signers.map(function(s) {
@@ -464,7 +464,7 @@ export var sendTransactionWithRetry = function() {
                     }
                     if (signers.length > 0) {
                         ;
-                        (_transaction5 = transaction).partialSign.apply(_transaction5, _to_consumable_array(signers));
+                        (_transaction2 = transaction).partialSign.apply(_transaction2, _to_consumable_array(signers));
                     }
                     if (includesFeePayer) {
                         _ctx.next = 17;
@@ -509,21 +509,21 @@ export function sendSignedTransaction(_) {
     return _sendSignedTransaction.apply(this, arguments);
 }
 function _sendSignedTransaction() {
-    _sendSignedTransaction = _async_to_generator(regeneratorRuntime.mark(function _callee1(param) {
+    _sendSignedTransaction = _async_to_generator(regeneratorRuntime.mark(function _callee(param) {
         var signedTransaction, connection, _timeout, timeout, rawTransaction, startTime, slot, txid, done, confirmation, simulateResult, i, line;
-        return regeneratorRuntime.wrap(function _callee$(_ctx1) {
-            while(1)switch(_ctx1.prev = _ctx1.next){
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
                     signedTransaction = param.signedTransaction, connection = param.connection, _timeout = param.timeout, timeout = _timeout === void 0 ? DEFAULT_TIMEOUT : _timeout;
                     rawTransaction = signedTransaction.serialize();
                     startTime = getUnixTs();
                     slot = 0;
-                    _ctx1.next = 6;
+                    _ctx.next = 6;
                     return connection.sendRawTransaction(rawTransaction, {
                         skipPreflight: true
                     });
                 case 6:
-                    txid = _ctx1.sent;
+                    txid = _ctx.sent;
                     console.log("Started awaiting confirmation for", txid);
                     done = false;
                     _async_to_generator(regeneratorRuntime.mark(function _callee() {
@@ -548,90 +548,90 @@ function _sendSignedTransaction() {
                             }
                         }, _callee);
                     }))();
-                    _ctx1.prev = 10;
-                    _ctx1.next = 13;
+                    _ctx.prev = 10;
+                    _ctx.next = 13;
                     return awaitTransactionSignatureConfirmation(txid, timeout, connection, "recent", true);
                 case 13:
-                    confirmation = _ctx1.sent;
+                    confirmation = _ctx.sent;
                     if (confirmation) {
-                        _ctx1.next = 16;
+                        _ctx.next = 16;
                         break;
                     }
                     throw new Error("Timed out awaiting confirmation on transaction");
                 case 16:
                     if (!confirmation.err) {
-                        _ctx1.next = 19;
+                        _ctx.next = 19;
                         break;
                     }
                     console.error(confirmation.err);
                     throw new Error("Transaction failed: Custom instruction error");
                 case 19:
                     slot = (confirmation === null || confirmation === void 0 ? void 0 : confirmation.slot) || 0;
-                    _ctx1.next = 47;
+                    _ctx.next = 47;
                     break;
                 case 22:
-                    _ctx1.prev = 22;
-                    _ctx1.t0 = _ctx1["catch"](10);
-                    console.error("Timeout Error caught", _ctx1.t0);
-                    if (!_ctx1.t0.timeout) {
-                        _ctx1.next = 27;
+                    _ctx.prev = 22;
+                    _ctx.t0 = _ctx["catch"](10);
+                    console.error("Timeout Error caught", _ctx.t0);
+                    if (!_ctx.t0.timeout) {
+                        _ctx.next = 27;
                         break;
                     }
                     throw new Error("Timed out awaiting confirmation on transaction");
                 case 27:
                     simulateResult = null;
-                    _ctx1.prev = 28;
-                    _ctx1.next = 31;
+                    _ctx.prev = 28;
+                    _ctx.next = 31;
                     return simulateTransaction(connection, signedTransaction, "single");
                 case 31:
-                    simulateResult = _ctx1.sent.value;
-                    _ctx1.next = 36;
+                    simulateResult = _ctx.sent.value;
+                    _ctx.next = 36;
                     break;
                 case 34:
-                    _ctx1.prev = 34;
-                    _ctx1.t1 = _ctx1["catch"](28);
+                    _ctx.prev = 34;
+                    _ctx.t1 = _ctx["catch"](28);
                 case 36:
                     if (!(simulateResult && simulateResult.err)) {
-                        _ctx1.next = 47;
+                        _ctx.next = 47;
                         break;
                     }
                     if (!simulateResult.logs) {
-                        _ctx1.next = 46;
+                        _ctx.next = 46;
                         break;
                     }
                     i = simulateResult.logs.length - 1;
                 case 39:
                     if (!(i >= 0)) {
-                        _ctx1.next = 46;
+                        _ctx.next = 46;
                         break;
                     }
                     line = simulateResult.logs[i];
                     if (!line.startsWith("Program log: ")) {
-                        _ctx1.next = 43;
+                        _ctx.next = 43;
                         break;
                     }
                     throw new Error("Transaction failed: " + line.slice("Program log: ".length));
                 case 43:
                     --i;
-                    _ctx1.next = 39;
+                    _ctx.next = 39;
                     break;
                 case 46:
                     throw new Error(JSON.stringify(simulateResult.err));
                 case 47:
-                    _ctx1.prev = 47;
+                    _ctx.prev = 47;
                     done = true;
-                    return _ctx1.finish(47);
+                    return _ctx.finish(47);
                 case 50:
                     console.log("Latency", txid, getUnixTs() - startTime);
-                    return _ctx1.abrupt("return", {
+                    return _ctx.abrupt("return", {
                         txid: txid,
                         slot: slot
                     });
                 case 52:
                 case "end":
-                    return _ctx1.stop();
+                    return _ctx.stop();
             }
-        }, _callee1, null, [
+        }, _callee, null, [
             [
                 10,
                 22,
@@ -695,10 +695,10 @@ function awaitTransactionSignatureConfirmation(txid, timeout, connection) {
     return _awaitTransactionSignatureConfirmation.apply(this, arguments);
 }
 function _awaitTransactionSignatureConfirmation() {
-    _awaitTransactionSignatureConfirmation = _async_to_generator(regeneratorRuntime.mark(function _callee2(txid, timeout, connection) {
+    _awaitTransactionSignatureConfirmation = _async_to_generator(regeneratorRuntime.mark(function _callee(txid, timeout, connection) {
         var commitment, queryStatus, done, status, subId, _args = arguments;
-        return regeneratorRuntime.wrap(function _callee$(_ctx2) {
-            while(1)switch(_ctx2.prev = _ctx2.next){
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
                     commitment = _args.length > 3 && _args[3] !== void 0 ? _args[3] : "recent", queryStatus = _args.length > 4 && _args[4] !== void 0 ? _args[4] : false;
                     done = false;
@@ -708,11 +708,11 @@ function _awaitTransactionSignatureConfirmation() {
                         err: null
                     };
                     subId = 0;
-                    _ctx2.next = 6;
+                    _ctx.next = 6;
                     return new Promise(function() {
-                        var _ref = _async_to_generator(regeneratorRuntime.mark(function _callee3(resolve, reject) {
-                            return regeneratorRuntime.wrap(function _callee$(_ctx3) {
-                                while(1)switch(_ctx3.prev = _ctx3.next){
+                        var _ref = _async_to_generator(regeneratorRuntime.mark(function _callee(resolve, reject) {
+                            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                                while(1)switch(_ctx.prev = _ctx.next){
                                     case 0:
                                         setTimeout(function() {
                                             if (done) {
@@ -746,7 +746,7 @@ function _awaitTransactionSignatureConfirmation() {
                                         }
                                     case 2:
                                         if (!(!done && queryStatus)) {
-                                            _ctx3.next = 8;
+                                            _ctx.next = 8;
                                             break;
                                         }
                                         // eslint-disable-next-line no-loop-func
@@ -797,33 +797,33 @@ function _awaitTransactionSignatureConfirmation() {
                                                 ]
                                             ]);
                                         }))();
-                                        _ctx3.next = 6;
+                                        _ctx.next = 6;
                                         return sleep(2000);
                                     case 6:
-                                        _ctx3.next = 2;
+                                        _ctx.next = 2;
                                         break;
                                     case 8:
                                     case "end":
-                                        return _ctx3.stop();
+                                        return _ctx.stop();
                                 }
-                            }, _callee3);
+                            }, _callee);
                         }));
                         return function(resolve, reject) {
                             return _ref.apply(this, arguments);
                         };
                     }());
                 case 6:
-                    status = _ctx2.sent;
+                    status = _ctx.sent;
                     //@ts-ignore
                     if (connection._signatureSubscriptions[subId]) connection.removeSignatureListener(subId);
                     done = true;
                     console.log("Returning status", status);
-                    return _ctx2.abrupt("return", status);
+                    return _ctx.abrupt("return", status);
                 case 11:
                 case "end":
-                    return _ctx2.stop();
+                    return _ctx.stop();
             }
-        }, _callee2);
+        }, _callee);
     }));
     return _awaitTransactionSignatureConfirmation.apply(this, arguments);
 }

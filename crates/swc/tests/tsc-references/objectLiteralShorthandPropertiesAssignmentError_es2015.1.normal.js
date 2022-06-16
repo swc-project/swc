@@ -6,10 +6,10 @@ var person = {
     id
 }; // error
 var person1; // ok
-function foo(name1, id1) {
+function foo(name, id) {
     return {
-        name: name1,
-        id: id1
+        name,
+        id
     };
 } // error
 function bar(obj) {}

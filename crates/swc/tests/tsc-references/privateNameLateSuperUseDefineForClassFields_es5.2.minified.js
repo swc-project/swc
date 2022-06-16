@@ -6,9 +6,9 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
 var B = function() {
     "use strict";
     _class_call_check(this, B);
-}, _x = new WeakMap(), A = function(B1) {
+}, _x = new WeakMap(), A = function(B) {
     "use strict";
-    _inherits(A, B1);
+    _inherits(A, B);
     var _super = _create_super(A);
     function A() {
         var _this;

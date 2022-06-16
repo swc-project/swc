@@ -1,23 +1,21 @@
 var A;
-(function(A1) {
+(function(A) {
     const a = 1;
     const b = 2;
-    ({ a: A1.A  } = {
+    ({ a: A.A  } = {
         a
     });
-    ({ b: A1.B  } = {
+    ({ b: A.B  } = {
         b
     });
-})(A || (A = {
-}));
-(function(A2) {
+})(A || (A = {}));
+(function(A) {
     const c = 3;
     const d = 4;
-    ({ c: A2.C  } = {
+    ({ c: A.C  } = {
         c: c
     });
-    ({ d: A2.D  } = {
+    ({ d: A.D  } = {
         d: d
     });
-})(A || (A = {
-}));
+})(A || (A = {}));

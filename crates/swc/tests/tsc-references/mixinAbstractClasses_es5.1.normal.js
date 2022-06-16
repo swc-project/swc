@@ -1,7 +1,7 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-function Mixin(baseClass1) {
+function Mixin(baseClass) {
     var MixinClass = /*#__PURE__*/ function(baseClass) {
         "use strict";
         _inherits(MixinClass, baseClass);
@@ -13,7 +13,7 @@ function Mixin(baseClass1) {
         var _proto = MixinClass.prototype;
         _proto.mixinMethod = function mixinMethod() {};
         return MixinClass;
-    }(baseClass1);
+    }(baseClass);
     return MixinClass;
 }
 var ConcreteBase = /*#__PURE__*/ function() {

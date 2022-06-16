@@ -1,10 +1,10 @@
 var M;
-!function(M1) {
+!function(M) {
     class C {
         [Symbol.toPrimitive](x) {}
         [Symbol.isConcatSpreadable]() {}
         get [Symbol.toPrimitive]() {}
         set [Symbol.toPrimitive](x) {}
     }
-    M1.C = C;
+    M.C = C;
 }(M || (M = {}));

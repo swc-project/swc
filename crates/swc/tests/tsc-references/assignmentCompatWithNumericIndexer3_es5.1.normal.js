@@ -25,13 +25,13 @@ b2 = a; // error
 var Generics;
 (function(Generics) {
     var foo = function foo() {
-        var a1;
-        var b1;
-        a1 = b1; // error
-        b1 = a1; // ok
-        var b21;
-        a1 = b21; // ok
-        b21 = a1; // ok
+        var a;
+        var b;
+        a = b; // error
+        b = a; // ok
+        var b2;
+        a = b2; // ok
+        b2 = a; // ok
     };
     var A = function A() {
         "use strict";

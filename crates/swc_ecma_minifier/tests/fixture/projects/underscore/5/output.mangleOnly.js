@@ -1,16 +1,16 @@
-_.uniq = _.unique = function(c, b, a, d) {
+_.uniq = _.unique = function(a, b, c, d) {
     if (_.isFunction(b)) {
-        d = a;
-        a = b;
+        d = c;
+        c = b;
         b = false;
     }
-    var e = a ? _.map(c, a, d) : c;
+    var e = c ? _.map(a, c, d) : a;
     var f = [];
     var g = [];
-    each(e, function(a, d) {
-        if (b ? !d || g[g.length - 1] !== a : !_.contains(g, a)) {
-            g.push(a);
-            f.push(c[d]);
+    each(e, function(c, d) {
+        if (b ? !d || g[g.length - 1] !== c : !_.contains(g, c)) {
+            g.push(c);
+            f.push(a[d]);
         }
     });
     return f;

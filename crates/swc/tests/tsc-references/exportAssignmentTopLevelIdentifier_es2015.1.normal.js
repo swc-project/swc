@@ -1,8 +1,8 @@
 // @module: amd
 // @Filename: foo_0.ts
 var Foo;
-(function(Foo1) {
-    var answer = Foo1.answer = 42;
+(function(Foo) {
+    var answer = Foo.answer = 42;
 })(Foo || (Foo = {}));
 module.exports = Foo;
 // @Filename: foo_1.ts

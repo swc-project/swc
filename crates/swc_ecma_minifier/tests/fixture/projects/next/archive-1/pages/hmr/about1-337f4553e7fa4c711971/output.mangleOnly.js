@@ -3,11 +3,11 @@
         25
     ],
     {
-        1107: function(c, a, b) {
+        1107: function(a, b, c) {
             "use strict";
-            b.r(a);
-            var d = b(4512);
-            a["default"] = function() {
+            c.r(b);
+            var d = c(4512);
+            b["default"] = function() {
                 return (0, d.jsx)("div", {
                     className: "hmr-about-page",
                     children: (0, d.jsx)("p", {
@@ -26,7 +26,7 @@
         }
     },
     function(a) {
-        var c = function(b) {
+        var b = function(b) {
             return a((a.s = b));
         };
         a.O(0, [
@@ -34,9 +34,9 @@
             888,
             179
         ], function() {
-            return c(8000);
+            return b(8000);
         });
-        var b = a.O();
-        _N_E = b;
+        var c = a.O();
+        _N_E = c;
     }, 
 ]);

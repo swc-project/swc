@@ -6,20 +6,20 @@ class C {
     }
 }
 class D {
-    constructor(x2){
-        this.x = x2;
+    constructor(x1){
+        this.x = x1;
         this.a = x;
     }
 }
 class E {
-    constructor(x){
-        this.x = x;
+    constructor(x1){
+        this.x = x1;
         this.a = this.x;
     }
 }
 class F {
-    constructor(x3){
-        this.x = x3;
+    constructor(x1){
+        this.x = x1;
         this.a = this.x;
         this.b = x;
     }

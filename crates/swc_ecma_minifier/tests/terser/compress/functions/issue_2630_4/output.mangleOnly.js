@@ -1,10 +1,10 @@
-var b = 3, a = 1, c = 2;
+var a = 3, b = 1, c = 2;
 (function() {
-    (function a() {
-        while(--b >= 0 && d());
+    (function b() {
+        while(--a >= 0 && d());
     })();
     function d() {
-        a++ + (c += a);
+        b++ + (c += b);
     }
 })();
-console.log(a);
+console.log(b);

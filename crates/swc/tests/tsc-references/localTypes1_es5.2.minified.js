@@ -11,8 +11,8 @@ var A = function() {
         };
     }
     return A.prototype.m = function() {
-        (E = E2 || (E2 = {}))[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C";
-        var E, E2, C = function() {
+        (E = E1 || (E1 = {}))[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C";
+        var E, E1, C = function() {
             _class_call_check(this, C);
         };
         return new C();
@@ -20,8 +20,8 @@ var A = function() {
         {
             key: "p",
             get: function() {
-                (E = E3 || (E3 = {}))[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C";
-                var E, E3, C = function() {
+                (E = E1 || (E1 = {}))[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C";
+                var E, E1, C = function() {
                     _class_call_check(this, C);
                 };
                 return new C();

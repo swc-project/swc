@@ -5,10 +5,10 @@
         974
     ],
     {
-        6974: function(c, a, b) {
-            b.r(a);
-            var d = b(4512);
-            a["default"] = function() {
+        6974: function(a, b, c) {
+            c.r(b);
+            var d = c(4512);
+            b["default"] = function() {
                 return (0, d.jsx)("p", {
                     children: "Hello World 1"
                 });

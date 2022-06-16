@@ -17,8 +17,8 @@ var E2;
     E2[E2["A"] = 0] = "A";
 })(E2 || (E2 = {}));
 function f() {}
-(function(f1) {
-    var bar = f1.bar = 1;
+(function(f) {
+    var bar = f.bar = 1;
 })(f || (f = {}));
 var c = function c() {
     "use strict";

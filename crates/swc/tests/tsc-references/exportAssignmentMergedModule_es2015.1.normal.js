@@ -1,22 +1,22 @@
 // @module: commonjs
 // @Filename: foo_0.ts
 var Foo;
-(function(Foo1) {
-    function a1() {
+(function(Foo) {
+    function a() {
         return 5;
     }
-    Foo1.a = a1;
-    var b = Foo1.b = true;
+    Foo.a = a;
+    var b = Foo.b = true;
 })(Foo || (Foo = {}));
-(function(Foo2) {
-    function c(a2) {
-        return a2;
+(function(Foo) {
+    function c(a) {
+        return a;
     }
-    Foo2.c = c;
-    let Test1;
+    Foo.c = c;
+    let Test;
     (function(Test) {
         var answer = Test.answer = 42;
-    })(Test1 = Foo2.Test || (Foo2.Test = {}));
+    })(Test = Foo.Test || (Foo.Test = {}));
 })(Foo || (Foo = {}));
 module.exports = Foo;
 // @Filename: foo_1.ts

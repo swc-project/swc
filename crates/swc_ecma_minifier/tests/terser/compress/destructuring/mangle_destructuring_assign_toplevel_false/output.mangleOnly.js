@@ -1,11 +1,11 @@
-function a(g) {
-    let a, e, f;
-    let h = g.a || {
+function a(a) {
+    let e, f, g;
+    let h = a.a || {
         e: 7,
         n: 8
     };
-    ({ t: b , e: c , n: d , s: a = 9 , o: e , r: f  } = h);
-    console.log(b, c, d, a, e, f);
+    ({ t: b , e: c , n: d , s: e = 9 , o: f , r: g  } = h);
+    console.log(b, c, d, e, f, g);
 }
 let b, c, d;
 a({

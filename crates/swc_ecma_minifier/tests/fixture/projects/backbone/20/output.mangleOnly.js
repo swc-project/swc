@@ -1,63 +1,63 @@
 export const E = {
-    set: function(d, b) {
+    set: function(a, b) {
         b = _.defaults({}, b, setOptions);
-        if (b.parse) d = this.parse(d, b);
-        var p = !_.isArray(d);
-        d = p ? (d ? [
-            d
-        ] : []) : _.clone(d);
-        var a, f, k, c, e, i, j;
-        var l = b.at;
-        var t = this.model;
-        var m = this.comparator && l == null && b.sort !== false;
-        var u = _.isString(this.comparator) ? this.comparator : null;
-        var g = [], n = [], q = {};
-        var r = b.add, v = b.merge, o = b.remove;
-        var h = !m && r && o ? [] : false;
-        for(a = 0, f = d.length; a < f; a++){
-            e = d[a];
-            if (e instanceof Model) {
-                k = c = e;
+        if (b.parse) a = this.parse(a, b);
+        var c = !_.isArray(a);
+        a = c ? (a ? [
+            a
+        ] : []) : _.clone(a);
+        var d, e, f, g, h, i, j;
+        var k = b.at;
+        var l = this.model;
+        var m = this.comparator && k == null && b.sort !== false;
+        var n = _.isString(this.comparator) ? this.comparator : null;
+        var o = [], p = [], q = {};
+        var r = b.add, s = b.merge, t = b.remove;
+        var u = !m && r && t ? [] : false;
+        for(d = 0, e = a.length; d < e; d++){
+            h = a[d];
+            if (h instanceof Model) {
+                f = g = h;
             } else {
-                k = e[t.prototype.idAttribute];
+                f = h[l.prototype.idAttribute];
             }
-            if ((i = this.get(k))) {
-                if (o) q[i.cid] = true;
-                if (v) {
-                    e = e === c ? c.attributes : e;
-                    if (b.parse) e = i.parse(e, b);
-                    i.set(e, b);
-                    if (m && !j && i.hasChanged(u)) j = true;
+            if ((i = this.get(f))) {
+                if (t) q[i.cid] = true;
+                if (s) {
+                    h = h === g ? g.attributes : h;
+                    if (b.parse) h = i.parse(h, b);
+                    i.set(h, b);
+                    if (m && !j && i.hasChanged(n)) j = true;
                 }
-                d[a] = i;
+                a[d] = i;
             } else if (r) {
-                c = d[a] = this._prepareModel(e, b);
-                if (!c) continue;
-                g.push(c);
-                c.on("all", this._onModelEvent, this);
-                this._byId[c.cid] = c;
-                if (c.id != null) this._byId[c.id] = c;
+                g = a[d] = this._prepareModel(h, b);
+                if (!g) continue;
+                o.push(g);
+                g.on("all", this._onModelEvent, this);
+                this._byId[g.cid] = g;
+                if (g.id != null) this._byId[g.id] = g;
             }
-            if (h) h.push(i || c);
+            if (u) u.push(i || g);
         }
-        if (o) {
-            for(a = 0, f = this.length; a < f; ++a){
-                if (!q[(c = this.models[a]).cid]) n.push(c);
+        if (t) {
+            for(d = 0, e = this.length; d < e; ++d){
+                if (!q[(g = this.models[d]).cid]) p.push(g);
             }
-            if (n.length) this.remove(n, b);
+            if (p.length) this.remove(p, b);
         }
-        if (g.length || (h && h.length)) {
+        if (o.length || (u && u.length)) {
             if (m) j = true;
-            this.length += g.length;
-            if (l != null) {
-                for(a = 0, f = g.length; a < f; a++){
-                    this.models.splice(l + a, 0, g[a]);
+            this.length += o.length;
+            if (k != null) {
+                for(d = 0, e = o.length; d < e; d++){
+                    this.models.splice(k + d, 0, o[d]);
                 }
             } else {
-                if (h) this.models.length = 0;
-                var s = h || g;
-                for(a = 0, f = s.length; a < f; a++){
-                    this.models.push(s[a]);
+                if (u) this.models.length = 0;
+                var v = u || o;
+                for(d = 0, e = v.length; d < e; d++){
+                    this.models.push(v[d]);
                 }
             }
         }
@@ -65,11 +65,11 @@ export const E = {
             silent: true
         });
         if (!b.silent) {
-            for(a = 0, f = g.length; a < f; a++){
-                (c = g[a]).trigger("add", c, this, b);
+            for(d = 0, e = o.length; d < e; d++){
+                (g = o[d]).trigger("add", g, this, b);
             }
-            if (j || (h && h.length)) this.trigger("sort", this, b);
+            if (j || (u && u.length)) this.trigger("sort", this, b);
         }
-        return p ? d[0] : d;
+        return c ? a[0] : a;
     }
 };

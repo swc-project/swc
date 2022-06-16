@@ -1,8 +1,8 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 //@filename: part1.ts
 export var A;
-(function(A1) {
-    var Utils1;
+(function(A) {
+    var Utils;
     (function(Utils) {
         function mirror(p) {
             return {
@@ -11,18 +11,18 @@ export var A;
             };
         }
         Utils.mirror = mirror;
-    })(Utils1 = A1.Utils || (A1.Utils = {}));
-    var Origin = A1.Origin = {
+    })(Utils = A.Utils || (A.Utils = {}));
+    var Origin = A.Origin = {
         x: 0,
         y: 0
     };
 })(A || (A = {}));
-(function(A2) {
-    var Origin = A2.Origin = {
+(function(A) {
+    var Origin = A.Origin = {
         x: 0,
         y: 0
     };
-    var Utils2;
+    var Utils;
     (function(Utils) {
         var Plane = function Plane(tl, br) {
             "use strict";
@@ -31,5 +31,5 @@ export var A;
             this.br = br;
         };
         Utils.Plane = Plane;
-    })(Utils2 = A2.Utils || (A2.Utils = {}));
+    })(Utils = A.Utils || (A.Utils = {}));
 })(A || (A = {}));

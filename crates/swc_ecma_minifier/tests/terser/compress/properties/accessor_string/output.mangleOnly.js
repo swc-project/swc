@@ -1,10 +1,10 @@
-var b = 1;
-var a = {
+var a = 1;
+var b = {
     get "a-b" () {
-        return b;
+        return a;
     },
     set "a-b" (c){
-        b = c;
+        a = c;
     }
 };
-console.log(a["a-b"], (a["a-b"] = 2), a["a-b"]);
+console.log(b["a-b"], (b["a-b"] = 2), b["a-b"]);

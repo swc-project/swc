@@ -1,12 +1,12 @@
 console.log((function() {
     return a;
     function a(a) {
-        function c(a) {
-            return a && a + c(a - 1);
-        }
         function b(a) {
-            return c(a);
+            return a && a + b(a - 1);
         }
-        return b(a);
+        function c(a) {
+            return b(a);
+        }
+        return c(a);
     }
 })()(5));

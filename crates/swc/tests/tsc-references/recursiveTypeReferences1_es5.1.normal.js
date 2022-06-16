@@ -233,8 +233,8 @@ function parse(node) {
         ]);
     }));
 }
-function cons(hs1) {
-    return hs1.reduce(function(hss, h) {
+function cons(hs) {
+    return hs.reduce(function(hss, h) {
         var _$hs = hss.pop();
         return _$hs.length === 0 || level(h) > level(_$hs[0]) ? concat(hss, [
             concat(_$hs, [

@@ -1,16 +1,16 @@
 // @Filename: module.ts
 var X;
-(function(X1) {
-    let Y1;
+(function(X) {
+    let Y;
     (function(Y) {
-        let Point1;
-        (function(Point) {
-            var Origin = Point.Origin = new Point1(0, 0);
-        })(Point1 = Y.Point || (Y.Point = {}));
-    })(Y1 = X1.Y || (X1.Y = {}));
+        let Point;
+        (function(Point1) {
+            var Origin = Point1.Origin = new Point(0, 0);
+        })(Point = Y.Point || (Y.Point = {}));
+    })(Y = X.Y || (X.Y = {}));
 })(X || (X = {}));
-(function(X2) {
-    let Y2;
+(function(X) {
+    let Y;
     (function(Y) {
         class Point {
             constructor(x, y){
@@ -19,7 +19,7 @@ var X;
             }
         }
         Y.Point = Point;
-    })(Y2 = X2.Y || (X2.Y = {}));
+    })(Y = X.Y || (X.Y = {}));
 })(X || (X = {}));
 (function(A1) {
     var Instance = A1.Instance = new A();

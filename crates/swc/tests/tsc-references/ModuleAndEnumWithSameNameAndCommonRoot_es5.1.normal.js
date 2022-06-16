@@ -1,13 +1,13 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var enumdule;
-(function(enumdule1) {
-    var Point = function Point(x1, y1) {
+(function(enumdule) {
+    var Point = function Point(x, y) {
         "use strict";
         _class_call_check(this, Point);
-        this.x = x1;
-        this.y = y1;
+        this.x = x;
+        this.y = y;
     };
-    enumdule1.Point = Point;
+    enumdule.Point = Point;
 })(enumdule || (enumdule = {}));
 (function(enumdule) {
     enumdule[enumdule["Red"] = 0] = "Red";

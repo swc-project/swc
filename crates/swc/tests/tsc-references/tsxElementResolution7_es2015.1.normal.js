@@ -1,7 +1,7 @@
 var my;
-(function(my1) {
+(function(my) {
     var div;
-    my1.div = div;
+    my.div = div;
 })(my || (my = {}));
 // OK
 /*#__PURE__*/ React.createElement(my.div, {

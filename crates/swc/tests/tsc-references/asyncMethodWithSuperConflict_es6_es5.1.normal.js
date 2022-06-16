@@ -20,10 +20,10 @@ var A = /*#__PURE__*/ function() {
 var B = /*#__PURE__*/ function(A) {
     "use strict";
     _inherits(B, A);
-    var _super1 = _create_super(B);
+    var _super = _create_super(B);
     function B() {
         _class_call_check(this, B);
-        return _super1.apply(this, arguments);
+        return _super.apply(this, arguments);
     }
     var _proto = B.prototype;
     // async method with only call/get on 'super' does not require a binding
@@ -61,7 +61,7 @@ var B = /*#__PURE__*/ function(A) {
     // async method with assignment/destructuring on 'super' requires a binding
     _proto.advanced = function advanced() {
         var _this = this;
-        var _this2 = this, // call with property access
+        var _this1 = this, // call with property access
         _superprop_get_x = function() {
             return _get(_get_prototype_of(B.prototype), "x", _this);
         }, // call with element access
@@ -82,8 +82,8 @@ var B = /*#__PURE__*/ function(A) {
                         _super = null;
                         _superIndex = null;
                         f = function() {};
-                        _superprop_get_x().call(_this2);
-                        _superprop_get("x").call(_this2);
+                        _superprop_get_x().call(_this1);
+                        _superprop_get("x").call(_this1);
                         a = _superprop_get_x();
                         b = _superprop_get("x");
                         _superprop_set_x(f);

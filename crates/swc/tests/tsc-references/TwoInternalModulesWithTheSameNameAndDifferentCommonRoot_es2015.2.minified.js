@@ -1,15 +1,15 @@
 var Root, otherRoot;
-!function(Root1) {
+!function(Root) {
     var A;
-    ((A = Root1.A || (Root1.A = {})).Utils || (A.Utils = {})).mirror = function(p) {
+    ((A = Root.A || (Root.A = {})).Utils || (A.Utils = {})).mirror = function(p) {
         return {
             x: p.y,
             y: p.x
         };
     };
-}(Root || (Root = {})), function(otherRoot1) {
+}(Root || (Root = {})), function(otherRoot) {
     var A;
-    (A = otherRoot1.A || (otherRoot1.A = {})).Origin = {
+    (A = otherRoot.A || (otherRoot.A = {})).Origin = {
         x: 0,
         y: 0
     }, (A.Utils || (A.Utils = {})).Plane = class {

@@ -1,6 +1,6 @@
 var M;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-!function(M1) {
+!function(M) {
     var _$Symbol, C = function() {
         "use strict";
         function C() {
@@ -8,5 +8,5 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
         }
         return C.prototype[_$Symbol.iterator] = function() {}, C;
     }();
-    M1.C = C, (new C)[_$Symbol.iterator];
+    M.C = C, (new C)[_$Symbol.iterator];
 }(M || (M = {})), (new M.C)[Symbol.iterator];

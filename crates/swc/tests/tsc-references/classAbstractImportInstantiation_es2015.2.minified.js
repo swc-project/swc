@@ -1,7 +1,7 @@
 var M;
-!function(M1) {
+!function(M) {
     class A {
     }
-    M1.A = A, new A;
+    M.A = A, new A;
 }(M || (M = {})), new M.A;
 export { };

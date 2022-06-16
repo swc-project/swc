@@ -1,8 +1,8 @@
 export const exported = {
-    toQueryString: function(a, c) {
-        var b = [];
+    toQueryString: function(a, b) {
+        var c = [];
         Object.each(a, function(a, d) {
-            if (c) d = c + "[" + d + "]";
+            if (b) d = b + "[" + d + "]";
             var e;
             switch(typeOf(a)){
                 case "object":
@@ -18,8 +18,8 @@ export const exported = {
                 default:
                     e = d + "=" + encodeURIComponent(a);
             }
-            if (a != null) b.push(e);
+            if (a != null) c.push(e);
         });
-        return b.join("&");
+        return c.join("&");
     }
 };

@@ -15,9 +15,9 @@ var Foo = /*#__PURE__*/ function() {
     _proto.m2 = function m2() {};
     return _class;
 }();
-export var Bar = /*#__PURE__*/ function(Foo1) {
+export var Bar = /*#__PURE__*/ function(Foo) {
     "use strict";
-    _inherits(Bar, Foo1);
+    _inherits(Bar, Foo);
     var _super = _create_super(Bar);
     function Bar() {
         _class_call_check(this, Bar);

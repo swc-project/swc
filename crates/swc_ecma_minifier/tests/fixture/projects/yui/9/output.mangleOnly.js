@@ -1,32 +1,32 @@
 export const E = {
-    _addLangPack: function(c, a, d) {
-        var e = a.name, f, b, g = this.moduleInfo[d];
+    _addLangPack: function(a, b, c) {
+        var d = b.name, e, f, g = this.moduleInfo[c];
         if (!g) {
-            f = _path(a.pkg || e, d, JS, true);
-            b = {
-                path: f,
+            e = _path(b.pkg || d, c, JS, true);
+            f = {
+                path: e,
                 intl: true,
                 langPack: true,
-                ext: a.ext,
-                group: a.group,
+                ext: b.ext,
+                group: b.group,
                 supersedes: []
             };
-            if (a.root) {
-                b.root = a.root;
+            if (b.root) {
+                f.root = b.root;
             }
-            if (a.base) {
-                b.base = a.base;
+            if (b.base) {
+                f.base = b.base;
             }
-            if (a.configFn) {
-                b.configFn = a.configFn;
+            if (b.configFn) {
+                f.configFn = b.configFn;
             }
-            this.addModule(b, d);
-            if (c) {
+            this.addModule(f, c);
+            if (a) {
                 Y.Env.lang = Y.Env.lang || {};
-                Y.Env.lang[c] = Y.Env.lang[c] || {};
-                Y.Env.lang[c][e] = true;
+                Y.Env.lang[a] = Y.Env.lang[a] || {};
+                Y.Env.lang[a][d] = true;
             }
         }
-        return this.moduleInfo[d];
+        return this.moduleInfo[c];
     }
 };

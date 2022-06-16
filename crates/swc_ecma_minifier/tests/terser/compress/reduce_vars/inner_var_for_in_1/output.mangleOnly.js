@@ -1,10 +1,10 @@
 function a() {
-    var b = 1, a = 2;
-    for(a in (function() {
-        return x(b, a, c);
+    var a = 1, b = 2;
+    for(b in (function() {
+        return x(a, b, c);
     })()){
         var c = 3, d = 4;
-        x(b, a, c, d);
+        x(a, b, c, d);
     }
-    x(b, a, c, d);
+    x(a, b, c, d);
 }

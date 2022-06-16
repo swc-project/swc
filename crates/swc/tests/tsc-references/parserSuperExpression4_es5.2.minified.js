@@ -10,9 +10,9 @@ var M1, C = function() {
         _set(_get_prototype_of(C.prototype), "foo", 1, this, !0);
     }, C;
 }();
-!function(M11) {
+!function(M1) {
     var C;
-    M11.M2 || (M11.M2 = {}), C = function() {
+    M1.M2 || (M1.M2 = {}), C = function() {
         "use strict";
         function C() {
             _class_call_check(this, C);

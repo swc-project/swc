@@ -1,12 +1,12 @@
-async function b(b) {
-    for await (a of b){}
-    for await (var c of b){}
-    for await (let d of b){}
-    for await (const e of b){}
+async function a(a) {
+    for await (a of a){}
+    for await (var b of a){}
+    for await (let c of a){}
+    for await (const d of a){}
 }
-const c = async (b)=>{
-    for await (a of b){}
-    for await (var c of b){}
-    for await (let d of b){}
-    for await (const e of b){}
+const b = async (a)=>{
+    for await (a of a){}
+    for await (var b of a){}
+    for await (let c of a){}
+    for await (const d of a){}
 };

@@ -7,9 +7,9 @@ var a, A = function() {
 }, B = function() {
     "use strict";
     _class_call_check(this, B);
-}, C = function(A1) {
+}, C = function(A) {
     "use strict";
-    _inherits(C, A1);
+    _inherits(C, A);
     var _super = _create_super(C);
     function C() {
         return _class_call_check(this, C), _super.apply(this, arguments);

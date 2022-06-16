@@ -3,9 +3,9 @@ function a() {
     if (a !== (a = d.next().value)) console.log("FAIL");
     else console.log("PASS");
 }
-function c() {}
-function* b(a) {
-    for(;;)yield c;
+function b() {}
+function* c(a) {
+    for(;;)yield b;
 }
-var d = b();
+var d = c();
 a();

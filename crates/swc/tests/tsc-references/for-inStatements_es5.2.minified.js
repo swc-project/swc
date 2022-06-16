@@ -24,11 +24,11 @@ for(var x in c);
 for(var x in d);
 for(var x in d[x]);
 for(var x in c[d]);
-for(var x in function(x1) {
-    return x1;
+for(var x in function(x) {
+    return x;
 });
-for(var x in function(x2, y) {
-    return x2 + y;
+for(var x in function(x, y) {
+    return x + y;
 });
 var aString, anAny, c, d, e, i, M, Color, A = function() {
     "use strict";
@@ -63,12 +63,12 @@ var aString, anAny, c, d, e, i, M, Color, A = function() {
     }, B;
 }(A);
 for(var x in i[42]);
-for(var x in !function(M1) {
+for(var x in !function(M) {
     var X = function() {
         "use strict";
         _class_call_check(this, X);
     };
-    M1.X = X;
+    M.X = X;
 }(M || (M = {})), M);
 for(var x in M.X);
 for(var x in !function(Color) {

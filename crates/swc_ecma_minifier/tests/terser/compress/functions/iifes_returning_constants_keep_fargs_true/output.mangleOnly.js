@@ -7,8 +7,8 @@ console.log((function c() {
 console.log((function c(d, e, f) {
     return 123;
 })());
-console.log((function(d, e, c) {
-    return c;
+console.log((function(c, d, e) {
+    return e;
 })());
 console.log((function(c, d, e) {
     if (c) return d;

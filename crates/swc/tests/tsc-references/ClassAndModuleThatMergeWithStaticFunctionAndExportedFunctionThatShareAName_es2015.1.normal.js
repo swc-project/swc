@@ -10,15 +10,15 @@ class Point {
         this.y = y;
     }
 }
-(function(Point1) {
+(function(Point) {
     function Origin() {
         return null;
     } //expected duplicate identifier error
-    Point1.Origin = Origin;
+    Point.Origin = Origin;
 })(Point || (Point = {}));
 var A;
-(function(A1) {
-    class Point2 {
+(function(A) {
+    class Point {
         static Origin() {
             return {
                 x: 0,
@@ -30,11 +30,11 @@ var A;
             this.y = y;
         }
     }
-    A1.Point = Point2;
-    (function(Point3) {
+    A.Point = Point;
+    (function(Point) {
         function Origin() {
             return "";
         } //expected duplicate identifier error
-        Point3.Origin = Origin;
-    })(Point2 = A1.Point || (A1.Point = {}));
+        Point.Origin = Origin;
+    })(Point = A.Point || (A.Point = {}));
 })(A || (A = {}));

@@ -4,9 +4,9 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
 var BaseClass = function() {
     "use strict";
     _class_call_check(this, BaseClass);
-}, Broken = function(BaseClass1) {
+}, Broken = function(BaseClass) {
     "use strict";
-    _inherits(Broken, BaseClass1);
+    _inherits(Broken, BaseClass);
     var _super = _create_super(Broken);
     function Broken() {
         return _class_call_check(this, Broken), _super.apply(this, arguments);
@@ -14,9 +14,9 @@ var BaseClass = function() {
     return Broken;
 }(BaseClass);
 new Broken().bar;
-var IncorrectlyExtends = function(BaseClass2) {
+var IncorrectlyExtends = function(BaseClass) {
     "use strict";
-    _inherits(IncorrectlyExtends, BaseClass2);
+    _inherits(IncorrectlyExtends, BaseClass);
     var _super = _create_super(IncorrectlyExtends);
     function IncorrectlyExtends() {
         return _class_call_check(this, IncorrectlyExtends), _super.apply(this, arguments);

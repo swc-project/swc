@@ -8,9 +8,9 @@ var ctor1, ctor2, ctor3, ctor4, ctor5, ctor6, C1 = function() {
 }, C2 = function() {
     "use strict";
     _class_call_check(this, C2);
-}, D1 = function(C11) {
+}, D1 = function(C1) {
     "use strict";
-    _inherits(D1, C11);
+    _inherits(D1, C1);
     var _super = _create_super(D1);
     function D1() {
         return _class_call_check(this, D1), _super.apply(this, arguments);

@@ -34,9 +34,9 @@ var Module = function() {
     _class_call_check(this, Module);
 };
 Module.prototype.identifier = void 0, Module.prototype.size = null;
-var NormalModule = function(Module1) {
+var NormalModule = function(Module) {
     "use strict";
-    _inherits(NormalModule, Module1);
+    _inherits(NormalModule, Module);
     var _super = _create_super(NormalModule);
     function NormalModule() {
         return _class_call_check(this, NormalModule), _super.apply(this, arguments);

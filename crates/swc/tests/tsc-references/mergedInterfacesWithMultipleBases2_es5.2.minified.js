@@ -16,20 +16,20 @@ var M, C = function() {
     _class_call_check(this, D);
 };
 (void 0).a, function(M) {
-    var C1 = function() {
+    var C = function() {
         "use strict";
-        _class_call_check(this, C1);
-    }, C21 = function() {
+        _class_call_check(this, C);
+    }, C2 = function() {
         "use strict";
-        _class_call_check(this, C21);
-    }, C31 = function() {
+        _class_call_check(this, C2);
+    }, C3 = function() {
         "use strict";
-        _class_call_check(this, C31);
-    }, C41 = function() {
+        _class_call_check(this, C3);
+    }, C4 = function() {
         "use strict";
-        _class_call_check(this, C41);
-    }, D1 = function() {
+        _class_call_check(this, C4);
+    }, D = function() {
         "use strict";
-        _class_call_check(this, D1);
+        _class_call_check(this, D);
     };
 }(M || (M = {}));

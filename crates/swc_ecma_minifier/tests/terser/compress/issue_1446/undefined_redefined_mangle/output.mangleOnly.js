@@ -1,4 +1,4 @@
-function a(b) {
-    var a = 1;
-    return typeof a == "undefined";
+function a(a) {
+    var b = 1;
+    return typeof b == "undefined";
 }

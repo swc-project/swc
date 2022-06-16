@@ -8,7 +8,7 @@ var C = /*#__PURE__*/ function() {
     _proto.foo = function foo() {
         C.prototype.foo = function() {};
     };
-    _proto.bar = function bar(x1) {
+    _proto.bar = function bar(x) {
         C.prototype.bar = function() {} // error
         ;
         C.prototype.bar = function(x) {

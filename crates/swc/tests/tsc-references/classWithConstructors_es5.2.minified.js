@@ -8,11 +8,11 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
         _class_call_check(this, C);
     };
     new C(), new C("");
-    var C21 = function(x) {
+    var C2 = function(x) {
         "use strict";
-        _class_call_check(this, C21);
+        _class_call_check(this, C2);
     };
-    new C21(), new C21(""), new C21(1);
+    new C2(), new C2(""), new C2(1);
     var D = function(C2) {
         "use strict";
         _inherits(D, C2);
@@ -21,7 +21,7 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
             return _class_call_check(this, D), _super.apply(this, arguments);
         }
         return D;
-    }(C21);
+    }(C2);
     new D(), new D(1), new D("");
 }(NonGeneric || (NonGeneric = {})), function(Generics) {
     var C = function(x) {
@@ -29,11 +29,11 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
         _class_call_check(this, C);
     };
     new C(), new C("");
-    var C22 = function(x) {
+    var C2 = function(x) {
         "use strict";
-        _class_call_check(this, C22);
+        _class_call_check(this, C2);
     };
-    new C22(), new C22(""), new C22(1, 2);
+    new C2(), new C2(""), new C2(1, 2);
     var D = function(C2) {
         "use strict";
         _inherits(D, C2);
@@ -42,6 +42,6 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
             return _class_call_check(this, D), _super.apply(this, arguments);
         }
         return D;
-    }(C22);
+    }(C2);
     new D(), new D(1), new D("");
 }(Generics || (Generics = {}));

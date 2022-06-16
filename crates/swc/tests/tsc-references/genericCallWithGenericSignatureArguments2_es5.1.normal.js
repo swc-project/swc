@@ -49,7 +49,7 @@ var onlyT;
     (function(F) {
         F[F["A"] = 0] = "A";
     })(F || (F = {}));
-    var r71 = foo3(E.A, function(x) {
+    var r7 = foo3(E.A, function(x) {
         return E.A;
     }, function(x) {
         return F.A;
@@ -103,7 +103,7 @@ var TU;
     (function(F) {
         F[F["A"] = 0] = "A";
     })(F || (F = {}));
-    var r72 = foo3(E.A, function(x) {
+    var r7 = foo3(E.A, function(x) {
         return E.A;
     }, function(x) {
         return F.A;

@@ -3,9 +3,9 @@ import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
 // expected no error
 var B;
-(function(B1) {
+(function(B) {
     var a = A;
-    B1.a = a;
+    B.a = a;
     var D = /*#__PURE__*/ function(_C) {
         "use strict";
         _inherits(D, _C);
@@ -16,17 +16,17 @@ var B;
         }
         return D;
     }(a.C);
-    B1.D = D;
+    B.D = D;
 })(B || (B = {}));
 var A;
-(function(A1) {
+(function(A) {
     var C = function C() {
         "use strict";
         _class_call_check(this, C);
     };
-    A1.C = C;
+    A.C = C;
     var b = B;
-    A1.b = b;
+    A.b = b;
 })(A || (A = {}));
 var c;
 var c = new B.a.C();

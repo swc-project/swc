@@ -13,6 +13,12 @@
 
 - **(html/minifier)** Compress CSS (#4973) ([3e6c0f5](https://github.com/swc-project/swc/commit/3e6c0f567a50e1b0a8ba097b3f13b866efd6ebfa))
 
+### Performance
+
+
+
+- **(es/hygiene)** Make `hygiene` faster (#4952) ([36d960c](https://github.com/swc-project/swc/commit/36d960c7e908f6924ce9b0fd23ce4cd972dbbba0))
+
 ### Refactor
 
 

@@ -1,3 +1,3 @@
-function a(b, a) {
-    if ((b(), (a = x()))) return a;
+function a(a, b) {
+    if ((a(), (b = x()))) return b;
 }

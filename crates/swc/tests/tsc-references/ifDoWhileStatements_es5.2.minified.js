@@ -4,9 +4,9 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
 var M, N, C = function() {
     "use strict";
     _class_call_check(this, C);
-}, C2 = function(C1) {
+}, C2 = function(C) {
     "use strict";
-    _inherits(C2, C1);
+    _inherits(C2, C);
     var _super = _create_super(C2);
     function C2() {
         return _class_call_check(this, C2), _super.apply(this, arguments);
@@ -16,20 +16,20 @@ var M, N, C = function() {
     "use strict";
     _class_call_check(this, D);
 };
-for(!function(M1) {
+for(!function(M) {
     var A = function() {
         "use strict";
         _class_call_check(this, A);
     };
-    M1.A = A, M1.F2 = function(x) {
+    M.A = A, M.F2 = function(x) {
         return x.toString();
     };
-}(M || (M = {})), function(N1) {
+}(M || (M = {})), function(N) {
     var A = function() {
         "use strict";
         _class_call_check(this, A);
     };
-    N1.A = A, N1.F2 = function(x) {
+    N.A = A, N.F2 = function(x) {
         return x.toString();
     };
 }(N || (N = {}));;);

@@ -19,13 +19,13 @@ function d() {
     return a;
 }
 export function HeaderCTA() {
-    const b = d();
-    const a = c();
-    if (a === undefined) {
+    const a = d();
+    const b = c();
+    if (b === undefined) {
         return null;
     }
-    if (a) {
-        return use(b.field);
+    if (b) {
+        return use(a.field);
     }
     return pure();
 }
