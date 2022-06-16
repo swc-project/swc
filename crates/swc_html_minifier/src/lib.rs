@@ -2,6 +2,7 @@
 
 use serde_json::Value;
 use swc_atoms::{js_word, JsWord};
+use swc_cached::regex::CachedRegex;
 use swc_common::{collections::AHashSet, sync::Lrc, FileName, FilePathMapping, SourceMap};
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig},
@@ -284,6 +285,7 @@ struct Minifier {
     remove_empty_attributes: bool,
     collapse_boolean_attributes: bool,
     minify_css: bool,
+    preserve_comments: Option<Vec<CachedRegex>>,
 }
 
 impl Minifier {
@@ -459,11 +461,9 @@ impl Minifier {
         )
     }
 
-    fn is_conditional_comment(&self, data: &str) -> bool {
-        let trimmed = data.trim();
-
-        if trimmed.starts_with("[if") || trimmed.ends_with("[endif]") {
-            return true;
+    fn is_preserved_comment(&self, data: &str) -> bool {
+        if let Some(preserve_comments) = &self.preserve_comments {
+            return preserve_comments.iter().any(|regex| regex.is_match(data));
         }
 
         false
@@ -707,7 +707,7 @@ impl VisitMut for Minifier {
             index += 1;
 
             match child {
-                Child::Comment(comment) if !self.is_conditional_comment(&comment.data) => false,
+                Child::Comment(comment) if !self.is_preserved_comment(&comment.data) => false,
                 // Always remove whitespaces from html and head elements (except nested elements),
                 // it should be safe
                 Child::Text(_)
@@ -960,5 +960,7 @@ pub fn minify(document: &mut Document, options: &MinifyOptions) {
         collapse_boolean_attributes: options.collapse_boolean_attributes,
 
         minify_css: options.minify_css,
+
+        preserve_comments: options.preserve_comments.clone(),
     });
 }

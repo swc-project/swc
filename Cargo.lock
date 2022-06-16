@@ -3965,6 +3965,7 @@ dependencies = [
  "serde",
  "serde_json",
  "swc_atoms",
+ "swc_cached",
  "swc_common",
  "swc_css_codegen",
  "swc_css_minifier",
