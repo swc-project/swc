@@ -262,11 +262,7 @@ impl Fold for CssModuleComponent {
                               if let Some(type_selector) = ts.type_selector {
                                 if !sub_list.is_empty() && new_compound_selector.type_selector.is_none() {
                                   let sub_last = sub_list.last_mut().unwrap();
-                                  if let SubclassSelector::Id(id) = sub_last {
-
-                                  } else if let SubclassSelector::Class(class) = sub_last {
-
-                                  }
+                                  if let SubclassSelector::Id(id) = sub_last {} else if let SubclassSelector::Class(class) = sub_last {}
                                 } else if new_compound_selector.type_selector.is_some() {}
                               } else {
                                 sub_list.append(&mut ts.subclass_selectors);
