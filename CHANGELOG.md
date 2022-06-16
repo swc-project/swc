@@ -5,13 +5,28 @@
 
 
 
+- **(es/helpers)** Fix `module` field in `package.json` of `@swc/helpers` (#4978) ([5123c20](https://github.com/swc-project/swc/commit/5123c20b5d765db0fa645a1d4ba2820d5eeddc9c))
+
+
 - **(es/resolver)** Make catch parameter not disturb resolving (#4976) ([b3f6f20](https://github.com/swc-project/swc/commit/b3f6f20721b90b03a67c1db5d9680147ffe13923))
+
+### Documentation
+
+
+
+- **(*)** Add more badges (#4982) ([cb30ba2](https://github.com/swc-project/swc/commit/cb30ba2ad4df7cd04af49f3e7ff41e2be9649dac))
 
 ### Features
 
 
 
+- **(html/codegen)** Add option for tag omission of self closing void elements (#4971) ([d07ab2c](https://github.com/swc-project/swc/commit/d07ab2cb91a68ef88bd9adbdcc18217818a0c31d))
+
+
 - **(html/minifier)** Compress CSS (#4973) ([3e6c0f5](https://github.com/swc-project/swc/commit/3e6c0f567a50e1b0a8ba097b3f13b866efd6ebfa))
+
+
+- **(html/minifier)** Add `preserve_comments` option (#4959) ([2e52c18](https://github.com/swc-project/swc/commit/2e52c18a6b4ea4d58c219253c159af86a189ce26))
 
 ### Performance
 

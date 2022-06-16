@@ -391,6 +391,37 @@ fn test_document_fragment(input: PathBuf) {
     );
 }
 
+#[testing::fixture("tests/options/self_closing_void_elements/true/**/input.html")]
+fn test_self_closing_void_elements_true(input: PathBuf) {
+    print_document(
+        &input,
+        None,
+        None,
+        Some(CodegenConfig {
+            scripting_enabled: false,
+            minify: false,
+            tag_omission: Some(false),
+            self_closing_void_elements: Some(true),
+            ..Default::default()
+        }),
+    );
+}
+
+#[testing::fixture("tests/options/self_closing_void_elements/false/**/input.html")]
+fn test_self_closing_void_elements_false(input: PathBuf) {
+    print_document(
+        &input,
+        None,
+        None,
+        Some(CodegenConfig {
+            scripting_enabled: false,
+            minify: false,
+            self_closing_void_elements: Some(false),
+            ..Default::default()
+        }),
+    );
+}
+
 #[testing::fixture("tests/options/indent_type/**/input.html")]
 fn test_indent_type_option(input: PathBuf) {
     print_document(
@@ -415,6 +446,19 @@ fn parser_verify(input: PathBuf) {
         Some(CodegenConfig {
             scripting_enabled: false,
             minify: true,
+            tag_omission: Some(false),
+            ..Default::default()
+        }),
+        false,
+    );
+    verify_document(
+        &input,
+        None,
+        None,
+        Some(CodegenConfig {
+            scripting_enabled: false,
+            minify: true,
+            tag_omission: Some(true),
             ..Default::default()
         }),
         false,
@@ -440,6 +484,19 @@ fn parser_recovery_verify(input: PathBuf) {
         Some(CodegenConfig {
             scripting_enabled: false,
             minify: true,
+            tag_omission: Some(false),
+            ..Default::default()
+        }),
+        true,
+    );
+    verify_document(
+        &input,
+        None,
+        None,
+        Some(CodegenConfig {
+            scripting_enabled: false,
+            minify: true,
+            tag_omission: Some(true),
             ..Default::default()
         }),
         true,
@@ -522,6 +579,13 @@ fn html5lib_tests_verify(input: PathBuf) {
     };
     let minified_codegen_config = CodegenConfig {
         minify: true,
+        tag_omission: Some(true),
+        scripting_enabled,
+        ..Default::default()
+    };
+    let minified_codegen_config_no_tag_omission = CodegenConfig {
+        minify: true,
+        tag_omission: Some(false),
         scripting_enabled,
         ..Default::default()
     };
@@ -575,10 +639,18 @@ fn html5lib_tests_verify(input: PathBuf) {
         );
         verify_document_fragment(
             &input,
-            context_element,
+            context_element.clone(),
             Some(parser_config),
             None,
             Some(minified_codegen_config),
+            true,
+        );
+        verify_document_fragment(
+            &input,
+            context_element,
+            Some(parser_config),
+            None,
+            Some(minified_codegen_config_no_tag_omission),
             true,
         );
     } else {
@@ -587,6 +659,14 @@ fn html5lib_tests_verify(input: PathBuf) {
             Some(parser_config),
             None,
             Some(codegen_config),
+            true,
+        );
+
+        verify_document(
+            &input,
+            Some(parser_config),
+            None,
+            Some(minified_codegen_config_no_tag_omission),
             true,
         );
 
