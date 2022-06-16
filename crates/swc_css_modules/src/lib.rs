@@ -12,6 +12,7 @@ pub fn transform_with_css_modules(mut stylesheet: Stylesheet, filepath: &str) ->
     stylesheet.visit_mut_with(&mut SelVisitor {});
     dbg!(&stylesheet);
 
-    let mut visitor = CssModuleComponent::new(filepath);
-    stylesheet.fold_with(&mut visitor)
+    // let mut visitor = CssModuleComponent::new(filepath);
+    // stylesheet.fold_with(&mut visitor)
+    stylesheet
 }
