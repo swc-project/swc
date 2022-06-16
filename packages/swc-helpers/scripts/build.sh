@@ -6,4 +6,4 @@ ls -alR ./lib
 
 fsync
 
-sed -i '' 's/.mjs/.js/g' ./lib/*.js
+sed -i 's/.mjs/.js/g' ./lib/*.js
