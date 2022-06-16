@@ -8,6 +8,9 @@
 - **(es/helpers)** Fix `module` field in `package.json` of `@swc/helpers` (#4978) ([5123c20](https://github.com/swc-project/swc/commit/5123c20b5d765db0fa645a1d4ba2820d5eeddc9c))
 
 
+- **(es/helpers)** Use `.mjs` extension in helper imports (#4979) ([9484cf8](https://github.com/swc-project/swc/commit/9484cf81a1cef43059bea98c20a6fa8cef6802d1))
+
+
 - **(es/resolver)** Make catch parameter not disturb resolving (#4976) ([b3f6f20](https://github.com/swc-project/swc/commit/b3f6f20721b90b03a67c1db5d9680147ffe13923))
 
 ### Documentation
