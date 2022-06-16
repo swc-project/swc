@@ -78,6 +78,7 @@ fn init_helpers() -> Arc<PathBuf> {
             cmd.current_dir(&project_root)
                 .arg("install")
                 .arg("--no-save")
+                .arg("--no-package-lock")
                 .arg("./packages/swc-helpers");
             let status = cmd
                 .status()
