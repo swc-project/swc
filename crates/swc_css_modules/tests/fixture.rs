@@ -42,6 +42,7 @@ fn readfile(path: &str) -> Result<String, String> {
 
 fn test_css_modules(filepath: &str) -> String {
     let content = readfile(filepath).unwrap();
+    println!("Content:\n{}", content);
     let config = ParserConfig {
         ..Default::default()
     };
