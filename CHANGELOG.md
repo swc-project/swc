@@ -10,6 +10,12 @@
 
 - **(es/resolver)** Make catch parameter not disturb resolving (#4976) ([b3f6f20](https://github.com/swc-project/swc/commit/b3f6f20721b90b03a67c1db5d9680147ffe13923))
 
+### Documentation
+
+
+
+- **(*)** Add more badges (#4982) ([cb30ba2](https://github.com/swc-project/swc/commit/cb30ba2ad4df7cd04af49f3e7ff41e2be9649dac))
+
 ### Features
 
 
