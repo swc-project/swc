@@ -55,12 +55,12 @@ fn init_helpers() -> Arc<PathBuf> {
 
         let helper_dir = project_root.join("packages").join("swc-helpers");
 
-        {
-            let mut cmd = std::process::Command::new("yarn");
-            cmd.current_dir(&helper_dir).arg("upgrade").arg("@swc/core");
-            let status = cmd.status().expect("failed to update swc core");
-            assert!(status.success());
-        }
+        // {
+        //     let mut cmd = std::process::Command::new("yarn");
+        //     cmd.current_dir(&helper_dir).arg("upgrade").arg("@swc/core");
+        //     let status = cmd.status().expect("failed to update swc core");
+        //     assert!(status.success());
+        // }
 
         {
             let mut cmd = std::process::Command::new("yarn");
