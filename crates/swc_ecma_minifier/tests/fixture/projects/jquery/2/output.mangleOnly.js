@@ -1,38 +1,38 @@
 jQuery.extend = jQuery.fn.extend = function() {
-    var c, f, b, e, g, h, a = arguments[0] || {}, d = 1, j = arguments.length, i = false;
-    if (typeof a === "boolean") {
-        i = a;
-        a = arguments[1] || {};
-        d = 2;
+    var a, b, c, d, e, f, g = arguments[0] || {}, h = 1, i = arguments.length, j = false;
+    if (typeof g === "boolean") {
+        j = g;
+        g = arguments[1] || {};
+        h = 2;
     }
-    if (typeof a !== "object" && !jQuery.isFunction(a)) {
-        a = {};
+    if (typeof g !== "object" && !jQuery.isFunction(g)) {
+        g = {};
     }
-    if (j === d) {
-        a = this;
-        --d;
+    if (i === h) {
+        g = this;
+        --h;
     }
-    for(; d < j; d++){
-        if ((g = arguments[d]) != null) {
-            for(e in g){
-                c = a[e];
-                b = g[e];
-                if (a === b) {
+    for(; h < i; h++){
+        if ((e = arguments[h]) != null) {
+            for(d in e){
+                a = g[d];
+                c = e[d];
+                if (g === c) {
                     continue;
                 }
-                if (i && b && (jQuery.isPlainObject(b) || (f = jQuery.isArray(b)))) {
-                    if (f) {
-                        f = false;
-                        h = c && jQuery.isArray(c) ? c : [];
+                if (j && c && (jQuery.isPlainObject(c) || (b = jQuery.isArray(c)))) {
+                    if (b) {
+                        b = false;
+                        f = a && jQuery.isArray(a) ? a : [];
                     } else {
-                        h = c && jQuery.isPlainObject(c) ? c : {};
+                        f = a && jQuery.isPlainObject(a) ? a : {};
                     }
-                    a[e] = jQuery.extend(i, h, b);
-                } else if (b !== undefined) {
-                    a[e] = b;
+                    g[d] = jQuery.extend(j, f, c);
+                } else if (c !== undefined) {
+                    g[d] = c;
                 }
             }
         }
     }
-    return a;
+    return g;
 };

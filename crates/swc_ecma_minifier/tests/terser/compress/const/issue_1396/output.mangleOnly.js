@@ -1,9 +1,9 @@
-function a(b) {
-    const a = 1;
-    console.log(2 | a);
-    console.log(a + 1);
-    console.log(a);
-    console.log(b & a);
+function a(a) {
+    const b = 1;
+    console.log(2 | b);
+    console.log(b + 1);
+    console.log(b);
+    console.log(a & b);
 }
 function b() {
     const a = "01234567890123456789";

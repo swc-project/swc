@@ -1,6 +1,6 @@
 var Formatting;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-!function(Formatting1) {
+!function(Formatting) {
     var Indenter = function() {
         "use strict";
         function Indenter(logger, tree, snapshot, languageHostIndentation, editorOptions, firstToken, smartIndent) {
@@ -237,5 +237,5 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
             return indentSize;
         }, Indenter;
     }();
-    Formatting1.Indenter = Indenter;
+    Formatting.Indenter = Indenter;
 }(Formatting || (Formatting = {}));

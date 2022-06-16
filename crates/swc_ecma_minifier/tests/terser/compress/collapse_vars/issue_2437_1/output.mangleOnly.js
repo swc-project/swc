@@ -1,16 +1,16 @@
-function b() {
+function a() {
     this.onreadystatechange = "PASS";
 }
 global.xhrDesc = {};
-function a() {
+function b() {
     return c();
 }
 function c() {
     if (xhrDesc) {
-        var a = new b();
-        var c = a.onreadystatechange;
-        Object.defineProperty(b.prototype, "onreadystatechange", xhrDesc || {});
+        var b = new a();
+        var c = b.onreadystatechange;
+        Object.defineProperty(a.prototype, "onreadystatechange", xhrDesc || {});
         return c;
     }
 }
-console.log(a());
+console.log(b());

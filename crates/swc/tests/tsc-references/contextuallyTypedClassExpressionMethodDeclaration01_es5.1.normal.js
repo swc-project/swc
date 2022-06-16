@@ -26,13 +26,13 @@ function getFoo2() {
     }, _class1;
 }
 function getFoo3() {
-    var _class2;
-    return _class2 = function _class() {
+    var _class1;
+    return _class1 = function _class() {
         "use strict";
         _class_call_check(this, _class);
-    }, _class2.method1 = function(arg) {
+    }, _class1.method1 = function(arg) {
         arg.numProp = 10;
-    }, _class2.method2 = function(arg) {
+    }, _class1.method2 = function(arg) {
         arg.strProp = "hello";
-    }, _class2;
+    }, _class1;
 }

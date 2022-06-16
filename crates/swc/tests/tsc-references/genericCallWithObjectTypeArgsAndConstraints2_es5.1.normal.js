@@ -18,8 +18,8 @@ var Derived = /*#__PURE__*/ function(Base) {
     return Derived;
 }(Base);
 function f(x) {
-    var r1;
-    return r1;
+    var r;
+    return r;
 }
 var r = f({
     foo: new Base(),
@@ -30,8 +30,8 @@ var r2 = f({
     bar: new Derived()
 });
 function f2(x) {
-    var r8;
-    return r8;
+    var r;
+    return r;
 }
 var i;
 var r3 = f2(i);

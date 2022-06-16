@@ -1,4 +1,4 @@
-(function(jQuery) {
+(function(jQuery1) {
     var $;
-    (0, jQuery)("body").addClass("foo");
+    (0, jQuery1)("body").addClass("foo");
 })(jQuery);

@@ -3,11 +3,11 @@
         281
     ],
     {
-        3239: function(module1, __unused_webpack_exports, __webpack_require__) {
-            var global1, define, _require, require1, normalizeModule, lookup, ns1, root;
-            module1 = __webpack_require__.nmd(module1), (global1 = function() {
+        3239: function(module, __unused_webpack_exports, __webpack_require__) {
+            var global, define, _require, require, normalizeModule, lookup, ns, root;
+            module = __webpack_require__.nmd(module), (global = function() {
                 return this;
-            }()) || "undefined" == typeof window || (global1 = window), (define = function(module, deps, payload) {
+            }()) || "undefined" == typeof window || (global = window), (define = function(module, deps, payload) {
                 if ("string" != typeof module) {
                     define.original ? define.original.apply(this, arguments) : (console.error("dropping module because define wasn't a string."), console.trace());
                     return;
@@ -20,14 +20,14 @@
                 } else if ("[object Array]" === Object.prototype.toString.call(module)) {
                     for(var params = [], i = 0, l = module.length; i < l; ++i){
                         var dep = lookup(parentId, module[i]);
-                        if (void 0 == dep && require1.original) return;
+                        if (void 0 == dep && require.original) return;
                         params.push(dep);
                     }
                     return callback && callback.apply(null, params) || !0;
                 }
-            }, require1 = function(module, callback) {
+            }, require = function(module, callback) {
                 var packagedModule = _require("", module, callback);
-                return void 0 == packagedModule && require1.original ? require1.original.apply(this, arguments) : packagedModule;
+                return void 0 == packagedModule && require.original ? require.original.apply(this, arguments) : packagedModule;
             }, normalizeModule = function(parentId, moduleName) {
                 if (-1 !== moduleName.indexOf("!")) {
                     var chunks = moduleName.split("!");
@@ -40,9 +40,9 @@
                 return moduleName;
             }, lookup = function(parentId, moduleName) {
                 moduleName = normalizeModule(parentId, moduleName);
-                var module2 = define.modules[moduleName];
-                if (!module2) {
-                    if ("function" == typeof (module2 = define.payloads[moduleName])) {
+                var module = define.modules[moduleName];
+                if (!module) {
+                    if ("function" == typeof (module = define.payloads[moduleName])) {
                         var exports = {}, mod = {
                             id: moduleName,
                             uri: "",
@@ -51,12 +51,12 @@
                         }, req = function(module, callback) {
                             return _require(moduleName, module, callback);
                         };
-                        exports = module2(req, exports, mod) || mod.exports, define.modules[moduleName] = exports, delete define.payloads[moduleName];
+                        exports = module(req, exports, mod) || mod.exports, define.modules[moduleName] = exports, delete define.payloads[moduleName];
                     }
-                    module2 = define.modules[moduleName] = exports || module2;
+                    module = define.modules[moduleName] = exports || module;
                 }
-                return module2;
-            }, ns1 = "ace", root = global1, ns1 && (global1[ns1] || (global1[ns1] = {}), root = global1[ns1]), root.define && root.define.packaged || (define.original = root.define, root.define = define, root.define.packaged = !0), root.require && root.require.packaged || (require1.original = root.require, root.require = require1, root.require.packaged = !0), ace.define("ace/lib/fixoldbrowsers", [
+                return module;
+            }, ns = "ace", root = global, ns && (global[ns] || (global[ns] = {}), root = global[ns]), root.define && root.define.packaged || (define.original = root.define, root.define = define, root.define.packaged = !0), root.require && root.require.packaged || (require.original = root.require, root.require = require, root.require.packaged = !0), ace.define("ace/lib/fixoldbrowsers", [
                 "require",
                 "exports",
                 "module"
@@ -188,12 +188,12 @@
                             href: uri
                         }
                     ], exports.getDocumentHead(doc));
-                }, exports.scrollbarWidth = function(document) {
+                }, exports.scrollbarWidth = function(document1) {
                     var inner = exports.createElement("ace_inner");
                     inner.style.width = "100%", inner.style.minWidth = "0px", inner.style.height = "200px", inner.style.display = "block";
                     var outer = exports.createElement("ace_outer"), style = outer.style;
                     style.position = "absolute", style.left = "-10000px", style.overflow = "hidden", style.width = "200px", style.minWidth = "0px", style.height = "150px", style.display = "block", outer.appendChild(inner);
-                    var body = document.documentElement;
+                    var body = document1.documentElement;
                     body.appendChild(outer);
                     var noScrollbar = inner.offsetWidth;
                     style.overflow = "scroll";
@@ -241,7 +241,7 @@
             ], function(require, exports, module) {
                 "use strict";
                 var oop = require("./oop"), Keys = function() {
-                    var name, i1, ret = {
+                    var name, i, ret = {
                         MODIFIER_KEYS: {
                             16: "Shift",
                             17: "Ctrl",
@@ -364,8 +364,8 @@
                             106: "*"
                         }
                     };
-                    for(i1 in ret.FUNCTION_KEYS)name = ret.FUNCTION_KEYS[i1].toLowerCase(), ret[name] = parseInt(i1, 10);
-                    for(i1 in ret.PRINTABLE_KEYS)name = ret.PRINTABLE_KEYS[i1].toLowerCase(), ret[name] = parseInt(i1, 10);
+                    for(i in ret.FUNCTION_KEYS)name = ret.FUNCTION_KEYS[i].toLowerCase(), ret[name] = parseInt(i, 10);
+                    for(i in ret.PRINTABLE_KEYS)name = ret.PRINTABLE_KEYS[i].toLowerCase(), ret[name] = parseInt(i, 10);
                     return oop.mixin(ret, ret.MODIFIER_KEYS), oop.mixin(ret, ret.PRINTABLE_KEYS), oop.mixin(ret, ret.FUNCTION_KEYS), ret.enter = ret.return, ret.escape = ret.esc, ret.del = ret.delete, ret[173] = "-", function() {
                         for(var mods = [
                             "cmd",
@@ -761,61 +761,61 @@
                 "use strict";
                 var event = require("../lib/event"), useragent = require("../lib/useragent"), dom = require("../lib/dom"), lang = require("../lib/lang"), clipboard = require("../clipboard"), BROKEN_SETDATA = useragent.isChrome < 18, USE_IE_MIME_TYPE = useragent.isIE, HAS_FOCUS_ARGS = useragent.isChrome > 63, KEYS = require("../lib/keys"), MODS = KEYS.KEY_MODS, isIOS = useragent.isIOS, valueResetRegex = isIOS ? /\s/ : /\n/, isMobile = useragent.isMobile;
                 exports.TextInput = function(parentNode, host) {
-                    var closeTimeout, text2 = dom.createElement("textarea");
-                    text2.className = "ace_text-input", text2.setAttribute("wrap", "off"), text2.setAttribute("autocorrect", "off"), text2.setAttribute("autocapitalize", "off"), text2.setAttribute("spellcheck", !1), text2.style.opacity = "0", parentNode.insertBefore(text2, parentNode.firstChild);
+                    var closeTimeout, text = dom.createElement("textarea");
+                    text.className = "ace_text-input", text.setAttribute("wrap", "off"), text.setAttribute("autocorrect", "off"), text.setAttribute("autocapitalize", "off"), text.setAttribute("spellcheck", !1), text.style.opacity = "0", parentNode.insertBefore(text, parentNode.firstChild);
                     var copied = !1, pasted = !1, inComposition = !1, sendingText = !1, tempStyle = "";
-                    isMobile || (text2.style.fontSize = "1px");
+                    isMobile || (text.style.fontSize = "1px");
                     var commandMode = !1, ignoreFocusEvents = !1, lastValue = "", lastSelectionStart = 0, lastSelectionEnd = 0, lastRestoreEnd = 0;
                     try {
-                        var isFocused = document.activeElement === text2;
-                    } catch (e1) {}
-                    event.addListener(text2, "blur", function(e) {
+                        var isFocused = document.activeElement === text;
+                    } catch (e) {}
+                    event.addListener(text, "blur", function(e) {
                         ignoreFocusEvents || (host.onBlur(e), isFocused = !1);
-                    }, host), event.addListener(text2, "focus", function(e) {
+                    }, host), event.addListener(text, "focus", function(e) {
                         if (!ignoreFocusEvents) {
                             if (isFocused = !0, useragent.isEdge) try {
                                 if (!document.hasFocus()) return;
-                            } catch (e2) {}
+                            } catch (e1) {}
                             host.onFocus(e), useragent.isEdge ? setTimeout(resetSelection) : resetSelection();
                         }
                     }, host), this.$focusScroll = !1, this.focus = function() {
-                        if (tempStyle || HAS_FOCUS_ARGS || "browser" == this.$focusScroll) return text2.focus({
+                        if (tempStyle || HAS_FOCUS_ARGS || "browser" == this.$focusScroll) return text.focus({
                             preventScroll: !0
                         });
-                        var top = text2.style.top;
-                        text2.style.position = "fixed", text2.style.top = "0px";
+                        var top = text.style.top;
+                        text.style.position = "fixed", text.style.top = "0px";
                         try {
-                            var isTransformed = 0 != text2.getBoundingClientRect().top;
+                            var isTransformed = 0 != text.getBoundingClientRect().top;
                         } catch (e) {
                             return;
                         }
                         var ancestors = [];
-                        if (isTransformed) for(var t = text2.parentElement; t && 1 == t.nodeType;)ancestors.push(t), t.setAttribute("ace_nocontext", !0), t = !t.parentElement && t.getRootNode ? t.getRootNode().host : t.parentElement;
-                        text2.focus({
+                        if (isTransformed) for(var t = text.parentElement; t && 1 == t.nodeType;)ancestors.push(t), t.setAttribute("ace_nocontext", !0), t = !t.parentElement && t.getRootNode ? t.getRootNode().host : t.parentElement;
+                        text.focus({
                             preventScroll: !0
                         }), isTransformed && ancestors.forEach(function(p) {
                             p.removeAttribute("ace_nocontext");
                         }), setTimeout(function() {
-                            text2.style.position = "", "0px" == text2.style.top && (text2.style.top = top);
+                            text.style.position = "", "0px" == text.style.top && (text.style.top = top);
                         }, 0);
                     }, this.blur = function() {
-                        text2.blur();
+                        text.blur();
                     }, this.isFocused = function() {
                         return isFocused;
                     }, host.on("beforeEndOperation", function() {
                         var curOp = host.curOp, commandName = curOp && curOp.command && curOp.command.name;
                         if ("insertstring" != commandName) {
                             var isUserAction = commandName && (curOp.docChanged || curOp.selectionChanged);
-                            inComposition && isUserAction && (lastValue = text2.value = "", onCompositionEnd()), resetSelection();
+                            inComposition && isUserAction && (lastValue = text.value = "", onCompositionEnd()), resetSelection();
                         }
                     });
                     var resetSelection = isIOS ? function(value) {
                         if (isFocused && (!copied || value) && !sendingText) {
                             value || (value = "");
                             var newValue = "\n ab" + value + "cde fg\n";
-                            newValue != text2.value && (text2.value = lastValue = newValue);
+                            newValue != text.value && (text.value = lastValue = newValue);
                             var selectionStart = 4, selectionEnd = 4 + (value.length || (host.selection.isEmpty() ? 0 : 1));
-                            (lastSelectionStart != selectionStart || lastSelectionEnd != selectionEnd) && text2.setSelectionRange(selectionStart, selectionEnd), lastSelectionStart = selectionStart, lastSelectionEnd = selectionEnd;
+                            (lastSelectionStart != selectionStart || lastSelectionEnd != selectionEnd) && text.setSelectionRange(selectionStart, selectionEnd), lastSelectionStart = selectionStart, lastSelectionEnd = selectionEnd;
                         }
                     } : function() {
                         if (!inComposition && !sendingText && (isFocused || afterContextMenu)) {
@@ -833,8 +833,8 @@
                                 line.length > 400 && (selectionStart < 400 && selectionEnd < 400 ? line = line.slice(0, 400) : (line = "\n", selectionStart == selectionEnd ? selectionStart = selectionEnd = 0 : (selectionStart = 0, selectionEnd = 1)));
                             }
                             var newValue = line + "\n\n";
-                            if (newValue != lastValue && (text2.value = lastValue = newValue, lastSelectionStart = lastSelectionEnd = newValue.length), afterContextMenu && (lastSelectionStart = text2.selectionStart, lastSelectionEnd = text2.selectionEnd), lastSelectionEnd != selectionEnd || lastSelectionStart != selectionStart || text2.selectionEnd != lastSelectionEnd) try {
-                                text2.setSelectionRange(selectionStart, selectionEnd), lastSelectionStart = selectionStart, lastSelectionEnd = selectionEnd;
+                            if (newValue != lastValue && (text.value = lastValue = newValue, lastSelectionStart = lastSelectionEnd = newValue.length), afterContextMenu && (lastSelectionStart = text.selectionStart, lastSelectionEnd = text.selectionEnd), lastSelectionEnd != selectionEnd || lastSelectionStart != selectionStart || text.selectionEnd != lastSelectionEnd) try {
+                                text.setSelectionRange(selectionStart, selectionEnd), lastSelectionStart = selectionStart, lastSelectionEnd = selectionEnd;
                             } catch (e) {}
                             inComposition = !1;
                         }
@@ -848,7 +848,7 @@
                     };
                     var afterContextMenu = !1, sendText = function(value, fromInput) {
                         if (afterContextMenu && (afterContextMenu = !1), pasted) return resetSelection(), value && host.onPaste(value), pasted = !1, "";
-                        for(var selectionStart = text2.selectionStart, selectionEnd = text2.selectionEnd, extendLeft = lastSelectionStart, extendRight = lastValue.length - lastSelectionEnd, inserted = value, restoreStart = value.length - selectionStart, restoreEnd = value.length - selectionEnd, i = 0; extendLeft > 0 && lastValue[i] == value[i];)i++, extendLeft--;
+                        for(var selectionStart = text.selectionStart, selectionEnd = text.selectionEnd, extendLeft = lastSelectionStart, extendRight = lastValue.length - lastSelectionEnd, inserted = value, restoreStart = value.length - selectionStart, restoreEnd = value.length - selectionEnd, i = 0; extendLeft > 0 && lastValue[i] == value[i];)i++, extendLeft--;
                         for(inserted = inserted.slice(i), i = 1; extendRight > 0 && lastValue.length - i > lastSelectionStart - 1 && lastValue[lastValue.length - i] == value[value.length - i];)i++, extendRight--;
                         restoreStart -= i - 1, restoreEnd -= i - 1;
                         var endIndex = inserted.length - i + 1;
@@ -867,7 +867,7 @@
                             if ("historyUndo" == e.inputType) return host.execCommand("undo");
                             if ("historyRedo" == e.inputType) return host.execCommand("redo");
                         }
-                        var data = text2.value, inserted = sendText(data, !0);
+                        var data = text.value, inserted = sendText(data, !0);
                         (data.length > 500 || valueResetRegex.test(inserted) || isMobile && lastSelectionStart < 1 && lastSelectionStart == lastSelectionEnd) && resetSelection();
                     }, handleClipboardData = function(e, data, forceIEMime) {
                         var clipboardData = e.clipboardData || window.clipboardData;
@@ -876,8 +876,8 @@
                             try {
                                 if (data) return !1 !== clipboardData.setData(mime, data);
                                 return clipboardData.getData(mime);
-                            } catch (e) {
-                                if (!forceIEMime) return handleClipboardData(e, data, !0);
+                            } catch (e1) {
+                                if (!forceIEMime) return handleClipboardData(e1, data, !0);
                             }
                         }
                     }, doCopy = function(e, isCut) {
@@ -885,7 +885,7 @@
                         if (!data) return event.preventDefault(e);
                         handleClipboardData(e, data) ? (isIOS && (resetSelection(data), copied = data, setTimeout(function() {
                             copied = !1;
-                        }, 10)), isCut ? host.onCut() : host.onCopy(), event.preventDefault(e)) : (copied = !0, text2.value = data, text2.select(), setTimeout(function() {
+                        }, 10)), isCut ? host.onCut() : host.onCopy(), event.preventDefault(e)) : (copied = !0, text.value = data, text.select(), setTimeout(function() {
                             copied = !1, resetSelection(), isCut ? host.onCut() : host.onCopy();
                         }));
                     }, onCut = function(e) {
@@ -894,17 +894,17 @@
                         doCopy(e, !1);
                     }, onPaste = function(e) {
                         var data = handleClipboardData(e);
-                        clipboard.pasteCancelled() || ("string" == typeof data ? (data && host.onPaste(data, e), useragent.isIE && setTimeout(resetSelection), event.preventDefault(e)) : (text2.value = "", pasted = !0));
+                        clipboard.pasteCancelled() || ("string" == typeof data ? (data && host.onPaste(data, e), useragent.isIE && setTimeout(resetSelection), event.preventDefault(e)) : (text.value = "", pasted = !0));
                     };
-                    event.addCommandKeyListener(text2, host.onCommandKey.bind(host), host), event.addListener(text2, "select", function(e) {
+                    event.addCommandKeyListener(text, host.onCommandKey.bind(host), host), event.addListener(text, "select", function(e) {
                         if (!inComposition) {
                             if (copied) copied = !1;
                             else {
-                                var text;
-                                0 === (text = text2).selectionStart && text.selectionEnd >= lastValue.length && text.value === lastValue && lastValue && text.selectionEnd !== lastSelectionEnd ? (host.selectAll(), resetSelection()) : isMobile && text2.selectionStart != lastSelectionStart && resetSelection();
+                                var text1;
+                                0 === (text1 = text).selectionStart && text1.selectionEnd >= lastValue.length && text1.value === lastValue && lastValue && text1.selectionEnd !== lastSelectionEnd ? (host.selectAll(), resetSelection()) : isMobile && text.selectionStart != lastSelectionStart && resetSelection();
                             }
                         }
-                    }, host), event.addListener(text2, "input", onInput, host), event.addListener(text2, "cut", onCut, host), event.addListener(text2, "copy", onCopy, host), event.addListener(text2, "paste", onPaste, host), "oncut" in text2 && "oncopy" in text2 && "onpaste" in text2 || event.addListener(parentNode, "keydown", function(e) {
+                    }, host), event.addListener(text, "input", onInput, host), event.addListener(text, "cut", onCut, host), event.addListener(text, "copy", onCopy, host), event.addListener(text, "paste", onPaste, host), "oncut" in text && "oncopy" in text && "onpaste" in text || event.addListener(parentNode, "keydown", function(e) {
                         if ((!useragent.isMac || e.metaKey) && e.ctrlKey) switch(e.keyCode){
                             case 67:
                                 onCopy(e);
@@ -919,52 +919,52 @@
                     var onCompositionUpdate = function() {
                         if (inComposition && host.onCompositionUpdate && !host.$readOnly) {
                             if (commandMode) return cancelComposition();
-                            inComposition.useTextareaForIME ? host.onCompositionUpdate(text2.value) : (sendText(text2.value), inComposition.markerRange && (inComposition.context && (inComposition.markerRange.start.column = inComposition.selectionStart = inComposition.context.compositionStartOffset), inComposition.markerRange.end.column = inComposition.markerRange.start.column + lastSelectionEnd - inComposition.selectionStart + lastRestoreEnd));
+                            inComposition.useTextareaForIME ? host.onCompositionUpdate(text.value) : (sendText(text.value), inComposition.markerRange && (inComposition.context && (inComposition.markerRange.start.column = inComposition.selectionStart = inComposition.context.compositionStartOffset), inComposition.markerRange.end.column = inComposition.markerRange.start.column + lastSelectionEnd - inComposition.selectionStart + lastRestoreEnd));
                         }
                     }, onCompositionEnd = function(e) {
                         host.onCompositionEnd && !host.$readOnly && (inComposition = !1, host.onCompositionEnd(), host.off("mousedown", cancelComposition), e && onInput());
                     };
                     function cancelComposition() {
-                        ignoreFocusEvents = !0, text2.blur(), text2.focus(), ignoreFocusEvents = !1;
+                        ignoreFocusEvents = !0, text.blur(), text.focus(), ignoreFocusEvents = !1;
                     }
                     var syncComposition = lang.delayedCall(onCompositionUpdate, 50).schedule.bind(null, null);
                     function onContextMenuClose() {
                         clearTimeout(closeTimeout), closeTimeout = setTimeout(function() {
-                            tempStyle && (text2.style.cssText = tempStyle, tempStyle = ""), host.renderer.$isMousePressed = !1, host.renderer.$keepTextAreaAtCursor && host.renderer.$moveTextAreaToCursor();
+                            tempStyle && (text.style.cssText = tempStyle, tempStyle = ""), host.renderer.$isMousePressed = !1, host.renderer.$keepTextAreaAtCursor && host.renderer.$moveTextAreaToCursor();
                         }, 0);
                     }
-                    event.addListener(text2, "compositionstart", function(e) {
+                    event.addListener(text, "compositionstart", function(e) {
                         if (!inComposition && host.onCompositionStart && !host.$readOnly && (inComposition = {}, !commandMode)) {
                             e.data && (inComposition.useTextareaForIME = !1), setTimeout(onCompositionUpdate, 0), host._signal("compositionStart"), host.on("mousedown", cancelComposition);
                             var range = host.getSelectionRange();
-                            range.end.row = range.start.row, range.end.column = range.start.column, inComposition.markerRange = range, inComposition.selectionStart = lastSelectionStart, host.onCompositionStart(inComposition), inComposition.useTextareaForIME ? (lastValue = text2.value = "", lastSelectionStart = 0, lastSelectionEnd = 0) : (text2.msGetInputContext && (inComposition.context = text2.msGetInputContext()), text2.getInputContext && (inComposition.context = text2.getInputContext()));
+                            range.end.row = range.start.row, range.end.column = range.start.column, inComposition.markerRange = range, inComposition.selectionStart = lastSelectionStart, host.onCompositionStart(inComposition), inComposition.useTextareaForIME ? (lastValue = text.value = "", lastSelectionStart = 0, lastSelectionEnd = 0) : (text.msGetInputContext && (inComposition.context = text.msGetInputContext()), text.getInputContext && (inComposition.context = text.getInputContext()));
                         }
-                    }, host), event.addListener(text2, "compositionupdate", onCompositionUpdate, host), event.addListener(text2, "keyup", function(e) {
-                        27 == e.keyCode && text2.value.length < text2.selectionStart && (inComposition || (lastValue = text2.value), lastSelectionStart = lastSelectionEnd = -1, resetSelection()), syncComposition();
-                    }, host), event.addListener(text2, "keydown", syncComposition, host), event.addListener(text2, "compositionend", onCompositionEnd, host), this.getElement = function() {
-                        return text2;
+                    }, host), event.addListener(text, "compositionupdate", onCompositionUpdate, host), event.addListener(text, "keyup", function(e) {
+                        27 == e.keyCode && text.value.length < text.selectionStart && (inComposition || (lastValue = text.value), lastSelectionStart = lastSelectionEnd = -1, resetSelection()), syncComposition();
+                    }, host), event.addListener(text, "keydown", syncComposition, host), event.addListener(text, "compositionend", onCompositionEnd, host), this.getElement = function() {
+                        return text;
                     }, this.setCommandMode = function(value) {
-                        commandMode = value, text2.readOnly = !1;
+                        commandMode = value, text.readOnly = !1;
                     }, this.setReadOnly = function(readOnly) {
-                        commandMode || (text2.readOnly = readOnly);
+                        commandMode || (text.readOnly = readOnly);
                     }, this.setCopyWithEmptySelection = function(value) {}, this.onContextMenu = function(e) {
                         afterContextMenu = !0, resetSelection(), host._emit("nativecontextmenu", {
                             target: host,
                             domEvent: e
                         }), this.moveToMouse(e, !0);
-                    }, this.moveToMouse = function(e3, bringToFront) {
-                        tempStyle || (tempStyle = text2.style.cssText), text2.style.cssText = (bringToFront ? "z-index:100000;" : "") + (useragent.isIE ? "opacity:0.1;" : "") + "text-indent: -" + (lastSelectionStart + lastSelectionEnd) * host.renderer.characterWidth * 0.5 + "px;";
-                        var rect = host.container.getBoundingClientRect(), style = dom.computedStyle(host.container), top = rect.top + (parseInt(style.borderTopWidth) || 0), left = rect.left + (parseInt(rect.borderLeftWidth) || 0), maxTop = rect.bottom - top - text2.clientHeight - 2, move = function(e) {
-                            dom.translate(text2, e.clientX - left - 2, Math.min(e.clientY - top - 2, maxTop));
+                    }, this.moveToMouse = function(e, bringToFront) {
+                        tempStyle || (tempStyle = text.style.cssText), text.style.cssText = (bringToFront ? "z-index:100000;" : "") + (useragent.isIE ? "opacity:0.1;" : "") + "text-indent: -" + (lastSelectionStart + lastSelectionEnd) * host.renderer.characterWidth * 0.5 + "px;";
+                        var rect = host.container.getBoundingClientRect(), style = dom.computedStyle(host.container), top = rect.top + (parseInt(style.borderTopWidth) || 0), left = rect.left + (parseInt(rect.borderLeftWidth) || 0), maxTop = rect.bottom - top - text.clientHeight - 2, move = function(e) {
+                            dom.translate(text, e.clientX - left - 2, Math.min(e.clientY - top - 2, maxTop));
                         };
-                        move(e3), "mousedown" == e3.type && (host.renderer.$isMousePressed = !0, clearTimeout(closeTimeout), useragent.isWin && event.capture(host.container, move, onContextMenuClose));
+                        move(e), "mousedown" == e.type && (host.renderer.$isMousePressed = !0, clearTimeout(closeTimeout), useragent.isWin && event.capture(host.container, move, onContextMenuClose));
                     }, this.onContextMenuClose = onContextMenuClose;
                     var host1, text1, typingResetTimeout, typing, detectArrowKeys, onContextMenu = function(e) {
                         host.textInput.onContextMenu(e), onContextMenuClose();
                     };
-                    event.addListener(text2, "mouseup", onContextMenu, host), event.addListener(text2, "mousedown", function(e) {
+                    event.addListener(text, "mouseup", onContextMenu, host), event.addListener(text, "mousedown", function(e) {
                         e.preventDefault(), onContextMenuClose();
-                    }, host), event.addListener(host.renderer.scroller, "contextmenu", onContextMenu, host), event.addListener(text2, "contextmenu", onContextMenu, host), isIOS && (host1 = host, typingResetTimeout = null, typing = !1, (text1 = text2).addEventListener("keydown", function(e) {
+                    }, host), event.addListener(host.renderer.scroller, "contextmenu", onContextMenu, host), event.addListener(text, "contextmenu", onContextMenu, host), isIOS && (host1 = host, typingResetTimeout = null, typing = !1, (text1 = text).addEventListener("keydown", function(e) {
                         typingResetTimeout && clearTimeout(typingResetTimeout), typing = !0;
                     }, !0), text1.addEventListener("keyup", function(e) {
                         typingResetTimeout = setTimeout(function() {
@@ -1264,16 +1264,16 @@
                     ].forEach(function(x) {
                         mouseHandler[x] = this[x];
                     }, this), editor.on("mousedown", this.onMouseDown.bind(mouseHandler));
-                    var dragSelectionMarker, x1, y, timerId, range, dragCursor, mouseTarget = editor.container, counter = 0;
+                    var dragSelectionMarker, x, y, timerId, range, dragCursor, mouseTarget = editor.container, counter = 0;
                     function onDragInterval() {
                         var cursor, prevCursor, now, lineHeight, characterWidth, editorRect, offsets, nearestXOffset, nearestYOffset, scrollCursor, vScroll, hScroll, vMovement, cursor1, prevCursor1, now1, vMovement1, hMovement, prevCursor2 = dragCursor;
-                        cursor1 = dragCursor = editor.renderer.screenToTextCoordinates(x1, y), prevCursor1 = prevCursor2, now1 = Date.now(), vMovement1 = !prevCursor1 || cursor1.row != prevCursor1.row, hMovement = !prevCursor1 || cursor1.column != prevCursor1.column, !cursorMovedTime || vMovement1 || hMovement ? (editor.moveCursorToPosition(cursor1), cursorMovedTime = now1, cursorPointOnCaretMoved = {
-                            x: x1,
+                        cursor1 = dragCursor = editor.renderer.screenToTextCoordinates(x, y), prevCursor1 = prevCursor2, now1 = Date.now(), vMovement1 = !prevCursor1 || cursor1.row != prevCursor1.row, hMovement = !prevCursor1 || cursor1.column != prevCursor1.column, !cursorMovedTime || vMovement1 || hMovement ? (editor.moveCursorToPosition(cursor1), cursorMovedTime = now1, cursorPointOnCaretMoved = {
+                            x: x,
                             y: y
-                        }) : calcDistance(cursorPointOnCaretMoved.x, cursorPointOnCaretMoved.y, x1, y) > 5 ? cursorMovedTime = null : now1 - cursorMovedTime >= 200 && (editor.renderer.scrollCursorIntoView(), cursorMovedTime = null), cursor = dragCursor, prevCursor = prevCursor2, now = Date.now(), lineHeight = editor.renderer.layerConfig.lineHeight, characterWidth = editor.renderer.layerConfig.characterWidth, editorRect = editor.renderer.scroller.getBoundingClientRect(), offsets = {
+                        }) : calcDistance(cursorPointOnCaretMoved.x, cursorPointOnCaretMoved.y, x, y) > 5 ? cursorMovedTime = null : now1 - cursorMovedTime >= 200 && (editor.renderer.scrollCursorIntoView(), cursorMovedTime = null), cursor = dragCursor, prevCursor = prevCursor2, now = Date.now(), lineHeight = editor.renderer.layerConfig.lineHeight, characterWidth = editor.renderer.layerConfig.characterWidth, editorRect = editor.renderer.scroller.getBoundingClientRect(), offsets = {
                             x: {
-                                left: x1 - editorRect.left,
-                                right: editorRect.right - x1
+                                left: x - editorRect.left,
+                                right: editorRect.right - x
                             },
                             y: {
                                 top: y - editorRect.top,
@@ -1292,9 +1292,9 @@
                     }
                     this.onDragStart = function(e) {
                         if (this.cancelDrag || !mouseTarget.draggable) {
-                            var self = this;
+                            var self1 = this;
                             return setTimeout(function() {
-                                self.startSelect(), self.captureMouse(e);
+                                self1.startSelect(), self1.captureMouse(e);
                             }, 0), e.preventDefault();
                         }
                         range = editor.getSelectionRange();
@@ -1309,9 +1309,9 @@
                         }
                         this.editor.unsetStyle("ace_dragging"), this.editor.renderer.setCursorStyle("");
                     }, this.onDragEnter = function(e) {
-                        if (!editor.getReadOnly() && canAccept(e.dataTransfer)) return x1 = e.clientX, y = e.clientY, dragSelectionMarker || addDragMarker(), counter++, e.dataTransfer.dropEffect = dragOperation = getDropEffect(e), event.preventDefault(e);
+                        if (!editor.getReadOnly() && canAccept(e.dataTransfer)) return x = e.clientX, y = e.clientY, dragSelectionMarker || addDragMarker(), counter++, e.dataTransfer.dropEffect = dragOperation = getDropEffect(e), event.preventDefault(e);
                     }, this.onDragOver = function(e) {
-                        if (!editor.getReadOnly() && canAccept(e.dataTransfer)) return x1 = e.clientX, y = e.clientY, !dragSelectionMarker && (addDragMarker(), counter++), null !== onMouseMoveTimer && (onMouseMoveTimer = null), e.dataTransfer.dropEffect = dragOperation = getDropEffect(e), event.preventDefault(e);
+                        if (!editor.getReadOnly() && canAccept(e.dataTransfer)) return x = e.clientX, y = e.clientY, !dragSelectionMarker && (addDragMarker(), counter++), null !== onMouseMoveTimer && (onMouseMoveTimer = null), e.dataTransfer.dropEffect = dragOperation = getDropEffect(e), event.preventDefault(e);
                     }, this.onDragLeave = function(e) {
                         if (--counter <= 0 && dragSelectionMarker) return clearDragMarker(), dragOperation = null, event.preventDefault(e);
                     }, this.onDrop = function(e) {
@@ -1358,7 +1358,7 @@
                         ], copyModifierState = useragent.isMac ? e.altKey : e.ctrlKey, effectAllowed = "uninitialized";
                         try {
                             effectAllowed = e.dataTransfer.effectAllowed.toLowerCase();
-                        } catch (e4) {}
+                        } catch (e1) {}
                         var dropEffect = "none";
                         return copyModifierState && copyAllowed.indexOf(effectAllowed) >= 0 ? dropEffect = "copy" : [
                             "move",
@@ -1419,7 +1419,7 @@
                 "use strict";
                 var MouseEvent = require("./mouse_event").MouseEvent, event = require("../lib/event"), dom = require("../lib/dom");
                 exports.addTouchListeners = function(el, editor) {
-                    var startX, startY, touchStartT, lastT, longTouchTimer, animationTimer, pos1, pressed, contextMenu, mode = "scroll", animationSteps = 0, clickCount = 0, vX = 0, vY = 0;
+                    var startX, startY, touchStartT, lastT, longTouchTimer, animationTimer, pos, pressed, contextMenu, mode = "scroll", animationSteps = 0, clickCount = 0, vX = 0, vY = 0;
                     function showContextMenu() {
                         if (!contextMenu) {
                             var clipboard, isOpen, updateMenu, handleClick;
@@ -1525,8 +1525,8 @@
                     }
                     function handleLongTap() {
                         clearTimeout(longTouchTimer = null);
-                        var range = editor.selection.getRange(), inSelection = range.contains(pos1.row, pos1.column);
-                        (range.isEmpty() || !inSelection) && (editor.selection.moveToPosition(pos1), editor.selection.selectWord()), mode = "wait", showContextMenu();
+                        var range = editor.selection.getRange(), inSelection = range.contains(pos.row, pos.column);
+                        (range.isEmpty() || !inSelection) && (editor.selection.moveToPosition(pos), editor.selection.selectWord()), mode = "wait", showContextMenu();
                     }
                     event.addListener(el, "contextmenu", function(e) {
                         pressed && editor.textInput.getElement().focus();
@@ -1539,10 +1539,10 @@
                         pressed = editor.$mouseHandler.isMousePressed = !0;
                         var h = editor.renderer.layerConfig.lineHeight, w = editor.renderer.layerConfig.lineHeight, t = e.timeStamp;
                         lastT = t;
-                        var touchObj = touches[0], x2 = touchObj.clientX, y1 = touchObj.clientY;
-                        Math.abs(startX - x2) + Math.abs(startY - y1) > h && (touchStartT = -1), startX = e.clientX = x2, startY = e.clientY = y1, vX = vY = 0;
+                        var touchObj = touches[0], x = touchObj.clientX, y = touchObj.clientY;
+                        Math.abs(startX - x) + Math.abs(startY - y) > h && (touchStartT = -1), startX = e.clientX = x, startY = e.clientY = y, vX = vY = 0;
                         var ev = new MouseEvent(e, editor);
-                        if (pos1 = ev.getDocumentPosition(), t - touchStartT < 500 && 1 == touches.length && !animationSteps) clickCount++, e.preventDefault(), e.button = 0, clearTimeout(longTouchTimer = null), editor.selection.moveToPosition(pos1), (range = clickCount >= 2 ? editor.selection.getLineRange(pos1.row) : editor.session.getBracketRange(pos1)) && !range.isEmpty() ? editor.selection.setRange(range) : editor.selection.selectWord(), mode = "wait";
+                        if (pos = ev.getDocumentPosition(), t - touchStartT < 500 && 1 == touches.length && !animationSteps) clickCount++, e.preventDefault(), e.button = 0, clearTimeout(longTouchTimer = null), editor.selection.moveToPosition(pos), (range = clickCount >= 2 ? editor.selection.getLineRange(pos.row) : editor.session.getBracketRange(pos)) && !range.isEmpty() ? editor.selection.setRange(range) : editor.selection.selectWord(), mode = "wait";
                         else {
                             clickCount = 0;
                             var cursor = editor.selection.cursor, anchor = editor.selection.isEmpty() ? cursor : editor.selection.anchor, cursorPos = editor.renderer.$cursorLayer.getPixelPosition(cursor, !0), anchorPos = editor.renderer.$cursorLayer.getPixelPosition(anchor, !0), rect = editor.renderer.scroller.getBoundingClientRect(), offsetTop = editor.renderer.layerConfig.offset, offsetLeft = editor.renderer.scrollLeft, weightedDistance = function(x, y) {
@@ -1557,7 +1557,7 @@
                         }
                         touchStartT = t;
                     }, editor), event.addListener(el, "touchend", function(e) {
-                        pressed = editor.$mouseHandler.isMousePressed = !1, animationTimer && clearInterval(animationTimer), "zoom" == mode ? (mode = "", animationSteps = 0) : longTouchTimer ? (editor.selection.moveToPosition(pos1), animationSteps = 0, showContextMenu()) : "scroll" == mode ? (animationSteps += 60, animationTimer = setInterval(function() {
+                        pressed = editor.$mouseHandler.isMousePressed = !1, animationTimer && clearInterval(animationTimer), "zoom" == mode ? (mode = "", animationSteps = 0) : longTouchTimer ? (editor.selection.moveToPosition(pos), animationSteps = 0, showContextMenu()) : "scroll" == mode ? (animationSteps += 60, animationTimer = setInterval(function() {
                             animationSteps-- <= 0 && (clearInterval(animationTimer), animationTimer = null), 0.01 > Math.abs(vX) && (vX = 0), 0.01 > Math.abs(vY) && (vY = 0), animationSteps < 20 && (vX *= 0.9), animationSteps < 20 && (vY *= 0.9);
                             var oldScrollTop = editor.session.getScrollTop();
                             editor.renderer.scrollBy(10 * vX, 10 * vY), oldScrollTop == editor.session.getScrollTop() && (animationSteps = 0);
@@ -1758,11 +1758,11 @@
                 "ace/lib/net",
                 "ace/lib/dom",
                 "ace/lib/app_config", 
-            ], function(require, exports, module3) {
+            ], function(require, exports, module) {
                 var lang = require("./lib/lang");
                 require("./lib/oop");
                 var net = require("./lib/net"), dom = require("./lib/dom"), AppConfig = require("./lib/app_config").AppConfig;
-                module3.exports = exports = new AppConfig();
+                module.exports = exports = new AppConfig();
                 var global = function() {
                     return this || "undefined" != typeof window && window;
                 }(), options = {
@@ -1798,14 +1798,14 @@
                     return null == path ? path = options.basePath : "/" == sep && (component = sep = ""), path && "/" != path.slice(-1) && (path += "/"), path + component + sep + base + this.get("suffix");
                 }, exports.setModuleUrl = function(name, subst) {
                     return options.$moduleUrls[name] = subst;
-                }, exports.$loading = {}, exports.loadModule = function(moduleName, onLoad1) {
+                }, exports.$loading = {}, exports.loadModule = function(moduleName, onLoad) {
                     Array.isArray(moduleName) && (moduleType = moduleName[0], moduleName = moduleName[1]);
                     try {
-                        module4 = require(moduleName);
+                        module = require(moduleName);
                     } catch (e) {}
-                    if (module4 && !exports.$loading[moduleName]) return onLoad1 && onLoad1(module4);
-                    if (exports.$loading[moduleName] || (exports.$loading[moduleName] = []), exports.$loading[moduleName].push(onLoad1), !(exports.$loading[moduleName].length > 1)) {
-                        var module4, moduleType, afterLoad = function() {
+                    if (module && !exports.$loading[moduleName]) return onLoad && onLoad(module);
+                    if (exports.$loading[moduleName] || (exports.$loading[moduleName] = []), exports.$loading[moduleName].push(onLoad), !(exports.$loading[moduleName].length > 1)) {
+                        var module, moduleType, afterLoad = function() {
                             require([
                                 moduleName
                             ], function(module) {
@@ -1828,7 +1828,7 @@
                 };
                 function init(packaged) {
                     if (global && global.document) {
-                        options.packaged = packaged || require.packaged || module3.packaged || global.define && __webpack_require__.amdD.packaged;
+                        options.packaged = packaged || require.packaged || module.packaged || global.define && __webpack_require__.amdD.packaged;
                         for(var scriptOptions = {}, scriptUrl = "", currentScript = document.currentScript || document._currentScript, scripts = (currentScript && currentScript.ownerDocument || document).getElementsByTagName("script"), i = 0; i < scripts.length; i++){
                             var script = scripts[i], src = script.src || script.getAttribute("src");
                             if (src) {
@@ -1902,27 +1902,27 @@
                         this.x = ev.x, this.y = ev.y, this.isMousePressed = !0;
                         var editor = this.editor, renderer = this.editor.renderer;
                         renderer.$isMousePressed = !0;
-                        var self = this, onMouseMove = function(e) {
+                        var self1 = this, onMouseMove = function(e) {
                             if (e) {
-                                if (useragent.isWebKit && !e.which && self.releaseMouse) return self.releaseMouse();
-                                self.x = e.clientX, self.y = e.clientY, mouseMoveHandler && mouseMoveHandler(e), self.mouseEvent = new MouseEvent(e, self.editor), self.$mouseMoved = !0;
+                                if (useragent.isWebKit && !e.which && self1.releaseMouse) return self1.releaseMouse();
+                                self1.x = e.clientX, self1.y = e.clientY, mouseMoveHandler && mouseMoveHandler(e), self1.mouseEvent = new MouseEvent(e, self1.editor), self1.$mouseMoved = !0;
                             }
                         }, onCaptureEnd = function(e) {
-                            editor.off("beforeEndOperation", onOperationEnd), clearInterval(timerId), editor.session && onCaptureInterval(), self[self.state + "End"] && self[self.state + "End"](e), self.state = "", self.isMousePressed = renderer.$isMousePressed = !1, renderer.$keepTextAreaAtCursor && renderer.$moveTextAreaToCursor(), self.$onCaptureMouseMove = self.releaseMouse = null, e && self.onMouseEvent("mouseup", e), editor.endOperation();
+                            editor.off("beforeEndOperation", onOperationEnd), clearInterval(timerId), editor.session && onCaptureInterval(), self1[self1.state + "End"] && self1[self1.state + "End"](e), self1.state = "", self1.isMousePressed = renderer.$isMousePressed = !1, renderer.$keepTextAreaAtCursor && renderer.$moveTextAreaToCursor(), self1.$onCaptureMouseMove = self1.releaseMouse = null, e && self1.onMouseEvent("mouseup", e), editor.endOperation();
                         }, onCaptureInterval = function() {
-                            self[self.state] && self[self.state](), self.$mouseMoved = !1;
+                            self1[self1.state] && self1[self1.state](), self1.$mouseMoved = !1;
                         };
                         if (useragent.isOldIE && "dblclick" == ev.domEvent.type) return setTimeout(function() {
                             onCaptureEnd(ev);
                         });
                         var onOperationEnd = function(e) {
-                            self.releaseMouse && editor.curOp.command.name && editor.curOp.selectionChanged && (self[self.state + "End"] && self[self.state + "End"](), self.state = "", self.releaseMouse());
+                            self1.releaseMouse && editor.curOp.command.name && editor.curOp.selectionChanged && (self1[self1.state + "End"] && self1[self1.state + "End"](), self1.state = "", self1.releaseMouse());
                         };
                         editor.on("beforeEndOperation", onOperationEnd), editor.startOperation({
                             command: {
                                 name: "mouse"
                             }
-                        }), self.$onCaptureMouseMove = onMouseMove, self.releaseMouse = event.capture(this.editor.container, onMouseMove, onCaptureEnd);
+                        }), self1.$onCaptureMouseMove = onMouseMove, self1.releaseMouse = event.capture(this.editor.container, onMouseMove, onCaptureEnd);
                         var timerId = setInterval(onCaptureInterval, 20);
                     }, this.releaseMouse = null, this.cancelContextMenu = function() {
                         var stop = (function(e) {
@@ -2493,7 +2493,7 @@
                 }
                 exports.L = 0, exports.R = 1, exports.EN = 2, exports.ON_R = 3, exports.AN = 4, exports.R_H = 5, exports.B = 6, exports.RLE = 7, exports.DOT = "\xB7", exports.doBidiReorder = function(text, textCharTypes, isRtl) {
                     if (text.length < 2) return {};
-                    var chars1 = text.split(""), logicalFromVisual = Array(chars1.length), bidiLevels = Array(chars1.length), levels1 = [];
+                    var chars = text.split(""), logicalFromVisual = Array(chars.length), bidiLevels = Array(chars.length), levels = [];
                     dir = isRtl ? 1 : 0, function(chars, levels, len, charTypes) {
                         var impTab = dir ? impTab_RTL : impTab_LTR, prevState = null, newClass = null, newLevel = null, newState = 0, action = null, condPos = -1, i = null, ix = null, classes = [];
                         if (!charTypes) for(i = 0, charTypes = []; i < len; i++)charTypes[i] = _getCharacterType(chars[i]);
@@ -2518,12 +2518,12 @@
                                 else break;
                             }
                         }
-                    }(chars1, levels1, chars1.length, textCharTypes);
-                    for(var i2 = 0; i2 < logicalFromVisual.length; logicalFromVisual[i2] = i2, i2++);
-                    _invertLevel(2, levels1, logicalFromVisual), _invertLevel(1, levels1, logicalFromVisual);
-                    for(var i2 = 0; i2 < logicalFromVisual.length - 1; i2++)3 === textCharTypes[i2] ? levels1[i2] = exports.AN : 1 === levels1[i2] && (textCharTypes[i2] > 7 && textCharTypes[i2] < 13 || 4 === textCharTypes[i2] || 18 === textCharTypes[i2]) ? levels1[i2] = exports.ON_R : i2 > 0 && "\u0644" === chars1[i2 - 1] && /\u0622|\u0623|\u0625|\u0627/.test(chars1[i2]) && (levels1[i2 - 1] = levels1[i2] = exports.R_H, i2++);
-                    chars1[chars1.length - 1] === exports.DOT && (levels1[chars1.length - 1] = exports.B), "\u202B" === chars1[0] && (levels1[0] = exports.RLE);
-                    for(var i2 = 0; i2 < logicalFromVisual.length; i2++)bidiLevels[i2] = levels1[logicalFromVisual[i2]];
+                    }(chars, levels, chars.length, textCharTypes);
+                    for(var i = 0; i < logicalFromVisual.length; logicalFromVisual[i] = i, i++);
+                    _invertLevel(2, levels, logicalFromVisual), _invertLevel(1, levels, logicalFromVisual);
+                    for(var i = 0; i < logicalFromVisual.length - 1; i++)3 === textCharTypes[i] ? levels[i] = exports.AN : 1 === levels[i] && (textCharTypes[i] > 7 && textCharTypes[i] < 13 || 4 === textCharTypes[i] || 18 === textCharTypes[i]) ? levels[i] = exports.ON_R : i > 0 && "\u0644" === chars[i - 1] && /\u0622|\u0623|\u0625|\u0627/.test(chars[i]) && (levels[i - 1] = levels[i] = exports.R_H, i++);
+                    chars[chars.length - 1] === exports.DOT && (levels[chars.length - 1] = exports.B), "\u202B" === chars[0] && (levels[0] = exports.RLE);
+                    for(var i = 0; i < logicalFromVisual.length; i++)bidiLevels[i] = levels[logicalFromVisual[i]];
                     return {
                         logicalFromVisual: logicalFromVisual,
                         bidiLevels: bidiLevels
@@ -2641,11 +2641,11 @@
                 "use strict";
                 var oop = require("./lib/oop"), lang = require("./lib/lang"), EventEmitter = require("./lib/event_emitter").EventEmitter, Range = require("./range").Range, Selection = function(session) {
                     this.session = session, this.doc = session.getDocument(), this.clearSelection(), this.cursor = this.lead = this.doc.createAnchor(0, 0), this.anchor = this.doc.createAnchor(0, 0), this.$silent = !1;
-                    var self = this;
+                    var self1 = this;
                     this.cursor.on("change", function(e) {
-                        self.$cursorChanged = !0, self.$silent || self._emit("changeCursor"), self.$isEmpty || self.$silent || self._emit("changeSelection"), self.$keepDesiredColumnOnChange || e.old.column == e.value.column || (self.$desiredColumn = null);
+                        self1.$cursorChanged = !0, self1.$silent || self1._emit("changeCursor"), self1.$isEmpty || self1.$silent || self1._emit("changeSelection"), self1.$keepDesiredColumnOnChange || e.old.column == e.value.column || (self1.$desiredColumn = null);
                     }), this.anchor.on("change", function() {
-                        self.$anchorChanged = !0, self.$isEmpty || self.$silent || self._emit("changeSelection");
+                        self1.$anchorChanged = !0, self1.$isEmpty || self1.$silent || self1._emit("changeSelection");
                     });
                 };
                 (function() {
@@ -4316,7 +4316,7 @@
                 "ace/range", 
             ], function(require, exports, module) {
                 "use strict";
-                var config = require("../config"), Tokenizer = require("../tokenizer").Tokenizer, TextHighlightRules = require("./text_highlight_rules").TextHighlightRules, CstyleBehaviour = require("./behaviour/cstyle").CstyleBehaviour, unicode = require("../unicode"), lang = require("../lib/lang"), TokenIterator = require("../token_iterator").TokenIterator, Range = require("../range").Range, Mode1 = function() {
+                var config = require("../config"), Tokenizer = require("../tokenizer").Tokenizer, TextHighlightRules = require("./text_highlight_rules").TextHighlightRules, CstyleBehaviour = require("./behaviour/cstyle").CstyleBehaviour, unicode = require("../unicode"), lang = require("../lib/lang"), TokenIterator = require("../token_iterator").TokenIterator, Range = require("../range").Range, Mode = function() {
                     this.HighlightRules = TextHighlightRules;
                 };
                 (function() {
@@ -4487,7 +4487,7 @@
                             };
                         });
                     }, this.$id = "ace/mode/text";
-                }).call(Mode1.prototype), exports.Mode = Mode1;
+                }).call(Mode.prototype), exports.Mode = Mode;
             }), ace.define("ace/apply_delta", [
                 "require",
                 "exports",
@@ -4532,7 +4532,7 @@
                         return this.document;
                     }, this.$insertRight = !1, this.onChange = function(delta) {
                         if ((delta.start.row != delta.end.row || delta.start.row == this.row) && !(delta.start.row > this.row)) {
-                            var delta1, point, moveIfEqual, deltaIsInsert, deltaRowShift, deltaColShift, deltaStart, deltaEnd, point3 = (delta1 = delta, point = {
+                            var delta1, point, moveIfEqual, deltaIsInsert, deltaRowShift, deltaColShift, deltaStart, deltaEnd, point1 = (delta1 = delta, point = {
                                 row: this.row,
                                 column: this.column
                             }, moveIfEqual = this.$insertRight, deltaRowShift = ((deltaIsInsert = "insert" == delta1.action) ? 1 : -1) * (delta1.end.row - delta1.start.row), deltaColShift = (deltaIsInsert ? 1 : -1) * (delta1.end.column - delta1.start.column), deltaStart = delta1.start, deltaEnd = deltaIsInsert ? deltaStart : delta1.end, $pointsInOrder(point, deltaStart, moveIfEqual) ? {
@@ -4545,7 +4545,7 @@
                                 row: deltaStart.row,
                                 column: deltaStart.column
                             });
-                            this.setPosition(point3.row, point3.column, !0);
+                            this.setPosition(point1.row, point1.column, !0);
                         }
                     }, this.setPosition = function(row, column, noClip) {
                         if (pos = noClip ? {
@@ -4810,21 +4810,21 @@
                 "use strict";
                 var oop = require("./lib/oop"), EventEmitter = require("./lib/event_emitter").EventEmitter, BackgroundTokenizer = function(tokenizer, editor) {
                     this.running = !1, this.lines = [], this.states = [], this.currentLine = 0, this.tokenizer = tokenizer;
-                    var self = this;
+                    var self1 = this;
                     this.$worker = function() {
-                        if (self.running) {
-                            for(var workerStart = new Date(), currentLine = self.currentLine, endLine = -1, doc = self.doc, startLine = currentLine; self.lines[currentLine];)currentLine++;
+                        if (self1.running) {
+                            for(var workerStart = new Date(), currentLine = self1.currentLine, endLine = -1, doc = self1.doc, startLine = currentLine; self1.lines[currentLine];)currentLine++;
                             var len = doc.getLength(), processedLines = 0;
-                            for(self.running = !1; currentLine < len;){
-                                self.$tokenizeRow(currentLine), endLine = currentLine;
+                            for(self1.running = !1; currentLine < len;){
+                                self1.$tokenizeRow(currentLine), endLine = currentLine;
                                 do currentLine++;
-                                while (self.lines[currentLine])
+                                while (self1.lines[currentLine])
                                 if (++processedLines % 5 == 0 && new Date() - workerStart > 20) {
-                                    self.running = setTimeout(self.$worker, 20);
+                                    self1.running = setTimeout(self1.$worker, 20);
                                     break;
                                 }
                             }
-                            self.currentLine = currentLine, -1 == endLine && (endLine = currentLine), startLine <= endLine && self.fireUpdateEvent(startLine, endLine);
+                            self1.currentLine = currentLine, -1 == endLine && (endLine = currentLine), startLine <= endLine && self1.fireUpdateEvent(startLine, endLine);
                         }
                     };
                 };
@@ -5298,16 +5298,16 @@
                             this.expandFold(fold);
                         }, this);
                     }, this.unfold = function(location, expandInner) {
-                        if (null == location) range2 = new Range(0, 0, this.getLength(), 0), null == expandInner && (expandInner = !0);
-                        else if ("number" == typeof location) range2 = new Range(location, 0, location, this.getLine(location).length);
-                        else if ("row" in location) range2 = Range.fromPoints(location, location);
+                        if (null == location) range = new Range(0, 0, this.getLength(), 0), null == expandInner && (expandInner = !0);
+                        else if ("number" == typeof location) range = new Range(location, 0, location, this.getLine(location).length);
+                        else if ("row" in location) range = Range.fromPoints(location, location);
                         else {
                             if (Array.isArray(location)) return folds = [], location.forEach(function(range) {
                                 folds = folds.concat(this.unfold(range));
                             }, this), folds;
-                            range2 = location;
+                            range = location;
                         }
-                        for(var range2, folds, outermostFolds = folds = this.getFoldsInRangeList(range2); 1 == folds.length && 0 > Range.comparePoints(folds[0].start, range2.start) && Range.comparePoints(folds[0].end, range2.end) > 0;)this.expandFolds(folds), folds = this.getFoldsInRangeList(range2);
+                        for(var range, folds, outermostFolds = folds = this.getFoldsInRangeList(range); 1 == folds.length && 0 > Range.comparePoints(folds[0].start, range.start) && Range.comparePoints(folds[0].end, range.end) > 0;)this.expandFolds(folds), folds = this.getFoldsInRangeList(range);
                         if (!1 != expandInner ? this.removeFolds(folds) : this.expandFolds(folds), outermostFolds.length) return outermostFolds;
                     }, this.isRowFolded = function(docRow, startFoldRow) {
                         return !!this.getFoldLine(docRow, startFoldRow);
@@ -5675,9 +5675,9 @@
                         return (token = tokens[i]) ? (token.index = i, token.start = c - token.value.length, token) : null;
                     }, this.setUndoManager = function(undoManager) {
                         if (this.$undoManager = undoManager, this.$informUndoManager && this.$informUndoManager.cancel(), undoManager) {
-                            var self = this;
+                            var self1 = this;
                             undoManager.addSession(this), this.$syncInformUndoManager = function() {
-                                self.$informUndoManager.cancel(), self.mergeUndoDeltas = !1;
+                                self1.$informUndoManager.cancel(), self1.mergeUndoDeltas = !1;
                             }, this.$informUndoManager = lang.delayedCall(this.$syncInformUndoManager);
                         } else this.$syncInformUndoManager = function() {};
                     }, this.markUndoGroup = function() {
@@ -5913,13 +5913,13 @@
                             return isUndo ? "insert" !== delta.action : "insert" === delta.action;
                         }
                         for(var range, point, i = 0; i < deltas.length; i++){
-                            var delta2 = deltas[i];
-                            if (delta2.start) {
+                            var delta = deltas[i];
+                            if (delta.start) {
                                 if (!range) {
-                                    range = isInsert(delta2) ? Range.fromPoints(delta2.start, delta2.end) : Range.fromPoints(delta2.start, delta2.start);
+                                    range = isInsert(delta) ? Range.fromPoints(delta.start, delta.end) : Range.fromPoints(delta.start, delta.start);
                                     continue;
                                 }
-                                isInsert(delta2) ? (point = delta2.start, -1 == range.compare(point.row, point.column) && range.setStart(point), point = delta2.end, 1 == range.compare(point.row, point.column) && range.setEnd(point)) : (point = delta2.start, -1 == range.compare(point.row, point.column) && (range = Range.fromPoints(delta2.start, delta2.start)));
+                                isInsert(delta) ? (point = delta.start, -1 == range.compare(point.row, point.column) && range.setStart(point), point = delta.end, 1 == range.compare(point.row, point.column) && range.setEnd(point)) : (point = delta.start, -1 == range.compare(point.row, point.column) && (range = Range.fromPoints(delta.start, delta.start)));
                             }
                         }
                         return range;
@@ -6072,15 +6072,15 @@
                     }, this.$updateRowLengthCache = function(firstRow, lastRow, b) {
                         this.$rowLengthCache[firstRow] = null, this.$rowLengthCache[lastRow] = null;
                     }, this.$updateWrapData = function(firstRow, lastRow) {
-                        var tokens, foldLine, lines = this.doc.getAllLines(), tabSize = this.getTabSize(), wrapData = this.$wrapData, wrapLimit = this.$wrapLimit, row1 = firstRow;
-                        for(lastRow = Math.min(lastRow, lines.length - 1); row1 <= lastRow;)(foldLine = this.getFoldLine(row1, foldLine)) ? (tokens = [], foldLine.walk((function(placeholder, row, column, lastColumn) {
+                        var tokens, foldLine, lines = this.doc.getAllLines(), tabSize = this.getTabSize(), wrapData = this.$wrapData, wrapLimit = this.$wrapLimit, row = firstRow;
+                        for(lastRow = Math.min(lastRow, lines.length - 1); row <= lastRow;)(foldLine = this.getFoldLine(row, foldLine)) ? (tokens = [], foldLine.walk((function(placeholder, row, column, lastColumn) {
                             var walkTokens;
                             if (null != placeholder) {
                                 (walkTokens = this.$getDisplayTokens(placeholder, tokens.length))[0] = PLACEHOLDER_START;
                                 for(var i = 1; i < walkTokens.length; i++)walkTokens[i] = PLACEHOLDER_BODY;
                             } else walkTokens = this.$getDisplayTokens(lines[row].substring(lastColumn, column), tokens.length);
                             tokens = tokens.concat(walkTokens);
-                        }).bind(this), foldLine.end.row, lines[foldLine.end.row].length + 1), wrapData[foldLine.start.row] = this.$computeWrapSplits(tokens, wrapLimit, tabSize), row1 = foldLine.end.row + 1) : (tokens = this.$getDisplayTokens(lines[row1]), wrapData[row1] = this.$computeWrapSplits(tokens, wrapLimit, tabSize), row1++);
+                        }).bind(this), foldLine.end.row, lines[foldLine.end.row].length + 1), wrapData[foldLine.start.row] = this.$computeWrapSplits(tokens, wrapLimit, tabSize), row = foldLine.end.row + 1) : (tokens = this.$getDisplayTokens(lines[row]), wrapData[row] = this.$computeWrapSplits(tokens, wrapLimit, tabSize), row++);
                     };
                     var PLACEHOLDER_START = 3, PLACEHOLDER_BODY = 4;
                     function isFullWidth(c) {
@@ -6090,8 +6090,8 @@
                         if (0 == tokens.length) return [];
                         var splits = [], displayLength = tokens.length, lastSplit = 0, lastDocSplit = 0, isCode = this.$wrapAsCode, indentedSoftWrap = this.$indentedSoftWrap, maxIndent = wrapLimit <= Math.max(2 * tabSize, 8) || !1 === indentedSoftWrap ? 0 : Math.floor(wrapLimit / 2);
                         function addSplit(screenPos) {
-                            for(var len = screenPos - lastSplit, i3 = lastSplit; i3 < screenPos; i3++){
-                                var ch = tokens[i3];
+                            for(var len = screenPos - lastSplit, i = lastSplit; i < screenPos; i++){
+                                var ch = tokens[i];
                                 (12 === ch || 2 === ch) && (len -= 1);
                             }
                             splits.length || (indent = function() {
@@ -6418,24 +6418,24 @@
                             }
                             return replacement;
                         }
-                    }, this.$assembleRegExp = function(options1, $disableFakeMultiline) {
-                        if (options1.needle instanceof RegExp) return options1.re = options1.needle;
-                        var needle1 = options1.needle;
-                        if (!options1.needle) return options1.re = !1;
-                        options1.regExp || (needle1 = lang.escapeRegExp(needle1)), options1.wholeWord && (needle1 = function(needle, options) {
+                    }, this.$assembleRegExp = function(options, $disableFakeMultiline) {
+                        if (options.needle instanceof RegExp) return options.re = options.needle;
+                        var needle = options.needle;
+                        if (!options.needle) return options.re = !1;
+                        options.regExp || (needle = lang.escapeRegExp(needle)), options.wholeWord && (needle = function(needle, options) {
                             function wordBoundary(c) {
                                 return /\w/.test(c) || options.regExp ? "\\b" : "";
                             }
                             return wordBoundary(needle[0]) + needle + wordBoundary(needle[needle.length - 1]);
-                        }(needle1, options1));
-                        var modifier = options1.caseSensitive ? "gm" : "gmi";
-                        if (options1.$isMultiLine = !$disableFakeMultiline && /[\n\r]/.test(needle1), options1.$isMultiLine) return options1.re = this.$assembleMultilineRegExp(needle1, modifier);
+                        }(needle, options));
+                        var modifier = options.caseSensitive ? "gm" : "gmi";
+                        if (options.$isMultiLine = !$disableFakeMultiline && /[\n\r]/.test(needle), options.$isMultiLine) return options.re = this.$assembleMultilineRegExp(needle, modifier);
                         try {
-                            var re = RegExp(needle1, modifier);
+                            var re = RegExp(needle, modifier);
                         } catch (e) {
                             re = !1;
                         }
-                        return options1.re = re;
+                        return options.re = re;
                     }, this.$assembleMultilineRegExp = function(needle, modifier) {
                         for(var parts = needle.replace(/\r\n|\r|\n/g, "$\n^").split("\n"), re = [], i = 0; i < parts.length; i++)try {
                             re.push(RegExp(parts[i], modifier));
@@ -6547,17 +6547,17 @@
                                 bindKey: key,
                                 name: command.name || key
                             });
-                            key.split("|").forEach(function(keyPart1) {
+                            key.split("|").forEach(function(keyPart) {
                                 var chain = "";
-                                if (-1 != keyPart1.indexOf(" ")) {
-                                    var parts = keyPart1.split(/\s+/);
-                                    keyPart1 = parts.pop(), parts.forEach(function(keyPart) {
+                                if (-1 != keyPart.indexOf(" ")) {
+                                    var parts = keyPart.split(/\s+/);
+                                    keyPart = parts.pop(), parts.forEach(function(keyPart) {
                                         var binding = this.parseKeys(keyPart), id = KEY_MODS[binding.hashId] + binding.key;
                                         chain += (chain ? " " : "") + id, this._addCommandToBinding(chain, "chainKeys");
                                     }, this), chain += " ";
                                 }
-                                var binding1 = this.parseKeys(keyPart1), id1 = KEY_MODS[binding1.hashId] + binding1.key;
-                                this._addCommandToBinding(chain + id1, command, position);
+                                var binding = this.parseKeys(keyPart), id = KEY_MODS[binding.hashId] + binding.key;
+                                this._addCommandToBinding(chain + id, command, position);
                             }, this);
                         }
                     }, this._addCommandToBinding = function(keyId, command, position) {
@@ -6689,7 +6689,7 @@
                 "ace/lib/lang",
                 "ace/config",
                 "ace/range", 
-            ], function(require, exports, module6) {
+            ], function(require, exports, module) {
                 "use strict";
                 var lang = require("../lib/lang"), config = require("../config"), Range = require("../range").Range;
                 function bindKey(win, mac) {
@@ -7726,10 +7726,10 @@
                         readOnly: !0
                     }, 
                 ];
-                for(var i4 = 1; i4 < 9; i4++)exports.commands.push({
-                    name: "foldToLevel" + i4,
-                    description: "Fold To Level " + i4,
-                    level: i4,
+                for(var i = 1; i < 9; i++)exports.commands.push({
+                    name: "foldToLevel" + i,
+                    description: "Fold To Level " + i,
+                    level: i,
                     exec: function(editor) {
                         editor.session.foldToLevel(this.level);
                     },
@@ -7758,10 +7758,10 @@
                 "ace/config",
                 "ace/token_iterator",
                 "ace/clipboard", 
-            ], function(require, exports, module7) {
+            ], function(require, exports, module) {
                 "use strict";
                 require("./lib/fixoldbrowsers");
-                var oop = require("./lib/oop"), dom = require("./lib/dom"), lang = require("./lib/lang"), useragent = require("./lib/useragent"), TextInput = require("./keyboard/textinput").TextInput, MouseHandler = require("./mouse/mouse_handler").MouseHandler, FoldHandler = require("./mouse/fold_handler").FoldHandler, KeyBinding = require("./keyboard/keybinding").KeyBinding, EditSession = require("./edit_session").EditSession, Search = require("./search").Search, Range = require("./range").Range, EventEmitter = require("./lib/event_emitter").EventEmitter, CommandManager = require("./commands/command_manager").CommandManager, defaultCommands = require("./commands/default_commands").commands, config1 = require("./config"), TokenIterator = require("./token_iterator").TokenIterator, clipboard = require("./clipboard"), Editor = function(renderer, session, options) {
+                var oop = require("./lib/oop"), dom = require("./lib/dom"), lang = require("./lib/lang"), useragent = require("./lib/useragent"), TextInput = require("./keyboard/textinput").TextInput, MouseHandler = require("./mouse/mouse_handler").MouseHandler, FoldHandler = require("./mouse/fold_handler").FoldHandler, KeyBinding = require("./keyboard/keybinding").KeyBinding, EditSession = require("./edit_session").EditSession, Search = require("./search").Search, Range = require("./range").Range, EventEmitter = require("./lib/event_emitter").EventEmitter, CommandManager = require("./commands/command_manager").CommandManager, defaultCommands = require("./commands/default_commands").commands, config = require("./config"), TokenIterator = require("./token_iterator").TokenIterator, clipboard = require("./clipboard"), Editor = function(renderer, session, options) {
                     this.$toDestroy = [];
                     var container = renderer.getContainerElement();
                     this.container = container, this.renderer = renderer, this.id = "editor" + ++Editor.$uid, this.commands = new CommandManager(useragent.isMac ? "mac" : "win", defaultCommands), "object" == typeof document && (this.textInput = new TextInput(renderer.getTextAreaContainer(), this), this.renderer.textarea = this.textInput.getElement(), this.$mouseHandler = new MouseHandler(this), new FoldHandler(this)), this.keyBinding = new KeyBinding(this), this.$search = new Search().set({
@@ -7770,7 +7770,7 @@
                         this._signal("input", {}), this.session && this.session.bgTokenizer && this.session.bgTokenizer.scheduleStart();
                     }).bind(this)), this.on("change", function(_, _self) {
                         _self._$emitInputEvent.schedule(31);
-                    }), this.setSession(session || options && options.session || new EditSession("")), config1.resetOptions(this), options && this.setOptions(options), config1._signal("editor", this);
+                    }), this.setSession(session || options && options.session || new EditSession("")), config.resetOptions(this), options && this.setOptions(options), config._signal("editor", this);
                 };
                 Editor.$uid = 0, (function() {
                     oop.implement(this, EventEmitter), this.$initOperationListeners = function() {
@@ -7832,7 +7832,7 @@
                         if (keyboardHandler && "string" == typeof keyboardHandler && "ace" != keyboardHandler) {
                             this.$keybindingId = keyboardHandler;
                             var _self = this;
-                            config1.loadModule([
+                            config.loadModule([
                                 "keybinding",
                                 keyboardHandler
                             ], function(module) {
@@ -7883,16 +7883,16 @@
                         this.setOption("fontSize", size);
                     }, this.$highlightBrackets = function() {
                         if (!this.$highlightPending) {
-                            var self = this;
+                            var self1 = this;
                             this.$highlightPending = !0, setTimeout(function() {
-                                self.$highlightPending = !1;
-                                var session = self.session;
+                                self1.$highlightPending = !1;
+                                var session = self1.session;
                                 if (session && session.bgTokenizer) {
                                     session.$bracketHighlight && (session.$bracketHighlight.markerIds.forEach(function(id) {
                                         session.removeMarker(id);
                                     }), session.$bracketHighlight = null);
-                                    var ranges = session.getMatchingBracketRanges(self.getCursorPosition());
-                                    if (!ranges && session.$mode.getMatching && (ranges = session.$mode.getMatching(self.session)), ranges) {
+                                    var ranges = session.getMatchingBracketRanges(self1.getCursorPosition());
+                                    if (!ranges && session.$mode.getMatching && (ranges = session.$mode.getMatching(self1.session)), ranges) {
                                         var markerType = "ace_bracket";
                                         Array.isArray(ranges) ? 1 == ranges.length && (markerType = "ace_error_bracket") : ranges = [
                                             ranges
@@ -7912,12 +7912,12 @@
                         }
                     }, this.$highlightTags = function() {
                         if (!this.$highlightTagPending) {
-                            var self = this;
+                            var self1 = this;
                             this.$highlightTagPending = !0, setTimeout(function() {
-                                self.$highlightTagPending = !1;
-                                var session = self.session;
+                                self1.$highlightTagPending = !1;
+                                var session = self1.session;
                                 if (session && session.bgTokenizer) {
-                                    var pos = self.getCursorPosition(), iterator = new TokenIterator(self.session, pos.row, pos.column), token = iterator.getCurrentToken();
+                                    var pos = self1.getCursorPosition(), iterator = new TokenIterator(self1.session, pos.row, pos.column), token = iterator.getCurrentToken();
                                     if (!token || !/\b(?:tag-open|tag-name)/.test(token.type)) {
                                         session.removeMarker(session.$tagHighlight), session.$tagHighlight = null;
                                         return;
@@ -8068,8 +8068,8 @@
                             var lines = text.split(/\r\n|\r|\n/), ranges = this.selection.rangeList.ranges, isFullLine = 2 == lines.length && (!lines[0] || !lines[1]);
                             if (lines.length != ranges.length || isFullLine) return this.commands.exec("insertstring", this, text);
                             for(var i = ranges.length; i--;){
-                                var range3 = ranges[i];
-                                range3.isEmpty() || session.remove(range3), session.insert(range3.start, lines[i]);
+                                var range = ranges[i];
+                                range.isEmpty() || session.remove(range), session.insert(range.start, lines[i]);
                             }
                         }
                     }, this.execCommand = function(command, args) {
@@ -8424,11 +8424,11 @@
                         currentState.match(/[A-Za-z0-9_]+/) && wordParts.forEach(function(item, i) {
                             itLength = curLength + item.length, delta >= curLength && delta <= itLength && (currentState = item, that.selection.clearSelection(), that.moveCursorTo(row, curLength + currWordStart), that.selection.selectTo(row, itLength + currWordStart)), curLength = itLength;
                         });
-                        for(var wordPairs = this.$toggleWordPairs, i = 0; i < wordPairs.length; i++)for(var item1 = wordPairs[i], j = 0; j <= 1; j++){
-                            var negate = +!j, firstCondition = currentState.match(RegExp("^\\s?_?(" + lang.escapeRegExp(item1[j]) + ")\\s?$", "i"));
-                            firstCondition && currentState.match(RegExp("([_]|^|\\s)(" + lang.escapeRegExp(firstCondition[1]) + ")($|\\s)", "g")) && (reg = currentState.replace(RegExp(lang.escapeRegExp(item1[j]), "i"), function(result) {
-                                var res = item1[negate];
-                                return result.toUpperCase() == result ? res = res.toUpperCase() : result.charAt(0).toUpperCase() == result.charAt(0) && (res = res.substr(0, 0) + item1[negate].charAt(0).toUpperCase() + res.substr(1)), res;
+                        for(var wordPairs = this.$toggleWordPairs, i = 0; i < wordPairs.length; i++)for(var item = wordPairs[i], j = 0; j <= 1; j++){
+                            var negate = +!j, firstCondition = currentState.match(RegExp("^\\s?_?(" + lang.escapeRegExp(item[j]) + ")\\s?$", "i"));
+                            firstCondition && currentState.match(RegExp("([_]|^|\\s)(" + lang.escapeRegExp(firstCondition[1]) + ")($|\\s)", "g")) && (reg = currentState.replace(RegExp(lang.escapeRegExp(item[j]), "i"), function(result) {
+                                var res = item[negate];
+                                return result.toUpperCase() == result ? res = res.toUpperCase() : result.charAt(0).toUpperCase() == result.charAt(0) && (res = res.substr(0, 0) + item[negate].charAt(0).toUpperCase() + res.substr(1)), res;
                             }), this.insert(reg), reg = "");
                         }
                     }, this.removeLines = function() {
@@ -8675,19 +8675,19 @@
                         this.$toDestroy && (this.$toDestroy.forEach(function(el) {
                             el.destroy();
                         }), this.$toDestroy = null), this.$mouseHandler && this.$mouseHandler.destroy(), this.renderer.destroy(), this._signal("destroy", this), this.session && this.session.destroy(), this._$emitInputEvent && this._$emitInputEvent.cancel(), this.removeAllListeners();
-                    }, this.setAutoScrollEditorIntoView = function(enable1) {
-                        if (enable1) {
-                            var rect, self = this, shouldScroll = !1;
+                    }, this.setAutoScrollEditorIntoView = function(enable) {
+                        if (enable) {
+                            var rect, self1 = this, shouldScroll = !1;
                             this.$scrollAnchor || (this.$scrollAnchor = document.createElement("div"));
                             var scrollAnchor = this.$scrollAnchor;
                             scrollAnchor.style.cssText = "position:absolute", this.container.insertBefore(scrollAnchor, this.container.firstChild);
                             var onChangeSelection = this.on("changeSelection", function() {
                                 shouldScroll = !0;
                             }), onBeforeRender = this.renderer.on("beforeRender", function() {
-                                shouldScroll && (rect = self.renderer.container.getBoundingClientRect());
+                                shouldScroll && (rect = self1.renderer.container.getBoundingClientRect());
                             }), onAfterRender = this.renderer.on("afterRender", function() {
-                                if (shouldScroll && rect && (self.isFocused() || self.searchBox && self.searchBox.isFocused())) {
-                                    var renderer = self.renderer, pos = renderer.$cursorLayer.$pixelPos, config = renderer.layerConfig, top = pos.top - config.offset;
+                                if (shouldScroll && rect && (self1.isFocused() || self1.searchBox && self1.searchBox.isFocused())) {
+                                    var renderer = self1.renderer, pos = renderer.$cursorLayer.$pixelPos, config = renderer.layerConfig, top = pos.top - config.offset;
                                     null != (shouldScroll = pos.top >= 0 && top + rect.top < 0 || (!(pos.top < config.height) || !(pos.top + rect.top + config.lineHeight > window.innerHeight)) && null) && (scrollAnchor.style.top = top + "px", scrollAnchor.style.left = pos.left + "px", scrollAnchor.style.height = config.lineHeight + "px", scrollAnchor.scrollIntoView(shouldScroll)), shouldScroll = rect = null;
                                 }
                             });
@@ -8700,11 +8700,11 @@
                         cursorLayer && (cursorLayer.setSmoothBlinking(/smooth/.test(style)), cursorLayer.isBlinking = !this.$readOnly && "wide" != style, dom.setCssClass(cursorLayer.element, "ace_slim-cursors", /slim/.test(style)));
                     }, this.prompt = function(message, options, callback) {
                         var editor = this;
-                        config1.loadModule("./ext/prompt", function(module) {
+                        config.loadModule("./ext/prompt", function(module) {
                             module.prompt(editor, message, options, callback);
                         });
                     };
-                }).call(Editor.prototype), config1.defineOptions(Editor.prototype, "editor", {
+                }).call(Editor.prototype), config.defineOptions(Editor.prototype, "editor", {
                     selectionStyle: {
                         set: function(style) {
                             this.onSelectionChange(), this._signal("changeSelectionStyle", {
@@ -8935,7 +8935,7 @@
                         null == to && (to = this.$rev + 1);
                     }, this.undo = function(session, dontSelect) {
                         this.lastDeltas = null;
-                        var stack1 = this.$undoStack;
+                        var stack = this.$undoStack;
                         if (function(stack, pos) {
                             for(var i = pos; i--;){
                                 var deltaSet = stack[i];
@@ -8947,10 +8947,10 @@
                                     return !0;
                                 }
                             }
-                        }(stack1, stack1.length)) {
+                        }(stack, stack.length)) {
                             session || (session = this.$session), this.$redoStackBaseRev !== this.$rev && this.$redoStack.length && (this.$redoStack = []), this.$fromUndo = !0;
-                            var deltaSet1 = stack1.pop(), undoSelectionRange = null;
-                            return deltaSet1 && (undoSelectionRange = session.undoChanges(deltaSet1, dontSelect), this.$redoStack.push(deltaSet1), this.$syncRev()), this.$fromUndo = !1, undoSelectionRange;
+                            var deltaSet = stack.pop(), undoSelectionRange = null;
+                            return deltaSet && (undoSelectionRange = session.undoChanges(deltaSet, dontSelect), this.$redoStack.push(deltaSet), this.$syncRev()), this.$fromUndo = !1, undoSelectionRange;
                         }
                     }, this.redo = function(session, dontSelect) {
                         if (this.lastDeltas = null, session || (session = this.$session), this.$fromUndo = !0, this.$redoStackBaseRev != this.$rev) {
@@ -9082,12 +9082,12 @@
                     return rest;
                 }
                 function moveDeltasByOne(redoStack, d) {
-                    var d3;
+                    var d1;
                     d = {
-                        start: clonePos((d3 = d).start),
-                        end: clonePos(d3.end),
-                        action: d3.action,
-                        lines: d3.lines.slice()
+                        start: clonePos((d1 = d).start),
+                        end: clonePos(d1.end),
+                        action: d1.action,
+                        lines: d1.lines.slice()
                     };
                     for(var j = redoStack.length; j--;){
                         for(var deltaSet = redoStack[j], i = 0; i < deltaSet.length; i++){
@@ -9496,29 +9496,29 @@
                         rparen: !0,
                         lparen: !0
                     }, this.$renderToken = function(parent, screenColumn, token, value) {
-                        for(var m, self = this, re = /(\t)|( +)|([\x00-\x1f\x80-\xa0\xad\u1680\u180E\u2000-\u200f\u2028\u2029\u202F\u205F\uFEFF\uFFF9-\uFFFC]+)|(\u3000)|([\u1100-\u115F\u11A3-\u11A7\u11FA-\u11FF\u2329-\u232A\u2E80-\u2E99\u2E9B-\u2EF3\u2F00-\u2FD5\u2FF0-\u2FFB\u3001-\u303E\u3041-\u3096\u3099-\u30FF\u3105-\u312D\u3131-\u318E\u3190-\u31BA\u31C0-\u31E3\u31F0-\u321E\u3220-\u3247\u3250-\u32FE\u3300-\u4DBF\u4E00-\uA48C\uA490-\uA4C6\uA960-\uA97C\uAC00-\uD7A3\uD7B0-\uD7C6\uD7CB-\uD7FB\uF900-\uFAFF\uFE10-\uFE19\uFE30-\uFE52\uFE54-\uFE66\uFE68-\uFE6B\uFF01-\uFF60\uFFE0-\uFFE6]|[\uD800-\uDBFF][\uDC00-\uDFFF])/g, valueFragment = this.dom.createFragment(this.element), i = 0; m = re.exec(value);){
+                        for(var m, self1 = this, re = /(\t)|( +)|([\x00-\x1f\x80-\xa0\xad\u1680\u180E\u2000-\u200f\u2028\u2029\u202F\u205F\uFEFF\uFFF9-\uFFFC]+)|(\u3000)|([\u1100-\u115F\u11A3-\u11A7\u11FA-\u11FF\u2329-\u232A\u2E80-\u2E99\u2E9B-\u2EF3\u2F00-\u2FD5\u2FF0-\u2FFB\u3001-\u303E\u3041-\u3096\u3099-\u30FF\u3105-\u312D\u3131-\u318E\u3190-\u31BA\u31C0-\u31E3\u31F0-\u321E\u3220-\u3247\u3250-\u32FE\u3300-\u4DBF\u4E00-\uA48C\uA490-\uA4C6\uA960-\uA97C\uAC00-\uD7A3\uD7B0-\uD7C6\uD7CB-\uD7FB\uF900-\uFAFF\uFE10-\uFE19\uFE30-\uFE52\uFE54-\uFE66\uFE68-\uFE6B\uFF01-\uFF60\uFFE0-\uFFE6]|[\uD800-\uDBFF][\uDC00-\uDFFF])/g, valueFragment = this.dom.createFragment(this.element), i = 0; m = re.exec(value);){
                             var tab = m[1], simpleSpace = m[2], controlCharacter = m[3], cjkSpace = m[4], cjk = m[5];
-                            if (self.showSpaces || !simpleSpace) {
+                            if (self1.showSpaces || !simpleSpace) {
                                 var before = i != m.index ? value.slice(i, m.index) : "";
                                 if (i = m.index + m[0].length, before && valueFragment.appendChild(this.dom.createTextNode(before, this.element)), tab) {
-                                    var tabSize = self.session.getScreenTabSize(screenColumn + m.index);
-                                    valueFragment.appendChild(self.$tabStrings[tabSize].cloneNode(!0)), screenColumn += tabSize - 1;
+                                    var tabSize = self1.session.getScreenTabSize(screenColumn + m.index);
+                                    valueFragment.appendChild(self1.$tabStrings[tabSize].cloneNode(!0)), screenColumn += tabSize - 1;
                                 } else if (simpleSpace) {
-                                    if (self.showSpaces) {
+                                    if (self1.showSpaces) {
                                         var span = this.dom.createElement("span");
-                                        span.className = "ace_invisible ace_invisible_space", span.textContent = lang.stringRepeat(self.SPACE_CHAR, simpleSpace.length), valueFragment.appendChild(span);
+                                        span.className = "ace_invisible ace_invisible_space", span.textContent = lang.stringRepeat(self1.SPACE_CHAR, simpleSpace.length), valueFragment.appendChild(span);
                                     } else valueFragment.appendChild(this.com.createTextNode(simpleSpace, this.element));
                                 } else if (controlCharacter) {
                                     var span = this.dom.createElement("span");
-                                    span.className = "ace_invisible ace_invisible_space ace_invalid", span.textContent = lang.stringRepeat(self.SPACE_CHAR, controlCharacter.length), valueFragment.appendChild(span);
+                                    span.className = "ace_invisible ace_invisible_space ace_invalid", span.textContent = lang.stringRepeat(self1.SPACE_CHAR, controlCharacter.length), valueFragment.appendChild(span);
                                 } else if (cjkSpace) {
                                     screenColumn += 1;
                                     var span = this.dom.createElement("span");
-                                    span.style.width = 2 * self.config.characterWidth + "px", span.className = self.showSpaces ? "ace_cjk ace_invisible ace_invisible_space" : "ace_cjk", span.textContent = self.showSpaces ? self.SPACE_CHAR : cjkSpace, valueFragment.appendChild(span);
+                                    span.style.width = 2 * self1.config.characterWidth + "px", span.className = self1.showSpaces ? "ace_cjk ace_invisible ace_invisible_space" : "ace_cjk", span.textContent = self1.showSpaces ? self1.SPACE_CHAR : cjkSpace, valueFragment.appendChild(span);
                                 } else if (cjk) {
                                     screenColumn += 1;
                                     var span = this.dom.createElement("span");
-                                    span.style.width = 2 * self.config.characterWidth + "px", span.className = "ace_cjk", span.textContent = cjk, valueFragment.appendChild(span);
+                                    span.style.width = 2 * self1.config.characterWidth + "px", span.className = "ace_cjk", span.textContent = cjk, valueFragment.appendChild(span);
                                 }
                             }
                         }
@@ -9589,13 +9589,13 @@
                             var invisibleEl = this.dom.createElement("span");
                             invisibleEl.className = "ace_invisible ace_invisible_eol", invisibleEl.textContent = row == this.session.getLength() - 1 ? this.EOF_CHAR : this.EOL_CHAR, lastLineEl.appendChild(invisibleEl);
                         }
-                    }, this.$getFoldLineTokens = function(row2, foldLine) {
-                        var session = this.session, renderTokens = [], tokens1 = session.getTokens(row2);
+                    }, this.$getFoldLineTokens = function(row, foldLine) {
+                        var session = this.session, renderTokens = [], tokens = session.getTokens(row);
                         return foldLine.walk(function(placeholder, row, column, lastColumn, isNewRow) {
                             null != placeholder ? renderTokens.push({
                                 type: "fold",
                                 value: placeholder
-                            }) : (isNewRow && (tokens1 = session.getTokens(row)), tokens1.length && function(tokens, from, to) {
+                            }) : (isNewRow && (tokens = session.getTokens(row)), tokens.length && function(tokens, from, to) {
                                 for(var idx = 0, col = 0; col + tokens[idx].value.length < from;)if (col += tokens[idx].value.length, ++idx == tokens.length) return;
                                 if (col != from) {
                                     var value = tokens[idx].value.substring(from - col);
@@ -9611,7 +9611,7 @@
                                         value: value.substring(0, to - col)
                                     }) : renderTokens.push(tokens[idx]), col += value.length, idx += 1;
                                 }
-                            }(tokens1, lastColumn, column));
+                            }(tokens, lastColumn, column));
                         }, foldLine.end.row, this.session.getLine(foldLine.end.row).length), renderTokens;
                     }, this.$useLineGroups = function() {
                         return this.session.getUseWrapMode();
@@ -9832,15 +9832,15 @@
                             });
                         }
                     }, this.$addObserver = function() {
-                        var self = this;
+                        var self1 = this;
                         this.$observer = new window.ResizeObserver(function(e) {
-                            self.checkForSizeChanges();
+                            self1.checkForSizeChanges();
                         }), this.$observer.observe(this.$measureNode);
                     }, this.$pollSizeChanges = function() {
                         if (this.$pollSizeChangesTimer || this.$observer) return this.$pollSizeChangesTimer;
-                        var self = this;
+                        var self1 = this;
                         return this.$pollSizeChangesTimer = event.onIdle(function cb() {
-                            self.checkForSizeChanges(), event.onIdle(cb, 500);
+                            self1.checkForSizeChanges(), event.onIdle(cb, 500);
                         }, 500);
                     }, this.setPolling = function(val) {
                         val ? this.$pollSizeChanges() : this.$pollSizeChangesTimer && (clearInterval(this.$pollSizeChangesTimer), this.$pollSizeChangesTimer = 0);
@@ -9860,7 +9860,7 @@
                     }, this.$getZoom = function getZoom(element) {
                         return element && element.parentElement ? (window.getComputedStyle(element).zoom || 1) * getZoom(element.parentElement) : 1;
                     }, this.$initTransformMeasureNodes = function() {
-                        var t1 = function(t, l) {
+                        var t = function(t, l) {
                             return [
                                 "div",
                                 {
@@ -9869,10 +9869,10 @@
                             ];
                         };
                         this.els = dom.buildDom([
-                            t1(0, 0),
-                            t1(200, 0),
-                            t1(0, 200),
-                            t1(200, 200)
+                            t(0, 0),
+                            t(200, 0),
+                            t(0, 200),
+                            t(200, 200)
                         ], this.el);
                     }, this.transformCoordinates = function(clientPos, elPos) {
                         function solve(l1, l2, r) {
@@ -9908,12 +9908,12 @@
                             ];
                         }
                         clientPos && (clientPos = mul(1 / this.$getZoom(this.el), clientPos)), this.els || this.$initTransformMeasureNodes();
-                        var a1 = p(this.els[0]), b1 = p(this.els[1]), c = p(this.els[2]), d = p(this.els[3]), h = solve(sub(d, b1), sub(d, c), sub(add(b1, c), add(d, a1))), m1 = mul(1 + h[0], sub(b1, a1)), m2 = mul(1 + h[1], sub(c, a1));
+                        var a = p(this.els[0]), b = p(this.els[1]), c = p(this.els[2]), d = p(this.els[3]), h = solve(sub(d, b), sub(d, c), sub(add(b, c), add(d, a))), m1 = mul(1 + h[0], sub(b, a)), m2 = mul(1 + h[1], sub(c, a));
                         if (elPos) {
                             var x = elPos, k = h[0] * x[0] / 200 + h[1] * x[1] / 200 + 1, ut = add(mul(x[0], m1), mul(x[1], m2));
-                            return add(mul(1 / k / 200, ut), a1);
+                            return add(mul(1 / k / 200, ut), a);
                         }
-                        var u = sub(clientPos, a1), f = solve(sub(m1, mul(h[0], u)), sub(m2, mul(h[1], u)), u);
+                        var u = sub(clientPos, a), f = solve(sub(m1, mul(h[0], u)), sub(m2, mul(h[1], u)), u);
                         return mul(200, f);
                     };
                 }).call((exports.FontMetrics = function(parentEl) {
@@ -9939,9 +9939,9 @@
                 "ace/layer/font_metrics",
                 "ace/lib/event_emitter",
                 "ace/lib/useragent", 
-            ], function(require, exports, module8) {
+            ], function(require, exports, module) {
                 "use strict";
-                var oop = require("./lib/oop"), dom = require("./lib/dom"), config2 = require("./config"), GutterLayer = require("./layer/gutter").Gutter, MarkerLayer = require("./layer/marker").Marker, TextLayer = require("./layer/text").Text, CursorLayer = require("./layer/cursor").Cursor, HScrollBar = require("./scrollbar").HScrollBar, VScrollBar = require("./scrollbar").VScrollBar, RenderLoop = require("./renderloop").RenderLoop, FontMetrics = require("./layer/font_metrics").FontMetrics, EventEmitter = require("./lib/event_emitter").EventEmitter, editorCss = '\
+                var oop = require("./lib/oop"), dom = require("./lib/dom"), config = require("./config"), GutterLayer = require("./layer/gutter").Gutter, MarkerLayer = require("./layer/marker").Marker, TextLayer = require("./layer/text").Text, CursorLayer = require("./layer/cursor").Cursor, HScrollBar = require("./scrollbar").HScrollBar, VScrollBar = require("./scrollbar").VScrollBar, RenderLoop = require("./renderloop").RenderLoop, FontMetrics = require("./layer/font_metrics").FontMetrics, EventEmitter = require("./lib/event_emitter").EventEmitter, editorCss = '\
 .ace_br1 {border-top-left-radius    : 3px;}\
 .ace_br2 {border-top-right-radius   : 3px;}\
 .ace_br3 {border-top-left-radius    : 3px; border-top-right-radius:    3px;}\
@@ -10432,7 +10432,7 @@ margin: 0 10px;\
                 dom.importCssString(editorCss, "ace_editor.css", !1);
                 var VirtualRenderer = function(container, theme) {
                     var _self = this;
-                    this.container = container || dom.createElement("div"), dom.addCssClass(this.container, "ace_editor"), dom.HI_DPI && dom.addCssClass(this.container, "ace_hidpi"), this.setTheme(theme), null == config2.get("useStrictCSP") && config2.set("useStrictCSP", !1), this.$gutter = dom.createElement("div"), this.$gutter.className = "ace_gutter", this.container.appendChild(this.$gutter), this.$gutter.setAttribute("aria-hidden", !0), this.scroller = dom.createElement("div"), this.scroller.className = "ace_scroller", this.container.appendChild(this.scroller), this.content = dom.createElement("div"), this.content.className = "ace_content", this.scroller.appendChild(this.content), this.$gutterLayer = new GutterLayer(this.$gutter), this.$gutterLayer.on("changeGutterWidth", this.onGutterResize.bind(this)), this.$markerBack = new MarkerLayer(this.content);
+                    this.container = container || dom.createElement("div"), dom.addCssClass(this.container, "ace_editor"), dom.HI_DPI && dom.addCssClass(this.container, "ace_hidpi"), this.setTheme(theme), null == config.get("useStrictCSP") && config.set("useStrictCSP", !1), this.$gutter = dom.createElement("div"), this.$gutter.className = "ace_gutter", this.container.appendChild(this.$gutter), this.$gutter.setAttribute("aria-hidden", !0), this.scroller = dom.createElement("div"), this.scroller.className = "ace_scroller", this.container.appendChild(this.scroller), this.content = dom.createElement("div"), this.content.className = "ace_content", this.scroller.appendChild(this.content), this.$gutterLayer = new GutterLayer(this.$gutter), this.$gutterLayer.on("changeGutterWidth", this.onGutterResize.bind(this)), this.$markerBack = new MarkerLayer(this.content);
                     var textLayer = this.$textLayer = new TextLayer(this.content);
                     this.canvas = textLayer.element, this.$markerFront = new MarkerLayer(this.content), this.$cursorLayer = new CursorLayer(this.content), this.$horizScroll = !1, this.$vScroll = !1, this.scrollBar = this.scrollBarV = new VScrollBar(this.container, this), this.scrollBarH = new HScrollBar(this.container, this), this.scrollBarV.on("scroll", function(e) {
                         _self.$scrollAnimation || _self.session.setScrollTop(e.data - _self.scrollMargin.top);
@@ -10476,7 +10476,7 @@ margin: 0 10px;\
                         bottom: 0,
                         v: 0,
                         h: 0
-                    }, this.$keepTextAreaAtCursor = !useragent.isIOS, this.$loop = new RenderLoop(this.$renderChanges.bind(this), this.container.ownerDocument.defaultView), this.$loop.schedule(this.CHANGE_FULL), this.updateCharacterSize(), this.setPadding(4), config2.resetOptions(this), config2._signal("renderer", this);
+                    }, this.$keepTextAreaAtCursor = !useragent.isIOS, this.$loop = new RenderLoop(this.$renderChanges.bind(this), this.container.ownerDocument.defaultView), this.$loop.schedule(this.CHANGE_FULL), this.updateCharacterSize(), this.setPadding(4), config.resetOptions(this), config._signal("renderer", this);
                 };
                 (function() {
                     this.CHANGE_CURSOR = 1, this.CHANGE_MARKER = 2, this.CHANGE_GUTTER = 4, this.CHANGE_SCROLL = 8, this.CHANGE_LINES = 16, this.CHANGE_TEXT = 32, this.CHANGE_SIZE = 64, this.CHANGE_MARKER_BACK = 128, this.CHANGE_MARKER_FRONT = 256, this.CHANGE_FULL = 512, this.CHANGE_H_SCROLL = 1024, oop.implement(this, EventEmitter), this.updateCharacterSize = function() {
@@ -10894,7 +10894,7 @@ margin: 0 10px;\
                         }), theme && "string" != typeof theme) afterLoad(theme);
                         else {
                             var moduleName = theme || this.$options.theme.initialValue;
-                            config2.loadModule([
+                            config.loadModule([
                                 "theme",
                                 moduleName
                             ], afterLoad);
@@ -10923,7 +10923,7 @@ margin: 0 10px;\
                     }, this.destroy = function() {
                         this.freeze(), this.$fontMetrics.destroy(), this.$cursorLayer.destroy(), this.removeAllListeners(), this.container.textContent = "";
                     };
-                }).call(VirtualRenderer.prototype), config2.defineOptions(VirtualRenderer.prototype, "renderer", {
+                }).call(VirtualRenderer.prototype), config.defineOptions(VirtualRenderer.prototype, "renderer", {
                     animatedScroll: {
                         initialValue: !1
                     },
@@ -11060,7 +11060,7 @@ margin: 0 10px;\
             ], function(require, exports, module) {
                 "use strict";
                 var oop = require("../lib/oop"), net = require("../lib/net"), EventEmitter = require("../lib/event_emitter").EventEmitter, config = require("../config");
-                function createWorker(workerUrl1) {
+                function createWorker(workerUrl) {
                     if ("undefined" == typeof Worker) return {
                         postMessage: function() {},
                         terminate: function() {}
@@ -11078,10 +11078,10 @@ margin: 0 10px;\
                                 var blobBuilder = new (window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder)();
                                 return blobBuilder.append(script), blobBuilder.getBlob("application/javascript");
                             }
-                        }(workerUrl1), blobURL = (window.URL || window.webkitURL).createObjectURL(blob);
+                        }(workerUrl), blobURL = (window.URL || window.webkitURL).createObjectURL(blob);
                         return new Worker(blobURL);
                     }
-                    return new Worker(workerUrl1);
+                    return new Worker(workerUrl);
                 }
                 var WorkerClient = function(worker) {
                     worker.postMessage || (worker = this.$createWorkerFromOldConfig.apply(this, arguments)), this.$worker = worker, this.$sendDeltaQueue = this.$sendDeltaQueue.bind(this), this.changeListener = this.changeListener.bind(this), this.onMessage = this.onMessage.bind(this), this.callbackId = 1, this.callbacks = {}, this.$worker.onmessage = this.onMessage;
@@ -11308,18 +11308,18 @@ margin: 0 10px;\
                 function isSamePoint(p1, p2) {
                     return p1.row == p2.row && p1.column == p2.column;
                 }
-                exports.onMouseDown = function(e5) {
-                    var ev = e5.domEvent, alt = ev.altKey, shift = ev.shiftKey, ctrl = ev.ctrlKey, accel = e5.getAccelKey(), button = e5.getButton();
-                    if (ctrl && useragent.isMac && (button = ev.button), e5.editor.inMultiSelectMode && 2 == button) {
-                        e5.editor.textInput.onContextMenu(e5.domEvent);
+                exports.onMouseDown = function(e) {
+                    var ev = e.domEvent, alt = ev.altKey, shift = ev.shiftKey, ctrl = ev.ctrlKey, accel = e.getAccelKey(), button = e.getButton();
+                    if (ctrl && useragent.isMac && (button = ev.button), e.editor.inMultiSelectMode && 2 == button) {
+                        e.editor.textInput.onContextMenu(e.domEvent);
                         return;
                     }
                     if (!ctrl && !alt && !accel) {
-                        0 === button && e5.editor.inMultiSelectMode && e5.editor.exitMultiSelectMode();
+                        0 === button && e.editor.inMultiSelectMode && e.editor.exitMultiSelectMode();
                         return;
                     }
                     if (0 === button) {
-                        var editor = e5.editor, selection = editor.selection, isMultiSelect = editor.inMultiSelectMode, pos = e5.getDocumentPosition(), cursor2 = selection.getCursor(), inSelection = e5.inSelection() || selection.isEmpty() && isSamePoint(pos, cursor2), mouseX = e5.x, mouseY = e5.y, onMouseSelection = function(e) {
+                        var editor = e.editor, selection = editor.selection, isMultiSelect = editor.inMultiSelectMode, pos = e.getDocumentPosition(), cursor = selection.getCursor(), inSelection = e.inSelection() || selection.isEmpty() && isSamePoint(pos, cursor), mouseX = e.x, mouseY = e.y, onMouseSelection = function(e) {
                             mouseX = e.clientX, mouseY = e.clientY;
                         }, session = editor.session, screenAnchor = editor.renderer.pixelToScreenCoordinates(mouseX, mouseY), screenCursor = screenAnchor;
                         if (editor.$mouseHandler.$enableJumpToDef) ctrl && alt || accel && alt ? selectionMode = shift ? "block" : "add" : alt && editor.$blockSelectEnabled && (selectionMode = "block");
@@ -11338,7 +11338,7 @@ margin: 0 10px;\
                                 oldRange && tmpSel.isEmpty() && isSamePoint(oldRange.cursor, tmpSel.cursor) ? selection.substractPoint(tmpSel.cursor) : (shift ? selection.substractPoint(range.cursor) : range && (editor.removeSelectionMarker(range), selection.addRange(range)), selection.addRange(tmpSel)), editor.inVirtualSelectionMode = !1;
                             });
                         } else if ("block" == selectionMode) {
-                            e5.stop(), editor.inVirtualSelectionMode = !0;
+                            e.stop(), editor.inVirtualSelectionMode = !0;
                             var selectionMode, initialRange, rectSel = [], blockSelect = function() {
                                 var newCursor = editor.renderer.pixelToScreenCoordinates(mouseX, mouseY), cursor = session.screenToDocumentPosition(newCursor.row, newCursor.column, newCursor.offsetX);
                                 isSamePoint(screenCursor, newCursor) && isSamePoint(cursor, selection.lead) || (screenCursor = newCursor, editor.selection.moveToPosition(cursor), editor.renderer.scrollCursorIntoView(), editor.removeSelectionMarkers(rectSel), rectSel = selection.rectangularRangeBlock(screenCursor, screenAnchor), editor.$mouseHandler.$clickSelection && 1 == rectSel.length && rectSel[0].isEmpty() && (rectSel[0] = editor.$mouseHandler.$clickSelection.clone()), rectSel.forEach(editor.addSelectionMarker, editor), editor.updateSelectionMarkers());
@@ -11358,7 +11358,7 @@ margin: 0 10px;\
                             var timerId = setInterval(function() {
                                 onSelectionInterval();
                             }, 20);
-                            return e5.preventDefault();
+                            return e.preventDefault();
                         }
                     }
                 };
@@ -11798,7 +11798,7 @@ margin: 0 10px;\
                     }, this.selectMore = function(dir, skip, stopAtFirst) {
                         var session = this.session, range = session.multiSelect.toOrientedRange();
                         if (!range.isEmpty() || ((range = session.getWordRange(range.start.row, range.start.column)).cursor = -1 == dir ? range.start : range.end, this.multiSelect.addRange(range), !stopAtFirst)) {
-                            var session1, needle, dir1, needle2 = session.getTextRange(range), newRange = (session1 = session, needle = needle2, dir1 = dir, search.$options.wrap = !0, search.$options.needle = needle, search.$options.backwards = -1 == dir1, search.find(session1));
+                            var session1, needle, dir1, needle1 = session.getTextRange(range), newRange = (session1 = session, needle = needle1, dir1 = dir, search.$options.wrap = !0, search.$options.needle = needle, search.$options.backwards = -1 == dir1, search.find(session1));
                             newRange && (newRange.cursor = -1 == dir ? newRange.start : newRange.end, this.session.unfold(newRange), this.multiSelect.addRange(newRange), this.renderer.scrollCursorIntoView(null, 0.5)), skip && this.multiSelect.substractPoint(range.cursor);
                         }
                     }, this.alignCursors = function() {
@@ -12215,14 +12215,14 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
             ], function(require, exports, module) {
                 "use strict";
                 var LineWidgets = require("../line_widgets").LineWidgets, dom = require("../lib/dom"), Range = require("../range").Range;
-                exports.showErrorMarker = function(editor, dir2) {
-                    var gutterAnno, session2 = editor.session;
-                    session2.widgetManager || (session2.widgetManager = new LineWidgets(session2), session2.widgetManager.attach(editor));
-                    var pos = editor.getCursorPosition(), row3 = pos.row, oldWidget = session2.widgetManager.getWidgetsAtRow(row3).filter(function(w) {
+                exports.showErrorMarker = function(editor, dir) {
+                    var gutterAnno, session = editor.session;
+                    session.widgetManager || (session.widgetManager = new LineWidgets(session), session.widgetManager.attach(editor));
+                    var pos = editor.getCursorPosition(), row = pos.row, oldWidget = session.widgetManager.getWidgetsAtRow(row).filter(function(w) {
                         return "errorMarker" == w.type;
                     })[0];
-                    oldWidget ? oldWidget.destroy() : row3 -= dir2;
-                    var annotations1 = function(session, row, dir) {
+                    oldWidget ? oldWidget.destroy() : row -= dir;
+                    var annotations = function(session, row, dir) {
                         var annotations = session.getAnnotations().sort(Range.comparePoints);
                         if (annotations.length) {
                             var i = function(array, needle, comparator) {
@@ -12254,10 +12254,10 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
                                 return matched.length && matched;
                             }
                         }
-                    }(session2, row3, dir2);
-                    if (annotations1) {
-                        var annotation1 = annotations1[0];
-                        pos.column = (annotation1.pos && "number" != typeof annotation1.column ? annotation1.pos.sc : annotation1.column) || 0, pos.row = annotation1.row, gutterAnno = editor.renderer.$gutterLayer.$annotations[pos.row];
+                    }(session, row, dir);
+                    if (annotations) {
+                        var annotation = annotations[0];
+                        pos.column = (annotation.pos && "number" != typeof annotation.column ? annotation.pos.sc : annotation.column) || 0, pos.row = annotation.row, gutterAnno = editor.renderer.$gutterLayer.$annotations[pos.row];
                     } else {
                         if (oldWidget) return;
                         gutterAnno = {
@@ -12268,25 +12268,25 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
                         };
                     }
                     editor.session.unfold(pos.row), editor.selection.moveToPosition(pos);
-                    var w2 = {
+                    var w = {
                         row: pos.row,
                         fixedWidth: !0,
                         coverGutter: !0,
                         el: dom.createElement("div"),
                         type: "errorMarker"
-                    }, el = w2.el.appendChild(dom.createElement("div")), arrow = w2.el.appendChild(dom.createElement("div"));
+                    }, el = w.el.appendChild(dom.createElement("div")), arrow = w.el.appendChild(dom.createElement("div"));
                     arrow.className = "error_widget_arrow " + gutterAnno.className;
                     var left = editor.renderer.$cursorLayer.getPixelPosition(pos).left;
-                    arrow.style.left = left + editor.renderer.gutterWidth - 5 + "px", w2.el.className = "error_widget_wrapper", el.className = "error_widget " + gutterAnno.className, el.innerHTML = gutterAnno.text.join("<br>"), el.appendChild(dom.createElement("div"));
+                    arrow.style.left = left + editor.renderer.gutterWidth - 5 + "px", w.el.className = "error_widget_wrapper", el.className = "error_widget " + gutterAnno.className, el.innerHTML = gutterAnno.text.join("<br>"), el.appendChild(dom.createElement("div"));
                     var kb = function(_, hashId, keyString) {
-                        if (0 === hashId && ("esc" === keyString || "return" === keyString)) return w2.destroy(), {
+                        if (0 === hashId && ("esc" === keyString || "return" === keyString)) return w.destroy(), {
                             command: "null"
                         };
                     };
-                    w2.destroy = function() {
-                        editor.$mouseHandler.isMousePressed || (editor.keyBinding.removeKeyboardHandler(kb), session2.widgetManager.removeLineWidget(w2), editor.off("changeSelection", w2.destroy), editor.off("changeSession", w2.destroy), editor.off("mouseup", w2.destroy), editor.off("change", w2.destroy));
-                    }, editor.keyBinding.addKeyboardHandler(kb), editor.on("changeSelection", w2.destroy), editor.on("changeSession", w2.destroy), editor.on("mouseup", w2.destroy), editor.on("change", w2.destroy), editor.session.widgetManager.addLineWidget(w2), w2.el.onmousedown = editor.focus.bind(editor), editor.renderer.scrollCursorIntoView(null, 0.5, {
-                        bottom: w2.el.offsetHeight
+                    w.destroy = function() {
+                        editor.$mouseHandler.isMousePressed || (editor.keyBinding.removeKeyboardHandler(kb), session.widgetManager.removeLineWidget(w), editor.off("changeSelection", w.destroy), editor.off("changeSession", w.destroy), editor.off("mouseup", w.destroy), editor.off("change", w.destroy));
+                    }, editor.keyBinding.addKeyboardHandler(kb), editor.on("changeSelection", w.destroy), editor.on("changeSession", w.destroy), editor.on("mouseup", w.destroy), editor.on("change", w.destroy), editor.session.widgetManager.addLineWidget(w), w.el.onmousedown = editor.focus.bind(editor), editor.renderer.scrollCursorIntoView(null, 0.5, {
+                        bottom: w.el.offsetHeight
                     });
                 }, dom.importCssString("\
     .error_widget_wrapper {\
@@ -12373,7 +12373,7 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
                 "ace/ace"
             ], function(a) {
                 for(var key in a && (a.config.init(!0), a.define = ace.define), window.ace || (window.ace = a), a)a.hasOwnProperty(key) && (window.ace[key] = a[key]);
-                window.ace.default = window.ace, module1 && (module1.exports = window.ace);
+                window.ace.default = window.ace, module && (module.exports = window.ace);
             });
         }
     }, 

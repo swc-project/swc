@@ -9,10 +9,10 @@ function f1() {
         };
         return C;
     };
-    var C1 = f();
-    var v = new C1(10, 20);
-    var x1 = v.x;
-    var y1 = v.y;
+    var C = f();
+    var v = new C(10, 20);
+    var x = v.x;
+    var y = v.y;
 }
 function f2() {
     var f = function f(x) {
@@ -24,10 +24,10 @@ function f2() {
         };
         return C;
     };
-    var C2 = f(10);
-    var v = new C2(20);
-    var x2 = v.x;
-    var y2 = v.y;
+    var C = f(10);
+    var v = new C(20);
+    var x = v.x;
+    var y = v.y;
 }
 function f3() {
     var f = function f(x, y) {
@@ -39,8 +39,8 @@ function f3() {
         };
         return C;
     };
-    var C3 = f(10, 20);
-    var v = new C3();
-    var x3 = v.x;
-    var y3 = v.y;
+    var C = f(10, 20);
+    var v = new C();
+    var x = v.x;
+    var y = v.y;
 }

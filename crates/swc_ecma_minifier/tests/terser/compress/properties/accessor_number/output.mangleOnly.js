@@ -1,10 +1,10 @@
-var b = 1;
-var a = {
+var a = 1;
+var b = {
     get 42 () {
-        return b;
+        return a;
     },
     set 42 (c){
-        b = c;
+        a = c;
     }
 };
-console.log(a[42], (a[42] = 2), a[42]);
+console.log(b[42], (b[42] = 2), b[42]);

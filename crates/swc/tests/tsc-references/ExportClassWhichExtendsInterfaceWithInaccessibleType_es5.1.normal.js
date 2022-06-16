@@ -1,6 +1,6 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var A;
-(function(A1) {
+(function(A) {
     var Point2d = /*#__PURE__*/ function() {
         "use strict";
         function Point2d(x, y) {
@@ -14,5 +14,5 @@ var A;
         };
         return Point2d;
     }();
-    A1.Point2d = Point2d;
+    A.Point2d = Point2d;
 })(A || (A = {}));

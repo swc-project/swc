@@ -1,4 +1,4 @@
-var a = {
+var c = {
     a () {},
     b () {},
     get c () {

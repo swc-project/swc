@@ -1,13 +1,13 @@
 var B, A;
-!function(B1) {
+!function(B) {
     var a = A;
-    B1.a = a;
+    B.a = a;
     class D extends a.C {
     }
-    B1.D = D;
-}(B || (B = {})), function(A1) {
-    A1.C = class {
+    B.D = D;
+}(B || (B = {})), function(A) {
+    A.C = class {
     };
     var b = B;
-    A1.b = b;
+    A.b = b;
 }(A || (A = {})), new B.a.C();

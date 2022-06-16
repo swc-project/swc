@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use swc_cached::regex::CachedRegex;
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -16,6 +17,10 @@ pub struct MinifyOptions {
     pub remove_empty_attributes: bool,
     #[serde(default = "true_by_default")]
     pub collapse_boolean_attributes: bool,
+    #[serde(default = "true_by_default")]
+    pub minify_css: bool,
+    #[serde(default = "default_preserve_comments")]
+    pub preserve_comments: Option<Vec<CachedRegex>>,
 }
 
 /// Implement default using serde.
@@ -36,4 +41,21 @@ pub enum CollapseWhitespaces {
 
 const fn true_by_default() -> bool {
     true
+}
+
+fn default_preserve_comments() -> Option<Vec<CachedRegex>> {
+    Some(vec![
+        // License comments
+        CachedRegex::new("@preserve").unwrap(),
+        CachedRegex::new("@copyright").unwrap(),
+        CachedRegex::new("@lic").unwrap(),
+        CachedRegex::new("@cc_on").unwrap(),
+        // Allow to keep custom comments
+        CachedRegex::new("^!").unwrap(),
+        // Server-side comments
+        CachedRegex::new("^\\s*#").unwrap(),
+        // Conditional IE comments
+        CachedRegex::new("^\\[if\\s[^\\]+]").unwrap(),
+        CachedRegex::new("\\[endif]").unwrap(),
+    ])
 }

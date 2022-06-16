@@ -2,14 +2,14 @@ var o = 0;
 function f() {
     try {
         throw 1;
-    } catch (b) {
+    } catch (a) {
         try {
             throw 2;
-        } catch (a) {
-            var a = 3;
-            console.log(a);
+        } catch (b) {
+            var b = 3;
+            console.log(b);
         }
     }
-    console.log(a);
+    console.log(b);
 }
 f();

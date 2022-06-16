@@ -59,12 +59,12 @@ function f3(b) {
             a[0].x = E.B;
             return a;
         } else {
-            var A1 = function A1() {
+            var A = function A() {
                 "use strict";
-                _class_call_check(this, A1);
+                _class_call_check(this, A);
             };
             var c = [
-                new A1()
+                new A()
             ];
             c[0].x = E.B;
             return c;
@@ -156,7 +156,7 @@ function f6() {
                 return _super.apply(this, arguments);
             }
             return B;
-        }(A2);
+        }(A);
         function h() {
             var C = /*#__PURE__*/ function(B) {
                 "use strict";
@@ -176,9 +176,9 @@ function f6() {
         }
         return h();
     };
-    var A2 = function A2() {
+    var A = function A() {
         "use strict";
-        _class_call_check(this, A2);
+        _class_call_check(this, A);
     };
     return g();
 }

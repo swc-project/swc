@@ -1,5 +1,5 @@
-function log(x1) {
-    console.log(x1);
+function log(x) {
+    console.log(x);
 }
 function bar() {
     x !== (x = log) ? x(1) : x(2);

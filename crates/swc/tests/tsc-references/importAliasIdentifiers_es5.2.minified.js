@@ -1,10 +1,10 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-!function(moduleA1) {
+!function(moduleA) {
     var Point = function(x, y) {
         "use strict";
         _class_call_check(this, Point), this.x = x, this.y = y;
     };
-    moduleA1.Point = Point;
+    moduleA.Point = Point;
 }(moduleA || (moduleA = {}));
 var moduleA, clodule = function() {
     "use strict";

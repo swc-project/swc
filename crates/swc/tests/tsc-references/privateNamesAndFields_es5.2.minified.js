@@ -10,9 +10,9 @@ var _foo = new WeakMap(), A = function() {
         writable: !0,
         value: void 0
     }), _class_private_field_set(this, _foo, 3);
-}, _foo1 = new WeakMap(), B = function(A1) {
+}, _foo1 = new WeakMap(), B = function(A) {
     "use strict";
-    _inherits(B, A1);
+    _inherits(B, A);
     var _super = _create_super(B);
     function B() {
         var _this;

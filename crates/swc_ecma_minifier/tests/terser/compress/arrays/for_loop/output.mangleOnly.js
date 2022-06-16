@@ -1,22 +1,22 @@
 function a() {
-    var b = [
+    var a = [
         1,
         2,
         3
     ];
-    var c = 0;
-    for(var a = 0; a < b.length; a++)c += b[a];
-    return c;
+    var b = 0;
+    for(var c = 0; c < a.length; c++)b += a[c];
+    return b;
 }
 function b() {
-    var b = [
+    var a = [
         1,
         2,
         3
     ];
-    var c = 0;
-    for(var a = 0, d = b.length; a < d; a++)c += b[a];
-    return c;
+    var b = 0;
+    for(var c = 0, d = a.length; c < d; c++)b += a[c];
+    return b;
 }
 function c() {
     var a = [

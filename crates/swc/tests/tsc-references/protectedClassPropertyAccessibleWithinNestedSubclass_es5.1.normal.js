@@ -15,11 +15,11 @@ var C = /*#__PURE__*/ function(B) {
         _class_call_check(this, C);
         return _super.apply(this, arguments);
     }
-    var _proto1 = C.prototype;
-    _proto1.foo = function foo() {
+    var _proto = C.prototype;
+    _proto.foo = function foo() {
         return this.x;
     };
-    _proto1.bar = function bar() {
+    _proto.bar = function bar() {
         var D = /*#__PURE__*/ function() {
             function D() {
                 _class_call_check(this, D);

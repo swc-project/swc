@@ -1,5 +1,5 @@
 var TypeScript;
-!function(TypeScript1) {
+!function(TypeScript) {
     !function(CompilerDiagnostics) {
         var debug = CompilerDiagnostics.debug = !1, diagnosticWriter = CompilerDiagnostics.diagnosticWriter = null;
         function Alert(output) {
@@ -10,7 +10,7 @@ var TypeScript;
         }, CompilerDiagnostics.assert = function(condition, s) {
             debug && !condition && Alert(s);
         };
-    }(TypeScript1.CompilerDiagnostics || (TypeScript1.CompilerDiagnostics = {})), TypeScript1.NullLogger = class {
+    }(TypeScript.CompilerDiagnostics || (TypeScript.CompilerDiagnostics = {})), TypeScript.NullLogger = class {
         information() {
             return !1;
         }
@@ -27,7 +27,7 @@ var TypeScript;
             return !1;
         }
         log(s) {}
-    }, TypeScript1.LoggerAdapter = class {
+    }, TypeScript.LoggerAdapter = class {
         information() {
             return this._information;
         }
@@ -49,7 +49,7 @@ var TypeScript;
         constructor(logger){
             this.logger = logger, this._information = this.logger.information(), this._debug = this.logger.debug(), this._warning = this.logger.warning(), this._error = this.logger.error(), this._fatal = this.logger.fatal();
         }
-    }, TypeScript1.BufferedLogger = class {
+    }, TypeScript.BufferedLogger = class {
         information() {
             return !1;
         }
@@ -71,10 +71,10 @@ var TypeScript;
         constructor(){
             this.logContents = [];
         }
-    }, TypeScript1.timeFunction = function(logger, funcDescription, func) {
+    }, TypeScript.timeFunction = function(logger, funcDescription, func) {
         var start = +new Date(), result = func(), end = +new Date();
         return logger.log(funcDescription + " completed in " + (end - start) + " msec"), result;
-    }, TypeScript1.stringToLiteral = function(value, length) {
+    }, TypeScript.stringToLiteral = function(value, length) {
         var result = "", addChar = (index)=>{
             var ch = value.charCodeAt(index);
             switch(ch){

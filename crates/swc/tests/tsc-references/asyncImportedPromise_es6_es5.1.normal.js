@@ -7,9 +7,9 @@ import regeneratorRuntime from "regenerator-runtime";
 // @target: es6
 // @module: commonjs
 // @filename: task.ts
-export var Task = /*#__PURE__*/ function(Promise) {
+export var Task = /*#__PURE__*/ function(Promise1) {
     "use strict";
-    _inherits(Task, Promise);
+    _inherits(Task, Promise1);
     var _super = _create_super(Task);
     function Task() {
         _class_call_check(this, Task);

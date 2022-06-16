@@ -637,10 +637,10 @@ define(["require", "exports"], function (require, _exports) {
   });
   var ref;
   _exports.f = _exports.e = _exports.c = _exports.a = _exports.test = void 0;
-  var test1 = 2;
-  _exports.test = test1;
-  _exports.test = test1 = 5;
-  ref = test1++, _exports.test = test1, ref;
+  var test = 2;
+  _exports.test = test;
+  _exports.test = test = 5;
+  ref = test++, _exports.test = test, ref;
 
   (function () {
     var test = 2;

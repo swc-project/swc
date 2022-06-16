@@ -1,5 +1,5 @@
 class C {
-    foo(x1) {
+    foo(x) {
         function bar(x) {
             return x;
         }

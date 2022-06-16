@@ -1,12 +1,12 @@
-const d = ()=>null;
-const a = ()=>d;
-const b = [
-    a(),
-    a()
+const a = ()=>null;
+const b = ()=>a;
+const c = [
+    b(),
+    b()
 ];
-console.log(b[0] === b[1]);
-const c = {
-    a: a(),
-    b: a()
+console.log(c[0] === c[1]);
+const d = {
+    a: b(),
+    b: b()
 };
-console.log(c.a === c.b);
+console.log(d.a === d.b);

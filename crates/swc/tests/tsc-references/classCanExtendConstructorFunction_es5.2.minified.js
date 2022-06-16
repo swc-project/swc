@@ -13,9 +13,9 @@ Wagon.circle = function(wagons) {
 }, Wagon.prototype.speed = function() {
     return this.numberOxen / this.weight();
 };
-var Sql = function(Wagon1) {
+var Sql = function(Wagon) {
     "use strict";
-    _inherits(Sql, Wagon1);
+    _inherits(Sql, Wagon);
     var _super = _create_super(Sql);
     function Sql() {
         var _this;
@@ -27,9 +27,9 @@ var Sql = function(Wagon1) {
     }, Sql;
 }(Wagon), db = new Sql();
 db.numberOxen = db.foonly;
-var Drakkhen = function(Dragon1) {
+var Drakkhen = function(Dragon) {
     "use strict";
-    _inherits(Drakkhen, Dragon1);
+    _inherits(Drakkhen, Dragon);
     var _super = _create_super(Drakkhen);
     function Drakkhen() {
         return _class_call_check(this, Drakkhen), _super.apply(this, arguments);
@@ -39,17 +39,17 @@ var Drakkhen = function(Dragon1) {
 function Dragon(numberEaten) {
     this.numberEaten = numberEaten;
 }
-var Firedrake = function(Dragon2) {
+var Firedrake = function(Dragon) {
     "use strict";
-    _inherits(Firedrake, Dragon2);
+    _inherits(Firedrake, Dragon);
     var _super = _create_super(Firedrake);
     function Firedrake() {
         return _class_call_check(this, Firedrake), _super.call(this);
     }
     return Firedrake;
-}(Dragon), Conestoga = function(Wagon2) {
+}(Dragon), Conestoga = function(Wagon) {
     "use strict";
-    _inherits(Conestoga, Wagon2);
+    _inherits(Conestoga, Wagon);
     var _super = _create_super(Conestoga);
     function Conestoga(drunkOO) {
         var _this;
@@ -63,9 +63,9 @@ function Soup(flavour) {
     this.flavour = flavour;
 }
 c.drunkOO, c.numberOxen;
-var Chowder = function(Soup1) {
+var Chowder = function(Soup) {
     "use strict";
-    _inherits(Chowder, Soup1);
+    _inherits(Chowder, Soup);
     var _super = _create_super(Chowder);
     function Chowder() {
         return _class_call_check(this, Chowder), _super.apply(this, arguments);

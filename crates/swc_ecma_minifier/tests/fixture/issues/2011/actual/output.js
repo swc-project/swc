@@ -7,12 +7,12 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-var ClassA = function ClassA1() {
+var ClassA = function ClassA() {
     "use strict";
-    _classCallCheck(this, ClassA1);
+    _classCallCheck(this, ClassA);
 };
 module.exports = function() {
-    var obj, key, value, ClassB1 = function() {
+    var obj, key, value, ClassB = function() {
         "use strict";
         var Constructor, protoProps, staticProps;
         function ClassB() {
@@ -27,10 +27,10 @@ module.exports = function() {
             }, 
         ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), ClassB;
     }();
-    return obj = ClassB1, key = "MyA", value = ClassA, key in obj ? Object.defineProperty(obj, key, {
+    return obj = ClassB, key = "MyA", value = ClassA, key in obj ? Object.defineProperty(obj, key, {
         value: value,
         enumerable: !0,
         configurable: !0,
         writable: !0
-    }) : obj[key] = value, ClassB1;
+    }) : obj[key] = value, ClassB;
 }();

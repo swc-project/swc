@@ -1,41 +1,41 @@
 function a() {
-    var c = "foo";
-    var a = [
+    var a = "foo";
+    var b = [
         1
     ];
-    var [b] = a;
-    f(b);
+    var [c] = b;
+    f(c);
 }
 function b() {
-    var c = "foo";
-    var a = {
+    var a = "foo";
+    var b = {
         b: 1
     };
-    var { b: b  } = a;
-    f(b);
+    var { b: c  } = b;
+    f(c);
 }
 function c() {
-    var c = "foo";
-    var a = [
+    var a = "foo";
+    var b = [
         [
             1
         ]
     ];
-    var [[b]] = a;
-    f(b);
+    var [[c]] = b;
+    f(c);
 }
 function d() {
-    var c = "foo";
-    var a = {
+    var a = "foo";
+    var b = {
         b: {
             b: 1
         }
     };
-    var { b: { b: b  } ,  } = a;
-    f(b);
+    var { b: { b: c  } ,  } = b;
+    f(c);
 }
 function e() {
-    var j = "foo";
+    var a = "foo";
     var b = [
         1,
         2,
@@ -54,7 +54,7 @@ function e() {
         h: 1
     };
     var [e, ...h] = b;
-    var [...[i, a]] = c;
+    var [...[i, j]] = c;
     var [...{ g: k  }] = d;
-    a(e, h, i, a, g);
+    j(e, h, i, j, g);
 }

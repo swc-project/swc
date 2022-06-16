@@ -6,18 +6,18 @@ var Foo = function() {
     _class_call_check(this, Foo), this.property = 1;
 };
 Foo.staticProperty = 2;
-var SubFoo = function(Foo1) {
+var SubFoo = function(Foo) {
     "use strict";
-    _inherits(SubFoo, Foo1);
+    _inherits(SubFoo, Foo);
     var _super = _create_super(SubFoo);
     function SubFoo() {
         var _this;
         return _class_call_check(this, SubFoo), _this = _super.apply(this, arguments), _this.property = 42, _this.staticProperty = 42, _this;
     }
     return SubFoo;
-}(Foo), StaticSubFoo = function(Foo2) {
+}(Foo), StaticSubFoo = function(Foo) {
     "use strict";
-    _inherits(StaticSubFoo, Foo2);
+    _inherits(StaticSubFoo, Foo);
     var _super = _create_super(StaticSubFoo);
     function StaticSubFoo() {
         return _class_call_check(this, StaticSubFoo), _super.apply(this, arguments);
@@ -25,9 +25,9 @@ var SubFoo = function(Foo1) {
     return StaticSubFoo;
 }(Foo);
 StaticSubFoo.property = 42, StaticSubFoo.staticProperty = 42;
-var Intermediate = function(Foo3) {
+var Intermediate = function(Foo) {
     "use strict";
-    _inherits(Intermediate, Foo3);
+    _inherits(Intermediate, Foo);
     var _super = _create_super(Intermediate);
     function Intermediate() {
         return _class_call_check(this, Intermediate), _super.apply(this, arguments);

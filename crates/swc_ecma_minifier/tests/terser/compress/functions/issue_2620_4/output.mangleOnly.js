@@ -1,15 +1,15 @@
 var a = "FAIL";
 (function() {
-    function b(c, d) {
-        function b() {
-            switch(c){
-                case c:
+    function b(b, c) {
+        function d() {
+            switch(b){
+                case b:
                     break;
                 case ((a = "PASS"), NaN):
                     break;
             }
         }
-        b();
+        d();
     }
     b(0 / 0);
 })();

@@ -6,10 +6,10 @@ b1 = a; // error
 var Generics;
 (function(Generics) {
     var foo = function foo() {
-        var a1;
+        var a;
         var b;
-        a1 = b; // error
-        b = a1; // error
+        a = b; // error
+        b = a; // error
     };
     var A = function A() {
         "use strict";

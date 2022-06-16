@@ -12,9 +12,9 @@ var Foo = function() {
     _class_call_check(this, Foo), this.a = null;
 };
 export var X = Foo;
-var Bar = function(Fab1) {
+var Bar = function(Fab) {
     "use strict";
-    _inherits(Bar, Fab1);
+    _inherits(Bar, Fab);
     var _super = _create_super(Bar);
     function Bar() {
         var _this;

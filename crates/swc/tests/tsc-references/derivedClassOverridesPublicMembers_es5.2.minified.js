@@ -53,9 +53,9 @@ d.a, d.b(y), d.c, d.d, d.c = y, Derived.r, Derived.s(y), Derived.t, Derived.u, D
 var Base2 = function() {
     "use strict";
     _class_call_check(this, Base2);
-}, Derived2 = function(Base21) {
+}, Derived2 = function(Base2) {
     "use strict";
-    _inherits(Derived2, Base21);
+    _inherits(Derived2, Base2);
     var _super = _create_super(Derived2);
     function Derived2() {
         return _class_call_check(this, Derived2), _super.apply(this, arguments);

@@ -1,62 +1,62 @@
-var b = [];
-function a(a) {
+var a = [];
+function b(a) {
     console.log("(" + a + ")");
     return 10 * a;
 }
 console.log([
-    a(1),
-    a(2)
+    b(1),
+    b(2)
 ][0]);
 console.log([
-    a(1),
-    a(2)
+    b(1),
+    b(2)
 ][1]);
 console.log([
-    a(1),
-    a(2)
+    b(1),
+    b(2)
 ][2]);
 console.log([
-    ...b,
-    a(1),
-    a(2)
+    ...a,
+    b(1),
+    b(2)
 ][0]);
 console.log([
-    ...b,
-    a(1),
-    a(2)
+    ...a,
+    b(1),
+    b(2)
 ][1]);
 console.log([
-    ...b,
-    a(1),
-    a(2)
+    ...a,
+    b(1),
+    b(2)
 ][2]);
 console.log([
-    a(1),
-    ...b,
-    a(2)
+    b(1),
+    ...a,
+    b(2)
 ][0]);
 console.log([
-    a(1),
-    ...b,
-    a(2)
+    b(1),
+    ...a,
+    b(2)
 ][1]);
 console.log([
-    a(1),
-    ...b,
-    a(2)
+    b(1),
+    ...a,
+    b(2)
 ][2]);
 console.log([
-    a(1),
-    a(2),
-    ...b
+    b(1),
+    b(2),
+    ...a
 ][0]);
 console.log([
-    a(1),
-    a(2),
-    ...b
+    b(1),
+    b(2),
+    ...a
 ][1]);
 console.log([
-    a(1),
-    a(2),
-    ...b
+    b(1),
+    b(2),
+    ...a
 ][2]);

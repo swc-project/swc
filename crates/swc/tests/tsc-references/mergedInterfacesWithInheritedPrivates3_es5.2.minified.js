@@ -7,9 +7,9 @@ var M, C = function() {
 }, C2 = function() {
     "use strict";
     _class_call_check(this, C2);
-}, D = function(C1) {
+}, D = function(C) {
     "use strict";
-    _inherits(D, C1);
+    _inherits(D, C);
     var _super = _create_super(D);
     function D() {
         return _class_call_check(this, D), _super.apply(this, arguments);
@@ -17,11 +17,11 @@ var M, C = function() {
     return D;
 }(C);
 !function(M) {
-    var C3 = function() {
+    var C = function() {
         "use strict";
-        _class_call_check(this, C3);
-    }, C21 = function() {
+        _class_call_check(this, C);
+    }, C2 = function() {
         "use strict";
-        _class_call_check(this, C21);
+        _class_call_check(this, C2);
     };
 }(M || (M = {}));

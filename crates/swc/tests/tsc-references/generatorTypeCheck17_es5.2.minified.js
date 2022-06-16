@@ -18,9 +18,9 @@ var _marked = regeneratorRuntime.mark(function() {
 }), Foo = function() {
     "use strict";
     _class_call_check(this, Foo);
-}, Bar = function(Foo1) {
+}, Bar = function(Foo) {
     "use strict";
-    _inherits(Bar, Foo1);
+    _inherits(Bar, Foo);
     var _super = _create_super(Bar);
     function Bar() {
         return _class_call_check(this, Bar), _super.apply(this, arguments);

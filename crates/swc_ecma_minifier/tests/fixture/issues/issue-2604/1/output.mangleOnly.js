@@ -44,8 +44,8 @@ push({
         var D = "";
         var E = "";
         var F = "";
-        var H = "";
-        var G = {
+        var G = "";
+        var H = {
             shadowmap_pars_vertex: b,
             shadowmap_vertex: c,
             shadowmask_pars_fragment: d,
@@ -77,7 +77,7 @@ push({
             meshphong_frag: F
         };
         ShaderLib.physical = {
-            x: G.meshphysical_frag
+            x: H.meshphysical_frag
         };
     }
 });

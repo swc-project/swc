@@ -171,8 +171,8 @@ var D11 = /*#__PURE__*/ function(Base) {
     return D11;
 }(Base);
 function f() {}
-(function(f1) {
-    var bar = f1.bar = 1;
+(function(f) {
+    var bar = f.bar = 1;
 })(f || (f = {}));
 var D12 = /*#__PURE__*/ function(Base) {
     "use strict";

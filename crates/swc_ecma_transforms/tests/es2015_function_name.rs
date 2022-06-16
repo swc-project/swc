@@ -110,11 +110,11 @@ expect(Foo.name).toBe('Foo');
 "#,
     r#"
 var Foo = function() {
-  var Foo1 = function() {
-   _classCallCheck(this, Foo1);
+  var Foo = function() {
+   _classCallCheck(this, Foo);
   };
-  _defineProperty(Foo1, 'num', 0);
-  return Foo1;
+  _defineProperty(Foo, 'num', 0);
+  return Foo;
 }();
 expect(Foo.num).toBe(0);
 expect(Foo.num = 1).toBe(1);
@@ -137,7 +137,7 @@ test!(
 
   return extendStatics(d, b);
 };",
-    "var extendStatics = function (d1, b1) {
+    "var extendStatics = function (d, b) {
       extendStatics = Object.setPrototypeOf || ({
         __proto__: []
       }) instanceof Array && function (d, b) {
@@ -146,7 +146,7 @@ test!(
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
   };
 
-  return extendStatics(d1, b1);
+  return extendStatics(d, b);
 };"
 );
 
@@ -879,13 +879,13 @@ function search({search}) {
 "#,
     r#"
 var obj = {
-    search: function search1({ search: search2 }) {
-        console.log(search2);
+    search: function search({ search: search1 }) {
+        console.log(search1);
     }
 };
 
-function search({ search: search3 }) {
-    console.log(search3);
+function search({ search }) {
+    console.log(search);
 }
 
 "#

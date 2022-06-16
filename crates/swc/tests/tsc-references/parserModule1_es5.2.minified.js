@@ -1,11 +1,11 @@
 export var CompilerDiagnostics;
-!function(CompilerDiagnostics1) {
+!function(CompilerDiagnostics) {
     var Alert = function(output) {
         diagnosticWriter && diagnosticWriter.Alert(output);
-    }, debug = CompilerDiagnostics1.debug = !1, diagnosticWriter = CompilerDiagnostics1.diagnosticWriter = null;
-    CompilerDiagnostics1.analysisPass = 0, CompilerDiagnostics1.Alert = Alert, CompilerDiagnostics1.debugPrint = function(s) {
+    }, debug = CompilerDiagnostics.debug = !1, diagnosticWriter = CompilerDiagnostics.diagnosticWriter = null;
+    CompilerDiagnostics.analysisPass = 0, CompilerDiagnostics.Alert = Alert, CompilerDiagnostics.debugPrint = function(s) {
         debug && Alert(s);
-    }, CompilerDiagnostics1.assert = function(condition, s) {
+    }, CompilerDiagnostics.assert = function(condition, s) {
         debug && !condition && Alert(s);
     };
 }(CompilerDiagnostics || (CompilerDiagnostics = {}));

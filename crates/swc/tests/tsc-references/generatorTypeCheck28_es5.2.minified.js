@@ -1,10 +1,10 @@
 import _define_property from "@swc/helpers/src/_define_property.mjs";
 import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(function() {
-    return regeneratorRuntime.wrap(function(_ctx1) {
-        for(;;)switch(_ctx1.prev = _ctx1.next){
+    return regeneratorRuntime.wrap(function(_ctx) {
+        for(;;)switch(_ctx.prev = _ctx.next){
             case 0:
-                return _ctx1.delegateYield(_define_property({}, Symbol.iterator, regeneratorRuntime.mark(function _callee() {
+                return _ctx.delegateYield(_define_property({}, Symbol.iterator, regeneratorRuntime.mark(function _callee() {
                     return regeneratorRuntime.wrap(function(_ctx) {
                         for(;;)switch(_ctx.prev = _ctx.next){
                             case 0:
@@ -19,7 +19,7 @@ var _marked = regeneratorRuntime.mark(function() {
                 })), "t0", 1);
             case 1:
             case "end":
-                return _ctx1.stop();
+                return _ctx.stop();
         }
     }, _marked);
 });

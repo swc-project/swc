@@ -1212,7 +1212,7 @@ if (process.env.NODE_ENV !== "production") {
     // sub-tree for that root and make that our ancestor instance.
     var node21;
     var nodeTag;
-    var container2;
+    var container1;
     // The target is a portal, but it's not the rootContainer we're looking for.
     // Normally portals handle their own events all the way down to the root.
     // So we should be able to stop now. However, we don't know if this portal
@@ -1406,7 +1406,7 @@ if (process.env.NODE_ENV !== "production") {
         case null:
             var root3;
         default:
-            var container1;
+            var container2;
             var ownNamespace1;
     }
     var validatedTag;
@@ -3577,12 +3577,12 @@ if (process.env.NODE_ENV !== "production") {
     var ReactCurrentDispatcher1;
     (function() {
         var root;
-        var container;
+        var container1;
         var hostInstance;
     });
     (function() {
         var root;
-        var container;
+        var container1;
     });
     // Tag is either LegacyRoot or Concurrent Root
     var hydrate;
@@ -3598,8 +3598,8 @@ if (process.env.NODE_ENV !== "production") {
     (function() {
         var hostInstance;
         var isRootRenderedBySomeReact = !!container._reactRootContainer;
-        var rootEl2;
-        var hasNonRootReactChild = !!(rootEl2 && getInstanceFromNode(rootEl2));
+        var rootEl;
+        var hasNonRootReactChild = !!(rootEl && getInstanceFromNode(rootEl));
     });
     var rootElement;
     var shouldHydrate; // First clear any existing content.
@@ -3621,7 +3621,7 @@ if (process.env.NODE_ENV !== "production") {
     var isModernRoot;
     var isModernRoot1;
     var isModernRoot2;
-    var rootEl1;
+    var rootEl;
     var renderedByDifferentReact;
     var _rootEl;
     var hasNonRootReactChild = !!(_rootEl && getInstanceFromNode(_rootEl)); // Check if the container itself is a React root node.

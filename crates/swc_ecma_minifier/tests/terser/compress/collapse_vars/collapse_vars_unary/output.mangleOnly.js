@@ -6,13 +6,13 @@ function b(a) {
     var b = !!a;
     return a > +b;
 }
-function c(b) {
-    var a = 7;
-    return a--;
+function c(a) {
+    var b = 7;
+    return b--;
 }
-function d(b) {
-    var a = 7;
-    return ++a;
+function d(a) {
+    var b = 7;
+    return ++b;
 }
 function e(a) {
     var b = 8 - a;

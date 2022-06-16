@@ -16,9 +16,9 @@ var A = function() {
         return 1;
     }, A;
 }();
-!function(M1) {
+!function(M) {
     var n;
-    M1.n = n;
+    M.n = n;
 }(M || (M = {}));
 var objA = new A();
 void 0 === NUMBER || _type_of(NUMBER), _type_of(NUMBER1), _type_of(1), _type_of({

@@ -11,9 +11,9 @@ var Generics;
     var a1;
     a1 = b1; // ok
     b1 = a1; // error
-    var b21;
-    a1 = b21; // ok
-    b21 = a1; // error
+    var b2;
+    a1 = b2; // ok
+    b2 = a1; // error
     function foo() {
         var b3;
         var a3;

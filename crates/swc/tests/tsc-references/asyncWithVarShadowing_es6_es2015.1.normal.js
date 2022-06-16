@@ -242,8 +242,8 @@ function fn26(x) {
 }
 function _fn26() {
     _fn26 = _async_to_generator(function*(x) {
-        try {} catch ({ x: x2  }) {
-            var x2;
+        try {} catch ({ x: x1  }) {
+            var x1;
         }
     });
     return _fn26.apply(this, arguments);

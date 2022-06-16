@@ -1,17 +1,17 @@
 export const E = {
-    queue: function(d, b, c) {
-        var a;
-        if (d) {
+    queue: function(a, b, c) {
+        var d;
+        if (a) {
             b = (b || "fx") + "queue";
-            a = jQuery._data(d, b);
+            d = jQuery._data(a, b);
             if (c) {
-                if (!a || jQuery.isArray(c)) {
-                    a = jQuery._data(d, b, jQuery.makeArray(c));
+                if (!d || jQuery.isArray(c)) {
+                    d = jQuery._data(a, b, jQuery.makeArray(c));
                 } else {
-                    a.push(c);
+                    d.push(c);
                 }
             }
-            return a || [];
+            return d || [];
         }
     }
 };

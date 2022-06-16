@@ -103,22 +103,22 @@ function thisFunc() {
 }
 // Function signature with optional parameter, no type annotation and initializer has initializer's type
 function opt1() {
-    var n1 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 4;
-    var m = n1;
+    var n = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 4;
+    var m = n;
     var m;
 }
 // Function signature with optional parameter, no type annotation and initializer has initializer's widened type
 function opt2() {
-    var n2 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {
+    var n = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {
         x: null,
         y: undefined
     };
-    var m = n2;
+    var m = n;
     var m;
 }
 // Function signature with initializer referencing other parameter to the left
-function opt3(n3) {
-    var m = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : n3;
+function opt3(n) {
+    var m = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : n;
     var y = m;
     var y;
 }

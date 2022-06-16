@@ -1,6 +1,30 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/helpers)** Fix `module` field in `package.json` of `@swc/helpers` (#4978) ([5123c20](https://github.com/swc-project/swc/commit/5123c20b5d765db0fa645a1d4ba2820d5eeddc9c))
+
+
+- **(es/resolver)** Make catch parameter not disturb resolving (#4976) ([b3f6f20](https://github.com/swc-project/swc/commit/b3f6f20721b90b03a67c1db5d9680147ffe13923))
+
+### Features
+
+
+
+- **(html/minifier)** Compress CSS (#4973) ([3e6c0f5](https://github.com/swc-project/swc/commit/3e6c0f567a50e1b0a8ba097b3f13b866efd6ebfa))
+
+
+- **(html/minifier)** Add `preserve_comments` option (#4959) ([2e52c18](https://github.com/swc-project/swc/commit/2e52c18a6b4ea4d58c219253c159af86a189ce26))
+
+### Performance
+
+
+
+- **(es/hygiene)** Make `hygiene` faster (#4952) ([36d960c](https://github.com/swc-project/swc/commit/36d960c7e908f6924ce9b0fd23ce4cd972dbbba0))
+
 ### Refactor
 
 

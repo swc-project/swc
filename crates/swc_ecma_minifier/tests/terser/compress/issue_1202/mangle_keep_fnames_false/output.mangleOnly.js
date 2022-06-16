@@ -1,6 +1,6 @@
 "use strict";
 function a() {
-    return function d(a, b, c) {
-        return a + b + c;
+    return function a(b, c, d) {
+        return b + c + d;
     };
 }

@@ -3,7 +3,7 @@ import _create_class from "@swc/helpers/src/_create_class.mjs";
 //@target: ES6
 //@declaration: true
 var M;
-(function(M1) {
+(function(M) {
     var C = /*#__PURE__*/ function() {
         "use strict";
         function C() {
@@ -28,5 +28,5 @@ var M;
         ]);
         return C;
     }();
-    M1.C = C;
+    M.C = C;
 })(M || (M = {}));

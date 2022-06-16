@@ -16,9 +16,9 @@ var C3 = function(p) {
     _class_call_check(this, C3), this.p = p;
 };
 c3.p;
-var Derived = function(C31) {
+var Derived = function(C3) {
     "use strict";
-    _inherits(Derived, C31);
+    _inherits(Derived, C3);
     var _super = _create_super(Derived);
     function Derived(p) {
         var _this;

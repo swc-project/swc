@@ -7,9 +7,9 @@ var NUMBER1 = [
 class A {
 }
 var M;
-(function(M1) {
+(function(M) {
     var n;
-    M1.n = n;
+    M.n = n;
 })(M || (M = {}));
 var objA = new A();
 // number type var

@@ -1,13 +1,13 @@
 var A;
-(function(A1) {
+(function(A) {
     class Point {
         constructor(x, y){
             this.x = x;
             this.y = y;
         }
     }
-    A1.Point = Point;
-    var Origin = A1.Origin = new Point(0, 0);
+    A.Point = Point;
+    var Origin = A.Origin = new Point(0, 0);
 })(A || (A = {}));
 // no code gen expected
 var C;
@@ -26,10 +26,10 @@ var D;
     var p = new a.Point(1, 1);
 })(D || (D = {}));
 var E;
-(function(E1) {
+(function(E) {
     var a = A;
     function xDist(x) {
         return a.Origin.x - x.x;
     }
-    E1.xDist = xDist;
+    E.xDist = xDist;
 })(E || (E = {}));

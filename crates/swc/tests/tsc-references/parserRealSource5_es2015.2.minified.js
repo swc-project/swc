@@ -1,6 +1,6 @@
 var TypeScript;
-!function(TypeScript1) {
-    TypeScript1.PrintContext = class {
+!function(TypeScript) {
+    TypeScript.PrintContext = class {
         increaseIndent() {
             this.indentAmt++;
         }
@@ -26,10 +26,10 @@ var TypeScript;
         constructor(outfile, parser){
             this.outfile = outfile, this.parser = parser, this.builder = "", this.indent1 = "  ", this.indentStrings = [], this.indentAmt = 0;
         }
-    }, TypeScript1.prePrintAST = function(ast, parent, walker) {
+    }, TypeScript.prePrintAST = function(ast, parent, walker) {
         var pc = walker.state;
         return ast.print(pc), pc.increaseIndent(), ast;
-    }, TypeScript1.postPrintAST = function(ast, parent, walker) {
+    }, TypeScript.postPrintAST = function(ast, parent, walker) {
         return walker.state.decreaseIndent(), ast;
     };
 }(TypeScript || (TypeScript = {}));

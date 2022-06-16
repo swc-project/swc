@@ -1,8 +1,8 @@
 var a = "PASS";
 (function() {
     function b(b) {
-        (function b(a) {
-            var a = a && (a.null = "FAIL");
+        (function a(b) {
+            var b = b && (b.null = "FAIL");
         })(a);
     }
     b();

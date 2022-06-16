@@ -1,37 +1,37 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var M;
-(function(M1) {
-    var Foo = function Foo() {
+(function(M) {
+    var Foo1 = function Foo1() {
         "use strict";
-        _class_call_check(this, Foo);
+        _class_call_check(this, Foo1);
     };
-    M1.Foo = Foo;
+    M.Foo = Foo1;
     var S1;
-    (function(S) {
-        var Bar = function Bar() {
+    (function(S1) {
+        var Bar1 = function Bar1() {
             "use strict";
-            _class_call_check(this, Bar);
+            _class_call_check(this, Bar1);
         };
-        S.Bar = Bar;
-    })(S1 = M1.S || (M1.S = {}));
+        S1.Bar = Bar1;
+    })(S1 = M.S || (M.S = {}));
 })(M || (M = {}));
-(function(M2) {
+(function(M) {
     // Emit M.Foo
     Foo, /*#__PURE__*/ React.createElement(Foo, null);
-    var S;
-    (function(S) {
+    var S1;
+    (function(S1) {
         // Emit M.Foo
         Foo, /*#__PURE__*/ React.createElement(Foo, null);
         // Emit S.Bar
         Bar, /*#__PURE__*/ React.createElement(Bar, null);
-    })(S = M2.S || (M2.S = {}));
+    })(S1 = M.S || (M.S = {}));
 })(M || (M = {}));
 (function(M) {
     // Emit M.S.Bar
     S.Bar, /*#__PURE__*/ React.createElement(S.Bar, null);
 })(M || (M = {}));
 (function(M) {
-    var M3 = 100;
+    var M1 = 100;
     // Emit M_1.Foo
     Foo, /*#__PURE__*/ React.createElement(Foo, null);
 })(M || (M = {}));

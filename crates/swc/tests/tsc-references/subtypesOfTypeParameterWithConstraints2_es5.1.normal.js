@@ -39,8 +39,8 @@ var E;
     E[E["A"] = 0] = "A";
 })(E || (E = {}));
 function f() {}
-(function(f22) {
-    var bar = f22.bar = 1;
+(function(f) {
+    var bar = f.bar = 1;
 })(f || (f = {}));
 var c = function c() {
     "use strict";
@@ -88,11 +88,11 @@ function f11(x) {
     var r7 = true ? function() {} : x; // ok
     var r7 = true ? x : function() {}; // ok
 }
-function f12(x1) {
+function f12(x) {
     var r8 = true ? function(x) {
         return x;
-    } : x1; // ok
-    var r8b = true ? x1 : function(x) {
+    } : x; // ok
+    var r8b = true ? x : function(x) {
         return x;
     }; // ok, type parameters not identical across declarations
 }

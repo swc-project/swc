@@ -1,6 +1,6 @@
-var b = console.log.bind(console);
-function a(a) {
-    var c = a * 2;
-    b("Foo:", c);
+var a = console.log.bind(console);
+function b(b) {
+    var c = b * 2;
+    a("Foo:", c);
 }
-a(10);
+b(10);

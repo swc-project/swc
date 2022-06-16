@@ -3558,7 +3558,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.89.2"
+version = "0.89.5"
 dependencies = [
  "better_scoped_tls",
  "criterion",
@@ -3637,7 +3637,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.118.0"
+version = "0.118.1"
 dependencies = [
  "Inflector",
  "ahash",
@@ -3911,7 +3911,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.14.0"
+version = "0.16.0"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -3960,12 +3960,16 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.11.0"
+version = "0.13.0"
 dependencies = [
  "serde",
  "serde_json",
  "swc_atoms",
+ "swc_cached",
  "swc_common",
+ "swc_css_codegen",
+ "swc_css_minifier",
+ "swc_css_parser",
  "swc_html_ast",
  "swc_html_codegen",
  "swc_html_parser",
@@ -5239,13 +5243,3 @@ checksum = "0120db82e8a1e0b9fb3345a539c478767c0048d842860994d96113d5b667bd69"
 dependencies = [
  "winapi",
 ]
-
-[[patch.unused]]
-name = "cranelift-codegen"
-version = "0.76.0"
-source = "git+https://github.com/kdy1/wasmtime?branch=tls#d59e6148e6b1d01430c217569c7bddb5838f11ed"
-
-[[patch.unused]]
-name = "cranelift-entity"
-version = "0.76.0"
-source = "git+https://github.com/kdy1/wasmtime?branch=tls#d59e6148e6b1d01430c217569c7bddb5838f11ed"

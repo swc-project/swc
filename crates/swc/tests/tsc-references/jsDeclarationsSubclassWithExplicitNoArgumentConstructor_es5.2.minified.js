@@ -5,9 +5,9 @@ export var Super = function(firstArg, secondArg) {
     "use strict";
     _class_call_check(this, Super);
 };
-export var Sub = function(Super1) {
+export var Sub = function(Super) {
     "use strict";
-    _inherits(Sub, Super1);
+    _inherits(Sub, Super);
     var _super = _create_super(Sub);
     function Sub() {
         return _class_call_check(this, Sub), _super.call(this, "first", "second");

@@ -1,6 +1,6 @@
-function b(a) {
+function a(a) {
     a.b = "PASS";
 }
-var a = {};
-b(a);
-console.log(a.b);
+var b = {};
+a(b);
+console.log(b.b);

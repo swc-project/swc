@@ -9,11 +9,11 @@ define([
     _exports.boo = boo;
     _exports.Foo = void 0;
     function boo() {
-        return Foo1.Bar * 2;
+        return Foo.Bar * 2;
     }
-    var Foo1;
-    _exports.Foo = Foo1;
+    var Foo;
+    _exports.Foo = Foo;
     (function(Foo) {
         var Bar = Foo.Bar = 1234;
-    })(Foo1 || (_exports.Foo = Foo1 = {}));
+    })(Foo || (_exports.Foo = Foo = {}));
 });

@@ -343,8 +343,8 @@ var TypeScript;
             path.pop();
             return cur;
         };
-        var path1 = new AstPath();
-        TypeScript.getAstWalkerFactory().walk(ast, pre, post, null, path1);
+        var path = new AstPath();
+        TypeScript.getAstWalkerFactory().walk(ast, pre, post, null, path);
     }
     TypeScript1.walkAST = walkAST;
 })(TypeScript || (TypeScript = {}));

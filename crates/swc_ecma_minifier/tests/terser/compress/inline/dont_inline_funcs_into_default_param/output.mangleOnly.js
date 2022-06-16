@@ -1,8 +1,8 @@
 "use strict";
-const b = (a)=>({
+const a = (a)=>({
         val: a
     });
-const a = function(a = b(id("PASS"))) {
-    console.log(a.val);
+const b = function(b = a(id("PASS"))) {
+    console.log(b.val);
 };
-a();
+b();

@@ -25,7 +25,7 @@ var SomeClass = _decorate([], function(_initialize) {
         ]
     };
 });
-var OtherClass = _decorate([], function(_initialize, _SomeClass1) {
+var OtherClass = _decorate([], function(_initialize, _SomeClass) {
     var OtherClass = /*#__PURE__*/ function(_SomeClass) {
         "use strict";
         _inherits(OtherClass, _SomeClass);
@@ -38,7 +38,7 @@ var OtherClass = _decorate([], function(_initialize, _SomeClass1) {
             return _this;
         }
         return OtherClass;
-    }(_SomeClass1);
+    }(_SomeClass);
     return {
         F: OtherClass,
         d: [

@@ -1,50 +1,18 @@
-use std::collections::hash_map::Entry;
-
 use swc_atoms::JsWord;
 use swc_common::{
-    collections::{AHashMap, AHashSet},
+    collections::AHashMap,
     util::{move_map::MoveMap, take::Take},
     Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
-use super::Config;
-#[cfg(feature = "rayon")]
+#[cfg(feature = "concurrent")]
 use crate::perf::cpu_count;
-use crate::perf::{ParExplode, Parallel};
-#[derive(Debug, Default)]
-pub(super) struct Operations {
-    pub rename: AHashMap<Id, JsWord>,
-    symbols: AHashSet<JsWord>,
-}
-
-impl Operations {
-    #[inline]
-    pub fn rename(&mut self, from: Id, to: JsWord) {
-        match self.rename.entry(from) {
-            Entry::Occupied(..) => {}
-            Entry::Vacant(e) => {
-                e.insert(to.clone());
-                self.symbols.insert(to);
-            }
-        }
-    }
-
-    pub fn add_used(&mut self, sym: JsWord) {
-        self.symbols.insert(sym);
-    }
-
-    #[inline]
-    pub fn get_renamed(&self, i: &Id) -> Option<JsWord> {
-        self.rename.get(i).cloned()
-    }
-
-    #[inline]
-    pub fn is_used_as_rename_target(&self, symbol: &JsWord) -> bool {
-        self.symbols.contains(symbol)
-    }
-}
+use crate::{
+    hygiene::Config,
+    perf::{ParExplode, Parallel},
+};
 
 pub(super) struct Operator<'a> {
     pub rename: &'a AHashMap<Id, JsWord>,
@@ -181,6 +149,15 @@ impl<'a> VisitMut for Operator<'a> {
 
         if let ModuleExportName::Ident(orig) = &mut s.orig {
             if let Ok(..) = self.rename_ident(orig) {
+                match &exported {
+                    ModuleExportName::Ident(exported) => {
+                        if orig.sym == exported.sym {
+                            return;
+                        }
+                    }
+                    ModuleExportName::Str(_) => {}
+                }
+
                 s.exported = Some(exported);
             }
         }
@@ -202,6 +179,10 @@ impl<'a> VisitMut for Operator<'a> {
         let local = self.rename_ident(&mut s.local);
 
         if let Ok(..) = local {
+            if s.local.sym == imported.sym {
+                return;
+            }
+
             s.imported = Some(ModuleExportName::Ident(imported));
         }
     }
@@ -376,7 +357,7 @@ impl<'a> VisitMut for Operator<'a> {
     fn visit_mut_module_items(&mut self, nodes: &mut Vec<ModuleItem>) {
         use std::mem::take;
 
-        #[cfg(feature = "rayon")]
+        #[cfg(feature = "concurrent")]
         if nodes.len() >= 64 * cpu_count() {
             use swc_common::errors::HANDLER;
 
@@ -463,6 +444,10 @@ impl<'a> VisitMut for Operator<'a> {
         if let ObjectPatProp::Assign(p) = n {
             let mut renamed = p.key.clone();
             if let Ok(..) = self.rename_ident(&mut renamed) {
+                if renamed.sym == p.key.sym {
+                    return;
+                }
+
                 *n = KeyValuePatProp {
                     key: PropName::Ident(p.key.take()),
                     value: match p.value.take() {
@@ -485,6 +470,10 @@ impl<'a> VisitMut for Operator<'a> {
             Prop::Shorthand(i) => {
                 let mut renamed = i.clone();
                 if let Ok(..) = self.rename_ident(&mut renamed) {
+                    if renamed.sym == i.sym {
+                        return;
+                    }
+
                     *prop = Prop::KeyValue(KeyValueProp {
                         key: PropName::Ident(Ident {
                             // clear mark
@@ -542,6 +531,10 @@ impl<'a> Operator<'a> {
     /// Returns `Ok(renamed_ident)` if ident should be renamed.
     fn rename_ident(&mut self, ident: &mut Ident) -> Result<(), ()> {
         if let Some(sym) = self.rename.get(&ident.to_id()) {
+            if *sym == ident.sym {
+                return Err(());
+            }
+
             ident.span = ident.span.with_ctxt(SyntaxContext::empty());
             ident.sym = sym.clone();
             return Ok(());

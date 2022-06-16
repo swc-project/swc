@@ -16,7 +16,7 @@ function foo() {
         };
         return X;
     }();
-    var x1 = new X();
-    return x1.m();
+    var x = new X();
+    return x.m();
 }
 var x = foo();

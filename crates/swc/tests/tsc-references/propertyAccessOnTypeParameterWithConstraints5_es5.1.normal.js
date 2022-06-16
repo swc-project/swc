@@ -34,8 +34,8 @@ var C = /*#__PURE__*/ function() {
     var _proto = C.prototype;
     _proto.f = function f() {
         var x;
-        var a1 = x["foo"](); // should be string
-        return a1 + x.foo() + x.notHere();
+        var a = x["foo"](); // should be string
+        return a + x.foo() + x.notHere();
     };
     return C;
 }();
@@ -49,8 +49,8 @@ var r3 = a().notHere();
 var r3b = a()["foo"]();
 var b = {
     foo: function(x) {
-        var a2 = x["foo"](); // should be string
-        return a2 + x.notHere();
+        var a = x["foo"](); // should be string
+        return a + x.notHere();
     },
     // BUG 794164
     bar: b.foo(1).notHere()

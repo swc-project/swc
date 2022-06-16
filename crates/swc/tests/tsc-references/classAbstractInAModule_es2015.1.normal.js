@@ -1,11 +1,11 @@
 var M;
-(function(M1) {
+(function(M) {
     class A {
     }
-    M1.A = A;
+    M.A = A;
     class B extends A {
     }
-    M1.B = B;
+    M.B = B;
 })(M || (M = {}));
 new M.A;
 new M.B;

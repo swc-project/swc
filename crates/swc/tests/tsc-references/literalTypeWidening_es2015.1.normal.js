@@ -67,14 +67,14 @@ const FAILURE = "FAILURE";
 function doWork() {
     return FAILURE;
 }
-function isSuccess(result1) {
-    return !isFailure(result1);
+function isSuccess(result) {
+    return !isFailure(result);
 }
-function isFailure(result2) {
-    return result2 === FAILURE;
+function isFailure(result) {
+    return result === FAILURE;
 }
-function increment(x4) {
-    return x4 + 1;
+function increment(x) {
+    return x + 1;
 }
 let result = doWork();
 if (isSuccess(result)) {
@@ -85,10 +85,10 @@ function onMouseOver() {
 }
 let x = onMouseOver();
 // Repro from #23649
-export function Set(...keys1) {
-    const result3 = {};
-    keys1.forEach((key)=>result3[key] = true);
-    return result3;
+export function Set(...keys) {
+    const result = {};
+    keys.forEach((key)=>result[key] = true);
+    return result;
 }
 export function keys(obj) {
     return Object.keys(obj);

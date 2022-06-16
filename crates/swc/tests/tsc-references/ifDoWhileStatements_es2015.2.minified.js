@@ -2,14 +2,14 @@ class C {
 }
 class D {
 }
-for(!function(M1) {
-    M1.A = class {
-    }, M1.F2 = function(x) {
+for(!function(M) {
+    M.A = class {
+    }, M.F2 = function(x) {
         return x.toString();
     };
-}(M || (M = {})), function(N1) {
-    N1.A = class {
-    }, N1.F2 = function(x) {
+}(M || (M = {})), function(N) {
+    N.A = class {
+    }, N.F2 = function(x) {
         return x.toString();
     };
 }(N || (N = {}));;);
