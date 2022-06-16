@@ -1,10 +1,12 @@
 use std::{
+    env,
     fs::{create_dir_all, rename},
     path::{Component, Path, PathBuf},
     sync::Arc,
 };
 
 use anyhow::{bail, Context, Error};
+use once_cell::sync::Lazy;
 use swc::{
     config::{Config, JsMinifyOptions, JscConfig, ModuleConfig, Options, SourceMapsConfig},
     try_with_handler, BoolOrDataConfig, Compiler, HandlerOpts,
@@ -40,6 +42,42 @@ where
     I: IntoIterator<Item = T>,
     T: Clone,
 {
+}
+
+fn init_helpers() -> Arc<PathBuf> {
+    static REAL: Lazy<Arc<PathBuf>> = Lazy::new(|| {
+        Arc::new(
+            PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap())
+                .parent()
+                .unwrap()
+                .parent()
+                .unwrap()
+                .join("packages")
+                .join("swc-helpers"),
+        )
+    });
+
+    static HELPER_DIR: Lazy<Arc<PathBuf>> = Lazy::new(|| {
+        let dir = (*REAL).clone();
+
+        {
+            let mut cmd = std::process::Command::new("yarn");
+            cmd.current_dir(&**dir).arg("upgrade").arg("@swc/core");
+            let status = cmd.status().expect("failed to update swc core");
+            assert!(status.success());
+        }
+
+        {
+            let mut cmd = std::process::Command::new("yarn");
+            cmd.current_dir(&**dir).arg("build");
+            let status = cmd.status().expect("failed to compile helper package");
+            assert!(status.success());
+        }
+
+        Arc::new(dir.join("src"))
+    });
+
+    HELPER_DIR.clone()
 }
 
 fn create_matrix(entry: &Path) -> Vec<Options> {
@@ -127,6 +165,8 @@ fn create_matrix(entry: &Path) -> Vec<Options> {
 #[testing::fixture("tests/exec/**/exec.mjs")]
 #[testing::fixture("tests/exec/**/exec.ts")]
 fn run_fixture_test(entry: PathBuf) {
+    let _ = init_helpers();
+
     let _guard = testing::init();
 
     let matrix = create_matrix(&entry);
