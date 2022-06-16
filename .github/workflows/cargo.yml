@@ -375,6 +375,12 @@ jobs:
         run: |
           jest -v && mocha --version
 
+      - name: Configure helpers
+        shell: bash
+        run: |
+          (cd packages/swc-helpers && yarn && yarn build)
+          yarn add --dev ./packages/swc-helpers
+
       - name: Configure execution cache
         shell: bash
         run: |
