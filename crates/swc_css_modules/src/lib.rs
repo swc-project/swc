@@ -1,5 +1,5 @@
 pub mod css_modules;
-mod sel;
+pub mod sel;
 
 use sel::SelVisitor;
 use swc_css_ast::Stylesheet;
