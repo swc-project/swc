@@ -6,4 +6,8 @@ ls -alR ./lib
 
 # fsync
 
-sed -i "" 's/.mjs/.js/g' ./lib/*.js
+if [[ "$OSTYPE" == 'darwin'* ]]; then
+  sed -i '' 's/.mjs/.js/g' ./lib/*.js
+else
+  sed -i 's/.mjs/.js/g' ./lib/*.js
+fi
