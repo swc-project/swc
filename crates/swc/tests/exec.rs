@@ -72,20 +72,17 @@ fn init_helpers() -> Arc<PathBuf> {
             let status = cmd.status().expect("failed to compile helper package");
             assert!(status.success());
         }
+
         {
-            let mut cmd = std::process::Command::new("yarn");
-            cmd.current_dir(&helper_dir).arg("link");
-            let status = cmd.status().expect("failed to link helper package");
-            assert!(status.success());
-        }
-        {
-            let mut cmd = std::process::Command::new("yarn");
+            let mut cmd = std::process::Command::new("npm");
             cmd.current_dir(&project_root)
-                .arg("link")
-                .arg("@swc/helpers");
+                .arg("install")
+                .arg("--no-save")
+                .arg("--no-package-lock")
+                .arg("./packages/swc-helpers");
             let status = cmd
                 .status()
-                .expect("failed to link helper package from root");
+                .expect("failed to install helper package from root");
             assert!(status.success());
         }
 
