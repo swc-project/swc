@@ -10,7 +10,7 @@ use swc_css_parser::{
     lexer::Lexer,
     parser::{Parser, ParserConfig},
 };
-use testing::DebugUsingDisplay;
+use testing::{assert_eq, DebugUsingDisplay};
 
 fn path_resolve(path: &str) -> String {
     let work_cwd = env!("CARGO_MANIFEST_DIR");
