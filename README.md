@@ -15,11 +15,19 @@
     <a href="https://crates.io/crates/swc_ecma_parser">
       <img alt="undefined" src="https://img.shields.io/crates/d/swc_ecma_parser.svg?label=crates.io%20downloads">
     </a>
+    <img alt="GitHub release (latest SemVer)" src="https://img.shields.io/github/v/release/swc-project/swc">
 </p>
+
 <p align="center">
+   <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/swc-project/swc">
    <a href="https://github.com/swc-project/swc/actions/workflows/cargo.yml">
       <img alt="CI Status" src="https://github.com/swc-project/swc/actions/workflows/cargo.yml/badge.svg?event=push">
    </a>
+   <img alt="node-current (scoped)" src="https://img.shields.io/node/v/@swc/core">
+</p>
+
+<p align="center">
+   <img alt="Discord" src="https://img.shields.io/discord/889779439272075314">
 </p>
 
 SWC (stands for `Speedy Web Compiler`) is a super-fast TypeScript / JavaScript compiler written in Rust. It's a library for Rust and JavaScript at the same time. If you are using SWC from Rust, see [rustdoc](https://rustdoc.swc.rs/swc/) and for most users, your entry point for using the library will be [parser](https://rustdoc.swc.rs/swc_ecma_parser/).
