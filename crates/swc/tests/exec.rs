@@ -45,36 +45,47 @@ where
 }
 
 fn init_helpers() -> Arc<PathBuf> {
-    static REAL: Lazy<Arc<PathBuf>> = Lazy::new(|| {
-        Arc::new(
-            PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap())
-                .parent()
-                .unwrap()
-                .parent()
-                .unwrap()
-                .join("packages")
-                .join("swc-helpers"),
-        )
-    });
-
     static BUILD_HELPERS: Lazy<Arc<PathBuf>> = Lazy::new(|| {
-        let dir = (*REAL).clone();
+        let project_root = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap())
+            .parent()
+            .unwrap()
+            .parent()
+            .unwrap()
+            .to_path_buf();
+
+        let helper_dir = project_root.join("packages").join("swc-helpers");
 
         {
             let mut cmd = std::process::Command::new("yarn");
-            cmd.current_dir(&**dir).arg("upgrade").arg("@swc/core");
+            cmd.current_dir(&helper_dir).arg("upgrade").arg("@swc/core");
             let status = cmd.status().expect("failed to update swc core");
             assert!(status.success());
         }
 
         {
             let mut cmd = std::process::Command::new("yarn");
-            cmd.current_dir(&**dir).arg("build");
+            cmd.current_dir(&helper_dir).arg("build");
             let status = cmd.status().expect("failed to compile helper package");
             assert!(status.success());
         }
+        {
+            let mut cmd = std::process::Command::new("yarn");
+            cmd.current_dir(&helper_dir).arg("link");
+            let status = cmd.status().expect("failed to link helper package");
+            assert!(status.success());
+        }
+        {
+            let mut cmd = std::process::Command::new("yarn");
+            cmd.current_dir(&project_root)
+                .arg("link")
+                .arg("@swc/helpers");
+            let status = cmd
+                .status()
+                .expect("failed to link helper package from root");
+            assert!(status.success());
+        }
 
-        Arc::new(dir.join("src"))
+        Arc::new(helper_dir.join("src"))
     });
 
     BUILD_HELPERS.clone()
