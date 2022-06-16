@@ -7,8 +7,8 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 
 pub use super::util::Config;
 use crate::{
-    import_ref_rewriter::{ImportMap, ImportRefRewriter},
     module_decl_strip::{Export, Link, LinkItem, ModuleDeclStrip, Specifier},
+    module_ref_rewriter::{ImportMap, ModuleRefRewriter},
     path::{ImportResolver, Resolver},
     util::{
         cjs_dynamic_import, define_es_module, has_use_strict, lazy_ident_from_src, prop_function,
@@ -74,7 +74,10 @@ impl VisitMut for Cjs {
 
         stmts.extend(n.take());
 
-        stmts.visit_mut_children_with(&mut ImportRefRewriter { import_map });
+        stmts.visit_mut_children_with(&mut ModuleRefRewriter {
+            import_map,
+            top_level: true,
+        });
 
         if !self.config.ignore_dynamic {
             stmts.visit_mut_children_with(&mut DynamicImport {

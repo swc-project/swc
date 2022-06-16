@@ -1,14 +1,14 @@
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::{Id, Ident, *};
-use swc_ecma_utils::IntoIndirectCall;
+use swc_ecma_utils::{undefined, IntoIndirectCall};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use crate::util::prop_name;
 
 pub type ImportMap = AHashMap<Id, (Ident, Option<JsWord>)>;
 
-pub(crate) struct ImportRefRewriter {
+pub(crate) struct ModuleRefRewriter {
     /// ```javascript
     /// import foo, { a as b, c } from "mod";
     /// import * as x from "x";
@@ -28,9 +28,11 @@ pub(crate) struct ImportRefRewriter {
     /// )
     /// ```
     pub import_map: ImportMap,
+
+    pub top_level: bool,
 }
 
-impl VisitMut for ImportRefRewriter {
+impl VisitMut for ModuleRefRewriter {
     noop_visit_mut_type!();
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
@@ -54,6 +56,12 @@ impl VisitMut for ImportRefRewriter {
                 }
             }
 
+            Expr::This(ThisExpr { span }) => {
+                if self.top_level {
+                    *n = *undefined(*span);
+                }
+            }
+
             _ => n.visit_mut_children_with(self),
         };
     }
@@ -70,7 +78,43 @@ impl VisitMut for ImportRefRewriter {
                     *n = n.take().into_indirect()
                 }
             }
+
             _ => n.visit_mut_children_with(self),
         }
+    }
+
+    fn visit_mut_function(&mut self, n: &mut Function) {
+        n.params.visit_mut_with(self);
+
+        self.visit_mut_with_non_top_level(&mut n.body);
+    }
+
+    fn visit_mut_constructor(&mut self, n: &mut Constructor) {
+        n.params.visit_mut_with(self);
+
+        self.visit_mut_with_non_top_level(&mut n.body);
+    }
+
+    fn visit_mut_class_prop(&mut self, n: &mut ClassProp) {
+        n.key.visit_mut_with(self);
+
+        self.visit_mut_with_non_top_level(&mut n.value);
+    }
+
+    fn visit_mut_static_block(&mut self, n: &mut StaticBlock) {
+        self.visit_mut_with_non_top_level(&mut n.body);
+    }
+}
+
+impl ModuleRefRewriter {
+    fn visit_mut_with_non_top_level<T>(&mut self, n: &mut T)
+    where
+        T: VisitMutWith<Self>,
+    {
+        let top_level = self.top_level;
+
+        self.top_level = false;
+        n.visit_mut_with(self);
+        self.top_level = top_level;
     }
 }

@@ -8,8 +8,8 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 
 pub use super::util::Config;
 use crate::{
-    import_ref_rewriter::{ImportMap, ImportRefRewriter},
     module_decl_strip::{Export, Link, LinkItem, ModuleDeclStrip, Specifier},
+    module_ref_rewriter::{ImportMap, ModuleRefRewriter},
     path::{ImportResolver, Resolver},
     util::{
         amd_dynamic_import, define_es_module, has_use_strict, local_name_for_src, prop_function,
@@ -83,7 +83,10 @@ impl VisitMut for Amd {
             ModuleItem::Stmt(stmt) => stmt,
         }));
 
-        stmts.visit_mut_children_with(&mut ImportRefRewriter { import_map });
+        stmts.visit_mut_children_with(&mut ModuleRefRewriter {
+            import_map,
+            top_level: true,
+        });
 
         let require = quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "require");
 
