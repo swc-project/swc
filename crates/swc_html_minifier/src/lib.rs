@@ -1,5 +1,6 @@
 #![deny(clippy::all)]
 
+use once_cell::sync::Lazy;
 use serde_json::Value;
 use swc_atoms::{js_word, JsWord};
 use swc_cached::regex::CachedRegex;
@@ -276,6 +277,12 @@ struct WhitespaceMinificationMode {
     pub collapse: bool,
 }
 
+pub static CONDITIONAL_COMMENT_START: Lazy<CachedRegex> =
+    Lazy::new(|| CachedRegex::new("^\\[if\\s[^\\]+]").unwrap());
+
+pub static CONDITIONAL_COMMENT_END: Lazy<CachedRegex> =
+    Lazy::new(|| CachedRegex::new("\\[endif]").unwrap());
+
 struct Minifier {
     current_element_namespace: Option<Namespace>,
     current_element_tag_name: Option<JsWord>,
@@ -478,9 +485,7 @@ impl Minifier {
     }
 
     fn is_conditional_comment(&self, data: &str) -> bool {
-        if CachedRegex::new("^\\[if\\s[^\\]+]").unwrap().is_match(data)
-            || CachedRegex::new("\\[endif]").unwrap().is_match(data)
-        {
+        if CONDITIONAL_COMMENT_START.is_match(data) || CONDITIONAL_COMMENT_END.is_match(data) {
             return true;
         }
 
