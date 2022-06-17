@@ -31,6 +31,9 @@
 
 - **(html/minifier)** Add `preserve_comments` option (#4959) ([2e52c18](https://github.com/swc-project/swc/commit/2e52c18a6b4ea4d58c219253c159af86a189ce26))
 
+
+- **(html/minifier)** Add an option to set html5 doctype (#4980) ([fb74ace](https://github.com/swc-project/swc/commit/fb74ace19b2aa06f38ef0803bea500a8a5d8f165))
+
 ### Performance
 
 

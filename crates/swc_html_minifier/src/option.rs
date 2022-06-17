@@ -6,6 +6,8 @@ use swc_cached::regex::CachedRegex;
 #[serde(deny_unknown_fields)]
 pub struct MinifyOptions {
     #[serde(default)]
+    pub force_set_html5_doctype: bool,
+    #[serde(default)]
     pub collapse_whitespaces: Option<CollapseWhitespaces>,
     /// Prevent to remove empty attributes, by default we only remove attributes
     /// that are safe to remove (for example - empty a `style` attribute),
