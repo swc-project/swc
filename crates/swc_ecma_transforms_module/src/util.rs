@@ -1084,14 +1084,6 @@ macro_rules! mark_as_nested {
     };
 }
 
-pub(crate) fn lazy_ident_from_src(src: &JsWord, ident: &mut Option<Ident>) -> Ident {
-    ident.clone().unwrap_or_else(|| {
-        let new_ident = private_ident!(local_name_for_src(src));
-        *ident = Some(new_ident.clone());
-        new_ident
-    })
-}
-
 pub(crate) fn prop_name(key: &str, span: Span) -> IdentOrStr {
     if is_valid_prop_ident(key) {
         IdentOrStr::Ident(quote_ident!(span, key))

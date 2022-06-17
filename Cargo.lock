@@ -3642,6 +3642,7 @@ dependencies = [
  "Inflector",
  "ahash",
  "anyhow",
+ "bitflags",
  "indexmap",
  "path-clean",
  "pathdiff",

@@ -1,17 +1,16 @@
-use swc_atoms::{js_word, JsWord};
-use swc_common::{util::take::Take, FileName, Mark, Span, DUMMY_SP};
+use swc_common::{util::take::Take, FileName, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::{is_valid_prop_ident, quote_ident, ExprFactory};
+use swc_ecma_utils::{private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub use super::util::Config;
 use crate::{
-    module_decl_strip::{Export, Link, LinkItem, ModuleDeclStrip, Specifier},
+    module_decl_strip::{Export, Link, LinkFlag, LinkItem, LinkSpecifierReducer, ModuleDeclStrip},
     module_ref_rewriter::{ImportMap, ModuleRefRewriter},
     path::{ImportResolver, Resolver},
     util::{
-        cjs_dynamic_import, define_es_module, has_use_strict, lazy_ident_from_src, prop_function,
+        cjs_dynamic_import, define_es_module, has_use_strict, local_name_for_src, prop_function,
         use_strict,
     },
 };
@@ -99,151 +98,85 @@ impl Cjs {
     ) -> impl Iterator<Item = Stmt> {
         let mut stmts = Vec::with_capacity(link.len());
 
-        let mut export_obj_prop_list: Vec<(JsWord, Span, Expr)> = export
+        let mut export_obj_prop_list = export
             .into_iter()
             .map(|((key, span), ident)| (key, span, ident.into()))
             .collect();
 
-        link.into_iter().for_each(|(src, LinkItem(src_span, set))| {
-            let mut mod_ident = None;
+        link.into_iter().for_each(
+            |(src, LinkItem(src_span, link_specifier_set, mut link_flag))| {
+                let mod_ident = private_ident!(local_name_for_src(&src));
 
-            // - 0b01 named
-            // - 0b10 default
-            // - 0b11 star
-            let mut import_flag = 0u8;
+                let mut decl_mod_ident = false;
 
-            let mut should_re_export = false;
+                link_specifier_set.reduce(
+                    import_map,
+                    &mut export_obj_prop_list,
+                    &mod_ident,
+                    &mut decl_mod_ident,
+                );
 
-            set.into_iter().for_each(|s| match s {
-                Specifier::ImportNamed { imported, local } => {
-                    // `import { default as bar } from "foo"`
-                    if imported == Some(js_word!("default")) {
-                        import_flag |= 0b10;
-                    } else {
-                        import_flag |= 0b01;
+                if self.config.no_interop {
+                    link_flag -= LinkFlag::NAMESPACE;
+                }
+
+                // require("mod");
+                let import_expr =
+                    self.resolver
+                        .make_require_call(self.unresolved_mark, src, src_span);
+
+                // _reExport(exports, require("mod"));
+                let import_expr = if link_flag.contains(LinkFlag::RE_EXPORT) {
+                    CallExpr {
+                        span: DUMMY_SP,
+                        callee: helper!(re_export, "reExport"),
+                        args: vec![self.exports().as_arg(), import_expr.as_arg()],
+                        type_args: Default::default(),
                     }
+                    .into()
+                } else {
+                    import_expr
+                };
 
-                    let binding_ident = lazy_ident_from_src(&src, &mut mod_ident);
-
-                    import_map.insert(local.clone(), (binding_ident, imported.or(Some(local.0))));
-                }
-                Specifier::ImportDefault(id) => {
-                    import_flag |= 0b10;
-
-                    let binding_ident = lazy_ident_from_src(&src, &mut mod_ident);
-
-                    import_map.insert(id, (binding_ident, Some(js_word!("default"))));
-                }
-                Specifier::ImportStarAs(id) => {
-                    import_flag |= 0b11;
-
-                    let binding_ident = lazy_ident_from_src(&src, &mut mod_ident);
-
-                    import_map.insert(id, (binding_ident, None));
-                }
-                Specifier::ExportNamed { orig, exported } => {
-                    // `export { default as bar } from "foo"`
-                    if orig.0 == js_word!("default") {
-                        import_flag |= 0b10;
-                    } else {
-                        import_flag |= 0b01;
-                    }
-
-                    let binding_ident = lazy_ident_from_src(&src, &mut mod_ident);
-
-                    let (key, span) = exported.unwrap_or_else(|| orig.clone());
-
-                    let expr = {
-                        let (name, span) = orig;
-                        if is_valid_prop_ident(&name) {
-                            binding_ident.make_member(Ident::new(name, span))
+                // _introp(require("mod"));
+                let import_expr = if !link_flag.intersects(LinkFlag::DEFAULT) {
+                    import_expr
+                } else {
+                    CallExpr {
+                        span: DUMMY_SP,
+                        callee: if link_flag.contains(LinkFlag::NAMESPACE) {
+                            helper!(interop_require_wildcard, "interopRequireWildcard")
                         } else {
-                            binding_ident.computed_member(Str {
-                                span,
-                                value: name,
-                                raw: None,
-                            })
-                        }
+                            helper!(interop_require_default, "interopRequireDefault")
+                        },
+                        args: vec![import_expr.as_arg()],
+                        type_args: Default::default(),
+                    }
+                    .into()
+                };
+
+                if decl_mod_ident {
+                    let var_declarator = VarDeclarator {
+                        span: DUMMY_SP,
+                        name: mod_ident.into(),
+                        init: Some(Box::new(import_expr)),
+                        definite: false,
                     };
-                    export_obj_prop_list.push((key, span, expr))
+
+                    let var_decl = VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        declare: false,
+                        decls: vec![var_declarator],
+                    };
+                    let stmt = Stmt::Decl(Decl::Var(var_decl));
+
+                    stmts.push(stmt)
+                } else {
+                    stmts.push(import_expr.into_stmt());
                 }
-                Specifier::ExportStarAs(key, span) => {
-                    import_flag |= 0b11;
-
-                    let binding_ident = lazy_ident_from_src(&src, &mut mod_ident);
-
-                    let expr = binding_ident.into();
-                    export_obj_prop_list.push((key, span, expr))
-                }
-                Specifier::ExportStar => {
-                    should_re_export = true;
-                }
-            });
-
-            if self.config.no_interop {
-                import_flag &= 1;
-            }
-
-            // require("mod");
-            let import_expr = self
-                .resolver
-                .make_require_call(self.unresolved_mark, src, src_span);
-
-            // _reExport(exports, require("mod"));
-            let import_expr = if should_re_export {
-                CallExpr {
-                    span: DUMMY_SP,
-                    callee: helper!(re_export, "reExport"),
-                    args: vec![self.exports().as_arg(), import_expr.as_arg()],
-                    type_args: Default::default(),
-                }
-                .into()
-            } else {
-                import_expr
-            };
-
-            // _introp(require("mod"));
-            let import_expr = if import_flag == 0b11 {
-                CallExpr {
-                    span: DUMMY_SP,
-                    callee: helper!(interop_require_wildcard, "interopRequireWildcard"),
-                    args: vec![import_expr.as_arg()],
-                    type_args: Default::default(),
-                }
-                .into()
-            } else if import_flag == 0b10 {
-                CallExpr {
-                    span: DUMMY_SP,
-                    callee: helper!(interop_require_default, "interopRequireDefault"),
-                    args: vec![import_expr.as_arg()],
-                    type_args: Default::default(),
-                }
-                .into()
-            } else {
-                import_expr
-            };
-
-            if let Some(mod_ident) = mod_ident {
-                let var_declarator = VarDeclarator {
-                    span: DUMMY_SP,
-                    name: mod_ident.into(),
-                    init: Some(Box::new(import_expr)),
-                    definite: false,
-                };
-
-                let var_decl = VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    declare: false,
-                    decls: vec![var_declarator],
-                };
-                let stmt = Stmt::Decl(Decl::Var(var_decl));
-
-                stmts.push(stmt)
-            } else {
-                stmts.push(import_expr.into_stmt());
-            }
-        });
+            },
+        );
 
         let export_call = (!export_obj_prop_list.is_empty()).then(|| {
             export_obj_prop_list.sort_by(|a, b| a.0.cmp(&b.0));

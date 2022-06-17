@@ -2,8 +2,10 @@ use indexmap::IndexMap;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashSet, util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_pat_ids, private_ident};
+use swc_ecma_utils::{find_pat_ids, is_valid_prop_ident, private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+
+use crate::module_ref_rewriter::ImportMap;
 
 pub type Link = IndexMap<JsWord, LinkItem>;
 pub type Export = IndexMap<(JsWord, Span), Ident>;
@@ -250,16 +252,17 @@ impl VisitMut for ModuleDeclStrip {
             .entry(src_key)
             .or_default()
             .mut_dummy_span(src_span)
-            .insert(Specifier::ExportStar);
+            .insert(LinkSpecifier::ExportStar);
     }
 }
 
 #[derive(Debug, PartialEq, Eq, Hash)]
-pub enum Specifier {
+pub enum LinkSpecifier {
     /// ```javascript
     /// import { imported as local, local } from "mod";
     /// import { "imported" as local } from "mod";
     /// ```
+    /// Note: imported will never be `default`
     ImportNamed { imported: Option<JsWord>, local: Id },
     /// ```javascript
     /// import foo from "mod";
@@ -273,10 +276,18 @@ pub enum Specifier {
     /// export { orig, orig as exported } from "mod";
     /// export { "orig", "orig" as "exported" } from "mod";
     /// ```
+    /// Note: orig will never be `default`
     ExportNamed {
         orig: (JsWord, Span),
         exported: Option<(JsWord, Span)>,
     },
+    /// ```javascript
+    /// export { default } from "foo";
+    /// export { "default" } from "foo";
+    /// export { default as foo } from "mod";
+    /// ```
+    /// (default_span, local_sym, local_span)
+    ExportDefaultAs(Span, JsWord, Span),
     /// ```javascript
     /// export * as foo from "mod";
     /// export * as "bar" from "mod";
@@ -288,7 +299,7 @@ pub enum Specifier {
     ExportStar,
 }
 
-impl From<ImportSpecifier> for Specifier {
+impl From<ImportSpecifier> for LinkSpecifier {
     fn from(i: ImportSpecifier) -> Self {
         match i {
             ImportSpecifier::Named(ImportNamedSpecifier {
@@ -299,9 +310,13 @@ impl From<ImportSpecifier> for Specifier {
                     ModuleExportName::Str(Str { value, .. }) => value,
                 });
 
-                Self::ImportNamed {
-                    local: local.to_id(),
-                    imported,
+                if imported == Some(js_word!("default")) {
+                    Self::ImportDefault(local.to_id())
+                } else {
+                    Self::ImportNamed {
+                        local: local.to_id(),
+                        imported,
+                    }
                 }
             }
             ImportSpecifier::Default(ImportDefaultSpecifier { local, .. }) => {
@@ -314,7 +329,7 @@ impl From<ImportSpecifier> for Specifier {
     }
 }
 
-impl From<ExportSpecifier> for Specifier {
+impl From<ExportSpecifier> for LinkSpecifier {
     fn from(e: ExportSpecifier) -> Self {
         match e {
             ExportSpecifier::Namespace(ExportNamespaceSpecifier { name, .. }) => match name {
@@ -335,18 +350,53 @@ impl From<ExportSpecifier> for Specifier {
                     ModuleExportName::Str(Str { span, value, .. }) => (value, span),
                 });
 
-                Self::ExportNamed { orig, exported }
+                let (ref orig_name, orig_span) = orig;
+
+                if orig_name == &js_word!("default") {
+                    let (exported_name, exported_span) = exported.unwrap_or(orig);
+                    Self::ExportDefaultAs(orig_span, exported_name, exported_span)
+                } else {
+                    Self::ExportNamed { orig, exported }
+                }
             }
         }
     }
 }
 
 #[derive(Debug, Default)]
-pub struct LinkItem(pub Span, pub AHashSet<Specifier>);
+pub struct LinkItem(pub Span, pub AHashSet<LinkSpecifier>, pub LinkFlag);
 
-impl Extend<Specifier> for LinkItem {
-    fn extend<T: IntoIterator<Item = Specifier>>(&mut self, iter: T) {
-        self.1.extend(iter);
+use bitflags::bitflags;
+
+bitflags! {
+    #[derive(Default)]
+    pub struct LinkFlag: u8 {
+        const NAMED = 1 << 0;
+        const DEFAULT = 1 << 1;
+        const NAMESPACE = Self::NAMED.bits | Self::DEFAULT.bits;
+        const RE_EXPORT = 1 << 2;
+    }
+}
+
+impl From<&LinkSpecifier> for LinkFlag {
+    fn from(s: &LinkSpecifier) -> Self {
+        match s {
+            LinkSpecifier::ImportNamed { .. } => Self::NAMED,
+            LinkSpecifier::ImportDefault(..) => Self::DEFAULT,
+            LinkSpecifier::ImportStarAs(..) => Self::NAMESPACE,
+            LinkSpecifier::ExportNamed { .. } => Self::NAMED,
+            LinkSpecifier::ExportDefaultAs(..) => Self::DEFAULT,
+            LinkSpecifier::ExportStarAs(..) => Self::NAMESPACE,
+            LinkSpecifier::ExportStar => Self::RE_EXPORT,
+        }
+    }
+}
+
+impl Extend<LinkSpecifier> for LinkItem {
+    fn extend<T: IntoIterator<Item = LinkSpecifier>>(&mut self, iter: T) {
+        iter.into_iter().for_each(|link| {
+            self.insert(link);
+        });
     }
 }
 
@@ -359,7 +409,86 @@ impl LinkItem {
         self
     }
 
-    fn insert(&mut self, value: Specifier) -> bool {
-        self.1.insert(value)
+    fn insert(&mut self, link: LinkSpecifier) -> bool {
+        self.2 |= (&link).into();
+        self.1.insert(link)
+    }
+}
+
+pub type ExportObjPropList = Vec<(JsWord, Span, Expr)>;
+
+/// Reduce self to generate ImportMap and ExportObjPropList
+pub trait LinkSpecifierReducer {
+    fn reduce(
+        self,
+        import_map: &mut ImportMap,
+        export_obj_prop_list: &mut ExportObjPropList,
+        mod_ident: &Ident,
+        ref_to_mod_ident: &mut bool,
+    );
+}
+
+impl LinkSpecifierReducer for AHashSet<LinkSpecifier> {
+    fn reduce(
+        self,
+        import_map: &mut ImportMap,
+        export_obj_prop_list: &mut ExportObjPropList,
+        mod_ident: &Ident,
+        ref_to_mod_ident: &mut bool,
+    ) {
+        self.into_iter().for_each(|s| match s {
+            LinkSpecifier::ImportNamed { imported, local } => {
+                *ref_to_mod_ident = true;
+
+                import_map.insert(
+                    local.clone(),
+                    (mod_ident.clone(), imported.or(Some(local.0))),
+                );
+            }
+            LinkSpecifier::ImportDefault(id) => {
+                *ref_to_mod_ident = true;
+
+                import_map.insert(id, (mod_ident.clone(), Some(js_word!("default"))));
+            }
+            LinkSpecifier::ImportStarAs(id) => {
+                *ref_to_mod_ident = true;
+
+                import_map.insert(id, (mod_ident.clone(), None));
+            }
+            LinkSpecifier::ExportNamed { orig, exported } => {
+                *ref_to_mod_ident = true;
+
+                let (key, span) = exported.unwrap_or_else(|| orig.clone());
+
+                let expr = {
+                    let (name, span) = orig;
+                    if is_valid_prop_ident(&name) {
+                        mod_ident.clone().make_member(quote_ident!(span, name))
+                    } else {
+                        mod_ident.clone().computed_member(Str {
+                            span,
+                            value: name,
+                            raw: None,
+                        })
+                    }
+                };
+                export_obj_prop_list.push((key, span, expr))
+            }
+            LinkSpecifier::ExportDefaultAs(default_span, key, span) => {
+                *ref_to_mod_ident = true;
+
+                let expr = mod_ident
+                    .clone()
+                    .make_member(quote_ident!(default_span, "default"));
+                export_obj_prop_list.push((key, span, expr))
+            }
+            LinkSpecifier::ExportStarAs(key, span) => {
+                *ref_to_mod_ident = true;
+
+                let expr = mod_ident.clone().into();
+                export_obj_prop_list.push((key, span, expr))
+            }
+            LinkSpecifier::ExportStar => {}
+        })
     }
 }
