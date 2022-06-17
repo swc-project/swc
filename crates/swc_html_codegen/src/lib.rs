@@ -487,7 +487,19 @@ where
                             }) if is_html_tag_name(*namespace, &**tag_name)
                                 && !matches!(
                                     &**tag_name,
-                                    "a" | "audio" | "del" | "ins" | "map" | "noscript" | "video"
+                                    "a" | "audio"
+                                        | "acronym"
+                                        | "big"
+                                        | "del"
+                                        | "font"
+                                        | "ins"
+                                        | "tt"
+                                        | "strike"
+                                        | "map"
+                                        | "noscript"
+                                        | "video"
+                                        | "kbd"
+                                        | "rbc"
                                 ) =>
                             {
                                 true
@@ -502,15 +514,29 @@ where
                     // An li element's end tag can be omitted if the li element is immediately
                     // followed by another li element or if there is no more content in the parent
                     // element.
-                    "li" => match next {
-                        Some(Child::Element(Element {
+                    "li" if match parent {
+                        Some(Element {
                             namespace,
                             tag_name,
                             ..
-                        })) if *namespace == Namespace::HTML && tag_name == "li" => true,
-                        None => true,
+                        }) if *namespace == Namespace::HTML
+                            && matches!(&**tag_name, "ul" | "ol" | "menu") =>
+                        {
+                            true
+                        }
                         _ => false,
-                    },
+                    } =>
+                    {
+                        match next {
+                            Some(Child::Element(Element {
+                                namespace,
+                                tag_name,
+                                ..
+                            })) if *namespace == Namespace::HTML && tag_name == "li" => true,
+                            None => true,
+                            _ => false,
+                        }
+                    }
                     // A dt element's end tag can be omitted if the dt element is immediately
                     // followed by another dt element or a dd element.
                     "dt" => match next {
@@ -1079,6 +1105,7 @@ fn is_html_tag_name(namespace: Namespace, tag_name: &str) -> bool {
     matches!(
         tag_name,
         "a" | "abbr"
+            | "acronym"
             | "address"
             | "applet"
             | "area"
@@ -1087,8 +1114,10 @@ fn is_html_tag_name(namespace: Namespace, tag_name: &str) -> bool {
             | "audio"
             | "b"
             | "base"
+            | "basefont"
             | "bdi"
             | "bdo"
+            | "big"
             | "blockquote"
             | "body"
             | "br"
@@ -1116,8 +1145,11 @@ fn is_html_tag_name(namespace: Namespace, tag_name: &str) -> bool {
             | "fieldset"
             | "figcaption"
             | "figure"
+            | "font"
             | "footer"
             | "form"
+            | "frame"
+            | "frameset"
             | "h1"
             | "h2"
             | "h3"
@@ -1135,6 +1167,9 @@ fn is_html_tag_name(namespace: Namespace, tag_name: &str) -> bool {
             | "img"
             | "input"
             | "ins"
+            | "isindex"
+            | "kbd"
+            | "keygen"
             | "label"
             | "legend"
             | "li"
@@ -1145,12 +1180,14 @@ fn is_html_tag_name(namespace: Namespace, tag_name: &str) -> bool {
             | "mark"
             | "marquee"
             | "menu"
-            | "menuitem"
+            // Removed from spec, but we keep here to track it
+            // | "menuitem"
             | "meta"
             | "meter"
             | "nav"
             | "nobr"
             | "noembed"
+            | "noframes"
             | "noscript"
             | "object"
             | "ol"
@@ -1160,10 +1197,12 @@ fn is_html_tag_name(namespace: Namespace, tag_name: &str) -> bool {
             | "p"
             | "param"
             | "picture"
+            | "plaintext"
             | "pre"
             | "progress"
             | "q"
             | "rb"
+            | "rbc"
             | "rp"
             | "rt"
             | "rtc"
@@ -1176,6 +1215,7 @@ fn is_html_tag_name(namespace: Namespace, tag_name: &str) -> bool {
             | "small"
             | "source"
             | "span"
+            | "strike"
             | "strong"
             | "style"
             | "sub"
@@ -1193,6 +1233,7 @@ fn is_html_tag_name(namespace: Namespace, tag_name: &str) -> bool {
             | "title"
             | "tr"
             | "track"
+            | "tt"
             | "u"
             | "ul"
             | "var"
