@@ -13,6 +13,9 @@
 
 - **(es/resolver)** Make catch parameter not disturb resolving (#4976) ([b3f6f20](https://github.com/swc-project/swc/commit/b3f6f20721b90b03a67c1db5d9680147ffe13923))
 
+
+- **(html/codegen)** Handle optional tags (#4986) ([41dc0a7](https://github.com/swc-project/swc/commit/41dc0a7aa9c7c48dd9a47b3ac61422419c3e879e))
+
 ### Documentation
 
 
