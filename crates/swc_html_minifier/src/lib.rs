@@ -279,6 +279,8 @@ struct Minifier {
 
     meta_element_content_type: Option<MetaElementContentType>,
 
+    force_set_html5_doctype: bool,
+
     descendant_of_pre: bool,
     collapse_whitespaces: Option<CollapseWhitespaces>,
 
@@ -596,6 +598,18 @@ impl Minifier {
 }
 
 impl VisitMut for Minifier {
+    fn visit_mut_document_type(&mut self, n: &mut DocumentType) {
+        n.visit_mut_children_with(self);
+
+        if !self.force_set_html5_doctype {
+            return;
+        }
+
+        n.name = Some("html".into());
+        n.system_id = None;
+        n.public_id = None;
+    }
+
     fn visit_mut_element(&mut self, n: &mut Element) {
         self.current_element_namespace = Some(n.namespace);
         self.current_element_tag_name = Some(n.tag_name.clone());
@@ -952,6 +966,8 @@ pub fn minify(document: &mut Document, options: &MinifyOptions) {
         current_element_text_children_type: None,
 
         meta_element_content_type: None,
+
+        force_set_html5_doctype: options.force_set_html5_doctype,
 
         descendant_of_pre: false,
         collapse_whitespaces: options.collapse_whitespaces.clone(),
