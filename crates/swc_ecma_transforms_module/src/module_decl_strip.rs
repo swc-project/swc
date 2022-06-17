@@ -21,6 +21,9 @@ pub struct ModuleDeclStrip {
     /// -> Map("1" => foo, bar => bar)
     pub export: Export,
 
+    /// `export = ` detected
+    pub export_assign: Option<Box<Expr>>,
+
     stmt: Option<Stmt>,
 }
 
@@ -237,6 +240,9 @@ impl VisitMut for ModuleDeclStrip {
         self.set_stmt(Stmt::Decl(var_decl.into()));
     }
 
+    /// ```javascript
+    /// export * from "mod";
+    /// ```
     fn visit_mut_export_all(&mut self, n: &mut ExportAll) {
         let Str {
             value: src_key,
@@ -250,6 +256,53 @@ impl VisitMut for ModuleDeclStrip {
             .mut_dummy_span(src_span)
             .insert(LinkSpecifier::ExportStar);
     }
+
+    /// ```javascript
+    /// import foo = require("mod");
+    /// export import foo = require("mod");
+    /// ```
+    fn visit_mut_ts_import_equals_decl(&mut self, n: &mut TsImportEqualsDecl) {
+        let TsImportEqualsDecl {
+            id,
+            module_ref,
+            is_export,
+            declare,
+            is_type_only,
+            ..
+        } = n;
+
+        if *declare || *is_type_only {
+            return;
+        }
+
+        if let TsModuleRef::TsExternalModuleRef(TsExternalModuleRef {
+            expr:
+                Str {
+                    span,
+                    value: src_key,
+                    ..
+                },
+            ..
+        }) = module_ref
+        {
+            if *is_export {
+                self.export.insert((id.sym.clone(), id.span), id.clone());
+            }
+
+            self.link
+                .entry(src_key.clone())
+                .or_default()
+                .mut_dummy_span(*span)
+                .insert(LinkSpecifier::ImportEqual(id.to_id()));
+        }
+    }
+
+    /// ```javascript
+    /// export = expr;
+    /// ```
+    fn visit_mut_ts_export_assignment(&mut self, n: &mut TsExportAssignment) {
+        self.export_assign = Some(n.expr.take());
+    }
 }
 
 #[derive(Debug, PartialEq, Eq, Hash)]
@@ -260,14 +313,17 @@ pub enum LinkSpecifier {
     /// ```
     /// Note: imported will never be `default`
     ImportNamed { imported: Option<JsWord>, local: Id },
+
     /// ```javascript
     /// import foo from "mod";
     /// ```
     ImportDefault(Id),
+
     /// ```javascript
     /// import * as foo from "mod";
     /// ```
     ImportStarAs(Id),
+
     /// ```javascript
     /// export { orig, orig as exported } from "mod";
     /// export { "orig", "orig" as "exported" } from "mod";
@@ -277,6 +333,7 @@ pub enum LinkSpecifier {
         orig: (JsWord, Span),
         exported: Option<(JsWord, Span)>,
     },
+
     /// ```javascript
     /// export { default } from "foo";
     /// export { "default" } from "foo";
@@ -284,15 +341,23 @@ pub enum LinkSpecifier {
     /// ```
     /// (default_span, local_sym, local_span)
     ExportDefaultAs(Span, JsWord, Span),
+
     /// ```javascript
     /// export * as foo from "mod";
     /// export * as "bar" from "mod";
     /// ```
     ExportStarAs(JsWord, Span),
+
     /// ```javascript
     /// export * from "mod";
     /// ```
     ExportStar,
+
+    /// ```javascript
+    /// import foo = require("foo");
+    /// ```
+    #[allow(unused)]
+    ImportEqual(Id),
 }
 
 impl From<ImportSpecifier> for LinkSpecifier {
@@ -333,7 +398,8 @@ impl From<ExportSpecifier> for LinkSpecifier {
                 ModuleExportName::Str(Str { span, value, .. }) => Self::ExportStarAs(value, span),
             },
             ExportSpecifier::Default(_) => {
-                unreachable!("`export default` does not support re-export")
+                // https://github.com/tc39/proposal-export-default-from
+                unreachable!("`export default` does not support re-export");
             }
             ExportSpecifier::Named(ExportNamedSpecifier { orig, exported, .. }) => {
                 let orig = match orig {
@@ -371,6 +437,25 @@ bitflags! {
         const DEFAULT = 1 << 1;
         const NAMESPACE = Self::NAMED.bits | Self::DEFAULT.bits;
         const RE_EXPORT = 1 << 2;
+        const IMPORT_EQUAL = 1 << 3;
+    }
+}
+
+impl LinkFlag {
+    pub fn interop(&self) -> bool {
+        self.intersects(Self::DEFAULT)
+    }
+
+    pub fn namespace(&self) -> bool {
+        self.contains(Self::NAMESPACE)
+    }
+
+    pub fn need_raw_import(&self) -> bool {
+        self.interop() && self.intersects(Self::IMPORT_EQUAL)
+    }
+
+    pub fn re_export(&self) -> bool {
+        self.intersects(Self::RE_EXPORT)
     }
 }
 
@@ -384,6 +469,7 @@ impl From<&LinkSpecifier> for LinkFlag {
             LinkSpecifier::ExportDefaultAs(..) => Self::DEFAULT,
             LinkSpecifier::ExportStarAs(..) => Self::NAMESPACE,
             LinkSpecifier::ExportStar => Self::RE_EXPORT,
+            LinkSpecifier::ImportEqual(..) => Self::IMPORT_EQUAL,
         }
     }
 }
@@ -420,6 +506,7 @@ pub trait LinkSpecifierReducer {
         import_map: &mut ImportMap,
         export_obj_prop_list: &mut ExportObjPropList,
         mod_ident: &Ident,
+        raw_mod_ident: &Option<Ident>,
         ref_to_mod_ident: &mut bool,
     );
 }
@@ -430,6 +517,7 @@ impl LinkSpecifierReducer for AHashSet<LinkSpecifier> {
         import_map: &mut ImportMap,
         export_obj_prop_list: &mut ExportObjPropList,
         mod_ident: &Ident,
+        raw_mod_ident: &Option<Ident>,
         ref_to_mod_ident: &mut bool,
     ) {
         self.into_iter().for_each(|s| match s {
@@ -485,6 +573,17 @@ impl LinkSpecifierReducer for AHashSet<LinkSpecifier> {
                 export_obj_prop_list.push((key, span, expr))
             }
             LinkSpecifier::ExportStar => {}
+            LinkSpecifier::ImportEqual(id) => {
+                *ref_to_mod_ident = true;
+
+                import_map.insert(
+                    id,
+                    (
+                        raw_mod_ident.clone().unwrap_or_else(|| mod_ident.clone()),
+                        None,
+                    ),
+                );
+            }
         })
     }
 }

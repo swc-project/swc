@@ -174,23 +174,34 @@ impl Amd {
 
         link.into_iter().for_each(
             |(src, LinkItem(src_span, link_specifier_set, mut link_flag))| {
+                if self.config.no_interop {
+                    link_flag -= LinkFlag::NAMESPACE;
+                }
+
+                let need_re_export = link_flag.re_export();
+                let need_interop = link_flag.interop();
+                let need_new_var = link_flag.need_raw_import();
+
                 let mod_ident = private_ident!(local_name_for_src(&src));
+                let new_var_ident = if need_new_var {
+                    private_ident!(local_name_for_src(&src))
+                } else {
+                    mod_ident.clone()
+                };
+
                 self.dep_list.push((mod_ident.clone(), src, src_span));
 
                 link_specifier_set.reduce(
                     import_map,
                     &mut export_obj_prop_list,
-                    &mod_ident,
+                    &new_var_ident,
+                    &Some(mod_ident.clone()),
                     &mut false,
                 );
 
-                if self.config.no_interop {
-                    link_flag -= LinkFlag::NAMESPACE;
-                }
-
-                if !(link_flag - LinkFlag::NAMED).is_empty() {
+                if need_re_export || need_interop {
                     // _reExport(exports, mod);
-                    let import_expr: Expr = if link_flag.contains(LinkFlag::RE_EXPORT) {
+                    let import_expr: Expr = if need_re_export {
                         CallExpr {
                             span: DUMMY_SP,
                             callee: helper!(re_export, "reExport"),
@@ -202,13 +213,13 @@ impl Amd {
                         mod_ident.clone().into()
                     };
 
-                    // mod = _introp(mod);
-                    let import_expr = if !link_flag.intersects(LinkFlag::DEFAULT) {
+                    // _introp(mod);
+                    let import_expr = if !need_interop {
                         import_expr
                     } else {
                         CallExpr {
                             span: DUMMY_SP,
-                            callee: if link_flag.contains(LinkFlag::NAMESPACE) {
+                            callee: if link_flag.namespace() {
                                 helper!(interop_require_wildcard, "interopRequireWildcard")
                             } else {
                                 helper!(interop_require_default, "interopRequireDefault")
@@ -216,10 +227,34 @@ impl Amd {
                             args: vec![import_expr.as_arg()],
                             type_args: Default::default(),
                         }
-                        .make_assign_to(op!("="), mod_ident.as_pat_or_expr())
+                        .into()
                     };
 
-                    stmts.push(import_expr.into_stmt())
+                    // mod = _introp(mod);
+                    // var mod1 = _introp(mod);
+                    let stmt = if need_new_var {
+                        let var_decl = VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Var,
+                            declare: false,
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: new_var_ident.into(),
+                                init: Some(Box::new(import_expr)),
+                                definite: false,
+                            }],
+                        };
+
+                        Decl::Var(var_decl).into()
+                    } else if need_interop {
+                        import_expr
+                            .make_assign_to(op!("="), mod_ident.as_pat_or_expr())
+                            .into_stmt()
+                    } else {
+                        import_expr.into_stmt()
+                    };
+
+                    stmts.push(stmt)
                 }
             },
         );

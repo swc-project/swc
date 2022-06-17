@@ -69,12 +69,15 @@ impl VisitMut for ModuleRefRewriter {
     fn visit_mut_callee(&mut self, n: &mut Callee) {
         match n {
             Callee::Expr(e) if e.is_ident() => {
-                let is_imported_callee =
-                    matches!(e.as_ident(), Some(i) if self.import_map.contains_key(&i.to_id()));
+                let is_indirect_callee = e
+                    .as_ident()
+                    .and_then(|ident| self.import_map.get(&ident.to_id()))
+                    .and_then(|(_, prop)| prop.as_ref())
+                    .is_some();
 
                 e.visit_mut_with(self);
 
-                if is_imported_callee {
+                if is_indirect_callee {
                     *n = n.take().into_indirect()
                 }
             }

@@ -5,7 +5,7 @@ use swc_ecma_parser::{Syntax, TsConfig};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
 use swc_ecma_transforms_module::amd_2::amd;
 use swc_ecma_transforms_testing::{test, test_fixture};
-use swc_ecma_transforms_typescript::strip::strip_with_config;
+use swc_ecma_transforms_typescript::{strip::strip_with_config, Config};
 use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
@@ -34,7 +34,13 @@ fn ts_tr() -> impl Fold {
 
     chain!(
         resolver(unresolved_mark, top_level_mark, true),
-        strip_with_config(Default::default(), top_level_mark),
+        strip_with_config(
+            Config {
+                preserve_import_equals: true,
+                ..Default::default()
+            },
+            top_level_mark
+        ),
         amd(unresolved_mark, Default::default()),
         hygiene(),
         fixer(None)
@@ -98,7 +104,7 @@ define(
         }
         (0, _modB.default)(c);
         _modB.default.b(_modB.c);
-        (0, _modC)((0, _modB["1"])(_modB.b), _modB.default);
+        _modC((0, _modB["1"])(_modB.b), _modB.default);
         (0, _modB.b)((0, _modB["1"])(_modB.b));
         _modB.b.c(_modC);
     }

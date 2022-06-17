@@ -1,7 +1,7 @@
 use swc_common::{util::take::Take, FileName, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::{private_ident, quote_ident, ExprFactory};
+use swc_ecma_utils::{member_expr, private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub use super::util::Config;
@@ -62,16 +62,36 @@ impl VisitMut for Cjs {
             stmts.push(use_strict().into());
         }
 
-        let ModuleDeclStrip { link, export, .. } = strip;
+        let ModuleDeclStrip {
+            link,
+            export,
+            export_assign,
+            ..
+        } = strip;
 
         let mut import_map = Default::default();
 
+        // `import` -> `require`
+        // `export` -> `_export(exports, {});`
         stmts.extend(
             self.handle_import_export(&mut import_map, link, export)
                 .map(Into::into),
         );
 
         stmts.extend(n.take());
+
+        // `export = expr;` -> `module.exports = expr;`
+        if let Some(export_assign) = export_assign {
+            stmts.push(
+                export_assign
+                    .make_assign_to(
+                        op!("="),
+                        member_expr!(DUMMY_SP.apply_mark(self.unresolved_mark), module.exports),
+                    )
+                    .into_stmt()
+                    .into(),
+            )
+        }
 
         stmts.visit_mut_children_with(&mut ModuleRefRewriter {
             import_map,
@@ -105,7 +125,14 @@ impl Cjs {
 
         link.into_iter().for_each(
             |(src, LinkItem(src_span, link_specifier_set, mut link_flag))| {
+                if self.config.no_interop {
+                    link_flag -= LinkFlag::NAMESPACE;
+                }
+
                 let mod_ident = private_ident!(local_name_for_src(&src));
+                let raw_mod_ident = link_flag
+                    .need_raw_import()
+                    .then(|| private_ident!(local_name_for_src(&src)));
 
                 let mut decl_mod_ident = false;
 
@@ -113,20 +140,24 @@ impl Cjs {
                     import_map,
                     &mut export_obj_prop_list,
                     &mod_ident,
+                    &raw_mod_ident,
                     &mut decl_mod_ident,
                 );
-
-                if self.config.no_interop {
-                    link_flag -= LinkFlag::NAMESPACE;
-                }
 
                 // require("mod");
                 let import_expr =
                     self.resolver
                         .make_require_call(self.unresolved_mark, src, src_span);
 
+                let import_require = raw_mod_ident.map(|raw_mod_ident| VarDeclarator {
+                    span: DUMMY_SP,
+                    name: raw_mod_ident.into(),
+                    init: Some(Box::new(import_expr.clone())),
+                    definite: false,
+                });
+
                 // _reExport(exports, require("mod"));
-                let import_expr = if link_flag.contains(LinkFlag::RE_EXPORT) {
+                let import_expr = if link_flag.re_export() {
                     CallExpr {
                         span: DUMMY_SP,
                         callee: helper!(re_export, "reExport"),
@@ -139,12 +170,12 @@ impl Cjs {
                 };
 
                 // _introp(require("mod"));
-                let import_expr = if !link_flag.intersects(LinkFlag::DEFAULT) {
+                let import_expr = if !link_flag.interop() {
                     import_expr
                 } else {
                     CallExpr {
                         span: DUMMY_SP,
-                        callee: if link_flag.contains(LinkFlag::NAMESPACE) {
+                        callee: if link_flag.namespace() {
                             helper!(interop_require_wildcard, "interopRequireWildcard")
                         } else {
                             helper!(interop_require_default, "interopRequireDefault")
@@ -167,7 +198,10 @@ impl Cjs {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
                         declare: false,
-                        decls: vec![var_declarator],
+                        decls: import_require
+                            .into_iter()
+                            .chain(Some(var_declarator))
+                            .collect(),
                     };
                     let stmt = Stmt::Decl(Decl::Var(var_decl));
 
