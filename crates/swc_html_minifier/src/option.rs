@@ -5,7 +5,7 @@ use swc_cached::regex::CachedRegex;
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]
 pub struct MinifyOptions {
-    #[serde(default = "false_by_default")]
+    #[serde(default)]
     pub force_set_html5_doctype: bool,
     #[serde(default)]
     pub collapse_whitespaces: Option<CollapseWhitespaces>,
@@ -60,6 +60,4 @@ fn default_preserve_comments() -> Option<Vec<CachedRegex>> {
         CachedRegex::new("^\\[if\\s[^\\]+]").unwrap(),
         CachedRegex::new("\\[endif]").unwrap(),
     ])
-const fn false_by_default() -> bool {
-    false
 }
