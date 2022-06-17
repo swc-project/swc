@@ -45,7 +45,8 @@
     <!-- @cc_on foo -->
     <!--! my custom comment -->
     <!--#include virtual="/cgi-bin/counter.pl" -->
-
+    <!--! test -->
+    <!-- ko if: someExpressionGoesHere --><li>test</li><!-- /ko -->
     <p class="accent">
         <!--[if IE]>
         According to the conditional comment this is IE<br />
@@ -78,7 +79,5 @@
         According to the conditional comment this is not IE 5-9<br />
         <!-- <![endif]-->
     </p>
-    <!--! test -->
-    <!-- ko if: someExpressionGoesHere --><li>test</li><!-- /ko -->
 </body>
 </html>
