@@ -598,6 +598,20 @@ impl Minifier {
 }
 
 impl VisitMut for Minifier {
+    fn visit_mut_document(&mut self, n: &mut Document) {
+        n.visit_mut_children_with(self);
+
+        n.children
+            .retain(|child| !matches!(child, Child::Comment(_)));
+    }
+
+    fn visit_mut_document_fragment(&mut self, n: &mut DocumentFragment) {
+        n.visit_mut_children_with(self);
+
+        n.children
+            .retain(|child| !matches!(child, Child::Comment(_)));
+    }
+
     fn visit_mut_document_type(&mut self, n: &mut DocumentType) {
         n.visit_mut_children_with(self);
 
