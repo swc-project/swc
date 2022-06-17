@@ -657,7 +657,7 @@ impl Minifier {
 
             meta_element_content_type: None,
 
-            force_set_html5_doctype: self.force_set_html5_doctype.clone(),
+            force_set_html5_doctype: self.force_set_html5_doctype,
 
             descendant_of_pre: false,
             collapse_whitespaces: self.collapse_whitespaces.clone(),
