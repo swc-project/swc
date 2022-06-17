@@ -514,15 +514,29 @@ where
                     // An li element's end tag can be omitted if the li element is immediately
                     // followed by another li element or if there is no more content in the parent
                     // element.
-                    "li" => match next {
-                        Some(Child::Element(Element {
+                    "li" if match parent {
+                        Some(Element {
                             namespace,
                             tag_name,
                             ..
-                        })) if *namespace == Namespace::HTML && tag_name == "li" => true,
-                        None => true,
+                        }) if *namespace == Namespace::HTML
+                            && matches!(&**tag_name, "ul" | "ol" | "menu") =>
+                        {
+                            true
+                        }
                         _ => false,
-                    },
+                    } =>
+                    {
+                        match next {
+                            Some(Child::Element(Element {
+                                namespace,
+                                tag_name,
+                                ..
+                            })) if *namespace == Namespace::HTML && tag_name == "li" => true,
+                            None => true,
+                            _ => false,
+                        }
+                    }
                     // A dt element's end tag can be omitted if the dt element is immediately
                     // followed by another dt element or a dd element.
                     "dt" => match next {
