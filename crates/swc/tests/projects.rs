@@ -50,7 +50,7 @@ fn file_with_opt(filename: &str, options: Options) -> Result<NormalizedOutput, S
             &Options {
                 config: Config {
                     is_module: IsModule::Bool(true),
-                    ..Default::default()
+                    ..options.config
                 },
                 ..options
             },
