@@ -1,3 +1,3 @@
-module.exports = B;
 export class C {
 }
+module.exports = B;

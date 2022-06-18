@@ -48,7 +48,10 @@ fn file_with_opt(filename: &str, options: Options) -> Result<NormalizedOutput, S
             fm,
             &handler,
             &Options {
-                is_module: IsModule::Bool(true),
+                config: Config {
+                    is_module: IsModule::Bool(true),
+                    ..options.config
+                },
                 ..options
             },
         );
@@ -83,7 +86,10 @@ fn compile_str(
             fm,
             &handler,
             &Options {
-                is_module: IsModule::Bool(true),
+                config: Config {
+                    is_module: IsModule::Bool(true),
+                    ..options.config
+                },
                 ..options
             },
         );
@@ -125,7 +131,10 @@ fn project(dir: &str) {
                 if c.read_config(
                     &Options {
                         swcrc: true,
-                        is_module: IsModule::Bool(true),
+                        config: Config {
+                            is_module: IsModule::Bool(true),
+                            ..Default::default()
+                        },
 
                         ..Default::default()
                     },
@@ -142,8 +151,10 @@ fn project(dir: &str) {
                     &handler,
                     &Options {
                         swcrc: true,
-                        is_module: IsModule::Bool(true),
-
+                        config: Config {
+                            is_module: IsModule::Bool(true),
+                            ..Default::default()
+                        },
                         ..Default::default()
                     },
                 ) {
@@ -192,8 +203,11 @@ fn par_project(dir: &str) {
                     fm,
                     &handler,
                     &Options {
+                        config: Config {
+                            is_module: IsModule::Bool(true),
+                            ..Default::default()
+                        },
                         swcrc: true,
-                        is_module: IsModule::Bool(true),
                         source_maps: Some(SourceMapsConfig::Bool(true)),
                         ..Default::default()
                     },
@@ -544,8 +558,8 @@ fn issue_879() {
     let f = file_with_opt(
         "tests/projects/issue-879/input.ts",
         Options {
-            is_module: IsModule::Bool(true),
             config: Config {
+                is_module: IsModule::Bool(true),
                 env: Some(Default::default()),
                 module: Some(ModuleConfig::CommonJs(Default::default())),
                 jsc: JscConfig {
@@ -619,8 +633,8 @@ fn issue_1549() {
     let output = str_with_opt(
         "const a = `\r\n`;",
         Options {
-            is_module: IsModule::Bool(true),
             config: Config {
+                is_module: IsModule::Bool(true),
                 jsc: JscConfig {
                     target: Some(EsVersion::Es5),
                     ..Default::default()
@@ -641,8 +655,8 @@ fn deno_10282_1() {
     let output = str_with_opt(
         "const a = `\r\n`;",
         Options {
-            is_module: IsModule::Bool(true),
             config: Config {
+                is_module: IsModule::Bool(true),
                 jsc: JscConfig {
                     target: Some(EsVersion::Es3),
                     ..Default::default()
@@ -663,8 +677,8 @@ fn deno_10282_2() {
     let output = str_with_opt(
         "const a = `\r\n`;",
         Options {
-            is_module: IsModule::Bool(true),
             config: Config {
+                is_module: IsModule::Bool(true),
                 jsc: JscConfig {
                     target: Some(EsVersion::Es2020),
                     ..Default::default()
@@ -717,8 +731,8 @@ fn should_visit() {
                     None,
                     &handler,
                     &swc::config::Options {
-                        is_module: IsModule::Bool(true),
                         config: swc::config::Config {
+                            is_module: IsModule::Bool(true),
                             jsc: JscConfig {
                                 syntax: Some(Syntax::Es(EsConfig {
                                     jsx: true,
@@ -830,9 +844,9 @@ fn tests(input_dir: PathBuf) {
                     &handler,
                     &Options {
                         swcrc: true,
-                        is_module: IsModule::Bool(true),
                         output_path: Some(output.join(entry.file_name())),
                         config: Config {
+                            is_module: IsModule::Bool(true),
                             jsc: JscConfig {
                                 external_helpers: true.into(),
                                 ..Default::default()
@@ -930,8 +944,8 @@ fn issue_2224() {
             private readonly property = TestClass.name;
         }"#,
         Options {
-            is_module: IsModule::Bool(true),
             config: Config {
+                is_module: IsModule::Bool(true),
                 jsc: JscConfig {
                     syntax: Some(Syntax::Typescript(TsConfig {
                         decorators: true,

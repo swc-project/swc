@@ -5,6 +5,14 @@
 
 
 
+- **(es/typescript)** Preserve `export = ` for AMD (#4995) ([d736b31](https://github.com/swc-project/swc/commit/d736b31e08771c3ca243e6875a11bef1a2937c85))
+
+## [1.2.204] - 2022-06-18
+
+### Bug Fixes
+
+
+
 - **(es/helpers)** Fix `module` field in `package.json` of `@swc/helpers` (#4978) ([5123c20](https://github.com/swc-project/swc/commit/5123c20b5d765db0fa645a1d4ba2820d5eeddc9c))
 
 
@@ -30,6 +38,9 @@
 
 ### Features
 
+
+
+- **(es/config)** Add `isModule` to `.swcrc` (#4993) ([e85c0db](https://github.com/swc-project/swc/commit/e85c0db92689d0eaf656ac869b6cb16ebec43b6f))
 
 
 - **(html/codegen)** Add option for tag omission of self closing void elements (#4971) ([d07ab2c](https://github.com/swc-project/swc/commit/d07ab2cb91a68ef88bd9adbdcc18217818a0c31d))

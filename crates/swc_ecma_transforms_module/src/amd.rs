@@ -545,6 +545,14 @@ impl Fold for Amd {
                     });
                 }
 
+                ModuleDecl::TsExportAssignment(TsExportAssignment { span, expr }) => extra_stmts
+                    .push(
+                        ReturnStmt {
+                            span,
+                            arg: Some(expr),
+                        }
+                        .into(),
+                    ),
                 _ => {}
             }
         }

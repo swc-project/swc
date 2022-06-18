@@ -1,9 +1,5 @@
 import _async_to_generator from "@swc/helpers/src/_async_to_generator.mjs";
 import regeneratorRuntime from "regenerator-runtime";
-// @module: umd
-// @target: esnext
-// @filename: something.ts
-module.exports = 42;
 // @filename: index.ts
 module.exports = _async_to_generator(regeneratorRuntime.mark(function _callee() {
     var something;
@@ -20,4 +16,7 @@ module.exports = _async_to_generator(regeneratorRuntime.mark(function _callee() 
         }
     }, _callee);
 }));
+// @module: umd
+// @target: esnext
+// @filename: something.ts
 export { };

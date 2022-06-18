@@ -6,7 +6,7 @@ include = ["Cargo.toml", "src/**/*.rs"]
 license = "Apache-2.0"
 name = "swc_webpack_ast"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.106.0"
+version = "0.108.0"
 
 [lib]
 bench = false
@@ -24,7 +24,7 @@ swc_ecma_transforms_base = {version = "0.89.0", path = "../swc_ecma_transforms_b
 swc_ecma_utils = {version = "0.86.0", path = "../swc_ecma_utils"}
 swc_ecma_visit = {version = "0.65.0", path = "../swc_ecma_visit"}
 swc_estree_ast = {version = "0.8.0", path = "../swc_estree_ast"}
-swc_estree_compat = {version = "0.108.0", path = "../swc_estree_compat"}
+swc_estree_compat = {version = "0.110.0", path = "../swc_estree_compat"}
 swc_timer = {version = "0.6.0", path = "../swc_timer"}
 tracing = "0.1.32"
 

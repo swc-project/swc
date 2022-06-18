@@ -34,7 +34,6 @@ var H = function H() {
     "use strict";
     _class_call_check(this, H);
 };
-module.exports = H;
 // @Filename: /i.ts
 var H = require("./h"); // Error
 var h = {};
@@ -47,8 +46,8 @@ K;
     K[K["One"] = 0] = "One";
     K[K["Two"] = 1] = "Two";
 })(K || (K = {}));
-module.exports = K;
 // @Filename: /l.ts
 var K = require("./k");
 0; // @Filename: /j.ts
  // Sad face https://github.com/microsoft/TypeScript/blob/6b04f5039429b9d412696fe2febe39ecc69ad365/src/testRunner/compilerRunner.ts#L207
+module.exports = K;

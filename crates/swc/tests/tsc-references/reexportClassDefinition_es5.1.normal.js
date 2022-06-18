@@ -7,12 +7,8 @@ var x = function x() {
     "use strict";
     _class_call_check(this, x);
 };
-module.exports = x;
 // @Filename: foo2.ts
 var foo1 = require("./foo1");
-module.exports = {
-    x: foo1
-};
 // @Filename: foo3.ts
 var foo2 = require("./foo2");
 var x = /*#__PURE__*/ function(_x) {
@@ -25,4 +21,7 @@ var x = /*#__PURE__*/ function(_x) {
     }
     return x;
 }(foo2.x);
+module.exports = {
+    x: foo1
+};
 export { };

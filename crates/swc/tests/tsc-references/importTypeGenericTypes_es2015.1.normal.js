@@ -1,4 +1,3 @@
-module.exports = Point;
 class Bar {
     constructor(input){}
 }
@@ -24,3 +23,4 @@ export class Bar2 {
 export let shim = {
     Bar: Bar2
 };
+module.exports = Point;
