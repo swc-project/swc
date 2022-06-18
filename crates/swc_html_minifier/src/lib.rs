@@ -5,17 +5,7 @@ use serde_json::Value;
 use swc_atoms::{js_word, JsWord};
 use swc_cached::regex::CachedRegex;
 use swc_common::{collections::AHashSet, sync::Lrc, FileName, FilePathMapping, Mark, SourceMap};
-use swc_css_codegen::{
-    writer::basic::{BasicCssWriter, BasicCssWriterConfig},
-    CodeGenerator as CssCodeGenerator, CodegenConfig as CssCodegenConfig,
-};
-use swc_css_parser::parse_file;
 use swc_html_ast::*;
-use swc_html_codegen::{
-    writer::basic::{BasicHtmlWriter, BasicHtmlWriterConfig},
-    CodeGenerator as HtmlCodeGenerator, CodegenConfig as HtmlCodegenConfig,
-};
-use swc_html_parser::parse_file_as_document_fragment;
 use swc_html_visit::{VisitMut, VisitMutWith};
 
 use crate::option::{CollapseWhitespaces, MinifyOptions};
@@ -785,7 +775,8 @@ impl Minifier {
         let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
         let fm = cm.new_source_file(FileName::Anon, data);
 
-        let mut stylesheet = match parse_file(&fm, Default::default(), &mut errors) {
+        let mut stylesheet = match swc_css_parser::parse_file(&fm, Default::default(), &mut errors)
+        {
             Ok(stylesheet) => stylesheet,
             _ => return None,
         };
@@ -798,8 +789,15 @@ impl Minifier {
         swc_css_minifier::minify(&mut stylesheet);
 
         let mut minified = String::new();
-        let wr = BasicCssWriter::new(&mut minified, None, BasicCssWriterConfig::default());
-        let mut gen = CssCodeGenerator::new(wr, CssCodegenConfig { minify: true });
+        let wr = swc_css_codegen::writer::basic::BasicCssWriter::new(
+            &mut minified,
+            None,
+            swc_css_codegen::writer::basic::BasicCssWriterConfig::default(),
+        );
+        let mut gen = swc_css_codegen::CodeGenerator::new(
+            wr,
+            swc_css_codegen::CodegenConfig { minify: true },
+        );
 
         swc_css_codegen::Emit::emit(&mut gen, &stylesheet).unwrap();
 
@@ -823,7 +821,7 @@ impl Minifier {
             content: None,
             is_self_closing: false,
         };
-        let mut document_fragment = match parse_file_as_document_fragment(
+        let mut document_fragment = match swc_html_parser::parse_file_as_document_fragment(
             &fm,
             context_element.clone(),
             Default::default(),
@@ -874,10 +872,14 @@ impl Minifier {
         });
 
         let mut minified = String::new();
-        let wr = BasicHtmlWriter::new(&mut minified, None, BasicHtmlWriterConfig::default());
-        let mut gen = HtmlCodeGenerator::new(
+        let wr = swc_html_codegen::writer::basic::BasicHtmlWriter::new(
+            &mut minified,
+            None,
+            swc_html_codegen::writer::basic::BasicHtmlWriterConfig::default(),
+        );
+        let mut gen = swc_html_codegen::CodeGenerator::new(
             wr,
-            HtmlCodegenConfig {
+            swc_html_codegen::CodegenConfig {
                 minify: true,
                 scripting_enabled: false,
                 context_element: Some(context_element),
