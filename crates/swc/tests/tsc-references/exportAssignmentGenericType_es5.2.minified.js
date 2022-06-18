@@ -3,4 +3,4 @@ var Foo = function() {
     "use strict";
     _class_call_check(this, Foo);
 };
-module.exports = Foo, new (require("./foo_0"))().test;
+new (require("./foo_0"))().test, module.exports = Foo;

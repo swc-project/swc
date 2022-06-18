@@ -471,7 +471,7 @@ impl Options {
             json_parse_pass
         );
 
-        let preserve_import_equals = matches!(&cfg.module, Some(ModuleConfig::Amd(..)));
+        let preserve_import_export_assign = matches!(&cfg.module, Some(ModuleConfig::Amd(..)));
 
         let pass = PassBuilder::new(
             cm,
@@ -612,7 +612,7 @@ impl Options {
                             ts_enum_is_readonly: assumptions.ts_enum_is_readonly,
                         },
                         use_define_for_class_fields: !assumptions.set_public_class_fields,
-                        preserve_import_equals,
+                        preserve_import_export_assign,
                         ..Default::default()
                     },
                     comments,
