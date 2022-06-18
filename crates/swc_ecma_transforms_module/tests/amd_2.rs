@@ -36,7 +36,7 @@ fn ts_tr() -> impl Fold {
         resolver(unresolved_mark, top_level_mark, true),
         strip_with_config(
             Config {
-                preserve_import_equals: true,
+                preserve_import_export_assign: true,
                 ..Default::default()
             },
             top_level_mark
