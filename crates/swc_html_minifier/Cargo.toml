@@ -25,6 +25,10 @@ swc_common = { version = "0.18.0", path = "../swc_common" }
 swc_css_codegen = { version = "0.103.0", path = "../swc_css_codegen" }
 swc_css_parser = { version = "0.102.0", path = "../swc_css_parser" }
 swc_css_minifier = { version = "0.68.0", path = "../swc_css_minifier" }
+swc_ecma_ast = { version = "0.79.0", path = "../swc_ecma_ast" }
+swc_ecma_codegen = { version = "0.109.1", path = "../swc_ecma_codegen" }
+swc_ecma_parser = { version = "0.105.3", path = "../swc_ecma_parser" }
+swc_ecma_minifier = { version = "0.121.0", path = "../swc_ecma_minifier" }
 swc_html_ast = { version = "0.10.0", path = "../swc_html_ast" }
 swc_html_codegen = { version = "0.14.0", path = "../swc_html_codegen" }
 swc_html_visit = { version = "0.10.0", path = "../swc_html_visit" }
