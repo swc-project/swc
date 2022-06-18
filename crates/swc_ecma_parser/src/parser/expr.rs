@@ -1155,6 +1155,10 @@ impl<I: Tokens> Parser<I> {
             None
         };
 
+        if obj.is_import() && !is_one_of!(self, '.', '(') {
+            unexpected!(self, "`.` or `(`")
+        }
+
         let question_dot_token = if is!(self, '?') && peeked_is!(self, '.') {
             let start = cur_pos!(self);
             eat!(self, '?');
