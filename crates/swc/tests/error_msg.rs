@@ -1,7 +1,7 @@
 use std::path::{Path, PathBuf};
 
 use swc::{
-    config::{IsModule, Options},
+    config::{Config, IsModule, Options},
     try_with_handler, Compiler, HandlerOpts,
 };
 use swc_common::{errors::ColorConfig, sync::Lrc, FilePathMapping, SourceMap};
@@ -17,8 +17,11 @@ fn file(f: impl AsRef<Path>) -> NormalizedOutput {
                 fm,
                 &handler,
                 &Options {
+                    config: Config {
+                        is_module: IsModule::Bool(true),
+                        ..Default::default()
+                    },
                     swcrc: true,
-                    is_module: IsModule::Bool(true),
                     ..Default::default()
                 },
             );
@@ -67,8 +70,11 @@ fn fixture(input: PathBuf) {
                 fm,
                 handler,
                 &Options {
+                    config: Config {
+                        is_module: IsModule::Unknown,
+                        ..Default::default()
+                    },
                     swcrc: true,
-                    is_module: IsModule::Unknown,
 
                     ..Default::default()
                 },

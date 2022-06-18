@@ -17,7 +17,10 @@ fn compile(src: &str, options: Options) -> String {
                 fm,
                 &handler,
                 &Options {
-                    is_module: IsModule::Bool(true),
+                    config: Config {
+                        is_module: IsModule::Bool(true),
+                        ..options.config
+                    },
                     ..options
                 },
             );
@@ -154,7 +157,10 @@ fn is_module_unknown_script() {
         source,
         Options {
             swcrc: false,
-            is_module: IsModule::Unknown,
+            config: Config {
+                is_module: IsModule::Unknown,
+                ..Default::default()
+            },
             ..Default::default()
         },
     );
@@ -171,7 +177,10 @@ fn is_module_unknown_module() {
         source,
         Options {
             swcrc: false,
-            is_module: IsModule::Unknown,
+            config: Config {
+                is_module: IsModule::Unknown,
+                ..Default::default()
+            },
             ..Default::default()
         },
     );

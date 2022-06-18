@@ -76,7 +76,7 @@ use crate::{
 #[cfg(test)]
 mod tests;
 
-#[derive(Clone, Debug, Copy)]
+#[derive(Clone, Debug, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum IsModule {
     Bool(bool),
     Unknown,
@@ -85,6 +85,14 @@ pub enum IsModule {
 impl Default for IsModule {
     fn default() -> Self {
         IsModule::Bool(true)
+    }
+}
+
+impl Merge for IsModule {
+    fn merge(&mut self, other: Self) {
+        if *self == Default::default() {
+            *self = other;
+        }
     }
 }
 
@@ -208,9 +216,6 @@ pub struct Options {
     pub source_root: Option<String>,
 
     #[serde(default)]
-    pub is_module: IsModule,
-
-    #[serde(default)]
     pub output_path: Option<PathBuf>,
 
     #[serde(default)]
@@ -297,7 +302,7 @@ impl Options {
             cfg.adjust(base);
         }
 
-        let is_module = self.is_module;
+        let is_module = self.config.is_module;
 
         let mut source_maps = self.source_maps.clone();
         source_maps.merge(cfg.source_maps.clone());
@@ -820,6 +825,9 @@ pub struct Config {
 
     #[serde(default)]
     pub error: ErrorConfig,
+
+    #[serde(default)]
+    pub is_module: IsModule,
 
     #[serde(rename = "$schema")]
     pub schema: Option<String>,
