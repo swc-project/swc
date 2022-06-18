@@ -30,11 +30,11 @@ fn file(f: &str) -> Result<(), StdErr> {
                 &handler,
                 &Options {
                     config: Config {
+                        is_module: IsModule::Bool(true),
                         inline_sources_content: true.into(),
                         ..Default::default()
                     },
                     swcrc: true,
-                    is_module: IsModule::Bool(true),
                     source_maps: Some(SourceMapsConfig::Bool(true)),
                     ..Default::default()
                 },
@@ -85,11 +85,11 @@ fn inline(f: &str) -> Result<(), StdErr> {
                 &handler,
                 &Options {
                     config: Config {
+                        is_module: IsModule::Bool(true),
                         inline_sources_content: true.into(),
                         ..Default::default()
                     },
                     swcrc: true,
-                    is_module: IsModule::Bool(true),
                     source_maps: Some(SourceMapsConfig::Str(String::from("inline"))),
                     ..Default::default()
                 },
