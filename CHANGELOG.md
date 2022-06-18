@@ -11,10 +11,16 @@
 - **(es/helpers)** Use `.mjs` extension in helper imports (#4979) ([9484cf8](https://github.com/swc-project/swc/commit/9484cf81a1cef43059bea98c20a6fa8cef6802d1))
 
 
+- **(es/parser)** Fix binary operator parsed as an instantiation expression (#4992) ([36ef3e4](https://github.com/swc-project/swc/commit/36ef3e4507d949187b83c1bf7ecd6b31eef50a73))
+
+
 - **(es/resolver)** Make catch parameter not disturb resolving (#4976) ([b3f6f20](https://github.com/swc-project/swc/commit/b3f6f20721b90b03a67c1db5d9680147ffe13923))
 
 
 - **(html/codegen)** Handle optional tags (#4986) ([41dc0a7](https://github.com/swc-project/swc/commit/41dc0a7aa9c7c48dd9a47b3ac61422419c3e879e))
+
+
+- **(html/minifier)** Fix removal of comments (#4974) ([8e63b0b](https://github.com/swc-project/swc/commit/8e63b0bbd528b48122a3cef1164a512fbd4952e8))
 
 ### Documentation
 
