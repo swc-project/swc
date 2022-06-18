@@ -5,6 +5,14 @@
 
 
 
+- **(es/typescript)** Preserve `export = ` for AMD (#4995) ([d736b31](https://github.com/swc-project/swc/commit/d736b31e08771c3ca243e6875a11bef1a2937c85))
+
+## [1.2.204] - 2022-06-18
+
+### Bug Fixes
+
+
+
 - **(es/helpers)** Fix `module` field in `package.json` of `@swc/helpers` (#4978) ([5123c20](https://github.com/swc-project/swc/commit/5123c20b5d765db0fa645a1d4ba2820d5eeddc9c))
 
 
