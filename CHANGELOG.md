@@ -43,6 +43,9 @@
 
 - **(html/minifier)** Add an option to set html5 doctype (#4980) ([fb74ace](https://github.com/swc-project/swc/commit/fb74ace19b2aa06f38ef0803bea500a8a5d8f165))
 
+
+- **(html/minifier)** Minify conditional comments (#4975) ([713a256](https://github.com/swc-project/swc/commit/713a256ed7fe9c3301d751575f298f1462434fc0))
+
 ### Performance
 
 
