@@ -556,7 +556,7 @@ impl<I: Tokens> Parser<I> {
 
         self.try_parse_ts(|p| {
             let type_args = p.parse_ts_type_args()?;
-            if p.is_start_of_expr()? {
+            if matches!(cur!(p, false), Ok(Token::BinOp(..))) || p.is_start_of_expr()? {
                 Ok(None)
             } else {
                 Ok(Some(type_args))
