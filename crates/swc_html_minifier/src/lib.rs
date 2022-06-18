@@ -946,83 +946,93 @@ impl VisitMut for Minifier {
                                 true
                             }
                             _ => false,
+        match &*n.tag_name {
+            "meta" if n.namespace == Namespace::HTML => {
+                if n.attributes.iter().any(|attribute| {
+                    match &*attribute.name.to_ascii_lowercase() {
+                        "name"
+                            if attribute.value.is_some()
+                                && &*attribute.value.as_ref().unwrap().to_ascii_lowercase()
+                                    == "viewport" =>
+                        {
+                            true
                         }
-                    }) {
-                        self.meta_element_content_type =
-                            Some(MetaElementContentType::CommaSeparated);
-                    } else if n.attributes.iter().any(|attribute| {
-                        match &*attribute.name.to_ascii_lowercase() {
-                            "http-equiv"
-                                if attribute.value.is_some()
-                                    && &*attribute.value.as_ref().unwrap().to_ascii_lowercase()
-                                        == "content-security-policy" =>
-                            {
-                                true
-                            }
-                            _ => false,
-                        }
-                    }) {
-                        self.meta_element_content_type =
-                            Some(MetaElementContentType::SemiSeparated);
+                        _ => false,
                     }
+                }) {
+                    self.meta_element_content_type = Some(MetaElementContentType::CommaSeparated);
+                } else if n.attributes.iter().any(|attribute| {
+                    match &*attribute.name.to_ascii_lowercase() {
+                        "http-equiv"
+                            if attribute.value.is_some()
+                                && &*attribute.value.as_ref().unwrap().to_ascii_lowercase()
+                                    == "content-security-policy" =>
+                        {
+                            true
+                        }
+                        _ => false,
+                    }
+                }) {
+                    self.meta_element_content_type = Some(MetaElementContentType::SemiSeparated);
                 }
-                "script"
-                    if !n
+            }
+            "script"
+                if (self.minify_json || self.minify_js)
+                    && !n
                         .attributes
                         .iter()
                         .any(|attribute| matches!(&*attribute.name, "src"))
-                        && (self.minify_json || self.minify_js) =>
-                {
-                    let type_attribute_value = self
-                        .get_attribute_value(&n.attributes, "type")
-                        .map(|v| v.trim().to_ascii_lowercase());
+                    && matches!(n.namespace, Namespace::HTML | Namespace::SVG) =>
+            {
+                let type_attribute_value = self
+                    .get_attribute_value(&n.attributes, "type")
+                    .map(|v| v.trim().to_ascii_lowercase());
 
-                    match type_attribute_value.as_deref() {
-                        Some("module") if self.minify_js => {
-                            self.current_element_text_children_type =
-                                Some(TextChildrenType::Module);
-                        }
-                        Some(
-                            "text/javascript"
-                            | "text/ecmascript"
-                            | "text/jscript"
-                            | "application/javascript"
-                            | "application/x-javascript"
-                            | "application/ecmascript",
-                        )
-                        | None
-                            if self.minify_js =>
-                        {
-                            self.current_element_text_children_type =
-                                Some(TextChildrenType::Script);
-                        }
-                        Some(
-                            "application/json"
-                            | "application/ld+json"
-                            | "importmap"
-                            | "speculationrules",
-                        ) if self.minify_json => {
-                            self.current_element_text_children_type = Some(TextChildrenType::Json);
-                        }
-                        _ => {}
+                match type_attribute_value.as_deref() {
+                    Some("module") if self.minify_js => {
+                        self.current_element_text_children_type = Some(TextChildrenType::Module);
                     }
-                }
-                "style" if self.minify_css => {
-                    let type_attribute_value = self
-                        .get_attribute_value(&n.attributes, "type")
-                        .map(|v| v.trim().to_ascii_lowercase());
-
-                    if type_attribute_value.is_none()
-                        || type_attribute_value.as_deref() == Some("text/css")
+                    Some(
+                        "text/javascript"
+                        | "text/ecmascript"
+                        | "text/jscript"
+                        | "application/javascript"
+                        | "application/x-javascript"
+                        | "application/ecmascript",
+                    )
+                    | None
+                        if self.minify_js =>
                     {
-                        self.current_element_text_children_type = Some(TextChildrenType::Css);
+                        self.current_element_text_children_type = Some(TextChildrenType::Script);
                     }
+                    Some(
+                        "application/json"
+                        | "application/ld+json"
+                        | "importmap"
+                        | "speculationrules",
+                    ) if self.minify_json => {
+                        self.current_element_text_children_type = Some(TextChildrenType::Json);
+                    }
+                    _ => {}
                 }
-                "pre" if whitespace_minification_mode.is_some() => {
-                    self.descendant_of_pre = true;
-                }
-                _ => {}
             }
+            "style"
+                if self.minify_css && matches!(n.namespace, Namespace::HTML | Namespace::SVG) =>
+            {
+                let type_attribute_value = self
+                    .get_attribute_value(&n.attributes, "type")
+                    .map(|v| v.trim().to_ascii_lowercase());
+
+                if type_attribute_value.is_none()
+                    || type_attribute_value.as_deref() == Some("text/css")
+                {
+                    self.current_element_text_children_type = Some(TextChildrenType::Css);
+                }
+            }
+            "pre" if n.namespace == Namespace::HTML && whitespace_minification_mode.is_some() => {
+                self.descendant_of_pre = true;
+            }
+            _ => {}
         }
 
         self.minify_children(&mut n.children);
@@ -1208,6 +1218,11 @@ impl VisitMut for Minifier {
             if value.trim().to_lowercase().starts_with("javascript:") {
                 value = value.chars().skip(11).collect();
             }
+
+            value = match self.minify_js(value.clone(), false) {
+                Some(minified) => minified,
+                _ => value,
+            };
         }
 
         n.value = Some(value.into());
