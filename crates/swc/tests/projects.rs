@@ -88,7 +88,7 @@ fn compile_str(
             &Options {
                 config: Config {
                     is_module: IsModule::Bool(true),
-                    ..Default::default()
+                    ..options.config
                 },
                 ..options
             },
