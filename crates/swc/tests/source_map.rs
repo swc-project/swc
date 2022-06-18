@@ -162,8 +162,11 @@ fn stacktrace(input_dir: PathBuf) {
                     fm,
                     &handler,
                     &Options {
+                        config: Config {
+                            is_module: IsModule::Bool(true),
+                            ..Default::default()
+                        },
                         swcrc: true,
-                        is_module: IsModule::Bool(true),
                         source_maps: Some(SourceMapsConfig::Str("inline".to_string())),
                         ..Default::default()
                     },
@@ -317,9 +320,9 @@ fn should_work_with_emit_source_map_columns() {
             &handler,
             &Options {
                 swcrc: false,
-                is_module: IsModule::Bool(true),
                 source_maps: Some(SourceMapsConfig::Bool(true)),
                 config: Config {
+                    is_module: IsModule::Bool(true),
                     inline_sources_content: true.into(),
                     emit_source_map_columns: true.into(),
                     ..Default::default()
@@ -352,9 +355,9 @@ fn should_work_with_emit_source_map_columns() {
             &handler,
             &Options {
                 swcrc: false,
-                is_module: IsModule::Bool(true),
                 source_maps: Some(SourceMapsConfig::Bool(true)),
                 config: Config {
+                    is_module: IsModule::Bool(true),
                     inline_sources_content: true.into(),
                     emit_source_map_columns: false.into(),
                     ..Default::default()
