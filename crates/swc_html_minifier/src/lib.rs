@@ -849,6 +849,26 @@ impl Minifier {
         );
 
         document_fragment.visit_mut_with(&mut minifier);
+            current_element_text_children_type: None,
+
+            meta_element_content_type: None,
+
+            force_set_html5_doctype: self.force_set_html5_doctype,
+
+            descendant_of_pre: false,
+            collapse_whitespaces: self.collapse_whitespaces.clone(),
+
+            remove_empty_attributes: self.remove_empty_attributes,
+            collapse_boolean_attributes: self.collapse_boolean_attributes,
+
+            minify_js: self.minify_js,
+            minify_json: self.minify_json,
+            minify_css: self.minify_css,
+
+            preserve_comments: self.preserve_comments.clone(),
+
+            minify_conditional_comments: self.minify_conditional_comments,
+        });
 
         let mut minified = String::new();
         let wr = BasicHtmlWriter::new(&mut minified, None, BasicHtmlWriterConfig::default());
@@ -1362,9 +1382,7 @@ fn create_minifier(context_element: Option<&Element>, options: &MinifyOptions) -
         collapse_boolean_attributes: options.collapse_boolean_attributes,
 
         minify_js: options.minify_js,
-
         minify_json: options.minify_json,
-
         minify_css: options.minify_css,
 
         preserve_comments: options.preserve_comments.clone(),

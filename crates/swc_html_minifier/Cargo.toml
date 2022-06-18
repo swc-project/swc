@@ -27,10 +27,10 @@ swc_css_parser = { version = "0.102.0", path = "../swc_css_parser" }
 swc_css_minifier = { version = "0.68.0", path = "../swc_css_minifier" }
 swc_ecma_ast = { version = "0.79.0", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "0.109.1", path = "../swc_ecma_codegen" }
-swc_ecma_parser = { version = "0.105.3", path = "../swc_ecma_parser" }
-swc_ecma_minifier = { version = "0.121.0", path = "../swc_ecma_minifier" }
+swc_ecma_parser = { version = "0.105.5", path = "../swc_ecma_parser" }
+swc_ecma_minifier = { version = "0.122.0", path = "../swc_ecma_minifier" }
 swc_html_ast = { version = "0.10.0", path = "../swc_html_ast" }
-swc_html_codegen = { version = "0.14.0", path = "../swc_html_codegen" }
+swc_html_codegen = { version = "0.14.1", path = "../swc_html_codegen" }
 swc_html_visit = { version = "0.10.0", path = "../swc_html_visit" }
 swc_html_parser = { version = "0.13.0", path = "../swc_html_parser" }
 
