@@ -1,4 +1,5 @@
 "use strict";
-let a = 1;
-module.exports = a;
-a = 2;
+var _foo = require("foo");
+_foo.bar = 1;
+module.exports = _foo;
+_foo.bar = 2;

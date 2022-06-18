@@ -1,5 +1,7 @@
-let a = 1;
+import foo = require("foo");
 
-export = a;
+foo.bar = 1;
 
-a = 2;
+export = foo;
+
+foo.bar = 2;
