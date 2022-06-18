@@ -208,9 +208,6 @@ pub struct Options {
     pub source_root: Option<String>,
 
     #[serde(default)]
-    pub is_module: IsModule,
-
-    #[serde(default)]
     pub output_path: Option<PathBuf>,
 
     #[serde(default)]
@@ -820,6 +817,9 @@ pub struct Config {
 
     #[serde(default)]
     pub error: ErrorConfig,
+
+    #[serde(default)]
+    pub is_module: IsModule,
 
     #[serde(rename = "$schema")]
     pub schema: Option<String>,
