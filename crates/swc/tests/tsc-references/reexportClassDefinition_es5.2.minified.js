@@ -4,13 +4,7 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
 var x = function() {
     "use strict";
     _class_call_check(this, x);
-};
-module.exports = x;
-var foo1 = require("./foo1");
-module.exports = {
-    x: foo1
-};
-var x = function(_x) {
+}, foo1 = require("./foo1"), foo2 = require("./foo2"), x = function(_x) {
     "use strict";
     _inherits(x, _x);
     var _super = _create_super(x);
@@ -18,4 +12,7 @@ var x = function(_x) {
         return _class_call_check(this, x), _super.apply(this, arguments);
     }
     return x;
-}(require("./foo2").x);
+}(foo2.x);
+module.exports = {
+    x: foo1
+};

@@ -1,4 +1,3 @@
-module.exports = a;
+import * as a from './a';
 let a = require('./b');
-new a.A();
-export { };
+new a.A(), module.exports = a;

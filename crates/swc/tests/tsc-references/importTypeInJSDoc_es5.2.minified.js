@@ -1,4 +1,4 @@
-module.exports = MyClass, new Foo({
+new Foo({
     doer: Foo.Bar
-});
+}), module.exports = MyClass;
 export { };

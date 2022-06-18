@@ -73,6 +73,7 @@ C._ = [
         _get(_get_prototype_of(C), "w", C).call(C);
     }(),
     function() {
+        ;
         _get(_get_prototype_of(C), "w", C).call(C);
     }(),
     function() {
@@ -156,6 +157,7 @@ var __7 = {
 var __8 = {
     writable: true,
     value: function() {
+        ;
         _superprop_get_w().call(_this);
     }()
 };

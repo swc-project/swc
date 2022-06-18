@@ -18,11 +18,11 @@ var Foo;
         var answer = Test.answer = 42;
     })(Test = Foo.Test || (Foo.Test = {}));
 })(Foo || (Foo = {}));
-module.exports = Foo;
 // @Filename: foo_1.ts
 var foo = require("./foo_0");
 var a = foo.a();
 if (!!foo.b) {
     foo.Test.answer = foo.c(42);
 }
+module.exports = Foo;
 export { };

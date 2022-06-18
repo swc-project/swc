@@ -1,4 +1,4 @@
-import { I, T } from "./t1";
+import { I, T, a } from "./t1";
 var E, D, M, v = 1;
 function f() {}
 class C {

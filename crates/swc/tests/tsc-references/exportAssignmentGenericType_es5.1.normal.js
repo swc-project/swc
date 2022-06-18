@@ -5,9 +5,9 @@ var Foo = function Foo() {
     "use strict";
     _class_call_check(this, Foo);
 };
-module.exports = Foo;
 // @Filename: foo_1.ts
 var foo = require("./foo_0");
 var x = new foo();
 var y = x.test;
+module.exports = Foo;
 export { };

@@ -7,7 +7,6 @@ var x = function x() {
     "use strict";
     _class_call_check(this, x);
 };
-module.exports = x;
 // @Filename: foo2.ts
 var foo1 = require("./foo1");
 var x = foo1;
@@ -21,4 +20,5 @@ var y = /*#__PURE__*/ function(x) {
     }
     return y;
 }(x);
+module.exports = x;
 export { };
