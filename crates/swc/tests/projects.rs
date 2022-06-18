@@ -48,7 +48,10 @@ fn file_with_opt(filename: &str, options: Options) -> Result<NormalizedOutput, S
             fm,
             &handler,
             &Options {
-                is_module: IsModule::Bool(true),
+                config: Config {
+                    is_module: IsModule::Bool(true),
+                    ..Default::default()
+                },
                 ..options
             },
         );
@@ -83,7 +86,10 @@ fn compile_str(
             fm,
             &handler,
             &Options {
-                is_module: IsModule::Bool(true),
+                config: Config {
+                    is_module: IsModule::Bool(true),
+                    ..Default::default()
+                },
                 ..options
             },
         );
@@ -125,7 +131,10 @@ fn project(dir: &str) {
                 if c.read_config(
                     &Options {
                         swcrc: true,
-                        is_module: IsModule::Bool(true),
+                        config: Config {
+                            is_module: IsModule::Bool(true),
+                            ..Default::default()
+                        },
 
                         ..Default::default()
                     },
@@ -142,8 +151,10 @@ fn project(dir: &str) {
                     &handler,
                     &Options {
                         swcrc: true,
-                        is_module: IsModule::Bool(true),
-
+                        config: Config {
+                            is_module: IsModule::Bool(true),
+                            ..Default::default()
+                        },
                         ..Default::default()
                     },
                 ) {
