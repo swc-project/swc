@@ -32,6 +32,9 @@
 
 
 
+- **(es/config)** Add `isModule` to `.swcrc` (#4993) ([e85c0db](https://github.com/swc-project/swc/commit/e85c0db92689d0eaf656ac869b6cb16ebec43b6f))
+
+
 - **(html/codegen)** Add option for tag omission of self closing void elements (#4971) ([d07ab2c](https://github.com/swc-project/swc/commit/d07ab2cb91a68ef88bd9adbdcc18217818a0c31d))
 
 
