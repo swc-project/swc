@@ -67,7 +67,12 @@ impl VisitMut for Amd {
             stmts.push(use_strict());
         }
 
-        let ModuleDeclStrip { link, export, .. } = strip;
+        let ModuleDeclStrip {
+            link,
+            export,
+            export_assign,
+            ..
+        } = strip;
 
         let mut import_map = Default::default();
 
@@ -82,6 +87,15 @@ impl VisitMut for Amd {
             }
             ModuleItem::Stmt(stmt) => stmt,
         }));
+
+        if let Some(export_assign) = export_assign {
+            let return_stmt = ReturnStmt {
+                span: DUMMY_SP,
+                arg: Some(export_assign),
+            };
+
+            stmts.push(return_stmt.into())
+        }
 
         stmts.visit_mut_children_with(&mut ModuleRefRewriter {
             import_map,
