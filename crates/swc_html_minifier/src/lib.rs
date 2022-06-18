@@ -720,6 +720,8 @@ impl Minifier {
         let options = swc_ecma_minifier::option::MinifyOptions {
             compress: Some(swc_ecma_minifier::option::CompressOptions {
                 ecma: target,
+                module: is_module,
+                negate_iife: false,
                 ..Default::default()
             }),
             mangle: Some(swc_ecma_minifier::option::MangleOptions {
@@ -758,6 +760,7 @@ impl Minifier {
             let mut emitter = swc_ecma_codegen::Emitter {
                 cfg: swc_ecma_codegen::Config {
                     minify: true,
+                    target,
                     ..Default::default()
                 },
                 cm,
