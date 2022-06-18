@@ -2,6 +2,13 @@
 <html>
     <head>
         <title>Party Coffee Cake</title>
+        <!--[if lte IE 8]><script>
+
+
+        alert("ie8!" + "test")
+
+
+        </script><![endif]-->
         <script type="application/ld+json">
             {
                 "@context": "https://schema.org/",
@@ -116,6 +123,15 @@
         <script>
             <!-- test -->
             const foo = "test" + "test";
+        </script>
+        <script>alert('<!--')</script>
+        <script>alert('<!-- foo -->')</script>
+        <script>alert('-->')</script>
+        <script><!-- alert(1) --></script>
+        <script type="text/javascript">
+            // <![CDATA[
+            alert("test" + "test");
+            // ]]>
         </script>
     </head>
 <body>
