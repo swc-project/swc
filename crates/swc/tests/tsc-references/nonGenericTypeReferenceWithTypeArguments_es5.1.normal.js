@@ -15,7 +15,6 @@ function f() {
         "use strict";
         _class_call_check(this, C);
     };
-    ;
     var E;
     (function(E) {})(E || (E = {}));
     var v1;

@@ -55,7 +55,6 @@ C._ = [
         _get(_get_prototype_of(C), "w", C).call(C);
     })(),
     (()=>{
-        ;
         _get(_get_prototype_of(C), "w", C).call(C);
     })(),
     (()=>{
@@ -135,7 +134,6 @@ var __7 = {
 var __8 = {
     writable: true,
     value: (()=>{
-        ;
         super.w();
     })()
 };

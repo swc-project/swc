@@ -14,7 +14,6 @@ function f1() {
         "use strict";
         _class_call_check(this, C);
     };
-    ;
     var a = [
         new C()
     ];
@@ -33,7 +32,6 @@ function f2() {
             "use strict";
             _class_call_check(this, C);
         };
-        ;
         var a = [
             new C()
         ];
@@ -55,7 +53,6 @@ function f3(b) {
                 "use strict";
                 _class_call_check(this, C);
             };
-            ;
             var a = [
                 new C()
             ];
@@ -66,7 +63,6 @@ function f3(b) {
                 "use strict";
                 _class_call_check(this, A);
             };
-            ;
             var c = [
                 new A()
             ];

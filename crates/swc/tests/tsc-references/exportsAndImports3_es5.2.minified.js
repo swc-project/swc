@@ -1,5 +1,5 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-import { I1 as I, T1 as T, a1 as a } from "./t1";
+import { I1 as I, T1 as T } from "./t1";
 export var v = 1;
 export function f() {}
 export var C = function() {

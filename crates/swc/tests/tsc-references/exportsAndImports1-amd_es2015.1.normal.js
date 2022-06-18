@@ -1,5 +1,5 @@
 // @filename: t3.ts
-import { I, T, a } from "./t1";
+import { I, T } from "./t1";
 // @module: amd
 // @target: ES5
 // @filename: t1.ts

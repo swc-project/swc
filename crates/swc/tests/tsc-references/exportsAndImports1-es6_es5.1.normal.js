@@ -1,6 +1,6 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 // @filename: t3.ts
-import { I, T, a } from "./t1";
+import { I, T } from "./t1";
 // @target: es6
 // @module: commonjs
 // @filename: t1.ts

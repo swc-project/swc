@@ -2414,6 +2414,7 @@ where
         self.keys = orig_keys;
 
         *items = stmts;
+        *items = self.handle_module_items(take(items), None);
     }
 
     fn visit_mut_object_pat(&mut self, pat: &mut ObjectPat) {
