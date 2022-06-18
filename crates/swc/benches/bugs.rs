@@ -3,7 +3,7 @@ extern crate swc_node_base;
 use std::{io::stderr, path::Path};
 
 use criterion::{criterion_group, criterion_main, Bencher, Criterion};
-use swc::config::{IsModule, Options};
+use swc::config::{Config, IsModule, Options};
 use swc_common::{errors::Handler, sync::Lrc, FilePathMapping, SourceMap};
 
 fn mk() -> swc::Compiler {
@@ -25,7 +25,10 @@ fn bench_file(b: &mut Bencher, path: &Path) {
                 fm,
                 &handler,
                 &Options {
-                    is_module: IsModule::Bool(true),
+                    config: Config {
+                        is_module: IsModule::Bool(true),
+                        ..Default::default()
+                    },
                     ..Default::default()
                 },
             )
