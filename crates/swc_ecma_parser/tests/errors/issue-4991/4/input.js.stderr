@@ -1,0 +1,6 @@
+
+  x Expected ident
+   ,-[$DIR/tests/errors/issue-4991/4/input.js:1:1]
+ 1 | console.log(import.[meta]);
+   :                    ^
+   `----
