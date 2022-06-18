@@ -1,15 +1,21 @@
 #![deny(clippy::all)]
 
+use once_cell::sync::Lazy;
 use serde_json::Value;
 use swc_atoms::{js_word, JsWord};
 use swc_cached::regex::CachedRegex;
 use swc_common::{collections::AHashSet, sync::Lrc, FileName, FilePathMapping, SourceMap};
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig},
-    CodeGenerator, CodegenConfig, Emit,
+    CodeGenerator as CssCodeGenerator, CodegenConfig as CssCodegenConfig,
 };
 use swc_css_parser::parse_file;
 use swc_html_ast::*;
+use swc_html_codegen::{
+    writer::basic::{BasicHtmlWriter, BasicHtmlWriterConfig},
+    CodeGenerator as HtmlCodeGenerator, CodegenConfig as HtmlCodegenConfig,
+};
+use swc_html_parser::parse_file_as_document_fragment;
 use swc_html_visit::{VisitMut, VisitMutWith};
 
 use crate::option::{CollapseWhitespaces, MinifyOptions};
@@ -271,6 +277,12 @@ struct WhitespaceMinificationMode {
     pub collapse: bool,
 }
 
+pub static CONDITIONAL_COMMENT_START: Lazy<CachedRegex> =
+    Lazy::new(|| CachedRegex::new("^\\[if\\s[^\\]+]").unwrap());
+
+pub static CONDITIONAL_COMMENT_END: Lazy<CachedRegex> =
+    Lazy::new(|| CachedRegex::new("\\[endif]").unwrap());
+
 struct Minifier {
     current_element_namespace: Option<Namespace>,
     current_element_tag_name: Option<JsWord>,
@@ -288,6 +300,7 @@ struct Minifier {
     collapse_boolean_attributes: bool,
     minify_css: bool,
     preserve_comments: Option<Vec<CachedRegex>>,
+    minify_conditional_comments: bool,
 }
 
 impl Minifier {
@@ -471,6 +484,14 @@ impl Minifier {
         false
     }
 
+    fn is_conditional_comment(&self, data: &str) -> bool {
+        if CONDITIONAL_COMMENT_START.is_match(data) || CONDITIONAL_COMMENT_END.is_match(data) {
+            return true;
+        }
+
+        false
+    }
+
     fn get_whitespace_minification_for_tag(
         &self,
         mode: &CollapseWhitespaces,
@@ -589,9 +610,82 @@ impl Minifier {
 
         let mut minified = String::new();
         let wr = BasicCssWriter::new(&mut minified, None, BasicCssWriterConfig::default());
-        let mut gen = CodeGenerator::new(wr, CodegenConfig { minify: true });
+        let mut gen = CssCodeGenerator::new(wr, CssCodegenConfig { minify: true });
 
-        gen.emit(&stylesheet).unwrap();
+        swc_css_codegen::Emit::emit(&mut gen, &stylesheet).unwrap();
+
+        Some(minified)
+    }
+
+    fn minify_html(&self, data: String) -> Option<String> {
+        let mut errors: Vec<_> = vec![];
+
+        let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
+        let fm = cm.new_source_file(FileName::Anon, data);
+
+        // Emulate content inside conditional comments like content inside the
+        // `template` element
+        let context_element = Element {
+            span: Default::default(),
+            tag_name: "template".into(),
+            namespace: Namespace::HTML,
+            attributes: vec![],
+            children: vec![],
+            content: None,
+            is_self_closing: false,
+        };
+        let mut document_fragment = match parse_file_as_document_fragment(
+            &fm,
+            context_element.clone(),
+            Default::default(),
+            &mut errors,
+        ) {
+            Ok(document_fragment) => document_fragment,
+            _ => return None,
+        };
+
+        // Avoid compress potential invalid CSS
+        if !errors.is_empty() {
+            return None;
+        }
+
+        document_fragment.visit_mut_with(&mut Minifier {
+            current_element_namespace: None,
+            current_element_tag_name: None,
+
+            current_element_text_children_type: None,
+
+            meta_element_content_type: None,
+
+            force_set_html5_doctype: self.force_set_html5_doctype,
+
+            descendant_of_pre: false,
+            collapse_whitespaces: self.collapse_whitespaces.clone(),
+
+            remove_empty_attributes: self.remove_empty_attributes,
+            collapse_boolean_attributes: self.collapse_boolean_attributes,
+
+            minify_css: self.minify_css,
+
+            preserve_comments: self.preserve_comments.clone(),
+
+            minify_conditional_comments: self.minify_conditional_comments,
+        });
+
+        let mut minified = String::new();
+        let wr = BasicHtmlWriter::new(&mut minified, None, BasicHtmlWriterConfig::default());
+        let mut gen = HtmlCodeGenerator::new(
+            wr,
+            HtmlCodegenConfig {
+                minify: true,
+                scripting_enabled: false,
+                context_element: Some(context_element),
+                tag_omission: None,
+                self_closing_void_elements: None,
+            },
+        );
+
+        swc_html_codegen::Emit::emit(&mut gen, &document_fragment).unwrap();
 
         Some(minified)
     }
@@ -970,6 +1064,46 @@ impl VisitMut for Minifier {
             _ => {}
         }
     }
+
+    fn visit_mut_comment(&mut self, n: &mut Comment) {
+        n.visit_mut_children_with(self);
+
+        if !self.minify_conditional_comments {
+            return;
+        }
+
+        if self.is_conditional_comment(&n.data) && n.data.len() > 0 {
+            let start_pos = match n.data.find("]>") {
+                Some(start_pos) => start_pos,
+                _ => return,
+            };
+            let end_pos = match n.data.find("<![") {
+                Some(end_pos) => end_pos,
+                _ => return,
+            };
+
+            let html = n
+                .data
+                .chars()
+                .skip(start_pos)
+                .take(end_pos - start_pos)
+                .collect();
+
+            let minified = match self.minify_html(html) {
+                Some(minified) => minified,
+                _ => return,
+            };
+            let before: String = n.data.chars().take(start_pos).collect();
+            let after: String = n.data.chars().skip(end_pos).take(n.data.len()).collect();
+            let mut data = String::with_capacity(n.data.len());
+
+            data.push_str(&before);
+            data.push_str(&minified);
+            data.push_str(&after);
+
+            n.data = data.into();
+        }
+    }
 }
 
 pub fn minify(document: &mut Document, options: &MinifyOptions) {
@@ -992,5 +1126,6 @@ pub fn minify(document: &mut Document, options: &MinifyOptions) {
         minify_css: options.minify_css,
 
         preserve_comments: options.preserve_comments.clone(),
+        minify_conditional_comments: options.minify_conditional_comments,
     });
 }

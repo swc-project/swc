@@ -23,6 +23,8 @@ pub struct MinifyOptions {
     pub minify_css: bool,
     #[serde(default = "default_preserve_comments")]
     pub preserve_comments: Option<Vec<CachedRegex>>,
+    #[serde(default = "true_by_default")]
+    pub minify_conditional_comments: bool,
 }
 
 /// Implement default using serde.

@@ -3960,8 +3960,9 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.14.2"
+version = "0.14.3"
 dependencies = [
+ "once_cell",
  "serde",
  "serde_json",
  "swc_atoms",
