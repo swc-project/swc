@@ -1,10 +1,8 @@
 #![cfg_attr(any(not(feature = "plugin"), target_arch = "wasm32"), allow(unused))]
 use std::{
-    cell::RefCell,
     collections::{HashMap, HashSet},
     env, fmt,
     path::{Path, PathBuf},
-    rc::Rc as RustRc,
     sync::Arc,
     usize,
 };
@@ -51,9 +49,7 @@ pub use swc_ecma_parser::JscTarget;
 use swc_ecma_parser::{parse_file_as_expr, Syntax, TsConfig};
 use swc_ecma_transforms::{
     hygiene, modules,
-    modules::{
-        hoist::module_hoister, path::NodeImportResolver, rewriter::import_rewriter, util::Scope,
-    },
+    modules::{hoist::module_hoister, path::NodeImportResolver, rewriter::import_rewriter},
     optimization::{const_modules, json_parse, simplifier},
     pass::{noop, Optional},
     proposals::{decorators, export_default_from, import_assertions},
@@ -1270,7 +1266,6 @@ impl ModuleConfig {
         base: &FileName,
         unresolved_mark: Mark,
         config: Option<ModuleConfig>,
-        scope: RustRc<RefCell<Scope>>,
     ) -> Box<dyn swc_ecma_visit::Fold> {
         let base = match base {
             FileName::Real(v) if !paths.is_empty() => {
@@ -1290,23 +1285,15 @@ impl ModuleConfig {
                 }
             }
             Some(ModuleConfig::CommonJs(config)) => {
-                let base_pass = module_hoister();
                 if paths.is_empty() {
-                    Box::new(chain!(
-                        base_pass,
-                        modules::common_js::common_js(unresolved_mark, config, Some(scope),)
-                    ))
+                    Box::new(modules::common_js::common_js(unresolved_mark, config))
                 } else {
                     let resolver = build_resolver(base_url, paths);
-                    Box::new(chain!(
-                        base_pass,
-                        modules::common_js::common_js_with_resolver(
-                            resolver,
-                            base,
-                            unresolved_mark,
-                            config,
-                            Some(scope),
-                        )
+                    Box::new(modules::common_js::common_js_with_resolver(
+                        resolver,
+                        base,
+                        unresolved_mark,
+                        config,
                     ))
                 }
             }
@@ -1334,16 +1321,16 @@ impl ModuleConfig {
                 }
             }
             Some(ModuleConfig::Amd(config)) => {
-                let base_pass = module_hoister();
-
                 if paths.is_empty() {
-                    Box::new(chain!(base_pass, modules::amd::amd(config)))
+                    Box::new(modules::amd::amd(unresolved_mark, config))
                 } else {
                     let resolver = build_resolver(base_url, paths);
 
-                    Box::new(chain!(
-                        base_pass,
-                        modules::amd::amd_with_resolver(resolver, base, config)
+                    Box::new(modules::amd::amd_with_resolver(
+                        resolver,
+                        base,
+                        unresolved_mark,
+                        config,
                     ))
                 }
             }

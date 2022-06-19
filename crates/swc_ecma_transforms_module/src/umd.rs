@@ -2,7 +2,7 @@ use std::cell::{Ref, RefCell, RefMut};
 
 use indexmap::IndexSet;
 use swc_atoms::js_word;
-use swc_common::{sync::Lrc, FileName, Mark, SourceMap, DUMMY_SP};
+use swc_common::{sync::Lrc, FileName, Mark, SourceMap, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
@@ -839,8 +839,8 @@ impl ModulePass for Umd {
         Expr::Cond(CondExpr {
             span,
             test: Box::new(quote_ident!("exports").make_eq(quote_ident!("undefined"))),
-            cons: Box::new(super::amd::handle_dynamic_import(span, args.clone())),
-            alt: Box::new(super::common_js::handle_dynamic_import(
+            cons: Box::new(amd_handle_dynamic_import(span, args.clone())),
+            alt: Box::new(cjs_handle_dynamic_import(
                 span,
                 args,
                 !self.config.config.no_interop,
@@ -859,4 +859,235 @@ impl ModulePass for Umd {
     fn vars_take(&mut self) -> Vec<VarDeclarator> {
         self.vars.take()
     }
+}
+
+fn cjs_handle_dynamic_import(
+    span: Span,
+    mut args: Vec<ExprOrSpread>,
+    es_module_interop: bool,
+) -> Expr {
+    // there's a evalution order problem here
+    let (resolve_arg, then_arg, require_arg) = if let Expr::Lit(Lit::Str(_)) = &*args[0].expr {
+        (Vec::new(), Vec::new(), args)
+    } else {
+        let arg = private_ident!("s");
+        let rest = args.split_off(1);
+        let import = args.into_iter().next().unwrap();
+        (
+            vec![ExprOrSpread {
+                spread: None,
+                expr: if import.expr.is_tpl() {
+                    import.expr
+                } else {
+                    Box::new(Expr::Tpl(Tpl {
+                        span: DUMMY_SP,
+                        exprs: vec![import.expr],
+                        quasis: vec![
+                            TplElement {
+                                span: DUMMY_SP,
+                                tail: true,
+                                cooked: None,
+                                raw: "".into(),
+                            },
+                            TplElement {
+                                span: DUMMY_SP,
+                                tail: true,
+                                cooked: None,
+                                raw: "".into(),
+                            },
+                        ],
+                    }))
+                },
+            }],
+            vec![arg.clone().into()],
+            {
+                let mut require_arg = vec![arg.as_arg()];
+                require_arg.extend(rest);
+                require_arg
+            },
+        )
+    };
+
+    let resolve_call = CallExpr {
+        span: DUMMY_SP,
+        callee: member_expr!(DUMMY_SP, Promise.resolve).as_callee(),
+        args: resolve_arg,
+        type_args: Default::default(),
+    };
+    // Promise.resolve().then
+    let then = resolve_call.make_member(quote_ident!("then"));
+
+    Expr::Call(CallExpr {
+        span,
+        callee: then.as_callee(),
+        args: vec![
+            // function () { return require('./foo'); }
+            FnExpr {
+                ident: None,
+                function: Function {
+                    span: DUMMY_SP,
+                    params: then_arg,
+                    is_generator: false,
+                    is_async: false,
+                    type_params: Default::default(),
+                    return_type: Default::default(),
+                    decorators: Default::default(),
+                    body: Some(BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: vec![Stmt::Return(ReturnStmt {
+                            span: DUMMY_SP,
+                            arg: Some({
+                                let mut expr = Box::new(Expr::Call(CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: quote_ident!("require").as_callee(),
+                                    args: require_arg,
+                                    type_args: Default::default(),
+                                }));
+
+                                if es_module_interop {
+                                    expr = Box::new(Expr::Call(CallExpr {
+                                        span: DUMMY_SP,
+                                        callee: helper!(
+                                            interop_require_wildcard,
+                                            "interopRequireWildcard"
+                                        ),
+                                        args: vec![expr.as_arg()],
+                                        type_args: Default::default(),
+                                    }));
+                                }
+
+                                expr
+                            }),
+                        })],
+                    }),
+                },
+            }
+            .as_arg(),
+        ],
+        type_args: Default::default(),
+    })
+}
+
+fn amd_handle_dynamic_import(span: Span, args: Vec<ExprOrSpread>) -> Expr {
+    Expr::New(NewExpr {
+        span,
+        callee: Box::new(Expr::Ident(quote_ident!("Promise"))),
+        args: Some(vec![FnExpr {
+            ident: None,
+            function: Function {
+                span: DUMMY_SP,
+                is_async: false,
+                is_generator: false,
+                decorators: Default::default(),
+                type_params: Default::default(),
+                return_type: Default::default(),
+                params: vec![
+                    // resolve
+                    Param {
+                        span: DUMMY_SP,
+                        decorators: Default::default(),
+                        pat: quote_ident!("resolve").into(),
+                    },
+                    // reject
+                    Param {
+                        span: DUMMY_SP,
+                        decorators: Default::default(),
+                        pat: quote_ident!("reject").into(),
+                    },
+                ],
+
+                // require([
+                //         'js/foo'
+                // ], function (foo) {
+                //         resolve(foo)
+                // }, function (err) {
+                //         reject(err);
+                // });
+                body: Some(BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: vec![Stmt::Expr(ExprStmt {
+                        span: DUMMY_SP,
+                        expr: Box::new(
+                            CallExpr {
+                                span: DUMMY_SP,
+                                callee: quote_ident!("require").as_callee(),
+                                args: vec![
+                                    ArrayLit {
+                                        span: DUMMY_SP,
+                                        elems: args.into_iter().map(Some).collect(),
+                                    }
+                                    .as_arg(),
+                                    // function (foo) {
+                                    //     resolve(foo)
+                                    // }
+                                    FnExpr {
+                                        ident: None,
+
+                                        function: Function {
+                                            span: DUMMY_SP,
+                                            decorators: Default::default(),
+                                            is_async: false,
+                                            is_generator: false,
+                                            type_params: Default::default(),
+                                            return_type: Default::default(),
+                                            params: vec![Param {
+                                                span: DUMMY_SP,
+                                                decorators: Default::default(),
+                                                pat: quote_ident!("dep").into(),
+                                            }],
+                                            body: Some(BlockStmt {
+                                                span: DUMMY_SP,
+                                                stmts: vec![CallExpr {
+                                                    span: DUMMY_SP,
+                                                    callee: quote_ident!("resolve").as_callee(),
+                                                    args: vec![quote_ident!("dep").as_arg()],
+                                                    type_args: Default::default(),
+                                                }
+                                                .into_stmt()],
+                                            }),
+                                        },
+                                    }
+                                    .as_arg(),
+                                    // function (err) {
+                                    //         reject(err);
+                                    // };
+                                    FnExpr {
+                                        ident: None,
+                                        function: Function {
+                                            span: DUMMY_SP,
+                                            decorators: Default::default(),
+                                            is_async: false,
+                                            is_generator: false,
+                                            type_params: Default::default(),
+                                            return_type: Default::default(),
+                                            params: vec![Param {
+                                                span: DUMMY_SP,
+                                                decorators: Default::default(),
+                                                pat: quote_ident!("err").into(),
+                                            }],
+                                            body: Some(BlockStmt {
+                                                span: DUMMY_SP,
+                                                stmts: vec![CallExpr {
+                                                    span: DUMMY_SP,
+                                                    callee: quote_ident!("reject").as_callee(),
+                                                    args: vec![quote_ident!("err").as_arg()],
+                                                    type_args: Default::default(),
+                                                }
+                                                .into_stmt()],
+                                            }),
+                                        },
+                                    }
+                                    .as_arg(),
+                                ],
+                                type_args: Default::default(),
+                            }
+                            .into(),
+                        ),
+                    })],
+                }),
+            },
+        }
+        .as_arg()]),
+        type_args: Default::default(),
+    })
 }

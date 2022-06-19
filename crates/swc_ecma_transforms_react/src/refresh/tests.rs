@@ -1130,7 +1130,7 @@ test!(
                 Some(t.comments.clone()),
                 top_level_mark
             ),
-            common_js(unresolved_mark, Default::default(), None)
+            common_js(unresolved_mark, Default::default())
         )
     },
     include_hook_signature_in_commonjs,

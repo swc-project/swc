@@ -3874,8 +3874,7 @@ test!(
                 strict_mode: true,
                 no_interop: true,
                 ..Default::default()
-            },
-            None
+            }
         ),
     ),
     issue_395_1,
@@ -3920,7 +3919,6 @@ test!(
                 no_interop: true,
                 ..Default::default()
             },
-            None
         ),
     ),
     issue_395_2,
@@ -4281,7 +4279,7 @@ test!(
             }),
             classes(Some(t.comments.clone()), Default::default()),
             function_name(),
-            common_js(Mark::fresh(Mark::root()), Default::default(), None),
+            common_js(Mark::fresh(Mark::root()), Default::default()),
         )
     },
     function_name_modules,

@@ -1235,7 +1235,7 @@ test!(
                 },
                 top_level_mark
             ),
-            common_js(top_level_mark, Default::default(), None)
+            common_js(top_level_mark, Default::default())
         )
     },
     issue_351,
@@ -1282,7 +1282,7 @@ test!(
                 },
                 top_level_mark
             ),
-            common_js(Mark::fresh(Mark::root()), Default::default(), None)
+            common_js(Mark::fresh(Mark::root()), Default::default())
         )
     },
     issue_517,
