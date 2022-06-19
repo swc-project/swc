@@ -1,7 +1,11 @@
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashMap, util::take::Take, DUMMY_SP};
+use swc_common::{
+    collections::{AHashMap, AHashSet},
+    util::take::Take,
+    DUMMY_SP,
+};
 use swc_ecma_ast::{Id, Ident, *};
-use swc_ecma_utils::{undefined, IntoIndirectCall};
+use swc_ecma_utils::{undefined, ExprFactory, IntoIndirectCall};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use crate::util::prop_name;
@@ -29,6 +33,8 @@ pub(crate) struct ModuleRefRewriter {
     /// ```
     pub import_map: ImportMap,
 
+    pub lazy_record: AHashSet<Id>,
+
     pub top_level: bool,
 }
 
@@ -39,19 +45,27 @@ impl VisitMut for ModuleRefRewriter {
         match n {
             Expr::Ident(ref_ident) => {
                 if let Some((mod_ident, mod_prop)) = self.import_map.get(&ref_ident.to_id()) {
+                    let mut mod_ident = mod_ident.clone();
+                    let span = ref_ident.span.with_ctxt(mod_ident.span.ctxt);
+                    mod_ident.span = span;
+
+                    let mod_expr = if self.lazy_record.contains(&mod_ident.to_id()) {
+                        mod_ident.as_call(span, Default::default())
+                    } else {
+                        mod_ident.into()
+                    };
+
                     if let Some(imported_name) = mod_prop {
-                        let prop = prop_name(imported_name, ref_ident.span).into();
+                        let prop = prop_name(imported_name, DUMMY_SP).into();
 
                         *n = MemberExpr {
-                            obj: Box::new(mod_ident.clone().into()),
-                            span: DUMMY_SP,
+                            obj: Box::new(mod_expr),
+                            span,
                             prop,
                         }
-                        .into()
+                        .into();
                     } else {
-                        let span = ref_ident.span.with_ctxt(mod_ident.span.ctxt);
-                        *ref_ident = mod_ident.clone();
-                        ref_ident.span = span;
+                        *n = mod_expr;
                     }
                 }
             }

@@ -99,6 +99,7 @@ impl VisitMut for Amd {
 
         stmts.visit_mut_children_with(&mut ModuleRefRewriter {
             import_map,
+            lazy_record: Default::default(),
             top_level: true,
         });
 

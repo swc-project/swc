@@ -57,6 +57,15 @@ pub trait ExprFactory: Into<Expr> {
         })
     }
 
+    /// Creates a statement whcih return `self`.
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn into_return_stmt(self) -> ReturnStmt {
+        ReturnStmt {
+            span: DUMMY_SP,
+            arg: Some(Box::new(self.into())),
+        }
+    }
+
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn as_callee(self) -> Callee {
         Callee::Expr(Box::new(self.into()))
@@ -91,11 +100,6 @@ pub trait ExprFactory: Into<Expr> {
     /// - `function(params) { return $self; }`
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn as_fn(self, params: Vec<Param>) -> FnExpr {
-        let return_stmt = ReturnStmt {
-            span: DUMMY_SP,
-            arg: Some(Box::new(self.into())),
-        };
-
         FnExpr {
             ident: None,
             function: Function {
@@ -104,13 +108,32 @@ pub trait ExprFactory: Into<Expr> {
                 span: DUMMY_SP,
                 body: Some(BlockStmt {
                     span: DUMMY_SP,
-                    stmts: vec![return_stmt.into()],
+                    stmts: vec![self.into_return_stmt().into()],
                 }),
                 is_generator: false,
                 is_async: false,
                 type_params: None,
                 return_type: None,
             },
+        }
+    }
+
+    /// create a FnExpr which return self
+    /// - `function(params) { return $self; }`
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn as_var_decl(self, kind: VarDeclKind, name: Pat) -> VarDecl {
+        let var_declarator = VarDeclarator {
+            span: DUMMY_SP,
+            name,
+            init: Some(Box::new(self.into())),
+            definite: false,
+        };
+
+        VarDecl {
+            span: DUMMY_SP,
+            kind,
+            declare: false,
+            decls: vec![var_declarator],
         }
     }
 
@@ -182,11 +205,7 @@ pub trait ExprFactory: Into<Expr> {
 
     /// Creates a assign expr `$lhs $op $self`
     #[cfg_attr(not(debug_assertions), inline(always))]
-    fn make_assign_to<T>(self, op: AssignOp, left: T) -> Expr
-    where
-        T: Into<PatOrExpr>,
-    {
-        let left = left.into();
+    fn make_assign_to(self, op: AssignOp, left: PatOrExpr) -> Expr {
         let right = Box::new(self.into());
 
         Expr::Assign(AssignExpr {

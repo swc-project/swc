@@ -1,4 +1,4 @@
-use swc_common::{util::take::Take, FileName, Mark, DUMMY_SP};
+use swc_common::{collections::AHashSet, util::take::Take, FileName, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{member_expr, private_ident, quote_ident, ExprFactory};
@@ -70,11 +70,12 @@ impl VisitMut for Cjs {
         } = strip;
 
         let mut import_map = Default::default();
+        let mut lazy_record = Default::default();
 
         // `import` -> `require`
         // `export` -> `_export(exports, {});`
         stmts.extend(
-            self.handle_import_export(&mut import_map, link, export)
+            self.handle_import_export(&mut import_map, &mut lazy_record, link, export)
                 .map(Into::into),
         );
 
@@ -86,7 +87,8 @@ impl VisitMut for Cjs {
                 export_assign
                     .make_assign_to(
                         op!("="),
-                        member_expr!(DUMMY_SP.apply_mark(self.unresolved_mark), module.exports),
+                        member_expr!(DUMMY_SP.apply_mark(self.unresolved_mark), module.exports)
+                            .into(),
                     )
                     .into_stmt()
                     .into(),
@@ -95,6 +97,7 @@ impl VisitMut for Cjs {
 
         stmts.visit_mut_children_with(&mut ModuleRefRewriter {
             import_map,
+            lazy_record,
             top_level: true,
         });
 
@@ -113,6 +116,7 @@ impl Cjs {
     fn handle_import_export(
         &mut self,
         import_map: &mut ImportMap,
+        lazy_record: &mut AHashSet<Id>,
         link: Link,
         export: Export,
     ) -> impl Iterator<Item = Stmt> {
@@ -144,16 +148,30 @@ impl Cjs {
                     &mut decl_mod_ident,
                 );
 
+                let is_lazy =
+                    decl_mod_ident && !link_flag.re_export() && self.config.lazy.is_lazy(&src);
+
+                if is_lazy {
+                    lazy_record.insert(mod_ident.to_id());
+                    if let Some(raw_mod_ident) = &raw_mod_ident {
+                        lazy_record.insert(raw_mod_ident.to_id());
+                    }
+                }
+
                 // require("mod");
                 let import_expr =
                     self.resolver
                         .make_require_call(self.unresolved_mark, src, src_span);
 
-                let import_require = raw_mod_ident.map(|raw_mod_ident| VarDeclarator {
-                    span: DUMMY_SP,
-                    name: raw_mod_ident.into(),
-                    init: Some(Box::new(import_expr.clone())),
-                    definite: false,
+                let import_assign = raw_mod_ident.map(|raw_mod_ident| {
+                    let import_expr = import_expr.clone();
+                    if is_lazy {
+                        Stmt::Decl(Decl::Fn(lazy_require(import_expr, raw_mod_ident)))
+                    } else {
+                        Stmt::Decl(Decl::Var(
+                            import_expr.as_var_decl(VarDeclKind::Var, raw_mod_ident.into()),
+                        ))
+                    }
                 });
 
                 // _reExport(exports, require("mod"));
@@ -187,25 +205,21 @@ impl Cjs {
                 };
 
                 if decl_mod_ident {
-                    let var_declarator = VarDeclarator {
-                        span: DUMMY_SP,
-                        name: mod_ident.into(),
-                        init: Some(Box::new(import_expr)),
-                        definite: false,
+                    let stmt = if is_lazy {
+                        Stmt::Decl(Decl::Fn(lazy_require(import_expr, mod_ident)))
+                    } else {
+                        Stmt::Decl(
+                            import_expr
+                                .as_var_decl(VarDeclKind::Var, mod_ident.into())
+                                .into(),
+                        )
                     };
 
-                    let var_decl = VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        declare: false,
-                        decls: import_require
-                            .into_iter()
-                            .chain(Some(var_declarator))
-                            .collect(),
-                    };
-                    let stmt = Stmt::Decl(Decl::Var(var_decl));
+                    if let Some(import_assign) = import_assign {
+                        stmts.push(import_assign);
+                    }
 
-                    stmts.push(stmt)
+                    stmts.push(stmt);
                 } else {
                     stmts.push(import_expr.into_stmt());
                 }
@@ -277,5 +291,44 @@ impl VisitMut for DynamicImport {
             }
             _ => n.visit_mut_children_with(self),
         }
+    }
+}
+
+/// ```javascript
+/// function foo() {
+///   const data = expr;
+///
+///   foo = () => data;
+///
+///   return data;
+/// }
+/// ```
+pub fn lazy_require(expr: Expr, mod_ident: Ident) -> FnDecl {
+    let data = private_ident!("data");
+    let data_decl = expr.as_var_decl(VarDeclKind::Var, data.clone().into());
+    let data_stmt = Stmt::Decl(Decl::Var(data_decl));
+    let overwrite_stmt = data
+        .clone()
+        .as_fn(Default::default())
+        .make_assign_to(op!("="), mod_ident.clone().as_pat_or_expr())
+        .into_stmt();
+    let return_stmt = data.into_return_stmt().into();
+
+    FnDecl {
+        ident: mod_ident,
+        declare: false,
+        function: Function {
+            params: Default::default(),
+            decorators: Default::default(),
+            span: DUMMY_SP,
+            body: Some(BlockStmt {
+                span: DUMMY_SP,
+                stmts: vec![data_stmt, overwrite_stmt, return_stmt],
+            }),
+            is_generator: false,
+            is_async: false,
+            type_params: None,
+            return_type: None,
+        },
     }
 }
