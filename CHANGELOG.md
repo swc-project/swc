@@ -8,6 +8,9 @@
 - **(es/parser)** Don't panic on an invalid import meta property (#4994) ([53a8cb1](https://github.com/swc-project/swc/commit/53a8cb12094b15aed1667f844abfefea1420d3d2))
 
 
+- **(es/parser)** Allow instantiation expression followed by a line break or a binary operator (#5000) ([a62b2b3](https://github.com/swc-project/swc/commit/a62b2b32446613fca0a6193c93c19f1e0b86c3b0))
+
+
 - **(es/typescript)** Preserve `export = ` for AMD (#4995) ([d736b31](https://github.com/swc-project/swc/commit/d736b31e08771c3ca243e6875a11bef1a2937c85))
 
 ## [1.2.204] - 2022-06-18
