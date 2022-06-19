@@ -1,7 +1,7 @@
-use swc_common::{collections::AHashSet, util::take::Take, FileName, Mark, DUMMY_SP};
+use swc_common::{collections::AHashSet, util::take::Take, FileName, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::{member_expr, private_ident, quote_ident, ExprFactory};
+use swc_ecma_utils::{member_expr, private_ident, quote_ident, ExprFactory, FunctionFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub use super::util::Config;
@@ -9,10 +9,7 @@ use crate::{
     module_decl_strip::{Export, Link, LinkFlag, LinkItem, LinkSpecifierReducer, ModuleDeclStrip},
     module_ref_rewriter::{ImportMap, ModuleRefRewriter},
     path::{ImportResolver, Resolver},
-    util::{
-        cjs_dynamic_import, define_es_module, has_use_strict, local_name_for_src, prop_function,
-        use_strict,
-    },
+    util::{define_es_module, has_use_strict, local_name_for_src, prop_function, use_strict},
 };
 
 pub fn cjs(unresolved_mark: Mark, config: Config) -> impl Fold + VisitMut {
@@ -169,7 +166,7 @@ impl Cjs {
                         Stmt::Decl(Decl::Fn(lazy_require(import_expr, raw_mod_ident)))
                     } else {
                         Stmt::Decl(Decl::Var(
-                            import_expr.as_var_decl(VarDeclKind::Var, raw_mod_ident.into()),
+                            import_expr.into_var_decl(VarDeclKind::Var, raw_mod_ident.into()),
                         ))
                     }
                 });
@@ -210,7 +207,7 @@ impl Cjs {
                     } else {
                         Stmt::Decl(
                             import_expr
-                                .as_var_decl(VarDeclKind::Var, mod_ident.into())
+                                .into_var_decl(VarDeclKind::Var, mod_ident.into())
                                 .into(),
                         )
                     };
@@ -287,6 +284,8 @@ impl VisitMut for DynamicImport {
                     args.take(),
                     quote_ident!(require_span, "require"),
                     self.es_module_interop,
+                    // TODO: detect support arrow
+                    false,
                 );
             }
             _ => n.visit_mut_children_with(self),
@@ -305,11 +304,12 @@ impl VisitMut for DynamicImport {
 /// ```
 pub fn lazy_require(expr: Expr, mod_ident: Ident) -> FnDecl {
     let data = private_ident!("data");
-    let data_decl = expr.as_var_decl(VarDeclKind::Var, data.clone().into());
+    let data_decl = expr.into_var_decl(VarDeclKind::Var, data.clone().into());
     let data_stmt = Stmt::Decl(Decl::Var(data_decl));
     let overwrite_stmt = data
         .clone()
-        .as_fn(Default::default())
+        .into_lazy_fn(Default::default())
+        .into_fn_expr(None)
         .make_assign_to(op!("="), mod_ident.clone().as_pat_or_expr())
         .into_stmt();
     let return_stmt = data.into_return_stmt().into();
@@ -331,4 +331,43 @@ pub fn lazy_require(expr: Expr, mod_ident: Ident) -> FnDecl {
             return_type: None,
         },
     }
+}
+
+/// Promise.resolve(args).then(p => require(p))
+pub(crate) fn cjs_dynamic_import(
+    span: Span,
+    args: Vec<ExprOrSpread>,
+    require: Ident,
+    es_module_interop: bool,
+    support_arrow: bool,
+) -> Expr {
+    let then = member_expr!(DUMMY_SP, Promise.resolve)
+        // TODO: handle import assert
+        .as_call(DUMMY_SP, args)
+        .make_member(quote_ident!("then"));
+
+    let path = private_ident!("p");
+
+    let import_expr = {
+        let require = require.as_call(DUMMY_SP, vec![path.clone().as_arg()]);
+
+        if es_module_interop {
+            CallExpr {
+                span: DUMMY_SP,
+                callee: helper!(interop_require_wildcard, "interopRequireWildcard"),
+                args: vec![require.as_arg()],
+                type_args: None,
+            }
+            .into()
+        } else {
+            require
+        }
+    };
+
+    then.as_call(
+        span,
+        vec![import_expr
+            .into_lazy_auto(vec![path.into()], support_arrow)
+            .as_arg()],
+    )
 }

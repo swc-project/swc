@@ -24,7 +24,7 @@ use unicode_id::UnicodeID;
 
 #[allow(deprecated)]
 pub use self::{
-    factory::{ExprFactory, IntoIndirectCall},
+    factory::{ExprFactory, FunctionFactory, IntoIndirectCall},
     value::{
         Type::{
             self, Bool as BoolType, Null as NullType, Num as NumberType, Obj as ObjectType,

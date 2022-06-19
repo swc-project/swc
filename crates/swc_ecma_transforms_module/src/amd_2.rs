@@ -11,10 +11,7 @@ use crate::{
     module_decl_strip::{Export, Link, LinkFlag, LinkItem, LinkSpecifierReducer, ModuleDeclStrip},
     module_ref_rewriter::{ImportMap, ModuleRefRewriter},
     path::{ImportResolver, Resolver},
-    util::{
-        amd_dynamic_import, define_es_module, has_use_strict, local_name_for_src, prop_function,
-        use_strict,
-    },
+    util::{define_es_module, has_use_strict, local_name_for_src, prop_function, use_strict},
 };
 
 pub fn amd(unresolved_mark: Mark, config: Config) -> impl Fold + VisitMut {
@@ -332,9 +329,72 @@ impl VisitMut for DynamicImport {
                 let mut require = self.require.clone();
                 require.span = import_span.apply_mark(require.span.ctxt().outer());
 
-                *n = amd_dynamic_import(*span, args.take(), require, self.es_module_interop);
+                *n = amd_dynamic_import(
+                    *span,
+                    args.take(),
+                    require,
+                    self.es_module_interop,
+                    // TODO: detect support arrow
+                    false,
+                );
             }
             _ => n.visit_mut_children_with(self),
         }
     }
+}
+
+/// new Promise((resolve, reject) => require([arg], m => resolve(m), reject))
+fn amd_dynamic_import(
+    span: Span,
+    args: Vec<ExprOrSpread>,
+    require: Ident,
+    es_module_interop: bool,
+    support_arrow: bool,
+) -> Expr {
+    let resolve = private_ident!("resolve");
+    let reject = private_ident!("reject");
+    let arg = args[..1].iter().cloned().map(Option::Some).collect();
+
+    let module = private_ident!("m");
+
+    let resolved_module: Expr = if es_module_interop {
+        CallExpr {
+            span: DUMMY_SP,
+            callee: helper!(interop_require_wildcard, "interopRequireWildcard"),
+            args: vec![module.clone().as_arg()],
+            type_args: None,
+        }
+        .into()
+    } else {
+        module.clone().into()
+    };
+
+    let resolve_callback = resolve
+        .clone()
+        .as_call(DUMMY_SP, vec![resolved_module.as_arg()])
+        .into_lazy_auto(vec![module.into()], support_arrow);
+
+    let require_call = require.as_call(
+        DUMMY_SP,
+        vec![
+            ArrayLit {
+                span: DUMMY_SP,
+                elems: arg,
+            }
+            .as_arg(),
+            resolve_callback.as_arg(),
+            reject.clone().as_arg(),
+        ],
+    );
+
+    let promise_executer =
+        require_call.into_lazy_auto(vec![resolve.into(), reject.into()], support_arrow);
+
+    NewExpr {
+        span,
+        callee: Box::new(quote_ident!("Promise").into()),
+        args: Some(vec![promise_executer.as_arg()]),
+        type_args: None,
+    }
+    .into()
 }

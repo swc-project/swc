@@ -84,7 +84,7 @@ pub trait ExprFactory: Into<Expr> {
     /// create a ArrowExpr which return self
     /// - `(params) => $self`
     #[cfg_attr(not(debug_assertions), inline(always))]
-    fn as_arrow(self, params: Vec<Pat>) -> ArrowExpr {
+    fn into_lazy_arrow(self, params: Vec<Pat>) -> ArrowExpr {
         ArrowExpr {
             span: DUMMY_SP,
             params,
@@ -96,32 +96,40 @@ pub trait ExprFactory: Into<Expr> {
         }
     }
 
-    /// create a FnExpr which return self
+    /// create a Function which return self
     /// - `function(params) { return $self; }`
     #[cfg_attr(not(debug_assertions), inline(always))]
-    fn as_fn(self, params: Vec<Param>) -> FnExpr {
-        FnExpr {
-            ident: None,
-            function: Function {
-                params,
-                decorators: Default::default(),
+    fn into_lazy_fn(self, params: Vec<Param>) -> Function {
+        Function {
+            params,
+            decorators: Default::default(),
+            span: DUMMY_SP,
+            body: Some(BlockStmt {
                 span: DUMMY_SP,
-                body: Some(BlockStmt {
-                    span: DUMMY_SP,
-                    stmts: vec![self.into_return_stmt().into()],
-                }),
-                is_generator: false,
-                is_async: false,
-                type_params: None,
-                return_type: None,
-            },
+                stmts: vec![self.into_return_stmt().into()],
+            }),
+            is_generator: false,
+            is_async: false,
+            type_params: None,
+            return_type: None,
         }
     }
 
-    /// create a FnExpr which return self
-    /// - `function(params) { return $self; }`
     #[cfg_attr(not(debug_assertions), inline(always))]
-    fn as_var_decl(self, kind: VarDeclKind, name: Pat) -> VarDecl {
+    fn into_lazy_auto(self, params: Vec<Pat>, support_arrow: bool) -> Expr {
+        if support_arrow {
+            self.into_lazy_arrow(params).into()
+        } else {
+            self.into_lazy_fn(params.into_iter().map(Into::into).collect())
+                .into_fn_expr(None)
+                .into()
+        }
+    }
+
+    /// create a var declartor using self as init
+    /// - `var name = expr`
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn into_var_decl(self, kind: VarDeclKind, name: Pat) -> VarDecl {
         let var_declarator = VarDeclarator {
             span: DUMMY_SP,
             name,
@@ -277,3 +285,32 @@ impl IntoIndirectCall for Callee {
         .as_callee()
     }
 }
+
+pub trait FunctionFactory: Into<Function> {
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn into_fn_expr(self, ident: Option<Ident>) -> FnExpr {
+        FnExpr {
+            ident,
+            function: self.into(),
+        }
+    }
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn into_fn_decl(self, ident: Ident) -> FnDecl {
+        FnDecl {
+            ident,
+            declare: false,
+            function: self.into(),
+        }
+    }
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn into_method_prop(self, key: PropName) -> MethodProp {
+        MethodProp {
+            key,
+            function: self.into(),
+        }
+    }
+}
+
+impl<T: Into<Function>> FunctionFactory for T {}
