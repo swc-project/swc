@@ -1164,40 +1164,44 @@ impl VisitMut for Minifier {
                 {
                     false
                 }
-                Child::Text(text)
-                    if whitespace_minification_mode.is_some() && !self.descendant_of_pre =>
-                {
-                    let mode = whitespace_minification_mode.unwrap();
+                Child::Text(text) if !self.descendant_of_pre => {
+                    let mode = whitespace_minification_mode;
 
-                    let value = if mode.trim
-                        && (index == 1
-                            || self.collapse_whitespaces == Some(CollapseWhitespaces::All))
-                    {
-                        text.data.trim_start_matches(is_whitespace)
+                    let is_body = n.namespace == Namespace::HTML && matches!(&*n.tag_name, "body");
+                    let is_first_body_element = index == 1 && is_body;
+                    let is_last_body_element = index == last && is_body;
+
+                    if mode.is_some() || is_first_body_element || is_last_body_element {
+                        let mut value =
+                            if (mode.is_some() && mode.unwrap().trim) || is_first_body_element {
+                                text.data.trim_start_matches(is_whitespace)
+                            } else {
+                                &*text.data
+                            };
+
+                        value = if (mode.is_some() && mode.unwrap().trim) || is_last_body_element {
+                            value.trim_end_matches(is_whitespace)
+                        } else {
+                            value
+                        };
+
+                        if mode.is_some()
+                            && mode.unwrap().destroy_whole
+                            && value.chars().all(is_whitespace)
+                        {
+                            return false;
+                        } else if mode.is_some() && mode.unwrap().collapse {
+                            text.data = self.collapse_whitespace(value).into();
+
+                            return true;
+                        } else if value.is_empty() {
+                            false
+                        } else {
+                            text.data = value.into();
+
+                            true
+                        }
                     } else {
-                        &*text.data
-                    };
-
-                    let value = if mode.trim
-                        && (index == last
-                            || self.collapse_whitespaces == Some(CollapseWhitespaces::All))
-                    {
-                        value.trim_end_matches(is_whitespace)
-                    } else {
-                        value
-                    };
-
-                    if mode.destroy_whole && value.chars().all(is_whitespace) {
-                        false
-                    } else if mode.collapse {
-                        text.data = self.collapse_whitespace(value).into();
-
-                        true
-                    } else if value.is_empty() {
-                        false
-                    } else {
-                        text.data = value.into();
-
                         true
                     }
                 }
