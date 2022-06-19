@@ -1137,6 +1137,70 @@ impl VisitMut for Minifier {
         }
 
         self.minify_children(&mut n.children);
+        let mut index = 0;
+        let last = n.children.len();
+
+        n.children.retain_mut(|child| {
+            index += 1;
+
+            match child {
+                Child::Comment(comment) if !self.is_preserved_comment(&comment.data) => false,
+                // Always remove whitespaces from html and head elements (except nested elements),
+                // it should be safe
+                Child::Text(_)
+                    if matches!(&*n.tag_name, "html" | "head")
+                        && n.namespace == Namespace::HTML =>
+                {
+                    false
+                }
+                // Always remove the latest text element, because it is safe
+                Child::Text(_)
+                    if index == last
+                        && matches!(&*n.tag_name, "body")
+                        && n.namespace == Namespace::HTML =>
+                {
+                    false
+                }
+                Child::Text(text)
+                    if whitespace_minification_mode.is_some() && !self.descendant_of_pre =>
+                {
+                    let mode = whitespace_minification_mode.unwrap();
+
+                    let value = if mode.trim
+                        && (index == 1
+                            || self.collapse_whitespaces == Some(CollapseWhitespaces::All))
+                    {
+                        text.data.trim_start_matches(is_whitespace)
+                    } else {
+                        &*text.data
+                    };
+
+                    let value = if mode.trim
+                        && (index == last
+                            || self.collapse_whitespaces == Some(CollapseWhitespaces::All))
+                    {
+                        value.trim_end_matches(is_whitespace)
+                    } else {
+                        value
+                    };
+
+                    if mode.destroy_whole && value.chars().all(is_whitespace) {
+                        false
+                    } else if mode.collapse {
+                        text.data = self.collapse_whitespace(value).into();
+
+                        true
+                    } else if value.is_empty() {
+                        false
+                    } else {
+                        text.data = value.into();
+
+                        true
+                    }
+                }
+                _ => true,
+            }
+        });
 
         n.visit_mut_children_with(self);
 
