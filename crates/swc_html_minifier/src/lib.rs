@@ -1147,17 +1147,20 @@ impl VisitMut for Minifier {
                 Child::Comment(comment) if !self.is_preserved_comment(&comment.data) => false,
                 // Always remove whitespaces from html and head elements (except nested elements),
                 // it should be safe
-                Child::Text(_)
-                    if matches!(&*n.tag_name, "html" | "head")
-                        && n.namespace == Namespace::HTML =>
+                Child::Text(text)
+                    if n.namespace == Namespace::HTML
+                        && matches!(&*n.tag_name, "html" | "head")
+                        && text.data.chars().all(is_whitespace) =>
                 {
                     false
                 }
-                // Always remove the latest text element, because it is safe
-                Child::Text(_)
-                    if index == last
+                // Always remove the first and the latest whitespaces, because it is
+                // safe
+                Child::Text(text)
+                    if (index == 1 || index == last)
+                        && n.namespace == Namespace::HTML
                         && matches!(&*n.tag_name, "body")
-                        && n.namespace == Namespace::HTML =>
+                        && text.data.chars().all(is_whitespace) =>
                 {
                     false
                 }
