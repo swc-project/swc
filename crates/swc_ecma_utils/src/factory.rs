@@ -146,6 +146,16 @@ pub trait ExprFactory: Into<Expr> {
     }
 
     #[cfg_attr(not(debug_assertions), inline(always))]
+    fn into_new_expr(self, span: Span, args: Option<Vec<ExprOrSpread>>) -> NewExpr {
+        NewExpr {
+            span,
+            callee: Box::new(self.into()),
+            args,
+            type_args: None,
+        }
+    }
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
     fn apply(self, span: Span, this: Box<Expr>, args: Vec<ExprOrSpread>) -> Expr {
         let apply = self.make_member(Ident::new(js_word!("apply"), span));
 

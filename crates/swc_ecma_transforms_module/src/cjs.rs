@@ -1,3 +1,4 @@
+use swc_atoms::js_word;
 use swc_common::{collections::AHashSet, util::take::Take, FileName, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -98,10 +99,14 @@ impl VisitMut for Cjs {
             top_level: true,
         });
 
-        if !self.config.ignore_dynamic {
+        if !self.config.ignore_dynamic || !self.config.preserve_import_meta {
             stmts.visit_mut_children_with(&mut DynamicImport {
                 unresolved_mark: self.unresolved_mark,
                 es_module_interop: !self.config.no_interop,
+                // TODO: detect support_arrow
+                support_arrow: false,
+                ignore_dynamic: self.config.ignore_dynamic,
+                preserve_import_meta: self.config.preserve_import_meta,
             })
         }
 
@@ -265,6 +270,9 @@ impl Cjs {
 struct DynamicImport {
     unresolved_mark: Mark,
     es_module_interop: bool,
+    ignore_dynamic: bool,
+    preserve_import_meta: bool,
+    support_arrow: bool,
 }
 
 impl VisitMut for DynamicImport {
@@ -278,19 +286,99 @@ impl VisitMut for DynamicImport {
                 args,
                 ..
             }) => {
+                if self.ignore_dynamic {
+                    return;
+                }
+
                 let require_span = import_span.apply_mark(self.unresolved_mark);
                 *n = cjs_dynamic_import(
                     *span,
                     args.take(),
                     quote_ident!(require_span, "require"),
                     self.es_module_interop,
-                    // TODO: detect support arrow
-                    false,
+                    self.support_arrow,
                 );
+            }
+            Expr::Member(MemberExpr {
+                span,
+                obj,
+                prop:
+                    MemberProp::Ident(Ident {
+                        sym: js_word!("url"),
+                        ..
+                    }),
+            }) => {
+                if self.preserve_import_meta {
+                    return;
+                }
+
+                if let Expr::MetaProp(MetaPropExpr {
+                    kind: MetaPropKind::ImportMeta,
+                    ..
+                }) = **obj
+                {
+                    let require =
+                        quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "require");
+                    *n = cjs_import_meta_url(*span, require, self.unresolved_mark);
+                } else {
+                    n.visit_mut_children_with(self);
+                }
             }
             _ => n.visit_mut_children_with(self),
         }
     }
+}
+
+/// Promise.resolve(args).then(p => require(p))
+fn cjs_dynamic_import(
+    span: Span,
+    args: Vec<ExprOrSpread>,
+    require: Ident,
+    es_module_interop: bool,
+    support_arrow: bool,
+) -> Expr {
+    let then = member_expr!(DUMMY_SP, Promise.resolve)
+        // TODO: handle import assert
+        .as_call(DUMMY_SP, args)
+        .make_member(quote_ident!("then"));
+
+    let path = private_ident!("p");
+
+    let import_expr = {
+        let require = require.as_call(DUMMY_SP, vec![path.clone().as_arg()]);
+
+        if es_module_interop {
+            CallExpr {
+                span: DUMMY_SP,
+                callee: helper!(interop_require_wildcard, "interopRequireWildcard"),
+                args: vec![require.as_arg()],
+                type_args: None,
+            }
+            .into()
+        } else {
+            require
+        }
+    };
+
+    then.as_call(
+        span,
+        vec![import_expr
+            .into_lazy_auto(vec![path.into()], support_arrow)
+            .as_arg()],
+    )
+}
+
+/// require('url').pathToFileURL(__filename).toString()
+fn cjs_import_meta_url(span: Span, require: Ident, unresolved_mark: Mark) -> Expr {
+    require
+        .as_call(DUMMY_SP, vec!["url".as_arg()])
+        .make_member(quote_ident!("pathToFileURL"))
+        .as_call(
+            DUMMY_SP,
+            vec![quote_ident!(DUMMY_SP.apply_mark(unresolved_mark), "__filename").as_arg()],
+        )
+        .make_member(quote_ident!("toString"))
+        .as_call(span, Default::default())
 }
 
 /// ```javascript
@@ -331,43 +419,4 @@ pub fn lazy_require(expr: Expr, mod_ident: Ident) -> FnDecl {
             return_type: None,
         },
     }
-}
-
-/// Promise.resolve(args).then(p => require(p))
-pub(crate) fn cjs_dynamic_import(
-    span: Span,
-    args: Vec<ExprOrSpread>,
-    require: Ident,
-    es_module_interop: bool,
-    support_arrow: bool,
-) -> Expr {
-    let then = member_expr!(DUMMY_SP, Promise.resolve)
-        // TODO: handle import assert
-        .as_call(DUMMY_SP, args)
-        .make_member(quote_ident!("then"));
-
-    let path = private_ident!("p");
-
-    let import_expr = {
-        let require = require.as_call(DUMMY_SP, vec![path.clone().as_arg()]);
-
-        if es_module_interop {
-            CallExpr {
-                span: DUMMY_SP,
-                callee: helper!(interop_require_wildcard, "interopRequireWildcard"),
-                args: vec![require.as_arg()],
-                type_args: None,
-            }
-            .into()
-        } else {
-            require
-        }
-    };
-
-    then.as_call(
-        span,
-        vec![import_expr
-            .into_lazy_auto(vec![path.into()], support_arrow)
-            .as_arg()],
-    )
 }

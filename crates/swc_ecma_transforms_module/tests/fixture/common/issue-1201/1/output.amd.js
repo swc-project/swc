@@ -1,4 +1,7 @@
-define(["require"], function (require) {
+define([
+    "require",
+    "module"
+], function(require, module) {
     "use strict";
-    console.log(import.meta.url);
+    console.log(new URL(module.uri, document.baseURI).href);
 });

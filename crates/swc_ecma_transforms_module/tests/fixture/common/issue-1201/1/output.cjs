@@ -1,2 +1,2 @@
 "use strict";
-console.log(import.meta.url);
+console.log(require("url").pathToFileURL(__filename).toString());

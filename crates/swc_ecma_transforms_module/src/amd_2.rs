@@ -1,9 +1,9 @@
 use anyhow::Context;
-use swc_atoms::JsWord;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{util::take::Take, FileName, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::{private_ident, quote_ident, quote_str, ExprFactory};
+use swc_ecma_utils::{member_expr, private_ident, quote_ident, quote_str, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub use super::util::Config;
@@ -102,11 +102,29 @@ impl VisitMut for Amd {
 
         let require = quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "require");
 
-        if !self.config.ignore_dynamic {
-            stmts.visit_mut_children_with(&mut DynamicImport {
+        let mut module = None;
+
+        if !self.config.ignore_dynamic || !self.config.preserve_import_meta {
+            let module_ident = private_ident!("module");
+
+            let mut dynamic_import = DynamicImport {
                 es_module_interop: !self.config.no_interop,
                 require: require.clone(),
-            })
+                ignore_dynamic: self.config.ignore_dynamic,
+                preserve_import_meta: self.config.preserve_import_meta,
+                module: module_ident.clone(),
+                found_import_meta: false,
+                support_arrow: false,
+            };
+
+            stmts.visit_mut_children_with(&mut dynamic_import);
+            let DynamicImport {
+                found_import_meta, ..
+            } = dynamic_import;
+
+            if found_import_meta {
+                module = Some(module_ident);
+            }
         }
 
         // ====================
@@ -119,6 +137,11 @@ impl VisitMut for Amd {
         if let Some(exports) = self.exports.take() {
             elems.push(Some(quote_str!("exports").as_arg()));
             params.push(exports.into())
+        }
+
+        if let Some(module) = module {
+            elems.push(Some(quote_str!("module").as_arg()));
+            params.push(module.into())
         }
 
         self.dep_list
@@ -313,6 +336,11 @@ impl Amd {
 struct DynamicImport {
     es_module_interop: bool,
     require: Ident,
+    ignore_dynamic: bool,
+    preserve_import_meta: bool,
+    module: Ident,
+    support_arrow: bool,
+    found_import_meta: bool,
 }
 
 impl VisitMut for DynamicImport {
@@ -326,6 +354,12 @@ impl VisitMut for DynamicImport {
                 args,
                 ..
             }) => {
+                args.visit_mut_with(self);
+
+                if self.ignore_dynamic {
+                    return;
+                }
+
                 let mut require = self.require.clone();
                 require.span = import_span.apply_mark(require.span.ctxt().outer());
 
@@ -335,8 +369,31 @@ impl VisitMut for DynamicImport {
                     require,
                     self.es_module_interop,
                     // TODO: detect support arrow
-                    false,
+                    self.support_arrow,
                 );
+            }
+            Expr::Member(MemberExpr {
+                span,
+                obj,
+                prop:
+                    MemberProp::Ident(Ident {
+                        sym: js_word!("url"),
+                        ..
+                    }),
+            }) => {
+                if let Expr::MetaProp(MetaPropExpr {
+                    kind: MetaPropKind::ImportMeta,
+                    ..
+                }) = **obj
+                {
+                    if self.preserve_import_meta {
+                        return;
+                    }
+                    *n = amd_import_meta_url(*span, self.module.clone());
+                    self.found_import_meta = true;
+                } else {
+                    n.visit_mut_children_with(self);
+                }
             }
             _ => n.visit_mut_children_with(self),
         }
@@ -395,6 +452,22 @@ fn amd_dynamic_import(
         callee: Box::new(quote_ident!("Promise").into()),
         args: Some(vec![promise_executer.as_arg()]),
         type_args: None,
+    }
+    .into()
+}
+
+/// new URL(module.uri, document.baseURI).href
+fn amd_import_meta_url(span: Span, module: Ident) -> Expr {
+    MemberExpr {
+        span,
+        obj: Box::new(Expr::New(quote_ident!("URL").into_new_expr(
+            DUMMY_SP,
+            Some(vec![
+                module.make_member(quote_ident!("uri")).as_arg(),
+                member_expr!(DUMMY_SP, document.baseURI).as_arg(),
+            ]),
+        ))),
+        prop: quote_ident!("href").into(),
     }
     .into()
 }
