@@ -9,9 +9,7 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    A: function() {
-        return A;
-    }
+    A: ()=>A
 });
 var _b = require("./B");
 console.log(_b.B);

@@ -9,21 +9,11 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    breakpoints: function() {
-        return breakpoints;
-    },
-    clsx: function() {
-        return _css.cx;
-    },
-    cx: function() {
-        return _css.cx;
-    },
-    default: function() {
-        return _default;
-    },
-    keyframes: function() {
-        return _css.keyframes;
-    }
+    breakpoints: ()=>breakpoints,
+    clsx: ()=>_css.cx,
+    cx: ()=>_css.cx,
+    default: ()=>_default,
+    keyframes: ()=>_css.keyframes
 });
 require(".");
 var _styled = _interopRequireDefault(require("@emotion/styled"));

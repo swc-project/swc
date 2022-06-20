@@ -9,12 +9,8 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    default: function() {
-        return _default;
-    },
-    input: function() {
-        return input;
-    }
+    default: ()=>_default,
+    input: ()=>input
 });
 function input(name) {
     return `${name}.md?render`;

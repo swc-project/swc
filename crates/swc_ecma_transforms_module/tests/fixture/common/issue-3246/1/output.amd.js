@@ -3,11 +3,7 @@ define([
     "bar"
 ], function(require, _bar) {
     "use strict";
-    new Promise(function(resolve, reject) {
-        return require([
+    new Promise((resolve, reject)=>require([
             _bar.foo
-        ], function(m) {
-            return resolve(_interopRequireWildcard(m));
-        }, reject);
-    });
+        ], (m)=>resolve(_interopRequireWildcard(m)), reject));
 });

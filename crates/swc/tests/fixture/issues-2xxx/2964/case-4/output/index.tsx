@@ -9,9 +9,7 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    AnElement: function() {
-        return AnElement;
-    }
+    AnElement: ()=>AnElement
 });
 const AnElement = ({ prop1 , prop2 , prop3 , num , data  })=>{
     return /*#__PURE__*/ React.createElement(React.Fragment, null, /*#__PURE__*/ React.createElement(SomeElement, {

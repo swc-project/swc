@@ -14,9 +14,7 @@ define([
         });
     }
     __export(exports, {
-        Foo: function() {
-            return Foo;
-        }
+        Foo: ()=>Foo
     });
     class Foo {
         static prop = _simple.a;

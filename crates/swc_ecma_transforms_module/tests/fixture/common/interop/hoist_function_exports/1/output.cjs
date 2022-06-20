@@ -9,12 +9,8 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    isOdd: function() {
-        return isOdd;
-    },
-    nextOdd: function() {
-        return nextOdd;
-    }
+    isOdd: ()=>isOdd,
+    nextOdd: ()=>nextOdd
 });
 var _evens = require("./evens");
 function nextOdd(n) {

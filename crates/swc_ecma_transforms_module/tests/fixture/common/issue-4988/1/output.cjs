@@ -9,12 +9,8 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    "$": function() {
-        return _jquery;
-    },
-    jquery: function() {
-        return _jquery;
-    }
+    "$": ()=>_jquery,
+    jquery: ()=>_jquery
 });
 var _jquery = require("jquery");
 _jquery(".hello");

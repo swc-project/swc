@@ -9,9 +9,7 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    utilFn: function() {
-        return utilFn;
-    }
+    utilFn: ()=>utilFn
 });
 var _utilFile = require("../core/utils/utilFile");
 (0, _utilFile.test)();

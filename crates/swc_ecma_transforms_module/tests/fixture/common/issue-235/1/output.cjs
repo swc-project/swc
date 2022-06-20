@@ -9,9 +9,7 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    fn: function() {
-        return fn;
-    }
+    fn: ()=>fn
 });
 var _something = require("something");
 const fn = ({ a =new _something.Foo()  })=>a;

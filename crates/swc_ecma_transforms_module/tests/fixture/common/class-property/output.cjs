@@ -9,9 +9,7 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    Foo: function() {
-        return Foo;
-    }
+    Foo: ()=>Foo
 });
 var _simple = require("./files_with_swcrc/simple");
 class Foo {

@@ -14,8 +14,6 @@ define([
         });
     }
     __export(exports, {
-        foo: function() {
-            return _foo.foo;
-        }
+        foo: ()=>_foo.foo
     });
 });

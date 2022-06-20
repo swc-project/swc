@@ -13,12 +13,8 @@ define([
         });
     }
     __export(exports, {
-        a: function() {
-            return a;
-        },
-        b: function() {
-            return b;
-        }
+        a: ()=>a,
+        b: ()=>b
     });
     let a, b;
     console.log([a, b] = [

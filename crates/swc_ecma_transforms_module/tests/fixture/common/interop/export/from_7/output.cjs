@@ -9,8 +9,6 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    foo: function() {
-        return _foo.default;
-    }
+    foo: ()=>_foo.default
 });
 var _foo = _interopRequireDefault(require("foo"));

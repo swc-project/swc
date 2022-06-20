@@ -9,9 +9,7 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    default: function() {
-        return NotOK;
-    }
+    default: ()=>NotOK
 });
 var _interopRequireDefaultMjs = require("@swc/helpers/lib/_interop_require_default.js");
 var _foo = (0, _interopRequireDefaultMjs.default)(require("foo"));

@@ -9,16 +9,12 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    getPackage: function() {
-        return getPackage;
-    }
+    getPackage: ()=>getPackage
 });
 var _interopRequireWildcardMjs = require("@swc/helpers/lib/_interop_require_wildcard.js");
 var _path = require("path");
 async function getPackage() {
-    const pkg = await Promise.resolve((0, _path.join)(process.cwd(), "package.json")).then(function(p) {
-        return (0, _interopRequireWildcardMjs.default)(require(p));
-    });
+    const pkg = await Promise.resolve((0, _path.join)(process.cwd(), "package.json")).then((p)=>(0, _interopRequireWildcardMjs.default)(require(p)));
     return pkg.default || pkg;
 }
 (async function() {

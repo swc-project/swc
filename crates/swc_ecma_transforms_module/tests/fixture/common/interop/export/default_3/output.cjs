@@ -9,8 +9,6 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    default: function() {
-        return _default;
-    }
+    default: ()=>_default
 });
 var _default = [];

@@ -9,8 +9,6 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    X: function() {
-        return _z.default;
-    }
+    X: ()=>_z.default
 });
 var _z = _interopRequireDefault(require("./Z"));

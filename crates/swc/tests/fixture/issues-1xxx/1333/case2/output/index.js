@@ -9,9 +9,7 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    Shard: function() {
-        return Shard;
-    }
+    Shard: ()=>Shard
 });
 var _classPrivateFieldGetMjs = require("@swc/helpers/lib/_class_private_field_get.js");
 var _classPrivateFieldInitMjs = require("@swc/helpers/lib/_class_private_field_init.js");

@@ -14,12 +14,8 @@ define([
         });
     }
     __export(exports, {
-        A: function() {
-            return _a;
-        },
-        B: function() {
-            return _a;
-        }
+        A: ()=>_a,
+        B: ()=>_a
     });
     _a = _interopRequireWildcard(_a);
 });

@@ -14,9 +14,7 @@ define([
         });
     }
     __export(exports, {
-        X: function() {
-            return _z.default;
-        }
+        X: ()=>_z.default
     });
     _z = _interopRequireDefault(_reExport(exports, _z));
 });

@@ -14,8 +14,6 @@ define([
         });
     }
     __export(exports, {
-        icons: function() {
-            return _gettingStartedIcons;
-        }
+        icons: ()=>_gettingStartedIcons
     });
 });

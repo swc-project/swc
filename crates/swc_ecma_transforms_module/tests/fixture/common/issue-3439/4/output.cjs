@@ -9,12 +9,8 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    bar: function() {
-        return foo;
-    },
-    default: function() {
-        return foo;
-    }
+    bar: ()=>foo,
+    default: ()=>foo
 });
 foo = 1;
 function foo() {}

@@ -13,9 +13,7 @@ define([
         });
     }
     __export(exports, {
-        foo: function() {
-            return foo;
-        }
+        foo: ()=>foo
     });
     var foo = 1;
     var foo = 2;

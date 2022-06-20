@@ -9,9 +9,7 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    displayA: function() {
-        return displayA;
-    }
+    displayA: ()=>displayA
 });
 function displayA() {
     return "Display A";

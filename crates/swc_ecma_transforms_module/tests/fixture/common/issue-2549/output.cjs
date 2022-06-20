@@ -9,24 +9,12 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    addOne: function() {
-        return addOne;
-    },
-    errors: function() {
-        return errors;
-    },
-    noassign: function() {
-        return noassign;
-    },
-    someFunc: function() {
-        return someFunc;
-    },
-    test: function() {
-        return test;
-    },
-    warn: function() {
-        return warn;
-    }
+    addOne: ()=>addOne,
+    errors: ()=>errors,
+    noassign: ()=>noassign,
+    someFunc: ()=>someFunc,
+    test: ()=>test,
+    warn: ()=>warn
 });
 function log() {
     console.log("unexported");

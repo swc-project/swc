@@ -9,8 +9,6 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    test: function() {
-        return test;
-    }
+    test: ()=>test
 });
 function test() {}

@@ -21,7 +21,5 @@ Object.defineProperty(exports, "__esModule", {
         enumerable: !0
     });
 }(exports, {
-    default: function() {
-        return a;
-    }
+    default: ()=>a
 });

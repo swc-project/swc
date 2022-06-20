@@ -9,8 +9,6 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    B: function() {
-        return B;
-    }
+    B: ()=>B
 });
 const B = 500;

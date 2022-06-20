@@ -14,12 +14,8 @@ define([
         });
     }
     __export(exports, {
-        isOdd: function() {
-            return isOdd;
-        },
-        nextOdd: function() {
-            return nextOdd;
-        }
+        isOdd: ()=>isOdd,
+        nextOdd: ()=>nextOdd
     });
     function nextOdd(n) {
         return (0, _evens.isEven)(n) ? n + 1 : n + 2;

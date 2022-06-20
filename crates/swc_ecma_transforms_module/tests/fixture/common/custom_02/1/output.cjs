@@ -9,9 +9,7 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    good: function() {
-        return good;
-    }
+    good: ()=>good
 });
 const good = {
     a (bad1) {

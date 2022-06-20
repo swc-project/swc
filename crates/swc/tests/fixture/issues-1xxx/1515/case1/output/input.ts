@@ -9,9 +9,7 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    ServiceError: function() {
-        return ServiceError;
-    }
+    ServiceError: ()=>ServiceError
 });
 class ServiceError extends Error {
     constructor(...args){

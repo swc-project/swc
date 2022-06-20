@@ -9,8 +9,6 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    foo: function() {
-        return _foo.foo;
-    }
+    foo: ()=>_foo.foo
 });
 var _foo = require("foo");

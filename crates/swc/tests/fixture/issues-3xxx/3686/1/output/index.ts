@@ -9,9 +9,7 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    ServiceError: function() {
-        return ServiceError;
-    }
+    ServiceError: ()=>ServiceError
 });
 var _tsDecorateMjs = require("@swc/helpers/lib/_ts_decorate.js");
 const CD = ()=>{};

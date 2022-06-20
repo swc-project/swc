@@ -14,9 +14,7 @@ define([
         });
     }
     __export(exports, {
-        whatever: function() {
-            return whatever;
-        }
+        whatever: ()=>whatever
     });
     _reExport(exports, _anotherModule);
     function whatever(notExportName) {

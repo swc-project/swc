@@ -14,9 +14,7 @@ define([
         });
     }
     __export(exports, {
-        flakySuite: function() {
-            return flakySuite;
-        }
+        flakySuite: ()=>flakySuite
     });
     _testUtils = _interopRequireWildcard(_testUtils);
     var flakySuite = _testUtils.flakySuite;

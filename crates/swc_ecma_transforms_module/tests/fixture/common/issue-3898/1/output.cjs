@@ -9,9 +9,7 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    foo: function() {
-        return foo;
-    }
+    foo: ()=>foo
 });
 let foo = 1;
 foo = 2;

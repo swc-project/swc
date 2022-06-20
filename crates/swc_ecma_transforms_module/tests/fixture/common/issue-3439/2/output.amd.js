@@ -13,21 +13,11 @@ define([
         });
     }
     __export(exports, {
-        bar: function() {
-            return bar;
-        },
-        bar2: function() {
-            return bar;
-        },
-        default: function() {
-            return _default;
-        },
-        foo: function() {
-            return foo;
-        },
-        foo1: function() {
-            return foo;
-        }
+        bar: ()=>bar,
+        bar2: ()=>bar,
+        default: ()=>_default,
+        foo: ()=>foo,
+        foo1: ()=>foo
     });
     const foo = 1;
     let bar = 2;

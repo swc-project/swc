@@ -4,11 +4,7 @@ define([
 ], function(require, _bar) {
     "use strict";
     _bar = _interopRequireDefault(_bar);
-    new Promise(function(resolve, reject) {
-        return require([
+    new Promise((resolve, reject)=>require([
             _bar.default
-        ], function(m) {
-            return resolve(_interopRequireWildcard(m));
-        }, reject);
-    });
+        ], (m)=>resolve(_interopRequireWildcard(m)), reject));
 });

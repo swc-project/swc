@@ -14,15 +14,9 @@ define([
         });
     }
     __export(exports, {
-        X: function() {
-            return _z.default;
-        },
-        X2: function() {
-            return _z.X2;
-        },
-        Y: function() {
-            return _z.Y;
-        }
+        X: ()=>_z.default,
+        X2: ()=>_z.X2,
+        Y: ()=>_z.Y
     });
     _z = _interopRequireWildcard(_reExport(exports, _z));
 });

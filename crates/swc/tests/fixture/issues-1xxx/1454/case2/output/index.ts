@@ -8,9 +8,7 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    AbstractProviderDeliveryService: function() {
-        return AbstractProviderDeliveryService;
-    }
+    AbstractProviderDeliveryService: ()=>AbstractProviderDeliveryService
 });
 class AbstractProviderDeliveryService {
 }

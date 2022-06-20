@@ -9,9 +9,7 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    default: function() {
-        return _class;
-    }
+    default: ()=>_class
 });
 var _tsDecorateMjs = require("@swc/helpers/lib/_ts_decorate.js");
 function test(constructor) {

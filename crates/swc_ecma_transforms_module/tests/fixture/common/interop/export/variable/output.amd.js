@@ -13,36 +13,16 @@ define([
         });
     }
     __export(exports, {
-        bar: function() {
-            return bar;
-        },
-        foo: function() {
-            return foo;
-        },
-        foo2: function() {
-            return foo2;
-        },
-        foo3: function() {
-            return foo3;
-        },
-        foo4: function() {
-            return foo4;
-        },
-        foo5: function() {
-            return foo5;
-        },
-        foo6: function() {
-            return foo6;
-        },
-        foo7: function() {
-            return foo7;
-        },
-        foo8: function() {
-            return foo8;
-        },
-        foo9: function() {
-            return foo9;
-        }
+        bar: ()=>bar,
+        foo: ()=>foo,
+        foo2: ()=>foo2,
+        foo3: ()=>foo3,
+        foo4: ()=>foo4,
+        foo5: ()=>foo5,
+        foo6: ()=>foo6,
+        foo7: ()=>foo7,
+        foo8: ()=>foo8,
+        foo9: ()=>foo9
     });
     var foo = 1;
     var foo2 = 1, bar = 2;

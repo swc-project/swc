@@ -9,12 +9,8 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    diff: function() {
-        return diff;
-    },
-    diffLevel: function() {
-        return diffLevel;
-    }
+    diff: ()=>diff,
+    diffLevel: ()=>diffLevel
 });
 let diffLevel = 0;
 function diff() {

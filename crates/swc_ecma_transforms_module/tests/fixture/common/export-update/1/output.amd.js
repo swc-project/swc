@@ -13,21 +13,11 @@ define([
         });
     }
     __export(exports, {
-        bar: function() {
-            return bar;
-        },
-        baz: function() {
-            return baz;
-        },
-        bazbar: function() {
-            return baz;
-        },
-        foo: function() {
-            return foo;
-        },
-        foobar: function() {
-            return foo;
-        }
+        bar: ()=>bar,
+        baz: ()=>baz,
+        bazbar: ()=>baz,
+        foo: ()=>foo,
+        foobar: ()=>foo
     });
     let foo = 1n;
     foo++;

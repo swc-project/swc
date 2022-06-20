@@ -9,9 +9,7 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    default: function() {
-        return Foo;
-    }
+    default: ()=>Foo
 });
 const Base = getBase("");
 class Foo extends Base {

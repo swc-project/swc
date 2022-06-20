@@ -9,15 +9,9 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    test: function() {
-        return test;
-    },
-    test2: function() {
-        return test2;
-    },
-    warn: function() {
-        return warn;
-    }
+    test: ()=>test,
+    test2: ()=>test2,
+    warn: ()=>warn
 });
 function warn() {
     throw new Error("this should not be called");

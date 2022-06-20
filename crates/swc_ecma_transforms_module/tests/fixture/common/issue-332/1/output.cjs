@@ -9,9 +9,7 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    bar: function() {
-        return bar;
-    }
+    bar: ()=>bar
 });
 var _foo = _interopRequireDefault(require("foo"));
 const bar = {

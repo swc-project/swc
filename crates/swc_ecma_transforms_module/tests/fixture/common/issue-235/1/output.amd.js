@@ -14,9 +14,7 @@ define([
         });
     }
     __export(exports, {
-        fn: function() {
-            return fn;
-        }
+        fn: ()=>fn
     });
     const fn = ({ a =new _something.Foo()  })=>a;
 });

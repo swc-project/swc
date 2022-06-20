@@ -14,12 +14,8 @@ define([
         });
     }
     __export(exports, {
-        byID: function() {
-            return byID;
-        },
-        get: function() {
-            return _get;
-        }
+        byID: ()=>byID,
+        get: ()=>_get
     });
     _get = _interopRequireWildcard(_get);
     const byID = (id)=>{

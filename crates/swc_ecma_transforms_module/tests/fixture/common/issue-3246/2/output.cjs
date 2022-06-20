@@ -1,5 +1,3 @@
 "use strict";
 var _bar = _interopRequireDefault(require("bar"));
-Promise.resolve(_bar.default).then(function(p) {
-    return _interopRequireWildcard(require(p));
-});
+Promise.resolve(_bar.default).then((p)=>_interopRequireWildcard(require(p)));

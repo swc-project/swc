@@ -9,9 +9,7 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    default: function() {
-        return Foo;
-    }
+    default: ()=>Foo
 });
 var _asyncToGeneratorMjs = require("@swc/helpers/lib/_async_to_generator.js");
 var _interopRequireDefaultMjs = require("@swc/helpers/lib/_interop_require_default.js");

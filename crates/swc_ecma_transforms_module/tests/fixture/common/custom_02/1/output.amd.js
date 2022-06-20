@@ -13,9 +13,7 @@ define([
         });
     }
     __export(exports, {
-        good: function() {
-            return good;
-        }
+        good: ()=>good
     });
     const good = {
         a (bad1) {

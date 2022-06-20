@@ -13,15 +13,9 @@ define([
         });
     }
     __export(exports, {
-        default: function() {
-            return someCall;
-        },
-        test: function() {
-            return test;
-        },
-        warn: function() {
-            return warn;
-        }
+        default: ()=>someCall,
+        test: ()=>test,
+        warn: ()=>warn
     });
     function someCall() {
         throw new Error("this should not be called");

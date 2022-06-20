@@ -9,12 +9,8 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    byID: function() {
-        return byID;
-    },
-    get: function() {
-        return _get;
-    }
+    byID: ()=>byID,
+    get: ()=>_get
 });
 var _get = require("./get");
 const byID = (id)=>{

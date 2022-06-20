@@ -9,9 +9,7 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    whatever: function() {
-        return whatever;
-    }
+    whatever: ()=>whatever
 });
 _reExport(exports, require("another-module"));
 function whatever(notExportName) {

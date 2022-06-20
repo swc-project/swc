@@ -9,21 +9,11 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    a: function() {
-        return a;
-    },
-    c: function() {
-        return b;
-    },
-    e: function() {
-        return d;
-    },
-    f: function() {
-        return d;
-    },
-    test: function() {
-        return test;
-    }
+    a: ()=>a,
+    c: ()=>b,
+    e: ()=>d,
+    f: ()=>d,
+    test: ()=>test
 });
 var test = 2;
 test = 5;

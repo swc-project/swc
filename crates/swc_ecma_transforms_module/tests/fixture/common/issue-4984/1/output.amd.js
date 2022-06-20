@@ -13,9 +13,7 @@ define([
         });
     }
     __export(exports, {
-        default: function() {
-            return MyClass;
-        }
+        default: ()=>MyClass
     });
     const VALUE = "hello";
     class MyClass {

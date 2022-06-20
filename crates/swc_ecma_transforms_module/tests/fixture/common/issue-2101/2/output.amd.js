@@ -15,9 +15,7 @@ define([
         });
     }
     __export(exports, {
-        render: function() {
-            return _customRender.customRender;
-        }
+        render: ()=>_customRender.customRender
     });
     _reExport(exports, _react);
 });

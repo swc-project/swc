@@ -9,9 +9,7 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    AppController: function() {
-        return AppController;
-    }
+    AppController: ()=>AppController
 });
 var _tsDecorateMjs = require("@swc/helpers/lib/_ts_decorate.js");
 var _tsMetadataMjs = require("@swc/helpers/lib/_ts_metadata.js");

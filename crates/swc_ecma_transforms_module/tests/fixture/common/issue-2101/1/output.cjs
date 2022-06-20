@@ -9,9 +9,7 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    render: function() {
-        return _customRender.customRender;
-    }
+    render: ()=>_customRender.customRender
 });
 var _customRender = require("./customRender");
 _reExport(exports, require("@testing-library/react"));

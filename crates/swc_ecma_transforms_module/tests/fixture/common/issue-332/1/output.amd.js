@@ -14,9 +14,7 @@ define([
         });
     }
     __export(exports, {
-        bar: function() {
-            return bar;
-        }
+        bar: ()=>bar
     });
     _foo = _interopRequireDefault(_foo);
     const bar = {

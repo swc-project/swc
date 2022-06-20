@@ -13,15 +13,9 @@ define([
         });
     }
     __export(exports, {
-        a: function() {
-            return a;
-        },
-        b: function() {
-            return b;
-        },
-        c: function() {
-            return c;
-        }
+        a: ()=>a,
+        b: ()=>b,
+        c: ()=>c
     });
     var a = 1, b = 2;
     var c = 3;

@@ -9,21 +9,11 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    bar: function() {
-        return bar;
-    },
-    bar2: function() {
-        return bar;
-    },
-    default: function() {
-        return bar;
-    },
-    foo: function() {
-        return foo;
-    },
-    foo1: function() {
-        return foo;
-    }
+    bar: ()=>bar,
+    bar2: ()=>bar,
+    default: ()=>bar,
+    foo: ()=>foo,
+    foo1: ()=>foo
 });
 const foo = 1;
 let bar = 2;

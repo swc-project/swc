@@ -9,9 +9,7 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    RequestHandler: function() {
-        return RequestHandler;
-    }
+    RequestHandler: ()=>RequestHandler
 });
 var _classPrivateFieldGetMjs = require("@swc/helpers/lib/_class_private_field_get.js");
 var _classPrivateFieldInitMjs = require("@swc/helpers/lib/_class_private_field_init.js");

@@ -9,15 +9,9 @@ function __export(target, all) {
     });
 }
 __export(exports, {
-    badIstanbul: function() {
-        return badIstanbul;
-    },
-    downloadDocument: function() {
-        return downloadDocument;
-    },
-    noop: function() {
-        return noop;
-    }
+    badIstanbul: ()=>badIstanbul,
+    downloadDocument: ()=>downloadDocument,
+    noop: ()=>noop
 });
 var _objectWithoutPropertiesMjs = require("@swc/helpers/lib/_object_without_properties.js");
 //top comment

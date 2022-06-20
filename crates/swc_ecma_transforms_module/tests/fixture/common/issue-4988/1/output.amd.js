@@ -14,12 +14,8 @@ define([
         });
     }
     __export(exports, {
-        "$": function() {
-            return _jquery;
-        },
-        jquery: function() {
-            return _jquery;
-        }
+        "$": ()=>_jquery,
+        jquery: ()=>_jquery
     });
     _jquery(".hello");
 });
