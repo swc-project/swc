@@ -690,7 +690,7 @@ impl Minifier {
 
         let syntax = swc_ecma_parser::Syntax::Es(Default::default());
         let target = swc_ecma_ast::EsVersion::latest();
-        let program = if is_module {
+        let mut program = if is_module {
             match swc_ecma_parser::parse_file_as_module(&fm, syntax, target, None, &mut errors) {
                 Ok(module) => swc_ecma_ast::Program::Module(module),
                 _ => return None,
@@ -702,7 +702,15 @@ impl Minifier {
             }
         };
 
-        // Avoid compress potential invalid CSS
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        swc_ecma_visit::VisitMutWith::visit_mut_with(
+            &mut program,
+            &mut swc_ecma_transforms_base::resolver(unresolved_mark, top_level_mark, false),
+        );
+
+        // Avoid compress potential invalid JS
         if !errors.is_empty() {
             return None;
         }
@@ -719,9 +727,6 @@ impl Minifier {
             }),
             ..Default::default()
         };
-
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
 
         let program = swc_ecma_minifier::optimize(
             program,
