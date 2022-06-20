@@ -271,6 +271,28 @@ struct WhitespaceMinificationMode {
     pub collapse: bool,
 }
 
+#[derive(Eq, PartialEq)]
+enum Display {
+    None,
+    Inline,
+    InlineBlock,
+    Block,
+    ListItem,
+    Ruby,
+    RubyBase,
+    RubyText,
+    Table,
+    TableColumnGroup,
+    TableCaption,
+    TableColumn,
+    TableRow,
+    TableCell,
+    TableHeaderGroup,
+    TableRowGroup,
+    TableFooterGroup,
+    Contents,
+}
+
 pub static CONDITIONAL_COMMENT_START: Lazy<CachedRegex> =
     Lazy::new(|| CachedRegex::new("^\\[if\\s[^\\]+]").unwrap());
 
@@ -562,6 +584,69 @@ impl Minifier {
         }
 
         false
+    }
+
+    fn get_display(&self, namespace: Namespace, tag_name: &str) -> Display {
+        match namespace {
+            Namespace::HTML => {
+                match tag_name {
+                    "area" | "base" | "basefont" | "datalist" | "head" | "link" | "meta"
+                    | "noembed" | "noframes" | "param" | "rp" | "script" | "style" | "template"
+                    | "title" => Display::None,
+
+                    "a" | "abbr" | "acronym" | "b" | "bdi" | "bdo" | "cite" | "data" | "big"
+                    | "del" | "dfn" | "em" | "i" | "ins" | "kbd" | "mark" | "q" | "nobr"
+                    | "rtc" | "s" | "samp" | "small" | "span" | "strike" | "strong" | "sub"
+                    | "sup" | "time" | "tt" | "u" | "var" | "wbr" | "object" | "audio" | "code"
+                    | "label" | "br" | "img" | "video" | "noscript" | "picture" | "source"
+                    | "track" | "map" | "applet" | "bgsound" | "blink" | "canvas" | "command"
+                    | "content" | "embed" | "frame" | "iframe" | "image" | "isindex" | "keygen"
+                    | "output" | "rbc" | "shadow" | "spacer" => Display::Inline,
+
+                    "html" | "body" | "address" | "blockquote" | "center" | "div" | "figure"
+                    | "figcaption" | "footer" | "form" | "header" | "hr" | "legend" | "listing"
+                    | "main" | "p" | "plaintext" | "pre" | "xmp" | "details" | "summary"
+                    | "optgroup" | "option" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6"
+                    | "fieldset" | "ul" | "ol" | "menu" | "dir" | "dl" | "dt" | "dd"
+                    | "section" | "nav" | "hgroup" | "aside" | "article" | "dialog" | "element"
+                    | "font" | "frameset" => Display::Block,
+
+                    "li" => Display::ListItem,
+
+                    "button" | "meter" | "progress" | "select" | "textarea" | "input"
+                    | "marquee" => Display::InlineBlock,
+
+                    "ruby" => Display::Ruby,
+
+                    "rb" => Display::RubyBase,
+
+                    "rt" => Display::RubyText,
+
+                    "table" => Display::Table,
+
+                    "caption" => Display::TableCaption,
+
+                    "colgroup" => Display::TableColumnGroup,
+
+                    "col" => Display::TableColumn,
+
+                    "thead" => Display::TableHeaderGroup,
+
+                    "tbody" => Display::TableRowGroup,
+
+                    "tfoot" => Display::TableFooterGroup,
+
+                    "tr" => Display::TableRow,
+
+                    "td" | "th" => Display::TableCell,
+
+                    "slot" => Display::Contents,
+
+                    _ => Display::Inline,
+                }
+            }
+            _ => Display::Inline,
+        }
     }
 
     fn get_whitespace_minification_for_tag(
@@ -1139,11 +1224,12 @@ impl VisitMut for Minifier {
         self.minify_children(&mut n.children);
         let mut index = 0;
         let last = n.children.len();
+        let mut prev: Option<Child> = None;
 
         n.children.retain_mut(|child| {
             index += 1;
 
-            match child {
+            let result = match child {
                 Child::Comment(comment) if !self.is_preserved_comment(&comment.data) => false,
                 // Always remove whitespaces from html and head elements (except nested elements),
                 // it should be safe
@@ -1166,20 +1252,35 @@ impl VisitMut for Minifier {
                 }
                 Child::Text(text) if !self.descendant_of_pre => {
                     let mode = whitespace_minification_mode;
-
                     let is_body = n.namespace == Namespace::HTML && matches!(&*n.tag_name, "body");
                     let is_first_body_element = index == 1 && is_body;
                     let is_last_body_element = index == last && is_body;
 
                     if mode.is_some() || is_first_body_element || is_last_body_element {
-                        let mut value =
-                            if (mode.is_some() && mode.unwrap().trim) || is_first_body_element {
-                                text.data.trim_start_matches(is_whitespace)
-                            } else {
-                                &*text.data
-                            };
+                        let prev_display = if let Some(Child::Element(Element {
+                            namespace,
+                            tag_name,
+                            ..
+                        })) = &prev
+                        {
+                            Some(self.get_display(*namespace, tag_name))
+                        } else {
+                            None
+                        };
 
-                        value = if (mode.is_some() && mode.unwrap().trim) || is_last_body_element {
+                        let allow_to_trim = mode.is_some() && mode.unwrap().trim;
+
+                        let mut value = if allow_to_trim
+                            || is_first_body_element
+                            || (self.collapse_whitespaces == Some(CollapseWhitespaces::Smart)
+                                && prev_display == Some(Display::Block))
+                        {
+                            text.data.trim_start_matches(is_whitespace)
+                        } else {
+                            &*text.data
+                        };
+
+                        value = if allow_to_trim || is_last_body_element {
                             value.trim_end_matches(is_whitespace)
                         } else {
                             value
@@ -1206,7 +1307,13 @@ impl VisitMut for Minifier {
                     }
                 }
                 _ => true,
+            };
+
+            if result {
+                prev = Some(child.clone());
             }
+
+            result
         });
 
         n.visit_mut_children_with(self);
