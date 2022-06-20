@@ -436,6 +436,46 @@ impl Minifier {
                 | (Namespace::HTML, "th", "colspan", "1")
                 | (Namespace::HTML, "th", "rowspan", "1")
                 | (Namespace::HTML, "button", "type", "submit")
+                | (Namespace::SVG, "svg", "xmlns", "http://www.w3.org/2000/svg")
+                | (
+                    Namespace::SVG,
+                    "svg",
+                    "xlink",
+                    "http://www.w3.org/1999/xlink"
+                )
+                | (Namespace::SVG, "style", "type", "text/css")
+                | (Namespace::SVG, "script", "language", "javascript")
+                | (Namespace::SVG, "script", "language", "javascript1.2")
+                | (Namespace::SVG, "script", "language", "javascript1.3")
+                | (Namespace::SVG, "script", "language", "javascript1.4")
+                | (Namespace::SVG, "script", "language", "javascript1.5")
+                | (Namespace::SVG, "script", "language", "javascript1.6")
+                | (Namespace::SVG, "script", "language", "javascript1.7")
+                | (Namespace::SVG, "script", "type", "text/javascript")
+                | (Namespace::SVG, "script", "type", "text/ecmascript")
+                | (Namespace::SVG, "script", "type", "text/jscript")
+                | (Namespace::SVG, "script", "type", "application/javascript")
+                | (Namespace::SVG, "script", "type", "application/x-javascript")
+                | (Namespace::SVG, "script", "type", "application/ecmascript")
+                | (Namespace::SVG, "script", "fetchpriority", "auto")
+                | (
+                    Namespace::SVG,
+                    "script",
+                    "referrerpolicy",
+                    "strict-origin-when-cross-origin"
+                )
+                | (
+                    Namespace::MATHML,
+                    "math",
+                    "xmlns",
+                    "http://www.w3.org/1998/math/mathml"
+                )
+                | (
+                    Namespace::MATHML,
+                    "math",
+                    "xlink",
+                    "http://www.w3.org/1999/xlink"
+                )
         )
     }
 
@@ -778,7 +818,7 @@ impl VisitMut for Minifier {
                 &n.tag_name,
                 &attribute.name,
                 match &*n.tag_name {
-                    "script" if n.namespace == Namespace::HTML => {
+                    "script" if matches!(n.namespace, Namespace::HTML | Namespace::SVG) => {
                         let original_value = attribute.value.as_ref().unwrap();
 
                         if let Some(next) = original_value.split(';').next() {

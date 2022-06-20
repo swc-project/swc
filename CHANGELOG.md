@@ -19,6 +19,12 @@
 
 - **(readme)** Add a link for discord badge in `README.md` (#5005) ([1f64055](https://github.com/swc-project/swc/commit/1f64055438f1867683fc0fb3b3bef88ca077ff0c))
 
+### Features
+
+
+
+- **(html/minifier)** Compress more svg/mathml attributes (#5001) ([1538649](https://github.com/swc-project/swc/commit/15386492372bd8bf322bd60a71ebdff54a15ebf8))
+
 ## [1.2.204] - 2022-06-18
 
 ### Bug Fixes
