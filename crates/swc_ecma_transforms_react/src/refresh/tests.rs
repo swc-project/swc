@@ -1130,7 +1130,12 @@ test!(
                 Some(t.comments.clone()),
                 top_level_mark
             ),
-            common_js(unresolved_mark, Default::default())
+            common_js(
+                unresolved_mark,
+                Default::default(),
+                Default::default(),
+                Default::default()
+            )
         )
     },
     include_hook_signature_in_commonjs,
@@ -1149,7 +1154,17 @@ test!(
     Object.defineProperty(exports, "__esModule", {
       value: true
     });
-    exports.default = App;
+    function __export(target, all) {
+        for(var name in all)Object.defineProperty(target, name, {
+            get: all[name],
+            enumerable: true
+        });
+    }
+    __export(exports, {
+        default: function() {
+            return App;
+        }
+    });
     var _hooks = require("./hooks");
     var _foo = _interopRequireDefault(require("./foo"));
 
@@ -1158,8 +1173,8 @@ test!(
     function App() {
       _s();
 
-      const bar = (0, _hooks).useFancyState();
-      const foo = (0, _foo).default();
+      const bar = (0, _hooks.useFancyState)();
+      const foo = (0, _foo.default)();
       return <h1>{bar}</h1>;
     }
 

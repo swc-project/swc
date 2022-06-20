@@ -24,7 +24,7 @@ it("should emit _interopRequireWildcard", () => {
 
     expect(out.code).toContain(`function _interopRequireWildcard`);
     expect(out.code).toContain(
-        `var foo = _interopRequireWildcard(require("foo"))`
+        `_interopRequireWildcard(require("foo"))`
     );
 });
 
@@ -46,6 +46,6 @@ it("should work with amd and external helpers", () => {
     expect(out.map).toBeFalsy();
 
     expect(out.code).toContain(`define("a",`);
-    expect(out.code).toContain(`_class_call_check(this, Foo);`);
-    expect(out.code).toContain(`_inherits(Bar, Foo);`);
+    expect(out.code).toContain(`(0, _classCallCheckMjs.default)(this, Foo);`);
+    expect(out.code).toContain(`(0, _inheritsMjs.default)(Bar, Foo);`);
 });

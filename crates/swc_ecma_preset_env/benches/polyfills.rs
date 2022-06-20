@@ -23,6 +23,7 @@ fn run(b: &mut Bencher, src: &str, config: Config) {
             Some(SingleThreadedComments::default()),
             config,
             Default::default(),
+            Default::default(),
         );
 
         b.iter(|| black_box(module.clone().fold_with(&mut folder)));

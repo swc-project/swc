@@ -149,7 +149,8 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
                         targets: c.targets,
                         path: std::env::current_dir().unwrap(),
                     },
-                    Default::default()
+                    Default::default(),
+                    Default::default(),
                 ),
                 fixer(None)
             );
