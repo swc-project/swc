@@ -307,10 +307,11 @@ pub static CONDITIONAL_COMMENT_END: Lazy<CachedRegex> =
 
 struct Minifier {
     current_element: Option<Element>,
-
-    force_set_html5_doctype: bool,
+    latest_element: Option<Child>,
 
     descendant_of_pre: bool,
+
+    force_set_html5_doctype: bool,
     collapse_whitespaces: Option<CollapseWhitespaces>,
 
     remove_comments: bool,
@@ -665,6 +666,20 @@ impl Minifier {
         }
     }
 
+    fn get_deep_text_element(&self, node: &Child) -> Option<Text> {
+        match &node {
+            Child::Text(text) => Some(text.clone()),
+            Child::Element(Element { children, .. }) => {
+                if let Some(last) = children.last() {
+                    self.get_deep_text_element(last)
+                } else {
+                    None
+                }
+            }
+            _ => None,
+        }
+    }
+
     fn get_whitespace_minification_for_tag(
         &self,
         mode: &CollapseWhitespaces,
@@ -759,7 +774,9 @@ impl Minifier {
 
         let mut index = 0;
         let last = children.len();
+        let cloned = children.clone();
         let mut prev = None;
+        let mut next = None;
 
         children.retain_mut(|child| {
             index += 1;
@@ -768,6 +785,10 @@ impl Minifier {
                 Child::Comment(comment) if self.remove_comments => {
                     self.is_preserved_comment(&comment.data)
                 }
+            if mode.is_some() {
+                next = cloned.get(index);
+            }
+
             let result = match child {
                 Child::Comment(comment) if !self.is_preserved_comment(&comment.data) => false,
                 // Always remove whitespaces from html and head elements (except nested elements),
@@ -779,71 +800,86 @@ impl Minifier {
                 {
                     false
                 }
-                // Always remove or trim the first and the latest whitespaces, because it is
-                // safe
                 Child::Text(text)
-                    if (index == 1 || index == last)
-                        && namespace == Namespace::HTML
-                        && &**tag_name == "body" =>
-                {
-                    if text.data.chars().all(is_whitespace) {
-                        false
-                    } else {
-                        if index == 1 {
-                            text.data = text.data.trim_start_matches(is_whitespace).into();
-                        }
-
-                        if index == last {
-                            text.data = text.data.trim_end_matches(is_whitespace).into();
-                        }
-
-                        if let Some(mode) = mode {
-                            if mode.collapse {
-                                text.data = self.collapse_whitespace(&text.data).into();
-                            }
-                        }
-
-                        true
-                    }
-                }
-                Child::Text(text)
-                    if mode.is_some()
-                        && !self.descendant_of_pre
+                    if !self.descendant_of_pre
                         && self.get_white_space(namespace, &**tag_name) == WhiteSpace::Normal =>
                 {
-                    let mode = mode.unwrap();
-                    let prev_display = if let Some(Child::Element(Element {
-                        namespace,
-                        tag_name,
-                        ..
-                    })) = &prev
-                    {
-                        Some(self.get_display(*namespace, &**tag_name))
-                    } else {
-                        None
-                    };
+                    let mut is_smart_left_trim = false;
+                    let mut is_smart_right_trim = false;
 
-                    let mut value = if mode.trim
-                        || (self.collapse_whitespaces == Some(CollapseWhitespaces::Smart)
-                            && (prev_display == Some(Display::Block) || prev_display.is_none()))
+                    if self.collapse_whitespaces == Some(CollapseWhitespaces::Smart) {
+                        let prev_display = if let Some(Child::Element(Element {
+                            namespace,
+                            tag_name,
+                            ..
+                        })) = &prev
+                        {
+                            Some(self.get_display(*namespace, &**tag_name))
+                        } else {
+                            None
+                        };
+                        let next_display = if let Some(Child::Element(Element {
+                            namespace,
+                            tag_name,
+                            ..
+                        })) = &next
+                        {
+                            Some(self.get_display(*namespace, &**tag_name))
+                        } else {
+                            None
+                        };
+                        let parent_display = self.get_display(namespace, &**tag_name);
+
+                        is_smart_left_trim = match prev_display {
+                            Some(Display::Block) => true,
+                            Some(_) => {
+                                let deep = self.get_deep_text_element(prev.as_ref().unwrap());
+
+                                if let Some(deep) = deep {
+                                    deep.data.ends_with(is_whitespace)
+                                } else {
+                                    false
+                                }
+                            }
+                            None => {
+                                if let Some(Child::Text(Text { data, .. })) = &self.latest_element {
+                                    data.ends_with(is_whitespace)
+                                } else {
+                                    match parent_display {
+                                        Display::Block | Display::InlineBlock => true,
+                                        _ => true,
+                                    }
+                                }
+                            }
+                        };
+
+                        is_smart_right_trim = matches!(next_display, Some(Display::Block));
+                    }
+
+                    let mut value = if (mode.is_some() && mode.unwrap().trim)
+                        || is_smart_left_trim
+                        || (index == 1 && namespace == Namespace::HTML && &**tag_name == "body")
                     {
                         text.data.trim_start_matches(is_whitespace)
                     } else {
                         &*text.data
                     };
 
-                    value = if mode.trim
-                        || (self.collapse_whitespaces == Some(CollapseWhitespaces::Smart)
-                            && (prev_display == Some(Display::Block) && index == last))
+                    value = if (mode.is_some() && mode.unwrap().trim)
+                        || is_smart_right_trim
+                        || (index == last && namespace == Namespace::HTML && &**tag_name == "body")
                     {
                         value.trim_end_matches(is_whitespace)
                     } else {
                         value
                     };
 
-                    if mode.destroy_whole && value.chars().all(is_whitespace) {
+                    if mode.is_some()
+                        && mode.unwrap().destroy_whole
+                        && value.chars().all(is_whitespace)
+                    {
                         return false;
-                    } else if mode.collapse {
+                    } else if mode.is_some() && mode.unwrap().collapse {
                         text.data = self.collapse_whitespace(value).into();
 
                         return true;
@@ -858,7 +894,7 @@ impl Minifier {
                 _ => true,
             };
 
-            if result {
+            if result && mode.is_some() {
                 prev = Some(child.clone());
             }
 
@@ -1263,6 +1299,10 @@ impl VisitMut for Minifier {
         n.visit_mut_children_with(self);
 
         self.current_element = None;
+
+        if self.collapse_whitespaces == Some(CollapseWhitespaces::Smart) {
+            self.latest_element = Some(n.clone());
+        }
     }
 
     fn visit_mut_element(&mut self, n: &mut Element) {
@@ -1635,6 +1675,7 @@ fn create_minifier(context_element: Option<&Element>, options: &MinifyOptions) -
 
     Minifier {
         current_element,
+        latest_element: None,
 
         descendant_of_pre: is_pre,
 
