@@ -25,6 +25,9 @@
 
 - **(html/minifier)** Compress more svg/mathml attributes (#5001) ([1538649](https://github.com/swc-project/swc/commit/15386492372bd8bf322bd60a71ebdff54a15ebf8))
 
+
+- **(html/minifier)** Add an API to minify document fragments (#5002) ([7745fbf](https://github.com/swc-project/swc/commit/7745fbf604d6c3c8daeb61eced8c01b464e385db))
+
 ## [1.2.204] - 2022-06-18
 
 ### Bug Fixes
