@@ -408,10 +408,10 @@ impl CompileOptions {
             if path.is_dir() {
                 let iter = WalkDir::new(path)
                     .into_iter()
-                    .filter_map(|entry| Some(entry.ok()?.path().to_path_buf()))
-                    .filter(|path| has_valid_extension(path.as_ref()))
-                    .filter(|path| !should_ignore(path.as_ref()))
-                    .map(Cow::from);
+                    .filter_map(|entry| entry.ok())
+                    .filter(|entry| has_valid_extension(entry.path()))
+                    .filter(|entry| !should_ignore(entry.path()))
+                    .map(|entry| Cow::from(entry.path().to_path_buf()));
                 output.extend(iter);
                 continue;
             }
