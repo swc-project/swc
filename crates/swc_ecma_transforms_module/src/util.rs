@@ -1073,6 +1073,81 @@ macro_rules! mark_as_nested {
         }
     };
 }
+/// ```javascript
+/// function _esmExport(target, all) {
+///    for (var name in all)Object.defineProperty(target, name, { get: all[name], enumerable: true });
+/// }
+/// ```
+pub(crate) fn esm_export() -> Function {
+    let target = private_ident!("target");
+    let all = private_ident!("all");
+    let name = private_ident!("name");
+
+    let body = member_expr!(DUMMY_SP, Object.defineProperty)
+        .as_call(
+            DUMMY_SP,
+            vec![
+                target.clone().as_arg(),
+                name.clone().as_arg(),
+                ObjectLit {
+                    span: DUMMY_SP,
+                    props: vec![
+                        PropOrSpread::Prop(Box::new(
+                            KeyValueProp {
+                                key: quote_ident!("get").into(),
+                                value: Box::new(
+                                    all.clone().computed_member(Expr::from(name.clone())),
+                                ),
+                            }
+                            .into(),
+                        )),
+                        PropOrSpread::Prop(Box::new(
+                            KeyValueProp {
+                                key: quote_ident!("enumerable").into(),
+                                value: Box::new(true.into()),
+                            }
+                            .into(),
+                        )),
+                    ],
+                }
+                .as_arg(),
+            ],
+        )
+        .into_stmt();
+
+    let for_in_stmt: Stmt = ForInStmt {
+        span: DUMMY_SP,
+        left: VarDecl {
+            span: DUMMY_SP,
+            kind: VarDeclKind::Var,
+            declare: false,
+            decls: vec![VarDeclarator {
+                span: DUMMY_SP,
+                name: name.into(),
+                init: None,
+                definite: false,
+            }],
+        }
+        .into(),
+        right: Box::new(all.clone().into()),
+        body: Box::new(body),
+    }
+    .into();
+
+    Function {
+        params: vec![target.into(), all.into()],
+        decorators: Default::default(),
+        span: DUMMY_SP,
+        body: Some(BlockStmt {
+            span: DUMMY_SP,
+            stmts: vec![for_in_stmt],
+        }),
+        is_generator: false,
+        is_async: false,
+        type_params: None,
+        return_type: None,
+    }
+}
 
 pub(crate) fn prop_name(key: &str, span: Span) -> IdentOrStr {
     if is_valid_prop_ident(key) {

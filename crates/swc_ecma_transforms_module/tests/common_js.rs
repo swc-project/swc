@@ -3,9 +3,9 @@ use std::path::PathBuf;
 use swc_common::{chain, Mark};
 use swc_ecma_parser::{Syntax, TsConfig};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
-use swc_ecma_transforms_module::common_js::common_js;
+use swc_ecma_transforms_module::common_js::{self, common_js};
 use swc_ecma_transforms_testing::test_fixture;
-use swc_ecma_transforms_typescript::{strip::strip_with_config, Config};
+use swc_ecma_transforms_typescript::strip::{self, strip_with_config};
 use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
@@ -16,13 +16,13 @@ fn ts_syntax() -> Syntax {
     Syntax::Typescript(TsConfig::default())
 }
 
-fn tr() -> impl Fold {
+fn tr(config: common_js::Config) -> impl Fold {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
     chain!(
         resolver(unresolved_mark, top_level_mark, false),
-        common_js(unresolved_mark, Default::default()),
+        common_js(unresolved_mark, config),
         hygiene(),
         fixer(None)
     )
@@ -35,7 +35,7 @@ fn ts_tr() -> impl Fold {
     chain!(
         resolver(unresolved_mark, top_level_mark, true),
         strip_with_config(
-            Config {
+            strip::Config {
                 preserve_import_export_assign: true,
                 ..Default::default()
             },
@@ -53,7 +53,7 @@ fn esm_to_cjs(input: PathBuf) {
 
     let output = dir.join("output.cjs");
 
-    test_fixture(syntax(), &|_| tr(), &input, &output);
+    test_fixture(syntax(), &|_| tr(Default::default()), &input, &output);
 }
 
 "#
