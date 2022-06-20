@@ -16,10 +16,11 @@ use swc_ecma_ast::{EsVersion, Module};
 use swc_ecma_minifier::option::{terser::TerserTopLevelOptions, MinifyOptions};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
-    compat, compat::es2022::private_in_object, fixer, helpers, hygiene,
-    hygiene::hygiene_with_config, modules, modules::util::Scope, optimization::const_modules,
-    pass::Optional, Assumptions,
+    compat, compat::es2022::private_in_object, feature::enable_available_feature_from_es_version,
+    fixer, helpers, hygiene, hygiene::hygiene_with_config, modules, modules::util::Scope,
+    optimization::const_modules, pass::Optional, Assumptions,
 };
+use swc_ecma_transforms_base::feature::FeatureSet;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut};
 
 use crate::config::{CompiledPaths, GlobalPassOption, JsMinifyOptions, ModuleConfig};
@@ -183,6 +184,8 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             Some(ModuleConfig::SystemJs(_)) | Some(ModuleConfig::Es6) | None => false,
         };
 
+        let feature_set: FeatureSet = Default::default();
+
         // compat
         let compat_pass = if let Some(env) = self.env {
             Either::Left(swc_ecma_preset_env::preset_env(
@@ -190,9 +193,13 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 comments,
                 env,
                 self.assumptions,
+                feature_set.clone(),
             ))
         } else {
             let assumptions = self.assumptions;
+
+            enable_available_feature_from_es_version(feature_set.clone(), self.target);
+
             Either::Right(chain!(
                 Optional::new(
                     compat::es2022::es2022(
@@ -319,6 +326,8 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 base,
                 self.unresolved_mark,
                 module,
+                self.target,
+                feature_set.clone()
             ),
             as_folder(MinifierPass {
                 options: self.minify,

@@ -1,7 +1,7 @@
 use swc_atoms::js_word;
 use swc_common::{collections::AHashSet, util::take::Take, FileName, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::helper;
+use swc_ecma_transforms_base::{feature::FeatureSet, helper};
 use swc_ecma_utils::{member_expr, private_ident, quote_ident, ExprFactory, FunctionFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -11,15 +11,24 @@ use crate::{
     module_ref_rewriter::{ImportMap, ModuleRefRewriter},
     path::{ImportResolver, Resolver},
     util::{
-        define_es_module, esm_export, has_use_strict, local_name_for_src, prop_function, use_strict,
+        define_es_module, esm_export, has_use_strict, local_name_for_src, prop_arrow,
+        prop_function, prop_method, use_strict,
     },
 };
 
-pub fn common_js(unresolved_mark: Mark, config: Config) -> impl Fold + VisitMut {
+pub fn common_js(
+    unresolved_mark: Mark,
+    config: Config,
+    _target: EsVersion,
+    available_features: FeatureSet,
+) -> impl Fold + VisitMut {
     as_folder(Cjs {
         config,
         resolver: Resolver::Default,
         unresolved_mark,
+
+        support_arrow: caniuse!(available_features.ArrowFunctions),
+        support_shorthand: caniuse!(available_features.ShorthandProperties),
 
         exports: None,
     })
@@ -30,11 +39,16 @@ pub fn common_js_with_resolver(
     base: FileName,
     unresolved_mark: Mark,
     config: Config,
+    _target: EsVersion,
+    available_features: FeatureSet,
 ) -> impl Fold + VisitMut {
     as_folder(Cjs {
         config,
         resolver: Resolver::Real { base, resolver },
         unresolved_mark,
+
+        support_arrow: caniuse!(available_features.ArrowFunctions),
+        support_shorthand: caniuse!(available_features.ShorthandProperties),
 
         exports: None,
     })
@@ -44,6 +58,8 @@ pub struct Cjs {
     config: Config,
     resolver: Resolver,
     unresolved_mark: Mark,
+    support_arrow: bool,
+    support_shorthand: bool,
 
     exports: Option<Ident>,
 }
@@ -133,7 +149,7 @@ impl VisitMut for Cjs {
                     args.take(),
                     quote_ident!(require_span, "require"),
                     !self.config.no_interop,
-                    false,
+                    self.support_arrow,
                 );
             }
             Expr::Member(MemberExpr {
@@ -284,13 +300,18 @@ impl Cjs {
             .then(|| esm_export().into_fn_decl(esm_export_ident.clone()).into())
             .map(Stmt::Decl);
 
+        let prop_auto = if self.support_arrow {
+            prop_arrow
+        } else if self.support_shorthand {
+            prop_method
+        } else {
+            prop_function
+        };
+
         let export_call = should_export.then(|| {
             export_obj_prop_list.sort_by(|a, b| a.0.cmp(&b.0));
 
-            let props = export_obj_prop_list
-                .into_iter()
-                .map(prop_function)
-                .collect();
+            let props = export_obj_prop_list.into_iter().map(prop_auto).collect();
 
             let obj_lit = ObjectLit {
                 span: DUMMY_SP,

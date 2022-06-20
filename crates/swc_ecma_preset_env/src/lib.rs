@@ -15,6 +15,7 @@ use swc_ecma_transforms::{
         bugfixes, es2015, es2016, es2017, es2018, es2019, es2020, es2021, es2022, es3,
         regexp::{self, regexp},
     },
+    feature::FeatureSet,
     pass::{noop, Optional},
     Assumptions,
 };
@@ -35,6 +36,7 @@ pub fn preset_env<C>(
     comments: Option<C>,
     c: Config,
     assumptions: Assumptions,
+    feature_set: FeatureSet,
 ) -> impl Fold
 where
     C: Comments + Clone,
@@ -67,6 +69,13 @@ where
             let f = transform_data::Feature::$feature;
 
             let enable = should_enable!($feature, $default);
+
+            if !enable {
+                feature_set
+                    .borrow_mut()
+                    .insert(swc_ecma_transforms::feature::Feature::$feature);
+            }
+
             if c.debug {
                 println!("{}: {:?}", f.as_str(), enable);
             }

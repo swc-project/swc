@@ -1,8 +1,14 @@
 use std::path::PathBuf;
 
 use swc_common::{chain, Mark};
+use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{Syntax, TsConfig};
-use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
+use swc_ecma_transforms_base::{
+    feature::{enable_available_feature_from_es_version, FeatureSet},
+    fixer::fixer,
+    hygiene::hygiene,
+    resolver,
+};
 use swc_ecma_transforms_module::common_js::{self, common_js};
 use swc_ecma_transforms_testing::test_fixture;
 use swc_ecma_transforms_typescript::strip::{self, strip_with_config};
@@ -20,17 +26,23 @@ fn tr(config: common_js::Config) -> impl Fold {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
+    let avalible_set: FeatureSet = Default::default();
+    enable_available_feature_from_es_version(avalible_set.clone(), EsVersion::Es2022);
+
     chain!(
         resolver(unresolved_mark, top_level_mark, false),
-        common_js(unresolved_mark, config),
+        common_js(unresolved_mark, config, Default::default(), avalible_set),
         hygiene(),
         fixer(None)
     )
 }
 
-fn ts_tr() -> impl Fold {
+fn ts_tr(config: common_js::Config) -> impl Fold {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
+
+    let avalible_set: FeatureSet = Default::default();
+    enable_available_feature_from_es_version(avalible_set.clone(), EsVersion::Es2022);
 
     chain!(
         resolver(unresolved_mark, top_level_mark, true),
@@ -41,7 +53,7 @@ fn ts_tr() -> impl Fold {
             },
             top_level_mark
         ),
-        common_js(unresolved_mark, Default::default()),
+        common_js(unresolved_mark, config, Default::default(), avalible_set),
         hygiene(),
         fixer(None)
     )
@@ -4167,5 +4179,5 @@ fn ts_to_cjs(input: PathBuf) {
 
     let output = dir.join("output.cjs");
 
-    test_fixture(ts_syntax(), &|_| ts_tr(), &input, &output);
+    test_fixture(ts_syntax(), &|_| ts_tr(Default::default()), &input, &output);
 }

@@ -1188,7 +1188,7 @@ impl From<IdentOrStr> for MemberProp {
 ///     key: () => expr,
 /// }
 /// ```
-pub(crate) fn _prop_arrow((key, span, expr): (JsWord, Span, Expr)) -> PropOrSpread {
+pub(crate) fn prop_arrow((key, span, expr): (JsWord, Span, Expr)) -> PropOrSpread {
     let key = prop_name(&key, span).into();
 
     PropOrSpread::Prop(Box::new(
@@ -1207,7 +1207,7 @@ pub(crate) fn _prop_arrow((key, span, expr): (JsWord, Span, Expr)) -> PropOrSpre
 ///     },
 /// }
 /// ```
-pub(crate) fn _prop_method((key, span, expr): (JsWord, Span, Expr)) -> PropOrSpread {
+pub(crate) fn prop_method((key, span, expr): (JsWord, Span, Expr)) -> PropOrSpread {
     let key = prop_name(&key, span).into();
 
     PropOrSpread::Prop(Box::new(
@@ -1238,4 +1238,13 @@ pub(crate) fn prop_function((key, span, expr): (JsWord, Span, Expr)) -> PropOrSp
         }
         .into(),
     ))
+}
+
+#[macro_export]
+macro_rules! caniuse {
+    ($feature_set:ident . $feature:ident) => {
+        $feature_set
+            .borrow()
+            .contains(&swc_ecma_transforms_base::feature::Feature::$feature)
+    };
 }

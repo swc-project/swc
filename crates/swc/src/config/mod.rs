@@ -48,6 +48,7 @@ use swc_ecma_minifier::option::{
 pub use swc_ecma_parser::JscTarget;
 use swc_ecma_parser::{parse_file_as_expr, Syntax, TsConfig};
 use swc_ecma_transforms::{
+    feature::FeatureSet,
     hygiene, modules,
     modules::{hoist::module_hoister, path::NodeImportResolver, rewriter::import_rewriter},
     optimization::{const_modules, json_parse, simplifier},
@@ -1266,6 +1267,8 @@ impl ModuleConfig {
         base: &FileName,
         unresolved_mark: Mark,
         config: Option<ModuleConfig>,
+        target: EsVersion,
+        available_features: FeatureSet,
     ) -> Box<dyn swc_ecma_visit::Fold> {
         let base = match base {
             FileName::Real(v) if !paths.is_empty() => {
@@ -1286,7 +1289,12 @@ impl ModuleConfig {
             }
             Some(ModuleConfig::CommonJs(config)) => {
                 if paths.is_empty() {
-                    Box::new(modules::common_js::common_js(unresolved_mark, config))
+                    Box::new(modules::common_js::common_js(
+                        unresolved_mark,
+                        config,
+                        target,
+                        available_features,
+                    ))
                 } else {
                     let resolver = build_resolver(base_url, paths);
                     Box::new(modules::common_js::common_js_with_resolver(
@@ -1294,6 +1302,8 @@ impl ModuleConfig {
                         base,
                         unresolved_mark,
                         config,
+                        target,
+                        available_features,
                     ))
                 }
             }
@@ -1322,7 +1332,12 @@ impl ModuleConfig {
             }
             Some(ModuleConfig::Amd(config)) => {
                 if paths.is_empty() {
-                    Box::new(modules::amd::amd(unresolved_mark, config))
+                    Box::new(modules::amd::amd(
+                        unresolved_mark,
+                        config,
+                        target,
+                        available_features,
+                    ))
                 } else {
                     let resolver = build_resolver(base_url, paths);
 
@@ -1331,6 +1346,8 @@ impl ModuleConfig {
                         base,
                         unresolved_mark,
                         config,
+                        target,
+                        available_features,
                     ))
                 }
             }

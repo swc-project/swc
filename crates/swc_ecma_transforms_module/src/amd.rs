@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{util::take::Take, FileName, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::helper;
+use swc_ecma_transforms_base::{feature::FeatureSet, helper};
 use swc_ecma_utils::{
     member_expr, private_ident, quote_ident, quote_str, ExprFactory, FunctionFactory,
 };
@@ -26,11 +26,17 @@ use crate::{
     module_ref_rewriter::{ImportMap, ModuleRefRewriter},
     path::{ImportResolver, Resolver},
     util::{
-        define_es_module, esm_export, has_use_strict, local_name_for_src, prop_function, use_strict,
+        define_es_module, esm_export, has_use_strict, local_name_for_src, prop_arrow,
+        prop_function, prop_method, use_strict,
     },
 };
 
-pub fn amd(unresolved_mark: Mark, config: Config) -> impl Fold + VisitMut {
+pub fn amd(
+    unresolved_mark: Mark,
+    config: Config,
+    _target: EsVersion,
+    available_features: FeatureSet,
+) -> impl Fold + VisitMut {
     let Config { module_id, config } = config;
 
     as_folder(Amd {
@@ -39,11 +45,13 @@ pub fn amd(unresolved_mark: Mark, config: Config) -> impl Fold + VisitMut {
         unresolved_mark,
         resolver: Resolver::Default,
 
+        support_arrow: caniuse!(available_features.ArrowFunctions),
+        support_shorthand: caniuse!(available_features.ShorthandProperties),
+
         dep_list: Default::default(),
         require: quote_ident!(DUMMY_SP.apply_mark(unresolved_mark), "require"),
         exports: None,
         module: None,
-        support_arrow: false,
         found_import_meta: false,
     })
 }
@@ -53,6 +61,8 @@ pub fn amd_with_resolver(
     base: FileName,
     unresolved_mark: Mark,
     config: Config,
+    _target: EsVersion,
+    available_features: FeatureSet,
 ) -> impl Fold + VisitMut {
     let Config { module_id, config } = config;
 
@@ -62,11 +72,13 @@ pub fn amd_with_resolver(
         unresolved_mark,
         resolver: Resolver::Real { base, resolver },
 
+        support_arrow: caniuse!(available_features.ArrowFunctions),
+        support_shorthand: caniuse!(available_features.ShorthandProperties),
+
         dep_list: Default::default(),
         require: quote_ident!(DUMMY_SP.apply_mark(unresolved_mark), "require"),
         exports: None,
         module: None,
-        support_arrow: false,
         found_import_meta: false,
     })
 }
@@ -77,11 +89,13 @@ pub struct Amd {
     unresolved_mark: Mark,
     resolver: Resolver,
 
+    support_arrow: bool,
+    support_shorthand: bool,
+
     dep_list: Vec<(Ident, JsWord, Span)>,
     require: Ident,
     exports: Option<Ident>,
     module: Option<Ident>,
-    support_arrow: bool,
     found_import_meta: bool,
 }
 
@@ -236,7 +250,6 @@ impl VisitMut for Amd {
                     args.take(),
                     require,
                     !self.config.no_interop,
-                    // TODO: detect support arrow
                     self.support_arrow,
                 );
             }
@@ -375,13 +388,18 @@ impl Amd {
             .then(|| esm_export().into_fn_decl(esm_export_ident.clone()).into())
             .map(Stmt::Decl);
 
+        let prop_auto = if self.support_arrow {
+            prop_arrow
+        } else if self.support_shorthand {
+            prop_method
+        } else {
+            prop_function
+        };
+
         let export_call = should_export.then(|| {
             export_obj_prop_list.sort_by(|a, b| a.0.cmp(&b.0));
 
-            let props = export_obj_prop_list
-                .into_iter()
-                .map(prop_function)
-                .collect();
+            let props = export_obj_prop_list.into_iter().map(prop_auto).collect();
 
             let obj_lit = ObjectLit {
                 span: DUMMY_SP,
