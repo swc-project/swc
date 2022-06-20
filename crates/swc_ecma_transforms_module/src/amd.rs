@@ -40,7 +40,11 @@ pub fn amd(unresolved_mark: Mark, config: Config) -> impl Fold + VisitMut {
         resolver: Resolver::Default,
 
         dep_list: Default::default(),
-        exports: Default::default(),
+        require: quote_ident!(DUMMY_SP.apply_mark(unresolved_mark), "require"),
+        exports: None,
+        module: None,
+        support_arrow: false,
+        found_import_meta: false,
     })
 }
 
@@ -59,7 +63,11 @@ pub fn amd_with_resolver(
         resolver: Resolver::Real { base, resolver },
 
         dep_list: Default::default(),
-        exports: Default::default(),
+        require: quote_ident!(DUMMY_SP.apply_mark(unresolved_mark), "require"),
+        exports: None,
+        module: None,
+        support_arrow: false,
+        found_import_meta: false,
     })
 }
 
@@ -70,7 +78,11 @@ pub struct Amd {
     resolver: Resolver,
 
     dep_list: Vec<(Ident, JsWord, Span)>,
+    require: Ident,
     exports: Option<Ident>,
+    module: Option<Ident>,
+    support_arrow: bool,
+    found_import_meta: bool,
 }
 
 impl VisitMut for Amd {
@@ -117,43 +129,21 @@ impl VisitMut for Amd {
             stmts.push(return_stmt.into())
         }
 
+        if !self.config.ignore_dynamic || !self.config.preserve_import_meta {
+            stmts.visit_mut_children_with(self);
+        }
+
         stmts.visit_mut_children_with(&mut ModuleRefRewriter {
             import_map,
             lazy_record: Default::default(),
             top_level: true,
         });
 
-        let require = quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "require");
-
-        let mut module = None;
-
-        if !self.config.ignore_dynamic || !self.config.preserve_import_meta {
-            let module_ident = private_ident!("module");
-
-            let mut dynamic_import = DynamicImport {
-                es_module_interop: !self.config.no_interop,
-                require: require.clone(),
-                ignore_dynamic: self.config.ignore_dynamic,
-                preserve_import_meta: self.config.preserve_import_meta,
-                module: module_ident.clone(),
-                found_import_meta: false,
-                support_arrow: false,
-            };
-
-            stmts.visit_mut_children_with(&mut dynamic_import);
-            let DynamicImport {
-                found_import_meta, ..
-            } = dynamic_import;
-
-            if found_import_meta {
-                module = Some(module_ident);
-            }
-        }
-
         // ====================
         //  Emit
         // ====================
 
+        let require = quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "require");
         let mut elems = vec![Some(quote_str!("require").as_arg())];
         let mut params = vec![require.into()];
 
@@ -162,7 +152,7 @@ impl VisitMut for Amd {
             params.push(exports.into())
         }
 
-        if let Some(module) = module {
+        if let Some(module) = self.module.clone() {
             elems.push(Some(quote_str!("module").as_arg()));
             params.push(module.into())
         }
@@ -217,6 +207,60 @@ impl VisitMut for Amd {
             .as_call(DUMMY_SP, amd_call_args)
             .into_stmt()
             .into()];
+    }
+
+    fn visit_mut_expr(&mut self, n: &mut Expr) {
+        match n {
+            Expr::Call(CallExpr {
+                span,
+                callee: Callee::Import(Import { span: import_span }),
+                args,
+                ..
+            }) if !self.config.ignore_dynamic => {
+                args.visit_mut_with(self);
+
+                args.get_mut(0).into_iter().for_each(|x| {
+                    if let ExprOrSpread { spread: None, expr } = x {
+                        if let Expr::Lit(Lit::Str(Str { value, raw, .. })) = &mut **expr {
+                            *value = self.resolver.resolve(value.clone());
+                            *raw = None;
+                        }
+                    }
+                });
+
+                let mut require = self.require.clone();
+                require.span = import_span.apply_mark(require.span.ctxt().outer());
+
+                *n = amd_dynamic_import(
+                    *span,
+                    args.take(),
+                    require,
+                    !self.config.no_interop,
+                    // TODO: detect support arrow
+                    self.support_arrow,
+                );
+            }
+            Expr::Member(MemberExpr {
+                span,
+                obj,
+                prop:
+                    MemberProp::Ident(Ident {
+                        sym: js_word!("url"),
+                        ..
+                    }),
+            }) if !self.config.preserve_import_meta
+                && obj
+                    .as_meta_prop()
+                    .map(|p| p.kind == MetaPropKind::ImportMeta)
+                    .unwrap_or_default() =>
+            {
+                obj.visit_mut_with(self);
+
+                *n = amd_import_meta_url(*span, self.module());
+                self.found_import_meta = true;
+            }
+            _ => n.visit_mut_children_with(self),
+        }
     }
 }
 
@@ -365,72 +409,13 @@ impl Amd {
             new_ident
         })
     }
-}
 
-struct DynamicImport {
-    es_module_interop: bool,
-    require: Ident,
-    ignore_dynamic: bool,
-    preserve_import_meta: bool,
-    module: Ident,
-    support_arrow: bool,
-    found_import_meta: bool,
-}
-
-impl VisitMut for DynamicImport {
-    noop_visit_mut_type!();
-
-    fn visit_mut_expr(&mut self, n: &mut Expr) {
-        match n {
-            Expr::Call(CallExpr {
-                span,
-                callee: Callee::Import(Import { span: import_span }),
-                args,
-                ..
-            }) => {
-                args.visit_mut_with(self);
-
-                if self.ignore_dynamic {
-                    return;
-                }
-
-                let mut require = self.require.clone();
-                require.span = import_span.apply_mark(require.span.ctxt().outer());
-
-                *n = amd_dynamic_import(
-                    *span,
-                    args.take(),
-                    require,
-                    self.es_module_interop,
-                    // TODO: detect support arrow
-                    self.support_arrow,
-                );
-            }
-            Expr::Member(MemberExpr {
-                span,
-                obj,
-                prop:
-                    MemberProp::Ident(Ident {
-                        sym: js_word!("url"),
-                        ..
-                    }),
-            }) => {
-                if let Expr::MetaProp(MetaPropExpr {
-                    kind: MetaPropKind::ImportMeta,
-                    ..
-                }) = **obj
-                {
-                    if self.preserve_import_meta {
-                        return;
-                    }
-                    *n = amd_import_meta_url(*span, self.module.clone());
-                    self.found_import_meta = true;
-                } else {
-                    n.visit_mut_children_with(self);
-                }
-            }
-            _ => n.visit_mut_children_with(self),
-        }
+    fn module(&mut self) -> Ident {
+        self.module.clone().unwrap_or_else(|| {
+            let new_ident = private_ident!("module");
+            self.module = Some(new_ident.clone());
+            new_ident
+        })
     }
 }
 

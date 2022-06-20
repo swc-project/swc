@@ -17,7 +17,7 @@ var _interopRequireWildcardMjs = require("@swc/helpers/lib/_interop_require_wild
 var _path = require("path");
 async function getPackage() {
     const pkg = await Promise.resolve((0, _path.join)(process.cwd(), "package.json")).then(function(p) {
-        return _interop_require_wildcard(require(p));
+        return (0, _interopRequireWildcardMjs.default)(require(p));
     });
     return pkg.default || pkg;
 }

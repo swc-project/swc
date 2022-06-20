@@ -95,24 +95,68 @@ impl VisitMut for Cjs {
             )
         }
 
+        if !self.config.ignore_dynamic || !self.config.preserve_import_meta {
+            stmts.visit_mut_children_with(self);
+        }
+
         stmts.visit_mut_children_with(&mut ModuleRefRewriter {
             import_map,
             lazy_record,
             top_level: true,
         });
 
-        if !self.config.ignore_dynamic || !self.config.preserve_import_meta {
-            stmts.visit_mut_children_with(&mut DynamicImport {
-                unresolved_mark: self.unresolved_mark,
-                es_module_interop: !self.config.no_interop,
-                // TODO: detect support_arrow
-                support_arrow: false,
-                ignore_dynamic: self.config.ignore_dynamic,
-                preserve_import_meta: self.config.preserve_import_meta,
-            })
-        }
-
         *n = stmts;
+    }
+
+    fn visit_mut_expr(&mut self, n: &mut Expr) {
+        match n {
+            Expr::Call(CallExpr {
+                span,
+                callee: Callee::Import(Import { span: import_span }),
+                args,
+                ..
+            }) if !self.config.ignore_dynamic => {
+                args.visit_mut_with(self);
+
+                args.get_mut(0).into_iter().for_each(|x| {
+                    if let ExprOrSpread { spread: None, expr } = x {
+                        if let Expr::Lit(Lit::Str(Str { value, raw, .. })) = &mut **expr {
+                            *value = self.resolver.resolve(value.clone());
+                            *raw = None;
+                        }
+                    }
+                });
+
+                let require_span = import_span.apply_mark(self.unresolved_mark);
+                *n = cjs_dynamic_import(
+                    *span,
+                    args.take(),
+                    quote_ident!(require_span, "require"),
+                    !self.config.no_interop,
+                    false,
+                );
+            }
+            Expr::Member(MemberExpr {
+                span,
+                obj,
+                prop:
+                    MemberProp::Ident(Ident {
+                        sym: js_word!("url"),
+                        ..
+                    }),
+            }) if !self.config.preserve_import_meta
+                && obj
+                    .as_meta_prop()
+                    .map(|p| p.kind == MetaPropKind::ImportMeta)
+                    .unwrap_or_default() =>
+            {
+                obj.visit_mut_with(self);
+
+                let require = quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "require");
+                *n = cjs_import_meta_url(*span, require, self.unresolved_mark);
+            }
+            _ => n.visit_mut_children_with(self),
+        }
     }
 }
 
@@ -273,68 +317,6 @@ impl Cjs {
             self.exports = Some(new_ident.clone());
             new_ident
         })
-    }
-}
-
-struct DynamicImport {
-    unresolved_mark: Mark,
-    es_module_interop: bool,
-    ignore_dynamic: bool,
-    preserve_import_meta: bool,
-    support_arrow: bool,
-}
-
-impl VisitMut for DynamicImport {
-    noop_visit_mut_type!();
-
-    fn visit_mut_expr(&mut self, n: &mut Expr) {
-        match n {
-            Expr::Call(CallExpr {
-                span,
-                callee: Callee::Import(Import { span: import_span }),
-                args,
-                ..
-            }) => {
-                if self.ignore_dynamic {
-                    return;
-                }
-
-                let require_span = import_span.apply_mark(self.unresolved_mark);
-                *n = cjs_dynamic_import(
-                    *span,
-                    args.take(),
-                    quote_ident!(require_span, "require"),
-                    self.es_module_interop,
-                    self.support_arrow,
-                );
-            }
-            Expr::Member(MemberExpr {
-                span,
-                obj,
-                prop:
-                    MemberProp::Ident(Ident {
-                        sym: js_word!("url"),
-                        ..
-                    }),
-            }) => {
-                if self.preserve_import_meta {
-                    return;
-                }
-
-                if let Expr::MetaProp(MetaPropExpr {
-                    kind: MetaPropKind::ImportMeta,
-                    ..
-                }) = **obj
-                {
-                    let require =
-                        quote_ident!(DUMMY_SP.apply_mark(self.unresolved_mark), "require");
-                    *n = cjs_import_meta_url(*span, require, self.unresolved_mark);
-                } else {
-                    n.visit_mut_children_with(self);
-                }
-            }
-            _ => n.visit_mut_children_with(self),
-        }
     }
 }
 
