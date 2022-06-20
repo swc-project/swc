@@ -752,13 +752,14 @@ impl Minifier {
     fn minify_children(&mut self, children: &mut Vec<Child>) {
         let namespace = self.current_element.as_ref().unwrap().namespace;
         let tag_name = &self.current_element.as_ref().unwrap().tag_name;
-        let whitespace_minification_mode = self
+        let mode = self
             .collapse_whitespaces
             .as_ref()
             .map(|mode| self.get_whitespace_minification_for_tag(mode, namespace, tag_name));
 
         let mut index = 0;
         let last = children.len();
+        let mut prev = None;
 
         children.retain_mut(|child| {
             index += 1;
@@ -767,52 +768,97 @@ impl Minifier {
                 Child::Comment(comment) if self.remove_comments => {
                     self.is_preserved_comment(&comment.data)
                 }
+            let result = match child {
+                Child::Comment(comment) if !self.is_preserved_comment(&comment.data) => false,
                 // Always remove whitespaces from html and head elements (except nested elements),
                 // it should be safe
-                Child::Text(_)
-                    if matches!(&**tag_name, "html" | "head") && namespace == Namespace::HTML =>
+                Child::Text(text)
+                    if namespace == Namespace::HTML
+                        && matches!(&**tag_name, "html" | "head")
+                        && text.data.chars().all(is_whitespace) =>
+                {
+                    false
+                }
+                // Always remove the first and the latest whitespaces, because it is
+                // safe
+                Child::Text(text)
+                    if (index == 1 || index == last)
+                        && namespace == Namespace::HTML
+                        && matches!(&**tag_name, "body")
+                        && text.data.chars().all(is_whitespace) =>
                 {
                     false
                 }
                 Child::Text(text)
-                    if whitespace_minification_mode.is_some() && !self.descendant_of_pre =>
+                    if !self.descendant_of_pre
+                        && self.get_white_space(namespace, &**tag_name) == WhiteSpace::Normal =>
                 {
-                    let mode = whitespace_minification_mode.unwrap();
+                    let is_body = namespace == Namespace::HTML && matches!(&**tag_name, "body");
+                    let is_first_body_element = index == 1 && is_body;
+                    let is_last_body_element = index == last && is_body;
 
-                    let value = if mode.trim
-                        && (index == 1
-                            || self.collapse_whitespaces == Some(CollapseWhitespaces::All))
-                    {
-                        text.data.trim_start_matches(is_whitespace)
+                    if mode.is_some() || is_first_body_element || is_last_body_element {
+                        let prev_display = if let Some(Child::Element(Element {
+                            namespace,
+                            tag_name,
+                            ..
+                        })) = &prev
+                        {
+                            Some(self.get_display(*namespace, &**tag_name))
+                        } else {
+                            None
+                        };
+
+                        let allow_to_trim = mode.is_some() && mode.unwrap().trim;
+
+                        let mut value = if allow_to_trim
+                            || is_first_body_element
+                            || (self.collapse_whitespaces == Some(CollapseWhitespaces::Smart)
+                                && (prev_display == Some(Display::Block) || prev_display.is_none()))
+                        {
+                            text.data.trim_start_matches(is_whitespace)
+                        } else {
+                            &*text.data
+                        };
+
+                        value = if allow_to_trim
+                            || is_last_body_element
+                            || (self.collapse_whitespaces == Some(CollapseWhitespaces::Smart)
+                                && (prev_display == Some(Display::Block) && index == last))
+                        {
+                            value.trim_end_matches(is_whitespace)
+                        } else {
+                            value
+                        };
+
+                        if mode.is_some()
+                            && mode.unwrap().destroy_whole
+                            && value.chars().all(is_whitespace)
+                        {
+                            return false;
+                        } else if mode.is_some() && mode.unwrap().collapse {
+                            text.data = self.collapse_whitespace(value).into();
+
+                            return true;
+                        } else if value.is_empty() {
+                            false
+                        } else {
+                            text.data = value.into();
+
+                            true
+                        }
                     } else {
-                        &*text.data
-                    };
-
-                    let value = if mode.trim
-                        && (index == last
-                            || self.collapse_whitespaces == Some(CollapseWhitespaces::All))
-                    {
-                        value.trim_end_matches(is_whitespace)
-                    } else {
-                        value
-                    };
-
-                    if mode.destroy_whole && value.chars().all(is_whitespace) {
-                        false
-                    } else if mode.collapse {
-                        text.data = self.collapse_whitespace(value).into();
-
-                        true
-                    } else if value.is_empty() {
-                        false
-                    } else {
-                        text.data = value.into();
-
                         true
                     }
                 }
                 _ => true,
+            };
+
+            if result {
+                prev = Some(child.clone());
             }
+
+            result
         });
     }
 
@@ -1225,106 +1271,6 @@ impl VisitMut for Minifier {
         }
 
         self.minify_children(&mut n.children);
-        let mut index = 0;
-        let last = n.children.len();
-        let mut prev: Option<Child> = None;
-
-        n.children.retain_mut(|child| {
-            index += 1;
-
-            let result = match child {
-                Child::Comment(comment) if !self.is_preserved_comment(&comment.data) => false,
-                // Always remove whitespaces from html and head elements (except nested elements),
-                // it should be safe
-                Child::Text(text)
-                    if n.namespace == Namespace::HTML
-                        && matches!(&*n.tag_name, "html" | "head")
-                        && text.data.chars().all(is_whitespace) =>
-                {
-                    false
-                }
-                // Always remove the first and the latest whitespaces, because it is
-                // safe
-                Child::Text(text)
-                    if (index == 1 || index == last)
-                        && n.namespace == Namespace::HTML
-                        && matches!(&*n.tag_name, "body")
-                        && text.data.chars().all(is_whitespace) =>
-                {
-                    false
-                }
-                Child::Text(text)
-                    if !self.descendant_of_pre
-                        && self.get_white_space(n.namespace, &n.tag_name) == WhiteSpace::Normal =>
-                {
-                    let mode = whitespace_minification_mode;
-                    let is_body = n.namespace == Namespace::HTML && matches!(&*n.tag_name, "body");
-                    let is_first_body_element = index == 1 && is_body;
-                    let is_last_body_element = index == last && is_body;
-
-                    if mode.is_some() || is_first_body_element || is_last_body_element {
-                        let prev_display = if let Some(Child::Element(Element {
-                            namespace,
-                            tag_name,
-                            ..
-                        })) = &prev
-                        {
-                            Some(self.get_display(*namespace, tag_name))
-                        } else {
-                            None
-                        };
-
-                        let allow_to_trim = mode.is_some() && mode.unwrap().trim;
-
-                        let mut value = if allow_to_trim
-                            || is_first_body_element
-                            || (self.collapse_whitespaces == Some(CollapseWhitespaces::Smart)
-                                && (prev_display == Some(Display::Block) || prev_display.is_none()))
-                        {
-                            text.data.trim_start_matches(is_whitespace)
-                        } else {
-                            &*text.data
-                        };
-
-                        value = if allow_to_trim
-                            || is_last_body_element
-                            || (self.collapse_whitespaces == Some(CollapseWhitespaces::Smart)
-                                && (prev_display == Some(Display::Block) && index == last))
-                        {
-                            value.trim_end_matches(is_whitespace)
-                        } else {
-                            value
-                        };
-
-                        if mode.is_some()
-                            && mode.unwrap().destroy_whole
-                            && value.chars().all(is_whitespace)
-                        {
-                            return false;
-                        } else if mode.is_some() && mode.unwrap().collapse {
-                            text.data = self.collapse_whitespace(value).into();
-
-                            return true;
-                        } else if value.is_empty() {
-                            false
-                        } else {
-                            text.data = value.into();
-
-                            true
-                        }
-                    } else {
-                        true
-                    }
-                }
-                _ => true,
-            };
-
-            if result {
-                prev = Some(child.clone());
-            }
-
-            result
-        });
 
         n.visit_mut_children_with(self);
 
