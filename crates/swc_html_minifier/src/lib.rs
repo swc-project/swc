@@ -271,7 +271,7 @@ struct WhitespaceMinificationMode {
     pub collapse: bool,
 }
 
-#[derive(Eq, PartialEq)]
+#[derive(Debug, Eq, PartialEq)]
 enum Display {
     None,
     Inline,
@@ -291,6 +291,12 @@ enum Display {
     TableRowGroup,
     TableFooterGroup,
     Contents,
+}
+
+#[derive(Debug, Eq, PartialEq)]
+enum WhiteSpace {
+    Pre,
+    Normal,
 }
 
 pub static CONDITIONAL_COMMENT_START: Lazy<CachedRegex> =
@@ -649,6 +655,16 @@ impl Minifier {
         }
     }
 
+    fn get_white_space(&self, namespace: Namespace, tag_name: &str) -> WhiteSpace {
+        match namespace {
+            Namespace::HTML => match tag_name {
+                "textarea" | "code" | "pre" | "listing" | "plaintext" | "xmp" => WhiteSpace::Pre,
+                _ => WhiteSpace::Normal,
+            },
+            _ => WhiteSpace::Normal,
+        }
+    }
+
     fn get_whitespace_minification_for_tag(
         &self,
         mode: &CollapseWhitespaces,
@@ -665,38 +681,25 @@ impl Minifier {
         };
 
         match namespace {
-            Namespace::HTML => {
-                match tag_name {
-                    // Inline text semantics + legacy tags + `del` + `ins` - `br`
-                    "a" | "abbr" | "acronym" | "b" | "bdi" | "bdo" | "cite" | "data" | "big"
-                    | "del" | "dfn" | "em" | "i" | "ins" | "kbd" | "mark" | "q" | "nobr" | "rp"
-                    | "rt" | "rtc" | "ruby" | "s" | "samp" | "small" | "span" | "strike"
-                    | "strong" | "sub" | "sup" | "time" | "tt" | "u" | "var" | "wbr" => {
-                        WhitespaceMinificationMode {
-                            collapse: true,
-                            destroy_whole: default_destroy_whole,
-                            trim: default_trim,
-                        }
-                    }
-                    "script" | "style" => WhitespaceMinificationMode {
+            Namespace::HTML => match tag_name {
+                "script" | "style" => WhitespaceMinificationMode {
+                    collapse: false,
+                    destroy_whole: true,
+                    trim: true,
+                },
+                "textarea" | "code" | "pre" | "listing" | "plaintext" | "xmp" => {
+                    WhitespaceMinificationMode {
                         collapse: false,
-                        destroy_whole: true,
-                        trim: true,
-                    },
-                    "textarea" | "code" | "pre" | "listing" | "plaintext" | "xmp" => {
-                        WhitespaceMinificationMode {
-                            collapse: false,
-                            destroy_whole: false,
-                            trim: false,
-                        }
+                        destroy_whole: false,
+                        trim: false,
                     }
-                    _ => WhitespaceMinificationMode {
-                        collapse: true,
-                        destroy_whole: default_destroy_whole,
-                        trim: default_trim,
-                    },
                 }
-            }
+                _ => WhitespaceMinificationMode {
+                    collapse: true,
+                    destroy_whole: default_destroy_whole,
+                    trim: default_trim,
+                },
+            },
             Namespace::SVG => match tag_name {
                 "desc" | "text" | "title" => WhitespaceMinificationMode {
                     collapse: true,
@@ -716,8 +719,8 @@ impl Minifier {
             },
             _ => WhitespaceMinificationMode {
                 collapse: false,
-                destroy_whole: false,
-                trim: false,
+                destroy_whole: default_destroy_whole,
+                trim: default_trim,
             },
         }
     }
@@ -1250,7 +1253,10 @@ impl VisitMut for Minifier {
                 {
                     false
                 }
-                Child::Text(text) if !self.descendant_of_pre => {
+                Child::Text(text)
+                    if !self.descendant_of_pre
+                        && self.get_white_space(n.namespace, &n.tag_name) == WhiteSpace::Normal =>
+                {
                     let mode = whitespace_minification_mode;
                     let is_body = n.namespace == Namespace::HTML && matches!(&*n.tag_name, "body");
                     let is_first_body_element = index == 1 && is_body;
@@ -1272,8 +1278,7 @@ impl VisitMut for Minifier {
 
                         let mut value = if allow_to_trim
                             || is_first_body_element
-                            || (allow_to_trim
-                                && self.collapse_whitespaces == Some(CollapseWhitespaces::Smart)
+                            || (self.collapse_whitespaces == Some(CollapseWhitespaces::Smart)
                                 && (prev_display == Some(Display::Block) || prev_display.is_none()))
                         {
                             text.data.trim_start_matches(is_whitespace)
@@ -1281,7 +1286,11 @@ impl VisitMut for Minifier {
                             &*text.data
                         };
 
-                        value = if allow_to_trim || is_last_body_element {
+                        value = if allow_to_trim
+                            || is_last_body_element
+                            || (self.collapse_whitespaces == Some(CollapseWhitespaces::Smart)
+                                && (prev_display == Some(Display::Block) && index == last))
+                        {
                             value.trim_end_matches(is_whitespace)
                         } else {
                             value
