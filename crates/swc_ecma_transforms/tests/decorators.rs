@@ -3893,7 +3893,7 @@ class Demo {
     "
 \"use strict\";
 var _moduleAJs = require(\"./moduleA.js\");
-let Demo = _decorate([(0, _moduleAJs).default('0.0.1')], function(_initialize) {
+let Demo = _decorate([(0, _moduleAJs.default)('0.0.1')], function(_initialize) {
   class Demo{
       constructor(){
           _initialize(this);
@@ -3940,14 +3940,23 @@ export default Test
 Object.defineProperty(exports, \"__esModule\", {
   value: true
 });
-exports.default = void 0;
+function __export(target, all) {
+  for(var name in all)Object.defineProperty(target, name, {
+      get: all[name],
+      enumerable: true
+  });
+}
+__export(exports, {
+  default: function() {
+      return _default;
+  }
+});
 const Test = (version)=>{
   return (target)=>{
       target.version = version;
   };
 };
 var _default = Test;
-exports.default = _default;
 "
 );
 

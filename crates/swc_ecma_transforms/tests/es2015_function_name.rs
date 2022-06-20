@@ -312,7 +312,17 @@ export default class Login extends React.Component {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+function __export(target, all) {
+  for(var name in all)Object.defineProperty(target, name, {
+      get: all[name],
+      enumerable: true
+  });
+}
+__export(exports, {
+  default: function() {
+      return Login;
+  }
+});
 
 var _store = require("./store");
 
@@ -330,13 +340,11 @@ function (_Component) {
   _createClass(Login, [{
     key: "getForm",
     value: function getForm() {
-      return (0, _store).getForm().toJS();
+      return (0, _store.getForm)().toJS();
     }
   }]);
   return Login;
 }(React.Component);
-
-exports.default = Login;
 
 "#
 );
