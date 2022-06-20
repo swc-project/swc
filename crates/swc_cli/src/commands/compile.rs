@@ -375,6 +375,12 @@ impl CompileOptions {
             return Ok(Vec::new());
         }
 
+        if self.files.len() > 1 && self.files.iter().any(|path| path.is_dir()) {
+            return Err(anyhow::anyhow!(
+                "Cannot specify multiple files when using a directory as input"
+            ));
+        }
+
         let paths_to_ignore = self
             .ignore
             .as_deref()
