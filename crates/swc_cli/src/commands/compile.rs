@@ -1,4 +1,6 @@
 use std::{
+    borrow::Cow,
+    collections::HashSet,
     fs::{self, File},
     io::{self, BufRead, Write},
     path::{Path, PathBuf},
@@ -21,7 +23,7 @@ use swc_common::{
 use swc_trace_macro::swc_trace;
 use walkdir::WalkDir;
 
-use crate::util::trace::init_trace;
+use crate::util::{clap::parse_hash_set, trace::init_trace};
 
 /// Configuration option for transform files.
 #[derive(Parser)]
@@ -77,8 +79,8 @@ pub struct CompileOptions {
     out_dir: Option<PathBuf>,
 
     /// Specify specific file extensions to compile.
-    #[clap(long)]
-    extensions: Option<Vec<String>>,
+    #[clap(long, default_value = "es,es6,js,jsx,mjs,ts,tsx", value_parser = parse_hash_set::<String>)]
+    extensions: HashSet<String>,
 
     /// Files to compile
     #[clap(group = "input")]
@@ -111,61 +113,13 @@ static COMPILER: Lazy<Arc<Compiler>> = Lazy::new(|| {
     Arc::new(Compiler::new(cm))
 });
 
-/// List of file extensions supported by default.
-static DEFAULT_EXTENSIONS: &[&str] = &["js", "jsx", "es6", "es", "mjs", "ts", "tsx"];
-
-/// Infer list of files to be transformed from cli arguments.
-/// If given input is a directory, it'll traverse it and collect all supported
-/// files.
-#[tracing::instrument(level = "info", skip_all)]
-fn get_files_list(
-    raw_files_input: &[PathBuf],
-    extensions: &[String],
-    ignore_pattern: Option<&str>,
-    _include_dotfiles: bool,
-) -> anyhow::Result<Vec<PathBuf>> {
-    let input_dir = raw_files_input.iter().find(|p| p.is_dir());
-
-    let files = if let Some(input_dir) = input_dir {
-        if raw_files_input.len() > 1 {
-            return Err(anyhow::anyhow!(
-                "Cannot specify multiple files when using a directory as input"
-            ));
-        }
-
-        WalkDir::new(input_dir)
-            .into_iter()
-            .filter_map(|e| e.ok())
-            .map(|e| e.into_path())
-            .filter(|e| {
-                extensions
-                    .iter()
-                    .any(|ext| e.extension().map(|v| v == &**ext).unwrap_or(false))
-            })
-            .collect()
-    } else {
-        raw_files_input.to_owned()
-    };
-
-    if let Some(ignore_pattern) = ignore_pattern {
-        let pattern: Vec<PathBuf> = glob(ignore_pattern)?.filter_map(|p| p.ok()).collect();
-
-        return Ok(files
-            .into_iter()
-            .filter(|file_path| !pattern.iter().any(|p| p.eq(file_path)))
-            .collect());
-    }
-
-    Ok(files)
-}
-
 /// Calculate full, absolute path to the file to emit.
 /// Currently this is quite naive calculation based on assumption input file's
 /// path and output dir are relative to the same directory.
 fn resolve_output_file_path(
     out_dir: &Path,
     file_path: &Path,
-    file_extension: PathBuf,
+    file_extension: &Path,
 ) -> anyhow::Result<PathBuf> {
     let default = PathBuf::from(".");
     let base = file_path.parent().unwrap_or(&default).display().to_string();
@@ -203,9 +157,9 @@ fn resolve_output_file_path(
 
 fn emit_output(
     output: &TransformOutput,
-    out_dir: &Option<PathBuf>,
+    out_dir: Option<&Path>,
     file_path: &Path,
-    file_extension: PathBuf,
+    file_extension: &Path,
 ) -> anyhow::Result<()> {
     if let Some(out_dir) = out_dir {
         let output_file_path = resolve_output_file_path(out_dir, file_path, file_extension)?;
@@ -253,17 +207,17 @@ fn collect_stdin_input() -> Option<String> {
     )
 }
 
-struct InputContext {
+struct InputContext<'a> {
     options: Options,
     fm: Arc<SourceFile>,
     compiler: Arc<Compiler>,
-    file_path: PathBuf,
-    file_extension: PathBuf,
+    file_path: Cow<'a, Path>,
+    file_extension: &'a Path,
 }
 
 #[swc_trace]
 impl CompileOptions {
-    fn build_transform_options(&self, file_path: &Option<&Path>) -> anyhow::Result<Options> {
+    fn build_transform_options(&self, file_path: Option<&Path>) -> anyhow::Result<Options> {
         let base_options = Options::default();
         let base_config = Config::default();
 
@@ -280,7 +234,7 @@ impl CompileOptions {
             ..base_options
         };
 
-        if let Some(file_path) = *file_path {
+        if let Some(file_path) = file_path {
             ret.filename = file_path.to_str().unwrap_or_default().to_owned();
         }
 
@@ -293,70 +247,54 @@ impl CompileOptions {
 
     /// Create canonical list of inputs to be processed across stdin / single
     /// file / multiple files.
-    fn collect_inputs(&self) -> anyhow::Result<Vec<InputContext>> {
-        let compiler = COMPILER.clone();
-
-        let stdin_input = collect_stdin_input();
-        if stdin_input.is_some() && !self.files.is_empty() {
-            anyhow::bail!("Cannot specify inputs from stdin and files at the same time");
-        }
-
-        if let Some(stdin_input) = stdin_input {
-            let options = self.build_transform_options(&self.filename.as_deref())?;
-
-            let fm = compiler.cm.new_source_file(
-                if options.filename.is_empty() {
-                    FileName::Anon
-                } else {
-                    FileName::Real(options.filename.clone().into())
-                },
-                stdin_input,
-            );
-
-            return Ok(vec![InputContext {
-                options,
-                fm,
-                compiler,
-                file_path: self
-                    .filename
-                    .clone()
-                    .unwrap_or_else(|| PathBuf::from("unknown")),
-                file_extension: self.out_file_extension.clone().into(),
-            }]);
-        } else if !self.files.is_empty() {
-            let included_extensions = if let Some(extensions) = &self.extensions {
-                extensions.clone()
-            } else {
-                DEFAULT_EXTENSIONS.iter().map(|v| v.to_string()).collect()
-            };
-
-            return get_files_list(
-                &self.files,
-                &included_extensions,
-                self.ignore.as_deref(),
-                false,
-            )?
-            .iter()
-            .map(|file_path| {
-                self.build_transform_options(&Some(file_path))
-                    .and_then(|options| {
-                        let fm = compiler
-                            .cm
-                            .load_file(file_path)
-                            .context("failed to load file");
-                        fm.map(|fm| InputContext {
-                            options,
-                            fm,
-                            compiler: compiler.clone(),
-                            file_path: file_path.to_path_buf(),
-                            file_extension: self.out_file_extension.clone().into(),
-                        })
+    fn collect_inputs(&self) -> anyhow::Result<Vec<InputContext<'_>>> {
+        match (collect_stdin_input(), &self.files[..]) {
+            (Some(_), files) if !files.is_empty() => {
+                anyhow::bail!("Cannot specify inputs from both stdin and files at the same time");
+            }
+            (Some(stdin_input), _) => {
+                let options = self.build_transform_options(self.filename.as_deref())?;
+                let fm = COMPILER.cm.new_source_file(
+                    if options.filename.is_empty() {
+                        FileName::Anon
+                    } else {
+                        FileName::Real(options.filename.clone().into())
+                    },
+                    stdin_input,
+                );
+                Ok(vec![InputContext {
+                    options,
+                    fm,
+                    compiler: Arc::clone(&*COMPILER),
+                    file_path: self
+                        .filename
+                        .as_deref()
+                        .unwrap_or_else(|| Path::new("unknown"))
+                        .into(),
+                    file_extension: Path::new(self.out_file_extension.as_str()),
+                }])
+            }
+            (None, files) if files.is_empty() => {
+                anyhow::bail!("Input is empty");
+            }
+            (None, _files) => self
+                .get_files_list(false)?
+                .into_iter()
+                .map(|file_path| {
+                    let options = self.build_transform_options(Some(file_path.as_ref()))?;
+                    let fm = COMPILER.cm.load_file(file_path.as_ref()).with_context(|| {
+                        format!("Failed to load file '{}'", file_path.display())
+                    })?;
+                    Ok(InputContext {
+                        options,
+                        fm,
+                        compiler: Arc::clone(&*COMPILER),
+                        file_path,
+                        file_extension: Path::new(self.out_file_extension.as_str()),
                     })
-            })
-            .collect::<anyhow::Result<Vec<InputContext>>>();
+                })
+                .collect(),
         }
-
-        anyhow::bail!("Input is empty");
     }
 
     fn execute_inner(&self) -> anyhow::Result<()> {
@@ -411,14 +349,69 @@ impl CompileOptions {
                     let result = execute(compiler, fm, options);
 
                     match result {
-                        Ok(output) => {
-                            emit_output(&output, &self.out_dir, &file_path, file_extension)
-                        }
+                        Ok(output) => emit_output(
+                            &output,
+                            self.out_dir.as_deref(),
+                            &file_path,
+                            file_extension,
+                        ),
                         Err(e) => Err(e),
                     }
                 },
             )
         }
+    }
+
+    /// Infer list of files to be transformed from cli arguments.
+    /// If given input is a directory, it'll traverse it and collect all
+    /// supported files.
+    #[tracing::instrument(level = "info", skip_all)]
+    fn get_files_list(&self, _include_dotfiles: bool) -> anyhow::Result<Vec<Cow<'_, Path>>> {
+        if self.files.is_empty() {
+            return Ok(Vec::new());
+        }
+
+        let paths_to_ignore = self
+            .ignore
+            .as_deref()
+            .map(|pattern| {
+                let paths_to_ignore = glob(pattern)
+                    .with_context(|| format!("Failed to glob the following pattern: {}", pattern))?
+                    .filter_map(|res| res.ok())
+                    .collect::<HashSet<_>>();
+                Ok::<_, anyhow::Error>(paths_to_ignore)
+            })
+            .transpose()?
+            .unwrap_or_default();
+
+        let should_ignore = |path: &Path| paths_to_ignore.contains(path);
+
+        let has_valid_extension = |path: &Path| {
+            path.extension()
+                .and_then(|e| e.to_str())
+                .map(|ext| self.extensions.contains(ext))
+                .unwrap_or_default()
+        };
+
+        let mut output = Vec::new();
+        for path in &self.files {
+            if path.is_dir() {
+                let iter = WalkDir::new(path)
+                    .into_iter()
+                    .filter_map(|entry| Some(entry.ok()?.path().to_path_buf()))
+                    .filter(|path| has_valid_extension(path.as_ref()))
+                    .filter(|path| !should_ignore(path.as_ref()))
+                    .map(Cow::from);
+                output.extend(iter);
+                continue;
+            }
+            if !has_valid_extension(path) || should_ignore(path) {
+                continue;
+            }
+            output.push(path.into());
+        }
+
+        Ok(output)
     }
 }
 

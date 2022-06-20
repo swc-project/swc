@@ -25,7 +25,7 @@ plugin = [
 [dependencies]
 anyhow = "1.0.53"
 atty = "0.2.14"
-clap = { version = "3.1.0", features = ["derive", "wrap_help"] }
+clap = { version = "3.2.5", features = ["derive", "wrap_help"] }
 glob = "0.3.0"
 rayon = "1"
 relative-path = "1.6.1"
