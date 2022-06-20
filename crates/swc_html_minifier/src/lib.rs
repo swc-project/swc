@@ -666,9 +666,9 @@ impl Minifier {
         }
     }
 
-    fn get_deep_text_element(&self, node: &Child) -> Option<Text> {
+    fn get_deep_text_element<'a>(&self, node: &'a Child) -> Option<&'a Text> {
         match &node {
-            Child::Text(text) => Some(text.clone()),
+            Child::Text(text) => Some(text),
             Child::Element(Element { children, .. }) => {
                 if let Some(last) = children.last() {
                     self.get_deep_text_element(last)
