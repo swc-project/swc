@@ -15,7 +15,8 @@ use crate::{
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct PreferConstConfig {
-    ignore_read_before_assign: Option<bool>,
+    #[serde(default)]
+    ignore_read_before_assign: bool,
 }
 
 pub fn prefer_const(config: &RuleConfig<PreferConstConfig>) -> Option<Box<dyn Rule>> {
@@ -71,7 +72,7 @@ impl PreferConst {
             block_depth: 0,
             cycle_head_depth: 0,
 
-            ignore_read_before_assign: rule_config.ignore_read_before_assign.unwrap_or(false),
+            ignore_read_before_assign: rule_config.ignore_read_before_assign,
         }
     }
 
