@@ -428,9 +428,15 @@ impl CompileOptions {
 #[swc_trace]
 impl super::CommandRunner for CompileOptions {
     fn execute(&self) -> anyhow::Result<()> {
-        let guard = init_trace(self.trace_out_file.as_deref());
+        let guard = if self.experimental_trace {
+            Some(init_trace(self.trace_out_file.as_deref()))
+        } else {
+            None
+        };
         let ret = self.execute_inner();
-        guard.flush();
+        if let Some(guard) = guard {
+            guard.flush();
+        }
         ret
     }
 }
