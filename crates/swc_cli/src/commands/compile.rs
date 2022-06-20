@@ -1,7 +1,7 @@
 use std::{
     borrow::Cow,
     collections::HashSet,
-    fs::{self, File},
+    fs,
     io::{self, BufRead, Write},
     path::{Path, PathBuf},
     sync::Arc,
@@ -14,7 +14,7 @@ use path_absolutize::Absolutize;
 use rayon::prelude::*;
 use relative_path::RelativePath;
 use swc::{
-    config::{Config, Options},
+    config::{Config, ConfigFile, Options},
     try_with_handler, Compiler, HandlerOpts, TransformOutput,
 };
 use swc_common::{
@@ -87,17 +87,17 @@ pub struct CompileOptions {
     files: Vec<PathBuf>,
 
     /// Use a specific extension for the output files
-    #[clap(long, default_value_t= String::from("js"))]
+    #[clap(long, default_value = "js")]
     out_file_extension: String,
 
     /// Enable experimental trace profiling
     /// generates trace compatible with trace event format.
-    #[clap(group = "experimental_trace", long)]
+    #[clap(long, group = "experimental_trace")]
     experimental_trace: bool,
 
     /// Set file name for the trace output. If not specified,
     /// `trace-{unix epoch time}.json` will be used by default.
-    #[clap(group = "experimental_trace", long)]
+    #[clap(long, group = "experimental_trace")]
     trace_out_file: Option<String>,
     /*Flags legacy @swc/cli supports, might need some thoughts if we need support same.
      *log_watch_compilation: bool,
@@ -109,7 +109,6 @@ pub struct CompileOptions {
 
 static COMPILER: Lazy<Arc<Compiler>> = Lazy::new(|| {
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
-
     Arc::new(Compiler::new(cm))
 });
 
@@ -168,27 +167,33 @@ fn emit_output(
             .expect("Parent should be available");
 
         if !output_dir.is_dir() {
-            fs::create_dir_all(output_dir)?;
+            fs::create_dir_all(&output_dir).with_context(|| {
+                format!("Failed to create directory '{}'", output_dir.display())
+            })?;
         }
 
-        fs::write(&output_file_path, &output.code)?;
+        fs::write(&output_file_path, &output.code)
+            .with_context(|| format!("Failed to write to '{}'", output_file_path.display()))?;
 
         if let Some(source_map) = &output.map {
             let source_map_path = output_file_path.with_extension("js.map");
-            fs::write(source_map_path, source_map)?;
+            fs::write(&source_map_path, source_map)
+                .with_context(|| format!("Failed to write to '{}'", source_map_path.display()))?;
         }
-    } else {
-        println!(
-            "{}\n{}\n{}",
-            file_path.display(),
-            output.code,
-            output
-                .map
-                .as_ref()
-                .map(|m| m.to_string())
-                .unwrap_or_default()
-        );
-    };
+        return Ok(());
+    }
+
+    println!(
+        "{}\n{}\n{}",
+        file_path.display(),
+        output.code,
+        output
+            .map
+            .as_ref()
+            .map(|m| m.to_string())
+            .unwrap_or_default()
+    );
+
     Ok(())
 }
 
@@ -218,31 +223,30 @@ struct InputContext<'a> {
 #[swc_trace]
 impl CompileOptions {
     fn build_transform_options(&self, file_path: Option<&Path>) -> anyhow::Result<Options> {
-        let base_options = Options::default();
         let base_config = Config::default();
+        let base_options = Options::default();
 
-        let config_file = if let Some(config_file_path) = &self.config_file {
-            let config_file_contents = fs::read(config_file_path)?;
-            serde_json::from_slice(&config_file_contents).context("Failed to parse config file")?
-        } else {
-            None
-        };
+        let config_file = self
+            .config_file
+            .as_deref()
+            .map(ConfigFile::from_path)
+            .transpose()?;
 
-        let mut ret = Options {
+        let mut options = Options {
             config: Config { ..base_config },
             config_file,
             ..base_options
         };
 
         if let Some(file_path) = file_path {
-            ret.filename = file_path.to_str().unwrap_or_default().to_owned();
+            options.filename = file_path.to_str().unwrap_or_default().to_owned();
         }
 
         if let Some(env_name) = &self.env_name {
-            ret.env_name = env_name.to_string();
+            options.env_name = env_name.to_string();
         }
 
-        Ok(ret)
+        Ok(options)
     }
 
     /// Create canonical list of inputs to be processed across stdin / single
@@ -298,8 +302,6 @@ impl CompileOptions {
     }
 
     fn execute_inner(&self) -> anyhow::Result<()> {
-        let inputs = self.collect_inputs()?;
-
         let execute = |compiler: Arc<Compiler>, fm: Arc<SourceFile>, options: Options| {
             try_with_handler(
                 compiler.cm.clone(),
@@ -311,8 +313,10 @@ impl CompileOptions {
             )
         };
 
-        if let Some(single_out_file) = self.out_file.as_ref() {
-            let result: anyhow::Result<Vec<TransformOutput>> = inputs
+        let inputs = self.collect_inputs()?;
+
+        if let Some(path) = self.out_file.as_ref() {
+            let outputs = inputs
                 .into_par_iter()
                 .map(
                     |InputContext {
@@ -322,44 +326,44 @@ impl CompileOptions {
                          ..
                      }| execute(compiler, fm, options),
                 )
-                .collect();
+                .collect::<Result<Vec<_>, _>>()?;
 
-            fs::create_dir_all(
-                single_out_file
-                    .parent()
-                    .expect("Parent should be available"),
-            )?;
-            let mut buf = File::create(single_out_file)?;
+            let parent = path.parent().expect("Parent should be available");
+            fs::create_dir_all(&parent)
+                .with_context(|| format!("Failed to create directory '{}'", parent.display()))?;
 
-            result?
-                .iter()
-                .try_for_each(|r| buf.write(r.code.as_bytes()).and(Ok(())))?;
+            let mut writer = {
+                let f = fs::File::create(&path)?;
+                io::BufWriter::new(f)
+            };
 
-            buf.flush()
-                .context("Failed to write output into single file")
-        } else {
-            inputs.into_par_iter().try_for_each(
-                |InputContext {
-                     compiler,
-                     fm,
-                     options,
-                     file_path,
-                     file_extension,
-                 }| {
-                    let result = execute(compiler, fm, options);
+            outputs.iter().try_for_each(|r| {
+                writer
+                    .write(r.code.as_bytes())
+                    .map(|_| ())
+                    .with_context(|| format!("Failed to write to '{}'", path.display()))
+            })?;
 
-                    match result {
-                        Ok(output) => emit_output(
-                            &output,
-                            self.out_dir.as_deref(),
-                            &file_path,
-                            file_extension,
-                        ),
-                        Err(e) => Err(e),
-                    }
-                },
-            )
+            writer
+                .flush()
+                .with_context(|| format!("Failed to call flush on '{}'", path.display()))?;
+
+            return Ok(());
         }
+
+        inputs.into_par_iter().try_for_each(
+            |InputContext {
+                 compiler,
+                 fm,
+                 options,
+                 file_path,
+                 file_extension,
+             }| {
+                execute(compiler, fm, options).and_then(|output| {
+                    emit_output(&output, self.out_dir.as_deref(), &file_path, file_extension)
+                })
+            },
+        )
     }
 
     /// Infer list of files to be transformed from cli arguments.
