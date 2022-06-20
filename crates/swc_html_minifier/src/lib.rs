@@ -267,7 +267,6 @@ fn is_whitespace(c: char) -> bool {
 #[derive(Debug, Copy, Clone)]
 struct WhitespaceMinificationMode {
     pub trim: bool,
-    pub destroy_whole: bool,
     pub collapse: bool,
 }
 
@@ -686,10 +685,6 @@ impl Minifier {
         namespace: Namespace,
         tag_name: &str,
     ) -> WhitespaceMinificationMode {
-        let default_destroy_whole = match mode {
-            CollapseWhitespaces::All => true,
-            CollapseWhitespaces::Smart | CollapseWhitespaces::Conservative => false,
-        };
         let default_trim = match mode {
             CollapseWhitespaces::All => true,
             CollapseWhitespaces::Smart | CollapseWhitespaces::Conservative => false,
@@ -699,42 +694,35 @@ impl Minifier {
             Namespace::HTML => match tag_name {
                 "script" | "style" => WhitespaceMinificationMode {
                     collapse: false,
-                    destroy_whole: true,
                     trim: true,
                 },
                 "textarea" | "code" | "pre" | "listing" | "plaintext" | "xmp" => {
                     WhitespaceMinificationMode {
                         collapse: false,
-                        destroy_whole: false,
                         trim: false,
                     }
                 }
                 _ => WhitespaceMinificationMode {
                     collapse: true,
-                    destroy_whole: default_destroy_whole,
                     trim: default_trim,
                 },
             },
             Namespace::SVG => match tag_name {
                 "desc" | "text" | "title" => WhitespaceMinificationMode {
                     collapse: true,
-                    destroy_whole: true,
                     trim: true,
                 },
                 "a" | "altGlyph" | "tspan" | "textPath" | "tref" => WhitespaceMinificationMode {
                     collapse: true,
-                    destroy_whole: default_destroy_whole,
                     trim: default_trim,
                 },
                 _ => WhitespaceMinificationMode {
                     collapse: true,
-                    destroy_whole: true,
                     trim: true,
                 },
             },
             _ => WhitespaceMinificationMode {
                 collapse: false,
-                destroy_whole: default_destroy_whole,
                 trim: default_trim,
             },
         }
@@ -874,16 +862,12 @@ impl Minifier {
                         value
                     };
 
-                    if (mode.is_some()
-                        && mode.unwrap().destroy_whole
-                        && value.chars().all(is_whitespace))
-                        || (value.is_empty())
-                    {
-                        return false;
+                    if value.is_empty() {
+                        false
                     } else if mode.is_some() && mode.unwrap().collapse {
                         text.data = self.collapse_whitespace(value).into();
 
-                        return true;
+                        true
                     } else {
                         text.data = value.into();
 
