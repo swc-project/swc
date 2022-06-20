@@ -874,17 +874,16 @@ impl Minifier {
                         value
                     };
 
-                    if mode.is_some()
+                    if (mode.is_some()
                         && mode.unwrap().destroy_whole
-                        && value.chars().all(is_whitespace)
+                        && value.chars().all(is_whitespace))
+                        || (value.is_empty())
                     {
                         return false;
                     } else if mode.is_some() && mode.unwrap().collapse {
                         text.data = self.collapse_whitespace(value).into();
 
                         return true;
-                    } else if value.is_empty() {
-                        false
                     } else {
                         text.data = value.into();
 
