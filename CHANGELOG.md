@@ -28,6 +28,12 @@
 
 - **(html/minifier)** Add an API to minify document fragments (#5002) ([7745fbf](https://github.com/swc-project/swc/commit/7745fbf604d6c3c8daeb61eced8c01b464e385db))
 
+### Testing
+
+
+
+- **(es/minifier)** Add a test case for the minifier (#5013) ([eedcb11](https://github.com/swc-project/swc/commit/eedcb114a2df09d88995c1b58ea1d1980831a02d))
+
 ## [1.2.204] - 2022-06-18
 
 ### Bug Fixes
