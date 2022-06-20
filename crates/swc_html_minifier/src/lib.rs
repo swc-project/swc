@@ -779,75 +779,79 @@ impl Minifier {
                 {
                     false
                 }
-                // Always remove the first and the latest whitespaces, because it is
+                // Always remove or trim the first and the latest whitespaces, because it is
                 // safe
                 Child::Text(text)
                     if (index == 1 || index == last)
                         && namespace == Namespace::HTML
-                        && matches!(&**tag_name, "body")
-                        && text.data.chars().all(is_whitespace) =>
+                        && &**tag_name == "body" =>
                 {
-                    false
+                    if text.data.chars().all(is_whitespace) {
+                        false
+                    } else {
+                        if index == 1 {
+                            text.data = text.data.trim_start_matches(is_whitespace).into();
+                        }
+
+                        if index == last {
+                            text.data = text.data.trim_end_matches(is_whitespace).into();
+                        }
+
+                        if let Some(mode) = mode {
+                            if mode.collapse {
+                                text.data = self.collapse_whitespace(&text.data).into();
+                            }
+                        }
+
+                        true
+                    }
                 }
                 Child::Text(text)
-                    if !self.descendant_of_pre
+                    if mode.is_some()
+                        && !self.descendant_of_pre
                         && self.get_white_space(namespace, &**tag_name) == WhiteSpace::Normal =>
                 {
-                    let is_body = namespace == Namespace::HTML && matches!(&**tag_name, "body");
-                    let is_first_body_element = index == 1 && is_body;
-                    let is_last_body_element = index == last && is_body;
-
-                    if mode.is_some() || is_first_body_element || is_last_body_element {
-                        let prev_display = if let Some(Child::Element(Element {
-                            namespace,
-                            tag_name,
-                            ..
-                        })) = &prev
-                        {
-                            Some(self.get_display(*namespace, &**tag_name))
-                        } else {
-                            None
-                        };
-
-                        let allow_to_trim = mode.is_some() && mode.unwrap().trim;
-
-                        let mut value = if allow_to_trim
-                            || is_first_body_element
-                            || (self.collapse_whitespaces == Some(CollapseWhitespaces::Smart)
-                                && (prev_display == Some(Display::Block) || prev_display.is_none()))
-                        {
-                            text.data.trim_start_matches(is_whitespace)
-                        } else {
-                            &*text.data
-                        };
-
-                        value = if allow_to_trim
-                            || is_last_body_element
-                            || (self.collapse_whitespaces == Some(CollapseWhitespaces::Smart)
-                                && (prev_display == Some(Display::Block) && index == last))
-                        {
-                            value.trim_end_matches(is_whitespace)
-                        } else {
-                            value
-                        };
-
-                        if mode.is_some()
-                            && mode.unwrap().destroy_whole
-                            && value.chars().all(is_whitespace)
-                        {
-                            return false;
-                        } else if mode.is_some() && mode.unwrap().collapse {
-                            text.data = self.collapse_whitespace(value).into();
-
-                            return true;
-                        } else if value.is_empty() {
-                            false
-                        } else {
-                            text.data = value.into();
-
-                            true
-                        }
+                    let mode = mode.unwrap();
+                    let prev_display = if let Some(Child::Element(Element {
+                        namespace,
+                        tag_name,
+                        ..
+                    })) = &prev
+                    {
+                        Some(self.get_display(*namespace, &**tag_name))
                     } else {
+                        None
+                    };
+
+                    let mut value = if mode.trim
+                        || (self.collapse_whitespaces == Some(CollapseWhitespaces::Smart)
+                            && (prev_display == Some(Display::Block) || prev_display.is_none()))
+                    {
+                        text.data.trim_start_matches(is_whitespace)
+                    } else {
+                        &*text.data
+                    };
+
+                    value = if mode.trim
+                        || (self.collapse_whitespaces == Some(CollapseWhitespaces::Smart)
+                            && (prev_display == Some(Display::Block) && index == last))
+                    {
+                        value.trim_end_matches(is_whitespace)
+                    } else {
+                        value
+                    };
+
+                    if mode.destroy_whole && value.chars().all(is_whitespace) {
+                        return false;
+                    } else if mode.collapse {
+                        text.data = self.collapse_whitespace(value).into();
+
+                        return true;
+                    } else if value.is_empty() {
+                        false
+                    } else {
+                        text.data = value.into();
+
                         true
                     }
                 }
