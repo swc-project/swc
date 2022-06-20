@@ -55,10 +55,6 @@ fn init_helpers() -> Arc<PathBuf> {
 
         let helper_dir = project_root.join("packages").join("swc-helpers");
 
-        if env::var("CI").as_deref() == Ok("1") {
-            return Arc::new(helper_dir);
-        }
-
         {
             let mut cmd = std::process::Command::new("yarn");
             cmd.current_dir(&helper_dir).arg("upgrade").arg("@swc/core");
