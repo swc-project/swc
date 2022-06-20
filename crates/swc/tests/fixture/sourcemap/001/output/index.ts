@@ -2,8 +2,17 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.foo = void 0;
+function __export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        get: all[name],
+        enumerable: true
+    });
+}
+__export(exports, {
+    foo: function() {
+        return foo;
+    }
+});
 const foo = {
     arr: []
 };
-exports.foo = foo;

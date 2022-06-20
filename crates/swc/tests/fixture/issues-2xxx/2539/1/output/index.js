@@ -2,11 +2,20 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.default = void 0;
+function __export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        get: all[name],
+        enumerable: true
+    });
+}
+__export(exports, {
+    default: function() {
+        return _default;
+    }
+});
 var _default = {
     foo: {
         func1 (index) {},
         func2 (index, index1) {}
     }
 };
-exports.default = _default;

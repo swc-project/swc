@@ -1,7 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: !0
-}), exports.default = function(a, b) {
+function a(a, b) {
     "use strict";
     !function(a, c) {
         c(b);
@@ -14,4 +12,16 @@ Object.defineProperty(exports, "__esModule", {
             return d;
         };
     });
-};
+}
+Object.defineProperty(exports, "__esModule", {
+    value: !0
+}), !function(a, b) {
+    for(var c in b)Object.defineProperty(a, c, {
+        get: b[c],
+        enumerable: !0
+    });
+}(exports, {
+    default: function() {
+        return a;
+    }
+});

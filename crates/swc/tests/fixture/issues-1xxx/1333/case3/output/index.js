@@ -2,10 +2,21 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var _class_private_field_get = require("@swc/helpers/lib/_class_private_field_get.js").default;
-var _class_private_field_init = require("@swc/helpers/lib/_class_private_field_init.js").default;
-var _interop_require_default = require("@swc/helpers/lib/_interop_require_default.js").default;
-var _nodeFetch = _interop_require_default(require("node-fetch"));
+function __export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        get: all[name],
+        enumerable: true
+    });
+}
+__export(exports, {
+    RequestHandler: function() {
+        return RequestHandler;
+    }
+});
+var _classPrivateFieldGetMjs = require("@swc/helpers/lib/_class_private_field_get.js");
+var _classPrivateFieldInitMjs = require("@swc/helpers/lib/_class_private_field_init.js");
+var _interopRequireDefaultMjs = require("@swc/helpers/lib/_interop_require_default.js");
+var _nodeFetch = (0, _interopRequireDefaultMjs.default)(require("node-fetch"));
 var _abortSignal = require("./misc/AbortSignal");
 var _errors = require("../../errors");
 var _utils = require("../../utils");
@@ -25,7 +36,7 @@ class RequestHandler {
      * Whether this handler is inactive or not.
      * @return {boolean}
      */ get inactive() {
-        return !_class_private_field_get(this, _queue).remaining && !this._limited;
+        return !(0, _classPrivateFieldGetMjs.default)(this, _queue).remaining && !this._limited;
     }
     /**
      * Whether the rate-limit bucket is currently limited.
@@ -82,7 +93,7 @@ class RequestHandler {
      *
      * @return {Promise<*>}
      */ async push(url, request) {
-        await _class_private_field_get(this, _queue).wait();
+        await (0, _classPrivateFieldGetMjs.default)(this, _queue).wait();
         try {
             await this.rest.globalTimeout;
             if (this._limited) {
@@ -100,11 +111,11 @@ class RequestHandler {
                     method: request.method,
                     url
                 });
-                await (0, _utils).sleep(this._untilReset);
+                await (0, _utils.sleep)(this._untilReset);
             }
             return this._make(url, request);
         } finally{
-            _class_private_field_get(this, _queue).next();
+            (0, _classPrivateFieldGetMjs.default)(this, _queue).next();
         }
     }
     /**
@@ -120,7 +131,7 @@ class RequestHandler {
         const timeout = _utils.Timers.setTimeout(()=>signal.abort(), this.rest.options.timeout);
         let res;
         try {
-            res = await (0, _nodeFetch).default(url, {
+            res = await (0, _nodeFetch.default)(url, {
                 ...request,
                 signal
             });
@@ -142,7 +153,7 @@ class RequestHandler {
                 _retry = ~~reset * (cf ? 1000 : 1 + this.rest.options.offset);
             }
             if (res.headers.get("X-RateLimit-Global")) {
-                this.rest.globalTimeout = (0, _utils).sleep(_retry).then(()=>{
+                this.rest.globalTimeout = (0, _utils.sleep)(_retry).then(()=>{
                     this.api.globalTimeout = null;
                 });
             }
@@ -152,7 +163,7 @@ class RequestHandler {
         }
         if (res.status === 429) {
             this.rest.client.emit(_utils.ClientEvent.LIMITED, `Hit a 429 on route: ${this.id}, Retrying After: ${_retry}ms`);
-            await (0, _utils).sleep(_retry);
+            await (0, _utils.sleep)(_retry);
             return this._make(url, request, tries++);
         }
         if (res.status >= 500 && res.status < 600) {
@@ -171,7 +182,7 @@ class RequestHandler {
      * @param {Rest} rest The REST Manager.
      * @param {string} id The ID of this request handler.
      */ constructor(rest, id){
-        _class_private_field_init(this, _queue, {
+        (0, _classPrivateFieldInitMjs.default)(this, _queue, {
             writable: true,
             value: new _utils.AsyncQueue()
         });
@@ -197,7 +208,6 @@ class RequestHandler {
          */ this.limit = Infinity;
     }
 }
-exports.RequestHandler = RequestHandler;
 /**
  * Bulk fetch headers from a node-fetch response.
  * @param {Response} res The request response.

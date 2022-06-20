@@ -1,8 +1,8 @@
 "use strict";
-var _object_without_properties = require("@swc/helpers/lib/_object_without_properties.js").default;
+var _objectWithoutPropertiesMjs = require("@swc/helpers/lib/_object_without_properties.js");
 // single line comment
 const x = (_param)=>/*todo: refactor any type*/ {
-    var { y  } = _param, rest = _object_without_properties(_param, [
+    var { y  } = _param, rest = (0, _objectWithoutPropertiesMjs.default)(_param, [
         "y"
     ]);
     return {

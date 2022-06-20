@@ -1,5 +1,5 @@
 "use strict";
-var _interop_require_wildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-var _boo = _interop_require_wildcard(require("boo"));
+var _interopRequireWildcardMjs = require("@swc/helpers/lib/_interop_require_wildcard.js");
+var _boo = (0, _interopRequireWildcardMjs.default)(require("boo"));
 _boo.default.some();
-(0, _boo).sdx();
+(0, _boo.sdx)();

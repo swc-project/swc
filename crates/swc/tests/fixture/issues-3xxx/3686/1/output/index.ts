@@ -2,8 +2,18 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.ServiceError = void 0;
-var _ts_decorate = require("@swc/helpers/lib/_ts_decorate.js").default;
+function __export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        get: all[name],
+        enumerable: true
+    });
+}
+__export(exports, {
+    ServiceError: function() {
+        return ServiceError;
+    }
+});
+var _tsDecorateMjs = require("@swc/helpers/lib/_ts_decorate.js");
 const CD = ()=>{};
 const PD = ()=>{};
 let ServiceError = class ServiceError extends Error {
@@ -13,11 +23,10 @@ let ServiceError = class ServiceError extends Error {
     }
     name = "ServiceError.BadResponse";
 };
-exports.ServiceError = ServiceError;
-_ts_decorate([
+(0, _tsDecorateMjs.default)([
     PD
 ], ServiceError.prototype, "code", void 0);
-exports.ServiceError = ServiceError = _ts_decorate([
+ServiceError = (0, _tsDecorateMjs.default)([
     CD
 ], ServiceError);
 (function(ServiceError1) {
@@ -42,4 +51,4 @@ exports.ServiceError = ServiceError = _ts_decorate([
         };
     }
     ServiceError1.toMessageBody = toMessageBody;
-})(ServiceError || (exports.ServiceError = ServiceError = {}));
+})(ServiceError || (ServiceError = {}));

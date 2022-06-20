@@ -1,7 +1,7 @@
 "use strict";
-var _define_property = require("@swc/helpers/lib/_define_property.js").default;
-var _interop_require_default = require("@swc/helpers/lib/_interop_require_default.js").default;
-var _regeneratorRuntime = _interop_require_default(require("regenerator-runtime"));
+var _definePropertyMjs = require("@swc/helpers/lib/_define_property.js");
+var _interopRequireDefaultMjs = require("@swc/helpers/lib/_interop_require_default.js");
+var _regeneratorRuntime = (0, _interopRequireDefaultMjs.default)(require("regenerator-runtime"));
 function _asyncIterator(iterable) {
     var method;
     if (typeof Symbol === "function") {
@@ -55,7 +55,7 @@ _asyncToGenerator(_regeneratorRuntime.default.mark(function _callee() {
                 promise = new Promise(function(r) {
                     return resolve = r;
                 });
-                iterable = _define_property({}, Symbol.asyncIterator, function() {
+                iterable = (0, _definePropertyMjs.default)({}, Symbol.asyncIterator, function() {
                     return {
                         next: function next() {
                             return promise;

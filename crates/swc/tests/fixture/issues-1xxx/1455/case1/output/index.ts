@@ -1,8 +1,8 @@
 "use strict";
-var _async_to_generator = require("@swc/helpers/lib/_async_to_generator.js").default;
+var _asyncToGeneratorMjs = require("@swc/helpers/lib/_async_to_generator.js");
 const SampleData = typedModel("SampleVideo", VideosSchema, undefined, undefined, {
     byPlatform: function() {
-        var _ref = _async_to_generator(function*(platform) {
+        var _ref = (0, _asyncToGeneratorMjs.default)(function*(platform) {
             const result = yield this.find({
                 platform: {
                     $eq: platform

@@ -1,14 +1,14 @@
 "use strict";
-var _class_call_check = require("@swc/helpers/lib/_class_call_check.js").default;
-var _interop_require_wildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-var _ts_decorate = require("@swc/helpers/lib/_ts_decorate.js").default;
-var _ts_metadata = require("@swc/helpers/lib/_ts_metadata.js").default;
-var joiful = _interop_require_wildcard(require("joiful"));
+var _classCallCheckMjs = require("@swc/helpers/lib/_class_call_check.js");
+var _interopRequireWildcardMjs = require("@swc/helpers/lib/_interop_require_wildcard.js");
+var _tsDecorateMjs = require("@swc/helpers/lib/_ts_decorate.js");
+var _tsMetadataMjs = require("@swc/helpers/lib/_ts_metadata.js");
+var _joiful = (0, _interopRequireWildcardMjs.default)(require("joiful"));
 var Schema = function Schema() {
     "use strict";
-    _class_call_check(this, Schema);
+    (0, _classCallCheckMjs.default)(this, Schema);
 };
-_ts_decorate([
-    joiful.string().guid().required(),
-    _ts_metadata("design:type", String)
+(0, _tsDecorateMjs.default)([
+    _joiful.string().guid().required(),
+    (0, _tsMetadataMjs.default)("design:type", String)
 ], Schema.prototype, "id", void 0);

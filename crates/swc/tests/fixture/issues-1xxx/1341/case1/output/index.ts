@@ -1,12 +1,12 @@
 "use strict";
-var _async_to_generator = require("@swc/helpers/lib/_async_to_generator.js").default;
+var _asyncToGeneratorMjs = require("@swc/helpers/lib/_async_to_generator.js");
 class A {
     foo() {
         var _this = this;
-        return _async_to_generator(function*() {
+        return (0, _asyncToGeneratorMjs.default)(function*() {
             try {
                 return yield (function() {
-                    var _ref = _async_to_generator(function*(x) {
+                    var _ref = (0, _asyncToGeneratorMjs.default)(function*(x) {
                         return x + _this.val;
                     });
                     return function(x) {

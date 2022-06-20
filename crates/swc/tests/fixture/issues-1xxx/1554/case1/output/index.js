@@ -2,17 +2,19 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-Object.defineProperty(exports, "X", {
-    enumerable: true,
-    get: function() {
+function __export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        get: all[name],
+        enumerable: true
+    });
+}
+__export(exports, {
+    X: function() {
         return _z.default;
-    }
-});
-Object.defineProperty(exports, "Y", {
-    enumerable: true,
-    get: function() {
+    },
+    Y: function() {
         return _z.Y;
     }
 });
-var _interop_require_wildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-var _z = _interop_require_wildcard(require("./Z"));
+var _interopRequireWildcardMjs = require("@swc/helpers/lib/_interop_require_wildcard.js");
+var _z = (0, _interopRequireWildcardMjs.default)(require("./Z"));

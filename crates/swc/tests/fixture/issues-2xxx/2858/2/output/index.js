@@ -2,7 +2,20 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.b2 = exports.a2 = void 0;
+function __export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        get: all[name],
+        enumerable: true
+    });
+}
+__export(exports, {
+    a2: function() {
+        return a2;
+    },
+    b2: function() {
+        return b2;
+    }
+});
 var ref = {
     a: 1,
     b: 2
@@ -12,5 +25,3 @@ var ref1 = {
     b: 2
 };
 var a2 = ref1.a, b2 = ref1.b;
-exports.a2 = a2;
-exports.b2 = b2;

@@ -2,7 +2,17 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.AnElement = void 0;
+function __export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        get: all[name],
+        enumerable: true
+    });
+}
+__export(exports, {
+    AnElement: function() {
+        return AnElement;
+    }
+});
 const AnElement = ({ prop1 , prop2 , prop3 , num , data  })=>{
     return /*#__PURE__*/ React.createElement(React.Fragment, null, /*#__PURE__*/ React.createElement(SomeElement, {
         prop1: prop1,
@@ -11,4 +21,3 @@ const AnElement = ({ prop1 , prop2 , prop3 , num , data  })=>{
     }), // istanbul ignore next
     !(num > 0) && data.name && /*#__PURE__*/ React.createElement(React.Fragment, null, '"Hello"'));
 };
-exports.AnElement = AnElement;

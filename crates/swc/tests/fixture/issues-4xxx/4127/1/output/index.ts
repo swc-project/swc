@@ -2,14 +2,23 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.default = void 0;
-var _ts_decorate = require("@swc/helpers/lib/_ts_decorate.js").default;
+function __export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        get: all[name],
+        enumerable: true
+    });
+}
+__export(exports, {
+    default: function() {
+        return _class;
+    }
+});
+var _tsDecorateMjs = require("@swc/helpers/lib/_ts_decorate.js");
 function test(constructor) {
     console.log(constructor);
 }
 let _class = class _class {
 };
-exports.default = _class = _ts_decorate([
+_class = (0, _tsDecorateMjs.default)([
     test
 ], _class);
-exports.default = _class;

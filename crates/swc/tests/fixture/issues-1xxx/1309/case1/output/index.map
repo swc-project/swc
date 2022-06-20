@@ -1,5 +1,5 @@
 {
-  "mappings": "AAAA;;;;;AAAO,MAAMA,GAAG,GAAG,CAAC,AAAC;QAARA,GAAG,GAAHA,GAAG",
+  "mappings": "AAAA;;;;;;;;;;;IAAaA,GAAG;eAAHA,GAAG;;;AAAT,MAAMA,GAAG,GAAG,CAAC,AAAC",
   "names": [
     "foo"
   ],

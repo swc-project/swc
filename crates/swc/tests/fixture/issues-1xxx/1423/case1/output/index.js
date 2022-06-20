@@ -1,5 +1,5 @@
-"use strict";
 var _necessary = require("necessary");
+"use strict";
 var second = _necessary.arrayUtilities.second;
 var elements = [
     1,

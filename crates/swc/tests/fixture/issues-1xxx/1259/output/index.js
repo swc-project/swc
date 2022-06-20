@@ -1,6 +1,6 @@
-var _tagged_template_literal = require("@swc/helpers/lib/_tagged_template_literal.js").default;
+var _taggedTemplateLiteralMjs = require("@swc/helpers/lib/_tagged_template_literal.js");
 function _templateObject() {
-    var data = _tagged_template_literal([
+    var data = (0, _taggedTemplateLiteralMjs.default)([
         "'#ERROR'"
     ]);
     _templateObject = function _templateObject() {
