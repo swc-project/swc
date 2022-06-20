@@ -843,6 +843,8 @@ impl Minifier {
                 collapse_whitespaces: self.collapse_whitespaces.clone(),
                 remove_empty_attributes: self.remove_empty_attributes,
                 collapse_boolean_attributes: self.collapse_boolean_attributes,
+                minify_js: self.minify_js,
+                minify_json: self.minify_json,
                 minify_css: self.minify_css,
                 preserve_comments: self.preserve_comments.clone(),
                 minify_conditional_comments: self.minify_conditional_comments,
@@ -850,26 +852,6 @@ impl Minifier {
         );
 
         document_fragment.visit_mut_with(&mut minifier);
-            current_element_text_children_type: None,
-
-            meta_element_content_type: None,
-
-            force_set_html5_doctype: self.force_set_html5_doctype,
-
-            descendant_of_pre: false,
-            collapse_whitespaces: self.collapse_whitespaces.clone(),
-
-            remove_empty_attributes: self.remove_empty_attributes,
-            collapse_boolean_attributes: self.collapse_boolean_attributes,
-
-            minify_js: self.minify_js,
-            minify_json: self.minify_json,
-            minify_css: self.minify_css,
-
-            preserve_comments: self.preserve_comments.clone(),
-
-            minify_conditional_comments: self.minify_conditional_comments,
-        });
 
         let mut minified = String::new();
         let wr = swc_html_codegen::writer::basic::BasicHtmlWriter::new(
@@ -924,8 +906,6 @@ impl VisitMut for Minifier {
         n.visit_mut_children_with(self);
 
         self.current_element = None;
-        self.meta_element_content_type = None;
-        self.current_element_text_children_type = None;
     }
 
     fn visit_mut_element(&mut self, n: &mut Element) {
@@ -935,106 +915,6 @@ impl VisitMut for Minifier {
 
         if self.collapse_whitespaces.is_some() && !old_descendant_of_pre {
             self.descendant_of_pre = n.namespace == Namespace::HTML && &*n.tag_name == "pre";
-        if n.namespace == Namespace::HTML {
-            match &*n.tag_name {
-                "meta" => {
-                    if n.attributes.iter().any(|attribute| {
-                        match &*attribute.name.to_ascii_lowercase() {
-                            "name"
-                                if attribute.value.is_some()
-                                    && &*attribute.value.as_ref().unwrap().to_ascii_lowercase()
-                                        == "viewport" =>
-                            {
-                                true
-                            }
-                            _ => false,
-        match &*n.tag_name {
-            "meta" if n.namespace == Namespace::HTML => {
-                if n.attributes.iter().any(|attribute| {
-                    match &*attribute.name.to_ascii_lowercase() {
-                        "name"
-                            if attribute.value.is_some()
-                                && &*attribute.value.as_ref().unwrap().to_ascii_lowercase()
-                                    == "viewport" =>
-                        {
-                            true
-                        }
-                        _ => false,
-                    }
-                }) {
-                    self.meta_element_content_type = Some(MetaElementContentType::CommaSeparated);
-                } else if n.attributes.iter().any(|attribute| {
-                    match &*attribute.name.to_ascii_lowercase() {
-                        "http-equiv"
-                            if attribute.value.is_some()
-                                && &*attribute.value.as_ref().unwrap().to_ascii_lowercase()
-                                    == "content-security-policy" =>
-                        {
-                            true
-                        }
-                        _ => false,
-                    }
-                }) {
-                    self.meta_element_content_type = Some(MetaElementContentType::SemiSeparated);
-                }
-            }
-            "script"
-                if (self.minify_json || self.minify_js)
-                    && !n
-                        .attributes
-                        .iter()
-                        .any(|attribute| matches!(&*attribute.name, "src"))
-                    && matches!(n.namespace, Namespace::HTML | Namespace::SVG) =>
-            {
-                let type_attribute_value = self
-                    .get_attribute_value(&n.attributes, "type")
-                    .map(|v| v.trim().to_ascii_lowercase());
-
-                match type_attribute_value.as_deref() {
-                    Some("module") if self.minify_js => {
-                        self.current_element_text_children_type = Some(TextChildrenType::Module);
-                    }
-                    Some(
-                        "text/javascript"
-                        | "text/ecmascript"
-                        | "text/jscript"
-                        | "application/javascript"
-                        | "application/x-javascript"
-                        | "application/ecmascript",
-                    )
-                    | None
-                        if self.minify_js =>
-                    {
-                        self.current_element_text_children_type = Some(TextChildrenType::Script);
-                    }
-                    Some(
-                        "application/json"
-                        | "application/ld+json"
-                        | "importmap"
-                        | "speculationrules",
-                    ) if self.minify_json => {
-                        self.current_element_text_children_type = Some(TextChildrenType::Json);
-                    }
-                    _ => {}
-                }
-            }
-            "style"
-                if self.minify_css && matches!(n.namespace, Namespace::HTML | Namespace::SVG) =>
-            {
-                let type_attribute_value = self
-                    .get_attribute_value(&n.attributes, "type")
-                    .map(|v| v.trim().to_ascii_lowercase());
-
-                if type_attribute_value.is_none()
-                    || type_attribute_value.as_deref() == Some("text/css")
-                {
-                    self.current_element_text_children_type = Some(TextChildrenType::Css);
-                }
-            }
-            "pre" if n.namespace == Namespace::HTML && whitespace_minification_mode.is_some() => {
-                self.descendant_of_pre = true;
-            }
-            _ => {}
         }
 
         self.minify_children(&mut n.children);
@@ -1233,83 +1113,92 @@ impl VisitMut for Minifier {
     fn visit_mut_text(&mut self, n: &mut Text) {
         n.visit_mut_children_with(self);
 
-        let mut text_type = None;
-
-        if let Some(current_element) = &self.current_element {
-            if current_element.namespace == Namespace::HTML {
-                match &*current_element.tag_name {
-                    "script"
-                        if current_element.attributes.iter().any(
-                            |attribute| match &*attribute.name {
-                                "type"
-                                    if attribute.value.is_some()
-                                        && matches!(
-                                            &**attribute.value.as_ref().unwrap(),
-                                            "application/json"
-                                                | "application/ld+json"
-                                                | "importmap"
-                                                | "speculationrules"
-                                        ) =>
-                                {
-                                    true
-                                }
-                                _ => false,
-                            },
-                        ) =>
-                    {
-                        text_type = Some(TextChildrenType::Json)
-                    }
-                    "style" if self.minify_css => {
-                        let mut type_attribute_value = None;
-
-                        for attribute in &current_element.attributes {
-                            if &*attribute.name == "type" && attribute.value.is_some() {
-                                type_attribute_value = Some(
-                                    attribute
-                                        .value
-                                        .as_ref()
-                                        .unwrap()
-                                        .trim()
-                                        .to_ascii_lowercase(),
-                                );
-
-                                break;
-                            }
-                        }
-
-                        if type_attribute_value.is_none()
-                            || type_attribute_value == Some("text/css".into())
-                        {
-                            text_type = Some(TextChildrenType::Css)
-                        }
-                    }
-                    _ => {}
-                }
-            }
-        }
-
-        match text_type {
-            Some(TextChildrenType::Json) if n.data.len() > 0 => {
-                let json = match serde_json::from_str::<Value>(&*n.data) {
-                    Ok(json) => json,
-                    _ => return,
-                };
-                let minified = match serde_json::to_string(&json) {
-                    Ok(minified_json) => minified_json,
-                    _ => return,
         if n.data.len() == 0 {
             return;
         }
 
-        match self.current_element_text_children_type {
-            Some(TextChildrenType::Json) => {
-                let minified = match self.minify_json(n.data.to_string()) {
-                    Some(minified) => minified,
-                    None => return,
-                };
+        let mut text_type = None;
 
-                n.data = minified.into();
+        if let Some(current_element) = &self.current_element {
+            match &*current_element.tag_name {
+                "script"
+                    if (self.minify_json || self.minify_js)
+                        && matches!(
+                            current_element.namespace,
+                            Namespace::HTML | Namespace::SVG
+                        )
+                        && !current_element
+                            .attributes
+                            .iter()
+                            .any(|attribute| matches!(&*attribute.name, "src")) =>
+                {
+                    let type_attribute_value = self
+                        .get_attribute_value(&current_element.attributes, "type")
+                        .map(|v| v.trim().to_ascii_lowercase());
+
+                    match type_attribute_value.as_deref() {
+                        Some("module") if self.minify_js => {
+                            text_type = Some(TextChildrenType::Module);
+                        }
+                        Some(
+                            "text/javascript"
+                            | "text/ecmascript"
+                            | "text/jscript"
+                            | "application/javascript"
+                            | "application/x-javascript"
+                            | "application/ecmascript",
+                        )
+                        | None
+                            if self.minify_js =>
+                        {
+                            text_type = Some(TextChildrenType::Script);
+                        }
+                        Some(
+                            "application/json"
+                            | "application/ld+json"
+                            | "importmap"
+                            | "speculationrules",
+                        ) if self.minify_json => {
+                            text_type = Some(TextChildrenType::Json);
+                        }
+                        _ => {}
+                    }
+                }
+                "style"
+                    if self.minify_css
+                        && matches!(
+                            current_element.namespace,
+                            Namespace::HTML | Namespace::SVG
+                        ) =>
+                {
+                    let mut type_attribute_value = None;
+
+                    for attribute in &current_element.attributes {
+                        if &*attribute.name == "type" && attribute.value.is_some() {
+                            type_attribute_value = Some(
+                                attribute
+                                    .value
+                                    .as_ref()
+                                    .unwrap()
+                                    .trim()
+                                    .to_ascii_lowercase(),
+                            );
+
+                            break;
+                        }
+                    }
+
+                    if type_attribute_value.is_none()
+                        || type_attribute_value == Some("text/css".into())
+                    {
+                        text_type = Some(TextChildrenType::Css)
+                    }
+                }
+                _ => {}
             }
+        }
+
+        match text_type {
             Some(TextChildrenType::Script) => {
                 let minified = match self.minify_js(n.data.to_string(), false) {
                     Some(minified) => minified,
@@ -1320,6 +1209,14 @@ impl VisitMut for Minifier {
             }
             Some(TextChildrenType::Module) => {
                 let minified = match self.minify_js(n.data.to_string(), true) {
+                    Some(minified) => minified,
+                    None => return,
+                };
+
+                n.data = minified.into();
+            }
+            Some(TextChildrenType::Json) => {
+                let minified = match self.minify_json(n.data.to_string()) {
                     Some(minified) => minified,
                     None => return,
                 };
