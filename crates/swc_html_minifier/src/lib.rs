@@ -1306,7 +1306,16 @@ impl VisitMut for Minifier {
     }
 
     fn visit_mut_element(&mut self, n: &mut Element) {
-        self.current_element = Some(n.clone());
+        // Don't copy children to save memory
+        self.current_element = Some(Element {
+            span: Default::default(),
+            tag_name: n.tag_name.clone(),
+            namespace: n.namespace,
+            attributes: n.attributes.clone(),
+            children: vec![],
+            content: None,
+            is_self_closing: n.is_self_closing,
+        });
 
         let old_descendant_of_pre = self.descendant_of_pre;
 
