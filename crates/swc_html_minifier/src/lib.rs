@@ -255,11 +255,6 @@ static SPACE_SEPARATED_HTML_ATTRIBUTES: &[(&str, &str)] = &[
     ("style", "blocking"),
 ];
 
-enum MetaElementContentType {
-    CommaSeparated,
-    SemiSeparated,
-}
-
 enum TextChildrenType {
     Json,
     Css,
@@ -284,12 +279,7 @@ pub static CONDITIONAL_COMMENT_END: Lazy<CachedRegex> =
     Lazy::new(|| CachedRegex::new("\\[endif]").unwrap());
 
 struct Minifier {
-    current_element_namespace: Option<Namespace>,
-    current_element_tag_name: Option<JsWord>,
-
-    current_element_text_children_type: Option<TextChildrenType>,
-
-    meta_element_content_type: Option<MetaElementContentType>,
+    current_element: Option<Element>,
 
     force_set_html5_doctype: bool,
 
@@ -316,16 +306,7 @@ impl Minifier {
         ALLOW_TO_TRIM_GLOBAL_ATTRIBUTES.contains(&name)
     }
 
-    fn is_html_trimable_attribute(
-        &self,
-        tag_name: Option<&JsWord>,
-        attribute_name: &JsWord,
-    ) -> bool {
-        let tag_name = match tag_name {
-            Some(tag_name) => tag_name,
-            _ => return false,
-        };
-
+    fn is_html_trimable_attribute(&self, tag_name: &str, attribute_name: &str) -> bool {
         ALLOW_TO_TRIM_HTML_ATTRIBUTES.contains(&(tag_name, attribute_name))
     }
 
@@ -333,16 +314,7 @@ impl Minifier {
         COMMA_SEPARATED_GLOBAL_ATTRIBUTES.contains(&name)
     }
 
-    fn is_html_comma_separated_attribute(
-        &self,
-        tag_name: Option<&JsWord>,
-        attribute_name: &JsWord,
-    ) -> bool {
-        let tag_name = match tag_name {
-            Some(tag_name) => tag_name,
-            _ => return false,
-        };
-
+    fn is_html_comma_separated_attribute(&self, tag_name: &str, attribute_name: &str) -> bool {
         COMMA_SEPARATED_HTML_ATTRIBUTES.contains(&(tag_name, attribute_name))
     }
 
@@ -350,16 +322,7 @@ impl Minifier {
         SPACE_SEPARATED_GLOBAL_ATTRIBUTES.contains(&name)
     }
 
-    fn is_html_space_separated_attribute(
-        &self,
-        tag_name: Option<&JsWord>,
-        attribute_name: &JsWord,
-    ) -> bool {
-        let tag_name = match tag_name {
-            Some(tag_name) => tag_name,
-            _ => return false,
-        };
-
+    fn is_html_space_separated_attribute(&self, tag_name: &str, attribute_name: &str) -> bool {
         SPACE_SEPARATED_HTML_ATTRIBUTES.contains(&(tag_name, attribute_name))
     }
 
@@ -629,6 +592,71 @@ impl Minifier {
         collapsed
     }
 
+    fn minify_children(&mut self, children: &mut Vec<Child>) {
+        let namespace = self.current_element.as_ref().unwrap().namespace;
+        let tag_name = &self.current_element.as_ref().unwrap().tag_name;
+        let whitespace_minification_mode = self
+            .collapse_whitespaces
+            .as_ref()
+            .map(|mode| self.get_whitespace_minification_for_tag(mode, namespace, tag_name));
+
+        let mut index = 0;
+        let last = children.len();
+
+        children.retain_mut(|child| {
+            index += 1;
+
+            match child {
+                Child::Comment(comment) if !self.is_preserved_comment(&comment.data) => false,
+                // Always remove whitespaces from html and head elements (except nested elements),
+                // it should be safe
+                Child::Text(_)
+                    if matches!(&**tag_name, "html" | "head") && namespace == Namespace::HTML =>
+                {
+                    false
+                }
+                Child::Text(text)
+                    if whitespace_minification_mode.is_some() && !self.descendant_of_pre =>
+                {
+                    let mode = whitespace_minification_mode.unwrap();
+
+                    let value = if mode.trim
+                        && (index == 1
+                            || self.collapse_whitespaces == Some(CollapseWhitespaces::All))
+                    {
+                        text.data.trim_start_matches(is_whitespace)
+                    } else {
+                        &*text.data
+                    };
+
+                    let value = if mode.trim
+                        && (index == last
+                            || self.collapse_whitespaces == Some(CollapseWhitespaces::All))
+                    {
+                        value.trim_end_matches(is_whitespace)
+                    } else {
+                        value
+                    };
+
+                    if mode.destroy_whole && value.chars().all(is_whitespace) {
+                        false
+                    } else if mode.collapse {
+                        text.data = self.collapse_whitespace(value).into();
+
+                        true
+                    } else if value.is_empty() {
+                        false
+                    } else {
+                        text.data = value.into();
+
+                        true
+                    }
+                }
+                _ => true,
+            }
+        });
+    }
+
     // TODO source map url output?
     fn minify_css(&self, data: String) -> Option<String> {
         let mut errors: Vec<_> = vec![];
@@ -689,28 +717,20 @@ impl Minifier {
             return None;
         }
 
-        document_fragment.visit_mut_with(&mut Minifier {
-            current_element_namespace: None,
-            current_element_tag_name: None,
+        let mut minifier = create_minifier(
+            Some(&context_element),
+            &MinifyOptions {
+                force_set_html5_doctype: self.force_set_html5_doctype,
+                collapse_whitespaces: self.collapse_whitespaces.clone(),
+                remove_empty_attributes: self.remove_empty_attributes,
+                collapse_boolean_attributes: self.collapse_boolean_attributes,
+                minify_css: self.minify_css,
+                preserve_comments: self.preserve_comments.clone(),
+                minify_conditional_comments: self.minify_conditional_comments,
+            },
+        );
 
-            current_element_text_children_type: None,
-
-            meta_element_content_type: None,
-
-            force_set_html5_doctype: self.force_set_html5_doctype,
-
-            descendant_of_pre: false,
-            collapse_whitespaces: self.collapse_whitespaces.clone(),
-
-            remove_empty_attributes: self.remove_empty_attributes,
-            collapse_boolean_attributes: self.collapse_boolean_attributes,
-
-            minify_css: self.minify_css,
-
-            preserve_comments: self.preserve_comments.clone(),
-
-            minify_conditional_comments: self.minify_conditional_comments,
-        });
+        document_fragment.visit_mut_with(&mut minifier);
 
         let mut minified = String::new();
         let wr = BasicHtmlWriter::new(&mut minified, None, BasicHtmlWriterConfig::default());
@@ -740,10 +760,9 @@ impl VisitMut for Minifier {
     }
 
     fn visit_mut_document_fragment(&mut self, n: &mut DocumentFragment) {
-        n.visit_mut_children_with(self);
+        self.minify_children(&mut n.children);
 
-        n.children
-            .retain(|child| !matches!(child, Child::Comment(_)));
+        n.visit_mut_children_with(self);
     }
 
     fn visit_mut_document_type(&mut self, n: &mut DocumentType) {
@@ -758,170 +777,26 @@ impl VisitMut for Minifier {
         n.public_id = None;
     }
 
+    fn visit_mut_child(&mut self, n: &mut Child) {
+        n.visit_mut_children_with(self);
+
+        self.current_element = None;
+    }
+
     fn visit_mut_element(&mut self, n: &mut Element) {
-        self.current_element_namespace = Some(n.namespace);
-        self.current_element_tag_name = Some(n.tag_name.clone());
+        self.current_element = Some(n.clone());
 
         let old_descendant_of_pre = self.descendant_of_pre;
-        let whitespace_minification_mode = match &self.collapse_whitespaces {
-            Some(mode) => {
-                Some(self.get_whitespace_minification_for_tag(mode, n.namespace, &n.tag_name))
-            }
-            _ => None,
-        };
 
-        if n.namespace == Namespace::HTML {
-            match &*n.tag_name {
-                "meta" => {
-                    if n.attributes.iter().any(|attribute| {
-                        match &*attribute.name.to_ascii_lowercase() {
-                            "name"
-                                if attribute.value.is_some()
-                                    && &*attribute.value.as_ref().unwrap().to_ascii_lowercase()
-                                        == "viewport" =>
-                            {
-                                true
-                            }
-                            _ => false,
-                        }
-                    }) {
-                        self.meta_element_content_type =
-                            Some(MetaElementContentType::CommaSeparated);
-                    } else if n.attributes.iter().any(|attribute| {
-                        match &*attribute.name.to_ascii_lowercase() {
-                            "http-equiv"
-                                if attribute.value.is_some()
-                                    && &*attribute.value.as_ref().unwrap().to_ascii_lowercase()
-                                        == "content-security-policy" =>
-                            {
-                                true
-                            }
-                            _ => false,
-                        }
-                    }) {
-                        self.meta_element_content_type =
-                            Some(MetaElementContentType::SemiSeparated);
-                    } else {
-                        self.meta_element_content_type = None;
-                    }
-                }
-                "script"
-                    if n.attributes.iter().any(|attribute| match &*attribute.name {
-                        "type"
-                            if attribute.value.is_some()
-                                && matches!(
-                                    &**attribute.value.as_ref().unwrap(),
-                                    "application/json"
-                                        | "application/ld+json"
-                                        | "importmap"
-                                        | "speculationrules"
-                                ) =>
-                        {
-                            true
-                        }
-                        _ => false,
-                    }) =>
-                {
-                    self.current_element_text_children_type = Some(TextChildrenType::Json);
-                }
-                "style" if self.minify_css => {
-                    let mut type_attribute_value = None;
-
-                    for attribute in &n.attributes {
-                        if &*attribute.name == "type" && attribute.value.is_some() {
-                            type_attribute_value = Some(
-                                attribute
-                                    .value
-                                    .as_ref()
-                                    .unwrap()
-                                    .trim()
-                                    .to_ascii_lowercase(),
-                            );
-
-                            break;
-                        }
-                    }
-
-                    if type_attribute_value.is_none()
-                        || type_attribute_value == Some("text/css".into())
-                    {
-                        self.current_element_text_children_type = Some(TextChildrenType::Css);
-                    } else {
-                        self.current_element_text_children_type = None;
-                    }
-
-                    self.meta_element_content_type = None;
-                }
-                "pre" if whitespace_minification_mode.is_some() => {
-                    self.descendant_of_pre = true;
-                }
-                _ => {
-                    self.meta_element_content_type = None;
-                    self.current_element_text_children_type = None;
-                }
-            }
+        if self.collapse_whitespaces.is_some() && !old_descendant_of_pre {
+            self.descendant_of_pre = n.namespace == Namespace::HTML && &*n.tag_name == "pre";
         }
 
-        let mut index = 0;
-        let last = n.children.len();
-
-        n.children.retain_mut(|child| {
-            index += 1;
-
-            match child {
-                Child::Comment(comment) if !self.is_preserved_comment(&comment.data) => false,
-                // Always remove whitespaces from html and head elements (except nested elements),
-                // it should be safe
-                Child::Text(_)
-                    if matches!(&*n.tag_name, "html" | "head")
-                        && n.namespace == Namespace::HTML =>
-                {
-                    false
-                }
-                Child::Text(text)
-                    if whitespace_minification_mode.is_some() && !self.descendant_of_pre =>
-                {
-                    let mode = whitespace_minification_mode.unwrap();
-
-                    let value = if mode.trim
-                        && (index == 1
-                            || self.collapse_whitespaces == Some(CollapseWhitespaces::All))
-                    {
-                        text.data.trim_start_matches(is_whitespace)
-                    } else {
-                        &*text.data
-                    };
-
-                    let value = if mode.trim
-                        && (index == last
-                            || self.collapse_whitespaces == Some(CollapseWhitespaces::All))
-                    {
-                        value.trim_end_matches(is_whitespace)
-                    } else {
-                        value
-                    };
-
-                    if mode.destroy_whole && value.chars().all(is_whitespace) {
-                        false
-                    } else if mode.collapse {
-                        text.data = self.collapse_whitespace(value).into();
-
-                        true
-                    } else if value.is_empty() {
-                        false
-                    } else {
-                        text.data = value.into();
-
-                        true
-                    }
-                }
-                _ => true,
-            }
-        });
+        self.minify_children(&mut n.children);
 
         n.visit_mut_children_with(self);
 
-        if whitespace_minification_mode.is_some() {
+        if self.collapse_whitespaces.is_some() {
             self.descendant_of_pre = old_descendant_of_pre;
         }
 
@@ -987,7 +862,8 @@ impl VisitMut for Minifier {
             }
         };
 
-        let is_element_html_namespace = self.current_element_namespace == Some(Namespace::HTML);
+        let is_element_html_namespace =
+            self.current_element.as_ref().unwrap().namespace == Namespace::HTML;
 
         if self.collapse_boolean_attributes
             && is_element_html_namespace
@@ -999,7 +875,7 @@ impl VisitMut for Minifier {
         } else if self.is_global_space_separated_attribute(&n.name)
             || (is_element_html_namespace
                 && self.is_html_space_separated_attribute(
-                    self.current_element_tag_name.as_ref(),
+                    &*self.current_element.as_ref().unwrap().tag_name,
                     &n.name,
                 ))
         {
@@ -1013,12 +889,24 @@ impl VisitMut for Minifier {
         } else if self.is_global_comma_separated_attribute(&n.name)
             || (is_element_html_namespace
                 && ((&n.name == "content"
-                    && matches!(
-                        self.meta_element_content_type,
-                        Some(MetaElementContentType::CommaSeparated)
-                    ))
+                    && self
+                        .current_element
+                        .as_ref()
+                        .unwrap()
+                        .attributes
+                        .iter()
+                        .any(|attribute| match &*attribute.name.to_ascii_lowercase() {
+                            "name"
+                                if attribute.value.is_some()
+                                    && &*attribute.value.as_ref().unwrap().to_ascii_lowercase()
+                                        == "viewport" =>
+                            {
+                                true
+                            }
+                            _ => false,
+                        }))
                     || self.is_html_comma_separated_attribute(
-                        self.current_element_tag_name.as_ref(),
+                        &*self.current_element.as_ref().unwrap().tag_name,
                         &n.name,
                     )))
         {
@@ -1033,7 +921,10 @@ impl VisitMut for Minifier {
             value = new_values.join(",");
         } else if self.is_global_trimable_attribute(&n.name)
             || (is_element_html_namespace
-                && self.is_html_trimable_attribute(self.current_element_tag_name.as_ref(), &n.name))
+                && self.is_html_trimable_attribute(
+                    &*self.current_element.as_ref().unwrap().tag_name,
+                    &n.name,
+                ))
         {
             value = value.trim().to_string();
         } else if is_element_html_namespace && &n.name == "contenteditable" && value == "true" {
@@ -1041,10 +932,22 @@ impl VisitMut for Minifier {
 
             return;
         } else if &n.name == "content"
-            && matches!(
-                self.meta_element_content_type,
-                Some(MetaElementContentType::SemiSeparated)
-            )
+            && self
+                .current_element
+                .as_ref()
+                .unwrap()
+                .attributes
+                .iter()
+                .any(|attribute| match &*attribute.name.to_ascii_lowercase() {
+                    "http-equiv"
+                        if attribute.value.is_some()
+                            && &*attribute.value.as_ref().unwrap().to_ascii_lowercase()
+                                == "content-security-policy" =>
+                    {
+                        true
+                    }
+                    _ => false,
+                })
         {
             let values = value.trim().split(';');
 
@@ -1080,7 +983,62 @@ impl VisitMut for Minifier {
     fn visit_mut_text(&mut self, n: &mut Text) {
         n.visit_mut_children_with(self);
 
-        match self.current_element_text_children_type {
+        let mut text_type = None;
+
+        if let Some(current_element) = &self.current_element {
+            if current_element.namespace == Namespace::HTML {
+                match &*current_element.tag_name {
+                    "script"
+                        if current_element.attributes.iter().any(
+                            |attribute| match &*attribute.name {
+                                "type"
+                                    if attribute.value.is_some()
+                                        && matches!(
+                                            &**attribute.value.as_ref().unwrap(),
+                                            "application/json"
+                                                | "application/ld+json"
+                                                | "importmap"
+                                                | "speculationrules"
+                                        ) =>
+                                {
+                                    true
+                                }
+                                _ => false,
+                            },
+                        ) =>
+                    {
+                        text_type = Some(TextChildrenType::Json)
+                    }
+                    "style" if self.minify_css => {
+                        let mut type_attribute_value = None;
+
+                        for attribute in &current_element.attributes {
+                            if &*attribute.name == "type" && attribute.value.is_some() {
+                                type_attribute_value = Some(
+                                    attribute
+                                        .value
+                                        .as_ref()
+                                        .unwrap()
+                                        .trim()
+                                        .to_ascii_lowercase(),
+                                );
+
+                                break;
+                            }
+                        }
+
+                        if type_attribute_value.is_none()
+                            || type_attribute_value == Some("text/css".into())
+                        {
+                            text_type = Some(TextChildrenType::Css)
+                        }
+                    }
+                    _ => {}
+                }
+            }
+        }
+
+        match text_type {
             Some(TextChildrenType::Json) if n.data.len() > 0 => {
                 let json = match serde_json::from_str::<Value>(&*n.data) {
                     Ok(json) => json,
@@ -1146,18 +1104,23 @@ impl VisitMut for Minifier {
     }
 }
 
-pub fn minify(document: &mut Document, options: &MinifyOptions) {
-    document.visit_mut_with(&mut Minifier {
-        current_element_namespace: None,
-        current_element_tag_name: None,
+fn create_minifier(context_element: Option<&Element>, options: &MinifyOptions) -> Minifier {
+    let mut current_element = None;
+    let mut is_pre = false;
 
-        current_element_text_children_type: None,
+    if let Some(context_element) = context_element {
+        current_element = Some(context_element.clone());
+        is_pre =
+            context_element.namespace == Namespace::HTML && &*context_element.tag_name == "pre";
+    }
 
-        meta_element_content_type: None,
+    Minifier {
+        current_element,
+
+        descendant_of_pre: is_pre,
 
         force_set_html5_doctype: options.force_set_html5_doctype,
 
-        descendant_of_pre: false,
         collapse_whitespaces: options.collapse_whitespaces.clone(),
 
         remove_empty_attributes: options.remove_empty_attributes,
@@ -1167,5 +1130,21 @@ pub fn minify(document: &mut Document, options: &MinifyOptions) {
 
         preserve_comments: options.preserve_comments.clone(),
         minify_conditional_comments: options.minify_conditional_comments,
-    });
+    }
+}
+
+pub fn minify_document(document: &mut Document, options: &MinifyOptions) {
+    let mut minifier = create_minifier(None, options);
+
+    document.visit_mut_with(&mut minifier);
+}
+
+pub fn minify_document_fragment(
+    document: &mut DocumentFragment,
+    context_element: Element,
+    options: &MinifyOptions,
+) {
+    let mut minifier = create_minifier(Some(&context_element), options);
+
+    document.visit_mut_with(&mut minifier);
 }
