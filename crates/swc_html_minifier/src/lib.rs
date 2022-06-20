@@ -324,6 +324,16 @@ struct Minifier {
     minify_css: bool,
 }
 
+fn get_white_space(namespace: Namespace, tag_name: &str) -> WhiteSpace {
+    match namespace {
+        Namespace::HTML => match tag_name {
+            "textarea" | "code" | "pre" | "listing" | "plaintext" | "xmp" => WhiteSpace::Pre,
+            _ => WhiteSpace::Normal,
+        },
+        _ => WhiteSpace::Normal,
+    }
+}
+
 impl Minifier {
     fn is_event_handler_attribute(&self, name: &str) -> bool {
         EVENT_HANDLER_ATTRIBUTES.contains(&name)
@@ -655,22 +665,36 @@ impl Minifier {
         }
     }
 
-    fn get_white_space(&self, namespace: Namespace, tag_name: &str) -> WhiteSpace {
-        match namespace {
-            Namespace::HTML => match tag_name {
-                "textarea" | "code" | "pre" | "listing" | "plaintext" | "xmp" => WhiteSpace::Pre,
-                _ => WhiteSpace::Normal,
-            },
-            _ => WhiteSpace::Normal,
+    fn get_deep_text_element_first<'a>(&self, node: &'a mut Child) -> Option<&'a mut Text> {
+        match node {
+            Child::Text(text) => Some(text),
+            Child::Element(Element {
+                namespace,
+                tag_name,
+                children,
+                ..
+            }) if get_white_space(*namespace, tag_name) == WhiteSpace::Normal => {
+                if let Some(last) = children.first_mut() {
+                    self.get_deep_text_element_first(last)
+                } else {
+                    None
+                }
+            }
+            _ => None,
         }
     }
 
-    fn get_deep_text_element<'a>(&self, node: &'a Child) -> Option<&'a Text> {
-        match &node {
+    fn get_deep_text_element_last<'a>(&self, node: &'a mut Child) -> Option<&'a mut Text> {
+        match node {
             Child::Text(text) => Some(text),
-            Child::Element(Element { children, .. }) => {
-                if let Some(last) = children.last() {
-                    self.get_deep_text_element(last)
+            Child::Element(Element {
+                namespace,
+                tag_name,
+                children,
+                ..
+            }) if get_white_space(*namespace, tag_name) == WhiteSpace::Normal => {
+                if let Some(last) = children.last_mut() {
+                    self.get_deep_text_element_last(last)
                 } else {
                     None
                 }
@@ -696,16 +720,19 @@ impl Minifier {
                     collapse: false,
                     trim: true,
                 },
-                "textarea" | "code" | "pre" | "listing" | "plaintext" | "xmp" => {
-                    WhitespaceMinificationMode {
-                        collapse: false,
-                        trim: false,
+                _ => {
+                    if get_white_space(namespace, tag_name) == WhiteSpace::Pre {
+                        WhitespaceMinificationMode {
+                            collapse: false,
+                            trim: false,
+                        }
+                    } else {
+                        WhitespaceMinificationMode {
+                            collapse: true,
+                            trim: default_trim,
+                        }
                     }
                 }
-                _ => WhitespaceMinificationMode {
-                    collapse: true,
-                    trim: default_trim,
-                },
             },
             Namespace::SVG => match tag_name {
                 "desc" | "text" | "title" => WhitespaceMinificationMode {
@@ -761,10 +788,23 @@ impl Minifier {
             .map(|mode| self.get_whitespace_minification_for_tag(mode, namespace, tag_name));
 
         let mut index = 0;
-        let last = children.len();
         let cloned = children.clone();
         let mut prev = None;
         let mut next = None;
+
+        if namespace == Namespace::HTML && &**tag_name == "body" {
+            if let Some(first) = children.first_mut() {
+                if let Some(text) = self.get_deep_text_element_first(first) {
+                    text.data = text.data.trim_start_matches(is_whitespace).into();
+                }
+            }
+
+            if let Some(last) = children.last_mut() {
+                if let Some(text) = self.get_deep_text_element_last(last) {
+                    text.data = text.data.trim_end_matches(is_whitespace).into();
+                }
+            }
+        }
 
         children.retain_mut(|child| {
             index += 1;
@@ -790,7 +830,7 @@ impl Minifier {
                 }
                 Child::Text(text)
                     if !self.descendant_of_pre
-                        && self.get_white_space(namespace, &**tag_name) == WhiteSpace::Normal =>
+                        && get_white_space(namespace, &**tag_name) == WhiteSpace::Normal =>
                 {
                     let mut is_smart_left_trim = false;
                     let mut is_smart_right_trim = false;
@@ -821,7 +861,7 @@ impl Minifier {
                         is_smart_left_trim = match prev_display {
                             Some(Display::Block) => true,
                             Some(_) => {
-                                let deep = self.get_deep_text_element(prev.as_ref().unwrap());
+                                let deep = self.get_deep_text_element_last(prev.as_mut().unwrap());
 
                                 if let Some(deep) = deep {
                                     deep.data.ends_with(is_whitespace)
@@ -844,19 +884,14 @@ impl Minifier {
                         is_smart_right_trim = matches!(next_display, Some(Display::Block));
                     }
 
-                    let mut value = if (mode.is_some() && mode.unwrap().trim)
-                        || is_smart_left_trim
-                        || (index == 1 && namespace == Namespace::HTML && &**tag_name == "body")
+                    let mut value = if (mode.is_some() && mode.unwrap().trim) || is_smart_left_trim
                     {
                         text.data.trim_start_matches(is_whitespace)
                     } else {
                         &*text.data
                     };
 
-                    value = if (mode.is_some() && mode.unwrap().trim)
-                        || is_smart_right_trim
-                        || (index == last && namespace == Namespace::HTML && &**tag_name == "body")
-                    {
+                    value = if (mode.is_some() && mode.unwrap().trim) || is_smart_right_trim {
                         value.trim_end_matches(is_whitespace)
                     } else {
                         value
@@ -1303,7 +1338,7 @@ impl VisitMut for Minifier {
         let old_descendant_of_pre = self.descendant_of_pre;
 
         if self.collapse_whitespaces.is_some() && !old_descendant_of_pre {
-            self.descendant_of_pre = n.namespace == Namespace::HTML && &*n.tag_name == "pre";
+            self.descendant_of_pre = get_white_space(n.namespace, &n.tag_name) == WhiteSpace::Pre;
         }
 
         self.minify_children(&mut n.children);
@@ -1661,8 +1696,8 @@ fn create_minifier(context_element: Option<&Element>, options: &MinifyOptions) -
 
     if let Some(context_element) = context_element {
         current_element = Some(context_element.clone());
-        is_pre =
-            context_element.namespace == Namespace::HTML && &*context_element.tag_name == "pre";
+        is_pre = get_white_space(context_element.namespace, &context_element.tag_name)
+            == WhiteSpace::Pre;
     }
 
     Minifier {
