@@ -27,7 +27,9 @@
 </p>
 
 <p align="center">
-   <img alt="Discord" src="https://img.shields.io/discord/889779439272075314">
+   <a href="https://discord.com/invite/GnHbXTdZz6">
+      <img alt="Discord" src="https://img.shields.io/discord/889779439272075314">
+   </a>
 </p>
 
 SWC (stands for `Speedy Web Compiler`) is a super-fast TypeScript / JavaScript compiler written in Rust. It's a library for Rust and JavaScript at the same time. If you are using SWC from Rust, see [rustdoc](https://rustdoc.swc.rs/swc/) and for most users, your entry point for using the library will be [parser](https://rustdoc.swc.rs/swc_ecma_parser/).
