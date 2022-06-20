@@ -13,6 +13,12 @@
 
 - **(es/typescript)** Preserve `export = ` for AMD (#4995) ([d736b31](https://github.com/swc-project/swc/commit/d736b31e08771c3ca243e6875a11bef1a2937c85))
 
+### Documentation
+
+
+
+- **(readme)** Add a link for discord badge in `README.md` (#5005) ([1f64055](https://github.com/swc-project/swc/commit/1f64055438f1867683fc0fb3b3bef88ca077ff0c))
+
 ## [1.2.204] - 2022-06-18
 
 ### Bug Fixes
