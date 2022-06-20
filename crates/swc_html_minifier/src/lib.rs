@@ -1272,8 +1272,9 @@ impl VisitMut for Minifier {
 
                         let mut value = if allow_to_trim
                             || is_first_body_element
-                            || (self.collapse_whitespaces == Some(CollapseWhitespaces::Smart)
-                                && prev_display == Some(Display::Block))
+                            || (allow_to_trim
+                                && self.collapse_whitespaces == Some(CollapseWhitespaces::Smart)
+                                && (prev_display == Some(Display::Block) || prev_display.is_none()))
                         {
                             text.data.trim_start_matches(is_whitespace)
                         } else {
