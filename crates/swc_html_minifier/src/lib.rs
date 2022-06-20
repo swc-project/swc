@@ -831,12 +831,12 @@ impl Minifier {
                             }
                             None => {
                                 if let Some(Child::Text(Text { data, .. })) = &self.latest_element {
-                                    data.is_empty() || data.ends_with(is_whitespace)
-                                } else {
                                     match parent_display {
                                         Display::Block | Display::InlineBlock => true,
-                                        _ => true,
+                                        _ => data.ends_with(is_whitespace),
                                     }
+                                } else {
+                                    true
                                 }
                             }
                         };
