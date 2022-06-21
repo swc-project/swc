@@ -11,6 +11,9 @@
 - **(es/parser)** Allow instantiation expression followed by a line break or a binary operator (#5000) ([a62b2b3](https://github.com/swc-project/swc/commit/a62b2b32446613fca0a6193c93c19f1e0b86c3b0))
 
 
+- **(es/transforms)** Add custom `Sync` + `Send` for the renamer (#5018) ([fd73895](https://github.com/swc-project/swc/commit/fd73895a7be31b24a2795e38c1e7729086656023))
+
+
 - **(es/typescript)** Preserve `export = ` for AMD (#4995) ([d736b31](https://github.com/swc-project/swc/commit/d736b31e08771c3ca243e6875a11bef1a2937c85))
 
 ### Documentation
