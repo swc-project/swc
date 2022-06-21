@@ -888,7 +888,7 @@ impl Minifier {
                         };
 
                         is_smart_right_trim = match next_display {
-                            Some(Display::Block) => true,
+                            Some(Display::Block | Display::Table) => true,
                             Some(_) => matches!(next_display, Some(Display::Block)),
                             None => {
                                 let parent_display = self.get_display(namespace, &**tag_name);
