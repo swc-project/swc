@@ -836,8 +836,6 @@ impl Minifier {
                     let mut is_smart_right_trim = false;
 
                     if self.collapse_whitespaces == Some(CollapseWhitespaces::Smart) {
-                        let parent_display = self.get_display(namespace, &**tag_name);
-
                         let prev_display = if let Some(Child::Element(Element {
                             namespace,
                             tag_name,
@@ -862,6 +860,8 @@ impl Minifier {
                             }
                             None => {
                                 if let Some(Child::Text(Text { data, .. })) = &self.latest_element {
+                                    let parent_display = self.get_display(namespace, &**tag_name);
+
                                     match parent_display {
                                         Display::Block | Display::InlineBlock => true,
                                         _ => data.ends_with(is_whitespace),
@@ -883,7 +883,18 @@ impl Minifier {
                             None
                         };
 
-                        is_smart_right_trim = matches!(next_display, Some(Display::Block));
+                        is_smart_right_trim = match next_display {
+                            Some(Display::Block) => true,
+                            Some(_) => matches!(next_display, Some(Display::Block)),
+                            None => {
+                                let parent_display = self.get_display(namespace, &**tag_name);
+
+                                match parent_display {
+                                    Display::Block | Display::InlineBlock => true,
+                                    _ => false,
+                                }
+                            }
+                        };
                     }
 
                     let mut value = if (mode.is_some() && mode.unwrap().trim) || is_smart_left_trim
