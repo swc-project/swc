@@ -56,23 +56,42 @@ fn init_helpers() -> Arc<PathBuf> {
 
         let helper_dir = project_root.join("packages").join("swc-helpers");
 
+        let yarn = find_executable("yarn").expect("failed to find yarn");
+        let npm = find_executable("npm").expect("failed to find yarn");
         {
-            dbg!(find_executable("yarn"));
-            let mut cmd = Command::new(find_executable("yarn").expect("failed to find yarn"));
+            let mut cmd = if cfg!(target_os = "windows") {
+                let mut c = Command::new("cmd");
+                c.arg("/C").arg(&yarn);
+                c
+            } else {
+                Command::new(&yarn)
+            };
             cmd.current_dir(&helper_dir);
             let status = cmd.status().expect("failed to update swc core");
             assert!(status.success());
         }
 
         {
-            let mut cmd = Command::new(find_executable("yarn").expect("failed to find yarn"));
+            let mut cmd = if cfg!(target_os = "windows") {
+                let mut c = Command::new("cmd");
+                c.arg("/C").arg(&yarn);
+                c
+            } else {
+                Command::new(&yarn)
+            };
             cmd.current_dir(&helper_dir).arg("build");
             let status = cmd.status().expect("failed to compile helper package");
             assert!(status.success());
         }
 
         {
-            let mut cmd = Command::new(find_executable("npm").expect("failed to find npm"));
+            let mut cmd = if cfg!(target_os = "windows") {
+                let mut c = Command::new("cmd");
+                c.arg("/C").arg(&npm);
+                c
+            } else {
+                Command::new(&npm)
+            };
             cmd.current_dir(&project_root)
                 .arg("install")
                 .arg("--no-save")
