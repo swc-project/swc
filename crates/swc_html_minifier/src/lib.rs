@@ -837,16 +837,51 @@ impl Minifier {
         Some(minified)
     }
 
-    fn minify_css(&self, data: String) -> Option<String> {
+    fn minify_css(&self, data: String, is_attribute: bool) -> Option<String> {
         let mut errors: Vec<_> = vec![];
 
         let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
         let fm = cm.new_source_file(FileName::Anon, data);
 
-        let mut stylesheet = match swc_css_parser::parse_file(&fm, Default::default(), &mut errors)
-        {
-            Ok(stylesheet) => stylesheet,
-            _ => return None,
+        let mut stylesheet = if is_attribute {
+            match swc_css_parser::parse_file::<Vec<swc_css_ast::DeclarationOrAtRule>>(
+                &fm,
+                Default::default(),
+                &mut errors,
+            ) {
+                Ok(list_of_declarations) => {
+                    let declaration_list: Vec<swc_css_ast::ComponentValue> = list_of_declarations
+                        .into_iter()
+                        .map(swc_css_ast::ComponentValue::DeclarationOrAtRule)
+                        .collect();
+
+                    swc_css_ast::Stylesheet {
+                        span: Default::default(),
+                        rules: vec![swc_css_ast::Rule::QualifiedRule(
+                            swc_css_ast::QualifiedRule {
+                                span: Default::default(),
+                                prelude: swc_css_ast::QualifiedRulePrelude::SelectorList(
+                                    swc_css_ast::SelectorList {
+                                        span: Default::default(),
+                                        children: vec![],
+                                    },
+                                ),
+                                block: swc_css_ast::SimpleBlock {
+                                    span: Default::default(),
+                                    name: '{',
+                                    value: declaration_list,
+                                },
+                            },
+                        )],
+                    }
+                }
+                _ => return None,
+            }
+        } else {
+            match swc_css_parser::parse_file(&fm, Default::default(), &mut errors) {
+                Ok(stylesheet) => stylesheet,
+                _ => return None,
+            }
         };
 
         // Avoid compress potential invalid CSS
@@ -867,7 +902,24 @@ impl Minifier {
             swc_css_codegen::CodegenConfig { minify: true },
         );
 
-        swc_css_codegen::Emit::emit(&mut gen, &stylesheet).unwrap();
+        if is_attribute {
+            let swc_css_ast::Stylesheet { rules, .. } = &stylesheet;
+
+            // Because CSS is grammar free, protect for fails
+            if let Some(swc_css_ast::Rule::QualifiedRule(swc_css_ast::QualifiedRule {
+                block,
+                ..
+            })) = rules.get(0)
+            {
+                swc_css_codegen::Emit::emit(&mut gen, &block).unwrap();
+
+                minified = minified[1..minified.len() - 1].to_string();
+            } else {
+                return None;
+            }
+        } else {
+            swc_css_codegen::Emit::emit(&mut gen, &stylesheet).unwrap();
+        }
 
         Some(minified)
     }
@@ -1092,6 +1144,12 @@ impl VisitMut for Minifier {
             .is_trimable_separated_attribute(self.current_element.as_ref().unwrap(), &n.name)
         {
             value = value.trim().to_string();
+
+            if self.minify_css && &*n.name == "style" && !value.is_empty() {
+                if let Some(minified) = self.minify_css(value.clone(), true) {
+                    value = minified;
+                }
+            }
         } else if is_element_html_namespace && &n.name == "contenteditable" && value == "true" {
             n.value = Some(js_word!(""));
 
@@ -1253,7 +1311,7 @@ impl VisitMut for Minifier {
                 n.data = minified.into();
             }
             Some(TextChildrenType::Css) => {
-                let minified = match self.minify_css(n.data.to_string()) {
+                let minified = match self.minify_css(n.data.to_string(), false) {
                     Some(minified) => minified,
                     None => return,
                 };
