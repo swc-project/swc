@@ -6,6 +6,10 @@ use swc_common::collections::AHashMap;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith, VisitWith};
 
+#[cfg(feature = "concurrent-renamer")]
+use self::renamer_concurrent::{Send, Sync};
+#[cfg(not(feature = "concurrent-renamer"))]
+use self::renamer_single::{Send, Sync};
 use self::{
     analyzer::Analyzer,
     collector::{collect_decls, CustomBindingCollector, IdCollector},
@@ -19,7 +23,7 @@ mod collector;
 mod eval;
 mod ops;
 
-pub trait Renamer: swc_common::sync::Send + swc_common::sync::Sync {
+pub trait Renamer: Send + Sync {
     /// Should reset `n` to 0 for each identifier?
     const RESET_N: bool;
 
@@ -242,4 +246,20 @@ where
 
         s.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
     }
+}
+
+#[cfg(feature = "concurrent-renamer")]
+mod renamer_concurrent {
+    pub use std::marker::{Send, Sync};
+}
+
+#[cfg(not(feature = "concurrent-renamer"))]
+mod renamer_single {
+    /// Dummy trait because swc_common is in single thread mode.
+    pub trait Send {}
+    /// Dummy trait because swc_common is in single thread mode.
+    pub trait Sync {}
+
+    impl<T> Send for T where T: ?Sized {}
+    impl<T> Sync for T where T: ?Sized {}
 }
