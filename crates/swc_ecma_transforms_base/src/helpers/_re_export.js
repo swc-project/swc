@@ -1,9 +1,9 @@
-function _reExport(target, mod) {
-  Object.keys(mod).forEach(function (k) {
-    if (k !== 'default' && !Object.prototype.hasOwnProperty.call(target, k)) Object.defineProperty(target, k, {
-      enumerable: true,
-      get: function () { return x[k]; }
-    });
+function _reExport(to, from) {
+  Object.keys(from).forEach(function (k) {
+    if (k !== "default" && !Object.prototype.hasOwnProperty.call(to, k))Object.defineProperty(to, k, {
+        enumerable: true,
+        get: function () { return from[k]; }
+      });
   });
-  return mod;
+  return from;
 }
