@@ -468,7 +468,10 @@ impl Options {
             json_parse_pass
         );
 
-        let preserve_import_export_assign = matches!(&cfg.module, Some(ModuleConfig::Amd(..)));
+        let preserve_import_export_assign = matches!(
+            &cfg.module,
+            Some(ModuleConfig::CommonJs(..)) | Some(ModuleConfig::Amd(..))
+        );
 
         let pass = PassBuilder::new(
             cm,
