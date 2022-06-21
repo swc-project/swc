@@ -57,16 +57,16 @@ fn init_helpers() -> Arc<PathBuf> {
         let helper_dir = project_root.join("packages").join("swc-helpers");
 
         {
-            dbg!(find_executable("npm"));
-            let mut cmd = Command::new(find_executable("npm").expect("failed to find npm"));
-            cmd.current_dir(&helper_dir).arg("ci");
+            dbg!(find_executable("yarn"));
+            let mut cmd = Command::new(find_executable("yarn").expect("failed to find npm"));
+            cmd.current_dir(&helper_dir);
             let status = cmd.status().expect("failed to update swc core");
             assert!(status.success());
         }
 
         {
-            let mut cmd = Command::new(find_executable("npm").expect("failed to find npm"));
-            cmd.current_dir(&helper_dir).arg("run").arg("build");
+            let mut cmd = Command::new(find_executable("yarn").expect("failed to find npm"));
+            cmd.current_dir(&helper_dir).arg("build");
             let status = cmd.status().expect("failed to compile helper package");
             assert!(status.success());
         }
