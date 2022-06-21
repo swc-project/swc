@@ -1,5 +1,5 @@
-export { foo as foo1, bar };
-export { foo, bar as bar2 };
+export { bar, foo as foo1 };
+export { bar as bar2, foo };
 
 const foo = 1;
 let bar = 2;

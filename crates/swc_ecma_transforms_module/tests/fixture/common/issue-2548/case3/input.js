@@ -1,2 +1,2 @@
-export { default as X, Y, X2 } from "./Z";
+export { default as X, X2, Y } from "./Z";
 export * from "./Z";
