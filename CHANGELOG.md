@@ -46,6 +46,9 @@
 
 - **(es/minifier)** Add a test case for the minifier (#5013) ([eedcb11](https://github.com/swc-project/swc/commit/eedcb114a2df09d88995c1b58ea1d1980831a02d))
 
+
+- **(es/parser)** Add a test case for instantiation expr (#5014) ([6bcb925](https://github.com/swc-project/swc/commit/6bcb92598b5c71fee407b4f4be7da85d36a0735d))
+
 ## [1.2.204] - 2022-06-18
 
 ### Bug Fixes
